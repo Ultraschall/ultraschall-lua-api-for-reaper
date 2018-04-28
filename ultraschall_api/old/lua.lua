@@ -1,27 +1,4 @@
-Ultraschall Lua-Api for Reaper(reaper.fm)
-
-1. Put the contents of the repository into the "UserPlugins"-folder in the ressources-folder of Reaper
-2. Start Reaper and create a new script
-3. Type in the following lines:
-
-dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-ultraschall.ApiTest()
-
-4. A messagebox appears in which you can see, which parts of the API work
-5. If it appears, it is correctly installed.
-
-6. Look into 
-    Documentation\Ultraschall-Api-Docs.html
-   for a functions-reference for the API.
-   
-   
-Written by Meo Mespotine(mespotine.de) with contributions from Udo Sauer(https://twitter.com/rstockm) and Ralf Stockmann(https://twitter.com/rstockm)
-
-more information about the Ultraschall podcast extension at: ultraschall.fm
-more information on Reaper: reaper.fm
-
-
-License:
+--[[
 ################################################################################
 # 
 # Copyright (c) 2014-2018 Ultraschall (http://ultraschall.fm)
@@ -45,7 +22,18 @@ License:
 # THE SOFTWARE.
 # 
 ################################################################################
+]] 
 
-Reaper and the Reaper-Logo are trademarks of Cockos inc and can be found at reaper.fm
+if type(ultraschall)~="table" then ultraschall={} end
 
-The SWS-logo has been taken from the SWS-extension-project, which can be found at sws-extension.org
+if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
+    ultraschall.Separator = "\\"
+  else
+    ultraschall.Separator = "/"
+  end
+
+local script_path = reaper.GetResourcePath().."/UserPlugins/ultraschall_api/"
+
+reaper.MB("Tudelu","",0)
+
+ultraschall.temp=dofile(script_path .. "init.lua")
