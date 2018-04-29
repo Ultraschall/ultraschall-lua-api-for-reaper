@@ -34791,6 +34791,52 @@ envelopemanagement, check, validity, envelope, statechunk, valid
 end
 
 
+function ultraschall.EnumProjects(idx)
+--[[
+<ApiDocBlocFunc>
+<slug>
+EnumProjects
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+ReaProject retval, string projfn = ultraschall.EnumProjects(integer idx)
+</functionname>
+<description>
+returns, ReaProject-object and projectname of a requested, opened project.
+
+Returns nil in case of an error.
+</description>
+<parameters>
+integer idx - the project to request; 1(first project-tab) to n(last project-tab), 0 for current project; -1 for currently-rendering project
+</parameters>
+<retvals>
+ReaProject retval - a ReaProject-object of the project you requested; nil, if not existing
+string projfn - the path+filename.rpp of the project. returns "" if no filename exists
+
+</retvals>
+<semanticcontext>
+API-Helper functions
+</semanticcontext>
+<tags>
+helperfunctions, get, filename, project, reaproject, rendering, opened
+</tags>
+</ApiDocBlocFunc>
+--]]
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("EnumProjects","idx", "must be an integer", -1) return nil end
+  if idx==0 then idx=1
+  elseif idx==-1 then idx=0x40000000
+  else idx=idx-1
+  end
+  return reaper.EnumProjects(idx,"")
+end
+
+--A,AA=ultraschall.EnumProjects(2)
+
+
 --L=reaper.GetTrackEnvelope(reaper.GetTrack(0,0),4)
 --LL,LLL=reaper.GetEnvelopeStateChunk(L,"",false)
 --O=ultraschall.IsValidEnvStateChunk(LLL)
@@ -34799,6 +34845,6 @@ end
 --A,B=reaper.GetItemStateChunk(reaper.GetMediaItem(0,1),"",false)
 --L=ultraschall.IsValidItemStateChunk(nil)
 
-ultraschall.ShowLastErrorMessage()
+--ultraschall.ShowLastErrorMessage()
 --ultraschall.ShowLastErrorMessage()
 --ALABAMA=ultraschall.CreateUSApiDocs_HTML("c:\\testhelp-beta2-7-3.html")

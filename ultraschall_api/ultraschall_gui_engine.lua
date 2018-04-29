@@ -27,7 +27,7 @@
 -- graphics and gui-functions
 
 if type(ultraschall)~="table" then ultraschall={} end
-
+--[[
 ultraschall.ConfiguredFontList={}
 ultraschall.ConfiguredFontCounter=0
 ultraschall.ConfiguredFontCurrent=0
@@ -269,7 +269,7 @@ end
 
 
 
-gfx.init()
+--gfx.init()
 
 --A2=gfx.loadimg(3,"c:\\us.png")
 --for i=0, 1 do
@@ -282,9 +282,9 @@ gfx.init()
   --gfx.drawchar(i/4)
 --end
 --B,C=gfx.getimgdim(1)
-l=0
-l2=0
-  ultraschall.SetFont(1,"blackchancery",l,0)
+--l=0
+--l2=0
+--  ultraschall.SetFont(1,"blackchancery",l,0)
 function main()
   if gfx.mouse_cap&1==1 then pressed="pressed" end
   if gfx.mouse_cap&1==0 then pressed="unpressed" end
@@ -311,5 +311,6 @@ function main()
   if D~=-1 then reaper.defer(main) end
 end
 
-main()
+--main()
 
+--]]

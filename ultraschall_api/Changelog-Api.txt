@@ -61,6 +61,7 @@ New features in 4.00beta2.7
     - IsValidEnvStateChunk - checks, if a string is a valid envelope-state-chunk
     - IsValidTrackStateChunk - checks, if a sring is a valid trackstate-chunk
     - IsValidItemStateChunk - checks, if a string is a valid itemstate-chunk
+    - EnumProjects - gets the projectfilename+path and the ReaProject-object of a requested project
 			TODO!!	- SetTrackGroupFlagsState - sets GroupFlagsState
             TODO!!  - CreateItemFromTake, which creates a new item from an existing take. Like cropping, but leaves the original untouched.
             TODO!!  - MoveTakeInTakeOrderInMediaitem, which allows changing the order of takes within an item
