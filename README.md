@@ -14,7 +14,9 @@ ultraschall.ApiTest()
     Documentation\Ultraschall-Api-Docs.html
    for a functions-reference for the API.
    
-   
+
+Requires at least Reaper5.77 and SWS-extension 2.9.7!
+
 Written by Meo Mespotine(mespotine.de) with contributions from Udo Sauer(https://twitter.com/rstockm) and Ralf Stockmann(https://twitter.com/rstockm)
 
 more information about the Ultraschall podcast extension at: ultraschall.fm
