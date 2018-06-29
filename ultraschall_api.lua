@@ -43,7 +43,16 @@ local info = debug.getinfo(1,'S');
 ultraschall.Script_Path = info.source:match[[^@?(.*[\/])[^\/]-$]]
 local script_path = reaper.GetResourcePath().."/UserPlugins/ultraschall_api"..ultraschall.Separator
 ultraschall.Api_Path=script_path
+ultraschall.Api_Path=string.gsub(ultraschall.Api_Path,"\\","/")
 
+ultraschall.Api_ScriptPath=ultraschall.Api_Path.."/Scripts"
+
+local L=reaper.GetExtState("ultraschall_api", "helpinstalled")
+if L~="4.0beta2.7" then 
+  reaper.AddRemoveReaScript(true, 0, ultraschall.Api_ScriptPath.."/ultraschall_Help_Ultraschall_Api_Functions_Reference.lua", false)
+  reaper.AddRemoveReaScript(true, 0, ultraschall.Api_ScriptPath.."/ultraschall_Help_Reaper_Api_Documentation.lua", true)
+  reaper.SetExtState("ultraschall_api", "helpinstalled", "4.0beta2.7", true)
+end
 
 
 
@@ -132,7 +141,7 @@ end
 
 
 -- include the individual parts of the framework, if set to ON
-if ultraschall.US_Functions~="OFF" then ultraschall.US_Functions_Engine = dofile(script_path .. "ultraschall_functions_engine.lua") end
+ultraschall.US_Functions_Engine = dofile(script_path .. "ultraschall_functions_engine.lua")
 if ultraschall.US_DataStructures~="OFF" then ultraschall.US_DataStructure_Engine = dofile(script_path .. "ultraschall_datastructures_engine.lua") end
 if ultraschall.US_GUI_Engine~="OFF" then ultraschall.US_GUI_Engine = dofile(script_path .. "ultraschall_gui_engine.lua") end
 if ultraschall.US_Sound_Engine~="OFF" then ultraschall.US_Sound_Engine = dofile(script_path .. "ultraschall_sound_engine.lua") end

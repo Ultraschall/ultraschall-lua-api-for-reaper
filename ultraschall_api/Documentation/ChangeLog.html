@@ -1,0 +1,576 @@
+<html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><h2 id="ultraschall-framework---changelog">Ultraschall Framework - Changelog</h2>
+<h3 id="beta-2.7---john-cage---433---30th-of-july-2018">4.00 Beta 2.7: - &quot;John Cage - 4:33&quot; - 30th of July 2018</h3>
+<h4 id="new-features-in-4.00beta2.7">New features in 4.00beta2.7</h4>
+<ul>
+<li>SetEnvelopeHeight - set the height and compactible state of an envelope-lane/envelopestatechunk</li>
+<li>GetTrackStateChunk - get a TrackStateChunk without the hassle of creating a trackobject first</li>
+<li>SetTrackStateChunk - set a TrackStateChunk without the hassle of creating a trackobject first</li>
+<li>GetTrackWidth - gets the Track-Width</li>
+<li>GetTrackVolPan - gets Vol and Pan-settings of the track</li>
+<li>GetTrackScore - gets Score of the track</li>
+<li>GetTrackPanMode - gets PanMode of the track</li>
+<li>GetTrackMidiColorMapFn - gets MidiColorMapFilename of the track</li>
+<li>GetTrackMidiBankProgFn - gets MidiBankProg-Filename of the track</li>
+<li>GetTrackMidiTextStrFn - gets MidiTextStr-Filename of the track</li>
+<li>GetTrackID - gets the track-ID</li>
+<li>CountPatternInString - counts a pattern in a sourcestring and returns appearances and positions of appearances</li>
+<li>ConvertColor - converts color to native, without the hassle that Reaper needs</li>
+<li>CountNormalMarkers_NumGap - returns the first numbering-gap within shown-markernumbers</li>
+<li>CenterViewToCursor - centers arrange view to play-, edit- or mousecursor-timeposition.</li>
+<li>SetReaperWindowToSize - to set the size of Reaper's Main Window</li>
+<li>toboolean - converts a string to boolean, if possible. Like Lua's tostring() or tonumber()-functions</li>
+<li>CheckActionCommandIDFormat - checks, if an action-command-id is properly formatted</li>
+<li>CheckActionCommandIDFormat2 - checks, if an action-command-id is properly formatted and if it exists in the Reaper-installation</li>
+<li>IsRegionAtPosition - checks, if regions are at a certain position and returns their index-numbers</li>
+<li>IsMarkerAtPosition - checks, if markers are at a certain position and returns their index-numbers</li>
+<li>SetTrackID - sets the track-ID</li>
+<li>SetTrackMidiColorMapFn - sets MidiColorMapFilename of the track</li>
+<li>SetTrackMidiBankProgFn - sets MidiBankProg-Filename of the track</li>
+<li>SetTrackMidiTextStrFn - sets MidiTextStr-Filename of the track</li>
+<li>SetTrackPanMode - sets PanMode of the track</li>
+<li>SetTrackWidth - sets the Track-Width</li>
+<li>InsertMediaItemFromFile - inserts a mediafile into the project at position and in specific track</li>
+<li>GetMediafileAttributes - returns mediafile-attributes</li>
+<li>GetMarkerByName - gets markers/regions by name</li>
+<li>GetMarkerByName_Pattern - gets markers/regions that have a certain character-sequence in their name</li>
+<li>GetMarkerByIndex - gets values of a certain marker/region, count by either markers or regions</li>
+<li>SetMarkerByIndex - sets values of a certain marker/region, count by either markers or regions</li>
+<li>GetReaperAppVersion - returns the appversion and the bits-version of the Reaper-App, separated into version and bits(unlike reaper.GetAppVersion())</li>
+<li>GetOS - returns the operating system and it's bits separated, unlike reaper.GetOS()</li>
+<li>IsOS_Windows - returns true, if the operating-system is Windows, false if not. Also returns the bits of the os.</li>
+<li>IsOS_Mac - returns true, if the operating-system is MacOS, false if not. Also returns the bits of the os.</li>
+<li>IsOS_Other - returns true, if the operating-system is other(usually Linux), false if not. Also returns the bits of the os.</li>
+<li>GetItemSpectralConfig - gets the FFT-size of the spectral-edit-view of a specific item/statechunk</li>
+<li>SetItemSpectralConfig - sets the FFT-size of the spectral-edit-view of a specific item/statechunk</li>
+<li>GetItemSpectralEdit - Get the settings of a given spectral-edit-boundary-box</li>
+<li>CountItemSpectralEdits - Counts the number of spectral-edit-boundary-boxes</li>
+<li>DeleteItemSpectralEdit - deletes a spectral-edit-boundary-box</li>
+<li>SetTrackScore - sets SCORE-state of a track</li>
+<li>SetTrackVolPan - set vol, pan, panlaw of a track</li>
+<li>SetTrackRecCFG - set track-rec-encoding-configuration</li>
+<li>LimitFractionOfFloat - takes a float-value and reduces the number of digits in the fraction-part of the float; (500th Api function!)</li>
+<li>SearchStringInString - searches for occurrences of a string within another string; differs from CountPatternInString in that it allows disabling searching for strings within already found strings</li>
+<li>GetAllEntriesFromTable - returns all entries from a table in an iterable form; good for unknown tables/tablestructures</li>
+<li>GetItemSourceFile_Take - returns filename, pcm-source and the media-item-take-object of a requested take</li>
+<li>GetAllDirectoriesInPath - gets all directory-names in path</li>
+<li>GetAllFilesnamesInPath - gets all filenames in path</li>
+<li>CountDirectoriesAndFilesInPath - counts files and directories in path</li>
+<li>APIExists - returns, if a certain function/element exists in the ultraschall-api</li>
+<li>AddItemSpectralEdit - adds an spectral-editing-box into an item/statechunk</li>
+<li>GetItemSpectralVisibilityState - get the visibility-state of spectral-edit of a certain MediaItem</li>
+<li>IsValidEnvStateChunk - checks, if a string is a valid envelope-state-chunk</li>
+<li>IsValidTrackStateChunk - checks, if a sring is a valid trackstate-chunk</li>
+<li>IsValidItemStateChunk - checks, if a string is a valid itemstate-chunk</li>
+<li>EnumProjects - gets the projectfilename+path and the ReaProject-object of a requested project</li>
+<li>DeleteProjExtState_Section - deletes all project-extstates from a specific section</li>
+<li>DeleteProjExtState_Key - deletes the value from a specific project-extstates-&gt;section-&gt;key</li>
+<li>GetProjExtState_AllKeyValues - get all keys and values from a proj-extstate</li>
+<li>IsValidGuid - checks, if a string is a valid guid</li>
+<li>SetGuidExtState - sets a proj-extstate with a guid as extname(good for additional metadata for tracks/items/etc</li>
+<li>GetGuidExtState - gets a proj-extstate with a guid as extname(good for additional metadata for tracks/items/etc</li>
+<li>GetVZoom - returns the current vertical-zoomfactor of the current project</li>
+<li>SetVZoom - sets the vertical-zoomfactor of the current project</li>
+<li>StoreArrangeviewSnapshot - stores a snapshot of current start/endposition and verticalzoom from the arrangeview into a proj-extstate-slot</li>
+<li>IsValidArrangeviewSnapshot - checks, whether an arrangeview-snapshot-slot is set/valid</li>
+<li>RetrieveArrangeviewSnapshot - returns the values set in a specific Arrangeview-Snapshot-slot</li>
+<li>RestoreArrangeviewSnapshot - sets arrangeview to start/endposition/verticalzoom, as set in the arrangeview-snapshot-slot</li>
+<li>DeleteArrangeviewSnapshot - deletes an arrangeview-snapshot-slot</li>
+<li>SetBitfield - sets/unsets/toggles individual bits in a bitfield</li>
+<li>PreventCreatingUndoPoint - prevents creation of an undo-point(only useful in non-defer-scripts)</li>
+<li>SetIntConfigVar_Bitfield - allows setting config-vars, that are integer-bitfields, quite easy</li>
+<li>IsValidProjectStateChunk - checks, if a string is a valid ProjectStateChunk</li>
+<li>CountMarkersAndRegions - counts markers and regions and returns their count as two(!) retvals</li>
+<li>GetLastMarkerPosition - gets the position and idx of the last marker in the project</li>
+<li>GetLastRegion - gets start/endposition and idx of the last ending region in the project</li>
+<li>GetLastTimeSigMarkerPosition - gets position, measure- and beatposition of the last time-sig-marker in the project</li>
+<li>MakeCopyOfTable - creates a true copy of a table(not only references) -&gt; code provided by <span class="citation">@fernsehmuell</span></li>
+<li>CheckForValidFileFormats - checks for valid fileformats that are supported by Reaper(still missing mp4, opus, m4a, m4v)</li>
+<li>CompareStringWithAsciiValues - Compares a string with a number of ASCII-Values, given as individual parameters</li>
+<li>CountEntriesInTable_Main - Counts the entries in a table; counts only the &quot;main&quot;-entries; returns subtables for recursive counting</li>
+<li>ConvertStringToAscii_Array - Converts a string into an array, where each entry contains the numerical representation of the accompanying character in string</li>
+<li>CompareArrays - Compares two arrays and returns all entries from array2, that's missing in array1</li>
+<li>GetAllMediaItemGUIDs - returns a table with the guids of all MediaItems</li>
+<li>InsertImageFile - Inserts an image-file into the project, allows looping it and giving length of the newly created item</li>
+<li>SetItemExtState - Sets a projextstate for an item</li>
+<li>GetItemExtState - Gets a projextstate for an item</li>
+<li>SetTrackExtState - Sets a projextstate for a track</li>
+<li>GetTrackExtState - Gets a projextstate for a track</li>
+<li>CountLinesInString - Counts the lines in a string</li>
+<li>GetIDEFontSize - gets the current fontsize set for Reaper's IDE</li>
+<li>SetIDEFontSize - sets a new fontsize for Reaper's IDE</li>
+<li>MB - like reaper.MB, but allows omitting title and type parameters for faster use.</li>
+<li>ReadFileAsLines_Array - like ReadLinerangeFromFile, but returns the read lines as an array</li>
+<li>GetAllMarkersBetween - returns an array with all markers between start and endposition</li>
+<li>GetAllRegionssBetween - returns an array with all regions between start and endposition</li>
+<li>GetAllRegions - returns an array with all regions in the project</li>
+<li>MoveMarkersTo - moves all markers between start/endposition to a specific position</li>
+<li>MoveRegionsTo - moves all regions between start/endposition to a specific position</li>
+<li>CreateValidTempFile - determines a valid temporary filename and creates it, if needed.</li>
+<li>When using the first time, it installs automatically an action for showing the Api-Help(Ultraschall and Reaper)</li>
+<li>SetItemSpectrogram - toggles displaying spectral-edit for an item or an itemstatechunk</li>
+<li>SetItemSpectralEdit - sets an existing spectral-edit for an item or an itemstatechunk</li>
+</ul>
+<p></TODO></p>
+<h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
+<ul>
+<li>Tons of bugfixes. I mean, tons as in metric tons ;)</li>
+<li>GetTrackRecCFG - added documentation, that was still missing -&gt; fixed now; added missing return-value</li>
+<li>GetLastErrorMessage2 - had wrong functionname, corrected documentation</li>
+<li>cleaned up code and improved readability</li>
+<li>GetPartialString - returns nil in case of error now</li>
+<li>WriteValueToFile - minor additions to documentation</li>
+<li>CreateTrackNumbersString - minor additions to documentation</li>
+<li>SetTrackMuteSoloState - corrected documentation's-description</li>
+<li>initialization of the framework on Mac could potentially not work due wrong separator -&gt; fixed now</li>
+<li>improved installation and usage-procedure of the framework heavily</li>
+<li>GetTrackAutoRecArmState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackAutomodeState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackBeatState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackBusCompState - supports now trackstatechunks as well; sped up code</li>
+<li>GetTrackBypFXState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackFreeModeState - supports now trackstatechunks as well; sped up code</li>
+<li>GetTrackGroupFlagsState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackHeightState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackINQState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackIPhaseState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackIcon_Filename - supports now mastertrack and trackstatechunks as well</li>
+<li>GetTrackIsBusState - supports now trackstatechunks as well; sped up code</li>
+<li>GetTrackLayoutNames - supports now mastertrack and trackstatechunks as well</li>
+<li>GetTrackLockState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackMIDIOutState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackMainSendState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackMidiCTL - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackMidiInputChanMap - supports now mastertrack and trackstatechunks as well</li>
+<li>GetTrackMuteSoloState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackNChansState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackName - supports now mastertrack and trackstatechunks as well</li>
+<li>GetTrackPeakColorState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackPerfState - supports now trackstatechunks as well; sped up code</li>
+<li>GetTrackRecCFG - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackRecState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackShowInMixState - supports now mastertrack and trackstatechunks as well; sped up code</li>
+<li>GetTrackVUState - supports now mastertrack and trackstatechunks as well, fixed bug; sped up code</li>
+<li>SetTrackAutoRecArmState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackAutomodeState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackBeatState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackBusCompState - supports now trackstatechunks as well</li>
+<li>SetTrackBypFXState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackFreeModeState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackHeightState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackINQState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackIPhaseState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackIcon_Filename - supports now trackstatechunks as well</li>
+<li>SetTrackIsBusState - supports now trackstatechunks as well</li>
+<li>SetTrackLayoutNames - supports now trackstatechunks as well; minor improvements</li>
+<li>SetTrackLockState - supports now trackstatechunks as well; improved speed</li>
+<li>SetTrackMIDIOutState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackMainSendState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackMidiCTL - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackMidiInputChanMap - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackMuteSoloState - supports now mastertrack and trackstatechunks as well<br />
+</li>
+<li>SetTrackNChansState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackName - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackPeakColorState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackPerfState - supports now trackstatechunks as well</li>
+<li>SetTrackRecState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackShowInMixState - supports now mastertrack and trackstatechunks as well</li>
+<li>SetTrackVUState - supports now mastertrack and trackstatechunks as well</li>
+<li>ToggleScrollingDuringPlayback - also affects scrolling during recording now; sometimes, continuous scroll wouldn't restart -&gt; fixed now</li>
+<li>GetNextClosestItemEdge - had trouble finding the end of the last item in a track -&gt; fixed now</li>
+<li>GetPreviousClosestItemEdge - had trouble finding the beginning of the first item in track as well as the item before the current item at times -&gt; fixed now</li>
+<li>GetClosestPreviousMarker - always used cursorposition as calculation base, never mouseposition; it also couldn't find the previous marker before the current one -&gt; fixed now</li>
+<li>GetClosestNextMarker - always used cursorposition as calculation base, never mouseposition -&gt; fixed now</li>
+<li>GetClosestNextRegionEdge - renamed from GetClosestNextRegion; always used cursorposition as calculation base, never mouseposition -&gt; fixed now</li>
+<li>GetClosestPreviousRegionEdge - renamed from GetClosestPreviousRegion; always used cursorposition as calculation base, never mouseposition -&gt; fixed now</li>
+<li>GetApiVersion - returns now an additional return-value of type &quot;number&quot;, that you can use for version-comparison like &quot;if required_version&gt;version then&quot;</li>
+<li>SplitStringAtLineFeedToArray - was missing the returned count-variable in the documentation -&gt; fixed now</li>
+<li>ToggleScrollingDuringPlayback - changed parameter move_editcursor to boolean; added goto_playcursor which moves view to playcursor; fixed bug that messed up scrolling during recording.</li>
+<li>Ultraschall-Api is now located in UserPlugins in the resources-folder(where every third-party-plugin belongs to ;) )</li>
+<li>IsItemInTrack - tracknumber is now 1 based, means: 1 for track 1, 2 for track 2, etc</li>
+<li>ApiTest displays only one message now (damn was it annoying before... ;) )</li>
+<li>ReadFullFile - fixed small bug and returns now the number of lines of files, if binary is set to false</li>
+<li>GetProject_DefPitchMode - added Rubber Band Pitchmodes and updated elastique to 3.2.3 with missing settings</li>
+<li>SetProject_DefPitchMode - added Rubber Band Pitchmodes and updated elastique to 3.2.3 with missing settings</li>
+<li>AddErrorMessage - new parameters, parametername and errorcode, so you can specify these better</li>
+<li>ReadErrorMessage - includes the new parameters parametername and errorcode, sped up code; used to reset creation date instead of readstate -&gt; fixed</li>
+<li>GetLastErrorMessage - includes the new parameters parametername and errorcode, readstatus is now a string with &quot;unread&quot; or the last readtime(no boolean anymore); sped up code; used to reset creation date instead of readstate -&gt; fixed</li>
+<li>DeleteLastErrorMessage - deletes now the last errormessage, only changed the errorcounter before</li>
+<li>GetLastErrorMessage2 - includes the new parameters parametername and errorcode; used to reset creation date instead of readstate -&gt; fixed</li>
+<li>ShowLastErrorMessage - reworked the messagebox to include functionname, parametername, errormessage and errorcode</li>
+<li>GetPath - returns nil now, if the separator can't be found, and throws an error-message as well in that case</li>
+<li>GetPartialString - returns nil now, if the separator can't be found, and throws an error-message as well in that case; sped up code</li>
+<li>RunCommand - throws an error-message, if an invalid action-command-id is given</li>
+<li>CSV2Line - rewritten and sped up</li>
+<li>RGB2Num - removed</li>
+<li>CSV2IndividualLinesAsArray - rewrote and sped up code; supports now other separators and separators longer than one character, swapped retvals</li>
+<li>IsItemInTrack - minor improvements</li>
+<li>Docs: removed SWS-logo from all functions, that don't require SWS</li>
+<li>SetChapterMarker - removed</li>
+<li>ImportChaptersFromFile - removed</li>
+<li>ExportChapterMarkersToFile - removed</li>
+<li>EnumerateChapterMarkers - removed</li>
+<li>EnumerateDummyMarkers - removed</li>
+<li>EnumerateEditRegion - removed</li>
+<li>GetAllChapterMarkers - removed</li>
+<li>DeleteChapterMarker - removed</li>
+<li>DeleteDummyMarker - removed</li>
+<li>CountChapterMarkers - removed</li>
+<li>CountDummyMarkers - removed</li>
+<li>ChapterToDummyMarker - removed</li>
+<li>ChapterToEditMarker - removed</li>
+<li>ChapterToMarker - removed</li>
+<li>DummyToChapterMarker - removed</li>
+<li>DummyToEditMarker - removed</li>
+<li>DummyToMarker - removed</li>
+<li>EditToChapterMarker - removed</li>
+<li>EditToDummyMarker - removed</li>
+<li>MarkerToChapterMarker - removed</li>
+<li>MarkerToDummyMarker - removed</li>
+<li>IsMarkerChapter - removed</li>
+<li>IsMarkerDummy - removed</li>
+<li>AddChapterMarker - removed</li>
+<li>AddDummyMarker - removed</li>
+<li>CountUSExternalState_sec - did not check for existence of ultraschall.ini -&gt; fixed</li>
+<li>CountUSExternalState_key - did not check for existence of ultraschall.ini -&gt; fixed</li>
+<li>EnumerateUSExternalState_sec - returned empty strings, when the ultraschall.ini contained them -&gt; fixed</li>
+<li>EnumerateUSExternalState_key - number was expected to be string and produced problems -&gt; fixed</li>
+<li>SetPlayCursor_WhenPlaying - added parameter-validity-check for parameter position</li>
+<li>SetPlayAndEditCursor_WhenPlaying - added parameter-validity-check for parameter position</li>
+<li>JumpForwardBy - added parameter seekplay for choosing, if playcursor shall move too; moves mainly editcursor now; pause caused problems -&gt; fixed</li>
+<li>JumpBackwardBy - added parameter seekplay for choosing, if playcursor shall move too; moves mainly editcursor now; pause caused problems -&gt; fixed</li>
+<li>GetNextClosestItemEdge - was looking in the wrong track, which caused problems with items in a single track -&gt; fixed</li>
+<li>GetPreviousClosestItemEdge - was looking in the wrong track, which caused problems with items in a single track -&gt; fixed</li>
+<li>GetClosestNextRegionEdge - returns now &quot;beg&quot; oder &quot;end&quot; to indicate, which side of the region has been found</li>
+<li>GetClosestPreviousRegionEdge - returns now &quot;beg&quot; oder &quot;end&quot; to indicate, which side of the region has been found</li>
+<li>ToggleMute_TrackObject - sped up code</li>
+<li>GetItemPlayRate_StateChunk - docs, added information about some of the parameters, like pitch-settings</li>
+<li>ToggleStateButton - added section-info to the docs</li>
+<li>RefreshToolbar_Action - added section-info to the docs</li>
+<li>ToggleStateAction - added section-info to the docs</li>
+<li>CountNormalMarkers - added support for planned chapter-markers(color_value 100, 255, 0); was counting wrong, when regions were available -&gt; fixed</li>
+<li>accidentally used os as return-variable in many functions, leading to overwriting of Lua's own os.functions() like os.date(), etc -&gt; fixed</li>
+<li>CountPatternInString - internal changes to prevent accidental overwriting of Lua's own string.functions()</li>
+<li>SplitStringAtLineFeedToArray - the entries in the array still contained the useless line-feed -&gt; fixed</li>
+<li>integer parameters accept only integers from now on (used to be numbers)</li>
+<li>CSV2IndividualLinesAsArray - the returned count-value was one too high -&gt; fixed</li>
+<li>CountNormalMarkers - added support for planned chapter marker</li>
+<li>EnumerateNormalMarkers - support for planned chapter marker added; added missing info in the docs</li>
+<li>EnumerateEditMarkers - expected &quot;_Edit:&quot; as name of edit-marker, instead of &quot;_Edit&quot; -&gt; fixed</li>
+<li>SetNormalMarker - added support for planned chapter marker; expected &quot;_Edit:&quot; as name of edit-marker, instead of &quot;_Edit&quot; -&gt; fixed</li>
+<li>SetEditMarker - expected &quot;_Edit:&quot; as name of edit-marker, instead of &quot;_Edit&quot; -&gt; fixed</li>
+<li>DeleteNormalMarker - added support for planned chapter marker; deleted in some situations non-normal-markers -&gt; fixed</li>
+<li>DeleteEditMarker - expected &quot;_Edit:&quot; as name of edit-marker, instead of &quot;_Edit&quot; -&gt; fixed</li>
+<li>IsMarkerEdit - expected &quot;_Edit:&quot; as name of edit-marker, instead of &quot;_Edit&quot; -&gt; fixed</li>
+<li>IsMarkerNormal - added support for planned chapter marker; expected &quot;_Edit:&quot; as name of edit-marker, instead of &quot;_Edit&quot; -&gt; fixed</li>
+<li>IsRegionEditRegion - expected &quot;_Edit:&quot; as name of edit-region, instead of &quot;_Edit&quot; -&gt; fixed</li>
+<li>SetEditRegion - expected &quot;_Edit:&quot; as name of edit-region, instead of &quot;_Edit&quot; -&gt; fixed</li>
+<li>DeleteEditRegion - expected &quot;_Edit:&quot; as name of edit-region, instead of &quot;_Edit&quot; -&gt; fixed</li>
+<li>EnumerateEditRegion - expected &quot;_Edit:&quot; as name of edit-region, instead of &quot;_Edit&quot; -&gt; fixed</li>
+<li>GetAllNormalMarkers - added index-number and shown-number to the array; completed docs</li>
+<li>GetAllMarkers - added index-number, shown-number and color to the array; completed docs; didn't get the first marker -&gt; fixed</li>
+<li>GetAllEditMarkers - added index-number to the array; completed docs</li>
+<li>DeletePodRangeRegion - return value is now boolean</li>
+<li>DeleteNormalMarker - completed docs</li>
+<li>ExportNormalMarkersToFile - completed docs</li>
+<li>CountNormalMarkers_NumGap - completed docs</li>
+<li>MarkerToEditMarker - completed docs</li>
+<li>CountEditMarkers - used to count edit-regions as well -&gt; fixed now</li>
+<li>ExportEditMarkersToFile - crashed due bug with edit-regions -&gt; fixed now</li>
+<li>WriteValueToFile_ReplaceBinary - naming conflict, 2 functions had the name WriteValueToFile_Replace; renamed one to WriteValueToFile_ReplaceBinary</li>
+<li>EditToMarker - small internal changes to give the marker it's correct color: Reaper's default color for marker</li>
+<li>CreateTrackNumbersString_SelectedTracks - additions to the docs</li>
+<li>ReadValueFromFile - returns now all found lines as array; retval numberoflines used to give the same number as number_of_foundlines, so I changed it to numberoflines_in_file, that returns the total number of lines in the file, even if fewer lines are returned</li>
+<li>Renderfunctions - improved behavior when rendering currently opened project; always uses now the correct projectfile, used to guess location of projectfile one dir above the recording-dir</li>
+<li>GetProject_GroupOverride, GetProject_RippleState, GetProject_ReaperVersion - documentation stated &quot;kb-ini-file&quot; instead of &quot;rpp-projectfile&quot; -&gt; fixed</li>
+<li>renamed GetMarkerByIndex to GetMarkerAndRegionsByIndex to reflect the fact, that it supports markers AND regions</li>
+<li>SplitStringAtLineFeedToArray - used to treat LFCR as two linebreaks, which caused empty lines in windows-strings. Treats LFCR as one linebreak now.</li>
+<li>ReadLinerangeFromFile - allows now reading the whole file, when giving -1 as lastlinenumber; added missing information in the docs</li>
+<li>As the Functions-Engine is essential for all parts of the Ultraschall-API, it can't be turned off anymore.</li>
+<li>renamed MoveMarkers to MoveMarkersBy</li>
+<li>ReadValueFromFile - sped up code, returned wrong found-lines-value -&gt; fixed</li>
+</ul>
+<h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
+<h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>
+<ul>
+<li>CreateAllTracksTrackString - creates a trackstring with all tracks in the current project</li>
+<li>new datastructure &quot;EnvelopePointObjects&quot; and &quot;EnvelopePointArrays&quot;(for EnvelopePointObjects) for easier massworking with envelopepoints</li>
+<li>CreateEnvelopePointObject - creates an EnvelopePointObject</li>
+<li>GetEnvelopePoint - gets envelopepoint easier than Reaper's own functions. Returns value converted to db-value as well</li>
+<li>GetClosestEnvelopePointIDX_ByTime - gets envelope-point-idx closest to a given timeposition</li>
+<li>GetEnvelopePointIDX_Between - gets envelope-points between start and endtime</li>
+<li>AddEnvelopePoints_EnvelopePointObject - adds an EnvelopePointObject</li>
+<li>AddEnvelopePoints_EnvelopePointArray - adds an array of EnvelopePointObjects</li>
+<li>CheckEnvelopePointObject - checks, if an EnvelopePointObject is a valid one</li>
+<li>DeleteEnvelopePoints_EnvelopePointObject - deletes an envelope-point, according to the EnvelopePointObject</li>
+<li>DeleteEnvelopePoints_EnvelopePointArray - deletes envelope-points, according to EnvelopePointObjects in EnvelopePointArray</li>
+<li>SetEnvelopePoints_EnvelopePointObject - sets an envelope-point, according to the EnvelopePointObject</li>
+<li>SetEnvelopePoints_EnvelopePointArray - sets envelope-points, according to EnvelopePointObjects in EnvelopePointArray</li>
+<li>CountEnvelopePoints - counts envelope-point in a given track and envelope-name</li>
+<li>ToggleIDE_Errormessages - toggles, if API shows the errormessages in Reaper's IDE or not</li>
+<li>WriteValueToFile_Insert - inserts a string into a specific line-position of a file</li>
+<li>WriteValueToFile_Replace - replaces specific lines in a file with value</li>
+<li>GetLengthOfFile - returns length of a file</li>
+<li>ReadBinaryFile_Offset - reads a binary file. Allows partial reading of a file as well.</li>
+<li>WriteValueToFile_InsertBinary - inserts a value into a binary file at specified position</li>
+<li>WriteValueToFile_Replace - replaces a specified portion of a file with a value</li>
+<li>GetStringFromClipboard_SWS - returns the content of the clipboard, using the SWS-function reaper.CF_GetClipboardBig, but manages the stuff necessary, that surrounds using this function</li>
+<li>SecondsToTimeString_hh_mm_ss_mss - converts seconds into a timestring of the format hh:mm:ss.mss</li>
+<li>TimeStringToSeconds_hh_mm_ss_mss - converts a timestring of the format hh:mm:ss.mss into seconds</li>
+<li>ParseMarkerString - converts a string with markernames or a string with timestrings and markernames into an array</li>
+<li>RenumerateMarkers - renumbers the shown-marker-ids in the project, beginning with the first one to the last one. Good for &quot;ordering&quot; markers, that were included in unordered way.</li>
+<li>ReadFullFile - reads a file and returns it's contents</li>
+<li>StartTime - a new api-variable that contains the starting time of the current instance of the api, which probably means, your script, that embeds the framework</li>
+</ul>
+<h4 id="changes-from-4.00beta2.5-to-4.00beta2.6">Changes from 4.00beta2.5 to 4.00beta2.6</h4>
+<ul>
+<li>corrections in the documentation</li>
+<li>GetClosestNextMarker - couldn't find last marker and showed a time, even if no marker was found -&gt; fixed now; markers that are at time_position are now seen as a previous marker</li>
+<li>GetClosestPreviousMarker - couldn't find first marker and showed a time, even if no marker was found -&gt; fixed now; markers that are at time_position are now seen as a next marker</li>
+<li>GetClosestPreviousRegion - fixed possible bug preventing from finding the first region -&gt; fixed now</li>
+<li>GetClosestNextRegion - fixed possible bug preventing from finding the last region -&gt; fixed now</li>
+<li>GetClosestGoToPoints - new boolean parameters check_itemedge, check_marker, check_region to set, for which type of elements to look for; returns now also an item-number; instead of &quot;Item&quot;, it uses &quot;Itembeg&quot; for the beginning and &quot;Itemend&quot; for the end of an item now as elementtype for items; added the itemtypes to the docs</li>
+<li>GetNextClosestItemEdge - new return values: closest_item, item_number, edgetype, found_item<br />
+</li>
+<li>GetPreviousClosestItemEdge - new return values: closest_item, item_number, edgetype, found_item<br />
+</li>
+<li>WriteValueToFile - new parameter for optional appending a value to a file, other minor corrections</li>
+<li>SetTrackRecState - missing parameter description for tracknumber in the docs -&gt; fixed now</li>
+<li>GetMediaItemsFromClipboard - produced an error, that made this function unusable -&gt; fixed now</li>
+<li>RippleInsert - didn't move an item close to &quot;position&quot; sometimes, before inserting -&gt; fixed now</li>
+<li>RippleInsert_MediaItemStateChunks - didn't move an item close to &quot;position&quot; sometimes, before inserting -&gt; fixed now</li>
+<li>GetPreviousMuteState used to use 0 for track 1, 1 for track 2. Changed to 1 for track 1, 2 for track 2, etc</li>
+<li>GetNextMuteState used to use 0 for track 1, 1 for track 2. Changed to 1 for track 1, 2 for track 2, etc</li>
+<li>CountMuteEnvelopePoints used to use 0 for track 1, 1 for track 2. Changed to 1 for track 1, 2 for track 2, etc could also produce an error when using an invalid track. -&gt; Fixed now.</li>
+<li>ToggleMute - could produce an error, when using an invalid track. -&gt; Fixed now.</li>
+<li>GetTrackAutoRecArmState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackAutomodeState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackBeatState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackBusCompState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackBypFXState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackFreeModeState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackGroupFlagsState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackHeightState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackINQState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackIPhaseState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackIcon_Filename - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackIsBusState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackLayoutNames - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackLockState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackMIDIOutState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackMainSendState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackMidiCTL - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackMidiInputChanMap - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackMuteSoloState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackNChansState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackName - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackPeakColorState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackPerfState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackRecState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackShowInMixState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>GetTrackVUState - tracknumbers start now with 1 for track 1; produced an error when using nil as tracknumber -&gt; fixed</li>
+<li>SetTrackAutoRecArmState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackAutomodeState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackBeatState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackBusCompState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackBypFXState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackFreeModeState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackHeightState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackINQState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackIPhaseState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackIcon_Filename - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackIsBusState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackLayoutNames - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackLockState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackMIDIOutState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackMainSendState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackMidiCTL - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackMidiInputChanMap - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackMuteSoloState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackNChansState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackName - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackPeakColorState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackPerfState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackRecState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackShowInMixState - tracknumbers start now with 1 for track 1, instead of 0</li>
+<li>SetTrackVUState - tracknumbers start now with 1 for track 1, instead of 0</li>
+</ul>
+<h3 id="beta-2.5---musique-non-stop---technopop---kraftwerk---10th-of-september-2017">4.00 Beta 2.5: - &quot;Musique non stop - Technopop - Kraftwerk&quot; - 10th of September 2017</h3>
+<h4 id="new-features-in-4.00beta2.5">New features in 4.00beta2.5</h4>
+<ul>
+<li>Import Markers/Regions from RPP-Projectfiles</li>
+<li>Selection/Deselection of items, as well as getting functions for getting selected items</li>
+<li>functions for checking MediaItemArray and MediaItemStateChunkArrays for validity</li>
+<li>Trackstatechunks: getting/adding/setting/deleting/counting items in/to trackstate-chunks</li>
+<li>Routing-Send/Receive - functions for count, add, get, set, delete</li>
+<li>HWOut-settings - functions for count, add, get, set, delete</li>
+<li>Lock Track Controls - get, set functions</li>
+<li>Track Selection functions - get, set</li>
+<li>Functions to lock-MediaItems easily</li>
+<li>added RippleInsert for mediaitemstatechunkarrays</li>
+<li>get MediaItems from clipboard</li>
+<li>many functions for getting MediaItem-states from MediaItemStateChunks</li>
+<li>some functions for setting MediaItem-states into MediaItemStateChunks</li>
+<li>more MediaItem-insertion functions for MediaItemStateChunks</li>
+<li>choosing MediaItems from specific tracks from MediaItemArray</li>
+<li>new trackstring-analysis and manipulation-functions</li>
+<li>functions for getting Mediaitems from specific tracks</li>
+<li>apply statechunk to MediaItems, for extended manipulation of MediaItems using manipulated MediaItemStateChunks</li>
+<li>Reaper-Main-Window: get left and right sides in relation to the screen position</li>
+<li>client2screen2client x-coordinate conversion functions</li>
+<li>developer: new Errormessaging system, that will, in the future, give readable error-messages, when errors occur during execution of functions. Currently only some functions return error messages; will change over time.</li>
+<li>tons of other helper-functions in many areas</li>
+</ul>
+<h4 id="changes-from-4.00beta2.1-to-4.00beta2.5">Changes from 4.00beta2.1 to 4.00beta2.5</h4>
+<ul>
+<li>minor corrections in documentation</li>
+<li>RenderProjectToAIFF - new parameters for start and endposition of the renderrange. Nil as projectfilename renders the currently opened project.</li>
+<li>RenderProjectToFLAC - new parameters for start and endposition of the renderrange. Nil as projectfilename renders the currently opened project.</li>
+<li>RenderProjectToMP3_ABR - new parameters for start and endposition of the renderrange. Nil as projectfilename renders the currently opened project.</li>
+<li>RenderProjectToMP3_CBR - new parameters for start and endposition of the renderrange. Nil as projectfilename renders the currently opened project.</li>
+<li>RenderProjectToMP3_MaxQuality - new parameters for start and endposition of the renderrange. Nil as projectfilename renders the currently opened project.</li>
+<li>RenderProjectToMP3_VBR - new parameters for start and endposition of the renderrange. Nil as projectfilename renders the currently opened project.</li>
+<li>RenderProjectToOPUS - new parameters for start and endposition of the renderrange. Nil as projectfilename renders the currently opened project.</li>
+<li>RenderProjectToWebMVideo - new parameters for start and endposition of the renderrange. Nil as projectfilename renders the currently opened project.</li>
+<li>GetProject_HorizontalZoom was incorrectly named GetProject_Zoom in the docs -&gt; fixed</li>
+<li>GetApiVersion was incorrectly linked to GetPath in the docs -&gt; fixed</li>
+<li>GetAllMediaItemsBetween - adds &quot;ULTRASCHALL_TRACKNUMBER tracknumber&quot; to returned statechunks, to know, from which track the item originated from</li>
+<li>SplitMediaItems_Position - bug introduced in beta 2.1 that split only first track -&gt; fixed</li>
+<li>RippleInsert - bug introduced in beta 2.1 -&gt; fixed</li>
+<li>InsertMediaItemArray - bug introduced in beta 2.1 -&gt; fixed</li>
+<li>GetMediaItemsAtPosition - bug introduced in beta 2.1 -&gt; fixed</li>
+<li>OnlyMediaItemsOfTracksInTrackstring - bug introduced in beta 2.1 -&gt; fixed</li>
+<li>DeleteMediaItems_Position - bug introduced in beta 2.1 -&gt; fixed</li>
+<li>GetAllMediaItemsBetween - bug introduced in beta 2.1 -&gt; fixed</li>
+<li>MoveMediaItemsAfter_By - bug introduced in beta 2.1 -&gt; fixed</li>
+<li>MoveMediaItemsBefore_By - bug introduced in beta 2.1 -&gt; fixed</li>
+<li>MoveMediaItemsSectionTo - bug introduced in beta 2.1 -&gt; fixed</li>
+<li>SectionCut - bug introduced in beta 2.1 -&gt; fixed</li>
+<li>SectionCut_Inverse - bug introduced in beta 2.1 -&gt; fixed</li>
+<li>RippleCut - bug introduced in beta 2.1 -&gt; fixed</li>
+<li>RippleCut_Reverse - bug introduced in beta 2.1 -&gt; fixed</li>
+<li>RemoveDuplicateTracksInTrackstring - entries in trackstringarray are now numbers, not strings</li>
+<li>SetTrackAutoRecArmState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackAutomodeState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackBeatState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackBusCompState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackBypFXState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackFreeModeState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackHeightState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackINQState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackIPhaseState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackIcon_Filename - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackIsBusState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackLayoutNames - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackLockState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackMIDIOutState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackMainSendState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackMidiCTL - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackMidiInputChanMap - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackMuteSoloState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackNChansState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackName - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackPeakColorState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackPerfState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackRecState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackShowInMixState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>SetTrackVUState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackAutoRecArmState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackAutomodeState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackBeatState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackBusCompState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackBypFXState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackFreeModeState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackGroupFlagsState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackHeightState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackINQState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackIPhaseState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackIcon_Filename - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackIsBusState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackLayoutNames - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackLockState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackMIDIOutState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackMainSendState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackMidiCTL - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackMidiInputChanMap - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackMuteSoloState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackNChansState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackName - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackPeakColorState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackPerfState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackRecState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackShowInMixState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetTrackVUState - had a bug when using tracknumbers higher than the highest available tracknumber -&gt; fixed</li>
+<li>GetMediaItemsAtPosition - returns now an array with the MediaItemStateChunks as well</li>
+<li>RemoveDuplicateTracksInTrackstring - produced Lua-error, when giving nil as parameter -&gt; fixed</li>
+</ul>
+<h3 id="beta2.1---ich-und-der-rock---renft---30th-of-august">4.00 Beta2.1: - &quot;Ich und der Rock - Renft&quot; - 30th of August</h3>
+<h4 id="new-features-in-4.00beta2.1">New features in 4.00beta2.1</h4>
+<ul>
+<li>mostly bugfixes</li>
+<li>ultraschall.Separator - contains the proper separator for the system it runs on. If you want to do file-operation, you should use this instead of \ or /, to make your script Mac and Windows compliant.</li>
+<li>ultraschall.Script_Path - contains the path to the scripts-folder of Reaper</li>
+</ul>
+<h4 id="changes-from-4.00beta2-to-4.00beta2.1">Changes from 4.00beta2 to 4.00beta2.1</h4>
+<ul>
+<li>changed the lines, you need to include into your script. refer &quot;3. How to use the API in your LUA-Script&quot; in the doc-file.</li>
+<li>some functions didn't work on Mac, due it's use of / instead of  as directory-separator. Has been fixed now.</li>
+<li>moved all ultraschall-related variables into the ultraschall-table.</li>
+<li>GetPartialString - returns nil in case of error</li>
+<li>CSV2Line - returns nil in case of error, bugfixing</li>
+<li>RGB2Num - returns nil in case or error</li>
+<li>CSV2IndividualLinesAsArray - returns nil in case or error, bugfixing</li>
+<li>GetNextMuteState - corrected documentation</li>
+<li>GetNextMuteState_TrackObject - corrected documentation</li>
+<li>GetPreviousMuteState - corrected documentation</li>
+<li>GetPreviousMuteState_TrackObject - corrected documentation</li>
+<li>ImportChaptersFromFile - corrected documentation</li>
+<li>ImportEditFromFile - corrected documentation</li>
+<li>ImportMarkersFromFile - corrected documentation</li>
+<li>ImportChaptersFromFile_Filerequester - corrected documentation</li>
+<li>ImportEditFromFile_Filerequester - corrected documentation</li>
+<li>ImportMarkersFromFile_Filerequester - corrected documentation</li>
+<li>RemoveDuplicateTracksInTrackstring - improved return values</li>
+<li>OnlyMediaItemsOfTracksInTrackstring - improved return values</li>
+<li>ChangeDeltaOffsetOfMediaItems_FromArray - bugfixing</li>
+<li>InsertMediaItem_MediaItem - improved return values</li>
+<li>InsertMediaItem_MediaItemStateChunk - improved return values</li>
+</ul>
+<h3 id="beta2---shock-the-monkey---peter-gabriel---20th-august-2017">4.00 Beta2: - &quot;Shock The Monkey - Peter Gabriel&quot; - 20th August 2017</h3>
+<h4 id="new-features-in-4.00beta2---about-190-new-functions-with">New Features in 4.00beta2 - about 190 new functions with:</h4>
+<ul>
+<li>Configuration: Import/Export from/to reaper-kb.ini-files</li>
+<li>Configuration: New Management-functions for Configuration-files that follow standard ini-files</li>
+<li>Clipboard: Clipboard Functions, get and put (thanks to fernsehmuell for the mac-side)</li>
+<li>Envelopes: Move Envelope-Points in a track</li>
+<li>File-Management: extended fileread-functions, including reading lines that follow patterns, and more</li>
+<li>Markers: Move Markers, as well as Edit Markers</li>
+<li>Markers: Get Markers/Regions/Time-Signature-marker by their graphical representation, means: you can use e.g. the mouse to find markers the mouse is hovering above</li>
+<li>Items: Get, Split, Insert, Delete, Shorten, Cut, RippleCut, RippleInsert, etc of single and multiple MediaItems in 1 or more tracks</li>
+<li>Projectfiles: Get and set 40 settings in rpp-projectfiles. More to come.</li>
+<li>Projectfiles: Import Tracks with Items and all FX and settings from project-files using GetProject_TrackStateChunk. You can insert them with the new item function InsertMediaItem_MediaItemStateChunk</li>
+<li>Rendering: Render projectfiles as mp3, mp3_vbr, mp3_cbr, mp3_abr, opus, flac, aiff, and webm(video). That's right: no render dialog necessary!</li>
+<li>Docs: The Documentation-System, that automatically creates the API-Docs from the API itself, using CreateUSApiDocs_HTML. Will be extended to be a fully equipped automatic-documentation-system for Ultraschall</li>
+<li>Tons of other functions in all areas.</li>
+</ul>
+<h4 id="changes-from-4.00beta1-to-4.00beta2">Changes from 4.00beta1 to 4.00beta2</h4>
+<ul>
+<li>Marker/Regions-functions - they used to ignore regions which led to wrong markers/regions -&gt; fixed</li>
+<li>ultraschall.WriteValueToFile - default write-mode changed to binary-file behavior(doesn't add useless newlines anymore) non binary-mode can be chosen by a new parameter &quot;binarymode&quot; set to false, if it's<br />
+set to nil or true, value will be treated as binaryvalue and saved as such. ultraschall.WriteValueToFile(Filename_with_path, Value, binarymode)</li>
+<li>CSV2IndividualLines - renamed to CSV2IndividualLinesAsArray and added number of lines as additional return-value</li>
+<li>NumberRangeAsCsvOfNumbers - renamed to CreateTrackNumbersString</li>
+<li>Structure - reworked API-structure</li>
+</ul>
+<h3 id="beta1---tomorrow-never-knows---the-beatles---10th-of-july-2017">4.00 beta1: - &quot;Tomorrow Never Knows - The Beatles&quot; - 10th of July 2017</h3>
+<h4 id="new-features-in-4.00beta1---about-140-new-functions-with">New Features in 4.00beta1 - about 140 new functions with:</h4>
+<ul>
+<li>Markers: extensive marker-management, with markers for chapter, edit, dummy, normal and podrange-regions</li>
+<li>Configuration: functions for an Ultraschall.ini. Ultraschall needs it's own config-file, at last ;)</li>
+<li>CoughButtons: CoughButton-management for setting, toggling, getting envelope-points in the mute-envelope-lane</li>
+<li>Navigation: Jumping to position, setting playcursor, toggling scrolling during playback, finding next item/marker/region and more</li>
+<li>Track-Management: Getting and Setting tons of track-states, that are usually hard to fumble out of Reaper.</li>
+<li>File-Management: Write a value to a file.</li>
+<li>Dozens of helper-functions here and there</li>
+</ul>
+</div></body></html>
