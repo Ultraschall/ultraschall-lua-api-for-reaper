@@ -110,6 +110,9 @@
   - When using the first time, it installs automatically an action for showing the Api-Help(Ultraschall and Reaper)
   - SetItemSpectrogram - toggles displaying spectral-edit for an item or an itemstatechunk
   - SetItemSpectralEdit - sets an existing spectral-edit for an item or an itemstatechunk
+  - CountProjectTabs - counts currently opened projecttabs
+  - GetProject_Tabs - returns all project-tabs and their accompanying filenames
+  - CheckForChangedProjectTabs - checks, if the order of the projecttabs changed, or projecttabs were new/closed since last calling this function
   
   <TODO>
       TODO!!  - SetTrackGroupFlagsState - sets GroupFlagsState

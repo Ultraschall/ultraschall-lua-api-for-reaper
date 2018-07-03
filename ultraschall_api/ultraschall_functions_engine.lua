@@ -60,6 +60,97 @@ if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
   ultraschall.Api_Path=string.gsub(ultraschall.Api_Path,"\\","/")
 --]]  
 
+
+function ultraschall.CountProjectTabs()
+--[[
+<ApiDocBlocFunc>
+<slug>
+CountProjectTabs
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+integer number_of_projecttabs = ultraschall.CountProjectTabs()
+</functionname>
+<description>
+Counts the number of opened project tabs.
+</description>
+<retvals>
+integer number_of_projecttabs - the number of projecttabs currently opened
+</retvals>
+<semanticcontext>
+Project-Files
+Helper functions
+</semanticcontext>
+<tags>
+helperfunctions, projectfiles, count, projecttab
+</tags>
+</ApiDocBlocFunc>
+]]
+  local ProjCount=-1
+  local Aretval="t"
+  while Aretval~=nil do
+    local Aretval, Aprojfn = reaper.EnumProjects(ProjCount+1, "")
+    if Aretval~=nil then ProjCount=ProjCount+1
+    else break
+    end
+  end
+  return ProjCount+1
+end
+
+
+--A=ultraschall.CountProjectTabs()
+
+function ultraschall.GetProject_Tabs()
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetProject_Tabs
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+integer number_of_projecttabs, array projecttablist = ultraschall.GetProject_Tabs()
+</functionname>
+<description>
+Returns the ReaProject-objects, as well as the filenames of all opened project-tabs.
+</description>
+<retvals>
+integer number_of_projecttabs - the number of projecttabs currently opened
+array projecttablist - an array, that holds all ReaProjects as well as the projectfilenames
+                     - projecttablist[idx][1] = ReaProject
+                     - projecttablist[idx][2] = projectfilename with path
+</retvals>
+<semanticcontext>
+Project-Files
+Helper functions
+</semanticcontext>
+<tags>
+helperfunctions, projectfiles, count, projecttab, project, filename
+</tags>
+</ApiDocBlocFunc>
+]]
+  local ProjTabList={}
+  local CountProj=ultraschall.CountProjectTabs()
+  for i=1, CountProj do
+    ProjTabList[i]={}
+    ProjTabList[i][1], ProjTabList[i][2] = reaper.EnumProjects(i-1, "")
+  end  
+  return CountProj, ProjTabList
+end
+
+  local Count, Projects = ultraschall.GetProject_Tabs()
+  if ultraschall.ProjectList==nil then 
+    ultraschall.ProjectList=Projects ultraschall.ProjectCount=Count    
+  end
+  
+
 --ultraschall.IDEerror=true
 
 
@@ -104,7 +195,7 @@ earlier releases:
 <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2.zip">DOWNLOADLINK for Ultraschall Framework 4.0 - Beta2 - 20th of August 2017</a>
 <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta1.zip">DOWNLOADLINK for Ultraschall Framework 4.0 - Beta1 - 11th of July 2017</a>
 
-Requirements: Reaper 5.91 and SWS extension 2.9.7
+Requirements: Reaper 5.92 and SWS extension 2.9.7
 
 Step 1: When you've downloaded the archive, open it. You'll find in it a folder called "ultraschall_api", a license-file and this documentation.
 Step 2: Copy the folder "ultraschall_api" + "ultraschall_api.lua" into the UserPlugins-folder in the resources-folder of your Reaper-installation
@@ -9626,7 +9717,7 @@ number pos - the position of the marker/region
 optional number rgnend - the end of the region
 </retvals>
 <parameters>
-integer idx - the number of the requested marker/region; counts only within either markers or regions, depensing on what you've set searchisrgn to
+integer idx - the number of the requested marker/region; counts only within either markers or regions, depending on what you've set searchisrgn to
 boolean searchisrgn - true, search only within regions; false, search only within markers
 </parameters>
 <semanticcontext>
@@ -9680,7 +9771,7 @@ returns nil in case of an error
 boolean retval - true, setting the marker/region was successful; false, setting of the marker/region was unsuccessful.
 </retvals>
 <parameters>
-integer idx - the number of the requested marker/region; counts only within either markers or regions, depensing on what you've set searchisrgn to
+integer idx - the number of the requested marker/region; counts only within either markers or regions, depending on what you've set searchisrgn to
 boolean searchisrgn - true, search only within regions; false, search only within markers
 integer shown_number - the shown-number of the region/marker; no duplicate numbers for regions allowed; nil to keep previous shown_number
 number position - the position of the marker/region in seconds; nil to keep previous position
@@ -35553,10 +35644,10 @@ integer retval - 0, in case of success; -1, in case of an error
 </retvals>
 <semanticcontext>
 Metadata Management
-External States
+Extension States
 </semanticcontext>
 <tags>
-metadatamanagement, project, delete, external, state, section
+metadatamanagement, project, delete, extension, state, section
 </tags>
 </ApiDocBlocFunc>
 --]]
@@ -35593,10 +35684,10 @@ integer retval - 0, in case of success; -1, in case of an error
 </retvals>
 <semanticcontext>
 Metadata Management
-External States
+Extension States
 </semanticcontext>
 <tags>
-metadatamanagement, project, delete, external, state, key
+metadatamanagement, project, delete, extension, state, key
 </tags>
 </ApiDocBlocFunc>
 --]]
@@ -35646,10 +35737,10 @@ integer retval - 0, in case of success; -1, in case of an error
 </retvals>
 <semanticcontext>
 Metadata Management
-External States
+Extension States
 </semanticcontext>
 <tags>
-metadatamanagement, project, external, state, get, all, key, values, section
+metadatamanagement, project, extension, state, get, all, key, values, section
 </tags>
 </ApiDocBlocFunc>
 --]]
@@ -35741,8 +35832,8 @@ Lua=5.3
 integer retval = ultraschall.SetGuidExtState(string guid, string key, string value, integer savelocation, boolean overwrite, boolean persists)
 </functionname>
 <description>
-Sets an external-state using a given guid. Good for storing additional metadata of objects like MediaTracks, MediaItems, MediaItem_Takes, etc(everything, that has a guid).
-The state can be saved as either global external state or "local" external-project-state(in the currently opened project)
+Sets an extension-state using a given guid. Good for storing additional metadata of objects like MediaTracks, MediaItems, MediaItem_Takes, etc(everything, that has a guid).
+The state can be saved as either global extension state or "local" extension-project-state(in the currently opened project)
 The guid can have additional text, but must contain a valid guid somewhere in it!
 A valid guid is a string that follows the following pattern:
 {........-....-....-....-............}
@@ -35754,19 +35845,19 @@ Returns -1 in case of error
 string guid - the guid of the object, for whom you want to store a key/value-pair; can have additional characters before and after the guid, but must contain a valid guid!
 string key - the key for this guid
 string value - the value to store into the key/value-store
-integer savelocation - 0, store as project external state(into the currently opened project); 1, store as global external state(when persist=true, into reaper-extstate.ini in the resourcesfolder)
+integer savelocation - 0, store as project extension state(into the currently opened project); 1, store as global extension state(when persist=true, into reaper-extstate.ini in the resourcesfolder)
 boolean overwrite - true, overwrite a previous given value; false, don't overwrite, if a value exists already
-boolean persists - true, make external state persistent(available after Reaper-restart); false, don't make it persistent; Only with global external states
+boolean persists - true, make extension state persistent(available after Reaper-restart); false, don't make it persistent; Only with global extension states
 </parameters>
 <retvals>
-integer retval - the idx of the extstate(if a project external state); 1, successful(with external states), -1, unsuccessful
+integer retval - the idx of the extstate(if a project extension state); 1, successful(with extension states), -1, unsuccessful
 </retvals>
 <semanticcontext>
 Metadata Management
-External States(Guid)
+Extension States(Guid)
 </semanticcontext>
 <tags>
-metadatamanagement, project, external, state, set, guid, key, values
+metadatamanagement, project, extension, state, set, guid, key, values
 </tags>
 </ApiDocBlocFunc>
 --]]
@@ -35775,14 +35866,14 @@ metadatamanagement, project, external, state, set, guid, key, values
   if ultraschall.IsValidGuid(guid, false)==false then ultraschall.AddErrorMessage("SetGuidExtState","value", "must be a string", -3) return -1 end
   if type(overwrite)~="boolean" then ultraschall.AddErrorMessage("SetGuidExtState","overwrite", "must be a boolean", -4) return -1 end
   if math.type(savelocation)~="integer" then ultraschall.AddErrorMessage("SetGuidExtState","savelocation", "must be an integer", -5) return -1 end
-  if tonumber(savelocation)~=0 and tonumber(savelocation)~=1 then ultraschall.AddErrorMessage("SetGuidExtState","savelocation", "only allowed 0 for project-extstate, 1 for external state", -6) return -1 end
+  if tonumber(savelocation)~=0 and tonumber(savelocation)~=1 then ultraschall.AddErrorMessage("SetGuidExtState","savelocation", "only allowed 0 for project-extstate, 1 for global extension state", -6) return -1 end
   if savelocation==1 and type(persist)~="boolean" then ultraschall.AddErrorMessage("SetGuidExtState","persist", "must be a boolean", -7) return -1 end
   
   if savelocation==0 then 
-    if overwrite==false and reaper.GetProjExtState(0, guid, key)>0 then ultraschall.AddErrorMessage("SetGuidExtState","external-state", "already exist", -8) return -1 end
+    if overwrite==false and reaper.GetProjExtState(0, guid, key)>0 then ultraschall.AddErrorMessage("SetGuidExtState","extension-state", "already exist", -8) return -1 end
     return reaper.SetProjExtState(0, guid, key, value) 
   elseif savelocation==1 then 
-    if overwrite==false and reaper.HasExtState(guid, key)==true then ultraschall.AddErrorMessage("SetGuidExtState","external-state", "already exist", -9) return -1 end
+    if overwrite==false and reaper.HasExtState(guid, key)==true then ultraschall.AddErrorMessage("SetGuidExtState","extension-state", "already exist", -9) return -1 end
     return 1, reaper.SetExtState(guid, key, value, persist)
   else ultraschall.AddErrorMessage("SetGuidExtState","savelocation", "no such location", -9) return -1
   end
@@ -35811,7 +35902,7 @@ Lua=5.3
 integer retval, string value = ultraschall.GetGuidExtState(string guid, string key, integer savelocation)
 </functionname>
 <description>
-Gets an external-state using a given guid. Good for storing additional metadata of objects like MediaTracks, MediaItems, MediaItem_Takes, etc(everything, that has a guid).
+Gets an extension-state using a given guid. Good for storing additional metadata of objects like MediaTracks, MediaItems, MediaItem_Takes, etc(everything, that has a guid).
 The guid can have additional text, but must contain a valid guid somewhere in it!
 A valid guid is a string that follows the following pattern:
 {........-....-....-....-............}
@@ -35822,25 +35913,25 @@ Returns -1 in case of error
 <parameters>
 string guid - the guid of the object, for whom you want to get the key/value-pair; can have additional characters before and after the guid, but must contain a valid guid!
 string key - the key for this guid
-integer savelocation - 0, get as project external state(from the currently opened project); 1, get as global external state(when persist=true, from reaper-extstate.ini in the resourcesfolder)
+integer savelocation - 0, get as project extension state(from the currently opened project); 1, get as global extension state(when persist=true, from reaper-extstate.ini in the resourcesfolder)
 </parameters>
 <retvals>
-integer retval - the idx of the extstate(if a project external state); 1, successful(with external states), -1, unsuccessful
+integer retval - the idx of the extstate(if a project extension state); 1, successful(with extension states), -1, unsuccessful
 string value - the returned value from the extstate
 </retvals>
 <semanticcontext>
 Metadata Management
-External States(Guid)
+Extension States(Guid)
 </semanticcontext>
 <tags>
-metadatamanagement, project, external, state, get, guid, key, values
+metadatamanagement, project, extension, state, get, guid, key, values
 </tags>
 </ApiDocBlocFunc>
 --]]
   if ultraschall.IsValidGuid(guid, false)==false then ultraschall.AddErrorMessage("GetGuidExtState","guid", "must be a valid guid", -1) return -1 end
   if ultraschall.IsValidGuid(guid, false)==false then ultraschall.AddErrorMessage("GetGuidExtState","key", "must be a string", -2) return -1 end
   if math.type(savelocation)~="integer" then ultraschall.AddErrorMessage("GetGuidExtState","savelocation", "must be an integer", -4) return -1 end
-  if tonumber(savelocation)~=0 and tonumber(savelocation)~=1 then ultraschall.AddErrorMessage("GetGuidExtState","savelocation", "only allowed 0 for project-extstate, 1 for external state", -5) return -1 end
+  if tonumber(savelocation)~=0 and tonumber(savelocation)~=1 then ultraschall.AddErrorMessage("GetGuidExtState","savelocation", "only allowed 0 for project-extstate, 1 for global extension state", -5) return -1 end
   
   if savelocation==0 then 
     local retval, string=reaper.GetProjExtState(0, guid, key)
@@ -36973,7 +37064,7 @@ boolan retval - true, if setting extstate was successful; false, if setting exts
 </retvals>
 <semanticcontext>
 Metadata Management
-ExtensionStates
+Extension States
 </semanticcontext>
 <tags>
 mediaitemmanagement, set, extstate, item, guid, key, value, metadata
@@ -37019,7 +37110,7 @@ string value - the value of this extstate; nil if not existing
 </retvals>
 <semanticcontext>
 Metadata Management
-ExtensionStates
+Extension States
 </semanticcontext>
 <tags>
 mediaitemmanagement, get, extstate, item, guid, key, value, metadata
@@ -37065,7 +37156,7 @@ boolan retval - true, if setting extstate was successful; false, if setting exts
 </retvals>
 <semanticcontext>
 Metadata Management
-ExtensionStates
+Extension States
 </semanticcontext>
 <tags>
 mediaitemmanagement, set, extstate, track, guid, key, value, metadata
@@ -37111,7 +37202,7 @@ string value - the value of this extstate; nil if not existing
 </retvals>
 <semanticcontext>
 Metadata Management
-ExtensionStates
+Extension States
 </semanticcontext>
 <tags>
 mediaitemmanagement, get, extstate, track, guid, key, value, metadata
@@ -37584,7 +37675,7 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-string tempfilename = ultraschall.CreateValidTempFile(string filename_with_path, boolean create, string suffix, boolen retainextension)
+string tempfilename = ultraschall.CreateValidTempFile(string filename_with_path, boolean create, string suffix, boolean retainextension)
 </functionname>
 <description>
 Tries to determine a valid temporary filename. Will check filename_with_path with an included number between 0 and 65536 to create such a filename.
@@ -37636,10 +37727,129 @@ filemanagement, create, temporary, file, filename
   return false
 end
 
---A=ultraschall.CreateValidTempFile("C:\\tude.txt", false, "", true)
 
---A2,B2=ultraschall.MoveRegionsTo(2, 1000, 160, true)
+--LOL=ultraschall.GetProject_Tabs()
 
---ultraschall.RunCommand("_RS37a1aa7120b3e79ef0c4cd57116e5eac59792ae2")
+
+function ultraschall.CheckForChangedProjectTabs(update)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CheckForChangedProjectTabs
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+boolean retval, integer countUnorderedProj, array unorderedProj, integer countNewProj, array newProj, integer countClosedProj, array closedProj = ultraschall.CheckForChangedProjectTabs(boolean update)
+</functionname>
+<description>
+Returns if projecttabs have been changed due reordering, new projects or closed projects, since last calling this function.
+Set update=true to update Ultraschall's internal project-monitoring-list or it will only return the changes since starting the API in this script or since the last time you used this function with parameter update set to true!
+
+Returns false, -1 in case of error.
+</description>
+<retvals>
+boolean retval - true, no changes in the projecttabs at all; false, either order, newprojects or closed project-changes
+integer countUnorderedProj - the number of unordered projects
+array unorderedProj - the unordered projects as ReaProjects
+integer countNewProj - the number of new projects
+array newProj - the new projects as ReaProjects
+integer countClosedProj - the number of closed projects
+array closedProj - the closed projects as ReaProjects
+</retvals>
+<parameters>
+boolean update - true, update Ultraschall's internal projecttab-monitoring-list to the current state of all tabs
+               - false, don't update the internal projecttab-monitoring-list, so it will keep the "old" project-tab-state as checking-reference
+</parameters>
+<semanticcontext>
+Project-Files
+Helper functions
+</semanticcontext>
+<tags>
+helperfunctions, projectfiles, check, projecttab, change, order, new, closed, close
+</tags>
+</ApiDocBlocFunc>
+]]
+  if type(update)~="boolean" then ultraschall.AddErrorMessage("CheckForChangedProjectTabs","update", "Must be a boolean!", -1) return false, -1 end
+  local Count, Projects = ultraschall.GetProject_Tabs()
+
+  if ultraschall.ProjectList==nil then 
+    if update==true then ultraschall.ProjectList=Projects ultraschall.ProjectCount=Count end
+    return false
+  end
+  
+  -- check the order
+  local OrderRetValProj={}
+  local ordercount=0
+  local tempproj
+  local tempproj2
+  
+  for a=1, ultraschall.ProjectCount do
+    tempproj=ultraschall.ProjectList[a][1]
+    if Projects[a]==nil then break end
+    tempproj2=Projects[a][1]
+    if tempproj~=tempproj2 then 
+        ordercount=ordercount+1
+        OrderRetValProj[ordercount]=tempproj2
+    end
+  end
+  
+  -- check for new projects
+  local NewRetValProj={}
+  local newprojcount=0
+  local found=false
+  
+  for i=1, Count do
+    for a=1, ultraschall.ProjectCount do
+      if ultraschall.ProjectList[a][1]==Projects[i][1] then 
+        found=true         
+        break
+      end
+    end
+    if found==false then 
+      newprojcount=newprojcount+1
+      NewRetValProj[newprojcount]=Projects[i][1]
+    end
+    found=false
+  end
+
+  -- check for closed projects
+  local ClosedRetValProj={}
+  local closedprojcount=0
+  local found=false
+  
+  for i=1, ultraschall.ProjectCount do
+    for a=1, Count do
+      if ultraschall.ProjectList[i][1]==Projects[a][1] then 
+        found=true         
+        break
+      end
+    end
+    if found==false then 
+      closedprojcount=closedprojcount+1
+      ClosedRetValProj[closedprojcount]=ultraschall.ProjectList[i][1]
+    end
+    found=false
+  end
+      
+  if update==true then ultraschall.ProjectList=Projects ultraschall.ProjectCount=Count end
+  if ordercount>0 or newprojcount>0 or closedprojcount>0 then     
+    return false, ordercount, OrderRetValProj, newprojcount, NewRetValProj, closedprojcount, ClosedRetValProj
+  end
+  return true
+end
+
+--[[
+function main()
+  ARetval,Borderc,Corderta,Dnewproc,Enewprta,Fclosedc,Gclosedta=ultraschall.CheckForChangedProjectTabs(true)
+  reaper.defer(main)
+end
+--main()
+--]]
+
 --progresscounter()
+
 ultraschall.ShowLastErrorMessage()
