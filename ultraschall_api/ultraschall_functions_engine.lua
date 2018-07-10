@@ -1702,7 +1702,7 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-array individual_values, integer count = ultraschall.CSV2IndividualLinesAsArray(string csv_line, optional string separator)
+integer count, array individual_values = ultraschall.CSV2IndividualLinesAsArray(string csv_line, optional string separator)
 </functionname>
 <description>
 convert a csv-string to an array of the individual values. If separator cannot be found, it'll return the original string
@@ -1715,7 +1715,7 @@ array individual_values  - all values, each in an individual array-position
 </retvals>
 <parameters>
 string csv_line - a string as a csv, with all values included and separated by parameter separator
-string separator - the separator, that separates the individual entries; use nil for ,; separators will be removed from the final strings!
+string separator - the separator, that separates the individual entries; use nil for commas; separators will be removed from the final strings!
 </parameters>
 <semanticcontext>
 API-Helper functions
@@ -9298,7 +9298,7 @@ boolean retval  - state if the action, after it has been toggled
 <parameters>
 integer section - the section of the action(see ShowActionlist-dialog)
                         -0 - Main
-                        -100 - Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+                        -100 - Main (alt recording)
                         -32060 - MIDI Editor
                         -32061 - MIDI Event List Editor
                         -32062 - MIDI Inline Editor
@@ -9353,7 +9353,7 @@ returns -1 in case of error
 <parameters>
 integer section - section
                         -0 - Main
-                        -100 - Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+                        -100 - Main (alt recording)
                         -32060 - MIDI Editor
                         -32061 - MIDI Event List Editor
                         -32062 - MIDI Inline Editor
@@ -9409,7 +9409,7 @@ boolean retval  - state of the State-Button, after toggling
 <parameters>
 integer section - the section of the action(see ShowActionlist-dialog)
                         -0 - Main
-                        -100 - Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+                        -100 - Main (alt recording)
                         -32060 - MIDI Editor
                         -32061 - MIDI Event List Editor
                         -32062 - MIDI Inline Editor
@@ -13785,7 +13785,7 @@ string text - the title of the marker
 </parameters>
 <semanticcontext>
 Markers
-Adding Markers
+Edit Markers and Regions
 </semanticcontext>
 <tags>
 markermanagement, navigation, add, edit region, edit, region
@@ -23784,7 +23784,7 @@ Lua=5.3
 integer number_of_items, array MediaItemArray, array MediaItemStateChunkArray = ultraschall.GetMediaItemsAtPosition(number position, string trackstring)
 </functionname>
 <description>
-Getsa all Mediaitems at position, from the tracks given by trackstring.
+Gets all Mediaitems at position, from the tracks given by trackstring.
 Returns a MediaItemArray with the found MediaItems; returns -1 in case of error
 </description>
 <parameters>
@@ -23862,7 +23862,7 @@ Lua=5.3
 integer retval, array MediaItemArray = ultraschall.OnlyMediaItemsOfTracksInTrackstring(array MediaItemArray, string trackstring)
 </functionname>
 <description>
-Throws all MediaItems out of the MediaItemArray, that is not within the tracks, as given with trackstring.
+Throws all MediaItems out of the MediaItemArray, that are not within the tracks, as given with trackstring.
 Returns the "cleared" MediaItemArray; returns -1 in case of error
 </description>
 <parameters>
@@ -24714,7 +24714,7 @@ boolean retval = ultraschall.ChangeOffsetOfMediaItems_FromArray(array MediaItemA
 </functionname>
 <description>
 Changes the audio-offset of the MediaItems in MediaItemArray to newoffset.
-It affects all(!) takes of the MediaItems have.
+It affects all(!) takes that the MediaItems has.
 If you want to change the offset of the items not >to< newoffset, but >by< newoffset, use <a href"#ChangeDeltaOffsetOfMediaItems_FromArray">ChangeDeltaOffsetOfMediaItems_FromArray</a> instead.
 
 Returns false in case of failure, true in case of success.
@@ -28260,7 +28260,7 @@ function ultraschall.OnlyMediaItemsOfTracksInTrackstring_StateChunk(MediaItemSta
 --[[
 <ApiDocBlocFunc>
 <slug>
-OnlyMediaItemsOfTracksInTrackstring
+OnlyMediaItemsOfTracksInTrackstring_StateChunk
 </slug>
 <requires>
 Ultraschall=4.00
@@ -28268,26 +28268,26 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer retval, array MediaItemArray = ultraschall.OnlyMediaItemsOfTracksInTrackstring(array MediaItemArray, string trackstring)
+integer retval, array MediaItemStateChunkArray = ultraschall.OnlyMediaItemsOfTracksInTrackstring_StateChunk(array MediaItemStateChunkArray, string trackstring)
 </functionname>
 <description>
-Throws all MediaItems out of the MediaItemArray, that is not within the tracks, as given with trackstring.
+Throws all MediaItems out of the MediaItemStateChunkArray, that are not within the tracks, as given with trackstring.
 Returns the "cleared" MediaItemArray; returns -1 in case of error
 </description>
 <parameters>
-array MediaItemArray - an array with MediaItems; no nil-entries allowed, will be seen as the end of the array
+array MediaItemStateChunkArray - an array with MediaItems; no nil-entries allowed, will be seen as the end of the array
 string trackstring - the tracknumbers, separated by a comma
 </parameters>
 <retvals>
 integer retval - -1 in case of error, 1 in case of success
-array MediaItemArray - the "cleared" array, that contains only Items in tracks, as given by trackstring, -1 in case of error
+array MediaItemStateChunkarray - the "cleared" array, that contains only the statechunks of MediaItems in tracks, as given by trackstring, -1 in case of error
 </retvals>
 <semanticcontext>
 MediaItem Management
 Assistance functions
 </semanticcontext>
 <tags>
-mediaitemmanagement, tracks, media, item, selection
+mediaitemmanagement, tracks, media, item, selection, statechunk
 </tags>
 </ApiDocBlocFunc>
 ]]
@@ -31134,7 +31134,7 @@ mediaitemmanagement, tracks, media, item, check
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if type(MediaItemArray)~="table" then ultraschall.AddErrorMessage("CheckMediaItemArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return false end
+  if type(MediaItemArray)~="table" then ultraschall.AddErrorMessage("CheckMediaItemArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return false,0,{} end
   local count=1
   while MediaItemArray[count]~=nil do
     if reaper.ValidatePtr(MediaItemArray[count],"MediaItem*")==false then table.remove(MediaItemArray,count)
@@ -31142,7 +31142,7 @@ mediaitemmanagement, tracks, media, item, check
       count=count+1
     end
   end
-  if count==1 then return false
+  if count==1 then return false, count-1, MediaItemArray
   else return true, count-1, MediaItemArray
   end
 end
@@ -31172,7 +31172,7 @@ string trackstring - the tracknumbers, separated by commas
 </parameters>
 <retvals>
 integer count - the number of entries in the returned MediaItemArray
-array MediaItemArray - the, possibly, altered MediaItemArray
+array MediaItemArray - the found MediaItems returned as an array
 </retvals>
 <semanticcontext>
 MediaItem Management
@@ -31226,7 +31226,7 @@ boolean inside - true, only items completely within start/endposition; false, al
 </parameters>
 <retvals>
 integer count - the number of entries in the returned MediaItemArray
-array MediaItemArray - the, possibly, altered MediaItemArray
+array MediaItemArray - the found MediaItems returned as an array
 </retvals>
 <semanticcontext>
 MediaItem Management
@@ -33594,10 +33594,11 @@ helper functions, string, url, open, browser
 --]]
 --  if url:match(".-(://)")==nil then return false end
   local OS=reaper.GetOS()
+  url="\""..url.."\""
   if OS=="OSX32" or OS=="OSX64" then
     os.execute("open ".. url)
   else
-    os.execute("start ".. url)
+    os.execute("start \"Ultraschall-URL\" /B ".. url)
   end
   return true
 end
@@ -37396,20 +37397,21 @@ Lua=5.3
 integer retval = ultraschall.MB(string msg, optional string title, optional integer type)
 </functionname>
 <description>
-Shows Messagebox with user-clickable buttons.  
+Shows Messagebox with user-clickable buttons. Works like reaper.MB() but unlike reaper.MB, this function accepts omitting some parameters for quicker use.
 
 Returns -1 in case of an error
 </description>
 <parameters>
-msg - the message, that shall be shown in messagebox
-title - the title of the messagebox
-type - which buttons shall be shown in the messagebox
+string msg - the message, that shall be shown in messagebox
+optional string title - the title of the messagebox
+optional integer type - which buttons shall be shown in the messagebox
                         - 0, OK
                         - 1, OK CANCEL
                         - 2, ABORT RETRY IGNORE
                         - 3, YES NO CANCEL
                         - 4, YES NO
                         - 5, RETRY CANCEL
+                        - nil, defaults to OK
 </parameters>
 <retvals>
 integer - the button pressed by the user
@@ -37851,5 +37853,1059 @@ end
 --]]
 
 --progresscounter()
+
+function ultraschall.GetAllSelectedMediaItems()
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetAllSelectedMediaItems
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+integer count, array MediaItemArray = ultraschall.GetAllSelectedMediaItems()
+</functionname>
+<description>
+Returns all selected items in the project as MediaItemArray. Empty MediaItemAray if none is found.
+</description>
+<retvals>
+integer count - the number of entries in the returned MediaItemArray
+array MediaItemArray - all selected MediaItems returned as an array
+</retvals>
+<semanticcontext>
+MediaItem Management
+Selected Items
+</semanticcontext>
+<tags>
+mediaitemmanagement, tracks, media, item, get, all, selected, selection
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- prepare variables
+  local selitemcount=reaper.CountSelectedMediaItems(0)
+  local selitemarray={}
+  
+  -- get all selected mediaitems and put them into the array
+  for i=0, selitemcount-1 do
+    selitemarray[i+1]=reaper.GetSelectedMediaItem(0, i)
+  end
+  return selitemcount, selitemarray
+end
+
+--A,B=ultraschall.GetAllSelectedMediaItems()
+
+function ultraschall.SetMediaItemsSelected_TimeSelection()
+--[[
+<ApiDocBlocFunc>
+<slug>
+SetMediaItemsSelected_TimeSelection
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+ultraschall.SetMediaItemsSelected_TimeSelection()
+</functionname>
+<description>
+Sets all MediaItems selected, that are within the time-selection.
+</description>
+<semanticcontext>
+MediaItem Management
+Selected Items
+</semanticcontext>
+<tags>
+mediaitemmanagement, set, selected, item, mediaitem, timeselection
+</tags>
+</ApiDocBlocFunc>
+]]
+  reaper.Main_OnCommand(40717,0)
+end
+
+function ultraschall.GetParentTrack_MediaItem(MediaItem)
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetParentTrack_MediaItem
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+integer tracknumber, MediaTrack mediatrack = ultraschall.GetParentTrack_MediaItem(MediaItem MediaItem)
+</functionname>
+<description>
+Returns the tracknumber and the MediaTrack-object of the track in which the MediaItem is placed.
+
+returns -1 in case of error
+</description>
+<retvals>
+integer tracknumber - the tracknumber of the track, in which the MediaItem is placed; 1 for track 1, 2 for track 2, etc
+MediaTrack mediatrack - the MediaTrack-object of the track, in which the MediaItem is placed
+</retvals>
+<parameters>
+MediaItem MediaItem - the MediaItem, of which you want to know the track is is placed in
+</parameters>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, get, parent, track, item, mediaitem, mediatrack
+</tags>
+</ApiDocBlocFunc>
+]]
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("GetParentTrack_MediaItem","MediaItem", "Must be a MediaItem!", -1) return -1 end
+  
+  local MediaTrack = reaper.GetMediaItemTake_Track(reaper.GetMediaItemTake(MediaItem,0))
+  
+  return reaper.GetMediaTrackInfo_Value(MediaTrack, "IP_TRACKNUMBER"), MediaTrack
+end
+
+--A,B=ultraschall.GetParentTrack_MediaItem(reaper.GetMediaItem(0,1))
+
+function ultraschall.IsItemInTrack2(MediaItem, tracknumber)
+--[[
+<ApiDocBlocFunc>
+<slug>
+IsItemInTrack2
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+boolean retval, integer tracknumber = ultraschall.IsItemInTrack2(MediaItem MediaItem, integer tracknumber)
+</functionname>
+<description>
+Checks, whether a MediaItem is in track with tracknumber.
+
+see [IsItemInTrack](#IsItemInTrack) to use itemidx instead of the MediaItem-object.
+see [IsItemInTrack3](#IsItemInTrack3) to check against multiple tracks at once using a trackstring.
+
+returns nil in case of error
+</description>
+<retvals>
+boolean retval - true, if item is in track; false, if not
+integer tracknumber - the tracknumber of the track, in which the item lies
+</retvals>
+<parameters>
+MediaItem MediaItem - the MediaItem, of which you want to know the track is is placed in
+integer tracknumber - the tracknumber to check the parent track of the MediaItem against, with 1 for track 1, etc
+</parameters>
+<semanticcontext>
+API-Helper functions
+</semanticcontext>
+<tags>
+helperfunctions, check, item, track
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("IsItemInTrack2","tracknumber", "Must be an integer!", -1) return end
+  if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("IsItemInTrack2","tracknumber", "No such track!", -2) return end
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("IsItemInTrack2","MediaItem", "Must be a MediaItem!", -3) return end
+  
+  -- prepare vaiable
+  local itemtracknumber=ultraschall.GetParentTrack_MediaItem(MediaItem)
+  
+  -- check if item is in track
+  if tracknumber==itemtracknumber then return true, itemtracknumber
+  else return false, itemtracknumber
+  end
+end
+
+--A,B=ultraschall.IsItemInTrack2(reaper.GetMediaItem(0,0),1)
+
+function ultraschall.ReturnTypeOfReaperObject(object)
+--[[
+<ApiDocBlocFunc>
+<slug>
+ReturnTypeOfReaperObject
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+string objecttype = ultraschall.ReturnTypeOfReaperObject(Reaperobject object)
+</functionname>
+<description>
+returns the type of a Reaper-object.
+</description>
+<retvals>
+string objecttype - the type of the parameter of object
+                  - the following types can be returned: 
+                  - ReaProject, MediaTrack, MediaItem, MediaItem_Take, TrackEnvelope, PCM_source, None
+</retvals>
+<parameters>
+Reaperobject object - a Reaper-object of the following types:
+                    - ReaProject, MediaTrack, MediaItem, MediaItem_Take, TrackEnvelope, PCM_source
+                    - returns None if the object isn't a valid Reaper-object
+</parameters>
+<semanticcontext>
+API-Helper functions
+</semanticcontext>
+<tags>
+helperfunctions, check, type, reaper, object, project, track, item, take, envelope, pcmsource
+</tags>
+</ApiDocBlocFunc>
+]]
+  if reaper.ValidatePtr2(0, object, "ReaProject*")==true then return "ReaProject" end
+  if reaper.ValidatePtr2(0, object, "MediaTrack*")==true then return "MediaTrack" end
+  if reaper.ValidatePtr2(0, object, "MediaItem*")==true then return "MediaItem" end
+  if reaper.ValidatePtr2(0, object, "MediaItem_Take*")==true then return "MediaItem_Take" end
+  if reaper.ValidatePtr2(0, object, "TrackEnvelope*")==true then return "TrackEnvelope" end
+  if reaper.ValidatePtr2(0, object, "PCM_source*")==true then return "PCM_source" end
+  return "None"
+end
+
+function ultraschall.IsObjectValidReaperObject(object)
+--[[
+<ApiDocBlocFunc>
+<slug>
+IsObjectValidReaperObject
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+boolean retval, string objecttype = ultraschall.IsObjectValidReaperObject(Reaperobject object)
+</functionname>
+<description>
+checks, if object is a valid Reaper-object. It also returns the type of that Reaper-object.
+</description>
+<retvals>
+boolean retval - true, if it's a valid Reaper-object; false, if not
+string objecttype - the type of the parameter of object
+                  - the following types can be returned: 
+                  - ReaProject, MediaTrack, MediaItem, MediaItem_Take, TrackEnvelope, PCM_source, None
+</retvals>
+<parameters>
+Reaperobject object - a Reaper-object of the following types:
+                    - ReaProject, MediaTrack, MediaItem, MediaItem_Take, TrackEnvelope, PCM_source
+                    - returns None if the object isn't a valid Reaper-object
+</parameters>
+<semanticcontext>
+API-Helper functions
+</semanticcontext>
+<tags>
+helperfunctions, check, type, reaper, object, project, track, item, take, envelope, pcmsource
+</tags>
+</ApiDocBlocFunc>
+]]
+  if reaper.ValidatePtr2(0, object, "ReaProject*")==true then return true, "ReaProject" end
+  if reaper.ValidatePtr2(0, object, "MediaTrack*")==true then return true, "MediaTrack" end
+  if reaper.ValidatePtr2(0, object, "MediaItem*")==true then return true, "MediaItem" end
+  if reaper.ValidatePtr2(0, object, "MediaItem_Take*")==true then return true, "MediaItem_Take" end
+  if reaper.ValidatePtr2(0, object, "TrackEnvelope*")==true then return true, "TrackEnvelope" end
+  if reaper.ValidatePtr2(0, object, "PCM_source*")==true then return true, "PCM_source" end
+  return false, "None"
+end
+
+--A,B=ultraschall.IsObjectValidReaperObject(reaper.GetMediaItem(0,0))
+
+
+function ultraschall.KeepTableEntriesOfType(worktable, keeptype)
+-- supports
+-- boolean, integer, float, number, string, ReaProject, MediaTrack, MediaItem, MediaItem_Take, TrackEnvelope, PCM_source
+--[[
+<ApiDocBlocFunc>
+<slug>
+KeepTableEntriesOfType
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+table alteredtable = ultraschall.KeepTableEntriesOfType(table worktable, string keeptype)
+</functionname>
+<description>
+Removes all entries from worktable, that are not of the datatype as given by keeptype.
+
+returns nil in case of error
+</description>
+<retvals>
+table alteredtable - the table, that contains only the entries of the type as given by parameter keeptype
+</retvals>
+<parameters>
+table worktable - the unaltered source-table for processing
+string keeptype - the type that shall remain in table
+                - allowed are boolean, integer, float, number, table, string, userdata, thread, ReaProject, MediaTrack, MediaItem, MediaItem_Take, TrackEnvelope, PCM_source
+</parameters>
+<semanticcontext>
+API-Helper functions
+</semanticcontext>
+<tags>
+helperfunctions, keep, alter, table, types
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters
+  if type(worktable)~="table" then ultraschall.AddErrorMessage("KeepTableEntriesOfType","worktable", "Must be a table!", -1) return end
+  if type(keeptype)~="string" then ultraschall.AddErrorMessage("KeepTableEntriesOfType","keeptype", "Must be a string!", -2) return end
+  
+  -- prepare variable
+  local NewTable={}
+  
+  -- throw out all entries, that are not of type keeptype
+  for k,v in pairs(worktable) do 
+    if type(v)==keeptype or math.type(v)==keeptype then
+      NewTable[k]=v
+    elseif ultraschall.ReturnTypeOfReaperObject(v)~=ultraschall.ReturnTypeOfReaperObject(keeptype) then
+      NewTable[k]=v
+    end
+  end
+  return NewTable
+end
+
+
+function ultraschall.RemoveTableEntriesOfType(worktable, removetype)
+-- supports
+-- boolean, integer, float, number, string, ReaProject, MediaTrack, MediaItem, MediaItem_Take, TrackEnvelope, PCM_source
+--[[
+<ApiDocBlocFunc>
+<slug>
+RemoveTableEntriesOfType
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+table alteredtable = ultraschall.RemoveTableEntriesOfType(table worktable, string removetype)
+</functionname>
+<description>
+Removes all entries from worktable, that are of the datatype as given by removetype.
+
+returns nil in case of error
+</description>
+<retvals>
+table alteredtable - the table, that contains only the entries that are nt of the type as given by parameter removetype
+</retvals>
+<parameters>
+table worktable - the unaltered source-table for processing
+string removetype - the type that shall be removed from table
+                - allowed are boolean, integer, float, number, table, string, userdata, ReaProject, MediaTrack, MediaItem, MediaItem_Take, TrackEnvelope, PCM_source
+</parameters>
+<semanticcontext>
+API-Helper functions
+</semanticcontext>
+<tags>
+helperfunctions, remove, alter, table, types
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters
+  if type(worktable)~="table" then ultraschall.AddErrorMessage("RemoveTableEntriesOfType","worktable", "Must be a table!", -1) return end
+  if type(removetype)~="string" then ultraschall.AddErrorMessage("RemoveTableEntriesOfType","removetype", "Must be a string!", -2) return end
+  
+  -- prepare variables
+  local NewTable={}
+  
+  -- remove table-entries, that are of type removetype
+  for k,v in pairs(worktable) do 
+    if type(v)==removetype or math.type(v)==removetype or ultraschall.ReturnTypeOfReaperObject(v)==ultraschall.ReturnTypeOfReaperObject(removetype) then
+      NewTable[k]=v
+    end
+  end
+  return NewTable
+end
+
+--[[A={}
+A[1]=99
+A[2]="tudelu"
+A[3]=true
+A[9]=9.987
+A[7]=reaper.GetTrack(0,0)
+A["HollaDieWaldfee"]=false
+L,LL=ultraschall.RemoveTableEntriesOfType(A, "MediaTrack")--]]
+
+function ultraschall.IsValidTrackString(trackstring)
+--[[
+<ApiDocBlocFunc>
+<slug>
+IsValidTrackString
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+boolean valid, integer count, array individual_tracknumbers = ultraschall.IsValidTrackString(string trackstring)
+</functionname>
+<description>
+checks, whether a given trackstring is a valid one. Will also return all valid numbers, from trackstring, that can be used as tracknumbers, as an array.
+</description>
+<retvals>
+boolean valid - true, is a valid trackstring; false, is not a valid trackstring
+integer count - the number of entries found in trackstring
+array individual_tracknumbers - an array that contains all available tracknumbers
+</retvals>
+<parameters>
+string trackstring - the trackstring to check, if it's a valid one
+</parameters>
+<semanticcontext>
+Track Management
+Assistance functions
+</semanticcontext>
+<tags>
+trackmanagement, trackstring, check, valid
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters
+  if type(trackstring)~="string" then ultraschall.AddErrorMessage("IsValidTrackString","trackstring", "Must be a string!", -1) return false end
+  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(trackstring)
+  local found=true
+  if individual_values==nil then ultraschall.AddErrorMessage("IsValidTrackString","trackstring", "Has no tracknumbers in it!", -1) return false end
+
+  -- check the individual trackstring-entries and throw out all invalid-entries
+  for i=count, 1, -1 do
+    individual_values[i]=tonumber(individual_values[i])
+    if individual_values[i]==nil then table.remove(individual_values,i) count=count-1 found=false end
+  end
+  
+  -- sort it and return it
+  table.sort(individual_values) 
+  return found, count, individual_values
+end
+
+--A,B,C,D,E=ultraschall.IsValidTrackString("1,4,3")
+
+
+function ultraschall.IsItemInTrack3(MediaItem, trackstring)
+--[[
+<ApiDocBlocFunc>
+<slug>
+IsItemInTrack3
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.IsItemInTrack3(MediaItem MediaItem, string trackstring)
+</functionname>
+<description>
+Checks, whether a MediaItem is in any of the tracks, given by trackstring.
+
+see [IsItemInTrack](#IsItemInTrack) to use itemidx instead of the MediaItem-object.
+see [IsItemInTrack2](#IsItemInTrack2) to check against only one track.
+
+returns nil in case of error
+</description>
+<retvals>
+boolean retval - true, if item is in track; false, if not
+string trackstring - a string with all tracknumbers, separated by commas; 1 for track 1, 2 for track 2, etc
+</retvals>
+<parameters>
+MediaItem MediaItem - the MediaItem, of which you want to know the track is is placed in
+string trackstring - a string with all tracknumbers, separated by commas; 1 for track 1, 2 for track 2, etc
+</parameters>
+<semanticcontext>
+API-Helper functions
+</semanticcontext>
+<tags>
+helperfunctions, check, item, track, trackstring
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters
+  if type(trackstring)~="string" then ultraschall.AddErrorMessage("IsItemInTrack3","trackstring", "Must be a string!", -1) return end
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("IsItemInTrack3","MediaItem", "Must be a MediaItem!", -2) return end
+  local retval, count, individual_values=ultraschall.IsValidTrackString(trackstring)
+  
+  -- check, if item is in any of the tracks in trackstring
+  for i=1, count do
+    if individual_values[i]==ultraschall.GetParentTrack_MediaItem(MediaItem) then return true end
+  end
+  return false
+end
+
+--L=ultraschall.IsItemInTrack3(reaper.GetMediaItem(0,0), "1,2,3")
+
+function ultraschall.IsItemInTimerange(MediaItem, startposition, endposition, inside)
+--[[
+<ApiDocBlocFunc>
+<slug>
+IsItemInTimerange
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.IsItemInTimerange(MediaItem MediaItem, number startposiiton, number endposition, boolean inside)
+</functionname>
+<description>
+checks, whether a given MediaItem is within startposition and endposition and returns the result.
+
+returns nil in case of an error
+</description>
+<retvals>
+boolean retval - true, item is in timerange; false, item isn't in timerange
+</retvals>
+<parameters>
+MediaItem MediaItem - the MediaItem to check for, if it's within the timerange
+number startposition - the starttime of the timerange, in which the MediaItem must be, in seconds
+number endposition - the endtime of the timerange, in which the MediaItem must be, in seconds
+boolean inside - true, MediaItem must be fully within timerange; false, MediaItem can be partially inside timerange
+</parameters>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, check, timerange, tracks, mediaitems
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("IsItemInTimerange","startposition", "Must be a number!", -1) return end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("IsItemInTimerange","endposition", "Must be a number!", -2) return end
+  if type(inside)~="boolean" then ultraschall.AddErrorMessage("IsItemInTimerange","inside", "Must be a boolean!", -3) return end
+  if startposition>endposition then ultraschall.AddErrorMessage("IsItemInTimerange","startposition", "Must be smaller or equal endposition!", -4) return end
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("IsItemInTimerange","MediaItem", "Must be a MediaItem!", -5) return end  
+  
+  -- prepare variables
+  local itemstartposition=reaper.GetMediaItemInfo_Value(MediaItem, "D_POSITION")
+  local itemendposition=reaper.GetMediaItemInfo_Value(MediaItem, "D_LENGTH")+itemstartposition
+  
+  -- check, if the item is in tiumerange
+  if inside==true then -- if fully within timerange
+    if itemstartposition>=startposition and itemendposition<=endposition then return true else return false end
+  else -- if also partially within timerange
+    if itemstartposition>endposition or itemendposition<startposition then return false
+    else return true
+    end
+  end
+end
+
+--start, ende = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
+
+--A,B=ultraschall.IsItemInTimerange(reaper.GetMediaItem(0,0), start, ende, false)
+
+function ultraschall.OnlyItemsInTracksAndTimerange(MediaItemArray, trackstring, starttime, endtime, inside)
+--[[
+<ApiDocBlocFunc>
+<slug>
+OnlyItemsInTracksAndTimerange
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+integer count, MediaItemArray MediaItemArray = ultraschall.OnlyItemsInTracksAndTimerange(MediaItemArray MediaItemArray, string trackstring, number starttime, number endtime, boolean inside)
+</functionname>
+<description>
+Removes all items from MediaItemArray, that aren't in tracks, as given by trackstring and are outside the timerange(starttime to endtime).
+
+returns -1 in case of an error
+</description>
+<retvals>
+integer count - the number of items that fit the requested tracks and timerange
+MediaItemArray MediaItemArray - the altered MediaItemArray, that has only the MediaItems from tracks as requested by trackstring and from within timerange
+</retvals>
+<parameters>
+MediaItemArray MediaItemArray - an array with all MediaItems, that shall be checked for trackexistence and timerange
+string trackstring - a string with all requested tracknumbers in which the MediaItem must be, separated by commas; 1 for track 1, 2 for track 2, etc
+number starttime - the starttime of the timerange, in which the MediaItem must be, in seconds
+number endtime - the endtime of the timerange, in which the MediaItem must be, in seconds
+boolean inside - true, only MediaItems are returned, that are fully within starttime and endtime; false, return also MediaItems partially in timerange
+</parameters>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, check, alter, timerange, tracks, mediaitem, mediaitemarray
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters
+  if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("OnlyItemsInTracksAndTimerange","MediaItemArray", "No valid MediaItemArray!", -1) return -1 end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("OnlyItemsInTracksAndTimerange","trackstring", "No valid trackstring!", -2) return -1 end
+  if type(starttime)~="number" then ultraschall.AddErrorMessage("OnlyItemsInTracksAndTimerange","starttime", "Must be a number!", -3) return -1 end
+  if type(endtime)~="number" then ultraschall.AddErrorMessage("OnlyItemsInTracksAndTimerange","endtime", "Must be a number!", -4) return -1 end
+  if type(inside)~="boolean" then ultraschall.AddErrorMessage("OnlyItemsInTracksAndTimerange","inside", "Must be a boolean!", -5) return -1 end
+  
+  -- prepare variables
+  local count=1
+  local count2=0
+  local NewMediaItemArray={}
+  
+  -- check if the MediaItems are within tracks and timerange and put the "valid" ones into NewMediaItemArray
+  while MediaItemArray[count]~=nil do
+    if ultraschall.IsItemInTrack3(MediaItemArray[count], trackstring)==true 
+      and ultraschall.IsItemInTimerange(MediaItemArray[count], starttime, endtime, inside)==true 
+      then 
+      count2=count2+1
+      NewMediaItemArray[count2]=MediaItemArray[count]    
+    end
+    count=count+1
+  end
+  return count2, NewMediaItemArray
+end
+
+--start, ende = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
+--L,L2=ultraschall.GetAllMediaItemsBetween(start,ende,"1,2,3",false)
+
+--M,M2=ultraschall.OnlyItemsInTracksAndTimerange(L2, "2", start, ende, false)
+
+
+function ultraschall.ApplyActionToMediaItem(MediaItem, actioncommandid, repeat_action, midi, MIDI_hwnd)
+--[[
+<ApiDocBlocFunc>
+<slug>
+ApplyActionToMediaItem
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.ApplyActionToMediaItem(MediaItem MediaItem, string actioncommandid, integer repeat_action, boolean midi, optional HWND MIDI_hwnd)
+</functionname>
+<description>
+Applies an action to a MediaItem, in either main or MIDI-Editor section-context
+
+Returns false in case of an error
+</description>
+<retvals>
+boolean retval - true, if running the action was successful; false, if not or an error occured
+</retvals>
+<parameters>
+MediaItem MediaItem - the MediaItem, to whom the action shall be applied to
+string actioncommandid - the commandid-number or ActionCommandID, that shall be run.
+integer repeat_action - the number of times this action shall be applied to each item; minimum value is 1
+boolean midi - true, run an action from MIDI-Editor-section-context; false, run an action from the main section
+optional HWND MIDI_hwnd - the HWND-handle of the MIDI-Editor, to which a MIDI-action shall be applied to; nil, to use the currently selected one
+</parameters>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, run, action, midi, main, midieditor, item, mediaitem
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("ApplyActionToMediaItem","MediaItem", "Must be a MediaItem!", -1) return false end
+  if ultraschall.CheckActionCommandIDFormat2(actioncommandid)==false then ultraschall.AddErrorMessage("ApplyActionToMediaItem","actioncommandid", "No such action registered!", -2) return false end
+  if type(midi)~="boolean" then ultraschall.AddErrorMessage("ApplyActionToMediaItem","midi", "Must be boolean!", -3) return false end
+  if math.type(repeat_action)~="integer" then ultraschall.AddErrorMessage("ApplyActionToMediaItem","repeat_action", "Must be an integer!", -4) return false end
+  if repeat_action<1 then ultraschall.AddErrorMessage("ApplyActionToMediaItem","repeat_action", "Must be bigger than 0!", -5) return false end
+
+  -- get old item-selection, delete item selection, select MediaItem
+  reaper.PreventUIRefresh(1)
+  local oldcount, oldselection = ultraschall.GetAllSelectedMediaItems()
+  reaper.SelectAllMediaItems(0, false)
+  reaper.SetMediaItemSelected(MediaItem, true)
+  if type(actioncommandid)=="string" then actioncommandid=reaper.NamedCommandLookup(actioncommandid) end -- get command-id-number from named actioncommandid
+
+  -- run the action for repeat_action-times
+  for i=1, repeat_action do
+    if midi==true then 
+      reaper.MIDIEditor_OnCommand(MIDI_hwnd, actioncommandid)
+    else
+      reaper.Main_OnCommand(actioncommandid, 0)
+    end
+  end
+  -- restore old item-selection
+  reaper.SelectAllMediaItems(0, false)
+  ultraschall.SelectMediaItems_MediaItemArray(oldselection)
+  reaper.PreventUIRefresh(-1)
+  reaper.UpdateArrange()
+  return true
+end
+
+--MediaItem=reaper.GetMediaItem(0,0)
+--ultraschall.ApplyActionToMediaItem(MediaItem, "_XENAKIOS_MOVEITEMSLEFTBYLEN", 2, false, reaper.MIDIEditor_GetActive())
+
+function ultraschall.ZoomVertical_MidiEditor(zoomamt, HWND)
+--[[
+<ApiDocBlocFunc>
+<slug>
+ZoomVertical_MidiEditor
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.ZoomVertical_MidiEditor(integer zoomamt, optional HWND midieditor_hwnd)
+</functionname>
+<description>
+Zooms within the Midi-Editor vertically.
+</description>
+<retvals>
+boolean retval - true, if zooming was successful; false, if not
+</retvals>
+<parameters>
+integer zoomamt - the zoom-factor; positive values, zoom in; negative values, zoom out
+optional HWND midieditor_hwnd - the HWND of the MIDI-Editor, in which you want to zoom; nil, uses active MIDI-Editor
+</parameters>
+<semanticcontext>
+MIDI Management
+</semanticcontext>
+<tags>
+midimanagement, zoom, midieditor, vertically
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters and prepare correct zoom-actioncommandid
+  if HWND==nil then HWND=reaper.MIDIEditor_GetActive() end
+  if math.type(zoomamt)~="integer" then ultraschall.AddErrorMessage("ZoomVertical_MidiEditor","zoomamt", "Must be an integer!", -1) return false end
+  if zoomamt>0 then actioncommandid=40111 -- zoom in
+  elseif zoomamt<0 then actioncommandid=40112 -- zoom out
+  else actioncommandid=65535 -- do nothing, when 0 is given as zoom-value
+  end
+  
+  -- Now, do the zooming
+  if zoomamt<0 then zoomamt=zoomamt*-1 end
+  for i=1, zoomamt do
+    reaper.MIDIEditor_OnCommand(HWND, actioncommandid)
+  end
+end
+
+--ultraschall.ZoomVertical_MidiEditor(HWND, 5)
+
+function ultraschall.ZoomHorizontal_MidiEditor(zoomamt, HWND)
+--[[
+<ApiDocBlocFunc>
+<slug>
+ZoomHorizontal_MidiEditor
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.ZoomHorizontal_MidiEditor(integer zoomamt, optional HWND midieditor_hwnd)
+</functionname>
+<description>
+Zooms within the Midi-Editor horizontally.
+</description>
+<retvals>
+boolean retval - true, if zooming was successful; false, if not
+</retvals>
+<parameters>
+integer zoomamt - the zoom-factor; positive values, zoom in; negative values, zoom out
+optional HWND midieditor_hwnd - the HWND of the MIDI-Editor, in which you want to zoom; nil, uses active MIDI-Editor
+</parameters>
+<semanticcontext>
+MIDI Management
+</semanticcontext>
+<tags>
+midimanagement, zoom, midieditor, horizontally
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters and prepare correct zoom-actioncommandid
+  if HWND==nil then HWND=reaper.MIDIEditor_GetActive() end
+  if math.type(zoomamt)~="integer" then ultraschall.AddErrorMessage("ZoomMidiEditor","zoomamt", "Must be an integer!", -1) return false end
+  if zoomamt>0 then actioncommandid=1012 -- zoomin
+  elseif zoomamt<0 then actioncommandid=1011 -- zoomout
+  else actioncommandid=65535 -- nothing, when 0 is given
+  end
+  
+  -- do the zooming
+  if zoomamt<0 then zoomamt=zoomamt*-1 end -- 
+  for i=1, zoomamt do
+    reaper.MIDIEditor_OnCommand(HWND, actioncommandid)
+  end
+  return true
+end
+
+--ultraschall.ZoomHorizontal_MidiEditor(HWND, 5)
+
+
+function ultraschall.OpenItemInMidiEditor(MediaItem)
+--[[
+<ApiDocBlocFunc>
+<slug>
+OpenItemInMidiEditor
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.OpenItemInMidiEditor(MediaItem MediaItem)
+</functionname>
+<description>
+opens a given MediaItem in the MIDI-Editor
+</description>
+<retvals>
+boolean retval - true, if opening was successful; false, if not
+</retvals>
+<parameters>
+MediaItem MediaItem - the MediaItem to be opened in the MIDI-Editor
+</parameters>
+<semanticcontext>
+MIDI Management
+</semanticcontext>
+<tags>
+midimanagement, open, item, midieditor
+</tags>
+</ApiDocBlocFunc>
+]]
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("OpenItemInMidiEditor","MediaItem", "Must be a MediaItem!", -1) return false end
+  ultraschall.ApplyActionToMediaItem(MediaItem, 40153, 1, false)
+  return true
+end
+
+--MediaItem=reaper.GetMediaItem(0,0)
+--ultraschall.OpenItemInMidiEditor(MediaItem)
+
+function ultraschall.ApplyActionToMediaItemArray(MediaItemArray, actioncommandid, repeat_action, midi, MIDI_hwnd)
+--[[
+<ApiDocBlocFunc>
+<slug>
+ApplyActionToMediaItemArray
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.GetAllMediaItemsInTimeSelection(MediaItemArray MediaItemArray, string actioncommandid, integer repeat_action, boolean midi, optional HWND MIDI_hwnd)
+</functionname>
+<description>
+Applies an action to the MediaItems in MediaItemArray, in either main or MIDI-Editor section-context
+
+Returns false in case of an error
+</description>
+<retvals>
+boolean retval - true, if running the action was successful; false, if not or an error occured
+</retvals>
+<parameters>
+MediaItemArray MediaItemArray - an array with all MediaItems, to whom the action shall be applied to
+string actioncommandid - the commandid-number or ActionCommandID, that shall be run.
+integer repeat_action - the number of times this action shall be applied to each item; minimum value is 1
+boolean midi - true, run an action from MIDI-Editor-section-context; false, run an action from the main section
+optional HWND MIDI_hwnd - the HWND-handle of the MIDI-Editor, to which a MIDI-action shall be applied to; nil, to use the currently selected one
+</parameters>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, run, action, midi, main, midieditor, item, mediaitemarray
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters
+  if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("ApplyActionToMediaItemArray","MediaItemArray", "No valid MediaItemArray!", -1) return false end
+  if ultraschall.CheckActionCommandIDFormat2(actioncommandid)==false then ultraschall.AddErrorMessage("ApplyActionToMediaItemArray","actioncommandid", "No such action registered!", -2) return false end
+  if type(midi)~="boolean" then ultraschall.AddErrorMessage("ApplyActionToMediaItemArray","midi", "Must be boolean!", -3) return false end
+  if math.type(repeat_action)~="integer" then ultraschall.AddErrorMessage("ApplyActionToMediaItemArray","repeat_action", "Must be an integer!", -4) return false end
+  if repeat_action<1 then ultraschall.AddErrorMessage("ApplyActionToMediaItemArray","repeat_action", "Must be bigger than 0!", -5) return false end
+  
+  -- prepare variable
+  local count=1
+  
+  -- apply action to every MediaItem in MediaItemAray repeat_action times
+  while MediaItemArray[count]~=nil do
+    for i=1, repeat_action do
+      ultraschall.ApplyActionToMediaItem(MediaItemArray[count], actioncommandid, repeat_action, midi, MIDI_hwnd)
+    end
+    count=count+1
+  end
+  return true
+end
+
+
+--A,B=ultraschall.GetAllMediaItemsBetween(1,40000,"1,2",true)
+--ultraschall.ApplyActionToMediaItemArray(B, 40123, 10, false, MIDI_hwnd)
+
+
+function ultraschall.ApplyActionToTrack(trackstring, actioncommandid)
+--[[
+<ApiDocBlocFunc>
+<slug>
+ApplyActionToTrack
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.ApplyActionToTrack(string trackstring, string/number actioncommandid)
+</functionname>
+<description>
+Applies action to the tracks, given by trackstring
+
+Returns false in case of an error
+</description>
+<retvals>
+boolean retval - true, running action was successful; false, running the action was unsuccessful
+</retvals>
+<parameters>
+string trackstring - a string with all tracknumbers, separated by a comma; 1 for the first track, 2 for the second
+</parameters>
+<semanticcontext>
+Track Management
+Assistance functions
+</semanticcontext>
+<tags>
+trackmanagement, run, command, track
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("ApplyActionToTrack","trackstring", "Must be a valid trackstring!", -1) return false end
+  if ultraschall.CheckActionCommandIDFormat2(actioncommandid)==false then ultraschall.AddErrorMessage("ApplyActionToTrack","actioncommandid", "No valid actioncommandid!", -2) return false end
+  
+  -- store current track-selection, make new track-selection, run the action and restore old track-selection
+  reaper.PreventUIRefresh(1)
+  local selTrackstring=ultraschall.CreateTrackNumbersString_SelectedTracks() 
+  ultraschall.SetTracksSelected(trackstring, true)
+  ultraschall.RunCommand(actioncommandid)
+  ultraschall.SetTracksSelected(selTrackstring, true)
+  reaper.PreventUIRefresh(-1)
+  return true
+end
+
+--ultraschall.ApplyActionToTrack("2,3,5", 6)
+
+function ultraschall.GetAllMediaItemsInTimeSelection(trackstring, inside)
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetAllMediaItemsInTimeSelection
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+integer count, array MediaItemArray = ultraschall.GetAllMediaItemsInTimeSelection(string trackstring, boolean inside)
+</functionname>
+<description>
+Gets all MediaItems from within a time-selection
+
+Returns -1 in case of an error
+</description>
+<retvals>
+integer count - the number of items found in time-selection
+array MediaItemArray - an array with all MediaItems found within time-selection
+</retvals>
+<parameters>
+string trackstring - a string with all tracknumbers, separated by a comma; 1 for the first track, 2 for the second
+</parameters>
+<semanticcontext>
+MediaItem Management
+Get MediaItems
+</semanticcontext>
+<tags>
+mediaitemmanagement, get, items, time, selection
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("GetAllMediaItemsInTimeSelection","trackstring", "Must be a valid trackstring!", -1) return -1 end
+  if type(inside)~="boolean" then ultraschall.AddErrorMessage("GetAllMediaItemsInTimeSelection","inside", "Must be boolean!", -2) return -1 end
+  
+  -- prepare variables
+  local oldcount, oldselection = ultraschall.GetAllSelectedMediaItems()
+  local starttime, endtime = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
+  
+  -- Do the selection
+  reaper.PreventUIRefresh(1)
+  reaper.SelectAllMediaItems(0, false) -- deselect all
+  ultraschall.SetMediaItemsSelected_TimeSelection() -- select only within time-selection
+  local count, MediaItemArray=ultraschall.GetAllSelectedMediaItems() -- get all selected items
+  local count2
+  if MediaItemArray[1]== nil then count2=0 
+  else   
+    -- check, whether the item is in a track, as demanded by trackstring
+    for i=count, 1, -1 do
+      if ultraschall.IsItemInTrack3(MediaItemArray[i], trackstring)==false then table.remove(MediaItemArray, i) count=count-1 end
+    end
+    
+    -- remove all items, that aren't properly within time-selection(like items partially in selection)
+    if MediaItemArray[1]==nil then count2=0 
+    else count2, MediaItemArray=ultraschall.OnlyItemsInTracksAndTimerange(MediaItemArray, trackstring, starttime, endtime, inside) 
+    end
+  end
+    
+  -- reset old selection, redraw arrange and return what has been found
+  reaper.SelectAllMediaItems(0, false)
+  ultraschall.SelectMediaItems_MediaItemArray(oldselection)
+  reaper.PreventUIRefresh(-1)
+  reaper.UpdateArrange()
+  return count2, MediaItemArray
+end
+
+--A,B=ultraschall.GetAllMediaItemsInTimeSelection("2", false)
+
+function ultraschall.NormalizeItems(MediaItemArray)
+--[[
+<ApiDocBlocFunc>
+<slug>
+NormalizeItems
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+integer retval = ultraschall.NormalizeItems(array MediaItemArray)
+</functionname>
+<description>
+Normalizes all items in MediaItemArray.
+
+Returns -1 in case of an error
+</description>
+<retvals>
+integer retval - -1, in case of an error
+</retvals>
+<parameters>
+array MediaItemArray - an array with all MediaItems, that shall be normalized
+</parameters>
+<semanticcontext>
+MediaItem Management
+Manipulate
+</semanticcontext>
+<tags>
+mediaitemmanagement, normalize, items
+</tags>
+</ApiDocBlocFunc>
+]]
+  if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("NormalizeItems","MediaItemArray", "No valid MediaItemArray!", -1) return -1 end
+  ultraschall.ApplyActionToMediaItemArray(MediaItemArray, 40108, 1, false)
+end
+
+--A,B=ultraschall.GetAllMediaItemsInTimeSelection("1,2", false)
+--ultraschall.NormalizeItems(B)
 
 ultraschall.ShowLastErrorMessage()

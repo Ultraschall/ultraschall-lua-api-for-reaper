@@ -113,12 +113,32 @@
   - CountProjectTabs - counts currently opened projecttabs
   - GetProject_Tabs - returns all project-tabs and their accompanying filenames
   - CheckForChangedProjectTabs - checks, if the order of the projecttabs changed, or projecttabs were new/closed since last calling this function
+  - GetAllSelectedMediaItems - returns an array with all selected MediaItems in the project
+  - SetMediaItemsSelected_TimeSelection - Sets MediaItems selected within Time-Selection
+  - GetParentTrack_MediaItem - returns the tracknumber and trackobject, in which a given MediaItem lies
+  - IsItemInTrack2 - checks, whether an item is within a track
+  - IsItemInTrack3 - checks, whether an item is within a number of tracks
+  - ReturnTypeOfReaperObject - returns, type of a Reaper-object is
+  - IsObjectValidReaperObject - checks, whether an object is a valid Reaper-object(project, item, take, etc)
+  - KeepTableEntriesOfType - removes entries from a table, that aren't of a certain type
+  - RemoveTableEntriesOfType - removes entries from a table, that are of a certain type
+  - IsValidTrackString - checks, whether a trackstring is a valid one
+  - IsItemInTimerange - checks, whether an item is within a timerange
+  - OnlyItemsInTracksAndTimerange - throws out all MediaItems from a MediaItemArray, that aren't in given tracks and timerange
+  - ApplyActionToMediaItem - applies an action to a MediaItem
+  - ZoomVertical_MidiEditor - vertical zoom in MIDI-Editor
+  - ZoomHorizontal_MidiEditor - horizontal zoom in MIDI-Editor
+  - OpenItemInMidiEditor - opens an item in the MIDI-editor
+  - ApplyActionToMediaItemArray - applies an action to given items
+  - ApplyActionToTrack - applies an action to given tracks
+  - GetAllMediaItemsInTimeSelection - returns all media-items from within time-selection
+  - NormalizeItems - normalizes given items
   
   <TODO>
       TODO!!  - SetTrackGroupFlagsState - sets GroupFlagsState
       TODO!!  - Get/SetProject-functions also accept ProjectStateChunk for getting and setting
                 GetProject_RippleState and GetProject_ReaperVersion have that now. use them as template for the other functions as well
-      TODO!!  - Get/Set-MediaItem-functions shall also accept item-number, not only statechunk
+      TODO!!  - Get/Set-MediaItem-functions shall also accept item-objects, not only statechunks
       TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
       TODO!!  - commenting and errorchecking
       TODO!!  - alter MakeCopyOfTable to be different from the original
@@ -187,6 +207,7 @@
       TODO!!  - GetAllTakesFromMediaItem - returns an array with all takes from an item, objects as well as info_values
       TODO!!  - Get/SetProjectBay-functions
       TODO!!  - Envelope-StateChunk-functions
+      TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
    </TODO>   
       
 ####Changes from 4.00beta2.6 to 4.00beta2.7
@@ -371,6 +392,13 @@
   - As the Functions-Engine is essential for all parts of the Ultraschall-API, it can't be turned off anymore.
   - renamed MoveMarkers to MoveMarkersBy
   - ReadValueFromFile - sped up code, returned wrong found-lines-value -> fixed
+  - OpenURL - had a problem on Windows, when the url-string contained spaces -> fixed
+  - CheckMediaItemArray - did not return the altered MediaItemArray and count, when returning retval=false -> fixed
+  - ChangeOffsetOfMediaItems_FromArray - typos in the docs -> fixed
+  - GetSelectedMediaItemsAtPosition - error in documentation -> fixed
+  - OnlyMediaItemsOfTracksInTrackstring_StateChunk - had the docs of OnlyMediaItemsOfTracksInTrackstring -> fixed now
+  - CSV2IndividualLinesAsArray - accidentally reversed retvals in the docs -> fixed
+  - restructured index of the Api-docs
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:

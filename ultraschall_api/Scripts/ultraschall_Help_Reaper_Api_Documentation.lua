@@ -1,3 +1,5 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
-ultraschall.OpenURL("file://"..ultraschall.Api_Path .."Documentation/Reaper_Api_Documentation.html")
+--reaper.MB(ultraschall.Api_Path,"",0)
+
+A=ultraschall.OpenURL("file://"..ultraschall.Api_Path .."Documentation/Reaper_Api_Documentation.html")
