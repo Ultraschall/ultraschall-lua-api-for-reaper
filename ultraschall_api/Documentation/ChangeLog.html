@@ -1,4 +1,4 @@
-<html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><h2 id="ultraschall-framework---changelog">Ultraschall Framework - Changelog</h2>
+<html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><h2 id="ultraschall-framework---changelog">Ultraschall Framework - Changelog</h2>
 <h3 id="beta-2.7---john-cage---433---30th-of-july-2018">4.00 Beta 2.7: - &quot;John Cage - 4:33&quot; - 30th of July 2018</h3>
 <h4 id="new-features-in-4.00beta2.7">New features in 4.00beta2.7</h4>
 <ul>
@@ -112,6 +112,26 @@
 <li>CountProjectTabs - counts currently opened projecttabs</li>
 <li>GetProject_Tabs - returns all project-tabs and their accompanying filenames</li>
 <li>CheckForChangedProjectTabs - checks, if the order of the projecttabs changed, or projecttabs were new/closed since last calling this function</li>
+<li>GetAllSelectedMediaItems - returns an array with all selected MediaItems in the project</li>
+<li>SetMediaItemsSelected_TimeSelection - Sets MediaItems selected within Time-Selection</li>
+<li>GetParentTrack_MediaItem - returns the tracknumber and trackobject, in which a given MediaItem lies</li>
+<li>IsItemInTrack2 - checks, whether an item is within a track</li>
+<li>IsItemInTrack3 - checks, whether an item is within a number of tracks</li>
+<li>ReturnTypeOfReaperObject - returns, type of a Reaper-object is</li>
+<li>IsObjectValidReaperObject - checks, whether an object is a valid Reaper-object(project, item, take, etc)</li>
+<li>KeepTableEntriesOfType - removes entries from a table, that aren't of a certain type</li>
+<li>RemoveTableEntriesOfType - removes entries from a table, that are of a certain type</li>
+<li>IsValidTrackString - checks, whether a trackstring is a valid one</li>
+<li>IsItemInTimerange - checks, whether an item is within a timerange</li>
+<li>OnlyItemsInTracksAndTimerange - throws out all MediaItems from a MediaItemArray, that aren't in given tracks and timerange</li>
+<li>ApplyActionToMediaItem - applies an action to a MediaItem</li>
+<li>ZoomVertical_MidiEditor - vertical zoom in MIDI-Editor</li>
+<li>ZoomHorizontal_MidiEditor - horizontal zoom in MIDI-Editor</li>
+<li>OpenItemInMidiEditor - opens an item in the MIDI-editor</li>
+<li>ApplyActionToMediaItemArray - applies an action to given items</li>
+<li>ApplyActionToTrack - applies an action to given tracks</li>
+<li>GetAllMediaItemsInTimeSelection - returns all media-items from within time-selection</li>
+<li>NormalizeItems - normalizes given items</li>
 </ul>
 <p></TODO></p>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
@@ -292,6 +312,61 @@
 <li>As the Functions-Engine is essential for all parts of the Ultraschall-API, it can't be turned off anymore.</li>
 <li>renamed MoveMarkers to MoveMarkersBy</li>
 <li>ReadValueFromFile - sped up code, returned wrong found-lines-value -&gt; fixed</li>
+<li>OpenURL - had a problem on Windows, when the url-string contained spaces -&gt; fixed</li>
+<li>CheckMediaItemArray - did not return the altered MediaItemArray and count, when returning retval=false -&gt; fixed</li>
+<li>ChangeOffsetOfMediaItems_FromArray - typos in the docs -&gt; fixed</li>
+<li>GetSelectedMediaItemsAtPosition - error in documentation -&gt; fixed</li>
+<li>OnlyMediaItemsOfTracksInTrackstring_StateChunk - had the docs of OnlyMediaItemsOfTracksInTrackstring -&gt; fixed now</li>
+<li>CSV2IndividualLinesAsArray - accidentally reversed retvals in the docs -&gt; fixed</li>
+<li>restructured index of the Api-docs</li>
+<li>GetProject_AddMediaToProjectAfterRender - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_ApplyFXCFG - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_AutoCrossFade - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_CountMarkersAndRegions - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_CursorPos - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_DefPitchMode - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_EnvAttach - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_Feedback - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_GetMarker - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_GetRegion - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_Grid - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_GroupOverride - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_HorizontalZoom - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_ItemMixBehavior - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_Loop - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_LoopGran - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_MaxProjectLength - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_MixerUIFlags - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_NumberOfTracks - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_PanLaw - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_PanMode - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_PeakGain - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_ProjOffsets - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_ReaperVersion - allows usage of ProjectStateChunks now as well; exposed internal variables -&gt; fixed</li>
+<li>GetProject_RecMode - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_RecPath - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_RecordCFG - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_RenderDitherState - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_RenderFilename - allows usage of ProjectStateChunks now as well; exposed an internal variable temp -&gt; fixed</li>
+<li>GetProject_RenderFreqNChans - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_RenderPattern - allows usage of ProjectStateChunks now as well; exposed an internal variable temp -&gt; fixed</li>
+<li>GetProject_RenderRange - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_RenderResample - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_RenderSpeed - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_RenderStems - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_RippleState - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_SMPTESync - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_SampleRate - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_TakeLane - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_TempoTimeSignature - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_TimeBase - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_Timemode - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_TrackMixingDepth - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_TrackStateChunk - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_UseRecConfig - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_VerticalZoom - allows usage of ProjectStateChunks now as well</li>
+<li>GetProject_VideoConfig - allows usage of ProjectStateChunks now as well</li>
+<li>TimeStringToSeconds_hh_mm_ss_mss - had wrong functionname and link in the docs -&gt; fixed</li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>
@@ -576,4 +651,4 @@ set to nil or true, value will be treated as binaryvalue and saved as such. ultr
 <li>File-Management: Write a value to a file.</li>
 <li>Dozens of helper-functions here and there</li>
 </ul>
-</div></body></html></div></body></html></div></body></html></div></body></html></div></body></html></div></body></html></div></body></html></div></body></html></div></body></html></div></body></html></div></body></html></div></body></html></div></body></html></div></body></html></div></body></html></div></body></html></div></body></html></div></body></html>
+</div></body></html>
