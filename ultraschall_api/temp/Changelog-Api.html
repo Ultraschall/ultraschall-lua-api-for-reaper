@@ -118,7 +118,7 @@
   - GetParentTrack_MediaItem - returns the tracknumber and trackobject, in which a given MediaItem lies
   - IsItemInTrack2 - checks, whether an item is within a track
   - IsItemInTrack3 - checks, whether an item is within a number of tracks
-  - ReturnTypeOfReaperObject - returns, type of Reaper-object
+  - ReturnTypeOfReaperObject - returns, type of a Reaper-object is
   - IsObjectValidReaperObject - checks, whether an object is a valid Reaper-object(project, item, take, etc)
   - KeepTableEntriesOfType - removes entries from a table, that aren't of a certain type
   - RemoveTableEntriesOfType - removes entries from a table, that are of a certain type
@@ -133,14 +133,7 @@
   - ApplyActionToTrack - applies an action to given tracks
   - GetAllMediaItemsInTimeSelection - returns all media-items from within time-selection
   - NormalizeItems - normalizes given items
-  - added an ini-file with all render-codes for Video, MP3, FLAC, DDP, OPUS, OGG and AIFF
-  - GetOutputFormat_RenderString - returns the output-format of a render-cfg-string from rpp-files/ProjectStateChunks and the reaper-render.ini
-  - GetProject_RenderCFG - returns the render-string(which contains all render-settings of a project) of a project/ProjectStateChunk
-  - SetProject_RenderCFG - sets the render-string(which contains all render-settings of a project) of a project
-  - CreateRenderCFG_Opus - creates the render-cfg-string for an opus-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
-  - CreateRenderCFG_OGG - creates the render-cfg-string for an OGG-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
-  - CreateRenderCFG_DDP - creates the render-cfg-string for a DDP-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
-  - CreateRenderCFG_AIFF - creates the render-cfg-string for an AIFF-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
+  - added an ini-file with all render-codes for video, MP3, Flac, DDP, OPUS, OGG and AIFF
   
       
 ####Changes from 4.00beta2.6 to 4.00beta2.7
@@ -379,35 +372,7 @@
   - GetProject_UseRecConfig - allows usage of ProjectStateChunks now as well
   - GetProject_VerticalZoom - allows usage of ProjectStateChunks now as well
   - GetProject_VideoConfig - allows usage of ProjectStateChunks now as well
-  - TimeStringToSeconds_hh_mm_ss_mss - had wrong functionname and link in the docs -> fixed  
-  - GetItemAllTakes - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemBeat - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemChanMode - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemFadeFlag - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemFadeIn - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemFadeOut - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemGUID - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemGroup - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemIGUID - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemIID - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemLength - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemLock - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemLoop - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemMixFlag - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!); returned the BEAT-state, not MIXFLAG -> fixed
-  - GetItemMute - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemName - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemPlayRate - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemPosition - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemRecPass - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemSampleOffset - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemSelected - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemSnapOffset - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemUSTrackNumber_StateChunk - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - GetItemVolPan - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - SetTrackHWOut - had wrong link in the docs -> fixed
-  - SetItemUSTrackNumber_StateChunk - tracknumbers are 1 based now
-  - SetItemLength - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
-  - SetItemPosition - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - TimeStringToSeconds_hh_mm_ss_mss - had wrong functionname and link in the docs -> fixed
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:

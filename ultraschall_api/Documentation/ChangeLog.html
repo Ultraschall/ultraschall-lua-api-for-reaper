@@ -117,7 +117,7 @@
 <li>GetParentTrack_MediaItem - returns the tracknumber and trackobject, in which a given MediaItem lies</li>
 <li>IsItemInTrack2 - checks, whether an item is within a track</li>
 <li>IsItemInTrack3 - checks, whether an item is within a number of tracks</li>
-<li>ReturnTypeOfReaperObject - returns, type of a Reaper-object is</li>
+<li>ReturnTypeOfReaperObject - returns, type of Reaper-object</li>
 <li>IsObjectValidReaperObject - checks, whether an object is a valid Reaper-object(project, item, take, etc)</li>
 <li>KeepTableEntriesOfType - removes entries from a table, that aren't of a certain type</li>
 <li>RemoveTableEntriesOfType - removes entries from a table, that are of a certain type</li>
@@ -132,8 +132,15 @@
 <li>ApplyActionToTrack - applies an action to given tracks</li>
 <li>GetAllMediaItemsInTimeSelection - returns all media-items from within time-selection</li>
 <li>NormalizeItems - normalizes given items</li>
+<li>added an ini-file with all render-codes for Video, MP3, FLAC, DDP, OPUS, OGG and AIFF</li>
+<li>GetOutputFormat_RenderString - returns the output-format of a render-cfg-string from rpp-files/ProjectStateChunks and the reaper-render.ini</li>
+<li>GetProject_RenderCFG - returns the render-string(which contains all render-settings of a project) of a project/ProjectStateChunk</li>
+<li>SetProject_RenderCFG - sets the render-string(which contains all render-settings of a project) of a project</li>
+<li>CreateRenderCFG_Opus - creates the render-cfg-string for an opus-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini</li>
+<li>CreateRenderCFG_OGG - creates the render-cfg-string for an OGG-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini</li>
+<li>CreateRenderCFG_DDP - creates the render-cfg-string for a DDP-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini</li>
+<li>CreateRenderCFG_AIFF - creates the render-cfg-string for an AIFF-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini</li>
 </ul>
-<p></TODO></p>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
 <ul>
 <li>Tons of bugfixes. I mean, tons as in metric tons ;)</li>
@@ -366,7 +373,36 @@
 <li>GetProject_UseRecConfig - allows usage of ProjectStateChunks now as well</li>
 <li>GetProject_VerticalZoom - allows usage of ProjectStateChunks now as well</li>
 <li>GetProject_VideoConfig - allows usage of ProjectStateChunks now as well</li>
-<li>TimeStringToSeconds_hh_mm_ss_mss - had wrong functionname and link in the docs -&gt; fixed</li>
+<li>TimeStringToSeconds_hh_mm_ss_mss - had wrong functionname and link in the docs -&gt; fixed<br />
+</li>
+<li>GetItemAllTakes - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemBeat - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemChanMode - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemFadeFlag - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemFadeIn - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemFadeOut - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemGUID - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemGroup - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemIGUID - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemIID - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemLength - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemLock - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemLoop - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemMixFlag - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!); returned the BEAT-state, not MIXFLAG -&gt; fixed</li>
+<li>GetItemMute - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemName - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemPlayRate - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemPosition - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemRecPass - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemSampleOffset - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemSelected - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemSnapOffset - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemUSTrackNumber_StateChunk - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>GetItemVolPan - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>SetTrackHWOut - had wrong link in the docs -&gt; fixed</li>
+<li>SetItemUSTrackNumber_StateChunk - tracknumbers are 1 based now</li>
+<li>SetItemLength - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>SetItemPosition - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>

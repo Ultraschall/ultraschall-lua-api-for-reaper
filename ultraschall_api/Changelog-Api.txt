@@ -118,7 +118,7 @@
   - GetParentTrack_MediaItem - returns the tracknumber and trackobject, in which a given MediaItem lies
   - IsItemInTrack2 - checks, whether an item is within a track
   - IsItemInTrack3 - checks, whether an item is within a number of tracks
-  - ReturnTypeOfReaperObject - returns, type of a Reaper-object is
+  - ReturnTypeOfReaperObject - returns, type of Reaper-object
   - IsObjectValidReaperObject - checks, whether an object is a valid Reaper-object(project, item, take, etc)
   - KeepTableEntriesOfType - removes entries from a table, that aren't of a certain type
   - RemoveTableEntriesOfType - removes entries from a table, that are of a certain type
@@ -133,7 +133,88 @@
   - ApplyActionToTrack - applies an action to given tracks
   - GetAllMediaItemsInTimeSelection - returns all media-items from within time-selection
   - NormalizeItems - normalizes given items
+  - added an ini-file with all render-codes for Video, MP3, FLAC, DDP, OPUS, OGG and AIFF
+  - GetOutputFormat_RenderString - returns the output-format of a render-cfg-string from rpp-files/ProjectStateChunks and the reaper-render.ini
+  - GetProject_RenderCFG - returns the render-string(which contains all render-settings of a project) of a project/ProjectStateChunk
+  - SetProject_RenderCFG - sets the render-string(which contains all render-settings of a project) of a project
+  - CreateRenderCFG_Opus - creates the render-cfg-string for an opus-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
+  - CreateRenderCFG_OGG - creates the render-cfg-string for an OGG-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
+  - CreateRenderCFG_DDP - creates the render-cfg-string for a DDP-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
+  - CreateRenderCFG_AIFF - creates the render-cfg-string for an AIFF-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
   
+  <TODO>
+      TODO!!  - SetTrackGroupFlagsState - sets GroupFlagsState
+      TODO!!  - SetProject-functions also accept ProjectStateChunk for getting and setting
+      TODO!!  - CreateRenderCFG_FLAC, CreateRenderCFG_WebMVideo, RenderProjectToOGG, RenderProjectToWebMVideo(reworking)
+      TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
+      TODO!!  - commenting and errorchecking
+      TODO!!  - alter MakeCopyOfTable to be different from the original
+      
+      TODO!!  - 1. Introduction to Renderfunctions has old and outdated information
+      TODO!!  - add multiple-target-documents and multiple-structured chapters(in index of a document) into the new docengine(not working right now)
+      TODO!!  - write final documentation for public-beta
+      TODO!!  - construct final documentation-document, including automatic generation of ChangeLog.
+      TODO!!  - Include automatic adding of "Help: Show Ultraschall Api Help"-action
+   
+    For 4.00beta2.8:
+      TODO!!  - GetLastEnvelopePoint (How to do that with AutomationItems ?)
+      TODO!!  - number seconds = ultraschall.GetEndOfProject(string trackstring, boolean only_items, boolean only_envpoints, boolean only_marker, boolean only_regions, boolean only_timesigmarker)
+      TODO!!  - Renderfunctions - full featured Video/Opus(documentation refers still MP3!); add WAV, OGG, GIF, LCF
+      TODO!!  - integer countproject, array ReaProjectArray = ultraschall.GetAddedRemovedProjects()
+                returns all projects that have been added/removed since last call of GetAddedRemovedProjects()
+                array ReaProjectArray[idx][type] - type=1 - the ReaProject, type=2 the ReaObject-ID(as returned by tostring(ReaProject), type3="added|removed"
+      TODO!!  - integer finval = ultraschall.ConvertBytesToInteger(integer sourcevalue, integer bitoffset, integer byteval1, ... optional integer byteval8)
+                combines the byteval1..n to an integer. That means, byteval1 becomes bit 1-8, byteval2 becomes bit 9-16, etc.
+                sourcevalue - will be added to the finval, leave 0 to create a totally new one
+                bitoffset - if you want to add the bytevals not beginning with bit 1 but later, use this to set that.
+                      That means: bitoffset 2 makes byteval NOT bit 1-8 but 2-9!
+                      negative values are allowed and will make the value high-endian, beginning with bitoffset to 1,
+                      rather than bitoffset to maximum 64
+      TODO!!  - integer byteval .. optional integer byteval8 = ultraschall.ConvertIntegerToBytes(integer number_of_bits, ???)
+                like ConvertBytesToInteger, but the other way round, to take apart an integer-value into it's byte-values.    
+      TODO!!  - Add3rdParty-Script-support/functions-support
+      TODO!!  - AddUltraschallScripts() AddUltraschall3rdPartyScripts() add all 3rd party-scripts from the 3rd-party-US-folder
+            also add scripts to do that, that will be registered into the ActionList together with the ShowUSApiHelp-script as well
+      TODO!!  - Import3rdPartyScripts(string filelist, integer script_target, boolean add)
+              copies files from filelist into script_target
+              script_target - 0, scripts-folder
+                      - 1, ultraschall-3rd-party-scripts-folder
+                      - -1, don't copy files
+              boolean add - true, add the scripts to the actionlist; false, remove them from the action-list
+      TODO!!  - create HTML-docs from all files in the functions-department of Ultraschall/3rd-party-functions
+      TODO!!  - Show$ContextMenu() - ShowPopupMenu is too complicated to use. Create proper useable functions to address that
+      TODO!!  - Implement the basic-concept for additional-background-script and handshake-extstate-protocol-communication, as needed for
+            network/gui-engine into a concept, useable by others.
+            It will create a script in a specific language, that includes the basic communication-functions, to communicate with the
+            sourcescript(like extstates, using a guid as extname)
+            Should support Lua, Python, Eel-Scripts(though I will only use the Lua-version for the Api)
+      TODO!!  - read/include ID3-Tags/ID3-chapters from files(only the tag itself, not individual entries yet)
+      TODO!!  - Get/SetMarkersFromClipboard-functions
+      TODO!!  - integer bufsz = ultraschall.ShowConsoleMsg(string msg, optional integer revoffset) - stores msg into a textbuffer. When revoffset isn't given, it will replace the textbuffer.
+                                                     - revoffset, 0, put msg at the end of textbuffer
+                                                            1, to bufsz, cut of revoffset-bytes from the
+                                                             end of textbuffer and add msg; clear console and display
+                                                             message from textbuffer
+                                                            -1, clear textbuffer, add msg and display message from textbuffer
+                                                     Good for displaying updating-messages to the Console.
+                                                     Hijacks reaper.ClearConsole() to flush textbuffer.(?)
+      TODO!!  - GFX: virtual screenbuffers(create/remove/blit)
+      TODO!!  - Open$Window(optional boolean openstate) - this needs to be for all Reaper windows available. Opens a $window(like video), when openstate==true, closes it when openstate==false, toggles when openstate==nil
+      TODO!!  - CompareSWSVersionWith(string versionnumber) (Only, when new SWS-version comes out)
+      TODO!!  - CompareReaperVersionWith(string versionnumber)
+      TODO!!  - CompareUSAPIVersionWith(string versionnumber)
+      TODO!!  - CreateItemFromTake, which creates a new item from an existing take. Like cropping, but leaves the original untouched.
+      TODO!!  - CropTakeFromItem, which removes a take from an item; maybe allowing multiple ones?
+      TODO!!  - MoveTakeInTakeOrderInMediaitem, which allows changing the order of takes within an item
+      TODO!!  - functions to setup the LICECAP-settings, before running it; a function to run LiceCap
+            set filename with .gif or .lcf to set the default filetype used!
+      TODO!!  - functions for native-colorstuff like, gradients, brightness, saturation, hue, contrast(color, basecolor, topcolor, centercolor)
+            as well as the same functions for a colorarray, which has a number of colors inside of it, that can be contrasted, gradiented, etc
+            they shall support gfx.init-color-values as output(boolean gfx.init-colorvalues (0 to 1)      
+      TODO!!  - GetAllTakesFromMediaItem - returns an array with all takes from an item, objects as well as info_values
+      TODO!!  - Get/SetProjectBay-functions
+      TODO!!  - Envelope-StateChunk-functions
+      TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
    </TODO>   
       
 ####Changes from 4.00beta2.6 to 4.00beta2.7
@@ -372,7 +453,35 @@
   - GetProject_UseRecConfig - allows usage of ProjectStateChunks now as well
   - GetProject_VerticalZoom - allows usage of ProjectStateChunks now as well
   - GetProject_VideoConfig - allows usage of ProjectStateChunks now as well
-  - TimeStringToSeconds_hh_mm_ss_mss - had wrong functionname and link in the docs -> fixed
+  - TimeStringToSeconds_hh_mm_ss_mss - had wrong functionname and link in the docs -> fixed  
+  - GetItemAllTakes - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemBeat - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemChanMode - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemFadeFlag - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemFadeIn - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemFadeOut - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemGUID - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemGroup - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemIGUID - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemIID - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemLength - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemLock - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemLoop - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemMixFlag - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!); returned the BEAT-state, not MIXFLAG -> fixed
+  - GetItemMute - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemName - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemPlayRate - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemPosition - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemRecPass - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemSampleOffset - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemSelected - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemSnapOffset - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemUSTrackNumber_StateChunk - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - GetItemVolPan - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - SetTrackHWOut - had wrong link in the docs -> fixed
+  - SetItemUSTrackNumber_StateChunk - tracknumbers are 1 based now
+  - SetItemLength - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - SetItemPosition - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:

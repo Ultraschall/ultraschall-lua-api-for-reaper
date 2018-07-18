@@ -60,6 +60,223 @@ if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
   ultraschall.Api_Path=string.gsub(ultraschall.Api_Path,"\\","/")
 --]]  
 
+function ultraschall.CheckMediaItemArray(MediaItemArray)
+--checks, if MediaItemArray is a valid array.
+-- throws out all invalid table-entries
+--[[
+<ApiDocBlocFunc>
+<slug>
+CheckMediaItemArray
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+boolean retval, integer count, array retMediaItemArray = ultraschall.CheckMediaItemArray(array MediaItemArray)
+</functionname>
+<description>
+Checks, whether MediaItemArray is valid.
+It throws out all entries, that are not MediaItems and returns the altered array as result.
+
+returns false in case of error or if it is not a valid MediaItemArray
+</description>
+<parameters>
+array MediaItemArray - a MediaItemArray that shall be checked for validity
+</parameters>
+<retvals>
+boolean retval - returns true if MediaItemArray is valid, false if not
+integer count - the number of entries in the returned retMediaItemArray
+array retMediaItemArray - the, possibly, altered MediaItemArray
+</retvals>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, tracks, media, item, check
+</tags>
+</ApiDocBlocFunc>
+]]
+  if type(MediaItemArray)~="table" then ultraschall.AddErrorMessage("CheckMediaItemArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return false,0,{} end
+  local count=1
+  while MediaItemArray[count]~=nil do
+    if reaper.ValidatePtr(MediaItemArray[count],"MediaItem*")==false then table.remove(MediaItemArray,count)
+    else
+      count=count+1
+    end
+  end
+  if count==1 then return false, count-1, MediaItemArray
+  else return true, count-1, MediaItemArray
+  end
+end
+
+function ultraschall.CheckMediaItemStateChunkArray(MediaItemStateChunkArray)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CheckMediaItemStateChunkArray
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+boolean retval, integer count, array retMediaItemStateChunkArray = ultraschall.CheckMediaItemStateChunkArray(array MediaItemStateChunkArray)
+</functionname>
+<description>
+Checks, whether MediaItemStateChunkArray is valid.
+It throws out all entries, that are not MediaItemStateChunks and returns the altered array as result.
+
+returns false in case of error or if it is not a valid MediaItemStateChunkArray
+</description>
+<parameters>
+array MediaItemStateChunkArray - a MediaItemStateChunkArray that shall be checked for validity
+</parameters>
+<retvals>
+boolean retval - returns true if MediaItemStateChunkArray is valid, false if not
+integer count - the number of entries in the returned retMediaItemStateChunkArray
+array retMediaItemStateChunkArray - the, possibly, altered MediaItemStateChunkArray
+</retvals>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, tracks, media, item, statechunk, chunk, check
+</tags>
+</ApiDocBlocFunc>
+]]
+--checks, if MediaItemStateChunkArray is a valid array.
+-- throws out all invalid table-entries
+  if type(MediaItemStateChunkArray)~="table" then ultraschall.AddErrorMessage("CheckMediaItemStateChunkArray", "MediaItemStateChunkArray", "Only array with MediaItemStateChunks as entries allowed.", -1) return false end
+  local count=1
+  while MediaItemStateChunkArray[count]~=nil do
+    if type(MediaItemStateChunkArray[count])~="string" or MediaItemStateChunkArray[count]:match("<ITEM.*>")==nil then table.remove(MediaItemStateChunkArray,count)
+    else
+      count=count+1
+    end
+  end
+  if count==1 then return false
+  else return true, count-1, MediaItemStateChunkArray
+  end
+end
+
+function ultraschall.CSV2IndividualLinesAsArray(csv_line,separator)
+-- converts a csv to an array with all individual values without the ,-separators as well as
+-- the number of entries in the array(beginning with 1)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CSV2IndividualLinesAsArray
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+integer count, array individual_values = ultraschall.CSV2IndividualLinesAsArray(string csv_line, optional string separator)
+</functionname>
+<description>
+convert a csv-string to an array of the individual values. If separator cannot be found, it'll return the original string
+
+returns nil in case or error
+</description>
+<retvals>
+integer count - the number of entries
+array individual_values  - all values, each in an individual array-position
+</retvals>
+<parameters>
+string csv_line - a string as a csv, with all values included and separated by parameter separator
+string separator - the separator, that separates the individual entries; use nil for commas; separators will be removed from the final strings!
+</parameters>
+<semanticcontext>
+API-Helper functions
+Data Manipulation
+</semanticcontext>
+<tags>
+notes,csv,converter,string,array
+</tags>
+</ApiDocBlocFunc>
+--]]
+  -- check parameters
+  if type(csv_line)~="string" then ultraschall.AddErrorMessage("CSV2IndividualLinesAsArray","csv_line", "only string is allowed", -1) return -1 end
+  if separator==nil then separator="," end
+
+  -- set variables
+  local count=1
+  local line_array={}
+
+  -- small workaround
+  csv_line=csv_line..separator
+
+  -- do the patternmatching-magic
+  for line in csv_line:gmatch("(.-)"..separator) do
+    line_array[count]=line
+    count=count+1
+  end
+
+  return count-1, line_array
+end
+
+--B,BB=ultraschall.CSV2IndividualLinesAsArray("wuddel,duddel", nil)
+
+function ultraschall.IsValidTrackString(trackstring)
+--[[
+<ApiDocBlocFunc>
+<slug>
+IsValidTrackString
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+boolean valid, integer count, array individual_tracknumbers = ultraschall.IsValidTrackString(string trackstring)
+</functionname>
+<description>
+checks, whether a given trackstring is a valid one. Will also return all valid numbers, from trackstring, that can be used as tracknumbers, as an array.
+</description>
+<retvals>
+boolean valid - true, is a valid trackstring; false, is not a valid trackstring
+integer count - the number of entries found in trackstring
+array individual_tracknumbers - an array that contains all available tracknumbers
+</retvals>
+<parameters>
+string trackstring - the trackstring to check, if it's a valid one
+</parameters>
+<semanticcontext>
+Track Management
+Assistance functions
+</semanticcontext>
+<tags>
+trackmanagement, trackstring, check, valid
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters
+  if type(trackstring)~="string" then ultraschall.AddErrorMessage("IsValidTrackString","trackstring", "Must be a string!", -1) return false end
+  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(trackstring)
+  local found=true
+  if individual_values==nil then ultraschall.AddErrorMessage("IsValidTrackString","trackstring", "Has no tracknumbers in it!", -1) return false end
+
+  -- check the individual trackstring-entries and throw out all invalid-entries
+  for i=count, 1, -1 do
+    individual_values[i]=tonumber(individual_values[i])
+    if individual_values[i]==nil then table.remove(individual_values,i) count=count-1 found=false end
+  end
+  
+  -- sort it and return it
+  table.sort(individual_values) 
+  return found, count, individual_values
+end
+
+--A,B,C,D,E=ultraschall.IsValidTrackString("1,4,3")
+--A,B,C,D,E=ultraschall.IsValidTrackString("1,1,2,99,l,8,4")
 
 function ultraschall.CountProjectTabs()
 --[[
@@ -1489,7 +1706,7 @@ filemanagement,path,separator
   
   -- do the patternmatching
   local result=str:match("(.*"..sep..")")
-  if result==nil then ultraschall.AddErrorMessage("GetPath","", "separator not found", -3) end
+  if result==nil then ultraschall.AddErrorMessage("GetPath","", "separator not found", -3) return nil end
   return result
 end
 
@@ -1553,7 +1770,7 @@ string,separator
   -- do the pattern matching  
   local result=str:match(sep1.."(.*)"..sep2)
     
-  if result==nil then ultraschall.AddErrorMessage("GetPartialString","", "separator not found", -4) end
+  if result==nil then ultraschall.AddErrorMessage("GetPartialString","", "separator not found", -4) return nil end
   return result
 end
   
@@ -1573,11 +1790,16 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-ultraschall.RunCommand(string actioncommand_id)  
+integer retval = ultraschall.RunCommand(string actioncommand_id)  
 </functionname>
 <description>
 runs a command by its ActionCommandID(instead of the CommandID-number)
+
+returns -1 in case of error
 </description>
+<retvals>
+integer retval - -1, in case of error
+</retvals>
 <parameters>
 string actioncommand_id - the ActionCommandID of the Command/Script/Action you want to run; must be either a number or the ActionCommandID beginning with an underscore _
 </parameters>
@@ -1591,7 +1813,7 @@ command,commandid,actioncommandid,action,run
 --]]
   -- check parameter
   if tonumber(actioncommand_id)==nil then
-    if actioncommand_id:sub(1,1)~="_" then ultraschall.AddErrorMessage("RunCommand", "actioncommand_id", "must be a command-number or start with an _underscore", -1) end
+    if actioncommand_id:sub(1,1)~="_" then ultraschall.AddErrorMessage("RunCommand", "actioncommand_id", "must be a command-number or start with an _underscore", -1) return -1 end
   end
   
   -- run the command
@@ -1688,65 +1910,6 @@ end
 --ALABAMA=ultraschall.CSV2Line(",sss1,2,3,4,599999,sdfhiudfho,sdfu89u409e,9iu0,")
 
 
-function ultraschall.CSV2IndividualLinesAsArray(csv_line,separator)
--- converts a csv to an array with all individual values without the ,-separators as well as
--- the number of entries in the array(beginning with 1)
---[[
-<ApiDocBlocFunc>
-<slug>
-CSV2IndividualLinesAsArray
-</slug>
-<requires>
-Ultraschall=4.00
-Reaper=5.40
-Lua=5.3
-</requires>
-<functionname>
-integer count, array individual_values = ultraschall.CSV2IndividualLinesAsArray(string csv_line, optional string separator)
-</functionname>
-<description>
-convert a csv-string to an array of the individual values. If separator cannot be found, it'll return the original string
-
-returns nil in case or error
-</description>
-<retvals>
-integer count - the number of entries
-array individual_values  - all values, each in an individual array-position
-</retvals>
-<parameters>
-string csv_line - a string as a csv, with all values included and separated by parameter separator
-string separator - the separator, that separates the individual entries; use nil for commas; separators will be removed from the final strings!
-</parameters>
-<semanticcontext>
-API-Helper functions
-Data Manipulation
-</semanticcontext>
-<tags>
-notes,csv,converter,string,array
-</tags>
-</ApiDocBlocFunc>
---]]
-  -- check parameters
-  if type(csv_line)~="string" then ultraschall.AddErrorMessage("CSV2IndividualLinesAsArray","csv_line", "only string is allowed", -1) return -1 end
-  if separator==nil then separator="," end
-
-  -- set variables
-  local count=1
-  local line_array={}
-
-  -- small workaround
-  csv_line=csv_line..separator
-
-  -- do the patternmatching-magic
-  for line in csv_line:gmatch("(.-)"..separator) do
-    line_array[count]=line
-    count=count+1
-  end
-
-  return count-1, line_array
-end
-
---B,BB=ultraschall.CSV2IndividualLinesAsArray("wuddel,duddel", nil)
 
 function ultraschall.RGB2Grayscale(red,green,blue)
 --converts rgb to a grayscale value
@@ -7429,6 +7592,7 @@ end
 
 --ultraschall.SetTrackRecCFG(1, "Hujjtz", -1, "")
 
+
 ------------------------------
 ---- Meta Data Management ----
 ------------------------------
@@ -9432,7 +9596,7 @@ command,commandid,actioncommandid,action,run,toolbar,toggle,button
   local command_id = reaper.NamedCommandLookup(actioncommand_id)
   local stater=reaper.SetToggleCommandState(section, command_id, state)
   reaper.RefreshToolbar(command_id)
-  if stater==false then ultraschall.AddErrorMessage("ToggleStateButton", "action_command_id", "doesn't exist", -4) end
+  if stater==false then ultraschall.AddErrorMessage("ToggleStateButton", "action_command_id", "doesn't exist", -4) return false end
   return stater
 end
 
@@ -9829,8 +9993,8 @@ markermanagement, set, marker, region, index, color, name, position, regionend, 
   end
   
   -- if no such marker/region has been found
-  if searchisrgn==true then ultraschall.AddErrorMessage("SetMarkerByIndex", "idx", "no such region", -8) end
-  if searchisrgn==false then ultraschall.AddErrorMessage("SetMarkerByIndex", "idx", "no such marker", -9) end
+  if searchisrgn==true then ultraschall.AddErrorMessage("SetMarkerByIndex", "idx", "no such region", -8) return nil end
+  if searchisrgn==false then ultraschall.AddErrorMessage("SetMarkerByIndex", "idx", "no such marker", -9) return nil end
   return false
 end
 
@@ -10657,7 +10821,7 @@ markermanagement, marker, delete, delete podrange, podrange region, region
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber = reaper.EnumProjectMarkers(i)
     if name:sub(1,10)=="_PodRange:" and isrgn==true then itworked=reaper.DeleteProjectMarkerByIndex(0,i) end 
   end
-  if itworked==false then ultraschall.AddErrorMessage("DeletePodRangeRegion", "", "no _Podrange-region found", -1) end
+  if itworked==false then ultraschall.AddErrorMessage("DeletePodRangeRegion", "", "no _Podrange-region found", -1) return false end
   return itworked
 end
 
@@ -12183,18 +12347,18 @@ configurationmanagement, set, external state, value, ini-files
 </tags>
 </ApiDocBlocFunc>
 ]]
-
-  if section==nil then return false end
-  if key==nil then return false end
-  if value==nil then return false end
-  if ini_filename_with_path==nil then return false end
-  if section:match(".*%=.*") then return false end
-  if key:match(".*%=.*") then return false end
+  if type(section)~="string" then ultraschall.AddErrorMessage("SetIniFileExternalState", "section", "must be a string.", -1) return false end
+  if type(key)~="string" then ultraschall.AddErrorMessage("SetIniFileExternalState", "key", "must be a string.", -2) return false end
+  if type(value)~="string" then ultraschall.AddErrorMessage("SetIniFileExternalState", "value", "must be a string.", -3) return false end
+  if type(ini_filename_with_path)~="string" then ultraschall.AddErrorMessage("SetIniFileExternalState", "ini_filename_with_path", "must be a string.", -4) return false end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("SetIniFileExternalState", "ini_filename_with_path", "file can't be accessed.", -5) end
+  if section:match(".*%=.*") then ultraschall.AddErrorMessage("SetIniFileExternalState", "section", "= is not allowed in section", -6) return false end
+  if key:match(".*%=.*") then ultraschall.AddErrorMessage("SetIniFileExternalState", "key", "= is not allowed in key.", -7) return false end
 
   return reaper.BR_Win32_WritePrivateProfileString(section, key, value, ini_filename_with_path)
 end
 
---A=ultraschall.SetIniFileExternalState("hulasu","bulaabama","Mamula","c:\\huhududu.ini")
+--A=ultraschall.SetIniFileExternalState("hulasu","bulaabama","MamulaDoo","c:\\huhududu.ini")
 
 function ultraschall.GetIniFileExternalState(section, key, ini_filename_with_path)
 -- gets a value from ini_filename_with_path
@@ -12234,20 +12398,19 @@ configurationmanagement, get, external state, value, ini-files
 </tags>
 </ApiDocBlocFunc>
 ]]
-
-  if section==nil then return -1 end
-  if key==nil then return -1 end
-  if ini_filename_with_path==nil then return -1 end
-  if reaper.file_exists(ini_filename_with_path)==false then return -1 end
+  if type(section)~="string" then ultraschall.AddErrorMessage("GetIniFileExternalState","section", "must be a string", -1) return -1 end
+  if type(key)~="string" then ultraschall.AddErrorMessage("GetIniFileExternalState","key", "must be a string", -2) return -1 end
+  if type(ini_filename_with_path)~="string" then ultraschall.AddErrorMessage("GetIniFileExternalState","ini_filename_with_path", "must be a string", -3) return -1 end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("GetIniFileExternalState","ini_filename_with_path", "file does not exist", -4) return -1 end
     
   local L,LL=reaper.BR_Win32_GetPrivateProfileString(section, key, nil, ini_filename_with_path)
-  if L==nil then return -1
+  if L==nil then ultraschall.AddErrorMessage("GetIniFileExternalState","key", "does not exist", -5) return -1
   else
   return L,LL
   end
 end
 
---A,AA=ultraschall.GetIniFileExternalState("REAPER","defsplitxfadelen","c:\\Ultraschall4\\reaper.ini")
+--A,AA=ultraschall.GetIniFileExternalState("REAPER","defsplitxfadelen","c:\\REAPER5_78_portable\\reaper.ini")
 
 function ultraschall.CountIniFileExternalState_sec(ini_filename_with_path)
 --count number of sections in the ini_filename_with_path
@@ -12285,8 +12448,8 @@ configurationmanagement, count, sections, ini-files
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if ini_filename_with_path==nil then return -1 end
-  if reaper.file_exists(ini_filename_with_path)==false then return -1 end
+  
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("CountIniFileExternalState_sec", "ini_filename_with_path", "File does not exist.", -1) return -1 end
   local count=0
   
   for line in io.lines(ini_filename_with_path) do
@@ -12297,6 +12460,7 @@ configurationmanagement, count, sections, ini-files
 end
 
 --AA=ultraschall.CountIniFileExternalState_sec("c:\\test.ini")
+
 
 function ultraschall.CountIniFileExternalState_key(section, ini_filename_with_path)
 --count number of keys in the section in ini_filename_with_path
@@ -12337,9 +12501,9 @@ configurationmanagement, count, keys, ini-files
 ]]
   local count=0
   local startcount=0
-  if ini_filename_with_path==nil then return -1 end
-  if reaper.file_exists(ini_filename_with_path)==false then return -1 end
-  
+  if type(section)~="string" then ultraschall.AddErrorMessage("CountIniFileExternalState_key", "section", "Must be a string.", -1) return -1 end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("CountIniFileExternalState_key", "ini_filename_with_path", "File does not exist.", -2) return -1 end
+    
   for line in io.lines(ini_filename_with_path) do
    local check=line:match("%[.*.%]")
     if startcount==1 and line:match(".*=.*") then
@@ -13583,7 +13747,7 @@ markermanagement, navigation, check, edit marker, edit
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if tonumber(markerid)==nil then return nil end
+  if math.type(markerid)~="integer" then ultraschall.AddErrorMessage("IsMarkerEdit","markerid", "must be an integer", -1) return nil end
   markerid=tonumber(markerid)
   local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, markerid)
   if retval>0 then
@@ -13636,7 +13800,7 @@ markermanagement, navigation, check, normal marker, normal
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if tonumber(markerid)==nil then return nil end
+  if math.type(markerid)~="integer" then ultraschall.AddErrorMessage("IsMarkerNormal","markerid", "must be an integer", -1) return nil end
   markerid=tonumber(markerid)
   local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, markerid)
   if retval>0 then
@@ -13687,7 +13851,7 @@ markermanagement, navigation, check, podrangeregion, podrange, region
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if tonumber(markerid)==nil then return nil end
+  if math.type(markerid)~="integer" then ultraschall.AddErrorMessage("IsRegionPodrange","markerid", "must be an integer", -1) return nil end
   markerid=tonumber(markerid)
   local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, markerid)
   if retval>0 then
@@ -13700,7 +13864,7 @@ markermanagement, navigation, check, podrangeregion, podrange, region
   return false
 end
 
---A=ultraschall.IsRegionPodrange(1)
+--A=ultraschall.IsRegionPodrange(0)
 
 function ultraschall.IsRegionEditRegion(markerid)
 --checks, if a marker is an _Edit:-Region
@@ -13738,7 +13902,7 @@ markermanagement, navigation, check, edit region, edit, region
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if tonumber(markerid)==nil then return nil end
+  if math.type(markerid)~="integer" then ultraschall.AddErrorMessage("IsRegionEditRegion","markerid", "must be an integer", -1) return nil end
   markerid=tonumber(markerid)
   local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, markerid)
   if retval>0 then
@@ -13937,7 +14101,7 @@ markermanagement, navigation, delete, edit region, edit, region
 </tags>
 </ApiDocBlocFunc>
 ]]   
-  if tonumber(number)==nil then return false end
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("DeleteEditRegion","number", "must be an integer", -1) return false end
   
   local c,nummarkers,b=reaper.CountProjectMarkers(0)
   local number=tonumber(number)-1
@@ -13995,7 +14159,7 @@ markermanagement, navigation, get, enumerate, edit region, edit, region
 </tags>
 </ApiDocBlocFunc>
 ]]   
-  if tonumber(number)==nil then return false end
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateEditRegion","number", "must be an integer", -1) return false end
   
   local c,nummarkers,b=reaper.CountProjectMarkers(0)
   number=tonumber(number)-1
@@ -15300,7 +15464,7 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-string reaperversion, string timestamp = ultraschall.GetProject_ReaperVersion(string projectfilename_with_path, string ProjectStateChunk)
+string reaperversion, string timestamp = ultraschall.GetProject_ReaperVersion(string projectfilename_with_path, optional string ProjectStateChunk)
 </functionname>
 <description>
 Returns the reaperversion and the timestamp from an RPP-Projectfile or a ProjectStateChunk.
@@ -15337,6 +15501,55 @@ end
 
 --A,AA=ultraschall.GetProject_ReaperVersion("c:\\tt.rpp","<REAPER_PROJECT 0.1 \"5.77/x64\" 1529100928\n>")
 
+
+function ultraschall.GetProject_RenderCFG(projectfilename_with_path, ProjectStateChunk)
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetProject_RenderCFG
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg = ultraschall.GetProject_RenderCFG(string projectfilename_with_path, optional string ProjectStateChunk)
+</functionname>
+<description>
+Returns the render-cfg-string, that contains all render-settings of a project from an RPP-Projectfile or a ProjectStateChunk.
+Returns nil in case of error or if no such entry exists.
+</description>
+<parameters>
+string projectfilename_with_path - filename with path for the rpp-projectfile; nil, if you want to use parameter ProjectStateChunk
+optional string ProjectStateChunk - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil
+</parameters>
+<retvals>
+string render_cfg - the renderstring, which contains all render-settings for a project/projectstatechunk
+</retvals>
+<semanticcontext>
+Project-Files
+RPP-Files Get
+</semanticcontext>
+<tags>
+projectfiles, rpp, state, get, renderstring, rendercfg
+</tags>
+</ApiDocBlocFunc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_ReaperVersion","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_ReaperVersion","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_RenderCFG","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  -- get the values and return them
+  return ProjectStateChunk:match("<RENDER_CFG.-\n.-(%g*)\n")
+end
+
+--A,AA=ultraschall.GetProject_RenderCFG("c:\\rendercode-project.RPP","")
+
 function ultraschall.GetProject_RippleState(projectfilename_with_path, ProjectStateChunk)
 -- Set RippleState in a projectfilename_with_path
 --  0 - no Ripple, 1 - Ripple One Track, 2 - Ripple All
@@ -15351,7 +15564,7 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer ripplestate = ultraschall.GetProject_RippleState(string projectfilename_with_path, string ProjectStateChunk)
+integer ripplestate = ultraschall.GetProject_RippleState(string projectfilename_with_path, optional string ProjectStateChunk)
 </functionname>
 <description>
 Returns the ripple-state from an RPP-Projectfile or a ProjectStateChunk.
@@ -15401,7 +15614,7 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer group_override1, integer group_override2, integer group_override3 = ultraschall.GetProject_GroupOverride(string projectfilename_with_path, string ProjectStateChunk)
+integer group_override1, integer group_override2, integer group_override3 = ultraschall.GetProject_GroupOverride(string projectfilename_with_path, optional string ProjectStateChunk)
 </functionname>
 <description>
 Returns the group-override-state from an RPP-Projectfile or a ProjectStateChunk.
@@ -15454,7 +15667,7 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer autocrossfade_state = ultraschall.GetProject_AutoCrossFade(string projectfilename_with_path, string ProjectStateChunk)
+integer autocrossfade_state = ultraschall.GetProject_AutoCrossFade(string projectfilename_with_path, optional string ProjectStateChunk)
 </functionname>
 <description>
 Returns the autocrossfade-state from an RPP-Projectfile or a ProjectStateChunk.
@@ -18850,7 +19063,7 @@ Returns, if it succeeded and the newly created MediaTrack.
 string trackstatechunk - the rpp-xml-Trackstate-Chunk, as created by reaper.GetTrackStateChunk or <a href="#GetProject_TrackStateChunk">GetProject_TrackStateChunk</a>
 </parameters>
 <retvals>
-boolean retval - if, if creation succeeded, false if not
+boolean retval - true, if creation succeeded, false if not
 MediaTrack MediaTrack - the newly created track, as MediaItem-trackobject
 </retvals>
 <semanticcontext>
@@ -18862,11 +19075,12 @@ trackstring, track, create, trackstate, trackstatechunk, chunk, state
 </tags>
 </ApiDocBlocFunc>
 ]]--
-  if trackstatechunk==nil then return false end
+  if ultraschall.IsValidTrackStateChunk(trackstatechunk)==false then ultraschall.AddErrorMessage("InsertTrack_TrackStateChunk", "trackstatechunk", "Must be a valid TrackStateChunk", -1) return false end
   reaper.InsertTrackAtIndex(reaper.CountTracks(0), true)
   local MediaTrack=reaper.GetTrack(0,reaper.CountTracks(0)-1)
+  if MediaTrack==nil then ultraschall.AddErrorMessage("InsertTrack_TrackStateChunk", "", "Couldn't create new track.", -2) return false end
   local bool=reaper.SetTrackStateChunk(MediaTrack, trackstatechunk, true)
-  if bool==false then reaper.DeleteTrack(MediaTrack) return false end
+  if bool==false then reaper.DeleteTrack(MediaTrack) ultraschall.AddErrorMessage("InsertTrack_TrackStateChunk", "trackstatechunk", "Couldn't set TrackStateChunk", -3) return false end
   return true, MediaTrack
 end
 
@@ -20228,6 +20442,54 @@ end
 
 --A=ultraschall.SetProject_RecordCFG("c:\\tt.rpp", "Hubbelbubbel==")
 --A=ultraschall.GetProject_RecordCFG("c:\\tt.rpp")
+
+function ultraschall.SetProject_RenderCFG(projectfilename_with_path, state)
+--[[
+<ApiDocBlocFunc>
+<slug>
+SetProject_RenderCFG
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+integer retval = ultraschall.SetProject_RenderCFG(string projectfilename_with_path, string rendercfg_string)
+</functionname>
+<description>
+Sets the render-configuration as encoded string in an RPP-Projectfile, as set in Render-Settings
+
+Returns -1 in case of error.
+</description>
+<parameters>
+string projectfilename_with_path - filename with path of the rpp-project-file
+rendercfg_string - the render-configuration as encoded string
+</parameters>
+<retvals>
+integer retval - -1 in case of error, 1 in case of success
+</retvals>
+<semanticcontext>
+Project-Files
+RPP-Files Set
+</semanticcontext>
+<tags>
+projectfiles, rpp, state, set, render, configuration
+</tags>
+</ApiDocBlocFunc>
+]]
+  if projectfilename_with_path==nil then return -1 end
+  if state==nil then return -1 end
+  if reaper.file_exists(projectfilename_with_path)==false then return -1 end
+  local file=ultraschall.ReadValueFromFile(projectfilename_with_path, nil, false)
+  local FileStart=file:match("(<REAPER_PROJECT.-RENDER_CFG%c%s*).-%c.->.*")
+  local FileEnd=file:match("<REAPER_PROJECT.-RENDER_CFG%c%s*.-(%c.->.*)")
+  return ultraschall.WriteValueToFile(projectfilename_with_path, FileStart..state..FileEnd)
+end
+
+--L=ultraschall.ReadFullFile("c:\\tt.rpp")
+--A=ultraschall.SetProject_RecordCFG("c:\\tt.rpp", "Hubbelbubbel==")
+--A=ultraschall.SetProject_RenderCFG("c:\\tt.rpp", "IHBkZA=")
 
 function ultraschall.SetProject_ApplyFXCFG(projectfilename_with_path, state)
 --To Do: Research
@@ -23761,10 +24023,11 @@ markermanagement, move, moveby, region, marker
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if tonumber(startposition)==nil then return -1 end
-  if tonumber(endposition)==nil then return -1 end
-  if tonumber(startposition)>tonumber(endposition) then return -1 end
-  if tonumber(moveby)==nil then return -1 end
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("MoveMarkersBy","startposition", "must be a number", -1) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("MoveMarkersBy","endposition", "must be a number", -2) return -1 end
+  if startposition>endposition then ultraschall.AddErrorMessage("MoveMarkersBy","endposition", "must be bigger than startposition", -3) return -1 end
+  if type(moveby)~="number" then ultraschall.AddErrorMessage("MoveMarkersBy","moveby", "must be a number", -4) return -1 end
+  if type(cut_at_borders)~="boolean" then ultraschall.AddErrorMessage("MoveMarkersBy","cut_at_borders", "must be a boolean", -5) return -1 end
   
   local retval, num_markers, num_regions = reaper.CountProjectMarkers(0)
   
@@ -23803,7 +24066,7 @@ markermanagement, move, moveby, region, marker
   end --for
 end
 
---Aretval = ultraschall.MoveMarkersBy(23, 169, -1, true)
+--Aretval = ultraschall.MoveMarkersBy(0, 169, 1, true)
 
 function ultraschall.GetAllMarkersBetween(startposition, endposition)
 --[[
@@ -24042,9 +24305,9 @@ trackmanagement, tracks, trackstring, sort, order
 </tags>
 </ApiDocBlocFunc>
 ]]
-    if trackstring==nil then return -1 end
+    if type(trackstring)~="string" then ultraschall.AddErrorMessage("RemoveDuplicateTracksInTrackstring","trackstring", "must be a string", -1) return -1 end
     local _count, Trackstring_array=ultraschall.CSV2IndividualLinesAsArray(trackstring)    
-    if Trackstring_array==nil then return -1 end
+    if Trackstring_array==nil then ultraschall.AddErrorMessage("RemoveDuplicateTracksInTrackstring","trackstring", "not a valid trackstring", -3) return -1 end
     table.sort(Trackstring_array)
     local count=2
     while Trackstring_array[count]~=nil do
@@ -24064,7 +24327,7 @@ trackmanagement, tracks, trackstring, sort, order
     return 1, trackstring:sub(1,-2), Trackstring_array, count-1
 end
 
---A,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring("o,1,2,99,l,8,4")
+--A,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring("1,2,99,8,4,1,1,2,2,1,2,6,8,66,6,445")
 
 --C,CC=ultraschall.GetAllMediaItemsBetween(0,260,"1,2,3",false)
 --P=ultraschall.OnlyMediaItemsOfTracksInTrackstring(CC, "2,3")
@@ -24111,11 +24374,9 @@ mediaitemmanagement, tracks, media, item, selection, statechunk
 </ApiDocBlocFunc>
 ]]
 
-  if tonumber(position)==nil then return -1 end
-  position=tonumber(position)
-  if trackstring==nil then return -1 end
+  if type(position)~="number" then ultraschall.AddErrorMessage("GetMediaItemsAtPosition","position", "must be a number", -1) return -1 end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("GetMediaItemsAtPosition","trackstring", "must be a valid trackstring", -2) return -1 end
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
-  if trackstring==-1 or trackstring=="" then return -1 end
   
   local MediaItemArray={}
   local MediaItemStateChunkArray={}
@@ -24133,7 +24394,7 @@ mediaitemmanagement, tracks, media, item, selection, statechunk
     if position>=Astart and position<=Aend then
        for a=1, Numbers do
 --       reaper.MB(MediaTrackNumber,LineArray[a],0)
-        if tonumber(LineArray[a])==nil then return -1 end
+        if tonumber(LineArray[a])==nil then ultraschall.AddErrorMessage("GetMediaItemsAtPosition","trackstring", "must be a valid trackstring", -2) return -1 end
         if MediaTrackNumber==tonumber(LineArray[a]) then
           count=count+1 
           MediaItemArray[count]=MediaItem
@@ -24187,10 +24448,9 @@ mediaitemmanagement, tracks, media, item, selection
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if type(MediaItemArray)~="table" then return -1 end
-  if trackstring==nil then return -1 end
+  if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("OnlyMediaItemsOfTracksInTrackstring","MediaItemArray", "must be a MediaItemArray", -1) return -1 end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("OnlyMediaItemsOfTracksInTrackstring","trackstring", "must be a valid trackstring", -2) return -1 end
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
-  if trackstring==-1 or trackstring=="" then return -1 end
   
   local count=1
   local count2=1
@@ -24202,7 +24462,7 @@ mediaitemmanagement, tracks, media, item, selection
     if MediaItemArray[count]==nil then break end
     i=1
     while trackstring_array[i]~=nil do
-      if tonumber(trackstring_array[i])==nil then return -1 end
+      if tonumber(trackstring_array[i])==nil then ultraschall.AddErrorMessage("OnlyMediaItemsOfTracksInTrackstring","MediaItemArray", "must be a valid MediaItemArray", -1) return -1 end
         if reaper.GetTrack(0,trackstring_array[i]-1)==reaper.GetMediaItem_Track(MediaItemArray[count]) then
           MediaItemArray2[count2]=MediaItemArray[count]
           count2=count2+1
@@ -24214,8 +24474,8 @@ mediaitemmanagement, tracks, media, item, selection
   return 1, MediaItemArray2
 end
 
---A,B=ultraschall.GetMediaItemsAtPosition(20, "1,2,3")
---CT=ultraschall.OnlyMediaItemsOfTracksInTrackstring(B, "o")
+--A,B=ultraschall.GetMediaItemsAtPosition(1, "1,2,3")
+--CT=ultraschall.OnlyMediaItemsOfTracksInTrackstring(B, "1")
 
 
 function ultraschall.SplitMediaItems_Position(position, trackstring, crossfade)
@@ -24243,7 +24503,7 @@ Returns false, in case of error.
 <parameters>
 number position - the position in seconds
 string trackstring - the numbers for the tracks, where split shall be applied to; numbers separated by a comma
-boolean crossfade - true - automatic crossfade(if enabled) will be applied; false - automatic crossfade is off
+boolean crossfade - true, automatic crossfade(if enabled) will be applied; false, automatic crossfade is off
 </parameters>
 <retvals>
 boolean retval - true - success, false - error
@@ -24258,9 +24518,11 @@ mediaitemmanagement, tracks, media, item, split, edit, crossfade
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if tonumber(position)==nil or trackstring==nil then return false end
+  if type(position)~="number" then ultraschall.AddErrorMessage("SplitMediaItems_Position","position", "must be a number", -1) return -1 end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("SplitMediaItems_Position","trackstring", "must be valid trackstring", -2) return -1 end
+
   local A,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
-  if trackstring==-1 or trackstring=="" then return false end
+  if trackstring==-1 or trackstring=="" then ultraschall.AddErrorMessage("SplitMediaItems_Position","trackstring", "must be valid trackstring", -2) return false end
   position=tonumber(position)
   local FadeOut, MediaItem, oldfade, oldlength
   local ReturnMediaItemArray={}
@@ -24268,7 +24530,7 @@ mediaitemmanagement, tracks, media, item, split, edit, crossfade
   local Numbers, LineArray=ultraschall.CSV2IndividualLinesAsArray(trackstring)
   local Anumber=reaper.CountMediaItems(0)
 
-  if crossfade~=true and crossfade~=false then return false end
+  if type(crossfade)~="boolean" then ultraschall.AddErrorMessage("SplitMediaItems_Position","crossfade", "must be boolean", -3) return false end
   for i=Anumber-1,0,-1 do
     MediaItem=reaper.GetMediaItem(0, i)
     local Astart=reaper.GetMediaItemInfo_Value(MediaItem, "D_POSITION")
@@ -24279,7 +24541,7 @@ mediaitemmanagement, tracks, media, item, split, edit, crossfade
     local Aend=(Astart+Alength)
     if position>=Astart and position<=Aend then
        for a=1, Numbers do
-        if tonumber(LineArray[a])==nil then return false end
+        if tonumber(LineArray[a])==nil then ultraschall.AddErrorMessage("SplitMediaItems_Position","trackstring", "must be valid trackstring", -2) return false end
         if MediaTrackNumber==tonumber(LineArray[a]) then
           count=count+1 
           ReturnMediaItemArray[count]=reaper.SplitMediaItem(MediaItem, position)
@@ -24770,11 +25032,12 @@ mediaitemmanagement, tracks, media, item, move, position
 </ApiDocBlocFunc>
 ]]
   
-  if tonumber(oldposition)==nil then return false end
-  if tonumber(changepositionby)==nil then return false end
-  if trackstring==nil then return false end 
+  if type(oldposition)~="number" then ultraschall.AddErrorMessage("MoveMediaItemsBefore_By", "old_position", "Must be a number.", -1) return false end
+  if type(changepositionby)~="number" then ultraschall.AddErrorMessage("MoveMediaItemsBefore_By", "change_position_by", "Must be a number.", -2) return false end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("MoveMediaItemsBefore_By", "trackstring", "Must be a valid trackstring.", -3) return false end
+  
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
-  if trackstring==-1 or trackstring==""  then return false end
+  if trackstring==-1 or trackstring==""  then ultraschall.AddErrorMessage("MoveMediaItemsBefore_By", "trackstring", "Must be a valid trackstring.", -3) return false end
   local A,MediaItem=ultraschall.GetAllMediaItemsBetween(0,oldposition,trackstring,true)
   for i=1, A do
     local ItemStart=reaper.GetMediaItemInfo_Value(MediaItem[i], "D_POSITION")
@@ -24795,7 +25058,7 @@ mediaitemmanagement, tracks, media, item, move, position
   return true
 end
 
---A=ultraschall.MoveMediaItemsBefore_By(14,1,"ö,1")
+--A=ultraschall.MoveMediaItemsBefore_By(1,1,"1")
 
 function ultraschall.MoveMediaItemsSectionTo(sectionstart, sectionend, newposition, trackstring, inside)
 --Moves all MediaItems within sectionstart and sectionend to newposition in all tracks given by trackstring.
@@ -24983,8 +25246,8 @@ mediaitemmanagement, tracks, media, item, length
 </ApiDocBlocFunc>
 ]]
 
-  if type(MediaItemArray)~="table" then return false end
-  if tonumber(deltalength)==nil then return false end
+  if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("ChangeDeltaLengthOfMediaItems_FromArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return false end
+  if type(deltalength)~="number" then ultraschall.AddErrorMessage("ChangeDeltaLengthOfMediaItems_FromArray", "deltalength", "Must be a number in seconds.", -2) return false end
   local count=1
   local ItemLength
   while MediaItemArray[count]~=nil do
@@ -25439,9 +25702,9 @@ mediaitemmanagement, tracks, media, item, insert
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if tonumber(position)==nil then return -1 end
-  if reaper.ValidatePtr(MediaItem, "MediaItem*")==false then return -1 end
-  if reaper.ValidatePtr(MediaTrack, "MediaTrack*")==false then return -1 end
+  if type(position)~="number" then ultraschall.AddErrorMessage("InsertMediaItem_MediaItem","position", "must be a number", -1) return -1 end
+  if reaper.ValidatePtr(MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItem","MediaItem", "must be a MediaItem", -2) return -1 end
+  if reaper.ValidatePtr(MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItem","MediaTrack", "must be a MediaTrack", -3) return -1 end
   local MediaItemNew=reaper.AddMediaItemToTrack(MediaTrack)
   local Aretval, Astr = reaper.GetItemStateChunk(MediaItem, "", true)
   Astr=Astr:match(".-POSITION ")..position..Astr:match(".-POSITION.-(%c.*)")
@@ -26288,7 +26551,7 @@ trackmanagement, tracks, get, selected
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if selected~=true and selected~=false then return -1 end
+  if type(selected)~="boolean" then ultraschall.AddErrorMessage("SetAllTracksSelected","selected", "must be a boolean", -1) return -1 end
   for i=0, reaper.CountTracks(0)-1 do
     local MediaTrack=reaper.GetTrack(0,i)
     reaper.SetTrackSelected(MediaTrack, selected)
@@ -26333,10 +26596,10 @@ trackmanagement, tracks, get, selected
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if reset~=true and reset~=false then return -1 end
+  if type(reset)~="boolean" then ultraschall.AddErrorMessage("SetTracksSelected", "reset", "must be boolan", -1) return -1 end
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
   --reaper.MB(trackstring,"",0)
-  if trackstring==-1 or trackstring=="" then return -1 end
+  if trackstring==-1 or trackstring=="" then ultraschall.AddErrorMessage("SetTracksSelected", "trackstring", "must be a valid trackstring", -2) return -1 end
   local count, Aindividual_values = ultraschall.CSV2IndividualLinesAsArray(trackstring)
   if reset==true then ultraschall.SetAllTracksSelected(false) end
   for i=1,count do
@@ -26347,7 +26610,7 @@ trackmanagement, tracks, get, selected
   end
 end
 
---L=ultraschall.SetTracksSelected("5", false)
+--L=ultraschall.SetTracksSelected("1", true)
 
 
 
@@ -26388,7 +26651,7 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, posi
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
-  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemPosition","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemPosition","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
   -- get value and return it
   return tonumber(statechunk:match(".-POSITION (.-)%c"))
@@ -26435,7 +26698,7 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, leng
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
-  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemLength","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemLength","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
   -- get value and return it
   return tonumber(statechunk:match(".-LENGTH (.-)%c"))
@@ -26480,7 +26743,7 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, snap
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
-  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemSnapOffset","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemSnapOffset","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
   -- get value and return it
   return tonumber(statechunk:match("SNAPOFFS (.-)%c"))
@@ -26527,7 +26790,7 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, loop
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
-  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemLoop_StateChunk","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemLoop_StateChunk","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
   -- get value and return it
   return tonumber(statechunk:match("LOOP (.-)%c"))
@@ -26573,7 +26836,7 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, allt
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
-  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemAllTakes","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemAllTakes","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
   -- get value and return it
   return tonumber(statechunk:match("ALLTAKES (.-)%c"))
@@ -26623,7 +26886,7 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, fade
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
-  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemFadeIn","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemFadeIn","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
   -- get value and return it
   return tonumber(statechunk:match("FADEIN (.-) ")),
@@ -26649,7 +26912,7 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-string curvetype1, number fadeout, number fadestate3, string curvetype2, integer fadestate5, number curve = ultraschall.GetItemFadeOut(MediaItem MediaItem, optional string MediaItemStateChunk)
+string curvetype1, number fadeout_length, number fadeout_length2, string curvetype2, integer fadestate5, number curve = ultraschall.GetItemFadeOut(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
 Returns fadeout-entries of a MediaItem or MediaItemStateChunk.
@@ -26661,8 +26924,8 @@ optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reape
 </parameters>
 <retvals>
 string curvetype1 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype2
-number fadeout - fadeout in seconds
-number fadestate3 - unknown
+number fadeout_length - the current fadeout-length in seconds
+number fadeout_length2 - the fadeout-length in seconds; overrides fadeout_length and will be moved to fadeout_length when fadeout-length changes(e.g. mouse-drag); might be autocrossfade-length
 string curvetype2 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype1
 integer fadestate5 - unknown
 number curve - curvation of the fadeout, -1 to 1
@@ -26679,7 +26942,7 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, fade
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
-  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemFadeOut","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemFadeOut","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
   -- get value and return it
   return tonumber(statechunk:match("FADEOUT (.-) ")),
@@ -26692,12 +26955,12 @@ end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetItemFadeOut(reaper.GetMediaItem(0,0))
 
-function ultraschall.GetItemMute_StateChunk(statechunk)
+function ultraschall.GetItemMute(MediaItem, statechunk)
 --  reaper.MB(statechunk,"",0)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemMute_StateChunk
+GetItemMute
 </slug>
 <requires>
 Ultraschall=4.00
@@ -26705,38 +26968,45 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer mutestate = ultraschall.GetItemMute_StateChunk(string MediaItemStateChunk)
+integer mutestate = ultraschall.GetItemMute(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns mutestate-entry of a MediaItemStateChunk.
+Returns mutestate-entry of a MediaItem or MediaItemStateChunk.
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose mute-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
-integer mutestate - the mute-state; 1 - mute is on; 0 - mute is off
+integer mutestate - the mute-state; 1, mute is on; 0, mute is off
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, fade out
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemMute","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   return tonumber(statechunk:match("MUTE (.-)%c"))
 end
 
+--A=reaper.GetMediaItem(0,0)
+--mutestate = ultraschall.GetItemMute(reaper.GetMediaItem(0,0))
 
-function ultraschall.GetItemFadeFlag_StateChunk(statechunk)
+function ultraschall.GetItemFadeFlag(MediaItem, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemFadeFlag_StateChunk
+GetItemFadeFlag
 </slug>
 <requires>
 Ultraschall=4.00
@@ -26744,30 +27014,35 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer autofade_state = ultraschall.GetItemFadeFlag_StateChunk(string MediaItemStateChunk)
+integer autofade_state = ultraschall.GetItemFadeFlag(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns autofade-entry of a MediaItemStateChunk.
+Returns autofade-entry of a MediaItem or MediaItemStateChunk.
+It's the FADEFLAG-entry.
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose fadeflag-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
-integer autofade_state - the autofade-state; 1 - autofade is off; 0 - autofade is on
+integer autofade_state - the autofade-state; 1, autofade is off; 0, autofade is on
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, autofade
 </tags>
 </ApiDocBlocFunc>
 ]]
---  reaper.MB(statechunk,"",0)
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemFadeFlag","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   local A=tonumber(statechunk:match("FADEFLAG (.-)%c"))
   if A==nil then return 0
   else return 1
@@ -26775,14 +27050,14 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, auto
 end
 
 --C,CC,CCC=ultraschall.GetAllMediaItemsBetween(1,60,"1,2,3",false)
---AL=ultraschall.GetItemFadeFlag_StateChunk(CCC[1])
+--AL=ultraschall.GetItemFadeFlag(reaper.GetMediaItem(0,0))
 
-function ultraschall.GetItemLock_StateChunk(statechunk)
+function ultraschall.GetItemLock(MediaItem, statechunk)
 --  reaper.MB(statechunk,"",0)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemLock_StateChunk
+GetItemLock
 </slug>
 <requires>
 Ultraschall=4.00
@@ -26790,29 +27065,34 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer lock_state = ultraschall.GetItemLock_StateChunk(string MediaItemStateChunk)
+integer lock_state = ultraschall.GetItemLock(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns itemlock-entry of a MediaItemStateChunk.
+Returns itemlock-entry of a MediaItem or MediaItemStateChunk.
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose itemlock-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
-integer lock_state - the lock-state; 1 - item is locked; 0 - item is not locked
+integer lock_state - the lock-state; 1, item is locked; 0, item is not locked
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, lock
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemLock","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   local A=tonumber(statechunk:match("LOCK (.-)%c"))
   if A==nil then return 0
   else return 1
@@ -26820,14 +27100,14 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, lock
 end
 
 --C,CC,CCC=ultraschall.GetAllMediaItemsBetween(1,60,"1,2,3",false)
---AL=ultraschall.GetItemLock_StateChunk(CCC[1])
+--AL=ultraschall.GetItemLock(reaper.GetMediaItem(0,0))
 
-function ultraschall.GetItemSelected_StateChunk(statechunk)
+function ultraschall.GetItemSelected(MediaItem, statechunk)
 --  reaper.MB(statechunk,"",0)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemSelected_StateChunk
+GetItemSelected
 </slug>
 <requires>
 Ultraschall=4.00
@@ -26835,41 +27115,47 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer selected_state = ultraschall.GetItemSelected_StateChunk(string MediaItemStateChunk)
+integer selected_state = ultraschall.GetItemSelected(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns item-selected-state-entry of a MediaItemStateChunk.
+Returns item-selected-state-entry of a MediaItem or MediaItemStateChunk.
+It's the SEL-entry.
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose selection-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 integer selected_state - the item-selected-state; 1 - item is selected; 0 - item is not selected
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, selected
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemSelected","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   return tonumber(statechunk:match("SEL (.-)%c"))
 end
 
 --C,CC,CCC=ultraschall.GetAllMediaItemsBetween(1,60,"1,2,3",false)
---AL=ultraschall.GetItemSelected_StateChunk(CCC[1])
+--AL=ultraschall.GetItemSelected(reaper.GetMediaItem(0,0))
 
-function ultraschall.GetItemGroup_StateChunk(statechunk)
+function ultraschall.GetItemGroup(MediaItem, statechunk)
 --  reaper.MB(statechunk,"",0)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemGroup_StateChunk
+GetItemGroup
 </slug>
 <requires>
 Ultraschall=4.00
@@ -26877,38 +27163,44 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer item_group = ultraschall.GetItemGroup_StateChunk(string MediaItemStateChunk)
+integer item_group = ultraschall.GetItemGroup(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns group of a MediaItemStateChunk, where the item belongs to.
+Returns group of a MediaItem or MediaItemStateChunk, where the item belongs to.
+It's the GROUP-entry
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose ItemGroup-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 integer item_group - the group the item belongs to
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, group
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemGroup","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   return tonumber(statechunk:match("GROUP (.-)%c"))
 end
 
 
-function ultraschall.GetItemIGUID_StateChunk(statechunk)
+function ultraschall.GetItemIGUID(MediaItem, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemIGUID_StateChunk
+GetItemIGUID
 </slug>
 <requires>
 Ultraschall=4.00
@@ -26916,39 +27208,44 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-string IGUID = ultraschall.GetItemIGUID_StateChunk(string MediaItemStateChunk)
+string IGUID = ultraschall.GetItemIGUID(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns the IGUID-entry of a MediaItemStateChunk.
+Returns the IGUID-entry of a MediaItem or MediaItemStateChunk.
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose IGUID-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 string IGUID - the IGUID of the item
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, guid, iguid
 </tags>
 </ApiDocBlocFunc>
 ]]
---  reaper.MB(statechunk,"",0)
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemIGUID","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   return statechunk:match("IGUID (.-)%c")
 end
 
+--A=ultraschall.GetItemIGUID(reaper.GetMediaItem(0,0))
 
-function ultraschall.GetItemIID_StateChunk(statechunk)
+function ultraschall.GetItemIID(MediaItem, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemIID_StateChunk
+GetItemIID
 </slug>
 <requires>
 Ultraschall=4.00
@@ -26956,39 +27253,44 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer IID = ultraschall.GetItemIID_StateChunk(string MediaItemStateChunk)
+integer IID = ultraschall.GetItemIID(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns the IID-entry of a MediaItemStateChunk.
+Returns the IID-entry of a MediaItem or MediaItemStateChunk.
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose ItemIID-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 integer IID - the IID of the item
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, iid
 </tags>
 </ApiDocBlocFunc>
 ]]
---  reaper.MB(statechunk,"",0)
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemIID","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   return tonumber(statechunk:match("IID (.-)%c"))
 end
 
+--A=ultraschall.GetItemIID(reaper.GetMediaItem(0,1))
 
-function ultraschall.GetItemName_StateChunk(statechunk)
+function ultraschall.GetItemName(MediaItem, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemName_StateChunk
+GetItemName
 </slug>
 <requires>
 Ultraschall=4.00
@@ -26996,39 +27298,45 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-string name = ultraschall.GetItemName_StateChunk(string MediaItemStateChunk)
+string name = ultraschall.GetItemName(MediaItem MediaItem, string MediaItemStateChunk)
 </functionname>
 <description>
-Returns the name-entry of a MediaItemStateChunk.
+Returns the name-entry of a MediaItem or MediaItemStateChunk.
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose itemname-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 string name - the name of the item
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, name
 </tags>
 </ApiDocBlocFunc>
 ]]
---  reaper.MB(statechunk,"",0)
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemName","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   return statechunk:match("NAME (.-)%c")
 end
 
 
-function ultraschall.GetItemVolPan_StateChunk(statechunk)
+--A=ultraschall.GetItemName(reaper.GetMediaItem(0,0))
+
+function ultraschall.GetItemVolPan(MediaItem, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemVolPan_StateChunk
+GetItemVolPan
 </slug>
 <requires>
 Ultraschall=4.00
@@ -27036,14 +27344,15 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-number volpan1, number pan, number volume, number volpan4 = ultraschall.GetItemVolPan_StateChunk(string MediaItemStateChunk)
+number volpan1, number pan, number volume, number volpan4 = ultraschall.GetItemVolPan(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns the vol/pan-entries of a MediaItemStateChunk.
+Returns the vol/pan-entries of a MediaItem or MediaItemStateChunk.
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose volpan-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 number volpan1 - unknown
@@ -27053,16 +27362,19 @@ number volpan4 - unknown
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, volume, pan
 </tags>
 </ApiDocBlocFunc>
 ]]
---  reaper.MB(statechunk,"",0)
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemVolPan","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   return tonumber(statechunk:match("VOLPAN (.-) ")),
          tonumber(statechunk:match("VOLPAN .- (.-) ")),
          tonumber(statechunk:match("VOLPAN .- .- (.-) ")),
@@ -27070,13 +27382,13 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, volu
 end
 
 --C,CC,CCC=ultraschall.GetAllMediaItemsBetween(1,60,"1,2,3",false)
---A1,A2,A3,A4,A5=ultraschall.GetItemVolPan_StateChunk(CCC[1])
+--A1,A2,A3,A4,A5=ultraschall.GetItemVolPan(reaper.GetMediaItem(0,0))
 
-function ultraschall.GetItemSampleOffset_StateChunk(statechunk)
+function ultraschall.GetItemSampleOffset(MediaItem, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemSampleOffset_StateChunk
+GetItemSampleOffset
 </slug>
 <requires>
 Ultraschall=4.00
@@ -27084,41 +27396,46 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-number sampleoffset = ultraschall.GetItemSampleOffset_StateChunk(string MediaItemStateChunk)
+number sampleoffset = ultraschall.GetItemSampleOffset(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns the sampleoffset-entry of a MediaItemStateChunk.
+Returns the sampleoffset-entry of a MediaItem or MediaItemStateChunk.
+It's the SOFFS-entry.
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose sample-offset-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 number sampleoffset - sampleoffset in seconds
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, sample, offset
 </tags>
 </ApiDocBlocFunc>
 ]]
---  reaper.MB(statechunk,"",0)
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemSampleOffset","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   return tonumber(statechunk:match("SOFFS (.-)%c"))
 end
 
 --C,CC,CCC=ultraschall.GetAllMediaItemsBetween(1,60,"1,2,3",false)
---A1,A2,A3,A4,A5=ultraschall.GetItemSOffset_StateChunk(CCC[1])
+--A1,A2,A3,A4,A5=ultraschall.GetItemSampleOffset(reaper.GetMediaItem(0,0))
 
-function ultraschall.GetItemPlayRate_StateChunk(statechunk)
+function ultraschall.GetItemPlayRate(MediaItem, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemPlayRate_StateChunk
+GetItemPlayRate
 </slug>
 <requires>
 Ultraschall=4.00
@@ -27126,14 +27443,16 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-number playbackrate, integer preserve_pitch, number pitch_adjust, integer takepitch_timestretch_mode, integer optimize_tonal_content, number stretch_marker_fadesize = ultraschall.GetItemPlayRate_StateChunk(string MediaItemStateChunk)
+number playbackrate, integer preserve_pitch, number pitch_adjust, integer takepitch_timestretch_mode, integer optimize_tonal_content, number stretch_marker_fadesize = ultraschall.GetItemPlayRate(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns the playback-rate-entries of a MediaItemStateChunk.
+Returns the playback-rate-entries of a MediaItem or MediaItemStateChunk.
+It's the PLAYRATE-entry.
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose playback-rate-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 number playbackrate - 1 is 1x, 2 is 2x, 1.8 is 1.8x,etc
@@ -28086,16 +28405,19 @@ number stretch_marker_fadesize - in milliseconds; negative values are allowed
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, playrate, pitch
 </tags>
 </ApiDocBlocFunc>
 ]]
---  reaper.MB(statechunk,"",0)
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemPlayRate","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   return tonumber(statechunk:match("PLAYRATE (.-) ")),
          tonumber(statechunk:match("PLAYRATE .- (.-) ")),
          tonumber(statechunk:match("PLAYRATE .- .- (.-) ")),
@@ -28105,13 +28427,13 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, play
 end
 
 --C,CC,CCC=ultraschall.GetAllMediaItemsBetween(1,60,"1,2,3",false)
---A1,A2,A3,A4,A5=ultraschall.GetItemPlayRate_StateChunk(CCC[1])
+--A1,A2,A3,A4,A5=ultraschall.GetItemPlayRate(reaper.GetMediaItem(0,0))
 
-function ultraschall.GetItemChanMode_StateChunk(statechunk)
+function ultraschall.GetItemChanMode(MediaItem, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemChanMode_StateChunk
+GetItemChanMode
 </slug>
 <requires>
 Ultraschall=4.00
@@ -28119,14 +28441,16 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer channelmode = ultraschall.GetItemChanMode_StateChunk(string MediaItemStateChunk)
+integer channelmode = ultraschall.GetItemChanMode(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns the channelmode-entry of a MediaItemStateChunk.
+Returns the channelmode-entry of a MediaItem or MediaItemStateChunk.
+It's the CHANMODE-entry
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose channelmode-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 integer channelmode - channelmode
@@ -28144,28 +28468,30 @@ integer channelmode - channelmode
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, channel, mode
 </tags>
 </ApiDocBlocFunc>
 ]]
---Channel Mode 0-normal, 1-reverse stereo...
---  reaper.MB(statechunk,"",0)
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemChanMode","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   return tonumber(statechunk:match("CHANMODE (.-)%c"))
 end
 
 --C,CC,CCC=ultraschall.GetAllMediaItemsBetween(1,60,"1,2,3",false)
---A1,A2,A3,A4,A5=ultraschall.GetItemChanMode_StateChunk(CCC[1])
+--A1,A2,A3,A4,A5=ultraschall.GetItemChanMode(reaper.GetMediaItem(0,0))
 
-function ultraschall.GetItemGUID_StateChunk(statechunk)
+function ultraschall.GetItemGUID(MediaItem, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemGUID_StateChunk
+GetItemGUID
 </slug>
 <requires>
 Ultraschall=4.00
@@ -28173,41 +28499,45 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-string GUID = ultraschall.GetItemGUID_StateChunk(string MediaItemStateChunk)
+string GUID = ultraschall.GetItemGUID(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns the GUID-entry of a MediaItemStateChunk.
+Returns the GUID-entry of a MediaItem or MediaItemStateChunk.
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose GUID-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 string GUID - the GUID of the item
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, guid
 </tags>
 </ApiDocBlocFunc>
 ]]
---  reaper.MB(statechunk,"",0)
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemGUID","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   return statechunk:match("%cGUID (.-)%c")
 end
 
 --C,CC,CCC=ultraschall.GetAllMediaItemsBetween(1,60,"1,3",false)
---AL,AL2,AL3,AL4,AL5,AL6=ultraschall.GetItemGUID_StateChunk(CCC[1])
+--AL,AL2,AL3,AL4,AL5,AL6=ultraschall.GetItemGUID(reaper.GetMediaItem(0,0))
 
-function ultraschall.GetItemRecPass_StateChunk(statechunk)
+function ultraschall.GetItemRecPass(MediaItem, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemRecPass_StateChunk
+GetItemRecPass
 </slug>
 <requires>
 Ultraschall=4.00
@@ -28215,38 +28545,45 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer recpass_state = ultraschall.GetItemRecPass_StateChunk(string MediaItemStateChunk)
+integer recpass_state = ultraschall.GetItemRecPass(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns the recpass-entry of a MediaItemStateChunk.
+Returns the recpass-entry of a MediaItem or MediaItemStateChunk.
+It's the RECPASS-entry.
 Returns nil in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose recpass-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
-integer recpass_state - unknown
+integer recpass_state - the number of recorded mediaitem; every recorded item gets it's counting-number.
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, recpass
 </tags>
 </ApiDocBlocFunc>
 ]]
---  reaper.MB(statechunk,"",0)
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemRecPass","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
+  end
+  -- get value and return it
   return tonumber(statechunk:match("RECPASS (.-)%c"))
 end
 
-function ultraschall.GetItemBeat_StateChunk(statechunk)
+--A=ultraschall.GetItemRecPass(reaper.GetMediaItem(0,0))
+
+function ultraschall.GetItemBeat(MediaItem, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemBeat_StateChunk
+GetItemBeat
 </slug>
 <requires>
 Ultraschall=4.00
@@ -28254,14 +28591,15 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer beatstate = ultraschall.GetItemBeat_StateChunk(string MediaItemStateChunk)
+integer beatstate = ultraschall.GetItemBeat(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
-Returns the beatstate/timebase-entry of a MediaItemStateChunk.
+Returns the beatstate/timebase-entry of a MediaItem or MediaItemStateChunk.
 Returns -1 in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose beatstate/timebase-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 integer beatstate - the item-timebase state
@@ -28272,29 +28610,30 @@ integer beatstate - the item-timebase state
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, beat, timebase
 </tags>
 </ApiDocBlocFunc>
 ]]
-
---Item timebase, nil default, 0 - time, 1 - beats(pos,len,rate), 2 - beats(pos only)
---  reaper.MB(statechunk,"",0)
-  if type(statechunk)~="string" then return -1 end
-  if statechunk:match("<ITEM.*")==nil then return -1 end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemBeat","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return -1
+  end
+  -- get value and return it
   return tonumber(statechunk:match("BEAT (.-)%c"))
 end
 
 --C,CC,CCC=ultraschall.GetAllMediaItemsBetween(1,60,"1,3",false)
---AL,AL2,AL3,AL4,AL5,AL6=ultraschall.GetItemBeat_StateChunk(CCC[1])
+--AL,AL2,AL3,AL4,AL5,AL6=ultraschall.GetItemBeat(reaper.GetMediaItem(0,0))
 
-function ultraschall.GetItemMixFlag_StateChunk(statechunk)
+function ultraschall.GetItemMixFlag(MediaItem, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetItemMixFlag_StateChunk
+GetItemMixFlag
 </slug>
 <requires>
 Ultraschall=4.00
@@ -28302,14 +28641,15 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-integer itemmix_state = ultraschall.GetItemMixFlag_StateChunk(string MediaItemStateChunk)
+integer itemmix_state = ultraschall.GetItemMixFlag(MediaItem MediaItem, optional string MediaItemStateChunk)
 </functionname>
 <description>
 Returns the item-mix-behavior-entry of a MediaItemStateChunk.
 Returns -1 in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose item-mix-behavior-state you want to know; nil, use parameter MediaItemStatechunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 integer itemmix_state - the item-mix-behavior
@@ -28320,19 +28660,23 @@ integer itemmix_state - the item-mix-behavior
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, itemmix behavior
 </tags>
 </ApiDocBlocFunc>
 ]]
---Item timebase, nil - project default, 0 - enclosed items replace enclosed items, 1 - items always mix, 2 - items always replace earlier items
---  reaper.MB(statechunk,"",0)
-  if type(statechunk)~="string" then return -1 end
-  if statechunk:match("<ITEM.*")==nil then return -1 end
-  return tonumber(statechunk:match("BEAT (.-)%c"))
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if MediaItem~=nil and reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false)
+  elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemMixFlag","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return -1
+  end
+  -- get value and return it
+  return tonumber(statechunk:match("MIXFLAG (.-)%c"))
 end
+
+--A=ultraschall.GetItemMixFlag(reaper.GetMediaItem(0,0))
 
 function ultraschall.GetItemUSTrackNumber_StateChunk(statechunk)
 --[[
@@ -28350,6 +28694,7 @@ integer tracknumber, MediaTrack track = ultraschall.GetItemUSTrackNumber_StateCh
 </functionname>
 <description>
 Returns the tracknumber as well as the mediatrack-object from where the mediaitem was from, as given by a MediaItemStateChunk.
+Will be added to the MediaItemStateChunk by the function [GetAllMediaItemsBetween](#GetAllMediaItemsBetween)
 Returns -1 in case of error.
 </description>
 <parameters>
@@ -28361,16 +28706,17 @@ MediaTrack track - the accompanying track as MediaTrack-object
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Get
+Get MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, track, tracknumber
 </tags>
 </ApiDocBlocFunc>
 ]]
---  reaper.MB(statechunk,"",0)
-  if type(statechunk)~="string" then return nil end
-  if statechunk:match("<ITEM.*")==nil then return nil end
+  -- check parameters and prepare statechunk-variable
+  local retval
+  if ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemUSTrackNumber_StateChunk","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return -1 end
+  -- get value and return it
   return tonumber(statechunk:match("ULTRASCHALL_TRACKNUMBER (.-)%c")), reaper.GetTrack(0,tonumber(statechunk:match("ULTRASCHALL_TRACKNUMBER (.-)%c"))-1)
 end
 
@@ -28396,24 +28742,23 @@ Returns -1 in case of error.
 </description>
 <parameters>
 string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
-integer tracknumber - the tracknumber you want to set
+integer tracknumber - the tracknumber you want to set, with 1 for track 1, 2 for track 2
 </parameters>
 <retvals>
 string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Set
+Set MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, track, tracknumber
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if type(statechunk)~="string" then return -1 end
-  if statechunk:match("<ITEM.*")==nil then return -1 end
-  tracknumber=tonumber(tracknumber)
-  if tracknumber==nil or tracknumber<0 then return -1 end
+  if ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemUSTrackNumber_StateChunk","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return -1 end
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("SetItemUSTrackNumber_StateChunk","tracknumber", "must be an integer.", -2) end
+  if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("SetItemUSTrackNumber_StateChunk","tracknumber", "no such track.", -3) return -1 end
   if statechunk:match("ULTRASCHALL_TRACKNUMBER") then 
     statechunk="<ITEM\n"..statechunk:match(".-ULTRASCHALL_TRACKNUMBER.-%c(.*)")
   end
@@ -28422,11 +28767,11 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, trac
   return statechunk
 end
 
-function ultraschall.SetItemPosition_StateChunk(statechunk, position)
+function ultraschall.SetItemPosition(MediaItem, statechunk, position)
 --[[
 <ApiDocBlocFunc>
 <slug>
-SetItemPosition_StateChunk
+SetItemPosition
 </slug>
 <requires>
 Ultraschall=4.00
@@ -28434,15 +28779,16 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-string MediaItemStateChunk = ultraschall.SetItemPosition_StateChunk(string MediaItemStateChunk, integer position)
+string MediaItemStateChunk = ultraschall.SetItemPosition(MediaItem MediaItem, optional string MediaItemStateChunk, integer position)
 </functionname>
 <description>
-Sets position in a MediaItemStateChunk in seconds.
+Sets position in a MediaItem or MediaItemStateChunk in seconds.
 It returns the modified MediaItemStateChunk.
 Returns -1 in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 integer position - position in seconds
 </parameters>
 <retvals>
@@ -28450,26 +28796,40 @@ string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-fun
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Set
+Set MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, position
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if type(statechunk)~="string" then return -1 end
-  if statechunk:match("<ITEM.*")==nil then return -1 end
-  position=tonumber(position)
-  if position==nil or position<0 then return -1 end
-    statechunk=statechunk:match("(<ITEM.-)POSITION").."POSITION "..position.."\n"..statechunk:match("POSITION.-%c(.*)")
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemPosition", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if type(position)~="number" then ultraschall.AddErrorMessage("SetItemPosition", "position", "Must be a number.", -2) return nil end  
+  if position<0 then ultraschall.AddErrorMessage("SetItemPosition", "position", "Must bigger than or equal 0.", -3) return -1 end
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)POSITION").."POSITION "..position.."\n"..statechunk:match("POSITION.-%c(.*)")
+  
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
   return statechunk
 end
 
-function ultraschall.SetItemLength_StateChunk(statechunk, length)
+--_1, sc=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0), "", false)
+--L=ultraschall.SetItemPosition(nil, sc, "")
+--reaper.MB(tostring(L),"",0)
+
+function ultraschall.SetItemLength(MediaItem, statechunk, length)
 --[[
 <ApiDocBlocFunc>
 <slug>
-SetItemLength_StateChunk
+SetItemLength
 </slug>
 <requires>
 Ultraschall=4.00
@@ -28477,15 +28837,16 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-string MediaItemStateChunk = ultraschall.SetItemLength_StateChunk(string MediaItemStateChunk, integer length)
+string MediaItemStateChunk = ultraschall.SetItemLength(MediaItem MediaItem, string MediaItemStateChunk, integer length)
 </functionname>
 <description>
-Sets length in a MediaItemStateChunk in seconds.
+Sets length in a MediaItem and MediaItemStateChunk in seconds.
 It returns the modified MediaItemStateChunk.
 Returns -1 in case of error.
 </description>
 <parameters>
-string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 integer length - length in seconds
 </parameters>
 <retvals>
@@ -28493,22 +28854,34 @@ string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-fun
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Set
+Set MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, length
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if type(statechunk)~="string" then return -1 end
-  if statechunk:match("<ITEM.*")==nil then return -1 end
-  length=tonumber(length)
-  if length==nil or length<0 then return -1 end
-    statechunk=statechunk:match("(<ITEM.-)LENGTH").."LENGTH "..length.."\n"..statechunk:match("LENGTH.-%c(.*)")
+  -- check parameters
+  local _tudelu
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemPosition", "statechunk", "Must be a valid statechunk.", -1) return nil
+  end
+  if type(length)~="number" then ultraschall.AddErrorMessage("SetItemPosition", "length", "Must be a number.", -2) return nil end  
+  if length<0 then ultraschall.AddErrorMessage("SetItemPosition", "length", "Must bigger than or equal 0.", -3) return -1 end
+  
+  -- do the magic
+  statechunk=statechunk:match("(<ITEM.-)LENGTH").."LENGTH "..length.."\n"..statechunk:match("LENGTH.-%c(.*)")
+  
+  -- set statechunk, if MediaItem is provided, otherwise don't set it
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then reaper.SetItemStateChunk(MediaItem, statechunk, false) end
+  
+  -- return
   return statechunk
 end
 
-
+--_1, sc=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0), "", false)
+--L=ultraschall.SetItemLength(reaper.GetMediaItem(0,0), sc, 1000)
+--reaper.MB(tostring(L),"",0)
 
 function ultraschall.InsertMediaItemStateChunkArray(position, MediaItemStateChunkArray, trackstring)
 --[[
@@ -28807,13 +29180,17 @@ trackmanagement, check, tracknumber, mediatrack, object
 --returns true, if MediaTrack=tracknumber, false if not; as well as the tracknumber of MediaTrack
 --returns nil in case of error
     tracknumber=tonumber(tracknumber)
-    if tracknumber==nil or tracknumber<1 or tracknumber>reaper.CountTracks(0) then return nil end
-    if reaper.ValidatePtr(MediaTrack, "MediaTrack*")==false then return nil end
+    if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("IsTrackObjectTracknumber","tracknumber", "must be an integer", -1) return nil end
+
+    if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("IsTrackObjectTracknumber","tracknumber", "no such track", -2) return nil end
+    if reaper.ValidatePtr(MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("IsTrackObjectTracknumber","track", "no valid MediaTrack-object", -3) return nil end
     local number=reaper.GetMediaTrackInfo_Value(MediaTrack, "IP_TRACKNUMBER")
     if number==tracknumber then return true, number
     else return false, number
     end
 end
+
+--A=ultraschall.IsTrackObjectTracknumber(reaper.GetTrack(0,0),1)
 
 function ultraschall.InverseTrackstring(trackstring, limit)
 --[[
@@ -28851,11 +29228,11 @@ trackmanagement, trackstring, inverse, tracknumber, tracknumbers, limit
 ]]
 --returns a newtrackstring with numbers, that are NOT in trackstring, from 0 to limit
   local retval, trackstring, trackstringarray, number_of_entries = ultraschall.RemoveDuplicateTracksInTrackstring(trackstring) 
-  if tonumber(limit)==nil then return -1 end
+  if math.type(limit)~="integer" then ultraschall.AddErrorMessage("InverseTrackstring","limit", "must be an integer", -1) return -1 end
   limit=tonumber(limit)
   local newtrackstring=""
   local dingo
-  if retval==-1 then return -1 end
+  if retval==-1 then ultraschall.AddErrorMessage("InverseTrackstring","trackstring", "not a valid trackstring", -2) return -1 end
   for i=1,limit do
     dingo=true
     for a=0,number_of_entries do
@@ -29136,10 +29513,10 @@ mediaitemmanagement, track, get, item, mediaitem
 </tags>
 </ApiDocBlocFunc>
 ]]
-  tracknumber=tonumber(tracknumber)
-  idx=tonumber(idx)
-  if tracknumber==nil or tracknumber<1 or tracknumber>reaper.CountTracks(0) then return -1 end
-  if idx==nil or idx<0 then return -1 end
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("EnumerateMediaItemsInTrack","tracknumber", "must be an integer", -1) return -1 end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("EnumerateMediaItemsInTrack","idx", "must be an integer", -2) return -1 end
+  if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("EnumerateMediaItemsInTrack","tracknumber", "no such tracknumber", -3) return -1 end
+  if idx<0 then ultraschall.AddErrorMessage("EnumerateMediaItemsInTrack","idx", "must be bigger than or equal 0", -4) return -1 end
   local count=1
   local MediaTrack=reaper.GetTrack(0,tracknumber-1)
   local MediaItemArray={}
@@ -29147,7 +29524,7 @@ mediaitemmanagement, track, get, item, mediaitem
   local retval, str = reaper.GetTrackStateChunk(MediaTrack, "", true)
   str=str:match("<ITEM.*")
   
-  if str==nil then return -1 end 
+  if str==nil then ultraschall.AddErrorMessage("EnumerateMediaItemsInTrack","tracknumber", "No item in track", -5) return -1 end 
   
   while str:match(".-%cIGUID.-")~= nil do
     local GUID=str:match(".-%cIGUID ({.-})%c")
@@ -29158,6 +29535,8 @@ mediaitemmanagement, track, get, item, mediaitem
     end
   return MediaItem, count-1, MediaItemArray
 end
+
+--A,B,C,D,E=ultraschall.EnumerateMediaItemsInTrack(1, 1000)
 
 function ultraschall.GetAllMediaItemsFromTrack(tracknumber)
 --[[
@@ -29195,8 +29574,10 @@ mediaitemmanagement, track, get, item, mediaitem, statechunk, state, chunk
 </tags>
 </ApiDocBlocFunc>
 ]]
-  tracknumber=tonumber(tracknumber)
-  if tracknumber==nil or tracknumber<1 or tracknumber>reaper.CountTracks(0) then return -1 end
+--  tracknumber=tonumber(tracknumber) 
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetAllMediaItemsFromTrack","tracknumber", "must be an integer", -1) return -1 end
+  if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetAllMediaItemsFromTrack","tracknumber", "no such track", -2) return -1 end
+  
   local count=1
   local MediaTrack=reaper.GetTrack(0,tracknumber-1)
   local MediaItemArray={}
@@ -29217,9 +29598,9 @@ mediaitemmanagement, track, get, item, mediaitem, statechunk, state, chunk
   return count-1, MediaItemArray, MediaItemArrayStateChunk
 end
 
---A,B,C=ultraschall.GetAllMediaItemsFromTrack(1)
+--A,B,C=ultraschall.GetAllMediaItemsFromTrack("")
 
-function ultraschall.SetItemsLockState(MediaItemArray,lockstate)
+function ultraschall.SetItemsLockState(MediaItemArray, lockstate)
 --[[
 <ApiDocBlocFunc>
 <slug>
@@ -29255,8 +29636,8 @@ mediaitemmanagement, track, set, item, mediaitem, lock
 </ApiDocBlocFunc>
 ]]
 
-  if lockstate~=true and lockstate~=false then return false end
-  if type(MediaItemArray)~="table" then return false end
+  if type(lockstate)~="boolean" then ultraschall.AddErrorMessage("SetItemsLockState", "lockstate", "Must be a boolean.", -1) return false end
+  if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("SetItemsLockState", "MediaItemArray", "No valid MediaItemArray.", -2) return false end
   count=1
   while MediaItemArray[count]~=nil do
       if lockstate==true then reaper.SetMediaItemInfo_Value(MediaItemArray[count], "C_LOCK", 1)
@@ -29266,6 +29647,7 @@ mediaitemmanagement, track, set, item, mediaitem, lock
   end
   return true
 end
+
 
 function ultraschall.AddLockStateToMediaItemStateChunk(MediaItemStateChunk, lockstate)
 --[[
@@ -29401,8 +29783,8 @@ mediaitemmanagement, track, set, item, mediaitem, statechunk, state, chunk, appl
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if undostate~=true and undostate~=false then return false end
-  if type(MediaItemStateChunkArray)~="table" then return false end
+  if ultraschall.CheckMediaItemStateChunkArray(MediaItemStateChunkArray)==false then ultraschall.AddErrorMessage("ApplyStateChunkToItems","MediaItemStateChunkArray", "must be a valid MediaItemStateChunkArray", -1) return false end
+  if type(undostate)~="boolean" then ultraschall.AddErrorMessage("ApplyStateChunkToItems","undostate", "must be a boolean", -2) return false end
   local count=1
   local count_two=1
   local MediaItemStateChunkArray2={}
@@ -29419,6 +29801,8 @@ mediaitemmanagement, track, set, item, mediaitem, statechunk, state, chunk, appl
   end
   return true, count_two-1, MediaItemStateChunkArray2
 end
+
+--ultraschall.ApplyStateChunkToItems("", "")
 
 function ultraschall.GetAllLockedItemsFromMediaItemArray(MediaItemArray)
 --[[
@@ -29459,7 +29843,7 @@ mediaitemmanagement, track, set, item, mediaitem, selection, lock, lockstate, lo
 ]]
 --lockedstate = true return only locked items
 --            = false return only unlocked items
-  if type(MediaItemArray)~="table" then return -1 end
+  if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("GetAllLockedItemsFromMediaItemArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return -1 end
   local MediaItemArray_locked={}
   local MediaItemArray_unlocked={}
   local count=1
@@ -30155,7 +30539,7 @@ function ultraschall.SetTrackHWOut(tracknumber, idx, a, b, c, d, e, f, g, h, i, 
 --[[
 <ApiDocBlocFunc>
 <slug>
-AddTrackHWOut
+SetTrackHWOut
 </slug>
 <requires>
 Ultraschall=4.00
@@ -31336,7 +31720,7 @@ string trackstatechunk - the new trackstatechunk with the idx'th item replaced
 </retvals>
 <semanticcontext>
 MediaItem Management
-StateChunks Set
+Set MediaItem States
 </semanticcontext>
 <tags>
 mediaitemmanagement, tracks, media, item, statechunk, chunk, set
@@ -31374,109 +31758,7 @@ mediaitemmanagement, tracks, media, item, statechunk, chunk, set
   return true, begin..temptrackstatechunk..add
 end
 
-function ultraschall.CheckMediaItemStateChunkArray(MediaItemStateChunkArray)
---[[
-<ApiDocBlocFunc>
-<slug>
-CheckMediaItemStateChunkArray
-</slug>
-<requires>
-Ultraschall=4.00
-Reaper=5.40
-Lua=5.3
-</requires>
-<functionname>
-boolean retval, integer count, array retMediaItemStateChunkArray = ultraschall.CheckMediaItemStateChunkArray(array MediaItemStateChunkArray)
-</functionname>
-<description>
-Checks, whether MediaItemStateChunkArray is valid.
-It throws out all entries, that are not MediaItemStateChunks and returns the altered array as result.
 
-returns false in case of error or if it is not a valid MediaItemStateChunkArray
-</description>
-<parameters>
-array MediaItemStateChunkArray - a MediaItemStateChunkArray that shall be checked for validity
-</parameters>
-<retvals>
-boolean retval - returns true if MediaItemStateChunkArray is valid, false if not
-integer count - the number of entries in the returned retMediaItemStateChunkArray
-array retMediaItemStateChunkArray - the, possibly, altered MediaItemStateChunkArray
-</retvals>
-<semanticcontext>
-MediaItem Management
-Assistance functions
-</semanticcontext>
-<tags>
-mediaitemmanagement, tracks, media, item, statechunk, chunk, check
-</tags>
-</ApiDocBlocFunc>
-]]
---checks, if MediaItemStateChunkArray is a valid array.
--- throws out all invalid table-entries
-  if type(MediaItemStateChunkArray)~="table" then ultraschall.AddErrorMessage("CheckMediaItemStateChunkArray", "MediaItemStateChunkArray", "Only array with MediaItemStateChunks as entries allowed.", -1) return false end
-  local count=1
-  while MediaItemStateChunkArray[count]~=nil do
-    if type(MediaItemStateChunkArray[count])~="string" or MediaItemStateChunkArray[count]:match("<ITEM.*>")==nil then table.remove(MediaItemStateChunkArray,count)
-    else
-      count=count+1
-    end
-  end
-  if count==1 then return false
-  else return true, count-1, MediaItemStateChunkArray
-  end
-end
-
-function ultraschall.CheckMediaItemArray(MediaItemArray)
---checks, if MediaItemArray is a valid array.
--- throws out all invalid table-entries
---[[
-<ApiDocBlocFunc>
-<slug>
-CheckMediaItemArray
-</slug>
-<requires>
-Ultraschall=4.00
-Reaper=5.40
-Lua=5.3
-</requires>
-<functionname>
-boolean retval, integer count, array retMediaItemArray = ultraschall.CheckMediaItemArray(array MediaItemArray)
-</functionname>
-<description>
-Checks, whether MediaItemArray is valid.
-It throws out all entries, that are not MediaItems and returns the altered array as result.
-
-returns false in case of error or if it is not a valid MediaItemArray
-</description>
-<parameters>
-array MediaItemArray - a MediaItemArray that shall be checked for validity
-</parameters>
-<retvals>
-boolean retval - returns true if MediaItemArray is valid, false if not
-integer count - the number of entries in the returned retMediaItemArray
-array retMediaItemArray - the, possibly, altered MediaItemArray
-</retvals>
-<semanticcontext>
-MediaItem Management
-Assistance functions
-</semanticcontext>
-<tags>
-mediaitemmanagement, tracks, media, item, check
-</tags>
-</ApiDocBlocFunc>
-]]
-  if type(MediaItemArray)~="table" then ultraschall.AddErrorMessage("CheckMediaItemArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return false,0,{} end
-  local count=1
-  while MediaItemArray[count]~=nil do
-    if reaper.ValidatePtr(MediaItemArray[count],"MediaItem*")==false then table.remove(MediaItemArray,count)
-    else
-      count=count+1
-    end
-  end
-  if count==1 then return false, count-1, MediaItemArray
-  else return true, count-1, MediaItemArray
-  end
-end
 
 function ultraschall.GetSelectedMediaItemsAtPosition(position, trackstring)
 --[[
@@ -32943,8 +33225,8 @@ timestring, converter, seconds, string
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if type(time)~="number" then return -1 end
-  if time<0 then return -1 end
+  if type(time)~="number" then ultraschall.AddErrorMessage("SecondsToTimeString_hh_mm_ss_mss","time", "must be a string", -1) return -1 end
+  if time<0 then ultraschall.AddErrorMessage("SecondsToTimeString_hh_mm_ss_mss","time", "must be bigger or equal 0", -2) return -1 end
   local Buf2 = reaper.format_timestr_len(time, "", 0, 5)
   local Hour=Buf2:match("(.-):")
   local Ms=tostring(time):match("%.(.*)")
@@ -32953,9 +33235,11 @@ timestring, converter, seconds, string
   Ms=Ms:sub(1,3)
   local Len=string.len(Hour)
   if Len==1 then Buf2="0"..Buf2 end
-  if Len>2 then return -1 end --Buf2=Buf2:sub(Len-1,-1) end
+  if Len>2 then ultraschall.AddErrorMessage("SecondsToTimeString_hh_mm_ss_mss","time", "must be smaller than 359999.99 seconds(about 99 hours)", -3) return -1 end --Buf2=Buf2:sub(Len-1,-1) end
   return Buf2:match("(.*):").."."..Ms
 end
+
+--A=ultraschall.SecondsToTimeString_hh_mm_ss_mss(999999)
 
 function ultraschall.TimeStringToSeconds_hh_mm_ss_mss(timestring)
 --[[
@@ -32993,17 +33277,19 @@ timestring, converter, seconds, string
 ]]
 -- converts timestring to seconds
 -- expects hh:mm:ss.mss as time, i.e. 12:23:34.456 or it returns -1 as result
-  if type(timestring)~="string" then return -1 end
+  if type(timestring)~="string" then ultraschall.AddErrorMessage("TimeStringToSeconds_hh_mm_ss_mss","timestring", "must be a string", -1) return -1 end
   local Hour=timestring:match("(%d-):")
-  if Hour==nil or string.len(Hour)~=2 then return -1 end
+  if Hour==nil or string.len(Hour)~=2 then ultraschall.AddErrorMessage("TimeStringToSeconds_hh_mm_ss_mss","timestring", "no valid timestring", -2) return -1 end
   local Minute=timestring:match("%d%d:(%d-):")
-  if Minute==nil or string.len(Minute)~=2 then return -1 end
+  if Minute==nil or string.len(Minute)~=2 then ultraschall.AddErrorMessage("TimeStringToSeconds_hh_mm_ss_mss","timestring", "no valid timestring", -2) return -1 end
   local Second=timestring:match("%d%d:%d%d:(%d-)%.")
-  if Second==nil or string.len(Second)~=2 then return -1 end
+  if Second==nil or string.len(Second)~=2 then ultraschall.AddErrorMessage("TimeStringToSeconds_hh_mm_ss_mss","timestring", "no valid timestring", -2) return -1 end
   local MilliSeconds=timestring:match("%d%d:%d%d:%d%d(%.%d*)")
-  if MilliSeconds==nil or string.len(MilliSeconds)~=4 then return -1 end
+  if MilliSeconds==nil or string.len(MilliSeconds)~=4 then ultraschall.AddErrorMessage("TimeStringToSeconds_hh_mm_ss_mss","timestring", "no valid timestring", -2) return -1 end
   return (Hour*3600)+(Minute*60)+Second+tonumber(MilliSeconds)
 end
+
+--A=ultraschall.TimeStringToSeconds_hh_mm_ss_mss("Hula")
 
 function ultraschall.ParseMarkerString(markerstring, strict)
 --[[
@@ -35695,7 +35981,7 @@ filemanagement, count, directory, file, path
 </ApiDocBlocFunc>
 --]]
   -- check parameters
-  if type(path)~="string" then ultraschall.AddErrorMessage("CountDirectoriesAndFilesInPath", "path", "must be a string", -1) end
+  if type(path)~="string" then ultraschall.AddErrorMessage("CountDirectoriesAndFilesInPath", "path", "must be a string", -1) return 0 end
   
   -- prepare variables
   local string=""
@@ -35758,7 +36044,7 @@ filemanagement, get, filenames, file, path
 --]]
 
   -- check parameters
-  if type(path)~="string" then ultraschall.AddErrorMessage("GetAllFilesnamesInPath", "path", "must be a string", -1) end
+  if type(path)~="string" then ultraschall.AddErrorMessage("GetAllFilesnamesInPath", "path", "must be a string", -1) return 0 end
 
   -- prepare variables
   local Files={}
@@ -35813,7 +36099,7 @@ filemanagement, get, directory, file, path
 --]]
 
   -- check parameters
-  if type(path)~="string" then ultraschall.AddErrorMessage("GetAllDirectoriesInPath", "path", "must be a string", -1) end
+  if type(path)~="string" then ultraschall.AddErrorMessage("GetAllDirectoriesInPath", "path", "must be a string", -1) return 0 end
   
   -- check variables
   local Dirs={}
@@ -36753,7 +37039,7 @@ Lua=5.3
 boolean retval, integer new_integer_bitfield = ultraschall.SetIntConfigVar_Bitfield(string configvar, boolean set_to, integer bit_1, integer bit_2, ... integer bit_n)
 </functionname>
 <description>
-Alters an integer-bitfield stored by an ConfigVariable.
+Alters an integer-bitfield stored by a ConfigVariable.
 
 Returns false in case of error, like invalid bit-values, etc
 </description>
@@ -38568,58 +38854,6 @@ A[7]=reaper.GetTrack(0,0)
 A["HollaDieWaldfee"]=false
 L,LL=ultraschall.RemoveTableEntriesOfType(A, "MediaTrack")--]]
 
-function ultraschall.IsValidTrackString(trackstring)
---[[
-<ApiDocBlocFunc>
-<slug>
-IsValidTrackString
-</slug>
-<requires>
-Ultraschall=4.00
-Reaper=5.40
-Lua=5.3
-</requires>
-<functionname>
-boolean valid, integer count, array individual_tracknumbers = ultraschall.IsValidTrackString(string trackstring)
-</functionname>
-<description>
-checks, whether a given trackstring is a valid one. Will also return all valid numbers, from trackstring, that can be used as tracknumbers, as an array.
-</description>
-<retvals>
-boolean valid - true, is a valid trackstring; false, is not a valid trackstring
-integer count - the number of entries found in trackstring
-array individual_tracknumbers - an array that contains all available tracknumbers
-</retvals>
-<parameters>
-string trackstring - the trackstring to check, if it's a valid one
-</parameters>
-<semanticcontext>
-Track Management
-Assistance functions
-</semanticcontext>
-<tags>
-trackmanagement, trackstring, check, valid
-</tags>
-</ApiDocBlocFunc>
-]]
-  -- check parameters
-  if type(trackstring)~="string" then ultraschall.AddErrorMessage("IsValidTrackString","trackstring", "Must be a string!", -1) return false end
-  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(trackstring)
-  local found=true
-  if individual_values==nil then ultraschall.AddErrorMessage("IsValidTrackString","trackstring", "Has no tracknumbers in it!", -1) return false end
-
-  -- check the individual trackstring-entries and throw out all invalid-entries
-  for i=count, 1, -1 do
-    individual_values[i]=tonumber(individual_values[i])
-    if individual_values[i]==nil then table.remove(individual_values,i) count=count-1 found=false end
-  end
-  
-  -- sort it and return it
-  table.sort(individual_values) 
-  return found, count, individual_values
-end
-
---A,B,C,D,E=ultraschall.IsValidTrackString("1,4,3")
 
 
 function ultraschall.IsItemInTrack3(MediaItem, trackstring)
@@ -39241,5 +39475,320 @@ end
 
 --A,B=ultraschall.GetAllMediaItemsInTimeSelection("1,2", false)
 --ultraschall.NormalizeItems(B)
+
+function ultraschall.GetOutputFormat_RenderString(Renderstring)
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetOutputFormat_RenderString
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string outputformat = ultraschall.GetOutputFormat_RenderString(string Renderstring)
+</functionname>
+<description>
+Returns the output-format set in a render-cfg-string, as stored in rpp-files and the render-presets file reaper-render.ini
+
+Returns nil in case of an error
+</description>
+<retvals>
+string outputformat - the outputformat, set in the render-cfg-string
+- The following are valid: 
+- AIFF, AUDIOCD-IMAGE, WAV, WAVPACK, DDP, FLAC, MP3, OPUS, OGG, Video WebM, Video MKV, Video MP4, Video AVI, Video GIF, Video LCF
+</retvals>
+<parameters>
+string Renderstring - the render-cfg-string from a rpp-projectfile or the reaper-render.ini
+</parameters>
+<semanticcontext>
+Project-Files
+Helper functions
+</semanticcontext>
+<tags>
+projectfiles, get, render, outputformat
+</tags>
+</ApiDocBlocFunc>
+]]
+--[[
+AIFF:     ZmZpY    12
+AUDIOCD:  IG9za    32
+WAV:      ZXZhd    12
+WAVPACK:  a3B2dw   28
+DDP:      IHBkZA=
+FLAC:     Y2FsZh   16
+MP3:      bDNwbc   44
+OPUS:     U2dnTwAA 20
+OGG:      dmdnb    36
+Video
+  WebM    UE1GRgY  60
+  MKV     UE1GRgQ  60
+  MP4     UE1GRgM  60
+  AVI     UE1GRgA  60
+GIF:      IEZJR    24
+LCF:      IEZDT    108
+--]]
+  -- check parameter
+  if type(Renderstring)~="string" then ultraschall.AddErrorMessage("GetOutputFormat_RenderString", "Renderstring", "Must be a string!", -1) return nil end
+
+  -- get rid of anything else than printable characters
+  local A2,B=Renderstring:match("%s*()[%g%=]*()")
+  Renderstring=Renderstring:sub(A2,B-1)
+  
+  -- return the proper value
+  if Renderstring:sub(1,5)=="ZmZpY"    and Renderstring:len()==12 then return "AIFF"    end
+  if Renderstring:sub(1,5)=="IG9za"    and Renderstring:len()==32 then return "AUDIOCD-IMAGE" end
+  if Renderstring:sub(1,5)=="ZXZhd"    and Renderstring:len()==12 then return "WAV"     end
+  if Renderstring:sub(1,6)=="a3B2dw"   and Renderstring:len()==28 then return "WAVPACK" end
+  if Renderstring         =="IHBkZA="                             then return "DDP"  end
+  if Renderstring:sub(1,6)=="Y2FsZh"   and Renderstring:len()==16 then return "FLAC" end
+  if Renderstring:sub(1,5)=="bDNwb"    and Renderstring:len()==44 then return "MP3"  end
+  if Renderstring:sub(1,8)=="U2dnTwAA" and Renderstring:len()==20 then return "OPUS" end
+  if Renderstring:sub(1,5)=="dmdnb"    and Renderstring:len()==36 then return "OGG"  end
+  if Renderstring:sub(1,7)=="UE1GRgY"  and Renderstring:len()==60 then return "Video WebM" end
+  if Renderstring:sub(1,7)=="UE1GRgQ"  and Renderstring:len()==60 then return "Video MKV"  end
+  if Renderstring:sub(1,7)=="UE1GRgM"  and Renderstring:len()==60 then return "Video MP4"  end
+  if Renderstring:sub(1,7)=="UE1GRgA"  and Renderstring:len()==60 then return "Video AVI"  end
+  if Renderstring:sub(1,5)=="IEZJR"    and Renderstring:len()==24 then return "Video GIF"  end
+  if Renderstring:sub(1,5)=="IEZDT"    and Renderstring:len()==108 then return "Video LCF" end
+  return "Unknown"
+end
+
+
+--B=ultraschall.GetOutputFormat_RenderString(A)
+
+
+function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_Opus
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_Opus(integer Mode, integer Kbps, integer Complexity)
+</functionname>
+<description>
+Returns the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+
+Returns nil in case of an error
+</description>
+<retvals>
+string render_cfg_string - the render-cfg-string for the selected opus-settings
+</retvals>
+<parameters>
+integer Mode - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR
+integer Kbps - the kbps of the opus-file; Ultraschall-Api supports between 1 and 262
+integer Complexity - the complexity-setting between 0(lowest quality) and 10(highest quality, slow encoding)
+</parameters>
+<semanticcontext>
+Rendering of Project
+Helper functions
+</semanticcontext>
+<tags>
+projectfiles, get, render, outputformat, opus
+</tags>
+</ApiDocBlocFunc>
+]]
+  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
+  if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Ooops", "external render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
+  if math.type(Kbps)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Must be an integer!", -2) return nil end
+  if math.type(Mode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Must be an integer!", -3) return nil end
+  if math.type(Complexity)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Must be an integer!", -4) return nil end
+  if Kbps<1 or Kbps>262 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Ultraschall-API supports only kbps-values between 1 to 262, sorry.", -5) return nil end
+  if Mode<0 or Mode>2 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Mode", "must be between 0 and 2", -6) return nil end
+  if Complexity<0 or Complexity>10 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Complexity", "must be between 0 and 10", -7) return nil end
+  
+  if Mode==0 then Mode="VBR"
+  elseif Mode==1 then Mode="CVBR"
+  elseif Mode==2 then Mode="HARDCBR"
+  end
+  local _temp, renderstring=ultraschall.GetIniFileExternalState("OPUS", "Renderstring", ini_file)  
+  local _temp, renderkbps=ultraschall.GetIniFileExternalState("OPUS", "KBPS_"..Kbps, ini_file)
+  local _temp, rendermode=ultraschall.GetIniFileExternalState("OPUS", "MODE_"..Mode, ini_file)
+  local _temp, rendercomplexity=ultraschall.GetIniFileExternalState("OPUS", "Complexity_"..Complexity, ini_file)
+
+  renderstring=string.gsub(renderstring, "%[KBPS%]", renderkbps)
+  renderstring=string.gsub(renderstring, "%[MODE%]", rendermode)
+  renderstring=string.gsub(renderstring, "%[Complexity%]", rendercomplexity)
+  return renderstring
+end
+
+--A=ultraschall.CreateRenderCFG_Opus(1, 129, 10)
+
+
+function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, ABR_KBPS_MIN, ABR_KBPS_MAX)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_OGG
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_OGG(integer Mode, number VBR_Quality, integer CBR_KBPS, integer ABR_KBPS, integer ABR_KBPS_MIN, integer ABR_KBPS_MAX)
+</functionname>
+<description>
+Returns the render-cfg-string for the OGG-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+For all mode-settings that you don't need(kbps or quality), you can safely set them to 1.
+
+Returns nil in case of an error
+</description>
+<retvals>
+string render_cfg_string - the render-cfg-string for the selected OGG-settings
+</retvals>
+<parameters>
+integer Mode - the mode for the ogg-file; 0, VBR; 1, CBR; 2, ABR
+number VBR_Quality - the quality for VBR-mode; a floating-value between 0 and 1
+integer CBR_KBPS - the bitrate for CBR-mode; 0 to 2048
+integer ABR_KBPS - the bitrate for ABR-mode; 0 to 2048
+integer ABR_KBPS_MIN - the minimum-bitrate for ABR-mode; 0 to 2048
+integer ABR_KBPS_MAX - the maximum-bitrate for ABR-mode; 0 to 2048
+</parameters>
+<semanticcontext>
+Rendering of Project
+Helper functions
+</semanticcontext>
+<tags>
+projectfiles, get, render, outputformat, ogg
+</tags>
+</ApiDocBlocFunc>
+]]
+
+--(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, ABR_KBPS_MIN, ABR_KBPS_MAX)
+  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
+  if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "Ooops", "external render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
+  if math.type(Mode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "Kbps", "Must be an integer!", -2) return nil end
+  if math.type(VBR_Quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "VBR_Quality", "Must be a float!", -3) return nil end
+  if math.type(CBR_KBPS)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "CBR_KBPS", "Must be an integer!", -4) return nil end
+  if math.type(ABR_KBPS)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS", "Must be an integer!", -5) return nil end
+  if math.type(ABR_KBPS_MIN)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS_MIN", "Must be an integer!", -6) return nil end
+  if math.type(ABR_KBPS_MAX)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS_MAX", "Must be an integer!", -7) return nil end
+  if Mode<0 or Mode>2 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "Mode", "must be between 0 and 2", -8) return nil end
+  if VBR_Quality<0 or VBR_Quality>1.0 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "VBR_Quality", "must be a float-value between 0 and 1", -9) return nil end
+  if CBR_KBPS<0 or CBR_KBPS>2048 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "CBR_KBPS", "must be between 0 and 2048", -10) return nil end  
+  if ABR_KBPS<0 or ABR_KBPS>2048 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS", "must be between 0 and 2048", -11) return nil end  
+  if ABR_KBPS_MIN<0 or ABR_KBPS_MIN>2048 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS_MIN", "must be between 0 and 2048", -12) return nil end  
+  if ABR_KBPS_MAX<0 or ABR_KBPS_MAX>2048 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS_MAX", "must be between 0 and 2048", -13) return nil end  
+
+  if Mode==0 then Mode="VBR"
+  elseif Mode==1 then Mode="CBR"
+  elseif Mode==2 then Mode="ABR"
+  end
+
+  local _temp, renderstring, rendermode, rendervbrquality, rendercbrkbps, renderabrkbps, renderabrkbps_min, renderabrkbps_max
+  _temp, renderstring=ultraschall.GetIniFileExternalState("OGG", "Renderstring", ini_file)  
+  _temp, rendermode=ultraschall.GetIniFileExternalState("OGG", "MODE_"..Mode, ini_file)
+  _temp, rendervbrquality=ultraschall.GetIniFileExternalState("OGG", "VBR_quality_"..VBR_Quality+0.0, ini_file)
+  _temp, rendercbrkbps=ultraschall.GetIniFileExternalState("OGG", "CBR_KBPS_"..CBR_KBPS, ini_file)
+  _temp, renderabrkbps=ultraschall.GetIniFileExternalState("OGG", "ABR_KBPS_"..ABR_KBPS, ini_file)
+  _temp, renderabrkbps_min=ultraschall.GetIniFileExternalState("OGG", "ABR_KBPS_MIN_"..ABR_KBPS_MIN, ini_file)
+  _temp, renderabrkbps_max=ultraschall.GetIniFileExternalState("OGG", "ABR_KBPS_MAX_"..ABR_KBPS_MAX, ini_file)
+
+  renderstring=string.gsub(renderstring, "%[MODE%]", rendermode)
+  renderstring=string.gsub(renderstring, "%[VBR_quality%]", rendervbrquality)
+  renderstring=string.gsub(renderstring, "%[CBR_KBPS%]", rendercbrkbps)
+  renderstring=string.gsub(renderstring, "%[ABR_KBPS%]", renderabrkbps)
+  renderstring=string.gsub(renderstring, "%[ABR_KBPS_MIN%]", renderabrkbps_min)
+  renderstring=string.gsub(renderstring, "%[ABR_KBPS_MAX%]", renderabrkbps_max)
+
+  return renderstring
+end
+--A=ultraschall.CreateRenderCFG_OGG(1,1,3,4,5,600)
+
+function ultraschall.CreateRenderCFG_DDP()
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_DDP
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_DDP()
+</functionname>
+<description>
+Returns the render-cfg-string for the DDP-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+</description>
+<retvals>
+string render_cfg_string - the render-cfg-string for the selected OGG-settings
+</retvals>
+<semanticcontext>
+Rendering of Project
+Helper functions
+</semanticcontext>
+<tags>
+projectfiles, get, render, outputformat, ddp
+</tags>
+</ApiDocBlocFunc>
+]]
+  return "IHBkZA="
+end
+
+--A=ultraschall.CreateRenderCFG_DDP()
+
+
+function ultraschall.CreateRenderCFG_AIFF(bits)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_AIFF
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_AIFF(integer bits)
+</functionname>
+<description>
+Returns the render-cfg-string for the AIFF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+
+Returns nil in case of an error
+</description>
+<retvals>
+string render_cfg_string - the render-cfg-string for the selected OGG-settings
+</retvals>
+<parameters>
+integer bits - the bitrate of the aiff-file; 8, 16, 24 and 32 are supported
+</parameters>
+<semanticcontext>
+Rendering of Project
+Helper functions
+</semanticcontext>
+<tags>
+projectfiles, get, render, outputformat, aiff
+</tags>
+</ApiDocBlocFunc>
+]]
+  if math.type(bits)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AIFF", "bits", "must be an integer", -1) return nil end
+  local renderstring="mZpY..AAA=="
+  if bits==8 then renderstring=string.gsub(renderstring, "%.%.", "Qg")
+  elseif bits==16 then renderstring=string.gsub(renderstring, "%.%.", "RA")
+  elseif bits==24 then renderstring=string.gsub(renderstring, "%.%.", "Rg")
+  elseif bits==32 then renderstring=string.gsub(renderstring, "%.%.", "SA")
+  else ultraschall.AddErrorMessage("CreateRenderCFG_AIFF", "bits", "only 8, 16, 24 and 32 are supported by AIFF", -2) return nil
+  end
+  return renderstring
+end
+
+--A=ultraschall.CreateRenderCFG_AIFF(16)
+
+--reaper.CF_SetClipboard(A)
+--reaper.MB(A,"",0)
+
 
 ultraschall.ShowLastErrorMessage()
