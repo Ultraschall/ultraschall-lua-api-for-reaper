@@ -137,15 +137,20 @@
   - GetOutputFormat_RenderString - returns the output-format of a render-cfg-string from rpp-files/ProjectStateChunks and the reaper-render.ini
   - GetProject_RenderCFG - returns the render-string(which contains all render-settings of a project) of a project/ProjectStateChunk
   - SetProject_RenderCFG - sets the render-string(which contains all render-settings of a project) of a project
+  - GetAllMediaItems - gets all MediaItems from the current project in a MediaItemArray
   - CreateRenderCFG_Opus - creates the render-cfg-string for an opus-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
   - CreateRenderCFG_OGG - creates the render-cfg-string for an OGG-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
   - CreateRenderCFG_DDP - creates the render-cfg-string for a DDP-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
   - CreateRenderCFG_AIFF - creates the render-cfg-string for an AIFF-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
+  - CreateRenderCFG_FLAC - creates the render-cfg-string for a FLAC-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
+  - CreateRenderCFG_WAVPACK - creates the render-cfg-string for a WAVPACK-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
+  - CreateRenderCFG_WebMVideo - creates the render-cfg-string for an WebM-Video-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
+  - RenderProject_RenderCFG - renders a project, using a certain render-string, created from the aforementioned functions
   
   <TODO>
       TODO!!  - SetTrackGroupFlagsState - sets GroupFlagsState
       TODO!!  - SetProject-functions also accept ProjectStateChunk for getting and setting
-      TODO!!  - CreateRenderCFG_FLAC, CreateRenderCFG_WebMVideo, RenderProjectToOGG, RenderProjectToWebMVideo(reworking)
+      TODO!!  - RenderProjectToOGG, RenderProjectToWebMVideo(reworking)
       TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
       TODO!!  - commenting and errorchecking
       TODO!!  - alter MakeCopyOfTable to be different from the original

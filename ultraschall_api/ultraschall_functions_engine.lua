@@ -2089,7 +2089,7 @@ end
 --  content="%SystemRoot%\\syswow64\\chcp.com\ntestballon"
 --  stringthing=string.format('%q', content)
   
---A=ultraschall.WriteValueToFile("cs:\\hui.bat","aboutyou",true,true)
+--A=ultraschall.WriteValueToFile("c:\\Ultraschall3_1-portable - Api/UserPlugins/ultraschall_api/temp/temp hui.bat", "aboutyou")
 
 
 function ultraschall.CreateTrackNumbersString(firstnumber, lastnumber, step)
@@ -38331,10 +38331,10 @@ filemanagement, create, temporary, file, filename
   if type(create)~="boolean" then ultraschall.AddErrorMessage("CreateValidTempFile","create", "Must be boolean!", -3) return nil end
   if type(suffix)~="string" then ultraschall.AddErrorMessage("CreateValidTempFile","suffix", "Must be a string!", -4) return nil end
   if type(retainextension)~="boolean" then ultraschall.AddErrorMessage("CreateValidTempFile","retainextension", "Must be boolean!", -5) return nil end
-
+  local extension, tempfilename, A
   if retainextension==true then extension=filename_with_path:match(".*(%..*)") end
   if extension==nil then extension="" end
-  for i=0, 65536 do
+  for i=0, 16555 do
     tempfilename=filename_with_path..suffix.."~"..i..extension
     if reaper.file_exists(tempfilename)==false then
       if create==true then 
@@ -38346,7 +38346,7 @@ filemanagement, create, temporary, file, filename
     end
   end
   ultraschall.AddErrorMessage("CreateValidTempFile","filename_with_path", "Couldn't create a valid temp-file!", -1)
-  return false
+  return nil
 end
 
 
@@ -39262,7 +39262,7 @@ Reaper=5.77
 Lua=5.3
 </requires>
 <functionname>
-boolean retval = ultraschall.GetAllMediaItemsInTimeSelection(MediaItemArray MediaItemArray, string actioncommandid, integer repeat_action, boolean midi, optional HWND MIDI_hwnd)
+boolean retval = ultraschall.ApplyActionToMediaItemArray(MediaItemArray MediaItemArray, string actioncommandid, integer repeat_action, boolean midi, optional HWND MIDI_hwnd)
 </functionname>
 <description>
 Applies an action to the MediaItems in MediaItemArray, in either main or MIDI-Editor section-context
@@ -39476,11 +39476,11 @@ end
 --A,B=ultraschall.GetAllMediaItemsInTimeSelection("1,2", false)
 --ultraschall.NormalizeItems(B)
 
-function ultraschall.GetOutputFormat_RenderString(Renderstring)
+function ultraschall.GetOutputFormat_RenderCfg(Renderstring)
 --[[
 <ApiDocBlocFunc>
 <slug>
-GetOutputFormat_RenderString
+GetOutputFormat_RenderCfg
 </slug>
 <requires>
 Ultraschall=4.00
@@ -39488,7 +39488,7 @@ Reaper=5.77
 Lua=5.3
 </requires>
 <functionname>
-string outputformat = ultraschall.GetOutputFormat_RenderString(string Renderstring)
+string outputformat = ultraschall.GetOutputFormat_RenderCfg(string Renderstring)
 </functionname>
 <description>
 Returns the output-format set in a render-cfg-string, as stored in rpp-files and the render-presets file reaper-render.ini
@@ -39580,7 +39580,7 @@ Returns the render-cfg-string for the Opus-format. You can use this in ProjectSt
 Returns nil in case of an error
 </description>
 <retvals>
-string render_cfg_string - the render-cfg-string for the selected opus-settings
+string render_cfg_string - the render-cfg-string for the selected Opus-settings
 </retvals>
 <parameters>
 integer Mode - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR
@@ -39592,15 +39592,16 @@ Rendering of Project
 Helper functions
 </semanticcontext>
 <tags>
-projectfiles, get, render, outputformat, opus
+projectfiles, create, render, outputformat, opus
 </tags>
 </ApiDocBlocFunc>
 ]]
+
   local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
   if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Ooops", "external render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
   if math.type(Kbps)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Must be an integer!", -2) return nil end
-  if math.type(Mode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Must be an integer!", -3) return nil end
-  if math.type(Complexity)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Must be an integer!", -4) return nil end
+  if math.type(Mode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Mode", "Must be an integer!", -3) return nil end
+  if math.type(Complexity)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Complexity", "Must be an integer!", -4) return nil end
   if Kbps<1 or Kbps>262 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Ultraschall-API supports only kbps-values between 1 to 262, sorry.", -5) return nil end
   if Mode<0 or Mode>2 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Mode", "must be between 0 and 2", -6) return nil end
   if Complexity<0 or Complexity>10 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Complexity", "must be between 0 and 10", -7) return nil end
@@ -39620,7 +39621,8 @@ projectfiles, get, render, outputformat, opus
   return renderstring
 end
 
---A=ultraschall.CreateRenderCFG_Opus(1, 129, 10)
+--A=ultraschall.CreateRenderCFG_Opus(0, 24, 5)
+
 
 
 function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, ABR_KBPS_MIN, ABR_KBPS_MAX)
@@ -39659,7 +39661,7 @@ Rendering of Project
 Helper functions
 </semanticcontext>
 <tags>
-projectfiles, get, render, outputformat, ogg
+projectfiles, create, render, outputformat, ogg
 </tags>
 </ApiDocBlocFunc>
 ]]
@@ -39723,14 +39725,14 @@ string render_cfg_string = ultraschall.CreateRenderCFG_DDP()
 Returns the render-cfg-string for the DDP-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
 </description>
 <retvals>
-string render_cfg_string - the render-cfg-string for the selected OGG-settings
+string render_cfg_string - the render-cfg-string for the selected DDP-settings
 </retvals>
 <semanticcontext>
 Rendering of Project
 Helper functions
 </semanticcontext>
 <tags>
-projectfiles, get, render, outputformat, ddp
+projectfiles, create, render, outputformat, ddp
 </tags>
 </ApiDocBlocFunc>
 ]]
@@ -39760,7 +39762,7 @@ Returns the render-cfg-string for the AIFF-format. You can use this in ProjectSt
 Returns nil in case of an error
 </description>
 <retvals>
-string render_cfg_string - the render-cfg-string for the selected OGG-settings
+string render_cfg_string - the render-cfg-string for the selected AIFF-settings
 </retvals>
 <parameters>
 integer bits - the bitrate of the aiff-file; 8, 16, 24 and 32 are supported
@@ -39770,7 +39772,7 @@ Rendering of Project
 Helper functions
 </semanticcontext>
 <tags>
-projectfiles, get, render, outputformat, aiff
+projectfiles, create, render, outputformat, aiff
 </tags>
 </ApiDocBlocFunc>
 ]]
@@ -39787,8 +39789,533 @@ end
 
 --A=ultraschall.CreateRenderCFG_AIFF(16)
 
---reaper.CF_SetClipboard(A)
---reaper.MB(A,"",0)
 
+function ultraschall.CreateRenderCFG_FLAC(Bitrate, EncSpeed)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_FLAC
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_FLAC(integer Bitrate, integer EncSpeed)
+</functionname>
+<description>
+Returns the render-cfg-string for the FLAC-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+
+Returns nil in case of an error
+</description>
+<retvals>
+string render_cfg_string - the render-cfg-string for the selected FLAC-settings
+</retvals>
+<parameters>
+integer Bitrate - the bitrate of the flac-file; 
+                - 0, 24 bit
+                - 1, 23/24 bit
+                - 2, 22/24 bit
+                - 3, 21/24 bit
+                - 4, 20/24 bit
+                - 5, 19/24 bit
+                - 6, 18/24 bit
+                - 7, 17/24 bit
+                - 8, 16 bit
+integer EncSpeed - the encoding speed; 0(fastest) to 8(slowest); 5(default)
+</parameters>
+<semanticcontext>
+Rendering of Project
+Helper functions
+</semanticcontext>
+<tags>
+projectfiles, create, render, outputformat, flac
+</tags>
+</ApiDocBlocFunc>
+]]
+  if math.type(Bitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_FLAC", "Bitrate", "must be an integer", -1) return nil end
+  if math.type(EncSpeed)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_FLAC", "EncSpeed", "must be an integer", -2) return nil end
+  if Bitrate<0 or Bitrate>8 then ultraschall.AddErrorMessage("CreateRenderCFG_FLAC", "Bitrate", "must be between 0(24 Bit) and 8(16 Bit)", -3) return nil end
+  if EncSpeed<0 or EncSpeed>8 then ultraschall.AddErrorMessage("CreateRenderCFG_FLAC", "EncSpeed", "must be between 0(fastest speed) and 8(slowest speed)", -3) return nil end
+
+  local renderstring="Y2FsZh[BITRATE]AAAA[ENCSPEED]AAAA"
+  if Bitrate==0 then Bitrate="g"      -- 24 Bit
+  elseif Bitrate==1 then Bitrate="c"  -- 23/24 Bit
+  elseif Bitrate==2 then Bitrate="Y"  -- 22/24 Bit
+  elseif Bitrate==3 then Bitrate="U"  -- 21/24 Bit
+  elseif Bitrate==4 then Bitrate="Q"  -- 20/24 Bit
+  elseif Bitrate==5 then Bitrate="M"  -- 19/24 Bit
+  elseif Bitrate==6 then Bitrate="I"  -- 18/24 Bit
+  elseif Bitrate==7 then Bitrate="E"  -- 17/24 Bit
+  elseif Bitrate==8 then Bitrate="A"  -- 16 Bit  
+  end
+  
+  if EncSpeed==0 then EncSpeed="A"     -- 0 - fastest
+  elseif EncSpeed==1 then EncSpeed="B" -- 1
+  elseif EncSpeed==2 then EncSpeed="C" -- 2
+  elseif EncSpeed==3 then EncSpeed="D" -- 3
+  elseif EncSpeed==4 then EncSpeed="E" -- 4
+  elseif EncSpeed==5 then EncSpeed="F" -- 5 - default setting
+  elseif EncSpeed==6 then EncSpeed="G" -- 6
+  elseif EncSpeed==7 then EncSpeed="H" -- 7
+  elseif EncSpeed==8 then EncSpeed="I" -- 8 - slowest speed
+  end
+  
+  renderstring=string.gsub(renderstring, "%[BITRATE%]", Bitrate)
+  renderstring=string.gsub(renderstring, "%[ENCSPEED%]", EncSpeed)
+  return renderstring
+end
+
+--A=ultraschall.CreateRenderCFG_FLAC(1,1)
+
+function ultraschall.CreateRenderCFG_WAVPACK(Mode, Bitdepth, Writemarkers, WriteBWFChunk, IncludeFilenameBWF)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_WAVPACK
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_WAVPACK(integer Mode, integer Bitdepth, integer Writemarkers, boolean WriteBWFChunk, boolean IncludeFilenameBWF)
+</functionname>
+<description>
+Returns the render-cfg-string for the WAVPACK-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+
+Returns nil in case of an error
+</description>
+<retvals>
+string render_cfg_string - the render-cfg-string for the selected WAVPACK-settings
+</retvals>
+<parameters>
+integer Mode - 0, Normal; 1, Fast; 2, High; 3, Very High(slowest)
+integer Bitdepth - the bitdepth of the WAVPACK-file
+                 -   0(16Bit)
+                 -   1(24Bit)
+                 -   2(32Bit integer)
+                 -   3(32Bit floating point)
+                 -   4(23/24 Bit)
+                 -   5(22/24 Bit)
+                 -   6(21/24 Bit)
+                 -   7(20/24 Bit)
+                 -   8(19/24 Bit)
+                 -   9(18/24 Bit)
+                 -   10(17/24 Bit)
+                 -   11(32 bit floating point -144dB floor)
+                 -   12(32 bit floating point -120dB floor)
+                 -   13(32 bit floating point -96dB floor)
+integer Writemarkers - Write markers as cues-checkboxes
+                     - 0, nothing checked
+                     - 1, Write markers as cues->checked
+                     - 2, Write markers as cues and Only write markers starting with #->checked
+boolean WriteBWFChunk - the Write BWF chunk-checkbox; true, checked; false, unchecked
+boolean IncludeFilenameBWF - the include project filename in BWF data-checkbox; true, checked; false, unchecked
+</parameters>
+<semanticcontext>
+Rendering of Project
+Helper functions
+</semanticcontext>
+<tags>
+projectfiles, create, render, outputformat, wavpack
+</tags>
+</ApiDocBlocFunc>
+]]
+  if math.type(Mode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WAVPACK", "Mode", "must be an integer", -1) return nil end
+  if math.type(Bitdepth)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WAVPACK", "Bitdepth", "must be an integer", -2) return nil end
+  if math.type(Writemarkers)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WAVPACK", "Writemarkers", "must be an integer", -3) return nil end
+  if type(WriteBWFChunk)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_WAVPACK", "WriteBWFChunk", "must be a boolean", -4) return nil end
+  if type(IncludeFilenameBWF)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_WAVPACK", "IncludeFilenameBWF", "must be a boolean", -5) return nil end
+  
+  if Mode<0 or Mode>3 then ultraschall.AddErrorMessage("CreateRenderCFG_WAVPACK", "Mode", "must be between 0(Normal) and 3(Very High - slowest)", -6) return nil end
+  if Bitdepth<0 or Bitdepth>13 then ultraschall.AddErrorMessage("CreateRenderCFG_WAVPACK", "Bitdepth", "must be between 0 and 13", -7) return nil end
+  if Writemarkers<0 or Writemarkers>2 then ultraschall.AddErrorMessage("CreateRenderCFG_WAVPACK", "Writemarkers", "must be between 0 and 2", -8) return nil end
+
+
+  local renderstring="a3B2dw[MODE]AAAA[BITDEPTH]AAAAA[WRITEMARKERS]AAAA[BWFCHUNK]AAAA="
+  local BWFCHUNK
+  if Mode==0 then Mode="A"      -- Normal
+  elseif Mode==1 then Mode="E"  -- Fast
+  elseif Mode==2 then Mode="M"  -- High
+  elseif Mode==3 then Mode="Q"  -- Very High (slowest)
+  end
+  
+  if Bitdepth==0 then Bitdepth="A"      -- 16 Bit
+  elseif Bitdepth==1 then Bitdepth="B"  -- 24 Bit
+  elseif Bitdepth==2 then Bitdepth="C"  -- 32 Bit integer
+  elseif Bitdepth==3 then Bitdepth="D"  -- 32 Bit floating point
+  elseif Bitdepth==4 then Bitdepth="E"  -- 23/24 Bit
+  elseif Bitdepth==5 then Bitdepth="F"  -- 22/24 Bit
+  elseif Bitdepth==6 then Bitdepth="G"  -- 21/24 Bit
+  elseif Bitdepth==7 then Bitdepth="H"  -- 20/24 Bit
+  elseif Bitdepth==8 then Bitdepth="I"  -- 19/24 Bit
+  elseif Bitdepth==9 then Bitdepth="J"  -- 18/24 Bit
+  elseif Bitdepth==10 then Bitdepth="K" -- 17/24 Bit
+  elseif Bitdepth==11 then Bitdepth="L" -- 32 Bit floating point - -144dB floor
+  elseif Bitdepth==12 then Bitdepth="M" -- 32 Bit floating point - -120dB floor
+  elseif Bitdepth==13 then Bitdepth="N" -- 32 Bit floating point - -96dB floor
+  end
+  
+  if Writemarkers==0 then Writemarkers="A"     -- nothing checked
+  elseif Writemarkers==1 then Writemarkers="g" -- Write markers as cues->checked
+  elseif Writemarkers==2 then Writemarkers="Q" -- Write markers as cues and Only write markers starting with #->checked
+  end
+
+  if WriteBWFChunk==false and IncludeFilenameBWF==false then BWFCHUNK="A"     -- nothing checked
+  elseif WriteBWFChunk==true and IncludeFilenameBWF==false then BWFCHUNK="E"  -- Only write BWF-chunk
+  elseif WriteBWFChunk==false and IncludeFilenameBWF==true then BWFCHUNK="I"  -- Only include project-filename in BWF-data
+  elseif WriteBWFChunk==true and IncludeFilenameBWF==true then BWFCHUNK="M"   -- Write BWF-chunk and Include project filename in BWF data
+  end
+  
+  renderstring=string.gsub(renderstring, "%[MODE%]", Mode)
+  renderstring=string.gsub(renderstring, "%[BITDEPTH%]", Bitdepth)
+  renderstring=string.gsub(renderstring, "%[WRITEMARKERS%]", Writemarkers)
+  renderstring=string.gsub(renderstring, "%[BWFCHUNK%]", BWFCHUNK)
+  
+  return renderstring
+end
+
+--A=ultraschall.CreateRenderCFG_WAVPACK(0, 0, 2, true, true)
+
+
+function ultraschall.CreateRenderCFG_WebMVideo(VIDKBPS, AUDKBPS, WIDTH, HEIGHT, FPS, AspectRatio)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_WebMVideo
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_WebMVideo(integer VIDKBPS, integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio)
+</functionname>
+<description>
+Returns the render-cfg-string for the WebM-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+
+Returns nil in case of an error
+</description>
+<retvals>
+string render_cfg_string - the render-cfg-string for the selected WebM-Video-settings
+</retvals>
+<parameters>
+integer VIDKBPS - the video-bitrate of the video in kbps; 1 to 18571
+integer AUDKBPS - the audio-bitrate of the video in kbps; 1 to 18571
+integer WIDTH - the width of the video in pixels; 1 to 18571
+integer HEIGHT - the height of the video in pixels; 1 to 18571
+integer FPS - the fps of the video; must be a double-precision-float value (9.09 or 25.00)
+boolean AspectRatio - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio
+</parameters>
+<semanticcontext>
+Rendering of Project
+Helper functions
+</semanticcontext>
+<tags>
+projectfiles, create, render, outputformat, webm
+</tags>
+</ApiDocBlocFunc>
+]]
+  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
+  if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "Ooops", "external render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
+  if math.type(VIDKBPS)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "VIDKBPS", "Must be an integer!", -2) return nil end
+  if math.type(AUDKBPS)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "AUDKBPS", "Must be an integer!", -3) return nil end
+  if math.type(WIDTH)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "WIDTH", "Must be an integer!", -4) return nil end
+  if math.type(HEIGHT)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "HEIGHT", "Must be an integer!", -5) return nil end
+  if type(FPS)~="number" then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "FPS", "Must be a float-value with two digit precision (e.g. 29.97 or 25.00)!", -6) return nil end
+  if type(AspectRatio)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "AspectRatio", "Must be a boolean!", -7) return nil end
+  if VIDKBPS<1 or VIDKBPS>18571 then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "VIDKBPS", "Ultraschall-API supports only kbps-values between 1 and 18571, sorry.", -8) return nil end
+  if AUDKBPS<1 or AUDKBPS>18571 then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "AUDKBPS", "Ultraschall-API supports only kbps-values between 1 and 18571, sorry.", -9) return nil end
+  if WIDTH<1 or WIDTH>18571 then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "WIDTH", "Ultraschall-API supports only width-values between 1 and 18571, sorry.", -10) return nil end
+  if HEIGHT<1 or HEIGHT>18571 then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "HEIGHT", "Ultraschall-API supports only height-values between 1 and 18571, sorry.", -11) return nil end
+  if FPS<0.1 or FPS>150.5 then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "FPS", "Ultraschall-API supports only fps-values between 1 and 150.5, sorry.", -12) return nil end
+
+  
+  local VideoContainer="Y"
+  local VideoFormat="A"
+  local AudioFormat="A"
+  local MJPEG="AE"
+ 
+  local _temp, renderstring=ultraschall.GetIniFileExternalState("VIDEO", "Renderstring", ini_file)  
+  local _temp, rendervidkbps=ultraschall.GetIniFileExternalState("VIDEO", "WEBM_VID_KBPS_"..VIDKBPS, ini_file)
+  local _temp, renderaudkbps=ultraschall.GetIniFileExternalState("VIDEO", "WEBM_AUDKBPS_"..AUDKBPS, ini_file)
+  local _temp, renderwidth=ultraschall.GetIniFileExternalState("VIDEO", "WIDTH_"..WIDTH, ini_file)
+  local _temp, renderheight=ultraschall.GetIniFileExternalState("VIDEO", "HEIGHT_"..HEIGHT, ini_file)
+  local _temp, renderfps=ultraschall.GetIniFileExternalState("VIDEO", "FPS_"..FPS+0.00, ini_file)
+  local _temp, renderaspect=ultraschall.GetIniFileExternalState("VIDEO", "ASPECT_RATIO_"..tostring(AspectRatio):upper(), ini_file)
+
+  renderstring=string.gsub(renderstring, "%[VideoContainer%]", VideoContainer)
+  renderstring=string.gsub(renderstring, "%[VideoFormat%]", VideoFormat)
+  renderstring=string.gsub(renderstring, "%[AudioFormat%]", AudioFormat)
+  renderstring=string.gsub(renderstring, "%[MJPEG%]", MJPEG)
+  renderstring=string.gsub(renderstring, "%[WEBM_VID_KBPS%]", rendervidkbps)
+  renderstring=string.gsub(renderstring, "%[WEBM_AUDKBPS%]", renderaudkbps)
+  renderstring=string.gsub(renderstring, "%[WIDTH%]", renderwidth)
+  renderstring=string.gsub(renderstring, "%[HEIGHT%]", renderheight)
+  renderstring=string.gsub(renderstring, "%[FPS%]", renderfps)
+  renderstring=string.gsub(renderstring, "%[ASPECT_RATIO%]", renderaspect)
+  
+  if renderstring:len()~=60 then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "FPS", "Must be a float-value with two digit precision (e.g. 29.97 or 25.00)!", -6) return nil end
+  return renderstring
+end
+
+
+--A=ultraschall.CreateRenderCFG_WebM(21, 22, 23, 24, 11.99, true)
+
+--reaper.CF_SetClipboard(A)
+--reaper.MB(tostring(A),"",0)
+
+function ultraschall.SaveProjectAs(projectfilename_with_path, createsubdir, copy_media, move_media, overwrite, reload)
+-- BUGGY!! Can't find it's mediafiles, when project is stored in different folder and is reloaded. 
+--         Probably due an relative-path-problem
+--         Maybe, I need to work with an additional function SourceFileArray=GetAllMediaSourceFiles(), in which I 
+--         replace all old paths with new ones, corresponding to the new path, OR:
+--         I use it, to recreate the folder-structure, copying the files to the new location, OR:
+--         both(probably the best idea)
+
+-- parameters: boolean createsubdir - true, like the Create subdirectory for project-checkbox
+--             boolean copy_media - true, like the copy all media into project directory
+--             integer move_media - 0, don't move; 1, move all media into projdir; 2, copy, rather than move source-media if not in old project media path-checkboxes
+--             
+--[[
+<//ApiDocBlocFunc>
+<slug>
+SaveProjectAs
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+integer retval = ultraschall.SaveProjectAs(string projectfilename_with_path, boolean overwrite, boolean reload)
+</functionname>
+<description>
+Saves a project under a given name.
+
+Returns -1 in case of an error
+</description>
+<retvals>
+integer retval - 1, in case of success; -1, in case of error
+</retvals>
+<parameters>
+string projectfilename_with_path - the new projectfilename under which you want to save it, including path
+boolean overwrite - true, overwrites an existing file; false, does not overwrite an existing file
+boolean reload - true, reload the project under the new name; false, keep the old project opened
+</parameters>
+<semanticcontext>
+API-Helper functions
+</semanticcontext>
+<tags>
+projectfiles, save, saveas
+</tags>
+<//ApiDocBlocFunc>
+]]
+  if type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("SaveProjectAs", "projectfilename_with_path", "Must be a string.", -1) return -1 end
+  if type(overwrite)~="boolean" then ultraschall.AddErrorMessage("SaveProjectAs", "overwrite", "Must be a boolean.", -2) return -1 end
+  if type(reload)~="boolean" then ultraschall.AddErrorMessage("SaveProjectAs", "reload", "Must be a boolean.", -3) return -1 end
+  if overwrite==false and reaper.file_exists(projectfilename_with_path)==true then ultraschall.AddErrorMessage("SaveProjectAs", "projectfilename_with_path", "File already exists", -4) return -1 end
+  local A,B=reaper.EnumProjects(-1,"")
+  local RPPTempfilename = ultraschall.CreateValidTempFile(projectfilename_with_path, true, "", true)
+  if RPPTempfilename==nil then ultraschall.AddErrorMessage("SaveProjectAs", "projectfilename_with_path", "Can't create file.", -5) return -1 end
+  local Tempfilename = ultraschall.CreateValidTempFile(B, false, "", true)
+--reaper.MB(Tempfilename,B,0)
+  os.remove(RPPTempfilename)
+  os.rename(B, Tempfilename)
+  reaper.Main_SaveProject(0,false)
+  os.rename(B, projectfilename_with_path)
+  os.rename(Tempfilename, B)
+  os.remove(Tempfilename)
+  if reload==true and B~=projectfilename_with_path then
+    reaper.Main_OnCommand(40023,0)
+    reaper.Main_openProject(projectfilename_with_path)
+  end
+  return 1  
+end
+
+--O=ultraschall.SaveProjectAs("c:\\temp/Achgotterl999836874668.rpp", true, true)
+
+function ultraschall.ChangePathInSource(PCM_source, NewPath)
+  local Filenamebuf = reaper.GetMediaSourceFileName(PCM_source, "")
+  local filename=Filenamebuf:match(".*/(.*)")
+  if filename==nil then filename=Filenamebuf:match(".*\\(.*)") end
+  filename=NewPath.."/"..filename
+  return reaper.PCM_Source_CreateFromFile(filename)
+end
+
+--NewSource=ultraschall.ChangePathInSource(reaper.GetMediaItemTake_Source(reaper.GetMediaItemTake(reaper.GetMediaItem(0,0),0)), "c:\\temp")
+
+function ultraschall.GetAllMediaItems()
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetAllMediaItems
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+integer itemcount, MediaItemArray MediaItemArray = ultraschall.GetAllMediaItems()
+</functionname>
+<description>
+Returns a MediaItemArray with all MediaItems in the current project
+</description>
+<retvals>
+integer itemcount - the number of items in the MediaItemArray
+MediaItemArray MediaItemArray - an array with all MediaItems from the current project
+</retvals>
+<semanticcontext>
+MediaItem Management
+Get MediaItems
+</semanticcontext>
+<tags>
+mediaitemmanagement, get, all, mediaitems, mediaitemarray
+</tags>
+</ApiDocBlocFunc>
+--]]
+  local MediaItemArray={}
+  for i=0, reaper.CountMediaItems(0) do
+    MediaItemArray[i+1]=reaper.GetMediaItem(0,i)
+  end
+  return reaper.CountMediaItems(0), MediaItemArray
+end
+
+
+--A,B=ultraschall.GetAllMediaItems()
+
+function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, startposition, endposition, renderclosewhendone, filenameincrease, rendercfg)
+--[[
+<ApiDocBlocFunc>
+<slug>
+RenderProject_RenderCFG
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+integer retval = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)
+</functionname>
+<description>
+Renders a project, using a specific render-cfg-string.
+To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
+
+Returns -1 in case of an error
+Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).
+</description>
+<retvals>
+integer retval - -1 in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
+</retvals>
+<parameters>
+string projectfilename_with_path - the project to render; nil, for the currently opened project(needs to be saved first)
+string renderfilename_with_path - the filename of the output-file. It will not(!) add the correct extension, it must be done by you!
+number startposition - the startposition of the render-area in seconds; -1, to use the startposition set in the projectfile itself
+number endposition - the endposition of the render-area in seconds; -1, to use the endposition set in the projectfile itself
+boolean renderclosewhendone - true, automatically close the render-window after rendering; false, keep rendering window open after rendering
+boolean filenameincrease - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile
+string rendercfg - the rendercfg-string, that contains all render-settings for an output-format
+                 - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a>
+</parameters>
+<semanticcontext>
+Rendering of Project
+Rendering any Outputformat
+</semanticcontext>
+<tags>
+projectfiles, render, output, file
+</tags>
+</ApiDocBlocFunc>
+]]
+  local retval
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition", "Must be a number in seconds.", -1) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "endposition", "Must be a number in seconds.", -2) return -1 end
+  if startposition~=-1 and endposition~=-1 and endposition<=startposition then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "endposition", "Must be bigger than startposition.", -3) return -1 end
+  if endposition<-1 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "endposition", "Must be bigger than 0 or -1(to retain project-file's endposition).", -4) return -1 end
+  if startposition<-1 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition", "Must be bigger than 0 or -1(to retain project-file's startposition).", -5) return -1 end
+  if type(projectfilename_with_path)~="string" then 
+    reaper.Main_SaveProject(0, false)
+    retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
+  end
+  if reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "projectfilename_with_path", "File does not exist.", -6) return -1 end
+  if type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "renderfilename_with_path", "Must be a string.", -7) return -1 end  
+  if renderfilename_with_path==nil and reaper.IsProjectDirty(0)==1 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "renderfilename_with_path", "To render current project, it must be saved first!", -8) return -2 end
+  if ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "rendercfg", "No valid render_cfg-string.", -9) return -1 end
+  
+  -- Read Projectfile
+  local FileContent=ultraschall.ReadFullFile(projectfilename_with_path, false)
+  local Part1=FileContent:match("(.-<RENDER_CFG.-\n.-)%a")
+  local Part2=FileContent:match(".-<RENDER_CFG\n.-(\n.*)")
+  
+  -- create temporary-project-filename
+  local tempfile = ultraschall.CreateValidTempFile(projectfilename_with_path, true, "ultraschall-temp", true) 
+  
+  -- Write temporary projectfile
+  ultraschall.WriteValueToFile(tempfile, Part1..rendercfg..Part2)
+  
+  -- Add the rendertime to the temporary project-file, when 
+  local bounds, time_start, time_end, tail, tail_length = ultraschall.GetProject_RenderRange(tempfile)
+  --   if startposition and/or endposition are -1, retain the start/endposition from the project-file
+
+  if startposition==-1 then startposition=time_start end
+  if endposition==-1 then endposition=time_end end
+
+  if endposition<=startposition then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition or endposition in RPP-Project", "Must be bigger than startposition.", -10) return -1 end
+  local Bretval = ultraschall.SetProject_RenderRange(tempfile, 0, startposition, endposition, 0, 0)
+  if Bretval==-1 then 
+    os.remove (tempfile) 
+    ultraschall.AddErrorMessage("RenderProject_RenderCFG", "projectfilename_with_path", "Can't set the timerange in the temporary-project "..tempfile, -11)
+    return -1 
+  end
+  
+  -- Get currently opened project
+  local _temp, oldprojectname=ultraschall.EnumProjects(0)
+  
+  --Now the magic happens:
+  reaper.Main_OnCommand(40859,0)    -- create new temporary tab
+  reaper.Main_openProject(tempfile) -- load the temporary projectfile
+  
+  -- manage automatically closing of the render-window and filename-increasing
+  local val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
+  local oldval=val
+  if renderclosewhendone==true then 
+    if val&1==0 then val=val+1 end
+    if val==-99 then val=1 end
+  elseif renderclosewhendone==false then 
+    val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
+    if val&1==1 then val=val-1 end
+    if val==-99 then val=0 end
+  end
+  if filenameincrease==true then 
+    if val&16==0 then val=val+16 end
+    if val==-99 then val=16 end
+  elseif filenameincrease==false then 
+    val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
+    if val&16==16 then val=val-16 end
+    if val==-99 then val=0 end
+  end
+  reaper.SNM_SetIntConfigVar("renderclosewhendone", val)
+
+  reaper.Main_OnCommand(41824,0)    -- render using it with the last rendersettings(those, we inserted included)
+  reaper.Main_SaveProject(0, false) -- save it(no use, but otherwise, Reaper would open a Save-Dialog, that we don't want and need)
+  reaper.Main_OnCommand(40860,0)    -- close the temporary-tab again
+
+  -- reset old renderclose/overwrite-settings
+  reaper.SNM_SetIntConfigVar("renderclosewhendone", oldval)
+
+  --remove the temp-file and we are done.
+  os.remove (tempfile)
+  os.remove (tempfile.."-bak")
+  return 0
+end
+
+--L=ultraschall.RenderProject_RenderCFG(nil, "c:/tt-hudeldu.mp3", -1, -1, true, true, ultraschall.CreateRenderCFG_Opus(1, 120, 10))
 
 ultraschall.ShowLastErrorMessage()
+
+
