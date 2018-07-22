@@ -146,6 +146,12 @@
   - CreateRenderCFG_WAVPACK - creates the render-cfg-string for a WAVPACK-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
   - CreateRenderCFG_WebMVideo - creates the render-cfg-string for an WebM-Video-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
   - RenderProject_RenderCFG - renders a project, using a certain render-string, created from the aforementioned functions
+  - CreateRenderCFG_MP3MaxQuality - creates the render-cfg-string for a MP3-maxquality-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
+  - CreateRenderCFG_MP3VBR - creates the render-cfg-string for a MP3-vbr-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
+  - CreateRenderCFG_MP3ABR - creates the render-cfg-string for a MP3-abr-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
+  - CreateRenderCFG_MP3CBR - creates the render-cfg-string for a MP3-cbr-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
+  - AddIntToChar - add an integer-value to the numerical representation of a character and return it as a new character
+  - CreateRenderCFG_WAV - creates the render-cfg-string for a WAV-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
   
   <TODO>
       TODO!!  - SetTrackGroupFlagsState - sets GroupFlagsState

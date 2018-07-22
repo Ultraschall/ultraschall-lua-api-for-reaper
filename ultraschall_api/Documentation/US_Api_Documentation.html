@@ -1,5 +1,5 @@
 <html><head><title>Ultraschall Framework-Lua-Api-docs 4.00 "John Cage - 4:33"</title></head><body>
-<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 12411 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
+<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 12739 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
 </strong></td></tr></tr><tr><td><a href="#
 US1.Introduction
 ">
@@ -26,84 +26,87 @@ US6.License
 ">
 6. License
 </a></td></tr><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-Helper functions</u></h3></td></tr><tr><td><strong></strong></td></tr><td><a href="#
+AddIntToChar
+">AddIntToChar</a>&nbsp;&nbsp;</td><td><a href="#
 CheckActionCommandIDFormat
 ">CheckActionCommandIDFormat</a>&nbsp;&nbsp;</td><td><a href="#
 CheckActionCommandIDFormat2
 ">CheckActionCommandIDFormat2</a>&nbsp;&nbsp;</td><td><a href="#
 CheckForValidFileFormats
-">CheckForValidFileFormats</a>&nbsp;&nbsp;</td><td><a href="#
-ConvertColor
-">ConvertColor</a>&nbsp;&nbsp;</td></tr>
+">CheckForValidFileFormats</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+ConvertColor
+">ConvertColor</a>&nbsp;&nbsp;</td><td><a href="#
 ConvertColorToGFX
 ">ConvertColorToGFX</a>&nbsp;&nbsp;</td><td><a href="#
 ConvertGFXToColor
 ">ConvertGFXToColor</a>&nbsp;&nbsp;</td><td><a href="#
 GetApiVersion
-">GetApiVersion</a>&nbsp;&nbsp;</td><td><a href="#
-GetOS
-">GetOS</a>&nbsp;&nbsp;</td></tr>
+">GetApiVersion</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetOS
+">GetOS</a>&nbsp;&nbsp;</td><td><a href="#
 GetReaperAppVersion
 ">GetReaperAppVersion</a>&nbsp;&nbsp;</td><td><a href="#
 IsItemInTrack
 ">IsItemInTrack</a>&nbsp;&nbsp;</td><td><a href="#
 IsItemInTrack2
-">IsItemInTrack2</a>&nbsp;&nbsp;</td><td><a href="#
-IsItemInTrack3
-">IsItemInTrack3</a>&nbsp;&nbsp;</td></tr>
+">IsItemInTrack2</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+IsItemInTrack3
+">IsItemInTrack3</a>&nbsp;&nbsp;</td><td><a href="#
 IsOS_Mac
 ">IsOS_Mac</a>&nbsp;&nbsp;</td><td><a href="#
 IsOS_Other
 ">IsOS_Other</a>&nbsp;&nbsp;</td><td><a href="#
 IsOS_Windows
-">IsOS_Windows</a>&nbsp;&nbsp;</td><td><a href="#
-IsObjectValidReaperObject
-">IsObjectValidReaperObject</a>&nbsp;&nbsp;</td></tr>
+">IsOS_Windows</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+IsObjectValidReaperObject
+">IsObjectValidReaperObject</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidGuid
 ">IsValidGuid</a>&nbsp;&nbsp;</td><td><a href="#
 KeepTableEntriesOfType
 ">KeepTableEntriesOfType</a>&nbsp;&nbsp;</td><td><a href="#
 OpenURL
-">OpenURL</a>&nbsp;&nbsp;</td><td><a href="#
-PreventCreatingUndoPoint
-">PreventCreatingUndoPoint</a>&nbsp;&nbsp;</td></tr>
+">OpenURL</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+PreventCreatingUndoPoint
+">PreventCreatingUndoPoint</a>&nbsp;&nbsp;</td><td><a href="#
 RGB2Grayscale
 ">RGB2Grayscale</a>&nbsp;&nbsp;</td><td><a href="#
 RefreshToolbar_Action
 ">RefreshToolbar_Action</a>&nbsp;&nbsp;</td><td><a href="#
 RemoveTableEntriesOfType
-">RemoveTableEntriesOfType</a>&nbsp;&nbsp;</td><td><a href="#
-ReturnTypeOfReaperObject
-">ReturnTypeOfReaperObject</a>&nbsp;&nbsp;</td></tr>
+">RemoveTableEntriesOfType</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+ReturnTypeOfReaperObject
+">ReturnTypeOfReaperObject</a>&nbsp;&nbsp;</td><td><a href="#
 ReturnsMinusOneInCaseOfError_Arzala
 ">ReturnsMinusOneInCaseOfError_Arzala</a>&nbsp;&nbsp;</td><td><a href="#
 RunCommand
 ">RunCommand</a>&nbsp;&nbsp;</td><td><a href="#
 SecondsToTime
-">SecondsToTime</a>&nbsp;&nbsp;</td><td><a href="#
-SecondsToTimeString_hh_mm_ss_mss
-">SecondsToTimeString_hh_mm_ss_mss</a>&nbsp;&nbsp;</td></tr>
+">SecondsToTime</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+SecondsToTimeString_hh_mm_ss_mss
+">SecondsToTimeString_hh_mm_ss_mss</a>&nbsp;&nbsp;</td><td><a href="#
 SetBitfield
 ">SetBitfield</a>&nbsp;&nbsp;</td><td><a href="#
 SetIntConfigVar_Bitfield
 ">SetIntConfigVar_Bitfield</a>&nbsp;&nbsp;</td><td><a href="#
 TimeStringToSeconds_hh_mm_ss_mss
-">TimeStringToSeconds_hh_mm_ss_mss</a>&nbsp;&nbsp;</td><td><a href="#
-TimeToSeconds
-">TimeToSeconds</a>&nbsp;&nbsp;</td></tr>
+">TimeStringToSeconds_hh_mm_ss_mss</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+TimeToSeconds
+">TimeToSeconds</a>&nbsp;&nbsp;</td><td><a href="#
 ToggleStateAction
 ">ToggleStateAction</a>&nbsp;&nbsp;</td><td><a href="#
 ToggleStateButton
 ">ToggleStateButton</a>&nbsp;&nbsp;</td><td><a href="#
 toboolean
-">toboolean</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Data Manipulation
+">toboolean</a>&nbsp;&nbsp;</td></tr>
+<tr><tr><td>&nbsp;</td></tr><tr><td><strong>Data Manipulation
 </strong></td></tr>
 <td><a href="#
 CSV2IndividualLinesAsArray
@@ -311,7 +314,9 @@ CreateEnvelopePointObject
 ">CreateEnvelopePointObject</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidEnvStateChunk
 ">IsValidEnvStateChunk</a>&nbsp;&nbsp;</td></tr>
-<tr><tr><td>&nbsp;</td></tr><tr><td><strong>Set Envelope
+<tr><td><a href="#
+IsValidEnvelopePointObject
+">IsValidEnvelopePointObject</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Set Envelope
 </strong></td></tr>
 <td><a href="#
 AddEnvelopePoints_EnvelopePointArray
@@ -563,13 +568,17 @@ IsItemInTimerange
 <tr><td><a href="#
 IsValidItemStateChunk
 ">IsValidItemStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
+IsValidMediaItemArray
+">IsValidMediaItemArray</a>&nbsp;&nbsp;</td><td><a href="#
+IsValidMediaItemStateChunkArray
+">IsValidMediaItemStateChunkArray</a>&nbsp;&nbsp;</td><td><a href="#
 OnlyItemsInTracksAndTimerange
-">OnlyItemsInTracksAndTimerange</a>&nbsp;&nbsp;</td><td><a href="#
+">OnlyItemsInTracksAndTimerange</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 OnlyMediaItemsOfTracksInTrackstring
 ">OnlyMediaItemsOfTracksInTrackstring</a>&nbsp;&nbsp;</td><td><a href="#
 OnlyMediaItemsOfTracksInTrackstring_StateChunk
-">OnlyMediaItemsOfTracksInTrackstring_StateChunk</a>&nbsp;&nbsp;</td></tr>
-<tr><tr><td>&nbsp;</td></tr><tr><td><strong>Delete
+">OnlyMediaItemsOfTracksInTrackstring_StateChunk</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Delete
 </strong></td></tr>
 <td><a href="#
 DeleteMediaItem
@@ -1092,7 +1101,7 @@ RenderProjectToMP3_MaxQuality
 RenderProjectToMP3_VBR
 ">RenderProjectToMP3_VBR</a>&nbsp;&nbsp;</td><td><a href="#
 RenderProjectToOPUS
-">RenderProjectToOPUS</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Helper functions
+">RenderProjectToOPUS</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Creating Renderstrings
 </strong></td></tr>
 <td><a href="#
 CreateRenderCFG_AIFF
@@ -1101,15 +1110,27 @@ CreateRenderCFG_DDP
 ">CreateRenderCFG_DDP</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_FLAC
 ">CreateRenderCFG_FLAC</a>&nbsp;&nbsp;</td><td><a href="#
+CreateRenderCFG_MP3ABR
+">CreateRenderCFG_MP3ABR</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
+CreateRenderCFG_MP3CBR
+">CreateRenderCFG_MP3CBR</a>&nbsp;&nbsp;</td><td><a href="#
+CreateRenderCFG_MP3MaxQuality
+">CreateRenderCFG_MP3MaxQuality</a>&nbsp;&nbsp;</td><td><a href="#
+CreateRenderCFG_MP3VBR
+">CreateRenderCFG_MP3VBR</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_OGG
 ">CreateRenderCFG_OGG</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
 CreateRenderCFG_Opus
 ">CreateRenderCFG_Opus</a>&nbsp;&nbsp;</td><td><a href="#
+CreateRenderCFG_WAV
+">CreateRenderCFG_WAV</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_WAVPACK
 ">CreateRenderCFG_WAVPACK</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_WebMVideo
-">CreateRenderCFG_WebMVideo</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Rendering any Outputformat
+">CreateRenderCFG_WebMVideo</a>&nbsp;&nbsp;</td></tr>
+<tr><tr><td>&nbsp;</td></tr><tr><td><strong>Rendering any Outputformat
 </strong></td></tr>
 <td><a href="#
 RenderProject_RenderCFG
@@ -1401,7 +1422,11 @@ SetIDEFontSize
 5. Bugreporting, Feature-requests and all the rest
 </h4>If you find any bugs or itches and want to report them, I suggest you the following procedure:<br>a) Make notes of: what operating-system you use(Mac, Win, Linux), which Reaper-version, which SWS-Version and which Ultraschall-Framework-Version.<br>b) Write down, what you wanted to do, what you expected to happen and what has happened instead. Make it as detailed as possible(a screenvideo i.e. would be perfect), as more information helps to find out, where the problem lies. It's always better to write too much, than the other way around.<br>c) Send these notes as eMail: lspmp3@yahoo.de(for framework-related stuff only!!) or go to <a href="http://www.sendegate.de">sendegate.de</a> into the Ultraschall-section.<br><br>Bugreports that contain only a "it doesn't work" and "I expected it to work" will be ignored gracefully ;)<br><br>If you have feature-requests, we have open ears. Keep in mind, not everything you find a good idea actually is one. So we may or may not take on your idea, change and rework it into a way, that benefits all, not just your particular use-case. When in doubt, just try it!<br>Keep also in mind: there are limitations. Some cool features we all would love to have, simply aren't implementable. Que sera, sera...<br><br>For your comments just send a mail at: lspmp3@yahoo.de(for framework-related stuff only!!) or go to <a href="http://www.sendegate.de">sendegate.de</a> into the Ultraschall-section.<br><br>PS: If you know how to implement impossible things or do things better than the current implementation, you are welcome to donate your improved codes. :)<br><p></p><a id="US6.License"></a><h4>
 6. License
-</h4>################################################################################<br># <br># Copyright (c) 2014-2018 Ultraschall (http://ultraschall.fm)<br># <br># Permission is hereby granted, free of charge, to any person obtaining a copy<br># of this software and associated documentation files (the "Software"), to deal<br># in the Software without restriction, including without limitation the rights<br># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell<br># copies of the Software, and to permit persons to whom the Software is<br># furnished to do so, subject to the following conditions:<br># <br># The above copyright notice and this permission notice shall be included in<br># all copies or substantial portions of the Software.<br># <br># THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<br># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN<br># THE SOFTWARE.<br># <br>################################################################################<br><br>Reaper and the Reaper-Logo are trademarks of Cockos inc and can be found at <a href="http://www.reaper.fm">reaper.fm</a><br><br>The SWS-logo has been taken from the SWS-extension-project, which can be found at <a href="http://www.sws-extension.org/">sws-extension.org</a><br><p></p><a id="CSV2IndividualLinesAsArray"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
+</h4>################################################################################<br># <br># Copyright (c) 2014-2018 Ultraschall (http://ultraschall.fm)<br># <br># Permission is hereby granted, free of charge, to any person obtaining a copy<br># of this software and associated documentation files (the "Software"), to deal<br># in the Software without restriction, including without limitation the rights<br># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell<br># copies of the Software, and to permit persons to whom the Software is<br># furnished to do so, subject to the following conditions:<br># <br># The above copyright notice and this permission notice shall be included in<br># all copies or substantial portions of the Software.<br># <br># THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<br># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN<br># THE SOFTWARE.<br># <br>################################################################################<br><br>Reaper and the Reaper-Logo are trademarks of Cockos inc and can be found at <a href="http://www.reaper.fm">reaper.fm</a><br><br>The SWS-logo has been taken from the SWS-extension-project, which can be found at <a href="http://www.sws-extension.org/">sws-extension.org</a><br><p></p><a id="AddIntToChar"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+string new_character = ultraschall.AddIntToChar(string character, integer int)
+</i><br><br>Adds/subtracts int to/from the numeric representation of character. It will return the new character.<br>It will not(!) include "overflows" into the adding/subtraction. That said, if you want to add a value resulting in a character above ASCII-code 255, it will fail!<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string new_character</i> - the new character, after parameter int has been added/subtracted from/to character</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string character</i> - the character, onto which you want to add/subtract parameter int; only single character allowed</i><br><i>integer int</i> - the value, that you want to add to the numerical representation of parameter character</i><br><i></i></div><p></p>Tags: 
+helper functions, add, character, value
+<p></p><a id="CSV2IndividualLinesAsArray"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer count, array individual_values = ultraschall.CSV2IndividualLinesAsArray(string csv_line, optional string separator)
 </i><br><br>convert a csv-string to an array of the individual values. If separator cannot be found, it'll return the original string<br><br>returns nil in case or error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer count</i> - the number of entries</i><br><i>array individual_values </i> - all values, each in an individual array-position</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string csv_line</i> - a string as a csv, with all values included and separated by parameter separator</i><br><i>string separator</i> - the separator, that separates the individual entries; use nil for commas; separators will be removed from the final strings!</i><br><i></i></div><p></p>Tags: 
 notes,csv,converter,string,array
@@ -1897,6 +1922,10 @@ envelopemanagement, envelope, point, envelope point, get, idx, selection, envelo
 boolean valid = ultraschall.IsValidEnvStateChunk(string EnvelopeStateChunk)
 </i><br><br>returns, if a EnvelopeStateChunk is a valid statechunk<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean valid</i> - true, if the string is a valid statechunk; false, if not a valid statechunk</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string EnvelopeStateChunk</i> - a string to check, if it's a valid EnvelopeStateChunk</i><br><i></i></div><p></p>Tags: 
 envelopemanagement, check, validity, envelope, statechunk, valid
+<p></p><a id="IsValidEnvelopePointObject"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
+boolean retval = ultraschall.IsValidEnvelopePointObject(array EnvelopePointObject)
+</i><br><br>Checks, if EnvelopePointObject is valid or not.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true, if it's a valid EnvelopePointObject; false if not</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>array EnvelopePointObject</i> - an array with all information of an envelope point</i><br><i></i></div><p></p>Tags: 
+envelopemanagement, envelope, point, envelope point, check, envelopepointobject
 <p></p><a id="MoveTrackEnvelopePointsBy"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer retval = ultraschall.MoveTrackEnvelopePointsBy(number startposition, number endposition, number moveby, MediaTrack MediaTrack, boolean cut_at_border)
 </i><br><br>Moves the envelopepoints between startposition and endposition by moveby in MediaTrack. <br>It moves all trackenvelope-points for all track-envelopes available.<br><br>Does NOT move item-envelopepoints!<br><br>Returns -1 in case of failure.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1 in case of failure</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>number startposition</i> - the startposition in seconds</i><br><i>number endposition</i> - the endposition in seconds</i><br><i>number moveby</i> - in seconds, negative values: move toward beginning of project, positive values: move toward the end of project</i><br><i>MediaTrack MediaTrack</i> - the MediaTrack object of the track, where the EnvelopsPoints shall be moved</i><br><i>boolean cut_at_border</i> - true, cut envelope-points, that would move outside section between startposition and endposition</i><br><i></i></div><p></p>Tags: 
@@ -2529,6 +2558,14 @@ mediaitemmanagement, check, timerange, tracks, mediaitems
 boolean valid = ultraschall.IsValidItemStateChunk(string MediaItemStateChunk)
 </i><br><br>returns, if a MediaItemStateChunk is a valid statechunk<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean valid</i> - true, if the string is a valid statechunk; false, if not a valid statechunk</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string MediaItemStateChunk</i> - a string to check, if it's a valid MediaItemStateChunk</i><br><i></i></div><p></p>Tags: 
 mediaitemmanagement, check, validity, item, statechunk, valid
+<p></p><a id="IsValidMediaItemArray"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
+boolean retval, integer count, array retMediaItemArray = ultraschall.IsValidMediaItemArray(array MediaItemArray)
+</i><br><br>Checks, whether MediaItemArray is valid.<br>It throws out all entries, that are not MediaItems and returns the altered array as result.<br><br>returns false in case of error or if it is not a valid MediaItemArray<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - returns true if MediaItemArray is valid, false if not</i><br><i>integer count</i> - the number of entries in the returned retMediaItemArray</i><br><i>array retMediaItemArray</i> - the, possibly, altered MediaItemArray</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>array MediaItemArray</i> - a MediaItemArray that shall be checked for validity</i><br><i></i></div><p></p>Tags: 
+mediaitemmanagement, tracks, media, item, check
+<p></p><a id="IsValidMediaItemStateChunkArray"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
+boolean retval, integer count, array retMediaItemStateChunkArray = ultraschall.IsValidMediaItemStateChunkArray(array MediaItemStateChunkArray)
+</i><br><br>Checks, whether MediaItemStateChunkArray is valid.<br>It throws out all entries, that are not MediaItemStateChunks and returns the altered array as result.<br><br>returns false in case of error or if it is not a valid MediaItemStateChunkArray<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - returns true if MediaItemStateChunkArray is valid, false if not</i><br><i>integer count</i> - the number of entries in the returned retMediaItemStateChunkArray</i><br><i>array retMediaItemStateChunkArray</i> - the, possibly, altered MediaItemStateChunkArray</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>array MediaItemStateChunkArray</i> - a MediaItemStateChunkArray that shall be checked for validity</i><br><i></i></div><p></p>Tags: 
+mediaitemmanagement, tracks, media, item, statechunk, chunk, check
 <p></p><a id="MoveMediaItemsAfter_By"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 boolean retval = ultraschall.MoveMediaItemsAfter_By(number old_position, number change_position_by, string trackstring)
 </i><br><br>Moves all items after old_position by change_position_by-seconds. Affects only items, that begin after oldposition, so items that start before and end after old_position do not move.<br><br>Returns false in case of failure, true in case of success.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true in case of success; false in case of failure</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>number oldposition</i> - the position, from where the movement shall be applied to, in seconds</i><br><i>number change_position_by</i> - the change of the position in seconds; positive</i> - toward the end of the project, negative</i> - toward the beginning.</i><br><i>string trackstring</i> - the tracknumbers, separated by a comma</i><br><i></i></div><p></p>Tags: 
@@ -2759,7 +2796,7 @@ ReaProject retval, string projfn = ultraschall.EnumProjects(integer idx)
 helperfunctions, projectfiles, get, filename, project, reaproject, rendering, opened
 <p></p><a id="GetOutputFormat_RenderCfg"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
 string outputformat = ultraschall.GetOutputFormat_RenderCfg(string Renderstring)
-</i><br><br>Returns the output-format set in a render-cfg-string, as stored in rpp-files and the render-presets file reaper-render.ini<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string outputformat</i> - the outputformat, set in the render-cfg-string</i><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The following are valid: </i><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AIFF, AUDIOCD-IMAGE, WAV, WAVPACK, DDP, FLAC, MP3, OPUS, OGG, Video WebM, Video MKV, Video MP4, Video AVI, Video GIF, Video LCF</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string Renderstring</i> - the render-cfg-string from a rpp-projectfile or the reaper-render.ini</i><br><i></i></div><p></p>Tags: 
+</i><br><br>Returns the output-format set in a render-cfg-string, as stored in rpp-files and the render-presets file reaper-render.ini<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string outputformat</i> - the outputformat, set in the render-cfg-string</i><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The following are valid: </i><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AIFF, AUDIOCD-IMAGE, WAV, WAVPACK, DDP, FLAC, MP3, M4A, OPUS, OGG, Video WebM, Video MKV, Video MP4, Video AVI, Video GIF, Video LCF</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string Renderstring</i> - the render-cfg-string from a rpp-projectfile or the reaper-render.ini</i><br><i></i></div><p></p>Tags: 
 projectfiles, get, render, outputformat
 <p></p><a id="GetProject_AddMediaToProjectAfterRender"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer addmedia_after_render_state = ultraschall.GetProject_AddMediaToProjectAfterRender(string projectfilename_with_path, optional string ProjectStateChunk)
@@ -3161,6 +3198,22 @@ projectfiles, create, render, outputformat, ddp
 string render_cfg_string = ultraschall.CreateRenderCFG_FLAC(integer Bitrate, integer EncSpeed)
 </i><br><br>Returns the render-cfg-string for the FLAC-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected FLAC-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer Bitrate</i> - the bitrate of the flac-file; </i><br><i>               </i> - 0, 24 bit</i><br><i>               </i> - 1, 23/24 bit</i><br><i>               </i> - 2, 22/24 bit</i><br><i>               </i> - 3, 21/24 bit</i><br><i>               </i> - 4, 20/24 bit</i><br><i>               </i> - 5, 19/24 bit</i><br><i>               </i> - 6, 18/24 bit</i><br><i>               </i> - 7, 17/24 bit</i><br><i>               </i> - 8, 16 bit</i><br><i>integer EncSpeed</i> - the encoding speed; 0(fastest) to 8(slowest); 5(default)</i><br><i></i></div><p></p>Tags: 
 projectfiles, create, render, outputformat, flac
+<p></p><a id="CreateRenderCFG_MP3ABR"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+string render_cfg_string = ultraschall.CreateRenderCFG_MP3ABR(integer quality, integer encoding_speed)
+</i><br><br>Returns the render-cfg-string for the MP3-format with average bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected MP3-ABR-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer quality</i> - the encoding quality for the mp3</i><br><i>               </i> - 0, 8 kbps</i><br><i>               </i> - 1, 16 kbps</i><br><i>               </i> - 2, 24 kbps</i><br><i>               </i> - 3, 32 kbps</i><br><i>               </i> - 4, 40 kbps</i><br><i>               </i> - 5, 48 kbps</i><br><i>               </i> - 6, 56 kbps</i><br><i>               </i> - 7, 64 kbps</i><br><i>               </i> - 8, 80 kbps</i><br><i>               </i> - 9, 96 kbps</i><br><i>               </i> - 10, 112 kbps</i><br><i>               </i> - 11, 128 kbps</i><br><i>               </i> - 12, 160 kbps</i><br><i>               </i> - 13, 192 kbps</i><br><i>               </i> - 14, 224 kbps</i><br><i>               </i> - 15, 256 kbps</i><br><i>               </i> - 16, 320 kbps</i><br><i>integer encoding_speed</i> - the encoding speed for the mp3</i><br><i>                      </i> - 0, Maximum</i><br><i>                      </i> - 1, Better</i><br><i>                      </i> - 2, Normal</i><br><i>                      </i> - 3, FastEncode</i><br><i>                      </i> - 4, FastestEncode</i><br><i></i></div><p></p>Tags: 
+projectfiles, create, render, outputformat, mp3 abr, mp3
+<p></p><a id="CreateRenderCFG_MP3CBR"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+string render_cfg_string = ultraschall.CreateRenderCFG_MP3CBR(integer quality, integer encoding_speed)
+</i><br><br>Returns the render-cfg-string for the MP3-format with constant bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected MP3-CBR-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer quality</i> - the encoding quality for the mp3</i><br><i>               </i> - 0, 8 kbps</i><br><i>               </i> - 1, 16 kbps</i><br><i>               </i> - 2, 24 kbps</i><br><i>               </i> - 3, 32 kbps</i><br><i>               </i> - 4, 40 kbps</i><br><i>               </i> - 5, 48 kbps</i><br><i>               </i> - 6, 56 kbps</i><br><i>               </i> - 7, 64 kbps</i><br><i>               </i> - 8, 80 kbps</i><br><i>               </i> - 9, 96 kbps</i><br><i>               </i> - 10, 112 kbps</i><br><i>               </i> - 11, 128 kbps</i><br><i>               </i> - 12, 160 kbps</i><br><i>               </i> - 13, 192 kbps</i><br><i>               </i> - 14, 224 kbps</i><br><i>               </i> - 15, 256 kbps</i><br><i>               </i> - 16, 320 kbps</i><br><i>integer encoding_speed</i> - the encoding speed for the mp3</i><br><i>                      </i> - 0, Maximum</i><br><i>                      </i> - 1, Better</i><br><i>                      </i> - 2, Normal</i><br><i>                      </i> - 3, FastEncode</i><br><i>                      </i> - 4, FastestEncode</i><br><i></i></div><p></p>Tags: 
+projectfiles, create, render, outputformat, mp3 cbr, mp3
+<p></p><a id="CreateRenderCFG_MP3MaxQuality"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+string render_cfg_string = ultraschall.CreateRenderCFG_MP3MaxQuality()
+</i><br><br>Returns the render-cfg-string for the MP3-format with highest quality-settings. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the renderstring for MP3 with maximum quality</i><br><i></i></div><p></p><p></p>Tags: 
+projectfiles, create, render, outputformat, mp3 high quality, mp3
+<p></p><a id="CreateRenderCFG_MP3VBR"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+string render_cfg_string = ultraschall.CreateRenderCFG_MP3VBR(integer quality, integer encoding_speed)
+</i><br><br>Returns the render-cfg-string for the MP3-format with variable bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected MP3-VBR-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer quality</i> - the variable-bitrate quality; 1(for 10%) to 10(for 100%)</i><br><i>integer encoding_speed</i> - the encoding speed for the mp3</i><br><i>                      </i> - 0, Maximum</i><br><i>                      </i> - 1, Better</i><br><i>                      </i> - 2, Normal</i><br><i>                      </i> - 3, FastEncode</i><br><i>                      </i> - 4, FastestEncode</i><br><i></i></div><p></p>Tags: 
+projectfiles, create, render, outputformat, mp3 vbr, mp3
 <p></p><a id="CreateRenderCFG_OGG"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
 string render_cfg_string = ultraschall.CreateRenderCFG_OGG(integer Mode, number VBR_Quality, integer CBR_KBPS, integer ABR_KBPS, integer ABR_KBPS_MIN, integer ABR_KBPS_MAX)
 </i><br><br>Returns the render-cfg-string for the OGG-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br>For all mode-settings that you don't need(kbps or quality), you can safely set them to 1.<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected OGG-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer Mode</i> - the mode for the ogg-file; 0, VBR; 1, CBR; 2, ABR</i><br><i>number VBR_Quality</i> - the quality for VBR-mode; a floating-value between 0 and 1</i><br><i>integer CBR_KBPS</i> - the bitrate for CBR-mode; 0 to 2048</i><br><i>integer ABR_KBPS</i> - the bitrate for ABR-mode; 0 to 2048</i><br><i>integer ABR_KBPS_MIN</i> - the minimum-bitrate for ABR-mode; 0 to 2048</i><br><i>integer ABR_KBPS_MAX</i> - the maximum-bitrate for ABR-mode; 0 to 2048</i><br><i></i></div><p></p>Tags: 
@@ -3169,6 +3222,10 @@ projectfiles, create, render, outputformat, ogg
 string render_cfg_string = ultraschall.CreateRenderCFG_Opus(integer Mode, integer Kbps, integer Complexity)
 </i><br><br>Returns the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected Opus-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer Mode</i> - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR</i><br><i>integer Kbps</i> - the kbps of the opus-file; Ultraschall-Api supports between 1 and 262</i><br><i>integer Complexity</i> - the complexity-setting between 0(lowest quality) and 10(highest quality, slow encoding)</i><br><i></i></div><p></p>Tags: 
 projectfiles, create, render, outputformat, opus
+<p></p><a id="CreateRenderCFG_WAV"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+string render_cfg_string = ultraschall.CreateRenderCFG_WAV(integer BitDepth, integer LargeFiles, integer BWFChunk, integer IncludeMarkers, boolean EmbedProjectTempo)
+</i><br><br>Returns the render-cfg-string for the WAV-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected WAV-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer BitDepth</i> - the bitdepth of the WAV-file</i><br><i>                </i> - 0, 8 Bit PCM</i><br><i>                </i> - 1, 16 Bit PCM</i><br><i>                </i> - 2, 24 Bit PCM</i><br><i>                </i> - 3, 32 Bit FP</i><br><i>                </i> - 4, 64 Bit FP</i><br><i>                </i> - 5, 4 Bit IMA ADPCM</i><br><i>                </i> - 6, 2 Bit cADPCM</i><br><i>integer LargeFiles</i> - how shall Reaper treat large WAV-files</i><br><i>                  </i> - 0, Auto WAV/Wave64</i><br><i>                  </i> - 1, Auto Wav/RF64</i><br><i>                  </i> - 2, Force WAV</i><br><i>                  </i> - 3, Force Wave64</i><br><i>                  </i> - 4, Force RF64</i><br><i>integer BWFChunk</i> - Write BWF ('bext') chunk and Include project filename in BWF data</i> - checkboxes</i><br><i>                </i> - 0, unchecked</i> - unchecked</i><br><i>                </i> - 1, checked</i> - unchecked</i><br><i>                </i> - 2, unchecked</i> - checked</i><br><i>                </i> - 3, checked</i> - checked</i><br><i>integer IncludeMarkers</i> - The include markerlist-dropdownlist</i><br><i>                      </i> - 0, Do not include markers and regions</i><br><i>                      </i> - 1, Markers + regions</i><br><i>                      </i> - 2, Markers + regions starting with #</i><br><i>                      </i> - 3, Markers only</i><br><i>                      </i> - 4, Markers starting with # only</i><br><i>                      </i> - 5, Regions only</i><br><i>                      </i> - 6, Regions starting with # only</i><br><i>boolean EmbedProjectTempo</i> - Embed project tempo (use with care)-checkbox; true, checked; false, unchecked</i><br><i></i></div><p></p>Tags: 
+projectfiles, create, render, outputformat, wav
 <p></p><a id="CreateRenderCFG_WAVPACK"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
 string render_cfg_string = ultraschall.CreateRenderCFG_WAVPACK(integer Mode, integer Bitdepth, integer Writemarkers, boolean WriteBWFChunk, boolean IncludeFilenameBWF)
 </i><br><br>Returns the render-cfg-string for the WAVPACK-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected WAVPACK-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer Mode</i> - 0, Normal; 1, Fast; 2, High; 3, Very High(slowest)</i><br><i>integer Bitdepth</i> - the bitdepth of the WAVPACK-file</i><br><i>                </i> -   0(16Bit)</i><br><i>                </i> -   1(24Bit)</i><br><i>                </i> -   2(32Bit integer)</i><br><i>                </i> -   3(32Bit floating point)</i><br><i>                </i> -   4(23/24 Bit)</i><br><i>                </i> -   5(22/24 Bit)</i><br><i>                </i> -   6(21/24 Bit)</i><br><i>                </i> -   7(20/24 Bit)</i><br><i>                </i> -   8(19/24 Bit)</i><br><i>                </i> -   9(18/24 Bit)</i><br><i>                </i> -   10(17/24 Bit)</i><br><i>                </i> -   11(32 bit floating point -144dB floor)</i><br><i>                </i> -   12(32 bit floating point -120dB floor)</i><br><i>                </i> -   13(32 bit floating point -96dB floor)</i><br><i>integer Writemarkers</i> - Write markers as cues-checkboxes</i><br><i>                    </i> - 0, nothing checked</i><br><i>                    </i> - 1, Write markers as cues->checked</i><br><i>                    </i> - 2, Write markers as cues and Only write markers starting with #->checked</i><br><i>boolean WriteBWFChunk</i> - the Write BWF chunk-checkbox; true, checked; false, unchecked</i><br><i>boolean IncludeFilenameBWF</i> - the include project filename in BWF data-checkbox; true, checked; false, unchecked</i><br><i></i></div><p></p>Tags: 
@@ -3685,4 +3742,4 @@ userinterface, set, vertical, zoom, factor
 integer retval = ultraschall.StoreArrangeviewSnapshot(integer slot, string description, boolean position, boolean vzoom)
 </i><br><br>Stores a new Arrangeview-snapshot, that includes the position, horizontal zoom and vertical zoom.<br><br>Returns -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1, in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer slot</i> - the slot for arrangeview-snapshot</i><br><i>string description</i> - a description for this arrangeview-snapshot</i><br><i>boolean position</i> - true, store start and endposition of the current arrangeview; false, don't store start and endposition of current arrangeview(keep old position in slot, if existing)</i><br><i>boolean vzoom</i> - true, store current vertical-zoom-factor; false, don't store current vertical-zoom-factor(keep old zoomfactor in slot, if existing)</i><br><i></i></div><p></p>Tags: 
 userinterface, set, arrangeview, snapshot
-<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 581-functions available</i></p></div></body></html>
+<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 590-functions available</i></p></div></body></html>

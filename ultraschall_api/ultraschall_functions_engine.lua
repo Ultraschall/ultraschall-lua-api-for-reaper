@@ -112,6 +112,52 @@ mediaitemmanagement, tracks, media, item, check
   end
 end
 
+function ultraschall.IsValidMediaItemArray(MediaItemArray)
+--checks, if MediaItemArray is a valid array.
+-- throws out all invalid table-entries
+--[[
+<ApiDocBlocFunc>
+<slug>
+IsValidMediaItemArray
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+boolean retval, integer count, array retMediaItemArray = ultraschall.IsValidMediaItemArray(array MediaItemArray)
+</functionname>
+<description>
+Checks, whether MediaItemArray is valid.
+It throws out all entries, that are not MediaItems and returns the altered array as result.
+
+returns false in case of error or if it is not a valid MediaItemArray
+</description>
+<parameters>
+array MediaItemArray - a MediaItemArray that shall be checked for validity
+</parameters>
+<retvals>
+boolean retval - returns true if MediaItemArray is valid, false if not
+integer count - the number of entries in the returned retMediaItemArray
+array retMediaItemArray - the, possibly, altered MediaItemArray
+</retvals>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, tracks, media, item, check
+</tags>
+</ApiDocBlocFunc>
+]]
+  local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter0 = ultraschall.GetLastErrorMessage() 
+  local retval, count, retMediaItemArray = ultraschall.IsValidMediaItemArray(MediaItemArray)
+  local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter = ultraschall.GetLastErrorMessage() 
+  if errorcounter0~=errorcounter and functionname=="CheckMediaItemArray" then ultraschall.AddErrorMessage("IsValidMediaItemArray",parmname, errormessage, errcode) end
+  return retval, count, retMediaItemArray
+end
+
 function ultraschall.CheckMediaItemStateChunkArray(MediaItemStateChunkArray)
 --[[
 <ApiDocBlocFunc>
@@ -163,6 +209,51 @@ mediaitemmanagement, tracks, media, item, statechunk, chunk, check
   else return true, count-1, MediaItemStateChunkArray
   end
 end
+
+function ultraschall.IsValidMediaItemStateChunkArray(MediaItemStateChunkArray)
+--[[
+<ApiDocBlocFunc>
+<slug>
+IsValidMediaItemStateChunkArray
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+boolean retval, integer count, array retMediaItemStateChunkArray = ultraschall.IsValidMediaItemStateChunkArray(array MediaItemStateChunkArray)
+</functionname>
+<description>
+Checks, whether MediaItemStateChunkArray is valid.
+It throws out all entries, that are not MediaItemStateChunks and returns the altered array as result.
+
+returns false in case of error or if it is not a valid MediaItemStateChunkArray
+</description>
+<parameters>
+array MediaItemStateChunkArray - a MediaItemStateChunkArray that shall be checked for validity
+</parameters>
+<retvals>
+boolean retval - returns true if MediaItemStateChunkArray is valid, false if not
+integer count - the number of entries in the returned retMediaItemStateChunkArray
+array retMediaItemStateChunkArray - the, possibly, altered MediaItemStateChunkArray
+</retvals>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, tracks, media, item, statechunk, chunk, check
+</tags>
+</ApiDocBlocFunc>
+]]
+  local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter0 = ultraschall.GetLastErrorMessage()
+  local retval, count, retMediaItemStateChunkArray = ultraschall.CheckMediaItemStateChunkArray(MediaItemStateChunkArray)
+  local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter = ultraschall.GetLastErrorMessage() 
+  if errorcounter0~=errorcounter and functionname=="CheckMediaItemStateChunkArray" then ultraschall.AddErrorMessage("IsValidMediaItemStateChunkArray",parmname, errormessage, errcode) return false end
+  return retval, count, retMediaItemStateChunkArray
+end
+
 
 function ultraschall.CSV2IndividualLinesAsArray(csv_line,separator)
 -- converts a csv to an array with all individual values without the ,-separators as well as
@@ -32327,6 +32418,47 @@ envelopemanagement, envelope, point, envelope point, check, envelopepointobject
   return true
 end
 
+function ultraschall.IsValidEnvelopePointObject(EnvelopePointObject)
+--[[
+<ApiDocBlocFunc>
+<slug>
+IsValidEnvelopePointObject
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.IsValidEnvelopePointObject(array EnvelopePointObject)
+</functionname>
+<description>
+Checks, if EnvelopePointObject is valid or not.
+</description>
+<parameters>
+array EnvelopePointObject - an array with all information of an envelope point
+</parameters>
+<retvals>
+boolean retval - true, if it's a valid EnvelopePointObject; false if not
+</retvals>
+<semanticcontext>
+Envelope Management
+Helper functions
+</semanticcontext>
+<tags>
+envelopemanagement, envelope, point, envelope point, check, envelopepointobject
+</tags>
+</ApiDocBlocFunc>
+]]
+  local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter0 = ultraschall.GetLastErrorMessage() 
+  local A=ultraschall.CheckEnvelopePointObject(EnvelopePointObject)
+  local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter = ultraschall.GetLastErrorMessage() 
+  if errorcounter0~=errorcounter and functionname=="CheckEnvelopePointObject" then ultraschall.AddErrorMessage("IsValidEnvelopePointObject",parmname, errormessage, errcode) return false end
+  return A
+end
+--A=ultraschall.IsValidEnvelopePointObject("")
+
+
 function ultraschall.SetEnvelopePoints_EnvelopePointObject(EnvelopePointObject, sort_in)
 --[[
 <ApiDocBlocFunc>
@@ -39498,7 +39630,7 @@ Returns nil in case of an error
 <retvals>
 string outputformat - the outputformat, set in the render-cfg-string
 - The following are valid: 
-- AIFF, AUDIOCD-IMAGE, WAV, WAVPACK, DDP, FLAC, MP3, OPUS, OGG, Video WebM, Video MKV, Video MP4, Video AVI, Video GIF, Video LCF
+- AIFF, AUDIOCD-IMAGE, WAV, WAVPACK, DDP, FLAC, MP3, M4A, OPUS, OGG, Video WebM, Video MKV, Video MP4, Video AVI, Video GIF, Video LCF
 </retvals>
 <parameters>
 string Renderstring - the render-cfg-string from a rpp-projectfile or the reaper-render.ini
@@ -39547,6 +39679,7 @@ LCF:      IEZDT    108
   if Renderstring:sub(1,5)=="bDNwb"    and Renderstring:len()==44 then return "MP3"  end
   if Renderstring:sub(1,8)=="U2dnTwAA" and Renderstring:len()==20 then return "OPUS" end
   if Renderstring:sub(1,5)=="dmdnb"    and Renderstring:len()==36 then return "OGG"  end
+  if Renderstring:sub(1,4)=="RlZB"     and Renderstring:len()==60 then return "M4A"  end
   if Renderstring:sub(1,7)=="UE1GRgY"  and Renderstring:len()==60 then return "Video WebM" end
   if Renderstring:sub(1,7)=="UE1GRgQ"  and Renderstring:len()==60 then return "Video MKV"  end
   if Renderstring:sub(1,7)=="UE1GRgM"  and Renderstring:len()==60 then return "Video MP4"  end
@@ -39589,7 +39722,7 @@ integer Complexity - the complexity-setting between 0(lowest quality) and 10(hig
 </parameters>
 <semanticcontext>
 Rendering of Project
-Helper functions
+Creating Renderstrings
 </semanticcontext>
 <tags>
 projectfiles, create, render, outputformat, opus
@@ -39658,7 +39791,7 @@ integer ABR_KBPS_MAX - the maximum-bitrate for ABR-mode; 0 to 2048
 </parameters>
 <semanticcontext>
 Rendering of Project
-Helper functions
+Creating Renderstrings
 </semanticcontext>
 <tags>
 projectfiles, create, render, outputformat, ogg
@@ -39729,7 +39862,7 @@ string render_cfg_string - the render-cfg-string for the selected DDP-settings
 </retvals>
 <semanticcontext>
 Rendering of Project
-Helper functions
+Creating Renderstrings
 </semanticcontext>
 <tags>
 projectfiles, create, render, outputformat, ddp
@@ -39769,7 +39902,7 @@ integer bits - the bitrate of the aiff-file; 8, 16, 24 and 32 are supported
 </parameters>
 <semanticcontext>
 Rendering of Project
-Helper functions
+Creating Renderstrings
 </semanticcontext>
 <tags>
 projectfiles, create, render, outputformat, aiff
@@ -39827,7 +39960,7 @@ integer EncSpeed - the encoding speed; 0(fastest) to 8(slowest); 5(default)
 </parameters>
 <semanticcontext>
 Rendering of Project
-Helper functions
+Creating Renderstrings
 </semanticcontext>
 <tags>
 projectfiles, create, render, outputformat, flac
@@ -39917,7 +40050,7 @@ boolean IncludeFilenameBWF - the include project filename in BWF data-checkbox; 
 </parameters>
 <semanticcontext>
 Rendering of Project
-Helper functions
+Creating Renderstrings
 </semanticcontext>
 <tags>
 projectfiles, create, render, outputformat, wavpack
@@ -40013,7 +40146,7 @@ boolean AspectRatio - the aspect-ratio; true, keep source aspect ratio; false, d
 </parameters>
 <semanticcontext>
 Rendering of Project
-Helper functions
+Creating Renderstrings
 </semanticcontext>
 <tags>
 projectfiles, create, render, outputformat, webm
@@ -40316,6 +40449,500 @@ end
 
 --L=ultraschall.RenderProject_RenderCFG(nil, "c:/tt-hudeldu.mp3", -1, -1, true, true, ultraschall.CreateRenderCFG_Opus(1, 120, 10))
 
+function ultraschall.CreateRenderCFG_MP3MaxQuality()
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_MP3MaxQuality
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_MP3MaxQuality()
+</functionname>
+<description>
+Returns the render-cfg-string for the MP3-format with highest quality-settings. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+</description>
+<retvals>
+string render_cfg_string - the renderstring for MP3 with maximum quality
+</retvals>
+<semanticcontext>
+Rendering of Project
+Creating Renderstrings
+</semanticcontext>
+<tags>
+projectfiles, create, render, outputformat, mp3 high quality, mp3
+</tags>
+</ApiDocBlocFunc>
+]]
+  return "bDNwbUABAAABAAAACgAAAP////8EAAAAQAEAAAAAAAA="
+end
+
+
+function ultraschall.CreateRenderCFG_MP3VBR(quality, encoding_speed)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_MP3VBR
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_MP3VBR(integer quality, integer encoding_speed)
+</functionname>
+<description>
+Returns the render-cfg-string for the MP3-format with variable bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+
+Returns nil in case of an error
+</description>
+<retvals>
+string render_cfg_string - the render-cfg-string for the selected MP3-VBR-settings
+</retvals>
+<parameters>
+integer quality - the variable-bitrate quality; 1(for 10%) to 10(for 100%)
+integer encoding_speed - the encoding speed for the mp3
+                       - 0, Maximum
+                       - 1, Better
+                       - 2, Normal
+                       - 3, FastEncode
+                       - 4, FastestEncode
+</parameters>
+<semanticcontext>
+Rendering of Project
+Creating Renderstrings
+</semanticcontext>
+<tags>
+projectfiles, create, render, outputformat, mp3 vbr, mp3
+</tags>
+</ApiDocBlocFunc>
+]]
+  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "quality", "Must be an integer.", -1) return nil end
+  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "encoding_speed", "Must be an integer.", -2) return nil end
+  if quality<1 or quality>10 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "quality", "Must be between 1 and 10.", -3) return nil end
+  if encoding_speed<0 or encoding_speed>4 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "encoding_speed", "Must be between 0 and 4.", -3) return nil end
+  
+  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
+  
+  if encoding_speed==0 then encoding_speed="Maximum"
+  elseif encoding_speed==1 then encoding_speed="Better"
+  elseif encoding_speed==2 then encoding_speed="Normal"
+  elseif encoding_speed==3 then encoding_speed="FastEncode"
+  elseif encoding_speed==4 then encoding_speed="FastestEncode"
+  end
+  
+  local _temp, renderstring=ultraschall.GetIniFileExternalState("MP3", "VBR", ini_file)
+  local _temp, vbrquality=ultraschall.GetIniFileExternalState("MP3", "VBRQUALITY_"..quality*10, ini_file)
+  local _temp, encspeed=ultraschall.GetIniFileExternalState("MP3", "ENCSPEED_"..encoding_speed, ini_file)
+  
+  renderstring=string.gsub(renderstring, "%[ENCSPEED%]", encspeed)
+  renderstring=string.gsub(renderstring, "%[VBRQUALITY%]", vbrquality)
+  
+  return renderstring
+end
+
+--A=ultraschall.CreateRenderCFG_MP3VBR(1, 0)
+
+
+function ultraschall.CreateRenderCFG_MP3ABR(quality, encoding_speed)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_MP3ABR
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_MP3ABR(integer quality, integer encoding_speed)
+</functionname>
+<description>
+Returns the render-cfg-string for the MP3-format with average bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+
+Returns nil in case of an error
+</description>
+<retvals>
+string render_cfg_string - the render-cfg-string for the selected MP3-ABR-settings
+</retvals>
+<parameters>
+integer quality - the encoding quality for the mp3
+                - 0, 8 kbps
+                - 1, 16 kbps
+                - 2, 24 kbps
+                - 3, 32 kbps
+                - 4, 40 kbps
+                - 5, 48 kbps
+                - 6, 56 kbps
+                - 7, 64 kbps
+                - 8, 80 kbps
+                - 9, 96 kbps
+                - 10, 112 kbps
+                - 11, 128 kbps
+                - 12, 160 kbps
+                - 13, 192 kbps
+                - 14, 224 kbps
+                - 15, 256 kbps
+                - 16, 320 kbps
+integer encoding_speed - the encoding speed for the mp3
+                       - 0, Maximum
+                       - 1, Better
+                       - 2, Normal
+                       - 3, FastEncode
+                       - 4, FastestEncode
+</parameters>
+<semanticcontext>
+Rendering of Project
+Creating Renderstrings
+</semanticcontext>
+<tags>
+projectfiles, create, render, outputformat, mp3 abr, mp3
+</tags>
+</ApiDocBlocFunc>
+]]
+  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "quality", "Must be an integer.", -1) return nil end
+  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "encoding_speed", "Must be an integer.", -2) return nil end
+  if quality<0 or quality>16 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "quality", "Must be between 1 and 16.", -3) return nil end
+  if encoding_speed<0 or encoding_speed>4 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "encoding_speed", "Must be between 0 and 4.", -3) return nil end
+
+  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
+  
+  if encoding_speed==0 then encoding_speed="Maximum"
+  elseif encoding_speed==1 then encoding_speed="Better"
+  elseif encoding_speed==2 then encoding_speed="Normal"
+  elseif encoding_speed==3 then encoding_speed="FastEncode"
+  elseif encoding_speed==4 then encoding_speed="FastestEncode"
+  end
+  
+  if quality==0 then quality=8
+  elseif quality==1 then quality=16
+  elseif quality==2 then quality=24
+  elseif quality==3 then quality=32
+  elseif quality==4 then quality=40
+  elseif quality==5 then quality=48
+  elseif quality==6 then quality=56
+  elseif quality==7 then quality=64
+  elseif quality==8 then quality=80
+  elseif quality==9 then quality=96
+  elseif quality==10 then quality=112
+  elseif quality==11 then quality=128
+  elseif quality==12 then quality=160
+  elseif quality==13 then quality=192
+  elseif quality==14 then quality=224
+  elseif quality==15 then quality=256
+  elseif quality==16 then quality=320
+  end
+  
+  local _temp, renderstring=ultraschall.GetIniFileExternalState("MP3", "ABR", ini_file)
+  local _temp, abrquality=ultraschall.GetIniFileExternalState("MP3", "KBPS_ABR_"..quality, ini_file)
+  local _temp, encspeed=ultraschall.GetIniFileExternalState("MP3", "ENCSPEED_"..encoding_speed, ini_file)
+  
+  renderstring=string.gsub(renderstring, "%[ENCSPEED%]", encspeed)
+  renderstring=string.gsub(renderstring, "%[KBPS_ABR%]", abrquality)
+  
+  return renderstring
+end
+
+--A=ultraschall.CreateRenderCFG_MP3ABR(1, 0)
+
+function ultraschall.CreateRenderCFG_MP3CBR(quality, encoding_speed)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_MP3CBR
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_MP3CBR(integer quality, integer encoding_speed)
+</functionname>
+<description>
+Returns the render-cfg-string for the MP3-format with constant bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+
+Returns nil in case of an error
+</description>
+<retvals>
+string render_cfg_string - the render-cfg-string for the selected MP3-CBR-settings
+</retvals>
+<parameters>
+integer quality - the encoding quality for the mp3
+                - 0, 8 kbps
+                - 1, 16 kbps
+                - 2, 24 kbps
+                - 3, 32 kbps
+                - 4, 40 kbps
+                - 5, 48 kbps
+                - 6, 56 kbps
+                - 7, 64 kbps
+                - 8, 80 kbps
+                - 9, 96 kbps
+                - 10, 112 kbps
+                - 11, 128 kbps
+                - 12, 160 kbps
+                - 13, 192 kbps
+                - 14, 224 kbps
+                - 15, 256 kbps
+                - 16, 320 kbps
+integer encoding_speed - the encoding speed for the mp3
+                       - 0, Maximum
+                       - 1, Better
+                       - 2, Normal
+                       - 3, FastEncode
+                       - 4, FastestEncode
+</parameters>
+<semanticcontext>
+Rendering of Project
+Creating Renderstrings
+</semanticcontext>
+<tags>
+projectfiles, create, render, outputformat, mp3 cbr, mp3
+</tags>
+</ApiDocBlocFunc>
+]]
+  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "quality", "Must be an integer.", -1) return nil end
+  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "encoding_speed", "Must be an integer.", -2) return nil end
+  if quality<0 or quality>16 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "quality", "Must be between 1 and 16.", -3) return nil end
+  if encoding_speed<0 or encoding_speed>4 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "encoding_speed", "Must be between 0 and 4.", -3) return nil end
+
+  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
+  
+  if encoding_speed==0 then encoding_speed="Maximum"
+  elseif encoding_speed==1 then encoding_speed="Better"
+  elseif encoding_speed==2 then encoding_speed="Normal"
+  elseif encoding_speed==3 then encoding_speed="FastEncode"
+  elseif encoding_speed==4 then encoding_speed="FastestEncode"
+  end
+  
+  if quality==0 then quality=8
+  elseif quality==1 then quality=16
+  elseif quality==2 then quality=24
+  elseif quality==3 then quality=32
+  elseif quality==4 then quality=40
+  elseif quality==5 then quality=48
+  elseif quality==6 then quality=56
+  elseif quality==7 then quality=64
+  elseif quality==8 then quality=80
+  elseif quality==9 then quality=96
+  elseif quality==10 then quality=112
+  elseif quality==11 then quality=128
+  elseif quality==12 then quality=160
+  elseif quality==13 then quality=192
+  elseif quality==14 then quality=224
+  elseif quality==15 then quality=256
+  elseif quality==16 then quality=320
+  end
+  
+  local _temp, renderstring=ultraschall.GetIniFileExternalState("MP3", "CBR", ini_file)
+  local _temp, cbrquality=ultraschall.GetIniFileExternalState("MP3", "KBPS_CBR_"..quality, ini_file)
+  local _temp, cbr2quality=ultraschall.GetIniFileExternalState("MP3", "KBPS_CBR2_"..quality, ini_file)
+  local _temp, encspeed=ultraschall.GetIniFileExternalState("MP3", "ENCSPEED_"..encoding_speed, ini_file)
+  
+  renderstring=string.gsub(renderstring, "%[ENCSPEED%]", encspeed)
+  renderstring=string.gsub(renderstring, "%[KBPS_CBR%]", cbrquality)
+  renderstring=string.gsub(renderstring, "%[KBPS_CBR2%]", cbr2quality)
+  
+  return renderstring
+end
+--A=ultraschall.CreateRenderCFG_MP3CBR(1, 1)
+
+
+function ultraschall.AddIntToChar(char, int)
+--[[
+<ApiDocBlocFunc>
+<slug>
+AddIntToChar
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string new_character = ultraschall.AddIntToChar(string character, integer int)
+</functionname>
+<description>
+Adds/subtracts int to/from the numeric representation of character. It will return the new character.
+It will not(!) include "overflows" into the adding/subtraction. That said, if you want to add a value resulting in a character above ASCII-code 255, it will fail!
+
+Returns nil in case of an error
+</description>
+<retvals>
+string new_character - the new character, after parameter int has been added/subtracted from/to character
+</retvals>
+<parameters>
+string character - the character, onto which you want to add/subtract parameter int; only single character allowed
+integer int - the value, that you want to add to the numerical representation of parameter character
+</parameters>
+<semanticcontext>
+API-Helper functions
+</semanticcontext>
+<tags>
+helper functions, add, character, value
+</tags>
+</ApiDocBlocFunc>
+]]
+  if type(char)~="string" then ultraschall.AddErrorMessage("AddIntToChar", "char", "must be a string with one character" , -1) return nil end
+  if char:len()~=1 then ultraschall.AddErrorMessage("AddIntToChar", "char", "must be a string with one character" , -2) return nil end
+  if math.type(int)~="integer" then ultraschall.AddErrorMessage("AddIntToChar", "int", "must be an integer" , -3) return nil end
+  if string.byte(char)+int>255 or string.byte(char)+int<0 then ultraschall.AddErrorMessage("AddIntToChar", "char + int", "calculated value is out of range of ASCII" , -4) return nil end
+  local charcode=string.byte(char)
+  local newchar=string.char(charcode+int)
+  return newchar
+end
+
+--A,B=ultraschall.AddIntToChar("A", 191)
+
+function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, IncludeMarkers, EmbedProjectTempo)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_WAV
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_WAV(integer BitDepth, integer LargeFiles, integer BWFChunk, integer IncludeMarkers, boolean EmbedProjectTempo)
+</functionname>
+<description>
+Returns the render-cfg-string for the WAV-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+
+Returns nil in case of an error
+</description>
+<retvals>
+string render_cfg_string - the render-cfg-string for the selected WAV-settings
+</retvals>
+<parameters>
+integer BitDepth - the bitdepth of the WAV-file
+                 - 0, 8 Bit PCM
+                 - 1, 16 Bit PCM
+                 - 2, 24 Bit PCM
+                 - 3, 32 Bit FP
+                 - 4, 64 Bit FP
+                 - 5, 4 Bit IMA ADPCM
+                 - 6, 2 Bit cADPCM
+integer LargeFiles - how shall Reaper treat large WAV-files
+                   - 0, Auto WAV/Wave64
+                   - 1, Auto Wav/RF64
+                   - 2, Force WAV
+                   - 3, Force Wave64
+                   - 4, Force RF64
+integer BWFChunk - Write BWF ('bext') chunk and Include project filename in BWF data - checkboxes
+                 - 0, unchecked - unchecked
+                 - 1, checked - unchecked
+                 - 2, unchecked - checked
+                 - 3, checked - checked
+integer IncludeMarkers - The include markerlist-dropdownlist
+                       - 0, Do not include markers and regions
+                       - 1, Markers + regions
+                       - 2, Markers + regions starting with #
+                       - 3, Markers only
+                       - 4, Markers starting with # only
+                       - 5, Regions only
+                       - 6, Regions starting with # only
+boolean EmbedProjectTempo - Embed project tempo (use with care)-checkbox; true, checked; false, unchecked
+</parameters>
+<semanticcontext>
+Rendering of Project
+Creating Renderstrings
+</semanticcontext>
+<tags>
+projectfiles, create, render, outputformat, wav
+</tags>
+</ApiDocBlocFunc>
+]]
+  if math.type(BitDepth)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "BitDepth", "Must be an integer.", -1) return nil end
+  if math.type(LargeFiles)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "LargeFiles", "Must be an integer.", -2) return nil end
+  if math.type(BWFChunk)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "BWFChunk", "Must be an integer.", -3) return nil end
+  if math.type(IncludeMarkers)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "IncludeMarkers", "Must be an integer.", -4) return nil end
+  if type(EmbedProjectTempo)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "EmbedProjectTempo", "Must be a boolean.", -5) return nil end
+  
+  if Bitdepth<0 or Bitdepth>6 then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "Bitdepth", "Must be between 0 and 6.", -6) return nil end
+  if LargeFiles<0 or LargeFiles>4 then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "LargeFiles", "Must be between 0 and 4.", -7) return nil end
+  if BWFChunk<0 or BWFChunk>3 then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "BWFChunk", "Must be between 0 and 3.", -8) return nil end
+  if IncludeMarkers<0 or IncludeMarkers>6 then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "IncludeMarkers", "Must be between 0 and 6.", -9) return nil end
+
+  -- Header
+  local WavHeader="ZXZhd"
+  local A0, A, B, C
+  
+  -- Bitdepth
+  if BitDepth==0 then BitDepth="w" A0="g"     -- 8 Bit PCM
+  elseif BitDepth==1 then BitDepth="x" A0="A" -- 16 Bit PCM
+  elseif BitDepth==2 then BitDepth="x" A0="g" -- 24 Bit PCM
+  elseif BitDepth==3 then BitDepth="y" A0="A" -- 32 Bit FP
+  elseif BitDepth==4 then BitDepth="0" A0="A" -- 64 Bit FP
+  elseif BitDepth==5 then BitDepth="w" A0="Q" -- 4 Bit IMA ADPCM
+  elseif BitDepth==6 then BitDepth="w" A0="I" -- 2 Bit cADPCM
+  else return nil 
+  end
+  
+  -- Large Files  
+  if LargeFiles==0 then A="B" B="A" C="A"     -- Auto WAV/Wave64
+  elseif LargeFiles==1 then A="B" B="A" C="Q" -- Auto Wav/RF64
+  elseif LargeFiles==2 then A="D" B="A" C="A" -- Force WAV
+  elseif LargeFiles==3 then A="B" B="A" C="g" -- Force Wave64
+  elseif LargeFiles==4 then A="B" B="A" C="w" -- Force RF64
+  else return nil
+  end
+  
+  -- Write BWF ('bext') chunk and Include project filename in BWF data - checkboxes
+  if BWFChunk==0 then        -- unchecked unchecked
+  elseif BWFChunk==1 then A=ultraschall.AddIntToChar(A, -1)   -- checked unchecked
+  elseif BWFChunk==2 then A=ultraschall.AddIntToChar(A, 4)   -- unchecked checked
+  elseif BWFChunk==3 then A=ultraschall.AddIntToChar(A, -1+4)   -- checked checked
+  end
+  
+  -- The include markerlist-dropdownlist
+  if IncludeMarkers==0 then                                       -- Do not include markers or regions
+  elseif IncludeMarkers==1 then A=ultraschall.AddIntToChar(A, 8)    -- Markers + regions
+  elseif IncludeMarkers==2 then A=ultraschall.AddIntToChar(A, 30)   -- Markers + regions starting with #
+  elseif IncludeMarkers==3 then A0=ultraschall.AddIntToChar(A0, 1) A=ultraschall.AddIntToChar(A, 8) -- Markers only 
+  elseif IncludeMarkers==4 then A0=ultraschall.AddIntToChar(A0, 1) A=ultraschall.AddIntToChar(A, 30) -- Markers starting with # only 
+  elseif IncludeMarkers==5 then A0=ultraschall.AddIntToChar(A0, 2) A=ultraschall.AddIntToChar(A, 8) -- Regions only 
+  elseif IncludeMarkers==6 then A0=ultraschall.AddIntToChar(A0, 2) A=ultraschall.AddIntToChar(A, 30) -- Regions starting with # only 
+  end  
+  
+  -- The Embed project tempo (use with care) - checkbox
+  -- Depending on the chosen setting in IncludeMarkers, you must either add 38 or subtract 43 from value A!
+  -- This is for all options that have "starting with #" in them.
+  -- Yes, it's confusing....
+  if EmbedProjectTempo==true and IncludeMarkers<2 then A=ultraschall.AddIntToChar(A, 38)
+  elseif EmbedProjectTempo==true and IncludeMarkers==2 then A=ultraschall.AddIntToChar(A, -43) 
+  elseif EmbedProjectTempo==true and IncludeMarkers==3 then A=ultraschall.AddIntToChar(A, 38)
+  elseif EmbedProjectTempo==true and IncludeMarkers==4 then A=ultraschall.AddIntToChar(A, -43)
+  elseif EmbedProjectTempo==true and IncludeMarkers==5 then A=ultraschall.AddIntToChar(A, 38)
+  elseif EmbedProjectTempo==true and IncludeMarkers==6 then A=ultraschall.AddIntToChar(A, -43)
+  end
+  
+  local WavEnder="=="
+  return WavHeader..BitDepth..A0..A..B..C..WavEnder  
+end
+-- -----..----- Wav bit depth: wg(8 bit PCM), xA(16 bit PCM), xg(24 bit PCM), yA(32 bit FP), 
+--                             0A(64 bit FP), wQ(4 bit IMA ADPCM), wI(2 bit cADPCM)
+--CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, IncludeMarkers, EmbedProjectTempo)
+--reaper.Main_SaveProject(0,false)
+--ALABAMA_Function=ultraschall.CreateRenderCFG_WAV(0,0,0,0,true)
+--ALABAMA_Project=ultraschall.GetProject_RenderCFG("c:\\rendercode-project.rpp")
+--if ALABAMA_Function~=ALABAMA_Project then ALABAM_33="UNGLEICH!" end
+--reaper.CF_SetClipboard(ALABAMA)
+
+--ZXZhdwK8Aw==
+--ZXZhdwIBAw==
+
+--retval, count, retMediaItemStateChunkArray = ultraschall.IsValidMediaItemStateChunkArray(MediaItemStateChunkArray)
 ultraschall.ShowLastErrorMessage()
 
-
+--LOLO =ultraschall.AddIntToChar("c", -43)
+--LOLO2=ultraschall.AddIntToChar("M", 38)
