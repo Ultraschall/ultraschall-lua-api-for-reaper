@@ -157,6 +157,10 @@
 <li>MoveTracks - moves given track(s) to a new position</li>
 <li>PreviewMediaFile - play preview of a mediafile, that is not necessarily in the project</li>
 <li>MakeFunctionUndoable - run a function with it and it will create an Undo-Point for that given function automatically</li>
+<li>GetProject_Selection - get the time-selection of an rpp-project or ProjectStateChunk</li>
+<li>SetProject_Selection - set the time-selection of an rpp-project or ProjectStateChunk</li>
+<li>ChangeToActiveProject - change the active projecttab to a certain Project</li>
+<li>ChangeToActiveProject_ProjNr - change the active projecttab to a tab-nr of your choice</li>
 </ul>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
 <ul>
@@ -420,6 +424,17 @@
 <li>SetItemUSTrackNumber_StateChunk - tracknumbers are 1 based now</li>
 <li>SetItemLength - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
 <li>SetItemPosition - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)</li>
+<li>RenderProjectToAIFF - removed, use CreateRenderCFG_AIFF and RenderProject_RenderCFG instead</li>
+<li>RenderProjectToFLAC - removed, use CreateRenderCFG_FLAC and RenderProject_RenderCFG instead</li>
+<li>RenderProjectToMP3_ABR - removed, use CreateRenderCFG_MP3ABR and RenderProject_RenderCFG instead</li>
+<li>RenderProjectToMP3_CBR - removed, use CreateRenderCFG_AMP3CBR and RenderProject_RenderCFG instead</li>
+<li>RenderProjectToMP3_MaxQuality - removed, use CreateRenderCFG_MP3MaxQuality and RenderProject_RenderCFG instead</li>
+<li>RenderProjectToMP3_VBR - removed, use CreateRenderCFG_MP3VBR and RenderProject_RenderCFG instead</li>
+<li>RenderProjectToOpus - removed, use CreateRenderCFG_Opus and RenderProject_RenderCFG instead</li>
+<li>GetProject_VideoConfig - corrected documentation</li>
+<li>SetProject_VideoConfig - corrected documentation</li>
+<li>SetProject_RecMode - corrected documentation</li>
+<li>GetProject_SMPTESync - returned wrong retvals, fixed</li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>

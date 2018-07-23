@@ -158,11 +158,14 @@
   - MoveTracks - moves given track(s) to a new position
   - PreviewMediaFile - play preview of a mediafile, that is not necessarily in the project
   - MakeFunctionUndoable - run a function with it and it will create an Undo-Point for that given function automatically
+  - GetProject_Selection - get the time-selection of an rpp-project or ProjectStateChunk
+  - SetProject_Selection - set the time-selection of an rpp-project or ProjectStateChunk
+  - ChangeToActiveProject - change the active projecttab to a certain Project
+  - ChangeToActiveProject_ProjNr - change the active projecttab to a tab-nr of your choice
   
   <TODO>
       TODO!!  - SetTrackGroupFlagsState - sets GroupFlagsState
       TODO!!  - SetProject-functions also accept ProjectStateChunk for getting and setting
-      TODO!!  - RenderProjectToOGG, RenderProjectToWebMVideo(reworking)
       TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
       TODO!!  - commenting and errorchecking
       TODO!!  - alter MakeCopyOfTable to be different from the original
@@ -499,6 +502,17 @@
   - SetItemUSTrackNumber_StateChunk - tracknumbers are 1 based now
   - SetItemLength - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
   - SetItemPosition - allows usage of MediaItems themselves as well now; added parameter MediaItem before StateChunk(!)
+  - RenderProjectToAIFF - removed, use CreateRenderCFG_AIFF and RenderProject_RenderCFG instead
+  - RenderProjectToFLAC - removed, use CreateRenderCFG_FLAC and RenderProject_RenderCFG instead
+  - RenderProjectToMP3_ABR - removed, use CreateRenderCFG_MP3ABR and RenderProject_RenderCFG instead
+  - RenderProjectToMP3_CBR - removed, use CreateRenderCFG_AMP3CBR and RenderProject_RenderCFG instead
+  - RenderProjectToMP3_MaxQuality - removed, use CreateRenderCFG_MP3MaxQuality and RenderProject_RenderCFG instead
+  - RenderProjectToMP3_VBR - removed, use CreateRenderCFG_MP3VBR and RenderProject_RenderCFG instead
+  - RenderProjectToOpus - removed, use CreateRenderCFG_Opus and RenderProject_RenderCFG instead
+  - GetProject_VideoConfig - corrected documentation
+  - SetProject_VideoConfig - corrected documentation
+  - SetProject_RecMode - corrected documentation
+  - GetProject_SMPTESync - returned wrong retvals, fixed
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:
