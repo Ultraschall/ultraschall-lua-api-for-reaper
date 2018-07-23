@@ -34737,6 +34737,8 @@ Returns -1 in case of failure
 <parameters>
 string filename - the path+filename of the mediafile to be inserted into the project
 integer track - the track, in which the file shall be inserted
+              - 0, insert the file into a newly inserted track after the last track
+              - -1, insert the file into a newly inserted track before the first track
 number position - the position of the newly inserted item
 number endposition - the length of the newly created mediaitem; -1, use the length of the sourcefile
 integer editcursorpos - the position of the editcursor after insertion of the mediafile
@@ -34747,7 +34749,7 @@ integer editcursorpos - the position of the editcursor after insertion of the me
 <retvals>
 integer retval - 0, if insertion worked; -1, if it failed
 MediaItem item - the newly created MediaItem
-number length - the fulllength of the mediafile in seconds
+number length - the full length of the mediafile in seconds
 integer numchannels - the number of channels of the mediafile
 integer Samplerate - the samplerate of the mediafile in hertz
 string Filetype - the type of the mediafile, like MP3, WAV, MIDI, FLAC, etc
@@ -34769,7 +34771,8 @@ markermanagement, insert, mediaitem, position, mediafile, track
   if type(endposition)~="number" then ultraschall.AddErrorMessage("InsertMediaItemFromFile","endposition", "must be a number", -4) return -1 end
   if endposition<-1 then ultraschall.AddErrorMessage("InsertMediaItemFromFile","endposition", "must be bigger/equal 0; or -1 for sourcefilelength", -5) return -1 end
   if math.type(editcursorpos)~="integer" then ultraschall.AddErrorMessage("InsertMediaItemFromFile", "editcursorpos", "must be an integer between 0 and 2", -6) return -1 end
-  
+  if track<-1 or track>reaper.CountTracks(0) then ultraschall.AddErrorMessage("InsertMediaItemFromFile","track", "no such track available", -7) return -1 end  
+
   -- where to insert and where to have the editcursor after insert
   local editcursor, mode
   if editcursorpos==0 then editcursor=reaper.GetCursorPosition()
@@ -34781,9 +34784,19 @@ markermanagement, insert, mediaitem, position, mediafile, track
   -- insert file
   local Length, Numchannels, Samplerate, Filetype = ultraschall.GetMediafileAttributes(filename) -- mediaattributes, like length
   local startTime, endTime = reaper.BR_GetArrangeView(0) -- get current arrange-view-range
-  if track>reaper.CountTracks(0) or track<1 then mode=1 else mode=0 end
+  local mode
+  if track>=0 and track<reaper.CountTracks(0) then
+    mode=0
+  elseif track==0 then
+    mode=0
+    track=reaper.CountTracks(0)
+  elseif track==-1 then
+    mode=0
+    track=1
+    reaper.InsertTrackAtIndex(0,false)
+  end
   local SelectedTracks=ultraschall.CreateTrackNumbersString_SelectedTracks() -- get old track-selection
-  local retval = ultraschall.SetTracksSelected(tostring(track), true) -- set track selected, where we want to insert the item
+  ultraschall.SetTracksSelected(tostring(track), true) -- set track selected, where we want to insert the item
   reaper.SetEditCurPos(position, false, false) -- change editcursorposition to where we want to insert the item
   local CountMediaItems=reaper.CountMediaItems(0) -- the number of items available; the new one will be number of items + 1
   local LLL=ultraschall.GetAllMediaItemGUIDs()
@@ -34796,7 +34809,7 @@ markermanagement, insert, mediaitem, position, mediafile, track
   
   reaper.SetEditCurPos(editcursor, false, false)  -- set editcursor to new position
   reaper.BR_SetArrangeView(0, startTime, endTime) -- reset to old arrange-view-range
-  local retval = ultraschall.SetTracksSelected(SelectedTracks, true) -- reset old trackselection
+  if SelectedTracks~="" then ultraschall.SetTracksSelected(SelectedTracks, true) end -- reset old trackselection
   return 0, item, editcursor, Length, Numchannels, Samplerate, Filetype
 end
 
@@ -37081,6 +37094,7 @@ integer new_integer_bitfield - the newly altered bitfield
 </retvals>
 <semanticcontext>
 API-Helper functions
+Data Manipulation
 </semanticcontext>
 <tags>
 helper functions, bitfield, set, unset, toggle
@@ -38432,7 +38446,7 @@ Lua=5.3
 string tempfilename = ultraschall.CreateValidTempFile(string filename_with_path, boolean create, string suffix, boolean retainextension)
 </functionname>
 <description>
-Tries to determine a valid temporary filename. Will check filename_with_path with an included number between 0 and 65536 to create such a filename.
+Tries to determine a valid temporary filename. Will check filename_with_path with an included number between 0 and 16384 to create such a filename.
 You can also add your own suffix to the filename.
 
 The pattern is: filename_with_path$Suffix~$number.ext (when retainextension is set to true!)
@@ -38466,7 +38480,7 @@ filemanagement, create, temporary, file, filename
   local extension, tempfilename, A
   if retainextension==true then extension=filename_with_path:match(".*(%..*)") end
   if extension==nil then extension="" end
-  for i=0, 16555 do
+  for i=0, 16384 do
     tempfilename=filename_with_path..suffix.."~"..i..extension
     if reaper.file_exists(tempfilename)==false then
       if create==true then 
@@ -38899,6 +38913,7 @@ string keeptype - the type that shall remain in table
 </parameters>
 <semanticcontext>
 API-Helper functions
+Data Manipulation
 </semanticcontext>
 <tags>
 helperfunctions, keep, alter, table, types
@@ -38955,6 +38970,7 @@ string removetype - the type that shall be removed from table
 </parameters>
 <semanticcontext>
 API-Helper functions
+Data Manipulation
 </semanticcontext>
 <tags>
 helperfunctions, remove, alter, table, types
@@ -40784,6 +40800,7 @@ integer int - the value, that you want to add to the numerical representation of
 </parameters>
 <semanticcontext>
 API-Helper functions
+Data Manipulation
 </semanticcontext>
 <tags>
 helper functions, add, character, value
@@ -40938,11 +40955,360 @@ end
 --if ALABAMA_Function~=ALABAMA_Project then ALABAM_33="UNGLEICH!" end
 --reaper.CF_SetClipboard(ALABAMA)
 
---ZXZhdwK8Aw==
---ZXZhdwIBAw==
-
 --retval, count, retMediaItemStateChunkArray = ultraschall.IsValidMediaItemStateChunkArray(MediaItemStateChunkArray)
+
+function ultraschall.PreviewMediaItem(MediaItem, Previewtype)
+--[[
+<ApiDocBlocFunc>
+<slug>
+PreviewMediaItem
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.PreviewMediaItem(MediaItem MediaItem, integer Previewtype)
+</functionname>
+<description>
+Will play a preview a given MediaItem.
+
+Returns false in case of an error
+</description>
+<retvals>
+boolean retval - false, in case of error; true, in case of success
+</retvals>
+<parameters>
+MediaItem MediaItem - the MediaItem, of which you want to play a preview
+integer Previewtype - the type of the preview
+                    - 0, Preview the MediaItem in the Media Explorer
+                    - 1, Preview the MediaItem
+                    - 2, Preview the MediaItem at track fader volume of the track, in which it lies
+                    - 3, Preview the MediaItem through the track, in which it lies
+</parameters>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, preview, audio, mediaitem, track, mediaexplorer
+</tags>
+</ApiDocBlocFunc>
+]]
+  if reaper.ValidatePtr2(0,MediaItem,"MediaItem*")==false then ultraschall.AddErrorMessage("PreviewMediaItem", "MediaItem", "Must be a valid MediaItem.", -1) return false end
+  if math.type(Previewtype)~="integer" then ultraschall.AddErrorMessage("PreviewMediaItem", "Previewtype", "Must be an integer.", -2) return false end
+  if Previewtype<0 or Previewtype>3 then ultraschall.AddErrorMessage("PreviewMediaItem", "Previewtype", "Must be between 0 and 3.", -3) return false end
+  if Previewtype==0 then Previewtype=41623 -- Media explorer: Preview media item source media
+  elseif Previewtype==1 then Previewtype="_XENAKIOS_ITEMASPCM1" -- Xenakios/SWS: Preview selected media item
+  elseif Previewtype==2 then Previewtype="_SWS_PREVIEWFADER" -- Xenakios/SWS: Preview selected media item at track fader volume
+  elseif Previewtype==3 then Previewtype="_SWS_PREVIEWTRACK" -- Xenakios/SWS: Preview selected media item through track
+  end
+  
+  return ultraschall.ApplyActionToMediaItem(MediaItem, Previewtype, 1, false) 
+end
+
+--MediaItem1=reaper.GetMediaItem(0,0)
+--ultraschall.PreviewMediaItem(MediaItem1, 0)
+
+function ultraschall.StopAnyPreview()
+--[[
+<ApiDocBlocFunc>
+<slug>
+StopAnyPreview
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+ultraschall.StopAnyPreview()
+</functionname>
+<description>
+Stops any playing preview of a MediaItem.
+</description>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, stop, preview, audio, mediaitem, track, mediaexplorer
+</tags>
+</ApiDocBlocFunc>
+]]
+  ultraschall.RunCommand("_SWS_STOPPREVIEW") -- Xenakios/SWS: Stop current media item/take preview
+end
+
+function ultraschall.InsertTrackAtIndex(index, number_of_tracks, wantdefaults)
+--[[
+<ApiDocBlocFunc>
+<slug>
+InsertTrackAtIndex
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string trackarray, integer new_track_count, array trackarray_newtracks = ultraschall.InsertTrackAtIndex(integer index, integer number_of_tracks, boolean wantdefaults)
+</functionname>
+<description>
+Inserts one or more tracks at index.
+
+Returns nil in case of an error
+</description>
+<retvals>
+string trackstring - a trackstring with all newly created tracknumbers
+integer new_track_count - the number of newly created tracks
+array trackarray_newtracks - an array with the MediaTrack-objects of all newly created tracks
+</retvals>
+<parameters>
+integer index - the index, at which to include the new tracks; 0, for including before the first track
+integer number_of_tracks - the number of tracks that you want to create; 0 for including before track 1; number of tracks+1, include new tracks after last track
+boolean wantdefaults - true, set the tracks with default settings/fx/etc; false, create new track without any defaults
+</parameters>
+<semanticcontext>
+Track Management
+Assistance functions
+</semanticcontext>
+<tags>
+trackmanagement, insert, new, track
+</tags>
+</ApiDocBlocFunc>
+]]
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("InsertTrackAtIndex", "index", "Must be an integer.", -1) return end
+  if math.type(number_of_tracks)~="integer" then ultraschall.AddErrorMessage("InsertTrackAtIndex", "number_of_tracks", "Must be an integer.", -2) return end
+  if type(wantdefaults)~="boolean" then ultraschall.AddErrorMessage("InsertTrackAtIndex", "wantdefaults", "Must be a boolean.", -3) return end
+  if index<0 or index>reaper.CountTracks(0) then ultraschall.AddErrorMessage("InsertTrackAtIndex", "index", "No such index. Must be 0 to tracknumber+1", -4) return end
+  if number_of_tracks<0 then ultraschall.AddErrorMessage("InsertTrackAtIndex", "number_of_tracks", "Must be bigger than 0", -5) return end
+  local TrackArray={}
+  local count=reaper.CountTracks(0)-1
+  local found
+  for i=0, reaper.CountTracks(0)-1 do
+    TrackArray[i+1]={}
+    TrackArray[i+1][1]=reaper.GetTrack(0,i)
+    TrackArray[i+1][2]=reaper.IsTrackSelected(TrackArray[i+1][1])
+  end
+  ultraschall.SetTracksSelected(tostring(index), true)
+  for i=1, number_of_tracks do
+    reaper.InsertTrackAtIndex(index, wantdefaults)
+  end
+  ultraschall.SetAllTracksSelected(false) 
+
+  for i=1, count do
+    reaper.SetTrackSelected(TrackArray[i+1][1], TrackArray[i+1][2])
+  end
+  
+  local trackstring2=""
+  local Trackarray2={}
+  local newcount=0
+  for i=0, reaper.CountTracks(0)-1 do
+    for a=1, count do
+      if reaper.GetTrack(0,i)==TrackArray[a+1][1] then found=true end
+    end
+    if found==false then trackstring2=trackstring2..i.."," newcount=newcount+1 Trackarray2[newcount]=reaper.GetTrack(0,i) end
+    found=false
+  end
+  return trackstring2:sub(1,-2), newcount, Trackarray2
+end
+
+--A,B,C=ultraschall.InsertTrackAtIndex(1, 1, false)
+
+function ultraschall.MoveTracks(trackstring, targetindex, makepreviousfolder)
+-- Reaper 5.92 !!!
+--[[
+<ApiDocBlocFunc>
+<slug>
+MoveTracks
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.92
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.MoveTracks(string trackstring, integer targetindex, integer makepreviousfolder)
+</functionname>
+<description>
+Moves tracks in trackstring to position targetindex. You can also set, if the tracks shall become folders.
+Multiple tracks in trackstring will be put together, so track 2, 4, 6 would become 1, 2, 3, when moved above the first track!
+
+Returns false in case of an error
+</description>
+<retvals>
+boolean retval - true, moving was sucessful; false, moving wasn't sucessful
+</retvals>
+<parameters>
+string trackstring - a string with all tracknumbers of the tracks you want to move, separated by commas
+integer targetindex - the index, to which to move the tracks; 0, move tracks before track 1; number of tracks+1, move after the last track
+integer makepreviousfolder - make tracks a folder or not
+                           - 0, for normal, 
+                           - 1, as child of track preceding track specified by makepreviousfolder
+                           - 2, if track preceding track specified by makepreviousfolder is last track in folder, extend folder
+</parameters>
+<semanticcontext>
+Track Management
+Assistance functions
+</semanticcontext>
+<tags>
+trackmanagement, move, track, tracks, folder
+</tags>
+</ApiDocBlocFunc>
+]]
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("MoveTracks", "trackstring", "Must be a valid trackstring.", -1) return false end
+  if math.type(targetindex)~="integer" then ultraschall.AddErrorMessage("MoveTracks", "targetindex", "Must be an integer.", -2) return false end
+  if math.type(makepreviousfolder)~="integer" then ultraschall.AddErrorMessage("MoveTracks", "makepreviousfolder", "Must be an integer.", -3) return false end
+  if targetindex<0 or targetindex>reaper.CountTracks(0)+1 then ultraschall.AddErrorMessage("MoveTracks", "targetindex", "No such track.", -4) return false end
+  if makepreviousfolder<0 or makepreviousfolder>2 then ultraschall.AddErrorMessage("MoveTracks", "makepreviousfolder", "Must be between 0 and 2.", -5) return false end
+  reaper.PreventUIRefresh(1)
+  local TrackArray={}
+  
+  for i=0, reaper.CountTracks(0)-1 do
+    TrackArray[i+1]={}
+    TrackArray[i+1][1]=reaper.GetTrack(0,i)
+    TrackArray[i+1][2]=reaper.IsTrackSelected(TrackArray[i+1][1])
+  end
+  ultraschall.SetTracksSelected(trackstring, true)
+  
+  local retval=reaper.ReorderSelectedTracks(targetindex, makepreviousfolder)
+  
+  for i=0, reaper.CountTracks(0)-1 do
+    reaper.SetTrackSelected(TrackArray[i+1][1], TrackArray[i+1][2])
+  end
+  reaper.PreventUIRefresh(-1)
+  return retval
+end
+
+--L=ultraschall.MoveTracks("2,3,5", 8, 1)
+
+
+function ultraschall.PreviewMediaFileA(filename_with_path)
+--[[
+<ApiDocBlocFunc>
+<slug>
+PreviewMediaFile
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.92
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.PreviewMediaFile(string filename_with_path)
+</functionname>
+<description>
+Plays a preview of a media-file.
+
+Returns false in case of an error
+</description>
+<retvals>
+boolean retval - true, starting preview was sucessful; false, starting preview wasn't sucessful
+</retvals>
+<parameters>
+string filename_with_path - the filename with path of the media-file to play
+</parameters>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, preview, play, audio, file
+</tags>
+</ApiDocBlocFunc>
+]]
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("PreviewMediaItem", "filename_with_path", "Must be a string.", -1) return false end
+  if reaper.file_exists(filename_with_path)== false then ultraschall.AddErrorMessage("PreviewMediaItem", "filename_with_path", "File does not exist.", -2) return false end
+  local oldstate=reaper.SNM_GetIntConfigVar("showpeaksbuild",-99)
+  if oldstate==1 then reaper.SNM_SetIntConfigVar("showpeaksbuild", 0) end
+  local count, MediaItemArray = ultraschall.GetAllSelectedMediaItems()
+  reaper.PreventUIRefresh(1)
+  local retval, MediaItem, length, numchannels, Samplerate, Filetype = ultraschall.InsertMediaItemFromFile(filename_with_path, 0, reaper.GetProjectLength(), -1, 0)
+  local B=reaper.GetTrack(0, reaper.CountTracks(0)-1)
+  ultraschall.DeselectMediaItems_MediaItemArray(MediaItemArray)
+  reaper.SetMediaItemSelected(MediaItem, true)
+  ultraschall.RunCommand("_XENAKIOS_ITEMASPCM1")
+  ultraschall.DeleteMediaItem(MediaItem)
+  ultraschall.SelectMediaItems_MediaItemArray(MediaItemArray)
+  reaper.DeleteTrack(B)
+  reaper.SNM_SetIntConfigVar("showpeaksbuild", oldstate)
+  reaper.PreventUIRefresh(-1)
+  if retval==-1 then return false else return true end
+end
+
+function ultraschall.PreviewMediaFile(filename_with_path)
+  local id=reaper.time_precise()
+  reaper.Undo_BeginBlock()
+  reaper.PreventUIRefresh(1)  
+  local A=ultraschall.PreviewMediaFileA(filename_with_path)
+  reaper.Undo_EndBlock("ultraschall_undo"..id, 0)
+  local B=reaper.Undo_CanUndo2(0)  
+  if B=="ultraschall_undo"..id then reaper.Undo_DoUndo2(0) end
+  reaper.PreventUIRefresh(1)
+end
+
+--  A=ultraschall.PreviewMediaFile("c:\\Users\\meo\\Desktop\\Hoelderlin - Hoelderlin (1975) (Full Album) [Krautrock].mp3")
+--B=reaper.Undo_DoUndo2(0)
+--B=reaper.Undo_DoUndo2(0)
+
+--C=ultraschall.PreviewMediaFile("c:\\Users\\meo\\Desktop\\Base64 encode_decode for Codea (Lua).html")
+--ultraschall.StopAnyPreview()
+
+--  local retval, MediaItem, length, numchannels, Samplerate, Filetype = ultraschall.InsertMediaItemFromFile("c:\\Users\\meo\\Desktop\\Steppenwolf - Magic Carpet Ride (Version 1969).mp3", 5, reaper.GetProjectLength(), -1, 0)
+
+function ultraschall.MakeFunctionUndoable(Func, UndoMessage, Flag, ...)
+--[[
+<ApiDocBlocFunc>
+<slug>
+MakeFunctionUndoable
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.92
+Lua=5.3
+</requires>
+<functionname>
+boolean retval, string current_UndoMessage, retvals_1, ..., retvals_2 = ultraschall.MakeFunctionUndoable(function Func, string UndoMessage, integer Flag, Func_parameters_1,  ... Func_parameters_n)
+</functionname>
+<description>
+Run the function Func and create an undopoint for this function. You can also give an UndoMessage and a flag for Reaper to use.
+All parameters needed by Func follow after parameter Flag, as if it would be the normal parameters.
+This should make creating undo-points much much easier...
+
+Note: Reaper will use the undo-point only for functions, who do "undo"-able things. If you don't have something of that kind(no creating a track or something), Reaper will not create an undo-point.
+
+Returns false in case of an error
+</description>
+<retvals>
+boolean retval - true, starting preview was sucessful; false, starting preview wasn't sucessful
+string current_UndoMessage - the current UndoMessage for the last action done by Reaper. Use this so see, if getting an undo-point was successful
+retvals_1 ... retvals_2 - the returnvalues, as returned by function Func
+</retvals>
+<parameters>
+function Func - the function, that you want to create an undo-point for
+string UndoMessage - the undo-message to be displayed by Reaper in the Undo-history
+integer Flag - you can set a flag, if you want, for this undo-point
+Func_parameters_1,  ... Func_parameters_n - the parameters, as needed by the function Func; will be given to Func as provided by you
+</parameters>
+<semanticcontext>
+API-Helper functions
+</semanticcontext>
+<tags>
+helperfunctions, undo, create, undopoint, function
+</tags>
+</ApiDocBlocFunc>
+]]
+  if type(Func)~="function" then ultraschall.AddErrorMessage("MakeFunctionUndoable", "Func", "Must be a function.", -1) return false end
+  if type(UndoMessage)~="string" then ultraschall.AddErrorMessage("MakeFunctionUndoable", "UndoMessage", "Must be a string.", -2) return false end
+  if math.type(Flag)~="integer" then ultraschall.AddErrorMessage("MakeFunctionUndoable", "Func", "Must be an integer.", -3) return false end
+  reaper.Undo_BeginBlock()
+  local O={Func(...)}
+  reaper.Undo_EndBlock(UndoMessage, Flag)
+  local B=reaper.Undo_CanUndo2(0)
+  if B~=UndoMessage then UndoMessage=B end
+  return true, UndoMessage, table.unpack(O)
+end
+
 ultraschall.ShowLastErrorMessage()
 
---LOLO =ultraschall.AddIntToChar("c", -43)
---LOLO2=ultraschall.AddIntToChar("M", 38)

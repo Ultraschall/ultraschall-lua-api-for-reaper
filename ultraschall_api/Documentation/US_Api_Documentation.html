@@ -1,5 +1,5 @@
 <html><head><title>Ultraschall Framework-Lua-Api-docs 4.00 "John Cage - 4:33"</title></head><body>
-<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 12739 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
+<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 13239 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
 </strong></td></tr></tr><tr><td><a href="#
 US1.Introduction
 ">
@@ -26,124 +26,126 @@ US6.License
 ">
 6. License
 </a></td></tr><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-Helper functions</u></h3></td></tr><tr><td><strong></strong></td></tr><td><a href="#
-AddIntToChar
-">AddIntToChar</a>&nbsp;&nbsp;</td><td><a href="#
 CheckActionCommandIDFormat
 ">CheckActionCommandIDFormat</a>&nbsp;&nbsp;</td><td><a href="#
 CheckActionCommandIDFormat2
 ">CheckActionCommandIDFormat2</a>&nbsp;&nbsp;</td><td><a href="#
 CheckForValidFileFormats
-">CheckForValidFileFormats</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">CheckForValidFileFormats</a>&nbsp;&nbsp;</td><td><a href="#
 ConvertColor
-">ConvertColor</a>&nbsp;&nbsp;</td><td><a href="#
+">ConvertColor</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 ConvertColorToGFX
 ">ConvertColorToGFX</a>&nbsp;&nbsp;</td><td><a href="#
 ConvertGFXToColor
 ">ConvertGFXToColor</a>&nbsp;&nbsp;</td><td><a href="#
 GetApiVersion
-">GetApiVersion</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">GetApiVersion</a>&nbsp;&nbsp;</td><td><a href="#
 GetOS
-">GetOS</a>&nbsp;&nbsp;</td><td><a href="#
+">GetOS</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 GetReaperAppVersion
 ">GetReaperAppVersion</a>&nbsp;&nbsp;</td><td><a href="#
 IsItemInTrack
 ">IsItemInTrack</a>&nbsp;&nbsp;</td><td><a href="#
 IsItemInTrack2
-">IsItemInTrack2</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">IsItemInTrack2</a>&nbsp;&nbsp;</td><td><a href="#
 IsItemInTrack3
-">IsItemInTrack3</a>&nbsp;&nbsp;</td><td><a href="#
+">IsItemInTrack3</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 IsOS_Mac
 ">IsOS_Mac</a>&nbsp;&nbsp;</td><td><a href="#
 IsOS_Other
 ">IsOS_Other</a>&nbsp;&nbsp;</td><td><a href="#
 IsOS_Windows
-">IsOS_Windows</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">IsOS_Windows</a>&nbsp;&nbsp;</td><td><a href="#
 IsObjectValidReaperObject
-">IsObjectValidReaperObject</a>&nbsp;&nbsp;</td><td><a href="#
+">IsObjectValidReaperObject</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 IsValidGuid
 ">IsValidGuid</a>&nbsp;&nbsp;</td><td><a href="#
-KeepTableEntriesOfType
-">KeepTableEntriesOfType</a>&nbsp;&nbsp;</td><td><a href="#
+MakeFunctionUndoable
+">MakeFunctionUndoable</a>&nbsp;&nbsp;</td><td><a href="#
 OpenURL
-">OpenURL</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">OpenURL</a>&nbsp;&nbsp;</td><td><a href="#
 PreventCreatingUndoPoint
-">PreventCreatingUndoPoint</a>&nbsp;&nbsp;</td><td><a href="#
+">PreventCreatingUndoPoint</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 RGB2Grayscale
 ">RGB2Grayscale</a>&nbsp;&nbsp;</td><td><a href="#
 RefreshToolbar_Action
 ">RefreshToolbar_Action</a>&nbsp;&nbsp;</td><td><a href="#
-RemoveTableEntriesOfType
-">RemoveTableEntriesOfType</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
 ReturnTypeOfReaperObject
 ">ReturnTypeOfReaperObject</a>&nbsp;&nbsp;</td><td><a href="#
 ReturnsMinusOneInCaseOfError_Arzala
-">ReturnsMinusOneInCaseOfError_Arzala</a>&nbsp;&nbsp;</td><td><a href="#
+">ReturnsMinusOneInCaseOfError_Arzala</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 RunCommand
 ">RunCommand</a>&nbsp;&nbsp;</td><td><a href="#
 SecondsToTime
-">SecondsToTime</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">SecondsToTime</a>&nbsp;&nbsp;</td><td><a href="#
 SecondsToTimeString_hh_mm_ss_mss
 ">SecondsToTimeString_hh_mm_ss_mss</a>&nbsp;&nbsp;</td><td><a href="#
-SetBitfield
-">SetBitfield</a>&nbsp;&nbsp;</td><td><a href="#
 SetIntConfigVar_Bitfield
-">SetIntConfigVar_Bitfield</a>&nbsp;&nbsp;</td><td><a href="#
-TimeStringToSeconds_hh_mm_ss_mss
-">TimeStringToSeconds_hh_mm_ss_mss</a>&nbsp;&nbsp;</td></tr>
+">SetIntConfigVar_Bitfield</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+TimeStringToSeconds_hh_mm_ss_mss
+">TimeStringToSeconds_hh_mm_ss_mss</a>&nbsp;&nbsp;</td><td><a href="#
 TimeToSeconds
 ">TimeToSeconds</a>&nbsp;&nbsp;</td><td><a href="#
 ToggleStateAction
 ">ToggleStateAction</a>&nbsp;&nbsp;</td><td><a href="#
 ToggleStateButton
-">ToggleStateButton</a>&nbsp;&nbsp;</td><td><a href="#
+">ToggleStateButton</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 toboolean
-">toboolean</a>&nbsp;&nbsp;</td></tr>
-<tr><tr><td>&nbsp;</td></tr><tr><td><strong>Data Manipulation
+">toboolean</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Data Manipulation
 </strong></td></tr>
 <td><a href="#
+AddIntToChar
+">AddIntToChar</a>&nbsp;&nbsp;</td><td><a href="#
 CSV2IndividualLinesAsArray
 ">CSV2IndividualLinesAsArray</a>&nbsp;&nbsp;</td><td><a href="#
 CSV2Line
 ">CSV2Line</a>&nbsp;&nbsp;</td><td><a href="#
 CompareArrays
-">CompareArrays</a>&nbsp;&nbsp;</td><td><a href="#
-CompareStringWithAsciiValues
-">CompareStringWithAsciiValues</a>&nbsp;&nbsp;</td></tr>
+">CompareArrays</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+CompareStringWithAsciiValues
+">CompareStringWithAsciiValues</a>&nbsp;&nbsp;</td><td><a href="#
 ConvertStringToAscii_Array
 ">ConvertStringToAscii_Array</a>&nbsp;&nbsp;</td><td><a href="#
 CountCharacterInString
 ">CountCharacterInString</a>&nbsp;&nbsp;</td><td><a href="#
 CountEntriesInTable_Main
-">CountEntriesInTable_Main</a>&nbsp;&nbsp;</td><td><a href="#
-CountLinesInString
-">CountLinesInString</a>&nbsp;&nbsp;</td></tr>
+">CountEntriesInTable_Main</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+CountLinesInString
+">CountLinesInString</a>&nbsp;&nbsp;</td><td><a href="#
 CountPatternInString
 ">CountPatternInString</a>&nbsp;&nbsp;</td><td><a href="#
 GetAllEntriesFromTable
 ">GetAllEntriesFromTable</a>&nbsp;&nbsp;</td><td><a href="#
 GetPartialString
-">GetPartialString</a>&nbsp;&nbsp;</td><td><a href="#
-LimitFractionOfFloat
-">LimitFractionOfFloat</a>&nbsp;&nbsp;</td></tr>
+">GetPartialString</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+KeepTableEntriesOfType
+">KeepTableEntriesOfType</a>&nbsp;&nbsp;</td><td><a href="#
+LimitFractionOfFloat
+">LimitFractionOfFloat</a>&nbsp;&nbsp;</td><td><a href="#
 MakeCopyOfTable
 ">MakeCopyOfTable</a>&nbsp;&nbsp;</td><td><a href="#
 Notes2CSV
-">Notes2CSV</a>&nbsp;&nbsp;</td><td><a href="#
+">Notes2CSV</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
+RemoveTableEntriesOfType
+">RemoveTableEntriesOfType</a>&nbsp;&nbsp;</td><td><a href="#
 RoundNumber
 ">RoundNumber</a>&nbsp;&nbsp;</td><td><a href="#
 SearchStringInString
-">SearchStringInString</a>&nbsp;&nbsp;</td></tr>
+">SearchStringInString</a>&nbsp;&nbsp;</td><td><a href="#
+SetBitfield
+">SetBitfield</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
 SplitStringAtLineFeedToArray
 ">SplitStringAtLineFeedToArray</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-Variables</u></h3></td></tr><tr><td><strong></strong></td></tr><td><a href="#
@@ -578,7 +580,14 @@ OnlyItemsInTracksAndTimerange
 OnlyMediaItemsOfTracksInTrackstring
 ">OnlyMediaItemsOfTracksInTrackstring</a>&nbsp;&nbsp;</td><td><a href="#
 OnlyMediaItemsOfTracksInTrackstring_StateChunk
-">OnlyMediaItemsOfTracksInTrackstring_StateChunk</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Delete
+">OnlyMediaItemsOfTracksInTrackstring_StateChunk</a>&nbsp;&nbsp;</td><td><a href="#
+PreviewMediaFile
+">PreviewMediaFile</a>&nbsp;&nbsp;</td><td><a href="#
+PreviewMediaItem
+">PreviewMediaItem</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
+StopAnyPreview
+">StopAnyPreview</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Delete
 </strong></td></tr>
 <td><a href="#
 DeleteMediaItem
@@ -1160,31 +1169,35 @@ GetItemStateChunkFromTrackStateChunk
 <tr><td><a href="#
 GetTrackLength
 ">GetTrackLength</a>&nbsp;&nbsp;</td><td><a href="#
+InsertTrackAtIndex
+">InsertTrackAtIndex</a>&nbsp;&nbsp;</td><td><a href="#
 InsertTrack_TrackStateChunk
 ">InsertTrack_TrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 InverseTrackstring
-">InverseTrackstring</a>&nbsp;&nbsp;</td><td><a href="#
-IsTrackObjectTracknumber
-">IsTrackObjectTracknumber</a>&nbsp;&nbsp;</td></tr>
+">InverseTrackstring</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+IsTrackObjectTracknumber
+">IsTrackObjectTracknumber</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidTrackStateChunk
 ">IsValidTrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidTrackString
 ">IsValidTrackString</a>&nbsp;&nbsp;</td><td><a href="#
+MoveTracks
+">MoveTracks</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 OnlyTracksInBothTrackstrings
 ">OnlyTracksInBothTrackstrings</a>&nbsp;&nbsp;</td><td><a href="#
 OnlyTracksInOneTrackstring
-">OnlyTracksInOneTrackstring</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">OnlyTracksInOneTrackstring</a>&nbsp;&nbsp;</td><td><a href="#
 RemoveDuplicateTracksInTrackstring
 ">RemoveDuplicateTracksInTrackstring</a>&nbsp;&nbsp;</td><td><a href="#
 RemoveMediaItemByGUID_TrackStateChunk
-">RemoveMediaItemByGUID_TrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
+">RemoveMediaItemByGUID_TrackStateChunk</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 RemoveMediaItemByIGUID_TrackStateChunk
 ">RemoveMediaItemByIGUID_TrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 RemoveMediaItem_TrackStateChunk
-">RemoveMediaItem_TrackStateChunk</a>&nbsp;&nbsp;</td></tr>
-<tr><tr><td>&nbsp;</td></tr><tr><td><strong>Get Track States
+">RemoveMediaItem_TrackStateChunk</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Get Track States
 </strong></td></tr>
 <td><a href="#
 GetAllLockedTracks
@@ -1550,6 +1563,10 @@ helper functions, limit, fraction, round, number
 table table_copy = ultraschall.MakeCopyOfTable(table table)
 </i><br><br>Creates a true copy of a table(not only references).<br><br>Returns nil if table isn't a valid table<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>table table_copy</i> - the true copy of the table; nil in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>table table</i> - the table to create a copy from.</i><br><i></i></div><p></p>Tags: 
 helper functions, table, copy, true copy
+<p></p><a id="MakeFunctionUndoable"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.92.png" alt="Reaper version 5.92"> 
+boolean retval, string current_UndoMessage, retvals_1, ..., retvals_2 = ultraschall.MakeFunctionUndoable(function Func, string UndoMessage, integer Flag, Func_parameters_1,  ... Func_parameters_n)
+</i><br><br>Run the function Func and create an undopoint for this function. You can also give an UndoMessage and a flag for Reaper to use.<br>All parameters needed by Func follow after parameter Flag, as if it would be the normal parameters.<br>This should make creating undo-points much much easier...<br><br>Note: Reaper will use the undo-point only for functions, who do "undo"-able things. If you don't have something of that kind(no creating a track or something), Reaper will not create an undo-point.<br><br>Returns false in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true, starting preview was sucessful; false, starting preview wasn't sucessful</i><br><i>string current_UndoMessage</i> - the current UndoMessage for the last action done by Reaper. Use this so see, if getting an undo-point was successful</i><br><i>retvals_1 ... retvals_2</i> - the returnvalues, as returned by function Func</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>function Func</i> - the function, that you want to create an undo-point for</i><br><i>string UndoMessage</i> - the undo-message to be displayed by Reaper in the Undo-history</i><br><i>integer Flag</i> - you can set a flag, if you want, for this undo-point</i><br><i>Func_parameters_1,  ... Func_parameters_n</i> - the parameters, as needed by the function Func; will be given to Func as provided by you</i><br><i></i></div><p></p>Tags: 
+helperfunctions, undo, create, undopoint, function
 <p></p><a id="Notes2CSV"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 csv retval = ultraschall.Notes2CSV()
 </i><br><br>Gets the project's notes and returns it as a CSV.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>csv retval </i> - the project notes, returned as a csv-string; entries separated by a comma</i><br><i></i></div><p></p><p></p>Tags: 
@@ -1952,7 +1969,7 @@ integer linesinfile = ultraschall.CountLinesInFile(string filename_with_path)
 filemanagement, count
 <p></p><a id="CreateValidTempFile"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 string tempfilename = ultraschall.CreateValidTempFile(string filename_with_path, boolean create, string suffix, boolean retainextension)
-</i><br><br>Tries to determine a valid temporary filename. Will check filename_with_path with an included number between 0 and 65536 to create such a filename.<br>You can also add your own suffix to the filename.<br><br>The pattern is: filename_with_path$Suffix~$number.ext (when retainextension is set to true!)<br><br>If you wish, you can also create this temporary-file as an empty file.<br><br>Returns nil in case of failure.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string tempfilename</i> - the valid temporary filename found</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string filename_with_path</i> - the original filename</i><br><i>boolean create</i> - true, if you want to create that temporary file as an empty file; false, just return the filename</i><br><i>string suffix</i> - if you want to alter the temporary filename with an additional suffix, use this parameter</i><br><i>boolean retainextension</i> - true, keep the extension(if existing) at the end of the tempfile; false, just add the suffix~number at the end.</i><br><i></i></div><p></p>Tags: 
+</i><br><br>Tries to determine a valid temporary filename. Will check filename_with_path with an included number between 0 and 16384 to create such a filename.<br>You can also add your own suffix to the filename.<br><br>The pattern is: filename_with_path$Suffix~$number.ext (when retainextension is set to true!)<br><br>If you wish, you can also create this temporary-file as an empty file.<br><br>Returns nil in case of failure.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string tempfilename</i> - the valid temporary filename found</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string filename_with_path</i> - the original filename</i><br><i>boolean create</i> - true, if you want to create that temporary file as an empty file; false, just return the filename</i><br><i>string suffix</i> - if you want to alter the temporary filename with an additional suffix, use this parameter</i><br><i>boolean retainextension</i> - true, keep the extension(if existing) at the end of the tempfile; false, just add the suffix~number at the end.</i><br><i></i></div><p></p>Tags: 
 filemanagement, create, temporary, file, filename
 <p></p><a id="GetAllDirectoriesInPath"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
 integer filecount, array directories = ultraschall.GetAllDirectoriesInPath(string path)
@@ -2536,7 +2553,7 @@ integer number_of_items, array MediaItemArray = ultraschall.InsertMediaItemArray
 mediaitemmanagement, tracks, media, item, insert
 <p></p><a id="InsertMediaItemFromFile"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"><img style="width:3%;" src="gfx/sws2.8.8.png" alt="sws version 2.8.8"> 
 integer retval, MediaItem item, number length, integer numchannels, integer Samplerate, string Filetype = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, integer editcursorpos)
-</i><br><br>Inserts the mediafile filename into the project at position in track<br>Due API-limitations, it creates two undo-points: one for inserting the MediaItem and one for changing the length(when endposition isn't -1).<br><br>Returns -1 in case of failure<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - 0, if insertion worked; -1, if it failed</i><br><i>MediaItem item</i> - the newly created MediaItem</i><br><i>number length</i> - the fulllength of the mediafile in seconds</i><br><i>integer numchannels</i> - the number of channels of the mediafile</i><br><i>integer Samplerate</i> - the samplerate of the mediafile in hertz</i><br><i>string Filetype</i> - the type of the mediafile, like MP3, WAV, MIDI, FLAC, etc</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string filename</i> - the path+filename of the mediafile to be inserted into the project</i><br><i>integer track</i> - the track, in which the file shall be inserted</i><br><i>number position</i> - the position of the newly inserted item</i><br><i>number endposition</i> - the length of the newly created mediaitem; -1, use the length of the sourcefile</i><br><i>integer editcursorpos</i> - the position of the editcursor after insertion of the mediafile</i><br><i>      -0</i> - the old editcursorposition</i><br><i>      -1</i> - the position, at which the item was inserted</i><br><i>      -2</i> - the end of the newly inserted item</i><br><i></i></div><p></p>Tags: 
+</i><br><br>Inserts the mediafile filename into the project at position in track<br>Due API-limitations, it creates two undo-points: one for inserting the MediaItem and one for changing the length(when endposition isn't -1).<br><br>Returns -1 in case of failure<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - 0, if insertion worked; -1, if it failed</i><br><i>MediaItem item</i> - the newly created MediaItem</i><br><i>number length</i> - the full length of the mediafile in seconds</i><br><i>integer numchannels</i> - the number of channels of the mediafile</i><br><i>integer Samplerate</i> - the samplerate of the mediafile in hertz</i><br><i>string Filetype</i> - the type of the mediafile, like MP3, WAV, MIDI, FLAC, etc</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string filename</i> - the path+filename of the mediafile to be inserted into the project</i><br><i>integer track</i> - the track, in which the file shall be inserted</i><br><i>             </i> - 0, insert the file into a newly inserted track after the last track</i><br><i>             </i> - -1, insert the file into a newly inserted track before the first track</i><br><i>number position</i> - the position of the newly inserted item</i><br><i>number endposition</i> - the length of the newly created mediaitem; -1, use the length of the sourcefile</i><br><i>integer editcursorpos</i> - the position of the editcursor after insertion of the mediafile</i><br><i>      -0</i> - the old editcursorposition</i><br><i>      -1</i> - the position, at which the item was inserted</i><br><i>      -2</i> - the end of the newly inserted item</i><br><i></i></div><p></p>Tags: 
 markermanagement, insert, mediaitem, position, mediafile, track
 <p></p><a id="InsertMediaItemStateChunkArray"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer number_of_items, array MediaItemArray = ultraschall.InsertMediaItemStateChunkArray(number position, array MediaItemStateChunkArray, string trackstring)
@@ -2598,6 +2615,14 @@ mediaitemmanagement, tracks, media, item, selection
 integer retval, array MediaItemStateChunkArray = ultraschall.OnlyMediaItemsOfTracksInTrackstring_StateChunk(array MediaItemStateChunkArray, string trackstring)
 </i><br><br>Throws all MediaItems out of the MediaItemStateChunkArray, that are not within the tracks, as given with trackstring.<br>Returns the "cleared" MediaItemArray; returns -1 in case of error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1 in case of error, 1 in case of success</i><br><i>array MediaItemStateChunkarray</i> - the "cleared" array, that contains only the statechunks of MediaItems in tracks, as given by trackstring, -1 in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>array MediaItemStateChunkArray</i> - an array with MediaItems; no nil-entries allowed, will be seen as the end of the array</i><br><i>string trackstring</i> - the tracknumbers, separated by a comma</i><br><i></i></div><p></p>Tags: 
 mediaitemmanagement, tracks, media, item, selection, statechunk
+<p></p><a id="PreviewMediaFile"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.92.png" alt="Reaper version 5.92"> 
+boolean retval = ultraschall.PreviewMediaFile(string filename_with_path)
+</i><br><br>Plays a preview of a media-file.<br><br>Returns false in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true, starting preview was sucessful; false, starting preview wasn't sucessful</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string filename_with_path</i> - the filename with path of the media-file to play</i><br><i></i></div><p></p>Tags: 
+mediaitemmanagement, preview, play, audio, file
+<p></p><a id="PreviewMediaItem"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+boolean retval = ultraschall.PreviewMediaItem(MediaItem MediaItem, integer Previewtype)
+</i><br><br>Will play a preview a given MediaItem.<br><br>Returns false in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - false, in case of error; true, in case of success</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>MediaItem MediaItem</i> - the MediaItem, of which you want to play a preview</i><br><i>integer Previewtype</i> - the type of the preview</i><br><i>                   </i> - 0, Preview the MediaItem in the Media Explorer</i><br><i>                   </i> - 1, Preview the MediaItem</i><br><i>                   </i> - 2, Preview the MediaItem at track fader volume of the track, in which it lies</i><br><i>                   </i> - 3, Preview the MediaItem through the track, in which it lies</i><br><i></i></div><p></p>Tags: 
+mediaitemmanagement, preview, audio, mediaitem, track, mediaexplorer
 <p></p><a id="RippleCut"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer number_items, array MediaItemArray_StateChunk = ultraschall.RippleCut(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)
 </i><br><br>Cuts out all items between startposition and endposition in the tracks given by trackstring. After cut, it moves the remaining items after(!) endposition toward projectstart, by the difference between start and endposition.<br><br>Returns number of cut items as well as an array with the mediaitem-statechunks, which can be used with functions as <a href="#InsertMediaItem_MediaItemStateChunk">InsertMediaItem_MediaItemStateChunk</a>, reaper.GetItemStateChunk and reaper.SetItemStateChunk.<br>Returns -1 in case of failure.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer number_items</i> - the number of cut items</i><br><i>array MediaItemArray_StateChunk</i> - an array with the mediaitem-states of the cut items</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>number startposition</i> - the startposition of the section in seconds</i><br><i>number endposition</i> - the endposition of the section in seconds</i><br><i>string trackstring</i> - the tracknumbers, separated by ,</i><br><i>boolean movemarkers</i> - moves markers/regions as well</i><br><i>boolean moveenvelopepoints</i> - moves envelopepoints, if existing, as well</i><br><i></i></div><p></p>Tags: 
@@ -2670,6 +2695,10 @@ mediaitemmanagement, tracks, media, item, split, edit, crossfade, mediaitemarray
 boolean retval, array MediaItemArray = ultraschall.SplitMediaItems_Position(number position, string trackstring, boolean crossfade)
 </i><br><br>Splits items at position, in the tracks given by trackstring.<br>If auto-crossfade is set in the Reaper-preferences, crossfade turns it on(true) or off(false).<br><br>Returns false, in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true</i> - success, false</i> - error</i><br><i>array MediaItemArray</i> - an array with the items on the right side of the split</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>number position</i> - the position in seconds</i><br><i>string trackstring</i> - the numbers for the tracks, where split shall be applied to; numbers separated by a comma</i><br><i>boolean crossfade</i> - true, automatic crossfade(if enabled) will be applied; false, automatic crossfade is off</i><br><i></i></div><p></p>Tags: 
 mediaitemmanagement, tracks, media, item, split, edit, crossfade
+<p></p><a id="StopAnyPreview"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+ultraschall.StopAnyPreview()
+</i><br><br>Stops any playing preview of a MediaItem.<br><p></p><p></p><p></p>Tags: 
+mediaitemmanagement, stop, preview, audio, mediaitem, track, mediaexplorer
 <p></p><a id="DeleteProjExtState_Key"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer retval = ultraschall.DeleteProjExtState_Key(string section, section key)
 </i><br><br>Deletes the value from a specific section -> key.<br><br>Returns -1 in case of an error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - 0, in case of success; -1, in case of an error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string section</i> - the section/extname, from whom a key/value shall be deleted</i><br><i>string key</i> - the key, whose value shall be deleted</i><br><i></i></div><p></p>Tags: 
@@ -3494,6 +3523,10 @@ trackmanagement, track, get, vol, pan, override, panlaw, trackstatechunk
 number width = ultraschall.GetTrackWidth(integer tracknumber, optional string TrackStateChunk)
 </i><br><br>returns width of the track. 1 if set to +100%. <br><br>Note for TrackStateChunk-enthusiasts: When set to +100%, it is not stored in the TrackStateChunk<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>number width</i> - width of the track, from -1(-100%) to 1(+100%)</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer tracknumber</i> - number of the track, beginning with 1; 0 for master track; -1, if you want to use the parameter TrackStateChunk instead.</i><br><i>optional string TrackStateChunk</i> - a TrackStateChunk that you want to use, instead of a given track</i><br><i></i></div><p></p>Tags: 
 trackmanagement, state, get, width, trackstatechunk
+<p></p><a id="InsertTrackAtIndex"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+string trackarray, integer new_track_count, array trackarray_newtracks = ultraschall.InsertTrackAtIndex(integer index, integer number_of_tracks, boolean wantdefaults)
+</i><br><br>Inserts one or more tracks at index.<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string trackstring</i> - a trackstring with all newly created tracknumbers</i><br><i>integer new_track_count</i> - the number of newly created tracks</i><br><i>array trackarray_newtracks</i> - an array with the MediaTrack-objects of all newly created tracks</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer index</i> - the index, at which to include the new tracks; 0, for including before the first track</i><br><i>integer number_of_tracks</i> - the number of tracks that you want to create; 0 for including before track 1; number of tracks+1, include new tracks after last track</i><br><i>boolean wantdefaults</i> - true, set the tracks with default settings/fx/etc; false, create new track without any defaults</i><br><i></i></div><p></p>Tags: 
+trackmanagement, insert, new, track
 <p></p><a id="InsertTrack_TrackStateChunk"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 boolean retval, MediaTrack MediaTrack = ultraschall.InsertTrack_TrackStateChunk(string trackstatechunk)
 </i><br><br>Creates a new track at the end of the project and sets it's trackstate, using the parameter trackstatechunk.<br>Returns, if it succeeded and the newly created MediaTrack.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true, if creation succeeded, false if not</i><br><i>MediaTrack MediaTrack</i> - the newly created track, as MediaItem-trackobject</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string trackstatechunk</i> - the rpp-xml-Trackstate-Chunk, as created by reaper.GetTrackStateChunk or <a href="#GetProject_TrackStateChunk">GetProject_TrackStateChunk</a></i><br><i></i></div><p></p>Tags: 
@@ -3514,6 +3547,10 @@ trackmanagement, check, validity, track, statechunk, valid
 boolean valid, integer count, array individual_tracknumbers = ultraschall.IsValidTrackString(string trackstring)
 </i><br><br>checks, whether a given trackstring is a valid one. Will also return all valid numbers, from trackstring, that can be used as tracknumbers, as an array.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean valid</i> - true, is a valid trackstring; false, is not a valid trackstring</i><br><i>integer count</i> - the number of entries found in trackstring</i><br><i>array individual_tracknumbers</i> - an array that contains all available tracknumbers</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string trackstring</i> - the trackstring to check, if it's a valid one</i><br><i></i></div><p></p>Tags: 
 trackmanagement, trackstring, check, valid
+<p></p><a id="MoveTracks"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.92.png" alt="Reaper version 5.92"> 
+boolean retval = ultraschall.MoveTracks(string trackstring, integer targetindex, integer makepreviousfolder)
+</i><br><br>Moves tracks in trackstring to position targetindex. You can also set, if the tracks shall become folders.<br>Multiple tracks in trackstring will be put together, so track 2, 4, 6 would become 1, 2, 3, when moved above the first track!<br><br>Returns false in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true, moving was sucessful; false, moving wasn't sucessful</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string trackstring</i> - a string with all tracknumbers of the tracks you want to move, separated by commas</i><br><i>integer targetindex</i> - the index, to which to move the tracks; 0, move tracks before track 1; number of tracks+1, move after the last track</i><br><i>integer makepreviousfolder</i> - make tracks a folder or not</i><br><i>                          </i> - 0, for normal, </i><br><i>                          </i> - 1, as child of track preceding track specified by makepreviousfolder</i><br><i>                          </i> - 2, if track preceding track specified by makepreviousfolder is last track in folder, extend folder</i><br><i></i></div><p></p>Tags: 
+trackmanagement, move, track, tracks, folder
 <p></p><a id="OnlyTracksInBothTrackstrings"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer retval, string trackstring, array trackstringarray, integer number_of_entries = ultraschall.OnlyTracksInBothTrackstrings(string trackstring1, string trackstring2)
 </i><br><br>returns a new trackstring, that contains only the tracknumbers, that are in trackstring1 and trackstring2.<br><br>returns -1 in case of error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1 in case of error, 1 in case of success</i><br><i>string trackstring</i> - the cleared trackstring, -1 in case of error</i><br><i>array trackstringarray</i> - the "cleared" trackstring as an array</i><br><i>integer number_of_entries</i> - the number of entries in the trackstring</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string trackstring1</i> - a string with the tracknumbers, separated by commas</i><br><i>string trackstring2</i> - a string with the tracknumbers, separated by commas</i><br><i></i></div><p></p>Tags: 
@@ -3742,4 +3779,4 @@ userinterface, set, vertical, zoom, factor
 integer retval = ultraschall.StoreArrangeviewSnapshot(integer slot, string description, boolean position, boolean vzoom)
 </i><br><br>Stores a new Arrangeview-snapshot, that includes the position, horizontal zoom and vertical zoom.<br><br>Returns -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1, in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer slot</i> - the slot for arrangeview-snapshot</i><br><i>string description</i> - a description for this arrangeview-snapshot</i><br><i>boolean position</i> - true, store start and endposition of the current arrangeview; false, don't store start and endposition of current arrangeview(keep old position in slot, if existing)</i><br><i>boolean vzoom</i> - true, store current vertical-zoom-factor; false, don't store current vertical-zoom-factor(keep old zoomfactor in slot, if existing)</i><br><i></i></div><p></p>Tags: 
 userinterface, set, arrangeview, snapshot
-<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 590-functions available</i></p></div></body></html>
+<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 596-functions available</i></p></div></body></html>

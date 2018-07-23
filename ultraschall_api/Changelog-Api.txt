@@ -152,6 +152,12 @@
   - CreateRenderCFG_MP3CBR - creates the render-cfg-string for a MP3-cbr-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
   - AddIntToChar - add an integer-value to the numerical representation of a character and return it as a new character
   - CreateRenderCFG_WAV - creates the render-cfg-string for a WAV-file; use it in rpp-projectfiles/ProjectStateChunks or reaper-render.ini
+  - PreviewMediaItem - play a preview of a MediaItem
+  - StopAnyPreview - stop preview of a MediaItem
+  - InsertTrackAtIndex - insert one or more new tracks into your project; more control about that than with Reaper's original function
+  - MoveTracks - moves given track(s) to a new position
+  - PreviewMediaFile - play preview of a mediafile, that is not necessarily in the project
+  - MakeFunctionUndoable - run a function with it and it will create an Undo-Point for that given function automatically
   
   <TODO>
       TODO!!  - SetTrackGroupFlagsState - sets GroupFlagsState
