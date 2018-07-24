@@ -1767,15 +1767,16 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-string path = ultraschall.GetPath(string str, string sep)
+string path, string filename = ultraschall.GetPath(string str, string sep)
 </functionname>
 <description>
 returns the path of a filename-string
 
-returns nil in case of error 
+returns "", "" in case of error 
 </description>
 <retvals>
 string path  - the path as a string
+string filename - the filename, without the path
 </retvals>
 <parameters>
 string str - the path with filename you want to process
@@ -1792,16 +1793,18 @@ filemanagement,path,separator
 --]]
 
   -- check parameters
-  if type(str)~="string" then ultraschall.AddErrorMessage("GetPath","str", "only a string allowed", -1) return nil end
-  if type(sep)~="string" then ultraschall.AddErrorMessage("GetPath","sep", "only a string allowed", -2) return nil end
+  if type(str)~="string" then ultraschall.AddErrorMessage("GetPath","str", "only a string allowed", -1) return "", "" end
+  if type(sep)~="string" then ultraschall.AddErrorMessage("GetPath","sep", "only a string allowed", -2) return "", "" end
   
   -- do the patternmatching
   local result=str:match("(.*"..sep..")")
-  if result==nil then ultraschall.AddErrorMessage("GetPath","", "separator not found", -3) return nil end
-  return result
+  local file=str:match(""..sep.."(.*)")
+  if result==nil then ultraschall.AddErrorMessage("GetPath","", "separator not found", -3) return "", "" end
+  if file==nil then file="" end
+  return result, file
 end
 
---A=ultraschall.GetPath("nillimul\\test",ultraschall.Separator)
+--B1,B2=ultraschall.GetPath("nillimul\\test", ultraschall.Separator)
 
 
 
@@ -17207,8 +17210,8 @@ projectfiles, rpp, state, get, recording, render pattern, filename, render
   end
   -- get the value and return it
   local temp=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_PATTERN%s(.-)%c.-<RENDER_CFG")
-  if temp:sub(1,1)=="\"" then temp=temp:sub(2,-1) end
-  if temp:sub(-1,-1)=="\"" then temp=temp:sub(1,-2) end
+--  if temp:sub(1,1)=="\"" then temp=temp:sub(2,-1) end
+--  if temp:sub(-1,-1)=="\"" then temp=temp:sub(1,-2) end
   return temp
 end
 
@@ -21061,13 +21064,15 @@ projectfiles, rpp, state, set, recording, render pattern, filename, render
   if projectfilename_with_path==nil then return false end
   if reaper.file_exists(projectfilename_with_path)==false then return false end
   local file=ultraschall.ReadValueFromFile(projectfilename_with_path, nil, false)
-  FileStart=file:match("(<REAPER_PROJECT.-RENDER_PATTERN%s).-%c.-<RENDER_CFG.*")
-  FileEnd=file:match("<REAPER_PROJECT.-RENDER_PATTERN%s.-%c(.-<RENDER_CFG.*)")
-  return ultraschall.WriteValueToFile(projectfilename_with_path, FileStart.."\""..renderpattern.."\" \n"..FileEnd)
+  FileStart=file:match("(<REAPER_PROJECT.-RENDER_FILE.-%c)")
+  FileEnd=file:match("<REAPER_PROJECT.-(RENDER_FMT.*)")
+  if renderpattern==nil then RenderPattern="" else RenderPattern="  RENDER_PATTERN "..renderpattern.."\n" end
+  return ultraschall.WriteValueToFile(projectfilename_with_path, FileStart..RenderPattern.."  "..FileEnd), FileStart..RenderPattern.."  "..FileEnd
 end
 
---A=ultraschall.SetProject_RenderPattern("c:\\tt.rpp", "testofon")
---A=ultraschall.GetProject_RenderPattern("c:\\tt.rpp")
+--B,C=ultraschall.SetProject_RenderPattern("c:\\tt.rpp", nil)
+--reaper.MB(C:sub(1,1000),"",0)
+--D=ultraschall.GetProject_RenderPattern("c:\\tt.rpp")
 
 
 function ultraschall.SetProject_RenderFreqNChans(projectfilename_with_path, state1, numchans, renderfreq)
@@ -39285,144 +39290,6 @@ end
 
 --ultraschall.ChangeToActiveProject_ProjNr(0)
 
-function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, startposition, endposition, renderclosewhendone, filenameincrease, rendercfg)
---[[
-<ApiDocBlocFunc>
-<slug>
-RenderProject_RenderCFG
-</slug>
-<requires>
-Ultraschall=4.00
-Reaper=5.77
-Lua=5.3
-</requires>
-<functionname>
-integer retval = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)
-</functionname>
-<description>
-Renders a project, using a specific render-cfg-string.
-To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
-
-Returns -1 in case of an error
-Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).
-</description>
-<retvals>
-integer retval - -1 in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
-</retvals>
-<parameters>
-string projectfilename_with_path - the project to render; nil, for the currently opened project(needs to be saved first)
-string renderfilename_with_path - the filename of the output-file. It will not(!) add the correct extension, it must be done by you!
-number startposition - the startposition of the render-area in seconds; -1, to use the startposition set in the projectfile itself
-number endposition - the endposition of the render-area in seconds; -1, to use the endposition set in the projectfile itself
-boolean renderclosewhendone - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings
-boolean filenameincrease - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings
-string rendercfg - the rendercfg-string, that contains all render-settings for an output-format
-                 - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a>
-</parameters>
-<semanticcontext>
-Rendering of Project
-Rendering any Outputformat
-</semanticcontext>
-<tags>
-projectfiles, render, output, file
-</tags>
-</ApiDocBlocFunc>
-]]
-  local retval
-  local curProj=reaper.EnumProjects(-1,"")
-  if type(startposition)~="number" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition", "Must be a number in seconds.", -1) return -1 end
-  if type(endposition)~="number" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "endposition", "Must be a number in seconds.", -2) return -1 end
-  if startposition>=0 and endposition>0 and endposition<=startposition then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "endposition", "Must be bigger than startposition.", -3) return -1 end
-  if endposition<-2 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "endposition", "Must be bigger than 0 or -1(to retain project-file's endposition).", -4) return -1 end
-  if startposition<-2 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition", "Must be bigger than 0 or -1(to retain project-file's startposition).", -5) return -1 end
-  if type(projectfilename_with_path)~="string" then 
-    reaper.Main_SaveProject(0, false)
-    retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
-  end
-  if reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "projectfilename_with_path", "File does not exist.", -6) return -1 end
-  if type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "renderfilename_with_path", "Must be a string.", -7) return -1 end  
-  if renderfilename_with_path==nil and reaper.IsProjectDirty(0)==1 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "renderfilename_with_path", "To render current project, it must be saved first!", -8) return -2 end
-  if ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "rendercfg", "No valid render_cfg-string.", -9) return -1 end
-  
-  -- Read Projectfile
-  local FileContent=ultraschall.ReadFullFile(projectfilename_with_path, false)
-  local Part1=FileContent:match("(.-<RENDER_CFG.-\n.-)%a")
-  local Part2=FileContent:match(".-<RENDER_CFG\n.-(\n.*)")
-  
-  -- create temporary-project-filename
-  local tempfile = ultraschall.CreateValidTempFile(projectfilename_with_path, true, "ultraschall-temp", true) 
-  
-  -- Write temporary projectfile
-  ultraschall.WriteValueToFile(tempfile, Part1..rendercfg..Part2)
-  
-  -- Add the rendertime to the temporary project-file, when 
-  local bounds, time_start, time_end, tail, tail_length = ultraschall.GetProject_RenderRange(tempfile)
-  local timesel1_start, timesel1_end = ultraschall.GetProject_Selection(tempfile)
-  --   if startposition and/or endposition are -1, retain the start/endposition from the project-file
-
-  if startposition==-1 then startposition=time_start end
-  if endposition==-1 then endposition=time_end end
-  if startposition==-2 then startposition=timesel1_start end
-  if endposition==-2 then endposition=timesel1_end end
-
-  
-  if endposition<=startposition then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition or endposition in RPP-Project", "Must be bigger than startposition.", -10) return -1 end
-  local Bretval = ultraschall.SetProject_RenderRange(tempfile, 0, startposition, endposition, 0, 0)
-  if Bretval==-1 then 
-    os.remove (tempfile) 
-    ultraschall.AddErrorMessage("RenderProject_RenderCFG", "projectfilename_with_path", "Can't set the timerange in the temporary-project "..tempfile, -11)
-    return -1 
-  end
-  
-  -- Get currently opened project
-  local _temp, oldprojectname=ultraschall.EnumProjects(0)
-  
-  --Now the magic happens:
-  reaper.Main_OnCommand(40859,0)    -- create new temporary tab
-  reaper.Main_openProject(tempfile) -- load the temporary projectfile
-  
-  -- manage automatically closing of the render-window and filename-increasing
-  local val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
-  local oldval=val
-  if renderclosewhendone==true then 
-    if val&1==0 then val=val+1 end
-    if val==-99 then val=1 end
-  elseif renderclosewhendone==false then 
-    val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
-    if val&1==1 then val=val-1 end
-    if val==-99 then val=0 end
-  else
-    val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
-  end
-  
-  if filenameincrease==true then 
-    if val&16==0 then val=val+16 end
-    if val==-99 then val=16 end
-  elseif filenameincrease==false then 
-    val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
-    if val&16==16 then val=val-16 end
-    if val==-99 then val=0 end
-  end
-  reaper.SNM_SetIntConfigVar("renderclosewhendone", val)
-
-  reaper.Main_OnCommand(41824,0)    -- render using it with the last rendersettings(those, we inserted included)
-  reaper.Main_SaveProject(0, false) -- save it(no use, but otherwise, Reaper would open a Save-Dialog, that we don't want and need)
-  reaper.Main_OnCommand(40860,0)    -- close the temporary-tab again
-
-  -- reset old renderclose/overwrite-settings
-  reaper.SNM_SetIntConfigVar("renderclosewhendone", oldval)
-
-  --remove the temp-file and we are done.
-  os.remove (tempfile)
-  os.remove (tempfile.."-bak")
-  ultraschall.ChangeToActiveProject(curProj)
-  return 0
-end
-
---L=ultraschall.RenderProject_RenderCFG(nil, "c:/tt-hudeldu.mp3", -1, -1, nil, nil, ultraschall.CreateRenderCFG_Opus(1, 120, 10))
-  
-
-  
 function ultraschall.CreateRenderCFG_MP3MaxQuality()
 --[[
 <ApiDocBlocFunc>
@@ -39729,53 +39596,6 @@ end
 --A=ultraschall.CreateRenderCFG_MP3CBR(1, 1)
 
 
-function ultraschall.AddIntToChar(char, int)
---[[
-<ApiDocBlocFunc>
-<slug>
-AddIntToChar
-</slug>
-<requires>
-Ultraschall=4.00
-Reaper=5.77
-Lua=5.3
-</requires>
-<functionname>
-string new_character = ultraschall.AddIntToChar(string character, integer int)
-</functionname>
-<description>
-Adds/subtracts int to/from the numeric representation of character. It will return the new character.
-It will not(!) include "overflows" into the adding/subtraction. That said, if you want to add a value resulting in a character above ASCII-code 255, it will fail!
-
-Returns nil in case of an error
-</description>
-<retvals>
-string new_character - the new character, after parameter int has been added/subtracted from/to character
-</retvals>
-<parameters>
-string character - the character, onto which you want to add/subtract parameter int; only single character allowed
-integer int - the value, that you want to add to the numerical representation of parameter character
-</parameters>
-<semanticcontext>
-API-Helper functions
-Data Manipulation
-</semanticcontext>
-<tags>
-helper functions, add, character, value
-</tags>
-</ApiDocBlocFunc>
-]]
-  if type(char)~="string" then ultraschall.AddErrorMessage("AddIntToChar", "char", "must be a string with one character" , -1) return nil end
-  if char:len()~=1 then ultraschall.AddErrorMessage("AddIntToChar", "char", "must be a string with one character" , -2) return nil end
-  if math.type(int)~="integer" then ultraschall.AddErrorMessage("AddIntToChar", "int", "must be an integer" , -3) return nil end
-  if string.byte(char)+int>255 or string.byte(char)+int<0 then ultraschall.AddErrorMessage("AddIntToChar", "char + int", "calculated value is out of range of ASCII" , -4) return nil end
-  local charcode=string.byte(char)
-  local newchar=string.char(charcode+int)
-  return newchar
-end
-
---A,B=ultraschall.AddIntToChar("A", 191)
-
 function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, IncludeMarkers, EmbedProjectTempo)
 --[[
 <ApiDocBlocFunc>
@@ -39914,6 +39734,252 @@ end
 --reaper.CF_SetClipboard(ALABAMA)
 
 --retval, count, retMediaItemStateChunkArray = ultraschall.IsValidMediaItemStateChunkArray(MediaItemStateChunkArray)
+
+
+function ultraschall.DirectoryExists(path, directory)
+--[[
+<ApiDocBlocFunc>
+<slug>
+DirectoryExists
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.DirectoryExists(string path, string directory)
+</functionname>
+<description>
+Checks, if a directory exists in path.
+
+Returns false in case of error.
+</description>
+<retvals>
+boolean retval - true, directory exists; false, directory does not exist
+</retvals>
+<parameters>
+string path - the path, in which to look for the existence of parameter directory
+string directory - the name of the directory to check for in path
+</parameters>
+<semanticcontext>
+API-Helper functions
+</semanticcontext>
+<tags>
+helper functions, directory, check, exists
+</tags>
+</ApiDocBlocFunc>
+]]
+  if type(path)~="string" then ultraschall.AddErrorMessage("DirectoryExists", "path", "Must be a string", -1) return false end
+  if type(directory)~="string" then ultraschall.AddErrorMessage("DirectoryExists", "directory", "Must be a string", -2) return false end
+  local index=0
+  local found=false
+  while reaper.EnumerateSubdirectories(path,index)~=nil do
+    if reaper.EnumerateSubdirectories(path, index)==directory then found=true break end
+    index=index+1
+  end
+  return found
+end
+
+--L=ultraschall.DirectoryExists("c:\\", "Reaper-Docs-Wiki")
+--L=ultraschall.DirectoryExists("", "")
+
+function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, startposition, endposition, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
+--[[
+<ApiDocBlocFunc>
+<slug>
+RenderProject_RenderCFG
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+integer retval = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)
+</functionname>
+<description>
+Renders a project, using a specific render-cfg-string.
+To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
+
+Returns -1 in case of an error
+Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).
+</description>
+<retvals>
+integer retval - -1 in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
+</retvals>
+<parameters>
+string projectfilename_with_path - the project to render; nil, for the currently opened project(needs to be saved first)
+string renderfilename_with_path - the filename of the output-file. If you give the wrong extension, Reaper will exchange it by the correct one.
+number startposition - the startposition of the render-area in seconds; -1, to use the startposition set in the projectfile itself
+number endposition - the endposition of the render-area in seconds; -1, to use the endposition set in the projectfile itself
+boolean renderclosewhendone - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings
+boolean filenameincrease - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings
+string rendercfg - the rendercfg-string, that contains all render-settings for an output-format
+                 - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a>
+</parameters>
+<semanticcontext>
+Rendering of Project
+Rendering any Outputformat
+</semanticcontext>
+<tags>
+projectfiles, render, output, file
+</tags>
+</ApiDocBlocFunc>
+]]
+  local retval
+  local curProj=reaper.EnumProjects(-1,"")
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition", "Must be a number in seconds.", -1) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "endposition", "Must be a number in seconds.", -2) return -1 end
+  if startposition>=0 and endposition>0 and endposition<=startposition then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "endposition", "Must be bigger than startposition.", -3) return -1 end
+  if endposition<-2 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "endposition", "Must be bigger than 0 or -1(to retain project-file's endposition).", -4) return -1 end
+  if startposition<-2 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition", "Must be bigger than 0 or -1(to retain project-file's startposition).", -5) return -1 end
+  if projectfilename_with_path==nil and reaper.IsProjectDirty(0)==1 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "renderfilename_with_path", "To render current project, it must be saved first!", -8) return -2 end
+  if type(projectfilename_with_path)~="string" then 
+    -- reaper.Main_SaveProject(0, false)
+    retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
+  end
+  
+  if reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "projectfilename_with_path", "File does not exist.", -6) return -1 end
+  if type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "renderfilename_with_path", "Must be a string.", -7) return -1 end  
+  if ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "rendercfg", "No valid render_cfg-string.", -9) return -1 end
+  if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "overwrite_without_asking", "Must be boolean", -10) return -1 end
+
+  -- Read Projectfile
+  local FileContent=ultraschall.ReadFullFile(projectfilename_with_path, false)
+  local Part1=FileContent:match("(.-<RENDER_CFG.-\n.-)%a")
+  local Part2=FileContent:match(".-<RENDER_CFG\n.-(\n.*)")
+  
+  -- create temporary-project-filename
+  local tempfile = ultraschall.CreateValidTempFile(projectfilename_with_path, true, "ultraschall-temp", true) 
+  
+  -- Write temporary projectfile
+  ultraschall.WriteValueToFile(tempfile, Part1..rendercfg..Part2)
+  
+  -- Add the render-filename to the project
+  ultraschall.SetProject_RenderFilename(tempfile, renderfilename_with_path)
+  ultraschall.SetProject_RenderPattern(tempfile, nil)
+  
+  -- Add the rendertime to the temporary project-file, when 
+  local bounds, time_start, time_end, tail, tail_length = ultraschall.GetProject_RenderRange(tempfile)
+  local timesel1_start, timesel1_end = ultraschall.GetProject_Selection(tempfile)
+  --   if startposition and/or endposition are -1, retain the start/endposition from the project-file
+
+  if startposition==-1 then startposition=time_start end
+  if endposition==-1 then endposition=time_end end
+  if startposition==-2 then startposition=timesel1_start end
+  if endposition==-2 then endposition=timesel1_end end
+  
+  if endposition<=startposition then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition or endposition in RPP-Project", "Must be bigger than startposition.", -10) return -1 end
+  local Bretval = ultraschall.SetProject_RenderRange(tempfile, 0, startposition, endposition, 0, 0)
+  if Bretval==-1 then 
+    os.remove (tempfile) 
+    ultraschall.AddErrorMessage("RenderProject_RenderCFG", "projectfilename_with_path", "Can't set the timerange in the temporary-project "..tempfile, -11)
+    return -1 
+  end
+  
+  -- Get currently opened project
+  local _temp, oldprojectname=ultraschall.EnumProjects(0)
+  
+  --Now the magic happens:
+  if overwrite_without_asking==true then os.remove(renderfilename_with_path) end -- delete renderfile, if already existing and overwrite_without_asking==true
+  
+  reaper.Main_OnCommand(40859,0)    -- create new temporary tab
+  reaper.Main_openProject(tempfile) -- load the temporary projectfile
+  
+  -- manage automatically closing of the render-window and filename-increasing
+  local val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
+  local oldval=val
+  if renderclosewhendone==true then 
+    if val&1==0 then val=val+1 end
+    if val==-99 then val=1 end
+  elseif renderclosewhendone==false then 
+    val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
+    if val&1==1 then val=val-1 end
+    if val==-99 then val=0 end
+  else
+    val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
+  end
+  
+  if filenameincrease==true then 
+    if val&16==0 then val=val+16 end
+    if val==-99 then val=16 end
+  elseif filenameincrease==false then 
+    val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
+    if val&16==16 then val=val-16 end
+    if val==-99 then val=0 end
+  end
+  reaper.SNM_SetIntConfigVar("renderclosewhendone", val)
+
+  reaper.Main_OnCommand(41824,0)    -- render using it with the last rendersettings(those, we inserted included)
+  reaper.Main_SaveProject(0, false) -- save it(no use, but otherwise, Reaper would open a Save-Dialog, that we don't want and need)
+  reaper.Main_OnCommand(40860,0)    -- close the temporary-tab again
+
+  -- reset old renderclose/overwrite-settings
+  reaper.SNM_SetIntConfigVar("renderclosewhendone", oldval)
+
+  --remove the temp-file and we are done.
+  os.remove (tempfile)
+  os.remove (tempfile.."-bak")
+  ultraschall.ChangeToActiveProject(curProj)
+  return 0
+end
+
+
+--A=ultraschall.CreateRenderCFG_MP3CBR(1, 4, 10)
+--B=ultraschall.CreateRenderCFG_MP3CBR(1, 10, 10)
+--L=ultraschall.RenderProject_RenderCFG(nil, "c:\\Reaper-Internal-Docs.mp3", -1, -1, true, true, false, A)
+--L=reaper.IsProjectDirty(0)
+  
+
+  
+
+function ultraschall.AddIntToChar(char, int)
+--[[
+<ApiDocBlocFunc>
+<slug>
+AddIntToChar
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string new_character = ultraschall.AddIntToChar(string character, integer int)
+</functionname>
+<description>
+Adds/subtracts int to/from the numeric representation of character. It will return the new character.
+It will not(!) include "overflows" into the adding/subtraction. That said, if you want to add a value resulting in a character above ASCII-code 255, it will fail!
+
+Returns nil in case of an error
+</description>
+<retvals>
+string new_character - the new character, after parameter int has been added/subtracted from/to character
+</retvals>
+<parameters>
+string character - the character, onto which you want to add/subtract parameter int; only single character allowed
+integer int - the value, that you want to add to the numerical representation of parameter character
+</parameters>
+<semanticcontext>
+API-Helper functions
+Data Manipulation
+</semanticcontext>
+<tags>
+helper functions, add, character, value
+</tags>
+</ApiDocBlocFunc>
+]]
+  if type(char)~="string" then ultraschall.AddErrorMessage("AddIntToChar", "char", "must be a string with one character" , -1) return nil end
+  if char:len()~=1 then ultraschall.AddErrorMessage("AddIntToChar", "char", "must be a string with one character" , -2) return nil end
+  if math.type(int)~="integer" then ultraschall.AddErrorMessage("AddIntToChar", "int", "must be an integer" , -3) return nil end
+  if string.byte(char)+int>255 or string.byte(char)+int<0 then ultraschall.AddErrorMessage("AddIntToChar", "char + int", "calculated value is out of range of ASCII" , -4) return nil end
+  local charcode=string.byte(char)
+  local newchar=string.char(charcode+int)
+  return newchar
+end
+
+--A,B=ultraschall.AddIntToChar("A", 191)
 
 function ultraschall.PreviewMediaItem(MediaItem, Previewtype)
 --[[

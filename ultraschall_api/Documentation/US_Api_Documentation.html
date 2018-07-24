@@ -1,5 +1,5 @@
 <html><head><title>Ultraschall Framework-Lua-Api-docs 4.00 "John Cage - 4:33"</title></head><body>
-<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 13569 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
+<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 13705 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
 </strong></td></tr></tr><tr><td><a href="#
 US1.Introduction
 ">
@@ -39,65 +39,67 @@ ConvertColorToGFX
 ">ConvertColorToGFX</a>&nbsp;&nbsp;</td><td><a href="#
 ConvertGFXToColor
 ">ConvertGFXToColor</a>&nbsp;&nbsp;</td><td><a href="#
+DirectoryExists
+">DirectoryExists</a>&nbsp;&nbsp;</td><td><a href="#
 GetApiVersion
-">GetApiVersion</a>&nbsp;&nbsp;</td><td><a href="#
-GetOS
-">GetOS</a>&nbsp;&nbsp;</td></tr>
+">GetApiVersion</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetOS
+">GetOS</a>&nbsp;&nbsp;</td><td><a href="#
 GetReaperAppVersion
 ">GetReaperAppVersion</a>&nbsp;&nbsp;</td><td><a href="#
 IsItemInTrack
 ">IsItemInTrack</a>&nbsp;&nbsp;</td><td><a href="#
 IsItemInTrack2
-">IsItemInTrack2</a>&nbsp;&nbsp;</td><td><a href="#
-IsItemInTrack3
-">IsItemInTrack3</a>&nbsp;&nbsp;</td></tr>
+">IsItemInTrack2</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+IsItemInTrack3
+">IsItemInTrack3</a>&nbsp;&nbsp;</td><td><a href="#
 IsOS_Mac
 ">IsOS_Mac</a>&nbsp;&nbsp;</td><td><a href="#
 IsOS_Other
 ">IsOS_Other</a>&nbsp;&nbsp;</td><td><a href="#
 IsOS_Windows
-">IsOS_Windows</a>&nbsp;&nbsp;</td><td><a href="#
-IsObjectValidReaperObject
-">IsObjectValidReaperObject</a>&nbsp;&nbsp;</td></tr>
+">IsOS_Windows</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+IsObjectValidReaperObject
+">IsObjectValidReaperObject</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidGuid
 ">IsValidGuid</a>&nbsp;&nbsp;</td><td><a href="#
 MakeFunctionUndoable
 ">MakeFunctionUndoable</a>&nbsp;&nbsp;</td><td><a href="#
 OpenURL
-">OpenURL</a>&nbsp;&nbsp;</td><td><a href="#
-PreventCreatingUndoPoint
-">PreventCreatingUndoPoint</a>&nbsp;&nbsp;</td></tr>
+">OpenURL</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+PreventCreatingUndoPoint
+">PreventCreatingUndoPoint</a>&nbsp;&nbsp;</td><td><a href="#
 RGB2Grayscale
 ">RGB2Grayscale</a>&nbsp;&nbsp;</td><td><a href="#
 RefreshToolbar_Action
 ">RefreshToolbar_Action</a>&nbsp;&nbsp;</td><td><a href="#
 ReturnTypeOfReaperObject
-">ReturnTypeOfReaperObject</a>&nbsp;&nbsp;</td><td><a href="#
-ReturnsMinusOneInCaseOfError_Arzala
-">ReturnsMinusOneInCaseOfError_Arzala</a>&nbsp;&nbsp;</td></tr>
+">ReturnTypeOfReaperObject</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+ReturnsMinusOneInCaseOfError_Arzala
+">ReturnsMinusOneInCaseOfError_Arzala</a>&nbsp;&nbsp;</td><td><a href="#
 RunCommand
 ">RunCommand</a>&nbsp;&nbsp;</td><td><a href="#
 SecondsToTime
 ">SecondsToTime</a>&nbsp;&nbsp;</td><td><a href="#
 SecondsToTimeString_hh_mm_ss_mss
-">SecondsToTimeString_hh_mm_ss_mss</a>&nbsp;&nbsp;</td><td><a href="#
-SetIntConfigVar_Bitfield
-">SetIntConfigVar_Bitfield</a>&nbsp;&nbsp;</td></tr>
+">SecondsToTimeString_hh_mm_ss_mss</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+SetIntConfigVar_Bitfield
+">SetIntConfigVar_Bitfield</a>&nbsp;&nbsp;</td><td><a href="#
 TimeStringToSeconds_hh_mm_ss_mss
 ">TimeStringToSeconds_hh_mm_ss_mss</a>&nbsp;&nbsp;</td><td><a href="#
 TimeToSeconds
 ">TimeToSeconds</a>&nbsp;&nbsp;</td><td><a href="#
 ToggleStateAction
-">ToggleStateAction</a>&nbsp;&nbsp;</td><td><a href="#
-ToggleStateButton
-">ToggleStateButton</a>&nbsp;&nbsp;</td></tr>
+">ToggleStateAction</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+ToggleStateButton
+">ToggleStateButton</a>&nbsp;&nbsp;</td><td><a href="#
 toboolean
 ">toboolean</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Data Manipulation
 </strong></td></tr>
@@ -1487,6 +1489,10 @@ helper functions, count, lines, string
 integer count, array positions = ultraschall.CountPatternInString(string sourcestring, string searchstring, boolean non_case_sensitive)
 </i><br><br>returns the count and an array with all positions of searchstring in sourcestring.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer count</i> - the number of appearances of searchstring in sourcestring</i><br><i>array positions</i> - an array with count-entries, where every entry contains the position of searchstring in sourcestring</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string sourcestring</i> - the string, you want to search through</i><br><i>string searchstring</i> - the string, you want to search for in sourcestring</i><br><i>boolean non_case_sensitive</i> - true, the search does not care about case-sensitivity; false, case of searchstring will be kept</i><br><i></i></div><p></p>Tags: 
 helper functions, string, character, check, find, count, position, numbers
+<p></p><a id="DirectoryExists"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+boolean retval = ultraschall.DirectoryExists(string path, string directory)
+</i><br><br>Checks, if a directory exists in path.<br><br>Returns false in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true, directory exists; false, directory does not exist</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string path</i> - the path, in which to look for the existence of parameter directory</i><br><i>string directory</i> - the name of the directory to check for in path</i><br><i></i></div><p></p>Tags: 
+helper functions, directory, check, exists
 <p></p><a id="GetAllEntriesFromTable"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
 integer count, table foundtypes, table returned_table = ultraschall.GetAllEntriesFromTable(table table)
 </i><br><br>Gets an iterable version of table. Good for analysing unknown tables.<br><br>Returns the number of entries, a table(array) with the datatypes of each entry and the table with all it's entries in the same order as in the foundtypes-table.<br><br>This doesn't treat table recursivley, means: each "Subtable" within the table is treated as one entry of the type "table". That means, that these tables must be analysed themselves in an extra step!<br>A[1]=1<br>A[2][1]=2<br>A[2][2]=3.4<br>will return two(!) entries, the first being of type "integer", the second being of type "table". Next step would be to run use this function to analyse A[2] as well, which would result in two entries: the first being of type "integer" and the second of type "float", etc.<br><br>returns -1 in case of error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer count</i> - the number of table-entries found</i><br><i>table foundtypes</i> - a table, with count-entries, each entry having the type of each entry in the returned_table as string.</i><br><i>                </i> - The types can be "nil", "integer", "float", "string", "boolean", "table", "function", "thread", "userdata"</i><br><i>table returned_table</i> - an iterable version of table. The type of each entry can be found in the accompanying entry of foundtypes</i><br><i>                    </i> - the format is returned_table[indexnr][1]</i> - indexname/number of the original table-entry</i><br><i>                    </i> -               returned_table[indexnr][2]</i> - the value of the original table-entry</i><br><i>                    </i> - the indexnr is 1 to count, while [indexnr][1] is the indexnr of the original-table-entry, which might be a string, functionname or something else as well</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>table table</i> - the table to get the individual entries from</i><br><i></i></div><p></p>Tags: 
@@ -1972,8 +1978,8 @@ integer lengthoffile = ultraschall.GetLengthOfFile(string filename_with_path)
 </i><br><br>Returns the length of the file filename_with_path in bytes.<br>Will return -1, if no such file exists.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer lengthoffile</i> - the length of the file in bytes. -1 in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string filename_with_path</i> - filename to write the value to</i><br><i></i></div><p></p>Tags: 
 filemanagement,file,length,bytes,count
 <p></p><a id="GetPath"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
-string path = ultraschall.GetPath(string str, string sep)
-</i><br><br>returns the path of a filename-string<br><br>returns nil in case of error <br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string path </i> - the path as a string</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string str</i> - the path with filename you want to process</i><br><i>string sep</i> - a separator, with which the function knows, how to separate filename from path</i><br><i></i></div><p></p>Tags: 
+string path, string filename = ultraschall.GetPath(string str, string sep)
+</i><br><br>returns the path of a filename-string<br><br>returns "", "" in case of error <br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string path </i> - the path as a string</i><br><i>string filename</i> - the filename, without the path</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string str</i> - the path with filename you want to process</i><br><i>string sep</i> - a separator, with which the function knows, how to separate filename from path</i><br><i></i></div><p></p>Tags: 
 filemanagement,path,separator
 <p></p><a id="MakeCopyOfFile"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 boolean retval = ultraschall.MakeCopyOfFile(string input_filename_with_path, string output_filename_with_path)
@@ -3273,7 +3279,7 @@ projectfiles, create, render, outputformat, webm
 2. How to Use Rendering Functions (examples)
 </h4>Using the rendering-functions is quite easy. Let's use MP3 as an example(needs LAME-encoder to be installed into Reaper!)<br><br>On Windows:<br><pre style="background-color:#DDDDDD;"><code><br>retval = ultraschall.RenderProjectToMP3_CBR("path\\filename.rpp", "path\\filename.mp3", 128, 5)<br></code><br></pre><br>On Mac:<br><pre style="background-color:#DDDDDD;"><code><br>retval = ultraschall.RenderProjectToMP3_CBR("path/filename.rpp", "path/filename.mp3", 128, 5)<br></code><br></pre><br>That way, you will render the file "filename.rpp" in "path" into an MP3 called "filename.mp3". This MP3 will be encoded with a bitrate of 128kbps, while encode speed is 5 which means slow but best quality.<br><br>If you want to render the current project as mp3 with the same quality-settings as above, you can use the following snippet:<br><pre style="background-color:#DDDDDD;"><code><br>    --Get the correct Separator for a Windows or a Mac-system<br>sep=ultraschall.Separator<br><br>    --Save current Project<br>reaper.Main_SaveProject(0, false)<br><br>    --Get Projectpath and Projectname<br>ProjectPath = reaper.GetProjectPath("")<br>ProjectName = reaper.GetProjectName(0, "")<br><br>    -- Create a string with the ProjectFilename with path<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we <br>    -- look in the wrong folder for the project, not the one, where the rpp-projectfile lies<br>ProjectFilename=ProjectPath:match("(.*)"..sep)..sep..ProjectName<br><br>    -- Create a string with the MP3Filename with path<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we <br>    -- save the MP3 in the recordings-folder, rather than the folder, where the rpp-projectfile lies<br>MP3Filename=ProjectPath:match("(.*)"..sep)..sep..ProjectName:sub(1,-5)..".mp3" -- The MP3-Filename<br><br>    -- Render the project as constant-bitrate-MP3 with<br>    -- 128 kbps and rendering speed 5 (best quality but slowest)<br>Retval = ultraschall.RenderProjectToMP3_CBR(ProjectFilename, MP3Filename, 128, 5) <br></code></pre><br>If you want to alter the rendersettings first, you can use the following snippet as a template. It changes the render-range, before rendering:<br><pre style="background-color:#DDDDDD;"><code><br>    --Get the correct Separator for a Windows or a Mac-system<br>sep=ultraschall.Separator<br><br>    -- Save current Project<br>reaper.Main_SaveProject(0, false)<br><br>    -- Get Projectpath and Projectname<br>ProjectPath = reaper.GetProjectPath("")<br>ProjectName = reaper.GetProjectName(0, "")<br><br>    -- Create a string with the ProjectFilename with path<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we <br>    -- look in the wrong folder for the project<br>ProjectFilename=ProjectPath:match("(.*)"..sep)..sep..ProjectName<br><br>    -- Create a string with the temporary-ProjectFilename with path, which must be in the same folder, <br>    -- as the original project-file.<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match,<br>    -- as otherwise we look in the wrong folder for the project.<br>    -- DON'T USE "Ultraschall-temp.rpp", as that name will be used by the rendering-function itself!<br>TempProjectFilename=ProjectPath:match("(.*)"..sep)..sep.."This-Is-A-Temporary-Project-File.rpp"<br><br>    -- To prevent accidental overwriting of an already existing file with the same name as<br>    -- TempProjectFilename, we check it's existence. If true, we end right here.<br>if reaper.file_exists(TempProjectFilename)==true then return -1 end<br><br>    -- Let's create a temporary copy of the project-file. <br>Retval = ultraschall.MakeCopyOfFile(ProjectFilename, TempProjectFilename)<br><br>    -- Now we alter the render-settings in the temporary(!)-projectfile.<br>    -- We will do the the render-range, but you can use other ultraschall.SetProject_RenderXXXX-functions here as well<br>    -- Setting the Renderrange. The parameters are:<br>      -- TempProjectFilename - the temporary-project-filename<br>      -- 0 for Custom Time Range<br>      -- 10, which is the beginning of the render-range in seconds<br>      -- 20, which is the end of the render-range in seconds<br>      -- 0 for tail off for all bounds<br>      -- 0 for the taillength<br>Retval = ultraschall.SetProject_RenderRange(TempProjectFilename, 0, 10, 20, 0, 0)<br><br>    -- Create a string with the MP3Filename with path<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we <br>    -- save the MP3 in the recordings-folder, rather than the folder, where the rpp-projectfile lies<br>MP3Filename=ProjectPath:match("(.*)"..sep)..sep..ProjectName:sub(1,-5)..".mp3" -- The MP3-Filename<br><br>    -- Render the project as constant-bitrate-MP3 with<br>    -- 128 kbps and rendering speed 5 (best quality but slowest)<br>Retval = ultraschall.RenderProjectToMP3_CBR(TempProjectFilename, MP3Filename, 128, 5) <br><br>    --let's remove the temporary file again.<br>os.remove(TempProjectFilename)<br><br>    -- Hooray, Rendering, successfully accomplished! Congratulations!<br></code><br></pre><br>Read the accompanying Api-documentation entries for the "ultraschall.GetProject_XXX"/ultraschall.SetProject_XXX"-functions, as they'll give you even more stuff to work with.<br><p></p><a id="RenderProject_RenderCFG"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
 integer retval = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)
-</i><br><br>Renders a project, using a specific render-cfg-string.<br>To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a><br><br>Returns -1 in case of an error<br>Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1 in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string projectfilename_with_path</i> - the project to render; nil, for the currently opened project(needs to be saved first)</i><br><i>string renderfilename_with_path</i> - the filename of the output-file. It will not(!) add the correct extension, it must be done by you!</i><br><i>number startposition</i> - the startposition of the render-area in seconds; -1, to use the startposition set in the projectfile itself</i><br><i>number endposition</i> - the endposition of the render-area in seconds; -1, to use the endposition set in the projectfile itself</i><br><i>boolean renderclosewhendone</i> - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings</i><br><i>boolean filenameincrease</i> - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings</i><br><i>string rendercfg</i> - the rendercfg-string, that contains all render-settings for an output-format</i><br><i>                </i> - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a></i><br><i></i></div><p></p>Tags: 
+</i><br><br>Renders a project, using a specific render-cfg-string.<br>To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a><br><br>Returns -1 in case of an error<br>Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1 in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string projectfilename_with_path</i> - the project to render; nil, for the currently opened project(needs to be saved first)</i><br><i>string renderfilename_with_path</i> - the filename of the output-file. If you give the wrong extension, Reaper will exchange it by the correct one.</i><br><i>number startposition</i> - the startposition of the render-area in seconds; -1, to use the startposition set in the projectfile itself</i><br><i>number endposition</i> - the endposition of the render-area in seconds; -1, to use the endposition set in the projectfile itself</i><br><i>boolean renderclosewhendone</i> - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings</i><br><i>boolean filenameincrease</i> - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings</i><br><i>string rendercfg</i> - the rendercfg-string, that contains all render-settings for an output-format</i><br><i>                </i> - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a></i><br><i></i></div><p></p>Tags: 
 projectfiles, render, output, file
 <p></p><a id="AddMediaItemStateChunk_To_TrackStateChunk"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 string trackstatechunk = ultraschall.AddMediaItemStateChunk_To_TrackStateChunk(string trackstatechunk, string mediaitemstatechunk)
@@ -3751,4 +3757,4 @@ userinterface, set, vertical, zoom, factor
 integer retval = ultraschall.StoreArrangeviewSnapshot(integer slot, string description, boolean position, boolean vzoom)
 </i><br><br>Stores a new Arrangeview-snapshot, that includes the position, horizontal zoom and vertical zoom.<br><br>Returns -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1, in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer slot</i> - the slot for arrangeview-snapshot</i><br><i>string description</i> - a description for this arrangeview-snapshot</i><br><i>boolean position</i> - true, store start and endposition of the current arrangeview; false, don't store start and endposition of current arrangeview(keep old position in slot, if existing)</i><br><i>boolean vzoom</i> - true, store current vertical-zoom-factor; false, don't store current vertical-zoom-factor(keep old zoomfactor in slot, if existing)</i><br><i></i></div><p></p>Tags: 
 userinterface, set, arrangeview, snapshot
-<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 592-functions available</i></p></div></body></html>
+<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 593-functions available</i></p></div></body></html>

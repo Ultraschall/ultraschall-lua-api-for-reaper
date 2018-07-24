@@ -162,6 +162,7 @@
   - SetProject_Selection - set the time-selection of an rpp-project or ProjectStateChunk
   - ChangeToActiveProject - change the active projecttab to a certain Project
   - ChangeToActiveProject_ProjNr - change the active projecttab to a tab-nr of your choice
+  - DirectoryExists - check, if a directory already exists in a path
   
   <TODO>
       TODO!!  - SetTrackGroupFlagsState - sets GroupFlagsState
@@ -178,8 +179,10 @@
    
     For 4.00beta2.8:
       TODO!!  - GetLastEnvelopePoint (How to do that with AutomationItems ?)
+      TODO!!  - RenderProjectRegions_RenderCFG - like RenderProject_RenderCFG but renders given regions instead
+      TODO!!  - RenderProjectRegions_RenderCFG2  and RenderProject_RenderCFG2 - set RenderPattern instead of RenderFilenameWithPath
       TODO!!  - number seconds = ultraschall.GetEndOfProject(string trackstring, boolean only_items, boolean only_envpoints, boolean only_marker, boolean only_regions, boolean only_timesigmarker)
-      TODO!!  - Renderfunctions - full featured Video/Opus(documentation refers still MP3!); add WAV, OGG, GIF, LCF
+      TODO!!  - Renderfunctions - full featured Video(documentation refers still MP3!); add GIF, LCF, AudioCD
       TODO!!  - integer countproject, array ReaProjectArray = ultraschall.GetAddedRemovedProjects()
                 returns all projects that have been added/removed since last call of GetAddedRemovedProjects()
                 array ReaProjectArray[idx][type] - type=1 - the ReaProject, type=2 the ReaObject-ID(as returned by tostring(ReaProject), type3="added|removed"
@@ -513,6 +516,8 @@
   - SetProject_VideoConfig - corrected documentation
   - SetProject_RecMode - corrected documentation
   - GetProject_SMPTESync - returned wrong retvals, fixed
+  - GetPath - returns now also the filename, returns "", "" instead of nil in case of error.
+  - SetProject_RenderPattern - now allows removing the RENDERPATTERN-entry from a Projectfile using nil as parameter. Good, if you only want to set a Rendername in a project.
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:
