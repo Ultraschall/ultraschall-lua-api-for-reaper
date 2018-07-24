@@ -15,7 +15,7 @@ ultraschall.ApiTest()
    for a functions-reference for the API.
    
    
-Written by Meo Mespotine(mespotine.de) with contributions from Udo Sauer(https://twitter.com/rstockm) and Ralf Stockmann(https://twitter.com/rstockm)
+Written by Meo Mespotine(mespotine.de) with contributions from Udo Sauer(https://twitter.com/fernsehmuell) and Ralf Stockmann(https://twitter.com/rstockm)
 
 more information about the Ultraschall podcast extension at: ultraschall.fm
 more information on Reaper: reaper.fm
