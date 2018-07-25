@@ -24,3 +24,23 @@
 ################################################################################
 ]] 
 
+-- This is the file for hotfixes of buggy functions.
+
+-- If you have found buggy functions, you can submit fixes within here.
+--      a) copy the function you found buggy into ultraschall_hotfixes.lua
+--      b) debug the function IN HERE(!)
+--      c) comment, what you've changed(this is for me to find out, what you did)
+--      d) add information to the <US_DocBloc>-bloc of the function. So if the information in the
+--         <US_DocBloc> isn't correct anymore after your changes, rewrite it to fit better with your fixes
+--      e) add your name into it and a link to something you do(the latter, if you want), so I can credit you and your contribution properly
+--      f) submit the file as PullRequest via Github: https://github.com/Ultraschall/Ultraschall-Api-for-Reaper.git (preferred !)
+--         or send it via lspmp3@yahoo.de(only if you can't do it otherwise!)
+--
+-- As soon as these functions are in here, they can be used the usual way through the API. They overwrite the older buggy-ones.
+--
+-- These fixes, once I merged them into the master-branch, will become part of the current version of the Ultraschall-API, 
+-- until the next version will be released. The next version will has them in the proper places added.
+-- That way, you can help making it more stable without being dependend on me, while I'm busy working on new features.
+--
+-- If you have new functions to contribute, you can use this file as well. Keep in mind, that I will probably change them to work
+-- with the error-messaging-system as well as adding information for the API-documentation.

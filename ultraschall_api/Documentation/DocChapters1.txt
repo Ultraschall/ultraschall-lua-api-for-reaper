@@ -63,3 +63,7 @@ API-Variables:
     
 KB-Ini-Management:
 
+Bugreports
+
+Fixes and providing Fixes
+    - ultraschall_hotfixes.lua

@@ -30,8 +30,17 @@
 --          dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 -- 4. have fun using the API. Test it with ultraschall.ApiTest()
 
-
 if type(ultraschall)~="table" then ultraschall={} end
+ultraschall.temp1,ultraschall.temp=reaper.get_action_context()
+ultraschall.temp=string.gsub(ultraschall.temp,"\\","/")
+ultraschall.temp1=reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua"
+ultraschall.temp1=string.gsub(ultraschall.temp1,"\\","/")
+if ultraschall.temp1 == ultraschall.temp then 
+  local retval, string2 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+  string2=tonumber(string2)
+  string2=string2+1
+  reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", string2, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")    
+end
 
 if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
     ultraschall.Separator = "\\"
@@ -166,8 +175,6 @@ end
 
 -- In case of necessary hotfixes, if the file ultraschall_hotfixes.lua exists, the functions in it will overwrite previously existing ones.
 if reaper.file_exists(script_path.."ultraschall_hotfixes.lua") then ultraschall.Hotfix=dofile(script_path .. "ultraschall_hotfixes.lua") end
-
-
 
 function ultraschall.ApiTest()
     -- show "Api Part-Engine"-messages, when calling ultraschall.ApiTest()

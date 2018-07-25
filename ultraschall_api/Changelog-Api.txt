@@ -163,14 +163,87 @@
   - ChangeToActiveProject - change the active projecttab to a certain Project
   - ChangeToActiveProject_ProjNr - change the active projecttab to a tab-nr of your choice
   - DirectoryExists - check, if a directory already exists in a path
+  - All parts of the API have now their own build-counters in the ultraschall_api.ini
   
   <TODO>
       TODO!!  - SetTrackGroupFlagsState - sets GroupFlagsState
-      TODO!!  - SetProject-functions also accept ProjectStateChunk for getting and setting
       TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
       TODO!!  - commenting and errorchecking
       TODO!!  - alter MakeCopyOfTable to be different from the original
-      
+      TODO!!  - errormanagement
+                    ToggleScrollingDuringPlayback
+                    GetClosestGoToPoints
+                    SetPodRangeRegion
+                    MakeCopyOfFile
+                    MakeCopyOfFile_Binary
+                    ReadBinaryFile
+                    ReadBinaryFileUntilPattern
+                    ReadBinaryFileFromPattern
+                    CountLinesInFile
+                    CountSectionsByPattern
+                    CountKeysByPattern
+                    CountValuesByPattern
+                    EnumerateSectionsByPattern
+                    EnumerateKeysByPattern
+                    EnumerateValuesByPattern
+                    GetMarkerByScreenCoordinates
+                    GetMarkerByTime
+                    GetRegionByScreenCoordinates
+                    GetRegionByTime
+                    GetTimesignaturesByScreenCoordinates
+                    GetTimeSignaturesByTime
+                    AddEditRegion
+                    SetEditRegion
+                    CountKBIniActions
+                    CountKBIniScripts
+                    CountKBIniKeys
+                    GetKBIniActions
+                    GetKBIniScripts
+                    GetKBIniKeys
+                    GetKBIniActionsID_ByActionCommandID
+                    GetKBIniScripts_ByActionCommandID
+                    GetKBIniKeys_ByActionCommandID
+                    SetKBIniActions
+                    SetKBIniScripts
+                    SetKBIniKeys
+                    DeleteKBIniActions
+                    DeleteKBIniScripts
+                    DeleteKBIniKeys
+                    MoveTrackEnvelopePointsBy
+                    SplitItemsAtPositionFromArray
+                    DeleteMediaItems_Position
+                    GetAllMediaItemsBetween
+                    MoveMediaItemsAfter_By
+                    ChangeLengthOfMediaItems_FromArray
+                    ChangeOffsetOfMediaItems_FromArray
+                    ChangeDeltaOffsetOfMediaItems_FromArray
+                    SectionCut
+                    SectionCut_Inverse
+                    RippleCut
+                    RippleCut_Reverse
+                    InsertMediaItem_MediaItemStateChunk
+                    InsertMediaItemArray
+                    GetMediaItemStateChunksFromItems
+                    RippleInsert
+                    MoveMediaItems_FromArray
+                    InsertMediaItemStateChunkArray
+                    OnlyMediaItemsOfTracksInTrackstring_StateChunk
+                    RippleInsert_MediaItemStateChunks
+                    AddLockStateTo_MediaItemStateChunkArray
+                    GetMediaItemStateChunksFromMediaItemArray
+                    GetTrackHWOut
+                    GetTrackAUXSendReceives
+                    CountTrackHWOuts
+                    CountTrackAUXSendReceives
+                    AddTrackHWOut
+                    AddTrackAUXSendReceives
+                    DeleteTrackHWOut
+                    DeleteTrackAUXSendReceives
+                    SetTrackHWOut
+                    SetTrackAUXSendReceives
+                    ConvertScreen2ClientXCoordinate_ReaperWindow
+                    ConvertClient2ScreenXCoordinate_ReaperWindow
+                    CountPatternInString
       TODO!!  - 1. Introduction to Renderfunctions has old and outdated information
       TODO!!  - add multiple-target-documents and multiple-structured chapters(in index of a document) into the new docengine(not working right now)
       TODO!!  - write final documentation for public-beta
@@ -178,9 +251,11 @@
       TODO!!  - Include automatic adding of "Help: Show Ultraschall Api Help"-action
    
     For 4.00beta2.8:
+      TODO!!  - ChangeToActiveProject_ProjNr and ChangeToActiveProject - go the shortest way to the project. If the target-project is n-1, it should use action "previous tab", not "next tab"
       TODO!!  - GetLastEnvelopePoint (How to do that with AutomationItems ?)
       TODO!!  - RenderProjectRegions_RenderCFG - like RenderProject_RenderCFG but renders given regions instead
       TODO!!  - RenderProjectRegions_RenderCFG2  and RenderProject_RenderCFG2 - set RenderPattern instead of RenderFilenameWithPath
+      TODO!!  - RenderProjectRegions_RenderCFG3  and RenderProject_RenderCFG3 - set Track(s) to be rendered
       TODO!!  - number seconds = ultraschall.GetEndOfProject(string trackstring, boolean only_items, boolean only_envpoints, boolean only_marker, boolean only_regions, boolean only_timesigmarker)
       TODO!!  - Renderfunctions - full featured Video(documentation refers still MP3!); add GIF, LCF, AudioCD
       TODO!!  - integer countproject, array ReaProjectArray = ultraschall.GetAddedRemovedProjects()
@@ -517,7 +592,49 @@
   - SetProject_RecMode - corrected documentation
   - GetProject_SMPTESync - returned wrong retvals, fixed
   - GetPath - returns now also the filename, returns "", "" instead of nil in case of error.
-  - SetProject_RenderPattern - now allows removing the RENDERPATTERN-entry from a Projectfile using nil as parameter. Good, if you only want to set a Rendername in a project.
+  - SetProject_AddMediaToProjectAfterRender - allows usage of ProjectStateChunks now as well
+  - SetProject_ApplyFXCFG - allows usage of ProjectStateChunks now as well
+  - SetProject_AutoCrossFade - allows usage of ProjectStateChunks now as well
+  - SetProject_CursorPos - allows usage of ProjectStateChunks now as well
+  - SetProject_DefPitchMode - allows usage of ProjectStateChunks now as well
+  - SetProject_EnvAttach - allows usage of ProjectStateChunks now as well
+  - SetProject_Feedback - allows usage of ProjectStateChunks now as well
+  - SetProject_Grid - allows usage of ProjectStateChunks now as well
+  - SetProject_GroupOverride - allows usage of ProjectStateChunks now as well
+  - SetProject_HorizontalZoom - allows usage of ProjectStateChunks now as well
+  - SetProject_ItemMixBehavior - allows usage of ProjectStateChunks now as well
+  - SetProject_Loop - allows usage of ProjectStateChunks now as well
+  - SetProject_LoopGran - allows usage of ProjectStateChunks now as well
+  - SetProject_MaxProjectLength - allows usage of ProjectStateChunks now as well
+  - SetProject_MixerUIFlags - allows usage of ProjectStateChunks now as well
+  - SetProject_PanLaw - allows usage of ProjectStateChunks now as well
+  - SetProject_PanMode - allows usage of ProjectStateChunks now as well
+  - SetProject_PeakGain - allows usage of ProjectStateChunks now as well
+  - SetProject_ProjOffsets - allows usage of ProjectStateChunks now as well
+  - SetProject_RecMode - allows usage of ProjectStateChunks now as well
+  - SetProject_RecPath - allows usage of ProjectStateChunks now as well
+  - SetProject_RecordCFG - allows usage of ProjectStateChunks now as well
+  - SetProject_RenderCFG - allows usage of ProjectStateChunks now as well
+  - SetProject_RenderDitherState - allows usage of ProjectStateChunks now as well
+  - SetProject_RenderFilename - allows usage of ProjectStateChunks now as well
+  - SetProject_RenderFreqNChans - allows usage of ProjectStateChunks now as well
+  - SetProject_RenderPattern - allows usage of ProjectStateChunks now as well; now allows removing the RENDERPATTERN-entry from a Projectfile using nil as parameter. Good, if you only want to set a Rendername in a project.
+  - SetProject_RenderRange - allows usage of ProjectStateChunks now as well
+  - SetProject_RenderResample - allows usage of ProjectStateChunks now as well
+  - SetProject_RenderSpeed - allows usage of ProjectStateChunks now as well
+  - SetProject_RenderStems - allows usage of ProjectStateChunks now as well
+  - SetProject_RippleState - allows usage of ProjectStateChunks now as well
+  - SetProject_SMPTESync - allows usage of ProjectStateChunks now as well
+  - SetProject_SampleRate - allows usage of ProjectStateChunks now as well
+  - SetProject_Selection - allows usage of ProjectStateChunks now as well
+  - SetProject_TakeLane - allows usage of ProjectStateChunks now as well
+  - SetProject_TempoTimeSignature - allows usage of ProjectStateChunks now as well
+  - SetProject_TimeBase - allows usage of ProjectStateChunks now as well
+  - SetProject_Timemode - allows usage of ProjectStateChunks now as well
+  - SetProject_TrackMixingDepth - allows usage of ProjectStateChunks now as well; hadn't correct parameters in the docs -> fixed
+  - SetProject_UseRecConfig - allows usage of ProjectStateChunks now as well
+  - SetProject_VerticalZoom - allows usage of ProjectStateChunks now as well
+  - OpenURL - returns -1 in case of error, now
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:

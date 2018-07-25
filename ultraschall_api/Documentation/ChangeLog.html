@@ -161,6 +161,8 @@
 <li>SetProject_Selection - set the time-selection of an rpp-project or ProjectStateChunk</li>
 <li>ChangeToActiveProject - change the active projecttab to a certain Project</li>
 <li>ChangeToActiveProject_ProjNr - change the active projecttab to a tab-nr of your choice</li>
+<li>DirectoryExists - check, if a directory already exists in a path</li>
+<li>All parts of the API have now their own build-counters in the ultraschall_api.ini</li>
 </ul>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
 <ul>
@@ -436,7 +438,49 @@
 <li>SetProject_RecMode - corrected documentation</li>
 <li>GetProject_SMPTESync - returned wrong retvals, fixed</li>
 <li>GetPath - returns now also the filename, returns &quot;&quot;, &quot;&quot; instead of nil in case of error.</li>
-<li>SetProject_RenderPattern - now allows removing the RENDERPATTERN-entry from a Projectfile using nil as parameter. Good, if you only want to set a Rendername in a project.</li>
+<li>SetProject_AddMediaToProjectAfterRender - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_ApplyFXCFG - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_AutoCrossFade - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_CursorPos - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_DefPitchMode - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_EnvAttach - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_Feedback - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_Grid - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_GroupOverride - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_HorizontalZoom - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_ItemMixBehavior - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_Loop - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_LoopGran - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_MaxProjectLength - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_MixerUIFlags - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_PanLaw - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_PanMode - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_PeakGain - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_ProjOffsets - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_RecMode - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_RecPath - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_RecordCFG - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_RenderCFG - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_RenderDitherState - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_RenderFilename - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_RenderFreqNChans - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_RenderPattern - allows usage of ProjectStateChunks now as well; now allows removing the RENDERPATTERN-entry from a Projectfile using nil as parameter. Good, if you only want to set a Rendername in a project.</li>
+<li>SetProject_RenderRange - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_RenderResample - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_RenderSpeed - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_RenderStems - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_RippleState - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_SMPTESync - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_SampleRate - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_Selection - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_TakeLane - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_TempoTimeSignature - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_TimeBase - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_Timemode - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_TrackMixingDepth - allows usage of ProjectStateChunks now as well; hadn't correct parameters in the docs -&gt; fixed</li>
+<li>SetProject_UseRecConfig - allows usage of ProjectStateChunks now as well</li>
+<li>SetProject_VerticalZoom - allows usage of ProjectStateChunks now as well</li>
+<li>OpenURL - returns -1 in case of error, now</li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>
