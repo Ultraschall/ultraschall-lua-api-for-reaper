@@ -12,6 +12,9 @@ Get/SetProjectStates
 Get/SetTrackStates
 Get/SetItemStates
 
+ItemExtStates/TrackExtStates:
+    save extension states for tracks and items
+
 UndoManagement:
 
 RunCommand for Items/Tracks:

@@ -167,10 +167,9 @@
   
   <TODO>
       TODO!!  - SetTrackGroupFlagsState - sets GroupFlagsState
-      TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
       TODO!!  - commenting and errorchecking
       TODO!!  - alter MakeCopyOfTable to be different from the original
-      TODO!!  - errormanagement
+      TODO!!  - errormanagement and preventUIrefresh in funcs like JumpBackwardBy and such
                     ToggleScrollingDuringPlayback
                     GetClosestGoToPoints
                     SetPodRangeRegion
@@ -249,8 +248,47 @@
       TODO!!  - write final documentation for public-beta
       TODO!!  - construct final documentation-document, including automatic generation of ChangeLog.
       TODO!!  - Include automatic adding of "Help: Show Ultraschall Api Help"-action
-   
+      TODO!!  - check, if SWS 2.9.7 is available
+      TODO!!  - InsertImageFile - add parameter "integer addframes", with which you can add addframes*frame-length to length
+      TODO!!  - rework GetXXXStateChunk to overcome the 4Mb limit of Reaper's own GetXXXStateChunk-functions
+                boolean retval, string str, boolean fullStateChunk = ultraschall.GetTrackStateChunk(MediaTrack track, string str, boolean isundo, boolean useSWSGetStatechunk_func)
+                boolean retval, string str, boolean fullStateChunk = ultraschall.GetTrackStateChunk_Tracknumber(integer track, string str, boolean isundo, boolean useSWSGetStatechunk_func)
+                
+                parameter:
+                    boolean useSWSGetStatechunk_func - true, use the SWS-versions of the statechunk-functions(slower)
+                                                     - false, use Reaper's own native functions(faster, but with the 4 Mb limit, that cuts off large statechunks)
+                                                     - nil, automode, where the functions tries to get the statechunk with Reaper's own functions, checks if the statechunk is valid and if not, it gets
+                                                                them using the SWS-statechunk-functions. Check for statechunk-validity by using sub(1,??) for <ITEM or <TRACK or <ENV and sub(-3(?),-1), to not lose too much speed with checking large statchunks
+                                                                Bonus: if a statechunk exceeds Reaper's limit, save an item/envelope/track-extstate with key "Ultraschall_LargeStateChunk=" set to true. 
+                                                                       In Automode, we read that extstate and see, if we should use SWS's-functions instead, saving some performance with large-statechunks, as we do not
+                                                                       need to get the statechunk twice anymore. Getting it twice happens only that one time, where the statechunk exceeds the 4 MB-limit for the first time!
+      TODO!!  - make all GetTrackState/ItemState/EnvState-functions use the new GetStateChunk-functions.
+      TODO!!  - Envelope-ExtStates
+      TODO!!  - GetReaperAppVersion - shall return, if Reaper is portable-installation or not; does not return OS currently(!), go fix it!
+              
+         
     For 4.00beta2.8:
+      TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
+      TODO!!  - GetReaperPaths - returns app-path, exe-path, resourcepath
+              - GetReaperScriptPath
+              - GetReaperThemePath
+              - GetReaperJSFXPath
+              - GetReaperWebRCPaths
+      TODO!!  - ultraschall.type(parameter) - returns the type of the parameter(all types, including lua-types!). Use pcall (f, arg1, ···) to check for FastStrings or 
+                BR_Envelopes and such, using a function, that throws an error when not given the correct type. pcall allows catchin such an error.
+                    use: reaper.BR_EnvCountPoints(BR_Envelope)                  -- BR_Envelope
+                         reaper.SNM_GetFastStringLength(WDL_FastString)         -- WDL_FastString
+                         reaper.FNG_CountMidiNotes(RprMidiTake)                 -- RprMidiTake
+                         reaper.FNG_GetMidiNoteIntProperty(RprMidiNote, string) -- RprMidiNote
+                         reaper.joystick_getaxis(joystick_device, 1)            -- joystick_device
+                         reaper.GetAudioAccessorSamples(accessor, 1, 1, 1, 1, reaper_array) -- AudioAccessor
+                         
+                         IReaperControlSurface, HWND and reaper.array are still missing
+                         
+                pcall seems to crash Reaper's Lua implementation or make it stuck at least...
+                
+                
+      TODO!!  - import/export Bonus-script-packs-functions(for importing and registering additional bonus scripts)
       TODO!!  - ChangeToActiveProject_ProjNr and ChangeToActiveProject - go the shortest way to the project. If the target-project is n-1, it should use action "previous tab", not "next tab"
       TODO!!  - GetLastEnvelopePoint (How to do that with AutomationItems ?)
       TODO!!  - RenderProjectRegions_RenderCFG - like RenderProject_RenderCFG but renders given regions instead
