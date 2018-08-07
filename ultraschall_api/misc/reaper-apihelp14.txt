@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ##ReaScript API as of Reaper 5.92
+            ##ReaScript API as of Reaper 5.941
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -2943,23 +2943,23 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            Delete a range of envelope points. autoitem_idx==-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
+            Deletes a range of envelope points. You can delete the points in either the envelope or the automation-items existing in this TrackEnvelope
         </description>
         <retvals>
-            boolean - 
+            boolean - true, if deleting was successful; false, if not
         </retvals>
         <parameters>
-            TrackEnvelope envelope - 
-            integer autoitem_idx - 
-            number time_start - 
-            number time_end - 
+            TrackEnvelope envelope - the envelope-point-object, in which to delete the envelope-points
+            integer autoitem_idx - the automation item to be affected by deletion; -1, for the underlying envelope itself; 0, for the first automation item on the envelope; 1 for the second, etc
+            number time_start - the starttime of the deletionrange in seconds
+            number time_end - the endtime of the deletionrange in seconds
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
         <chapter_context>
             Envelope Management
         </chapter_context>
-        <tags></tags>
+        <tags>envelopemanagement, envelopepoints, delete, range, automation item</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -3002,7 +3002,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            Delete a marker. proj==NULL for the active project.
+            Deletes a marker or a region. proj==NULL for the active project.
             
             Does not delete tempo/timesignature markers!
         </description>
@@ -4916,6 +4916,8 @@
         </requires>
         <description prog_lang="*">
             Gets the RPPXML state of an envelope.
+            
+            This function has a limitation: if a returned statechunk. Use [SNM_GetSetObjectState](#SNM_GetSetObjectState) instead in that case.
         </description>
         <retvals>
             boolean retval - true, if it's successful; false, if unsuccessful
@@ -5249,6 +5251,8 @@
         </requires>
         <description prog_lang="*">
             Gets the RPPXML state of an item, returns true if successful. Undo flag is a performance/caching hint.
+            
+            This function has a limitation: if a returned statechunk. Use [SNM_GetSetObjectState](#SNM_GetSetObjectState) instead in that case.
         </description>
         <retvals>
             boolean retval - true, getting statechunk was successful
@@ -8981,6 +8985,8 @@
         </requires>
         <description prog_lang="*">
             Gets the RPPXML state of a track, returns true if successful. Undo flag is a performance/caching hint.
+            
+            This function has a limitation: if a returned statechunk. Use [SNM_GetSetObjectState](#SNM_GetSetObjectState) instead in that case.
         </description>
         <retvals>
              retval - 
@@ -21696,7 +21702,7 @@
         <title>SNM_GetSetObjectState(SWS)</title>
         <functioncall prog_lang="cpp">bool SNM_GetSetObjectState(void* obj, WDL_FastString* state, bool setnewvalue, bool wantminimalstate)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("SNM_GetSetObjectState", void* obj, WDL_FastString state, bool setnewvalue, bool wantminimalstate)</functioncall>
-        <functioncall prog_lang="lua">boolean = reaper.SNM_GetSetObjectState(identifier objWDL_FastString state, boolean setnewvalue, boolean wantminimalstate)</functioncall>
+        <functioncall prog_lang="lua">boolean = reaper.SNM_GetSetObjectState(identifier obj, WDL_FastString state, boolean setnewvalue, boolean wantminimalstate)</functioncall>
         <functioncall prog_lang="python">Boolean SNM_GetSetObjectState(void obj, WDL_FastString state, Boolean setnewvalue, Boolean wantminimalstate)</functioncall>
         <requires>
             Reaper=5.62
@@ -25431,7 +25437,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.arc</slug>
         <title>gfx.arc</title>
-        <functioncall prog_lang="lua">gfx.arc(x,y,r,ang1,ang2[,antialias])</functioncall>
+        <functioncall prog_lang="lua">gfx.arc(integer x, integer y, integer r, number ang1, number ang2, optional number antialias)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -25440,12 +25446,12 @@
             Draws an arc of the circle centered at x,y, with ang1/ang2 being specified in radians.
         </description>
         <parameters>
-            x - x position of the center of the circle
-            y - y position of the center of the circle
-            r - the radius of the circle
-            ang1 - the beginning of the circle in radians; meant for partial circles; 0-6.28
-            ang2 - the end of the circle in radians; meant for partial circles; 0-6.28
-            antialias - <=0.5, antialias off; >0.5, antialias on
+            integer x - x position of the center of the circle
+            integer y - y position of the center of the circle
+            integer r - the radius of the circle
+            number ang1 - the beginning of the circle in radians; meant for partial circles; 0-6.28
+            number ang2 - the end of the circle in radians; meant for partial circles; 0-6.28
+            optional number antialias - <=0.5, antialias off; >0.5, antialias on
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25563,7 +25569,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.circle</slug>
         <title>gfx.circle</title>
-        <functioncall prog_lang="lua">gfx.circle(x,y,r[,fill,antialias])</functioncall>
+        <functioncall prog_lang="lua">gfx.circle(integer x, integer y, integer r, optional number fill, optional number antialias)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -25572,11 +25578,11 @@
             Draws a circle, optionally filling/antialiasing. 
         </description>
         <parameters>
-            x - x position of center of the circle
-            y - y position of center of the circle
-            r - radius of the circle
-            fill - <=0.5, circle is not filled; >0.5, circle is filled
-            antialias - <=0.5, circle is not antialiased; >0.5, circle is antialiased
+            integer x - x position of center of the circle
+            integer y - y position of center of the circle
+            integer r - radius of the circle
+            optional number fill - <=0.5, circle is not filled; >0.5, circle is filled
+            optional number antialias - <=0.5, circle is not antialiased; >0.5, circle is antialiased
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25589,7 +25595,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.clienttoscreen</slug>
         <title>gfx.clienttoscreen</title>
-        <functioncall prog_lang="lua">int convx, int convy = gfx.clienttoscreen(x,y)</functioncall>
+        <functioncall prog_lang="lua">int convx, int convy = gfx.clienttoscreen(integer x, integer y)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -25598,12 +25604,12 @@
             Converts the coordinates x,y to screen coordinates, returns those values.
         </description>
         <retvals>
-            convx - the converted coordinate in relation of the screen-viewport
-            convy - the converted coordinate in relation of the screen-viewport
+            integer convx - the converted coordinate in relation of the screen-viewport
+            integer convy - the converted coordinate in relation of the screen-viewport
         </retvals>
         <parameters>
-            x - the x coordinate within(!) the gfx.init()-window, that shall be converted to screen-coordinates
-            y - the y coordinate within(!) the gfx.init()-window, that shall be converted to screen-coordinates 
+            integer x - the x coordinate within(!) the gfx.init()-window, that shall be converted to screen-coordinates
+            integer y - the y coordinate within(!) the gfx.init()-window, that shall be converted to screen-coordinates 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25708,7 +25714,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.drawnumber</slug>
         <title>gfx.drawnumber</title>
-        <functioncall prog_lang="lua">gfx.drawnumber(n,ndigits)</functioncall>
+        <functioncall prog_lang="lua">gfx.drawnumber(number n, integer ndigits)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -25717,8 +25723,8 @@
             Draws the number n with ndigits of precision to gfx.x, gfx.y, and updates gfx.x to the right side of the drawing. The text height is gfx.texth.
         </description>
         <parameters>
-            n - 
-            ndigits - 
+            number n - the number to be drawn
+            integer ndigits - the number of digits for the precision
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25731,24 +25737,26 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.drawstr</slug>
         <title>gfx.drawstr</title>
-        <functioncall prog_lang="lua">gfx.drawstr("str"[,flags,right,bottom])</functioncall>
+        <functioncall prog_lang="lua">gfx.drawstr(string str, optional integer flags, optional integer right, optional integer bottom)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
         </requires>
         <description indent="default">
-            Draws a string at gfx.x, gfx.y, and updates gfx.x/gfx.y so that subsequent draws will occur in a similar place.If flags, right ,bottom passed in:
-            flags&amp;1: center horizontally
-            flags&amp;2: right justify
-            flags&amp;4: center vertically
-            flags&amp;8: bottom justify
-            flags&amp;256: ignore right/bottom, otherwise text is clipped to (gfx.x, gfx.y, right, bottom)
+            Draws a string at gfx.x, gfx.y, and updates gfx.x/gfx.y so that subsequent draws will occur in a similar place.
+            
+            You can optionally set a clipping area for the text, if you set parameter flags&amp;256 and the parameters right and bottom.
         </description>
         <parameters>
-            "str" - 
-            flags -
-            right - 
-            bottom - 
+            string str - the string to be drawn into the gfx.init-window
+            optional integer flags -influence, how the text shall be drawn
+                                   - flags&amp;1: center horizontally
+                                   - flags&amp;2: right justify
+                                   - flags&amp;4: center vertically
+                                   - flags&amp;8: bottom justify
+                                   - flags&amp;256: ignore right/bottom, otherwise text is clipped to (gfx.x, gfx.y, right, bottom)
+            optional integer right - if flags&amp;256 is set, this parameter clips text on the right side in pixels
+            optional integer bottom - if flags&amp;256 is set, this parameter clips text on the bottom side in pixels 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25761,7 +25769,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.getchar</slug>
         <title>gfx.getchar</title>
-        <functioncall prog_lang="lua">integer charactercode = gfx.getchar([optional integer character])</functioncall>
+        <functioncall prog_lang="lua">integer charactercode = gfx.getchar(optional integer character)</functioncall>
         <requires>
             Reaper=5.94
             Lua=5.3
@@ -25787,6 +25795,7 @@
         </retvals>
         <parameters>
             optional integer character - the character to check for; use 65536 to check window-state(visible, focus)
+                                       -    &1 (supported in this script), &2=window has focus, &4=window is visible
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25839,7 +25848,7 @@
             Returns current font index, and the actual font face used by this font (if available).
         </description>
         <retvals>
-            fontindex - 
+            integer fontindex - the index of the font used. Use [gfx.setfont](#lua_gfx.setfont) to set a font for a specific index.
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25852,20 +25861,21 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.getimgdim</slug>
         <title>gfx.getimgdim</title>
-        <functioncall prog_lang="lua">integer w, integer h = gfx.getimgdim(handle)</functioncall>
+        <functioncall prog_lang="lua">integer w, integer h = gfx.getimgdim(integer handle)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
         </requires>
         <description indent="default">
-            Retreives the dimensions of an image specified by handle, returns w, h pair.
+            Retrieves the dimensions of an image specified by handle, returns w, h pair.
+            Handle is basically a frame-buffer.
         </description>
         <retvals>
-            w - 
-            h - 
+            integer w - the width of the image-handle in pixels
+            integer h - the height of the image-handle in pixels
         </retvals>
         <parameters>
-            handle - 
+            integer handle - the index of the image-handle/framebuffer to retrieve the dimensions from;-1 to 1023; -1 for the currently displayed framebuffer.
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25887,9 +25897,9 @@
             Returns r,g,b values [0..1] of the pixel at (gfx.x,gfx.y)
         </description>
         <retvals>
-            r - the red-color-value, a value between 0 to 1
-            g - the green-color-value, a value between 0 to 1
-            b - the blue-color-value, a value between 0 to 1
+            integer r - the red-color-value, a value between 0 to 1
+            integer g - the green-color-value, a value between 0 to 1
+            integer b - the blue-color-value, a value between 0 to 1
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25939,7 +25949,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.init</slug>
         <title>gfx.init</title>
-        <functioncall prog_lang="lua">integer retval = gfx.init(string "name"[, integer width, integer height, integer dockstate, integer xpos, integer ypos])</functioncall>
+        <functioncall prog_lang="lua">integer retval = gfx.init(string "name", optional integer width, optional integer height, optional integer dockstate, optional integer xpos, optional integer ypos)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -25954,11 +25964,11 @@
         </retvals>
         <parameters>
             string "name" - the name of the window, which will be shown in the title of the window
-            integer width - the width of the window; minmum is 50
-            integer height - the height of the window; minimum is 16
-            integer dockstate - &1=0, undocked; &1=1, docked
-            integer xpos - x-position of the window in pixels; minimum is -80
-            integer ypos - y-position of the window in pixels; minimum is -15
+            optional integer width - the width of the window; minmum is 50
+            optional integer height - the height of the window; minimum is 16
+            optional integer dockstate - &1=0, undocked; &1=1, docked
+            optional integer xpos - x-position of the window in pixels; minimum is -80
+            optional integer ypos - y-position of the window in pixels; minimum is -15
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25971,7 +25981,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.line</slug>
         <title>gfx.line</title>
-        <functioncall prog_lang="lua">gfx.line(integer x, integer y, integer x2, integer y2[,number aa])</functioncall>
+        <functioncall prog_lang="lua">gfx.line(integer x, integer y, integer x2, integer y2, optional number aa)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -25984,7 +25994,7 @@
             integer y - y-position of start of the line in pixels
             integer x2 - x-position of the end of the line in pixels
             integer y2 - y-position of the end of the line in pixels
-            number aa - <0.5, no antialias; >=0.5, antialias
+            optional number aa - <0.5, no antialias; >=0.5, antialias
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25997,7 +26007,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.lineto</slug>
         <title>gfx.lineto</title>
-        <functioncall prog_lang="lua">gfx.lineto(integer x, integer y[, number aa])</functioncall>
+        <functioncall prog_lang="lua">gfx.lineto(integer x, integer y, number aa)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -26008,7 +26018,7 @@
         <parameters>
             integer x - x-position of the end of the line in pixels
             integer y - y-position of the end of the line in pixels
-            number aa - <0.5, no antialias; >=0.5, antialias
+            optional number aa - <0.5, no antialias; >=0.5, antialias
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26021,7 +26031,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.loadimg</slug>
         <title>gfx.loadimg</title>
-        <functioncall prog_lang="lua">integer retval = gfx.loadimg(integer image, string "filename")</functioncall>
+        <functioncall prog_lang="lua">integer retval = gfx.loadimg(integer image, string filename)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -26034,7 +26044,7 @@
         </retvals>
         <parameters>
             integer image - the buffer-index(0 - 1023), in which to load the image
-            string "filename" - the path+filename of the image to be loaded
+            string filename - the path+filename of the image to be loaded
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26047,20 +26057,20 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.measurechar</slug>
         <title>gfx.measurechar</title>
-        <functioncall prog_lang="lua">integer width, integer height = gfx.measurechar(char)</functioncall>
+        <functioncall prog_lang="lua">integer width, integer height = gfx.measurechar(integer char)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
         </requires>
         <description indent="default">
-            Measures the drawing dimensions of a character with the current font (as set by gfx.setfont). Returns width and height of character.
+            Measures the drawing dimensions of a character with the current font (as set by [gfx.setfont](#lua_gfx.setfont)). Returns width and height of character.
         </description>
         <retvals>
-            width - 
-            height - 
+            integer width - the width of the character in pixels
+            integer height - the height of the character in pixels
         </retvals>
         <parameters>
-            char - ASCII-Code of the character to measure
+            integer char - ASCII-Code of the character to measure
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26073,20 +26083,20 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.measurestr</slug>
         <title>gfx.measurestr</title>
-        <functioncall prog_lang="lua">integer width, integer height = gfx.measurestr("str")</functioncall>
+        <functioncall prog_lang="lua">integer width, integer height = gfx.measurestr(string str)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
         </requires>
         <description indent="default">
-            Measures the drawing dimensions of a string with the current font (as set by gfx.setfont). Returns width and height of string.
+            Measures the drawing dimensions of a string with the current font (as set by [gfx.setfont](#lua_gfx.setfont)). Returns width and height of string.
         </description>
         <retvals>
-            width - 
-            height - 
+            integer width - the width of the drawing dimensions of str in pixels
+            integer height - the height of the drawing dimensions of str in pixels
         </retvals>
         <parameters>
-            "str" - 
+            string str - the string, whose drawing dimensions you want to know
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26161,7 +26171,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.quit</slug>
         <title>gfx.quit</title>
-        <functioncall prog_lang="lua">gfx.quit()</functioncall>
+        <functioncall prog_lang="lua">integer retval = gfx.quit()</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -26170,7 +26180,7 @@
             Closes the graphics window.
         </description>
         <retvals>
-            
+            integer retval - unknown, usually 0
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26183,7 +26193,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.rect</slug>
         <title>gfx.rect</title>
-        <functioncall prog_lang="lua">gfx.rect(x,y,w,h[,filled])</functioncall>
+        <functioncall prog_lang="lua">integer retval = gfx.rect(integer x, integer y, integer w, integer h, optional integer filled)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -26192,14 +26202,14 @@
             Fills a rectangle at x,y, w,h pixels in dimension, filled by default. 
         </description>
         <retvals>
-            
+            integer retval - unknown; usually 0
         </retvals>
         <parameters>
-            x - 
-            y - 
-            w - 
-            h - 
-            filled - 
+            integer x - the x-position of the upper left corner
+            integer y - the y-position of the upper left corner
+            integer w - the width of the rectangle; must be positive
+            integer h - the height of the rectangle; must be positive
+            optional integer filled - 0, unfilled; 1, filled; omitted/nil, filled
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26388,7 +26398,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.setimgdim</slug>
         <title>gfx.setimgdim</title>
-        <functioncall prog_lang="lua">gfx.setimgdim(image,w,h)</functioncall>
+        <functioncall prog_lang="lua">integer retval = gfx.setimgdim(integer image, integer w, integer h)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -26397,12 +26407,12 @@
             Resize image referenced by index 0..1024-1, width and height must be 0-2048. The contents of the image will be undefined after the resize.
         </description>
         <retvals>
-            
+            integer retval - 0, if image couldn't be set(e.g. no such handle exists); 1, if setting new dimensions was successful
         </retvals>
         <parameters>
-            image - 
-            w - 
-            h - 
+            integer image - the image-handle/framebuffer, whose dimensions you want to set
+            integer w - the new width of the image-handle
+            integer h - the new height of the image-handle
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26415,7 +26425,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.setpixel</slug>
         <title>gfx.setpixel</title>
-        <functioncall prog_lang="lua">gfx.setpixel(r,g,b)</functioncall>
+        <functioncall prog_lang="lua">integer retval = gfx.setpixel(number r, number g, number b)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -26424,12 +26434,12 @@
             Writes a pixel of r,g,b to gfx.x,gfx.y.
         </description>
         <retvals>
-            
+            integer retval - 1, if writing that pixel was successful; -1, is not
         </retvals>
         <parameters>
-            r - 
-            g - 
-            b - 
+            number r - the red-color-value of the pixel; 0-1
+            number g - the green-color-value of the pixel; 0-1
+            number b - the blue-color-value of the pixel; 0-1
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26442,19 +26452,27 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.showmenu</slug>
         <title>gfx.showmenu</title>
-        <functioncall prog_lang="lua">gfx.showmenu("str")</functioncall>
+        <functioncall prog_lang="lua">integer selection = gfx.showmenu(string str)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
         </requires>
         <description indent="default">
-            Shows a popup menu at gfx.x,gfx.y. str is a list of fields separated by | characters. Each field represents a menu item.Fields can start with special characters:# : grayed out! : checked&gt; : this menu item shows a submenu&gt; : last item in the current submenuAn empty field will appear as a separator in the menu. gfx.showmenu returns 0 if the user selected nothing from the menu, 1 if the first field is selected, etc.Example:gfx.showmenu("first item, followed by separator||!second item, checked|&gt;third item which spawns a submenu|#first item in submenu, grayed out|&gt;second and last item in submenu|fourth item in top menu")
+            Shows a popup menu at gfx.x,gfx.y. str is a list of fields separated by | characters. 
+            Each field represents a menu item. Fields can start with special characters:#, grayed out; !, checked; &gt;, this menu item shows a submenu;&gt;, last item in the current submenu. 
+            An empty field will appear as a separator in the menu. 
+            
+            Example: selection = gfx.showmenu("first item, followed by separator||!second item, checked|&gt;third item which spawns a submenu|#first item in submenu, grayed out|&gt;second and last item in submenu|fourth item in top menu")
+            
+            gfx.showmenu returns 0 if the user selected nothing from the menu, 1 if the first field is selected, etc.
         </description>
         <retvals>
-            
+            integer selection - the menu-entry the user selected, with 1 for the first, 2 for the second, etc; 0, nothing was selected
         </retvals>
         <parameters>
-            "str" - 
+            string str - a string with the menu-entries; separate the entrynames with a |
+                       -   Each menu-entry can start with special characters that influence the appearance of that entry: 
+                       -   #, grayed out; !, checked; &gt;, this menu item shows a submenu;&gt;, last item in the current submenu. 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26504,7 +26522,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.triangle</slug>
         <title>gfx.triangle</title>
-        <functioncall prog_lang="lua">gfx.triangle(x1,y1,x2,y2,x3,y3[x4,y4...])</functioncall>
+        <functioncall prog_lang="lua">gfx.triangle(integer x1, integer y1, integer x2, integer y2, integer x3, integer y3, [optional integer x4, optional integer y4, ...)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -26512,19 +26530,17 @@
         <description indent="default">
             Draws a filled triangle, or any convex polygon. 
         </description>
-        <retvals>
-            
-        </retvals>
         <parameters>
-            x1 - 
-            y1 - 
-            x2 - 
-            y2 - 
-            x3 - 
-            y3 - 
-            x4 - 
-            y4 - 
-            ... - 
+            integer x1 - the x-position of the first point of the polygon
+            integer y1 - the y-position of the first point of the polygon
+            integer x2 - the x-position of the second point of the polygon
+            integer y2 - the y-position of the second point of the polygon
+            integer x3 - the x-position of the third point of the polygon
+            integer y3 - the y-position of the third point of the polygon
+            optional integer x4 - the x-position of the fourth point of the polygon
+            optional integer y4 - the y-position of the fourth point of the polygon
+              ...               - ...
+              ...               - ...
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26545,9 +26561,6 @@
         <description indent="default">
             Updates the graphics display, if opened
         </description>
-        <retvals>
-            
-        </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
         <chapter_context>

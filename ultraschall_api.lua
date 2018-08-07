@@ -30,6 +30,8 @@
 --          dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 -- 4. have fun using the API. Test it with ultraschall.ApiTest()
 
+if reaper.CF_GetClipboardBig==nil then reaper.MB("Sorry, SWS 2.9.7 or higher must be installed to use the API. \nGo to sws-extension.org to get it.","SWS missing",0) return end
+
 if type(ultraschall)~="table" then ultraschall={} end
 ultraschall.temp1,ultraschall.temp=reaper.get_action_context()
 ultraschall.temp=string.gsub(ultraschall.temp,"\\","/")

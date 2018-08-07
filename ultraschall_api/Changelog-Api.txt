@@ -3,8 +3,8 @@
 ###4.00 Beta 2.7: - "John Cage - 4:33" - 30th of July 2018
 ####New features in 4.00beta2.7
   - SetEnvelopeHeight - set the height and compactible state of an envelope-lane/envelopestatechunk
-  - GetTrackStateChunk - get a TrackStateChunk without the hassle of creating a trackobject first
-  - SetTrackStateChunk - set a TrackStateChunk without the hassle of creating a trackobject first
+  - GetTrackStateChunk_Tracknumber - get a TrackStateChunk without the hassle of creating a trackobject first  
+  - SetTrackStateChunk_Tracknumber - set a TrackStateChunk without the hassle of creating a trackobject first
   - GetTrackWidth - gets the Track-Width
   - GetTrackVolPan - gets Vol and Pan-settings of the track
   - GetTrackScore - gets Score of the track
@@ -164,21 +164,22 @@
   - ChangeToActiveProject_ProjNr - change the active projecttab to a tab-nr of your choice
   - DirectoryExists - check, if a directory already exists in a path
   - All parts of the API have now their own build-counters in the ultraschall_api.ini
+  - GetTrackStateChunk - get a TrackStateChunk; circumvents limitation of Reaper's own GetTrackStateChunk
+  - GetItemStateChunk - get a ItemStateChunk; circumvents limitation of Reaper's own GetItemStateChunk
+  - GetEnvelopeStateChunk - get an EnvelopeStateChunk; circumvents limitation of Reaper's own GetEnvelopeStateChunk
+  - API checks now, if SWS2.9.7 is installed and displays an error-message, if it's missing.
   
   <TODO>
       TODO!!  - SetTrackGroupFlagsState - sets GroupFlagsState
       TODO!!  - commenting and errorchecking
       TODO!!  - alter MakeCopyOfTable to be different from the original
       TODO!!  - errormanagement and preventUIrefresh in funcs like JumpBackwardBy and such
-                    ToggleScrollingDuringPlayback
                     GetClosestGoToPoints
-                    SetPodRangeRegion
                     MakeCopyOfFile
                     MakeCopyOfFile_Binary
                     ReadBinaryFile
                     ReadBinaryFileUntilPattern
-                    ReadBinaryFileFromPattern
-                    CountLinesInFile
+                    ReadBinaryFileFromPattern                    
                     CountSectionsByPattern
                     CountKeysByPattern
                     CountValuesByPattern
@@ -191,7 +192,6 @@
                     GetRegionByTime
                     GetTimesignaturesByScreenCoordinates
                     GetTimeSignaturesByTime
-                    AddEditRegion
                     SetEditRegion
                     CountKBIniActions
                     CountKBIniScripts
@@ -216,8 +216,6 @@
                     ChangeLengthOfMediaItems_FromArray
                     ChangeOffsetOfMediaItems_FromArray
                     ChangeDeltaOffsetOfMediaItems_FromArray
-                    SectionCut
-                    SectionCut_Inverse
                     RippleCut
                     RippleCut_Reverse
                     InsertMediaItem_MediaItemStateChunk
@@ -240,34 +238,18 @@
                     DeleteTrackAUXSendReceives
                     SetTrackHWOut
                     SetTrackAUXSendReceives
-                    ConvertScreen2ClientXCoordinate_ReaperWindow
-                    ConvertClient2ScreenXCoordinate_ReaperWindow
-                    CountPatternInString
+      TODO!!  - InsertImageFile - add parameter "integer addframes", with which you can add addframes*frame-length to length
+      TODO!!  - preventUIRefresh for functions, that jump around with the editcursor, like Items from Clipboard or move Playcursor and stuff
       TODO!!  - 1. Introduction to Renderfunctions has old and outdated information
       TODO!!  - add multiple-target-documents and multiple-structured chapters(in index of a document) into the new docengine(not working right now)
       TODO!!  - write final documentation for public-beta
       TODO!!  - construct final documentation-document, including automatic generation of ChangeLog.
       TODO!!  - Include automatic adding of "Help: Show Ultraschall Api Help"-action
-      TODO!!  - check, if SWS 2.9.7 is available
-      TODO!!  - InsertImageFile - add parameter "integer addframes", with which you can add addframes*frame-length to length
-      TODO!!  - rework GetXXXStateChunk to overcome the 4Mb limit of Reaper's own GetXXXStateChunk-functions
-                boolean retval, string str, boolean fullStateChunk = ultraschall.GetTrackStateChunk(MediaTrack track, string str, boolean isundo, boolean useSWSGetStatechunk_func)
-                boolean retval, string str, boolean fullStateChunk = ultraschall.GetTrackStateChunk_Tracknumber(integer track, string str, boolean isundo, boolean useSWSGetStatechunk_func)
-                
-                parameter:
-                    boolean useSWSGetStatechunk_func - true, use the SWS-versions of the statechunk-functions(slower)
-                                                     - false, use Reaper's own native functions(faster, but with the 4 Mb limit, that cuts off large statechunks)
-                                                     - nil, automode, where the functions tries to get the statechunk with Reaper's own functions, checks if the statechunk is valid and if not, it gets
-                                                                them using the SWS-statechunk-functions. Check for statechunk-validity by using sub(1,??) for <ITEM or <TRACK or <ENV and sub(-3(?),-1), to not lose too much speed with checking large statchunks
-                                                                Bonus: if a statechunk exceeds Reaper's limit, save an item/envelope/track-extstate with key "Ultraschall_LargeStateChunk=" set to true. 
-                                                                       In Automode, we read that extstate and see, if we should use SWS's-functions instead, saving some performance with large-statechunks, as we do not
-                                                                       need to get the statechunk twice anymore. Getting it twice happens only that one time, where the statechunk exceeds the 4 MB-limit for the first time!
-      TODO!!  - make all GetTrackState/ItemState/EnvState-functions use the new GetStateChunk-functions.
-      TODO!!  - Envelope-ExtStates
-      TODO!!  - GetReaperAppVersion - shall return, if Reaper is portable-installation or not; does not return OS currently(!), go fix it!
+
               
          
     For 4.00beta2.8:
+      TODO!!  - Envelope-ExtStates
       TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
       TODO!!  - GetReaperPaths - returns app-path, exe-path, resourcepath
               - GetReaperScriptPath
@@ -535,7 +517,6 @@
   - As the Functions-Engine is essential for all parts of the Ultraschall-API, it can't be turned off anymore.
   - renamed MoveMarkers to MoveMarkersBy
   - ReadValueFromFile - sped up code, returned wrong found-lines-value -> fixed
-  - OpenURL - had a problem on Windows, when the url-string contained spaces -> fixed
   - CheckMediaItemArray - did not return the altered MediaItemArray and count, when returning retval=false -> fixed
   - ChangeOffsetOfMediaItems_FromArray - typos in the docs -> fixed
   - GetSelectedMediaItemsAtPosition - error in documentation -> fixed
@@ -672,7 +653,9 @@
   - SetProject_TrackMixingDepth - allows usage of ProjectStateChunks now as well; hadn't correct parameters in the docs -> fixed
   - SetProject_UseRecConfig - allows usage of ProjectStateChunks now as well
   - SetProject_VerticalZoom - allows usage of ProjectStateChunks now as well
-  - OpenURL - returns -1 in case of error, now
+  - OpenURL - had a problem on Windows, when the url-string contained spaces -> fixed; returns -1 in case of error, now
+  - All functions using StateChunks now circumvent Reaper's API-limitation, where StateChunks were truncated when being bigger than 4MB
+  - GetReaperAppVersion - returns now the operating system as well if the Reaper-installation is a portable one.
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:
