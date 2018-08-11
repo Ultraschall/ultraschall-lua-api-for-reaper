@@ -67,310 +67,29 @@ if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
 --]]  
 
 function ultraschall.GetEnvelopeStateChunk(TrackEnvelope, str, isundo, usesws)
---[[
-<ApiDocBlocFunc>
-<slug>
-GetEnvelopeStateChunk
-</slug>
-<requires>
-Ultraschall=4.00
-Reaper=5.92
-Lua=5.3
-</requires>
-<functionname>
-boolean retval, string envelopestatechunk, boolean overflow = ultraschall.GetEnvelopeStateChunk(TrackEnvelope TrackEnvelope, string str, boolean isundo, optional boolean usesws)
-</functionname>
-<description>
-returns the envelopestatechunk for an Envelope-object
+  return reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
 
-Reaper's own GetEnvelopeStateChunk-function has an issue with StateChunks bigger than 4MB. Returnvalue overflow signals, if such a situation happened, so you can decide, whether to set usesws to true instead.
-If usesws is nil, this function will automatically use the SWS-functions for getting StateChunks, when Reaper's own functions fail. This is, however, slower, as it will request a StateChunk twice.
-If you don't know, what to do: set usesws to nil or ignore this parameter completely.
-
-You can replace reaper.GetEnvelopeStateChunk() with ultraschall.GetEnvelopeStateChunk without any problem. Just replace "reaper." with "ultraschall."
-
-returns false in case of an error
-</description>
-<parameters>
-TrackEnvelope TrackEnvelope - the TrackEnvelope-object, whose statechunk you want
-string str - a string needed by Reaper for internal purposes. Just set it to ""
-boolean isundo - Undo flag is a performance/caching hint.
-optional boolean usesws - true, use the SWS-functions for EnvelopeStateChunks(slower, but better with bigger chunks)
-                        - false, use Reaper's functions only(faster, but may truncate statechunks larger than 4MB)
-                        - nil, use the way, that always returns a correct statechunk
-</parameters>
-<retvals>
-boolean retval - true in case of success; false in case of error
-string envelopestatechunk - the envelopestatechunk of the the Envelope
-boolean overflow - true, the StateChunk is bigger than 4MB and needs usesws=true or usesws=nil to get the whole StateChunk;
-                 - false, the StateChunk is smaller than 4MB and can be read with usesws=false or usesws=nil safely.
-</retvals>
-<semanticcontext>
-Envelope Management
-Helper functions
-</semanticcontext>
-<tags>
-trackmanagement, envelopestatechunk, get
-</tags>
-</ApiDocBlocFunc>
-]]
-  -- prepare variables
-  local A, AA, Overflow
-  
-  -- check parameters
-  if reaper.ValidatePtr(TrackEnvelope, "TrackEnvelope*")==false then ultraschall.AddErrorMessage("GetEnvelopeStateChunk", "TrackEnvelope", "must be a valid TrackEnvelope-object", -1) return false end
-  if type(str)~="string" then ultraschall.AddErrorMessage("GetEnvelopeStateChunk","str", "Must be a string. Use \"\" in this parameter.", -2) return false end
-  if type(isundo)~="boolean" then ultraschall.AddErrorMessage("GetEnvelopeStateChunk","isundo", "Must be a boolean.", -3) return false end
-  if type(usesws)~="boolean" and usesws~=nil then ultraschall.AddErrorMessage("GetEnvelopeStateChunk","tracknumber", "Must be either nil or a boolean", -4) return false end
-  
-  if usesws==false then 
-    -- use Reaper's normal GetEnvelopeStateChunk-function
-    A,AA=reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
-    if AA:len()>4094304 then    
-      Overflow=true
-    else
-      Overflow=false
-    end
-  elseif usesws==true then
-  -- use SWS's GetSetObjectState-function
-    local WDL_FastString=reaper.SNM_CreateFastString("")
-    reaper.SNM_GetSetObjectState(TrackEnvelope, WDL_FastString, false, false)
-    AA=reaper.SNM_GetFastString(WDL_FastString)
-    reaper.SNM_DeleteFastString(WDL_FastString)
-    if AA~=nil then A=true else A=false end
-    if AA:len()>4094304 then    
-      Overflow=true
-    else
-      Overflow=false
-    end
-  else
-    -- use Reaper's own GetEnvelopeStateChunk-function. If the resulting statechunk is bigger
-    -- than 4MB, it is probably truncated(due an API-limitation). In that case,
-    -- retry getting the StateChunk using SNM_GetSetObjectState
-    A,AA=reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
-    if AA:len()>4094304 then
-      Overflow=true
-      local WDL_FastString=reaper.SNM_CreateFastString("")
-      reaper.SNM_GetSetObjectState(TrackEnvelope, WDL_FastString, false, false)
-      AA=reaper.SNM_GetFastString(WDL_FastString)
-      reaper.SNM_DeleteFastString(WDL_FastString)
-      if AA~=nil then A=true else A=false end
-    else
-      Overflow=false
-    end
-  end
-  
-  -- return results
-  return A,AA,Overflow
 end
 
---A=reaper.GetTrackEnvelope(reaper.GetTrack(0,0),0)
+--A=reaper.GetTrackEnvelope(reaper.GetTrack(0,1),0)
 --B,C,D=ultraschall.GetEnvelopeStateChunk(A, "", true, true)
 
-function ultraschall.GetItemStateChunk(MediaItem, str, isundo, usesws)
---[[
-<ApiDocBlocFunc>
-<slug>
-GetItemStateChunk
-</slug>
-<requires>
-Ultraschall=4.00
-Reaper=5.92
-Lua=5.3
-</requires>
-<functionname>
-boolean retval, string itemstatechunk, boolean overflow = ultraschall.GetItemStateChunk(MediaItem MediaItem, string str, boolean isundo, optional boolean usesws)
-</functionname>
-<description>
-returns the itemstatechunk for a MediaItem-object
-
-Reaper's own GetItemStateChunk-function has an issue with StateChunks bigger than 4MB. Returnvalue overflow signals, if such a situation happened, so you can decide, whether to set usesws to true instead.
-If usesws is nil, this function will automatically use the SWS-functions for getting StateChunks, when Reaper's own functions fail. This is, however, slower, as it will request a StateChunk twice.
-If you don't know, what to do: set usesws to nil or ignore this parameter completely.
-
-You can replace reaper.GetItemStateChunk() with ultraschall.GetItemStateChunk without any problem. Just replace "reaper." with "ultraschall."
-
-returns false in case of an error
-</description>
-<parameters>
-MediaItem MediaItem - the MediaItem-object, whose statechunk you want
-string str - a string needed by Reaper for internal purposes. Just set it to ""
-boolean isundo - Undo flag is a performance/caching hint.
-optional boolean usesws - true, use the SWS-functions for ItemStateChunks(slower, but better with bigger chunks)
-                        - false, use Reaper's functions only(faster, but may truncate statechunks larger than 4MB)
-                        - nil, use the way, that always returns a correct statechunk
-</parameters>
-<retvals>
-boolean retval - true in case of success; false in case of error
-string itemstatechunk - the itemstatechunk for the MediaItem MediaItem
-boolean overflow - true, the StateChunk is bigger than 4MB and needs usesws=true or usesws=nil to get the whole StateChunk;
-                 - false, the StateChunk is smaller than 4MB and can be read with usesws=false or usesws=nil safely.
-</retvals>
-<semanticcontext>
-MediaItem Management
-Assistance functions
-</semanticcontext>
-<tags>
-trackmanagement, itemstatechunk, get
-</tags>
-</ApiDocBlocFunc>
-]]
-  -- prepare variables
-  local A, AA, Overflow
-  
-  -- check parameters
-  if reaper.ValidatePtr(MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("GetItemStateChunk", "MediaItem", "must be a valid MediaItem-object", -1) return false end
-  if type(str)~="string" then ultraschall.AddErrorMessage("GetItemStateChunk","str", "Must be a string. Use \"\" in this parameter.", -2) return false end
-  if type(isundo)~="boolean" then ultraschall.AddErrorMessage("GetItemStateChunk","isundo", "Must be a boolean.", -3) return false end
-  if type(usesws)~="boolean" and usesws~=nil then ultraschall.AddErrorMessage("GetItemStateChunk","tracknumber", "Must be either nil or a boolean", -4) return false end  
-  
-  if usesws==false then 
-    -- use Reaper's normal GetItemStateChunk-function
-    A,AA=reaper.GetItemStateChunk(MediaItem, "", false)
-    if AA:len()>4094304 then    
-      Overflow=true
-    else
-      Overflow=false
-    end
-  elseif usesws==true then
-  -- use SWS's GetSetObjectState-function
-    local WDL_FastString=reaper.SNM_CreateFastString("")
-    reaper.SNM_GetSetObjectState(MediaItem, WDL_FastString, false, false)
-    AA=reaper.SNM_GetFastString(WDL_FastString)
-    reaper.SNM_DeleteFastString(WDL_FastString)
-    if AA~=nil then A=true else A=false end
-    if AA:len()>4094304 then    
-      Overflow=true
-    else
-      Overflow=false
-    end
-  else
-    -- use Reaper's own GetItemStateChunk-function. If the resulting statechunk is bigger
-    -- than 4MB, it is probably truncated(due an API-limitation). In that case,
-    -- retry getting the StateChunk using SNM_GetSetObjectState
-    A,AA=reaper.GetItemStateChunk(MediaItem, "", false)
-    if AA:len()>4094304 then
-      Overflow=true
-      local WDL_FastString=reaper.SNM_CreateFastString("")
-      reaper.SNM_GetSetObjectState(MediaItem, WDL_FastString, false, false)
-      AA=reaper.SNM_GetFastString(WDL_FastString)
-      reaper.SNM_DeleteFastString(WDL_FastString)
-      if AA~=nil then A=true else A=false end
-    else
-      Overflow=false
-    end
-  end
-  
-  -- return results
-  return A,AA,Overflow
+function ultraschall.GetItemStateChunk(MediaItem, str, isundo)
+  return reaper.GetItemStateChunk(MediaItem, "", false)
 end
 
 --A=reaper.GetMediaItem(0,0)
 --B,C,D=ultraschall.GetItemStateChunk(A,"",false, false)
 
 function ultraschall.GetTrackStateChunk(MediaTrack, str, isundo, usesws)
---[[
-<ApiDocBlocFunc>
-<slug>
-GetTrackStateChunk
-</slug>
-<requires>
-Ultraschall=4.00
-Reaper=5.92
-Lua=5.3
-</requires>
-<functionname>
-boolean retval, string trackstatechunk, boolean overflow = ultraschall.GetTrackStateChunk(MediaTrack MediaTrack, string str, boolean isundo, optional boolean usesws)
-</functionname>
-<description>
-returns the trackstatechunk for a MediaTrack-object
-
-Reaper's own GetTrackStateChunk-function has an issue with StateChunks bigger than 4MB. Returnvalue overflow signals, if such a situation happened, so you can decide, whether to set usesws to true instead.
-If usesws is nil, this function will automatically use the SWS-functions for getting StateChunks, when Reaper's own functions fail. This is, however, slower, as it will request a StateChunk twice.
-If you don't know, what to do: set usesws to nil or ignore this parameter completely.
-
-You can replace reaper.GetTrackStateChunk() with ultraschall.GetTrackStateChunk without any problem. Just replace "reaper." with "ultraschall."
-
-returns false in case of an error
-</description>
-<parameters>
-MediaTrack MediaTrack - the MediaTrack, whose TrackStateChunk you want to have
-string str - a string needed by Reaper for internal purposes. Just set it to ""
-boolean isundo - Undo flag is a performance/caching hint.
-optional boolean usesws - true, use the SWS-functions for TrackStateChunks(slower, but better with bigger chunks)
-                        - false, use Reaper's functions only(faster, but may truncate statechunks larger than 4MB)
-                        - nil, use the way, that always returns a correct statechunk
-</parameters>
-<retvals>
-boolean retval - true in case of success; false in case of error
-string trackstatechunk - the trackstatechunk for track tracknumber
-boolean overflow - true, the StateChunk is bigger than 4MB and needs usesws=true or usesws=nil to get the whole StateChunk;
-                 - false, the StateChunk is smaller than 4MB and can be read with usesws=false or usesws=nil safely.
-</retvals>
-<semanticcontext>
-Track Management
-Get Track States
-</semanticcontext>
-<tags>
-trackmanagement, trackstatechunk, get
-</tags>
-</ApiDocBlocFunc>
-]]
-  -- prepare variables
-  local A, AA, Overflow
-  
-  -- check parameters
-  if reaper.ValidatePtr(MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("GetTrackStateChunk","MediaTrack", "must be a valid MediaTrack-object", -1) return false end
-  if type(str)~="string" then ultraschall.AddErrorMessage("GetTrackStateChunk","str", "Must be a string. Use \"\" in this parameter.", -2) return false end
-  if type(isundo)~="boolean" then ultraschall.AddErrorMessage("GetTrackStateChunk","isundo", "Must be a boolean.", -3) return false end
-  if type(usesws)~="boolean" and usesws~=nil then ultraschall.AddErrorMessage("GetTrackStateChunk","tracknumber", "Must be either nil or a boolean", -4) return false end  
-  
-  if usesws==false then 
-    -- use Reaper's normal GetTrackStateChunk-function
-    A,AA=reaper.GetTrackStateChunk(MediaTrack, "", false)
-    if AA:len()>4094304 then    
-      Overflow=true
-    else
-      Overflow=false
-    end
-  elseif usesws==true then
-  -- use SWS's GetSetObjectState-function
-    local WDL_FastString=reaper.SNM_CreateFastString("")
-    reaper.SNM_GetSetObjectState(MediaTrack, WDL_FastString, false, false)
-    AA=reaper.SNM_GetFastString(WDL_FastString)
-    reaper.SNM_DeleteFastString(WDL_FastString)
-    if AA~=nil then A=true else A=false end
-    if AA:len()>4094304 then    
-      Overflow=true
-    else
-      Overflow=false
-    end
-  else
-    -- use Reaper's own GetTrackStateChunk-function. If the resulting statechunk is bigger
-    -- than 4MB, it is probably truncated(due an API-limitation). In that case,
-    -- retry getting the StateChunk using SNM_GetSetObjectState
-    A,AA=reaper.GetTrackStateChunk(MediaTrack, "", false)
-    if AA:len()>4094304 then    
-      Overflow=true
-      local WDL_FastString=reaper.SNM_CreateFastString("")
-      reaper.SNM_GetSetObjectState(MediaTrack, WDL_FastString, false, false)
-      AA=reaper.SNM_GetFastString(WDL_FastString)
-      reaper.SNM_DeleteFastString(WDL_FastString)
-      if AA~=nil then A=true else A=false end
-    else
-      Overflow=false
-    end
-  end
-  
-  -- return results
-  return A,AA,Overflow
+  return reaper.GetTrackStateChunk(MediaTrack, "", false)
 end
 
 --A=reaper.GetTrack(0,0)
 --L,M,N=ultraschall.GetTrackStateChunk(A,"", false, false)
 --T=M:len()
 
-function ultraschall.GetTrackStateChunk_Tracknumber(tracknumber, usesws)
+function ultraschall.GetTrackStateChunk_Tracknumber(tracknumber)
 --[[
 <ApiDocBlocFunc>
 <slug>
@@ -382,28 +101,20 @@ Reaper=5.92
 Lua=5.3
 </requires>
 <functionname>
-boolean retval, string trackstatechunk, boolean overflow = ultraschall.GetTrackStateChunk_Tracknumber(integer tracknumber, optional boolean usesws)
+boolean retval, string trackstatechunk, boolean overflow = ultraschall.GetTrackStateChunk_Tracknumber(integer tracknumber)
 </functionname>
 <description>
 returns the trackstatechunk for track tracknumber
-
-Reaper's own GetTrackStateChunk-functions have an issue with StateChunks bigger than 4MB. Returnvalue overflow signals, if such a situation happened, so you can decide, whether to set usesws to true instead.
-If usesws is nil, this function will automatically use the SWS-functions for getting StateChunks, when Reaper's own functions fail. This is, however, slower, as it will request a StateChunk twice.
-If you don't know, what to do: set usesws to nil or ignore this parameter completely.
 
 returns false in case of an error
 </description>
 <parameters>
 integer tracknumber - the tracknumber, 0 for master track, 1 for track 1, 2 for track 2, etc.
-optional boolean usesws - true, use the SWS-functions for TrackStateChunks(slower, but better with bigger chunks)
-                        - false, use Reaper's functions only(faster, but may truncate statechunks larger than 4MB)
-                        - nil, use the way, that always returns a correct statechunk
+
 </parameters>
 <retvals>
 boolean retval - true in case of success; false in case of error
 string trackstatechunk - the trackstatechunk for track tracknumber
-boolean overflow - true, the StateChunk is bigger than 4MB and needs usesws=true or usesws=nil to get the whole StateChunk;
-                 - false, the StateChunk is smaller than 4MB and can be read with usesws=false or usesws=nil safely.
 </retvals>
 <semanticcontext>
 Track Management
@@ -427,45 +138,7 @@ trackmanagement, trackstatechunk, get
   else Track=reaper.GetTrack(0,tracknumber-1)
   end
   
-  if usesws==false then 
-    -- use Reaper's normal GetTrackStateChunk-function
-    A,AA=reaper.GetTrackStateChunk(Track, "", false)
-    if AA:len()>4094304 then    
-      Overflow=true
-    else
-      Overflow=false
-    end
-  elseif usesws==true then
-  -- use SWS's GetSetObjectState-function
-    local WDL_FastString=reaper.SNM_CreateFastString("")
-    reaper.SNM_GetSetObjectState(Track, WDL_FastString, false, false)
-    AA=reaper.SNM_GetFastString(WDL_FastString)
-    reaper.SNM_DeleteFastString(WDL_FastString)
-    if AA~=nil then A=true else A=false end
-    if AA:len()>4094304 then    
-      Overflow=true
-    else
-      Overflow=false
-    end
-  else
-    -- use Reaper's own GetTrackStateChunk-function. If the resulting statechunk is bigger
-    -- than 4MB, it is probably truncated(due an API-limitation). In that case,
-    -- retry getting the StateChunk using SNM_GetSetObjectState
-    A,AA=reaper.GetTrackStateChunk(Track, "", false)
-    if AA:len()>4094304 then    
-      Overflow=true
-      local WDL_FastString=reaper.SNM_CreateFastString("")
-      reaper.SNM_GetSetObjectState(Track, WDL_FastString, false, false)
-      AA=reaper.SNM_GetFastString(WDL_FastString)
-      reaper.SNM_DeleteFastString(WDL_FastString)
-      if AA~=nil then A=true else A=false end
-    else
-      Overflow=false
-    end
-  end
-  
-  -- return results
-  return A,AA,Overflow
+  return reaper.GetTrackStateChunk(MediaTrack, "", false)
 end
 
 --A,B,C=ultraschall.GetTrackStateChunk_Tracknumber(2,true)
@@ -962,7 +635,7 @@ earlier releases:
 <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2.zip">DOWNLOADLINK for Ultraschall Framework 4.0 - Beta2 - 20th of August 2017</a>
 <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta1.zip">DOWNLOADLINK for Ultraschall Framework 4.0 - Beta1 - 11th of July 2017</a>
 
-Requirements: Reaper 5.92 and SWS extension 2.9.7
+Requirements: Reaper 5.95 and SWS extension 2.9.7
 
 Step 1: When you've downloaded the archive, open it. You'll find in it a folder called "ultraschall_api", a license-file and this documentation.
 Step 2: Copy the folder "ultraschall_api" + "ultraschall_api.lua" into the UserPlugins-folder in the resources-folder of your Reaper-installation
@@ -37688,8 +37361,8 @@ function progresscounter(state)
   A=A:match("function ultraschall%..*")
 --  reaper.MB(tostring(A:sub(1,400)),"",0)
   i=0
-  done=10
-  todo=-11
+  done=11
+  todo=-12
   todostring=""
   funclist=""
   donestring=""
@@ -38696,7 +38369,8 @@ Lua=5.3
 boolean retval = ultraschall.ApplyActionToMediaItem(MediaItem MediaItem, string actioncommandid, integer repeat_action, boolean midi, optional HWND MIDI_hwnd)
 </functionname>
 <description>
-Applies an action to a MediaItem, in either main or MIDI-Editor section-context
+Applies an action to a MediaItem, in either main or MIDI-Editor section-context.
+The action given must support applying itself to selected items.
 
 Returns false in case of an error
 </description>
@@ -38907,6 +38581,7 @@ boolean retval = ultraschall.ApplyActionToMediaItemArray(MediaItemArray MediaIte
 </functionname>
 <description>
 Applies an action to the MediaItems in MediaItemArray, in either main or MIDI-Editor section-context
+The action given must support applying itself to selected items.
 
 Returns false in case of an error
 </description>
@@ -38970,6 +38645,7 @@ boolean retval = ultraschall.ApplyActionToTrack(string trackstring, string/numbe
 </functionname>
 <description>
 Applies action to the tracks, given by trackstring
+The action given must support applying itself to selected tracks.
 
 Returns false in case of an error
 </description>
@@ -39829,58 +39505,6 @@ end
 
 
 --A,B=ultraschall.GetAllMediaItems()
-
-function ultraschall.ChangeToActiveProject(Project)
---[[
-<ApiDocBlocFunc>
-<slug>
-ChangeToActiveProject
-</slug>
-<requires>
-Ultraschall=4.00
-Reaper=5.77
-Lua=5.3
-</requires>
-<functionname>
-integer retval = ultraschall.ChangeToActiveProject(ReaProject Project)
-</functionname>
-<description>
-Change active project-tab to Project.
-
-Returns -1 in case of an error
-</description>
-<retvals>
-integer retval - -1, in case of error
-</retvals>
-<parameters>
-ReaProject Project - the ReaProject-object of the Project, whose tab you want to make active
-</parameters>
-<semanticcontext>
-Project-Files
-Helper functions
-</semanticcontext>
-<tags>
-projectfiles, activate, project, tab
-</tags>
-</ApiDocBlocFunc>
-]]
-  if reaper.ValidatePtr2(0,Project,"ReaProject*")==false then ultraschall.AddErrorMessage("ChangeToActiveProject", "Project", "Must be a ReaProject.", -1) return -1 end  
-  reaper.PreventUIRefresh(-1)
-  local found
-  for i=0, ultraschall.CountProjectTabs()-1 do
-    if Project==reaper.EnumProjects(i,"") then found=true end
-  end
-  if found==true then
-    for i=0, ultraschall.CountProjectTabs() do
-      if reaper.EnumProjects(-1,"")~=Project then reaper.Main_OnCommand(40861, 0) end
-    end
-  end
-  reaper.PreventUIRefresh(1)
-end
-
---L=reaper.EnumProjects(0,"")
-
---ultraschall.ChangeToActiveProject(L)
 
 function ultraschall.ChangeToActiveProject_ProjNr(TabNr)
 --[[
@@ -40971,5 +40595,165 @@ helperfunctions, undo, create, undopoint, function
 end
 
 
+function ultraschall.GetMediaItemTake(MediaItem, TakeNr)
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetMediaItemTake
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.92
+Lua=5.3
+</requires>
+<functionname>
+MediaItem_Take Take, integer TakeCount = ultraschall.GetMediaItemTake(MediaItem MediaItem, integer TakeNr)
+</functionname>
+<description>
+Returns the requested MediaItem-Take of MediaItem. Use TakeNr=0 for the active take(!)
+
+Returns nil in case of an error
+</description>
+<retvals>
+MediaItem_Take Take - the requested take of a MediaItem
+integer TakeCount - the number of takes available within this Mediaitem
+</retvals>
+<parameters>
+MediaItem MediaItem - the MediaItem, of whom you want to request a certain take.
+integer TakeNr - the take that you want to request; 1 for the first; 2 for the second, etc; 0, for the current active take
+</parameters>
+<semanticcontext>
+MediaItem Management
+Get MediaItem-Takes
+</semanticcontext>
+<tags>
+mediaitemmanagement, take, get, take, active
+</tags>
+</ApiDocBlocFunc>
+]]
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("GetMediaItemTake", "MediaItem", "must be a valid MediaItem-object", -1) return nil end
+  if math.type(TakeNr)~="integer" then ultraschall.AddErrorMessage("GetMediaItemTake", "TakeNr", "must be an integer", -2) return nil end
+  if TakeNr<0 or TakeNr>reaper.CountTakes(MediaItem) then ultraschall.AddErrorMessage("GetMediaItemTake", "TakeNr", "No such take in MediaItem", -3) return -1 end
+  
+  if TakeNr==0 then return reaper.GetActiveTake(MediaItem), reaper.CountTakes(MediaItem)
+  else return reaper.GetMediaItemTake(MediaItem, TakeNr-1), reaper.CountTakes(MediaItem) end
+end
+
+
+--A, B=ultraschall.GetMediaItemTake(reaper.GetMediaItem(99999999,0),9)
+--A2, B2=ultraschall.GetMediaItemTake(reaper.GetMediaItem(0,0),1)
+--A3, B3=ultraschall.GetMediaItemTake(reaper.GetMediaItem(0,0),2)
+
+function ultraschall.ReturnTableAsIndividualValues(Table)
+--[[
+<ApiDocBlocFunc>
+<slug>
+ReturnTableAsIndividualValues
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.92
+Lua=5.3
+</requires>
+<functionname>
+... = ultraschall.ReturnTableAsIndividualValues(table Table)
+</functionname>
+<description>
+Returns the first 64 entries of an numerical-indexed table as returnvalues
+</description>
+<retvals>
+... - the values from Table returned
+</retvals>
+<parameters>
+table Table - the table, whose values you want to return. It will only return values with index 1...64!
+</parameters>
+<semanticcontext>
+API-Helper functions
+Data Manipulation
+</semanticcontext>
+<tags>
+helper functions, table, return, values, indexed
+</tags>
+</ApiDocBlocFunc>
+]]  
+  
+  if type(Table)~="table" then Table={} end
+  return Table[1], Table[2], Table[3], Table[4], Table[5], Table[6], Table[7], Table[8], Table[9], Table[10],
+         Table[11], Table[12], Table[13], Table[14], Table[15], Table[16], Table[17], Table[18], Table[19], Table[20],
+         Table[21], Table[22], Table[23], Table[24], Table[25], Table[26], Table[27], Table[28], Table[29], Table[30],
+         Table[31], Table[32], Table[33], Table[34], Table[35], Table[36], Table[37], Table[38], Table[39], Table[40],
+         Table[41], Table[42], Table[43], Table[44], Table[45], Table[46], Table[47], Table[48], Table[49], Table[50],
+         Table[51], Table[52], Table[53], Table[54], Table[55], Table[56], Table[57], Table[58], Table[59], Table[60],
+         Table[61], Table[62], Table[63], Table[64]
+end
+
+--L,M,N,O,P=ultraschall.ReturnTableAsIndividualValues(nil)
+
+function ultraschall.ApplyFunctionToMediaItemArray(MediaItemArray, functionname, ...)
+--[[
+<ApiDocBlocFunc>
+<slug>
+ApplyFunctionToMediaItemArray
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.92
+Lua=5.3
+</requires>
+<functionname>
+table returnvalues  = ultraschall.ApplyFunctionToMediaItemArray(MediaItemArray MediaItemArray, function functionname, ...)
+</functionname>
+<description>
+Applies function "functionname" on all items in MediaItemArray. Parameter ... is all parameters used for function "functionname", where you should use nil in place of the parameter that shall hold a MediaItem.
+
+Returns a table with a boolean(did the function run without an error) and all returnvalues returned by function "functionname".
+
+Returns nil in case of an error. Will NOT(!) stop execution, if function "functionname" produces an error(see table returnvalues for more details)
+</description>
+<retvals>
+table returnvalues - a table with all returnvalues of the following structure:
+                   -    returnvalues[1]=boolean - true, running the function succeeded; false, running the function did not succeed
+                   -    returnvalues[2]=optional(!) string - the errormessage, if returnvalues[1]=false; will be omitted if returnvalues[1]=true
+                   - all other tableentries contain the returnvalues, as returned by function "functionname"
+</retvals>
+<parameters>
+MediaItemArray MediaItemArray - an array with all MediaItems, who you want to apply functionname to.
+function functionname - the name of the function to apply to every MediaItem in MediaItemArray
+... - the parameters needed for function "functionname". Important: the parameter that is intended for the MediaItem, must be nil. This nil-parameter
+    -    will be fille with the appropriate MediaItem by this function automatically
+</parameters>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, apply, function, mediaitem, mediaitemarray
+</tags>
+</ApiDocBlocFunc>
+]]  
+  if type(functionname)~="function" then ultraschall.AddErrorMessage("ApplyFunctionToMediaItemArray", "functionname", "Must be a function.", -1) return nil end
+  if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("ApplyFunctionToMediaItemArray", "functionname", "Must be a function.", -1) return nil end
+  local L={...}
+  local RetValTable={}
+  local index=-1
+  local max, i
+  for i=1, 255 do 
+    v=L[i]
+    if v==nil and index==-1 then index=i
+    elseif v==nil and index~=-1 then max=i break end
+  end
+  i=1
+  while MediaItemArray[i]~=nil do
+    L[index]=MediaItemArray[i]
+    A={pcall(functionname, ultraschall.ReturnTableAsIndividualValues(L))}
+    RetValTable[i]=A    
+    i=i+1
+  end
+  return i, RetValTable
+end
+
+--A1,B2,C,D,E,F,G=ultraschall.GetAllMediaItemsBetween(0,100,"1,2,3",true)
+--L,L2=ultraschall.ApplyFunctionToMediaItemArray(B2,reaper.SetMediaItemSelected,nil,false)
+--reaper.UpdateArrange()
 
 ultraschall.ShowLastErrorMessage()

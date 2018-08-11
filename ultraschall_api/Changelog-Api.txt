@@ -160,7 +160,7 @@
   - MakeFunctionUndoable - run a function with it and it will create an Undo-Point for that given function automatically
   - GetProject_Selection - get the time-selection of an rpp-project or ProjectStateChunk
   - SetProject_Selection - set the time-selection of an rpp-project or ProjectStateChunk
-  - ChangeToActiveProject - change the active projecttab to a certain Project
+  
   - ChangeToActiveProject_ProjNr - change the active projecttab to a tab-nr of your choice
   - DirectoryExists - check, if a directory already exists in a path
   - All parts of the API have now their own build-counters in the ultraschall_api.ini
@@ -168,8 +168,14 @@
   - GetItemStateChunk - get a ItemStateChunk; circumvents limitation of Reaper's own GetItemStateChunk
   - GetEnvelopeStateChunk - get an EnvelopeStateChunk; circumvents limitation of Reaper's own GetEnvelopeStateChunk
   - API checks now, if SWS2.9.7 is installed and displays an error-message, if it's missing.
+  - ApplyFunctionToMediaItemArray - applies a function to all MediaItems in a MediaItemArray
+  - ReturnTableAsIndividualValues - returns index 1 to 64 of a table as return-values
+  - GetMediaItemTake - returns a MediaItem_Take of an item, either a specific or the active one
+  - requires now Reaper 5.95
   
   <TODO>
+      TODO!!  - IsValidMediaItemArray()- seems to be buggy, returning true if given a function or something else...
+                                         maybe I should do a copynpaste of CheckMediaItemArray-function
       TODO!!  - SetTrackGroupFlagsState - sets GroupFlagsState
       TODO!!  - commenting and errorchecking
       TODO!!  - alter MakeCopyOfTable to be different from the original
@@ -179,7 +185,7 @@
                     MakeCopyOfFile_Binary
                     ReadBinaryFile
                     ReadBinaryFileUntilPattern
-                    ReadBinaryFileFromPattern                    
+                    ReadBinaryFileFromPattern
                     CountSectionsByPattern
                     CountKeysByPattern
                     CountValuesByPattern
@@ -245,8 +251,6 @@
       TODO!!  - write final documentation for public-beta
       TODO!!  - construct final documentation-document, including automatic generation of ChangeLog.
       TODO!!  - Include automatic adding of "Help: Show Ultraschall Api Help"-action
-
-              
          
     For 4.00beta2.8:
       TODO!!  - Envelope-ExtStates

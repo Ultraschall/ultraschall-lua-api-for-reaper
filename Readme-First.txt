@@ -14,7 +14,7 @@ ultraschall.ApiTest()
     Documentation\Ultraschall-Api-Docs.html
    for a functions-reference for the API.
 
-Requires at least Reaper 5.92 and SWS 2.9.7
+Requires at least Reaper 5.95 and SWS 2.9.7
    
 Written by Meo Mespotine(mespotine.de) with contributions from Udo Sauer(https://twitter.com/fernsehmuell) and Ralf Stockmann(https://twitter.com/rstockm)
 
