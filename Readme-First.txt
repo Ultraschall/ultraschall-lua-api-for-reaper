@@ -17,7 +17,7 @@ ultraschall.ApiTest()
 Requires at least Reaper 5.95 and SWS 2.9.7
    
 Written by Meo Mespotine(mespotine.de) with contributions from Udo Sauer(https://twitter.com/fernsehmuell) and Ralf Stockmann(https://twitter.com/rstockm)
-
+Kudos to lokasenna, who suggested some cool things, that made some functions much faster and sparkled new ones. Cheers!
 
 more information about the Ultraschall podcast extension at: ultraschall.fm
 more information on Reaper: reaper.fm

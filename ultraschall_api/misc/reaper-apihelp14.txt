@@ -3647,7 +3647,7 @@
         <title>EnumProjectMarkers3</title>
         <functioncall prog_lang="cpp">int EnumProjectMarkers3(ReaProject* proj, int idx, bool* isrgnOut, double* posOut, double* rgnendOut, const char** nameOut, int* markrgnindexnumberOut, int* colorOut)</functioncall>
         <functioncall prog_lang="eel">int EnumProjectMarkers3(ReaProject proj, int idx, bool &amp;isrgn, &amp;pos, &amp;rgnend, #name, int &amp;markrgnindexnumber, int &amp;color)</functioncall>
-        <functioncall prog_lang="lua">integer retval, boolean isrgn, number pos, number rgnend, string name, integer markrgnindexnumber, number integer = reaper.EnumProjectMarkers3(ReaProject proj, integer idx)</functioncall>
+        <functioncall prog_lang="lua">integer retval, boolean isrgn, number pos, number rgnend, string name, integer markrgnindexnumber, integer color = reaper.EnumProjectMarkers3(ReaProject proj, integer idx)</functioncall>
         <functioncall prog_lang="python">(Int retval, ReaProject proj, Int idx, Boolean isrgnOut, Float posOut, Float rgnendOut, String nameOut, Int markrgnindexnumberOut, Int colorOut) = RPR_EnumProjectMarkers3(proj, idx, isrgnOut, posOut, rgnendOut, nameOut, markrgnindexnumberOut, colorOut)</functioncall>
         <requires>
             Reaper=5.62

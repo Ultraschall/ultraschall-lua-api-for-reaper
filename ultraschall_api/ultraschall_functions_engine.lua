@@ -9047,7 +9047,7 @@ end
 
 --A,AA,AAA,AAAA=ultraschall.GetClosestPreviousRegionEdge(0)
 
-function ultraschall.GetClosestGoToPoints(tracks, time_position, check_itemedge, check_marker, check_region)
+function ultraschall.GetClosestGoToPoints(trackstring, time_position, check_itemedge, check_marker, check_region)
 -- what are the closest markers/regions/item starts/itemends to position and within the chosen tracks
 -- string tracks - tracknumbers, separated by a comma.
 -- position - position in seconds
@@ -9073,6 +9073,8 @@ number elementposition_prev, string elementtype_prev, integer number_prev, numbe
 </functionname>
 <description>
 returns, what are the closest markers/regions/item starts/itemends to position and within the chosen tracks.
+
+returns -1 in case of error
 </description>
 <retvals>
 number elementposition_prev - previous closest markers/regions/item starts/itemends
@@ -9087,6 +9089,7 @@ integer number_next  - number of previous closest markers/regions/item starts/it
 <parameters>
 string tracksstring - tracknumbers, separated by a comma.
 number time_position - a time position in seconds, from where to check for the next/previous closest items/markers/regions.
+                     - -1, for editcursorposition; -2, for playcursor-position
 optional boolean check_itemedge - true, look for itemedges as possible goto-points; false, do not
 optional boolean check_marker - true, look for markers as possible goto-points; false, do not
 optional boolean check_region - true, look for regions as possible goto-point; false, do not
@@ -9101,13 +9104,19 @@ navigation, previous, next, marker, region, item, edge
 --]]
 
   -- check parameters
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("GetClosestGoToPoints", "trackstring", "must be a valid trackstring", -1) return -1 end
+  if type(time_position)~="number" then ultraschall.AddErrorMessage("GetClosestGoToPoints", "time_position", "must be a number", -2) return -1 end
+  if check_itemedge~=nil and type(check_itemedge)~="boolean" then ultraschall.AddErrorMessage("GetClosestGoToPoints", "check_itemedge", "must be a boolean", -3) return -1 end
+  if check_marker~=nil and type(check_marker)~="boolean" then ultraschall.AddErrorMessage("GetClosestGoToPoints", "check_marker", "must be a boolean", -4) return -1 end
+  if check_region~=nil and type(check_region)~="boolean" then ultraschall.AddErrorMessage("GetClosestGoToPoints", "check_region", "must be a boolean", -5) return -1 end
+  
   if check_itemedge==nil then check_itemedge=true end
   if check_marker==nil then check_marker=true end
   if check_region==nil then check_region=true end
 
-  if tonumber(time_position)==-1 and reaper.GetPlayState()==0 then
+  if tonumber(time_position)==-1 then
     time_position=reaper.GetCursorPosition()
-  elseif tonumber(time_position)==nil and reaper.GetPlayState()~=0 then
+  elseif tonumber(time_position)==-2 then
     time_position=reaper.GetPlayPosition()
   else
     time_position=tonumber(time_position)
@@ -9119,8 +9128,8 @@ navigation, previous, next, marker, region, item, edge
   local elementposition_next=reaper.GetProjectLength()+1
   
   -- get closest items, markers and regions
-  local nextitempos, nextitemid, nextedgetype =ultraschall.GetNextClosestItemEdge(tracks,3,time_position)
-  local previtempos, previtemid, prevedgetype =ultraschall.GetPreviousClosestItemEdge(tracks,3,time_position)
+  local nextitempos, nextitemid, nextedgetype =ultraschall.GetNextClosestItemEdge(trackstring,3,time_position)
+  local previtempos, previtemid, prevedgetype =ultraschall.GetPreviousClosestItemEdge(trackstring,3,time_position)
 
   local nextmarkerid,nextmarkerpos,nextmarkername=ultraschall.GetClosestNextMarker(3, time_position)
   local prevmarkerid,prevmarkerpos,prevmarkername=ultraschall.GetClosestPreviousMarker(3,time_position)
@@ -12230,20 +12239,22 @@ filemanagement, copy, file management
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if input_filename_with_path==nil or output_filename_with_path==nil then return false end
+  if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("MakeCopyOfFile", "input_filename_with_path", "must be a string", -1) return false end
+  if type(output_filename_with_path)~="string" then ultraschall.AddErrorMessage("MakeCopyOfFile", "output_filename_with_path", "must be a string", -2) return false end
   if reaper.file_exists(input_filename_with_path)==true then
     local file=io.open(output_filename_with_path,"w")
-    if file==nil then return false end
+    if file==nil then ultraschall.AddErrorMessage("MakeCopyOfFile", "output_filename_with_path", "can't create file", -3) return false end
     for line in io.lines(input_filename_with_path) do
       file:write(line.."\n")
     end
     file:close()
-  else return false
+  else ultraschall.AddErrorMessage("MakeCopyOfFile", "input_filename_with_path", "file does not exist", -4) return false
   end
   return true
 end
 
---A=ultraschall.MakeCopyOfFile("c:\\tt.rpp","c:\\huibh.txt")
+--A=ultraschall.MakeCopyOfFile("c:\\tt.rpp","c:\\huibh.txts")
+--A=ultraschall.MakeCopyOfFile("2",1)
 
 function ultraschall.MakeCopyOfFile_Binary(input_filename_with_path, output_filename_with_path)
 --makes a copy of a binary-file
@@ -12280,18 +12291,17 @@ filemanagement, read file, binary
 </tags>
 </ApiDocBlocFunc>
 ]]
-
-  local temp=""
-  if input_filename_with_path==nil or output_filename_with_path==nil then return false end
+  if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "input_filename_with_path", "must be a string", -1) return false end
+  if type(output_filename_with_path)~="string" then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "output_filename_with_path", "must be a string", -2) return false end
+  
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
     local file=io.open(output_filename_with_path,"wb")
-    if file==nil then return false end
-    temp=fileread:read("*a")
-    file:write(temp)
+    if file==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "output_filename_with_path", "can't create file", -3) return false end
+    file:write(fileread:read("*a"))
     fileread:close()
     file:close()
-  else return false
+  else ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "input_filename_with_path", "file does not exist", -4) return false
   end
   return true
 end
@@ -12336,17 +12346,15 @@ filemanagement, read file, binary
 </tags>
 </ApiDocBlocFunc>
 ]]
-
   local temp=""
-  local length
-  local temp2
-  if input_filename_with_path==nil then return false end
+
+  if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadBinaryFile", "input_filename_with_path", "must be a string", -1) return false end
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
     temp=fileread:read("*a")
     fileread:close()
   else
-    return false
+    ultraschall.AddErrorMessage("ReadBinaryFile", "input_filename_with_path", "file does no exist", -2) return false
   end
   return temp:len(), temp
 end
@@ -12395,27 +12403,24 @@ filemanagement, read file, pattern, binary
 </tags>
 </ApiDocBlocFunc>
 ]]
-
   local temp=""
-  local length
   local temp2
-  if input_filename_with_path==nil or pattern==nil then return false end
+  if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadBinaryFile", "input_filename_with_path", "must be a string", -1) return false end
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("ReadBinaryFile", "pattern", "must be a string", -2) return false end
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
     temp=fileread:read("*a")
-    temp2=temp:match(pattern)
-    if temp2==nil then fileread:close() return false end
     temp2=temp:match("(.-"..pattern..")")
-    if temp2==nil then fileread:close() return false end
-    length=temp2:len()
+    if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFile", "pattern", "pattern not found in file", -4) return false end
     fileread:close()
   else
-    return false
+    ultraschall.AddErrorMessage("ReadBinaryFile", "input_filename_with_path", "file does not exist", -5) return false
   end
-  return length, temp2
+  return temp2:len(), temp2
 end
 
---A,AA=ultraschall.ReadBinaryFileUntilPattern("c:\\test.txt","ultraschall")
+--A,AA=ultraschall.ReadBinaryFileUntilPattern("c:\\MarkerProject.RPP","VZOOMEX")
+--reaper.MB(AA,"",0)
 
 function ultraschall.ReadBinaryFileFromPattern(input_filename_with_path, pattern)
 --reads a binary file from a first occurence of pattern to it's end. Doesn't show in ReaperConsole completely!
@@ -12443,7 +12448,7 @@ If you don't escape these characters and write a "malformed pattern" that way, i
 </description>
 <retvals>
 integer length - the length of the returned data
-string content - the content of the file, that has been read until pattern
+string content - the content of the file, that has been read from pattern to the end
 </retvals>
 <parameters>
 string filename_with_path - filename of the file to be read
@@ -12459,27 +12464,25 @@ filemanagement, read file, pattern, binary
 </ApiDocBlocFunc>
 ]]
   local temp=""
-  local length
   local temp2
-  if input_filename_with_path==nil or pattern==nil then return false end
+  if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "must be a string", -1) return false end
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "must be a string", -2) return false end
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
     temp=fileread:read("*a")
-    temp2=temp:match(pattern)
-    if temp2==nil then fileread:close() return false end
     temp2=temp:match("("..pattern..".*)")
-    if temp2==nil then fileread:close() return false end
-    length=temp:len()-temp2:len()+1
+    if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "pattern not found in file", -4) return false end
     fileread:close()
-  else 
-    return false
+  else
+    ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "file does not exist", -5) return false
   end
-  return length, temp2
+  return temp2:len(), temp2
 end
 
 --A,AA=ReadBinaryFileUntilPattern("c:\\reaper.exe","c:\\reaper.test","REAPER")
 --A,AA=ReadBinaryFileUntilPattern("c:\\test.txt","c:\\test.temp","Ultraschall")
---A,BB=ultraschall.ReadBinaryFileFromPattern("c:\\test.txt","las")
+--A,BB=ultraschall.ReadBinaryFileFromPattern("c:\\MarkerProject.rpp","VZOOMEX")
+--reaper.MB(BB,"",0)
 
 --CC=AA..BB--:sub(9,-1)
 --laeng=CC:len()
@@ -12506,7 +12509,7 @@ Lua=5.3
 integer linesinfile = ultraschall.CountLinesInFile(string filename_with_path)
 </functionname>
 <description>
-Counts lines in a textfile. In binary files, the number of line may be weird and unexpected!
+Counts lines in a textfile. In binary files, the number of lines may be weird and unexpected!
 Returns -1, if no such file exists.
 </description>
 <retvals>
@@ -12931,10 +12934,9 @@ configurationmanagement, count, sections, pattern, get, ini-files
 </tags>
 </ApiDocBlocFunc>
 ]]
-
-  if pattern==nil then return -1 end
-  if ini_filename_with_path==nil then return -1 end
-  if reaper.file_exists(ini_filename_with_path)==false then return -1 end
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("CountSectionsByPattern", "pattern", "must be a string", -1) return -1 end
+  if ini_filename_with_path==nil then ultraschall.AddErrorMessage("CountSectionsByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("CountSectionsByPattern", "ini_filename_with_path", "file does not exist", -3) return -1 end
   
   local count=0
   local sections=""
@@ -12997,10 +12999,9 @@ configurationmanagement, count, keys, pattern, get, ini-files
 </tags>
 </ApiDocBlocFunc>
 ]]
-
-  if pattern==nil then return -1 end
-  if ini_filename_with_path==nil then return -1 end
-  if reaper.file_exists(ini_filename_with_path)==false then return -1 end
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("CountKeysByPattern", "pattern", "must be a string", -1) return -1 end
+  if ini_filename_with_path==nil then ultraschall.AddErrorMessage("CountKeysByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("CountKeysByPattern", "ini_filename_with_path", "file does not exist", -3) return -1 end
   
   local retpattern=""
   local count=0
@@ -13073,9 +13074,9 @@ configurationmanagement, count, values, pattern, get, ini-files
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if pattern==nil then return -1 end
-  if ini_filename_with_path==nil then return -1 end
-  if reaper.file_exists(ini_filename_with_path)==false then return -1 end
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("CountValuesByPattern", "pattern", "must be a string", -1) return -1 end
+  if ini_filename_with_path==nil then ultraschall.AddErrorMessage("CountValuesByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("CountValuesByPattern", "ini_filename_with_path", "file does not exist", -3) return -1 end
   
   local retpattern=""
   local count=0
@@ -13119,7 +13120,7 @@ Lua=5.3
 string sectionname = ultraschall.EnumerateSectionsByPattern(string pattern, integer id, string ini_filename_with_path)
 </functionname>
 <description>
-Returns the numberth section within an ini-file, that fits the pattern.
+Returns the numberth section within an ini-file, that fits the pattern, e.g. the third section containing "hawaii" in it.
 
 Uses "pattern"-string to determine if a section contains a certain pattern. Good for sections, that have a number in them, like section1, section2, section3
 Returns the section that includes that pattern as a string, numbered by id.
@@ -13147,11 +13148,10 @@ configurationmanagement, enumerate, section, pattern, get, ini-files
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if pattern==nil then return nil end
-  if ini_filename_with_path==nil then return nil end
-  if tonumber(id)==nil then return nil end
-  id=tonumber(id)
-  if reaper.file_exists(ini_filename_with_path)==false then return nil end
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "pattern", "must be a string", -1) return -1 end
+  if ini_filename_with_path==nil then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "ini_filename_with_path", "file does not exist", -3) return -1 end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "id", "must be an integer", -4) return -1 end
   
   local count=0
   for line in io.lines(ini_filename_with_path) do
@@ -13187,7 +13187,7 @@ Lua=5.3
 string keyname = ultraschall.EnumerateKeysByPattern(string pattern, string section, integer id, string ini_filename_with_path)
 </functionname>
 <description>
-Returns the numberth key within a section in an ini-file, that fits the pattern.
+Returns the numberth key within a section in an ini-file, that fits the pattern, e.g. the third key containing "hawaii" in it.
 
 Uses "pattern"-string to determine if a key contains a certain pattern. Good for keys, that have a number in them, like key1=, key2=, key3=
 Returns the key that includes that pattern as a string, numbered by id.
@@ -13216,13 +13216,10 @@ configurationmanagement, ini-files, enumerate, section, key, pattern, get
 </tags>
 </ApiDocBlocFunc>
 ]]
-
-  if pattern==nil then return nil end
-  if section==nil then return nil end
-  if ini_filename_with_path==nil then return nil end
-  if tonumber(id)==nil then return nil end
-  id=tonumber(id)
-  if reaper.file_exists(ini_filename_with_path)==false then return nil end
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "pattern", "must be a string", -1) return -1 end
+  if ini_filename_with_path==nil then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "ini_filename_with_path", "file does not exist", -3) return -1 end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "id", "must be an integer", -4) return -1 end
   
   local count=0
   local tiff=0
@@ -13261,7 +13258,7 @@ Lua=5.3
 string value, string keyname = ultraschall.EnumerateValuesByPattern(pattern, section, id, ini_filename_with_path)
 </functionname>
 <description>
-Returns the numberth value(and it's accompanying key) within a section in an ini-file, that fits the pattern.
+Returns the numberth value(and it's accompanying key) within a section in an ini-file, that fits the pattern, e.g. the third value containing "hawaii" in it.
 
 Uses "pattern"-string to determine if a value contains a certain pattern. Good for values, that have a number in them, like value1, value2, value3
 Returns the value that includes that pattern as a string, numbered by id, as well as it's accompanying key.
@@ -13291,12 +13288,10 @@ configurationmanagement, ini-files, enumerate, section, key, value, pattern, get
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if pattern==nil then return nil end
-  if section==nil then return nil end
-  if tonumber(id)==nil then return nil end
-  id=tonumber(id)
-  if ini_filename_with_path==nil then return nil end
-  if reaper.file_exists(ini_filename_with_path)==false then return nil end
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "pattern", "must be a string", -1) return -1 end
+  if ini_filename_with_path==nil then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "ini_filename_with_path", "file does not exist", -3) return -1 end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "id", "must be an integer", -4) return -1 end
   
   local count=0
   local tiff=0
@@ -13404,6 +13399,8 @@ string marker = ultraschall.GetMarkerByScreenCoordinates(integer xmouseposition,
 <description>
 returns the markers at a given absolute-x-pixel-position. It sees markers according their graphical representation in the arrange-view, not just their position! Returned string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2\n...".
 Returns only markers, no time markers or regions!
+
+returns nil in case of an error
 </description>
 <retvals>
 string marker - a string with all markernumbers, markerpositions and markernames, separated by a newline. 
@@ -13422,7 +13419,7 @@ markermanagement, navigation, get marker, position, marker
 </tags>
 </ApiDocBlocFunc>
 ]]
-
+  if math.type(xmouseposition)~="integer" then ultraschall.AddErrorMessage("GetMarkerByScreenCoordinates", "xmouseposition", "must be an integer", -1) return nil end
   local one,two,three,four,five,six,seven,eight,nine,ten
   if retina==false then
     ten=84
@@ -13517,6 +13514,7 @@ markermanagement, navigation, get marker, position, marker
 </tags>
 </ApiDocBlocFunc>
 ]]
+  if type(position)~="number" then ultraschall.AddErrorMessage("GetMarkerByTime", "position", "must be a number", -1) return nil end
   local one,two,three,four,five,six,seven,eight,nine,ten
   if retina==false then
     ten=84
@@ -13568,6 +13566,7 @@ markermanagement, navigation, get marker, position, marker
   return retstring
 end
 
+--L=reaper.GetPlayPosition()
 --B=ultraschall.GetMarkerByTime(reaper.GetPlayPosition(), false)
 --AAAA=GetMarkerByScreenCoordinates(reaper.GetMousePosition(), false)
 --Aretval,ARetval2=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath().."\\reaper.ini")
@@ -13632,7 +13631,8 @@ markermanagement, navigation, get region, position, region
 </tags>
 </ApiDocBlocFunc>
 ]]
-
+  if math.type(xmouseposition)~="integer" then ultraschall.AddErrorMessage("GetRegionByScreenCoordinates", "xmouseposition", "must be an integer", -1) return nil end
+  
   local one,two,three,four,five,six,seven,eight,nine,ten
   if retina==false then
     ten=84
@@ -13728,7 +13728,7 @@ markermanagement, navigation, get region, position, region
 </tags>
 </ApiDocBlocFunc>
 ]]
-
+  if type(position)~="number" then ultraschall.AddErrorMessage("GetRegionByTime", "position", "must be a number", -1) return nil end
   local one,two,three,four,five,six,seven,eight,nine,ten
   if retina==false then
     ten=84
@@ -13824,7 +13824,7 @@ markermanagement, navigation, get region, position, time signature, tempo, marke
 </tags>
 </ApiDocBlocFunc>
 ]]
-
+  if math.type(xmouseposition)~="integer" then ultraschall.AddErrorMessage("GetTimesignaturesByScreenCoordinates", "xmouseposition", "must be an integer", -1) return nil end
   local one,two,three,four,five,six,seven,eight,nine,ten
   if retina==false then
     ten=84
@@ -13908,6 +13908,7 @@ markermanagement, navigation, get region, position, time signature, tempo, marke
 </tags>
 </ApiDocBlocFunc>
 ]]
+  if type(position)~="number" then ultraschall.AddErrorMessage("GetTimeSignaturesByTime", "position", "must be a number", -1) return nil end
   local one,two,three,four,five,six,seven,eight,nine,ten
   if retina==false then
     ten=84
@@ -14226,7 +14227,7 @@ markermanagement, navigation, add, edit region, edit, region
   return noteID
 end
 
---A=ultraschall.AddEditRegion(nil,26,"")
+--A=ultraschall.AddEditRegion(10,26,"")
 
 function ultraschall.SetEditRegion(number, position, endposition, edittitle)
 --[[
@@ -14265,6 +14266,14 @@ markermanagement, navigation, set, edit region, edit, region
 </tags>
 </ApiDocBlocFunc>
 ]]
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("SetEditRegion", "number", "must be an integer", -1) return -1 end
+  if type(position)~="number" then ultraschall.AddErrorMessage("SetEditRegion", "position", "must be a number", -2) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("SetEditRegion", "endposition", "must be a number", -3) return -1 end
+  if edittitle~=nil and type(edittitle)~="string" then ultraschall.AddErrorMessage("SetEditRegion", "edittitle", "must be either a string or nil", -4) return -1 end
+  if endposition<0 then ultraschall.AddErrorMessage("SetEditRegion", "endposition", "must be bigger than 0", -5) return -1 end
+  if position<0 then ultraschall.AddErrorMessage("SetEditRegion", "position", "must be bigger than 0", -6) return -1 end
+  if endposition<position then ultraschall.AddErrorMessage("SetEditRegion", "endposition", "must be bigger than position", -7) return -1 end
+
   local color=0
   local Os = reaper.GetOS()
   if string.match(Os, "OSX") then 
@@ -14273,13 +14282,7 @@ markermanagement, navigation, set, edit region, edit, region
     color = 0x0000FF|0x1000000
   end
   
-  local shown_number=-1 
-  if tonumber(position)==nil then position=-1 end
-  if tonumber(position)<0 then position=-1 end
-  if tonumber(endposition)==nil then endposition=-1 end
-  if tonumber(endposition)<0 then endposition=-1 end
-  if tonumber(number)==nil then return false end
-  
+  local shown_number=-1
   local c,nummarkers,b=reaper.CountProjectMarkers(0)
   number=tonumber(number)-1
   local wentfine=0
@@ -14307,7 +14310,7 @@ markermanagement, navigation, set, edit region, edit, region
   end
 end
 
---A=ultraschall.SetEditRegion(2,1,nil,"hula")
+--A=ultraschall.SetEditRegion(1,10,200,"hula")
 
 function ultraschall.DeleteEditRegion(number)
 --[[
@@ -23149,11 +23152,12 @@ envelopemanagement, envelope, point, envelope point, move, moveby
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if tonumber(startposition)==nil then return -1 end
-  if tonumber(endposition)==nil then return -1 end
-  if tonumber(startposition)>tonumber(endposition) then return -1 end
-  if tonumber(moveby)==nil then return -1 end
-  if reaper.ValidatePtr2(0, MediaTrack, "MediaTrack*")==false then return -1 end
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("MoveTrackEnvelopePointsBy", "startposition", "must be a number", -1) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("MoveTrackEnvelopePointsBy", "endposition", "must be a number", -2) return -1 end
+  if type(moveby)~="number" then ultraschall.AddErrorMessage("MoveTrackEnvelopePointsBy", "moveby", "must be a number", -3) return -1 end
+  if reaper.ValidatePtr2(0, MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("MoveTrackEnvelopePointsBy", "MediaTrack", "must be a valid MediaTrack", -4) return -1 end
+  if type(cut_at_border)~="boolean" then ultraschall.AddErrorMessage("MoveTrackEnvelopePointsBy", "cut_at_border", "must be a boolean", -5) return -1 end
+
   local EnvTrackCount=reaper.CountTrackEnvelopes(MediaTrack)
 
   for a=0, EnvTrackCount-1 do
@@ -23175,7 +23179,7 @@ envelopemanagement, envelope, point, envelope point, move, moveby
   
 end
 
---B=reaper.GetTrack(0,2)
+--B=reaper.GetTrack(0,0)
 --A=ultraschall.MoveTrackEnvelopePointsBy(3, 32, 1, B, true)
 --reaper.UpdateArrange()
 --Envelope_SortPoints
@@ -23810,10 +23814,10 @@ mediaitemmanagement, tracks, media, item, split, edit, crossfade, mediaitemarray
 </tags>
 </ApiDocBlocFunc>
 ]]
+  if type(position)~="number" then ultraschall.AddErrorMessage("SplitItemsAtPositionFromArray", "position", "Must be a number", -1) return false end
+  if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("SplitItemsAtPositionFromArray", "MediaItemArray", "Must be a valid MediaItemArray", -2) return false end
+  if type(crossfade)~="boolean" then ultraschall.AddErrorMessage("SplitItemsAtPositionFromArray", "crossfade", "Must be a boolean", -3) return false end
 
-
-  if crossfade~=true and crossfade~=false then return false end
-  if type(MediaItemArray)~="table" then return false end
   local ReturnMediaItemArray={}
   local count=1
   while MediaItemArray[count]~=nil do
@@ -23968,8 +23972,9 @@ mediaitemmanagement, tracks, media, item, delete
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if tonumber(position)==nil or trackstring==nil then return false end
-  position=tonumber(position)
+  if type(position)~="number" then ultraschall.AddErrorMessage("DeleteMediaItems_Position", "position", "must be a number", -1) return -1 end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("DeleteMediaItems_Position", "trackstring", "must be a valid trackstring", -2) return -1 end
+  
   local count=0
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
   if trackstring==-1 or trackstring=="" then return false end
@@ -24003,7 +24008,7 @@ end
 --ALABAMAA=ultraschall.DeleteMediaItemsFromArray(AA)
 --reaper.UpdateArrange()
 
-function ultraschall.GetAllMediaItemsBetween(startposition,endposition,trackstring,inside)
+function ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackstring, inside)
 --returns all MediaItems between startposition and endposition in the tracks given with trackstring
 --
 -- number startposition - time in seconds
@@ -24053,14 +24058,10 @@ mediaitemmanagement, tracks, media, item, selection, position, statechunk, rppxm
 </tags>
 </ApiDocBlocFunc>
 ]]
-
-  if tonumber(startposition)==nil then return -1 end
-  startposition=tonumber(startposition)
-  if tonumber(endposition)==nil then return -1 end
-  endposition=tonumber(endposition)
-  if tonumber(endposition)<tonumber(startposition) then return -1 end
-  if trackstring==nil then return -1 end
-  if inside~=true and inside~=false then return -1 end
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "startposition", "must be a number", -1) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "endposition", "must be a number", -2) return -1 end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "trackstring", "must be a valid trackstring", -3) return -1 end
+  if type(inside)~="boolean" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "inside", "must be a boolean", -4) return -1 end
     
   local MediaItemArray={}
   local MediaItemStateChunkArray={}
@@ -24117,7 +24118,7 @@ end
 --A,MediaItem,statechunks=ultraschall.GetAllMediaItemsBetween(reaper.GetCursorPosition(),reaper.GetCursorPosition(),"1",false)
 --reaper.MB(statechunks[1],"",0)
 
---A,AA=ultraschall.GetAllMediaItemsBetween(4,21,"1,2,3",true)
+--A,AA=ultraschall.GetAllMediaItemsBetween(4,2100,"1,2,3",true)
 --A,AA,AAA=ultraschall.GetAllMediaItemsBetween(0,200,"1,2,3",true)
 
 
@@ -24165,11 +24166,10 @@ mediaitemmanagement, tracks, media, item, move, position
 </ApiDocBlocFunc>
 ]]
   
-  if tonumber(oldposition)==nil then return false end
-  if tonumber(changepositionby)==nil then return false end
-  if trackstring==nil then return false end 
+  if type(oldposition)~="number" then ultraschall.AddErrorMessage("MoveMediaItemsAfter_By", "old_position", "must be a number", -1) return false end
+  if type(changepositionby)~="number" then ultraschall.AddErrorMessage("MoveMediaItemsAfter_By", "changepositionby", "must be a number", -2) return false end
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
-  if trackstring==-1 or trackstring==""  then return false end
+  if trackstring==-1 or trackstring=="" then ultraschall.AddErrorMessage("MoveMediaItemsAfter_By", "trackstring", "must be a valid trackstring", -3) return false end
   local A,MediaItem=ultraschall.GetAllMediaItemsBetween(oldposition,reaper.GetProjectLength(),trackstring,true)
   for i=1, A do
     local ItemStart=reaper.GetMediaItemInfo_Value(MediaItem[i], "D_POSITION")
@@ -24190,7 +24190,7 @@ mediaitemmanagement, tracks, media, item, move, position
   return true
 end
 
---A=ultraschall.MoveMediaItemsAfter_By(reaper.GetCursorPosition(),1,"1")
+--A=ultraschall.MoveMediaItemsAfter_By(reaper.GetCursorPosition(),-1,"1")
 
 function ultraschall.MoveMediaItemsBefore_By(oldposition, changepositionby, trackstring)
 --Moves all MediaItems, between projectstart and oldposition, by changepositionby, in all tracks given by trackstring
@@ -25284,9 +25284,9 @@ mediaitemmanagement, tracks, media, item, insert, ripple
 </tags>
 </ApiDocBlocFunc>
 ]]
-  if MediaItemArray==nil then return -1 end
-  if type(MediaItemArray)~="table" then return -1 end
-  if tonumber(newposition)==nil then return -1 end
+  if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("MoveMediaItems_FromArray", "MediaItemArray", "must be a valid MediaItemArray", -1) return -1 end
+  if type(newposition)~="number" then ultraschall.AddErrorMessage("MoveMediaItems_FromArray", "newposition", "must be a number", -2) return -1 end
+
   local count=1
   local Earliest_time=reaper.GetProjectLength()+1
   local ItemStart
@@ -37361,8 +37361,8 @@ function progresscounter(state)
   A=A:match("function ultraschall%..*")
 --  reaper.MB(tostring(A:sub(1,400)),"",0)
   i=0
-  done=11
-  todo=-12
+  done=12
+  todo=-13
   todostring=""
   funclist=""
   donestring=""
@@ -40056,7 +40056,7 @@ Reaper=5.77
 Lua=5.3
 </requires>
 <functionname>
-integer retval = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)
+integer retval = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)
 </functionname>
 <description>
 Renders a project, using a specific render-cfg-string.
@@ -40073,6 +40073,7 @@ string projectfilename_with_path - the project to render; nil, for the currently
 string renderfilename_with_path - the filename of the output-file. If you give the wrong extension, Reaper will exchange it by the correct one.
 number startposition - the startposition of the render-area in seconds; -1, to use the startposition set in the projectfile itself
 number endposition - the endposition of the render-area in seconds; -1, to use the endposition set in the projectfile itself
+boolean overwrite_without_asking - true, overwrite an existing renderfile; false, don't overwrite an existing renderfile
 boolean renderclosewhendone - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings
 boolean filenameincrease - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings
 string rendercfg - the rendercfg-string, that contains all render-settings for an output-format
@@ -40181,7 +40182,7 @@ projectfiles, render, output, file
   --remove the temp-file and we are done.
   os.remove (tempfile)
   os.remove (tempfile.."-bak")
-  ultraschall.ChangeToActiveProject(curProj)
+  reaper.SelectProjectInstance(curProj)
   return 0
 end
 
@@ -40755,5 +40756,335 @@ end
 --A1,B2,C,D,E,F,G=ultraschall.GetAllMediaItemsBetween(0,100,"1,2,3",true)
 --L,L2=ultraschall.ApplyFunctionToMediaItemArray(B2,reaper.SetMediaItemSelected,nil,false)
 --reaper.UpdateArrange()
+
+
+function ultraschall.GetProject_MarkersAndRegions(projectfilename_with_path, ProjectStateChunk)
+-- return Reaper-Version and TimeStamp
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetProject_MarkersAndRegions
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+integer markerregioncount, integer NumMarker, integer Numregions, array Markertable = ultraschall.GetProject_MarkersAndRegions(string projectfilename_with_path, optional string ProjectStateChunk)
+</functionname>
+<description>
+Returns the markers and regions from an RPP-Projectfile or a ProjectStateChunk.
+Doe not return TimeSignature-markers(!)
+Returns nil in case of error or if no such entry exists.
+</description>
+<parameters>
+string projectfilename_with_path - filename with path for the rpp-projectfile; nil, if you want to use parameter ProjectStateChunk
+optional string ProjectStateChunk - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil
+</parameters>
+<retvals>
+integer markerregioncount - the number of markers and regions in the projectfile/ProjectStateChunk
+array markertable - an array with all elements of markers/regions
+                  - markertable has the following entries:
+                  - markertable[id][1]=boolean isrgn - true, marker is a region; false, marker is a normal marker
+                  - markertable[id][2]=number pos    - the startposition of the marker/region
+                  - markertable[id][3]=number rgnend - the endposition of a region; 0, if it's a marker
+                  - markertable[id][4]=string name   - the name of the marker/region
+                  - markertable[id][5]=integer markrgnindexnumber - the shown number of the region/marker
+                  - markertable[id][6]=integer color - the color-value of the marker
+</retvals>
+<semanticcontext>
+Project-Files
+RPP-Files Get
+</semanticcontext>
+<tags>
+projectfiles, rpp, state, get, marker, regions
+</tags>
+</ApiDocBlocFunc>
+]]
+--[[
+MARKER integer shownnumber number position string name integer isrgn integer color integer unknown string R
+    an entry for a marker or a region
+    regions have multiple entries with the first one being the start and the following(!) one the end of the region(with isrgn=1)
+      if the following one is not a region one(isrgn=1) then the previous one will be treated as normal marker by Reaper.
+    normal markers are never inbetween start- and end-markerentries of regions
+
+integer shownnumber - the number displayed in the marker
+number position - the position of the marker
+string name - the name of the marker; will be put in doublequotes, when it contains spaces; will be "" if it's the end of a region
+integer isrgn - 0, normal marker; 1, a region.
+integer color - the colorvalue of the marker
+integer unknown - unknown
+string R - a simple R, whose purpose is unknown
+--]]
+
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MarkersAndRegions","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MarkersAndRegions","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MarkersAndRegions","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  -- get the values and return them
+  local MarkerArray={}
+  local MarkerCount=0
+  local NumMarker=0
+  local NumRegions=0
+  local Markerlist=ProjectStateChunk:match("MARKER.*MARKER.-\n")
+  local endposition=0
+  local Offset
+  
+  while Markerlist~=nil do
+    Marker, Offset=Markerlist:match("(MARKER.-\n)()")
+    if Offset~=nil then Markerlist=Markerlist:sub(Offset,-1) end
+    if Marker==nil then break end
+    MarkerCount=MarkerCount+1
+--    reaper.MB(Markerlist, Marker,0)
+    local shownnumber, position, name, isrgn, color, unknown, unknown2=Marker:match("MARKER (.-) (.-) \"(.-)\" (.-) (.-) (.-) (.*)")
+    if name==nil then shownnumber, position, name, isrgn, color, unknown, unknown2=Marker:match("MARKER (.-) (.-) (.-) (.-) (.-) (.-) (.*)") end
+    if isrgn=="1" then endposition, Markerlist=Markerlist:match("MARKER .- (.-) .-(MARKER.*)") else endposition=0.0 end
+    MarkerArray[MarkerCount]={}
+    if tonumber(isrgn)==1 then 
+      MarkerArray[MarkerCount][1]=true 
+      NumRegions=NumRegions+1 
+    else 
+      MarkerArray[MarkerCount][1]=false 
+      NumMarker=NumMarker+1 
+    end
+--reaper.MB(tostring(endposition).." "..tostring(position),Marker,0)
+    MarkerArray[MarkerCount][2]=tonumber(position)
+    MarkerArray[MarkerCount][3]=tonumber(endposition)
+    MarkerArray[MarkerCount][4]=name
+    MarkerArray[MarkerCount][5]=tonumber(shownnumber)
+    MarkerArray[MarkerCount][6]=tonumber(color)
+  end
+  return MarkerCount, NumMarker, NumRegions, MarkerArray
+end
+
+
+--A,AA=ultraschall.GetProject_ReaperVersion("c:\\tt.rpp","<REAPER_PROJECT 0.1 \"5.77/x64\" 1529100928\n>")
+--A,AA,AAA,AAAA=ultraschall.GetProject_MarkersAndRegions("c:\\MarkerProject.RPP","")
+--reaper.MB(A,"",0)
+
+function ultraschall.RenderProjectRegions_RenderCFG(projectfilename_with_path, renderfilename_with_path, region, addregionname, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
+--[[
+<ApiDocBlocFunc>
+<slug>
+RenderProject_RenderCFG
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+integer retval = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)
+</functionname>
+<description>
+Renders a region of a project, using a specific render-cfg-string.
+To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
+
+Returns -1 in case of an error
+Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).
+</description>
+<retvals>
+integer retval - -1 in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
+</retvals>
+<parameters>
+string projectfilename_with_path - the project to render; nil, for the currently opened project(needs to be saved first)
+string renderfilename_with_path - the filename of the output-file. 
+                                - Don't add a file-extension, when using addregionname=true!
+                                - Give a path only, when you want to use only the regionname as render-filename(set addregionname=true !)
+integer region - the number of the region in the Projectfile to render
+boolean addregionname - add the name of the region to the renderfilename; only works, when you don't add a file-extension to renderfilename_with_path
+boolean overwrite_without_asking - true, overwrite an existing renderfile; false, don't overwrite an existing renderfile
+boolean renderclosewhendone - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings
+boolean filenameincrease - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings
+string rendercfg - the rendercfg-string, that contains all render-settings for an output-format
+                 - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a>
+</parameters>
+<semanticcontext>
+Rendering of Project
+Rendering any Outputformat
+</semanticcontext>
+<tags>
+projectfiles, render, output, file
+</tags>
+</ApiDocBlocFunc>
+]]
+  local retval
+  local curProj=reaper.EnumProjects(-1,"")
+  if math.type(region)~="integer" then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "region", "Must be an integer.", -1) return -1 end
+  if projectfilename_with_path==nil and reaper.IsProjectDirty(0)==1 then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "renderfilename_with_path", "To render current project, it must be saved first!", -2) return -2 end
+  if type(projectfilename_with_path)~="string" then 
+    -- reaper.Main_SaveProject(0, false)
+    retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
+  end
+  
+  if reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "projectfilename_with_path", "File does not exist.", -3) return -1 end
+  if type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "renderfilename_with_path", "Must be a string.", -4) return -1 end  
+  if ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "rendercfg", "No valid render_cfg-string.", -5) return -1 end
+  if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "overwrite_without_asking", "Must be boolean", -6) return -1 end
+
+  countmarkers, nummarkers, numregions, markertable = ultraschall.GetProject_MarkersAndRegions(projectfilename_with_path)
+  if region>numregions then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "region", "No such region in the project.", -7) return -1 end
+  local regioncount=0
+  for i=1, countmarkers do
+    if markertable[i][1]==true then 
+      regioncount=regioncount+1
+      if regioncount==region then region=i break end
+    end
+  end
+  if addregionname==true then renderfilename_with_path=renderfilename_with_path..markertable[region][4] end
+--  reaper.MB(region,"",0)
+--  reaper.MB(tonumber(markertable[region][2]), tonumber(markertable[region][3]),0)
+  return ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, tonumber(markertable[region][2]), tonumber(markertable[region][3]), overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
+end
+
+--Rendercfg = ultraschall.CreateRenderCFG_FLAC(1,1)
+
+--A=ultraschall.GetOutputFormat_RenderCfg(Rendercfg)
+
+--A, AA=ultraschall.RenderProjectRegions_RenderCFG("c:\\MarkerProject.rpp", "c:\\Tudelu-test", 2, false, true, true, true, Rendercfg)
+
+function ultraschall.GetGapsBetweenItems(MediaTrack)
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetGapsBetweenItems
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+integer number_of_gaps, array gaptable = ultraschall.GetGapsBetweenItems(MediaTrack MediaTrack)
+</functionname>
+<description>
+Returns a table with all gaps between items in MediaTrack.
+
+Returns -1 in case of an error
+</description>
+<retvals>
+integer number_of_gaps - the number of gaps found between items; -1, in case of error
+array gaptable - an array with all gappositions found
+               - gaptable[idx][1]=startposition of gap
+               - gaptable[idx][2]=endposition of gap
+</retvals>
+<parameters>
+MediaTrack MediaTrack - the track, of which you want to have the gaps between items
+</parameters>
+<semanticcontext>
+MediaItem Management
+Assistance functions
+</semanticcontext>
+<tags>
+mediaitemmanagement, get, gaps, between, items, item, mediaitem
+</tags>
+</ApiDocBlocFunc>
+]]
+  if reaper.ValidatePtr2(0, MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("GetGapsBetweenItems", "MediaTrack", "Must be a valid MediaTrack-object", -1) return -1 end
+  if reaper.GetTrackMediaItem(MediaTrack, 0)==nil then ultraschall.AddErrorMessage("GetGapsBetweenItems", "MediaTrack", "No MediaItem in track", -2) return -1 end
+  local GapTable={}
+  local counter2=0
+  local MediaItemArray={}
+  local counter=0
+  local Iterator, pos1, pos2, end1, end2
+  
+  -- create MediaItemArray with all items in track
+  MediaItemArray[counter]=0
+  while MediaItemArray[counter]~=nil do
+    counter=counter+1
+    MediaItemArray[counter]=reaper.GetTrackMediaItem(MediaTrack, counter-1)
+  end
+  counter=counter-1
+  
+  -- throw out all items, that are within/underneath other items
+  for i=counter, 2, -1 do
+    pos1=reaper.GetMediaItemInfo_Value(MediaItemArray[i], "D_POSITION")
+    end1=reaper.GetMediaItemInfo_Value(MediaItemArray[i], "D_LENGTH")+pos1
+    pos2=reaper.GetMediaItemInfo_Value(MediaItemArray[i-1], "D_POSITION")
+    end2=reaper.GetMediaItemInfo_Value(MediaItemArray[i-1], "D_LENGTH")+pos2
+    if pos1>pos2 and end1<end2 then 
+      table.remove(MediaItemArray,i) 
+      counter=counter-1 
+    end
+  end
+  
+  -- see, if there's a gap between projectstart and first item, if yes, add it to GapTable
+  if reaper.GetMediaItemInfo_Value(MediaItemArray[1], "D_POSITION")>0 then 
+    Iterator=1
+    GapTable[1]={}
+    GapTable[1][1]=0
+    GapTable[1][2]=reaper.GetMediaItemInfo_Value(MediaItemArray[1], "D_POSITION")
+  else
+    Iterator=0
+  end
+  
+  -- create a table with all Gaps between items  
+  for i=1, counter-1 do
+    GapTable[i+Iterator]={}
+    GapTable[i+Iterator][1]=reaper.GetMediaItemInfo_Value(MediaItemArray[i], "D_POSITION")+reaper.GetMediaItemInfo_Value(MediaItemArray[i], "D_LENGTH")
+    GapTable[i+Iterator][2]=reaper.GetMediaItemInfo_Value(MediaItemArray[i+1], "D_POSITION")
+    counter2=counter2+1
+  end
+
+  -- remove all gaps, that are gaps of length 0 or "gaps" of overlapping items(which aren't gaps because of that)
+  for i=counter2+Iterator, 1, -1 do
+    if GapTable[i][1]>=GapTable[i][2] then 
+      table.remove(GapTable,i) 
+      counter2=counter2-1
+    end
+  end
+  
+  return counter2+Iterator, GapTable
+end
+
+function ultraschall.malformedpatternhelper(patstring)
+  local A="Tudelu"
+  A:match(patstring)
+end
+
+--ultraschall.malformedpatternhelper("")
+
+function ultraschall.IsValidMatchingPattern(patstring)
+--[[
+<ApiDocBlocFunc>
+<slug>
+IsValidMatchingPattern
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.IsValidMatchingPattern(string patstring)
+</functionname>
+<description>
+Returns, if patstring is a valid pattern-matching-string
+</description>
+<retvals>
+boolean retval - true, patstring is a valid pattern-matching-string; false, patstring isn't a valid pattern-matching-string
+</retvals>
+<parameters>
+string patstring - the string to check for, if it's a valid pattern-matching-string
+</parameters>
+<semanticcontext>
+API-Helper functions
+</semanticcontext>
+<tags>
+helper functions, pattern, string, check, valid, matching
+</tags>
+</ApiDocBlocFunc>
+]]
+  return pcall(ultraschall.malformedpatternhelper,patstring)
+end
+
+--C=ultraschall.IsValidMatchPattern()
+
+--A,B=ultraschall.GetGapsBetweenItems(reaper.GetTrack(0,0))
 
 ultraschall.ShowLastErrorMessage()

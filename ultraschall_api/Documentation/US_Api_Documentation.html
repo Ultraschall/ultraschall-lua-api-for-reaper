@@ -1,5 +1,5 @@
 <html><head><title>Ultraschall Framework-Lua-Api-docs 4.00 "John Cage - 4:33"</title></head><body>
-<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 14240 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
+<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 14552 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
 </strong></td></tr></tr><tr><td><a href="#
 US1.Introduction
 ">
@@ -66,38 +66,40 @@ IsObjectValidReaperObject
 ">IsObjectValidReaperObject</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidGuid
 ">IsValidGuid</a>&nbsp;&nbsp;</td><td><a href="#
+IsValidMatchingPattern
+">IsValidMatchingPattern</a>&nbsp;&nbsp;</td><td><a href="#
 MakeFunctionUndoable
-">MakeFunctionUndoable</a>&nbsp;&nbsp;</td><td><a href="#
-OpenURL
-">OpenURL</a>&nbsp;&nbsp;</td></tr>
+">MakeFunctionUndoable</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+OpenURL
+">OpenURL</a>&nbsp;&nbsp;</td><td><a href="#
 PreventCreatingUndoPoint
 ">PreventCreatingUndoPoint</a>&nbsp;&nbsp;</td><td><a href="#
 RGB2Grayscale
 ">RGB2Grayscale</a>&nbsp;&nbsp;</td><td><a href="#
 RefreshToolbar_Action
-">RefreshToolbar_Action</a>&nbsp;&nbsp;</td><td><a href="#
-ReturnTypeOfReaperObject
-">ReturnTypeOfReaperObject</a>&nbsp;&nbsp;</td></tr>
+">RefreshToolbar_Action</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+ReturnTypeOfReaperObject
+">ReturnTypeOfReaperObject</a>&nbsp;&nbsp;</td><td><a href="#
 ReturnsMinusOneInCaseOfError_Arzala
 ">ReturnsMinusOneInCaseOfError_Arzala</a>&nbsp;&nbsp;</td><td><a href="#
 RunCommand
 ">RunCommand</a>&nbsp;&nbsp;</td><td><a href="#
 SecondsToTime
-">SecondsToTime</a>&nbsp;&nbsp;</td><td><a href="#
-SecondsToTimeString_hh_mm_ss_mss
-">SecondsToTimeString_hh_mm_ss_mss</a>&nbsp;&nbsp;</td></tr>
+">SecondsToTime</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+SecondsToTimeString_hh_mm_ss_mss
+">SecondsToTimeString_hh_mm_ss_mss</a>&nbsp;&nbsp;</td><td><a href="#
 SetIntConfigVar_Bitfield
 ">SetIntConfigVar_Bitfield</a>&nbsp;&nbsp;</td><td><a href="#
 TimeStringToSeconds_hh_mm_ss_mss
 ">TimeStringToSeconds_hh_mm_ss_mss</a>&nbsp;&nbsp;</td><td><a href="#
 TimeToSeconds
-">TimeToSeconds</a>&nbsp;&nbsp;</td><td><a href="#
-ToggleStateAction
-">ToggleStateAction</a>&nbsp;&nbsp;</td></tr>
+">TimeToSeconds</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+ToggleStateAction
+">ToggleStateAction</a>&nbsp;&nbsp;</td><td><a href="#
 ToggleStateButton
 ">ToggleStateButton</a>&nbsp;&nbsp;</td><td><a href="#
 toboolean
@@ -558,44 +560,47 @@ CheckMediaItemStateChunkArray
 ">CheckMediaItemStateChunkArray</a>&nbsp;&nbsp;</td><td><a href="#
 GetAllMediaItemGUIDs
 ">GetAllMediaItemGUIDs</a>&nbsp;&nbsp;</td><td><a href="#
+GetGapsBetweenItems
+">GetGapsBetweenItems</a>&nbsp;&nbsp;</td><td><a href="#
 GetMediaItemArrayLength
-">GetMediaItemArrayLength</a>&nbsp;&nbsp;</td><td><a href="#
-GetMediaItemStateChunkArrayLength
-">GetMediaItemStateChunkArrayLength</a>&nbsp;&nbsp;</td></tr>
+">GetMediaItemArrayLength</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetMediaItemStateChunkArrayLength
+">GetMediaItemStateChunkArrayLength</a>&nbsp;&nbsp;</td><td><a href="#
 GetMediaItemStateChunksFromItems
 ">GetMediaItemStateChunksFromItems</a>&nbsp;&nbsp;</td><td><a href="#
 GetMediaItemStateChunksFromMediaItemArray
 ">GetMediaItemStateChunksFromMediaItemArray</a>&nbsp;&nbsp;</td><td><a href="#
 GetMediafileAttributes
-">GetMediafileAttributes</a>&nbsp;&nbsp;</td><td><a href="#
-GetParentTrack_MediaItem
-">GetParentTrack_MediaItem</a>&nbsp;&nbsp;</td></tr>
+">GetMediafileAttributes</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetParentTrack_MediaItem
+">GetParentTrack_MediaItem</a>&nbsp;&nbsp;</td><td><a href="#
 IsItemInTimerange
 ">IsItemInTimerange</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidItemStateChunk
 ">IsValidItemStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidMediaItemArray
-">IsValidMediaItemArray</a>&nbsp;&nbsp;</td><td><a href="#
-IsValidMediaItemStateChunk
-">IsValidMediaItemStateChunk</a>&nbsp;&nbsp;</td></tr>
+">IsValidMediaItemArray</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+IsValidMediaItemStateChunk
+">IsValidMediaItemStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidMediaItemStateChunkArray
 ">IsValidMediaItemStateChunkArray</a>&nbsp;&nbsp;</td><td><a href="#
 OnlyItemsInTracksAndTimerange
 ">OnlyItemsInTracksAndTimerange</a>&nbsp;&nbsp;</td><td><a href="#
 OnlyMediaItemsOfTracksInTrackstring
-">OnlyMediaItemsOfTracksInTrackstring</a>&nbsp;&nbsp;</td><td><a href="#
-OnlyMediaItemsOfTracksInTrackstring_StateChunk
-">OnlyMediaItemsOfTracksInTrackstring_StateChunk</a>&nbsp;&nbsp;</td></tr>
+">OnlyMediaItemsOfTracksInTrackstring</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+OnlyMediaItemsOfTracksInTrackstring_StateChunk
+">OnlyMediaItemsOfTracksInTrackstring_StateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 PreviewMediaFile
 ">PreviewMediaFile</a>&nbsp;&nbsp;</td><td><a href="#
 PreviewMediaItem
 ">PreviewMediaItem</a>&nbsp;&nbsp;</td><td><a href="#
 StopAnyPreview
-">StopAnyPreview</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Delete
+">StopAnyPreview</a>&nbsp;&nbsp;</td></tr>
+<tr><tr><td>&nbsp;</td></tr><tr><td><strong>Delete
 </strong></td></tr>
 <td><a href="#
 DeleteMediaItem
@@ -917,78 +922,80 @@ GetProject_Loop
 GetProject_LoopGran
 ">GetProject_LoopGran</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetProject_MarkersAndRegions
+">GetProject_MarkersAndRegions</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_MaxProjectLength
 ">GetProject_MaxProjectLength</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_MixerUIFlags
 ">GetProject_MixerUIFlags</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_NumberOfTracks
-">GetProject_NumberOfTracks</a>&nbsp;&nbsp;</td><td><a href="#
-GetProject_PanLaw
-">GetProject_PanLaw</a>&nbsp;&nbsp;</td></tr>
+">GetProject_NumberOfTracks</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetProject_PanLaw
+">GetProject_PanLaw</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_PanMode
 ">GetProject_PanMode</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_PeakGain
 ">GetProject_PeakGain</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_ProjOffsets
-">GetProject_ProjOffsets</a>&nbsp;&nbsp;</td><td><a href="#
-GetProject_ReaperVersion
-">GetProject_ReaperVersion</a>&nbsp;&nbsp;</td></tr>
+">GetProject_ProjOffsets</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetProject_ReaperVersion
+">GetProject_ReaperVersion</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_RecMode
 ">GetProject_RecMode</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_RecPath
 ">GetProject_RecPath</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_RecordCFG
-">GetProject_RecordCFG</a>&nbsp;&nbsp;</td><td><a href="#
-GetProject_RenderCFG
-">GetProject_RenderCFG</a>&nbsp;&nbsp;</td></tr>
+">GetProject_RecordCFG</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetProject_RenderCFG
+">GetProject_RenderCFG</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_RenderDitherState
 ">GetProject_RenderDitherState</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_RenderFilename
 ">GetProject_RenderFilename</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_RenderFreqNChans
-">GetProject_RenderFreqNChans</a>&nbsp;&nbsp;</td><td><a href="#
-GetProject_RenderPattern
-">GetProject_RenderPattern</a>&nbsp;&nbsp;</td></tr>
+">GetProject_RenderFreqNChans</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetProject_RenderPattern
+">GetProject_RenderPattern</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_RenderRange
 ">GetProject_RenderRange</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_RenderResample
 ">GetProject_RenderResample</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_RenderSpeed
-">GetProject_RenderSpeed</a>&nbsp;&nbsp;</td><td><a href="#
-GetProject_RenderStems
-">GetProject_RenderStems</a>&nbsp;&nbsp;</td></tr>
+">GetProject_RenderSpeed</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetProject_RenderStems
+">GetProject_RenderStems</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_RippleState
 ">GetProject_RippleState</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_SMPTESync
 ">GetProject_SMPTESync</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_SampleRate
-">GetProject_SampleRate</a>&nbsp;&nbsp;</td><td><a href="#
-GetProject_Selection
-">GetProject_Selection</a>&nbsp;&nbsp;</td></tr>
+">GetProject_SampleRate</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetProject_Selection
+">GetProject_Selection</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_TakeLane
 ">GetProject_TakeLane</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_TempoTimeSignature
 ">GetProject_TempoTimeSignature</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_TimeBase
-">GetProject_TimeBase</a>&nbsp;&nbsp;</td><td><a href="#
-GetProject_Timemode
-">GetProject_Timemode</a>&nbsp;&nbsp;</td></tr>
+">GetProject_TimeBase</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetProject_Timemode
+">GetProject_Timemode</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_TrackMixingDepth
 ">GetProject_TrackMixingDepth</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_TrackStateChunk
 ">GetProject_TrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_UseRecConfig
-">GetProject_UseRecConfig</a>&nbsp;&nbsp;</td><td><a href="#
-GetProject_VerticalZoom
-">GetProject_VerticalZoom</a>&nbsp;&nbsp;</td></tr>
+">GetProject_UseRecConfig</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetProject_VerticalZoom
+">GetProject_VerticalZoom</a>&nbsp;&nbsp;</td><td><a href="#
 GetProject_VideoConfig
 ">GetProject_VideoConfig</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>RPP-Files Set
 </strong></td></tr>
@@ -1141,6 +1148,8 @@ CreateRenderCFG_WebMVideo
 <tr><tr><td>&nbsp;</td></tr><tr><td><strong>Rendering any Outputformat
 </strong></td></tr>
 <td><a href="#
+RenderProject_RenderCFG
+">RenderProject_RenderCFG</a>&nbsp;&nbsp;</td><td><a href="#
 RenderProject_RenderCFG
 ">RenderProject_RenderCFG</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr><tr><td><h3><u>Track Management</u></h3></td></tr><tr><td><strong>Assistance functions
 </strong></td></tr><td><a href="#
@@ -1550,6 +1559,10 @@ helperfunctions, check, type, reaper, object, project, track, item, take, envelo
 boolean retval = ultraschall.IsValidGuid(string guid, boolean strict)
 </i><br><br>Checks, if guid is a valid guid. Can also be used for strings, that contain a guid somewhere in them(strict=false)<br><br>A valid guid is a string that follows the following pattern:<br>{........-....-....-....-............}<br>where . is a hexadecimal value(0-F)<br><br>Returns false in case of error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true, guid is/contains a valid guid; false, guid isn't/does not contain a valid guid</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string guid</i> - the guid to check for validity</i><br><i>boolean strict</i> - true, guid must only be the valid guid; false, guid must contain a valid guid somewhere in it(means, can contain trailing or preceding characters)</i><br><i></i></div><p></p>Tags: 
 helper functions, guid, check
+<p></p><a id="IsValidMatchingPattern"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+boolean retval = ultraschall.IsValidMatchingPattern(string patstring)
+</i><br><br>Returns, if patstring is a valid pattern-matching-string<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true, patstring is a valid pattern-matching-string; false, patstring isn't a valid pattern-matching-string</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string patstring</i> - the string to check for, if it's a valid pattern-matching-string</i><br><i></i></div><p></p>Tags: 
+helper functions, pattern, string, check, valid, matching
 <p></p><a id="KeepTableEntriesOfType"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 table alteredtable = ultraschall.KeepTableEntriesOfType(table worktable, string keeptype)
 </i><br><br>Removes all entries from worktable, that are not of the datatype as given by keeptype.<br><br>returns nil in case of error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>table alteredtable</i> - the table, that contains only the entries of the type as given by parameter keeptype</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>table worktable</i> - the unaltered source-table for processing</i><br><i>string keeptype</i> - the type that shall remain in table</i><br><i>               </i> - allowed are boolean, integer, float, number, table, string, userdata, thread, ReaProject, MediaTrack, MediaItem, MediaItem_Take, TrackEnvelope, PCM_source</i><br><i></i></div><p></p>Tags: 
@@ -1740,11 +1753,11 @@ string sectionname = ultraschall.EnumerateIniFileExternalState_sec(integer numbe
 configurationmanagement, get, section, enumerate, ini-files
 <p></p><a id="EnumerateKeysByPattern"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"><img style="width:3%;" src="gfx/sws2.8.8.png" alt="sws version 2.8.8"> 
 string keyname = ultraschall.EnumerateKeysByPattern(string pattern, string section, integer id, string ini_filename_with_path)
-</i><br><br>Returns the numberth key within a section in an ini-file, that fits the pattern.<br><br>Uses "pattern"-string to determine if a key contains a certain pattern. Good for keys, that have a number in them, like key1=, key2=, key3=<br>Returns the key that includes that pattern as a string, numbered by id.<br><br>Pattern can also contain patterns for pattern matching. Refer the LUA-docs for pattern matching.<br>i.e. characters like ^$()%.[]*+-? must be escaped with a %, means: %[%]%(%) etc<br>If you don't escape these characters and write a "malformed pattern" that way, it will show an error in the function!<br><br>Returns nil, in case of an error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string keyname</i> - a string, that contains the keyname</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string pattern</i> - the pattern itself. Case sensitive.</i><br><i>string section</i> - the section, in which to look for the key</i><br><i>integer id</i> - the number of key, that contains pattern</i><br><i>string ini_filename_with_path</i> - filename of the ini-file</i><br><i></i></div><p></p>Tags: 
+</i><br><br>Returns the numberth key within a section in an ini-file, that fits the pattern, e.g. the third key containing "hawaii" in it.<br><br>Uses "pattern"-string to determine if a key contains a certain pattern. Good for keys, that have a number in them, like key1=, key2=, key3=<br>Returns the key that includes that pattern as a string, numbered by id.<br><br>Pattern can also contain patterns for pattern matching. Refer the LUA-docs for pattern matching.<br>i.e. characters like ^$()%.[]*+-? must be escaped with a %, means: %[%]%(%) etc<br>If you don't escape these characters and write a "malformed pattern" that way, it will show an error in the function!<br><br>Returns nil, in case of an error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string keyname</i> - a string, that contains the keyname</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string pattern</i> - the pattern itself. Case sensitive.</i><br><i>string section</i> - the section, in which to look for the key</i><br><i>integer id</i> - the number of key, that contains pattern</i><br><i>string ini_filename_with_path</i> - filename of the ini-file</i><br><i></i></div><p></p>Tags: 
 configurationmanagement, ini-files, enumerate, section, key, pattern, get
 <p></p><a id="EnumerateSectionsByPattern"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"><img style="width:3%;" src="gfx/sws2.8.8.png" alt="sws version 2.8.8"> 
 string sectionname = ultraschall.EnumerateSectionsByPattern(string pattern, integer id, string ini_filename_with_path)
-</i><br><br>Returns the numberth section within an ini-file, that fits the pattern.<br><br>Uses "pattern"-string to determine if a section contains a certain pattern. Good for sections, that have a number in them, like section1, section2, section3<br>Returns the section that includes that pattern as a string, numbered by id.<br><br>Pattern can also contain patterns for pattern matching. Refer the LUA-docs for pattern matching.<br>i.e. characters like ^$()%.[]*+-? must be escaped with a %, means: %[%]%(%) etc<br>If you don't escape these characters and write a "malformed pattern" that way, it will show an error in the function!<br><br>Returns nil, in case of an error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string sectionname</i> - a string, that contains the sectionname</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string pattern</i> - the pattern itself. Case sensitive.</i><br><i>integer id</i> - the number of section, that contains pattern</i><br><i>string ini_filename_with_path</i> - filename of the ini-file</i><br><i></i></div><p></p>Tags: 
+</i><br><br>Returns the numberth section within an ini-file, that fits the pattern, e.g. the third section containing "hawaii" in it.<br><br>Uses "pattern"-string to determine if a section contains a certain pattern. Good for sections, that have a number in them, like section1, section2, section3<br>Returns the section that includes that pattern as a string, numbered by id.<br><br>Pattern can also contain patterns for pattern matching. Refer the LUA-docs for pattern matching.<br>i.e. characters like ^$()%.[]*+-? must be escaped with a %, means: %[%]%(%) etc<br>If you don't escape these characters and write a "malformed pattern" that way, it will show an error in the function!<br><br>Returns nil, in case of an error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string sectionname</i> - a string, that contains the sectionname</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string pattern</i> - the pattern itself. Case sensitive.</i><br><i>integer id</i> - the number of section, that contains pattern</i><br><i>string ini_filename_with_path</i> - filename of the ini-file</i><br><i></i></div><p></p>Tags: 
 configurationmanagement, enumerate, section, pattern, get, ini-files
 <p></p><a id="EnumerateUSExternalState_key"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 string key_name = ultraschall.EnumerateUSExternalState_key(string section, integer number)
@@ -1756,7 +1769,7 @@ string section_name = ultraschall.EnumerateUSExternalState_sec(integer number)
 configurationmanagement, enumerate, section
 <p></p><a id="EnumerateValuesByPattern"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"><img style="width:3%;" src="gfx/sws2.8.8.png" alt="sws version 2.8.8"> 
 string value, string keyname = ultraschall.EnumerateValuesByPattern(pattern, section, id, ini_filename_with_path)
-</i><br><br>Returns the numberth value(and it's accompanying key) within a section in an ini-file, that fits the pattern.<br><br>Uses "pattern"-string to determine if a value contains a certain pattern. Good for values, that have a number in them, like value1, value2, value3<br>Returns the value that includes that pattern as a string, numbered by id, as well as it's accompanying key.<br><br>Pattern can also contain patterns for pattern matching. Refer the LUA-docs for pattern matching.<br>i.e. characters like ^$()%.[]*+-? must be escaped with a %, means: %[%]%(%) etc<br>If you don't escape these characters and write a "malformed pattern" that way, it will show an error in the function!<br><br>Returns nil, in case of an error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string value</i> - the value that contains the pattern</i><br><i>string keyname</i> - a string, that contains the keyname</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string pattern</i> - the pattern itself. Case sensitive.</i><br><i>string section</i> - the section, in which to look for the key</i><br><i>integer id</i> - the number of key, that contains pattern</i><br><i>string ini_filename_with_path</i> - filename of the ini-file</i><br><i></i></div><p></p>Tags: 
+</i><br><br>Returns the numberth value(and it's accompanying key) within a section in an ini-file, that fits the pattern, e.g. the third value containing "hawaii" in it.<br><br>Uses "pattern"-string to determine if a value contains a certain pattern. Good for values, that have a number in them, like value1, value2, value3<br>Returns the value that includes that pattern as a string, numbered by id, as well as it's accompanying key.<br><br>Pattern can also contain patterns for pattern matching. Refer the LUA-docs for pattern matching.<br>i.e. characters like ^$()%.[]*+-? must be escaped with a %, means: %[%]%(%) etc<br>If you don't escape these characters and write a "malformed pattern" that way, it will show an error in the function!<br><br>Returns nil, in case of an error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string value</i> - the value that contains the pattern</i><br><i>string keyname</i> - a string, that contains the keyname</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string pattern</i> - the pattern itself. Case sensitive.</i><br><i>string section</i> - the section, in which to look for the key</i><br><i>integer id</i> - the number of key, that contains pattern</i><br><i>string ini_filename_with_path</i> - filename of the ini-file</i><br><i></i></div><p></p>Tags: 
 configurationmanagement, ini-files, enumerate, section, key, value, pattern, get
 <p></p><a id="GetIniFileExternalState"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"><img style="width:3%;" src="gfx/sws2.8.8.png" alt="sws version 2.8.8"> 
 string value = ultraschall.GetIniFileExternalState(string section, string key, string ini_filename_with_path)
@@ -1968,7 +1981,7 @@ integer filecount, integer dircount= ultraschall.CountDirectoriesAndFilesInPath(
 filemanagement, count, directory, file, path
 <p></p><a id="CountLinesInFile"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer linesinfile = ultraschall.CountLinesInFile(string filename_with_path)
-</i><br><br>Counts lines in a textfile. In binary files, the number of line may be weird and unexpected!<br>Returns -1, if no such file exists.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer linesinfile</i> - number of lines in a textfile; -1 in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string filename_with_path</i> - filename of the file to be read</i><br><i></i></div><p></p>Tags: 
+</i><br><br>Counts lines in a textfile. In binary files, the number of lines may be weird and unexpected!<br>Returns -1, if no such file exists.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer linesinfile</i> - number of lines in a textfile; -1 in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string filename_with_path</i> - filename of the file to be read</i><br><i></i></div><p></p>Tags: 
 filemanagement, count
 <p></p><a id="CreateValidTempFile"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 string tempfilename = ultraschall.CreateValidTempFile(string filename_with_path, boolean create, string suffix, boolean retainextension)
@@ -2004,7 +2017,7 @@ integer length, string content = ultraschall.ReadBinaryFile(string input_filenam
 filemanagement, read file, binary
 <p></p><a id="ReadBinaryFileFromPattern"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer length, string content = ultraschall.ReadBinaryFileFromPattern(string input_filename_with_path, string pattern)
-</i><br><br>Returns a binary file, from pattern onwards. The pattern is not case-sensitive.<br><br>The pattern can also contain patterns for pattern matching. Refer the LUA-docs for pattern matching.<br>i.e. characters like ^$()%.[]*+-? must be escaped with a %, means: %[%]%(%) etc<br>If you don't escape these characters and write a "malformed pattern" that way, it will show an error in the function!<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer length</i> - the length of the returned data</i><br><i>string content</i> - the content of the file, that has been read until pattern</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string filename_with_path</i> - filename of the file to be read</i><br><i>string pattern</i> - a pattern to search for. Case-sensitive.</i><br><i></i></div><p></p>Tags: 
+</i><br><br>Returns a binary file, from pattern onwards. The pattern is not case-sensitive.<br><br>The pattern can also contain patterns for pattern matching. Refer the LUA-docs for pattern matching.<br>i.e. characters like ^$()%.[]*+-? must be escaped with a %, means: %[%]%(%) etc<br>If you don't escape these characters and write a "malformed pattern" that way, it will show an error in the function!<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer length</i> - the length of the returned data</i><br><i>string content</i> - the content of the file, that has been read from pattern to the end</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string filename_with_path</i> - filename of the file to be read</i><br><i>string pattern</i> - a pattern to search for. Case-sensitive.</i><br><i></i></div><p></p>Tags: 
 filemanagement, read file, pattern, binary
 <p></p><a id="ReadBinaryFileUntilPattern"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer length, string content = ultraschall.ReadBinaryFileUntilPattern(string input_filename_with_path, string pattern)
@@ -2192,7 +2205,7 @@ integer count_markers, array foundmarkers = ultraschall.GetMarkerByName_Pattern(
 markermanagement, get, marker, region, pattern
 <p></p><a id="GetMarkerByScreenCoordinates"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 string marker = ultraschall.GetMarkerByScreenCoordinates(integer xmouseposition, boolean retina)
-</i><br><br>returns the markers at a given absolute-x-pixel-position. It sees markers according their graphical representation in the arrange-view, not just their position! Returned string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2\n...".<br>Returns only markers, no time markers or regions!<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string marker</i> - a string with all markernumbers, markerpositions and markernames, separated by a newline. </i><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Can contain numerous markers, if there are more markers in one position.</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer xmouseposition</i> - the absolute x-screen-position, like current mouse-position</i><br><i>boolean retina</i> - if the screen-resolution is retina or hidpi, turn this true, else false</i><br><i></i></div><p></p>Tags: 
+</i><br><br>returns the markers at a given absolute-x-pixel-position. It sees markers according their graphical representation in the arrange-view, not just their position! Returned string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2\n...".<br>Returns only markers, no time markers or regions!<br><br>returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string marker</i> - a string with all markernumbers, markerpositions and markernames, separated by a newline. </i><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Can contain numerous markers, if there are more markers in one position.</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer xmouseposition</i> - the absolute x-screen-position, like current mouse-position</i><br><i>boolean retina</i> - if the screen-resolution is retina or hidpi, turn this true, else false</i><br><i></i></div><p></p>Tags: 
 markermanagement, navigation, get marker, position, marker
 <p></p><a id="GetMarkerByTime"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"><img style="width:3%;" src="gfx/sws2.8.8.png" alt="sws version 2.8.8"> 
 string markers = ultraschall.GetMarkerByTime(number position, boolean retina)
@@ -2402,6 +2415,10 @@ mediaitemmanagement, get, items, time, selection
 integer count, array MediaItemArray = ultraschall.GetAllSelectedMediaItems()
 </i><br><br>Returns all selected items in the project as MediaItemArray. Empty MediaItemAray if none is found.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer count</i> - the number of entries in the returned MediaItemArray</i><br><i>array MediaItemArray</i> - all selected MediaItems returned as an array</i><br><i></i></div><p></p><p></p>Tags: 
 mediaitemmanagement, tracks, media, item, get, all, selected, selection
+<p></p><a id="GetGapsBetweenItems"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+integer number_of_gaps, array gaptable = ultraschall.GetGapsBetweenItems(MediaTrack MediaTrack)
+</i><br><br>Returns a table with all gaps between items in MediaTrack.<br><br>Returns -1 in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer number_of_gaps</i> - the number of gaps found between items; -1, in case of error</i><br><i>array gaptable</i> - an array with all gappositions found</i><br><i>              </i> - gaptable[idx][1]=startposition of gap</i><br><i>              </i> - gaptable[idx][2]=endposition of gap</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>MediaTrack MediaTrack</i> - the track, of which you want to have the gaps between items</i><br><i></i></div><p></p>Tags: 
+mediaitemmanagement, get, gaps, between, items, item, mediaitem
 <p></p><a id="GetItemAllTakes"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer alltakes = ultraschall.GetItemAllTakes(MediaItem MediaItem, optional string MediaItemStateChunk)
 </i><br><br>Returns alltakes-entry of a MediaItem or MediaItemStateChunk.<br>Returns nil in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer alltakes</i> - Play all takes(1) or don't play all takes(0)</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>MediaItem MediaItem</i> - the MediaItem, whose all-takes-playstate you want to know; nil, use parameter MediaItemStatechunk instead</i><br><i>string MediaItemStateChunk</i> - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk</i><br><i></i></div><p></p>Tags: 
@@ -2772,7 +2789,7 @@ ultraschall.CenterViewToCursor(integer cursortype)
 navigation, center, cursor, mouse, edit, play
 <p></p><a id="GetClosestGoToPoints"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 number elementposition_prev, string elementtype_prev, integer number_prev, number elementposition_next, string elementtype_next, integer number_next = ultraschall.GetClosestGoToPoints(string tracksstring, number time_position, optional boolean check_itemedge, optional boolean check_marker, optional boolean check_region)
-</i><br><br>returns, what are the closest markers/regions/item starts/itemends to position and within the chosen tracks.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>number elementposition_prev</i> - previous closest markers/regions/item starts/itemends</i><br><i>string elementtype_prev</i> - type of the previous closest markers/regions/item starts/itemends</i><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the type can be either Itembeg, Itemend, Marker, Region</i><br><i>integer number_prev</i> - number of previous closest markers/regions/item starts/itemends</i><br><i>number elementposition_next</i> - previous closest markers/regions/item starts/itemends</i><br><i>string elementtype_next</i> - type of the previous closest markers/regions/item starts/itemends</i><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the type can be either Itembeg, Itemend, Marker, Region</i><br><i>integer number_next </i> - number of previous closest markers/regions/item starts/itemends</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string tracksstring</i> - tracknumbers, separated by a comma.</i><br><i>number time_position</i> - a time position in seconds, from where to check for the next/previous closest items/markers/regions.</i><br><i>optional boolean check_itemedge</i> - true, look for itemedges as possible goto-points; false, do not</i><br><i>optional boolean check_marker</i> - true, look for markers as possible goto-points; false, do not</i><br><i>optional boolean check_region</i> - true, look for regions as possible goto-point; false, do not</i><br><i></i></div><p></p>Tags: 
+</i><br><br>returns, what are the closest markers/regions/item starts/itemends to position and within the chosen tracks.<br><br>returns -1 in case of error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>number elementposition_prev</i> - previous closest markers/regions/item starts/itemends</i><br><i>string elementtype_prev</i> - type of the previous closest markers/regions/item starts/itemends</i><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the type can be either Itembeg, Itemend, Marker, Region</i><br><i>integer number_prev</i> - number of previous closest markers/regions/item starts/itemends</i><br><i>number elementposition_next</i> - previous closest markers/regions/item starts/itemends</i><br><i>string elementtype_next</i> - type of the previous closest markers/regions/item starts/itemends</i><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the type can be either Itembeg, Itemend, Marker, Region</i><br><i>integer number_next </i> - number of previous closest markers/regions/item starts/itemends</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string tracksstring</i> - tracknumbers, separated by a comma.</i><br><i>number time_position</i> - a time position in seconds, from where to check for the next/previous closest items/markers/regions.</i><br><i>                    </i> - -1, for editcursorposition; -2, for playcursor-position</i><br><i>optional boolean check_itemedge</i> - true, look for itemedges as possible goto-points; false, do not</i><br><i>optional boolean check_marker</i> - true, look for markers as possible goto-points; false, do not</i><br><i>optional boolean check_region</i> - true, look for regions as possible goto-point; false, do not</i><br><i></i></div><p></p>Tags: 
 navigation, previous, next, marker, region, item, edge
 <p></p><a id="GetClosestNextMarker"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"><img style="width:3%;" src="gfx/sws2.8.8.png" alt="sws version 2.8.8"> 
 number markerindex, number position, string markername = ultraschall.GetClosestNextMarker(integer cursor_type, optional number time_position)
@@ -2910,6 +2927,10 @@ projectfiles, rpp, state, get, loop, button
 integer loopgran_state1, number loopgran_state2 = ultraschall.GetProject_LoopGran(string projectfilename_with_path, optional string ProjectStateChunk)
 </i><br><br>Returns the loop_gran-state from an RPP-Projectfile or a ProjectStateChunk.<br>Returns nil in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer loopgran_state1</i> - loopgran_state1</i><br><i>number loopgran_state2</i> - loopgran_state2</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string projectfilename_with_path</i> - filename with path for the rpp-projectfile; nil, if you want to use parameter ProjectStateChunk</i><br><i>optional string ProjectStateChunk</i> - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil</i><br><i></i></div><p></p>Tags: 
 projectfiles, rpp, state, get, loop, gran
+<p></p><a id="GetProject_MarkersAndRegions"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
+integer markerregioncount, integer NumMarker, integer Numregions, array Markertable = ultraschall.GetProject_MarkersAndRegions(string projectfilename_with_path, optional string ProjectStateChunk)
+</i><br><br>Returns the markers and regions from an RPP-Projectfile or a ProjectStateChunk.<br>Doe not return TimeSignature-markers(!)<br>Returns nil in case of error or if no such entry exists.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer markerregioncount</i> - the number of markers and regions in the projectfile/ProjectStateChunk</i><br><i>array markertable</i> - an array with all elements of markers/regions</i><br><i>                 </i> - markertable has the following entries:</i><br><i>                 </i> - markertable[id][1]=boolean isrgn</i> - true, marker is a region; false, marker is a normal marker</i><br><i>                 </i> - markertable[id][2]=number pos   </i> - the startposition of the marker/region</i><br><i>                 </i> - markertable[id][3]=number rgnend</i> - the endposition of a region; 0, if it's a marker</i><br><i>                 </i> - markertable[id][4]=string name  </i> - the name of the marker/region</i><br><i>                 </i> - markertable[id][5]=integer markrgnindexnumber</i> - the shown number of the region/marker</i><br><i>                 </i> - markertable[id][6]=integer color</i> - the color-value of the marker</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string projectfilename_with_path</i> - filename with path for the rpp-projectfile; nil, if you want to use parameter ProjectStateChunk</i><br><i>optional string ProjectStateChunk</i> - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil</i><br><i></i></div><p></p>Tags: 
+projectfiles, rpp, state, get, marker, regions
 <p></p><a id="GetProject_MaxProjectLength"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer limit_project_length, number projectlength_limit = ultraschall.GetProject_MaxProjectLength(string projectfilename_with_path, optional string ProjectStateChunk)
 </i><br><br>Returns the maximum-project-length from an RPP-Projectfile or a ProjectStateChunk, as set in ProjectSettings->Advanced-><br>as set in ProjectSettings->ProjectSettings->Project Start Time/Measure.<br>Returns nil in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer limit_project_length</i> - checkbox "Limit project length, stop playback/recording at:"</i> - 0 off, 1 on</i><br><i>number projectlength_limit</i> - projectlength-limit in seconds</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string projectfilename_with_path</i> - filename with path for the rpp-projectfile; nil, if you want to use parameter ProjectStateChunk</i><br><i>optional string ProjectStateChunk</i> - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil</i><br><i></i></div><p></p>Tags: 
@@ -3295,8 +3316,12 @@ projectfiles, create, render, outputformat, webm
 </h4>The Render-Functions within the Ultraschall Framework allow you to render audio/video without having to use the Rendering-dialog.<br>That way, you can program things like e.g. queue-rendering into multiple formats of a project or rendering a project to one project and another rendering into a "backup-folder" and such.<br>To make that possible, it is necessary to know some things, on how it works, as rendering in Reaper, with all the options it provides, is quite complex.<br>But don't panic.<br><br>The rendering functions allow you to render a project, which means: <br> 1) you can choose an RPP-projectfile to be rendered, <br> 2) the renderfilename, where the audio/video shall be rendered to<br> 3) format-specific parameters, like kilobits/second or rendering quality, etc.<br> <br>When rendering starts, the rendering function does the following things:<div style="padding-left:4%;"><br> 1) It checks, whether the parameters are valid. If not, it returns -1 as error value.<br> 2) It checks, whether the current project is saved. If not, it returns -2 as error value, as all rendering-functions need the current project to be saved.<br> 3) It creates a copy of the rpp-file as ultraschall-temp.rpp in the projectfolder of the rpp-file you choose. Returns -3 if it already exists to prevent accidental overwriting.<br> 4) It inserts the necessary render-settings into the ultraschall-temp.rpp<br> 5) It loads the ultraschall-temp.rpp as current project, closing the former current project<br> 6) It starts the action 41824 - "File: Render project, using the most recent render settings" which renders the file<br> 7) It reopens the former project, that was the current project before rendering<br> </div><br>That means, you need to take care of the fact, that the current project is saved before rendering, as well as that the ultraschall-temp.rpp doesn't exist in the project-folder of the project, that shall be rendered, or you'll get an error message.<br><br>If you want to render the current project, you need to save the project using reaper.Main_SaveProject.<br>After that, you get the filename.rpp and project-path using the functions reaper.GetProjectName and reaper.GetProjectPath. Keep in mind, that GetProjectPath isn't just the path to the projectfile, but to the subfolder for the recordings. <br>You can change it to the rpp-project-file-folder itself, by manipulating the return-value of the GetProjectPath-function: <br><br>On windows:<br><pre style="background-color:#DDDDDD;"><code>buf=buf:match("(.*)\\")</code></pre>or<br><pre style="background-color:#DDDDDD;"><code>Path=reaper.GetProjectPath(""):match("(.*)\\")</code></pre><br>On Mac:<br><pre style="background-color:#DDDDDD;"><code>buf=buf:match("(.*)/")</code></pre>or<br><pre style="background-color:#DDDDDD;"><code>Path=reaper.GetProjectPath(""):match("(.*)/")</code></pre><br>Otherwise, you look into the wrong folder for the projectfile!<br>Now you just need to use that filename+path as parameter for the render-function you want to use.<br><br>In the likely case, that you want to influence more things for rendering, like samplerate, stereo or mono, etc, you make a copy of the rpp-file using you want to render using <a href="#MakeCopyOfFile">MakeCopyOfFile</a>. The copy must have a different name and be in the same folder, as the original rpp-file!<br>Now you can alter the copied-file using the following Ultraschall-Framework-functions, that represent certain elements from Reaper's Render-Dialog:<br><br><a href="#SetProject_RenderFilename">SetProject_RenderFilename</a> (File name), <a href="#SetProject_RenderPattern">SetProject_RenderPattern</a> (File name, when using Wildcards), <a href="#SetProject_RenderDitherState">SetProject_RenderDitherState</a> (Master mix: Dither/Noise shaping checkboxes), <a href="SetProject_RenderFreqNChans">SetProject_RenderFreqNChans</a> (Sample rate in Hz, Channels), <a href="#SetProject_RenderRange">SetProject_RenderRange</a> (Bounds, Time bounds, Tail), <a href="#SetProject_RenderResample">SetProject_RenderResample</a> (Resample mode (if needed), <a href="#SetProject_RenderSpeed">SetProject_RenderSpeed</a>, <a href="#SetProject_RenderStems">SetProject_RenderStems</a> (Source)<br><br>The altered projectfile can be used now as parameter for the rendering-functions.<p></p><a id="Render2.How2Use"></a><h4>
 2. How to Use Rendering Functions (examples)
 </h4>Using the rendering-functions is quite easy. Let's use MP3 as an example(needs LAME-encoder to be installed into Reaper!)<br><br>On Windows:<br><pre style="background-color:#DDDDDD;"><code><br>retval = ultraschall.RenderProjectToMP3_CBR("path\\filename.rpp", "path\\filename.mp3", 128, 5)<br></code><br></pre><br>On Mac:<br><pre style="background-color:#DDDDDD;"><code><br>retval = ultraschall.RenderProjectToMP3_CBR("path/filename.rpp", "path/filename.mp3", 128, 5)<br></code><br></pre><br>That way, you will render the file "filename.rpp" in "path" into an MP3 called "filename.mp3". This MP3 will be encoded with a bitrate of 128kbps, while encode speed is 5 which means slow but best quality.<br><br>If you want to render the current project as mp3 with the same quality-settings as above, you can use the following snippet:<br><pre style="background-color:#DDDDDD;"><code><br>    --Get the correct Separator for a Windows or a Mac-system<br>sep=ultraschall.Separator<br><br>    --Save current Project<br>reaper.Main_SaveProject(0, false)<br><br>    --Get Projectpath and Projectname<br>ProjectPath = reaper.GetProjectPath("")<br>ProjectName = reaper.GetProjectName(0, "")<br><br>    -- Create a string with the ProjectFilename with path<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we <br>    -- look in the wrong folder for the project, not the one, where the rpp-projectfile lies<br>ProjectFilename=ProjectPath:match("(.*)"..sep)..sep..ProjectName<br><br>    -- Create a string with the MP3Filename with path<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we <br>    -- save the MP3 in the recordings-folder, rather than the folder, where the rpp-projectfile lies<br>MP3Filename=ProjectPath:match("(.*)"..sep)..sep..ProjectName:sub(1,-5)..".mp3" -- The MP3-Filename<br><br>    -- Render the project as constant-bitrate-MP3 with<br>    -- 128 kbps and rendering speed 5 (best quality but slowest)<br>Retval = ultraschall.RenderProjectToMP3_CBR(ProjectFilename, MP3Filename, 128, 5) <br></code></pre><br>If you want to alter the rendersettings first, you can use the following snippet as a template. It changes the render-range, before rendering:<br><pre style="background-color:#DDDDDD;"><code><br>    --Get the correct Separator for a Windows or a Mac-system<br>sep=ultraschall.Separator<br><br>    -- Save current Project<br>reaper.Main_SaveProject(0, false)<br><br>    -- Get Projectpath and Projectname<br>ProjectPath = reaper.GetProjectPath("")<br>ProjectName = reaper.GetProjectName(0, "")<br><br>    -- Create a string with the ProjectFilename with path<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we <br>    -- look in the wrong folder for the project<br>ProjectFilename=ProjectPath:match("(.*)"..sep)..sep..ProjectName<br><br>    -- Create a string with the temporary-ProjectFilename with path, which must be in the same folder, <br>    -- as the original project-file.<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match,<br>    -- as otherwise we look in the wrong folder for the project.<br>    -- DON'T USE "Ultraschall-temp.rpp", as that name will be used by the rendering-function itself!<br>TempProjectFilename=ProjectPath:match("(.*)"..sep)..sep.."This-Is-A-Temporary-Project-File.rpp"<br><br>    -- To prevent accidental overwriting of an already existing file with the same name as<br>    -- TempProjectFilename, we check it's existence. If true, we end right here.<br>if reaper.file_exists(TempProjectFilename)==true then return -1 end<br><br>    -- Let's create a temporary copy of the project-file. <br>Retval = ultraschall.MakeCopyOfFile(ProjectFilename, TempProjectFilename)<br><br>    -- Now we alter the render-settings in the temporary(!)-projectfile.<br>    -- We will do the the render-range, but you can use other ultraschall.SetProject_RenderXXXX-functions here as well<br>    -- Setting the Renderrange. The parameters are:<br>      -- TempProjectFilename - the temporary-project-filename<br>      -- 0 for Custom Time Range<br>      -- 10, which is the beginning of the render-range in seconds<br>      -- 20, which is the end of the render-range in seconds<br>      -- 0 for tail off for all bounds<br>      -- 0 for the taillength<br>Retval = ultraschall.SetProject_RenderRange(TempProjectFilename, 0, 10, 20, 0, 0)<br><br>    -- Create a string with the MP3Filename with path<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we <br>    -- save the MP3 in the recordings-folder, rather than the folder, where the rpp-projectfile lies<br>MP3Filename=ProjectPath:match("(.*)"..sep)..sep..ProjectName:sub(1,-5)..".mp3" -- The MP3-Filename<br><br>    -- Render the project as constant-bitrate-MP3 with<br>    -- 128 kbps and rendering speed 5 (best quality but slowest)<br>Retval = ultraschall.RenderProjectToMP3_CBR(TempProjectFilename, MP3Filename, 128, 5) <br><br>    --let's remove the temporary file again.<br>os.remove(TempProjectFilename)<br><br>    -- Hooray, Rendering, successfully accomplished! Congratulations!<br></code><br></pre><br>Read the accompanying Api-documentation entries for the "ultraschall.GetProject_XXX"/ultraschall.SetProject_XXX"-functions, as they'll give you even more stuff to work with.<br><p></p><a id="RenderProject_RenderCFG"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
-integer retval = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)
-</i><br><br>Renders a project, using a specific render-cfg-string.<br>To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a><br><br>Returns -1 in case of an error<br>Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1 in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string projectfilename_with_path</i> - the project to render; nil, for the currently opened project(needs to be saved first)</i><br><i>string renderfilename_with_path</i> - the filename of the output-file. If you give the wrong extension, Reaper will exchange it by the correct one.</i><br><i>number startposition</i> - the startposition of the render-area in seconds; -1, to use the startposition set in the projectfile itself</i><br><i>number endposition</i> - the endposition of the render-area in seconds; -1, to use the endposition set in the projectfile itself</i><br><i>boolean renderclosewhendone</i> - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings</i><br><i>boolean filenameincrease</i> - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings</i><br><i>string rendercfg</i> - the rendercfg-string, that contains all render-settings for an output-format</i><br><i>                </i> - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a></i><br><i></i></div><p></p>Tags: 
+integer retval = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)
+</i><br><br>Renders a region of a project, using a specific render-cfg-string.<br>To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a><br><br>Returns -1 in case of an error<br>Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1 in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string projectfilename_with_path</i> - the project to render; nil, for the currently opened project(needs to be saved first)</i><br><i>string renderfilename_with_path</i> - the filename of the output-file. </i><br><i>                               </i> - Don't add a file-extension, when using addregionname=true!</i><br><i>                               </i> - Give a path only, when you want to use only the regionname as render-filename(set addregionname=true !)</i><br><i>integer region</i> - the number of the region in the Projectfile to render</i><br><i>boolean addregionname</i> - add the name of the region to the renderfilename; only works, when you don't add a file-extension to renderfilename_with_path</i><br><i>boolean overwrite_without_asking</i> - true, overwrite an existing renderfile; false, don't overwrite an existing renderfile</i><br><i>boolean renderclosewhendone</i> - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings</i><br><i>boolean filenameincrease</i> - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings</i><br><i>string rendercfg</i> - the rendercfg-string, that contains all render-settings for an output-format</i><br><i>                </i> - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a></i><br><i></i></div><p></p>Tags: 
+projectfiles, render, output, file
+<p></p><a id="RenderProject_RenderCFG"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+integer retval = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)
+</i><br><br>Renders a project, using a specific render-cfg-string.<br>To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a><br><br>Returns -1 in case of an error<br>Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1 in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string projectfilename_with_path</i> - the project to render; nil, for the currently opened project(needs to be saved first)</i><br><i>string renderfilename_with_path</i> - the filename of the output-file. If you give the wrong extension, Reaper will exchange it by the correct one.</i><br><i>number startposition</i> - the startposition of the render-area in seconds; -1, to use the startposition set in the projectfile itself</i><br><i>number endposition</i> - the endposition of the render-area in seconds; -1, to use the endposition set in the projectfile itself</i><br><i>boolean overwrite_without_asking</i> - true, overwrite an existing renderfile; false, don't overwrite an existing renderfile</i><br><i>boolean renderclosewhendone</i> - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings</i><br><i>boolean filenameincrease</i> - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings</i><br><i>string rendercfg</i> - the rendercfg-string, that contains all render-settings for an output-format</i><br><i>                </i> - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a></i><br><i></i></div><p></p>Tags: 
 projectfiles, render, output, file
 <p></p><a id="AddMediaItemStateChunk_To_TrackStateChunk"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 string trackstatechunk = ultraschall.AddMediaItemStateChunk_To_TrackStateChunk(string trackstatechunk, string mediaitemstatechunk)
@@ -3774,4 +3799,4 @@ userinterface, set, vertical, zoom, factor
 integer retval = ultraschall.StoreArrangeviewSnapshot(integer slot, string description, boolean position, boolean vzoom)
 </i><br><br>Stores a new Arrangeview-snapshot, that includes the position, horizontal zoom and vertical zoom.<br><br>Returns -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1, in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer slot</i> - the slot for arrangeview-snapshot</i><br><i>string description</i> - a description for this arrangeview-snapshot</i><br><i>boolean position</i> - true, store start and endposition of the current arrangeview; false, don't store start and endposition of current arrangeview(keep old position in slot, if existing)</i><br><i>boolean vzoom</i> - true, store current vertical-zoom-factor; false, don't store current vertical-zoom-factor(keep old zoomfactor in slot, if existing)</i><br><i></i></div><p></p>Tags: 
 userinterface, set, arrangeview, snapshot
-<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 596-functions available</i></p></div></body></html>
+<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 600-functions available</i></p></div></body></html>

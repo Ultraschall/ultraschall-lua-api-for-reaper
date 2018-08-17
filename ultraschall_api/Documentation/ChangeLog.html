@@ -159,18 +159,18 @@
 <li>PreviewMediaFile - play preview of a mediafile, that is not necessarily in the project</li>
 <li>MakeFunctionUndoable - run a function with it and it will create an Undo-Point for that given function automatically</li>
 <li>GetProject_Selection - get the time-selection of an rpp-project or ProjectStateChunk</li>
-<li><p>SetProject_Selection - set the time-selection of an rpp-project or ProjectStateChunk</p></li>
-<li>ChangeToActiveProject_ProjNr - change the active projecttab to a tab-nr of your choice</li>
+<li>SetProject_Selection - set the time-selection of an rpp-project or ProjectStateChunk</li>
 <li>DirectoryExists - check, if a directory already exists in a path</li>
 <li>All parts of the API have now their own build-counters in the ultraschall_api.ini</li>
-<li>GetTrackStateChunk - get a TrackStateChunk; circumvents limitation of Reaper's own GetTrackStateChunk</li>
-<li>GetItemStateChunk - get a ItemStateChunk; circumvents limitation of Reaper's own GetItemStateChunk</li>
-<li>GetEnvelopeStateChunk - get an EnvelopeStateChunk; circumvents limitation of Reaper's own GetEnvelopeStateChunk</li>
 <li>API checks now, if SWS2.9.7 is installed and displays an error-message, if it's missing.</li>
 <li>ApplyFunctionToMediaItemArray - applies a function to all MediaItems in a MediaItemArray</li>
 <li>ReturnTableAsIndividualValues - returns index 1 to 64 of a table as return-values</li>
 <li>GetMediaItemTake - returns a MediaItem_Take of an item, either a specific or the active one</li>
-<li><p>requires now Reaper 5.95</p></li>
+<li>requires now Reaper 5.95</li>
+<li>GetProject_MarkersAndRegions - returns Markers and Regions from a Projectfile/ProjectStateChunk into an array</li>
+<li>RenderProjectRegions_RenderCFG - renders a project's region</li>
+<li>GetGapsBetweenItems - returns a table with all gaps between items in a track</li>
+<li>IsValidMatchingPattern - checks, if a string is a valid pattern-matching string</li>
 </ul>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
 <ul>
@@ -488,8 +488,9 @@
 <li>SetProject_UseRecConfig - allows usage of ProjectStateChunks now as well</li>
 <li>SetProject_VerticalZoom - allows usage of ProjectStateChunks now as well</li>
 <li>OpenURL - had a problem on Windows, when the url-string contained spaces -&gt; fixed; returns -1 in case of error, now</li>
-<li>All functions using StateChunks now circumvent Reaper's API-limitation, where StateChunks were truncated when being bigger than 4MB</li>
 <li>GetReaperAppVersion - returns now the operating system as well if the Reaper-installation is a portable one.</li>
+<li>GetClosestGoToPoints - added options to get closest goto-points from current edit/playcursor-position</li>
+<li>ReadBinaryFileFromPattern - corrected docs, rewrote function for more speed</li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>
