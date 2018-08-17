@@ -3,8 +3,8 @@
 ###4.00 Beta 2.7: - "John Cage - 4:33" - 30th of July 2018
 ####New features in 4.00beta2.7
   - SetEnvelopeHeight - set the height and compactible state of an envelope-lane/envelopestatechunk
-  - GetTrackStateChunk - get a TrackStateChunk without the hassle of creating a trackobject first
-  - SetTrackStateChunk - set a TrackStateChunk without the hassle of creating a trackobject first
+  - GetTrackStateChunk_Tracknumber - get a TrackStateChunk without the hassle of creating a trackobject first  
+  - SetTrackStateChunk_Tracknumber - set a TrackStateChunk without the hassle of creating a trackobject first
   - GetTrackWidth - gets the Track-Width
   - GetTrackVolPan - gets Vol and Pan-settings of the track
   - GetTrackScore - gets Score of the track
@@ -160,10 +160,17 @@
   - MakeFunctionUndoable - run a function with it and it will create an Undo-Point for that given function automatically
   - GetProject_Selection - get the time-selection of an rpp-project or ProjectStateChunk
   - SetProject_Selection - set the time-selection of an rpp-project or ProjectStateChunk
-  - ChangeToActiveProject - change the active projecttab to a certain Project
-  - ChangeToActiveProject_ProjNr - change the active projecttab to a tab-nr of your choice
   - DirectoryExists - check, if a directory already exists in a path
   - All parts of the API have now their own build-counters in the ultraschall_api.ini
+  - API checks now, if SWS2.9.7 is installed and displays an error-message, if it's missing.
+  - ApplyFunctionToMediaItemArray - applies a function to all MediaItems in a MediaItemArray
+  - ReturnTableAsIndividualValues - returns index 1 to 64 of a table as return-values
+  - GetMediaItemTake - returns a MediaItem_Take of an item, either a specific or the active one
+  - requires now Reaper 5.95
+  - GetProject_MarkersAndRegions - returns Markers and Regions from a Projectfile/ProjectStateChunk into an array
+  - RenderProjectRegions_RenderCFG - renders a project's region
+  - GetGapsBetweenItems - returns a table with all gaps between items in a track
+  - IsValidMatchingPattern - checks, if a string is a valid pattern-matching string
   
       
 ####Changes from 4.00beta2.6 to 4.00beta2.7
@@ -348,7 +355,6 @@
   - As the Functions-Engine is essential for all parts of the Ultraschall-API, it can't be turned off anymore.
   - renamed MoveMarkers to MoveMarkersBy
   - ReadValueFromFile - sped up code, returned wrong found-lines-value -> fixed
-  - OpenURL - had a problem on Windows, when the url-string contained spaces -> fixed
   - CheckMediaItemArray - did not return the altered MediaItemArray and count, when returning retval=false -> fixed
   - ChangeOffsetOfMediaItems_FromArray - typos in the docs -> fixed
   - GetSelectedMediaItemsAtPosition - error in documentation -> fixed
@@ -485,7 +491,10 @@
   - SetProject_TrackMixingDepth - allows usage of ProjectStateChunks now as well; hadn't correct parameters in the docs -> fixed
   - SetProject_UseRecConfig - allows usage of ProjectStateChunks now as well
   - SetProject_VerticalZoom - allows usage of ProjectStateChunks now as well
-  - OpenURL - returns -1 in case of error, now
+  - OpenURL - had a problem on Windows, when the url-string contained spaces -> fixed; returns -1 in case of error, now
+  - GetReaperAppVersion - returns now the operating system as well if the Reaper-installation is a portable one.
+  - GetClosestGoToPoints - added options to get closest goto-points from current edit/playcursor-position
+  - ReadBinaryFileFromPattern - corrected docs, rewrote function for more speed
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:

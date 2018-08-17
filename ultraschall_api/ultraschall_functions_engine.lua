@@ -40871,7 +40871,7 @@ function ultraschall.RenderProjectRegions_RenderCFG(projectfilename_with_path, r
 --[[
 <ApiDocBlocFunc>
 <slug>
-RenderProject_RenderCFG
+RenderProjectRegions_RenderCFG
 </slug>
 <requires>
 Ultraschall=4.00
@@ -40879,7 +40879,7 @@ Reaper=5.77
 Lua=5.3
 </requires>
 <functionname>
-integer retval = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)
+integer retval = ultraschall.RenderProjectRegions_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)
 </functionname>
 <description>
 Renders a region of a project, using a specific render-cfg-string.
