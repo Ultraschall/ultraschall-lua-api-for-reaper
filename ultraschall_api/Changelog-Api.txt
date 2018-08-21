@@ -171,91 +171,45 @@
   - RenderProjectRegions_RenderCFG - renders a project's region
   - GetGapsBetweenItems - returns a table with all gaps between items in a track
   - IsValidMatchingPattern - checks, if a string is a valid pattern-matching string
+  - IsValidReaProject - checks, if a ReaProject-object is a valid one
+  - type - returns the type of an object, either Lua's own datatypes or Reaper's own datatypes (SWS-specific-datatypes are not supported...yet(?))
+  - SetTrackGroupFlagsState - sets the GroupFlagsState in a track or a TrackStateChunk for track-group 1-32
+  - SetTrackGroupFlags_HighState - sets the GroupFlagsState in a track or a TrackStateChunk for track-group 33-64
+  - GetTrackGroupFlags_HighState - gets the GroupFlagsState in a track or a TrackStateChunk for track-group 33-64
+  - all(!) TrackStates are now get/settable(!)
+  - all functions create now useful error-messages, who can be retrieved with the error-message-functions, 
+            refer to the Developer -> Error Handling-functions in the index of the functions-reference
+            
+            Good riddance, what a long term hard work to code that...
+  - GetCurrentTimeLengthOfFrame - gets the length of a frame in seconds of a certain project; good for video/image-related functions like InsertImageFile
+  - GetLengthOfFrames - gets the length of a number of frames in seconds of a certain project; good for video/image-related functions like InsertImageFile
   
   <TODO>
-      TODO!!  - IsValidMediaItemArray()- seems to be buggy, returning true if given a function or something else...
-                                         maybe I should do a copynpaste of CheckMediaItemArray-function
-      TODO!!  - SetTrackGroupFlagsState - sets GroupFlagsState
-      TODO!!  - commenting and errorchecking
-      TODO!!  - alter MakeCopyOfTable to be different from the original
-      TODO!!  - errormanagement and preventUIrefresh in funcs like JumpBackwardBy and such
-                    CountKBIniActions
-                    CountKBIniScripts
-                    CountKBIniKeys
-                    GetKBIniActions
-                    GetKBIniScripts
-                    GetKBIniKeys
-                    GetKBIniActionsID_ByActionCommandID
-                    GetKBIniScripts_ByActionCommandID
-                    GetKBIniKeys_ByActionCommandID
-                    SetKBIniActions
-                    SetKBIniScripts
-                    SetKBIniKeys
-                    DeleteKBIniActions
-                    DeleteKBIniScripts
-                    DeleteKBIniKeys
-                    ChangeLengthOfMediaItems_FromArray
-                    ChangeOffsetOfMediaItems_FromArray
-                    ChangeDeltaOffsetOfMediaItems_FromArray
-                    RippleCut
-                    RippleCut_Reverse
-                    InsertMediaItem_MediaItemStateChunk
-                    InsertMediaItemArray
-                    GetMediaItemStateChunksFromItems
-                    RippleInsert
-                    InsertMediaItemStateChunkArray
-                    OnlyMediaItemsOfTracksInTrackstring_StateChunk
-                    RippleInsert_MediaItemStateChunks
-                    AddLockStateTo_MediaItemStateChunkArray
-                    GetMediaItemStateChunksFromMediaItemArray
-                    GetTrackHWOut
-                    GetTrackAUXSendReceives
-                    CountTrackHWOuts
-                    CountTrackAUXSendReceives
-                    AddTrackHWOut
-                    AddTrackAUXSendReceives
-                    DeleteTrackHWOut
-                    DeleteTrackAUXSendReceives
-                    SetTrackHWOut
-                    SetTrackAUXSendReceives
-      TODO!!  - InsertImageFile - add parameter "integer addframes", with which you can add addframes*frame-length to length
-      TODO!!  - preventUIRefresh for functions, that jump around with the editcursor, like Items from Clipboard or move Playcursor and stuff
+      TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
+      
       TODO!!  - 1. Introduction to Renderfunctions has old and outdated information
       TODO!!  - add multiple-target-documents and multiple-structured chapters(in index of a document) into the new docengine(not working right now)
       TODO!!  - write final documentation for public-beta
       TODO!!  - construct final documentation-document, including automatic generation of ChangeLog.
       TODO!!  - Include automatic adding of "Help: Show Ultraschall Api Help"-action
-         
+      
+      
     For 4.00beta2.8:
+      TODO!!  - SetTrackMIDIColorMapFn - finish it
       TODO!!  - Envelope-ExtStates
       TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
-      TODO!!  - GetReaperPaths - returns app-path, exe-path, resourcepath
+      TODO!!  - GetReaperPaths - returns app-path(?), exe-path, resourcepath
               - GetReaperScriptPath
               - GetReaperThemePath
               - GetReaperJSFXPath
               - GetReaperWebRCPaths
-      TODO!!  - ultraschall.type(parameter) - returns the type of the parameter(all types, including lua-types!). Use pcall (f, arg1, ···) to check for FastStrings or 
-                BR_Envelopes and such, using a function, that throws an error when not given the correct type. pcall allows catchin such an error.
-                    use: reaper.BR_EnvCountPoints(BR_Envelope)                  -- BR_Envelope
-                         reaper.SNM_GetFastStringLength(WDL_FastString)         -- WDL_FastString
-                         reaper.FNG_CountMidiNotes(RprMidiTake)                 -- RprMidiTake
-                         reaper.FNG_GetMidiNoteIntProperty(RprMidiNote, string) -- RprMidiNote
-                         reaper.joystick_getaxis(joystick_device, 1)            -- joystick_device
-                         reaper.GetAudioAccessorSamples(accessor, 1, 1, 1, 1, reaper_array) -- AudioAccessor
-                         
-                         IReaperControlSurface, HWND and reaper.array are still missing
-                         
-                pcall seems to crash Reaper's Lua implementation or make it stuck at least...
-                
-                
       TODO!!  - import/export Bonus-script-packs-functions(for importing and registering additional bonus scripts)
-      TODO!!  - ChangeToActiveProject_ProjNr and ChangeToActiveProject - go the shortest way to the project. If the target-project is n-1, it should use action "previous tab", not "next tab"
       TODO!!  - GetLastEnvelopePoint (How to do that with AutomationItems ?)
-      TODO!!  - RenderProjectRegions_RenderCFG - like RenderProject_RenderCFG but renders given regions instead
       TODO!!  - RenderProjectRegions_RenderCFG2  and RenderProject_RenderCFG2 - set RenderPattern instead of RenderFilenameWithPath
       TODO!!  - RenderProjectRegions_RenderCFG3  and RenderProject_RenderCFG3 - set Track(s) to be rendered
       TODO!!  - number seconds = ultraschall.GetEndOfProject(string trackstring, boolean only_items, boolean only_envpoints, boolean only_marker, boolean only_regions, boolean only_timesigmarker)
       TODO!!  - Renderfunctions - full featured Video(documentation refers still MP3!); add GIF, LCF, AudioCD
+      TODO!!  - MP4 on Mac-Rendering
       TODO!!  - integer countproject, array ReaProjectArray = ultraschall.GetAddedRemovedProjects()
                 returns all projects that have been added/removed since last call of GetAddedRemovedProjects()
                 array ReaProjectArray[idx][type] - type=1 - the ReaProject, type=2 the ReaObject-ID(as returned by tostring(ReaProject), type3="added|removed"
@@ -295,6 +249,8 @@
                                                      Good for displaying updating-messages to the Console.
                                                      Hijacks reaper.ClearConsole() to flush textbuffer.(?)
       TODO!!  - GFX: virtual screenbuffers(create/remove/blit)
+      TODO!!  - ultraschall.gfx_getkey(integer buffer), allows pipe-ing of UserInput directly into a textbuffer. The textbuffer acts like a invisible textbox, which can be shown using drawstr or something
+                                                        must support arrow, bspc, enter, return, copynpaste as well
       TODO!!  - Open$Window(optional boolean openstate) - this needs to be for all Reaper windows available. Opens a $window(like video), when openstate==true, closes it when openstate==false, toggles when openstate==nil
       TODO!!  - CompareSWSVersionWith(string versionnumber) (Only, when new SWS-version comes out)
       TODO!!  - CompareReaperVersionWith(string versionnumber)
@@ -635,6 +591,28 @@
   - GetReaperAppVersion - returns now the operating system as well if the Reaper-installation is a portable one.
   - GetClosestGoToPoints - added options to get closest goto-points from current edit/playcursor-position
   - ReadBinaryFileFromPattern - corrected docs, rewrote function for more speed
+  - CountKeysByPattern - checks for malformed patterns, now
+  - CountSectionsByPattern - checks for malformed patterns, now
+  - CountValuesByPattern - checks for malformed patterns, now
+  - EnumerateKeysByPattern - checks for malformed patterns, now
+  - EnumerateSectionsByPattern - checks for malformed patterns, now
+  - EnumerateValuesByPattern - checks for malformed patterns, now
+  - ReadBinaryFileFromPattern - checks for malformed patterns, now
+  - ReadBinaryFileUntilPattern - had wrong functionname in error-message -> fixed, checks for malformed patterns, now
+  - ReadValueFromFile - checks for malformed patterns, now
+  - RippleInsert_MediaItemStateChunks - had a bug that could cause an error-message -> fixed
+  - GetTrackGroupFlagsState - had a bug in checking for validity of TrackStateChunks -> fixed
+  - SetKBIniActions - rewritten, as the previous version wasn't working right
+  - SetKBIniScripts - rewritten, as the previous version wasn't working right
+  - SetKBIniKeys - rewritten, as the previous version wasn't working right
+  - AddTrackAUXSendReceives - didn't support Master Track, changed that
+  - SetTrackAUXSendReceives - didn't support Master Track, changed that
+  - DeleteTrackAUXSendReceives - didn't support Master Track, changed that
+  - ToggleScrollingDuringPlayback - minor corrections in the docs
+  - GetAllRegionsBetween - corrections in the docs
+  - GetItemSpectralVisibilityState - had wrong functionname in docs -> fixed
+  - GetTrackExtState - corrections in the docs
+  - DeleteArrangeviewSnapshot - had wrong functionname in docs -> fixed
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:

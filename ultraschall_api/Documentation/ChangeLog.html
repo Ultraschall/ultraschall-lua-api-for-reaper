@@ -171,6 +171,16 @@
 <li>RenderProjectRegions_RenderCFG - renders a project's region</li>
 <li>GetGapsBetweenItems - returns a table with all gaps between items in a track</li>
 <li>IsValidMatchingPattern - checks, if a string is a valid pattern-matching string</li>
+<li>IsValidReaProject - checks, if a ReaProject-object is a valid one</li>
+<li>type - returns the type of an object, either Lua's own datatypes or Reaper's own datatypes (SWS-specific-datatypes are not supported...yet(?))</li>
+<li>SetTrackGroupFlagsState - sets the GroupFlagsState in a track or a TrackStateChunk for track-group 1-32</li>
+<li>SetTrackGroupFlags_HighState - sets the GroupFlagsState in a track or a TrackStateChunk for track-group 33-64</li>
+<li>GetTrackGroupFlags_HighState - gets the GroupFlagsState in a track or a TrackStateChunk for track-group 33-64</li>
+<li>all(!) TrackStates are now get/settable(!)</li>
+<li><p>all functions create now useful error-messages, who can be retrieved with the error-message-functions, refer to the Developer -&gt; Error Handling-functions in the index of the functions-reference</p>
+<pre><code>    Good riddance, what a long term hard work to code that...</code></pre></li>
+<li>GetCurrentTimeLengthOfFrame - gets the length of a frame in seconds of a certain project; good for video/image-related functions like InsertImageFile</li>
+<li><p>GetLengthOfFrames - gets the length of a number of frames in seconds of a certain project; good for video/image-related functions like InsertImageFile</p></li>
 </ul>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
 <ul>
@@ -491,6 +501,28 @@
 <li>GetReaperAppVersion - returns now the operating system as well if the Reaper-installation is a portable one.</li>
 <li>GetClosestGoToPoints - added options to get closest goto-points from current edit/playcursor-position</li>
 <li>ReadBinaryFileFromPattern - corrected docs, rewrote function for more speed</li>
+<li>CountKeysByPattern - checks for malformed patterns, now</li>
+<li>CountSectionsByPattern - checks for malformed patterns, now</li>
+<li>CountValuesByPattern - checks for malformed patterns, now</li>
+<li>EnumerateKeysByPattern - checks for malformed patterns, now</li>
+<li>EnumerateSectionsByPattern - checks for malformed patterns, now</li>
+<li>EnumerateValuesByPattern - checks for malformed patterns, now</li>
+<li>ReadBinaryFileFromPattern - checks for malformed patterns, now</li>
+<li>ReadBinaryFileUntilPattern - had wrong functionname in error-message -&gt; fixed, checks for malformed patterns, now</li>
+<li>ReadValueFromFile - checks for malformed patterns, now</li>
+<li>RippleInsert_MediaItemStateChunks - had a bug that could cause an error-message -&gt; fixed</li>
+<li>GetTrackGroupFlagsState - had a bug in checking for validity of TrackStateChunks -&gt; fixed</li>
+<li>SetKBIniActions - rewritten, as the previous version wasn't working right</li>
+<li>SetKBIniScripts - rewritten, as the previous version wasn't working right</li>
+<li>SetKBIniKeys - rewritten, as the previous version wasn't working right</li>
+<li>AddTrackAUXSendReceives - didn't support Master Track, changed that</li>
+<li>SetTrackAUXSendReceives - didn't support Master Track, changed that</li>
+<li>DeleteTrackAUXSendReceives - didn't support Master Track, changed that</li>
+<li>ToggleScrollingDuringPlayback - minor corrections in the docs</li>
+<li>GetAllRegionsBetween - corrections in the docs</li>
+<li>GetItemSpectralVisibilityState - had wrong functionname in docs -&gt; fixed</li>
+<li>GetTrackExtState - corrections in the docs</li>
+<li>DeleteArrangeviewSnapshot - had wrong functionname in docs -&gt; fixed</li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>
