@@ -180,7 +180,12 @@
 <li><p>all functions create now useful error-messages, who can be retrieved with the error-message-functions, refer to the Developer -&gt; Error Handling-functions in the index of the functions-reference</p>
 <pre><code>    Good riddance, what a long term hard work to code that...</code></pre></li>
 <li>GetCurrentTimeLengthOfFrame - gets the length of a frame in seconds of a certain project; good for video/image-related functions like InsertImageFile</li>
-<li><p>GetLengthOfFrames - gets the length of a number of frames in seconds of a certain project; good for video/image-related functions like InsertImageFile</p></li>
+<li>GetLengthOfFrames - gets the length of a number of frames in seconds of a certain project; good for video/image-related functions like InsertImageFile</li>
+<li>GetStartNewFileRecSizeState - gets, if Reaper shall start a new file during recording, after XXX MBs, and the maximum size of a recorded file til restart</li>
+<li>SetStartNewFileRecSizeState - sets, if Reaper shall start a new file during recording, after XXX MBs, and the maximum size of a recorded file til restart</li>
+<li>GetPlayCursorWidth - get the width of the playcursor in pixels</li>
+<li>SetPlayCursorWidth - set the width of the playcursor in pixels</li>
+<li><p>GetReaperAlwaysOnTopState - get, if Reaper is set to be always on top of other applications, as set by action 40239</p></li>
 </ul>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
 <ul>
@@ -523,6 +528,7 @@
 <li>GetItemSpectralVisibilityState - had wrong functionname in docs -&gt; fixed</li>
 <li>GetTrackExtState - corrections in the docs</li>
 <li>DeleteArrangeviewSnapshot - had wrong functionname in docs -&gt; fixed</li>
+<li>CenterViewToCursor - had documented a retval that the function doesn't return -&gt; fixed</li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>

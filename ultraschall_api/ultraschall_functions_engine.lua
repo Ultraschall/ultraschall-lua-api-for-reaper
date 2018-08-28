@@ -25698,7 +25698,7 @@ function ultraschall.CreateUSApiDocs_HTML(filename_with_path,LLL)
 --!!!TODO GFX-FILES müssen auch exportiert werden!!!---
 
 --[[
-<ApiDocBlocFunc>
+<\ApiDocBlocFunc>
 <slug>
 CreateUSApiDocs_HTML
 </slug>
@@ -25727,7 +25727,7 @@ Ultraschall Api-docs
 <tags>
 api, docs, documentation, html, create
 </tags>
-</ApiDocBlocFunc>
+<\/ApiDocBlocFunc>
 ]]
   local functionarray={}
   local count=1
@@ -33482,9 +33482,6 @@ ultraschall.CenterViewToCursor(integer cursortype)
 <description>
 centers the arrange-view around a given cursor
 </description>
-<retvals>
-integer colorvalue - the native-system-color.
-</retvals>
 <parameters>
 integer cursortype - the cursortype to center
 - 1 - change arrangeview with edit-cursor centered
@@ -36401,12 +36398,13 @@ userinterface, set, arrangeview, snapshot
   if tonumber(slot)<0 then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","slot", "Must be bigger than 0", -2) return -1 end
   if type(description)~="string" and description~=nil then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","description", "Must be a string(to set description) or nil(to keep old description)", -3) return -1 end
   if type(position)~="boolean" and position~=nil then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","position", "Must be boolean(to set with current start&end-position) or nil(to keep old start&end-position)", -4) return -1 end
-  if type(vzoom)~="boolean" and vzoom~=nil then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","vzoom", "Must be boolean(to set with current vertical zoom) or nil(to keep old vertical zoom)", -5) return -1 end
+  if type(vzoom)~="boolean" and vzoom~=nil then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","vzoom", "Must be boolean(to set with current vertical zoom) or nil(to keep old vertical zoom)", -6) return -1 end
   
   -- prepare variables
   local slot=tostring(slot)
   local start,ende=reaper.GetSet_ArrangeView2(0,false,0,0)
   local vzoom2=ultraschall.GetVZoom()
+  local hzoom=reaper.GetHZoomLevel()
 
   -- store start/end-position, verticalzoom and description; position and vzoom only, if parameters position and vzoom are set to true
   if position==true then 
@@ -36428,6 +36426,8 @@ userinterface, set, arrangeview, snapshot
   elseif vzoom==nil then
     reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom", -1)
   end
+  
+  reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom", hzoom)  
 end
 
 --ultraschall.StoreArrangeviewSnapshot(1, "LSubisubisu", true, true, true)
@@ -36477,14 +36477,16 @@ userinterface, check, arrangeview, snapshot
   if reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_start")~=0 or
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_end")~=0 or
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_description")~=0 or
+     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom")~=0 or
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")~=0 then
+
      return true
   else
     return false
   end
 end
 
---L=ultraschall.isValidArrangeviewSnapshot(2)
+--L=ultraschall.IsValidArrangeviewSnapshot(1)
 
 function ultraschall.RetrieveArrangeviewSnapshot(slot)
 --[[
@@ -36498,10 +36500,10 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-boolean retval, string description, number startposition, number endposition, integer vzoomfactor = ultraschall.RetrieveArrangeviewSnapshot(integer slot)
+boolean retval, string description, number startposition, number endposition, integer vzoomfactor, number hzoomfactor = ultraschall.RetrieveArrangeviewSnapshot(integer slot)
 </functionname>
 <description>
-Retreives an Arrangeview-snapshot and returns the startposition, endposition and vertical zoom-factor.
+Retreives an Arrangeview-snapshot and returns the startposition, endposition and vertical and horizontal zoom-factor.
 
 Returns false in case of error.
 </description>
@@ -36514,13 +36516,14 @@ string description - a description for this arrangeview-snapshot
 number startposition - the startposition of the arrangeview
 number endposition - the endposition of the arrangeview
 integer vzoom - the vertical-zoomfactor(0-40)
+number hzoomfactor - the horizontal zoomfactor
 </retvals>
 <semanticcontext>
 User Interface
 Arrangeview Management
 </semanticcontext>
 <tags>
-userinterface, get, arrangeview, snapshot, startposition, endposition, verticalzoom
+userinterface, get, arrangeview, snapshot, startposition, endposition, verticalzoom, horizontal zoom
 </tags>
 </ApiDocBlocFunc>
 --]]
@@ -36543,7 +36546,8 @@ userinterface, get, arrangeview, snapshot, startposition, endposition, verticalz
      _l, ende=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_end")
      _l, description=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_description")
      _l, vzoom=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")
-     return true, description, tonumber(start), tonumber(ende), tonumber(vzoom)
+     _l, hzoom=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom")
+     return true, description, tonumber(start), tonumber(ende), tonumber(vzoom), tonumber(hzoom)
   else
     return false
   end
@@ -36551,7 +36555,7 @@ end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.RetrieveArrangeviewSnapshot(1)
 
-function ultraschall.RestoreArrangeviewSnapshot(slot)
+function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermode)
 --[[
 <ApiDocBlocFunc>
 <slug>
@@ -36564,15 +36568,25 @@ SWS=2.9.7
 Lua=5.3
 </requires>
 <functionname>
-boolean retval, string description, number startposition, number endposition, integer vzoomfactor = ultraschall.RestoreArrangeviewSnapshot(integer slot)
+boolean retval, string description, number startposition, number endposition, integer vzoomfactor, number hzoomfactor = ultraschall.RestoreArrangeviewSnapshot(integer slot, optional boolean position, optional boolean vzoom, optional integer hcentermode)
 </functionname>
 <description>
-Sets arrangeview to start/endposition and vertical-zoom, as received from Arrangeview-Snapshot-slot. It returns the newly set start/endposition, vertical zoom and description of slot.
+Sets arrangeview to start/endposition and horizontal and vertical-zoom, as received from Arrangeview-Snapshot-slot. It returns the newly set start/endposition, vertical zoom, horizontal zoom and description of slot.
 
 Returns false in case of error.
 </description>
 <parameters>
 integer slot - the slot for arrangeview-snapshot
+optional boolean position - nil or true, set arrange to stored start and endposition(and it's horizontal-zoom); false, set only horizontal-zoom
+optional boolean vzoom - nil or true, set vertical-zoom; false, don't set vertical zoom
+optional integer hcentermode - decides, what shall be in the center of the zoomed horizontal view. Only available when position==false
+                             - The following are available:
+                             -  nil, keeps center of view in the center during zoom(default)
+                             -   -1, default selection, as set in the reaper-prefs, 
+                             -    0, edit-cursor or playcursor(if it's in the current zoomfactor of the view during playback/recording) in center,
+                             -    1, keeps edit-cursor in center of zoom
+                             -    2, keeps center of view in the center during zoom
+                             -    3, keeps in center of zoom, what is beneath the mousecursor
 </parameters>
 <retvals>
 boolean retval - false, in case of error; true, in case of success
@@ -36580,39 +36594,53 @@ string description - a description for this arrangeview-snapshot
 number startposition - the startposition of the arrangeview
 number endposition - the endposition of the arrangeview
 integer vzoom - the vertical-zoomfactor(0-40)
+number hzoomfactor - the horizontal zoomfactor
 </retvals>
 <semanticcontext>
 User Interface
 Arrangeview Management
 </semanticcontext>
 <tags>
-userinterface, set, arrangeview, snapshot, startposition, endposition, verticalzoom
+userinterface, set, arrangeview, snapshot, startposition, endposition, verticalzoom, horizontalzoom
 </tags>
 </ApiDocBlocFunc>
 --]]
   -- check parameters
   if math.type(slot)~="integer" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","slot", "Must be an integer", -1) return false end
   if tonumber(slot)<0 then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","slot", "Must be bigger than 0", -2) return false end
+  if position~=nil and type(position)~="boolean" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","position", "Must be nil or a boolean", -3) return false end
+  if vzoom~=nil and type(vzoom)~="boolean" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","vzoom", "Must be nil or a boolean", -4) return false end
+  if vzoom==nil then vzoom=true end
+  if position==false and hcentermode~=nil and math.type(hcentermode)~="integer" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","hcentermode", "Must be nil or an integer", -5) return false end
+  if hcentermode~=nil and (hcentermode<-1 or hcentermode>3) then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","hcentermode", "Must be nil or between -1 and 3", -6) return false end
   
   -- prepare variables by retrieving the snapshot-slot-information
-  local bool, description, start, ende, vzoom = ultraschall.RetrieveArrangeviewSnapshot(slot)
-  local vzoom3=vzoom
+  local bool, description, start, ende, vzoom3, hzoom = ultraschall.RetrieveArrangeviewSnapshot(slot)
   local start2,ende2=reaper.GetSet_ArrangeView2(0,false,0,0)
   if start==-1 then start=start2 end
   if ende==-1 then ende=ende2 end
   
+  if hcentermode==nil then hcentermode=3 end
+  
   -- set arrangeview to the values
-  reaper.BR_SetArrangeView(0, start, ende)
-  if vzoom~=-1 then 
-    ultraschall.SetVZoom(vzoom)
+  if position==false then
+    reaper.adjustZoom(hzoom, 1, true, hcentermode)
+    start, ende = reaper.BR_GetArrangeView(0)
+  else
+    reaper.BR_SetArrangeView(0, start, ende)
+  end
+  
+  
+  if vzoom3~=-1 and vzoom==true then 
+    ultraschall.SetVZoom(vzoom3)
   end  
   reaper.UpdateArrange()
-  return true, description, start, ende, vzoom
+  return true, description, start, ende, vzoom, hzoom
 end
 
 --ultraschall.StoreArrangeviewSnapshot(3, "LSubisubisu", true, true, true)
 
---A,B,C,D,E,F=ultraschall.RestoreArrangeviewSnapshot(1)
+--A,B,C,D,E,F=ultraschall.RestoreArrangeviewSnapshot(1,false, true, 1)
 --ultraschall.SetVZoom(40)
 
 
@@ -41926,5 +41954,249 @@ end
 
 --A=ultraschall.GetLengthOfFrames(200, 0)
 
+
+function ultraschall.GetStartNewFileRecSizeState()
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetStartNewFileRecSizeState
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.941
+SWS=2.9.7
+Lua=5.3
+</requires>
+<functionname>
+boolean start_new_files, boolean offset_file_switches, integer max_rec_size = ultraschall.GetStartNewFileRecSizeState()
+</functionname>
+<description>
+Returns, if Reaper shall start a file after a specified amount of MegaBytes as well, if the fileswitches shall be offset when multitrack-recording and the maximum filesize before starting a new file.
+
+see <a href="#SetStartNewFileRecSizeState">SetStartNewFileRecSizeState</a> for setting the current settings.
+</description>
+<retvals>
+boolean start_new_files - true, Reaper starts a new file, when a recorded file reaches max_rec_size; false, files are as long until recording stops
+boolean offset_file_switches - true, When recording multiple tracks, offset file switches for better performance; false, don't offset file-switches
+integer max_rec_size - the maximum length of a recorded file in MegaBytes, before Reaper shall start a new file; only applied when When recording multiple tracks, offset file switches for better performance=true
+</retvals>
+<semanticcontext>
+Recording
+Configuration
+</semanticcontext>
+<tags>
+recordingmanagement, maximum, file, size, file, switch, offset, restart, recording, get
+</tags>
+</ApiDocBlocFunc>
+--]]
+  local maxrecsize=reaper.SNM_GetIntConfigVar("maxrecsize", -1)
+  local maxrecsize_use=reaper.SNM_GetIntConfigVar("maxrecsize_use", -1)
+  local start_new_files, offset_file_switched
+  if maxrecsize_use&1==0 then start_new_files=false else start_new_files=true end
+  if maxrecsize_use&2==0 then offset_file_switches=false else offset_file_switches=true end
+  return start_new_files, offset_file_switches, maxrecsize
+end
+
+--A,B,C,D,E,F,G=ultraschall.GetStartNewFileRecSizeState()
+
+function ultraschall.SetStartNewFileRecSizeState(start_new_files, offset_file_switches, maxrecsize, persist)
+--[[
+<ApiDocBlocFunc>
+<slug>
+SetStartNewFileRecSizeState
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.941
+SWS=2.9.7
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.SetStartNewFileRecSizeState(boolean start_new_files, boolean offset_file_switches, integer maxrecsize, boolean persist)
+</functionname>
+<description>
+Sets, if Reaper shall start a file after a specified amount of MegaBytes as well, if the fileswitches shall be offset when multitrack-recording and the maximum filesize before starting a new file.
+
+see <a href="#GetStartNewFileRecSizeState">GetStartNewFileRecSizeState</a> for getting the current settings.
+
+Returns false in case of an error
+</description>
+<retvals>
+boolean retval - true, setting was successful; false, setting was unsuccessful
+</retvals>
+<parameters>
+boolean start_new_files - true, Reaper starts a new file, when a recorded file reaches max_rec_size; false, files are as long until recording stops
+boolean offset_file_switches - true, When recording multiple tracks, offset file switches for better performance; false, don't offset file-switches
+integer max_rec_size - the maximum length of a recorded file in MegaBytes, before Reaper shall start a new file; only applied when When recording multiple tracks, offset file switches for better performance=true
+boolean persist - true, set the setting to reaper.ini so it persists after restarting Reaper; false, set it only for the time, until Reaper is restarted
+</parameters>
+<semanticcontext>
+Recording
+Configuration
+</semanticcontext>
+<tags>
+recordingmanagement, maximum, file, size, file, switch, offset, restart, recording, set
+</tags>
+</ApiDocBlocFunc>
+--]]
+  if type(start_new_files)~="boolean" then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "start_new_files", "Must be a boolean", -1) return false end
+  if type(offset_file_switches)~="boolean" then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "offset_file_switches", "Must be a boolean", -2) return false end
+  if math.type(maxrecsize)~="integer" then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "maxrecsize", "Must be an integer", -3) return false end
+  if maxrecsize<0 or maxrecsize>2147483647 then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "maxrecsize", "Must be between 0 and 2147483647", -4) return false end
+  if type(persist)~="boolean" then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "persist", "Must be a boolean", -5) return false end
+  
+  local maxrecsize_use=0
+  if start_new_files==true then maxrecsize_use=maxrecsize_use+1 end
+  if offset_file_switches==true then maxrecsize_use=maxrecsize_use+2 end
+  local maxrecsize2=reaper.SNM_SetIntConfigVar("maxrecsize", maxrecsize)
+  local maxrecsize_use2=reaper.SNM_SetIntConfigVar("maxrecsize_use", maxrecsize_use)
+  
+  if maxrecsize2==false then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "maxrecsize", "Couldn't set maxrecsize, contact Ultraschall-Api-developers for this...", -6) return false end
+  if maxrecsize_use2==false then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "start_new_files or offset_file_switches", "Couldn't set new value, contact Ultraschall-Api-developers for this...", -7) return false end
+  
+  if persist==true then
+    local A=reaper.BR_Win32_WritePrivateProfileString("REAPER", "maxrecsize", tostring(maxrecsize), reaper.get_ini_file())
+    local B=reaper.BR_Win32_WritePrivateProfileString("REAPER", "maxrecsize_use", tostring(maxrecsize_use), reaper.get_ini_file())
+    if A==false or B==false then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "persist", "Couldn't set changed config to persist. Maybe a problem with accessing reaper.ini.", -8) return false end
+  end
+  return true    
+end
+
+--ultraschall.SetStartNewFileRecSizeState(true, false, 613, false)
+
+function ultraschall.GetPlayCursorWidth()
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetPlayCursorWidth
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.941
+SWS=2.9.7
+Lua=5.3
+</requires>
+<functionname>
+integer play_cursor_width = ultraschall.GetPlayCursorWidth()
+</functionname>
+<description>
+Returns the width of the playcursor in pixels
+
+see <a href="#SetPlayCursorWidth">SetPlayCursorWidth</a> for setting the playcursor-width.
+</description>
+<retvals>
+integer play_cursor_width - the width of the playcursor in pixels
+</retvals>
+<semanticcontext>
+User Interface
+Transport
+</semanticcontext>
+<tags>
+userinterface, get, playcursor, width
+</tags>
+</ApiDocBlocFunc>
+--]]
+  local playcursormode=reaper.SNM_GetIntConfigVar("playcursormode", -1)
+  return playcursormode
+end
+
+--A,B,C,D,E,F,G=ultraschall.GetPlayCursorWidth()
+
+function ultraschall.SetPlayCursorWidth(play_cursor_width, persist)
+--[[
+<ApiDocBlocFunc>
+<slug>
+SetPlayCursorWidth
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.941
+SWS=2.9.7
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.SetPlayCursorWidth(integer play_cursor_width, boolean persist)
+</functionname>
+<description>
+Sets a new playcursor-width.
+
+see <a href="#GetPlayCursorWidth">GetPlayCursorWidth</a> for getting the playcursor-width.
+
+Returns false in case of an error
+</description>
+<retvals>
+boolean retval - true, setting was successful; false, setting was unsuccessful
+</retvals>
+<parameters>
+integer play_cursor_width - the new width of the playcursor
+boolean persist - true, set the setting to reaper.ini so it persists after restarting Reaper; false, set it only for the time, until Reaper is restarted
+</parameters>
+<semanticcontext>
+User Interface
+Transport
+</semanticcontext>
+<tags>
+userinterface, set, playcursor, width
+</tags>
+</ApiDocBlocFunc>
+--]]
+  if math.type(play_cursor_width)~="integer" then ultraschall.AddErrorMessage("SetPlayCursorWidth", "play_cursor_width", "Must be an integer", -1) return false end
+  if play_cursor_width<0 or play_cursor_width>2147483647 then ultraschall.AddErrorMessage("SetPlayCursorWidth", "play_cursor_width", "Must be between 0 and 2147483647", -2) return false end
+  if type(persist)~="boolean" then ultraschall.AddErrorMessage("SetPlayCursorWidth", "persist", "Must be a boolean", -3) return false end
+  
+  local playcursormode=reaper.SNM_SetIntConfigVar("playcursormode", play_cursor_width)
+  
+  if playcursormode==false then ultraschall.AddErrorMessage("SetPlayCursorWidth", "playcursormode", "Couldn't set playcursormode, contact Ultraschall-Api-developers for this...", -4) return false end
+  
+  if persist==true then
+    local A=reaper.BR_Win32_WritePrivateProfileString("REAPER", "playcursormode", tostring(play_cursor_width), reaper.get_ini_file())
+    if A==false then ultraschall.AddErrorMessage("SetPlayCursorWidth", "persist", "Couldn't set changed config to persist. Maybe a problem with accessing reaper.ini.", -5) return false end
+  end
+  return true    
+end
+
+--A=ultraschall.SetPlayCursorWidth(2,true)
+--ultraschall.SetStartNewFileRecSizeState(true, false, 613, false)
+
+function ultraschall.GetReaperAlwaysOnTopState()
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetReaperAlwaysOnTopState
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.941
+SWS=2.9.7
+Lua=5.3
+</requires>
+<functionname>
+boolean aot_state = ultraschall.GetReaperAlwaysOnTopState()
+</functionname>
+<description>
+Returns state, whether the Reaper-Windows are always on top of all opened applications or not.
+
+This can be set with the action 40239
+</description>
+<retvals>
+boolean aot_state - true, Reaper is always on top; false, other application's windows can be put before Reaper
+</retvals>
+<semanticcontext>
+User Interface
+Reaper
+</semanticcontext>
+<tags>
+userinterface, get, always on top, reaper, state
+</tags>
+</ApiDocBlocFunc>
+--]]
+  local aot=reaper.SNM_GetIntConfigVar("aot", -1)
+  if aot==0 then aot=false else aot=true end
+  return aot
+end
+
+--A=ultraschall.GetReaperAlwaysOnTopState()
+
 ultraschall.ShowLastErrorMessage()
+
 

@@ -183,6 +183,11 @@
             Good riddance, what a long term hard work to code that...
   - GetCurrentTimeLengthOfFrame - gets the length of a frame in seconds of a certain project; good for video/image-related functions like InsertImageFile
   - GetLengthOfFrames - gets the length of a number of frames in seconds of a certain project; good for video/image-related functions like InsertImageFile
+  - GetStartNewFileRecSizeState - gets, if Reaper shall start a new file during recording, after XXX MBs, and the maximum size of a recorded file til restart
+  - SetStartNewFileRecSizeState - sets, if Reaper shall start a new file during recording, after XXX MBs, and the maximum size of a recorded file til restart
+  - GetPlayCursorWidth - get the width of the playcursor in pixels
+  - SetPlayCursorWidth - set the width of the playcursor in pixels
+  - GetReaperAlwaysOnTopState - get, if Reaper is set to be always on top of other applications, as set by action 40239
   
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
@@ -613,6 +618,7 @@
   - GetItemSpectralVisibilityState - had wrong functionname in docs -> fixed
   - GetTrackExtState - corrections in the docs
   - DeleteArrangeviewSnapshot - had wrong functionname in docs -> fixed
+  - CenterViewToCursor - had documented a retval that the function doesn't return -> fixed
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:
