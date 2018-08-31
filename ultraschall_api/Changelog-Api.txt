@@ -188,6 +188,7 @@
   - GetPlayCursorWidth - get the width of the playcursor in pixels
   - SetPlayCursorWidth - set the width of the playcursor in pixels
   - GetReaperAlwaysOnTopState - get, if Reaper is set to be always on top of other applications, as set by action 40239
+  - GetInputOutputLatency_Seconds - returns the input/output-latency in seconds
   
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function

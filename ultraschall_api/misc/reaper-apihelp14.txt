@@ -25312,7 +25312,7 @@
             Reaper=5.62
         </requires>
         <description indent="default">
-            Executes expression until expression evaluates to zero, or until 1048576iterations occur. An alternate and more useful syntax is while (expression) ( statements ), which evaluates statements after every non-zero evaluation of expression.
+            Executes expression until expression evaluates to zero, or until 1048576 iterations occur. An alternate and more useful syntax is while (expression) ( statements ), which evaluates statements after every non-zero evaluation of expression.
         </description>
         <parameters>
             expression - 
@@ -25350,7 +25350,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_defer</slug>
         <title>defer</title>
-        <functioncall prog_lang="lua">reaper.defer(function function)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.defer(function function)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -25358,8 +25358,11 @@
         <description indent="default">
             Adds code to be called back by REAPER. Used to create persistent ReaScripts that continue to run and respond to input, while the user does other tasks. Identical to runloop().Note that no undo point will be automatically created when the script finishes, unless you create it explicitly.
         </description>
+        <retvals>
+            boolean retval - unknown; usually true
+        </retvals>
         <parameters>
-            function function - 
+            function function - the function to be called, when the current defer/runloop-run has ended
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25372,7 +25375,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_get_action_context</slug>
         <title>get_action_context</title>
-        <functioncall prog_lang="lua">is_new_value,filename,sectionID,cmdID,mode,resolution,val = reaper.get_action_context()</functioncall>
+        <functioncall prog_lang="lua">boolean is_new_value, string filename_with_path, integer sectionID, integer cmdID, integer mode, integer resolution, integer val = reaper.get_action_context()</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -25381,13 +25384,13 @@
             Returns contextual information about the script, typically MIDI/OSC input values.val will be set to a relative or absolute value depending on mode (=0: absolute mode, &gt;0: relative modes). resolution=127 for 7-bit resolution, =16383 for 14-bit resolution.Notes: sectionID, and cmdID will be set to -1 if the script is not part of the action list. mode, resolution and val will be set to -1 if the script was not triggered via MIDI/OSC.
         </description>
         <retvals>
-            is_new_value - 
-            filename - 
-            sectionID - 
-            cmdID - 
-            mode - 
-            resolution - 
-            val -
+            boolean is_new_value - 
+            string filename_with_path - the script's own filename with path
+            integer sectionID - the section, in which this script was called
+            integer cmdID - the command-id associated with this script
+            integer mode - -1, if script isn't run by shortcut; 55953, is script is run by shortcut; probably for for MIDI?
+            integer resolution - -1, if script isn't run by shortcut; probably more for MIDI?
+            integer val - -1, if script isn't run by shortcut; probably more for MIDI?
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25407,17 +25410,17 @@
         </requires>
         <description indent="default">
             The following global variables are special and will be used by the graphics system:
-            gfx.r, gfx.g, gfx.b, gfx.a - These represent the current red, green, blue, and alpha components used by drawing operations (0.0..1.0). 
-            gfx.w, gfx.h - These are set to the current width and height of the UI framebuffer, aka windowsize. 
-            gfx.x, gfx.y - These set the "current" graphics position in x,y. You can set these yourselves, and many of the drawing functions update them as well. 
-            gfx.mode - Set to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx.a to negative and use gfx.mode as additive). Add 2.0 to disable source alpha for gfx.blit(). Add 4.0 to disable filtering for gfx.blit(). 
-            gfx.clear - If set to a value greater than -1.0, this will result in the framebuffer being cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black). 
-            gfx.dest - Defaults to -1, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
-            gfx.texth - Set to the height of a line of text in the current font. Do not modify this variable.
-            gfx.ext_retina - If set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx.w/gfx.h/etc will be doubled.
-            gfx.mouse_x, gfx.mouse_y - gfx.mouse_x and gfx.mouse_y are set to the coordinates of the mouse relative to the graphics window.
-            gfx.mouse_wheel, gfx.mouse_hwheel - mouse wheel (and horizontal wheel) positions. These will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
-            gfx.mouse_cap is a bitfield of mouse and keyboard modifier state.
+            gfx.r, gfx.g, gfx.b, gfx.a - These represent the current red, green, blue, and alpha components as floats, used by drawing operations (0.0..1.0). 
+            gfx.w, gfx.h - These are set to the current width and height of the UI framebuffer, aka windowsize as integer.
+            gfx.x, gfx.y - These set the "current" graphics position in x,y as integers. You can set these yourselves, and many of the drawing functions update them as well. 
+            gfx.mode - The drawing-mode. It is a float-variable. Set to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx.a to negative and use gfx.mode as additive). Add 2.0 to disable source alpha for gfx.blit(). Add 4.0 to disable filtering for gfx.blit(). 
+            gfx.clear - Clears framebuffer. Integer-variable. If set to a value greater than -1.0, this will result in the framebuffer being cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black). 
+            gfx.dest - The destination-framebuffer. It is an integer-variable. Defaults to -1, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
+            gfx.texth - The height of a line of text in the current font, as integer-variable. Do not modify this variable.
+            gfx.ext_retina - Highresolution-variable. It is an integer. If set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx.w/gfx.h/etc will be doubled.
+            gfx.mouse_x, gfx.mouse_y - gfx.mouse_x and gfx.mouse_y are set to the coordinates of the mouse relative to the graphics window, as integer-variables.
+            gfx.mouse_wheel, gfx.mouse_hwheel - mouse wheel (and horizontal wheel) positions as integer variable. These will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
+            gfx.mouse_cap is a bitfield of mouse and keyboard modifier state. It is an integer-variable.
             1: left mouse button
             2: right mouse button
             4: Control key
@@ -25464,28 +25467,30 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.blit</slug>
         <title>gfx.blit</title>
-        <functioncall prog_lang="lua">gfx.blit(source, scale, rotation[, srcx, srcy, srcw, srch, destx, desty, destw, desth, rotxoffs, rotyoffs])</functioncall>
+        <functioncall prog_lang="lua">integer source = gfx.blit(integer source, number scale, number rotation, optional number srcx, optional number srcy, optional number srcw, optional number srch, optional integer destx, optional integer desty, optional integer destw, optional integer desth, optional integer rotxoffs,  optional integer rotyoffs)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
         </requires>
         <description indent="default">
+            Blits(draws) the content of source-image to another source-image or an opened window.
+            
             srcx/srcy/srcw/srch specify the source rectangle (if omitted srcw/srch default to image size), destx/desty/destw/desth specify dest rectangle (if not specified, these will default to reasonable defaults -- destw/desth default to srcw/srch * scale). 
         </description>
         <parameters>
-            source - 
-            scale - 
-            rotation - 
-            srcx - 
-            srcy - 
-            srcw - 
-            srch - 
-            destx - 
-            desty - 
-            destw - 
-            desth - 
-            rotxoffs -
-            rotyoffs - 
+           integer source - the source-image/framebuffer to blit; -1 to 1023; -1 for the currently displayed framebuffer.
+           number scale - the scale-factor; 1, for normal size; smaller or bigger than 1 make image smaller or bigger; has no effect, when destx, desty, destw, desth are given
+           number rotation - the rotation-factor; 0 to 6.28; 3.14 for 180 degrees.
+           optional number srcx - the x-coordinate-offset in the source-image
+           optional number srcy - the y-coordinate-offset in the source-image
+           optional number srcw - the width-offset in the source-image
+           optional number srch - the height-offset in the source-image
+           optional integer destx - the x-coordinate of the blitting destination
+           optional integer desty - the y-coordinate of the blitting destination
+           optional integer destw - the width of the blitting destination; may lead to stretched images
+           optional integer desth - the height of the blitting destination; may lead to stretched images
+           optional number rotxoffs - influences rotation
+           optional number rotyoffs - influences rotation
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25498,18 +25503,20 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.blit</slug>
         <title>gfx.blit</title>
-        <functioncall prog_lang="lua">gfx.blit(source,scale,rotation)</functioncall>
+        <functioncall prog_lang="lua">integer source = gfx.blit(integer source, number scale, number rotation)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
         </requires>
         <description indent="default">
+            Blits(draws) the content of source-image to another source-image or an opened window.
+            
             If three parameters are specified, copies the entirity of the source bitmap to gfx.x,gfx.y using current opacity and copy mode (set with gfx.a, gfx.mode). You can specify scale (1.0 is unscaled) and rotation (0.0 is not rotated, angles are in radians).For the "source" parameter specify -1 to use the main framebuffer as source, or an image index (see gfx.loadimg()).
         </description>
         <parameters>
-            source - 
-            scale - 
-            rotation - 
+           integer source - the source-image/framebuffer to blit; -1 to 1023; -1 for the currently displayed framebuffer.
+           number scale - the scale-factor; 1, for normal size; smaller or bigger than 1 make image smaller or bigger
+           number rotation - the rotation-factor; 0 to 6.28; 3.14 for 180 degrees.
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25546,7 +25553,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.blurto</slug>
         <title>gfx.blurto</title>
-        <functioncall prog_lang="lua">gfx.blurto(x,y)</functioncall>
+        <functioncall prog_lang="lua">gfx.blurto(integer x, integer y)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -25555,8 +25562,8 @@
             Blurs the region of the screen between gfx.x,gfx.y and x,y, and updates gfx.x,gfx.y to x,y.
         </description>
         <parameters>
-            x - x position of the other edge of the blur-region
-            y - y position of the other edge of the blur-region
+            integer x - x position of the other edge of the blur-region
+            integer y - y position of the other edge of the blur-region
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25658,28 +25665,34 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.dock</slug>
         <title>gfx.dock</title>
-        <functioncall prog_lang="lua">number querystate = gfx.dock(v[,wx,wy,ww,wh])</functioncall>
+        <functioncall prog_lang="lua">number querystate, optional integer window_x_position, optional integer window_y_position, optional integer window_width, optional integer window_height = gfx.dock(integer v, optional integer wx, optional integer wy, optional integer ww, optional integer wh)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
         </requires>
         <description indent="default">
             Queries or sets the docking-state of the gfx.init()-window.
-            Call with v=-1 to query docked state, otherwise v&gt;=0 to set docked state. State is &amp;1 if docked, second byte is docker index (or last docker index if undocked). If wx-wh specified, additional values will be returned with the undocked window position/size
+            Call with v=-1 to query docked state, otherwise v&gt;=0 to set docked state. 
+            State is &amp;1 if docked, second byte is docker index (or last docker index if undocked). 
+            If wx-wh specified, additional values will be returned with the undocked window position/size
+            
+            A specific docking index does not necessarily represent a specific docker, means, you can not query/set left docker top, but rather all dockers that exist in the current screenset.
+            So the first queried/set docker can be top-left-docker or the top docker or even one of the bottom dockers.
+            The order doesn't seem to make any sense. Especially with more than 16 windows docked in the current screenset.
         </description>
         <retvals>
-            querystate - 0 if not docked; &amp;1 if docked; the byte &amp;9 to &amp;16 returns the docker-index
-            window_x_position - the x position of the window in pixels
-            window_y_position - the y position of the window in pixels
-            window_width - the width of the window in pixels
-            window_height - the height of the window in pixels 
+            integer querystate - 0 if not docked; &amp;1 if docked;  the bits &amp;256, &amp;512, &amp;1024, &amp;2048 get the docker-index
+            integer window_x_position - the x position of the window in pixels
+            integer window_y_position - the y position of the window in pixels
+            integer window_width - the width of the window in pixels
+            integer window_height - the height of the window in pixels 
         </retvals>
         <parameters>
-            v - -1, query docking-state; 0 and higher, set state of the window to docked
-            wx - set to a number to query current-windowx-position
-            wy - set to a number to query current-windowy-position
-            ww - set to a number to query current-window-width
-            wh - set to a number to query current-window-height
+            integer v - -1, query docking-state; 0 and higher, set state of the window to docked; the bits &amp;256, &amp;512, &amp;1024, &amp;2048 set the docker-index
+            optional integer wx - set to a number to query current-windowx-position
+            optional integer wy - set to a number to query current-windowy-position
+            optional integer ww - set to a number to query current-window-width
+            optional integer wh - set to a number to query current-window-height
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25692,7 +25705,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.drawchar</slug>
         <title>gfx.drawchar</title>
-        <functioncall prog_lang="lua">gfx.drawchar(char)</functioncall>
+        <functioncall prog_lang="lua">integer char = gfx.drawchar(integer char)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -25700,8 +25713,11 @@
         <description indent="default">
             Draws the character (can be a numeric ASCII code as well), to gfx.x, gfx.y, and moves gfx.x over by the size of the character.
         </description>
+        <retvals>
+            integer char - the character drawn; 0, if invalid(like strings or characters passed as parameter)
+        </retvals>
         <parameters>
-            char - the numeric ASCII-representation of the character to be drawn
+            integer char - the numeric ASCII-representation of the character to be drawn
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25847,7 +25863,7 @@
         <description indent="default">
             Returns current font index, and the actual font face used by this font (if available).
         </description>
-        <retvals>
+        <retvals markup_type="markdown" markup_version="1.0.1">
             integer fontindex - the index of the font used. Use [gfx.setfont](#lua_gfx.setfont) to set a font for a specific index.
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
@@ -26109,30 +26125,32 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.muladdrect</slug>
         <title>gfx.muladdrect</title>
-        <functioncall prog_lang="lua">integer retval = gfx.muladdrect(x,y,w,h,mul_r,mul_g,mul_b[,mul_a,add_r,add_g,add_b,add_a])</functioncall>
+        <functioncall prog_lang="lua">integer retval = gfx.muladdrect(integer x, integer y, integer w, integer h, number mul_r, number mul_g, number mul_b, optional number mul_a, optional number add_r, optional number add_g, optional number add_b, optional number add_a)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
         </requires>
         <description indent="default">
-            Multiplies each pixel by mul_* and adds add_*, and updates in-place. Useful for changing brightness/contrast, or other effects.
+            Multiplies each pixel within the given rectangle(x,y,w,h) by the mul_*-parameters and optionally adds add_*-parameters, and updates in-place. Useful for changing brightness/contrast, or other effects.
+            
+            The multiplied values usually affect only pixels, that are not black(0,0,0,0), while the added values affect all pixels.
         </description>
         <retvals>
-            integer retval - 
+            integer retval - unknown
         </retvals>
         <parameters>
-            x - 
-            y -
-            w -
-            h -
-            mul_r -
-            mul_g -
-            mul_b -
-            mul_a -
-            add_r -
-            add_g -
-            add_b -
-            add_a -
+            integer x - the x-position of the rectangle in pixels, in which you want to multiply/add colorvalues to
+            integer y - the y-position of the rectangle in pixels, in which you want to multiply/add colorvalues to
+            integer w - the width of the rectangle in pixels, in which you want to multiply/add colorvalues to
+            integer h - the height of the rectangle in pixels, in which you want to multiply/add colorvalues to
+            number mul_r - the red-value to multiply by within the rectangle; 0 to 1
+            number mul_g - the green-value to multiply by within the rectangle; 0 to 1
+            number mul_b - the blue-value to multiply by within the rectangle; 0 to 1
+            optional number mul_a - the alpha-value to multiply by within the rectangle; 0 to 1
+            optional number add_r - the red-value to add by within the rectangle; 0 to 1
+            optional number add_g - the green-value to add by within the rectangle; 0 to 1
+            optional number add_b - the blue-value to add by within the rectangle; 0 to 1
+            optional number add_a - the alpha-value to add by within the rectangle; 0 to 1
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26222,7 +26240,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.rectto</slug>
         <title>gfx.rectto</title>
-        <functioncall prog_lang="lua">gfx.rectto(x,y)</functioncall>
+        <functioncall prog_lang="lua">integer x_coordinate = gfx.rectto(integer x, integer y)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -26231,11 +26249,11 @@
             Fills a rectangle from gfx.x,gfx.y to x,y. Updates gfx.x,gfx.y to x,y. 
         </description>
         <retvals>
-            
+            integer x_coordinate - the x-coordinate given as x-parameter; the purpose is unknown
         </retvals>
         <parameters>
-            x - 
-            y - 
+            integer x - the x-coordinate, to which the rectangle shall be drawn to
+            integer y - the y-coordinate, to which the rectangle shall be drawn to
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26248,7 +26266,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.roundrect</slug>
         <title>gfx.roundrect</title>
-        <functioncall prog_lang="lua">gfx.roundrect(x,y,w,h,radius[,antialias])</functioncall>
+        <functioncall prog_lang="lua">integer retval = gfx.roundrect(integer x, integer y, integer w, integer h, number radius, optional integer antialias)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -26257,15 +26275,15 @@
             Draws a rectangle with rounded corners. 
         </description>
         <retvals>
-            
+            integer retval - unknown
         </retvals>
         <parameters>
-            x - 
-            y - 
-            w - 
-            h - 
-            radius - 
-            antialias - 
+            integer x - the x-coordinate of the upper-left corner of the rectangle in pixels
+            integer y - the y-coordinate of the upper-left corner of the rectangle in pixels
+            integer w - the width of the rectangle in pixels
+            integer h - the height of the rectangle in pixels
+            number radius - the radius of the rounded corners of the rectangle; 0, for a normal rectangle; 
+            number antialias - 0, no antialias; 1 and higher, apply antialias to the rectangle
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26278,7 +26296,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.screentoclient</slug>
         <title>gfx.screentoclient</title>
-        <functioncall prog_lang="lua">integer convx, integer convy = gfx.screentoclient(x,y)</functioncall>
+        <functioncall prog_lang="lua">integer convx, integer convy = gfx.screentoclient(integer x, integer y)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -26287,12 +26305,12 @@
             Converts the screen coordinates x,y to client coordinates, returns those values.
         </description>
         <retvals>
-            convx - 
-            convy - 
+            integer convx - the x-client-coordinate, as converted from the x-screen-coordinate, in pixels
+            integer convy - the y-client-coordinate, as converted from the y-screen-coordinate, in pixels
         </retvals>
         <parameters>
-            x - 
-            y - 
+            integer x - the x-screen-coordinate that shall be converted, in pixels
+            integer y - the y-screen-coordinate that shall be converted, in pixels
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26305,24 +26323,29 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.set</slug>
         <title>gfx.set</title>
-        <functioncall prog_lang="lua">gfx.set(r[,g,b,a,mode,dest])</functioncall>
+        <functioncall prog_lang="lua">integer retval = gfx.set(number r, optional number g, optional number b, optional number a, optional integer mode, optional integer dest)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
         </requires>
         <description indent="default">
-            Sets gfx.r/gfx.g/gfx.b/gfx.a/gfx.mode, sets gfx.dest if final parameter specified
+            Sets color, drawing mode and optionally the drawing-image-source-destination.
+            If sets the corresponding gfx-variables.
+            Sets gfx.r/gfx.g/gfx.b/gfx.a/gfx.mode sets gfx.dest if final parameter specified
         </description>
         <retvals>
-            
+            integer retval - unknown
         </retvals>
         <parameters>
-            r - 
-            g - 
-            b - 
-            a - 
-            mode - 
-            dest - 
+            number r - the red-value; 0 to 1; if only parameter r is given, it's value will be used for g, b as well
+            optional number g - the green-value; 0 to 1
+            optional number b - the blue-value; 0 to 1
+            optional number a - the alpha-value; 0 to 1
+            optional integer mode - the drawing-mode; 
+                                 -  Set to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx.a to negative and use gfx.mode as additive). 
+                                 -  Add 2.0 to disable source alpha for gfx.blit(). 
+                                 -  Add 4.0 to disable filtering for gfx.blit(). 
+            optional integer dest - the source-image/framebuffer to draw to; -1 to 1023; -1 for the currently displayed framebuffer.
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26361,7 +26384,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.setfont</slug>
         <title>gfx.setfont</title>
-        <functioncall prog_lang="lua">gfx.setfont(idx[,"fontface", sz, flags])</functioncall>
+        <functioncall prog_lang="lua">gfx.setfont(integer idx,optional string "fontface", optional integer sz, optional integer flags)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -26372,11 +26395,11 @@
             After calling gfx_setfont(), gfx_texth may be updated to reflect the new average line height.
         </description>
         <parameters>
-            idx - the font-id; idx=0 for default bitmapped font, no configuration is possible for this font.
+            integer idx - the font-id; idx=0 for default bitmapped font, no configuration is possible for this font.
                 - idx=1..16 for a configurable font
-            "fontface" - the name of the font, like "arial"
-            sz - the size of the font (8-100)
-            flags - flags, how to render the text; values are repeating every 256 numbers
+            optional string "fontface" - the name of the font, like "arial"
+            optional integer sz - the size of the font (8-100)
+            optional integer flags - flags, how to render the text; values are repeating every 256 numbers
                   - a multibyte character, which can include 'i' for italics, 'u' for underline, or 'b' for bold. 
                   - These flags may or may not be supported depending on the font and OS. 
                   - 66 and 98, Bold (B), (b)
@@ -26472,7 +26495,7 @@
         <parameters>
             string str - a string with the menu-entries; separate the entrynames with a |
                        -   Each menu-entry can start with special characters that influence the appearance of that entry: 
-                       -   #, grayed out; !, checked; &gt;, this menu item shows a submenu;&gt;, last item in the current submenu. 
+                       -   #, item is grayed out; !, item is checked; &gt;, this menu item shows a submenu;&gt;, last item in the current submenu. 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26485,7 +26508,7 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.transformblit</slug>
         <title>gfx.transformblit</title>
-        <functioncall prog_lang="lua">gfx.transformblit(srcimg,destx,desty,destw,desth,div_w,div_h,table)</functioncall>
+        <functioncall prog_lang="lua">gfx.transformblit(integer srcimg, integer destx, integer desty, integer destw, integer desth, integer div_w, integer div_h, table table)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
@@ -26498,18 +26521,18 @@
             
         </retvals>
         <parameters>
-            srcimg - the image-index (1 to 1024) that you want to blit into the screenbuffer -1
-            destx - x position of the blit picture
-            desty - y position of the blit picture
-            destw - width of the blit picture
-            desth - height of the blit picture
-            div_w - unknown, 2 to 64
-            div_h - unknown, 2 to 64
-            table - a table of the texture coordinates, with each entry being set to a pair of value, eg: 1, 0. Will be read from left to right and from top to bottom.
-                    - table[1]=1,2
-                    - table[2]=2,3
-                    - table[3]=3,1
-                    - How these values work needs more research...
+            integer srcimg - the image-index (1 to 1024) that you want to blit into the screenbuffer -1
+            integer destx - x position of the blit picture
+            integer desty - y position of the blit picture
+            integer destw - width of the blit picture
+            integer desth - height of the blit picture
+            integer div_w - unknown, 2 to 64; probably related to parameter table
+            integer div_h - unknown, 2 to 64; probably related to parameter table
+            table table - a table of the texture coordinates, with each entry being set to a pair of value, eg: 1, 0. Will be read from left to right and from top to bottom.
+                        - table[1]=1,2
+                        - table[2]=2,3
+                        - table[3]=3,1
+                        - How these values work needs more research...
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>

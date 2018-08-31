@@ -34265,7 +34265,7 @@ SWS=2.8.8
 Lua=5.3
 </requires>
 <functionname>
-integer retval, MediaItem item, number length, integer numchannels, integer Samplerate, string Filetype = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, integer editcursorpos)
+integer retval, MediaItem item, number endposition, integer numchannels, integer Samplerate, string Filetype = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, integer editcursorpos)
 </functionname>
 <description>
 Inserts the mediafile filename into the project at position in track
@@ -34288,7 +34288,7 @@ integer editcursorpos - the position of the editcursor after insertion of the me
 <retvals>
 integer retval - 0, if insertion worked; -1, if it failed
 MediaItem item - the newly created MediaItem
-number length - the full length of the mediafile in seconds
+number endposition - the endposition of the newly created MediaItem in seconds
 integer numchannels - the number of channels of the mediafile
 integer Samplerate - the samplerate of the mediafile in hertz
 string Filetype - the type of the mediafile, like MP3, WAV, MIDI, FLAC, etc
@@ -34323,7 +34323,7 @@ markermanagement, insert, mediaitem, position, mediafile, track
   -- insert file
   local Length, Numchannels, Samplerate, Filetype = ultraschall.GetMediafileAttributes(filename) -- mediaattributes, like length
   local startTime, endTime = reaper.BR_GetArrangeView(0) -- get current arrange-view-range
-  local mode
+  local mode=0
   if track>=0 and track<reaper.CountTracks(0) then
     mode=0
   elseif track==0 then
@@ -42196,6 +42196,43 @@ userinterface, get, always on top, reaper, state
 end
 
 --A=ultraschall.GetReaperAlwaysOnTopState()
+
+
+function ultraschall.GetInputOutputLatency_Seconds()
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetInputOutputLatency_Seconds
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.941
+SWS=2.9.7
+Lua=5.3
+</requires>
+<functionname>
+number inputLatency, number outputLatency = ultraschall.GetInputOutputLatency_Seconds()
+</functionname>
+<description>
+Returns the input and output-latency in seconds
+</description>
+<retvals>
+number inputLatency - the input latency in seconds
+number outputLatency - the output latency in seconds 
+</retvals>
+<semanticcontext>
+User Interface
+Reaper
+</semanticcontext>
+<tags>
+helper functions, get, latency, input, output, seconds
+</tags>
+</ApiDocBlocFunc>
+--]]
+  local input, output = reaper.GetInputOutputLatency()
+  local projsrate=reaper.SNM_GetIntConfigVar("projsrate",-1)
+  return input/projsrate, output/projsrate
+end
 
 ultraschall.ShowLastErrorMessage()
 
