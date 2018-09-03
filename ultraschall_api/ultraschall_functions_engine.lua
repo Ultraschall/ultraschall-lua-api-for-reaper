@@ -16044,10 +16044,13 @@ projectfiles, rpp, state, get, renderstring, rendercfg
     end
   end
   -- get the values and return them
-  return ProjectStateChunk:match("<RENDER_CFG.-\n.-(%g*)\n")
+  local retval=ProjectStateChunk:match("<RENDER_CFG.-\n.-(%g*)\n")
+  if retval==">" then ultraschall.AddErrorMessage("GetProject_RenderCFG", "projectfilename_with_path", "No Render-CFG-code available!", -4) return nil end
+  return retval
 end
 
 --A,AA=ultraschall.GetProject_RenderCFG("c:\\rendercode-project.RPP","")
+--A,AA=ultraschall.GetProject_RenderCFG("c:\\ALLA.RPP","")
 
 function ultraschall.GetProject_RippleState(projectfilename_with_path, ProjectStateChunk)
 -- Set RippleState in a projectfilename_with_path
@@ -39207,7 +39210,7 @@ Returns nil in case of an error
 <retvals>
 string outputformat - the outputformat, set in the render-cfg-string
 - The following are valid: 
-- AIFF, AUDIOCD-IMAGE, WAV, WAVPACK, DDP, FLAC, MP3, M4A, OPUS, OGG, Video WebM, Video MKV, Video MP4, Video AVI, Video GIF, Video LCF
+- AIFF, AUDIOCD-IMAGE, WAV, WAVPACK, DDP, FLAC, MP3, M4A, OPUS Reaper5.941 and earlier, OPUS Reaper5.95+, OGG, Video WebM, Video MKV, Video MP4, Video AVI, Video GIF, Video LCF
 </retvals>
 <parameters>
 string Renderstring - the render-cfg-string from a rpp-projectfile or the reaper-render.ini
@@ -39254,7 +39257,8 @@ LCF:      IEZDT    108
   if Renderstring         =="IHBkZA="                             then return "DDP"  end
   if Renderstring:sub(1,6)=="Y2FsZh"   and Renderstring:len()==16 then return "FLAC" end
   if Renderstring:sub(1,5)=="bDNwb"    and Renderstring:len()==44 then return "MP3"  end
-  if Renderstring:sub(1,8)=="U2dnTwAA" and Renderstring:len()==20 then return "OPUS" end
+  if Renderstring:sub(1,6)=="U2dnTw" and Renderstring:len()==20 then return "OPUS Reaper5.941 and earlier" end
+  if Renderstring:sub(1,6)=="U2dnTw" and Renderstring:len()==24 then return "OPUS Reaper5.95+" end
   if Renderstring:sub(1,5)=="dmdnb"    and Renderstring:len()==36 then return "OGG"  end
   if Renderstring:sub(1,4)=="RlZB"     and Renderstring:len()==60 then return "M4A"  end
   if Renderstring:sub(1,7)=="UE1GRgY"  and Renderstring:len()==60 then return "Video WebM" end
@@ -39294,7 +39298,7 @@ string render_cfg_string - the render-cfg-string for the selected Opus-settings
 </retvals>
 <parameters>
 integer Mode - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR
-integer Kbps - the kbps of the opus-file; Ultraschall-Api supports between 1 and 262
+integer Kbps - the kbps of the opus-file; Ultraschall-Api supports between 1 and 256
 integer Complexity - the complexity-setting between 0(lowest quality) and 10(highest quality, slow encoding)
 </parameters>
 <semanticcontext>
@@ -39312,7 +39316,7 @@ projectfiles, create, render, outputformat, opus
   if math.type(Kbps)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Must be an integer!", -2) return nil end
   if math.type(Mode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Mode", "Must be an integer!", -3) return nil end
   if math.type(Complexity)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Complexity", "Must be an integer!", -4) return nil end
-  if Kbps<1 or Kbps>262 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Ultraschall-API supports only kbps-values between 1 to 262, sorry.", -5) return nil end
+  if Kbps<1 or Kbps>256 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Ultraschall-API supports only kbps-values between 1 to 256, sorry.", -5) return nil end
   if Mode<0 or Mode>2 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Mode", "must be between 0 and 2", -6) return nil end
   if Complexity<0 or Complexity>10 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Complexity", "must be between 0 and 10", -7) return nil end
   
@@ -39333,6 +39337,84 @@ end
 
 --A=ultraschall.CreateRenderCFG_Opus(0, 24, 5)
 
+
+function ultraschall.CreateRenderCFG_Opus2(Mode, Kbps, Complexity, channel_audio, per_channel)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_Opus2
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.95
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_Opus2(integer Mode, integer Kbps, integer Complexity, boolean channel_audio, boolean per_channel)
+</functionname>
+<description>
+Returns the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+
+Only for Reaper-versions 5.95 and higher. For render-strings compatible with earlier versions of Reaper, use <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>.
+
+Returns nil in case of an error
+</description>
+<retvals>
+string render_cfg_string - the render-cfg-string for the selected Opus-settings
+</retvals>
+<parameters>
+integer Mode - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR
+integer Kbps - the kbps of the opus-file; Ultraschall-Api supports between 1 and 256
+integer Complexity - the complexity-setting between 0(lowest quality) and 10(highest quality, slow encoding)
+boolean channel_audio - true, Encode 3-8 channel audio as 2.1-7.1(LFE); false, DON'T Encode 3-8 channel audio as 2.1-7.1(LFE)
+boolean per_channel - true, kbps per channel (6-256); false, kbps combined for all channels
+</parameters>
+<semanticcontext>
+Rendering of Project
+Creating Renderstrings
+</semanticcontext>
+<tags>
+projectfiles, create, render, outputformat, opus, multichannel
+</tags>
+</ApiDocBlocFunc>
+]]
+
+  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
+  local encode
+  if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Ooops", "external render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
+  if math.type(Kbps)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Kbps", "Must be an integer!", -2) return nil end
+  if math.type(Mode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Mode", "Must be an integer!", -3) return nil end
+  if math.type(Complexity)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Complexity", "Must be an integer!", -4) return nil end
+  if Kbps<1 or Kbps>256 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Kbps", "Ultraschall-API supports only kbps-values between 1 to 256, sorry.", -5) return nil end
+  if Mode<0 or Mode>2 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Mode", "must be between 0 and 2", -6) return nil end
+  if Complexity<0 or Complexity>10 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Complexity", "must be between 0 and 10", -7) return nil end
+  if type(channel_audio)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "channel_audio", "must be a boolean", -8) return nil end
+  if type(per_channel)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "per_channel", "must be a boolean", -9) return nil end
+  
+  if channel_audio==false and per_channel==false then encode="A"
+  elseif channel_audio==false and per_channel==true then encode="I"
+  elseif channel_audio==true and per_channel==false then encode="E"
+  elseif channel_audio==true and per_channel==true then encode="M"
+  end
+  
+  if Mode==0 then Mode="VBR"
+  elseif Mode==1 then Mode="CVBR"
+  elseif Mode==2 then Mode="HARDCBR"
+  end
+  local _temp, renderstring=ultraschall.GetIniFileExternalState("Opus_Reaper_5_95", "Renderstring", ini_file)  
+  local _temp, renderkbps=ultraschall.GetIniFileExternalState("Opus_Reaper_5_95", "KBPS_"..Kbps, ini_file)
+  local _temp, rendermode=ultraschall.GetIniFileExternalState("Opus_Reaper_5_95", "MODE_"..Mode, ini_file)
+  local _temp, rendercomplexity=ultraschall.GetIniFileExternalState("Opus_Reaper_5_95", "Complexity_"..Complexity, ini_file)
+
+  renderstring=string.gsub(renderstring, "%[KBPS%]", renderkbps)
+  renderstring=string.gsub(renderstring, "%[MODE%]", rendermode)
+  renderstring=string.gsub(renderstring, "%[Encode%]", encode)
+  renderstring=string.gsub(renderstring, "%[Complexity%]", rendercomplexity)
+  return renderstring
+end
+
+--A=ultraschall.CreateRenderCFG_Opus2(0, 1, 0, false, false)
+--B = ultraschall.GetProject_RenderCFG("c:\\opustest.rpp")
 
 
 function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, ABR_KBPS_MIN, ABR_KBPS_MAX)
@@ -40491,22 +40573,24 @@ projectfiles, render, output, file
   if type(projectfilename_with_path)~="string" then 
     -- reaper.Main_SaveProject(0, false)
     retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
-  end
+  end  
   
   if reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "projectfilename_with_path", "File does not exist.", -6) return -1 end
   if type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "renderfilename_with_path", "Must be a string.", -7) return -1 end  
-  if ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "rendercfg", "No valid render_cfg-string.", -9) return -1 end
+  if rendercfg~=nil and ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "rendercfg", "No valid render_cfg-string.", -9) return -1 end
   if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "overwrite_without_asking", "Must be boolean", -10) return -1 end
 
   -- Read Projectfile
   local FileContent=ultraschall.ReadFullFile(projectfilename_with_path, false)
   local Part1=FileContent:match("(.-<RENDER_CFG.-\n.-)%a")
   local Part2=FileContent:match(".-<RENDER_CFG\n.-(\n.*)")
-  
+  local oldrendercfg=ultraschall.GetProject_RenderCFG(nil, FileContent)
+    
   -- create temporary-project-filename
   local tempfile = ultraschall.CreateValidTempFile(projectfilename_with_path, true, "ultraschall-temp", true) 
   
   -- Write temporary projectfile
+  if rendercfg==nil then rendercfg=oldrendercfg end
   ultraschall.WriteValueToFile(tempfile, Part1..rendercfg..Part2)
   
   -- Add the render-filename to the project
@@ -40536,6 +40620,7 @@ projectfiles, render, output, file
   
   --Now the magic happens:
   if overwrite_without_asking==true then os.remove(renderfilename_with_path) end -- delete renderfile, if already existing and overwrite_without_asking==true
+  
   
   reaper.Main_OnCommand(40859,0)    -- create new temporary tab
   reaper.Main_openProject(tempfile) -- load the temporary projectfile
@@ -40577,6 +40662,7 @@ projectfiles, render, output, file
   reaper.SelectProjectInstance(curProj)
   return 0
 end
+
 
 
 --A=ultraschall.CreateRenderCFG_MP3CBR(1, 4, 10)
@@ -41317,10 +41403,10 @@ projectfiles, render, output, file
   
   if reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "projectfilename_with_path", "File does not exist.", -3) return -1 end
   if type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "renderfilename_with_path", "Must be a string.", -4) return -1 end  
-  if ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "rendercfg", "No valid render_cfg-string.", -5) return -1 end
+  if rendercfg~=nil and ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "rendercfg", "No valid render_cfg-string.", -5) return -1 end
   if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "overwrite_without_asking", "Must be boolean", -6) return -1 end
 
-  countmarkers, nummarkers, numregions, markertable = ultraschall.GetProject_MarkersAndRegions(projectfilename_with_path)
+  local countmarkers, nummarkers, numregions, markertable = ultraschall.GetProject_MarkersAndRegions(projectfilename_with_path)
   if region>numregions then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "region", "No such region in the project.", -7) return -1 end
   local regioncount=0
   for i=1, countmarkers do
@@ -41330,8 +41416,7 @@ projectfiles, render, output, file
     end
   end
   if addregionname==true then renderfilename_with_path=renderfilename_with_path..markertable[region][4] end
---  reaper.MB(region,"",0)
---  reaper.MB(tonumber(markertable[region][2]), tonumber(markertable[region][3]),0)
+
   return ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, tonumber(markertable[region][2]), tonumber(markertable[region][3]), overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
 end
 

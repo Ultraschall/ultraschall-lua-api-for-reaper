@@ -191,6 +191,11 @@
   - GetInputOutputLatency_Seconds - returns the input/output-latency in seconds
   
   <TODO>
+      TODO!!  - DeleteMediaItem(MediaItem MediaItem) use selection of the MediaItem to delete and use action for deleting MediaItem
+                                                     probably "applyactiontoitem() is a good idea
+                                                     reaper.SetMediaItemSelected(MediaItem item, boolean selected)
+                                                     Much faster than checking all MediaItems in a track.
+      
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
       
       TODO!!  - 1. Introduction to Renderfunctions has old and outdated information
@@ -201,6 +206,9 @@
       
       
     For 4.00beta2.8:
+      TODO!!  - Get Length of all Items in a track GetLengthOfAllItems_Track()
+      TODO!!  - Add options to Normalize-Items-function, as there are numerous different actions for normalizing
+      TODO!!  - GetMarkerUpdateCounter()
       TODO!!  - SetTrackMIDIColorMapFn - finish it
       TODO!!  - Envelope-ExtStates
       TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import

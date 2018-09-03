@@ -10187,7 +10187,7 @@
             if you pass a .RTrackTemplate file then it adds that to the project instead.
         </description>
         <parameters>
-            name - the path and filename of the project/template you want to open
+            string name - the path and filename of the project/template you want to open
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -13339,7 +13339,7 @@
                  -0, track panels
                  -1, arrange window
                  -2, arrangewindow and env
-            envIn - TrackEnvelope-object of the envelope to select; nil, clear current track/envelope-selection
+            envIn - TrackEnvelope-object of the envelope to select(only when mode=2, else set to nil); nil, clear current track/envelope-selection;
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
