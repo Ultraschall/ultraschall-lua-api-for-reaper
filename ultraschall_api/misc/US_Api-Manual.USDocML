@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<USDocML>
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Rendering_01_Introduction</slug>
+        <title>Rendering: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            The Ultraschall-API provides functions for rendering your projects, without having to use the Rendering-dialog of Reaper.
+            This gives you a wide range of possibilities to customize your rendering-needs.
+            
+            Basically the process is based on:
+                1) creating a renderstring with all format-specific-setting, using the accompanying functions:
+                     [CreateRenderCFG_AIFF](#CreateRenderCFG_AIFF), [CreateRenderCFG_DDP](#CreateRenderCFG_DDP), [CreateRenderCFG_FLAC](#CreateRenderCFG_FLAC), [CreateRenderCFG_MP3ABR](#CreateRenderCFG_MP3ABR), [CreateRenderCFG_MP3CBR](#CreateRenderCFG_MP3CBR), [CreateRenderCFG_MP3MaxQuality](#CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG_MP3VBR](#CreateRenderCFG_MP3VBR), 
+                     [CreateRenderCFG_OGG](#CreateRenderCFG_OGG), [CreateRenderCFG_Opus](#CreateRenderCFG_Opus), [CreateRenderCFG_Opus2](#CreateRenderCFG_Opus2), [CreateRenderCFG_WAV](#CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](#CreateRenderCFG_WAVPACK), [CreateRenderCFG_WebMVideo](#CreateRenderCFG_WebMVideo)
+                     
+                2) passing the render-string to the Render-functions
+                     [RenderProject_RenderCFG](#RenderProject_RenderCFG), [RenderProjectRegions_RenderCFG](#RenderProjectRegions_RenderCFG)
+                     
+               So the following code should render the current project into an MP3 with a Constant Bitrate of 128kbps.
+               Note: to render the currently opened project, it must be saved first!
+               '''
+               -- create Render-string
+               render_cfg_string = ultraschall.CreateRenderCFG_MP3CBR(11, 2)
+               
+               -- Pass this Render-string to the rendering-function
+               retval = ultraschall.RenderProject_RenderCFG(nil, "c:\\exportfile.mp3", 0, -1, false, false, false, render_cfg_string)
+               '''
+               
+               Read the accompanying documentation-entries for [CreateRenderCFG_MP3CBR](#CreateRenderCFG_MP3CBR) and [RenderProject_RenderCFG](#RenderProject_RenderCFG) for more details and/or the following chapters.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Rendering
+        </chapter_context>
+        <tags>documentation, introduction, rendering, projects, functions, render</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Rendering_02_About_Renderstrings</slug>
+        <title>Rendering: About Renderstrings</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Render-strings(or render_cfg, as they are named in Reaper) are strings, that contain all settings for a specific Render-Output-format, as MP3, WAV, AIF, FLAC, etc.
+            They are usually stored into RPP-projectfiles and are quite cryptic(for those of you, who know what that means: BASE64-encoded).
+            These are essential for rendering a project using the provided rendering-functions, so the Ultraschall-API provides functions who create these render-strings.
+            
+            All these functions start with CreateRenderCFG_ in their name, so if you are looking for a specific format, use CreateRenderCFG_audioformat (like CreateRenderCFG_FLAC, etc). 
+            The parameters of these functions represent all format-options as you are used from the Render-dialog. They should be fairly complete, though some formats (Video, OGG) are limited with some of their options(fps, width, height, kbps, etc).
+            This is due my approach decoding them, though I tried to provide all settings that are useful in your everyday use(documented in the accompanying parameter-descriptions in the functions-reference).
+            
+            Example for FLAC:
+            
+            '''
+            render_string = ultraschall.CreateRenderCFG_FLAC(integer BitDepth, integer EncSpeed)
+            '''
+            
+            creates the render-string for the FLAC-fileformat. Just provide the BitDepth(e.g 0 for 24 Bit) and the encoding-speed(EncSpeed) (e.g 5 for the default encoding speed). 
+            Have a look into the functions-reference to get the possible values for these parameters.
+            
+            '''
+            render_string = ultraschall.CreateRenderCFG_FLAC(0, 5)
+            '''
+            
+            This will create a render-string for FLAC with 24bit-depth and the encoding-speed of 5(which is the default-setting in the render-dialog).
+            
+            This renderstring can then be passed over to [SetProject_RenderCFG](#SetProject_RenderCFG) to set it into a project-file, or to [RenderProject_RenderCFG](#RenderProject_RenderCFG) to render a projectfile using the format-settings in the Render-string.
+            
+            The following render-string-functions are available in Ultraschall-API
+                     [CreateRenderCFG_AIFF](#CreateRenderCFG_AIFF), [CreateRenderCFG_DDP](#CreateRenderCFG_DDP), [CreateRenderCFG_FLAC](#CreateRenderCFG_FLAC), [CreateRenderCFG_MP3ABR](#CreateRenderCFG_MP3ABR), [CreateRenderCFG_MP3CBR](#CreateRenderCFG_MP3CBR), [CreateRenderCFG_MP3MaxQuality](#CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG_MP3VBR](#CreateRenderCFG_MP3VBR), 
+                     [CreateRenderCFG_OGG](#CreateRenderCFG_OGG), [CreateRenderCFG_Opus](#CreateRenderCFG_Opus), [CreateRenderCFG_Opus2](#CreateRenderCFG_Opus2), [CreateRenderCFG_WAV](#CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](#CreateRenderCFG_WAVPACK), [CreateRenderCFG_WebMVideo](#CreateRenderCFG_WebMVideo)            
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Rendering
+        </chapter_context>
+        <tags>documentation, rendering, projects, functions, render, renderstring, rendercfg, render_cfg</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Rendering_03_About_Renderingfunctions</slug>
+        <title>Rendering: About Rendering-functions</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            The rendering-functions let you render a project, either a stored rpp-project-file or the currently opened one(only when it has been saved!).
+            They provide you with a wide range of functionality, so the rendering process should be quite close to Reaper's "official"-own-process using the render-dialog.
+            
+            There are currently two different render-functions available:
+            1) [RenderProject_RenderCFG](#RenderProject_RenderCFG) - with this one, you can render a whole project or just from startposition to endposition in seconds
+            2) [RenderProjectRegions_RenderCFG](#RenderProjectRegions_RenderCFG) with this one, you can render specific regions of a project
+            
+            Basically they are the same, with the only difference, that with the first one you can set a specific startposition and endposition, while the second one, you set it to a region-number.
+            That said, a lot of the parameters are the same.
+                projectfilename_with_path - the projectfile with path, that you want to render. Set it to nil, if you want to render the currently opened project(which must be saved before rendering!)
+                renderfilename_with_path - the filename with path of the output-file
+                overwrite_without_asking - if you want to overwrite already existing outputfiles, set this to true; else, set it to false
+                
+            The following two are directly connected to some of Reaper's dialogs:
+                renderclosewhendone - the render-progress-window, that is shown during the actual rendering can be closed automatically after rendering is finished(there's a checkbox in that window to set this).
+                                            set this to true to automatically close it; set it to false to keep it shown; set it to nil and it will use the setting the user set with the checkbox
+                filenameincrease - another of Reaper's dialogs, that will pop up, when an output-file already exists and overwrite_without_asking is set to false. It will ask you to automatically 
+                                            increase the filename with a number to prevent accidental overwriting.
+                                            Set this to true to automatically increase filename; set it to false to show the dialog; set it to nil to use the settings the user chose
+                
+            The last parameter is the place for your render-string:
+                rendercfg - the renderstring, as created using a CreateRenderCFG_XXX-function, as described in [Rendering_02_About_Renderstrings](#Rendering_02_About_Renderstrings).
+            
+            With that, you should be able to successfully render your project.
+            
+            For more enhanced customization of Rendering, see [Rendering_04_Change_more_render_settings](#Rendering_04_Change_more_render_settings) for more details.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Rendering
+        </chapter_context>
+        <tags>documentation, rendering, projects, functions, render, renderstring, rendercfg, render_cfg</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Rendering_04_Change_more_render_settings</slug>
+        <title>Rendering: 04_ Change more render-settings</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Reaper's own render-dialog provides you with much more possibilities, than the rendering-functions themselves provide you with.
+            
+            In the likely case, that you want to influence more things for rendering, like samplerate, stereo or mono, etc, you should do the following things:
+            
+            1) make a copy of the rpp-file using you want to render using [MakeCopyOfFile](#MakeCopyOfFile). The copy must have a different name and be in the same folder, as the original rpp-file!
+            2) Now you can alter the copy of the projectfile using the following Ultraschall-Framework-functions, that represent certain elements from Reaper's Render-Dialog:
+                - [SetProject_RenderFilename](#SetProject_RenderFilename) - to alter the output-filename
+                - [SetProject_RenderPattern](#SetProject_RenderPattern) - to set the wildcards for the output-filename 
+                - [SetProject_RenderDitherState](#SetProject_RenderDitherState) - to set the "Master mix: Dither/Noise shaping"-checkboxes
+                - [SetProject_RenderFreqNChans](#SetProject_RenderFreqNChans) - to set the Sample rate in Hz and Channels
+                - [SetProject_RenderRange](#SetProject_RenderRange) - to set Bounds-dropdownlist, Time bounds-entryboxes and Tail
+                - [SetProject_RenderResample](#SetProject_RenderResample) - to set "Resample mode (if needed)" 
+                - [SetProject_RenderSpeed](#SetProject_RenderSpeed) to set the render-speed, and
+                - [SetProject_RenderStems](#SetProject_RenderStems) to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)
+                
+            3) after you've set the individual render-settings, you create a render-string, as described in [Rendering_02_About_Renderstrings](#Rendering_02_About_Renderstrings).
+            4) render the altered copy(!) of the projectfile(not the original one!), as described in [Rendering_03_About_Renderingfunctions](#Rendering_03_About_Renderingfunctions).
+            
+            
+            If you want to alter the currently opened project, you need to save it first. After that, use:
+            
+            '''
+            retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
+            '''
+            
+            to get the projectfilename_with_path of the current project as returnvalue. Use that and go through steps 1 through 4.
+            
+            The functions in step 2) are just a small selection of the functions to alter project-files, as provided by the Ultraschall-API. Browse through the functions in the "Project-Files"-section of the index of the Ultraschall-API-Functions-Reference for many more of them.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Rendering
+        </chapter_context>
+        <tags>documentation, rendering, projects, functions, render, renderstring, rendercfg, render_cfg, advanced</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Datatypes_trackstring</slug>
+        <title>Datatypes: 01 Trackstrings</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Many functions allow you to process through multiple tracks. As good as this is, this provided some difficulty in telling a function, to which track is shall be applied to.
+            Hence the datatype: trackstring
+            
+            A trackstring is just a simple string with all tracknumbers that you want a certain function to be applied to.
+            Example: "1,2,5,7,9"
+            
+            These tracknumbers must be separated from each other using a comma. Whitespaces are not allowed.
+            
+            With trackstrings, passing the tracks wanted to a function is really easy.
+            
+            You can create trackstrings using: [CreateTrackString](#CreateTrackString), [CreateAllTracksTrackString](#CreateAllTracksTrackString), [CreateTrackString_ArmedTracks](#CreateTrackString_ArmedTracks), [CreateTrackString_UnarmedTracks]()#CreateTrackString_UnarmedTracks, [CreateTrackString_SelectedTracks](#CreateTrackString_SelectedTracks).
+            You can manipulate trackstrings using: [InverseTrackstring](#InverseTrackstring), [OnlyTracksInBothTrackstrings](#OnlyTracksInBothTrackstrings), [OnlyTracksInOneTrackstring](#OnlyTracksInOneTrackstring), [RemoveDuplicateTracksInTrackstring](#RemoveDuplicateTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring](#OnlyMediaItemsOfTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring_StateChunk](#OnlyMediaItemsOfTracksInTrackstring_StateChunk)
+            You can check for validate trackstrings using: [IsValidTrackString](#IsValidTrackString)
+            
+            Some of the functions who make use of trackstrings are: [GetAllMediaItemsBetween](#GetAllMediaItemsBetween), [GetAllMediaItemsInTimeSelection](#GetAllMediaItemsInTimeSelection), [DeleteMediaItems_Position](#DeleteMediaItems_Position), [IsItemInTrack3](#IsItemInTrack3), and more
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Rendering
+        </chapter_context>
+        <tags>documentation, datatypes, datatype, trackstring, trackstrings</tags>
+    </US_DocBloc>
+    
+</USDocML>

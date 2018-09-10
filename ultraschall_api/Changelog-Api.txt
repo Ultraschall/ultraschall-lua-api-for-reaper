@@ -189,7 +189,9 @@
   - SetPlayCursorWidth - set the width of the playcursor in pixels
   - GetReaperAlwaysOnTopState - get, if Reaper is set to be always on top of other applications, as set by action 40239
   - GetInputOutputLatency_Seconds - returns the input/output-latency in seconds
-  
+  - CreateTrackString_ArmedTracks - creates a trackstring with the tracknumbers of all armed tracks
+  - CreateTrackString_UnarmedTracks - creates a trackstring with the tracknumbers of all unarmed tracks
+
   <TODO>
       TODO!!  - DeleteMediaItem(MediaItem MediaItem) use selection of the MediaItem to delete and use action for deleting MediaItem
                                                      probably "applyactiontoitem() is a good idea
@@ -628,6 +630,10 @@
   - GetTrackExtState - corrections in the docs
   - DeleteArrangeviewSnapshot - had wrong functionname in docs -> fixed
   - CenterViewToCursor - had documented a retval that the function doesn't return -> fixed
+  - CreateTrackNumbersString - renamed to CreateTrackString
+  - CreateTrackNumbersString_SelectedTracks - renamed to CreateTrackString_SelectedTracks
+  - GetMediaItemsFromClipboard - using renamed function CreateTrackString() now
+  - InsertMediaItemFromFile - using renamed function CreateTrackString_SelectedTracks() now
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:

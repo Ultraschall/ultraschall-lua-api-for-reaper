@@ -922,181 +922,6 @@ Beta Functions
 </ApiDocBlocFunc>
 
 
-<ApiDocBlocFunc>
-<slug>
-Render1.Introduction
-</slug>
-<chaptername>
-1. Introduction to Renderfunctions
-</chaptername>
-<description>
-The Render-Functions within the Ultraschall Framework allow you to render audio/video without having to use the Rendering-dialog.
-That way, you can program things like e.g. queue-rendering into multiple formats of a project or rendering a project to one project and another rendering into a "backup-folder" and such.
-To make that possible, it is necessary to know some things, on how it works, as rendering in Reaper, with all the options it provides, is quite complex.
-But don't panic.
-
-The rendering functions allow you to render a project, which means: 
- 1) you can choose an RPP-projectfile to be rendered, 
- 2) the renderfilename, where the audio/video shall be rendered to
- 3) format-specific parameters, like kilobits/second or rendering quality, etc.
- 
-When rendering starts, the rendering function does the following things:<div style="padding-left:4%;">
- 1) It checks, whether the parameters are valid. If not, it returns -1 as error value.
- 2) It checks, whether the current project is saved. If not, it returns -2 as error value, as all rendering-functions need the current project to be saved.
- 3) It creates a copy of the rpp-file as ultraschall-temp.rpp in the projectfolder of the rpp-file you choose. Returns -3 if it already exists to prevent accidental overwriting.
- 4) It inserts the necessary render-settings into the ultraschall-temp.rpp
- 5) It loads the ultraschall-temp.rpp as current project, closing the former current project
- 6) It starts the action 41824 - "File: Render project, using the most recent render settings" which renders the file
- 7) It reopens the former project, that was the current project before rendering
- </div>
-That means, you need to take care of the fact, that the current project is saved before rendering, as well as that the ultraschall-temp.rpp doesn't exist in the project-folder of the project, that shall be rendered, or you'll get an error message.
-
-If you want to render the current project, you need to save the project using reaper.Main_SaveProject.
-After that, you get the filename.rpp and project-path using the functions reaper.GetProjectName and reaper.GetProjectPath. Keep in mind, that GetProjectPath isn't just the path to the projectfile, but to the subfolder for the recordings. 
-You can change it to the rpp-project-file-folder itself, by manipulating the return-value of the GetProjectPath-function: 
-
-On windows:
-<pre style="background-color:#DDDDDD;"><code>buf=buf:match("(.*)\\")</code></pre>or
-<pre style="background-color:#DDDDDD;"><code>Path=reaper.GetProjectPath(""):match("(.*)\\")</code></pre>
-On Mac:
-<pre style="background-color:#DDDDDD;"><code>buf=buf:match("(.*)/")</code></pre>or
-<pre style="background-color:#DDDDDD;"><code>Path=reaper.GetProjectPath(""):match("(.*)/")</code></pre>
-Otherwise, you look into the wrong folder for the projectfile!
-Now you just need to use that filename+path as parameter for the render-function you want to use.
-
-In the likely case, that you want to influence more things for rendering, like samplerate, stereo or mono, etc, you make a copy of the rpp-file using you want to render using <a href="#MakeCopyOfFile">MakeCopyOfFile</a>. The copy must have a different name and be in the same folder, as the original rpp-file!
-Now you can alter the copied-file using the following Ultraschall-Framework-functions, that represent certain elements from Reaper's Render-Dialog:
-
-<a href="#SetProject_RenderFilename">SetProject_RenderFilename</a> (File name), <a href="#SetProject_RenderPattern">SetProject_RenderPattern</a> (File name, when using Wildcards), <a href="#SetProject_RenderDitherState">SetProject_RenderDitherState</a> (Master mix: Dither/Noise shaping checkboxes), <a href="SetProject_RenderFreqNChans">SetProject_RenderFreqNChans</a> (Sample rate in Hz, Channels), <a href="#SetProject_RenderRange">SetProject_RenderRange</a> (Bounds, Time bounds, Tail), <a href="#SetProject_RenderResample">SetProject_RenderResample</a> (Resample mode (if needed), <a href="#SetProject_RenderSpeed">SetProject_RenderSpeed</a>, <a href="#SetProject_RenderStems">SetProject_RenderStems</a> (Source)
-
-The altered projectfile can be used now as parameter for the rendering-functions.
-</description>
-<semanticcontext>
-Rendering of Project
-About Rendering Projects
-</semanticcontext>
-<tags>
-</tags>
-</ApiDocBlocFunc>
-
-
-<ApiDocBlocFunc>
-<slug>
-Render2.How2Use
-</slug>
-<chaptername>
-2. How to Use Rendering Functions (examples)
-</chaptername>
-<description>
-Using the rendering-functions is quite easy. Let's use MP3 as an example(needs LAME-encoder to be installed into Reaper!)
-
-On Windows:
-<pre style="background-color:#DDDDDD;"><code>
-retval = ultraschall.RenderProjectToMP3_CBR("path\\filename.rpp", "path\\filename.mp3", 128, 5)
-</code>
-</pre>
-On Mac:
-<pre style="background-color:#DDDDDD;"><code>
-retval = ultraschall.RenderProjectToMP3_CBR("path/filename.rpp", "path/filename.mp3", 128, 5)
-</code>
-</pre>
-That way, you will render the file "filename.rpp" in "path" into an MP3 called "filename.mp3". This MP3 will be encoded with a bitrate of 128kbps, while encode speed is 5 which means slow but best quality.
-
-If you want to render the current project as mp3 with the same quality-settings as above, you can use the following snippet:
-<pre style="background-color:#DDDDDD;"><code>
-    --Get the correct Separator for a Windows or a Mac-system
-sep=ultraschall.Separator
-
-    --Save current Project
-reaper.Main_SaveProject(0, false)
-
-    --Get Projectpath and Projectname
-ProjectPath = reaper.GetProjectPath("")
-ProjectName = reaper.GetProjectName(0, "")
-
-    -- Create a string with the ProjectFilename with path
-    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we 
-    -- look in the wrong folder for the project, not the one, where the rpp-projectfile lies
-ProjectFilename=ProjectPath:match("(.*)"..sep)..sep..ProjectName
-
-    -- Create a string with the MP3Filename with path
-    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we 
-    -- save the MP3 in the recordings-folder, rather than the folder, where the rpp-projectfile lies
-MP3Filename=ProjectPath:match("(.*)"..sep)..sep..ProjectName:sub(1,-5)..".mp3" -- The MP3-Filename
-
-    -- Render the project as constant-bitrate-MP3 with
-    -- 128 kbps and rendering speed 5 (best quality but slowest)
-Retval = ultraschall.RenderProjectToMP3_CBR(ProjectFilename, MP3Filename, 128, 5) 
-</code></pre>
-If you want to alter the rendersettings first, you can use the following snippet as a template. It changes the render-range, before rendering:
-<pre style="background-color:#DDDDDD;"><code>
-    --Get the correct Separator for a Windows or a Mac-system
-sep=ultraschall.Separator
-
-    -- Save current Project
-reaper.Main_SaveProject(0, false)
-
-    -- Get Projectpath and Projectname
-ProjectPath = reaper.GetProjectPath("")
-ProjectName = reaper.GetProjectName(0, "")
-
-    -- Create a string with the ProjectFilename with path
-    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we 
-    -- look in the wrong folder for the project
-ProjectFilename=ProjectPath:match("(.*)"..sep)..sep..ProjectName
-
-    -- Create a string with the temporary-ProjectFilename with path, which must be in the same folder, 
-    -- as the original project-file.
-    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match,
-    -- as otherwise we look in the wrong folder for the project.
-    -- DON'T USE "Ultraschall-temp.rpp", as that name will be used by the rendering-function itself!
-TempProjectFilename=ProjectPath:match("(.*)"..sep)..sep.."This-Is-A-Temporary-Project-File.rpp"
-
-    -- To prevent accidental overwriting of an already existing file with the same name as
-    -- TempProjectFilename, we check it's existence. If true, we end right here.
-if reaper.file_exists(TempProjectFilename)==true then return -1 end
-
-    -- Let's create a temporary copy of the project-file. 
-Retval = ultraschall.MakeCopyOfFile(ProjectFilename, TempProjectFilename)
-
-    -- Now we alter the render-settings in the temporary(!)-projectfile.
-    -- We will do the the render-range, but you can use other ultraschall.SetProject_RenderXXXX-functions here as well
-    -- Setting the Renderrange. The parameters are:
-      -- TempProjectFilename - the temporary-project-filename
-      -- 0 for Custom Time Range
-      -- 10, which is the beginning of the render-range in seconds
-      -- 20, which is the end of the render-range in seconds
-      -- 0 for tail off for all bounds
-      -- 0 for the taillength
-Retval = ultraschall.SetProject_RenderRange(TempProjectFilename, 0, 10, 20, 0, 0)
-
-    -- Create a string with the MP3Filename with path
-    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we 
-    -- save the MP3 in the recordings-folder, rather than the folder, where the rpp-projectfile lies
-MP3Filename=ProjectPath:match("(.*)"..sep)..sep..ProjectName:sub(1,-5)..".mp3" -- The MP3-Filename
-
-    -- Render the project as constant-bitrate-MP3 with
-    -- 128 kbps and rendering speed 5 (best quality but slowest)
-Retval = ultraschall.RenderProjectToMP3_CBR(TempProjectFilename, MP3Filename, 128, 5) 
-
-    --let's remove the temporary file again.
-os.remove(TempProjectFilename)
-
-    -- Hooray, Rendering, successfully accomplished! Congratulations!
-</code>
-</pre>
-Read the accompanying Api-documentation entries for the "ultraschall.GetProject_XXX"/ultraschall.SetProject_XXX"-functions, as they'll give you even more stuff to work with.
-
-</description>
-<semanticcontext>
-Rendering of Project
-About Rendering Projects
-</semanticcontext>
-<tags>
-</tags>
-</ApiDocBlocFunc>
---]]
-
 --[[
 <ApiDocBlocFunc>
 <slug>
@@ -2411,7 +2236,7 @@ end
 --A=ultraschall.WriteValueToFile("c:\\Ultraschall3_1-portable - Api/UserPlugins/ultraschall_api/temp/temp hui.bat", "aboutyou")
 
 
-function ultraschall.CreateTrackNumbersString(firstnumber, lastnumber, step)
+function ultraschall.CreateTrackString(firstnumber, lastnumber, step)
 -- returns a string with the all numbers from firstnumber to lastnumber, separated by a ,
 -- e.g. firstnumber=4, lastnumber=8 -> 4,5,6,7,8
 -- firstnumber - the number, with which the string starts
@@ -2420,7 +2245,7 @@ function ultraschall.CreateTrackNumbersString(firstnumber, lastnumber, step)
 --[[
 <ApiDocBlocFunc>
 <slug>
-CreateTrackNumbersString
+CreateTrackString
 </slug>
 <requires>
 Ultraschall=4.00
@@ -2428,7 +2253,7 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-string trackstring = ultraschall.CreateTrackNumbersString(integer firstnumber, integer lastnumber, optional integer step)
+string trackstring = ultraschall.CreateTrackString(integer firstnumber, integer lastnumber, optional integer step)
 </functionname>
 <description>
 returns a string with the all numbers from firstnumber to lastnumber, separated by a ,
@@ -2453,8 +2278,8 @@ trackstring, track, create
 
 --]]
   -- check parameters
-  if tonumber(firstnumber)==nil then ultraschall.AddErrorMessage("CreateTrackNumbersString","firstnumber", "only numbers allowed", -1) return nil end
-  if tonumber(lastnumber)==nil then ultraschall.AddErrorMessage("CreateTrackNumbersString","lastnumber", "only numbers allowed", -2) return nil end
+  if tonumber(firstnumber)==nil then ultraschall.AddErrorMessage("CreateTrackString","firstnumber", "only numbers allowed", -1) return nil end
+  if tonumber(lastnumber)==nil then ultraschall.AddErrorMessage("CreateTrackString","lastnumber", "only numbers allowed", -2) return nil end
   if tonumber(step)==nil then step=1 end
     
   -- prepare variables
@@ -2470,7 +2295,7 @@ trackstring, track, create
   return trackstring:sub(2,-1)
 end
 
---L=ultraschall.CreateTrackNumbersString("1","b")
+--L=ultraschall.CreateTrackString("1","b")
 
 ------------------------------------
 ---- Ultraschall.ini Management ----
@@ -12137,14 +11962,14 @@ end
 -----------------------------
 
 
-function ultraschall.CreateTrackNumbersString_SelectedTracks()
+function ultraschall.CreateTrackString_SelectedTracks()
 -- returns a string with the all numbers from selected tracks, separated by a ,
 -- e.g. firstnumber=4, lastnumber=8 -> 4,5,6,7,8
 
 --[[
 <ApiDocBlocFunc>
 <slug>
-CreateTrackNumbersString_SelectedTracks
+CreateTrackString_SelectedTracks
 </slug>
 <requires>
 Ultraschall=4.00
@@ -12152,7 +11977,7 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-string trackstring = ultraschall.CreateTrackNumbersString_SelectedTracks()
+string trackstring = ultraschall.CreateTrackString_SelectedTracks()
 </functionname>
 <description>
 Creates a string with all numbers from selected tracks, separated by a ,
@@ -12186,7 +12011,7 @@ trackmanagement, datastructure
   return trackstring:sub(1,-2)
 end
 
---A=ultraschall.CreateTrackNumbersString_SelectedTracks()
+--A=ultraschall.CreateTrackString_SelectedTracks()
 
 
 -------------------------
@@ -25029,7 +24854,7 @@ mediaitemmanagement, tracks, media, item, edit, ripple
 </tags>
 </ApiDocBlocFunc>
 ]]
-  --trackstring=ultraschall.CreateTrackNumbersString(1,reaper.CountTracks(),1)
+  --trackstring=ultraschall.CreateTrackString(1,reaper.CountTracks(),1)
   --returns the number of deleted items as well as a table with the ItemStateChunks of all deleted Items  
 
   if type(startposition)~="number" then ultraschall.AddErrorMessage("RippleCut", "startposition", "must be a number", -1) return -1 end
@@ -25068,7 +24893,7 @@ end
 
 
 function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, movemarkers, moveenvelopepoints)
-  --trackstring=ultraschall.CreateTrackNumbersString(1,reaper.CountTracks(),1)
+  --trackstring=ultraschall.CreateTrackString(1,reaper.CountTracks(),1)
   --returns the number of deleted items as well as a table with the ItemStateChunks of all deleted Items  
 --[[
 <ApiDocBlocFunc>
@@ -29024,7 +28849,7 @@ copy and paste, clipboard, mediaitems, statechunk, mediaitemstatechunk
   reaper.SetEditCurPos(Astartpos,false,false)
   reaper.Main_OnCommand(40058,0)
   local Aendpos=reaper.GetProjectLength()
-  trackstring = ultraschall.CreateTrackNumbersString(1, reaper.CountTracks(), 1)
+  trackstring = ultraschall.CreateTrackString(1, reaper.CountTracks(), 1)
   local Acount, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(Astartpos-.0000000001, Aendpos, trackstring, true)
   reaper.SetEditCurPos(Aoldmarker,true,false)
   local retval = ultraschall.DeleteMediaItemsFromArray(MediaItemArray)
@@ -34337,7 +34162,7 @@ markermanagement, insert, mediaitem, position, mediafile, track
     track=1
     reaper.InsertTrackAtIndex(0,false)
   end
-  local SelectedTracks=ultraschall.CreateTrackNumbersString_SelectedTracks() -- get old track-selection
+  local SelectedTracks=ultraschall.CreateTrackString_SelectedTracks() -- get old track-selection
   ultraschall.SetTracksSelected(tostring(track), true) -- set track selected, where we want to insert the item
   reaper.SetEditCurPos(position, false, false) -- change editcursorposition to where we want to insert the item
   local CountMediaItems=reaper.CountMediaItems(0) -- the number of items available; the new one will be number of items + 1
@@ -39065,7 +38890,7 @@ trackmanagement, run, command, track
   
   -- store current track-selection, make new track-selection, run the action and restore old track-selection
   reaper.PreventUIRefresh(1)
-  local selTrackstring=ultraschall.CreateTrackNumbersString_SelectedTracks() 
+  local selTrackstring=ultraschall.CreateTrackString_SelectedTracks() 
   ultraschall.SetTracksSelected(trackstring, true)
   ultraschall.RunCommand(actioncommandid)
   ultraschall.SetTracksSelected(selTrackstring, true)
@@ -42306,8 +42131,8 @@ number inputLatency - the input latency in seconds
 number outputLatency - the output latency in seconds 
 </retvals>
 <semanticcontext>
-User Interface
-Reaper
+Audio Management
+Helper functions
 </semanticcontext>
 <tags>
 helper functions, get, latency, input, output, seconds
@@ -42318,6 +42143,90 @@ helper functions, get, latency, input, output, seconds
   local projsrate=reaper.SNM_GetIntConfigVar("projsrate",-1)
   return input/projsrate, output/projsrate
 end
+
+--A,B=ultraschall.GetInputOutputLatency_Seconds()
+
+function ultraschall.CreateTrackString_ArmedTracks()
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateTrackString_ArmedTracks
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.941
+Lua=5.3
+</requires>
+<functionname>
+string trackstring = ultraschall.CreateTrackString_ArmedTracks()
+</functionname>
+<description>
+Gets a trackstring with tracknumbers of all armed tracks in it.
+
+Returns "" if no track is armed.
+</description>
+<retvals>
+string trackstring - a trackstring with the tracknumbers of all armed tracks as comma separated csv-string, eg: "1,3,4,7"
+</retvals>
+<semanticcontext>
+Track Management
+Assistance functions
+</semanticcontext>
+<tags>
+helper functions, get, tracks, armed, trackstring
+</tags>
+</ApiDocBlocFunc>
+--]]
+  local trackstring=""
+  for i=0, reaper.CountTracks(0)-1 do
+    local MediaTrack=reaper.GetTrack(0,i)
+    if reaper.GetMediaTrackInfo_Value(MediaTrack, "I_RECARM")==1 then trackstring=trackstring..(i+1).."," end
+  end
+  return trackstring:sub(1,-2)
+end
+
+function ultraschall.CreateTrackString_UnarmedTracks()
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateTrackString_UnarmedTracks
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.941
+Lua=5.3
+</requires>
+<functionname>
+string trackstring = ultraschall.CreateTrackString_UnarmedTracks()
+</functionname>
+<description>
+Gets a trackstring with tracknumbers of all unarmed tracks in it.
+
+Returns "" if all tracks are armed.
+</description>
+<retvals>
+string trackstring - a trackstring with the tracknumbers of all unarmed tracks as comma separated csv-string, eg: "1,3,4,7"
+</retvals>
+<semanticcontext>
+Track Management
+Assistance functions
+</semanticcontext>
+<tags>
+helper functions, get, tracks, unarmed, trackstring
+</tags>
+</ApiDocBlocFunc>
+--]]
+  local trackstring=""
+  for i=0, reaper.CountTracks(0)-1 do
+    local MediaTrack=reaper.GetTrack(0,i)
+    if reaper.GetMediaTrackInfo_Value(MediaTrack, "I_RECARM")==0 then trackstring=trackstring..(i+1).."," end
+  end
+  return trackstring:sub(1,-2)
+end
+
+--L=ultraschall.CreateTrackString_UnarmedTracks()
+
+
 
 ultraschall.ShowLastErrorMessage()
 

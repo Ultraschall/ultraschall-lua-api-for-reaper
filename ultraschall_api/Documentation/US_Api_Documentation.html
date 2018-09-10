@@ -1,5 +1,5 @@
 <html><head><title>Ultraschall Framework-Lua-Api-docs 4.00 "John Cage - 4:33"</title></head><body>
-<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 15749 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
+<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 15781 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
 </strong></td></tr></tr><tr><td><a href="#
 US1.Introduction
 ">
@@ -172,7 +172,10 @@ StartTime
 ultraschall.Api_Path
 ">Api_Path
 </a>&nbsp;&nbsp;</td></tr>
-<tr><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr><tr><td><h3><u>Clipboard Functions</u></h3></td></tr><tr><td><strong></strong></td></tr><td><a href="#
+<tr><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr><tr><td><h3><u>Audio Management</u></h3></td></tr><tr><td><strong>Helper functions
+</strong></td></tr><td><a href="#
+GetInputOutputLatency_Seconds
+">GetInputOutputLatency_Seconds</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr><tr><td><h3><u>Clipboard Functions</u></h3></td></tr><tr><td><strong></strong></td></tr><td><a href="#
 GetMediaItemsFromClipboard
 ">GetMediaItemsFromClipboard</a>&nbsp;&nbsp;</td><td><a href="#
 GetStringFromClipboard_SWS
@@ -1123,18 +1126,8 @@ SetReaperWindowToSize
 GetStartNewFileRecSizeState
 ">GetStartNewFileRecSizeState</a>&nbsp;&nbsp;</td><td><a href="#
 SetStartNewFileRecSizeState
-">SetStartNewFileRecSizeState</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr><tr><td><h3><u>Rendering of Project</u></h3></td></tr><tr><td><strong>About Rendering Projects
-</strong></td></tr></tr><tr><td><a href="#
-Render1.Introduction
-">
-1. Introduction to Renderfunctions
-</a></td></tr></tr><tr><td><a href="#
-Render2.How2Use
-">
-2. How to Use Rendering Functions (examples)
-</a></td></tr><tr><td>&nbsp;</td></tr><tr><td><strong>Creating Renderstrings
-</strong></td></tr>
-<td><a href="#
+">SetStartNewFileRecSizeState</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr><tr><td><h3><u>Rendering of Project</u></h3></td></tr><tr><td><strong>Creating Renderstrings
+</strong></td></tr><td><a href="#
 CreateRenderCFG_AIFF
 ">CreateRenderCFG_AIFF</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_DDP
@@ -1180,46 +1173,51 @@ CountItemsInTrackStateChunk
 CreateAllTracksTrackString
 ">CreateAllTracksTrackString</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
-CreateTrackNumbersString
-">CreateTrackNumbersString</a>&nbsp;&nbsp;</td><td><a href="#
-CreateTrackNumbersString_SelectedTracks
-">CreateTrackNumbersString_SelectedTracks</a>&nbsp;&nbsp;</td><td><a href="#
+CreateTrackString
+">CreateTrackString</a>&nbsp;&nbsp;</td><td><a href="#
+CreateTrackString_ArmedTracks
+">CreateTrackString_ArmedTracks</a>&nbsp;&nbsp;</td><td><a href="#
+CreateTrackString_SelectedTracks
+">CreateTrackString_SelectedTracks</a>&nbsp;&nbsp;</td><td><a href="#
+CreateTrackString_UnarmedTracks
+">CreateTrackString_UnarmedTracks</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 GetAllMediaItemsFromTrackStateChunk
 ">GetAllMediaItemsFromTrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 GetItemStateChunkFromTrackStateChunk
-">GetItemStateChunkFromTrackStateChunk</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">GetItemStateChunkFromTrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 GetTrackLength
 ">GetTrackLength</a>&nbsp;&nbsp;</td><td><a href="#
 InsertTrackAtIndex
-">InsertTrackAtIndex</a>&nbsp;&nbsp;</td><td><a href="#
+">InsertTrackAtIndex</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 InsertTrack_TrackStateChunk
 ">InsertTrack_TrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 InverseTrackstring
-">InverseTrackstring</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">InverseTrackstring</a>&nbsp;&nbsp;</td><td><a href="#
 IsTrackObjectTracknumber
 ">IsTrackObjectTracknumber</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidTrackStateChunk
-">IsValidTrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
+">IsValidTrackStateChunk</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 IsValidTrackString
 ">IsValidTrackString</a>&nbsp;&nbsp;</td><td><a href="#
 MoveTracks
-">MoveTracks</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">MoveTracks</a>&nbsp;&nbsp;</td><td><a href="#
 OnlyTracksInBothTrackstrings
 ">OnlyTracksInBothTrackstrings</a>&nbsp;&nbsp;</td><td><a href="#
 OnlyTracksInOneTrackstring
-">OnlyTracksInOneTrackstring</a>&nbsp;&nbsp;</td><td><a href="#
+">OnlyTracksInOneTrackstring</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 RemoveDuplicateTracksInTrackstring
 ">RemoveDuplicateTracksInTrackstring</a>&nbsp;&nbsp;</td><td><a href="#
 RemoveMediaItemByGUID_TrackStateChunk
-">RemoveMediaItemByGUID_TrackStateChunk</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">RemoveMediaItemByGUID_TrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 RemoveMediaItemByIGUID_TrackStateChunk
 ">RemoveMediaItemByIGUID_TrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 RemoveMediaItem_TrackStateChunk
-">RemoveMediaItem_TrackStateChunk</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Get Track States
+">RemoveMediaItem_TrackStateChunk</a>&nbsp;&nbsp;</td></tr>
+<tr><tr><td>&nbsp;</td></tr><tr><td><strong>Get Track States
 </strong></td></tr>
 <td><a href="#
 GetAllLockedTracks
@@ -1455,8 +1453,6 @@ SetIDEFontSize
 ">SetIDEFontSize</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Reaper
 </strong></td></tr>
 <td><a href="#
-GetInputOutputLatency_Seconds
-">GetInputOutputLatency_Seconds</a>&nbsp;&nbsp;</td><td><a href="#
 GetReaperAlwaysOnTopState
 ">GetReaperAlwaysOnTopState</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Transport
 </strong></td></tr>
@@ -1728,6 +1724,10 @@ api, variable, starttime
 ultraschall.Api_Path
 </i><br><br>Contains the current path to the Ultraschall-Api-folder.<br><p></p><p></p><p></p>Tags: 
 api, variable, script, path, folder
+<p></p><a id="GetInputOutputLatency_Seconds"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.941.png" alt="Reaper version 5.941"><img style="width:3%;" src="gfx/sws2.9.7.png" alt="sws version 2.9.7"> 
+number inputLatency, number outputLatency = ultraschall.GetInputOutputLatency_Seconds()
+</i><br><br>Returns the input and output-latency in seconds<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>number inputLatency</i> - the input latency in seconds</i><br><i>number outputLatency</i> - the output latency in seconds </i><br><i></i></div><p></p><p></p>Tags: 
+helper functions, get, latency, input, output, seconds
 <p></p><a id="GetMediaItemsFromClipboard"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer count, array MediaItemStateChunkArray = ultraschall.GetMediaItemsFromClipboard()
 </i><br><br>Returns the number of mediaitems and a MediaItemStateChunkArray of the mediaitems, as stored in the clipboard.<br><br>It does it by pasting the items at the end of the project, getting them and deleting them again.<br><br>Use sparsely and with care, as it uses a lot of resources!<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer count</i> - the number of items in the clipboard</i><br><i>array MediaItemStatechunkArray</i> - the mediaitem-statechunks of the items in the clipboard. One entry for each mediaitem-statechunk.</i><br><i></i></div><p></p><p></p>Tags: 
@@ -3362,11 +3362,11 @@ string render_cfg_string = ultraschall.CreateRenderCFG_OGG(integer Mode, number 
 projectfiles, create, render, outputformat, ogg
 <p></p><a id="CreateRenderCFG_Opus"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
 string render_cfg_string = ultraschall.CreateRenderCFG_Opus(integer Mode, integer Kbps, integer Complexity)
-</i><br><br>Returns the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected Opus-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer Mode</i> - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR</i><br><i>integer Kbps</i> - the kbps of the opus-file; Ultraschall-Api supports between 1 and 262</i><br><i>integer Complexity</i> - the complexity-setting between 0(lowest quality) and 10(highest quality, slow encoding)</i><br><i></i></div><p></p>Tags: 
+</i><br><br>Returns the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected Opus-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer Mode</i> - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR</i><br><i>integer Kbps</i> - the kbps of the opus-file; Ultraschall-Api supports between 1 and 256</i><br><i>integer Complexity</i> - the complexity-setting between 0(lowest quality) and 10(highest quality, slow encoding)</i><br><i></i></div><p></p>Tags: 
 projectfiles, create, render, outputformat, opus
 <p></p><a id="CreateRenderCFG_Opus2"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.95.png" alt="Reaper version 5.95"> 
 string render_cfg_string = ultraschall.CreateRenderCFG_Opus2(integer Mode, integer Kbps, integer Complexity, boolean channel_audio, boolean per_channel)
-</i><br><br>Returns the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Only for Reaper-versions 5.95 and higher. For render-strings compatible with earlier versions of Reaper, use <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>.<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected Opus-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer Mode</i> - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR</i><br><i>integer Kbps</i> - the kbps of the opus-file; Ultraschall-Api supports between 1 and 262</i><br><i>integer Complexity</i> - the complexity-setting between 0(lowest quality) and 10(highest quality, slow encoding)</i><br><i>boolean channel_audio</i> - true, Encode 3-8 channel audio as 2.1-7.1(LFE); false, DON'T Encode 3-8 channel audio as 2.1-7.1(LFE)</i><br><i>boolean per_channel</i> - true, kbps per channel (6-256); false, kbps combined for all channels</i><br><i></i></div><p></p>Tags: 
+</i><br><br>Returns the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Only for Reaper-versions 5.95 and higher. For render-strings compatible with earlier versions of Reaper, use <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>.<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected Opus-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer Mode</i> - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR</i><br><i>integer Kbps</i> - the kbps of the opus-file; Ultraschall-Api supports between 1 and 256</i><br><i>integer Complexity</i> - the complexity-setting between 0(lowest quality) and 10(highest quality, slow encoding)</i><br><i>boolean channel_audio</i> - true, Encode 3-8 channel audio as 2.1-7.1(LFE); false, DON'T Encode 3-8 channel audio as 2.1-7.1(LFE)</i><br><i>boolean per_channel</i> - true, kbps per channel (6-256); false, kbps combined for all channels</i><br><i></i></div><p></p>Tags: 
 projectfiles, create, render, outputformat, opus, multichannel
 <p></p><a id="CreateRenderCFG_WAV"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
 string render_cfg_string = ultraschall.CreateRenderCFG_WAV(integer BitDepth, integer LargeFiles, integer BWFChunk, integer IncludeMarkers, boolean EmbedProjectTempo)
@@ -3380,11 +3380,7 @@ projectfiles, create, render, outputformat, wavpack
 string render_cfg_string = ultraschall.CreateRenderCFG_WebMVideo(integer VIDKBPS, integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio)
 </i><br><br>Returns the render-cfg-string for the WebM-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected WebM-Video-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer VIDKBPS</i> - the video-bitrate of the video in kbps; 1 to 18571</i><br><i>integer AUDKBPS</i> - the audio-bitrate of the video in kbps; 1 to 18571</i><br><i>integer WIDTH</i> - the width of the video in pixels; 1 to 18571</i><br><i>integer HEIGHT</i> - the height of the video in pixels; 1 to 18571</i><br><i>integer FPS</i> - the fps of the video; must be a double-precision-float value (9.09 or 25.00)</i><br><i>boolean AspectRatio</i> - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio</i><br><i></i></div><p></p>Tags: 
 projectfiles, create, render, outputformat, webm
-<p></p><a id="Render1.Introduction"></a><h4>
-1. Introduction to Renderfunctions
-</h4>The Render-Functions within the Ultraschall Framework allow you to render audio/video without having to use the Rendering-dialog.<br>That way, you can program things like e.g. queue-rendering into multiple formats of a project or rendering a project to one project and another rendering into a "backup-folder" and such.<br>To make that possible, it is necessary to know some things, on how it works, as rendering in Reaper, with all the options it provides, is quite complex.<br>But don't panic.<br><br>The rendering functions allow you to render a project, which means: <br> 1) you can choose an RPP-projectfile to be rendered, <br> 2) the renderfilename, where the audio/video shall be rendered to<br> 3) format-specific parameters, like kilobits/second or rendering quality, etc.<br> <br>When rendering starts, the rendering function does the following things:<div style="padding-left:4%;"><br> 1) It checks, whether the parameters are valid. If not, it returns -1 as error value.<br> 2) It checks, whether the current project is saved. If not, it returns -2 as error value, as all rendering-functions need the current project to be saved.<br> 3) It creates a copy of the rpp-file as ultraschall-temp.rpp in the projectfolder of the rpp-file you choose. Returns -3 if it already exists to prevent accidental overwriting.<br> 4) It inserts the necessary render-settings into the ultraschall-temp.rpp<br> 5) It loads the ultraschall-temp.rpp as current project, closing the former current project<br> 6) It starts the action 41824 - "File: Render project, using the most recent render settings" which renders the file<br> 7) It reopens the former project, that was the current project before rendering<br> </div><br>That means, you need to take care of the fact, that the current project is saved before rendering, as well as that the ultraschall-temp.rpp doesn't exist in the project-folder of the project, that shall be rendered, or you'll get an error message.<br><br>If you want to render the current project, you need to save the project using reaper.Main_SaveProject.<br>After that, you get the filename.rpp and project-path using the functions reaper.GetProjectName and reaper.GetProjectPath. Keep in mind, that GetProjectPath isn't just the path to the projectfile, but to the subfolder for the recordings. <br>You can change it to the rpp-project-file-folder itself, by manipulating the return-value of the GetProjectPath-function: <br><br>On windows:<br><pre style="background-color:#DDDDDD;"><code>buf=buf:match("(.*)\\")</code></pre>or<br><pre style="background-color:#DDDDDD;"><code>Path=reaper.GetProjectPath(""):match("(.*)\\")</code></pre><br>On Mac:<br><pre style="background-color:#DDDDDD;"><code>buf=buf:match("(.*)/")</code></pre>or<br><pre style="background-color:#DDDDDD;"><code>Path=reaper.GetProjectPath(""):match("(.*)/")</code></pre><br>Otherwise, you look into the wrong folder for the projectfile!<br>Now you just need to use that filename+path as parameter for the render-function you want to use.<br><br>In the likely case, that you want to influence more things for rendering, like samplerate, stereo or mono, etc, you make a copy of the rpp-file using you want to render using <a href="#MakeCopyOfFile">MakeCopyOfFile</a>. The copy must have a different name and be in the same folder, as the original rpp-file!<br>Now you can alter the copied-file using the following Ultraschall-Framework-functions, that represent certain elements from Reaper's Render-Dialog:<br><br><a href="#SetProject_RenderFilename">SetProject_RenderFilename</a> (File name), <a href="#SetProject_RenderPattern">SetProject_RenderPattern</a> (File name, when using Wildcards), <a href="#SetProject_RenderDitherState">SetProject_RenderDitherState</a> (Master mix: Dither/Noise shaping checkboxes), <a href="SetProject_RenderFreqNChans">SetProject_RenderFreqNChans</a> (Sample rate in Hz, Channels), <a href="#SetProject_RenderRange">SetProject_RenderRange</a> (Bounds, Time bounds, Tail), <a href="#SetProject_RenderResample">SetProject_RenderResample</a> (Resample mode (if needed), <a href="#SetProject_RenderSpeed">SetProject_RenderSpeed</a>, <a href="#SetProject_RenderStems">SetProject_RenderStems</a> (Source)<br><br>The altered projectfile can be used now as parameter for the rendering-functions.<p></p><a id="Render2.How2Use"></a><h4>
-2. How to Use Rendering Functions (examples)
-</h4>Using the rendering-functions is quite easy. Let's use MP3 as an example(needs LAME-encoder to be installed into Reaper!)<br><br>On Windows:<br><pre style="background-color:#DDDDDD;"><code><br>retval = ultraschall.RenderProjectToMP3_CBR("path\\filename.rpp", "path\\filename.mp3", 128, 5)<br></code><br></pre><br>On Mac:<br><pre style="background-color:#DDDDDD;"><code><br>retval = ultraschall.RenderProjectToMP3_CBR("path/filename.rpp", "path/filename.mp3", 128, 5)<br></code><br></pre><br>That way, you will render the file "filename.rpp" in "path" into an MP3 called "filename.mp3". This MP3 will be encoded with a bitrate of 128kbps, while encode speed is 5 which means slow but best quality.<br><br>If you want to render the current project as mp3 with the same quality-settings as above, you can use the following snippet:<br><pre style="background-color:#DDDDDD;"><code><br>    --Get the correct Separator for a Windows or a Mac-system<br>sep=ultraschall.Separator<br><br>    --Save current Project<br>reaper.Main_SaveProject(0, false)<br><br>    --Get Projectpath and Projectname<br>ProjectPath = reaper.GetProjectPath("")<br>ProjectName = reaper.GetProjectName(0, "")<br><br>    -- Create a string with the ProjectFilename with path<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we <br>    -- look in the wrong folder for the project, not the one, where the rpp-projectfile lies<br>ProjectFilename=ProjectPath:match("(.*)"..sep)..sep..ProjectName<br><br>    -- Create a string with the MP3Filename with path<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we <br>    -- save the MP3 in the recordings-folder, rather than the folder, where the rpp-projectfile lies<br>MP3Filename=ProjectPath:match("(.*)"..sep)..sep..ProjectName:sub(1,-5)..".mp3" -- The MP3-Filename<br><br>    -- Render the project as constant-bitrate-MP3 with<br>    -- 128 kbps and rendering speed 5 (best quality but slowest)<br>Retval = ultraschall.RenderProjectToMP3_CBR(ProjectFilename, MP3Filename, 128, 5) <br></code></pre><br>If you want to alter the rendersettings first, you can use the following snippet as a template. It changes the render-range, before rendering:<br><pre style="background-color:#DDDDDD;"><code><br>    --Get the correct Separator for a Windows or a Mac-system<br>sep=ultraschall.Separator<br><br>    -- Save current Project<br>reaper.Main_SaveProject(0, false)<br><br>    -- Get Projectpath and Projectname<br>ProjectPath = reaper.GetProjectPath("")<br>ProjectName = reaper.GetProjectName(0, "")<br><br>    -- Create a string with the ProjectFilename with path<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we <br>    -- look in the wrong folder for the project<br>ProjectFilename=ProjectPath:match("(.*)"..sep)..sep..ProjectName<br><br>    -- Create a string with the temporary-ProjectFilename with path, which must be in the same folder, <br>    -- as the original project-file.<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match,<br>    -- as otherwise we look in the wrong folder for the project.<br>    -- DON'T USE "Ultraschall-temp.rpp", as that name will be used by the rendering-function itself!<br>TempProjectFilename=ProjectPath:match("(.*)"..sep)..sep.."This-Is-A-Temporary-Project-File.rpp"<br><br>    -- To prevent accidental overwriting of an already existing file with the same name as<br>    -- TempProjectFilename, we check it's existence. If true, we end right here.<br>if reaper.file_exists(TempProjectFilename)==true then return -1 end<br><br>    -- Let's create a temporary copy of the project-file. <br>Retval = ultraschall.MakeCopyOfFile(ProjectFilename, TempProjectFilename)<br><br>    -- Now we alter the render-settings in the temporary(!)-projectfile.<br>    -- We will do the the render-range, but you can use other ultraschall.SetProject_RenderXXXX-functions here as well<br>    -- Setting the Renderrange. The parameters are:<br>      -- TempProjectFilename - the temporary-project-filename<br>      -- 0 for Custom Time Range<br>      -- 10, which is the beginning of the render-range in seconds<br>      -- 20, which is the end of the render-range in seconds<br>      -- 0 for tail off for all bounds<br>      -- 0 for the taillength<br>Retval = ultraschall.SetProject_RenderRange(TempProjectFilename, 0, 10, 20, 0, 0)<br><br>    -- Create a string with the MP3Filename with path<br>    -- As "ProjectPath" includes the folder for the recordings themselves, we get rid of it, using match, as otherwise we <br>    -- save the MP3 in the recordings-folder, rather than the folder, where the rpp-projectfile lies<br>MP3Filename=ProjectPath:match("(.*)"..sep)..sep..ProjectName:sub(1,-5)..".mp3" -- The MP3-Filename<br><br>    -- Render the project as constant-bitrate-MP3 with<br>    -- 128 kbps and rendering speed 5 (best quality but slowest)<br>Retval = ultraschall.RenderProjectToMP3_CBR(TempProjectFilename, MP3Filename, 128, 5) <br><br>    --let's remove the temporary file again.<br>os.remove(TempProjectFilename)<br><br>    -- Hooray, Rendering, successfully accomplished! Congratulations!<br></code><br></pre><br>Read the accompanying Api-documentation entries for the "ultraschall.GetProject_XXX"/ultraschall.SetProject_XXX"-functions, as they'll give you even more stuff to work with.<br><p></p><a id="RenderProjectRegions_RenderCFG"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+<p></p><a id="RenderProjectRegions_RenderCFG"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
 integer retval = ultraschall.RenderProjectRegions_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)
 </i><br><br>Renders a region of a project, using a specific render-cfg-string.<br>To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a><br><br>Returns -1 in case of an error<br>Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1 in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string projectfilename_with_path</i> - the project to render; nil, for the currently opened project(needs to be saved first)</i><br><i>string renderfilename_with_path</i> - the filename of the output-file. </i><br><i>                               </i> - Don't add a file-extension, when using addregionname=true!</i><br><i>                               </i> - Give a path only, when you want to use only the regionname as render-filename(set addregionname=true !)</i><br><i>integer region</i> - the number of the region in the Projectfile to render</i><br><i>boolean addregionname</i> - add the name of the region to the renderfilename; only works, when you don't add a file-extension to renderfilename_with_path</i><br><i>boolean overwrite_without_asking</i> - true, overwrite an existing renderfile; false, don't overwrite an existing renderfile</i><br><i>boolean renderclosewhendone</i> - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings</i><br><i>boolean filenameincrease</i> - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings</i><br><i>string rendercfg</i> - the rendercfg-string, that contains all render-settings for an output-format</i><br><i>                </i> - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a></i><br><i></i></div><p></p>Tags: 
 projectfiles, render, output, file
@@ -3424,14 +3420,22 @@ trackmanagement, track, get, count, hwout, routing
 string trackstring = ultraschall.CreateAllTracksTrackString()
 </i><br><br>Returns a trackstring with all tracknumbers from the current project.<br><br>Returns an empty string, if no track is available.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string trackstring</i> - a string with all tracknumbers, separated by commas.</i><br><i></i></div><p></p><p></p>Tags: 
 trackmanagement, tracks, trackstring
-<p></p><a id="CreateTrackNumbersString"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
-string trackstring = ultraschall.CreateTrackNumbersString(integer firstnumber, integer lastnumber, optional integer step)
+<p></p><a id="CreateTrackString"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
+string trackstring = ultraschall.CreateTrackString(integer firstnumber, integer lastnumber, optional integer step)
 </i><br><br>returns a string with the all numbers from firstnumber to lastnumber, separated by a ,<br>e.g. firstnumber=4, lastnumber=8 -> 4,5,6,7,8<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string trackstring</i> - a string with all tracknumbers, separated by a ,</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer firstnumber</i> - the number, with which the string starts</i><br><i>integer lastnumber</i> - the number, with which the string ends</i><br><i>integer step</i> - how many numbers shall be skipped inbetween. Can lead to a different lastnumber, when step is not 1! nil or invalid value=1</i><br><i></i></div><p></p>Tags: 
 trackstring, track, create
-<p></p><a id="CreateTrackNumbersString_SelectedTracks"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
-string trackstring = ultraschall.CreateTrackNumbersString_SelectedTracks()
+<p></p><a id="CreateTrackString_ArmedTracks"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.941.png" alt="Reaper version 5.941"> 
+string trackstring = ultraschall.CreateTrackString_ArmedTracks()
+</i><br><br>Gets a trackstring with tracknumbers of all armed tracks in it.<br><br>Returns "" if no track is armed.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string trackstring</i> - a trackstring with the tracknumbers of all armed tracks as comma separated csv-string, eg: "1,3,4,7"</i><br><i></i></div><p></p><p></p>Tags: 
+helper functions, get, tracks, armed, trackstring
+<p></p><a id="CreateTrackString_SelectedTracks"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
+string trackstring = ultraschall.CreateTrackString_SelectedTracks()
 </i><br><br>Creates a string with all numbers from selected tracks, separated by a ,<br><br>Returns an empty string, if no tracks are selected.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string trackstring</i> - a string with the tracknumbers, separated by a string</i><br><i></i></div><p></p><p></p>Tags: 
 trackmanagement, datastructure
+<p></p><a id="CreateTrackString_UnarmedTracks"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.941.png" alt="Reaper version 5.941"> 
+string trackstring = ultraschall.CreateTrackString_UnarmedTracks()
+</i><br><br>Gets a trackstring with tracknumbers of all unarmed tracks in it.<br><br>Returns "" if all tracks are armed.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string trackstring</i> - a trackstring with the tracknumbers of all unarmed tracks as comma separated csv-string, eg: "1,3,4,7"</i><br><i></i></div><p></p><p></p>Tags: 
+helper functions, get, tracks, unarmed, trackstring
 <p></p><a id="DeleteTrackAUXSendReceives"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 boolean retval = ultraschall.DeleteTrackAUXSendReceives(integer tracknumber, integer idx, boolean undo)
 </i><br><br>Deletes the idxth Send/Receive-Setting of tracknumber.<br>returns false in case of failure<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true if it worked, false if it didn't.</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer tracknumber</i> - the number of the track, whose Send/Receive you want</i><br><i>integer idx</i> - the number of the send/receive-setting, that you want to delete</i><br><i>boolean undo</i> - shall this be set to undo(true) or not(false)</i><br><i></i></div><p></p>Tags: 
@@ -3848,10 +3852,6 @@ userinterface, delete, arrangeview, snapshot, startposition, endposition, vertic
 integer retval = ultraschall.GetIDEFontSize()
 </i><br><br>Returns the current fontsize of Reaper's IDE (ReaScript/Video Processor/JSFX)<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer fontsize</i> - the currently set fontsize within Reaper's IDEs</i><br><i></i></div><p></p><p></p>Tags: 
 user interface, ide, fontsize, get
-<p></p><a id="GetInputOutputLatency_Seconds"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.941.png" alt="Reaper version 5.941"><img style="width:3%;" src="gfx/sws2.9.7.png" alt="sws version 2.9.7"> 
-number inputLatency, number outputLatency = ultraschall.GetInputOutputLatency_Seconds()
-</i><br><br>Returns the input and output-latency in seconds<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>number inputLatency</i> - the input latency in seconds</i><br><i>number outputLatency</i> - the output latency in seconds </i><br><i></i></div><p></p><p></p>Tags: 
-helper functions, get, latency, input, output, seconds
 <p></p><a id="GetPlayCursorWidth"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.941.png" alt="Reaper version 5.941"><img style="width:3%;" src="gfx/sws2.9.7.png" alt="sws version 2.9.7"> 
 integer play_cursor_width = ultraschall.GetPlayCursorWidth()
 </i><br><br>Returns the width of the playcursor in pixels<br><br>see <a href="#SetPlayCursorWidth">SetPlayCursorWidth</a> for setting the playcursor-width.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer play_cursor_width</i> - the width of the playcursor in pixels</i><br><i></i></div><p></p><p></p>Tags: 

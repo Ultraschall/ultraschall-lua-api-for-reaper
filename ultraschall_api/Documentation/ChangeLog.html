@@ -186,7 +186,9 @@
 <li>GetPlayCursorWidth - get the width of the playcursor in pixels</li>
 <li>SetPlayCursorWidth - set the width of the playcursor in pixels</li>
 <li>GetReaperAlwaysOnTopState - get, if Reaper is set to be always on top of other applications, as set by action 40239</li>
-<li><p>GetInputOutputLatency_Seconds - returns the input/output-latency in seconds</p></li>
+<li>GetInputOutputLatency_Seconds - returns the input/output-latency in seconds</li>
+<li>CreateTrackString_ArmedTracks - creates a trackstring with the tracknumbers of all armed tracks</li>
+<li><p>CreateTrackString_UnarmedTracks - creates a trackstring with the tracknumbers of all unarmed tracks</p></li>
 </ul>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
 <ul>
@@ -530,6 +532,10 @@
 <li>GetTrackExtState - corrections in the docs</li>
 <li>DeleteArrangeviewSnapshot - had wrong functionname in docs -&gt; fixed</li>
 <li>CenterViewToCursor - had documented a retval that the function doesn't return -&gt; fixed</li>
+<li>CreateTrackNumbersString - renamed to CreateTrackString</li>
+<li>CreateTrackNumbersString_SelectedTracks - renamed to CreateTrackString_SelectedTracks</li>
+<li>GetMediaItemsFromClipboard - using renamed function CreateTrackString() now</li>
+<li>InsertMediaItemFromFile - using renamed function CreateTrackString_SelectedTracks() now</li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>
