@@ -1,6 +1,240 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <USDocML>
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Introduction_Api</slug>
+        <title>Introduction to the Ultraschall API</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+                The Ultraschall-Extension is intended to be an extension for the DAW Reaper, that enhances it with podcast functionalities. Most DAWs are intended to be used by musicians, for music, but podcasters have their own needs to be fulfilled. In fact, in some places their needs differ from the needs of a musician heavily. Ultraschall is intended to optimise the workflows of a podcaster in Reaper, by reworking it with functionalities for the special needs of podcasters.
+                
+                The Ultraschall-Framework itself is intended to include a set of Lua-functions, that help creating such functionalities. By giving programmers helper functions to get access to each and every corner of Reaper. That way, extending Ultraschall and Reaper is more comfortable to do.
+                
+                This API was to be used within Ultraschall only, but quickly evolved into a huge 600+ function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:
+               
+                    - Rendering - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want.
+                                    just create a renderstring and pass it over to [RenderProject_RenderCFG](#RenderProject_RenderCFG) or [RenderProjectRegions_RenderCFG](#RenderProjectRegions_RenderCFG)
+                    - Navigation, Follow and Arrangeview-Manipulation - get/set cursors, zoom, autoscroll-management, scroll, etc
+                    - ArrangeView-Snapshots - you can save, retrieve snapshots of the arrangeview, including position, zoomstates to quickly jump through parts of your project
+                    - Trackstates - you can access and set all(!) track-states available
+                    - Mediaitem-states - you can access and set many mediaitem-states (more will follow)
+                    - ItemExtStates/TrackExtStates - you can save additional metadata easily for specific tracks and items using ItemExtStates and TrackExtStates
+                    - File access - many helperfunctions for reading, writing, copying files. No more hassle writing it yourself!
+                        e.g [ReadFullFile](#ReadFullFile), [WriteValueToFile](#WriteValueToFile), etc
+                    - Cough-Mute-management - you can write your own cough-buttons, that set the state of the mute-envelope of a track easily
+                    - Marker - extensive set of marker functions, get, set, export, import, enumerate, etc
+                    - Spectrogram - you can program the spectrogram-view
+                    - Get MediaItems - you can get all media-items within a time-range AND within the tracks you prefer; a 2D-approach
+                        e.g. [GetAllMediaItemsBetween](#GetAllMediaItemsBetween) and [GetMediaItemsAtPosition ](#GetMediaItemsAtPosition ), etc
+                    - Gaps between items - you can get the gaps between items in a track, using [GetGapsBetweenItems](#GetGapsBetweenItems)
+                    - Edit item(s) - Split, Cut, Copy, Paste, Move, RippleCut, SectionCut by tracks AND time/start to endposition
+                        e.g. [RippleCut](#RippleCut), [SectionCut](#SectionCut), [SplitMediaItems_Position](#SplitMediaItems_Position), [MoveMediaItemsBefore_By](#MoveMediaItemsBefore_By), [MoveMediaItemsSectionTo](#MoveMediaItemsSectionTo), etc
+                    - Previewing MediaItems and files - you can preview MediaItems and files without having to start playback of a project
+                    - KB-Ini-Management - manipulate the reaper-kb.ini-file with custom-settings
+                    - Checking for Datatypes - check all datatypes introduced with Ultraschall-API and all Lua/Reaper-datatypes
+                    - UndoManagement - functions for easily making undoing of functions as well as preventing creating an undo-point
+                    - RunCommand for Items/Tracks - apply actions to specific items/tracks
+                    - Checking for changed projecttabs - check, if projecttabs have been added/removed
+                    - ExtState-Management - an extensive set of functions for working with extstates as well as ini-files
+                    - Data Manipulation- manipulate many of your data, including bitwise-integers, tables, etc
+                    - Clipboard-Management - get items from clipboard
+                    - Error Messaging System - all functions create useful error-messages that can be shown using, eg: [ShowLastErrorMessage](#ShowLastErrorMessage), for easier debugging
+                
+                tons of other helper-functions AND
+                
+                it's documented with this documentation. :D
+                
+                    Happy coding and let's see, what you can do with it :D
+                    
+                    Meo Mespotine (mespotine.de)
+                
+                For more information about Ultraschall itself, see [ultraschall.fm](http://www.ultraschall.fm) and if you want to support us, see [ultraschall.fm/danke](http://www.ultraschall.fm/danke) for donating to us.
+                
+                PS: In this documentation, I assume you have some basic knowledge in Lua and in using Reaper's own API-functions. Explaining both of these is beyond the scope of this doc.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Introduction
+        </chapter_context>
+        <previous_chapter></previous_chapter>
+        <next_chapter>Introduction_How_to_Use</next_chapter>
+        <tags>documentation, introduction, ultraschall-api</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Introduction_How_to_Use</slug>
+        <title>How to use the Ultraschall API</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Using the Ultraschall-API is quite easy.
+            
+            First make sure, you use the right versions of Reaper and SWS:
+                Reaper 5.95 and SWS 2.9.7
+            You can download them at [reaper.fm](http://www.reaper.fm) and [sws-extension.org](http://www.sws-extension.org) respectively.
+            
+            1) Just download the zip-file of the current version from [api.ultraschall.fm](http://api.ultraschall.fm).
+            2) Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -> Show REAPER resource path in explorer/finder...".
+               The folder UserPlugins should contain the folder ultraschall_api and the files ultraschall_api_readme.txt and ultraschall_api.lua
+            3) Now create a new script, by opening the Actions-window (Menu: Actions -> Show action list) and clicking the New-button next to "ReaScript:", give it a name and hit save.
+            
+                Now include the following line in your script at the beginning:
+                
+                '''
+                dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+                '''
+                
+                Now you can program with the Ultraschall-API. Just add the functions AFTER the dofile-line.
+            
+            4)To test, if it's successfully installed, add 
+            
+                '''
+                ultraschall.ApiTest()
+                '''
+                
+                after the dofile-line and hit ctrl+s or cmd+s(on mac).
+            
+                The script should show a messagebox, that tells you, which of the Ultraschall-API-parts are activated. If it shows, everything works fine :)
+            
+            If you are already familiar with programming Reaper's own API-functions, you know, that all of Reaper's functions are placed in a table called "reaper."
+                e.g. reaper.ShowConsoleMsg("msg")
+                
+            The Ultraschall-API is quite the same, but is using the table "ultraschall." instead.
+                e.g. ultraschall.ApiTest()
+                
+             See the functions-reference for all available functions or read on in this documentation for a collection of concepts introduced by the Ultraschall-API.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Introduction
+        </chapter_context>
+        <previous_chapter>Introduction_Api</previous_chapter>
+        <next_chapter>Introduction_How_to_Use_Beta_Functions_And_Hotfixes</next_chapter>
+        <tags>documentation, introduction, how to use</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Introduction_How_to_Use_Beta_Functions_And_Hotfixes</slug>
+        <title>How to use Beta functions and hotfixes</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Before a new version of the Ultraschall-API is finished, it is in beta-stage. But sometimes, bugs need to be fixed even before a new release is done or you may want to test new functions from the next release for bugs and quirks.
+            So I added two ways to deal with that.
+            
+            1) Hotfixes
+                Hotfixes are available at [api.ultraschall.fm](http://api.ultraschall.fm). They provide fixes for functions and bugs that came across after a release, but no new functions.
+                Just download the ultraschall_hotfixes.lua and put it into UserPlugins/ultraschall_api-folder.
+                The chance is high, that there is already an ultraschall_hotfixes.lua-file in the folder. You can safely overwrite it.
+                Voila, you have added the most recent bugfixes.
+                
+                To get the bugs back, just delete the ultraschall_hotfixes.lua.
+                
+                All fixes in ultraschall_hotfixes.lua will be part of the next full version of the Ultraschall-API.
+                
+                Check again from time to time to get the latest hotfixes.
+                
+             2) Beta-functions and features
+                 Beta-functions are functions intended for a future release of the Ultraschall-API. If you want to test them, just download the latest Beta-Pack from [api.ultraschall.fm](http://api.ultraschall.fm).
+                 Extract the files in the Beta-pack to UserPlugins of the Resources-folder of your Reaper-installation. Voila, the beta-functions are installed.
+                 
+                 To use them, you need to explicitly turn them on in your script, using the following lines:
+                 
+                 '''
+                 ultraschall.US_BetaFunctions="ON"          -- Only has an effect, if ultraschall-beta-functions exist in Scripts-folder
+                                                            -- Turn ON, if you want BETA-Api-Functions
+                 '''
+                 
+                 The documentation for beta-versions can be found at [api.ultraschall.fm/US_Beta.html](http://api.ultraschall.fm/US_Beta.html)
+                 
+                 Be aware, they are in beta-stage. They will probably change, disappear or be exchanged with better functions. Beta-functions are only for testing purposes, not for productive coding!
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Introduction
+        </chapter_context>
+        <previous_chapter>Introduction_How_to_Use</previous_chapter>
+        <next_chapter>Introduction_Bugreporting_FeatureRequests</next_chapter>
+        <tags>documentation, introduction, beta, hotfixes</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Introduction_Bugreporting_FeatureRequests</slug>
+        <title>Introduction: Bugreporting and Feature Requests</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            If you find any bugs or itches and want to report them, I suggest you the following procedure:
+                a) Make notes of: what operating-system you use(Mac, Win, Linux), which Reaper-version, which SWS-Version and which Ultraschall-Framework-Version.
+                b) Write down, what you wanted to do, what you expected to happen and what has happened instead. Make it as detailed as possible(a code-fragment that triggers a bug, a screenvideo i.e. would be perfect), as more information helps to find out, where the problem lies. It's always better to write too much, than the other way around.
+                        Please keep in mind when sending code-fragments: they need to be able to trigger the bug without any of your other code. And please don't send me hundreds of lines of your code, as I can't debug it for you. Just concentrate on the line(s), that trigger the bug successfully.
+                c) Send these notes either as:
+                                    Issue at the GitHub-Repository of the Ultraschall-API(preferred): [https://github.com/Ultraschall/Ultraschall-Api-for-Reaper.git](https://github.com/Ultraschall/Ultraschall-Api-for-Reaper.git)
+                                    eMail: lspmp3@yahoo.de(for framework-related stuff only!!) 
+                                    Sendagate: [sendegate.de](http://www.sendegate.de) into the Ultraschall-section.
+
+            Bugreports that contain only a "it doesn't work" and "I expected it to work" will be ignored gracefully ;)
+
+            If you have feature-requests, we have open ears. Keep in mind, not everything you find a good idea actually is one. So we may or may not take on your idea, change and rework it into a way, that benefits all, not just your particular use-case. When in doubt, just try it!
+            Keep also in mind: there are limitations. Some cool features we all would love to have, simply aren't implementable. Que sera, sera...
+
+            For your comments just send a mail at: lspmp3@yahoo.de(for framework-related stuff only!!) or go to sendegate.de into the Ultraschall-section.
+
+            PS: If you know how to implement impossible things or do things better than the current implementation, you are welcome to donate your improved codes. :)
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Introduction
+        </chapter_context>
+        <previous_chapter>Introduction_How_to_Use_Beta_Functions_And_Hotfixes</previous_chapter>
+        <next_chapter>Introduction_License</next_chapter>
+        <tags>documentation, introduction, beta, hotfixes</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Introduction_License</slug>
+        <title>Introduction: License</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            ################################################################################
+            # 
+            # Copyright (c) 2014-2018 Ultraschall (http://ultraschall.fm)
+            # 
+            # Permission is hereby granted, free of charge, to any person obtaining a copy
+            # of this software and associated documentation files (the "Software"), to deal
+            # in the Software without restriction, including without limitation the rights
+            # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+            # copies of the Software, and to permit persons to whom the Software is
+            # furnished to do so, subject to the following conditions:
+            # 
+            # The above copyright notice and this permission notice shall be included in
+            # all copies or substantial portions of the Software.
+            # 
+            # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+            # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+            # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+            # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+            # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+            # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+            # THE SOFTWARE.
+            # 
+            ################################################################################
+
+            Reaper and the Reaper-Logo are trademarks of Cockos inc and can be found at [reaper.fm](http://www.reaper.fm)
+
+            The SWS-logo has been taken from the SWS-extension-project, which can be found at [sws-extension.org](http://www.sws-extension.org)
+            
+            Ultraschall-API written by Meo Mespotine[mespotine.de](http://www.mespotine.de) with contributions from [Udo Sauer](https://twitter.com/fernsehmuell) and [Ralf Stockmann](https://twitter.com/rstockm)
+            If you want to donate to our project, head over to [ultraschall.fm/danke](http://www.ultraschall.fm/danke).
+            
+            Kudos to lokasenna, who suggested some cool things, that made some functions much faster and sparkled new ones. Cheers!
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Introduction
+        </chapter_context>
+        <previous_chapter>Introduction_Bugreporting_FeatureRequests</previous_chapter>
+        <next_chapter>Datatypes_Introduction</next_chapter>
+        <tags>documentation, introduction, license</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Rendering_01_Introduction</slug>
         <title>Rendering: Introduction</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -8,7 +242,7 @@
             This gives you a wide range of possibilities to customize your rendering-needs.
             
             Basically the process is based on:
-                1) creating a renderstring with all format-specific-setting, using the accompanying functions:
+                1) creating a renderstring with all format-specific-settings, using the accompanying functions:
                      [CreateRenderCFG_AIFF](#CreateRenderCFG_AIFF), [CreateRenderCFG_DDP](#CreateRenderCFG_DDP), [CreateRenderCFG_FLAC](#CreateRenderCFG_FLAC), [CreateRenderCFG_MP3ABR](#CreateRenderCFG_MP3ABR), [CreateRenderCFG_MP3CBR](#CreateRenderCFG_MP3CBR), [CreateRenderCFG_MP3MaxQuality](#CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG_MP3VBR](#CreateRenderCFG_MP3VBR), 
                      [CreateRenderCFG_OGG](#CreateRenderCFG_OGG), [CreateRenderCFG_Opus](#CreateRenderCFG_Opus), [CreateRenderCFG_Opus2](#CreateRenderCFG_Opus2), [CreateRenderCFG_WAV](#CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](#CreateRenderCFG_WAVPACK), [CreateRenderCFG_WebMVideo](#CreateRenderCFG_WebMVideo)
                      
@@ -32,6 +266,8 @@
         <chapter_context>
             Rendering
         </chapter_context>
+        <previous_chapter>Rendering_02_About_Renderstrings</previous_chapter>
+        <next_chapter>slug</next_chapter>
         <tags>documentation, introduction, rendering, projects, functions, render</tags>
     </US_DocBloc>
 
@@ -73,6 +309,8 @@
         <chapter_context>
             Rendering
         </chapter_context>
+        <previous_chapter>Rendering_01_Introduction</previous_chapter>
+        <next_chapter>Rendering_03_About_Renderingfunctions</next_chapter>
         <tags>documentation, rendering, projects, functions, render, renderstring, rendercfg, render_cfg</tags>
     </US_DocBloc>
 
@@ -112,6 +350,8 @@
         <chapter_context>
             Rendering
         </chapter_context>
+        <previous_chapter>Rendering_02_About_Renderstrings</previous_chapter>
+        <next_chapter>Rendering_04_Change_more_render_settings</next_chapter>
         <tags>documentation, rendering, projects, functions, render, renderstring, rendercfg, render_cfg</tags>
     </US_DocBloc>
 
@@ -135,7 +375,7 @@
                 - [SetProject_RenderStems](#SetProject_RenderStems) to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)
                 
             3) after you've set the individual render-settings, you create a render-string, as described in [Rendering_02_About_Renderstrings](#Rendering_02_About_Renderstrings).
-            4) render the altered copy(!) of the projectfile(not the original one!), as described in [Rendering_03_About_Renderingfunctions](#Rendering_03_About_Renderingfunctions).
+            4) render using the altered copy(!) of the projectfile(not the original projectfile!), as described in [Rendering_03_About_Renderingfunctions](#Rendering_03_About_Renderingfunctions).
             
             
             If you want to alter the currently opened project, you need to save it first. After that, use:
@@ -144,7 +384,7 @@
             retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
             '''
             
-            to get the projectfilename_with_path of the current project as returnvalue. Use that and go through steps 1 through 4.
+            to get the projectfilename_with_path of the current project as returnvalue. Use projectfilename_with_path and go through steps 1 through 4.
             
             The functions in step 2) are just a small selection of the functions to alter project-files, as provided by the Ultraschall-API. Browse through the functions in the "Project-Files"-section of the index of the Ultraschall-API-Functions-Reference for many more of them.
         </description>
@@ -153,14 +393,16 @@
         <chapter_context>
             Rendering
         </chapter_context>
+        <previous_chapter>Rendering_03_About_Renderingfunctions</previous_chapter>
+        <next_chapter></next_chapter>
         <tags>documentation, rendering, projects, functions, render, renderstring, rendercfg, render_cfg, advanced</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Datatypes_trackstring</slug>
-        <title>Datatypes: 01 Trackstrings</title>
+        <title>Datatypes: Trackstrings</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Many functions allow you to process through multiple tracks. As good as this is, this provided some difficulty in telling a function, to which track is shall be applied to.
+            Many functions allow you to process through multiple tracks. As good as this is, this provided some difficulty in telling a function, to which track it shall be applied to.
             Hence the datatype: trackstring
             
             A trackstring is just a simple string with all tracknumbers that you want a certain function to be applied to.
@@ -168,7 +410,7 @@
             
             These tracknumbers must be separated from each other using a comma. Whitespaces are not allowed.
             
-            With trackstrings, passing the tracks wanted to a function is really easy.
+            With trackstrings, passing the wanted tracks to a function is really easy.
             
             You can create trackstrings using: [CreateTrackString](#CreateTrackString), [CreateAllTracksTrackString](#CreateAllTracksTrackString), [CreateTrackString_ArmedTracks](#CreateTrackString_ArmedTracks), [CreateTrackString_UnarmedTracks]()#CreateTrackString_UnarmedTracks, [CreateTrackString_SelectedTracks](#CreateTrackString_SelectedTracks).
             You can manipulate trackstrings using: [InverseTrackstring](#InverseTrackstring), [OnlyTracksInBothTrackstrings](#OnlyTracksInBothTrackstrings), [OnlyTracksInOneTrackstring](#OnlyTracksInOneTrackstring), [RemoveDuplicateTracksInTrackstring](#RemoveDuplicateTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring](#OnlyMediaItemsOfTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring_StateChunk](#OnlyMediaItemsOfTracksInTrackstring_StateChunk)
@@ -179,8 +421,10 @@
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
         <chapter_context>
-            Rendering
+            Datatypes
         </chapter_context>
+        <previous_chapter>Datatypes_Introduction</previous_chapter>
+        <next_chapter>Datatypes_MediaItemArray</next_chapter>
         <tags>documentation, datatypes, datatype, trackstring, trackstrings</tags>
     </US_DocBloc>
     
