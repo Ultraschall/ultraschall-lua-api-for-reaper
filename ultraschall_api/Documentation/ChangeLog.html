@@ -538,10 +538,14 @@
 <li>CreateTrackNumbersString_SelectedTracks - renamed to CreateTrackString_SelectedTracks</li>
 <li>GetMediaItemsFromClipboard - using renamed function CreateTrackString() now</li>
 <li>InsertMediaItemFromFile - using renamed function CreateTrackString_SelectedTracks() now</li>
-</ul>
-<h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
-<h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>
-<ul>
+<li>GetClosestNextRegionEdge - docs: was missing additional return-value edge_type -&gt; fixed now</li>
+<li>JumpBackwardBy - docs: changed name of parameter position to seconds, as that represents more, what the parameter does</li>
+<li>JumpForwardBy - docs: changed name of parameter position to seconds, as that represents more, what the parameter does</li>
+<li>JumpBackwardBy_Recording - docs: changed name of parameter position to seconds, as that represents more, what the parameter does</li>
+<li>JumpForwardBy_Recording - docs: changed name of parameter position to seconds, as that represents more, what the parameter does</li>
+<li>GetClosestGoToPoints - added mouse-cursor-position as possible option</li>
+<li>GetNextClosestItemEdge - was returning wrong retvals when no item was found -&gt; fixed</li>
+<li>CenterViewToCursor - added parameter for a non-cursor-position of your choice to center to ### 4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</li>
 <li>CreateAllTracksTrackString - creates a trackstring with all tracks in the current project</li>
 <li>new datastructure &quot;EnvelopePointObjects&quot; and &quot;EnvelopePointArrays&quot;(for EnvelopePointObjects) for easier massworking with envelopepoints</li>
 <li>CreateEnvelopePointObject - creates an EnvelopePointObject</li>

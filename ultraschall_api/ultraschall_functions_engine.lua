@@ -8296,13 +8296,13 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-ultraschall.JumpForwardBy(number position, boolean seekplay)
+ultraschall.JumpForwardBy(number seconds, boolean seekplay)
 </functionname>
 <description>
-Jumps editcursor forward by <i>position</i> seconds. Returns -1 if parameter is negative. During Recording: only the playcursor will be moved, the current recording-position is still at it's "old" position! If you want to move the current recording position as well, use <a href="#JumpForwardBy_Recording">ultraschall.JumpForwardBy_Recording</a> instead.
+Jumps editcursor forward by <i>seconds</i> seconds. Returns -1 if parameter is negative. During Recording: only the playcursor will be moved, the current recording-position is still at it's "old" position! If you want to move the current recording position as well, use <a href="#JumpForwardBy_Recording">ultraschall.JumpForwardBy_Recording</a> instead.
 </description>
 <parameters>
-number position - in seconds
+number seconds - jump forward by seconds
 boolean seekplay - true, move playcursor as well; false, don't move playcursor
 </parameters>
 <semanticcontext>
@@ -8343,13 +8343,13 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-ultraschall.JumpBackwardBy(number position, boolean seekplay)
+ultraschall.JumpBackwardBy(number seconds, boolean seekplay)
 </functionname>
 <description>
-Jumps editcursor backward by <i>position</i> seconds. Returns -1 if parameter is negative. During Recording: only the playcursor will be moved, the current recording-position is still at it's "old" position! If you want to move the current recording position as well, use <a href="#JumpBackwardBy_Recording">ultraschall.JumpBackwardBy_Recording</a> instead.
+Jumps editcursor backward by <i>seconds</i> seconds. Returns -1 if parameter is negative. During Recording: only the playcursor will be moved, the current recording-position is still at it's "old" position! If you want to move the current recording position as well, use <a href="#JumpBackwardBy_Recording">ultraschall.JumpBackwardBy_Recording</a> instead.
 </description>
 <parameters>
-number position - in seconds
+number seconds - jump backwards by seconds
 boolean seekplay - true, move playcursor as well; false, leave playcursor at it's old position
 </parameters>
 <semanticcontext>
@@ -8390,13 +8390,13 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-ultraschall.JumpForwardBy_Recording(number position)
+ultraschall.JumpForwardBy_Recording(number seconds)
 </functionname>
 <description>
-Stops recording, jumps forward by <i>position</i> seconds and restarts recording. Will keep paused-recording, if recording was paused. Has no effect during play,play/pause and stop.
+Stops recording, jumps forward by <i>seconds</i> seconds and restarts recording. Will keep paused-recording, if recording was paused. Has no effect during play,play/pause and stop.
 </description>
 <parameters>
-number position - in seconds
+number seconds - restart recording forwards by seconds
 </parameters>
 <semanticcontext>
 Navigation
@@ -8443,13 +8443,13 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-ultraschall.JumpBackwardBy_Recording(number position)
+ultraschall.JumpBackwardBy_Recording(number seconds)
 </functionname>
 <description>
-Stops recording, jumps backward by <i>position</i> seconds and restarts recording. Will keep paused-recording, if recording was paused. Has no effect during play,play/pause and stop.
+Stops recording, jumps backward by <i>seconds</i> seconds and restarts recording. Will keep paused-recording, if recording was paused. Has no effect during play,play/pause and stop.
 </description>
 <parameters>
-number position - in seconds
+number seconds - restart recording backwards by seconds
 </parameters>
 <semanticcontext>
 Navigation
@@ -8500,7 +8500,7 @@ SWS=2.8.8
 Lua=5.3
 </requires>
 <functionname>
-number position, integer item_number, string edgetype, MediaItem found_item  = ultraschall.GetNextClosestItemEdge(string tracksstring, integer cursor_type, optional number time_position)
+number position, integer item_number, string edgetype, MediaItem found_item  = ultraschall.GetNextClosestItemEdge(string trackstring, integer cursor_type, optional number time_position)
 </functionname>
 <description>
 returns the position of the next closest item in seconds. It will return the position of the beginning or the end of that item, depending on what is closer.
@@ -8512,7 +8512,7 @@ string edgetype - "beg" for beginning of the item, "end" for the end of the item
 MediaItem found_item - the next closest found MediaItem 
 </retvals>
 <parameters>
-string tracksstring - a string with the numbers of tracks to check for closest items, separated by a comma (e.g. "0,1,6")
+string trackstring - a string with the numbers of tracks to check for closest items, separated by a comma (e.g. "0,1,6")
 integer cursor_type - next closest item related to the current position of 0 - Edit Cursor, 1 - Play Cursor, 2 - Mouse Cursor, 3 - Timeposition
 optional number time_position - only, when cursor_type=3, a time position in seconds, from where to check for the next closest item. When omitted, it will take the current play(during play and rec) or edit-cursor-position.
 </parameters>
@@ -8597,12 +8597,11 @@ navigation, next item, position, edge
        end
     end
   end
-  
+
   -- return found item
   if found_item~=nil then return closest_item, item_number, position, found_item
-  else ultraschall.AddErrorMessage("GetNextClosestItemEdge", "", "no item found", -6) return closest_item, another_item_nr, "", another_item
+  else ultraschall.AddErrorMessage("GetNextClosestItemEdge", "", "no item found", -6) return -1
   end
-
 end
 
 --A=reaper.CountMediaItems()
@@ -8915,7 +8914,7 @@ SWS=2.8.8
 Lua=5.3
 </requires>
 <functionname>
-number markerindex, number position, string markername, string retbegin = ultraschall.GetClosestNextRegionEdge(integer cursor_type, optional number time_position)
+number markerindex, number position, string markername, string edge_type = ultraschall.GetClosestNextRegionEdge(integer cursor_type, optional number time_position)
 </functionname>
 <description>
 returns the regionindex(counted from all markers and regions), the position and the name of the next closest regionstart/end(depending on which is closer to time_position) in seconds.
@@ -8924,7 +8923,7 @@ returns the regionindex(counted from all markers and regions), the position and 
 number markerindex - the next closest markerindex (of all(!) markers)
 number position - the position of the next closest region
 string markername - the name of the next closest region
-string retbegin - "beg" if the beginning of the region is returned; "end" if the end of the region is returnes
+string edge_type - the type of the edge of the region, either "beg" or "end"
 </retvals>
 <parameters>
 integer cursor_type - previous closest regionstart/end related to the current position of 0 - Edit Cursor, 1 - Play Cursor, 2 - Mouse Cursor, 3 - Timeposition
@@ -9010,7 +9009,7 @@ SWS=2.8.8
 Lua=5.3
 </requires>
 <functionname>
-number markerindex, number position, string markername = ultraschall.GetClosestPreviousRegionEdge(integer cursor_type, optional number time_position)
+number markerindex, number position, string markername, string edge_type = ultraschall.GetClosestPreviousRegionEdge(integer cursor_type, optional number time_position)
 </functionname>
 <description>
 returns the regionindex(counted from all markers and regions), the position and the name of the previous closest regionstart/end(depending on which is closer to time_position) in seconds.
@@ -9019,6 +9018,7 @@ returns the regionindex(counted from all markers and regions), the position and 
 number markerindex - the previous closest markerindex (of all(!) markers)
 number position - the position of the previous closest marker
 string markername - the name of the previous closest marker
+string edge_type - the type of the edge of the region, either "beg" or "end"
 </retvals>
 <parameters>
 integer cursor_type - previous closest regionstart/end related to the current position of 0 - Edit Cursor, 1 - Play Cursor, 2 - Mouse Cursor, 3 - Timeposition
@@ -9104,10 +9104,11 @@ GetClosestGoToPoints
 <requires>
 Ultraschall=4.00
 Reaper=5.40
+SWS=2.8.8
 Lua=5.3
 </requires>
 <functionname>
-number elementposition_prev, string elementtype_prev, integer number_prev, number elementposition_next, string elementtype_next, integer number_next = ultraschall.GetClosestGoToPoints(string tracksstring, number time_position, optional boolean check_itemedge, optional boolean check_marker, optional boolean check_region)
+number elementposition_prev, string elementtype_prev, integer number_prev, number elementposition_next, string elementtype_next, integer number_next = ultraschall.GetClosestGoToPoints(string trackstring, number time_position, optional boolean check_itemedge, optional boolean check_marker, optional boolean check_region)
 </functionname>
 <description>
 returns, what are the closest markers/regions/item starts/itemends to position and within the chosen tracks.
@@ -9125,9 +9126,9 @@ string elementtype_next - type of the previous closest markers/regions/item star
 integer number_next  - number of previous closest markers/regions/item starts/itemends
 </retvals>
 <parameters>
-string tracksstring - tracknumbers, separated by a comma.
+string trackstring - tracknumbers, separated by a comma.
 number time_position - a time position in seconds, from where to check for the next/previous closest items/markers/regions.
-                     - -1, for editcursorposition; -2, for playcursor-position
+                     - -1, for editcursorposition; -2, for playcursor-position, -3, the mouse-cursor-position in seconds(where in the project the mousecursor hovers over)
 optional boolean check_itemedge - true, look for itemedges as possible goto-points; false, do not
 optional boolean check_marker - true, look for markers as possible goto-points; false, do not
 optional boolean check_region - true, look for regions as possible goto-point; false, do not
@@ -9156,6 +9157,9 @@ navigation, previous, next, marker, region, item, edge
     time_position=reaper.GetCursorPosition()
   elseif tonumber(time_position)==-2 then
     time_position=reaper.GetPlayPosition()
+  elseif tonumber(time_position)==-3 then
+    reaper.BR_GetMouseCursorContext()
+    time_position=reaper.BR_GetMouseCursorContext_Position()
   else
     time_position=tonumber(time_position)
   end
@@ -9179,7 +9183,7 @@ navigation, previous, next, marker, region, item, edge
   -- Item-Edges
   if check_itemedge==true then
     if previtempos~=-1 and elementposition_prev<=previtempos then number_prev=previtemid elementposition_prev=previtempos elementtype_prev="Item"..prevedgetype end
-    if nextitempos~=-1 and elementposition_next>=nextitempos then number_next=nextitemid elementposition_next=nextitempos elementtype_next="Item"..nextedgetype end
+    if nextitempos~=-1 and elementposition_next>=nextitempos then reaper.MB("",nextitempos,0) number_next=nextitemid elementposition_next=nextitempos elementtype_next="Item"..nextedgetype end
   end
   
   -- Markers
@@ -9201,9 +9205,9 @@ navigation, previous, next, marker, region, item, edge
   return elementposition_prev, elementtype_prev, number_prev, elementposition_next, elementtype_next, number_next
 end
 
---ultraschall.ToggleIDE_Errormessages(false) 
+--ultraschall.ToggleIDE_Errormessages(false)
 
---APrev1,APrev2,APrev3,Anext1,Anext2,Anext3 = ultraschall.GetClosestGoToPoints("1",reaper.GetCursorPosition())
+--APrev1,APrev2,APrev3,Anext1,Anext2,Anext3 = ultraschall.GetClosestGoToPoints("1",-3)
 
 -----------------------------
 ---- Muting/Cough Button ----
@@ -33290,7 +33294,7 @@ markermanagement, marker, count, gap, position
   return count+1
 end  
 
-function ultraschall.CenterViewToCursor(cursortype)
+function ultraschall.CenterViewToCursor(cursortype, position)
 --[[
 <ApiDocBlocFunc>
 <slug>
@@ -33303,7 +33307,7 @@ SWS=2.9.7
 Lua=5.3
 </requires>
 <functionname>
-ultraschall.CenterViewToCursor(integer cursortype)
+ultraschall.CenterViewToCursor(integer cursortype, optional number position)
 </functionname>
 <description>
 centers the arrange-view around a given cursor
@@ -33313,6 +33317,8 @@ integer cursortype - the cursortype to center
 - 1 - change arrangeview with edit-cursor centered
 - 2 - change arrangeview with play-cursor centered
 - 3 - change arrangeview with mouse-cursor-position centered
+- 4 - change arrangeview with optional parameter position centered
+optional number position - the position to center the arrangeview to; only used, when cursortype=4
 </parameters>
 <semanticcontext>
 Navigation
@@ -33323,20 +33329,22 @@ navigation, center, cursor, mouse, edit, play
 </ApiDocBlocFunc>
 ]]
     if math.type(cursortype)~="integer" then ultraschall.AddErrorMessage("CenterViewToCursor","cursortype", "only integer allowed", -1) return end
+    if position~=nil and type(position)~="number" then ultraschall.AddErrorMessage("CenterViewToCursor","position", "only numbers allowed", -3) return end
     local cursor_time
-    if cursortype<1 or cursortype>3 then ultraschall.AddErrorMessage("CenterViewToCursor","cursortype", "no such cursortype; only 1-3 existing.", -2) return end
+    if cursortype<1 or cursortype>4 then ultraschall.AddErrorMessage("CenterViewToCursor","cursortype", "no such cursortype; only 1-3 existing.", -2) return end
     if cursortype==1 then cursor_time=reaper.GetCursorPosition() end
     if cursortype==2 then cursor_time=reaper.GetPlayPosition() end
     if cursortype==3 then 
       retval, segment, details = reaper.BR_GetMouseCursorContext()
       cursor_time=reaper.BR_GetMouseCursorContext_Position()
     end
+    if cursortype==4 then if position~=nil then cursor_time=position else ultraschall.AddErrorMessage("CenterViewToCursor","position", "only numbers allowed", -3) return end end
     start_time, end_time = reaper.GetSet_ArrangeView2(0, false, 0, 0)
     length=((end_time-start_time)/2)+(1/reaper.GetHZoomLevel())
     reaper.BR_SetArrangeView(0, (cursor_time-length), (cursor_time+length))
 end
 
---ultraschall.CenterViewToCursor(3)
+--ultraschall.CenterViewToCursor(4,1000000)
 
 function ultraschall.GetAllTrackEnvelopes_EnvelopePointArray(tracknumber)
 --returns all track-envelopes from tracknumber as EnvelopePointArray
@@ -40626,6 +40634,8 @@ mediaitemmanagement, stop, preview, audio, mediaitem, track, mediaexplorer
   ultraschall.RunCommand("_SWS_STOPPREVIEW") -- Xenakios/SWS: Stop current media item/take preview
 end
 
+--ultraschall.StopAnyPreview()
+
 function ultraschall.InsertTrackAtIndex(index, number_of_tracks, wantdefaults)
 --[[
 <ApiDocBlocFunc>
@@ -40835,7 +40845,7 @@ function ultraschall.PreviewMediaFile(filename_with_path)
   reaper.PreventUIRefresh(1)
 end
 
-A=ultraschall.PreviewMediaFile("c:\\Users\\meo\\Desktop\\Deep Purple - Smoke on the Water.mp3")
+--A=ultraschall.PreviewMediaFile("c:\\Users\\meo\\Desktop\\Deep Purple - Smoke on the Water.mp3")
 --B=reaper.Undo_DoUndo2(0)
 --B=reaper.Undo_DoUndo2(0)
 

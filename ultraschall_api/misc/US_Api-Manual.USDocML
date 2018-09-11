@@ -833,8 +833,166 @@
             Arrangeview Snapshots
         </chapter_context>
         <previous_chapter>Arrangeview_Snapshots_HowToStoreRetrieveDelete</previous_chapter>
-        <next_chapter>Arrangeview_Manipulation_Navigation_Follow_Introduction</next_chapter>
+        <next_chapter>Navigation_Introduction</next_chapter>
         <tags>documentation, arrangeview-snapshots, restore</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Navigation_Introduction</slug>
+        <title>Navigation: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            When editing and postproducing a project, navigating through it is essential. For that, I added some functions that are not part of Reaper's own API, to help navigation, with functions for:
+            
+                1) more control about moving the playcursor and the editcursor
+                2) jumping to the next/previous closest marker/regionedge/itemedge
+                3) centering the view to several possible center-positions selectable(mousecursor, editcursor, playcursor)
+                4) Followmode, aka autoscrolling
+            
+            This should give you more control about programming faster and quicker navigation-capabilities.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Navigation
+        </chapter_context>
+        <previous_chapter>Arrangeview_Snapshots_HowToRestore</previous_chapter>
+        <next_chapter>Navigation_MovePlay_and_Editcursor</next_chapter>
+        <tags>documentation, arrangeview, navigation, introduction</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Navigation_MovePlay_and_Editcursor</slug>
+        <title>Navigation: Move Play and Editcursor</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            The Ultraschall-API provides you with many functions regarding changing the position of the playcursor and the editcursor.
+            For that we have numerous functions:
+                Editcursor only:
+                    [JumpForwardBy](#JumpForwardBy) - jumps forward editcursor by as many seconds you like; optionally you can move the playcursor as well to the new position.
+                    [JumpBackwardBy](#JumpBackwardBy) - jumps backward editcursor by as many seconds you like; optionally you can move the playcursor as well to the new position.
+                
+                Playcursor only:
+                    [SetPlayCursor_WhenPlaying](#SetPlayCursor_WhenPlaying) - sets the playcursor to a new position, during playing
+                    [JumpForwardBy_Recording](#JumpForwardBy_Recording) - stops recording, jumps forward a given amount of seconds and resumes recording
+                    [JumpBackwardBy_Recording](#JumpBackwardBy_Recording) - stops recording, jumps backward a given amount of seconds and resumes recording
+                    
+                Both:
+                    [SetPlayAndEditCursor_WhenPlaying](#SetPlayAndEditCursor_WhenPlaying) - sets play and editcursor to position during playback
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Navigation
+        </chapter_context>
+        <previous_chapter>Navigation_Introduction</previous_chapter>
+        <next_chapter>Navigation_GotoMarkersRegionItemEdges</next_chapter>
+        <tags>documentation, arrangeview, navigation, playcursor, editcursor</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Navigation_GotoMarkersRegionItemEdges</slug>
+        <title>Navigation: Go to markers, regionedges and itemedges</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Markers and items provide you with much additional helpful information regarding the project. They also provide you with an additional information: useful positions to navigate through.
+            To make use of that, I added some functions for that:
+                1) [GetClosestPreviousMarker](#GetClosestPreviousMarker), [GetClosestNextMarker](#GetClosestNextMarker) - Get the previous/next closest marker at a given position
+                2) [GetClosestPreviousRegionEdge](#GetClosestPreviousRegionEdge), [GetClosestNextRegionEdge](#GetClosestNextRegionEdge) - Get the previous/next closest regionedge at a given position
+                3) [GetPreviousClosestItemEdge](#GetPreviousClosestItemEdge), [GetNextClosestItemEdge](#GetNextClosestItemEdge) - Get the previous/next closest itemedge at a given position
+                4) [GetClosestGoToPoints](#GetClosestGoToPoints) - get previous/next markers/regionedges/itemedges/projectstart/projectend from position, for those who need the full marker/region/item-position-package
+            
+            Let's go into more detail, by examining [GetClosestPreviousRegionEdge](#GetClosestPreviousRegionEdge).
+                
+                '''
+                number markerindex, number position, string markername, string edge_type = ultraschall.GetClosestPreviousRegionEdge(integer cursor_type, optional number time_position)
+                '''
+                
+            This function allows you to get, which is the previous closest region-edge-position(either the start or the end of a region) as seen from a given position. To set that position, you need to set the parameter cursor_type:
+                0 - Edit Cursor, 
+                1 - Play Cursor, 
+                2 - Mouse Cursor, or
+                3 - Timeposition
+
+            If you set it to 3, you can use the optional parameter time_position, with which you can set any position, at which you want to know the previous closest region-edge.
+            
+            If you run that function, it will return the markerindex, which is the index of all markers in your project, the position at which the regionedge is located, the markername and the type of the edge, which is either "beg" or "end".
+            
+            The Marker-functions (from 1) ) work the same, the Item-edge-functions (from 3) ) however have an additional parameter trackstring, with which you can set, from which tracks you want to get the next/previous closest item-edge-position.
+            
+            
+            The function [GetClosestGoToPoints](#GetClosestGoToPoints) is the combination of all of these functions, which let's you decide fully, which edges/positions you want to check for. 
+            It will also check, if the next/previous closest edge is the beginning or the end of the project.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Navigation
+        </chapter_context>
+        <previous_chapter>Navigation_Introduction</previous_chapter>
+        <next_chapter>Navigation_CenterView</next_chapter>
+        <tags>documentation, arrangeview, navigation, playcursor, editcursor, marker, regions, region, edge, item, projectstart, projectend</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Navigation_CenterView</slug>
+        <title>Navigation: Center View</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Sometimes it's a good idea to center the arrangeview to a certain point, may it be different points of interests within your project or just to get back to the playcursor/editcursor out of the view.
+            
+            For that, I added the function [CenterViewToCursor](#CenterViewToCursor).
+            Let's have a look at it:
+            
+            '''
+                ultraschall.CenterViewToCursor(integer cursortype, optional number position) 
+            '''
+            
+            It has two parameters, of which cursortype allows you to give the type of the cursor to center around:
+                1 - change arrangeview with edit-cursor centered
+                2 - change arrangeview with play-cursor centered
+                3 - change arrangeview with mouse-cursor-position centered
+                4 - centers arrangeview around the position given with parameter position
+            
+            The second parameter position is an optional one and only used, if cursortype is set to 4. It allows you to give a specific position in seconds, which the arrangeview shall be centered around.
+            
+            This functions only centers the given position/cursor-position to the arrangeview. It keeps the zoom-factor intact.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Navigation
+        </chapter_context>
+        <previous_chapter>Navigation_GotoMarkersRegionItemEdges</previous_chapter>
+        <next_chapter>Navigation_Autoscroll_Followmode</next_chapter>
+        <tags>documentation, arrangeview, navigation, playcursor, editcursor, position, center</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Navigation_Autoscroll_Followmode</slug>
+        <title>Navigation: Autoscroll and Followmode</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Reaper allows you to set autoscrolling during playback/recording. It allows you to set it to continuous scrolling or to "page-wise"-scrolling.
+            This is quite flexible but hidden somewhat within the actions of Reaper. So I added the function [ToggleScrollingDuringPlayback](#ToggleScrollingDuringPlayback).
+            It turns on autoscrolling for playback and recording AND continuous scrolling.
+            Let's have a look at it:
+            
+            '''
+                ultraschall.ToggleScrollingDuringPlayback(integer scrolling_switch, boolean move_editcursor, boolean goto_playcursor)
+            '''
+            
+            The parameter scrollin_switch allows you to turn on/off autoscrolling completely, that means, it will turn on autoscroll for playback and recording AND it sets autoscrolling to continuous scrolling.
+            The parameter move_edit_cursor allows you to set, if the editcursor shall be moved to the current playposition. This has an effect only, if scrolling_switch is set to 1(off).
+            The last parameter goto_playcursor allows you to change the view to the current playcursor-position, if you turn on autoscrolling. This has an effect only, if scrolling_switch is set to 0(off).
+            
+            When running the function, it changes, if neccessary, the toggle-states of the actions 41817(View: Continuous scrolling during playback), 40036(View: Toggle auto-view-scroll during playback) and 
+            40262(View: Toggle auto-view-scroll while recording), which means, it sets if a certain autoscrolling behavior is turned on or not.
+            If you have your own custom actions toggling these actions, you probably shouldn't use this function. Otherwise it probably messes up your workflows.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Navigation
+        </chapter_context>
+        <previous_chapter>Navigation_CenterView</previous_chapter>
+        <next_chapter></next_chapter>
+        <tags>documentation, arrangeview, navigation, playcursor, editcursor, position, center</tags>
     </US_DocBloc>
     
 </USDocML>

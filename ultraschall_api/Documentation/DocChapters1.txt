@@ -1,5 +1,3 @@
-Navigation, Follow and Arrangeview-Manipulation:
-    Followmode, centerplaycursor, etc
 
 GetSetStates -> slug: GetSet_Project_Track_Item_Envelope_States_Introduction
     Get/SetProjectStates

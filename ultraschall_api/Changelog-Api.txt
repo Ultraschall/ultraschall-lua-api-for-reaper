@@ -636,7 +636,14 @@
   - CreateTrackNumbersString_SelectedTracks - renamed to CreateTrackString_SelectedTracks
   - GetMediaItemsFromClipboard - using renamed function CreateTrackString() now
   - InsertMediaItemFromFile - using renamed function CreateTrackString_SelectedTracks() now
-  
+  - GetClosestNextRegionEdge - docs: was missing additional return-value edge_type -> fixed now
+  - JumpBackwardBy - docs: changed name of parameter position to seconds, as that represents more, what the parameter does
+  - JumpForwardBy - docs: changed name of parameter position to seconds, as that represents more, what the parameter does
+  - JumpBackwardBy_Recording - docs: changed name of parameter position to seconds, as that represents more, what the parameter does
+  - JumpForwardBy_Recording - docs: changed name of parameter position to seconds, as that represents more, what the parameter does
+  - GetClosestGoToPoints - added mouse-cursor-position as possible option
+  - GetNextClosestItemEdge - was returning wrong retvals when no item was found -> fixed
+  - CenterViewToCursor - added parameter for a non-cursor-position of your choice to center to
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:
   - CreateAllTracksTrackString - creates a trackstring with all tracks in the current project
