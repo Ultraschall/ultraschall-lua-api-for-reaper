@@ -1,5 +1,5 @@
 <html><head><title>Ultraschall Framework-Lua-Api-docs 4.00 "John Cage - 4:33"</title></head><body>
-<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 15781 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
+<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 15803 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
 </strong></td></tr></tr><tr><td><a href="#
 US1.Introduction
 ">
@@ -169,10 +169,13 @@ Separator
 StartTime
 ">StartTime
 </a>&nbsp;&nbsp;</td><td><a href="#
-ultraschall.Api_Path
+ultraschall.Api_InstallPath
 ">Api_Path
 </a>&nbsp;&nbsp;</td></tr>
-<tr><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr><tr><td><h3><u>Audio Management</u></h3></td></tr><tr><td><strong>Helper functions
+<tr><td><a href="#
+ultraschall.Api_Path
+">Api_Path
+</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr><tr><td><h3><u>Audio Management</u></h3></td></tr><tr><td><strong>Helper functions
 </strong></td></tr><td><a href="#
 GetInputOutputLatency_Seconds
 ">GetInputOutputLatency_Seconds</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr><tr><td><h3><u>Clipboard Functions</u></h3></td></tr><tr><td><strong></strong></td></tr><td><a href="#
@@ -331,6 +334,8 @@ CreateEnvelopePointObject
 IsValidEnvStateChunk
 ">IsValidEnvStateChunk</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+IsValidEnvelopePointArray
+">IsValidEnvelopePointArray</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidEnvelopePointObject
 ">IsValidEnvelopePointObject</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Set Envelope
 </strong></td></tr>
@@ -583,29 +588,26 @@ GetParentTrack_MediaItem
 ">GetParentTrack_MediaItem</a>&nbsp;&nbsp;</td><td><a href="#
 IsItemInTimerange
 ">IsItemInTimerange</a>&nbsp;&nbsp;</td><td><a href="#
-IsValidItemStateChunk
-">IsValidItemStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidMediaItemArray
-">IsValidMediaItemArray</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">IsValidMediaItemArray</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidMediaItemStateChunk
-">IsValidMediaItemStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
+">IsValidMediaItemStateChunk</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 IsValidMediaItemStateChunkArray
 ">IsValidMediaItemStateChunkArray</a>&nbsp;&nbsp;</td><td><a href="#
 OnlyItemsInTracksAndTimerange
 ">OnlyItemsInTracksAndTimerange</a>&nbsp;&nbsp;</td><td><a href="#
 OnlyMediaItemsOfTracksInTrackstring
-">OnlyMediaItemsOfTracksInTrackstring</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">OnlyMediaItemsOfTracksInTrackstring</a>&nbsp;&nbsp;</td><td><a href="#
 OnlyMediaItemsOfTracksInTrackstring_StateChunk
-">OnlyMediaItemsOfTracksInTrackstring_StateChunk</a>&nbsp;&nbsp;</td><td><a href="#
+">OnlyMediaItemsOfTracksInTrackstring_StateChunk</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 PreviewMediaFile
 ">PreviewMediaFile</a>&nbsp;&nbsp;</td><td><a href="#
 PreviewMediaItem
 ">PreviewMediaItem</a>&nbsp;&nbsp;</td><td><a href="#
 StopAnyPreview
-">StopAnyPreview</a>&nbsp;&nbsp;</td></tr>
-<tr><tr><td>&nbsp;</td></tr><tr><td><strong>Delete
+">StopAnyPreview</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Delete
 </strong></td></tr>
 <td><a href="#
 DeleteMediaItem
@@ -1720,10 +1722,14 @@ api, variable, separator
 ultraschall.StartTime
 </i><br><br>Contains the correct starting time of the current instance of the Ultraschall-Framework, which probably means your script, that embeds the framework.<br><p></p><p></p><p></p>Tags: 
 api, variable, starttime
+<p></p><a id="ultraschall.Api_InstallPath"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
+ultraschall.Api_Path
+</i><br><br>Contains the current path to the installation folder of the Ultraschall-Api.<br><p></p><p></p><p></p>Tags: 
+api, variable, install, path, folder
 <p></p><a id="ultraschall.Api_Path"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 ultraschall.Api_Path
 </i><br><br>Contains the current path to the Ultraschall-Api-folder.<br><p></p><p></p><p></p>Tags: 
-api, variable, script, path, folder
+api, variable, path, folder
 <p></p><a id="GetInputOutputLatency_Seconds"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.941.png" alt="Reaper version 5.941"><img style="width:3%;" src="gfx/sws2.9.7.png" alt="sws version 2.9.7"> 
 number inputLatency, number outputLatency = ultraschall.GetInputOutputLatency_Seconds()
 </i><br><br>Returns the input and output-latency in seconds<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>number inputLatency</i> - the input latency in seconds</i><br><i>number outputLatency</i> - the output latency in seconds </i><br><i></i></div><p></p><p></p>Tags: 
@@ -2000,6 +2006,10 @@ envelopemanagement, envelope, point, envelope point, get, idx, selection, envelo
 boolean valid = ultraschall.IsValidEnvStateChunk(string EnvelopeStateChunk)
 </i><br><br>returns, if a EnvelopeStateChunk is a valid statechunk<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean valid</i> - true, if the string is a valid statechunk; false, if not a valid statechunk</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string EnvelopeStateChunk</i> - a string to check, if it's a valid EnvelopeStateChunk</i><br><i></i></div><p></p>Tags: 
 envelopemanagement, check, validity, envelope, statechunk, valid
+<p></p><a id="IsValidEnvelopePointArray"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.941.png" alt="Reaper version 5.941"> 
+boolean retval = ultraschall.IsValidEnvelopePointArray(EnvelopePointArray EnvelopePointArray)
+</i><br><br>Checks, if an EnvelopePointArray is a valid one.<br><br>Returns false in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true, EnvelopePointArray is a valid one; false, EnvelopePointArray isn't valid</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>EnvelopePointArray EnvelopePointArray</i> - the EnvelopePointArray to check for it's validity</i><br><i></i></div><p></p>Tags: 
+envelopemanagement, envelope, point, envelope point, check, envelopepointarray
 <p></p><a id="IsValidEnvelopePointObject"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 boolean retval = ultraschall.IsValidEnvelopePointObject(array EnvelopePointObject)
 </i><br><br>Checks, if EnvelopePointObject is valid or not.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true, if it's a valid EnvelopePointObject; false if not</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>array EnvelopePointObject</i> - an array with all information of an envelope point</i><br><i></i></div><p></p>Tags: 
@@ -2640,10 +2650,6 @@ mediaitemmanagement, tracks, media, item, insert
 boolean retval = ultraschall.IsItemInTimerange(MediaItem MediaItem, number startposiiton, number endposition, boolean inside)
 </i><br><br>checks, whether a given MediaItem is within startposition and endposition and returns the result.<br><br>returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true, item is in timerange; false, item isn't in timerange</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>MediaItem MediaItem</i> - the MediaItem to check for, if it's within the timerange</i><br><i>number startposition</i> - the starttime of the timerange, in which the MediaItem must be, in seconds</i><br><i>number endposition</i> - the endtime of the timerange, in which the MediaItem must be, in seconds</i><br><i>boolean inside</i> - true, MediaItem must be fully within timerange; false, MediaItem can be partially inside timerange</i><br><i></i></div><p></p>Tags: 
 mediaitemmanagement, check, timerange, tracks, mediaitems
-<p></p><a id="IsValidItemStateChunk"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
-boolean valid = ultraschall.IsValidItemStateChunk(string MediaItemStateChunk)
-</i><br><br>returns, if a MediaItemStateChunk is a valid statechunk<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean valid</i> - true, if the string is a valid statechunk; false, if not a valid statechunk</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string MediaItemStateChunk</i> - a string to check, if it's a valid MediaItemStateChunk</i><br><i></i></div><p></p>Tags: 
-mediaitemmanagement, check, validity, item, statechunk, valid
 <p></p><a id="IsValidMediaItemArray"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 boolean retval, integer count, array retMediaItemArray = ultraschall.IsValidMediaItemArray(array MediaItemArray)
 </i><br><br>Checks, whether MediaItemArray is valid.<br>It throws out all entries, that are not MediaItems and returns the altered array as result.<br><br>returns false in case of error or if it is not a valid MediaItemArray<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - returns true if MediaItemArray is valid, false if not</i><br><i>integer count</i> - the number of entries in the returned retMediaItemArray</i><br><i>array retMediaItemArray</i> - the, possibly, altered MediaItemArray</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>array MediaItemArray</i> - a MediaItemArray that shall be checked for validity</i><br><i></i></div><p></p>Tags: 
@@ -3896,4 +3902,4 @@ userinterface, set, vertical, zoom, factor
 integer retval = ultraschall.StoreArrangeviewSnapshot(integer slot, string description, boolean position, boolean vzoom)
 </i><br><br>Stores a new Arrangeview-snapshot, that includes the position, horizontal zoom and vertical zoom.<br><br>Returns -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1, in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer slot</i> - the slot for arrangeview-snapshot</i><br><i>string description</i> - a description for this arrangeview-snapshot</i><br><i>boolean position</i> - true, store start and endposition of the current arrangeview; false, don't store start and endposition of current arrangeview(keep old position in slot, if existing)</i><br><i>boolean vzoom</i> - true, store current vertical-zoom-factor; false, don't store current vertical-zoom-factor(keep old zoomfactor in slot, if existing)</i><br><i></i></div><p></p>Tags: 
 userinterface, set, arrangeview, snapshot
-<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 615-functions available</i></p></div></body></html>
+<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 616-functions available</i></p></div></body></html>

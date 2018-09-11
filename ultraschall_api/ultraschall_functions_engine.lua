@@ -64,6 +64,7 @@ if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
   local script_path = reaper.GetResourcePath().."/UserPlugins/ultraschall_api"..ultraschall.Separator
   ultraschall.Api_Path=script_path
   ultraschall.Api_Path=string.gsub(ultraschall.Api_Path,"\\","/")
+  ultraschall.Api_InstallPath=reaper.GetResourcePath().."/UserPlugins/"
 --]]  
 
 function ultraschall.GetEnvelopeStateChunk(TrackEnvelope, str, isundo, usesws)
@@ -254,7 +255,7 @@ Checks, whether MediaItemStateChunk is a valide MediaItemStateChunk.
 Returns false in case of an error
 </description>
 <retvals>
-boolean retval - true, starting preview was successful; false, starting preview wasn't successful
+boolean retval - true, MediaItemStateChunk is valid; false, MediaItemStateChunk isn't a valid statechunk
 </retvals>
 <parameters>
 string MediaItemStateChunk - the string to check, if it's a valid MediaItemStateChunk
@@ -1010,40 +1011,13 @@ version,versionmanagement
 end
 
 function ultraschall.IsValidItemStateChunk(statechunk)
---[[
-<ApiDocBlocFunc>
-<slug>
-IsValidItemStateChunk
-</slug>
-<requires>
-Ultraschall=4.00
-Reaper=5.40
-Lua=5.3
-</requires>
-<functionname>
-boolean valid = ultraschall.IsValidItemStateChunk(string MediaItemStateChunk)
-</functionname>
-<description>
-returns, if a MediaItemStateChunk is a valid statechunk
-</description>
-<parameters>
-string MediaItemStateChunk - a string to check, if it's a valid MediaItemStateChunk
-</parameters>
-<retvals>
-boolean valid - true, if the string is a valid statechunk; false, if not a valid statechunk
-</retvals>
-<semanticcontext>
-MediaItem Management
-Assistance functions
-</semanticcontext>
-<tags>
-mediaitemmanagement, check, validity, item, statechunk, valid
-</tags>
-</ApiDocBlocFunc>
---]]
-  if type(statechunk)~="string" then ultraschall.AddErrorMessage("IsValidItemStateChunk","MediaItemStateChunk", "must be a string", -1) return false end
-  if statechunk:match("^<ITEM.*>\n$")~=nil then return true end
-  return false
+  if type(itemstatechunk)~="string" then ultraschall.AddErrorMessage("IsValidItemStateChunk", "itemstatechunk", "Must be a string.", -1) return false end  
+  itemstatechunk=itemstatechunk:match("<ITEM.*%c>\n")
+  if itemstatechunk==nil then return false end
+  local count1=ultraschall.CountCharacterInString(itemstatechunk, "<")
+  local count2=ultraschall.CountCharacterInString(itemstatechunk, ">")
+  if count1~=count2 then return false end
+  return true
 end
 
 function ultraschall.IsValidTrackStateChunk(statechunk)
@@ -25473,11 +25447,35 @@ Contains the current path to the Ultraschall-Api-folder.
 API-Variables
 </semanticcontext>
 <tags>
-api, variable, script, path, folder
+api, variable, path, folder
 </tags>
 </ApiDocBlocFunc>
 --]]
 
+--[[
+<ApiDocBlocFunc>
+<slug>
+ultraschall.Api_InstallPath
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.40
+Lua=5.3
+</requires>
+<functionname>
+ultraschall.Api_Path
+</functionname>
+<description>
+Contains the current path to the installation folder of the Ultraschall-Api.
+</description>
+<semanticcontext>
+API-Variables
+</semanticcontext>
+<tags>
+api, variable, install, path, folder
+</tags>
+</ApiDocBlocFunc>
+--]]
 
 function ultraschall.HelpSort(one,two,three)
 --reaper.MB(tostring(one),"",0)
@@ -40837,7 +40835,7 @@ function ultraschall.PreviewMediaFile(filename_with_path)
   reaper.PreventUIRefresh(1)
 end
 
---A=ultraschall.PreviewMediaFile("c:\\Users\\meo\\Desktop\\Hoelderlin - Hoelderlin (1975) (Full Album) [Krautrock].mp3")
+A=ultraschall.PreviewMediaFile("c:\\Users\\meo\\Desktop\\Deep Purple - Smoke on the Water.mp3")
 --B=reaper.Undo_DoUndo2(0)
 --B=reaper.Undo_DoUndo2(0)
 
@@ -42226,8 +42224,51 @@ end
 
 --L=ultraschall.CreateTrackString_UnarmedTracks()
 
+function ultraschall.IsValidEnvelopePointArray(EnvelopePointArray)
+--[[
+<ApiDocBlocFunc>
+<slug>
+IsValidEnvelopePointArray
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.941
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.IsValidEnvelopePointArray(EnvelopePointArray EnvelopePointArray)
+</functionname>
+<description>
+Checks, if an EnvelopePointArray is a valid one.
 
+Returns false in case of an error
+</description>
+<retvals>
+boolean retval - true, EnvelopePointArray is a valid one; false, EnvelopePointArray isn't valid
+</retvals>
+<parameters>
+EnvelopePointArray EnvelopePointArray - the EnvelopePointArray to check for it's validity
+</parameters>
+<semanticcontext>
+Envelope Management
+Helper functions
+</semanticcontext>
+<tags>
+envelopemanagement, envelope, point, envelope point, check, envelopepointarray
+</tags>
+</ApiDocBlocFunc>
+--]]
+  if type(EnvelopePointArray)~="table" then ultraschall.AddErrorMessage("IsValidEnvelopePointArray", "EnvelopePointArray", "Must be a table", -1) return false end
+  local counter=1
+  while EnvelopePointArray[counter]~=nil do
+    if ultraschall.IsValidEnvelopePointObject(EnvelopePointArray[counter])==false then return false end
+    counter=counter+1
+  end
+  return true
+end
+
+--EnvelopeString, EnvelopePointArray = ultraschall.GetEnvelopePointIDX_Between(1, "Mute", 1, 100) 
+--EnvelopePointArray[4]=true
+--A=ultraschall.IsValidEnvelopePointArray(EnvelopePointArray)
 
 ultraschall.ShowLastErrorMessage()
-
-

@@ -191,7 +191,9 @@
   - GetInputOutputLatency_Seconds - returns the input/output-latency in seconds
   - CreateTrackString_ArmedTracks - creates a trackstring with the tracknumbers of all armed tracks
   - CreateTrackString_UnarmedTracks - creates a trackstring with the tracknumbers of all unarmed tracks
-
+  - IsValidEnvelopePointArray - checks, if an EnvelopePointArray is a valid one
+  - Api_InstallPath - an API-variable that contains the path to the install-folder of the Ultraschall-API
+  
   <TODO>
       TODO!!  - DeleteMediaItem(MediaItem MediaItem) use selection of the MediaItem to delete and use action for deleting MediaItem
                                                      probably "applyactiontoitem() is a good idea

@@ -25,8 +25,8 @@
                     - Get MediaItems - you can get all media-items within a time-range AND within the tracks you prefer; a 2D-approach
                         e.g. [GetAllMediaItemsBetween](#GetAllMediaItemsBetween) and [GetMediaItemsAtPosition ](#GetMediaItemsAtPosition ), etc
                     - Gaps between items - you can get the gaps between items in a track, using [GetGapsBetweenItems](#GetGapsBetweenItems)
-                    - Edit item(s) - Split, Cut, Copy, Paste, Move, RippleCut, SectionCut by tracks AND time/start to endposition
-                        e.g. [RippleCut](#RippleCut), [SectionCut](#SectionCut), [SplitMediaItems_Position](#SplitMediaItems_Position), [MoveMediaItemsBefore_By](#MoveMediaItemsBefore_By), [MoveMediaItemsSectionTo](#MoveMediaItemsSectionTo), etc
+                    - Edit item(s) - Split, Cut, Copy, Paste, Move, RippleCut, RippleInsert, SectionCut by tracks AND time/start to endposition
+                        e.g. [RippleCut](#RippleCut), [RippleInsert](RippleInsert), [SectionCut](#SectionCut), [SplitMediaItems_Position](#SplitMediaItems_Position), [MoveMediaItemsBefore_By](#MoveMediaItemsBefore_By), [MoveMediaItemsSectionTo](#MoveMediaItemsSectionTo) and many more
                     - Previewing MediaItems and files - you can preview MediaItems and files without having to start playback of a project
                     - KB-Ini-Management - manipulate the reaper-kb.ini-file with custom-settings
                     - Checking for Datatypes - check all datatypes introduced with Ultraschall-API and all Lua/Reaper-datatypes
@@ -233,6 +233,358 @@
         <next_chapter>Datatypes_Introduction</next_chapter>
         <tags>documentation, introduction, license</tags>
     </US_DocBloc>
+
+        <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Datatypes_Introduction</slug>
+        <title>Datatypes: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Parameters and returnvalues are usually of specific types. Let's look at the following function:
+            
+            '''
+                integer number_of_items, array MediaItemArray, array MediaItemStateChunkArray = ultraschall.GetMediaItemsAtPosition(number position, string trackstring)
+            '''
+            
+            The returnvalues number_of_items is of type integer, MediaItemArray is of type array/type, MediaItemStateChunkArray if of type array.
+            The parameters position is of type number, trackstring is of type string.
+            These parameters/returnvalues only accept/return data of these given types.
+
+            The Ultraschall-API uses a lot of the standard-datatypes provided by Lua and Reaper/SWS, which are:
+                Lua:
+                    boolean - either true or false
+                    integer - an integer number
+                    number - a number, usually float but also accepts integers
+                    string - a string of characters
+                    table/array - a Lua-array
+                    function - a function as an object
+                    nil - the value "nothing"
+                Reaper:
+                    ReaProject - a project/projecttab as an object
+                    MediaTrack - a track as an object; has all attributes of a track, as solo/mute-state, name, MediaItems lying in this track, etc
+                    MediaTrackStateChunk - a string containing an RPP-XML-description of all states/attributes of a MediaTrack
+                    MediaItem - an item as an object; has all attributes of an item, as length, position, volume, etc
+                    MediaItem_Take - a specific take of an item as an object; one item can have multiple takes
+                    MediaItemStateChunk - a string containing an RPP-XML-description of all states/attributes of a MediaItem
+                    TrackEnvelope - an envelope-lane as an object
+                    EnvelopeStateChunk - a string containing an RPP-XML-description of all states/attributes of a TrackEnvelope
+                    PCM_source - audio/video/image as an object; connects MediaItems to the actual media-file
+                    
+            If a datatype has "optional" before it, this parameter/returnvalue is optional. That means, such parameters don't need to be given, such return-values can be nil.
+             
+            In addition to the already used datatypes, the Ultraschall-API introduces some more datatypes, like:
+                    [trackstrings](#Datatypes_trackstring) - some functions accept multiple tracks. Trackstrings are a string with all tracknumbers, separated by commas.
+                    [MediaItemArray](#Datatypes_MediaItemArray) - some functions accept multiple mediaitems. MediaItemArrays are tables containing MediaItem-objects. The index of the table is integers.
+                    [MediaItemStateChunkArray](#Datatypes_MediaItemStateChunkArray) - some functions accept multiple mediaitem-statechunks. MediaItemStateChunkArrays are tables containing MediaItemStateChunks. The index of the table is integers.
+                    [EnvelopePointObject](#Datatypes_EnvelopePointObject) - it's a table containing all attributes of an envelope-point, 
+                                                        like: parent TrackEnvelope-object, envelope-idx, time, value, shape, tension, selected, dBValue converted from value
+                    [EnvelopePointArray](#Datatypes_EnvelopePointArray) - it's a table with multiple EnvelopePointObjects in it, indexed by an integer
+                    
+            These Ultraschall-API-specific datatypes are described in more detail in the following chapters.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Datatypes
+        </chapter_context>
+        <previous_chapter>Introduction_License</previous_chapter>
+        <next_chapter>Datatypes_MediaItemArray</next_chapter>
+        <tags>documentation, datatypes, datatype, introduction</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Datatypes_trackstring</slug>
+        <title>Datatypes: Trackstrings</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Many functions allow you to process through multiple tracks. As good as this is, this provided some difficulty in telling a function, to which track it shall be applied to.
+            Hence the datatype: trackstring
+            
+            A trackstring is just a simple string with all tracknumbers that you want a certain function to be applied to.
+            Examplecode: 
+                '''
+                trackstring = "1,2,5,7,9"
+                '''
+            
+            These tracknumbers must be separated from each other using a comma. Whitespaces are not allowed.
+            
+            With trackstrings, passing the wanted tracks to a function is really easy.
+            
+            You can create trackstrings using: [CreateTrackString](#CreateTrackString), [CreateAllTracksTrackString](#CreateAllTracksTrackString), [CreateTrackString_ArmedTracks](#CreateTrackString_ArmedTracks), [CreateTrackString_UnarmedTracks](#CreateTrackString_UnarmedTracks), [CreateTrackString_SelectedTracks](#CreateTrackString_SelectedTracks).
+            You can manipulate trackstrings using: [InverseTrackstring](#InverseTrackstring), [OnlyTracksInBothTrackstrings](#OnlyTracksInBothTrackstrings), [OnlyTracksInOneTrackstring](#OnlyTracksInOneTrackstring), [RemoveDuplicateTracksInTrackstring](#RemoveDuplicateTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring](#OnlyMediaItemsOfTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring_StateChunk](#OnlyMediaItemsOfTracksInTrackstring_StateChunk)
+            You can check for validate trackstrings using: [IsValidTrackString](#IsValidTrackString)
+            
+            Some of the functions who make use of trackstrings are: [GetAllMediaItemsBetween](#GetAllMediaItemsBetween), [GetAllMediaItemsInTimeSelection](#GetAllMediaItemsInTimeSelection), [DeleteMediaItems_Position](#DeleteMediaItems_Position), [IsItemInTrack3](#IsItemInTrack3), and more
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Datatypes
+        </chapter_context>
+        <previous_chapter>Datatypes_Introduction</previous_chapter>
+        <next_chapter>Datatypes_MediaItemArray</next_chapter>
+        <tags>documentation, datatypes, datatype, trackstring, trackstrings</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Datatypes_MediaItemArray</slug>
+        <title>Datatypes: MediaItemArray</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Many functions allow you to process through multiple mediaitems. To be able to pass multiple mediaitems at once to a function, I added the datatype MediaItemArray.
+            
+            A MediaItemArray is an array with many MediaItems, indexed by an integer
+            Examplecode: 
+                    '''
+                    -- get the MediaItems
+                    MediaItem1=reaper.GetMediaItem(0,0)
+                    MediaItem2=reaper.GetMediaItem(0,1)
+                    MediaItem3=reaper.GetMediaItem(0,2)
+                    MediaItem4=reaper.GetMediaItem(0,3)
+                    
+                    -- create and fill the MediaItemArray
+                    MediaItemArray={}
+                    MediaItemArray[1]=MediaItem1
+                    MediaItemArray[2]=MediaItem2
+                    MediaItemArray[3]=MediaItem3
+                    MediaItemArray[4]=MediaItem4
+                    '''
+            
+            MediaItemArrays will be read, until an index of the MediaItemArray is nil. In the above example, MediaItemArray[5] would be nil and therefore seen as the end of the array, even if there's a MediaItemArray[6]!
+            
+            With MediaItemArray, passing the wanted MediaItems to a function is really easy.
+            
+            You can create MediaItemArrays using: [GetAllMediaItems](#GetAllMediaItems), [GetAllMediaItemsBetween](#GetAllMediaItemsBetween), [GetAllMediaItemsFromTrack](#GetAllMediaItemsFromTrack), [GetMediaItemsAtPosition](#GetMediaItemsAtPosition), [GetAllMediaItemsInTimeSelection](#GetAllMediaItemsInTimeSelection), etc
+            You can manipulate MediaItemArrays using: [ApplyActionToMediaItemArray](#ApplyActionToMediaItemArray), [ApplyFunctionToMediaItemArray](#ApplyFunctionToMediaItemArray), [InsertMediaItemArray](#InsertMediaItemArray), [ChangeDeltaLengthOfMediaItems_FromArray](#ChangeDeltaLengthOfMediaItems_FromArray), [ChangeDeltaOffsetOfMediaItems_FromArray](#ChangeDeltaOffsetOfMediaItems_FromArray), etc
+            You can check for validate MediaItemArrays using: [IsValidMediaItemArray](#IsValidMediaItemArray)
+            
+            Some of the functions who make use of MediaItemArray are: [DeleteMediaItemsFromArray](#DeleteMediaItemsFromArray), [DeselectMediaItems_MediaItemArray](#DeselectMediaItems_MediaItemArray), [GetAllLockedItemsFromMediaItemArray](#GetAllLockedItemsFromMediaItemArray), [InsertMediaItemArray](#InsertMediaItemArray), and more
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Datatypes
+        </chapter_context>
+        <previous_chapter>Datatypes_trackstring</previous_chapter>
+        <next_chapter>Datatypes_MediaItemStateChunkArray</next_chapter>
+        <tags>documentation, datatypes, datatype, mediaitemarray</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Datatypes_MediaItemStateChunkArray</slug>
+        <title>Datatypes: MediaItemStateChunkArray</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Many functions allow you to process through multiple mediaitem-statechunks. To be able to pass multiple mediaitem-statechunks at once to a function, I added the datatype MediaItemStateChunkArray.
+            
+            A MediaItemStateChunkArray is an array with many MediaItemStateChunks, indexed by an integer
+            Examplecode: 
+                    '''
+                    -- get the MediaItems
+                    MediaItem1=reaper.GetMediaItem(0,0)
+                    MediaItem2=reaper.GetMediaItem(0,1)
+                    MediaItem3=reaper.GetMediaItem(0,2)
+                    MediaItem4=reaper.GetMediaItem(0,3)
+                    
+                    -- get the MediaItemStateChunks
+                    StateChunk1=reaper.GetItemStateChunk(MediaItem1, "", false)
+                    StateChunk2=reaper.GetItemStateChunk(MediaItem2, "", false)
+                    StateChunk3=reaper.GetItemStateChunk(MediaItem3, "", false)
+                    StateChunk4=reaper.GetItemStateChunk(MediaItem4, "", false)
+                    
+                    -- create and fill the MediaItemStateChunkArray
+                    MediaItemStateChunkArray={}
+                    MediaItemStateChunkArray[1]=StateChunk1
+                    MediaItemStateChunkArray[2]=StateChunk2
+                    MediaItemStateChunkArray[3]=StateChunk3
+                    MediaItemStateChunkArray[4]=StateChunk4
+                    '''
+            
+            MediaItemStateChunkArrays will be read, until an index of the MediaItemStateChunkArray is nil. In the above example, MediaItemStateChunkArray[5] would be nil and therefore seen as the end of the array, even if there's a MediaItemStateChunkArray[6]!
+            
+            With MediaItemStateChunkArrays, passing the wanted MediaItemStateChunks to a function is really easy.
+            
+            You can create MediaItemStateChunkArrays using: [GetAllMediaItems](#GetAllMediaItems), [GetAllMediaItemsBetween](#GetAllMediaItemsBetween), [GetAllMediaItemsFromTrack](#GetAllMediaItemsFromTrack), [GetMediaItemsAtPosition](#GetMediaItemsAtPosition), [GetAllMediaItemsInTimeSelection](#GetAllMediaItemsInTimeSelection), etc
+            You can manipulate MediaItemStateChunkArrays using: [AddLockStateTo_MediaItemStateChunkArray](#AddLockStateTo_MediaItemStateChunkArray), [ApplyStateChunkToItems](#ApplyStateChunkToItems), [OnlyMediaItemsOfTracksInTrackstring_StateChunk](#OnlyMediaItemsOfTracksInTrackstring_StateChunk), etc
+            You can check for validate MediaItemStateChunkArrays using: [IsValidMediaItemStateChunkArray](#IsValidMediaItemStateChunkArray)
+            
+            Some of the functions who make use of MediaItemStateChunkArrays are: [GetMediaItemStateChunkArrayLength](#GetMediaItemStateChunkArrayLength), [InsertMediaItemStateChunkArray](#InsertMediaItemStateChunkArray), [RippleInsert_MediaItemStateChunks](#RippleInsert_MediaItemStateChunks), [GetAllMediaItemsFromTrackStateChunk](#GetAllMediaItemsFromTrackStateChunk) and more
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Datatypes
+        </chapter_context>
+        <previous_chapter>Datatypes_MediaItemArray</previous_chapter>
+        <next_chapter>Datatypes_EnvelopePointObject</next_chapter>
+        <tags>documentation, datatypes, datatype, mediaitemstatechunkarray</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Datatypes_EnvelopePointObject</slug>
+        <title>Datatypes: EnvelopePointObject</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            When working with envelope-points, handling all the attributes such an envelope-point is quite unhandy. So I introduced the datatype EnvelopePointObject, containing all it's attributes.
+            
+            An EnvelopePointObject is an array with all attributes an envelope-point has.
+            Examplecode: 
+                    '''
+                    MediaTrack=reaper.GetTrack(0,0) -- get MediaTrack
+                    TrackEnvelope=reaper.GetTrackEnvelope(MediaTrack, 0) -- get TrackEnvelope
+                    retval, EnvelopePointObject = ultraschall.CreateEnvelopePointObject(TrackEnvelope, 1, 20, 10, 0, 0, false) -- create EnvelopePointObject
+                    '''
+            
+            An EnvelopePointObject is an array with all the attributes of an envelope-point, containing the following values:
+                EnvelopePointObject[1] - Trackenvelope; The TrackEnvelope-object, in which the point lies
+                EnvelopePointObject[2] - integer; Envelope-idx
+                EnvelopePointObject[3] - number; the time in seconds
+                EnvelopePointObject[4] - number; the raw value of the envelope-point
+                EnvelopePointObject[5] - integer; the shape of the envelope-point, with 
+                                                       0 - Linear
+                                                       1 - Square
+                                                       2 - Slow start/end
+                                                       3 - Fast start
+                                                       4 - Fast end
+                                                       5 - Bezier
+                EnvelopePointObject[6] - number; tension of the envelope-point; -1 to 1; 0 for no tension
+                EnvelopePointObject[7] - boolean; if the envelope-point is selected(true) or not(false)
+                EnvelopePointObject[8] - number; dBValue converted from value
+            
+            EnvelopePointObjects make handling of envelope-points and it's attributes much easier.
+            
+            You can create EnvelopePointObjects using: [CreateEnvelopePointObject](#CreateEnvelopePointObject), [GetEnvelopePoint](#GetEnvelopePoint), etc
+            You can check for validate EnvelopePointObjects using: [IsValidEnvelopePointObject](#IsValidEnvelopePointObject)
+            
+            Some of the functions who make use of EnvelopePointObjects are: [AddEnvelopePoints_EnvelopePointObject](#AddEnvelopePoints_EnvelopePointObject), [SetEnvelopePoints_EnvelopePointObject](#SetEnvelopePoints_EnvelopePointObject), [DeleteEnvelopePoints_EnvelopePointObject](#DeleteEnvelopePoints_EnvelopePointObject) and more
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Datatypes
+        </chapter_context>
+        <previous_chapter>Datatypes_MediaItemArray</previous_chapter>
+        <next_chapter>Datatypes_EnvelopePointArray</next_chapter>
+        <tags>documentation, datatypes, datatype, envelopepointobject</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Datatypes_EnvelopePointArray</slug>
+        <title>Datatypes: EnvelopePointArray</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            When working with multiple EnvelopePointObjects, I introduced the datatype EnvelopePointArray, containing multiple EnvelopePointObjects.
+            
+            An EnvelopePointArray is an array with multiple EnvelopePointObjects, indexed by an integer.
+            Examplecode: 
+                    '''
+                    -- create EnvelopePointObjects
+                    MediaTrack=reaper.GetTrack(0,0) -- get MediaTrack
+                    TrackEnvelope=reaper.GetTrackEnvelope(MediaTrack, 0) -- get TrackEnvelope
+                    retval, EnvelopePointObject1 = ultraschall.CreateEnvelopePointObject(TrackEnvelope, 1, 20, 10, 0, 0, false) -- create EnvelopePointObject1
+                    retval, EnvelopePointObject2 = ultraschall.CreateEnvelopePointObject(TrackEnvelope, 1, 20, 10, 0, 0, false) -- create EnvelopePointObject2
+                    retval, EnvelopePointObject3 = ultraschall.CreateEnvelopePointObject(TrackEnvelope, 1, 20, 10, 0, 0, false) -- create EnvelopePointObject3
+                    
+                    -- creating EnvelopePointArray
+                    EnvelopePointArray={}
+                    EnvelopePointArray[1]=EnvelopePointObject1
+                    EnvelopePointArray[2]=EnvelopePointObject2
+                    EnvelopePointArray[3]=EnvelopePointObject3
+                    '''
+            
+            EnvelopePointArray makes passing multiple EnvelopePointObjects to functions much easier.
+            
+            You can create EnvelopePointArrays using: [GetEnvelopePointIDX_Between](#GetEnvelopePointIDX_Between)
+            You can check for validate EnvelopePointArrays using: [IsValidEnvelopePointArray](#IsValidEnvelopePointArray)
+            
+            Some of the functions who make use of EnvelopePointArrays are: [AddEnvelopePoints_EnvelopePointArray](#AddEnvelopePoints_EnvelopePointArray), [SetEnvelopePoints_EnvelopePointArray](#SetEnvelopePoints_EnvelopePointArray), [DeleteEnvelopePoints_EnvelopePointArray](#DeleteEnvelopePoints_EnvelopePointArray) and more
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Datatypes
+        </chapter_context>
+        <previous_chapter>Datatypes_EnvelopePointObject</previous_chapter>
+        <next_chapter>Datatypes_CheckingDatatypes</next_chapter>
+        <tags>documentation, datatypes, datatype, envelopepointarray</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Datatypes_CheckingDatatypes</slug>
+        <title>Datatypes: Checking Datatypes</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            When you work with data of different sources but need to work with data of a specific type, it would be handy to have ways of checking, whether a certain variable has data of a specific type.
+            Lua provides ways of checking for valid datatypes(type() and math.type()) as well as Reaper(ValidatePtr() and ValidatePtr2()).
+            
+            However, sometimes you want to have one function to check them all, and all these functions do not include Ultraschall-API-specific datatypes, so I added some stuff for that.
+            
+            1) [type][#type]
+                works like Lua's own type-function, but checks for Reaper's own datatypes as well, like: 
+                    Lua: nil, number: integer, number: float, boolean, string, function, table, thread, userdata,
+                    Reaper: ReaProject, MediaItem, MediaItem_Take, MediaTrack, TrackEnvelope, AudioAccessor, joystick_device, PCM_source
+                    
+                    userdata will be shown, if object isn't of any known type
+                    
+               to get of which type a variable is, just use
+               
+               '''
+                   datatype_of_variable = ultraschall.type(variable)
+               '''
+               
+               where the return-value datatype_of_variable will hold a string describing the type of the variable.
+               
+               Due some API-restrictions, SWS-specific datatypes are not (yet) supported.
+               
+            2) Ultraschall-API specific or other Reaper-datatypes
+                To check for Ultraschall-API specific or other Reaper-datatypes, you can use the following functions:
+
+                Ultraschall-API-specific:
+                    [IsValidTrackString](#IsValidTrackString) - checks, if a string is a valid [trackstring](#Datatypes_trackstring)
+                    [IsValidMediaItemArray](#IsValidMediaItemArray) - checks, if a table is a valid [MediaItemArray](#Datatypes_MediaItemArray)
+                    [IsValidMediaItemStateChunkArray](#IsValidMediaItemStateChunkArray] - checks, if a table is a valid [MediaItemStateChunkArray](#Datatypes_MediaItemStateChunkArray)
+                    [IsValidEnvelopePointObject](#IsValidEnvelopePointObject) - checks, if a table is a valid [EnvelopePointObject](#Datatypes_EnvelopePointObject)
+                    [IsValidEnvelopePointArray](#IsValidEnvelopePointArray) - checks, if a table is a valid [EnvelopePointArray](#Datatypes_EnvelopePointArray)
+                    [IsValidArrangeviewSnapshot](#IsValidArrangeviewSnapshot) - checks, if an extstate is a valid ArrangeviewSnapshot
+                    
+                Other Reaper-datatypes:
+                    [IsValidReaProject](#IsValidReaProject) - checks, if an object is a valid ReaProject
+                    [IsValidProjectStateChunk](#IsValidProjectStateChunk) - checks, if a string is a valid ProjectStateChunk
+                    [IsValidTrackStateChunk](#IsValidTrackStateChunk) - checks, if a string is a valid TrackStateChunk
+                    [IsValidMediaItemStateChunk](#IsValidMediaItemStateChunk) - checks, if a string is a valid MediaItemStateChunk
+                    [IsValidEnvStateChunk](#IsValidEnvStateChunk) - checks, if a string is a valid EnvelopeStateChunk
+                    
+                They will be part of ultraschall.type() someday.
+                
+            3) other types of data
+                These aren't datatypes, but you may want to check them for validity as well
+                    [IsValidGuid](#IsValidGuid) - checks, whether a string is a valid GUID
+                    [IsValidMatchingPattern](#IsValidMatchingPattern) - checks, whether a string is a valid matching pattern for Lua's pattern-matching
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Datatypes
+        </chapter_context>
+        <previous_chapter>Datatypes_EnvelopePointArray</previous_chapter>
+        <next_chapter>Introduction_API_Variables</next_chapter>
+        <tags>documentation, datatypes, datatype, checking</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Introduction_API_Variables</slug>
+        <title>API-Variables</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            When working with the Ultraschall-API or general programming in Reaper, some additional things may or may not be helpful to know, like:
+            
+                1) [Script_Path](#Script_Path) - which contains the current path to Reaper's-scripts-folder
+                2) [Separator](#Separator) - which contains the correct separator for paths; on Windows it is \ on Mac and Linux it is /
+                3) [StartTime](#StartTime) - contains the starting time of the Ultraschall-API as used in the current script. That means, the starting time of the now running script.
+                4) [Api_Path](#Api_Path) - the current path to the Ultraschall-API folder.
+                5) [Api_InstallPath](#Api_InstallPath) - an API-variable that contains the path to the install-folder of the Ultraschall-API
+                
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            API-Variables
+        </chapter_context>
+        <previous_chapter>Datatypes_CheckingDatatypes</previous_chapter>
+        <next_chapter>Rendering_01_Introduction</next_chapter>
+        <tags>documentation, api-variables</tags>
+    </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Rendering_01_Introduction</slug>
@@ -363,7 +715,7 @@
             
             In the likely case, that you want to influence more things for rendering, like samplerate, stereo or mono, etc, you should do the following things:
             
-            1) make a copy of the rpp-file using you want to render using [MakeCopyOfFile](#MakeCopyOfFile). The copy must have a different name and be in the same folder, as the original rpp-file!
+            1) make a copy of the rpp-file that you want to render using [MakeCopyOfFile](#MakeCopyOfFile). The copy must have a different name and be in the same folder, as the original rpp-file!
             2) Now you can alter the copy of the projectfile using the following Ultraschall-Framework-functions, that represent certain elements from Reaper's Render-Dialog:
                 - [SetProject_RenderFilename](#SetProject_RenderFilename) - to alter the output-filename
                 - [SetProject_RenderPattern](#SetProject_RenderPattern) - to set the wildcards for the output-filename 
@@ -394,38 +746,95 @@
             Rendering
         </chapter_context>
         <previous_chapter>Rendering_03_About_Renderingfunctions</previous_chapter>
-        <next_chapter></next_chapter>
+        <next_chapter>Arrangeview_Snapshots_Introduction</next_chapter>
         <tags>documentation, rendering, projects, functions, render, renderstring, rendercfg, render_cfg, advanced</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Datatypes_trackstring</slug>
-        <title>Datatypes: Trackstrings</title>
+        <slug>Arrangeview_Snapshots_Introduction</slug>
+        <title>Arrangeview Snapshots: Introduction</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Many functions allow you to process through multiple tracks. As good as this is, this provided some difficulty in telling a function, to which track it shall be applied to.
-            Hence the datatype: trackstring
+            When working with big or complex projects, 
             
-            A trackstring is just a simple string with all tracknumbers that you want a certain function to be applied to.
-            Example: "1,2,5,7,9"
+            Sometimes it's a good thing to have quick access to certain parts of the project, certain view-settings, zoom-factors. Arrangeview-snapshots are meant to help with that.
             
-            These tracknumbers must be separated from each other using a comma. Whitespaces are not allowed.
+            Arrangeview-Snapshots are snapshots that store the current position of the arrangeview as well as it's zoom-factor. You can decide, whether to store only the zoom-factor or the position. You can also give a short description to a ArrangeView-Snapshot, so you can store, what to expect from a certain snapshot.
+            They can be retrieved and the arrange-view can be set to these settings. That way, quick navigation through often accessed parts of the project is fast and easy.
             
-            With trackstrings, passing the wanted tracks to a function is really easy.
+            Arrangeview-Snapshots are stored as ProjExtStates, which means, that the settings are stored in the project itself and can be retrieved the next time the project is loaded.
             
-            You can create trackstrings using: [CreateTrackString](#CreateTrackString), [CreateAllTracksTrackString](#CreateAllTracksTrackString), [CreateTrackString_ArmedTracks](#CreateTrackString_ArmedTracks), [CreateTrackString_UnarmedTracks]()#CreateTrackString_UnarmedTracks, [CreateTrackString_SelectedTracks](#CreateTrackString_SelectedTracks).
-            You can manipulate trackstrings using: [InverseTrackstring](#InverseTrackstring), [OnlyTracksInBothTrackstrings](#OnlyTracksInBothTrackstrings), [OnlyTracksInOneTrackstring](#OnlyTracksInOneTrackstring), [RemoveDuplicateTracksInTrackstring](#RemoveDuplicateTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring](#OnlyMediaItemsOfTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring_StateChunk](#OnlyMediaItemsOfTracksInTrackstring_StateChunk)
-            You can check for validate trackstrings using: [IsValidTrackString](#IsValidTrackString)
-            
-            Some of the functions who make use of trackstrings are: [GetAllMediaItemsBetween](#GetAllMediaItemsBetween), [GetAllMediaItemsInTimeSelection](#GetAllMediaItemsInTimeSelection), [DeleteMediaItems_Position](#DeleteMediaItems_Position), [IsItemInTrack3](#IsItemInTrack3), and more
+            Due limitations with Reaper's own API, storing the vertical-scroll-position of the arrangeview isn't possible yet. This will change as soon as the limitation is raised from Reaper's own API.
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
         <chapter_context>
-            Datatypes
+            Arrangeview Snapshots
         </chapter_context>
-        <previous_chapter>Datatypes_Introduction</previous_chapter>
-        <next_chapter>Datatypes_MediaItemArray</next_chapter>
-        <tags>documentation, datatypes, datatype, trackstring, trackstrings</tags>
+        <previous_chapter>Rendering_04_Change_more_render_settings</previous_chapter>
+        <next_chapter>Arrangeview_Snapshots_HowToStoreRetrieveDelete</next_chapter>
+        <tags>documentation, arrangeview-snapshots, introduction</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Arrangeview_Snapshots_HowToStoreRetrieveDelete</slug>
+        <title>Arrangeview Snapshots: How to store, retrieve, delete</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            If you want to store the current position and zoom-factor of the Arrangeview, you can use the function [StoreArrangeviewSnapshot](#StoreArrangeviewSnapshot).
+            
+            It accepts the following parameters:
+                slot - the slot for the snapshot, which must be an integer. The function will overwrite an already existing snapshot. To prevent that,
+                            use [IsValidArrangeviewSnapshot](#IsValidArrangeviewSnapshot) to check, if it's already existing.
+                description - a short description, what the snapshot contains so you know, what to expect from it
+                position - set to true to store the startposition and endposition of the arrangeview. Otherwise(false), it will only store the current horizontal zoom-factor
+                vzoom - set to true, if you want to store the vertical zoom-factor as well; set to false, if you don't want it to be stored.
+                
+            If you want to retrieve the settings of a certain Arrange-View-Snapshot, you can use [RetrieveArrangeviewSnapshot](#RetrieveArrangeviewSnapshot), which will
+            return all settings from an Arrangeview-snapshot. The return-values of RetrieveArrangeviewSnapshot basically work the same as the parameters of StoreArrangeviewSnapshot.
+            
+            If you want to check, whether a slot is already used, you can use [IsValidArrangeviewSnapshot](#IsValidArrangeviewSnapshot), which will return true in that case and false, if the slot is unused.
+            
+            To delete a certain slot, just use [DeleteArrangeviewSnapshot](#DeleteArrangeviewSnapshot).
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Arrangeview Snapshots
+        </chapter_context>
+        <previous_chapter>Arrangeview_Snapshots_Introduction</previous_chapter>
+        <next_chapter>Arrangeview_Snapshots_HowToRestore</next_chapter>
+        <tags>documentation, arrangeview-snapshots, retrieve, store, delete</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Arrangeview_Snapshots_HowToRestore</slug>
+        <title>Arrangeview Snapshots: How to restore</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            When having stored an Arrangeview-Snapshot into a slot, you certainly want to restore it at one point. For that, use [RestoreArrangeviewSnapshot](#RestoreArrangeviewSnapshot).
+            
+            This function let's you restore an earlier arrange-view completely, but also allows you to individually set, what you want to restore, using the parameters:
+                slot - is the Arrangeview-Snapshot you want to restore
+                
+            the other parameters are optional, means, if you omit them or set them to nil, they will restore the setting from the snapshot or use a default setting
+                position - true, restore the start and endposition of the arrange-view; false, just restore the horizontal-zoom-factor
+                vzoom - set to true to restore the vertical zoom-factor or set to false to keep the current one
+                hcentermode - this decides, what shall be in the center of the arrangeview, when position is set to false, with several options possible:
+                       nil, keeps center of view in the center during zoom(default setting)
+                        -1, default selection, as set in the reaper-prefs, 
+                         0, edit-cursor or playcursor(if it's in the current zoomfactor of the view during playback/recording) in center,
+                         1, keeps edit-cursor in center of zoom
+                         2, keeps center of view in the center during zoom
+                         3, keeps in center of zoom, what is beneath the mousecursor
+                         
+            This should give you full control in what to restore from an Arrangeview-Snapshot and what to ignore.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Arrangeview Snapshots
+        </chapter_context>
+        <previous_chapter>Arrangeview_Snapshots_HowToStoreRetrieveDelete</previous_chapter>
+        <next_chapter>Arrangeview_Manipulation_Navigation_Follow_Introduction</next_chapter>
+        <tags>documentation, arrangeview-snapshots, restore</tags>
     </US_DocBloc>
     
 </USDocML>
