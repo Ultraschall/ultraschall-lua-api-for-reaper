@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ##ReaScript API as of Reaper 5.941
+            ##ReaScript API as of Reaper 5.95
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -5594,6 +5594,58 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>GetArmedCommand</slug>
+        <title>GetArmedCommand</title>
+        <functioncall prog_lang="cpp">int GetArmedCommand(char* secOut, int secOut_sz)</functioncall>
+        <functioncall prog_lang="eel">int GetArmedCommand(#sec)</functioncall>
+        <functioncall prog_lang="lua">integer retval, string sec = reaper.GetArmedCommand()</functioncall>
+        <functioncall prog_lang="python">(Int retval, String secOut, Int secOut_sz) = RPR_GetArmedCommand(secOut, secOut_sz)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            gets the currently armed command and section name (returns 0 if nothing armed). section name is empty-string for main section.
+        </description>
+        <retvals>
+            integer retval - 
+            string sec - 
+        </retvals>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Miscellaneous
+        </chapter_context>
+        <tags>miscellaneous, get, armed, command</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ArmCommand</slug>
+        <title>ArmCommand</title>
+        <functioncall prog_lang="cpp">void ArmCommand(int cmd, const char* sectionname)</functioncall>
+        <functioncall prog_lang="eel">ArmCommand(int cmd, "sectionname")</functioncall>
+        <functioncall prog_lang="lua">reaper.ArmCommand(integer cmd, string sectionname)</functioncall>
+        <functioncall prog_lang="python">RPR_ArmCommand(Int cmd, String sectionname)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            arms a command (or disarms if 0 passed) in section sectionname (empty string for main)
+        </description>
+        <parameters>
+            integer cmd - 
+            string sectionname - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Miscellaneous
+        </chapter_context>
+        <tags>miscellaneous, get, armed, command</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetMediaItemInfo_Value</slug>
         <title>GetMediaItemInfo_Value</title>
         <functioncall prog_lang="cpp">double GetMediaItemInfo_Value(MediaItem* item, const char* parmname)</functioncall>
@@ -5601,7 +5653,7 @@
         <functioncall prog_lang="lua">number = reaper.GetMediaItemInfo_Value(MediaItem item, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaItemInfo_Value(MediaItem item, String parmname)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.95
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -5639,6 +5691,7 @@
                         -  IP_ITEMNUMBER : int, item number within the track (read-only, returns the item number directly)
                         -  F_FREEMODE_Y : float * to free mode y position (0..1)
                         -  F_FREEMODE_H : float * to free mode height (0..1)
+                        -  P_TRACK : MediaTrack * (read only)
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -5859,7 +5912,7 @@
         <functioncall prog_lang="lua">number = reaper.GetMediaItemTakeInfo_Value(MediaItem_Take take, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaItemTakeInfo_Value(MediaItem_Take take, String parmname)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.95
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -5875,6 +5928,9 @@
             I_PITCHMODE, int *, pitch shifter mode, -1=proj default, otherwise high word=shifter low word = parameter
             I_CUSTOMCOLOR : int *, custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used (though will store the color anyway).
             IP_TAKENUMBER : int, take number within the item (read-only, returns the take number directly)
+            P_TRACK : pointer to MediaTrack (read-only)
+            P_ITEM : pointer to MediaItem (read-only)
+            P_SOURCE : PCM_source *. Note that if setting this, you should first retrieve the old source, set the new, THEN delete the old.
         </description>
         <retvals>
             number - 
@@ -6096,7 +6152,7 @@
         <functioncall prog_lang="lua">number = reaper.GetMediaTrackInfo_Value(MediaTrack tr, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaTrackInfo_Value(MediaTrack tr, String parmname)</functioncall>
         <requires>
-            Reaper=5.92
+            Reaper=5.95
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -6121,6 +6177,7 @@
             I_PERFFLAGS : int * : track perf flags (&amp;1=no media buffering, &amp;2=no anticipative FX)
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used (though will store the color anyway).
             I_HEIGHTOVERRIDE : int * : custom height override for TCP window. 0 for none, otherwise size in pixels
+            B_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
             D_VOL : double * : trim volume of track (0 (-inf)..1 (+0dB) .. 2 (+6dB) etc ..)
             D_PAN : double * : trim pan of track (-1..1)
             D_WIDTH : double * : width of track (-1..1)
@@ -6137,6 +6194,8 @@
             C_BEATATTACHMODE : char * : char * to one char of beat attached mode, -1=def, 0=time, 1=allbeats, 2=beatsposonly
             F_MCP_FXSEND_SCALE : float * : scale of fx+send area in MCP (0.0=smallest allowed, 1=max allowed)
             F_MCP_SENDRGN_SCALE : float * : scale of send area as proportion of the fx+send total area (0=min allow, 1=max)
+            P_PARTRACK : MediaTrack * : parent track (read-only)
+            P_PROJECT : ReaProject * : parent project (read-only)
         </description>
         <retvals>
             number - 
@@ -7470,6 +7529,40 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>GetSetMediaItemInfo_String</slug>
+        <title>GetSetMediaItemInfo_String</title>
+        <functioncall prog_lang="cpp">bool GetSetMediaItemInfo_String(MediaItem* item, const char* parmname, char* stringNeedBig, bool setNewValue)</functioncall>
+        <functioncall prog_lang="eel">bool GetSetMediaItemInfo_String(MediaItem item, "parmname", #stringNeedBig, bool setNewValue)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string stringNeedBig = reaper.GetSetMediaItemInfo_String(MediaItem item, string parmname, string stringNeedBig, boolean setNewValue)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, MediaItem item, String parmname, String stringNeedBig, Boolean setNewValue) = RPR_GetSetMediaItemInfo_String(item, parmname, stringNeedBig, setNewValue)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Gets/sets an item attribute string:
+                P_NOTES : char * : item note text (do not write to returned pointer, use setNewValue to update)
+                GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function, GUID is a string {xyz-...}.
+        </description>
+        <retvals>
+            boolean retval - 
+            string stringNeedBig - 
+        </retvals>
+        <parameters>
+            MediaItem item - 
+            string parmname - 
+            string stringNeedBig - 
+            boolean setNewValue - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Mediaitem Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetSetMediaItemTakeInfo_String</slug>
         <title>GetSetMediaItemTakeInfo_String</title>
         <functioncall prog_lang="cpp">bool GetSetMediaItemTakeInfo_String(MediaItem_Take* tk, const char* parmname, char* stringNeedBig, bool setnewvalue)</functioncall>
@@ -7477,21 +7570,23 @@
         <functioncall prog_lang="lua">boolean retval, string stringNeedBig = reaper.GetSetMediaItemTakeInfo_String(MediaItem_Take tk, string parmname, string stringNeedBig, boolean setnewvalue)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take tk, String parmname, String stringNeedBig, Boolean setnewvalue) = RPR_GetSetMediaItemTakeInfo_String(tk, parmname, stringNeedBig, setnewvalue)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.95
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            P_NAME : char * to take name
+            Gets/sets a take attribute string:
+                P_NAME : char * to take name
+                GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function, GUID is a string {xyz-...}.
         </description>
         <retvals>
-             retval - 
-            stringNeedBig - 
+            boolean retval - 
+            string stringNeedBig - 
         </retvals>
         <parameters>
-            tk - 
-            parmname - 
-            stringNeedBig - 
-            setnewvalue - 
+            MediaItem_Take tk - 
+            string parmname - 
+            string stringNeedBig - 
+            boolean setnewvalue - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -7509,7 +7604,7 @@
         <functioncall prog_lang="lua">boolean retval, string stringNeedBig = reaper.GetSetMediaTrackInfo_String(MediaTrack tr, string parmname, string stringNeedBig, boolean setnewvalue)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack tr, String parmname, String stringNeedBig, Boolean setnewvalue) = RPR_GetSetMediaTrackInfo_String(tr, parmname, stringNeedBig, setnewvalue)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.95
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -7518,16 +7613,17 @@
             P_ICON : const char * : track icon (full filename, or relative to resource_path/data/track_icons)
             P_MCP_LAYOUT : const char * : layout name
             P_TCP_LAYOUT : const char * : layout name
+            GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function, GUID is a string {xyz-...}.
         </description>
         <retvals>
-             retval - 
-            stringNeedBig - 
+            boolean  retval - 
+            string stringNeedBig - 
         </retvals>
         <parameters>
-            tr - 
-            parmname - 
-            stringNeedBig - 
-            setnewvalue - 
+            MediaTrack tr - 
+            string parmname - 
+            string stringNeedBig - 
+            boolean setnewvalue - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -8803,7 +8899,7 @@
         <functioncall prog_lang="lua">number = reaper.GetTrackSendInfo_Value(MediaTrack tr, integer category, integer sendidx, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetTrackSendInfo_Value(MediaTrack tr, Int category, Int sendidx, String parmname)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.95
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -8821,6 +8917,9 @@
             I_SRCCHAN : returns int *, index,&amp;1024=mono, -1 for none
             I_DSTCHAN : returns int *, index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
             I_MIDIFLAGS : returns int *, low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chan
+            P_DESTTRACK : read only, returns MediaTrack *, destination track, only applies for sends/recvs
+            P_SRCTRACK : read only, returns MediaTrack *, source track, only applies for sends/recvs
+            P_ENV : read only, returns TrackEnvelope *, setNewValue=<VOLENV, <PANENV, etc
             See [CreateTrackSend](#CreateTrackSend), [RemoveTrackSend](#RemoveTrackSend), [GetTrackNumSends](#GetTrackNumSends).
         </description>
         <retvals>
@@ -13842,7 +13941,7 @@
         <functioncall prog_lang="lua">boolean = reaper.SetMediaTrackInfo_Value(MediaTrack tr, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_SetMediaTrackInfo_Value(MediaTrack tr, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=5.92
+            Reaper=5.95
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -13867,6 +13966,7 @@
             I_PERFFLAGS : int * : track perf flags (&amp;1=no media buffering, &amp;2=no anticipative FX)
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used (though will store the color anyway).
             I_HEIGHTOVERRIDE : int * : custom height override for TCP window. 0 for none, otherwise size in pixels
+            B_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
             D_VOL : double * : trim volume of track (0 (-inf)..1 (+0dB) .. 2 (+6dB) etc ..)
             D_PAN : double * : trim pan of track (-1..1)
             D_WIDTH : double * : width of track (-1..1)
@@ -16836,7 +16936,65 @@
         </chapter_context>
         <tags></tags>
     </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>TrackFX_CopyToTrack</slug>
+        <title>TrackFX_CopyToTrack</title>
+        <functioncall prog_lang="cpp">void TrackFX_CopyToTrack(MediaTrack* src_track, int src_fx, MediaTrack* dest_track, int dest_fx, bool is_move)</functioncall>
+        <functioncall prog_lang="eel">TrackFX_CopyToTrack(MediaTrack src_track, int src_fx, MediaTrack dest_track, int dest_fx, bool is_move)</functioncall>
+        <functioncall prog_lang="lua">reaper.TrackFX_CopyToTrack(MediaTrack src_track, integer src_fx, MediaTrack dest_track, integer dest_fx, boolean is_move)</functioncall>
+        <functioncall prog_lang="python">RPR_TrackFX_CopyToTrack(MediaTrack src_track, Int src_fx, MediaTrack dest_track, Int dest_fx, Boolean is_move)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Copies (or moves) FX from src_track to dest_track. Can be used with src_track=dest_track to reorder, FX indices have 0x1000000 set to reference input FX. 
+        </description>
+        <parameters>
+            MediaTrack src_track - 
+            Int src_fx - 
+            MediaTrack dest_track - 
+            Int dest_fx - 
+            Boolean is_move - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>TrackFX_CopyToTake</slug>
+        <title>TrackFX_CopyToTake</title>
+        <functioncall prog_lang="cpp">void TrackFX_CopyToTake(MediaTrack* src_track, int src_fx, MediaItem_Take* dest_take, int dest_fx, bool is_move)</functioncall>
+        <functioncall prog_lang="eel">TrackFX_CopyToTake(MediaTrack src_track, int src_fx, MediaItem_Take dest_take, int dest_fx, bool is_move)</functioncall>
+        <functioncall prog_lang="lua">reaper.TrackFX_CopyToTake(MediaTrack src_track, integer src_fx, MediaItem_Take dest_take, integer dest_fx, boolean is_move)</functioncall>
+        <functioncall prog_lang="python">RPR_TrackFX_CopyToTake(MediaTrack src_track, Int src_fx, MediaItem_Take dest_take, Int dest_fx, Boolean is_move)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Copies (or moves) FX from src_track to dest_take. src_fx can have 0x1000000 set to reference input FX. 
+        </description>
+        <parameters>
+            MediaTrack src_track - 
+            integer src_fx - 
+            MediaItem_Take dest_take - 
+            integer dest_fx - 
+            boolean is_move - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_EndParamEdit</slug>
         <title>TrackFX_EndParamEdit</title>
@@ -17914,6 +18072,294 @@
         <tags></tags>
     </US_DocBloc>
 
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>TrackFX_SetOffline</slug>
+        <title>TrackFX_SetOffline</title>
+        <functioncall prog_lang="cpp">void TrackFX_SetOffline(MediaTrack* track, int fx, bool offline)</functioncall>
+        <functioncall prog_lang="eel">TrackFX_SetOffline(MediaTrack track, int fx, bool offline)</functioncall>
+        <functioncall prog_lang="lua">reaper.TrackFX_SetOffline(MediaTrack track, integer fx, boolean offline)</functioncall>
+        <functioncall prog_lang="python">RPR_TrackFX_SetOffline(MediaTrack track, Int fx, Boolean offline)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            See [TrackFX_GetOffline](#TrackFX_GetOffline)
+        </description>
+        <parameters>
+            MediaTrack track - 
+            integer fx - 
+            boolean offline - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>TakeFX_SetOffline</slug>
+        <title>TakeFX_SetOffline</title>
+        <functioncall prog_lang="cpp">void TakeFX_SetOffline(MediaItem_Take* take, int fx, bool offline)</functioncall>
+        <functioncall prog_lang="eel">TakeFX_SetOffline(MediaItem_Take take, int fx, bool offline)</functioncall>
+        <functioncall prog_lang="lua">reaper.TakeFX_SetOffline(MediaItem_Take take, integer fx, boolean offline)</functioncall>
+        <functioncall prog_lang="python">RPR_TakeFX_SetOffline(MediaItem_Take take, Int fx, Boolean offline)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            See [TakeFX_GetOffline](#TakeFX_GetOffline)
+        </description>
+        <parameters>
+            MediaItem_Take take - 
+            integer fx - 
+            boolean offline - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>TakeFX_GetOffline</slug>
+        <title>TakeFX_GetOffline</title>
+        <functioncall prog_lang="cpp">bool TakeFX_GetOffline(MediaItem_Take* take, int fx)</functioncall>
+        <functioncall prog_lang="eel">bool TakeFX_GetOffline(MediaItem_Take take, int fx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_GetOffline(MediaItem_Take take, integer fx)</functioncall>
+        <functioncall prog_lang="python">Boolean RPR_TakeFX_GetOffline(MediaItem_Take take, Int fx)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            See [TakeFX_SetOffline](#TakeFX_SetOffline)
+        </description>
+        <retvals>
+            boolean retval - 
+        </retvals>
+        <parameters>
+            MediaItem_Take take - 
+            integer fx - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>TakeFX_Delete</slug>
+        <title>TakeFX_Delete</title>
+        <functioncall prog_lang="cpp">bool TakeFX_Delete(MediaItem_Take* take, int fx)</functioncall>
+        <functioncall prog_lang="eel">bool TakeFX_Delete(MediaItem_Take take, int fx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.TakeFX_Delete(MediaItem_Take take, integer fx)</functioncall>
+        <functioncall prog_lang="python"> Boolean RPR_TakeFX_Delete(MediaItem_Take take, Int fx)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Remove a FX from take chain (returns true on success)
+        </description>
+        <retvals>
+            boolean retval - 
+        </retvals>
+        <parameters>
+            MediaItem_Take take - 
+            integer fx - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>TakeFX_CopyToTake</slug>
+        <title>TakeFX_CopyToTake</title>
+        <functioncall prog_lang="cpp">void TakeFX_CopyToTake(MediaItem_Take* src_take, int src_fx, MediaItem_Take* dest_take, int dest_fx, bool is_move)</functioncall>
+        <functioncall prog_lang="eel">TakeFX_CopyToTake(MediaItem_Take src_take, int src_fx, MediaItem_Take dest_take, int dest_fx, bool is_move)</functioncall>
+        <functioncall prog_lang="lua">reaper.TakeFX_CopyToTake(MediaItem_Take src_take, integer src_fx, MediaItem_Take dest_take, integer dest_fx, boolean is_move)</functioncall>
+        <functioncall prog_lang="python">RPR_TakeFX_CopyToTake(MediaItem_Take src_take, Int src_fx, MediaItem_Take dest_take, Int dest_fx, Boolean is_move)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Copies (or moves) FX from src_take to dest_take. Can be used with src_track=dest_track to reorder. 
+        </description>
+        <parameters>
+            MediaItem_Take src_take - 
+            integer src_fx - 
+            MediaItem_Take dest_take - 
+            integer dest_fx - 
+            boolean is_move -
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>TakeFX_CopyToTrack</slug>
+        <title>TakeFX_CopyToTrack</title>
+        <functioncall prog_lang="cpp">void TakeFX_CopyToTrack(MediaItem_Take* src_take, int src_fx, MediaTrack* dest_track, int dest_fx, bool is_move)</functioncall>
+        <functioncall prog_lang="eel">TakeFX_CopyToTrack(MediaItem_Take src_take, int src_fx, MediaTrack dest_track, int dest_fx, bool is_move)</functioncall>
+        <functioncall prog_lang="lua">reaper.TakeFX_CopyToTrack(MediaItem_Take src_take, integer src_fx, MediaTrack dest_track, integer dest_fx, boolean is_move)</functioncall>
+        <functioncall prog_lang="python"> RPR_TakeFX_CopyToTrack(MediaItem_Take src_take, Int src_fx, MediaTrack dest_track, Int dest_fx, Boolean is_move)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Copies (or moves) FX from src_take to dest_track. dest_fx can have 0x1000000 set to reference input FX.
+        </description>
+        <parameters>
+            MediaItem_Take src_take - 
+            integer src_fx - 
+            MediaTrack dest_track - 
+            integer dest_fx - 
+            boolean is_move - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>TrackFX_GetOffline</slug>
+        <title>TrackFX_GetOffline</title>
+        <functioncall prog_lang="cpp">bool TrackFX_GetOffline(MediaTrack* track, int fx)</functioncall>
+        <functioncall prog_lang="eel">bool TrackFX_GetOffline(MediaTrack track, int fx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_GetOffline(MediaTrack track, integer fx)</functioncall>
+        <functioncall prog_lang="python">Boolean RPR_TrackFX_GetOffline(MediaTrack track, Int fx)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            See [TrackFX_SetOffline](#TrackFX_SetOffline)
+        </description>
+        <retvals>
+            boolean retval - 
+        </retvals>
+        <parameters>
+            MediaTrack track - 
+            integer fx - 
+            boolean offline - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>TakeFX_CopyToTake</slug>
+        <title>TakeFX_CopyToTake</title>
+        <functioncall prog_lang="cpp">void TakeFX_CopyToTake(MediaItem_Take* src_take, int src_fx, MediaItem_Take* dest_take, int dest_fx, bool is_move)</functioncall>
+        <functioncall prog_lang="eel">TakeFX_CopyToTake(MediaItem_Take src_take, int src_fx, MediaItem_Take dest_take, int dest_fx, bool is_move)</functioncall>
+        <functioncall prog_lang="lua">reaper.TakeFX_CopyToTake(MediaItem_Take src_take, integer src_fx, MediaItem_Take dest_take, integer dest_fx, boolean is_move)</functioncall>
+        <functioncall prog_lang="python">RPR_TakeFX_CopyToTake(MediaItem_Take src_take, Int src_fx, MediaItem_Take dest_take, Int dest_fx, Boolean is_move)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Copies (or moves) FX from src_take to dest_take. Can be used with src_track=dest_track to reorder. 
+        </description>
+        <parameters>
+            MediaItem_Take src_take - 
+            integer src_fx - 
+            MediaItem_Take dest_take - 
+            integer dest_fx - 
+            boolean is_move - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>TakeFX_CopyToTrack</slug>
+        <title>TakeFX_CopyToTrack</title>
+        <functioncall prog_lang="cpp">void TakeFX_CopyToTrack(MediaItem_Take* src_take, int src_fx, MediaTrack* dest_track, int dest_fx, bool is_move)</functioncall>
+        <functioncall prog_lang="eel">TakeFX_CopyToTrack(MediaItem_Take src_take, int src_fx, MediaTrack dest_track, int dest_fx, bool is_move)</functioncall>
+        <functioncall prog_lang="lua">reaper.TakeFX_CopyToTrack(MediaItem_Take src_take, integer src_fx, MediaTrack dest_track, integer dest_fx, boolean is_move)</functioncall>
+        <functioncall prog_lang="python">RPR_TakeFX_CopyToTrack(MediaItem_Take src_take, Int src_fx, MediaTrack dest_track, Int dest_fx, Boolean is_move)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Copies (or moves) FX from src_take to dest_track. dest_fx can have 0x1000000 set to reference input FX. 
+        </description>
+        <parameters>
+            MediaItem_Take src_take - 
+            integer src_fx - 
+            MediaTrack dest_track - 
+            integer dest_fx - 
+            boolean is_move - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>TrackFX_Delete</slug>
+        <title>TrackFX_Delete</title>
+        <functioncall prog_lang="cpp">bool TrackFX_Delete(MediaTrack* track, int fx)</functioncall>
+        <functioncall prog_lang="eel">bool TrackFX_Delete(MediaTrack track, int fx)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.TrackFX_Delete(MediaTrack track, integer fx)</functioncall>
+        <functioncall prog_lang="python">Boolean RPR_TrackFX_Delete(MediaTrack track, Int fx)</functioncall>
+        <requires>
+            Reaper=5.95
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Remove a FX from track chain (returns true on success).
+        </description>
+        <retvals>
+            boolean retval - 
+        </retvals>
+        <parameters>
+            MediaTrack track - 
+            integer fx - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            FX Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>TrackFX_SetOpen</slug>
         <title>TrackFX_SetOpen</title>
@@ -23226,17 +23672,17 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_gfx_deltablit</slug>
         <title>gfx_deltablit</title>
-        <functioncall prog_lang="eel">gfx_deltablit(srcimg,srcx,srcy,srcw,srch,destx,desty,destw,desth,dsdx,dtdx,dsdy,dtdy,dsdxdy,dtdxdy)</functioncall>
+        <functioncall prog_lang="eel">gfx_deltablit(srcimg,srcs,srct,srcw,srch,destx,desty,destw,desth,dsdx,dtdx,dsdy,dtdy,dsdxdy,dtdxdy[,usecliprect=1])</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.95
         </requires>
         <description indent="default">
-            Blits from srcimg(srcx,srcy,srcw,srch) to destination (destx,desty,destw,desth). Source texture coordinates are s/t, dsdx represents the change in s coordinate for each x pixel, dtdy represents the change in t coordinate for each y pixel, etc. dsdxdy represents the change in dsdx for each line. 
+            Blits from srcimg(srcs,srct,srcw,srch) to destination (destx,desty,destw,desth). Source texture coordinates are s/t, dsdx represents the change in s coordinate for each x pixel, dtdy represents the change in t coordinate for each y pixel, etc. dsdxdy represents the change in dsdx for each line. If usecliprect is specified and 0, then srcw/srch are ignored.
         </description>
         <parameters>
             srcimg - 
-            srcx - 
-            srcy - 
+            srcs - 
+            srct - 
             srcw - 
             srch -
             destx - 
@@ -23249,6 +23695,7 @@
             dtdy - 
             dsdxdy - 
             dtdxdy -
+            usecliprect - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25629,18 +26076,18 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.deltablit</slug>
         <title>gfx.deltablit</title>
-        <functioncall prog_lang="lua">gfx.deltablit(srcimg,srcx,srcy,srcw,srch,destx,desty,destw,desth,dsdx,dtdx,dsdy,dtdy,dsdxdy,dtdxdy)</functioncall>
+        <functioncall prog_lang="lua">gfx.deltablit(srcimg,srcs,srct,srcw,srch,destx,desty,destw,desth,dsdx,dtdx,dsdy,dtdy,dsdxdy,dtdxdy[,usecliprect=1])</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.95
             Lua=5.3
         </requires>
         <description indent="default">
-            Blits from srcimg(srcx,srcy,srcw,srch) to destination (destx,desty,destw,desth). Source texture coordinates are s/t, dsdx represents the change in s coordinate for each x pixel, dtdy represents the change in t coordinate for each y pixel, etc. dsdxdy represents the change in dsdx for each line. 
+            Blits from srcimg(srcs,srct,srcw,srch) to destination (destx,desty,destw,desth). Source texture coordinates are s/t, dsdx represents the change in s coordinate for each x pixel, dtdy represents the change in t coordinate for each y pixel, etc. dsdxdy represents the change in dsdx for each line. If usecliprect is specified and 0, then srcw/srch are ignored.
         </description>
         <parameters>
             srcimg - 
-            srcx - 
-            srcy - 
+            srcs - 
+            srct - 
             srcw - 
             srch - 
             destx - 
@@ -25653,6 +26100,7 @@
             dtdy - 
             dsdxdy - 
             dtdxdy -
+            usecliprect - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -29413,7 +29861,47 @@
         </chapter_context>
         <tags>cpp, lice, draw, text</tags>
     </US_DocBloc>        
-                
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
+        <slug>LICE_FillCBezier</slug>
+        <title>LICE_FillCBezier</title>
+        <functioncall prog_lang="cpp">void (*LICE_FillCBezier)(LICE_IBitmap* dest, double xstart, double ystart, double xctl1, double yctl1, double xctl2, double yctl2, double xend, double yend, int yfill, LICE_pixel color, float alpha, int mode, bool aa, double tol);</functioncall>
+        <requires>
+            Reaper=5.95
+        </requires>
+        <description indent="default">
+            LICE Fill CBezier
+        </description>
+        <retvals>
+            void -
+        </retvals>
+        <parameters>
+            LICE_IBitmap* dest - 
+            double xstart - 
+            double ystart -  
+            double xctl1 - 
+            double yctl1 - 
+            double xctl2 - 
+            double yctl2 - 
+            double xend - 
+            double yend - 
+            int yfill - 
+            LICE_pixel color - 
+            float alpha - 
+            int mode - 
+            bool aa - 
+            double tol - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document>reaper_plugin.h</source_document>
+        <chapter_context>
+            Additional C++ Functions
+            reaper_plugin_functions.h
+        </chapter_context>
+        <tags>cpp, lice, fill, bezier</tags>
+    </US_DocBloc>        
+
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>LICE_FillCircle</slug>
         <title>LICE_FillCircle</title>
