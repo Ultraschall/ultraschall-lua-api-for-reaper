@@ -991,6 +991,58 @@
             Navigation
         </chapter_context>
         <previous_chapter>Navigation_CenterView</previous_chapter>
+        <next_chapter>GetSetStates_Project_Track_Item_Env_Introduction</next_chapter>
+        <tags>documentation, arrangeview, navigation, playcursor, editcursor, position, center</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>GetSetStates_Project_Track_Item_Env_Introduction</slug>
+        <title>Get/Set States for Project, Tracks and Items: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            One of the long-term-goals of the Ultraschall-API is full access to all states within projects, tracks, items, envelopes, including all states only available in StateChunks.
+            As of the current version, all track-states and many project and item-states are get and settable.
+            
+            The functions all work after the same principle, with the first parameter being the object to get/set the state from/to (Projectfile, MediaItem-object, MediaTrack-object, TrackEnvelope-Object).
+            The last parameter, which is an optional one, can be a StateChunk-representation of the object, like ProjectStateChunk, MediaItemStateChunk, TrackStateChunk, TrackEnvelopeStateChunk. This optional parameter will only be seen, when the first parameter(for the object) is set to nil.
+            That way, you can decide, whether to use the original-object or the StateChunk, whatever works better for you.
+            In Setting-State-functions, it is basically the same: the first parameter the object and the last parameter is the optional StateChunk(when the first parameter is set to nil). The parameters inbetween set the individual settings for that state.
+            
+            Let's have a look at two example functions [GetProject_CursorPos](#GetProject_CursorPos) and [SetProject_CursorPos](#SetProject_CursorPos):
+            Get Project-State:
+            '''
+                number cursorpos = ultraschall.GetProject_CursorPos(string projectfilename_with_path, optional string ProjectStateChunk) 
+            '''
+                
+            The first parameter is the filename with path to the RPP-Projectfile. When this is set to nil, you can pass a ProjectStateChunk(which is basically the content of the RPP-projectfile).
+            
+            Set Project-State:
+            '''
+                integer retval = ultraschall.SetProject_CursorPos(string projectfilename_with_path, number cursorpos, optional string ProjectStateChunk) 
+            '''
+            
+            The first parameter is the filename with path to the RPP-Projectfile. When this is set to nil, you can pass a ProjectStateChunk(which is basically the content of the RPP-projectfile).
+            The parameter in the middle, cursorpos, can be set by you. That way, the cursorposition of the Project/ProjectStateChunk can be set to the position you prefer.
+            
+            The same principle is for MediaTrack-states and MediaItem-states:
+            ''' 
+                -- the first parameter either MediaItem or nil, the last parameter can be a MediaItemStateChunk when first parameter is nil
+                number length = ultraschall.GetItemLength(MediaItem MediaItem, optional string MediaItemStateChunk)
+                string MediaItemStateChunk = ultraschall.SetItemLength(MediaItem MediaItem, integer length, string MediaItemStateChunk)
+                
+                -- the first parameter either MediaTrack or nil, the last parameter can be a TrackStateChunk when first parameter is nil
+                integer lockedstate = ultraschall.GetTrackLockState(integer tracknumber, optional string TrackStateChunk)
+                boolean retval, string TrackStateChunk = ultraschall.SetTrackLockState(integer tracknumber, integer LockedState, optional string TrackStateChunk) 
+            '''
+            
+            StateChunks can be gotten using reaper.GetTrackStateChunk(), reaper.SetTrackStateChunk(), reaper.GetItemStateChunk(), reaper.SetItemStateChunk(), reaper.GetEnvelopeStateChunk(), reaper.SetEnvelopeStateChunk().
+            To get ProjectStateChunks, you need to read the rpp-file, as currently there's no Get/SetProjectStateChunk-function in Reaper's own API.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Navigation
+        </chapter_context>
+        <previous_chapter>Navigation_Autoscroll_Followmode</previous_chapter>
         <next_chapter></next_chapter>
         <tags>documentation, arrangeview, navigation, playcursor, editcursor, position, center</tags>
     </US_DocBloc>

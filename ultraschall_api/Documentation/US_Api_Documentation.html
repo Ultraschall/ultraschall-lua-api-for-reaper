@@ -1,5 +1,5 @@
 <html><head><title>Ultraschall Framework-Lua-Api-docs 4.00 "John Cage - 4:33"</title></head><body>
-<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 15852 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
+<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 15908 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
 </strong></td></tr></tr><tr><td><a href="#
 US1.Introduction
 ">
@@ -880,26 +880,29 @@ ChangeToActiveProject_ProjNr
 ">ChangeToActiveProject_ProjNr</a>&nbsp;&nbsp;</td><td><a href="#
 CheckForChangedProjectTabs
 ">CheckForChangedProjectTabs</a>&nbsp;&nbsp;</td><td><a href="#
+ConvertOldProjectToCurrentReaperVersion
+">ConvertOldProjectToCurrentReaperVersion</a>&nbsp;&nbsp;</td><td><a href="#
 CountProjectTabs
-">CountProjectTabs</a>&nbsp;&nbsp;</td><td><a href="#
-EnumProjects
-">EnumProjects</a>&nbsp;&nbsp;</td></tr>
+">CountProjectTabs</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+EnumProjects
+">EnumProjects</a>&nbsp;&nbsp;</td><td><a href="#
 GetCurrentTimeLengthOfFrame
 ">GetCurrentTimeLengthOfFrame</a>&nbsp;&nbsp;</td><td><a href="#
 GetLengthOfFrames
 ">GetLengthOfFrames</a>&nbsp;&nbsp;</td><td><a href="#
 GetOutputFormat_RenderCfg
-">GetOutputFormat_RenderCfg</a>&nbsp;&nbsp;</td><td><a href="#
-GetProject_Tabs
-">GetProject_Tabs</a>&nbsp;&nbsp;</td></tr>
+">GetOutputFormat_RenderCfg</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetProject_Tabs
+">GetProject_Tabs</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidProjectStateChunk
 ">IsValidProjectStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidReaProject
 ">IsValidReaProject</a>&nbsp;&nbsp;</td><td><a href="#
 NewProjectTab
-">NewProjectTab</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>RPP-Files Get
+">NewProjectTab</a>&nbsp;&nbsp;</td></tr>
+<tr><tr><td>&nbsp;</td></tr><tr><td><strong>RPP-Files Get
 </strong></td></tr>
 <td><a href="#
 GetProject_AddMediaToProjectAfterRender
@@ -2731,12 +2734,12 @@ integer retval = ultraschall.SelectMediaItems_MediaItemArray(array MediaItemArra
 </i><br><br>Selects all MediaItems, that are in MediaItemArray.<br><br>returns -1 in case of error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1 in case of error, 1 in case of success</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>array MediaItemArray</i> - an array with all the MediaItemObjects, that shall be selected</i><br><i></i></div><p></p>Tags: 
 mediaitemmanagement, tracks, media, item, selected, selection, select
 <p></p><a id="SetItemLength"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
-string MediaItemStateChunk = ultraschall.SetItemLength(MediaItem MediaItem, string MediaItemStateChunk, integer length)
-</i><br><br>Sets length in a MediaItem and MediaItemStateChunk in seconds.<br>It returns the modified MediaItemStateChunk.<br>Returns -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string MediaItemStateChunk</i> - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>MediaItem MediaItem</i> - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead</i><br><i>optional string MediaItemStateChunk</i> - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk</i><br><i>integer length</i> - length in seconds</i><br><i></i></div><p></p>Tags: 
+string MediaItemStateChunk = ultraschall.SetItemLength(MediaItem MediaItem, integer length, string MediaItemStateChunk)
+</i><br><br>Sets length in a MediaItem and MediaItemStateChunk in seconds.<br>It returns the modified MediaItemStateChunk.<br>Returns -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string MediaItemStateChunk</i> - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>MediaItem MediaItem</i> - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead</i><br><i>integer length</i> - length in seconds</i><br><i>optional string MediaItemStateChunk</i> - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk</i><br><i></i></div><p></p>Tags: 
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, length
 <p></p><a id="SetItemPosition"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
-string MediaItemStateChunk = ultraschall.SetItemPosition(MediaItem MediaItem, optional string MediaItemStateChunk, integer position)
-</i><br><br>Sets position in a MediaItem or MediaItemStateChunk in seconds.<br>It returns the modified MediaItemStateChunk.<br>Returns -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string MediaItemStateChunk</i> - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>MediaItem MediaItem</i> - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead</i><br><i>optional string MediaItemStateChunk</i> - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk</i><br><i>integer position</i> - position in seconds</i><br><i></i></div><p></p>Tags: 
+string MediaItemStateChunk = ultraschall.SetItemPosition(MediaItem MediaItem, integer position, optional string MediaItemStateChunk)
+</i><br><br>Sets position in a MediaItem or MediaItemStateChunk in seconds.<br>It returns the modified MediaItemStateChunk.<br>Returns -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string MediaItemStateChunk</i> - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>MediaItem MediaItem</i> - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead</i><br><i>integer position</i> - position in seconds</i><br><i>optional string MediaItemStateChunk</i> - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk</i><br><i></i></div><p></p>Tags: 
 mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, position
 <p></p><a id="SetItemSpectralConfig"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 boolean retval, string MediaItemStateChunk = ultraschall.SetItemSpectralConfig(integer itemidx, integer item_spectral_config, optional string MediaItemStateChunk)
@@ -2898,6 +2901,10 @@ projectfiles, activate, project, tab
 boolean retval, integer countUnorderedProj, array unorderedProj, integer countNewProj, array newProj, integer countClosedProj, array closedProj = ultraschall.CheckForChangedProjectTabs(boolean update)
 </i><br><br>Returns if projecttabs have been changed due reordering, new projects or closed projects, since last calling this function.<br>Set update=true to update Ultraschall's internal project-monitoring-list or it will only return the changes since starting the API in this script or since the last time you used this function with parameter update set to true!<br><br>Returns false, -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true, no changes in the projecttabs at all; false, either order, newprojects or closed project-changes</i><br><i>integer countUnorderedProj</i> - the number of unordered projects</i><br><i>array unorderedProj</i> - the unordered projects as ReaProjects</i><br><i>integer countNewProj</i> - the number of new projects</i><br><i>array newProj</i> - the new projects as ReaProjects</i><br><i>integer countClosedProj</i> - the number of closed projects</i><br><i>array closedProj</i> - the closed projects as ReaProjects</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>boolean update</i> - true, update Ultraschall's internal projecttab-monitoring-list to the current state of all tabs</i><br><i>              </i> - false, don't update the internal projecttab-monitoring-list, so it will keep the "old" project-tab-state as checking-reference</i><br><i></i></div><p></p>Tags: 
 helperfunctions, projectfiles, check, projecttab, change, order, new, closed, close
+<p></p><a id="ConvertOldProjectToCurrentReaperVersion"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.941.png" alt="Reaper version 5.941"> 
+boolean retval = ultraschall.ConvertOldProjectToCurrentReaperVersion(string filename_with_path)
+</i><br><br>Convert an old Reaper-project to the current Reaper-version.<br>It creates a backup-copy of the old version of the project.rpp to project.rpp~0<br>After that, it will open the project and save it again, so it is saved with the newest version of Reaper.<br><br>Maybe helpful, when you want to use the Ultraschall-API Get/SetProject-State-functions on older projects, where some states were saved differently.<br>Just create a "new" version of it and use the aforementioned functions on the new project-version.<br><br>Returns false in case of an error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>boolean retval</i> - true, conversion was successfull; false, conversion wasn't successful(file doesn't exist or a copy can't be created)</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string filename_with_path</i> - the filename with path of the rpp-projectfile to be converted.</i><br><i></i></div><p></p>Tags: 
+projectmanagement, convert, old, project, rpp, current, reaper version
 <p></p><a id="CountProjectTabs"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer number_of_projecttabs = ultraschall.CountProjectTabs()
 </i><br><br>Counts the number of opened project tabs.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer number_of_projecttabs</i> - the number of projecttabs currently opened</i><br><i></i></div><p></p><p></p>Tags: 
@@ -3902,4 +3909,4 @@ userinterface, set, vertical, zoom, factor
 integer retval = ultraschall.StoreArrangeviewSnapshot(integer slot, string description, boolean position, boolean vzoom)
 </i><br><br>Stores a new Arrangeview-snapshot, that includes the position, horizontal zoom and vertical zoom.<br><br>Returns -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1, in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer slot</i> - the slot for arrangeview-snapshot</i><br><i>string description</i> - a description for this arrangeview-snapshot</i><br><i>boolean position</i> - true, store start and endposition of the current arrangeview; false, don't store start and endposition of current arrangeview(keep old position in slot, if existing)</i><br><i>boolean vzoom</i> - true, store current vertical-zoom-factor; false, don't store current vertical-zoom-factor(keep old zoomfactor in slot, if existing)</i><br><i></i></div><p></p>Tags: 
 userinterface, set, arrangeview, snapshot
-<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 616-functions available</i></p></div></body></html>
+<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 617-functions available</i></p></div></body></html>

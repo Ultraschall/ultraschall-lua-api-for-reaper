@@ -193,13 +193,9 @@
   - CreateTrackString_UnarmedTracks - creates a trackstring with the tracknumbers of all unarmed tracks
   - IsValidEnvelopePointArray - checks, if an EnvelopePointArray is a valid one
   - Api_InstallPath - an API-variable that contains the path to the install-folder of the Ultraschall-API
+  - ConvertOldProjectToCurrentReaperVersion - converts an rpp-projectfile from an earlier version of Reaper to the current one
   
   <TODO>
-      TODO!!  - DeleteMediaItem(MediaItem MediaItem) use selection of the MediaItem to delete and use action for deleting MediaItem
-                                                     probably "applyactiontoitem() is a good idea
-                                                     reaper.SetMediaItemSelected(MediaItem item, boolean selected)
-                                                     Much faster than checking all MediaItems in a track.
-      
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
       
       TODO!!  - 1. Introduction to Renderfunctions has old and outdated information
@@ -644,6 +640,9 @@
   - GetClosestGoToPoints - added mouse-cursor-position as possible option
   - GetNextClosestItemEdge - was returning wrong retvals when no item was found -> fixed
   - CenterViewToCursor - added parameter for a non-cursor-position of your choice to center to
+  - SetItemPosition - exchanged position and optional statechunk-parameters to be in line with SetProject/Track-statefunctions
+  - SetItemLength - exchanged length and optional statechunk-parameters to be in line with SetProject/Track-statefunctions
+  
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:
   - CreateAllTracksTrackString - creates a trackstring with all tracks in the current project

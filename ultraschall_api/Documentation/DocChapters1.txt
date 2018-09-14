@@ -1,9 +1,4 @@
 
-GetSetStates -> slug: GetSet_Project_Track_Item_Envelope_States_Introduction
-    Get/SetProjectStates
-    Get/SetTrackStates
-    Get/SetItemStates
-
 Getting, manipulating MediaItems in Projects:
     GetAllMediaItemsBetween, etc
 

@@ -1010,15 +1010,6 @@ version,versionmanagement
   return "4.00 \"John Cage - 4:33\"","30th of July 2018", "beta 2.7", 400.027
 end
 
-function ultraschall.IsValidItemStateChunk(statechunk)
-  if type(itemstatechunk)~="string" then ultraschall.AddErrorMessage("IsValidItemStateChunk", "itemstatechunk", "Must be a string.", -1) return false end  
-  itemstatechunk=itemstatechunk:match("<ITEM.*%c>\n")
-  if itemstatechunk==nil then return false end
-  local count1=ultraschall.CountCharacterInString(itemstatechunk, "<")
-  local count2=ultraschall.CountCharacterInString(itemstatechunk, ">")
-  if count1~=count2 then return false end
-  return true
-end
 
 function ultraschall.IsValidTrackStateChunk(statechunk)
 --[[
@@ -1205,6 +1196,17 @@ end
 --L=reaper.GetMediaItemInfo_Value(Item, "F_FREEMODE_H")
 --Aleft, Atop, Aright, Abot = reaper.EnsureNotCompletelyOffscreen()
 
+function ultraschall.IsValidItemStateChunk(itemstatechunk)
+  if type(itemstatechunk)~="string" then ultraschall.AddErrorMessage("IsValidItemStateChunk", "itemstatechunk", "Must be a string.", -1) return false end  
+  itemstatechunk=itemstatechunk:match("<ITEM.*%c>\n")
+  if itemstatechunk==nil then return false end
+  local count1=ultraschall.CountCharacterInString(itemstatechunk, "<")
+  local count2=ultraschall.CountCharacterInString(itemstatechunk, ">")
+  if count1~=count2 then return false end
+  return true
+end
+--_l,sc=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0),"",false)
+--A=ultraschall.IsValidItemStateChunk(sc,"",false)
 
 
 function ultraschall.ToggleIDE_Errormessages(togglevalue)
@@ -28133,7 +28135,7 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, trac
   return statechunk
 end
 
-function ultraschall.SetItemPosition(MediaItem, statechunk, position)
+function ultraschall.SetItemPosition(MediaItem, position, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
@@ -28145,7 +28147,7 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-string MediaItemStateChunk = ultraschall.SetItemPosition(MediaItem MediaItem, optional string MediaItemStateChunk, integer position)
+string MediaItemStateChunk = ultraschall.SetItemPosition(MediaItem MediaItem, integer position, optional string MediaItemStateChunk)
 </functionname>
 <description>
 Sets position in a MediaItem or MediaItemStateChunk in seconds.
@@ -28154,8 +28156,8 @@ Returns -1 in case of error.
 </description>
 <parameters>
 MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
-optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 integer position - position in seconds
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
@@ -28188,10 +28190,12 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, posi
 end
 
 --_1, sc=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0), "", false)
---L=ultraschall.SetItemPosition("Tudelu", sc, "")
+--L=ultraschall.SetItemPosition(nil, 10, sc)
 --reaper.MB(tostring(L),"",0)
+--reaper.SetItemStateChunk(reaper.GetMediaItem(0,0), L, false)
 
-function ultraschall.SetItemLength(MediaItem, statechunk, length)
+
+function ultraschall.SetItemLength(MediaItem, length, statechunk)
 --[[
 <ApiDocBlocFunc>
 <slug>
@@ -28203,7 +28207,7 @@ Reaper=5.40
 Lua=5.3
 </requires>
 <functionname>
-string MediaItemStateChunk = ultraschall.SetItemLength(MediaItem MediaItem, string MediaItemStateChunk, integer length)
+string MediaItemStateChunk = ultraschall.SetItemLength(MediaItem MediaItem, integer length, string MediaItemStateChunk)
 </functionname>
 <description>
 Sets length in a MediaItem and MediaItemStateChunk in seconds.
@@ -28212,8 +28216,8 @@ Returns -1 in case of error.
 </description>
 <parameters>
 MediaItem MediaItem - the MediaItem, whose state you want to change; nil, use parameter MediaItemStateChunk instead
-optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 integer length - length in seconds
+optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
 </parameters>
 <retvals>
 string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
@@ -28246,8 +28250,13 @@ mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, leng
   return statechunk
 end
 
+-- MESPOTINE
 --_1, sc=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0), "", false)
---L=ultraschall.SetItemLength(reaper.GetMediaItem(0,0), sc, 1000)
+--reaper.MB(sc,"",0)
+--L=ultraschall.SetItemLength(nil, 99, sc)
+--reaper.MB(L,"",0)
+--O=reaper.SetItemStateChunk(reaper.GetMediaItem(0,0), L, false)
+
 --reaper.MB(tostring(L),"",0)
 
 function ultraschall.InsertMediaItemStateChunkArray(position, MediaItemStateChunkArray, trackstring)
@@ -28516,7 +28525,7 @@ mediaitemmanagement, tracks, media, item, insert, ripple
   while MediaItemStateChunkArray[count]~=nil do
     local length=MediaItemStateChunkArray[count]:match("LENGTH (.-)%c")
 --    reaper.MB(length,"",0)
-    NewMediaItemArray[count]=ultraschall.SetItemLength(NewMediaItemArray[count], nil, tonumber(length))
+    NewMediaItemArray[count]=ultraschall.SetItemLength(NewMediaItemArray[count], tonumber(length))
     count=count+1
   end
   return NumberOfItems, NewMediaItemArray, position+ItemEnd
@@ -41776,9 +41785,9 @@ projectmanagement, new, project, tab, switch, select
 --]]
   if type(switch_to_new_tab)~="boolean" then ultraschall.AddErrorMessage("NewProjectTab", "switch_to_new_tab", "Must be a boolean", -1) return end
   reaper.PreventUIRefresh(1)
-  currentProj=reaper.EnumProjects(-1,"")
+  local currentProj=reaper.EnumProjects(-1,"")
   reaper.Main_OnCommand(40859,0)
-  newProj=reaper.EnumProjects(-1,"")
+  local newProj=reaper.EnumProjects(-1,"")
   if switch_to_new_tab==false then reaper.SelectProjectInstance(currentProj) end
   reaper.PreventUIRefresh(-1)
   return newProj
@@ -42281,4 +42290,55 @@ end
 --EnvelopePointArray[4]=true
 --A=ultraschall.IsValidEnvelopePointArray(EnvelopePointArray)
 
+function ultraschall.ConvertOldProjectToCurrentReaperVersion(filename_with_path)
+--[[
+<ApiDocBlocFunc>
+<slug>
+ConvertOldProjectToCurrentReaperVersion
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.941
+Lua=5.3
+</requires>
+<functionname>
+boolean retval = ultraschall.ConvertOldProjectToCurrentReaperVersion(string filename_with_path)
+</functionname>
+<description>
+Convert an old Reaper-project to the current Reaper-version.
+It creates a backup-copy of the old version of the project.rpp to project.rpp~0
+After that, it will open the project and save it again, so it is saved with the newest version of Reaper.
+
+Maybe helpful, when you want to use the Ultraschall-API Get/SetProject-State-functions on older projects, where some states were saved differently.
+Just create a "new" version of it and use the aforementioned functions on the new project-version.
+
+Returns false in case of an error.
+</description>
+<retvals>
+boolean retval - true, conversion was successfull; false, conversion wasn't successful(file doesn't exist or a copy can't be created)
+</retvals>
+<parameters>
+string filename_with_path - the filename with path of the rpp-projectfile to be converted.
+</parameters>
+<semanticcontext>
+Project-Files
+Helper functions
+</semanticcontext>
+<tags>
+projectmanagement, convert, old, project, rpp, current, reaper version
+</tags>
+</ApiDocBlocFunc>
+--]]
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("ConvertOldProjectToCurrentReaperVersion", "filename_with_path", "Must be a string", -1) return false end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ConvertOldProjectToCurrentReaperVersion", "filename_with_path", "File does not exist", -2)  return false end
+  local tempname = ultraschall.CreateValidTempFile(filename_with_path, true, "", false)
+  local A = ultraschall.MakeCopyOfFile(filename_with_path, tempname)
+  if A==false then ultraschall.AddErrorMessage("ConvertOldProjectToCurrentReaperVersion", "filename_with_path", "Can't create backup-copy", -3)  return false end
+  ultraschall.NewProjectTab(true)
+  reaper.Main_openProject(filename_with_path)
+  reaper.Main_SaveProject(0,false)
+  reaper.Main_OnCommand(40860,0)  
+end
+
+--AA=ultraschall.ConvertOldProjectToCurrentReaperVersion("c:\\Users\\meo\\Desktop\\TRSS\\ChristmasInJuly\\SquarryShow-Rec1\\SquarryShow-Rec1.RPP")
 ultraschall.ShowLastErrorMessage()
