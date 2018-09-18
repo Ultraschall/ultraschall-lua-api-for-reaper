@@ -69,7 +69,6 @@ if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
 
 function ultraschall.GetEnvelopeStateChunk(TrackEnvelope, str, isundo, usesws)
   return reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
-
 end
 
 --A=reaper.GetTrackEnvelope(reaper.GetTrack(0,1),0)
@@ -39195,7 +39194,7 @@ string render_cfg_string = ultraschall.CreateRenderCFG_Opus2(integer Mode, integ
 <description>
 Returns the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
 
-Only for Reaper-versions 5.95 and higher. For render-strings compatible with earlier versions of Reaper, use <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>.
+Only for Reaper-versions 5.95 and higher. For render-strings compatible with earlier versions of Reaper, use <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>. If you use CreateRenderCFG_Opus2-created render string, you will loose the multichannel-settings when saving the project in an earlier version of Reaper.
 
 Returns nil in case of an error
 </description>
@@ -39255,6 +39254,91 @@ end
 
 --A=ultraschall.CreateRenderCFG_Opus2(0, 1, 0, false, false)
 --B = ultraschall.GetProject_RenderCFG("c:\\opustest.rpp")
+
+
+function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_with_hash, leadin_silence_tracks, leadin_silence_disc, burncd_image_after_render)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateRenderCFG_AudioCD
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.77
+Lua=5.3
+</requires>
+<functionname>
+string render_cfg_string = ultraschall.CreateRenderCFG_AudioCD(integer trackmode, boolean only_markers_starting_with_hash, integer leadin_silence_tracks, integer leadin_silence_disc, boolean burncd_image_after_render)
+</functionname>
+<description>
+Returns the render-cfg-string for the AudioCD-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+
+You can also check, whether to burn the created cd-image after rendering.
+
+Returns nil in case of an error
+</description>
+<retvals>
+string render_cfg_string - the render-cfg-string for the selected AudioCD-image-settings
+</retvals>
+<parameters>
+integer trackmode - Track mode-dropdownlist: 1, Markers define new track; 2, Regions define tracks (other areas ignored); 3, One Track
+boolean only_markers_starting_with_hash - Only use markers starting with #-checkbox; true, checked; false, unchecked
+integer leadin_silence_tracks - Lead-in silence for tracks-inputbox, in milliseconds; 0 to 100000 supported by Ultraschall-API
+integer leadin_silence_disc - Extra lead-in silence for disc-inputbox, in milliseconds; 0 to 100000 supported by Ultraschall-API
+boolean burncd_image_after_render - Burn CD image after render-checkbox; true, checked; false, unchecked
+</parameters>
+<semanticcontext>
+Rendering of Project
+Creating Renderstrings
+</semanticcontext>
+<tags>
+projectfiles, create, render, outputformat, audiocd, cd, image, burn cd
+</tags>
+</ApiDocBlocFunc>
+]]
+
+  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes-for-AudioCD.ini"
+  if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "Ooops", "external audio-cd-render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
+  if math.type(trackmode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "trackmode", "Must be an integer between 1 and 3!", -2) return nil end
+  if type(only_markers_starting_with_hash)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "only_markers_starting_with_hash", "Must be a boolean!", -3) return nil end
+  if math.type(leadin_silence_tracks)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_tracks", "Must be an integer!", -4) return nil end
+  if math.type(leadin_silence_disc)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_disc", "Must be an integer!", -5) return nil end
+  if type(burncd_image_after_render)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "burncd_image_after_render", "Must be a boolean!", -6) return nil end
+  
+  if trackmode<1 or trackmode>3 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "trackmode", "Must be an integer between 1 and 3!", -7) return nil end
+  if leadin_silence_tracks<0 or leadin_silence_tracks>100000 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_tracks", "Ultraschall-API supports only millisecond-values between 0 to 100000, sorry.", -8) return nil end
+  if leadin_silence_disc<0 or leadin_silence_disc>100000 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_disc", "Ultraschall-API supports only millisecond-values between 0 to 100000, sorry.", -9) return nil end
+
+  
+  if trackmode==1 then trackmode="1"
+  elseif trackmode==2 then trackmode="2"
+  elseif trackmode==3 then trackmode="3"
+  end
+  
+  if only_markers_starting_with_hash==true then only_markers_starting_with_hash="checked" else only_markers_starting_with_hash="unchecked" end
+  
+  if burncd_image_after_render==true then burncd_image_after_render="checked" else burncd_image_after_render="unchecked" end
+  
+  local _temp, renderstring=ultraschall.GetIniFileExternalState("AUDIOCD", "Renderstring", ini_file)
+  local _temp, leadin_silence_disc=ultraschall.GetIniFileExternalState("AUDIOCD", "DISCLEADIN_"..leadin_silence_disc, ini_file)
+  local _temp, leadin_silence_tracks=ultraschall.GetIniFileExternalState("AUDIOCD", "TRACKLEADIN_"..leadin_silence_tracks, ini_file)
+  local _temp, trackmode=ultraschall.GetIniFileExternalState("AUDIOCD", "Trackmode_"..trackmode, ini_file)
+  local _temp, burncd_image_after_render=ultraschall.GetIniFileExternalState("AUDIOCD", "BurnCDImage_"..burncd_image_after_render, ini_file)
+  local _temp, only_markers_starting_with_hash=ultraschall.GetIniFileExternalState("AUDIOCD", "OnlyUseMarkers_"..only_markers_starting_with_hash, ini_file)
+
+  renderstring=string.gsub(renderstring, "%[DISCLEADIN%]", leadin_silence_disc)
+  renderstring=string.gsub(renderstring, "%[TRACKLEADIN%]", leadin_silence_tracks)
+  renderstring=string.gsub(renderstring, "%[BurnCDImage%]", burncd_image_after_render)
+  renderstring=string.gsub(renderstring, "%[Trackmode%]", trackmode)
+  renderstring=string.gsub(renderstring, "%[OnlyUseMarkers%]", only_markers_starting_with_hash)
+
+  return renderstring
+end
+
+--A=ultraschall.CreateRenderCFG_AudioCD(1,false,100000,100000,false)
+--reaper.CF_SetClipboard(A)
+
+--B="IG9zaaCGAQCghgEAAAAAAAAAAAAAAAAA"
 
 
 function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, ABR_KBPS_MIN, ABR_KBPS_MAX)

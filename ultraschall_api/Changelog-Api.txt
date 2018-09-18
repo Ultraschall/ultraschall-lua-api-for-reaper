@@ -194,6 +194,7 @@
   - IsValidEnvelopePointArray - checks, if an EnvelopePointArray is a valid one
   - Api_InstallPath - an API-variable that contains the path to the install-folder of the Ultraschall-API
   - ConvertOldProjectToCurrentReaperVersion - converts an rpp-projectfile from an earlier version of Reaper to the current one
+  - CreateRenderCFG_AudioCD - create a renderstring for audio-cd-images
   
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function

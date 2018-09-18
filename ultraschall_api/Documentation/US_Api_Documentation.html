@@ -1,5 +1,5 @@
 <html><head><title>Ultraschall Framework-Lua-Api-docs 4.00 "John Cage - 4:33"</title></head><body>
-<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 15908 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
+<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 15987 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
 </strong></td></tr></tr><tr><td><a href="#
 US1.Introduction
 ">
@@ -1135,31 +1135,33 @@ SetStartNewFileRecSizeState
 </strong></td></tr><td><a href="#
 CreateRenderCFG_AIFF
 ">CreateRenderCFG_AIFF</a>&nbsp;&nbsp;</td><td><a href="#
+CreateRenderCFG_AudioCD
+">CreateRenderCFG_AudioCD</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_DDP
 ">CreateRenderCFG_DDP</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_FLAC
-">CreateRenderCFG_FLAC</a>&nbsp;&nbsp;</td><td><a href="#
-CreateRenderCFG_MP3ABR
-">CreateRenderCFG_MP3ABR</a>&nbsp;&nbsp;</td></tr>
+">CreateRenderCFG_FLAC</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+CreateRenderCFG_MP3ABR
+">CreateRenderCFG_MP3ABR</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_MP3CBR
 ">CreateRenderCFG_MP3CBR</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_MP3MaxQuality
 ">CreateRenderCFG_MP3MaxQuality</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_MP3VBR
-">CreateRenderCFG_MP3VBR</a>&nbsp;&nbsp;</td><td><a href="#
-CreateRenderCFG_OGG
-">CreateRenderCFG_OGG</a>&nbsp;&nbsp;</td></tr>
+">CreateRenderCFG_MP3VBR</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+CreateRenderCFG_OGG
+">CreateRenderCFG_OGG</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_Opus
 ">CreateRenderCFG_Opus</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_Opus2
 ">CreateRenderCFG_Opus2</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_WAV
-">CreateRenderCFG_WAV</a>&nbsp;&nbsp;</td><td><a href="#
-CreateRenderCFG_WAVPACK
-">CreateRenderCFG_WAVPACK</a>&nbsp;&nbsp;</td></tr>
+">CreateRenderCFG_WAV</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+CreateRenderCFG_WAVPACK
+">CreateRenderCFG_WAVPACK</a>&nbsp;&nbsp;</td><td><a href="#
 CreateRenderCFG_WebMVideo
 ">CreateRenderCFG_WebMVideo</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Rendering any Outputformat
 </strong></td></tr>
@@ -3345,6 +3347,10 @@ recordingmanagement, maximum, file, size, file, switch, offset, restart, recordi
 string render_cfg_string = ultraschall.CreateRenderCFG_AIFF(integer bits)
 </i><br><br>Returns the render-cfg-string for the AIFF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected AIFF-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer bits</i> - the bitrate of the aiff-file; 8, 16, 24 and 32 are supported</i><br><i></i></div><p></p>Tags: 
 projectfiles, create, render, outputformat, aiff
+<p></p><a id="CreateRenderCFG_AudioCD"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
+string render_cfg_string = ultraschall.CreateRenderCFG_AudioCD(integer trackmode, boolean only_markers_starting_with_hash, integer leadin_silence_tracks, integer leadin_silence_disc, boolean burncd_image_after_render)
+</i><br><br>Returns the render-cfg-string for the AudioCD-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>You can also check, whether to burn the created cd-image after rendering.<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected AudioCD-image-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer trackmode</i> - Track mode-dropdownlist: 1, Markers define new track; 2, Regions define tracks (other areas ignored); 3, One Track</i><br><i>boolean only_markers_starting_with_hash</i> - Only use markers starting with #-checkbox; true, checked; false, unchecked</i><br><i>integer leadin_silence_tracks</i> - Lead-in silence for tracks-inputbox, in milliseconds; 0 to 100000 supported by Ultraschall-API</i><br><i>integer leadin_silence_disc</i> - Extra lead-in silence for disc-inputbox, in milliseconds; 0 to 100000 supported by Ultraschall-API</i><br><i>boolean burncd_image_after_render</i> - Burn CD image after render-checkbox; true, checked; false, unchecked</i><br><i></i></div><p></p>Tags: 
+projectfiles, create, render, outputformat, audiocd, cd, image, burn cd
 <p></p><a id="CreateRenderCFG_DDP"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
 string render_cfg_string = ultraschall.CreateRenderCFG_DDP()
 </i><br><br>Returns the render-cfg-string for the DDP-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected DDP-settings</i><br><i></i></div><p></p><p></p>Tags: 
@@ -3379,7 +3385,7 @@ string render_cfg_string = ultraschall.CreateRenderCFG_Opus(integer Mode, intege
 projectfiles, create, render, outputformat, opus
 <p></p><a id="CreateRenderCFG_Opus2"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.95.png" alt="Reaper version 5.95"> 
 string render_cfg_string = ultraschall.CreateRenderCFG_Opus2(integer Mode, integer Kbps, integer Complexity, boolean channel_audio, boolean per_channel)
-</i><br><br>Returns the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Only for Reaper-versions 5.95 and higher. For render-strings compatible with earlier versions of Reaper, use <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>.<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected Opus-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer Mode</i> - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR</i><br><i>integer Kbps</i> - the kbps of the opus-file; Ultraschall-Api supports between 1 and 256</i><br><i>integer Complexity</i> - the complexity-setting between 0(lowest quality) and 10(highest quality, slow encoding)</i><br><i>boolean channel_audio</i> - true, Encode 3-8 channel audio as 2.1-7.1(LFE); false, DON'T Encode 3-8 channel audio as 2.1-7.1(LFE)</i><br><i>boolean per_channel</i> - true, kbps per channel (6-256); false, kbps combined for all channels</i><br><i></i></div><p></p>Tags: 
+</i><br><br>Returns the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini<br><br>Only for Reaper-versions 5.95 and higher. For render-strings compatible with earlier versions of Reaper, use <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>. If you use CreateRenderCFG_Opus2-created render string, you will loose the multichannel-settings when saving the project in an earlier version of Reaper.<br><br>Returns nil in case of an error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string render_cfg_string</i> - the render-cfg-string for the selected Opus-settings</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer Mode</i> - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR</i><br><i>integer Kbps</i> - the kbps of the opus-file; Ultraschall-Api supports between 1 and 256</i><br><i>integer Complexity</i> - the complexity-setting between 0(lowest quality) and 10(highest quality, slow encoding)</i><br><i>boolean channel_audio</i> - true, Encode 3-8 channel audio as 2.1-7.1(LFE); false, DON'T Encode 3-8 channel audio as 2.1-7.1(LFE)</i><br><i>boolean per_channel</i> - true, kbps per channel (6-256); false, kbps combined for all channels</i><br><i></i></div><p></p>Tags: 
 projectfiles, create, render, outputformat, opus, multichannel
 <p></p><a id="CreateRenderCFG_WAV"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.77.png" alt="Reaper version 5.77"> 
 string render_cfg_string = ultraschall.CreateRenderCFG_WAV(integer BitDepth, integer LargeFiles, integer BWFChunk, integer IncludeMarkers, boolean EmbedProjectTempo)
@@ -3909,4 +3915,4 @@ userinterface, set, vertical, zoom, factor
 integer retval = ultraschall.StoreArrangeviewSnapshot(integer slot, string description, boolean position, boolean vzoom)
 </i><br><br>Stores a new Arrangeview-snapshot, that includes the position, horizontal zoom and vertical zoom.<br><br>Returns -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1, in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer slot</i> - the slot for arrangeview-snapshot</i><br><i>string description</i> - a description for this arrangeview-snapshot</i><br><i>boolean position</i> - true, store start and endposition of the current arrangeview; false, don't store start and endposition of current arrangeview(keep old position in slot, if existing)</i><br><i>boolean vzoom</i> - true, store current vertical-zoom-factor; false, don't store current vertical-zoom-factor(keep old zoomfactor in slot, if existing)</i><br><i></i></div><p></p>Tags: 
 userinterface, set, arrangeview, snapshot
-<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 617-functions available</i></p></div></body></html>
+<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 618-functions available</i></p></div></body></html>
