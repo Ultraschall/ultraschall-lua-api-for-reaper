@@ -1,20 +1,31 @@
 
 Getting, manipulating MediaItems in Projects:
+    getting MediaItem-objects by time AND track, 
+    editing
+      Split, Cut, Copy, Paste, Move:
+        Split
+        Move
+        SectionCut
+        SectionCut_Inverse
+        RippleCut
+        RippleCut_Reverse
+        RippleInsert
+    inserting
+    manipulating
+    spectral edit
+    previewing
+    SectionCut
+    working with locked, selected items
+    applying Reaper-actions to MediaItems, etc.
+    
     GetAllMediaItemsBetween, etc
 
-Split, Cut, Copy, Paste, Move:
-    Split
-    SectionCut
-    RippleCut
-    RippleInsert
-    Move
-
-Previewing MediaItems and files:
+    Spectrogram:
+    Previewing MediaItems and files:
+    Miscellaneous
     
 ItemExtStates/TrackExtStates:
     save extension states for tracks and items
-
-Spectrogram:
 
 Cough-Mute-management:
 

@@ -1,5 +1,5 @@
 <html><head><title>Ultraschall Framework-Lua-Api-docs 4.00 "John Cage - 4:33"</title></head><body>
-<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 15987 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
+<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 15991 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
 </strong></td></tr></tr><tr><td><a href="#
 US1.Introduction
 ">
@@ -695,17 +695,15 @@ GetMediaItemTake
 ">GetMediaItemTake</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Get MediaItems
 </strong></td></tr>
 <td><a href="#
-EnumerateMediaItemsInTrack
-">EnumerateMediaItemsInTrack</a>&nbsp;&nbsp;</td><td><a href="#
 GetAllLockedItemsFromMediaItemArray
 ">GetAllLockedItemsFromMediaItemArray</a>&nbsp;&nbsp;</td><td><a href="#
 GetAllMediaItems
 ">GetAllMediaItems</a>&nbsp;&nbsp;</td><td><a href="#
 GetAllMediaItemsBetween
-">GetAllMediaItemsBetween</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">GetAllMediaItemsBetween</a>&nbsp;&nbsp;</td><td><a href="#
 GetAllMediaItemsFromTrack
-">GetAllMediaItemsFromTrack</a>&nbsp;&nbsp;</td><td><a href="#
+">GetAllMediaItemsFromTrack</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 GetAllMediaItemsInTimeSelection
 ">GetAllMediaItemsInTimeSelection</a>&nbsp;&nbsp;</td><td><a href="#
 GetMediaItemsAtPosition
@@ -2439,10 +2437,6 @@ mediaitemmanagement, tracks, media, item, delete
 integer retval = ultraschall.DeselectMediaItems_MediaItemArray(array MediaItemArray)
 </i><br><br>Deselects all MediaItems, that are in MediaItemArray.<br><br>returns -1 in case of error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1 in case of error, 1 in case of success</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>array MediaItemArray</i> - an array with all the MediaItemObjects, that shall be deselected</i><br><i></i></div><p></p>Tags: 
 mediaitemmanagement, tracks, media, item, selected, selection, deselect, unselect
-<p></p><a id="EnumerateMediaItemsInTrack"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"><img style="width:3%;" src="gfx/sws2.8.8.png" alt="sws version 2.8.8"> 
-MediaItem item, integer itemcount, array MediaItemArray = ultraschall.EnumerateMediaItemsInTrack(integer tracknumber, integer itemnumber)
-</i><br><br>returns the itemnumberth MediaItemobject in track, the number of items in tracknumber and an array with all MediaItems from this track.<br>returns -1 in case of error<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>MediaItem item</i> - the Mediaitem, as requested by parameter itemnumber</i><br><i>integer itemcount</i> - the number of items in that track</i><br><i>array MediaItemArray</i> - an array with all MediaItems from this track</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer tracknumber</i> - the tracknumber, from where you want to get the item</i><br><i>integer itemnumber</i> - the itemnumber within that track. 1 for the first, 2 for the second, etc</i><br><i></i></div><p></p>Tags: 
-mediaitemmanagement, track, get, item, mediaitem
 <p></p><a id="GetAllLockedItemsFromMediaItemArray"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
 integer countlock, array locked_MediaItemArray, integer countunlock, array unlocked_MediaItemArray = ultraschall.GetAllLockedItemsFromMediaItemArray(array MediaItemArray)
 </i><br><br>Returns the number and the items that are locked, as well as the number and the items that are NOT locked.<br>The items are returned as MediaItemArrays<br>returns -1 in case of failure<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer countlock</i> - the number of locked items. -1 in case of failure</i><br><i>array locked_MediaItemArray</i> - the locked items in a mediaitemarray</i><br><i>integer countunlock</i> - the number of un(!)locked items</i><br><i>array unlocked_MediaItemArray</i> - the un(!)locked items in a mediaitemarray</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>array MediaItemArray</i> - the statechunkarray of the items to be checked.</i><br><i></i></div><p></p>Tags: 
@@ -3915,4 +3909,4 @@ userinterface, set, vertical, zoom, factor
 integer retval = ultraschall.StoreArrangeviewSnapshot(integer slot, string description, boolean position, boolean vzoom)
 </i><br><br>Stores a new Arrangeview-snapshot, that includes the position, horizontal zoom and vertical zoom.<br><br>Returns -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1, in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer slot</i> - the slot for arrangeview-snapshot</i><br><i>string description</i> - a description for this arrangeview-snapshot</i><br><i>boolean position</i> - true, store start and endposition of the current arrangeview; false, don't store start and endposition of current arrangeview(keep old position in slot, if existing)</i><br><i>boolean vzoom</i> - true, store current vertical-zoom-factor; false, don't store current vertical-zoom-factor(keep old zoomfactor in slot, if existing)</i><br><i></i></div><p></p>Tags: 
 userinterface, set, arrangeview, snapshot
-<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 618-functions available</i></p></div></body></html>
+<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 617-functions available</i></p></div></body></html>

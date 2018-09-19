@@ -198,7 +198,9 @@
   
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
-      
+      TODO!!  - create trackstring by TrackNames
+      TODO!!  - create trackstring by TrackGuids
+
       TODO!!  - 1. Introduction to Renderfunctions has old and outdated information
       TODO!!  - add multiple-target-documents and multiple-structured chapters(in index of a document) into the new docengine(not working right now)
       TODO!!  - write final documentation for public-beta
