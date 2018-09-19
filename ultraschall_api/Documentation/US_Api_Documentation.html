@@ -1,5 +1,5 @@
 <html><head><title>Ultraschall Framework-Lua-Api-docs 4.00 "John Cage - 4:33"</title></head><body>
-<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 15991 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
+<img src="gfx/us.png" alt=""><h2>Ultraschall - Framework 4.00 "John Cage - 4:33"</h2>beta 2.7 - 30th of July 2018 - Build: 16060 - <a href="http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip">Download Framework for Reaper</a><div style="padding-left:10%; width:80%;"><h3>The Functions Reference</h3><table style="font-size:10pt; width:100%;"><tr><td>&nbsp;</td></tr><tr><td><h3><u>API-For Lua in Reaper</u></h3></td></tr><tr><td><strong>Programmer's Manual
 </strong></td></tr></tr><tr><td><a href="#
 US1.Introduction
 ">
@@ -428,27 +428,29 @@ GetMarkerByScreenCoordinates
 ">GetMarkerByScreenCoordinates</a>&nbsp;&nbsp;</td><td><a href="#
 GetMarkerByTime
 ">GetMarkerByTime</a>&nbsp;&nbsp;</td><td><a href="#
-GetRegionByScreenCoordinates
-">GetRegionByScreenCoordinates</a>&nbsp;&nbsp;</td></tr>
+GetMarkerUpdateCounter
+">GetMarkerUpdateCounter</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+GetRegionByScreenCoordinates
+">GetRegionByScreenCoordinates</a>&nbsp;&nbsp;</td><td><a href="#
 GetRegionByTime
 ">GetRegionByTime</a>&nbsp;&nbsp;</td><td><a href="#
 GetTimeSignaturesByTime
 ">GetTimeSignaturesByTime</a>&nbsp;&nbsp;</td><td><a href="#
 GetTimesignaturesByScreenCoordinates
-">GetTimesignaturesByScreenCoordinates</a>&nbsp;&nbsp;</td><td><a href="#
-IsMarkerAtPosition
-">IsMarkerAtPosition</a>&nbsp;&nbsp;</td></tr>
+">GetTimesignaturesByScreenCoordinates</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+IsMarkerAtPosition
+">IsMarkerAtPosition</a>&nbsp;&nbsp;</td><td><a href="#
 IsRegionAtPosition
 ">IsRegionAtPosition</a>&nbsp;&nbsp;</td><td><a href="#
 MoveMarkersBy
 ">MoveMarkersBy</a>&nbsp;&nbsp;</td><td><a href="#
 MoveRegionsTo
-">MoveRegionsTo</a>&nbsp;&nbsp;</td><td><a href="#
-ParseMarkerString
-">ParseMarkerString</a>&nbsp;&nbsp;</td></tr>
+">MoveRegionsTo</a>&nbsp;&nbsp;</td></tr>
 <tr><td><a href="#
+ParseMarkerString
+">ParseMarkerString</a>&nbsp;&nbsp;</td><td><a href="#
 RenumerateMarkers
 ">RenumerateMarkers</a>&nbsp;&nbsp;</td><td><a href="#\n(.-)\n">MoveMarkersTo</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Edit Markers and Regions
 </strong></td></tr>
@@ -1180,49 +1182,55 @@ CreateAllTracksTrackString
 <tr><td><a href="#
 CreateTrackString
 ">CreateTrackString</a>&nbsp;&nbsp;</td><td><a href="#
+CreateTrackStringByGUID
+">CreateTrackStringByGUID</a>&nbsp;&nbsp;</td><td><a href="#
+CreateTrackStringByMediaTracks
+">CreateTrackStringByMediaTracks</a>&nbsp;&nbsp;</td><td><a href="#
+CreateTrackStringByTracknames
+">CreateTrackStringByTracknames</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 CreateTrackString_ArmedTracks
 ">CreateTrackString_ArmedTracks</a>&nbsp;&nbsp;</td><td><a href="#
 CreateTrackString_SelectedTracks
 ">CreateTrackString_SelectedTracks</a>&nbsp;&nbsp;</td><td><a href="#
 CreateTrackString_UnarmedTracks
-">CreateTrackString_UnarmedTracks</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">CreateTrackString_UnarmedTracks</a>&nbsp;&nbsp;</td><td><a href="#
 GetAllMediaItemsFromTrackStateChunk
-">GetAllMediaItemsFromTrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
+">GetAllMediaItemsFromTrackStateChunk</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 GetItemStateChunkFromTrackStateChunk
 ">GetItemStateChunkFromTrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 GetTrackLength
 ">GetTrackLength</a>&nbsp;&nbsp;</td><td><a href="#
 InsertTrackAtIndex
-">InsertTrackAtIndex</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">InsertTrackAtIndex</a>&nbsp;&nbsp;</td><td><a href="#
 InsertTrack_TrackStateChunk
-">InsertTrack_TrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
+">InsertTrack_TrackStateChunk</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 InverseTrackstring
 ">InverseTrackstring</a>&nbsp;&nbsp;</td><td><a href="#
 IsTrackObjectTracknumber
 ">IsTrackObjectTracknumber</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidTrackStateChunk
-">IsValidTrackStateChunk</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">IsValidTrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 IsValidTrackString
-">IsValidTrackString</a>&nbsp;&nbsp;</td><td><a href="#
+">IsValidTrackString</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 MoveTracks
 ">MoveTracks</a>&nbsp;&nbsp;</td><td><a href="#
 OnlyTracksInBothTrackstrings
 ">OnlyTracksInBothTrackstrings</a>&nbsp;&nbsp;</td><td><a href="#
 OnlyTracksInOneTrackstring
-">OnlyTracksInOneTrackstring</a>&nbsp;&nbsp;</td></tr>
-<tr><td><a href="#
+">OnlyTracksInOneTrackstring</a>&nbsp;&nbsp;</td><td><a href="#
 RemoveDuplicateTracksInTrackstring
-">RemoveDuplicateTracksInTrackstring</a>&nbsp;&nbsp;</td><td><a href="#
+">RemoveDuplicateTracksInTrackstring</a>&nbsp;&nbsp;</td></tr>
+<tr><td><a href="#
 RemoveMediaItemByGUID_TrackStateChunk
 ">RemoveMediaItemByGUID_TrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 RemoveMediaItemByIGUID_TrackStateChunk
 ">RemoveMediaItemByIGUID_TrackStateChunk</a>&nbsp;&nbsp;</td><td><a href="#
 RemoveMediaItem_TrackStateChunk
-">RemoveMediaItem_TrackStateChunk</a>&nbsp;&nbsp;</td></tr>
-<tr><tr><td>&nbsp;</td></tr><tr><td><strong>Get Track States
+">RemoveMediaItem_TrackStateChunk</a>&nbsp;&nbsp;</td><tr><td>&nbsp;</td></tr><tr><td><strong>Get Track States
 </strong></td></tr>
 <td><a href="#
 GetAllLockedTracks
@@ -2265,6 +2273,10 @@ markermanagement, navigation, get marker, position, marker
 string markers = ultraschall.GetMarkerByTime(number position, boolean retina)
 </i><br><br>returns the markers at a given absolute-x-pixel-position. It sees markers according their graphical representation in the arrange-view, not just their position! Returned string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2\n...".<br>Returns only markers, no time markers or regions!<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string marker</i> - a string with all markernumbers, markerpositions and markernames, separated by a newline. </i><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Can contain numerous markers, if there are more markers in one position.</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>number position</i> - the time-position in seconds</i><br><i>boolean retina</i> - if the screen-resolution is retina or hidpi, turn this true, else false</i><br><i></i></div><p></p>Tags: 
 markermanagement, navigation, get marker, position, marker
+<p></p><a id="GetMarkerUpdateCounter"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.95.png" alt="Reaper version 5.95"><img style="width:3%;" src="gfx/sws2.9.7.png" alt="sws version 2.9.7"> 
+integer marker_update_counter = ultraschall.GetMarkerUpdateCounter()
+</i><br><br>returns the number of times, a marker in any project has been updated since Reaper started.<br>Counts up, if a marker is added, set, moved, deleted from any project opened in Reaper.<br><br>This counter includes already closed projects as well<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer marker_update_counter</i> - the number of times a marker in any project in Reaper has been updated</i><br><i></i></div><p></p><p></p>Tags: 
+markers, update, counter, get
 <p></p><a id="GetPodRangeRegion"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.40.png" alt="Reaper version 5.40"> 
  number start_position, number end_position = ultraschall.GetPodRangeRegion()
 </i><br><br>Gets the start_position and the end_position of the PodRangeRegion.<br><br>returns -1 if no PodRangeRegion exists<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i> number start_position</i> - beginning of the podrangeregion, that marks the beginning of the podcast</i><br><i> number end_position </i> - end of the podrangeregion, that marks the end of the podcast</i><br><i></i></div><p></p><p></p>Tags: 
@@ -3437,6 +3449,18 @@ trackmanagement, tracks, trackstring
 string trackstring = ultraschall.CreateTrackString(integer firstnumber, integer lastnumber, optional integer step)
 </i><br><br>returns a string with the all numbers from firstnumber to lastnumber, separated by a ,<br>e.g. firstnumber=4, lastnumber=8 -> 4,5,6,7,8<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string trackstring</i> - a string with all tracknumbers, separated by a ,</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer firstnumber</i> - the number, with which the string starts</i><br><i>integer lastnumber</i> - the number, with which the string ends</i><br><i>integer step</i> - how many numbers shall be skipped inbetween. Can lead to a different lastnumber, when step is not 1! nil or invalid value=1</i><br><i></i></div><p></p>Tags: 
 trackstring, track, create
+<p></p><a id="CreateTrackStringByGUID"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.95.png" alt="Reaper version 5.95"><img style="width:3%;" src="gfx/sws2.9.7.png" alt="sws version 2.9.7"> 
+string trackstring = ultraschall.CreateTrackStringByGUID(string guid_csv_string)
+</i><br><br>returns a trackstring with all tracks, as given by the GUIDs in the comma-separated-csv-string guid_csv_string.<br><br>returns "" in case of an error, like no track available or an invalid string<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string trackstring</i> - a string with all the tracknumbers of the tracks given as GUIDs in guid_csv_string</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string guid_csv_string</i> - a comma-separated csv-string, that includes all GUIDs of all track to be included in the trackstring.</i><br><i></i></div><p></p>Tags: 
+trackstring, track, create, guid
+<p></p><a id="CreateTrackStringByMediaTracks"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.95.png" alt="Reaper version 5.95"> 
+string trackstring = ultraschall.CreateTrackStringByMediaTracks(array MediaTrackArray)
+</i><br><br>returns a trackstring with all tracks, as given in the array MediaTrackArray<br><br>returns "" in case of an error, like no track available or an invalid string<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string trackstring</i> - a string with all the tracknumbers of the MediaTrack-objects given in parameter MediaTrackArray</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>array MediaTrackArray</i> - an array, that includes all MediaTrack-objects to be included in the trackstring; a nil-entry is seen as the end of the array</i><br><i></i></div><p></p>Tags: 
+trackstring, track, create, mediatrack, mediatracks
+<p></p><a id="CreateTrackStringByTracknames"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.95.png" alt="Reaper version 5.95"> 
+string trackstring = ultraschall.CreateTrackStringByTracknames(string tracknames_csv_string)
+</i><br><br>returns a trackstring with all tracks, as given by the tracknames in the newline(!)-separated-csv-string guid_csv_string.<br><br>returns "" in case of an error, like no track available or an invalid string<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string trackstring</i> - a string with all the tracknumbers of the tracks given as tracknames in tracknames_csv_string</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>string tracknames_csv_string</i> - a newline(!)-separated csv-string, that includes all tracknames of all track to be included in the trackstring. Tracknames are case sensitive!</i><br><i></i></div><p></p>Tags: 
+trackstring, track, create, tracknames
 <p></p><a id="CreateTrackString_ArmedTracks"><hr><br><i></a><img style="width:3%;" src="gfx/ultraschall4.00.png" alt="Ultraschall version 4.00"><img style="width:3%;" src="gfx/reaper5.941.png" alt="Reaper version 5.941"> 
 string trackstring = ultraschall.CreateTrackString_ArmedTracks()
 </i><br><br>Gets a trackstring with tracknumbers of all armed tracks in it.<br><br>Returns "" if no track is armed.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>string trackstring</i> - a trackstring with the tracknumbers of all armed tracks as comma separated csv-string, eg: "1,3,4,7"</i><br><i></i></div><p></p><p></p>Tags: 
@@ -3909,4 +3933,4 @@ userinterface, set, vertical, zoom, factor
 integer retval = ultraschall.StoreArrangeviewSnapshot(integer slot, string description, boolean position, boolean vzoom)
 </i><br><br>Stores a new Arrangeview-snapshot, that includes the position, horizontal zoom and vertical zoom.<br><br>Returns -1 in case of error.<br><p></p><u>Returnvalues:</u><br><div style="padding-left:4%;"><i>integer retval</i> - -1, in case of error</i><br><i></i></div><p></p><u>Parameters:</u><div style="padding-left:4%;"><i>integer slot</i> - the slot for arrangeview-snapshot</i><br><i>string description</i> - a description for this arrangeview-snapshot</i><br><i>boolean position</i> - true, store start and endposition of the current arrangeview; false, don't store start and endposition of current arrangeview(keep old position in slot, if existing)</i><br><i>boolean vzoom</i> - true, store current vertical-zoom-factor; false, don't store current vertical-zoom-factor(keep old zoomfactor in slot, if existing)</i><br><i></i></div><p></p>Tags: 
 userinterface, set, arrangeview, snapshot
-<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 617-functions available</i></p></div></body></html>
+<p></p><hr><p align="right"><i>API-documentation automatically created by Ultraschall-Framework version 4.00 "John Cage - 4:33" beta 2.7 - 621-functions available</i></p></div></body></html>

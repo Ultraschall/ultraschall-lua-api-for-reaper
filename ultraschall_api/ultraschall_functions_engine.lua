@@ -42364,4 +42364,196 @@ projectmanagement, convert, old, project, rpp, current, reaper version
 end
 
 --AA=ultraschall.ConvertOldProjectToCurrentReaperVersion("c:\\Users\\meo\\Desktop\\TRSS\\ChristmasInJuly\\SquarryShow-Rec1\\SquarryShow-Rec1.RPP")
+
+
+function ultraschall.GetMarkerUpdateCounter()
+--[[
+<ApiDocBlocFunc>
+<slug>
+GetMarkerUpdateCounter
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.95
+SWS=2.9.7
+Lua=5.3
+</requires>
+<functionname>
+integer marker_update_counter = ultraschall.GetMarkerUpdateCounter()
+</functionname>
+<description>
+returns the number of times, a marker in any project has been updated since Reaper started.
+Counts up, if a marker is added, set, moved, deleted from any project opened in Reaper.
+
+This counter includes already closed projects as well
+</description>
+<retvals>
+integer marker_update_counter - the number of times a marker in any project in Reaper has been updated
+</retvals>
+<semanticcontext>
+Markers
+Assistance functions
+</semanticcontext>
+<tags>
+markers, update, counter, get
+</tags>
+</ApiDocBlocFunc>
+--]]
+  return reaper.SNM_GetIntConfigVar("g_markerlist_updcnt", -33)
+end
+
+--A=ultraschall.GetMarkerUpdateCounter()
+
+function ultraschall.CreateTrackStringByGUID(guid_csv_string)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateTrackStringByGUID
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.95
+SWS=2.9.7
+Lua=5.3
+</requires>
+<functionname>
+string trackstring = ultraschall.CreateTrackStringByGUID(string guid_csv_string)
+</functionname>
+<description>
+returns a trackstring with all tracks, as given by the GUIDs in the comma-separated-csv-string guid_csv_string.
+
+returns "" in case of an error, like no track available or an invalid string
+</description>
+<retvals>
+string trackstring - a string with all the tracknumbers of the tracks given as GUIDs in guid_csv_string
+</retvals>
+<parameters>
+string guid_csv_string - a comma-separated csv-string, that includes all GUIDs of all track to be included in the trackstring.
+</parameters>
+<semanticcontext>
+Track Management
+Assistance functions
+</semanticcontext>
+<tags>
+trackstring, track, create, guid
+</tags>
+</ApiDocBlocFunc>
+--]]
+  if type(guid_csv_string)~="string" then ultraschall.AddErrorMessage("CreateTrackStringByGUID", "guid_csv_string", "Must be a string", -1) return "" end
+  local Trackstring=""
+  local A,B=ultraschall.CSV2IndividualLinesAsArray(guid_csv_string)
+  for i=1, A do
+    local Track=reaper.BR_GetMediaTrackByGUID(0, B[i])
+    if Track~=nil then Trackstring=Trackstring..","..math.ceil(reaper.GetMediaTrackInfo_Value(Track, "IP_TRACKNUMBER")) end
+  end
+  local retval, Trackstring = ultraschall.RemoveDuplicateTracksInTrackstring(Trackstring)
+  return Trackstring
+end
+
+--D,E=ultraschall.CreateTrackStringByGUID(reaper.GetTrackGUID(reaper.GetTrack(0,0)))
+--D,E=ultraschall.CreateTrackStringByGUID("tudelu")
+
+function ultraschall.CreateTrackStringByTracknames(tracknames_csv_string)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateTrackStringByTracknames
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.95
+Lua=5.3
+</requires>
+<functionname>
+string trackstring = ultraschall.CreateTrackStringByTracknames(string tracknames_csv_string)
+</functionname>
+<description>
+returns a trackstring with all tracks, as given by the tracknames in the newline(!)-separated-csv-string guid_csv_string.
+
+returns "" in case of an error, like no track available or an invalid string
+</description>
+<retvals>
+string trackstring - a string with all the tracknumbers of the tracks given as tracknames in tracknames_csv_string
+</retvals>
+<parameters>
+string tracknames_csv_string - a newline(!)-separated csv-string, that includes all tracknames of all track to be included in the trackstring. Tracknames are case sensitive!
+</parameters>
+<semanticcontext>
+Track Management
+Assistance functions
+</semanticcontext>
+<tags>
+trackstring, track, create, tracknames
+</tags>
+</ApiDocBlocFunc>
+--]]
+  if type(tracknames_csv_string)~="string" then ultraschall.AddErrorMessage("CreateTrackStringByTracknames", "tracknames_csv_string", "Must be a string", -1) return "" end
+  local Trackstring=""
+  local A,B=ultraschall.CSV2IndividualLinesAsArray(tracknames_csv_string, "\n")
+  for a=0, reaper.CountTracks(0)-1 do    
+    local Track=reaper.GetTrack(0,a)
+    for i=1,A do
+      local retval, Name=reaper.GetTrackName(Track,"")
+      if Name==B[i] then Trackstring=Trackstring..","..(a+1) break end
+    end
+  end
+  local retval, Trackstring = ultraschall.RemoveDuplicateTracksInTrackstring(Trackstring)
+  return Trackstring
+end
+
+--D,E=ultraschall.CreateTrackStringByGUID(reaper.GetTrackGUID(reaper.GetTrack(0,0)))
+--D,E=ultraschall.CreateTrackStringByTracknames("tude\ntudelu")
+
+function ultraschall.CreateTrackStringByMediaTracks(MediaTrackArray)
+--[[
+<ApiDocBlocFunc>
+<slug>
+CreateTrackStringByMediaTracks
+</slug>
+<requires>
+Ultraschall=4.00
+Reaper=5.95
+Lua=5.3
+</requires>
+<functionname>
+string trackstring = ultraschall.CreateTrackStringByMediaTracks(array MediaTrackArray)
+</functionname>
+<description>
+returns a trackstring with all tracks, as given in the array MediaTrackArray
+
+returns "" in case of an error, like no track available or an invalid string
+</description>
+<retvals>
+string trackstring - a string with all the tracknumbers of the MediaTrack-objects given in parameter MediaTrackArray
+</retvals>
+<parameters>
+array MediaTrackArray - an array, that includes all MediaTrack-objects to be included in the trackstring; a nil-entry is seen as the end of the array
+</parameters>
+<semanticcontext>
+Track Management
+Assistance functions
+</semanticcontext>
+<tags>
+trackstring, track, create, mediatrack, mediatracks
+</tags>
+</ApiDocBlocFunc>
+--]]
+  if type(MediaTrackArray)~="table" then ultraschall.AddErrorMessage("CreateTrackStringByMediaTracks", "MediaTrackArray", "Must be an array", -1) return "" end
+  local Trackstring=""
+
+  local count=1
+  while MediaTrackArray[count]~=nil do
+    if ultraschall.type(MediaTrackArray[count])=="MediaTrack" then
+      Trackstring=Trackstring..","..math.ceil(reaper.GetMediaTrackInfo_Value(MediaTrackArray[count], "IP_TRACKNUMBER"))
+    end
+    count=count+1
+  end
+  local retval, Trackstring = ultraschall.RemoveDuplicateTracksInTrackstring(Trackstring)
+  return Trackstring
+end
+
+--D,E=ultraschall.CreateTrackStringByGUID(reaper.GetTrackGUID(reaper.GetTrack(0,0)))
+--AA={reaper.GetTrack(0,0),reaper.GetTrack(0,1),reaper.GetMediaItem(0,4),reaper.GetTrack(0,3)}
+--D,E=ultraschall.CreateTrackStringByMediaTracks(AA)
+
 ultraschall.ShowLastErrorMessage()

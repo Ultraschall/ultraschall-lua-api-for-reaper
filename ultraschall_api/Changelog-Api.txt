@@ -195,11 +195,13 @@
   - Api_InstallPath - an API-variable that contains the path to the install-folder of the Ultraschall-API
   - ConvertOldProjectToCurrentReaperVersion - converts an rpp-projectfile from an earlier version of Reaper to the current one
   - CreateRenderCFG_AudioCD - create a renderstring for audio-cd-images
+  - GetMarkerUpdateCounter - returns an update-counter for all markers in all projects, that is updated, as soon as a marker is added/deleted/set/moved/altered
+  - CreateTrackStringByGUID - creates a trackstring of all tracks, given as GUIDs
+  - CreateTrackStringByTracknames - creates a trackstring of all tracks, given as tracknames
+  - CreateTrackStringByMediaTracks - creates a trackstring with all track-objects in a MediaTrackArray
   
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
-      TODO!!  - create trackstring by TrackNames
-      TODO!!  - create trackstring by TrackGuids
 
       TODO!!  - 1. Introduction to Renderfunctions has old and outdated information
       TODO!!  - add multiple-target-documents and multiple-structured chapters(in index of a document) into the new docengine(not working right now)
