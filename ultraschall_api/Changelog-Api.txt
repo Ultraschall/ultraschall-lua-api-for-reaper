@@ -204,6 +204,8 @@
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
       TODO!!  - ReturnTableAsIndividualValues - ... macht Probleme als retval
       
+      TODO!!  - parameter/retval-names often go into their descriptions; see GetStartNewFileRecSizeState for one such example
+                    in general, the size of the parameters/retvals/description-table is...to be honest..fucked up.
       TODO!!  - 1. Introduction to Renderfunctions has old and outdated information
       TODO!!  - add multiple-target-documents and multiple-structured chapters(in index of a document) into the new docengine(not working right now)
       TODO!!  - write final documentation for public-beta
