@@ -1393,7 +1393,7 @@ function ultraschall.RoundNumber(num)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.RoundNumber(number number)</functioncall>
+  <functioncall>integer retval = ultraschall.RoundNumber(number num)</functioncall>
   <description>
     returns a rounded value of the parameter number. %.5 and higher rounds up, lower than %.5 round down.
   </description>
@@ -1401,7 +1401,7 @@ function ultraschall.RoundNumber(num)
     integer retval  - the rounded number
   </retvals>
   <parameters>
-    number - the floatingpoint number, you'd like to have rounded.
+    number num - the floatingpoint number, you'd like to have rounded.
   </parameters>
   <chapter_context>
     API-Helper functions
