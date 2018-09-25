@@ -1,6 +1,6 @@
 ##Ultraschall Framework - Changelog
 
-###4.00 Beta 2.7: - "John Cage - 4:33" - 30th of July 2018
+###4.00 Beta 2.7: - "John Cage - 4:33" - 15th of October 2018
 ####New features in 4.00beta2.7
   - SetEnvelopeHeight - set the height and compactible state of an envelope-lane/envelopestatechunk
   - GetTrackStateChunk_Tracknumber - get a TrackStateChunk without the hassle of creating a trackobject first  
