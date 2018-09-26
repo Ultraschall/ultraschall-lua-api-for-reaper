@@ -232,7 +232,10 @@ Ultraschall API Changelog
 <li>GetMarkerUpdateCounter - returns an update-counter for all markers in all projects, that is updated, as soon as a marker is added/deleted/set/moved/altered</li>
 <li>CreateTrackStringByGUID - creates a trackstring of all tracks, given as GUIDs</li>
 <li>CreateTrackStringByTracknames - creates a trackstring of all tracks, given as tracknames</li>
-<li><p>CreateTrackStringByMediaTracks - creates a trackstring with all track-objects in a MediaTrackArray</p></li>
+<li>CreateTrackStringByMediaTracks - creates a trackstring with all track-objects in a MediaTrackArray</li>
+<li>GetScreenHeight - returns the height of the screen</li>
+<li>GetScreenWidth - returns the width of the screen</li>
+<li><p>pause_follow_one_cycle - skips followmode-auto-off-checking-script for one cycle; only relevant for scripts that shall work within Ultraschall.FM-extension</p></li>
 </ul>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
 <ul>
@@ -321,7 +324,7 @@ Ultraschall API Changelog
 <li>DeleteLastErrorMessage - deletes now the last errormessage, only changed the errorcounter before</li>
 <li>GetLastErrorMessage2 - includes the new parameters parametername and errorcode; used to reset creation date instead of readstate -&gt; fixed</li>
 <li>ShowLastErrorMessage - reworked the messagebox to include functionname, parametername, errormessage and errorcode</li>
-<li>GetPath - returns nil now, if the separator can't be found, and throws an error-message as well in that case</li>
+<li>GetPath - returns nil now, if the separator can't be found, and throws an error-message as well in that case; did return parts of the path in filename -&gt; fixed now</li>
 <li>GetPartialString - returns nil now, if the separator can't be found, and throws an error-message as well in that case; sped up code</li>
 <li>RunCommand - throws an error-message, if an invalid action-command-id is given</li>
 <li>CSV2Line - rewritten and sped up</li>

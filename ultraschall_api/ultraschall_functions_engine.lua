@@ -1467,13 +1467,13 @@ function ultraschall.GetPath(str,sep)
   
   -- do the patternmatching
   local result=str:match("(.*"..sep..")")
-  local file=str:match(""..sep.."(.*)")
+  local file=str:match(".*"..sep.."(.*)")
   if result==nil then ultraschall.AddErrorMessage("GetPath","", "separator not found", -3) return "", "" end
   if file==nil then file="" end
   return result, file
 end
 
---B1,B2=ultraschall.GetPath("nillimul\\test", ultraschall.Separator)
+--B1,B2=ultraschall.GetPath("c:\\nillimul\\test", ultraschall.Separator)
 
 
 
@@ -9306,7 +9306,7 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
   </retvals>
   <parameters>
     number position - position in seconds.
-    integer shown_number - the number, that will be shown within Reaper. Can be multiple times.
+    integer shown_number - the number, that will be shown within Reaper. Can be multiple times. Use -1 to let Reaper decide the number.
     string markertitle - the title of the marker.
   </parameters>
   <chapter_context>
@@ -9677,7 +9677,7 @@ function ultraschall.AddEditMarker(position, shown_number, edittitle)
   </retvals>
   <parameters>
     number position - position in seconds.
-    integer shown_number - the number, that will be shown within Reaper. Can be multiple times.
+    integer shown_number - the number, that will be shown within Reaper. Can be multiple times. Use -1 to let Reaper decide the number.
     string edittitle - the title of the chaptermarker; will be shown as _Edit:edittitle
   </parameters>
   <chapter_context>
@@ -32091,8 +32091,8 @@ function ultraschall.GetMediafileAttributes(filename)
   <tags>markermanagement, get, position, length, num, channels, samplerate, filetype</tags>
   </US_DocBloc>
 --]]
-
-  if reaper.file_exists(filename)==false then ultraschall.AddErrorMessage("GetMediafileAttributes","filename", "file does not exist", -1) return -1 end
+  if type(filename)~="string" then ultraschall.AddErrorMessage("GetMediafileAttributes","filename", "must be a string", -1) return -1 end
+  if reaper.file_exists(filename)==false then ultraschall.AddErrorMessage("GetMediafileAttributes","filename", "file does not exist", -2) return -1 end
   local PCM_source=reaper.PCM_Source_CreateFromFile(filename)
   local Length, lengthIsQN = reaper.GetMediaSourceLength(PCM_source)
   local Numchannels=reaper.GetMediaSourceNumChannels(PCM_source)
@@ -32277,7 +32277,7 @@ end
 --C,C2=ultraschall.CompareArrays(a, b)
 
 
-function ultraschall.InsertMediaItemFromFile(filename, track, position, endposition, editcursorpos)
+function ultraschall.InsertMediaItemFromFile(filename, track, position, endposition, editcursorpos, offset)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>InsertMediaItemFromFile</slug>
@@ -32287,7 +32287,7 @@ function ultraschall.InsertMediaItemFromFile(filename, track, position, endposit
     SWS=2.8.8
     Lua=5.3
   </requires>
-  <functioncall>integer retval, MediaItem item, number endposition, integer numchannels, integer Samplerate, string Filetype = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, integer editcursorpos)</functioncall>
+  <functioncall>integer retval, MediaItem item, number endposition, integer numchannels, integer Samplerate, string Filetype = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, integer editcursorpos, optional number offset)</functioncall>
   <description>
     Inserts the mediafile filename into the project at position in track
     Due API-limitations, it creates two undo-points: one for inserting the MediaItem and one for changing the length(when endposition isn't -1).
@@ -32305,6 +32305,7 @@ function ultraschall.InsertMediaItemFromFile(filename, track, position, endposit
           -0 - the old editcursorposition
           -1 - the position, at which the item was inserted
           -2 - the end of the newly inserted item
+    optional number offset - an offset, to delay the insertion of the item, to overcome possible "too late"-starting of playback of item during recording
   </parameters>
   <retvals>
     integer retval - 0, if insertion worked; -1, if it failed
@@ -32332,13 +32333,14 @@ function ultraschall.InsertMediaItemFromFile(filename, track, position, endposit
   if endposition<-1 then ultraschall.AddErrorMessage("InsertMediaItemFromFile","endposition", "must be bigger/equal 0; or -1 for sourcefilelength", -5) return -1 end
   if math.type(editcursorpos)~="integer" then ultraschall.AddErrorMessage("InsertMediaItemFromFile", "editcursorpos", "must be an integer between 0 and 2", -6) return -1 end
   if track<-1 or track>reaper.CountTracks(0) then ultraschall.AddErrorMessage("InsertMediaItemFromFile","track", "no such track available", -7) return -1 end  
+  if offset~=nil and type(offset)~="number" then ultraschall.AddErrorMessage("InsertMediaItemFromFile","offset", "must be either nil or a number", -8) return -1 end  
 
   -- where to insert and where to have the editcursor after insert
   local editcursor, mode
   if editcursorpos==0 then editcursor=reaper.GetCursorPosition()
   elseif editcursorpos==1 then editcursor=position
   elseif editcursorpos==2 then editcursor=position+ultraschall.GetMediafileAttributes(filename)
-  else ultraschall.AddErrorMessage("InsertMediaItemFromFile","editcursorpos", "must be an integer between 0 and 2", -7) return -1
+  else ultraschall.AddErrorMessage("InsertMediaItemFromFile","editcursorpos", "must be an integer between 0 and 2", -6) return -1
   end
   
   -- insert file
@@ -32357,7 +32359,7 @@ function ultraschall.InsertMediaItemFromFile(filename, track, position, endposit
   end
   local SelectedTracks=ultraschall.CreateTrackString_SelectedTracks() -- get old track-selection
   ultraschall.SetTracksSelected(tostring(track), true) -- set track selected, where we want to insert the item
-  reaper.SetEditCurPos(position, false, false) -- change editcursorposition to where we want to insert the item
+  reaper.SetEditCurPos(position+offset, false, false) -- change editcursorposition to where we want to insert the item
   local CountMediaItems=reaper.CountMediaItems(0) -- the number of items available; the new one will be number of items + 1
   local LLL=ultraschall.GetAllMediaItemGUIDs()
   if LLL[1]==nil then LLL[1]="tudelu" end
@@ -40243,6 +40245,114 @@ end
 --D,E=ultraschall.CreateTrackStringByGUID(reaper.GetTrackGUID(reaper.GetTrack(0,0)))
 --AA={reaper.GetTrack(0,0),reaper.GetTrack(0,1),reaper.GetMediaItem(0,4),reaper.GetTrack(0,3)}
 --D,E=ultraschall.CreateTrackStringByMediaTracks(AA)
+
+function ultraschall.GetScreenWidth(want_workarea)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetScreenWidth</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer width = ultraschall.GetScreenWidth(optional boolean want_workarea)</functioncall>
+  <description>
+    returns the width of the screen in pixels.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer width - the width of the screen in pixels
+  </retvals>
+  <parameters>
+    optional boolean want_workarea - true, returns workspace only; false, full monitor coordinates of the returned viewport; nil, will be seen as true
+  </parameters>
+  <chapter_context>
+    User Interface
+    Screen and Windowmanagement
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, get, screen, width</tags>
+  </US_DocBloc>
+--]]
+  if want_workarea~=nil and type(want_workarea)~="boolean" then ultraschall.AddErrorMessage("GetScreenWidth", "want_workarea", "Must be a boolean", -1) return -1 end  
+  if want_workarea==nil then want_workarea=true end
+  local left, top, right, bottom = reaper.my_getViewport(0,0,0,0,0,0,0,0, want_workarea)
+  return right
+end
+
+
+function ultraschall.GetScreenHeight(want_workarea)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetScreenHeight</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer height = ultraschall.GetScreenHeight(optional boolean want_workarea)</functioncall>
+  <description>
+    returns the height of the screen in pixels.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer width - the height of the screen in pixels
+  </retvals>
+  <parameters>
+    optional boolean want_workarea - true, returns workspace only; false, full monitor coordinates of the returned viewport; nil, will be seen as true
+  </parameters>
+  <chapter_context>
+    User Interface
+    Screen and Windowmanagement
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, get, screen, height</tags>
+  </US_DocBloc>
+--]]
+  if want_workarea~=nil and type(want_workarea)~="boolean" then ultraschall.AddErrorMessage("GetScreenHeight", "want_workarea", "Must be a boolean", -1) return -1 end  
+  if want_workarea==nil then want_workarea=true end
+  local left, top, right, bottom = reaper.my_getViewport(0,0,0,0,0,0,0,0, want_workarea)
+  return bottom  
+end
+
+--A=ultraschall.GetScreenHeight()
+
+function ultraschall.pause_follow_one_cycle()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>pause_follow_one_cycle</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.pause_follow_one_cycle()</functioncall>
+  <description>
+    Skips auto-follow-off-checking-script for one cycle.
+    FollowMode in Ultraschall turn on Autoscrolling in a useable way. In addition, under certain circumstances, followmode will be turned off automatically. 
+    If you experience this but want to avoid the follow-off-functionality, use this function.
+    
+    This function is only relevant, if you want to develop scripts that work perfectly within the Ultraschall.fm-extension.
+  </description>
+  <chapter_context>
+    User Interface
+    Arrangeview Management
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, follow, off, followmode, turn off one cycle</tags>
+  </US_DocBloc>
+--]]
+  local follow_actionnumber = reaper.NamedCommandLookup("_Ultraschall_Toggle_Follow")
+  if reaper.GetToggleCommandState(follow_actionnumber)==1 then
+    reaper.SetExtState("follow", "skip", "true", false)
+  end
+end 
+
 
 ultraschall.ShowLastErrorMessage()
 

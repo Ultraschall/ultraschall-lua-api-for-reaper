@@ -199,6 +199,9 @@
   - CreateTrackStringByGUID - creates a trackstring of all tracks, given as GUIDs
   - CreateTrackStringByTracknames - creates a trackstring of all tracks, given as tracknames
   - CreateTrackStringByMediaTracks - creates a trackstring with all track-objects in a MediaTrackArray
+  - GetScreenHeight - returns the height of the screen
+  - GetScreenWidth - returns the width of the screen
+  - pause_follow_one_cycle - skips followmode-auto-off-checking-script for one cycle; only relevant for scripts that shall work within Ultraschall.FM-extension
   
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
@@ -380,7 +383,7 @@
   - DeleteLastErrorMessage - deletes now the last errormessage, only changed the errorcounter before
   - GetLastErrorMessage2 - includes the new parameters parametername and errorcode; used to reset creation date instead of readstate -> fixed
   - ShowLastErrorMessage - reworked the messagebox to include functionname, parametername, errormessage and errorcode
-  - GetPath - returns nil now, if the separator can't be found, and throws an error-message as well in that case
+  - GetPath - returns nil now, if the separator can't be found, and throws an error-message as well in that case; did return parts of the path in filename -> fixed now
   - GetPartialString - returns nil now, if the separator can't be found, and throws an error-message as well in that case; sped up code
   - RunCommand - throws an error-message, if an invalid action-command-id is given
   - CSV2Line - rewritten and sped up
