@@ -51,7 +51,8 @@ if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
   end
 
 local info = debug.getinfo(1,'S');
-ultraschall.Script_Path = info.source:match[[^@?(.*[\/])[^\/]-$]]
+--ultraschall.Script_Path = info.source:match[[^@?(.*[\/])[^\/]-$]]
+  ultraschall.Script_Path = reaper.GetResourcePath().."/Scripts/"-- ultraschall.info.source:match[[^@?(.*[\/])[^\/]-$]]
 local script_path = reaper.GetResourcePath().."/UserPlugins/ultraschall_api"..ultraschall.Separator
 ultraschall.Api_Path=script_path
 ultraschall.Api_Path=string.gsub(ultraschall.Api_Path,"\\","/")

@@ -59,8 +59,8 @@ if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
     -- user_folder = "/USERS/[username]" -- Mac OS. Not tested on Linux.
     ultraschall.Separator = "/"
   end
-  ultraschall.info = debug.getinfo(1,'S');
-  ultraschall.Script_Path = ultraschall.info.source:match[[^@?(.*[\/])[^\/]-$]]
+  --ultraschall.info = debug.getinfo(1,'S');
+  ultraschall.Script_Path = reaper.GetResourcePath().."/Scripts/"-- ultraschall.info.source:match[[^@?(.*[\/])[^\/]-$]]
   local script_path = reaper.GetResourcePath().."/UserPlugins/ultraschall_api"..ultraschall.Separator
   ultraschall.Api_Path=script_path
   ultraschall.Api_Path=string.gsub(ultraschall.Api_Path,"\\","/")
@@ -8554,11 +8554,11 @@ function ultraschall.GetClosestGoToPoints(trackstring, time_position, check_item
   <retvals>
     number elementposition_prev - previous closest markers/regions/item starts/itemends
     string elementtype_prev - type of the previous closest markers/regions/item starts/itemends
-    -the type can be either Itembeg, Itemend, Marker, Region
+    -the type can be either Itembeg, Itemend, Marker: name, Region_beg: name; Region_end: name, ProjectStart, ProjectEnd; "name" is the name of the marker or region
     integer number_prev - number of previous closest markers/regions/item starts/itemends
     number elementposition_next - previous closest markers/regions/item starts/itemends
     string elementtype_next - type of the previous closest markers/regions/item starts/itemends
-    -the type can be either Itembeg, Itemend, Marker, Region
+    -the type can be either Itembeg, Itemend, Marker: name, Region_beg: name; Region_end: name, ProjectStart, ProjectEnd; "name" is the name of the marker or region
     integer number_next  - number of previous closest markers/regions/item starts/itemends
   </retvals>
   <parameters>
@@ -8612,26 +8612,26 @@ function ultraschall.GetClosestGoToPoints(trackstring, time_position, check_item
   local nextmarkerid,nextmarkerpos,nextmarkername=ultraschall.GetClosestNextMarker(3, time_position)
   local prevmarkerid,prevmarkerpos,prevmarkername=ultraschall.GetClosestPreviousMarker(3,time_position)
 
-  local nextrgnID, nextregionpos=ultraschall.GetClosestNextRegionEdge(3,time_position)
-  local prevrgnID, prevregionpos=ultraschall.GetClosestPreviousRegionEdge(3,time_position)
+  local nextrgnID, nextregionpos,nextregionname,nextedgetype=ultraschall.GetClosestNextRegionEdge(3,time_position)
+  local prevrgnID, prevregionpos,prevregionname,prevedgetype=ultraschall.GetClosestPreviousRegionEdge(3,time_position)
 
   -- now we find, which is the closest element
   -- Item-Edges
   if check_itemedge==true then
     if previtempos~=-1 and elementposition_prev<=previtempos then number_prev=previtemid elementposition_prev=previtempos elementtype_prev="Item"..prevedgetype end
-    if nextitempos~=-1 and elementposition_next>=nextitempos then reaper.MB("",nextitempos,0) number_next=nextitemid elementposition_next=nextitempos elementtype_next="Item"..nextedgetype end
+    if nextitempos~=-1 and elementposition_next>=nextitempos then number_next=nextitemid elementposition_next=nextitempos elementtype_next="Item"..nextedgetype end
   end
   
   -- Markers
   if check_marker==true then
-    if prevmarkerid~=-1 and elementposition_prev<=prevmarkerpos then number_prev=prevmarkerid elementposition_prev=prevmarkerpos elementtype_prev="Marker" end
-    if nextmarkerid~=-1 and elementposition_next>=nextmarkerpos then number_next=nextmarkerid elementposition_next=nextmarkerpos elementtype_next="Marker" end
+    if prevmarkerid~=-1 and elementposition_prev<=prevmarkerpos then number_prev=prevmarkerid elementposition_prev=prevmarkerpos elementtype_prev="Marker: "..prevmarkername end
+    if nextmarkerid~=-1 and elementposition_next>=nextmarkerpos then number_next=nextmarkerid elementposition_next=nextmarkerpos elementtype_next="Marker: "..nextmarkername end
   end
 
   -- Region-Edges
   if check_region==true then
-    if elementposition_prev<=prevregionpos and prevrgnID~=-1 then number_prev=prevrgnID elementposition_prev=prevregionpos elementtype_prev="Region" end
-    if elementposition_next>=nextregionpos and nextrgnID~=-1 then number_next=nextrgnID elementposition_next=nextregionpos elementtype_next="Region" end
+    if elementposition_prev<=prevregionpos and prevrgnID~=-1 then number_prev=prevrgnID elementposition_prev=prevregionpos elementtype_prev="Region_"..prevedgetype..": "..prevregionname end
+    if elementposition_next>=nextregionpos and nextrgnID~=-1 then number_next=nextrgnID elementposition_next=nextregionpos elementtype_next="Region_"..nextedgetype..": "..nextregionname end
   end
   
   -- if none was found, use projectend/projectstart
