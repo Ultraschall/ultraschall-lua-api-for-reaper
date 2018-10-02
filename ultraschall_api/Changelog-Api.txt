@@ -292,6 +292,25 @@
       TODO!!  - Get/SetProjectBay-functions
       TODO!!  - Envelope-StateChunk-functions
       TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
+      TODO!!  - In the render window I think it would be really helpful to have the option of adding the rendered files into a new project tab.
+
+                    There could be a section of the render window for After Export functions
+                    - add to project on new track
+                    - add to new project tab on new track
+                    - add to new project tab on same track
+                    - ?
+                    - ?
+
+
+                    example 1 - rendering stems for a song, they get added to a new project on separate tracks automatically. bonus points if tempo map comes with.
+
+                    example 2 - rendering mastered songs for album (regions export). tracks are added to new project for final quality checks
+
+                    Right now we have the option of adding exported files to the original project and that just never made sense to me.
+
+                    Hope you'll consider this. Thanks
+                    https://forum.cockos.com/showthread.php?t=211539
+   
    </TODO>   
       
 ####Changes from 4.00beta2.6 to 4.00beta2.7

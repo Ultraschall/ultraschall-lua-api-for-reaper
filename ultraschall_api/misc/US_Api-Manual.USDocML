@@ -1087,7 +1087,7 @@
             Let's face it, when editing items of a project in Reaper, you either click on the items or select them in a 2D-way, by drawing a boundary box around the items of your choice or using a time-selection.
             What you do by that is selecting the items by time. What you also do is, selecting the items by track, as your boundary box may go over several tracks. Or you use a track-selection by clicking on the tracks you want.
             In either way, you select them in a 2Dimensional way.
-            Not with Reaper's own API. Sure, you can somehow choose the MediaItems by track or by project, but you can't select by multiple tracks. And certainly not by a time-range.
+            Not with Reaper's own API. Sure, you can somehow choose the MediaItems by track or by project, but you can't select them by multiple tracks. And certainly not by a time-range.
             
             This was annoying for me, so I wrote two functions(my favorite ones in this api, I have to admit ;) ) that address this: 
               [GetMediaItemsAtPosition](#GetMediaItemsAtPosition) and [GetAllMediaItemsBetween](#GetAllMediaItemsBetween).
@@ -1118,6 +1118,8 @@
             
             With these two functions, getting items is much, much easier than before.
             
+            The returned MediaItems, MediaItemArrays and MediaItemStateChunkArrays can then be passed over to other functions, who accept them, for "mass manipulation" of the MediaItems.
+            
             In addition to them, I also added some more functions for getting MediaItems, namely:
             
                - [GetAllMediaItems](#GetAllMediaItems) - get all MediaItems from the project into a handy MediaItemArray, for further "mass-manipulation" of them.
@@ -1135,4 +1137,41 @@
         <tags>documentation, mediaitems, items, getting</tags>
     </US_DocBloc>
     
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Getting_Manipulating_Items_Edit</slug>
+        <title>MediaItems: Editing MediaItems by Time and Tracks</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Getting MediaItems by time and tracks is cool. Editing them by time and tracks is even better. for that, I also added some functions:
+            The easiest ones are [SplitMediaItems_Position](#SplitMediaItems_Position) and [SplitItemsAtPositionFromArray](#SplitItemsAtPositionFromArray)
+            Let's have a look at SplitMediaItems_Position:
+            
+                boolean retval, array MediaItemArray = ultraschall.SplitMediaItems_Position(number position, string trackstring, boolean crossfade)
+            
+            This splits all items at position, that are in the tracks given by parameter trackstring. If you want to have the items  So if you want to split all items in tracks 1,3,4 at position 22, you type:
+            
+                retval, MediaItemArray = ultraschall.SplitMediaItems_Position(22, "1,3,4", false)
+            
+            There's another parameter crossfade. If you have it set to true or nil and have Automatic-Crossfade enabled (Preferences -> Media Item Defaults -> Overlap and crossfade items when splitting, length), crossfade will be done at the split. 
+            If you want to avoid that, set it to false and a normal split with fadein/fadeout will appear(if set in the preferences: Preferences -> Media Item Defaults -> Create automatic fade-in/fade-out for new items, length).
+            
+            This function returns, if splitting was successful and the newly "created"-right-hand-split-items as an MediaItemAray.
+            
+            The function SplitItemsAtPositionFromArray works quite similar, but with the difference, that you don't give tracks, but items to the function, that shall be split at position.
+                
+                boolean retval, array MediaItemArray = ultraschall.SplitItemsAtPositionFromArray(number position, array MediaItemArray, boolean crossfade)
+                
+            position is the position, at which an item shall be split. MediaItemArray is an array with all MediaItems, that shall be split, if possible. crossfade sets if automatic crossfade shall be applied to or not, just as in SplitMediaItems_Position above.
+            This function will split only items, that have the position in them somewhere. That means, if you want to split at position 22 seconds, an item, that goes from 1 to 4 will not be split, an item from 18 to 25 will be split.
+            
+            This function returns, if splitting was successful and the newly "created"-right-hand-split-items as an MediaItemAray. Only the right-hand-split-MediaItem of MediaItems, that could be split, will be returned. If a MediaItem could not be split(position outside MediaItemstart and MediaItemEnd), there will be no returned MediaItem for it then.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            MediaItems
+        </chapter_context>
+        <previous_chapter>Getting_Manipulating_Items_GetMediaItems</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_Section_And_Ripple</next_chapter>
+        <tags>documentation, mediaitems, items, editing</tags>
+    </US_DocBloc>
 </USDocML>

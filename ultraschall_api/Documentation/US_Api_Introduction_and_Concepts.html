@@ -32,7 +32,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 16625</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>API-Variables</b></td></tr><tr><td><a href="#Introduction_API_Variables">API-Variables</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 17152</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>API-Variables</b></td></tr><tr><td><a href="#Introduction_API_Variables">API-Variables</a></td>
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Arrangeview Snapshots</b></td></tr><tr><td><a href="#Arrangeview_Snapshots_HowToRestore">Arrangeview Snapshots: How to restore</a></td>
 <td><a href="#Arrangeview_Snapshots_HowToStoreRetrieveDelete">Arrangeview Snapshots: How to store, retrieve, delete</a></td>
 <td><a href="#Arrangeview_Snapshots_Introduction">Arrangeview Snapshots: Introduction</a></td>
@@ -48,7 +48,8 @@ Ultraschall API functions
 <td><a href="#Introduction_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 </tr><tr><td><a href="#Introduction_License">Introduction: License</a></td>
-</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>MediaItems</b></td></tr><tr><td><a href="#Getting_Manipulating_Items_GetMediaItems">MediaItems: Getting MediaItems by Time and Tracks</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>MediaItems</b></td></tr><tr><td><a href="#Getting_Manipulating_Items_Edit">MediaItems: Editing MediaItems by Time and Tracks</a></td>
+<td><a href="#Getting_Manipulating_Items_GetMediaItems">MediaItems: Getting MediaItems by Time and Tracks</a></td>
 <td><a href="#Getting_Manipulating_Items_Introduction">MediaItems: Introduction</a></td>
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Navigation</b></td></tr><tr><td><a href="#GetSetStates_Project_Track_Item_Env_Introduction">Get/Set States for Project, Tracks and Items: Introduction</a></td>
 <td><a href="#Navigation_Autoscroll_Followmode">Navigation: Autoscroll and Followmode</a></td>
@@ -446,7 +447,7 @@ number markerindex, number position, string markername, string edge_type = ultra
 <p>Let's begin with getting items by time(range) and tracks.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_GetMediaItems"></a>
-<p style="padding-left:0.3%;"><u>Functioncall:</u><div style="padding-left:4%;font-size:100%">MediaItems: Getting MediaItems by Time and Tracks</div><p><p>Let's face it, when editing items of a project in Reaper, you either click on the items or select them in a 2D-way, by drawing a boundary box around the items of your choice or using a time-selection. What you do by that is selecting the items by time. What you also do is, selecting the items by track, as your boundary box may go over several tracks. Or you use a track-selection by clicking on the tracks you want. In either way, you select them in a 2Dimensional way. Not with Reaper's own API. Sure, you can somehow choose the MediaItems by track or by project, but you can't select by multiple tracks. And certainly not by a time-range.</p>
+<p style="padding-left:0.3%;"><u>Functioncall:</u><div style="padding-left:4%;font-size:100%">MediaItems: Getting MediaItems by Time and Tracks</div><p><p>Let's face it, when editing items of a project in Reaper, you either click on the items or select them in a 2D-way, by drawing a boundary box around the items of your choice or using a time-selection. What you do by that is selecting the items by time. What you also do is, selecting the items by track, as your boundary box may go over several tracks. Or you use a track-selection by clicking on the tracks you want. In either way, you select them in a 2Dimensional way. Not with Reaper's own API. Sure, you can somehow choose the MediaItems by track or by project, but you can't select them by multiple tracks. And certainly not by a time-range.</p>
 <p>This was annoying for me, so I wrote two functions(my favorite ones in this api, I have to admit ;) ) that address this: <a href="#GetMediaItemsAtPosition">GetMediaItemsAtPosition</a> and <a href="#GetAllMediaItemsBetween">GetAllMediaItemsBetween</a>.</p>
 <p>Let's have a closer look at them. <a href="#GetMediaItemsAtPosition">GetMediaItemsAtPosition</a>:</p>
 <pre><code>    integer number_of_items, array MediaItemArray, array MediaItemStateChunkArray = ultraschall.GetMediaItemsAtPosition(number position, string trackstring)</code></pre>
@@ -456,6 +457,7 @@ number markerindex, number position, string markername, string edge_type = ultra
                         ultraschall.GetAllMediaItemsBetween(number startposition, number endposition, string trackstring, boolean inside) </code></pre>
 <p>which basically returns the same things, as GetMediaItemsAtPosition. The difference lies in the parameters. You can pass a startposition and an endposition(which must be bigger than or equal startposition), <a href="#Datatypes_trackstring">trackstrings</a>, which is a string with all tracks, separated by commas and the parameter inside. When you set inside to true, it will return only items that are completely within startposition and endposition. When setting inside to false, it will also return items, that are partially within start- and endposition, like items beginning before startposition or ending after endposition.</p>
 <p>With these two functions, getting items is much, much easier than before.</p>
+<p>The returned MediaItems, MediaItemArrays and MediaItemStateChunkArrays can then be passed over to other functions, who accept them, for &quot;mass manipulation&quot; of the MediaItems.</p>
 <p>In addition to them, I also added some more functions for getting MediaItems, namely:</p>
 <ul>
 <li><a href="#GetAllMediaItems">GetAllMediaItems</a> - get all MediaItems from the project into a handy MediaItemArray, for further &quot;mass-manipulation&quot; of them.</li>
@@ -464,4 +466,16 @@ number markerindex, number position, string markername, string edge_type = ultra
 <li><a href="#GetAllMediaItemsInTimeSelection">GetAllMediaItemsInTimeSelection</a> - get all MediaItems in given tracks from the current time-selection</li>
 </ul>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 28 functions available</td></table><br><hr></div></body></html>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Edit"></a>
+<p style="padding-left:0.3%;"><u>Functioncall:</u><div style="padding-left:4%;font-size:100%">MediaItems: Editing MediaItems by Time and Tracks</div><p><p>Getting MediaItems by time and tracks is cool. Editing them by time and tracks is even better. for that, I also added some functions: The easiest ones are <a href="#SplitMediaItems_Position">SplitMediaItems_Position</a> and <a href="#SplitItemsAtPositionFromArray">SplitItemsAtPositionFromArray</a> Let's have a look at SplitMediaItems_Position:</p>
+<pre><code>boolean retval, array MediaItemArray = ultraschall.SplitMediaItems_Position(number position, string trackstring, boolean crossfade)</code></pre>
+<p>This splits all items at position, that are in the tracks given by parameter trackstring. If you want to have the items So if you want to split all items in tracks 1,3,4 at position 22, you type:</p>
+<pre><code>retval, MediaItemArray = ultraschall.SplitMediaItems_Position(22, &quot;1,3,4&quot;, false)</code></pre>
+<p>There's another parameter crossfade. If you have it set to true or nil and have Automatic-Crossfade enabled (Preferences -&gt; Media Item Defaults -&gt; Overlap and crossfade items when splitting, length), crossfade will be done at the split. If you want to avoid that, set it to false and a normal split with fadein/fadeout will appear(if set in the preferences: Preferences -&gt; Media Item Defaults -&gt; Create automatic fade-in/fade-out for new items, length).</p>
+<p>This function returns, if splitting was successful and the newly &quot;created&quot;-right-hand-split-items as an MediaItemAray.</p>
+<p>The function SplitItemsAtPositionFromArray works quite similar, but with the difference, that you don't give tracks, but items to the function, that shall be split at position.</p>
+<pre><code>boolean retval, array MediaItemArray = ultraschall.SplitItemsAtPositionFromArray(number position, array MediaItemArray, boolean crossfade)</code></pre>
+<p>position is the position, at which an item shall be split. MediaItemArray is an array with all MediaItems, that shall be split, if possible. crossfade sets if automatic crossfade shall be applied to or not, just as in SplitMediaItems_Position above. This function will split only items, that have the position in them somewhere. That means, if you want to split at position 22 seconds, an item, that goes from 1 to 4 will not be split, an item from 18 to 25 will be split.</p>
+<p>This function returns, if splitting was successful and the newly &quot;created&quot;-right-hand-split-items as an MediaItemAray. Only the right-hand-split-MediaItem of MediaItems, that could be split, will be returned. If a MediaItem could not be split(position outside MediaItemstart and MediaItemEnd), there will be no returned MediaItem for it then.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 29 functions available</td></table><br><hr></div></body></html>
