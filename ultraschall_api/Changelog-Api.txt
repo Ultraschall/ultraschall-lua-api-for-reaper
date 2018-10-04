@@ -202,12 +202,13 @@
   - GetScreenHeight - returns the height of the screen
   - GetScreenWidth - returns the width of the screen
   - pause_follow_one_cycle - skips followmode-auto-off-checking-script for one cycle; only relevant for scripts that shall work within Ultraschall.FM-extension
+  - DeleteMediaItemsBetween - deletes MediaItems between start and endposition within tracks, given by trackstring; the deleting-equivalent of GetAllMediaItemsBetween
   
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
       TODO!!  - ReturnTableAsIndividualValues - ... macht Probleme als retval
       
-      TODO!!  - parameter/retval-names often go into their descriptions; see GetStartNewFileRecSizeState for one such example
+      TODO!!  - Docs: parameter/retval-names often go into their descriptions; see GetStartNewFileRecSizeState for one such example
                     in general, the size of the parameters/retvals/description-table is...to be honest..fucked up.
       TODO!!  - 1. Introduction to Renderfunctions has old and outdated information
       TODO!!  - add multiple-target-documents and multiple-structured chapters(in index of a document) into the new docengine(not working right now)

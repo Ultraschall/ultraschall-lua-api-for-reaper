@@ -1133,15 +1133,15 @@
             MediaItems
         </chapter_context>
         <previous_chapter>Getting_Manipulating_Items_Introduction</previous_chapter>
-        <next_chapter>Getting_Manipulating_Items_Edit</next_chapter>
+        <next_chapter>Getting_Manipulating_Items_Splitting</next_chapter>
         <tags>documentation, mediaitems, items, getting</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Getting_Manipulating_Items_Edit</slug>
-        <title>MediaItems: Editing MediaItems by Time and Tracks</title>
+        <slug>Getting_Manipulating_Items_Splitting</slug>
+        <title>MediaItems: Splitting MediaItems by Time and Tracks</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Getting MediaItems by time and tracks is cool. Editing them by time and tracks is even better. for that, I also added some functions:
+            Getting MediaItems by time and tracks is cool. Editing them by time and tracks is even better. For that, I also added some functions:
             The easiest ones are [SplitMediaItems_Position](#SplitMediaItems_Position) and [SplitItemsAtPositionFromArray](#SplitItemsAtPositionFromArray)
             Let's have a look at SplitMediaItems_Position:
             
@@ -1171,6 +1171,62 @@
             MediaItems
         </chapter_context>
         <previous_chapter>Getting_Manipulating_Items_GetMediaItems</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_Deleting</next_chapter>
+        <tags>documentation, mediaitems, items, editing</tags>
+    </US_DocBloc>
+    
+        <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Getting_Manipulating_Items_Deleting</slug>
+        <title>MediaItems: Deleting MediaItems by Time and Tracks</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Deleting of MediaItems is often a useful thing. Unfortunately, this is inconvenient to do within the Reaper-API. The only such function is DeleteTrackMediaItem, but it requires you to give the function the track in which the MediaItem lies too. 
+            But often, you want to have a function that simply deletes a MediaItem-object or deletes items at position from numerous tracks, etc.
+            So I added some functions, that make life easier:
+            [DeleteMediaItem](#DeleteMediaItem), [DeleteMediaItemsFromArray](#DeleteMediaItemsFromArray), [DeleteMediaItems_Position](#DeleteMediaItems_Position) and [DeleteMediaItemsBetween](#DeleteMediaItemsBetween)
+            
+            In addition to deleting the MediaItems, all these functions return the statechunks of the deleted MediaItems. These statechunks contain an additional field "ULTRASCHALL_TRACKNUMBER", which contains the track, in which the MediaItem was located before deleting it.
+            This may help doing cut and paste functions, as otherwise, you lose the information, in which track a certain MediaItem was located.
+            
+            DeleteMediaItem:
+            
+                boolean retval, string MediaItemStateChunk = ultraschall.DeleteMediaItem(MediaItem MediaItem)
+            
+            This function is simple. Just pass the MediaItem that you want to delete to it and it will delete it. If no such MediaItem exists, it will return false.
+            
+            DeleteMediaItemsFromArray
+            
+                boolean retval, array MediaItemArray = ultraschall.DeleteMediaItemsFromArray(array MediaItemArray)
+                
+            This function might be more interesting if you want to delete a number of MediaItems at once. Just pass to it a MediaItemArray(like the one returned by functions like [GetAllMediaItemsBetween](#GetAllMediaItemsBetween))
+
+            DeleteMediaItems_Position
+            
+                boolean retval, array MediaItemStateChunkArray = ultraschall.DeleteMediaItems_Position(number position, string trackstring)
+                
+            This function deletes all items at position in the tracks, given by trackstring.
+            If you want to delete all items at position 22, within track 1,4,8 and 9, you just type:
+            
+                retval = ultraschall.DeleteMediaItems_Position(22, "1,4,8,9")
+                
+                
+            DeleteMediaItems_Position
+            
+                boolean retval, array MediaItemStateChunkArray  = ultraschall.DeleteMediaItems_Between(number startposition, number endposition, string trackstring, boolean inside)
+            
+            This function deletes MediaItems between start and endposition, within the track given by parameter trackstring. You can use the parameter inside to set, if you want to delete only items that are completely within start and endposition(true) or also include items, that are only partially within start and endposition.
+            This function works like [GetAllMediaItemsBetween](#GetAllMediaItemsBetween), with the additional benefit of deleting the MediaItems.
+            Let's assume, you want to delete all MediaItems between position 33 and 98, within the tracks 3, 5, 10 and 14 and only the items that are completely within the position 33 and 98, you type:
+            
+                retval, MediaItemStateChunkArray  = ultraschall.DeleteMediaItems_Between(33, 98, "3,5,10,14", true)
+
+            With all these functions, deleting MediaItems is now comfortable to do.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            MediaItems
+        </chapter_context>
+        <previous_chapter>Getting_Manipulating_Items_Splitting</previous_chapter>
         <next_chapter>Getting_Manipulating_Items_Section_And_Ripple</next_chapter>
         <tags>documentation, mediaitems, items, editing</tags>
     </US_DocBloc>

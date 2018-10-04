@@ -32,7 +32,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 17152</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>API-Variables</b></td></tr><tr><td><a href="#Introduction_API_Variables">API-Variables</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 17251</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>API-Variables</b></td></tr><tr><td><a href="#Introduction_API_Variables">API-Variables</a></td>
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Arrangeview Snapshots</b></td></tr><tr><td><a href="#Arrangeview_Snapshots_HowToRestore">Arrangeview Snapshots: How to restore</a></td>
 <td><a href="#Arrangeview_Snapshots_HowToStoreRetrieveDelete">Arrangeview Snapshots: How to store, retrieve, delete</a></td>
 <td><a href="#Arrangeview_Snapshots_Introduction">Arrangeview Snapshots: Introduction</a></td>
@@ -48,10 +48,11 @@ Ultraschall API functions
 <td><a href="#Introduction_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 </tr><tr><td><a href="#Introduction_License">Introduction: License</a></td>
-</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>MediaItems</b></td></tr><tr><td><a href="#Getting_Manipulating_Items_Edit">MediaItems: Editing MediaItems by Time and Tracks</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>MediaItems</b></td></tr><tr><td><a href="#Getting_Manipulating_Items_Deleting">MediaItems: Deleting MediaItems by Time and Tracks</a></td>
 <td><a href="#Getting_Manipulating_Items_GetMediaItems">MediaItems: Getting MediaItems by Time and Tracks</a></td>
 <td><a href="#Getting_Manipulating_Items_Introduction">MediaItems: Introduction</a></td>
-</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Navigation</b></td></tr><tr><td><a href="#GetSetStates_Project_Track_Item_Env_Introduction">Get/Set States for Project, Tracks and Items: Introduction</a></td>
+<td><a href="#Getting_Manipulating_Items_Splitting">MediaItems: Splitting MediaItems by Time and Tracks</a></td>
+</tr><tr></tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Navigation</b></td></tr><tr><td><a href="#GetSetStates_Project_Track_Item_Env_Introduction">Get/Set States for Project, Tracks and Items: Introduction</a></td>
 <td><a href="#Navigation_Autoscroll_Followmode">Navigation: Autoscroll and Followmode</a></td>
 <td><a href="#Navigation_CenterView">Navigation: Center View</a></td>
 <td><a href="#Navigation_GotoMarkersRegionItemEdges">Navigation: Go to markers, regionedges and itemedges</a></td>
@@ -466,8 +467,8 @@ number markerindex, number position, string markername, string edge_type = ultra
 <li><a href="#GetAllMediaItemsInTimeSelection">GetAllMediaItemsInTimeSelection</a> - get all MediaItems in given tracks from the current time-selection</li>
 </ul>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Edit"></a>
-<p style="padding-left:0.3%;"><u>Functioncall:</u><div style="padding-left:4%;font-size:100%">MediaItems: Editing MediaItems by Time and Tracks</div><p><p>Getting MediaItems by time and tracks is cool. Editing them by time and tracks is even better. for that, I also added some functions: The easiest ones are <a href="#SplitMediaItems_Position">SplitMediaItems_Position</a> and <a href="#SplitItemsAtPositionFromArray">SplitItemsAtPositionFromArray</a> Let's have a look at SplitMediaItems_Position:</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Splitting"></a>
+<p style="padding-left:0.3%;"><u>Functioncall:</u><div style="padding-left:4%;font-size:100%">MediaItems: Splitting MediaItems by Time and Tracks</div><p><p>Getting MediaItems by time and tracks is cool. Editing them by time and tracks is even better. For that, I also added some functions: The easiest ones are <a href="#SplitMediaItems_Position">SplitMediaItems_Position</a> and <a href="#SplitItemsAtPositionFromArray">SplitItemsAtPositionFromArray</a> Let's have a look at SplitMediaItems_Position:</p>
 <pre><code>boolean retval, array MediaItemArray = ultraschall.SplitMediaItems_Position(number position, string trackstring, boolean crossfade)</code></pre>
 <p>This splits all items at position, that are in the tracks given by parameter trackstring. If you want to have the items So if you want to split all items in tracks 1,3,4 at position 22, you type:</p>
 <pre><code>retval, MediaItemArray = ultraschall.SplitMediaItems_Position(22, &quot;1,3,4&quot;, false)</code></pre>
@@ -478,4 +479,23 @@ number markerindex, number position, string markername, string edge_type = ultra
 <p>position is the position, at which an item shall be split. MediaItemArray is an array with all MediaItems, that shall be split, if possible. crossfade sets if automatic crossfade shall be applied to or not, just as in SplitMediaItems_Position above. This function will split only items, that have the position in them somewhere. That means, if you want to split at position 22 seconds, an item, that goes from 1 to 4 will not be split, an item from 18 to 25 will be split.</p>
 <p>This function returns, if splitting was successful and the newly &quot;created&quot;-right-hand-split-items as an MediaItemAray. Only the right-hand-split-MediaItem of MediaItems, that could be split, will be returned. If a MediaItem could not be split(position outside MediaItemstart and MediaItemEnd), there will be no returned MediaItem for it then.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 29 functions available</td></table><br><hr></div></body></html>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Deleting"></a>
+<p style="padding-left:0.3%;"><u>Functioncall:</u><div style="padding-left:4%;font-size:100%">MediaItems: Deleting MediaItems by Time and Tracks</div><p><p>Deleting of MediaItems is often a useful thing. Unfortunately, this is inconvenient to do within the Reaper-API. The only such function is DeleteTrackMediaItem, but it requires you to give the function the track in which the MediaItem lies too. But often, you want to have a function that simply deletes a MediaItem-object or deletes items at position from numerous tracks, etc. So I added some functions, that make life easier: <a href="#DeleteMediaItem">DeleteMediaItem</a>, <a href="#DeleteMediaItemsFromArray">DeleteMediaItemsFromArray</a>, <a href="#DeleteMediaItems_Position">DeleteMediaItems_Position</a> and <a href="#DeleteMediaItemsBetween">DeleteMediaItemsBetween</a></p>
+<p>In addition to deleting the MediaItems, all these functions return the statechunks of the deleted MediaItems. These statechunks contain an additional field &quot;ULTRASCHALL_TRACKNUMBER&quot;, which contains the track, in which the MediaItem was located before deleting it. This may help doing cut and paste functions, as otherwise, you lose the information, in which track a certain MediaItem was located.</p>
+<p>DeleteMediaItem:</p>
+<pre><code>boolean retval, string MediaItemStateChunk = ultraschall.DeleteMediaItem(MediaItem MediaItem)</code></pre>
+<p>This function is simple. Just pass the MediaItem that you want to delete to it and it will delete it. If no such MediaItem exists, it will return false.</p>
+<p>DeleteMediaItemsFromArray</p>
+<pre><code>boolean retval, array MediaItemArray = ultraschall.DeleteMediaItemsFromArray(array MediaItemArray)</code></pre>
+<p>This function might be more interesting if you want to delete a number of MediaItems at once. Just pass to it a MediaItemArray(like the one returned by functions like <a href="#GetAllMediaItemsBetween">GetAllMediaItemsBetween</a>)</p>
+<p>DeleteMediaItems_Position</p>
+<pre><code>boolean retval, array MediaItemStateChunkArray = ultraschall.DeleteMediaItems_Position(number position, string trackstring)</code></pre>
+<p>This function deletes all items at position in the tracks, given by trackstring. If you want to delete all items at position 22, within track 1,4,8 and 9, you just type:</p>
+<pre><code>retval = ultraschall.DeleteMediaItems_Position(22, &quot;1,4,8,9&quot;)</code></pre>
+<p>DeleteMediaItems_Position</p>
+<pre><code>boolean retval, array MediaItemStateChunkArray  = ultraschall.DeleteMediaItems_Between(number startposition, number endposition, string trackstring, boolean inside)</code></pre>
+<p>This function deletes MediaItems between start and endposition, within the track given by parameter trackstring. You can use the parameter inside to set, if you want to delete only items that are completely within start and endposition(true) or also include items, that are only partially within start and endposition. This function works like <a href="#GetAllMediaItemsBetween">GetAllMediaItemsBetween</a>, with the additional benefit of deleting the MediaItems. Let's assume, you want to delete all MediaItems between position 33 and 98, within the tracks 3, 5, 10 and 14 and only the items that are completely within the position 33 and 98, you type:</p>
+<pre><code>retval, MediaItemStateChunkArray  = ultraschall.DeleteMediaItems_Between(33, 98, &quot;3,5,10,14&quot;, true)</code></pre>
+<p>With all these functions, deleting MediaItems is now comfortable to do.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 30 functions available</td></table><br><hr></div></body></html>

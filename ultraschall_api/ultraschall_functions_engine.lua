@@ -22639,18 +22639,22 @@ function ultraschall.DeleteMediaItem(MediaItemObject)
   <slug>DeleteMediaItem</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.DeleteMediaItem(MediaItem MediaItem)</functioncall>
+  <functioncall>boolean retval, string MediaItemStateChunk = ultraschall.DeleteMediaItem(MediaItem MediaItem)</functioncall>
   <description>
     deletes a MediaItem. Returns true, in case of success, false in case of error.
+    
+    returns the MediaItemStateChunk of the deleted MediaItem as well, so you can do additional processing with a deleted item.
   </description>
   <parameters>
     MediaItem MediaItem - the MediaItem to be deleted
   </parameters>
   <retvals>
     boolean retval - true, delete was successful; false was unsuccessful
+    string MediaItemStateChunk - the StateChunk of the deleted MediaItem
+                               - the statechunk contains an additional entry "ULTRASCHALL_TRACKNUMBER" which holds the tracknumber, in which the deleted MediaItem was located
   </retvals>
   <chapter_context>
     MediaItem Management
@@ -22663,11 +22667,14 @@ function ultraschall.DeleteMediaItem(MediaItemObject)
 ]]
     if reaper.ValidatePtr2(0, MediaItemObject, "MediaItem*")==false then ultraschall.AddErrorMessage("DeleteMediaItem","MediaItem", "must be a MediaItem", -1) return false end
     local MediaTrack=reaper.GetMediaItemTrack(MediaItemObject)
-    return reaper.DeleteTrackMediaItem(MediaTrack, MediaItemObject)
+    local _temp, StateChunk=reaper.GetItemStateChunk(MediaItemObject, "", false)
+    StateChunk = ultraschall.SetItemUSTrackNumber_StateChunk(StateChunk, math.floor(reaper.GetMediaTrackInfo_Value(MediaTrack, "IP_TRACKNUMBER")))
+    return reaper.DeleteTrackMediaItem(MediaTrack, MediaItemObject), StateChunk
 end
 
 -- MediaItem=reaper.GetMediaItem(0,0)
--- A=ultraschall.DeleteMediaItem(MediaItem)
+-- A,B=ultraschall.DeleteMediaItem(MediaItem)
+-- reaper.MB(B,"",0)
 
 function ultraschall.DeleteMediaItemsFromArray(MediaItemArray)
 -- Deletes the MediaItems from MediaItemArray
@@ -22678,18 +22685,21 @@ function ultraschall.DeleteMediaItemsFromArray(MediaItemArray)
   <slug>DeleteMediaItemsFromArray</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.DeleteMediaItemsFromArray(array MediaItemArray)</functioncall>
+  <functioncall>boolean retval, array MediaItemArray = ultraschall.DeleteMediaItemsFromArray(array MediaItemArray)</functioncall>
   <description>
     deletes the MediaItems from MediaItemArray. Returns true, in case of success, false in case of error.
+    In addition, it returns a MediaItemStateChunkArray, that contains the statechunks of all deleted MediaItems
   </description>
   <parameters>
     array MediaItemArray - a array with MediaItem-objects to delete; no nil entries allowed
   </parameters>
   <retvals>
     boolean retval - true, delete was successful; false was unsuccessful
+    array MediaItemStateChunkArray - and array with all statechunks of all deleted MediaItems; 
+                                   - each statechunk contains an additional entry "ULTRASCHALL_TRACKNUMBER" which holds the tracknumber, in which the deleted MediaItem was located
   </retvals>
   <chapter_context>
     MediaItem Management
@@ -22700,24 +22710,26 @@ function ultraschall.DeleteMediaItemsFromArray(MediaItemArray)
   <tags>mediaitemmanagement, tracks, media, item, delete</tags>
   </US_DocBloc>
 ]]  
-  if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("DeleteMediaItemsFromArray", "MediaItemArray", "must be a valid MediaItemArray", -1) end
+  if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("DeleteMediaItemsFromArray", "MediaItemArray", "must be a valid MediaItemArray", -1) return false end
 --  reaper.MB(tostring(MediaItemArray),"",0)
 -- Mespotine
   local count=1
+  local MediaItemStateChunkArray={}
+  local hula
   while MediaItemArray[count]~=nil do
-    local hula=ultraschall.DeleteMediaItem(MediaItemArray[count])
+    hula, MediaItemStateChunkArray[count]=ultraschall.DeleteMediaItem(MediaItemArray[count])
     count=count+1
   end
-  return true
+  return true, MediaItemStateChunkArray
 end
 
 
 --Aposition=24
---A1,A2=ultraschall.GetMediaItemsAtPosition(5, "1,2,3")
+--A1,A2=ultraschall.GetMediaItemsAtPosition(197, "1,2,3")
 --AAAAAA=ultraschall.SplitItemsAtPosition(Aposition, A2)
 --A3,A4=ultraschall.GetMediaItemsAtPosition(10, "1,2,3")
 --AAAAAAA=ultraschall.SplitItemsAtPosition(Aposition+5, A4)
---K=ultraschall.DeleteMediaItemsFromArray(fuddel)
+--K,K2=ultraschall.DeleteMediaItemsFromArray(A2)
 
 
 
@@ -22729,13 +22741,13 @@ function ultraschall.DeleteMediaItems_Position(position, trackstring)
   <slug>DeleteMediaItems_Position</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.DeleteMediaItems_Position(number position, string trackstring)</functioncall>
+  <functioncall>boolean retval, array MediaItemStateChunkArray = ultraschall.DeleteMediaItems_Position(number position, string trackstring)</functioncall>
   <description>
     Delete the MediaItems at given position, from the tracks as given by trackstring.
-    Returns the "cleared" trackstring as string and as array, as well as the number of entries; returns false in case of error
+    returns, if deleting was successful and an array with all statechunks of all deleted MediaItems
   </description>
   <parameters>
     number position - the position in seconds
@@ -22743,6 +22755,8 @@ function ultraschall.DeleteMediaItems_Position(position, trackstring)
   </parameters>
   <retvals>
     boolean retval - true, delete was successful; false was unsuccessful
+    array MediaItemStateChunkArray - and array with all statechunks of all deleted MediaItems; 
+                                   - each statechunk contains an additional entry "ULTRASCHALL_TRACKNUMBER" which holds the tracknumber, in which the deleted MediaItem was located
   </retvals>
   <chapter_context>
     MediaItem Management
@@ -22753,15 +22767,18 @@ function ultraschall.DeleteMediaItems_Position(position, trackstring)
   <tags>mediaitemmanagement, tracks, media, item, delete</tags>
   </US_DocBloc>
 ]]
-  if type(position)~="number" then ultraschall.AddErrorMessage("DeleteMediaItems_Position", "position", "must be a number", -1) return -1 end
-  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("DeleteMediaItems_Position", "trackstring", "must be a valid trackstring", -2) return -1 end
+  if type(position)~="number" then ultraschall.AddErrorMessage("DeleteMediaItems_Position", "position", "must be a number", -1) return false end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("DeleteMediaItems_Position", "trackstring", "must be a valid trackstring", -2) return false end
   
   local count=0
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
-  if trackstring==-1 or trackstring=="" then ultraschall.AddErrorMessage("DeleteMediaItems_Position", "trackstring", "must be a valid trackstring", -3) return -1 end
+  if trackstring==-1 or trackstring=="" then ultraschall.AddErrorMessage("DeleteMediaItems_Position", "trackstring", "must be a valid trackstring", -3) return false end
   local Numbers, LineArray=ultraschall.CSV2IndividualLinesAsArray(trackstring)
   local Anumber=reaper.CountMediaItems(0)
-  for i=Anumber-1,0,-1 do
+  local MediaItemStateChunkArray={}
+  local _temp
+  
+  for i=Anumber-1, 0, -1 do
     local MediaItem=reaper.GetMediaItem(0, i)
     local Astart=reaper.GetMediaItemInfo_Value(MediaItem, "D_POSITION")
     local Alength=reaper.GetMediaItemInfo_Value(MediaItem, "D_LENGTH")
@@ -22773,19 +22790,19 @@ function ultraschall.DeleteMediaItems_Position(position, trackstring)
         if tonumber(LineArray[a])==nil then return false end
         if MediaTrackNumber==tonumber(LineArray[a]) then
           count=count+1 
-          ultraschall.DeleteMediaItem(MediaItem)
+          _temp, MediaItemStateChunkArray[a] = ultraschall.DeleteMediaItem(MediaItem)
         end
        end
     end
   end
-  return true
+  return true, MediaItemStateChunkArray
 end
 
 
---L=ultraschall.DeleteMediaItems_Position("18","o")
+-- L,LL=ultraschall.DeleteMediaItems_Position(207,"1,2,3")
 --
 
---A,AA=ultraschall.SplitMediaItems_Position(8,"ö")
+--A,AA=ultraschall.SplitMediaItems_Position(207,"1")
 --ALABAMAA=ultraschall.DeleteMediaItemsFromArray(AA)
 --reaper.UpdateArrange()
 
@@ -22837,8 +22854,9 @@ function ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackst
 ]]
   if type(startposition)~="number" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "startposition", "must be a number", -1) return -1 end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "endposition", "must be a number", -2) return -1 end
-  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "trackstring", "must be a valid trackstring", -3) return -1 end
-  if type(inside)~="boolean" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "inside", "must be a boolean", -4) return -1 end
+  if startposition>endposition then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "endposition", "must be bigger than startposition", -3) return -1 end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "trackstring", "must be a valid trackstring", -4) return -1 end
+  if type(inside)~="boolean" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "inside", "must be a boolean", -5) return -1 end
     
   local MediaItemArray={}
   local MediaItemStateChunkArray={}
@@ -23693,7 +23711,7 @@ function ultraschall.InsertMediaItem_MediaItemStateChunk(position, MediaItemStat
   <parameters>
     number position - the position of the newly created mediaitem
     string MediaItemStatechunk - the Statechunk for the MediaItem, that shall be inserted into a track
-    MediaTrack MediaTrack - the track, where the item shall be inserted to
+    MediaTrack MediaTrack - the track, where the item shall be inserted to; nil, use the statechunk-entry ULTRASCHALL_TRACKNUMBER for the track instead.
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
@@ -23710,7 +23728,10 @@ function ultraschall.InsertMediaItem_MediaItemStateChunk(position, MediaItemStat
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("InsertMediaItem_MediaItemStateChunk","position", "must be a number", -1) return -1 end
   if ultraschall.IsValidMediaItemStateChunk(MediaItemStateChunk)==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItemStateChunk","MediaItemStateChunk", "must be a valid MediaItemStateChunk", -2) return -1 end
-  if reaper.ValidatePtr(MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItemStateChunk","MediaTrack", "must be a valid MediaTrack-object", -3) return -1 end
+  if MediaTrack~=nil and reaper.ValidatePtr(MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItemStateChunk","MediaTrack", "must be a valid MediaTrack-object", -3) return -1 end
+  if ultraschall.GetItemUSTrackNumber_StateChunk(MediaItemStateChunk)==-1 then ultraschall.AddErrorMessage("InsertMediaItem_MediaItemStateChunk","MediaItemStateChunk", "contains no ULTRASCHALL_TRACKNUMBER entry, so I can't determine the original track", -4) return -1 end
+  MediaTrack=reaper.GetTrack(0,ultraschall.GetItemUSTrackNumber_StateChunk(MediaItemStateChunk)-1)
+
   local MediaItemNew=reaper.AddMediaItemToTrack(MediaTrack)
   local MediaItemStateChunk=MediaItemStateChunk:match(".-POSITION ")..position..MediaItemStateChunk:match(".-POSITION.-(%c.*)")
   local Aboolean = reaper.SetItemStateChunk(MediaItemNew, MediaItemStateChunk, true)
@@ -23720,7 +23741,7 @@ end
 
 --C,CC=ultraschall.GetAllMediaItemsBetween(0,400,"1,2,3,4,5",false)
 --MT=reaper.GetTrack(0,0)
---Aretval, Astr = reaper.GetItemStateChunk(CC[1], "", true)
+--Aretval, Astr = reaper.GetItemStateChunk(reaper.GetMediaItem(0,0), "", true)
 --ALABASTER,ALHula=ultraschall.InsertMediaItem_MediaItemStateChunk(1,Astr, MT)
 
 function ultraschall.InsertMediaItemArray(position, MediaItemArray, trackstring)
@@ -26793,9 +26814,11 @@ function ultraschall.GetItemUSTrackNumber_StateChunk(statechunk)
     Lua=5.3
   </requires>
   <functioncall>integer tracknumber, MediaTrack track = ultraschall.GetItemUSTrackNumber_StateChunk(string MediaItemStateChunk)</functioncall>
-  <description>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns the tracknumber as well as the mediatrack-object from where the mediaitem was from, as given by a MediaItemStateChunk.
-    Will be added to the MediaItemStateChunk by the function [GetAllMediaItemsBetween](#GetAllMediaItemsBetween)
+    This works only, if the StateChunk contains the entry "ULTRASCHALL_TRACKNUMBER", which holds the original tracknumber of the MediaItem.
+
+    This entry will only be added by functions from the Ultraschall-API, like [GetAllMediaItemsBetween](#GetAllMediaItemsBetween)
     Returns -1 in case of error.
   </description>
   <parameters>
@@ -26818,6 +26841,9 @@ function ultraschall.GetItemUSTrackNumber_StateChunk(statechunk)
   local retval
   if ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemUSTrackNumber_StateChunk","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return -1 end
   -- get value and return it
+  tracknumber=statechunk:match("ULTRASCHALL_TRACKNUMBER (.-)%c")
+  if tracknumber==nil then ultraschall.AddErrorMessage("GetItemUSTrackNumber_StateChunk","MediaItemStateChunk", "no ULTRASCHALL_TRACKNUMBER-entry found in the statechunk.", -2) return -1 end
+  
   return tonumber(statechunk:match("ULTRASCHALL_TRACKNUMBER (.-)%c")), reaper.GetTrack(0,tonumber(statechunk:match("ULTRASCHALL_TRACKNUMBER (.-)%c"))-1)
 end
 
@@ -40357,6 +40383,56 @@ function ultraschall.pause_follow_one_cycle()
 end 
 
 
+function ultraschall.DeleteMediaItemsBetween(startposition, endposition,  trackstring, inside)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteMediaItems_Position</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, array MediaItemStateChunkArray = ultraschall.DeleteMediaItems_Between(number startposition, number endposition, string trackstring, boolean inside)</functioncall>
+  <description>
+    Delete the MediaItems between start- and endposition, from the tracks as given by trackstring.
+    Returns also a MediaItemStateChunkArray, that contains the statechunks of all deleted MediaItem
+  </description>
+  <parameters>
+    number startposition - the startposition in seconds
+    number endposition - the endposition in seconds
+    string trackstring - the tracknumbers, separated by a comma
+    boolean inside - true, delete only MediaItems that are completely within start and endposition; false, also include MediaItems partially within start and endposition
+  </parameters>
+  <retvals>
+    boolean retval - true, delete was successful; false was unsuccessful
+    array MediaItemStateChunkArray - and array with all statechunks of all deleted MediaItems; 
+                                   - each statechunk contains an additional entry "ULTRASCHALL_TRACKNUMBER" which holds the tracknumber, in which the deleted MediaItem was located
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Delete
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitemmanagement, tracks, media, item, delete, between</tags>
+  </US_DocBloc>
+]]
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("DeleteMediaItemsBetween", "startposition", "must be a number", -1) return false end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("DeleteMediaItemsBetween", "endposition", "must be a number", -2) return false end
+  if type(inside)~="boolean" then ultraschall.AddErrorMessage("DeleteMediaItemsBetween", "inside", "must be a boolean", -3) return false end
+  if startposition>endposition then ultraschall.AddErrorMessage("DeleteMediaItemsBetween", "endposition", "must be bigger than startposition", -4) return false end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("DeleteMediaItemsBetween", "trackstring", "must be a valid trackstring", -5) return false end
+  
+  local count=0
+  count, MediaItemArray = ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackstring, inside)
+  return ultraschall.DeleteMediaItemsFromArray(MediaItemArray)
+end
+
+--A,AA,AAA=ultraschall.DeleteMediaItemsBetween(1000, 250, "1,2,3", false)
+
+
+
+
 function ultraschall.GFX_CreateTextbuffer(inittext, singleline)
   count, split_string = ultraschall.SplitStringAtLineFeedToArray(inittext)
   local textbuffer={}
@@ -40668,8 +40744,6 @@ end
   Editormain()
 --]]
 
-ultraschall.ShowLastErrorMessage()
-
 
 
 
@@ -40796,3 +40870,54 @@ end
 function ultraschall.GetAllMediaItemTake_StateChunks(MediaItem)
 --returns an array with all rppxml-statechunk for all MediaItemTakes of a MediaItem.
 end
+
+
+function ultraschall.GetItemStateChunk(MediaItem, AddTracknumber)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetItemStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string MediaItemStateChunk = ultraschall.GetItemStateChunk(MediaItem MediaItem, boolean AddTracknumber)</functioncall>
+  <description>
+    Returns the statechunk of MediaItem. Parameter AddTracknumber allows you to set, whether the tracknumber of the MediaItem shall be inserted to the statechunk as well, by the new entry "ULTRASCHALL_TRACKNUMBER".
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose statechunk you want to have
+    boolean AddTracknumber - nil or true; add the tracknumber, where the MediaItem lies, as additional entry entry "ULTRASCHALL_TRACKNUMBER" to the statechunk; false, just return the original statechunk.
+  </parameters>
+  <retvals>
+    boolean retval - true, if getting the statechunk was successful; false, if not
+    string MediaItemStateChunk - the statechunk of the MediaItem
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Get MediaItem States
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitemmanagement, get, statechunk, tracknumber</tags>
+  </US_DocBloc>
+]]
+  if ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("GetItemStateChunk","MediaItem", "must be a MediaItem", -1) return false end
+  if AddTracknumber~=nil and ultraschall.type(AddTracknumber)~="boolean" then ultraschall.AddErrorMessage("GetItemStateChunk","AddTracknumber", "must be a boolean", -1) return false end
+  _temp, statechunk=reaper.GetItemStateChunk(MediaItem, "", false)
+  if AddTracknumber~=false then statechunk=ultraschall.SetItemUSTrackNumber_StateChunk(statechunk, math.floor(reaper.GetMediaItemInfo_Value(MediaItem, "P_TRACK"))+1) end
+  return true, statechunk
+end
+
+--MediaItem = reaper.GetMediaItem(0,0)
+--temp, dstatechunk = ultraschall.GetItemStateChunk(MediaItem, false)
+--reaper.MB(dstatechunk,"",0)
+
+ultraschall.ShowLastErrorMessage()
+
+--MT=reaper.GetTrack(0,0)
+--C,CC=ultraschall.GetAllMediaItemsBetween(0,400,"1,2,3,4,5",false)
+--Aretval, Astr = ultraschall.GetItemStateChunk(reaper.GetMediaItem(0,0), true)
+--ALABASTER,ALHula=ultraschall.InsertMediaItem_MediaItemStateChunk(8300,Astr, MT)
