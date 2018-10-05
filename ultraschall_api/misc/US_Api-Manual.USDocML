@@ -1227,7 +1227,72 @@
             MediaItems
         </chapter_context>
         <previous_chapter>Getting_Manipulating_Items_Splitting</previous_chapter>
-        <next_chapter>Getting_Manipulating_Items_Section_And_Ripple</next_chapter>
+        <next_chapter>Getting_Manipulating_Items_Section_And_Ripple_Cut</next_chapter>
+        <tags>documentation, mediaitems, items, editing</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Getting_Manipulating_Items_Section_And_Ripple_Cut</slug>
+        <title>MediaItems: SectionCut, RippleCut, RippleInsert</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            One of Reaper's real great features is Ripple-Edit. On of the big shortcomings, it only allows Ripple Cut all tracks, Ripple Cut one track, no Ripple Cut.
+            But what if you want to RippleCut two or more tracks, but not all of them? What, if you want to RippleCut only selected tracks? What if you just want to cut a section without rippling?
+            Impossible you say!
+            With naked Reaper, yes. But possible with the Ultraschall-API.
+            For that I added the following functions: [RippleCut](#RippleCut), [RippleCut_Reverse](#RippleCut_Reverse), [SectionCut](#SectionCut), [SectionCut_Inverse](#SectionCut_Inverse)
+            All these functions return a MediaItemStateChunkArray, where every StateChunk includes an additional entry "ULTRASCHALL_TRACKNUMBER", which holds the tracknumber, in which the cut MediaItem/piece of a MediaItem was originally located.
+            
+            RippleCut:
+                
+                integer number_items, array MediaItemArray_StateChunk = ultraschall.RippleCut(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)
+                
+            With this function, you can RippleCut between startposition, endposition within the tracks as given in trackstring. You can also decide, whether to move the markers and the envelope-points as well.
+            This should give you total control in how RippleCut is behaving for your needs.
+            Let's take an example. If you want to cut between seconds 20 and 50 in track 1,4,5,7, not moving the markers but the envelope-points, you type:
+                
+                number_items, MediaItemArray_StateChunk = ultraschall.RippleCut(20, 50, "1,4,5,7", false, true)
+                
+            This cuts out the section between seconds 20 and 50 and moves everything after that toward the beginning of the project, to fill the gap of the cut section.
+            
+            RippleCut_Reverse:
+            
+                integer number_items, array MediaItemArray_StateChunk = ultraschall.RippleCut_Reverse(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)
+                
+            With this function, you can RippleCut, but unlike RippleCut above, RippleCut_Reverse moves everything BEFORE the cut towards the end to fill the cut.
+            Everything else is just the same as RippleCut.
+            
+            
+            SectionCut:
+            
+                integer number_items, array MediaItemArray_StateChunk = ultraschall.SectionCut(number startposition, number endposition, string trackstring)
+                
+            This function just cuts out the section between start and endposition in the tracks, given in trackstring, leaving a "gap" in it. Useful, when you don't want to ripple stuff.
+            If you want to cut between seconds 77 and 99 in tracks 1,2,4,6 you type:
+            
+                number_items, MediaItemArray_StateChunk = ultraschall.SectionCut(77, 99, "1,2,4,6")
+                
+            
+            SectionCut_Inverse
+            
+                integer number_items_beforestart, array MediaItemArray_StateChunk_beforestart, integer number_items_afterend, array MediaItemArray_StateChunk_afterend = ultraschall.SectionCut_Inverse(number startposition, number endposition, string trackstring)
+            
+            This function cuts everything BEFORE AND AFTER start and endposition within the tracks given by trackstring. This is comparable to crop-functionality in graphic-applications like Photoshop, applied to MediaItems.
+            For example: if you have a 10 minute project, but want to use only the audio from seconds 60 to 89 in tracks 1,2,7,8 you type:
+
+                number_items_beforestart, MediaItemArray_StateChunk_beforestart, number_items_afterend, MediaItemArray_StateChunk_afterend = ultraschall.SectionCut_Inverse(60, 89, "1,2,7,8")
+                
+             With that, everything before second 60 and everything after second 89 in tracks 1,2,7,8 will be deleted.
+             In addition to that, the function returns a MediaItemStateChunkArray for both, the items cut before startposition and one for the items cut after endposition.
+             
+             This should give you many additional use-cases into your hands.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            MediaItems
+        </chapter_context>
+        <previous_chapter>Getting_Manipulating_Items_Deleting</previous_chapter>
+        <next_chapter></next_chapter>
         <tags>documentation, mediaitems, items, editing</tags>
     </US_DocBloc>
 </USDocML>

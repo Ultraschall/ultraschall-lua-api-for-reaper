@@ -16,7 +16,7 @@ Ultraschall API Changelog
            <a href="US_Introduction.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button.png" alt="Ultraschall Internals Documentation"></a>  
            <a href="Downloads.html"><img style="position:absolute; left:74.4%; width:6.9%;" src="gfx/Downloads.png" alt="Downloads"></a>
            <a href="Changelog.html"><img style="position:absolute; left:81.3%; width:6.9%;" src="gfx/Changelog_Un.png" alt="Changelog of documentation"></a>
-           <a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/Impressum.png" alt="Impressum and Contact"></a>
+           <a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/impressum.png" alt="Impressum and Contact"></a>
            <div style="padding-top:2.5%">
            <table border="0" style="color:#aaaaaa; width:45%;">
                 <tr>

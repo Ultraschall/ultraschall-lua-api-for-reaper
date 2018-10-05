@@ -74,12 +74,7 @@ end
 --A=reaper.GetTrackEnvelope(reaper.GetTrack(0,1),0)
 --B,C,D=ultraschall.GetEnvelopeStateChunk(A, "", true, true)
 
-function ultraschall.GetItemStateChunk(MediaItem, str, isundo)
-  return reaper.GetItemStateChunk(MediaItem, "", false)
-end
 
---A=reaper.GetMediaItem(0,0)
---B,C,D=ultraschall.GetItemStateChunk(A,"",false, false)
 
 function ultraschall.GetTrackStateChunk(MediaTrack, str, isundo, usesws)
   return reaper.GetTrackStateChunk(MediaTrack, "", false)
@@ -8155,7 +8150,7 @@ function ultraschall.GetPreviousClosestItemEdge(tracks, cursor_type, time_positi
         if ultraschall.IsItemInTrack(j,i)==true then
           -- if item is in track, find the closest edge
           local MediaItem=reaper.GetMediaItem(0, i)
-          local Aretval, Astr = ultraschall.GetItemStateChunk(MediaItem,"<ITEMPOSITION",false)
+          local Aretval, Astr = reaper.GetItemStateChunk(MediaItem,"<ITEMPOSITION",false)
           local ItemStart=reaper.GetMediaItemInfo_Value(MediaItem, "D_POSITION")
           local ItemEnd=reaper.GetMediaItemInfo_Value(MediaItem, "D_POSITION")+reaper.GetMediaItemInfo_Value(MediaItem, "D_LENGTH")
           if ItemEnd<cursortime and ItemEnd>closest_item then -- if it's item-end
@@ -12531,65 +12526,6 @@ end
 
 --A,AA=ultraschall.EnumerateValuesByPattern("l","l",1,"c:\\test.ini")
 
-
--------------------------------
----- Reaper.ini Management ----
--------------------------------
-
-function ultraschall.GetSplitCrossFadeState_ReaperIni()
--- returns SplitCrossFadeStates, currently set in Reaper
--- see: Preferences->Media Item Defaults
---
--- returns
--- splitautoxfade -   0 - checkbox on:create automatic fadein/fadeout nor new items, length, Rest off
---                    1 - checkbox on: Overlap and crossfade items when splitting, length:
---                    2 - checkbox on: Enable automatic fadein/fadeout and autocrossfade for MIDI note velocity
---                    4 - (Editing Behavior->) Crossfades stay together during fade edits when trim content behind mediaitems is enabled
---                    8 - checkbox off: create automatic fadein/fadeout nor new items, length, Rest Off
---                   16 - checkbox on: Rightclick on crossfade sets fade shaper for only one side of the crossfade(shift toggles)
--- defsplitxfadelen - length of crossfade in seconds. If you split items, the left-hand item will be splittime+defsplitxfadelen
--- defxfadeshape - shape of the crossfade: 0 - 6
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetSplitCrossFadeState_ReaperIni</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    SWS=2.8.8
-    Lua=5.3
-  </requires>
-  <functioncall>integer splitautoxfade, integer defsplitxfadelen, integer defxfadeshape = ultraschall.GetSplitCrossFadeState_ReaperIni()</functioncall>
-  <description>
-    returns the states of splitautocrossfade, the length and the fadeshape, as set up in Preferences->Media Item Defaults and stored in the reaper.ini.
-  </description>
-  <retvals>
-    integer splitautoxfade - crossfade-state, bitmask
-    -0 - checkbox on:create automatic fadein/fadeout nor new items, length, Rest off
-    -1 - checkbox on: Overlap and crossfade items when splitting, length:
-    -2 - checkbox on: Enable automatic fadein/fadeout and autocrossfade for MIDI note velocity
-    -4 - (Editing Behavior->) Crossfades stay together during fade edits when trim content behind mediaitems is enabled
-    -8 - checkbox off: create automatic fadein/fadeout nor new items, length, Rest Off
-    -16 - checkbox on: Rightclick on crossfade sets fade shaper for only one side of the crossfade(shift toggles)
-    
-    integer defsplitxfadelen - length of crossfade in seconds. If you split items, the left-hand item will be splittime+defsplitxfadelen
-    integer defxfadeshape - shape of the crossfade: 0 - 6
-  </retvals>
-  <chapter_context>
-    Configuration-Files Management
-    Reaper.Ini
-  </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>Configurationmanagement, Reaper.ini, crossfade, state, get</tags>
-  </US_DocBloc>
---]]
-   __,a=ultraschall.GetIniFileExternalState("REAPER", "splitautoxfade", reaper.get_ini_file())
-   __,b=ultraschall.GetIniFileExternalState("REAPER", "defsplitxfadelen", reaper.get_ini_file())
-   __,c=ultraschall.GetIniFileExternalState("REAPER", "defxfadeshape", reaper.get_ini_file())
-   return a,b,c
-end
-
---A1,A2,A3=ultraschall.GetSplitCrossFadeState_ReaperIni()
 
 ---------------------------
 ---- Marker Management ----
@@ -22406,7 +22342,7 @@ function ultraschall.GetMediaItemsAtPosition(position, trackstring)
         if MediaTrackNumber==tonumber(LineArray[a]) then
           count=count+1 
           MediaItemArray[count]=MediaItem
-          temp, MediaItemStateChunkArray[count]=ultraschall.GetItemStateChunk(MediaItemArray[count], "", true)
+          temp, MediaItemStateChunkArray[count]=reaper.GetItemStateChunk(MediaItemArray[count], "", true)
 --          reaper.MB(MediaTrackNumber,LineArray[a],0)
         end
        end
@@ -22546,7 +22482,6 @@ function ultraschall.SplitMediaItems_Position(position, trackstring, crossfade)
           count=count+1 
           ReturnMediaItemArray[count]=reaper.SplitMediaItem(MediaItem, position)
           if crossfade==false then 
-            reaper.MB("","",0)
               oldfade=reaper.GetMediaItemInfo_Value(MediaItem, "D_FADEOUTLEN_AUTO")
             oldlength=reaper.GetMediaItemInfo_Value(MediaItem, "D_LENGTH")
             reaper.SetMediaItemInfo_Value(MediaItem, "D_LENGTH", oldlength-oldfade)
@@ -22859,7 +22794,7 @@ function ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackst
   if type(inside)~="boolean" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "inside", "must be a boolean", -5) return -1 end
     
   local MediaItemArray={}
-  local MediaItemStateChunkArray={}
+  MediaItemStateChunkArray={}
   local count=0
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
   if trackstring==-1 or trackstring==""  then return -1 end
@@ -22882,10 +22817,10 @@ function ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackst
           if MediaTrackNumber==tonumber(LineArray[a]) then
             count=count+1 
             MediaItemArray[count]=MediaItem
-            temp,MediaItemStateChunkArray[count]= ultraschall.GetItemStateChunk(MediaItem, "", true)
+            temp,MediaItemStateChunkArray[count] = reaper.GetItemStateChunk(MediaItem, "", true)
             local tempMediaTrack=reaper.GetMediaItemTrack(MediaItem)
             local Tnumber=reaper.GetMediaTrackInfo_Value(tempMediaTrack, "IP_TRACKNUMBER")
-            MediaItemStateChunkArray[count]="<ITEM\nULTRASCHALL_TRACKNUMBER "..Tnumber.."\n"..MediaItemStateChunkArray[count]:match("<ITEM(.*)")
+            if MediaItemStateChunkArray[count]~=nil then MediaItemStateChunkArray[count]="<ITEM\nULTRASCHALL_TRACKNUMBER "..math.floor(Tnumber).."\n"..MediaItemStateChunkArray[count]:match("<ITEM(.*)") end
           end
        end
     elseif inside==false then
@@ -22897,7 +22832,7 @@ function ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackst
           if MediaTrackNumber==tonumber(LineArray[a]) then
             count=count+1 
             MediaItemArray[count]=MediaItem
-            temp,MediaItemStateChunkArray[count]= ultraschall.GetItemStateChunk(MediaItem, "", true)
+            temp,MediaItemStateChunkArray[count]= reaper.GetItemStateChunk(MediaItem, "", true)
             local tempMediaTrack=reaper.GetMediaItemTrack(MediaItem)
             local Tnumber=reaper.GetMediaTrackInfo_Value(tempMediaTrack, "IP_TRACKNUMBER")
             MediaItemStateChunkArray[count]="<ITEM\nULTRASCHALL_TRACKNUMBER "..Tnumber..MediaItemStateChunkArray[count]:match("<ITEM(.*)")
@@ -23415,7 +23350,6 @@ function ultraschall.SectionCut(startposition, endposition, trackstring)
   return C, CCC
 end
 
---A,AA=ultraschall.SectionCut(1,9,"1,2,3,4")
 --H=reaper.GetCursorPosition()
 --reaper.UpdateArrange()
 
@@ -23680,7 +23614,7 @@ function ultraschall.InsertMediaItem_MediaItem(position, MediaItem, MediaTrack)
   if reaper.ValidatePtr(MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItem","MediaItem", "must be a MediaItem", -2) return -1 end
   if reaper.ValidatePtr(MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItem","MediaTrack", "must be a MediaTrack", -3) return -1 end
   local MediaItemNew=reaper.AddMediaItemToTrack(MediaTrack)
-  local Aretval, Astr = ultraschall.GetItemStateChunk(MediaItem, "", true)
+  local Aretval, Astr = reaper.GetItemStateChunk(MediaItem, "", true)
   Astr=Astr:match(".-POSITION ")..position..Astr:match(".-POSITION.-(%c.*)")
   local Aboolean = reaper.SetItemStateChunk(MediaItemNew, Astr, true)
   local start_position=reaper.GetMediaItemInfo_Value(MediaItemNew, "D_POSITION")
@@ -23783,7 +23717,8 @@ function ultraschall.InsertMediaItemArray(position, MediaItemArray, trackstring)
 ]]    
   if type(position)~="number" then ultraschall.AddErrorMessage("InsertMediaItemArray","position", "must be a number", -1) return -1 end
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("InsertMediaItemArray","MediaItemArray", "must be a valid MediaItemArray", -2) return -1 end
-  if reaper.ValidatePtr(MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("InsertMediaItemArray","MediaTrack", "must be a valid MediaTrack-object", -3) return -1 end
+  --if reaper.ValidatePtr(MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("InsertMediaItemArray","MediaTrack", "must be a valid MediaTrack-object", -3) return -1 end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("InsertMediaItemArray","trackstring", "must be a valid trackstring", -3) return -1 end
   
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
   if trackstring==-1 or trackstring==""  then return -1 end
@@ -23860,7 +23795,7 @@ function ultraschall.GetMediaItemStateChunksFromItems(MediaItemArray)
   local L
   local MediaItemArray_StateChunk={}
   while MediaItemArray[count]~=nil do
-    L, MediaItemArray_StateChunk[count]=ultraschall.GetItemStateChunk(MediaItemArray[count], "", true)
+    L, MediaItemArray_StateChunk[count]=reaper.GetItemStateChunk(MediaItemArray[count], "", true)
     count=count+1
   end
   return count-1, MediaItemArray_StateChunk
@@ -23925,8 +23860,8 @@ function ultraschall.RippleInsert(position, MediaItemArray, trackstring, moveenv
   --reaper.MB(trackstring,"",0)
   if trackstring==-1 or trackstring=="" then ultraschall.AddErrorMessage("RippleInsert", "trackstring", "must be a valid trackstring", -6) return -1 end
 
-  local NumberOfItems
-  local NewMediaItemArray={}
+-- local NumberOfItems
+  NewMediaItemArray={}
   local count=1
   local ItemStart=reaper.GetProjectLength()+1
   local ItemEnd=0
@@ -23984,10 +23919,10 @@ function ultraschall.RippleInsert(position, MediaItemArray, trackstring, moveenv
   return NumberOfItems, NewMediaItemArray, position+ItemEnd
 end
 
---C,CC=ultraschall.GetAllMediaItemsBetween(0,5,"1,2,3",true)
+--C,CC=ultraschall.GetAllMediaItemsBetween(0,15,"1,2,3",false)
 --D=ultraschall.DeleteMediaItemsFromArray(CC)
 --track=reaper.GetMediaItem_Track(CC[1])
---PUHDERBAER, PUHDERBAER2, PUHDERBAER3=ultraschall.RippleInsert(21,CC,"1,2,3", true, true)
+--PUHDERBAER, PUHDERBAER2, PUHDERBAER3=ultraschall.RippleInsert(213,CC,"1,2,3", true, true)
 
 
 function ultraschall.MoveMediaItems_FromArray(MediaItemArray, newposition)
@@ -24608,7 +24543,7 @@ function ultraschall.GetItemPosition(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemPosition","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemPosition","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -24659,7 +24594,7 @@ function ultraschall.GetItemLength(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemLength","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemLength","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -24708,7 +24643,7 @@ function ultraschall.GetItemSnapOffset(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemSnapOffset","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemSnapOffset","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -24759,7 +24694,7 @@ function ultraschall.GetItemLoop(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemLoop","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemLoop","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -24809,7 +24744,7 @@ function ultraschall.GetItemAllTakes(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemAllTakes","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemAllTakes","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -24863,7 +24798,7 @@ function ultraschall.GetItemFadeIn(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemFadeIn","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemFadeIn","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -24924,7 +24859,7 @@ function ultraschall.GetItemFadeOut(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemFadeOut","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemFadeOut","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -24980,7 +24915,7 @@ function ultraschall.GetItemMute(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemMute","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemMute","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -25037,7 +24972,7 @@ function ultraschall.GetItemFadeFlag(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemFadeFlag","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemFadeFlag","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -25094,7 +25029,7 @@ function ultraschall.GetItemLock(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemLock","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemLock","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -25152,7 +25087,7 @@ function ultraschall.GetItemSelected(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemSelected","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemSelected","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -25210,7 +25145,7 @@ function ultraschall.GetItemGroup(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemGroup","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemGroup","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -25266,7 +25201,7 @@ function ultraschall.GetItemIGUID(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemIGUID","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemIGUID","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -25321,7 +25256,7 @@ function ultraschall.GetItemIID(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemIID","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemIID","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -25376,7 +25311,7 @@ function ultraschall.GetItemName(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemName","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemName","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -25432,7 +25367,7 @@ function ultraschall.GetItemVolPan(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemVolPan","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemVolPan","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -25489,7 +25424,7 @@ function ultraschall.GetItemSampleOffset(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemSampleOffset","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemSampleOffset","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -26492,7 +26427,7 @@ function ultraschall.GetItemPlayRate(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemPlayRate","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemPlayRate","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -26560,7 +26495,7 @@ function ultraschall.GetItemChanMode(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemChanMode","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemChanMode","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -26616,7 +26551,7 @@ function ultraschall.GetItemGUID(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemGUID","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemGUID","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -26663,7 +26598,7 @@ function ultraschall.GetItemRecPass(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemRecPass","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemRecPass","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return
   end
@@ -26722,7 +26657,7 @@ function ultraschall.GetItemBeat(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemBeat","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemBeat","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return -1
   end
@@ -26782,7 +26717,7 @@ function ultraschall.GetItemMixFlag(MediaItem, statechunk)
   -- check parameters and prepare statechunk-variable
   local retval
   if MediaItem~=nil then
-    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=ultraschall.GetItemStateChunk(MediaItem,"",false) 
+    if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then retval, statechunk=reaper.GetItemStateChunk(MediaItem,"",false) 
     else ultraschall.AddErrorMessage("GetItemMixFlag","MediaItem", "must be a MediaItem.", -2) return end
   elseif MediaItem==nil and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("GetItemMixFlag","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return -1
   end
@@ -26924,7 +26859,7 @@ function ultraschall.SetItemPosition(MediaItem, position, statechunk)
 ]]
   -- check parameters
   local _tudelu
-  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=ultraschall.GetItemStateChunk(MediaItem, "", false) 
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
   elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemPosition", "statechunk", "Must be a valid statechunk.", -1) return nil
   end
   if type(position)~="number" then ultraschall.AddErrorMessage("SetItemPosition", "position", "Must be a number.", -2) return nil end  
@@ -26980,7 +26915,7 @@ function ultraschall.SetItemLength(MediaItem, length, statechunk)
 ]]
   -- check parameters
   local _tudelu
-  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=ultraschall.GetItemStateChunk(MediaItem, "", false) 
+  if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
   elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemLength", "statechunk", "Must be a valid statechunk.", -1) return nil
   end
 --  reaper.MB(type(length),length,0)
@@ -27624,7 +27559,7 @@ function ultraschall.GetAllMediaItemsFromTrack(tracknumber)
   while str:match(".-%cIGUID.-")~= nil do
     local GUID=str:match(".-%cIGUID ({.-})%c")
     MediaItemArray[count]=reaper.BR_GetMediaItemByGUID(0, GUID)
-    temp, MediaItemArrayStateChunk[count]=ultraschall.GetItemStateChunk(MediaItemArray[count],"",true)
+    temp, MediaItemArrayStateChunk[count]=reaper.GetItemStateChunk(MediaItemArray[count],"",true)
     str=str:match(".-%cIGUID.-%c(.*)")
     if count==idx then MediaItem=reaper.BR_GetMediaItemByGUID(0, GUID) end
       count=count+1
@@ -27916,7 +27851,7 @@ function ultraschall.GetMediaItemStateChunksFromMediaItemArray(MediaItemArray)
   local retval
   while MediaItemArray[count]~=nil do
     if reaper.ValidatePtr(MediaItemArray[count],"MediaItem*")==true then
-      retval, MediaItemStateChunkArray[count2] = ultraschall.GetItemStateChunk(MediaItemArray[count], "", true)
+      retval, MediaItemStateChunkArray[count2] = reaper.GetItemStateChunk(MediaItemArray[count], "", true)
       count2=count2+1
     end
     count=count+1
@@ -32645,7 +32580,7 @@ function ultraschall.GetItemSpectralConfig(itemidx, MediaItemStateChunk)
   local _retval
   if itemidx~=-1 then 
     local MediaItem=reaper.GetMediaItem(0,itemidx-1)
-    _retval, MediaItemStateChunk=ultraschall.GetItemStateChunk(MediaItem,"",false)
+    _retval, MediaItemStateChunk=reaper.GetItemStateChunk(MediaItem,"",false)
   end
   
   -- get the value of SPECTRAL_CONFIG and return it
@@ -32710,7 +32645,7 @@ function ultraschall.SetItemSpectralConfig(itemidx, item_spectral_config, MediaI
   local MediaItem, _retval
   if itemidx~=-1 then 
     MediaItem=reaper.GetMediaItem(0,itemidx-1)
-    _retval, MediaItemStateChunk=ultraschall.GetItemStateChunk(MediaItem,"",false)
+    _retval, MediaItemStateChunk=reaper.GetItemStateChunk(MediaItem,"",false)
   end
   
   -- check, if SPECTRAL_CONFIG exists at all
@@ -32884,7 +32819,7 @@ function ultraschall.CountItemSpectralEdits(itemidx, MediaItemStateChunk)
   local _retval, MediaItem
   if itemidx~=-1 then 
     MediaItem=reaper.GetMediaItem(0,itemidx-1)
-    _retval, MediaItemStateChunk=ultraschall.GetItemStateChunk(MediaItem,"",false)
+    _retval, MediaItemStateChunk=reaper.GetItemStateChunk(MediaItem,"",false)
   end
   
   local offset=0
@@ -32965,7 +32900,7 @@ function ultraschall.GetItemSpectralEdit(itemidx, spectralidx, MediaItemStateChu
   local _retval, MediaItem
   if itemidx~=-1 then 
     MediaItem=reaper.GetMediaItem(0,itemidx-1)
-    _retval, MediaItemStateChunk=ultraschall.GetItemStateChunk(MediaItem,"",false)
+    _retval, MediaItemStateChunk=reaper.GetItemStateChunk(MediaItem,"",false)
   end
   
   -- prepare variables
@@ -33039,7 +32974,7 @@ function ultraschall.DeleteItemSpectralEdit(itemidx, spectralidx, MediaItemState
   local _retval, MediaItem
   if itemidx~=-1 then 
     MediaItem=reaper.GetMediaItem(0,itemidx-1)
-    _retval, MediaItemStateChunk=ultraschall.GetItemStateChunk(MediaItem,"",false)
+    _retval, MediaItemStateChunk=reaper.GetItemStateChunk(MediaItem,"",false)
   end
   
   -- prepare variables
@@ -33103,8 +33038,8 @@ function ultraschall.SetItemSpectralVisibilityState(item, state, statechunk)
   if item~=-1 and reaper.ValidatePtr2(0, reaper.GetMediaItem(0,item-1), "MediaItem*")==false then ultraschall.AddErrorMessage("SetItemSpectralVisibilityState", "item", "Must be a valid MediaItem-idx or -1, when using ItemStateChunk).", -2) return -1 end
   if type(statechunk)~="string" and item==-1 then ultraschall.AddErrorMessage("SetItemSpectralVisibilityState", "statechunk", "Must be a string", -3) return -1 end
   if item==-1 and ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemSpectralVisibilityState", "statechunk", "Must be a valid MediaItemStateChunk", -4) return -1 end
-  local bool
-  if item~=-1 then item=reaper.GetMediaItem(0,item-1) _bool, statechunk=ultraschall.GetItemStateChunk(item,"",false) end
+  local _bool, bool
+  if item~=-1 then item=reaper.GetMediaItem(0,item-1) _bool, statechunk=reaper.GetItemStateChunk(item,"",false) end
   if math.type(state)~="integer" then ultraschall.AddErrorMessage("SetItemSpectralVisibilityState", "state", "Must be an integer", -5) return -1 end
   if state~=0 and state~=1 then ultraschall.AddErrorMessage("SetItemSpectralVisibilityState", "state", "Must be 1 or 0", -6) return -1 end
   
@@ -33139,7 +33074,7 @@ function ultraschall.SetItemSpectralEdit(item, spectralidx, start_pos, end_pos, 
   <description>
     Sets a spectral-edit-instance in a MediaItem or MediaItemStateChunk.
     
-    After comitting the changed MediaItemStateChunk to a MediaItem, Reaper may change the order of the spectral-edits! Keep that in mind, when changing numerous Spectral-Edits or use MediaItemStateChunks for the setting before comitting them to a MediaItem using Reaper's function reaper.SetItemStateChunk().
+    After committing the changed MediaItemStateChunk to a MediaItem, Reaper may change the order of the spectral-edits! Keep that in mind, when changing numerous Spectral-Edits or use MediaItemStateChunks for the setting before committing them to a MediaItem using Reaper's function reaper.SetItemStateChunk().
     
     It returns the modified MediaItemStateChunk.
     Returns -1 in case of error.
@@ -33184,7 +33119,7 @@ function ultraschall.SetItemSpectralEdit(item, spectralidx, start_pos, end_pos, 
 
   local _bool, item2, count
   item2=item
-  if item~=-1 then item=reaper.GetMediaItem(0,item-1) _bool, statechunk=ultraschall.GetItemStateChunk(item,"",false) end
+  if item~=-1 then item=reaper.GetMediaItem(0,item-1) _bool, statechunk=reaper.GetItemStateChunk(item,"",false) end
   if math.type(spectralidx)~="integer" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "spectralidx", "Must be an integer", -7) return -1 end
   if type(start_pos)~="number" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "start_pos", "Must be a number", -8) return -1 end
   if type(end_pos)~="number" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "end_pos", "Must be a number", -9) return -1 end
@@ -33558,7 +33493,7 @@ function ultraschall.AddItemSpectralEdit(itemidx, start_pos, end_pos, gain, fade
   -- get MediaItemStateChunk, if necessary
   if itemidx~=-1 then 
     MediaItem=reaper.GetMediaItem(0,itemidx-1)
-    _l, MediaItemStateChunk=ultraschall.GetItemStateChunk(MediaItem, "", false)
+    _l, MediaItemStateChunk=reaper.GetItemStateChunk(MediaItem, "", false)
   end
 
   -- add new Spectral-Edit-entry
@@ -33813,7 +33748,7 @@ function ultraschall.GetItemSpectralVisibilityState(itemidx, MediaItemStateChunk
   local _retval
   if itemidx~=-1 then 
     local MediaItem=reaper.GetMediaItem(0,itemidx-1)
-    _retval, MediaItemStateChunk=ultraschall.GetItemStateChunk(MediaItem,"",false)
+    _retval, MediaItemStateChunk=reaper.GetItemStateChunk(MediaItem,"",false)
   end
   
   -- get the value of SPECTROGRAM and return it
@@ -39867,75 +39802,6 @@ end
 --A=ultraschall.SetPlayCursorWidth(2,true)
 --ultraschall.SetStartNewFileRecSizeState(true, false, 613, false)
 
-function ultraschall.GetReaperAlwaysOnTopState()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetReaperAlwaysOnTopState</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.941
-    SWS=2.9.7
-    Lua=5.3
-  </requires>
-  <functioncall>boolean aot_state = ultraschall.GetReaperAlwaysOnTopState()</functioncall>
-  <description>
-    Returns state, whether the Reaper-Windows are always on top of all opened applications or not.
-    
-    This can be set with the action 40239
-  </description>
-  <retvals>
-    boolean aot_state - true, Reaper is always on top; false, other application's windows can be put before Reaper
-  </retvals>
-  <chapter_context>
-    User Interface
-    Reaper
-  </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>userinterface, get, always on top, reaper, state</tags>
-  </US_DocBloc>
---]]
-  local aot=reaper.SNM_GetIntConfigVar("aot", -1)
-  if aot==0 then aot=false else aot=true end
-  return aot
-end
-
---A=ultraschall.GetReaperAlwaysOnTopState()
-
-
-function ultraschall.GetInputOutputLatency_Seconds()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetInputOutputLatency_Seconds</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.941
-    SWS=2.9.7
-    Lua=5.3
-  </requires>
-  <functioncall>number inputLatency, number outputLatency = ultraschall.GetInputOutputLatency_Seconds()</functioncall>
-  <description>
-    Returns the input and output-latency in seconds
-  </description>
-  <retvals>
-    number inputLatency - the input latency in seconds
-    number outputLatency - the output latency in seconds 
-  </retvals>
-  <chapter_context>
-    Audio Management
-    Helper functions
-  </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, get, latency, input, output, seconds</tags>
-  </US_DocBloc>
---]]
-  local input, output = reaper.GetInputOutputLatency()
-  local projsrate=reaper.SNM_GetIntConfigVar("projsrate",-1)
-  return input/projsrate, output/projsrate
-end
-
---A,B=ultraschall.GetInputOutputLatency_Seconds()
 
 function ultraschall.CreateTrackString_ArmedTracks()
 --[[
@@ -40134,6 +40000,362 @@ function ultraschall.GetMarkerUpdateCounter()
 end
 
 --A=ultraschall.GetMarkerUpdateCounter()
+
+function ultraschall.GetSetConfigAcidImport(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAcidImport</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAcidImport(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of "When importing media"-dropdownlist, as set in the Media with embedded tempo information-section in Preferences -> Video/REX/Misc
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "acidimport", as well as the reaper.ini-entry "REAPER -> acidimport"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value
+                   - -1, an error occured
+                   -  0, Adjust media to project tempo
+                   -  1, Import media at source tempo
+                   -  2, Always prompt when importing media with embedded tempo
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value
+                   - -1, an error occured
+                   -  0, Adjust media to project tempo
+                   -  1, Import media at source tempo
+                   -  2, Always prompt when importing media with embedded tempo
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Video/REX/Misc
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, tempo, get, set, persist, tempo, import, media</tags>
+  </US_DocBloc>
+--]]
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAcidImport", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAcidImport", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAcidImport", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>2 then ultraschall.AddErrorMessage("GetSetConfigAcidImport", "setting", "must be between 0 and 2", -4) return -1 end
+  if set==false then return reaper.SNM_GetIntConfigVar("acidimport", -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar("acidimport", setting)
+    if temp==false then return -1 else if persist==true then retval = ultraschall.SetIniFileExternalState("REAPER", "acidimport", tostring(setting), reaper.get_ini_file()) end return setting end
+  end
+end
+
+--A=ultraschall.GetSetAcidImport(true, 0, true)
+
+function ultraschall.GetSetConfigActionMenu(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigActionMenu</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigActionMenu(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of "Show recent actions"-entry, as set in the Actions-menu.
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "actionmenu", as well as the reaper.ini-entry "REAPER -> actionmenu"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value
+                   - 0, don't show recent actions - unchecked
+                   - 1, show recent actions - checked
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value
+                    - 0, don't show recent actions - unchecked
+                    - 1, show recent actions - checked
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Menus
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, actions, menu</tags>
+  </US_DocBloc>
+--]]
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigActionMenu", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigActionMenu", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigActionMenu", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>1 then ultraschall.AddErrorMessage("GetSetConfigActionMenu", "setting", "must be between 0 and 1", -4) return -1 end
+  if set==false then return reaper.SNM_GetIntConfigVar("actionmenu", -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar("actionmenu", setting)
+    if temp==false then return -1 else if persist==true then retval = ultraschall.SetIniFileExternalState("REAPER", "actionmenu", tostring(setting), reaper.get_ini_file()) end return setting end
+  end
+end
+
+--A=ultraschall.GetSetActionMenu(true, 1, false)
+
+function ultraschall.GetSetConfigAdjRecLat(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAdjRecLat</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAdjRecLat(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of "Use audio driver reported latency"-checkbox, as set in Preferences -> Recording
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "adjreclat", as well as the reaper.ini-entry "REAPER -> adjreclat"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value
+                    - 0, don't use audio driver reported latency(off) - unchecked
+                    - 1, don't use audio driver reported latency(on) - checked
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value
+                    - 0, don't use audio driver reported latency(off) - unchecked
+                    - 1, don't use audio driver reported latency(on) - checked
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Recording
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, recording, adjreclat, audio, driver, latency</tags>
+  </US_DocBloc>
+--]]
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAdjRecLat", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAdjRecLat", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAdjRecLat", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>1 then ultraschall.AddErrorMessage("GetSetConfigAdjRecLat", "setting", "must be between 0 and 1", -4) return -1 end
+  if set==false then return reaper.SNM_GetIntConfigVar("adjreclat", -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar("adjreclat", setting)
+    if temp==false then return -1 else if persist==true then retval = ultraschall.SetIniFileExternalState("REAPER", "adjreclat", tostring(setting), reaper.get_ini_file()) end return setting end
+  end
+end
+
+--A=ultraschall.GetSetAdjRecLat(true, 1, true)
+
+function ultraschall.GetSetConfigAdjRecManLat(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAdjRecManLat</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAdjRecManLat(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of "Output manual offset-samples"-inputbox, as set in Preferences -> Recording
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "adjrecmanlat", as well as the reaper.ini-entry "REAPER -> adjrecmanlat"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value; 0 to 2147483647; in samples
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value; 0 to 2147483647; in samples
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Recording
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, recording, adjrecmanlat, manual, output, offset, samples</tags>
+  </US_DocBloc>
+--]]
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAdjRecManLat", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAdjRecManLat", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAdjRecManLat", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>2147483647 then ultraschall.AddErrorMessage("GetSetConfigAdjRecManLat", "setting", "must be between 0 and 2147483647", -4) return -1 end
+  if set==false then return reaper.SNM_GetIntConfigVar("adjrecmanlat", -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar("adjrecmanlat", setting)
+    if temp==false then return -1 else if persist==true then retval = ultraschall.SetIniFileExternalState("REAPER", "adjrecmanlat", tostring(setting), reaper.get_ini_file()) end return setting end
+  end
+end
+
+--A=ultraschall.GetSetAdjRecManLat(false, 0, true)
+
+function ultraschall.GetSetConfigAfxCfg(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAfxCfg</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAfxCfg(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of the audioformat for "Apply FX, Glue, Freeze, etc", as set in the Project Settings->Media-dialog
+    Only sets the format, not the individual format-settings(like bitrate, etc)!
+    To keep the setting for new projects as standard-setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "afxcfg", as well as the reaper.ini-entry "REAPER -> afxcfg"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/newly set audioformat 
+                   - 0, not set yet
+                   - 1179012432, Video (ffmpeg/libav encoder)
+                   - 1195984416, Video (GIF)
+                   - 1279477280, Video (LCF)
+                   - 1332176723, OGG Opus
+                   - 1634297446, AIFF
+                   - 1684303904, DDP
+                   - 1718378851, FLAC
+                   - 1769172768, Audio CD Image(CUE/BIN format)
+                   - 1836069740, MP3 (encoder by LAME project)
+                   - 1869047670, OGG Vorbis
+                   - 2002876005, WAV
+                   - 2004250731, WavPack lossless compressor
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the new set audioformat
+                    - 1179012432, Video (ffmpeg/libav encoder)
+                    - 1195984416, Video (GIF)
+                    - 1279477280, Video (LCF)
+                    - 1332176723, OGG Opus
+                    - 1634297446, AIFF
+                    - 1684303904, DDP
+                    - 1718378851, FLAC
+                    - 1769172768, Audio CD Image(CUE/BIN format)
+                    - 1836069740, MP3 (encoder by LAME project)
+                    - 1869047670, OGG Vorbis
+                    - 2002876005, WAV
+                    - 2004250731, WavPack lossless compressor
+    boolean persist - true, this setting will be standard-setting for new projects after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Project Settings: Media
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, project settings, media, apply fx glue freeze</tags>
+  </US_DocBloc>
+--]]
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAfxCfg", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAfxCfg", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAfxCfg", "setting", "must be an integer", -3) return -1 end
+  if     setting==1179012432 then -- 1179012432, Video (ffmpeg/libav encoder)
+  elseif setting==1195984416 then -- 1195984416, Video (GIF)
+  elseif setting==1279477280 then -- 1279477280, Video (LCF)
+  elseif setting==1332176723 then -- 1332176723, OGG Opus
+  elseif setting==1634297446 then -- 1634297446, AIFF
+  elseif setting==1684303904 then -- 1684303904, DDP
+  elseif setting==1718378851 then -- 1718378851, FLAC
+  elseif setting==1769172768 then -- 1769172768, Audio CD Image(CUE/BIN format)
+  elseif setting==1836069740 then -- 1836069740, MP3 (encoder by LAME project)
+  elseif setting==1869047670 then -- 1869047670, OGG Vorbis
+  elseif setting==2002876005 then -- 2002876005, WAV
+  elseif setting==2004250731 then -- 2004250731, WavPack lossless compressor
+  else
+    ultraschall.AddErrorMessage("GetSetConfigAfxCfg", "setting", "no such format", -4) return -1
+  end
+  if set==false then return reaper.SNM_GetIntConfigVar("afxcfg", 0)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar("afxcfg", setting)
+    if temp==false then ultraschall.AddErrorMessage("GetSetConfigAfxCfg", "setting", "Can't be set on runtime, yet. Project-Settings -> Media -> Format for Apply FX, Glue, Freeze, etc must be set to Custom first.", -5) return -1 else if persist==true then retval = ultraschall.SetIniFileExternalState("REAPER", "afxcfg", tostring(setting), reaper.get_ini_file()) end return setting end
+  end
+end
+
+--Temp2=reaper.SNM_SetIntConfigVar("projrecforopencopy", 2)
+--Temp=reaper.SNM_GetIntConfigVar("projrecforopencopy", 0)
+--A=ultraschall.GetSetAfxCfg(true, 1684303904, false)
+
+function ultraschall.GetSetConfigAllStereoPairs(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAllStereoPairs</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAllStereoPairs(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of "Show non-standard stereo channel pairs(i.e Input2/Input3 etc)"-checkbox in the Channel naming/mapping-section, as set in Preferences -> Audio
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "allstereopairs", as well as the reaper.ini-entry "REAPER -> allstereopairs"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value
+                   - 0, don't show non standard stereo channel pairs(off) - unchecked
+                   - 1, show non standard stereo channel pairs(on) - checked
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value
+                    - 0, don't show non standard stereo channel pairs(off) - unchecked
+                    - 1, show non standard stereo channel pairs(on) - checked
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Audio
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, audio, stereo, pairs</tags>
+  </US_DocBloc>
+--]]
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAllStereoPairs", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAllStereoPairs", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAllStereoPairs", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>1 then ultraschall.AddErrorMessage("GetSetConfigAllStereoPairs", "setting", "must be between 0 and 1", -4) return -1 end
+  if set==false then return reaper.SNM_GetIntConfigVar("allstereopairs", -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar("allstereopairs", setting)
+    if temp==false then return -1 else if persist==true then retval = ultraschall.SetIniFileExternalState("REAPER", "allstereopairs", tostring(setting), reaper.get_ini_file()) end return setting end
+  end
+end
+
+--A=ultraschall.GetSetConfigAllStereoPairs(true, 0, true)
 
 function ultraschall.CreateTrackStringByGUID(guid_csv_string)
 --[[
@@ -40915,9 +41137,17 @@ end
 --temp, dstatechunk = ultraschall.GetItemStateChunk(MediaItem, false)
 --reaper.MB(dstatechunk,"",0)
 
+--A,AA=ultraschall.SectionCut(24,60,"1,2,3,4")
+--number_items, MediaItemArray_StateChunk = ultraschall.RippleCut(20, 50, "1,4,5,7", false, true)
+
+--reaper.MB(MediaItemArray_StateChunk[1],"",0)
+
+
+
 ultraschall.ShowLastErrorMessage()
 
 --MT=reaper.GetTrack(0,0)
 --C,CC=ultraschall.GetAllMediaItemsBetween(0,400,"1,2,3,4,5",false)
 --Aretval, Astr = ultraschall.GetItemStateChunk(reaper.GetMediaItem(0,0), true)
 --ALABASTER,ALHula=ultraschall.InsertMediaItem_MediaItemStateChunk(8300,Astr, MT)
+

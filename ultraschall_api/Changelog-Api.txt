@@ -203,6 +203,13 @@
   - GetScreenWidth - returns the width of the screen
   - pause_follow_one_cycle - skips followmode-auto-off-checking-script for one cycle; only relevant for scripts that shall work within Ultraschall.FM-extension
   - DeleteMediaItemsBetween - deletes MediaItems between start and endposition within tracks, given by trackstring; the deleting-equivalent of GetAllMediaItemsBetween
+  - GetSetConfigAcidImport - gets/sets the configuration-setting for configuration-variable acidimport; also adds the setting to reaper.ini, if needed
+  - GetSetConfigActionMenu - gets/sets the configuration-setting for configuration-variable actionmenu; also adds the setting to reaper.ini, if needed
+  - GetSetConfigAdjRecLat - gets/sets the configuration-setting for configuration-variable adjreclat; also adds the setting to reaper.ini, if needed
+  - GetSetConfigAdjRecManLat - gets/sets the configuration-setting for configuration-variable adjrecmanlat; also adds the setting to reaper.ini, if needed
+  - GetSetConfigAdjRecManLatIn - gets/sets the configuration-setting for configuration-variable adjrecmanlatin; also adds the setting to reaper.ini, if needed
+  - GetSetConfigAfxCfg - gets/sets the configuration-setting for configuration-variable afxcfg; also adds the setting to reaper.ini, if needed
+  - GetSetConfigAllStereoPairs - gets/sets the configuration-setting for configuration-variable afxcfg; also adds the setting to reaper.ini, if needed
   
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
@@ -218,9 +225,12 @@
       
       
     For 4.00beta2.8:
+      TODO!!  - integer number_of_items, array MediaItemArray, number endpos_inserted_items = ultraschall.RippleInsert(number position, array MediaItemStateChunkArray, string trackstring, boolean moveenvelopepoints, boolean movemarkers)
+                allows inserting items from a MediaItemStateChunkArray.
+                That way, it is possible to change the track, by altering the ULTRASCHALL_TRACKNUMBER-entry.
+                If no such entry exists, the item will be included into the first track, regardless of possible overlap.
       TODO!!  - Get Length of all Items in a track GetLengthOfAllItems_Track()
       TODO!!  - Add options to Normalize-Items-function, as there are numerous different actions for normalizing
-      TODO!!  - GetMarkerUpdateCounter()
       TODO!!  - SetTrackMIDIColorMapFn - finish it
       TODO!!  - Envelope-ExtStates
       TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
@@ -673,6 +683,7 @@
   - CenterViewToCursor - added parameter for a non-cursor-position of your choice to center to
   - SetItemPosition - exchanged position and optional statechunk-parameters to be in line with SetProject/Track-statefunctions
   - SetItemLength - exchanged length and optional statechunk-parameters to be in line with SetProject/Track-statefunctions
+  - GetSplitCrossFadeState_ReaperIni - removed, will return as a new function
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:

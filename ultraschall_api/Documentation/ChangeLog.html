@@ -10,7 +10,7 @@ Ultraschall API Changelog
            <a href="US_Introduction.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button.png" alt="Ultraschall Internals Documentation"></a>  
            <a href="Downloads.html"><img style="position:absolute; left:74.4%; width:6.9%;" src="gfx/Downloads.png" alt="Downloads"></a>
            <a href="Changelog.html"><img style="position:absolute; left:81.3%; width:6.9%;" src="gfx/Changelog_Un.png" alt="Changelog of documentation"></a>
-           <a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/Impressum.png" alt="Impressum and Contact"></a>
+           <a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/impressum.png" alt="Impressum and Contact"></a>
            <div style="padding-top:2.5%">
            <table border="0" style="color:#aaaaaa; width:45%;">
                 <tr>
@@ -236,7 +236,14 @@ Ultraschall API Changelog
 <li>GetScreenHeight - returns the height of the screen</li>
 <li>GetScreenWidth - returns the width of the screen</li>
 <li>pause_follow_one_cycle - skips followmode-auto-off-checking-script for one cycle; only relevant for scripts that shall work within Ultraschall.FM-extension</li>
-<li><p>DeleteMediaItemsBetween - deletes MediaItems between start and endposition within tracks, given by trackstring; the deleting-equivalent of GetAllMediaItemsBetween</p></li>
+<li>DeleteMediaItemsBetween - deletes MediaItems between start and endposition within tracks, given by trackstring; the deleting-equivalent of GetAllMediaItemsBetween</li>
+<li>GetSetConfigAcidImport - gets/sets the configuration-setting for configuration-variable acidimport; also adds the setting to reaper.ini, if needed</li>
+<li>GetSetConfigActionMenu - gets/sets the configuration-setting for configuration-variable actionmenu; also adds the setting to reaper.ini, if needed</li>
+<li>GetSetConfigAdjRecLat - gets/sets the configuration-setting for configuration-variable adjreclat; also adds the setting to reaper.ini, if needed</li>
+<li>GetSetConfigAdjRecManLat - gets/sets the configuration-setting for configuration-variable adjrecmanlat; also adds the setting to reaper.ini, if needed</li>
+<li>GetSetConfigAdjRecManLatIn - gets/sets the configuration-setting for configuration-variable adjrecmanlatin; also adds the setting to reaper.ini, if needed</li>
+<li>GetSetConfigAfxCfg - gets/sets the configuration-setting for configuration-variable afxcfg; also adds the setting to reaper.ini, if needed</li>
+<li><p>GetSetConfigAllStereoPairs - gets/sets the configuration-setting for configuration-variable afxcfg; also adds the setting to reaper.ini, if needed</p></li>
 </ul>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
 <ul>
@@ -594,6 +601,7 @@ Ultraschall API Changelog
 <li>CenterViewToCursor - added parameter for a non-cursor-position of your choice to center to</li>
 <li>SetItemPosition - exchanged position and optional statechunk-parameters to be in line with SetProject/Track-statefunctions</li>
 <li>SetItemLength - exchanged length and optional statechunk-parameters to be in line with SetProject/Track-statefunctions</li>
+<li>GetSplitCrossFadeState_ReaperIni - removed, will return as a new function</li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>

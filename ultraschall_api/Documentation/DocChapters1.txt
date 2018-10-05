@@ -3,12 +3,8 @@ Getting, manipulating MediaItems in Projects:
     getting MediaItem-objects by time AND track, 
     editing
       Split, Cut, Copy, Paste, Move:
-        Split
         Move
-        SectionCut
-        SectionCut_Inverse
-        RippleCut
-        RippleCut_Reverse
+
         RippleInsert
     inserting
     manipulating
