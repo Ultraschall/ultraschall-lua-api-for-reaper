@@ -4,8 +4,6 @@ Getting, manipulating MediaItems in Projects:
     editing
       Split, Cut, Copy, Paste, Move:
         Move
-
-        RippleInsert
     inserting
     manipulating
     spectral edit

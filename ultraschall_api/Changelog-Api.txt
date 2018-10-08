@@ -210,10 +210,12 @@
   - GetSetConfigAdjRecManLatIn - gets/sets the configuration-setting for configuration-variable adjrecmanlatin; also adds the setting to reaper.ini, if needed
   - GetSetConfigAfxCfg - gets/sets the configuration-setting for configuration-variable afxcfg; also adds the setting to reaper.ini, if needed
   - GetSetConfigAllStereoPairs - gets/sets the configuration-setting for configuration-variable afxcfg; also adds the setting to reaper.ini, if needed
+  - GetDuplicatesFromArrays - returns the entries from an array, that are duplicate or are in only one of these two arrays
+  - OnlyFilesOfCertainType - returns all files of a certain type from an array of filenames
   
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
-      TODO!!  - ReturnTableAsIndividualValues - ... macht Probleme als retval
+      TODO!!  - ReturnTableAsIndividualValues - ... macht Probleme als retval in Docs (vermute ich mal meintest Du)
       
       TODO!!  - Docs: parameter/retval-names often go into their descriptions; see GetStartNewFileRecSizeState for one such example
                     in general, the size of the parameters/retvals/description-table is...to be honest..fucked up.

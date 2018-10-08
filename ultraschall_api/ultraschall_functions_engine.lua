@@ -22794,7 +22794,7 @@ function ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackst
   if type(inside)~="boolean" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "inside", "must be a boolean", -5) return -1 end
     
   local MediaItemArray={}
-  MediaItemStateChunkArray={}
+  local MediaItemStateChunkArray={}
   local count=0
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
   if trackstring==-1 or trackstring==""  then return -1 end
@@ -23942,7 +23942,7 @@ function ultraschall.MoveMediaItems_FromArray(MediaItemArray, newposition)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.MoveMediaItems_FromArray(array MediaItemArray, number newposition)</functioncall>
+  <functioncall>integer retval, number earliest_itemtime, number latest_itemtime = ultraschall.MoveMediaItems_FromArray(array MediaItemArray, number newposition)</functioncall>
   <description>
     It changes the position of the MediaItems from MediaItemArray. It keeps the related position to each other, putting the earliest item at newposition, putting the others later, relative to their offset.
     
@@ -23953,7 +23953,9 @@ function ultraschall.MoveMediaItems_FromArray(MediaItemArray, newposition)
     number newposition - the new position in seconds
   </parameters>
   <retvals>
-    integer retval - -1 in case of error
+    integer retval - -1 in case of error, else returns 1
+    number earliest_itemtime - the new earliest starttime of all MediaItems moved
+    number latest_itemtime - the new latest endtime of all MediaItems moved
   </retvals>
   <chapter_context>
     MediaItem Management
@@ -23969,10 +23971,13 @@ function ultraschall.MoveMediaItems_FromArray(MediaItemArray, newposition)
 
   local count=1
   local Earliest_time=reaper.GetProjectLength()+1
-  local ItemStart
+  local Latest_time=0
+  local ItemStart, ItemEnd
   while MediaItemArray[count]~=nil do
     ItemStart=reaper.GetMediaItemInfo_Value(MediaItemArray[count], "D_POSITION")
+    ItemEnd=reaper.GetMediaItemInfo_Value(MediaItemArray[count], "D_LENGTH")+ItemStart
     if ItemStart<Earliest_time then Earliest_time=ItemStart end
+    if ItemEnd>Latest_time then Latest_time=ItemEnd end
     count=count+1
   end    
 
@@ -23982,8 +23987,12 @@ function ultraschall.MoveMediaItems_FromArray(MediaItemArray, newposition)
     reaper.SetMediaItemInfo_Value(MediaItemArray[count], "D_POSITION", (ItemStart-Earliest_time)+newposition)
     count=count+1
   end    
+  return 1, Earliest_time, Latest_time
 end
 
+
+--LCount, MIA = ultraschall.GetAllMediaItemsBetween(0,1000,"1,2",false)
+--A,B,C=ultraschall.MoveMediaItems_FromArray(MIA, 4000)
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -33639,18 +33648,18 @@ function ultraschall.GetAllFilesnamesInPath(path)
 
   -- prepare variables
   local Files={}
-  local count=0
+  local count=1
   local string=""
   
   -- get all filenames in path
   while string~=nil do
-    string=reaper.EnumerateFiles(path, count)
+    string=reaper.EnumerateFiles(path, count-1)
     if string~=nil then Files[count]=path..string end
     count=count+1
   end
   
   -- return results
-  return count, Files
+  return count-2, Files
 end
 
 function ultraschall.GetAllDirectoriesInPath(path)
@@ -33690,18 +33699,18 @@ function ultraschall.GetAllDirectoriesInPath(path)
   
   -- check variables
   local Dirs={}
-  local count=0
+  local count=1
   local string=""
   
   -- get directorynames
   while string~=nil do
-    string=reaper.EnumerateSubdirectories(path, count)
+    string=reaper.EnumerateSubdirectories(path, count-1)
     if string~=nil then Dirs[count]=path..string end
     count=count+1
   end
   
   -- return results
-  return count, Dirs
+  return count-2, Dirs
 end
 
 --L,LL=ultraschall.GetAllDirectoriesInPath("C:\\")
@@ -35048,7 +35057,8 @@ function ultraschall.CheckForValidFileFormats(filename_with_path)
     string mediatype - the type of the media; Image, Audio, Audio/Video, Video
   </retvals>
   <chapter_context>
-    API-Helper functions
+    File Management
+    File Analysis
   </chapter_context>
   <target_document>USApiFunctionsReference</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -40646,6 +40656,7 @@ function ultraschall.DeleteMediaItemsBetween(startposition, endposition,  tracks
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("DeleteMediaItemsBetween", "trackstring", "must be a valid trackstring", -5) return false end
   
   local count=0
+  local MediaItemArray
   count, MediaItemArray = ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackstring, inside)
   return ultraschall.DeleteMediaItemsFromArray(MediaItemArray)
 end
@@ -41143,6 +41154,143 @@ end
 --reaper.MB(MediaItemArray_StateChunk[1],"",0)
 
 
+
+function ultraschall.GetDuplicatesFromArrays(array1, array2)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetDuplicatesFromArrays</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer duplicate_count, array duplicate_array, integer originalscount_array1, array originals_array1, integer originalscount_array2, array originals_array2  = ultraschall.GetDuplicatesFromArrays(array array1, array array2)</functioncall>
+  <description>
+    Returns the duplicates and the originals(entries only in one of the arrays) of two arrays. It will also return the number of entries.
+    
+    This works only on array with integer-indexed entries; index must start with index 1!
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    array array1 - the first array to check for duplicates and "original"-entries
+    array array2 - the second array to check for duplicates and "original"-entries
+  </parameters>
+  <retvals>
+    integer duplicate_count - the number of entries in both arrays
+    array duplicate_array - the entries in both arrays
+    integer originalscount_array1 - the number of entries only in array1
+    array originals_array1 - the entries that are only existing in array1
+    integer originalscount_array2 - the number of entries only in array2
+    array originals_array2 - the entries that are only existing in array2
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helperfunctions, get, duplicates, originals, arrays</tags>
+  </US_DocBloc>
+]]
+  if type(array1)~="table" then ultraschall.AddErrorMessage("GetDuplicatesFromArrays", "array1", "must be a table", -1) return -1 end
+  if type(array2)~="table" then ultraschall.AddErrorMessage("GetDuplicatesFromArrays", "array2", "must be a table", -2) return -1 end
+  local count1 = ultraschall.CountEntriesInTable_Main(array1)
+  local count2 = ultraschall.CountEntriesInTable_Main(array2)
+  local duplicates={}
+  local originals1={}
+  local originals2={}
+  local dupcount=0
+  local orgcount1=0
+  local orgcount2=0
+  local found=false
+  
+  for i=1, count2 do
+    for a=1, count1 do
+      if array2[i]==array1[a] then 
+        dupcount=dupcount+1
+        duplicates[dupcount]=array2[i]
+        found=true
+      end
+    end
+    if found==false then orgcount2=orgcount2+1 originals2[orgcount2]=array2[i] end
+    found=false
+  end
+
+  for i=1, count1 do
+    for a=1, count2 do
+      if array1[i]==array2[a] then 
+        found=true
+      end
+    end
+    if found==false then orgcount1=orgcount1+1 originals1[orgcount1]=array1[i] end
+    found=false
+  end
+  
+  return dupcount, duplicates, orgcount1, originals1, orgcount2, originals2
+end
+
+function main()
+  filecount2, files2 = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
+  A, A1, B, B1, C, C1 = ultraschall.GetDuplicatesFromArrays(files, files2)
+  reaper.defer(main)
+end
+
+
+--filecount, files = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
+
+
+function ultraschall.OnlyFilesOfCertainType(filearray, filetype)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetDuplicatesFromArrays</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer foundfilecount, array foundfilearray = ultraschall.OnlyFilesOfCertainType(array filearray, string filetype)</functioncall>
+  <description>
+    Returns the duplicates and the originals(entries only in one of the arrays) of two arrays. It will also return the number of entries.
+    
+    This works only on array with integer-indexed entries; index must start with index 1!
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    array filearray - an array with files to check for; index is 1-based
+    string fileformat - the format of the file; JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI,  unknown
+  </parameters>
+  <retvals>
+    integer foundfilecount - the number of files that contain the right filetype
+    array foundfilearray - an array with all the files that contain the right filetype
+  </retvals>
+  <chapter_context>
+    File Management
+    File Analysis
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>filemanagement, get, filetype</tags>
+  </US_DocBloc>
+]]
+  if type(filearray)~="table" then ultraschall.AddErrorMessage("OnlyFilesOfCertainType", "filearray", "must be a table", -1) return -1 end
+  if type(filetype)~="string" then ultraschall.AddErrorMessage("OnlyFilesOfCertainType", "filetype", "must be a string", -2) return -1 end
+  local foundfiles={}
+  local count=1
+  local foundcount=0
+  while filearray[count]~=nil do
+    local foundfiletype=ultraschall.CheckForValidFileFormats(filearray[count])
+    if foundfiletype==filetype then foundcount=foundcount+1 foundfiles[foundcount]=filearray[count] end
+    count=count+1
+  end
+  return foundcount, foundfiles
+end
+
+--filecount, files = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
+--A,B=ultraschall.OnlyFilesOfCertainType(files, "JPG")
+  
+--main()
 
 ultraschall.ShowLastErrorMessage()
 
