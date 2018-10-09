@@ -229,6 +229,7 @@
       TODO!!  - write final documentation for public-beta
       TODO!!  - construct final documentation-document, including automatic generation of ChangeLog.
       TODO!!  - Include automatic adding of "Help: Show Ultraschall Api Help"-action
+      TODO!!  - Docs: Add docs for new Datatype ColorTable
       
       
     For 4.00beta2.8:
