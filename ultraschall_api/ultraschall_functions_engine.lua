@@ -1325,7 +1325,7 @@ function ultraschall.ConvertColor(r,g,b)
     converts r, g, b-values to native-system-color. Works like reaper's ColorToNative, but doesn't need |0x1000000 added.
   </description>
   <retvals>
-    integer colorvalue - the native-system-color.
+    integer colorvalue - the native-system-color; 0 to 33554431
   </retvals>
   <parameters>
     integer r - the red colorvalue
@@ -1347,6 +1347,45 @@ function ultraschall.ConvertColor(r,g,b)
 end
 
 --ultraschall.ConvertColor(9,9,9.9)
+
+function ultraschall.ConvertColorReverse(color)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertColor</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.52
+    Lua=5.3
+  </requires>
+  <functioncall>integer colorvalue = ultraschall.ConvertColor(integer r, integer g, integer b)</functioncall>
+  <description>
+    converts a native-system-color to r, g, b-values. Works like reaper's ColorToNative, but doesn't need |0x1000000 added.
+  </description>
+  <retvals>
+    integer r - the red colorvalue
+    integer g - the green colorvalue
+    integer b - the blue colorvalue
+  </retvals>
+  <parameters>
+    integer colorvalue - the native-system-color; 0 to 33554431
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, color, native, convert, red, gree, blue</tags>
+  </US_DocBloc>
+]]
+    if math.type(color)~="integer" then ultraschall.AddErrorMessage("ConvertColorReverse", "color", "only integer allowed", -1) return -1 end
+    if color<0 or color>33554431 then ultraschall.AddErrorMessage("ConvertColorReverse", "color", "must be between 0 and 33554431", -2) return -1 end
+--                        33554431
+    return reaper.ColorFromNative(color)
+end
+--O=reaper.ColorToNative(255,255,255)|0x1000000
+--P=ultraschall.ConvertColor(255,255,255)
+--reaper.CF_SetClipboard(O)
+--L,LL,LLL=ultraschall.ConvertColorReverse(O)
 
 function ultraschall.Msg(val)
 -- prints a message to the Reaper Console
@@ -32539,7 +32578,7 @@ function ultraschall.GetReaperAppVersion()
   </US_DocBloc>
 --]]
   -- if exe-path and resource-path are the same, it is an portable-installation
-  if reaper.GetExePath()==reaper.GetResourcePath() then portable=true end
+  if reaper.GetExePath()==reaper.GetResourcePath() then portable=true else portable=false end
   -- separate the returned value from GetAppVersion
   return tonumber(reaper.GetAppVersion():match("(.-)/")), reaper.GetAppVersion():match("/(.*)"), reaper.GetOS():match("(.-)%d"), portable
 end
@@ -40987,17 +41026,323 @@ end
 ---- Color Picker ----
 ----------------------
 
-function ultraschall.TracksToGentleSonicRainboom(startingcolor, direction)
+function ultraschall.CreateColorTable(startr, startg, startb, endr, endg, endb, number_of_steps)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateColorTable</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>array ColorTable = ultraschall.CreateColorTable(integer startr, integer startg, integer startb, integer endr, integer endg, integer endb, integer number_of_steps)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns a colortable to be used by color-graphics-functions.
+    
+    The colorvalue for start and end can be 0 to 255 or the other way round 255 to 0
+    
+    Can be used by [ApplyColorTableToTrackColors](#ApplyColorTableToTrackColors]
+  </description>
+  <parameters>
+    integer startr - start redvalue, between 0 and 255
+    integer startg - start greenvalue, between 0 and 255 
+    integer startb - start bluevalue, between 0 and 255
+    integer endr - end redvalue, between 0 and 255
+    integer endg - end greenvalue, between 0 and 255
+    integer endb - end bluevalue, between 0 and 255
+    integer number_of_steps - the number of steps from the lowest to the highest r,g,b-color start/end-values
+  </parameters>
+  <retvals>
+    array ColorTable - a colortable for the colors with the number of steps of your choice; 
+                     - each indexentry holds entries "r"(0-255), "g"(0-255), "b"(0-255), "nativecolor" and "gfxr"(0-1), "gfxg"(0-1), "gfxb"(0-1).
+  </retvals>
+  <chapter_context>
+    User Interface
+    Track Design
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, create, colortable</tags>
+  </US_DocBloc>
+]]
+  if ultraschall.type(number_of_steps)~="number: integer" or number_of_steps==0 then ultraschall.AddErrorMessage("CreateColorTable", "number_of_steps", "must be a positive or negative integer, no 0 allowed", -1) return nil end
+  if ultraschall.type(startr)~="number: integer" then ultraschall.AddErrorMessage("CreateColorTable", "startr", "must be an integer", -2) return nil end
+  if ultraschall.type(startg)~="number: integer" then ultraschall.AddErrorMessage("CreateColorTable", "startg", "must be an integer", -3) return nil end
+  if ultraschall.type(startb)~="number: integer" then ultraschall.AddErrorMessage("CreateColorTable", "startb", "must be an integer", -4) return nil end
+  if ultraschall.type(endr)~="number: integer" then ultraschall.AddErrorMessage("CreateColorTable", "endr", "must be an integer", -5) return nil end
+  if ultraschall.type(endg)~="number: integer" then ultraschall.AddErrorMessage("CreateColorTable", "endg", "must be an integer", -6) return nil end
+  if ultraschall.type(endb)~="number: integer" then ultraschall.AddErrorMessage("CreateColorTable", "endb", "must be an integer", -7) return nil end
+
+  if startr<0 or startr>255 then ultraschall.AddErrorMessage("CreateColorTable", "startr", "must be between 0 and 255", -8) return nil end
+  if startg<0 or startg>255 then ultraschall.AddErrorMessage("CreateColorTable", "startg", "must be between 0 and 255", -9) return nil end
+  if startb<0 or startb>255 then ultraschall.AddErrorMessage("CreateColorTable", "startb", "must be between 0 and 255", -10) return nil end
+  
+  if endr<0 or endr>255 then ultraschall.AddErrorMessage("CreateColorTable", "endr", "must be between 0 and 255", -11) return nil end
+  if endg<0 or endg>255 then ultraschall.AddErrorMessage("CreateColorTable", "endg", "must be between 0 and 255", -12) return nil end
+  if endb<0 or endb>255 then ultraschall.AddErrorMessage("CreateColorTable", "endb", "must be between 0 and 255", -13) return nil end
+  
+  local colortable={}
+  if number_of_steps>0 then start=1 stop=number_of_steps steps=1 else start=number_of_steps*-1 stop=1 steps=-1 end
+  
+  if startr<endr then stepr=(endr-startr)/number_of_steps else stepr=((startr-endr)/number_of_steps)*-1 end
+  if startg<endg then stepg=(endg-startg)/number_of_steps else stepg=((startg-endg)/number_of_steps)*-1 end
+  if startb<endb then stepb=(endb-startb)/number_of_steps else stepb=((startb-endb)/number_of_steps)*-1 end
+  
+  if number_of_steps>0 then
+    for i=1, number_of_steps do
+      colortable[i]={}
+      -- standard colors
+      colortable[i]["r"]=math.ceil(startr+(i*stepr))
+      colortable[i]["g"]=math.ceil(startg+(i*stepg))
+      colortable[i]["b"]=math.ceil(startb+(i*stepb))
+      
+      -- gfx-color-settings
+      colortable[i]["gfxr"]=math.ceil(startr+(i*stepr))/255
+      colortable[i]["gfxg"]=math.ceil(startg+(i*stepg))/255
+      colortable[i]["gfxb"]=math.ceil(startb+(i*stepb))/255
+      
+      -- native color
+      colortable[i]["nativecolor"]=ultraschall.ConvertColor(colortable[i]["r"], colortable[i]["g"], colortable[i]["b"])
+    end
+  end
+  return colortable
 end
 
-function ultraschall.TracksToAdjustedSonicRainboom(startingcolor, direction)
+--A=ultraschall.CreateColorTable(1, 1, 1, 255, 0, 255, 6)
+--B=ultraschall.CreateColorTable(255, 255, 0, 1, 1, 1, -7)
+--A=ultraschall.CreateColorTable(0, 0, 0,  255, 0, 0,  10)
+--B=ultraschall.CreateColorTable(255, 0, 0,  0, 0, 0, 10)
+
+
+function ultraschall.CreateSonicRainboomColorTable()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateSonicRainboomColorTable</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>array ColorTable = ultraschall.CreateSonicRainboomColorTable()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns a colortable in Ultraschall's standard-trackcolor-setting "Sonic Rainboom"-style.
+    
+    Can be used by [ApplyColorTableToTrackColors](#ApplyColorTableToTrackColors]
+  </description>
+  <retvals>
+    array ColorTable - a colortable with all values for Ultraschall's track-color "Sonic Rainboom"
+  </retvals>
+  <chapter_context>
+    User Interface
+    Track Design
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, create, colortable, sonic rainboom</tags>
+  </US_DocBloc>
+]]
+  local group={}
+  group[0]=16753246
+  group[1]=15774556
+  group[2]=15451994
+  group[3]=15129178
+  group[4]=14016600
+  group[5]=12245846
+  group[6]=9098835
+  group[7]=6082898
+  group[8]=4837750
+  group[9]=2806183
+  group[10]=4120575
+  group[11]=4100351
+  group[12]=5073919
+  group[13]=4803058
+  group[14]=7555570
+  group[15]=11225586
+  group[16]=15878614
+  group[17]=16741328
+  group[18]=16741270
+  group[19]=16747136
+  group[20]=12615680
+  group[21]=32960
+  group[22]=12583040
+  local group2={}
+  for i=1, 20 do
+    group2[i]={}
+    group2[i]["nativecolor"]=group[i-1]
+    group2[i]["r"], group2[i]["g"], group2[i]["b"] = ultraschall.ConvertColorReverse(group2[i]["nativecolor"])
+    -- gfx-color-settings
+    group2[i]["gfxr"]=group2[i]["r"]/255
+    group2[i]["gfxg"]=group2[i]["g"]/255
+    group2[i]["gfxb"]=group2[i]["b"]/255
+  end
+  return group2
 end
 
-function ultraschall.TracksToGentleGrayScale(startingshade, direction)
+--L=ultraschall.CreateSonicRainboomColorTable()
+
+function ultraschall.IsValidColorTable(ColorTable)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsValidColorTable</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.CreateSonicRainboomColorTable(array ColorTable)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Checks for valid color-tables.
+  </description>
+  <parameters>
+    array ColorTable - a table to check for being a valid ColorTable
+  </parameters>
+  <retvals>
+    boolean retval - true, if it's a valid ColorTable; false, if it's not a valid ColorTable
+  </retvals>
+  <chapter_context>
+    User Interface
+    Track Design
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, check, colortable</tags>
+  </US_DocBloc>
+]]
+  if type(ColorTable)~="table" then ultraschall.AddErrorMessage("CreateColorTable", "ColorTable", "must be a table", -1) return false end
+  local Count1 = ultraschall.CountEntriesInTable_Main(ColorTable)
+  if Count1==-1 then return false end
+  if ColorTable[1]~=nil and
+     (ultraschall.type(ColorTable[1]["r"])~="number: integer" or 
+     ultraschall.type(ColorTable[1]["g"])~="number: integer" or 
+     ultraschall.type(ColorTable[1]["b"])~="number: integer" or 
+     ultraschall.type(ColorTable[1]["nativecolor"])~="number: integer") then
+     return false
+  end
+  for i=2, Count1 do
+    if ColorTable[1]~=nil and
+      (ultraschall.type(ColorTable[i]["r"])~="number: integer" or 
+       ultraschall.type(ColorTable[i]["g"])~="number: integer" or 
+       ultraschall.type(ColorTable[i]["b"])~="number: integer" or 
+       ultraschall.type(ColorTable[i]["nativecolor"])~="number: integer") then
+       return false
+    end
+  end
+  return true
 end
 
-function ultraschall.TracksToAdjustedGrayScale(startingshade, direction)
+function ultraschall.ConcatIntegerIndexedTables(table1, table2)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConcatIntegerIndexedTables</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer numentries, array concatenated_table = ultraschall.ConcatIntegerIndexedTables(array table1, array table2)</functioncall>
+  <description>
+    Concatenates the entries of two tables into one table. The entries of each table must be indexed by integers
+  </description>
+  <parameters>
+    array table1 - the first table to be concatenated; the entries must be indexed by integer-numbers!
+    array table2 - the second table to be concatenated; the entries must be indexed by integer-numbers!
+  </parameters>
+  <retvals>
+    array ColorTable - a colortable for the colors with the number of steps of your choice; 
+                     - each indexentry holds entries "r"(0-255), "g"(0-255), "b"(0-255), "nativecolor" and "gfxr"(0-1), "gfxg"(0-1), "gfxb"(0-1).
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, concatenate, concat, table, tables</tags>
+  </US_DocBloc>
+]]
+  local Count1 = ultraschall.CountEntriesInTable_Main(table1)
+  local Count2 = ultraschall.CountEntriesInTable_Main(table2)
+  local NewTable={}
+  local TableCount=1
+  for i=1, Count1 do
+    NewTable[TableCount]=table1[i]
+    TableCount=TableCount+1
+  end
+  for i=1, Count2 do
+    NewTable[TableCount]=table2[i]
+    TableCount=TableCount+1
+  end
+  return Count1+Count2, NewTable
 end
+
+--C,A0=ultraschall.ConcatIntegerIndexedTables(B, A)
+
+
+function ultraschall.ApplyColorTableToTrackColors(ColorTable, Spread, StartTrack, EndTrack)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConcatIntegerIndexedTables</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ConcatIntegerIndexedTables(array ColorTable, integer Spread, integer StartTrack, integer EndTrack)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Apply a ColorTable to Tracks, to colorize MediaTracks
+    
+    Can be used by [CreateColorTable](#CreateColorTable]
+  </description>
+  <parameters>
+    array ColorTable - the ColorTable to apply to the MediaTrackColors
+    integer Spread - 0, apply ColorTable once; will return false, if fewer colors are in ColorTable available than tracks in the project
+                   - nil or 1, repeat the colors from the ColorTable over and over again over the tracks; means: if you have 10 tracks and 5 colors, the colors will fill track 1 to 5 and then again track 6 to 10
+                   - 2, spread the colors from the ColorTable over all tracks equally
+    integer StartTrack - the first track to colorize; nil, to use the first track in project
+    integer EndTrack - the last track to colorize; nil, to use the last track in project
+  </parameters>
+  <retvals>
+    boolean retval - true, adjusting track-colors was successful; false, adjusting trackcolors was unsuccessful
+  </retvals>
+  <chapter_context>
+    User Interface
+    Track Design
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, create, colortable</tags>
+  </US_DocBloc>
+]]
+  local Count1 = ultraschall.CountEntriesInTable_Main(ColorTable)
+  local Count2 = 1
+  local step=1
+  if ultraschall.IsValidColorTable(ColorTable)==false or Count1<Count2 then ultraschall.AddErrorMessage("ApplyColorTableToTrackColors", "Colortable", "Must be a valid ColorTable with at least on entry", -1) return false end
+  if Spread==nil then Spread=1 end
+  if Spread~=nil and math.type(Spread)~="integer" then ultraschall.AddErrorMessage("ApplyColorTableToTrackColors", "Spread", "must be an integer", -2) return false end
+  if Spread<0 or Spread>2 then ultraschall.AddErrorMessage("ApplyColorTableToTrackColors", "Spread", "must be between 0 and 2", -3) return false end
+  if Spread==0 and Count1<reaper.CountTracks(0) then ultraschall.AddErrorMessage("ApplyColorTableToTrackColors", "ColorTable", "Not enough colors in Colortable for the current number of tracks", -4) return false end
+  if Spread==1 then step=1 end
+  if Spread==2 then step=Count1/reaper.CountTracks(0) end
+  if math.type(StartTrack)==nil and reaper.CountTracks(0)>0 then StartTrack=1 end
+  if math.type(EndTrack)==nil and reaper.CountTracks(0)>0 then EndTrack=reaper.CountTracks(0) end
+  if math.type(StartTrack)~="integer" then ultraschall.AddErrorMessage("ApplyColorTableToTrackColors", "StartTrack", "Must be an integer", -5) return false end
+  if math.type(EndTrack)~="integer" then ultraschall.AddErrorMessage("ApplyColorTableToTrackColors", "EndTrack", "Must be an integer", -6) return false end
+
+  for i=StartTrack, EndTrack do
+--  reaper.MB(Count2.." "..math.floor(Count2),StartTrack.." "..EndTrack,0)
+    local MediaTrack=reaper.GetTrack(0,i-1)
+    if Count2>Count1 then Count2=1 end
+    reaper.SetTrackColor(MediaTrack, ColorTable[math.ceil(Count2)]["nativecolor"])
+    Count2=Count2+step
+  end
+  return true
+end
+
+
+--ultraschall.ApplyColorTableToTrackColors(L, 2, 2, 6)
+
+
+
 
 function ultraschall.TracksToColorPattern(colorpattern, startingcolor, direction)
 end
@@ -41020,15 +41365,6 @@ end
 -----------------------
 
 
-function ultraschall.RenderToMP4Video()
-end
-
-function ultraschall.RenderToAviVideo()
-end
-
-function ultraschall.RenderToMKVVideo()
-end
-
 function ultraschall.RippleDragSection_StartOffset(position,trackstring)
 end
 
@@ -41042,17 +41378,6 @@ end
 
 
 --ultraschall.ShowLastErrorMessage()
-
-function ultraschall.WinColorToMacColor()
-end
-
-function ultraschall.MacColorToWinColor()
-end
-
-function ultraschall.CreateShownoteArray()
---creates and returns a shownotearray with no entry set
-  return ShownoteArray
-end
 
 function ultraschall.GetProjectReWireSlave(projectfilename_with_path)
 --To Do
@@ -41289,7 +41614,7 @@ end
 
 --filecount, files = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
 --A,B=ultraschall.OnlyFilesOfCertainType(files, "JPG")
-  
+
 --main()
 
 ultraschall.ShowLastErrorMessage()
@@ -41299,3 +41624,4 @@ ultraschall.ShowLastErrorMessage()
 --Aretval, Astr = ultraschall.GetItemStateChunk(reaper.GetMediaItem(0,0), true)
 --ALABASTER,ALHula=ultraschall.InsertMediaItem_MediaItemStateChunk(8300,Astr, MT)
 
+--L=ultraschall.SetIDEFontSize(15)

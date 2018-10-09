@@ -212,6 +212,11 @@
   - GetSetConfigAllStereoPairs - gets/sets the configuration-setting for configuration-variable afxcfg; also adds the setting to reaper.ini, if needed
   - GetDuplicatesFromArrays - returns the entries from an array, that are duplicate or are in only one of these two arrays
   - OnlyFilesOfCertainType - returns all files of a certain type from an array of filenames
+  - ConcatIntegerIndexedTables - concatenate the entries from two tables into one
+  - CreateColorTable - create a ColorTable that includes colorpatterns
+  - CreateSonicRainboomColorTable - creates a ColorTable with Ultraschall's standard-trackcolor-pattern "Sonic Rainboom Color"
+  - IsValidColorTable - checks, whether a ColorTable is a valid one
+  - ApplyColorTableToTrackColors - Apply a ColorTable to colorize MediaTracks
   
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
