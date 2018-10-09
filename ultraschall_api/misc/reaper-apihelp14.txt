@@ -11,9 +11,11 @@
             ReaScripts can be written in EEL, a specialized language that is also used to write JSFX; Lua, a popular scripting language; or Python, another scripting language. EEL and Lua are embedded within REAPER and require no additional downloads or settings. Python must be downloaded and installed separately, and enabled in REAPER preferences.
 
             A script named "__startup.lua|.eel" will be started automatically by Reaper at startup. You can have both; Reaper will run __startup.eel first, __startup.lua second.
+            This __startup-script doesn't need to be registered into the actionlist of Reaper; it's pure existence in the scripts-folder of the resources-folder of Reaper is sufficient for it to be run.
+            
             Learn more about ReaScript: [http://www.cockos.com/reaper/sdk/reascript/reascript.php](http://www.cockos.com/reaper/sdk/reascript/reascript.php).
             
-            The IDE in Reaper has some limitations though, as every line must not exceed 4095 characters, or they will be split when the script is loaded the next time.
+            The IDE in Reaper has some limitations, as every line must not exceed 4095 characters, or they will be split when the script is loaded the next time.
         </description>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>

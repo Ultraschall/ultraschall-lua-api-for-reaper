@@ -11,8 +11,8 @@ ultraschall.ApiTest()
 5. If it appears, it is correctly installed.
 
 6. Look into 
-    Documentation\Ultraschall-Api-Docs.html
-   for a functions-reference for the API.
+    Documentation\US_Api_Documentation.html
+   for a functions-reference for the API, which will also be added automatically to your actionlist after the first time you used the API.
 
 Requires at least Reaper 5.95 and SWS 2.9.7
    
