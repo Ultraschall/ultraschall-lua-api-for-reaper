@@ -1351,13 +1351,13 @@ end
 function ultraschall.ConvertColorReverse(color)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ConvertColor</slug>
+  <slug>ConvertColorReverse</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.52
     Lua=5.3
   </requires>
-  <functioncall>integer colorvalue = ultraschall.ConvertColor(integer r, integer g, integer b)</functioncall>
+  <functioncall>integer r, integer g, integer b = ultraschall.ConvertColorReverse(integer colorvalue)</functioncall>
   <description>
     converts a native-system-color to r, g, b-values. Works like reaper's ColorToNative, but doesn't need |0x1000000 added.
   </description>

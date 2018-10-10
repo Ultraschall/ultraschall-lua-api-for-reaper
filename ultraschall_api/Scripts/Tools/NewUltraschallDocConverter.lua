@@ -285,7 +285,7 @@ function ultraschall.GetAllChapterContexts(Table)
   end
   table.sort(ChapterTable)
   
-  return count, ChapterTable
+  return count, ChapterTable, counter-1
 end
 
 function ultraschall.ConvertPlainTextToHTML(text)  
@@ -405,7 +405,8 @@ end
 
 local String=ultraschall.ReadFullFile(Infilename, false)
 
-local Ccount, C=ultraschall.SplitUSDocBlocs(String)
+Ccount, C=ultraschall.SplitUSDocBlocs(String)
+
 --A,B=ultraschall.GetAllChapterContexts(C)
 --A=ultraschall.BubbleSortDocBlocTable_Slug(C)
 --A=ultraschall.ConvertSplitDocBlocTableIndex_Slug(C)
@@ -487,6 +488,105 @@ function header()
 end
 
 function contentindex()
+  FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..beta.." \"John Cage - 4\'33\" - "..date.." - Build: "..build.."</div><h3>The Functions Reference</h3><table style=\"font-size:10pt; width:100%;\" >"
+  reaper.ClearConsole()
+  reaper.ShowConsoleMsg("Create Index\n")
+  HeaderList={}
+  count=1
+  count2=0
+  
+  -- get the chapter-contexts
+  -- every entry in HeaderList is "chaptercontext1, chaptercontext2,"
+  while C[count]~=nil do
+    A, AA, AAA = ultraschall.ParseChapterContext(C[count][2])
+    
+      temp=AAA.."\n"
+      for i=1, count2 do
+        if HeaderList[i]==temp then found=true end
+      end
+      if found~=true then
+        count2=count2+1
+        HeaderList[count2]=temp
+      end
+      found=false
+    
+    count=count+1
+  end
+  
+  table.sort(HeaderList)
+  
+  -- add to the chapter-contexts the accompanying slugs, using newlines
+  -- "chaptercontext1, chaptercontext2,\nslug1\nslug2\nslug3\n" etc
+  count=1
+  while C[count]~=nil do    
+    A1, AA1, AAA1 = ultraschall.ParseChapterContext(C[count][2])
+    Slug=C[count][1]
+    temp=AAA1.."\n"
+       
+    for i=1, count2 do
+      if HeaderList[i]:match("(.-\n)")==temp then 
+  
+            HeaderList[i]=HeaderList[i]..Slug.."\n"
+            break 
+      end
+    end    
+    count=count+1
+  end
+  
+  table.sort(HeaderList)
+  
+  -- now we sort the slugs
+  for i=1, count2 do
+    chapter=HeaderList[i]:match("(.-\n)")
+    slugs=HeaderList[i]:match("\n(.*)\n")
+    A2, AA2, AAA2 = ultraschall.SplitStringAtLineFeedToArray(slugs)
+    table.sort(AA2)
+    slugs=""
+    for i=1, A2 do
+      slugs=slugs..AA2[i].."\n"
+    end
+    HeaderList[i]=chapter..slugs
+  end
+  
+--  FunctionList=""
+  
+  -- now we create the index
+  for i=1, count2 do
+    Top=HeaderList[i]:match("(.-),")
+    Second=HeaderList[i]:match(".-,(.-),")
+    Third=HeaderList[i]:match(".-,.-,(.-),")
+    Counts, Slugs=ultraschall.SplitStringAtLineFeedToArray(HeaderList[i]:match(".-\n(.*)\n"))
+    slugs=""    
+    if Top==nil then Top="" else Top="<br><strong><u>"..Top.."</u></strong><br><br>\n" end
+    if i>1 and Top:match("u%>(.-)%</u")==HeaderList[i-1]:match("(.-),") then Top="" end
+    if Second==nil then Second="" else Second="<b style=\"font-size:small;\">"..Second.."</b>\n" end
+    if i>1 and Second:match("%>(.-)%<")==HeaderList[i-1]:match("(.-),") then Second="" end
+    if Third==nil then Third="" else Third=Third.."\n" end
+    if i>1 and Third:match("%>(.-)%<")==HeaderList[i-1]:match("(.-),") then Third="" end
+    
+    linebreaker=1
+    for a=1, Counts do
+      if linebreaker==1 then slugs=slugs.."<tr>" end
+      if linebreaker==5 then slugs=slugs.."</tr>" linebreaker=1 end
+      slugs=slugs.."<td style=\"width:25%; font-size:small;\"><a href=\"#"..Slugs[a].."\">"..Slugs[a].."</a></td>"
+      linebreaker=linebreaker+1
+    end
+    if linebreaker==1 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
+    if linebreaker==2 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
+    if linebreaker==3 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
+    if linebreaker==4 then slugs=slugs.."<td style=\"width:25%;\">&nbsp;</td>" linebreaker=linebreaker+1 end
+    slugs=slugs.."</tr>"
+    
+    FunctionList=FunctionList.."<table style=\"width:100%;\" border=\"0\"><tr><td>"..Top..Second..Third.."</td></tr>"..slugs.."</table>"
+
+  end
+
+    FunctionList=FunctionList.."<br>"
+    entries()
+--    writefile()
+end
+
+function contentindex2()
   -- let's prepare all data-structures
   reaper.ClearConsole()
   reaper.ShowConsoleMsg("Create Index\n")
@@ -544,9 +644,8 @@ function contentindex()
   end
   FunctionList=FunctionList.."</table>"
 
-  entries()
---  writefile()
-
+--  entries()
+  writefile()
 end
 
 function writefile()
@@ -681,10 +780,9 @@ for lolo=1, 60 do
       b=b+1
     end
   elseif kuddel==nil then
-  writefile()
     end  
     end
-    if kuddel==nil then reaper.defer(entries) end
+    if index<Ccount then reaper.defer(entries) else  writefile() end
 end
 
 --header()
