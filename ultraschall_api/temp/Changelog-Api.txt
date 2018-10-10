@@ -1,6 +1,6 @@
 ##Ultraschall Framework - Changelog
 
-###4.00 Beta 2.7: - "John Cage - 4:33" - 30th of July 2018
+###4.00 Beta 2.7: - "John Cage - 4:33" - 15th of October 2018
 ####New features in 4.00beta2.7
   - SetEnvelopeHeight - set the height and compactible state of an envelope-lane/envelopestatechunk
   - GetTrackStateChunk_Tracknumber - get a TrackStateChunk without the hassle of creating a trackobject first  
@@ -171,6 +171,53 @@
   - RenderProjectRegions_RenderCFG - renders a project's region
   - GetGapsBetweenItems - returns a table with all gaps between items in a track
   - IsValidMatchingPattern - checks, if a string is a valid pattern-matching string
+  - IsValidReaProject - checks, if a ReaProject-object is a valid one
+  - type - returns the type of an object, either Lua's own datatypes or Reaper's own datatypes (SWS-specific-datatypes are not supported...yet(?))
+  - SetTrackGroupFlagsState - sets the GroupFlagsState in a track or a TrackStateChunk for track-group 1-32
+  - SetTrackGroupFlags_HighState - sets the GroupFlagsState in a track or a TrackStateChunk for track-group 33-64
+  - GetTrackGroupFlags_HighState - gets the GroupFlagsState in a track or a TrackStateChunk for track-group 33-64
+  - all(!) TrackStates are now get/settable(!)
+  - all functions create now useful error-messages, who can be retrieved with the error-message-functions, 
+            refer to the Developer -> Error Handling-functions in the index of the functions-reference
+            
+            Good riddance, what a long term hard work to code that...
+  - GetCurrentTimeLengthOfFrame - gets the length of a frame in seconds of a certain project; good for video/image-related functions like InsertImageFile
+  - GetLengthOfFrames - gets the length of a number of frames in seconds of a certain project; good for video/image-related functions like InsertImageFile
+  - GetStartNewFileRecSizeState - gets, if Reaper shall start a new file during recording, after XXX MBs, and the maximum size of a recorded file til restart
+  - SetStartNewFileRecSizeState - sets, if Reaper shall start a new file during recording, after XXX MBs, and the maximum size of a recorded file til restart
+  - GetPlayCursorWidth - get the width of the playcursor in pixels
+  - SetPlayCursorWidth - set the width of the playcursor in pixels
+  - GetReaperAlwaysOnTopState - get, if Reaper is set to be always on top of other applications, as set by action 40239
+  - GetInputOutputLatency_Seconds - returns the input/output-latency in seconds
+  - CreateTrackString_ArmedTracks - creates a trackstring with the tracknumbers of all armed tracks
+  - CreateTrackString_UnarmedTracks - creates a trackstring with the tracknumbers of all unarmed tracks
+  - IsValidEnvelopePointArray - checks, if an EnvelopePointArray is a valid one
+  - Api_InstallPath - an API-variable that contains the path to the install-folder of the Ultraschall-API
+  - ConvertOldProjectToCurrentReaperVersion - converts an rpp-projectfile from an earlier version of Reaper to the current one
+  - CreateRenderCFG_AudioCD - create a renderstring for audio-cd-images
+  - GetMarkerUpdateCounter - returns an update-counter for all markers in all projects, that is updated, as soon as a marker is added/deleted/set/moved/altered
+  - CreateTrackStringByGUID - creates a trackstring of all tracks, given as GUIDs
+  - CreateTrackStringByTracknames - creates a trackstring of all tracks, given as tracknames
+  - CreateTrackStringByMediaTracks - creates a trackstring with all track-objects in a MediaTrackArray
+  - GetScreenHeight - returns the height of the screen
+  - GetScreenWidth - returns the width of the screen
+  - pause_follow_one_cycle - skips followmode-auto-off-checking-script for one cycle; only relevant for scripts that shall work within Ultraschall.FM-extension
+  - DeleteMediaItemsBetween - deletes MediaItems between start and endposition within tracks, given by trackstring; the deleting-equivalent of GetAllMediaItemsBetween
+  - GetSetConfigAcidImport - gets/sets the configuration-setting for configuration-variable acidimport; also adds the setting to reaper.ini, if needed
+  - GetSetConfigActionMenu - gets/sets the configuration-setting for configuration-variable actionmenu; also adds the setting to reaper.ini, if needed
+  - GetSetConfigAdjRecLat - gets/sets the configuration-setting for configuration-variable adjreclat; also adds the setting to reaper.ini, if needed
+  - GetSetConfigAdjRecManLat - gets/sets the configuration-setting for configuration-variable adjrecmanlat; also adds the setting to reaper.ini, if needed
+  - GetSetConfigAdjRecManLatIn - gets/sets the configuration-setting for configuration-variable adjrecmanlatin; also adds the setting to reaper.ini, if needed
+  - GetSetConfigAfxCfg - gets/sets the configuration-setting for configuration-variable afxcfg; also adds the setting to reaper.ini, if needed
+  - GetSetConfigAllStereoPairs - gets/sets the configuration-setting for configuration-variable afxcfg; also adds the setting to reaper.ini, if needed
+  - GetDuplicatesFromArrays - returns the entries from an array, that are duplicate or are in only one of these two arrays
+  - OnlyFilesOfCertainType - returns all files of a certain type from an array of filenames
+  - ConcatIntegerIndexedTables - concatenate the entries from two tables into one
+  - CreateColorTable - create a ColorTable that includes colorpatterns
+  - CreateSonicRainboomColorTable - creates a ColorTable with Ultraschall's standard-trackcolor-pattern "Sonic Rainboom Color"
+  - IsValidColorTable - checks, whether a ColorTable is a valid one
+  - ApplyColorTableToTrackColors - Apply a ColorTable to colorize MediaTracks
+  - Docs - added parts of Reaper Internals to the US-Apidocs, more to come
   
       
 ####Changes from 4.00beta2.6 to 4.00beta2.7
@@ -262,7 +309,7 @@
   - DeleteLastErrorMessage - deletes now the last errormessage, only changed the errorcounter before
   - GetLastErrorMessage2 - includes the new parameters parametername and errorcode; used to reset creation date instead of readstate -> fixed
   - ShowLastErrorMessage - reworked the messagebox to include functionname, parametername, errormessage and errorcode
-  - GetPath - returns nil now, if the separator can't be found, and throws an error-message as well in that case
+  - GetPath - returns nil now, if the separator can't be found, and throws an error-message as well in that case; did return parts of the path in filename -> fixed now
   - GetPartialString - returns nil now, if the separator can't be found, and throws an error-message as well in that case; sped up code
   - RunCommand - throws an error-message, if an invalid action-command-id is given
   - CSV2Line - rewritten and sped up
@@ -493,8 +540,46 @@
   - SetProject_VerticalZoom - allows usage of ProjectStateChunks now as well
   - OpenURL - had a problem on Windows, when the url-string contained spaces -> fixed; returns -1 in case of error, now
   - GetReaperAppVersion - returns now the operating system as well if the Reaper-installation is a portable one.
-  - GetClosestGoToPoints - added options to get closest goto-points from current edit/playcursor-position
+  - GetClosestGoToPoints - added options to get closest goto-points from current edit/playcursor-position; added returning marker/region name
   - ReadBinaryFileFromPattern - corrected docs, rewrote function for more speed
+  - CountKeysByPattern - checks for malformed patterns, now
+  - CountSectionsByPattern - checks for malformed patterns, now
+  - CountValuesByPattern - checks for malformed patterns, now
+  - EnumerateKeysByPattern - checks for malformed patterns, now
+  - EnumerateSectionsByPattern - checks for malformed patterns, now
+  - EnumerateValuesByPattern - checks for malformed patterns, now
+  - ReadBinaryFileFromPattern - checks for malformed patterns, now
+  - ReadBinaryFileUntilPattern - had wrong functionname in error-message -> fixed, checks for malformed patterns, now
+  - ReadValueFromFile - checks for malformed patterns, now
+  - RippleInsert_MediaItemStateChunks - had a bug that could cause an error-message -> fixed
+  - GetTrackGroupFlagsState - had a bug in checking for validity of TrackStateChunks -> fixed
+  - SetKBIniActions - rewritten, as the previous version wasn't working right
+  - SetKBIniScripts - rewritten, as the previous version wasn't working right
+  - SetKBIniKeys - rewritten, as the previous version wasn't working right
+  - AddTrackAUXSendReceives - didn't support Master Track, changed that
+  - SetTrackAUXSendReceives - didn't support Master Track, changed that
+  - DeleteTrackAUXSendReceives - didn't support Master Track, changed that
+  - ToggleScrollingDuringPlayback - minor corrections in the docs
+  - GetAllRegionsBetween - corrections in the docs
+  - GetItemSpectralVisibilityState - had wrong functionname in docs -> fixed
+  - GetTrackExtState - corrections in the docs
+  - DeleteArrangeviewSnapshot - had wrong functionname in docs -> fixed
+  - CenterViewToCursor - had documented a retval that the function doesn't return -> fixed
+  - CreateTrackNumbersString - renamed to CreateTrackString
+  - CreateTrackNumbersString_SelectedTracks - renamed to CreateTrackString_SelectedTracks
+  - GetMediaItemsFromClipboard - using renamed function CreateTrackString() now
+  - InsertMediaItemFromFile - using renamed function CreateTrackString_SelectedTracks() now
+  - GetClosestNextRegionEdge - docs: was missing additional return-value edge_type -> fixed now
+  - JumpBackwardBy - docs: changed name of parameter position to seconds, as that represents more, what the parameter does
+  - JumpForwardBy - docs: changed name of parameter position to seconds, as that represents more, what the parameter does
+  - JumpBackwardBy_Recording - docs: changed name of parameter position to seconds, as that represents more, what the parameter does
+  - JumpForwardBy_Recording - docs: changed name of parameter position to seconds, as that represents more, what the parameter does
+  - GetClosestGoToPoints - added mouse-cursor-position as possible option
+  - GetNextClosestItemEdge - was returning wrong retvals when no item was found -> fixed
+  - CenterViewToCursor - added parameter for a non-cursor-position of your choice to center to
+  - SetItemPosition - exchanged position and optional statechunk-parameters to be in line with SetProject/Track-statefunctions
+  - SetItemLength - exchanged length and optional statechunk-parameters to be in line with SetProject/Track-statefunctions
+  - GetSplitCrossFadeState_ReaperIni - removed, will return as a new function
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:
