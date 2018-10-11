@@ -16,6 +16,9 @@
             Learn more about ReaScript: [http://www.cockos.com/reaper/sdk/reascript/reascript.php](http://www.cockos.com/reaper/sdk/reascript/reascript.php).
             
             The IDE in Reaper has some limitations, as every line must not exceed 4095 characters, or they will be split when the script is loaded the next time.
+            
+            The base-directory for ReaScript can be read from the reaper.ini -> [REAPER] -> lastcwd=
+            That means, if you create a new file without giving it a path, it will be created in the path set in lastcwd.            
         </description>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>

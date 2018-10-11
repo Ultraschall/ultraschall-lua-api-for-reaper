@@ -35846,7 +35846,7 @@ function ultraschall.CheckForChangedProjectTabs(update)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer countUnorderedProj, array unorderedProj, integer countNewProj, array newProj, integer countClosedProj, array closedProj = ultraschall.CheckForChangedProjectTabs(boolean update)</functioncall>
+  <functioncall>boolean retval, integer countReorderedProj, array reorderedProj, integer countNewProj, array newProj, integer countClosedProj, array closedProj = ultraschall.CheckForChangedProjectTabs(boolean update)</functioncall>
   <description>
     Returns if projecttabs have been changed due reordering, new projects or closed projects, since last calling this function.
     Set update=true to update Ultraschall's internal project-monitoring-list or it will only return the changes since starting the API in this script or since the last time you used this function with parameter update set to true!
@@ -35855,8 +35855,8 @@ function ultraschall.CheckForChangedProjectTabs(update)
   </description>
   <retvals>
     boolean retval - true, no changes in the projecttabs at all; false, either order, newprojects or closed project-changes
-    integer countUnorderedProj - the number of unordered projects
-    array unorderedProj - the unordered projects as ReaProjects
+    integer countReorderedProj - the number of reordered projects
+    array reorderedProj - ReaProjects, who got reordered within the tabs
     integer countNewProj - the number of new projects
     array newProj - the new projects as ReaProjects
     integer countClosedProj - the number of closed projects
@@ -38203,11 +38203,12 @@ function ultraschall.DirectoryExists(path, directory)
     string directory - the name of the directory to check for in path
   </parameters>
   <chapter_context>
-    API-Helper functions
+    File Management
+    Helper functions
   </chapter_context>
   <target_document>USApiFunctionsReference</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, directory, check, exists</tags>
+  <tags>filemanagement, directory, check, exists</tags>
   </US_DocBloc>
 ]]
   if type(path)~="string" then ultraschall.AddErrorMessage("DirectoryExists", "path", "Must be a string", -1) return false end
@@ -41612,6 +41613,173 @@ function ultraschall.OnlyFilesOfCertainType(filearray, filetype)
   return foundcount, foundfiles
 end
 
+function ultraschall.GetCurrentReaperWorkDir()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetCurrentReaperWorkDir</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>string current_workdir = ultraschall.GetCurrentReaperWorkDir()</functioncall>
+  <description>
+    returns the current workdir, which is the directory. If you create a file without giving a path, this file will be created in this work-dir.
+  </description>
+  <retvals>
+    string current_workdir - the current workdir of Reaper
+  </retvals>
+  <chapter_context>
+    File Management
+    Helper functions
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>filemanagement, get, current workdir of reaper</tags>
+  </US_DocBloc>
+]]
+  local temp, dir = reaper.BR_Win32_GetPrivateProfileString("REAPER", "lastcwd", "", reaper.get_ini_file())
+  return dir
+end
+
+--A,B=ultraschall.GetCurrentReaperWorkDir()
+
+function ultraschall.DirectoryExists2(Path)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DirectoryExists2</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.DirectoryExists2(string Path)</functioncall>
+  <description>
+    returns, if Path is an existing path.
+    
+    Note for windows-users: if you give only volume-letters as Path like C:\\ or L:\\, it will return this as an existing path, even if it doesn't exist.
+                            this is due API-limitations.
+
+    returns false in case of an error
+  </description>
+  <parameters>
+    string Path - the path to check for
+  </parameters>
+  <retvals>
+    boolean retval - true, if path exists; false, if not
+  </retvals>
+  <chapter_context>
+    File Management
+    Helper functions
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>filemanagement, check, directory, existence</tags>
+  </US_DocBloc>
+]]
+  if ultraschall.type(Path)~="string" then ultraschall.AddErrorMessage("DirectoryExists2", "path", "must be a string", -1) return false end
+  if Path:sub(-1,-1)=="\\" or Path:sub(-1,-1)=="/" then Path=Path:sub(1,-2) end
+  if Path:sub(-1,-1)==":" and Path:sub(2,2)==":" then return true end
+  local Path1, Path2 = Path:match("(.*%A)(%a.*)")
+  if Path1==nil then Path1=Path end  
+  if Path2==nil then Path2="" end  
+  return ultraschall.DirectoryExists(Path1, Path2)
+end
+
+--Path="C:\\"
+--L=Path:sub(2,2)
+
+--A=ultraschall.DirectoryExists2("C:\\")
+
+function ultraschall.SetReaperWorkDir(path)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetReaperWorkDir</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetReaperWorkDir(string Path)</functioncall>
+  <description>
+    sets a new current working directory for Reaper. This requires a restart of Reaper to take effect, due API-limitations!
+    
+    Note for windows-users: if you give only volume-letters as Path like C:\\ or L:\\, it will return this as an existing path, even if it doesn't exist.
+                            this is due API-limitations.
+                            
+    returns false in case of an error
+  </description>
+  <parameters>
+    string Path - the path to set as new current working directory
+  </parameters>
+  <retvals>
+    boolean retval - true, if path could be set; false, if not
+  </retvals>
+  <chapter_context>
+    File Management
+    Helper functions
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>filemanagement, set, new workdir of reaper</tags>
+  </US_DocBloc>
+]]
+  if ultraschall.type(path)~="string" then ultraschall.AddErrorMessage("SetReaperWorkDir", "path", "must be a string", -1) return false end
+  if ultraschall.DirectoryExists2(path)==false then ultraschall.AddErrorMessage("SetReaperWorkDir", "path", "no such path existing", -2) return false end
+  return reaper.BR_Win32_WritePrivateProfileString("REAPER", "lastcwd", path, reaper.get_ini_file())
+end
+
+--A=ultraschall.SetReaperWorkDir("C:\\Tudelu\\Tudelu")
+--B=ultraschall.GetCurrentReaperWorkDir()
+
+function ultraschall.GetScriptFilenameFromActionCommandID(action_command_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetScriptFilenameFromActionCommandID</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>string scriptfilename_with_path = ultraschall.GetScriptFilenameFromActionCommandID(string action_command_id)</functioncall>
+  <description>
+    returns the filename with path of a script, associated to a ReaScript.
+    Command-ID-numbers do not work!
+                            
+    returns false in case of an error
+  </description>
+  <parameters>
+    string Path - the path to set as new current working directory
+  </parameters>
+  <retvals>
+    string scriptfilename_with_path - the scriptfilename with path associated with this ActionCommandID
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>filemanagement, get, scriptfilename, actioncommandid</tags>
+  </US_DocBloc>
+]]
+  if ultraschall.type(action_command_id)~="string" then ultraschall.AddErrorMessage("GetScriptFilenameFromActionCommandID", "action_command_id", "must be a string", -1) return end
+  if ultraschall.CheckActionCommandIDFormat2(action_command_id)==false then ultraschall.AddErrorMessage("GetScriptFilenameFromActionCommandID", "action_command_id", "no such action-command-id", -2) return end
+  local kb_ini_path = ultraschall.GetKBIniFilepath()
+  local kb_ini_file = ultraschall.ReadFullFile(kb_ini_path)
+  if action_command_id:sub(1,1)=="_" then action_command_id=action_command_id:sub(2,-1) end
+  local L=kb_ini_file:match("( "..action_command_id..".-)\n")
+  if L==nil then ultraschall.AddErrorMessage("GetScriptFilenameFromActionCommandID", "action_command_id", "no such action_command_id associated to a script", -1) return end
+  L=L:match(".*%s(.*)")
+  if L:sub(1,2)==".." then return reaper.GetResourcePath().."/"..L end
+  return L
+end
+
+--LLL=ultraschall.GetScriptfilenameFromActionCommandID("_Ultraschall_Delete_Items_After_Editcursor_ArmedTracks_And_Preview_Audio_Before_RecordingLOLOLO")
+--LLLL=ultraschall.GetScriptfilenameFromActionCommandID("_RSfd39b105f6a58a4074a3bfb9a4dd16efdde3bc91")
+--LLLLL=ultraschall.GetScriptfilenameFromActionCommandID("_ALABAMA3")
 --filecount, files = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
 --A,B=ultraschall.OnlyFilesOfCertainType(files, "JPG")
 

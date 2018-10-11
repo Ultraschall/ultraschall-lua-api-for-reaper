@@ -256,7 +256,11 @@ Ultraschall API Changelog
 <li>CreateSonicRainboomColorTable - creates a ColorTable with Ultraschall's standard-trackcolor-pattern &quot;Sonic Rainboom Color&quot;</li>
 <li>IsValidColorTable - checks, whether a ColorTable is a valid one</li>
 <li>ApplyColorTableToTrackColors - Apply a ColorTable to colorize MediaTracks</li>
-<li><p>Docs - added parts of Reaper Internals to the US-Apidocs, more to come</p></li>
+<li>Docs - added parts of Reaper Internals to the US-Apidocs, more to come</li>
+<li>GetCurrentReaperWorkDir - gets the current working directory of Reaper; if you create file without a path in Lua, they will be stored in that path</li>
+<li>SetCurrentReaperWorkDir - sets the current working directory of Reaper; if you create file without a path in Lua, they will be stored in that path; needs a Reaper restart!</li>
+<li>DirectoryExists2 - returns, if a certain path exists. Unlike DirectoryExists, which checks, whether a directory in a path exists</li>
+<li><p>GetScriptFilenameFromActionCommandID - gets the script-filename associated to a specific ActionCommandID</p></li>
 </ul>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
 <ul>
