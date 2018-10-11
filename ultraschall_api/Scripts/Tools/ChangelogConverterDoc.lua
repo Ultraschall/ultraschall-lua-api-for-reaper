@@ -3,6 +3,20 @@ Tempfile=ultraschall.Api_Path.."temp/"
 ChangeLogFile="Changelog-Api.txt"
 Pandoc="c:\\Program Files (x86)\\pandoc\\pandoc -f markdown -t html \""..Tempfile..ChangeLogFile.."\" -o \""..ultraschall.Api_Path.."/Documentation/ChangeLog.html\""
 
+  local retval, string4 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Docs-Introduction", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+  local retval, string3 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Docs-FuncEngine", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+  local retval, string2 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+  string2=tonumber(string2)
+  string2=string2+1
+  string3=tonumber(string3)
+  string3=string3+1
+  string4=tonumber(string4)
+  string4=string4+1
+  
+  reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Docs-Introduction", string4, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")    
+  reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Docs-FuncEngine", string3, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")    
+  reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", string2, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+
 T=[[
 <html><head><title>
 Ultraschall API Changelog

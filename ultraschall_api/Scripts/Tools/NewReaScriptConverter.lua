@@ -5,6 +5,17 @@ ConversionToolMD2HTML="c:\\Program Files (x86)\\Pandoc\\pandoc.exe -f markdown -
 Infilename="c:\\Ultraschall_3_2_alpha2_Hackversion\\UserPlugins\\ultraschall_api\\misc\\reaper-apihelp14.txt"
 Outfile=ultraschall.Api_Path.."/Documentation/Reaper_Api_Documentation.html"
 
+  local retval, string3 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Docs-ReaperApi", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+  local retval, string2 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+  string2=tonumber(string2)
+  string2=string2+1
+  string3=tonumber(string3)
+  string3=string3+1
+  
+
+  reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Docs-ReaperApi", string3, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")    
+  reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", string2, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+
 local FunctionList2=""
 
 function ultraschall.SplitUSDocBlocs(String)
