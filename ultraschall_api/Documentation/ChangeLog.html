@@ -260,7 +260,15 @@ Ultraschall API Changelog
 <li>GetCurrentReaperWorkDir - gets the current working directory of Reaper; if you create file without a path in Lua, they will be stored in that path</li>
 <li>SetCurrentReaperWorkDir - sets the current working directory of Reaper; if you create file without a path in Lua, they will be stored in that path; needs a Reaper restart!</li>
 <li>DirectoryExists2 - returns, if a certain path exists. Unlike DirectoryExists, which checks, whether a directory in a path exists</li>
-<li><p>GetScriptFilenameFromActionCommandID - gets the script-filename associated to a specific ActionCommandID</p></li>
+<li>GetScriptFilenameFromActionCommandID - gets the script-filename associated to a specific ActionCommandID</li>
+<li>GetProject_CountAutomationItems - counts the automation-items in a project/ProjectStateChunk</li>
+<li>GetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk</li>
+<li>GetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk</li>
+<li>GetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk</li>
+<li>GetProject_MasterPlayspeed - gets the statechunk for all master-playspeed-settings from a project/ProjectStateChunk</li>
+<li>GetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk</li>
+<li>GetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk</li>
+<li><p>GetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk</p></li>
 </ul>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
 <ul>

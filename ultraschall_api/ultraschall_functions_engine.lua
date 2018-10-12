@@ -41783,7 +41783,429 @@ end
 --filecount, files = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
 --A,B=ultraschall.OnlyFilesOfCertainType(files, "JPG")
 
+function ultraschall.GetProject_CountAutomationItems(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_CountAutomationItems</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer automation_items_count = ultraschall.GetProject_CountAutomationItems(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the number of automation-items available in a ProjectStateChunk.
+
+    automation-items are stored with the <POOLEDENV ... > -tag in ProjectStateChunks
+                            
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the automation-item-count; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file; only used, when projectfilename_with_path=nil
+  </parameters>
+  <retvals>
+    integer automation_items_count - the number of automation-items
+  </retvals>
+  <chapter_context>
+    Automation Items
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>automationitems, count, automation, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_CountAutomationItems","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_CountAutomationItems","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_CountAutomationItems","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  
+  local count=0
+  while ProjectStateChunk:find("  <POOLEDENV")~=nil do
+    count=count+1    
+    ProjectStateChunk=ProjectStateChunk:match("  <POOLEDENV(.*)")
+  end
+  return count
+end
+
+--A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
+
+--A=ultraschall.ReadFullFile("c:\\00_master-002.flac.RPP")
+
+--C=ultraschall.CountAutomItems_ProjectStateChunk(nil,A)
+
+function ultraschall.GetProject_AutomationItemStateChunk(projectfilename_with_path, idx, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_AutomationItemStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string AutomationItemStateChunk = ultraschall.GetProject_AutomationItemStateChunk(string projectfilename_with_path, integer idx, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the idx'th automation-item from a ProjectStateChunk.
+    
+    automation-items are stored with the <POOLEDENV ... > -tag in ProjectStateChunks
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the automation-item-statechunk; nil to use ProjectStateChunk
+    integer idx - the number of the requested automation-item from the ProjectStateChunk with 1 for the first AutomItem.
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string AutomationItemStateChunk - the statechunk of the idx'th automation-item
+  </retvals>
+  <chapter_context>
+    Automation Items
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>automationitems, get, automation, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_AutomationItemStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_AutomationItemStateChunk","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_AutomationItemStateChunk","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  local count=0
+  while ProjectStateChunk:find("  <POOLEDENV")~=nil do
+    count=count+1    
+    local AutomStateChunk, offset=ProjectStateChunk:match("  (<POOLEDENV.-  >)()")
+    if count==idx then return AutomStateChunk end
+    ProjectStateChunk=ProjectStateChunk:sub(offset,-1)
+  end
+  ultraschall.AddErrorMessage("GetProject_AutomationItemStateChunk", "idx", "no such automation item", -5)
+  return nil
+end
+
+--A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
+--B=ultraschall.GetProject_AutomItemStateChunk("C:\\rendercode-project.rpp",1,A)
+
+function ultraschall.GetProject_ProjectBay(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_ProjectBay</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string ProjectBayStateChunk = ultraschall.GetProject_ProjectBay(string ProjectStateChunk, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the ProjectBay-StateChunk, that holds MediaItems, that shall be retained in the "background" of the project, even if they are deleted from the project.
+    These MediaItems can be seen and set to retain from within the ProjectBay-window.
+
+    It's the <PROJBAY ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the projectbay-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string ProjectBayStateChunk - the statechunk of the ProjectBay
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, projectbay, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_ProjectBay","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_ProjectBay","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_ProjectBay","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<PROJBAY.-  >")
+end
+
+--A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
+--B=ultraschall.GetProject_ProjectBay("c:\\automitem\\automitem.rpp")
+
+--reaper.MB(B,"",0)
 --main()
+
+
+function ultraschall.GetProject_Metronome(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_Metronome</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string MetronomeStateChunk = ultraschall.GetProject_Metronome(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Metronome-StateChunk, that holds metronome-settings.
+    
+    It's the <METRONOME ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the metronome-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string MetronomeStateChunk - the statechunk of the Metronome
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, metronome, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Metronome","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_Metronome","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_Metronome","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<METRONOME.-  >")
+end
+
+--A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
+--B=ultraschall.GetProject_Metronome("c:\\automitem\\automitem.rpp",A)
+
+--reaper.MB(B,"",0)
+
+function ultraschall.GetProject_MasterPlayspeed(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterPlayspeed</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string MasterPlayspeedStateChunk = ultraschall.GetProject_MasterPlayspeed(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Master-Playspeed-StateChunk, that holds Playspeed-settings of the master.
+    
+    It's the <MASTERPLAYSPEEDENV ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-playspeed-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string MasterPlayspeedStateChunk - the statechunk of the MasterPlaySpeed
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, master playspeed, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterPlayspeed","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterPlayspeed","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterPlayspeed","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<MASTERPLAYSPEEDENV.-  >")
+end
+
+--A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
+--B=ultraschall.GetProjectMasterPlaysp_ProjectStateChunk(nil, A)
+
+--reaper.MB(B,"",0)
+
+function ultraschall.GetProject_Tempo(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_Tempo</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string TempoStateChunk = ultraschall.GetProject_Tempo(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Tempo-StateChunk, that holds tempo-settings of the master.
+    
+    It's the <TEMPOENVEX ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the tempo-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string TempoStateChunk - the statechunk of the Tempo
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, tempo, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Tempo","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_Tempo","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_Tempo","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<TEMPOENVEX.-  >")
+end
+
+--A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
+--B=ultraschall.GetProject_Tempo("c:\\automitem\\automitem.rpp",A)
+
+--reaper.MB(B,"",0)
+
+function ultraschall.GetProject_Extensions(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_Extensions</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string ExtensionsStateChunk = ultraschall.GetProject_Extensions(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Extensions-settings-StateChunk, that holds tempo-settings of the master.
+    
+    It's the <EXTENSIONS ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string ExtensionsStateChunk - the statechunk of the Extensions-settings
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, extensions, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Extensions","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_Extensions","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_Extensions","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<EXTENSIONS.-\n  >")
+end
+
+--A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
+--B=ultraschall.GetProject_Extensions("c:\\automitem\\automitem.rpp",A)
+
+function ultraschall.GetProject_Lock(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_Lock</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string lock_state = ultraschall.GetProject_Lock(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the individual lock-settings of the project, as set in menu Options -> Locking -> Locking Settings
+    
+    It's the LOCK-entry before(!) any <TRACK-tags !
+    It is a bitfield, containing numerous settings.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string lock_state - the lock-state, which is a bitfield
+                      - &1     - Time selection
+                      - &2     - Items (full)
+                      - &4     - Track envelopes
+                      - &8     - Markers
+                      - &16    - Regions
+                      - &32    - Time signature markers
+                      - &64    - Items (prevent left/right movement)
+                      - &128   - Items (prevent up/down movement)
+                      - &256   - Item edges
+                      - &512   - Item fade/volume handles
+                      - &1024  - Loop points locked
+                      - &2048  - Item envelopes
+                      - &4096  - Item stretch markers
+                      - &16384 - Enable locking
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, lock, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Lock","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_Lock","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_Lock","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return tonumber(ProjectStateChunk:match("\n  LOCK (.-)\n"))
+end
+
+--reaper.Main_SaveProject(0, false)
+--A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
+--B=ultraschall.GetProject_Lock("c:\\automitem\\automitem.rpp",A)
+--reaper.CF_SetClipboard(B)
+--reaper.Main_OnCommand(40277,0)
+
+
+--reaper.MB(B,"",0)
 
 ultraschall.ShowLastErrorMessage()
 

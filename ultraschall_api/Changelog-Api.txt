@@ -222,6 +222,14 @@
   - SetCurrentReaperWorkDir - sets the current working directory of Reaper; if you create file without a path in Lua, they will be stored in that path; needs a Reaper restart!
   - DirectoryExists2 - returns, if a certain path exists. Unlike DirectoryExists, which checks, whether a directory in a path exists
   - GetScriptFilenameFromActionCommandID - gets the script-filename associated to a specific ActionCommandID
+  - GetProject_CountAutomationItems - counts the automation-items in a project/ProjectStateChunk
+  - GetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
+  - GetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk
+  - GetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk
+  - GetProject_MasterPlayspeed - gets the statechunk for all master-playspeed-settings from a project/ProjectStateChunk
+  - GetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk
+  - GetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk
+  - GetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk
   
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
@@ -314,6 +322,31 @@
       TODO!!  - Get/SetProjectBay-functions
       TODO!!  - Envelope-StateChunk-functions
       TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
+      TODO!!  - GetProject-functions for
+                      GLOBAL_AUTO -1
+                      TEMPO 120 4 4
+                      PLAYRATE 1 1 0.75 1.5
+                      SELECTION 89.67925001643719 118.1937688323432
+                      SELECTION2 89.67925001643719 118.1937688323432
+                      MASTERAUTOMODE 0
+                      MASTERTRACKHEIGHT 0 0
+                      MASTERPEAKCOL 16576
+                      MASTERMUTESOLO 0
+                      MASTERTRACKVIEW 0 0.6667 0.5 0.5 0 0 0
+                      MASTERHWOUT 0 0 1 0 0 0 0 -1
+                      MASTER_NCH 2 2
+                      MASTER_VOLUME 1 0 -1 -1 1
+                      MASTER_FX 1
+                      MASTER_SEL 0
+              - SetProject-functions for
+                  - GetProject_CountAutomationItems - counts the automation-items in a project/ProjectStateChunk
+                  - GetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
+                  - GetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk
+                  - GetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk
+                  - GetProject_MasterPlayspeed - gets the statechunk for all master-playspeed-settings from a project/ProjectStateChunk
+                  - GetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk
+                  - GetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk
+                  - GetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk
       TODO!!  - In the render window I think it would be really helpful to have the option of adding the rendered files into a new project tab.
 
                     There could be a section of the render window for After Export functions
@@ -333,8 +366,7 @@
                     Hope you'll consider this. Thanks
                     https://forum.cockos.com/showthread.php?t=211539
    
-   </TODO>   
-      
+   </TODO>
 ####Changes from 4.00beta2.6 to 4.00beta2.7
   - Tons of bugfixes. I mean, tons as in metric tons ;)
   - GetTrackRecCFG - added documentation, that was still missing -> fixed now; added missing return-value
