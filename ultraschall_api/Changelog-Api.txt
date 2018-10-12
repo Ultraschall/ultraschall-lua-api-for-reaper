@@ -347,6 +347,8 @@
                   - GetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk
                   - GetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk
                   - GetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk
+               - IsValid-check functions for
+                    - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions
       TODO!!  - In the render window I think it would be really helpful to have the option of adding the rendered files into a new project tab.
 
                     There could be a section of the render window for After Export functions

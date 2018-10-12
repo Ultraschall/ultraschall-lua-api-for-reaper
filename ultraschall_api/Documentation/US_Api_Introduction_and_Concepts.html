@@ -39,7 +39,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 18143</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 18149</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
 <td><a href="#Introduction_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
@@ -115,9 +115,8 @@ Ultraschall API functions
 The folder UserPlugins should contain the folder ultraschall<em>api and the files ultraschall</em>api<em>readme.txt and ultraschall</em>api.lua</li>
 <li><p>Now create a new script, by opening the Actions-window (Menu: Actions -&gt; Show action list) and clicking the New-button next to &quot;ReaScript:&quot;, give it a name and hit save.<br />
 Include the following line in your script at the beginning:</p>
-<pre><code>    dofile(reaper.GetResourcePath()..&quot;/UserPlugins/ultraschall_api.lua&quot;)
-
-Now you can program with the Ultraschall-API. Just add the functions AFTER the dofile-line.</code></pre></li>
+<pre><code>    dofile(reaper.GetResourcePath()..&quot;/UserPlugins/ultraschall_api.lua&quot;)</code></pre>
+<p>Now you can program with the Ultraschall-API. Just add the functions AFTER the dofile-line.</p></li>
 <li><p>To test, if it's successfully installed, add</p>
 <pre><code>    ultraschall.ApiTest()</code></pre>
 <p>after the dofile-line and hit ctrl+s or cmd+s(on mac).</p>
@@ -176,8 +175,8 @@ Sendegate: <a href="http://www.sendegate.de">sendegate.de</a> into the Ultrascha
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_Introduction"></a>
 <div style="font-size:100%"><h4><a href="#Datatypes_Introduction">^</a> <u>Datatypes: Introduction</u></h4></div><p><p>Parameters and returnvalues are usually of specific types. Let's look at the following function:</p>
-<p><code>integer number_of_items, array MediaItemArray, array MediaItemStateChunkArray = ultraschall.GetMediaItemsAtPosition(number position, string trackstring)</code></p>
-<p>The returnvalues number<em>of</em>items is of type integer, MediaItemArray is of type array/type, MediaItemStateChunkArray if of type array. The parameters position is of type number, trackstring is of type string. These parameters/returnvalues only accept/return data of these given types.</p>
+<pre><code>        integer number_of_items, array MediaItemArray, array MediaItemStateChunkArray = ultraschall.GetMediaItemsAtPosition(number position, string trackstring)</code></pre>
+<p>The returnvalues number_of_items is of type integer, MediaItemArray is of type array/type, MediaItemStateChunkArray if of type array. The parameters position is of type number, trackstring is of type string. These parameters/returnvalues only accept/return data of these given types.</p>
 <p>The Ultraschall-API uses a lot of the standard-datatypes provided by Lua and Reaper/SWS, which are:</p>
 <ul>
 <li>Lua
@@ -398,7 +397,8 @@ These aren't datatypes, but you may want to check them for validity as well</p>
 </ol>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_API_Variables"></a>
-<div style="font-size:100%"><h4><a href="#Introduction_API_Variables">^</a> <u>API-Variables</u></h4></div><p><p>When working with the Ultraschall-API or general programming in Reaper, some additional things may or may not be helpful to know, like:</p>
+<div style="font-size:100%"><h4><a href="#Introduction_API_Variables">^</a> <u>API-Variables</u></h4></div><p><p>When working with the Ultraschall-API or general programming in Reaper, some additional things may or may not be helpful to know.<br />
+So I added some API-variables, like:</p>
 <ol>
 <li><a href="#Script_Path">Script_Path</a> - which contains the current path to Reaper's-scripts-folder</li>
 <li><a href="#Separator">Separator</a> - which contains the correct separator for paths; on Windows it is \ on Mac and Linux it is /</li>
@@ -406,6 +406,11 @@ These aren't datatypes, but you may want to check them for validity as well</p>
 <li><a href="#Api_Path">Api_Path</a> - the current path to the Ultraschall-API folder.</li>
 <li><a href="#Api_InstallPath">Api_InstallPath</a> - an API-variable that contains the path to the install-folder of the Ultraschall-API</li>
 </ol>
+<p>These can be accessed using:</p>
+<pre><code>            scriptpath = ultraschall.Script_Path
+    </code></pre>
+<p>which would put the current-scriptpath to the variable scriptpath.</p>
+<p>You could change them as well, but that would be pointless.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_01_Introduction"></a>
 <div style="font-size:100%"><h4><a href="#Rendering_01_Introduction">^</a> <u>Rendering: Introduction</u></h4></div><p><p>The Ultraschall-API provides functions for rendering your projects, without having to use the Rendering-dialog of Reaper. This gives you a wide range of possibilities to customize your rendering-needs.</p>
@@ -493,7 +498,7 @@ That said, a lot of the parameters are the same.</p>
 </ol>
 <p>If you want to alter the currently opened project, you need to save it first. After that, use:</p>
 <pre><code>        retval, projectfilename_with_path = reaper.EnumProjects(-1,&quot;&quot;)</code></pre>
-<p>to get the projectfilename_with_path of the current project as returnvalue. Use projectfilename<em>with</em>path and go through steps 1 through 4.</p>
+<p>to get the projectfilename_with_path of the current project as returnvalue. Use projectfilename_with_path and go through steps 1 through 4.</p>
 <p>The functions in step 2) are just a small selection of the functions to alter project-files, as provided by the Ultraschall-API. Browse through the functions in the &quot;Project-Files&quot;-section of the index of the Ultraschall-API-Functions-Reference for many more of them.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Arrangeview_Snapshots_Introduction"></a>
@@ -659,18 +664,21 @@ In either way, you select them in a 2Dimensional way. Not with Reaper's own API.
 <p><strong><a href="#GetMediaItemsAtPosition">GetMediaItemsAtPosition</a></strong>:</p>
 <pre><code>        integer number_of_items, array MediaItemArray, array MediaItemStateChunkArray 
                                                        = ultraschall.GetMediaItemsAtPosition(number position, string trackstring)</code></pre>
+<blockquote>
 <p>This function gives you all items at position passed with parameter position and within the tracks given by parameter trackstring.<br />
 It returns the number of items, an array with all MediaItems and an array with all StateChunks of the MediaItems returned.<br />
 With this function, you can easily get the items from a certain position, without having to deal with looking into the MediaItem-objects for the correct time-position, or even have to care, where to get the corresponding tracks from an item.<br />
 This function does this for you.</p>
+</blockquote>
 <p>But what, if you want to get the MediaItems inbetween a startingposition and an endposition?<br />
 For this, I wrote the function</p>
 <p><strong><a href="#GetAllMediaItemsBetween">GetAllMediaItemsBetween</a></strong>:</p>
 <pre><code>         integer count, array MediaItemArray, array MediaItemStateChunkArray = 
                      ultraschall.GetAllMediaItemsBetween(number startposition, number endposition, string trackstring, boolean inside) </code></pre>
+<blockquote>
 <p>which basically returns the same things, as GetMediaItemsAtPosition. The difference lies in the parameters.<br />
-You can pass a startposition and an endposition(which must be bigger than or equal startposition), <a href="#Datatypes_trackstring">trackstrings</a>, which is a string with all tracks, separated by commas and inside as parameters to the function.<br />
-When you set inside to true, it will return only items that are completely within startposition and endposition. When setting inside to false, it will also return items, that are partially within start- and endposition, like items beginning before startposition or ending after endposition.</p>
+You can pass to the function a startposition and an endposition(which must be bigger than or equal startposition), <a href="#Datatypes_trackstring">trackstrings</a>, which is a string with all tracks, separated by commas as well as inside as parameters. When you set inside to true, it will return only items that are completely within startposition and endposition. When setting inside to false, it will also return items, that are partially within start- and endposition, like items beginning before startposition or ending after endposition.</p>
+</blockquote>
 <p>With these two functions, getting items is much, much easier than before.</p>
 <p>The returned MediaItems, MediaItemArrays and MediaItemStateChunkArrays can then be passed over to other functions, who accept them, for &quot;mass manipulation&quot; of the MediaItems.</p>
 <p>In addition to them, I also added some more functions for getting MediaItems, namely:</p>
@@ -686,43 +694,64 @@ When you set inside to true, it will return only items that are completely withi
 The easiest ones are <a href="#SplitMediaItems_Position">SplitMediaItems_Position</a> and <a href="#SplitItemsAtPositionFromArray">SplitItemsAtPositionFromArray</a><br />
 Let's have a look at:</p>
 <p><strong><a href="#SplitMediaItems_Position">SplitMediaItems_Position</a></strong>:</p>
-<pre><code>        boolean retval, array MediaItemArray = ultraschall.SplitMediaItems_Position(number position, string trackstring, boolean crossfade)</code></pre>
+<pre><code>            boolean retval, array MediaItemArray = ultraschall.SplitMediaItems_Position(number position, string trackstring, boolean crossfade)</code></pre>
+<blockquote>
 <p>This splits all items at position, that are in the tracks given by parameter trackstring. If you want to have the items So if you want to split all items in tracks 1,3,4 at position 22, you type:</p>
-<pre><code>        retval, MediaItemArray = ultraschall.SplitMediaItems_Position(22, &quot;1,3,4&quot;, false)</code></pre>
+</blockquote>
+<pre><code>            retval, MediaItemArray = ultraschall.SplitMediaItems_Position(22, &quot;1,3,4&quot;, false)</code></pre>
+<blockquote>
 <p>There's another parameter crossfade. If you have it set to true or nil and have Automatic-Crossfade enabled (Preferences -&gt; Media Item Defaults -&gt; Overlap and crossfade items when splitting, length), crossfade will be done at the split.<br />
 If you want to avoid that, set it to false and a normal split with fadein/fadeout will appear(if set in the preferences: Preferences -&gt; Media Item Defaults -&gt; Create automatic fade-in/fade-out for new items, length).</p>
+</blockquote>
+<blockquote>
 <p>This function returns, if splitting was successful and the newly &quot;created&quot;-right-hand-split-items as an MediaItemAray.</p>
-<p><strong><a href="#SplitItemsAtPositionFromArray">SplitItemsAtPositionFromArray</a>:</strong> The function SplitItemsAtPositionFromArray works quite similar, but with the difference, that you don't give tracks, but items to the function, that shall be split at position.</p>
-<pre><code>        boolean retval, array MediaItemArray = ultraschall.SplitItemsAtPositionFromArray(number position, array MediaItemArray, boolean crossfade)</code></pre>
+</blockquote>
+<p><strong><a href="#SplitItemsAtPositionFromArray">SplitItemsAtPositionFromArray</a>:</strong></p>
+<blockquote>
+<p>The function SplitItemsAtPositionFromArray works quite similar, but with the difference, that you don't give tracks, but items to the function, that shall be split at position.</p>
+</blockquote>
+<pre><code>            boolean retval, array MediaItemArray = ultraschall.SplitItemsAtPositionFromArray(number position, array MediaItemArray, boolean crossfade)</code></pre>
+<blockquote>
 <p>position is the position, at which an item shall be split. MediaItemArray is an array with all MediaItems, that shall be split, if possible. crossfade sets if automatic crossfade shall be applied to or not, just as in SplitMediaItems_Position above.<br />
 This function will split only items, that have the position in them somewhere. That means, if you want to split at position 22 seconds, an item, that goes from 1 to 4 will not be split, an item from 18 to 25 will be split.</p>
+</blockquote>
+<blockquote>
 <p>This function returns, if splitting was successful and the newly &quot;created&quot;-right-hand-split-items as an MediaItemAray. Only the right-hand-split-MediaItem of MediaItems, that could be split, will be returned. If a MediaItem could not be split(position outside MediaItemstart and MediaItemEnd), there will be no returned MediaItem for it then.</p>
+</blockquote>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Deleting"></a>
 <div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_Deleting">^</a> <u>MediaItems: Deleting MediaItems by Time and Tracks</u></h4></div><p><p>Deleting of MediaItems is often a useful thing. Unfortunately, this is inconvenient to do within the Reaper-API. The only such function is DeleteTrackMediaItem, but it requires you to give the function the track in which the MediaItem lies too. But often, you want to have a function that simply deletes a MediaItem-object or deletes items at position from numerous tracks, etc.<br />
 So I added some functions, that make life easier: <a href="#DeleteMediaItem">DeleteMediaItem</a>, <a href="#DeleteMediaItemsFromArray">DeleteMediaItemsFromArray</a>, <a href="#DeleteMediaItems_Position">DeleteMediaItems_Position</a> and <a href="#DeleteMediaItemsBetween">DeleteMediaItemsBetween</a></p>
 <p>In addition to deleting the MediaItems, all these functions return the statechunks of the deleted MediaItems. These statechunks contain an additional field</p>
-<pre><code>        &quot;ULTRASCHALL_TRACKNUMBER&quot;</code></pre>
+<pre><code>            &quot;ULTRASCHALL_TRACKNUMBER&quot;</code></pre>
 <p>which contains the track, in which the MediaItem was located before deleting it.<br />
 This may help doing cut and paste functions, as otherwise, you lose the information, in which track a certain MediaItem was located.</p>
 <p><strong><a href="#DeleteMediaItem">DeleteMediaItem</a>:</strong></p>
-<pre><code>        boolean retval, string MediaItemStateChunk = ultraschall.DeleteMediaItem(MediaItem MediaItem)</code></pre>
+<pre><code>            boolean retval, string MediaItemStateChunk = ultraschall.DeleteMediaItem(MediaItem MediaItem)</code></pre>
+<blockquote>
 <p>This function is simple. Just pass the MediaItem that you want to delete to it and it will delete it. If no such MediaItem exists, it will return false.</p>
+</blockquote>
 <p><strong><a href="#DeleteMediaItemsFromArray">DeleteMediaItemsFromArray</a>:</strong></p>
-<pre><code>        boolean retval, array MediaItemArray = ultraschall.DeleteMediaItemsFromArray(array MediaItemArray)</code></pre>
+<pre><code>            boolean retval, array MediaItemArray = ultraschall.DeleteMediaItemsFromArray(array MediaItemArray)</code></pre>
+<blockquote>
 <p>This function might be more interesting if you want to delete a number of MediaItems at once. Just pass to it a MediaItemArray(like the one returned by functions like <a href="#GetAllMediaItemsBetween">GetAllMediaItemsBetween</a>)</p>
+</blockquote>
 <p><strong><a href="#DeleteMediaItems_Position">DeleteMediaItems_Position</a>:</strong></p>
-<pre><code>        boolean retval, array MediaItemStateChunkArray = ultraschall.DeleteMediaItems_Position(number position, string trackstring)</code></pre>
+<pre><code>            boolean retval, array MediaItemStateChunkArray = ultraschall.DeleteMediaItems_Position(number position, string trackstring)</code></pre>
+<blockquote>
 <p>This function deletes all items at position in the tracks, given by trackstring.<br />
 If you want to delete all items at position 22, within track 1,4,8 and 9, you just type:</p>
-<pre><code>        retval = ultraschall.DeleteMediaItems_Position(22, &quot;1,4,8,9&quot;)</code></pre>
+</blockquote>
+<pre><code>            retval = ultraschall.DeleteMediaItems_Position(22, &quot;1,4,8,9&quot;)</code></pre>
 <p><strong><a href="#DeleteMediaItems_Position">DeleteMediaItems_Position</a>:</strong></p>
-<pre><code>        boolean retval, array MediaItemStateChunkArray  = 
+<pre><code>            boolean retval, array MediaItemStateChunkArray  = 
                         ultraschall.DeleteMediaItems_Between(number startposition, number endposition, string trackstring, boolean inside)</code></pre>
+<blockquote>
 <p>This function deletes MediaItems between start and endposition, within the track given by parameter trackstring. You can use the parameter inside to set, if you want to delete only items that are completely within start and endposition(true) or also include items, that are only partially within start and endposition.<br />
 This function works like <a href="#GetAllMediaItemsBetween">GetAllMediaItemsBetween</a>, with the additional benefit of deleting the MediaItems.<br />
 Let's assume, you want to delete all MediaItems between position 33 and 98, within the tracks 3, 5, 10 and 14 and only the items that are completely within the position 33 and 98, you type:</p>
-<pre><code>        retval, MediaItemStateChunkArray  = ultraschall.DeleteMediaItems_Between(33, 98, &quot;3,5,10,14&quot;, true)</code></pre>
+</blockquote>
+<pre><code>            retval, MediaItemStateChunkArray  = ultraschall.DeleteMediaItems_Between(33, 98, &quot;3,5,10,14&quot;, true)</code></pre>
 <p>With all these functions, deleting MediaItems is now comfortable to do.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Section_And_Ripple_Cut"></a>
@@ -733,35 +762,60 @@ With naked Reaper, yes. But possible with the Ultraschall-API.</p>
 <p>For that I added the following functions: <a href="#RippleCut">RippleCut</a>, <a href="#RippleCut_Reverse">RippleCut_Reverse</a>, <a href="#RippleInsert">RippleInsert</a>, <a href="#SectionCut">SectionCut</a>, <a href="#SectionCut_Inverse">SectionCut_Inverse</a><br />
 All these functions return a MediaItemStateChunkArray, where every StateChunk includes an additional entry &quot;ULTRASCHALL_TRACKNUMBER&quot;, which holds the tracknumber, in which the cut MediaItem/piece of a MediaItem was originally located.</p>
 <p><strong><a href="#RippleCut">RippleCut</a></strong>:</p>
-<pre><code>        integer number_items, array MediaItemArray_StateChunk = 
+<pre><code>            integer number_items, array MediaItemArray_StateChunk = 
                 ultraschall.RippleCut(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)</code></pre>
-<p>With this function, you can RippleCut between startposition, endposition within the tracks as given in trackstring. You can also decide, whether to move the markers and the envelope-points as well. This should give you total control in how RippleCut is behaving for your needs. Let's take an example. If you want to cut between seconds 20 and 50 in track 1,4,5,7, not moving the markers but the envelope-points, you type:</p>
-<pre><code>        number_items, MediaItemArray_StateChunk = ultraschall.RippleCut(20, 50, &quot;1,4,5,7&quot;, false, true)</code></pre>
+<blockquote>
+<p>With this function, you can RippleCut between startposition, endposition within the tracks as given in trackstring. You can also decide, whether to move the markers and the envelope-points as well.<br />
+This should give you total control in how RippleCut is behaving for your needs.<br />
+Let's take an example. If you want to cut between seconds 20 and 50 in track 1,4,5,7, not moving the markers but the envelope-points, you type in this Example:</p>
+</blockquote>
+<pre><code>            number_items, MediaItemArray_StateChunk = ultraschall.RippleCut(20, 50, &quot;1,4,5,7&quot;, false, true)</code></pre>
+<blockquote>
 <p>This cuts out the section between seconds 20 and 50 and moves everything after that toward the beginning of the project, to fill the gap of the cut section.</p>
+</blockquote>
 <p><strong><a href="#RippleCut_Reverse">RippleCut_Reverse</a></strong>:</p>
-<pre><code>        integer number_items, array MediaItemArray_StateChunk = 
-             ultraschall.RippleCut_Reverse(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)</code></pre>
-<p>With this function, you can RippleCut, but unlike RippleCut above, RippleCut_Reverse moves everything BEFORE the cut towards the end to fill the cut. Everything else is just the same as RippleCut.</p>
+<pre><code>            integer number_items, array MediaItemArray_StateChunk = 
+               ultraschall.RippleCut_Reverse(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)</code></pre>
+<blockquote>
+<p>With this function, you can RippleCut, but unlike RippleCut above, RippleCut_Reverse moves everything BEFORE the cut towards the end to fill the cut.<br />
+Everything else is just the same as RippleCut.</p>
+</blockquote>
 <p><strong><a href="#RippleInsert">RippleInsert</a></strong>:</p>
-<pre><code>        integer number_of_items, array MediaItemArray, number endpos_inserted_items = 
+<pre><code>            integer number_of_items, array MediaItemArray, number endpos_inserted_items = 
                 ultraschall.RippleInsert(number position, array MediaItemArray, string trackstring, boolean moveenvelopepoints, boolean movemarkers)</code></pre>
-<p>This function inserts the items in MediaItemArray at position within the tracks, given by trackstring. You can also decide, whether markers and envelope-points shall be moved. This is quite the opposite of RippleCut: it will split the items at position, move the items after the split towards the end of the project and include the MediaItems in MediaItemArray. The length of the movement is according the overall length of all MediaItems, beginning with the earliest and ending with the latest MediaItem-length in MediaItemArray. One additional note: MediaItems will only be included into the tracks they were originally located in, means: an item from track 1 will be included into track 1. The parameter trackstring can only be used to exclude items from certain tracks. So a trackstring &quot;1,3,4&quot; will only insert all items from tracks 1,3 and 4, leaving out all of the MediaItems from track 2.</p>
-<p>Example:</p>
-<pre><code>        number_of_items, MediaItemArray, endpos_inserted_items = ultraschall.RippleInsert(20, MediaItemArray, &quot;1,4,9,10&quot; false, false)</code></pre>
-<p>This will insert all MediaItems from MediaItemArray, ordered by their relative position, at position 20 seconds. Only the MediaItems from tracks 1,4,9,10 will be included. All others will be ignored. Markers and Envelopepoints will not move in this example.</p>
+<blockquote>
+<p>This function inserts the items in MediaItemArray at position within the tracks, given by trackstring. You can also decide, whether markers and envelope-points shall be moved.<br />
+This is quite the opposite of RippleCut: it will split the items at position, move the items after the split towards the end of the project and include the MediaItems in MediaItemArray.<br />
+The length of the movement is according the overall length of all MediaItems, beginning with the earliest and ending with the latest MediaItem-length in MediaItemArray.<br />
+One additional note: MediaItems will only be included into the tracks they were originally located in, means: an item from track 1 will be included into track 1. The parameter trackstring can only be used to exclude items from certain tracks.<br />
+So a trackstring &quot;1,3,4&quot; will only insert all items from tracks 1,3 and 4, leaving out all of the MediaItems from track 2.<br />
+Example:</p>
+</blockquote>
+<pre><code>            number_of_items, MediaItemArray, endpos_inserted_items = ultraschall.RippleInsert(20, MediaItemArray, &quot;1,4,9,10&quot; false, false)</code></pre>
+<blockquote>
+<p>This will insert all MediaItems from MediaItemArray, ordered by their relative position, at position 20 seconds. Only the MediaItems from tracks 1,4,9,10 will be included. All others will be ignored.<br />
+Markers and Envelopepoints will not move in this example.</p>
+</blockquote>
 <p><strong><a href="#SectionCut">SectionCut</a></strong>:</p>
-<pre><code>        integer number_items, array MediaItemArray_StateChunk = ultraschall.SectionCut(number startposition, number endposition, string trackstring)</code></pre>
-<p>This function just cuts out the section between start and endposition in the tracks, given in trackstring, leaving a &quot;gap&quot; in it. Useful, when you don't want to ripple stuff. If you want to cut between seconds 77 and 99 in tracks 1,2,4,6 you type:</p>
-<pre><code>        number_items, MediaItemArray_StateChunk = ultraschall.SectionCut(77, 99, &quot;1,2,4,6&quot;)</code></pre>
+<pre><code>            integer number_items, array MediaItemArray_StateChunk = ultraschall.SectionCut(number startposition, number endposition, string trackstring)</code></pre>
+<blockquote>
+<p>This function just cuts out the section between start and endposition in the tracks, given in trackstring, leaving a &quot;gap&quot; in it. Useful, when you don't want to ripple stuff.<br />
+If you want to cut between seconds 77 and 99 in tracks 1,2,4,6 do it like in this Example:</p>
+</blockquote>
+<pre><code>            number_items, MediaItemArray_StateChunk = ultraschall.SectionCut(77, 99, &quot;1,2,4,6&quot;)</code></pre>
 <p><strong><a href="#SectionCut_Inverse">SectionCut_Inverse</a></strong>:</p>
-<pre><code>        integer number_items_beforestart, array MediaItemArray_StateChunk_beforestart, integer number_items_afterend, array MediaItemArray_StateChunk_afterend = 
+<pre><code>            integer number_items_beforestart, array MediaItemArray_StateChunk_beforestart, integer number_items_afterend, array MediaItemArray_StateChunk_afterend = 
                         ultraschall.SectionCut_Inverse(number startposition, number endposition, string trackstring)</code></pre>
+<blockquote>
 <p>This function cuts everything BEFORE AND AFTER start and endposition within the tracks given by trackstring. This is comparable to crop-functionality in graphic-applications like Photoshop, applied to MediaItems.<br />
-For example: if you have a 10 minute project, but want to use only the audio from seconds 60 to 89 in tracks 1,2,7,8 you type:</p>
-<pre><code>        number_items_beforestart, MediaItemArray_StateChunk_beforestart, number_items_afterend, MediaItemArray_StateChunk_afterend = 
+If you have a 10 minute project, but want to use only the audio from seconds 60 to 89 in tracks 1,2,7,8 you type in this Example:</p>
+</blockquote>
+<pre><code>            number_items_beforestart, MediaItemArray_StateChunk_beforestart, number_items_afterend, MediaItemArray_StateChunk_afterend = 
                                                                                             ultraschall.SectionCut_Inverse(60, 89, &quot;1,2,7,8&quot;)</code></pre>
+<blockquote>
 <p>With that, everything before second 60 and everything after second 89 in tracks 1,2,7,8 will be deleted.<br />
 In addition to that, the function returns a MediaItemStateChunkArray for both, the items cut before startposition and one for the items cut after endposition.</p>
+</blockquote>
 <p>This should give you many additional use-cases into your hands.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 31 chapters available</td></table><br><hr></div></body></html>

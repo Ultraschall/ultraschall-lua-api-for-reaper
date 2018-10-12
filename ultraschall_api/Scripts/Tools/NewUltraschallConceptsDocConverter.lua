@@ -551,7 +551,7 @@ function contentindex()
 end
 
 function entries()
---for lolo=1, 1 do
+for lolo=1, 1 do
 -- Slug as HTML-Anchor
   FunctionList=FunctionList.."<hr><a id=\""..C[index][1].."\"></a>"
   FunctionList=FunctionList.."\n"
@@ -688,7 +688,7 @@ function entries()
     reaper.MB(Time3,"",0)
     kuddel=1
   end  
---  end
+  end
   if kuddel==nil then reaper.defer(entries) end
 end
 

@@ -103,8 +103,8 @@ ultraschall.WriteValueToFile(ultraschall.Api_Path.."/Documentation/ChangeLog.htm
 
 reaper.ShowConsoleMsg("Creating Functions Reference\n")
 --ALABAMA=ultraschall.CreateUSApiDocs_HTML(ultraschall.Api_Path.."/Documentation/US_Api_Documentation.html", ultraschall.Api_Path.."/ultraschall_functions_engine.lua")
-ultraschall.RunCommand("_RSdd25c8bda91067981223b0efd6a4c3c07ac26a92",0)
 ultraschall.RunCommand("_RSafb7013a8d8bbc8ef2b5f044da8d0fa327ac4a10")
+ultraschall.RunCommand("_RSdd25c8bda91067981223b0efd6a4c3c07ac26a92")
 progresscounter(false)
 
 reaper.ShowConsoleMsg("Creating Reaper-Functions Doc\n")

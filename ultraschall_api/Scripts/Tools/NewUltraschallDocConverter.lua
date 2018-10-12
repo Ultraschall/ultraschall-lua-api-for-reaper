@@ -29,7 +29,7 @@ function ultraschall.SplitUSDocBlocs(String)
     
     String=String:sub(Offset,-1)
   end
-  return Counter, Table
+  return Counter+1, Table
 end
 
 
@@ -660,6 +660,7 @@ function writefile()
    --   end
       
       KLONGEL=ultraschall.WriteValueToFile(Outfile, FunctionList2..FunctionList)
+--      reaper.MB(FunctionList2:sub(-2000,-1),"",0)
       if KLONGEL==-1 then ultraschall.ShowLastErrorMessage() end
   
       reaper.ShowConsoleMsg("Done\n")
@@ -779,10 +780,11 @@ for lolo=1, 60 do
     else 
       b=b+1
     end
-  elseif kuddel==nil then
+
     end  
-    end
-    if index<Ccount then reaper.defer(entries) else  writefile() end
+    if index>=Ccount then break end
+end
+    if index<Ccount then reaper.defer(entries) else writefile() end
 end
 
 --header()
