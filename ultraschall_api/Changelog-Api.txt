@@ -233,6 +233,15 @@
   - GetProject_GlobalAuto - returns the global automation override-settings of an rpp-file or ProjectStateChunk
   - GetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk
   - GetProject_Playrate - returns the playrate-settings of an rpp-file or a ProjectStateChunk
+  - GetProject_MasterAutomode - returns the Mastertrack-automation-mode-settings of an rpp-file or a ProjectStateChunk
+  - GetProject_MasterSel - returns the Mastertrack-selection-mode-settings of an rpp-file or a ProjectStateChunk
+  - GetProject_MasterFXByp - returns the Mastertrack-fx-bypass-mode-settings of an rpp-file or a ProjectStateChunk
+  - GetProject_MasterMuteSolo - returns the Mastertrack-mute-solo-mode-settings of an rpp-file or a ProjectStateChunk
+  - GetProject_MasterNChans - returns the Mastertrack-num-channels-mode-settings of an rpp-file or a ProjectStateChunk
+  - GetProject_MasterTrackHeight - returns the Mastertrack-trackheight-mode-settings of an rpp-file or a ProjectStateChunk
+  - GetProject_MasterTrackColor - returns the Mastertrack-trackcolor-mode-settings of an rpp-file or a ProjectStateChunk
+  - GetProject_CountMasterHWOuts - counts the HWOuts for a Master-track of an rpp-file or a ProjectStateChunk
+  - GetProject_MasterHWOut - returns the Mastertrack-HWOUT-settings of an rpp-file or a ProjectStateChunk; there can be multiple ones, selectable by idx
   
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
@@ -327,16 +336,9 @@
       TODO!!  - Envelope-StateChunk-functions
       TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
       TODO!!  - GetProject-functions for
-                      MASTERAUTOMODE 0
-                      MASTERTRACKHEIGHT 0 0
-                      MASTERPEAKCOL 16576
-                      MASTERMUTESOLO 0
-                      MASTERTRACKVIEW 0 0.6667 0.5 0.5 0 0 0
+
                       MASTERHWOUT 0 0 1 0 0 0 0 -1
-                      MASTER_NCH 2 2
                       MASTER_VOLUME 1 0 -1 -1 1
-                      MASTER_FX 1
-                      MASTER_SEL 0
               - SetProject-functions for
                   - GetProject_CountAutomationItems - counts the automation-items in a project/ProjectStateChunk
                   - GetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
@@ -349,6 +351,18 @@
                   - GetProject_GlobalAuto - returns the global automation override-settings of an rpp-file or ProjectStateChunk
                   - GetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk                  
                   - GetProject_Playrate 
+                  - GetProject_MasterAutomode
+                  - GetProject_MasterSel
+                  - GetProject_MasterFXByp
+                  - GetProject_MasterMuteSolo
+                  - GetProject_MasterNChans
+                  - GetProject_MasterTrackHeight
+                  - GetProject_MasterTrackColor
+                  
+                  - GetProject_MasterTrackView
+                  - GetProject_CountMasterHWOuts
+                  - GetProject_MasterHWOut
+                  
                - IsValid-check functions for
                     - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions
       TODO!!  - In the render window I think it would be really helpful to have the option of adding the rendered files into a new project tab.
