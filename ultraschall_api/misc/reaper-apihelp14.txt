@@ -65,6 +65,8 @@
                 MediaItem_Take - a take within a MediaItem as object
                 TrackEnvelope - an envelope of a track as object
                 WDL_FastString\(S&M\) - a different kind of a string, made into a Reaper-object
+                
+                deviceHDC - get it using function [JS_GDI_GetWindowDC](#JS_GDI_GetWindowDC)
         </description>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -31695,5 +31697,415 @@
             reaper_plugin_functions.h
         </chapter_context>
         <tags>cpp, check, function, plugin, api</tags>
-    </US_DocBloc>                
-</USDocBloc>>>
+    </US_DocBloc>
+    
+    
+    
+    
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Byte</slug>
+        <title>JS_Byte(JS)</title>
+        <functioncall prog_lang="cpp">void JS_Byte(void* address, int offset, int* byteOut)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_Byte", void* address, int offset, int &byte)</functioncall>
+        <functioncall prog_lang="lua">number byte = reaper.JS_Byte(identifier address, integer offset)</functioncall>
+        <functioncall prog_lang="python">(void address, Int offset, Int byteOut) = JS_Byte(address, offset, byteOut)</functioncall>
+        <requires>
+            Reaper=5.941
+            JS=0.94
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Returns the unsigned byte at address[offset]. Offset is added as steps of 1 byte each.
+        </description>
+        <retvals>
+            number byte - 
+        </retvals>
+        <parameters>
+            identifier address - 
+            integer offset - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Api-Helper-Functions
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+        
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_Double</slug>
+        <title>JS_Double(JS)</title>
+        <functioncall prog_lang="cpp">void JS_Double(void* address, int offset, double* doubleOut)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_Double", void* address, int offset, &double)</functioncall>
+        <functioncall prog_lang="lua"> number double = reaper.JS_Double(identifier address, integer offset)</functioncall>
+        <functioncall prog_lang="python">(void address, Int offset, Float doubleOut) = JS_Double(address, offset, doubleOut)</functioncall>
+        <requires>
+            Reaper=5.941
+            JS=0.94
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Returns the 8-byte floating point value at address[offset]. Offset is added as steps of 8 bytes each.
+        </description>
+        <retvals>
+            number double - 
+        </retvals>
+        <parameters>
+            identifier address - 
+            integer offset - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Api-Helper-Functions
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+        
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_GDI_Blit</slug>
+        <title>JS_GDI_Blit(JS)</title>
+        <functioncall prog_lang="cpp">void JS_GDI_Blit(void* destHDC, int dstx, int dsty, void* sourceHDC, int srcx, int srxy, int width, int height)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_GDI_Blit", void* destHDC, int dstx, int dsty, void* sourceHDC, int srcx, int srxy, int width, int height)</functioncall>
+        <functioncall prog_lang="lua">reaper.JS_GDI_Blit(identifier destHDC, integer dstx, integer dsty, identifier sourceHDC, integer srcx, integer srcy, integer width, integer height)</functioncall>
+        <functioncall prog_lang="python">JS_GDI_Blit(void destHDC, Int dstx, Int dsty, void sourceHDC, Int srcx, Int srxy, Int width, Int height)</functioncall>
+        <requires>
+            Reaper=5.941
+            JS=0.94
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Blits between two device contexts, which may include LICE "system bitmaps".
+        </description>
+        <parameters>
+            identifier destHDC - 
+            integer dstx - 
+            integer dsty - 
+            identifier sourceHDC - 
+            integer srcx - 
+            integer srcy - 
+            integer width - 
+            integer height - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            GFX-functions
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_GDI_CreateFillBrush</slug>
+        <title>JS_GDI_CreateFillBrush(JS)</title>
+        <functioncall prog_lang="cpp">void* JS_GDI_CreateFillBrush(int color)</functioncall>
+        <functioncall prog_lang="eel">void* extension_api("JS_GDI_CreateFillBrush", int color)</functioncall>
+        <functioncall prog_lang="lua">identifier reaper.JS_GDI_CreateFillBrush(integer color)</functioncall>
+        <functioncall prog_lang="python">void JS_GDI_CreateFillBrush(Int color)</functioncall>
+        <requires>
+            Reaper=5.941
+            JS=0.94
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            
+        </description>
+        <retvals>
+            identifier identifier - 
+        </retvals>
+        <parameters>
+            integer color - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            GFX-functions
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_GDI_CreateFont</slug>
+        <title>JS_GDI_CreateFont(JS)</title>
+        <functioncall prog_lang="cpp">void* JS_GDI_CreateFont(int height, int weight, int angle, bool italic, bool underline, bool strikeOut, const char* fontName)</functioncall>
+        <functioncall prog_lang="eel">void* extension_api("JS_GDI_CreateFont", int height, int weight, int angle, bool italic, bool underline, bool strike, "fontName")</functioncall>
+        <functioncall prog_lang="lua">identifier reaper.JS_GDI_CreateFont(integer height, integer weight, integer angle, boolean italic, boolean underline, boolean strike, string fontName)</functioncall>
+        <functioncall prog_lang="python">void JS_GDI_CreateFont(Int height, Int weight, Int angle, Boolean italic, Boolean underline, Boolean strikeOut, String fontName)</functioncall>
+        <requires>
+            Reaper=5.941
+            JS=0.94
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Note: Text color must be set separately.
+        </description>
+        <retvals>
+            identifier identifier - 
+        </retvals>
+        <parameters>
+            integer height - 
+            integer weight - 0 - 1000, with 0 = auto, 400 = normal and 700 = bold.
+            integer angle - the angle, in tenths of degrees, between the text and the x-axis of the device.
+            boolea italic - 
+            boolean underline - 
+            boolean strike - 
+            string fontname - If empty string "", uses first font that matches the other specified attributes.
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            GFX-functions
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_GDI_CreatePen</slug>
+        <title>JS_GDI_CreatePen(JS)</title>
+        <functioncall prog_lang="cpp">void* JS_GDI_CreatePen(int width, int color)</functioncall>
+        <functioncall prog_lang="eel">void* extension_api("JS_GDI_CreatePen", int width, int color)</functioncall>
+        <functioncall prog_lang="lua">identifier reaper.JS_GDI_CreatePen(integer width, integer color)</functioncall>
+        <functioncall prog_lang="python">void JS_GDI_CreatePen(Int width, Int color)</functioncall>
+        <requires>
+            Reaper=5.941
+            JS=0.94
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            
+        </description>
+        <retvals>
+            identifier identifier - 
+        </retvals>
+        <parameters>
+            integer width - 
+            integer color - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            GFX-functions
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_GDI_DeleteObject</slug>
+        <title>JS_GDI_DeleteObject(JS)</title>
+        <functioncall prog_lang="cpp">void JS_GDI_DeleteObject(void* GDIObject)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_GDI_DeleteObject", void* GDIObject)</functioncall>
+        <functioncall prog_lang="lua">reaper.JS_GDI_DeleteObject(identifier GDIObject)</functioncall>
+        <functioncall prog_lang="python">JS_GDI_DeleteObject(void GDIObject)</functioncall>
+        <requires>
+            Reaper=5.941
+            JS=0.94
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            
+        </description>
+        <parameters>
+            identifier GDIObject - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            GFX-functions
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_GDI_DrawText</slug>
+        <title>JS_GDI_DrawText(JS)</title>
+        <functioncall prog_lang="cpp">int JS_GDI_DrawText(void* deviceHDC, const char* text, int len, int left, int top, int right, int bottom, const char* align))</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_GDI_DrawText", void* deviceHDC, "text", int len, int left, int top, int right, int bottom, "align)")</functioncall>
+        <functioncall prog_lang="lua">integer reaper.JS_GDI_DrawText(identifier deviceHDC, string text, integer len, integer left, integer top, integer right, integer bottom, string align))</functioncall>
+        <functioncall prog_lang="python">Int JS_GDI_DrawText(void deviceHDC, String text, Int len, Int left, Int top, Int right, Int bottom, String align))</functioncall>
+        <requires>
+            Reaper=5.941
+            JS=0.94
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Parameters:
+            * align: Combination of: "TOP", "VCENTER", "LEFT", "HCENTER", "RIGHT", "BOTTOM", "WORDBREAK", "SINGLELINE", "NOCLIP", "CALCRECT", "NOPREFIX" or "ELLIPSIS"
+        </description>
+        <retvals>
+            integer retval - 
+        </retvals>
+        <parameters>
+            identifier deviceHDC - 
+            string text - 
+            integer len - 
+            integer left - 
+            integer top - 
+            integer right - 
+            integer bottom - 
+            string align -
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            GFX-functions
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_GDI_FillEllipse</slug>
+        <title>JS_GDI_FillEllipse(JS)</title>
+        <functioncall prog_lang="cpp">void JS_GDI_FillEllipse(void* deviceHDC, int left, int top, int right, int bottom)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_GDI_FillEllipse", void* deviceHDC, int left, int top, int right, int bottom)</functioncall>
+        <functioncall prog_lang="lua">reaper.JS_GDI_FillEllipse(identifier deviceHDC, integer left, integer top, integer right, integer bottom)</functioncall>
+        <functioncall prog_lang="python">JS_GDI_FillEllipse(void deviceHDC, Int left, Int top, Int right, Int bottom)</functioncall>
+        <requires>
+            Reaper=5.941
+            JS=0.94
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            
+        </description>
+       
+        <parameters>
+            identifier deviceHDC - 
+            integer left - 
+            integer top - 
+            integer right - 
+            integer bottom - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            GFX-functions
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_GDI_FillPolygon</slug>
+        <title>JS_GDI_FillPolygon(JS)</title>
+        <functioncall prog_lang="cpp">void JS_GDI_FillPolygon(void* deviceHDC, const char* packedX, const char* packedY, int numPoints)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_GDI_FillPolygon", void* deviceHDC, "packedX", "packedY", int numPoints)</functioncall>
+        <functioncall prog_lang="lua">reaper.JS_GDI_FillPolygon(identifier deviceHDC, string packedX, string packedY, integer numPoints)</functioncall>
+        <functioncall prog_lang="python">JS_GDI_FillPolygon(void deviceHDC, String packedX, String packedY, Int numPoints)</functioncall>
+        <requires>
+            Reaper=5.941
+            JS=0.94
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            packedX and packedY are strings of points, each packed as "<i4".
+        </description>
+       
+        <parameters>
+            identifier deviceHDC - 
+            string packedX - 
+            string packedY - 
+            integer numPoints - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            GFX-functions
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_GDI_FillRect</slug>
+        <title>JS_GDI_FillRect(JS)</title>
+        <functioncall prog_lang="cpp">void JS_GDI_FillRect(void* deviceHDC, int left, int top, int right, int bottom)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_GDI_FillRect", void* deviceHDC, int left, int top, int right, int bottom)</functioncall>
+        <functioncall prog_lang="lua">reaper.JS_GDI_FillRect(identifier deviceHDC, integer left, integer top, integer right, integer bottom)</functioncall>
+        <functioncall prog_lang="python">JS_GDI_FillRect(void deviceHDC, Int left, Int top, Int right, Int bottom)</functioncall>
+        <requires>
+            Reaper=5.941
+            JS=0.94
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            
+        </description>
+       
+        <parameters>
+            identifier deviceHDC - 
+            integer left - 
+            integer top - - 
+            integer right - 
+            integer bottom - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            GFX-functions
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_GDI_FillRoundRect</slug>
+        <title>JS_GDI_FillRoundRect(JS)</title>
+        <functioncall prog_lang="cpp">void JS_GDI_FillRoundRect(void* deviceHDC, int left, int top, int right, int bottom, int xrnd, int yrnd)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_GDI_FillRoundRect", void* deviceHDC, int left, int top, int right, int bottom, int xrnd, int yrnd)</functioncall>
+        <functioncall prog_lang="lua">reaper.JS_GDI_FillRoundRect(identifier deviceHDC, integer left, integer top, integer right, integer bottom, integer xrnd, integer yrnd)</functioncall>
+        <functioncall prog_lang="python">JS_GDI_FillRoundRect(void deviceHDC, Int left, Int top, Int right, Int bottom, Int xrnd, Int yrnd)</functioncall>
+        <requires>
+            Reaper=5.941
+            JS=0.94
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            
+        </description>
+        <parameters>
+            identifier deviceHDC - 
+            integer left - 
+            integer top - - 
+            integer right - 
+            integer bottom - 
+            integer xrnd - 
+            integer yrnd - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            GFX-functions
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>JS_GDI_GetClientDC</slug>
+        <title>JS_GDI_GetClientDC(JS)</title>
+        <functioncall prog_lang="cpp">void* JS_GDI_GetClientDC(void* windowHWND)</functioncall>
+        <functioncall prog_lang="eel">void* extension_api("JS_GDI_GetClientDC", void* windowHWND)</functioncall>
+        <functioncall prog_lang="lua">identifier reaper.JS_GDI_GetClientDC(identifier windowHWND)</functioncall>
+        <functioncall prog_lang="python">void JS_GDI_GetClientDC(void windowHWND)</functioncall>
+        <requires>
+            Reaper=5.941
+            JS=0.94
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Returns the device context for the client area of the specified window.
+        </description>
+        <retvals>
+            identifier identifier - 
+        </retvals>
+        <parameters>
+            identifier windowHWND - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Window-functions
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+</USDocBloc>

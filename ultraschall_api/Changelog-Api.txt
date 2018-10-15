@@ -230,10 +230,14 @@
   - GetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk
   - GetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk
   - GetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk
+  - GetProject_GlobalAuto - returns the global automation override-settings of an rpp-file or ProjectStateChunk
+  - GetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk
+  - GetProject_Playrate - returns the playrate-settings of an rpp-file or a ProjectStateChunk
   
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
       TODO!!  - ReturnTableAsIndividualValues - ... macht Probleme als retval in Docs (vermute ich mal meintest Du)
+      TODO!!  - ArrangeViewSnapshots - use reaper.JS_Window_SetScrollPos(HWND, "SB_VERT", value) to set and JS_Window_GetScrollInfo from JS new plugin to get/store vertscrollpos
       
       TODO!!  - Docs: parameter/retval-names often go into their descriptions; see GetStartNewFileRecSizeState for one such example
                     in general, the size of the parameters/retvals/description-table is...to be honest..fucked up.
@@ -323,11 +327,6 @@
       TODO!!  - Envelope-StateChunk-functions
       TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
       TODO!!  - GetProject-functions for
-                      GLOBAL_AUTO -1
-                      TEMPO 120 4 4
-                      PLAYRATE 1 1 0.75 1.5
-                      SELECTION 89.67925001643719 118.1937688323432
-                      SELECTION2 89.67925001643719 118.1937688323432
                       MASTERAUTOMODE 0
                       MASTERTRACKHEIGHT 0 0
                       MASTERPEAKCOL 16576
@@ -347,6 +346,9 @@
                   - GetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk
                   - GetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk
                   - GetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk
+                  - GetProject_GlobalAuto - returns the global automation override-settings of an rpp-file or ProjectStateChunk
+                  - GetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk                  
+                  - GetProject_Playrate 
                - IsValid-check functions for
                     - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions
       TODO!!  - In the render window I think it would be really helpful to have the option of adding the rendered files into a new project tab.
