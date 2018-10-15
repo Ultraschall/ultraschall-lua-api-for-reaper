@@ -4499,6 +4499,43 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>GetAudioDeviceInfo</slug>
+        <title>GetAudioDeviceInfo</title>
+        <functioncall prog_lang="cpp">bool GetAudioDeviceInfo(const char* attribute, char* desc, int desc_sz)</functioncall>
+        <functioncall prog_lang="eel">bool GetAudioDeviceInfo("attribute", #desc)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string desc = reaper.GetAudioDeviceInfo(string attribute, string desc)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, String attribute, String desc, Int desc_sz) = RPR_GetAudioDeviceInfo(attribute, desc, desc_sz)</functioncall>
+        <requires>
+            Reaper=5.96
+            Lua=5.3
+        </requires>
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
+            get information about the currently open audio device. 
+            Attribute can be MODE, IDENT_IN, IDENT_OUT, BSIZE, SRATE, BPS. returns false if unknown attribute or device not open.
+        </description>
+        <retvals>
+            boolean retval - true, if returning a value is possible; false, if not(unknown attribute or device not open)
+            string desc - the returned value; will not return a value, if Preferences are opened
+        </retvals>
+        <parameters>
+            string attribute - the attribute to get, as set in Preferences -> Device
+                             - MODE - the Audio system selected 
+                             - IDENT_IN - the selected Input device
+                             - IDENT_OUT - the selected Output device 
+                             - BSIZE - the Buffer-sample-size (not the multiplier!)
+                             - SRATE - the samplerate in Hz
+                             - BPS - the sample-format (e.g 16, 24, 32 bit)
+            string desc - a string the API needs to return the value; in Lua set it to ""
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Audio Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetConfigWantsDock</slug>
         <title>GetConfigWantsDock</title>
         <functioncall prog_lang="cpp">int GetConfigWantsDock(const char* ident_str)</functioncall>
@@ -9592,11 +9629,11 @@
         <functioncall prog_lang="lua">integer = reaper.InsertAutomationItem(TrackEnvelope env, integer pool_id, number position, number length)</functioncall>
         <functioncall prog_lang="python">Int RPR_InsertAutomationItem(TrackEnvelope env, Int pool_id, Float position, Float length)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.96
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Insert a new automation item. pool_id &gt; 0 collects existing envelope points into the automation item; otherwise, the automation item will be a new instance of an existing pool. Returns the index of the item, suitable for passing to other automation item API functions. See [GetSetAutomationItemInfo](#GetSetAutomationItemInfo).
+            Insert a new automation item. pool_id &lt; 0 collects existing envelope points into the automation item; if pool_id is &gt;= 0 the automation item will be a new instance of that pool (which will be created as an empty instance if it does not exist). Returns the index of the item, suitable for passing to other automation item API functions. See [GetSetAutomationItemInfo](#GetSetAutomationItemInfo).
         </description>
         <retvals>
             integer - 
@@ -31659,4 +31696,4 @@
         </chapter_context>
         <tags>cpp, check, function, plugin, api</tags>
     </US_DocBloc>                
-</USDocBloc>>
+</USDocBloc>>>
