@@ -280,10 +280,25 @@ Ultraschall API Changelog
 <li>GetProject_MasterTrackHeight - returns the Mastertrack-trackheight-mode-settings of an rpp-file or a ProjectStateChunk</li>
 <li>GetProject_MasterTrackColor - returns the Mastertrack-trackcolor-mode-settings of an rpp-file or a ProjectStateChunk</li>
 <li>GetProject_CountMasterHWOuts - counts the HWOuts for a Master-track of an rpp-file or a ProjectStateChunk</li>
-<li><p>GetProject_MasterHWOut - returns the Mastertrack-HWOUT-settings of an rpp-file or a ProjectStateChunk; there can be multiple ones, selectable by idx</p></li>
-</ul>
-<h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
-<ul>
+<li>GetProject_MasterHWOut - returns the Mastertrack-HWOUT-settings of an rpp-file or a ProjectStateChunk; there can be multiple ones, selectable by idx</li>
+<li>GetProject_MasterVolume - returns the Master-volume-settings of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterPanMode - returns the MasterPanMode of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterWidth - returns the Width-Knob2-settings of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterGroupFlagsState - returns the Master-groupflags-state of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterGroupFlagsHighState - returns the Master-grouphigh-flags-state of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_GroupDisabled - returns the state, which groups are disabled, of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterHWVolEnvStateChunk - returns the statechunk of the MasterHWVolEnv</li>
+<li>GetProject_MasterFXListStateChunk - returns the statechunk of the MasterFXList</li>
+<li>GetProject_MasterDualPanEnvStateChunk - returns the statechunk of the MasterDualPanEnv</li>
+<li>GetProject_MasterDualPanEnv2StateChunk - returns the statechunk of the MasterDualPanEnv2</li>
+<li>GetProject_MasterDualPanEnvLStateChunk - returns the statechunk of the MasterDualPanEnvL</li>
+<li>GetProject_MasterDualPanEnvL2StateChunk - returns the statechunk of the MasterDualPanEnvL2</li>
+<li>GetProject_MasterVolEnvStateChunk - returns the statechunk of the MasterVolEnv</li>
+<li>GetProject_MasterVolEnv2StateChunk - returns the statechunk of the MasterVolEnv2</li>
+<li>GetProject_MasterVolEnv3StateChunk - returns the statechunk of the MasterVolEnv3</li>
+<li>GetProject_MasterHWPanEnvStateChunk - returns the statechunk of the MasterHWPanEnv</li>
+<li>GetProject_MasterPanMode_Ex - returns the state of the MasterPanMode_Ex</li>
+<li>GetProject_TempoEnv_ExStateChunk - returns the statechunk of the TempoEnv_Ex ####Changes from 4.00beta2.6 to 4.00beta2.7</li>
 <li>Tons of bugfixes. I mean, tons as in metric tons ;)</li>
 <li>GetTrackRecCFG - added documentation, that was still missing -&gt; fixed now; added missing return-value</li>
 <li>GetLastErrorMessage2 - had wrong functionname, corrected documentation</li>
@@ -638,7 +653,7 @@ Ultraschall API Changelog
 <li>CenterViewToCursor - added parameter for a non-cursor-position of your choice to center to</li>
 <li>SetItemPosition - exchanged position and optional statechunk-parameters to be in line with SetProject/Track-statefunctions</li>
 <li>SetItemLength - exchanged length and optional statechunk-parameters to be in line with SetProject/Track-statefunctions</li>
-<li>GetSplitCrossFadeState_ReaperIni - removed, will return as a new function</li>
+<li><p>GetSplitCrossFadeState_ReaperIni - removed, will return as a new function</p></li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>

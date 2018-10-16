@@ -14938,7 +14938,7 @@ function ultraschall.GetProject_GroupOverride(projectfilename_with_path, Project
   </parameters>
   <retvals>
     integer group_override1 - the group-override state
-    integer group_override2 - the group-override state
+    integer track_group_enabled - the track_group_enabled-setting, as set in the context-menu of the Master-Track; 1, checked; 0, unchecked
     integer group_override3 - the group-override state
   </retvals>
   <chapter_context>
@@ -42158,7 +42158,7 @@ function ultraschall.GetProject_Lock(projectfilename_with_path, ProjectStateChun
     returns nil in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to get the lock-state; nil to use ProjectStateChunk
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
@@ -42223,7 +42223,7 @@ function ultraschall.GetProject_GlobalAuto(projectfilename_with_path, ProjectSta
     returns nil in case of an error or if the setting isn't existing
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to get the global-automation-state; nil to use ProjectStateChunk
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
@@ -42271,7 +42271,7 @@ function ultraschall.GetProject_Tempo(projectfilename_with_path, ProjectStateChu
     returns nil in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to get the tempo-state; nil to use ProjectStateChunk
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
@@ -42322,7 +42322,7 @@ function ultraschall.GetProject_Playrate(projectfilename_with_path, ProjectState
     returns nil in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to get the playrate-state; nil to use ProjectStateChunk
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
@@ -42371,7 +42371,7 @@ function ultraschall.GetProject_MasterAutomode(projectfilename_with_path, Projec
     returns nil in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to get the master-automation-mode; nil to use ProjectStateChunk
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
@@ -42424,7 +42424,7 @@ function ultraschall.GetProject_MasterSel(projectfilename_with_path, ProjectStat
     returns nil in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to get the master-selection; nil to use ProjectStateChunk
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
@@ -42471,7 +42471,7 @@ function ultraschall.GetProject_MasterFXByp(projectfilename_with_path, ProjectSt
     returns nil in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to get the master-fx-bypass-state; nil to use ProjectStateChunk
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
@@ -42518,14 +42518,18 @@ function ultraschall.GetProject_MasterMuteSolo(projectfilename_with_path, Projec
     returns nil in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to get the master-mute-solo-state; nil to use ProjectStateChunk
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
     integer mute_solo_state - the mute-solo-state; it is a bitfield
-                            - 0, no mute, no solo
+                            - 0, no mute, no solo, Mono mode L+R
                             - &1, master-track muted
                             - &2, master-track soloed
+                            - &4, master-track mono-button
+                            - &8, Mono mode:L
+                            - &16, Mono mode:R
+                            - add 24 for Mono mode L-R
   </retvals>
   <chapter_context>
     Project-Files
@@ -42533,7 +42537,7 @@ function ultraschall.GetProject_MasterMuteSolo(projectfilename_with_path, Projec
   </chapter_context>
   <target_document>USApiFunctionsReference</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectmanagement, get, mute, solo, master track, projectstatechunk</tags>
+  <tags>projectmanagement, get, mute, solo, mono, master track, projectstatechunk</tags>
   </US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
@@ -42560,20 +42564,19 @@ function ultraschall.GetProject_MasterNChans(projectfilename_with_path, ProjectS
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>integer number_of_channels, integer nchans2 = ultraschall.GetProject_MasterNChans(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer number_of_channels, integer peak_metering = ultraschall.GetProject_MasterNChans(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     returns the number of output channels-settings of the master-track of the project.
-    
     
     returns nil in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to get the master-nchans; nil to use ProjectStateChunk
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
     integer number_of_channels - the number of output-channels, as set in the "Outputs for the Master Channel -> Track Channels"-dialog
-    intger nchans2 - unknown
+    intger peak_metering - 2, Multichannel peak metering-setting, as set in the "Master VU settings"-dialog
   </retvals>
   <chapter_context>
     Project-Files
@@ -42615,7 +42618,7 @@ function ultraschall.GetProject_MasterTrackHeight(projectfilename_with_path, Pro
     returns nil in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to get the mastertrackheight-state; nil to use ProjectStateChunk
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
@@ -42662,7 +42665,7 @@ function ultraschall.GetProject_MasterTrackColor(projectfilename_with_path, Proj
     returns nil in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to get the mastertrack-color; nil to use ProjectStateChunk
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
@@ -42702,14 +42705,14 @@ function ultraschall.GetProject_MasterTrackView(projectfilename_with_path, Proje
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>integer tcp_visibility, number state2, number state3, number state4, number state5, number state6, number state7 = ultraschall.GetProject_MasterTrackView(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer tcp_visibility, number state2, number state3, number state4, integer state5, integer state6, integer state7 = ultraschall.GetProject_MasterTrackView(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     returns the master-view-state of the master-track of the project.
     
     returns nil in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to get the trackview-states; nil to use ProjectStateChunk
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
@@ -42717,9 +42720,9 @@ function ultraschall.GetProject_MasterTrackView(projectfilename_with_path, Proje
     number state2 - unknown
     number state3 - unknown
     number state4 - unknown
-    number state5 - unknown
-    number state6 - unknown
-    number state7 - unknown
+    integer state5 - unknown
+    integer state6 - unknown
+    integer state7 - unknown
   </retvals>
   <chapter_context>
     Project-Files
@@ -42754,14 +42757,14 @@ function ultraschall.GetProject_CountMasterHWOuts(projectfilename_with_path, Pro
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>integer state1 = ultraschall.GetProject_CountMasterHWOuts(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer count_of_hwouts = ultraschall.GetProject_CountMasterHWOuts(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     returns the number of available hwouts in an rpp-project or ProjectStateChunk
     
     returns nil in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to count the master-hwouts; nil to use ProjectStateChunk
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
@@ -42806,26 +42809,36 @@ function ultraschall.GetProject_MasterHWOut(projectfilename_with_path, idx, Proj
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>integer state1, number state2, number state3, number state4, number state5, number state6, number state7, number state8 = ultraschall.GetProject_MasterHWOut(string projectfilename_with_path, integer idx, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer state1, integer state2, number volume, number pan, integer mute, integer phase, integer output_channels, number state8 = ultraschall.GetProject_MasterHWOut(string projectfilename_with_path, integer idx, optional string ProjectStateChunk)</functioncall>
   <description>
-    returns the HWOut of the master-track of the project.
+    returns the HWOut of the master-track of the project, as set in the "Outputs for Master Track"-dialog
     There can be multiple HWOuts for the Master-Track.
     
     returns nil in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the projectfile+path, from which to get the extension-statechunk; nil to use ProjectStateChunk
+    string projectfilename_with_path - the projectfile+path, from which to get the master-hwout-states; nil to use ProjectStateChunk
     integer idx - the number of the requested HWOut-setting; 1 for the first, etc.
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
     integer state1 - unknown
-    number state2 - unknown
-    number state3 - unknown
-    number state4 - unknown
-    number state5 - unknown
-    number state6 - unknown
-    number state7 - unknown
+    integer state2 - unknown
+    number volume - volume of the HWOut; 
+    number pan - the panning; -1(left), 1(right), 0(center)
+    integer mute - mute-state; 0, unmuted; 1, muted
+    integer phase - phase-inversion; 0, normal phase; 1, inversed phase
+    integer output_channels -        -1 - None
+                                     0 - Stereo Source 1/2
+                                     4 - Stereo Source 5/6
+                                    12 - New Channels On Sending Track Stereo Source Channel 13/14
+                                    1024 - Mono Source 1
+                                    1029 - Mono Source 6
+                                    1030 - New Channels On Sending Track Mono Source Channel 7
+                                    1032 - New Channels On Sending Track Mono Source Channel 9
+                                    2048 - MultiChannel 4 Channels 1-4
+                                    2050 - Multichannel 4 Channels 3-6
+                                    3072 - Multichannel 6 Channels 1-6 
     number state8 - unknown
   </retvals>
   <chapter_context>
@@ -42858,7 +42871,1045 @@ function ultraschall.GetProject_MasterHWOut(projectfilename_with_path, idx, Proj
 end
 
 --A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
---B,B2,B3,B4,B5,B6,B7,B8=ultraschall.GetProject_MasterHWOut("c:\\automitem\\automitem.RPP", 2, A)
+--B,B2,B3,B4,B5,B6,B7,B8=ultraschall.GetProject_MasterHWOut("c:\\automitem\\automitem.RPP", 1, A)
+
+function ultraschall.GetProject_MasterVolume(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterVolume</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>number volume, number pan, number pan_law, number state4, number pan_knob3 = ultraschall.GetProject_MasterVolume(string projectfilename_with_path, integer idx, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Master-volume-state of the master-track of the project.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-volume-states; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    number volume - Volume; 0(-inf dB) to 3.981071705535(+12dB);1 for 0dB
+    number pan - Panning; -1(left), 1(right), 0(center)
+    number pan_law - Pan_Law, as set in the "Pan Law: Master Track"-dialog; 1(0dB); 0.5(-6.02dB)
+    number state4 - unknown
+    number pan_knob3 - the second pan_knob for pan-mode "Dual Pan" 
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, mastervolume, pan, volume, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterVolume","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterVolume","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterVolume","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  
+  local a,b,c,d,e,f,g,h=ProjectStateChunk:match("MASTER_VOLUME (.-) (.-) (.-) (.-) (.-)\n")
+  return tonumber(a), tonumber(b), tonumber(c), tonumber(d), tonumber(e)
+end
+
+--A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
+--B,B2,B3,B4,B5,B6,B7,B8=ultraschall.GetProject_MasterVolume("c:\\automitem\\automitem.RPP", A)
+
+function ultraschall.GetProject_MasterPanMode(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterPanMode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer panmode = ultraschall.GetProject_MasterPanMode(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the master-panmode of the master-track of the project.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-panmode; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    integer panmode - the panmode for the master-track; 
+                    -  -1, Project default (Stereo balance)
+                    -   3, Stereo balance  / mono pan(default)
+                    -   5, Stereo Pan
+                    -   6, Dual Pan
+                    -   nil, REAPER 3.x balance(deprecated)
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, panmode, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterPanMode","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterPanMode","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterPanMode","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  local a,b,c,d=ProjectStateChunk:match("MASTER_PANMODE (.-)\n")
+  return tonumber(a)
+end
+
+--B,B2,B3,B4,B5,B6,B7,B8=ultraschall.GetProject_MasterPanMode("c:\\automitem\\automitem.RPP", A)
+
+
+function ultraschall.GetProject_MasterWidth(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterWidth</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>number pan_knob_two = ultraschall.GetProject_MasterWidth(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the master-width for the second pan-knob in stereo pan-modes, of the master-track of the project.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the masterwidth-state; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    number pan_knob_two - -1(left), 1(right), 0(center)
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, pan knob two, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterPanMode","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterPanMode","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterPanMode","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  local a,b,c,d=ProjectStateChunk:match("MASTER_WIDTH (.-)\n")
+  return tonumber(a)
+end
+
+--B,B2,B3,B4,B5,B6,B7,B8=ultraschall.GetProject_MasterWidth("c:\\automitem\\automitem.RPP", A)
+
+function ultraschall.GetProject_MasterGroupFlagsState(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterGroupFlagsState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer GroupState_as_Flags, array IndividualGroupState_Flags = ultraschall.GetProject_MasterGroupFlagsState(string projectfilename_with_path, optional stirng ProjectStateChunk)</functioncall>
+  <description>
+    returns the state of the group-flags for the Master-Track, as set in the menu Track Grouping Parameters; from an rpp-projectfile or a ProjectStateChunk. 
+    
+    Returns a 23bit flagvalue as well as an array with 32 individual 23bit-flagvalues. You must use bitoperations to get the individual values.
+    
+    You can reach the Group-Flag-Settings in the context-menu of a track.
+    
+    The groups_bitfield_table contains up to 23 entries. Every entry represents one of the checkboxes in the Track grouping parameters-dialog
+    
+    Each entry is a bitfield, that represents the groups, in which this flag is set to checked or unchecked.
+    
+    So if you want to get Volume Master(table entry 1) to check if it's set in Group 1(2^0=1) and 3(2^2=4):
+      group1=groups_bitfield_table[1]&1
+      group2=groups_bitfield_table[1]&4
+    
+    The following flags(and their accompanying array-entry-index) are available:
+                           1 - Volume Master
+                           2 - Volume Slave
+                           3 - Pan Master
+                           4 - Pan Slave
+                           5 - Mute Master
+                           6 - Mute Slave
+                           7 - Solo Master
+                           8 - Solo Slave
+                           9 - Record Arm Master
+                           10 - Record Arm Slave
+                           11 - Polarity/Phase Master
+                           12 - Polarity/Phase Slave
+                           13 - Automation Mode Master
+                           14 - Automation Mode Slave
+                           15 - Reverse Volume
+                           16 - Reverse Pan
+                           17 - Do not master when slaving
+                           18 - Reverse Width
+                           19 - Width Master
+                           20 - Width Slave
+                           21 - VCA Master
+                           22 - VCA Slave
+                           23 - VCA pre-FX slave
+    
+    The GroupState_as_Flags-bitfield is a hint, if a certain flag is set in any of the groups. So, if you want to know, if VCA Master is set in any group, check if flag &1048576 (2^20) is set to 1048576.
+    
+    This function will work only for Groups 1 to 32. To get Groups 33 to 64, use <a href="#GetTrackGroupFlags_HighState">GetTrackGroupFlags_HighState</a> instead!
+    
+    returns -1 in case of failure
+  </description>
+  <retvals>
+    integer GroupState_as_Flags - returns a flagvalue with 23 bits, that tells you, which grouping-flag is set in at least one of the 32 groups available.
+    -returns -1 in case of failure
+    -
+    -the following flags are available:
+    -2^0 - Volume Master
+    -2^1 - Volume Slave
+    -2^2 - Pan Master
+    -2^3 - Pan Slave
+    -2^4 - Mute Master
+    -2^5 - Mute Slave
+    -2^6 - Solo Master
+    -2^7 - Solo Slave
+    -2^8 - Record Arm Master
+    -2^9 - Record Arm Slave
+    -2^10 - Polarity/Phase Master
+    -2^11 - Polarity/Phase Slave
+    -2^12 - Automation Mode Master
+    -2^13 - Automation Mode Slave
+    -2^14 - Reverse Volume
+    -2^15 - Reverse Pan
+    -2^16 - Do not master when slaving
+    -2^17 - Reverse Width
+    -2^18 - Width Master
+    -2^19 - Width Slave
+    -2^20 - VCA Master
+    -2^21 - VCA Slave
+    -2^22 - VCA pre-FX slave
+    
+     array IndividualGroupState_Flags  - returns an array with 23 entries. Every entry represents one of the GroupState_as_Flags, but it's value is a flag, that describes, in which of the 32 Groups a certain flag is set.
+    -e.g. If Volume Master is set only in Group 1, entry 1 in the array will be set to 1. If Volume Master is set on Group 2 and Group 4, the first entry in the array will be set to 10.
+    -refer to the upper GroupState_as_Flags list to see, which entry in the array is for which set flag, e.g. array[22] is VCA pre-F slave, array[16] is Do not master when slaving, etc
+    -As said before, the values in each entry is a flag, that tells you, which of the groups is set with a certain flag. The following flags determine, in which group a certain flag is set:
+    -2^0 - Group 1
+    -2^1 - Group 2
+    -2^2 - Group 3
+    -2^3 - Group 4
+    -...
+    -2^30 - Group 31
+    -2^31 - Group 32
+  </retvals>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the groups-state-state; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <chapter_context>
+    Track Management
+    Get Track States
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, groupflags, projectstatechunk</tags>
+  </US_DocBloc>
+--]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsState","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsState","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsState","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+
+  local Project_TrackGroupFlags=ProjectStateChunk:match("MASTER_GROUP_FLAGS.-%c") 
+  if Project_TrackGroupFlags==nil then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsState", "", "no trackgroupflags available", -4) return -1 end
+  
+  
+  -- get groupflags-state
+  local retval=0  
+  local GroupflagString = Project_TrackGroupFlags:match("MASTER_GROUP_FLAGS (.-)%c")
+  local count, Tracktable=ultraschall.CSV2IndividualLinesAsArray(GroupflagString, " ")
+
+  for i=1,23 do
+    Tracktable[i]=tonumber(Tracktable[i])
+    if Tracktable[i]~=nil and Tracktable[i]>=1 then retval=retval+2^(i-1) end
+  end
+  
+  return retval, Tracktable
+end
+
+--A,A1=ultraschall.GetProject_MasterGroupFlagsState("c:\\automitem\\automitem.RPP", A)
+
+
+function ultraschall.GetProject_MasterGroupFlagsHighState(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterGroupFlagsHighState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer GroupState_as_Flags, array IndividualGroupState_Flags = ultraschall.GetProject_MasterGroupFlagsHighState(string projectfilename_with_path, optional stirng ProjectStateChunk)</functioncall>
+  <description>
+    returns the state of the group-high-flags for the Master-Track, as set in the menu Track Grouping Parameters; from an rpp-projectfile or a ProjectStateChunk. 
+    
+    Returns a 23bit flagvalue as well as an array with 32 individual 23bit-flagvalues. You must use bitoperations to get the individual values.
+    
+    You can reach the Group-Flag-Settings in the context-menu of a track.
+    
+    The groups_bitfield_table contains up to 23 entries. Every entry represents one of the checkboxes in the Track grouping parameters-dialog
+    
+    Each entry is a bitfield, that represents the groups, in which this flag is set to checked or unchecked.
+    
+    So if you want to get Volume Master(table entry 1) to check if it's set in Group 1(2^0=1) and 3(2^2=4):
+      group1=groups_bitfield_table[1]&1
+      group2=groups_bitfield_table[1]&4
+    
+    The following flags(and their accompanying array-entry-index) are available:
+                           1 - Volume Master
+                           2 - Volume Slave
+                           3 - Pan Master
+                           4 - Pan Slave
+                           5 - Mute Master
+                           6 - Mute Slave
+                           7 - Solo Master
+                           8 - Solo Slave
+                           9 - Record Arm Master
+                           10 - Record Arm Slave
+                           11 - Polarity/Phase Master
+                           12 - Polarity/Phase Slave
+                           13 - Automation Mode Master
+                           14 - Automation Mode Slave
+                           15 - Reverse Volume
+                           16 - Reverse Pan
+                           17 - Do not master when slaving
+                           18 - Reverse Width
+                           19 - Width Master
+                           20 - Width Slave
+                           21 - VCA Master
+                           22 - VCA Slave
+                           23 - VCA pre-FX slave
+    
+    The GroupState_as_Flags-bitfield is a hint, if a certain flag is set in any of the groups. So, if you want to know, if VCA Master is set in any group, check if flag &1048576 (2^20) is set to 1048576.
+    
+    This function will work only for Groups 1 to 32. To get Groups 33 to 64, use <a href="#GetTrackGroupFlags_HighState">GetTrackGroupFlags_HighState</a> instead!
+    
+    returns -1 in case of failure
+  </description>
+  <retvals>
+    integer GroupState_as_Flags - returns a flagvalue with 23 bits, that tells you, which grouping-flag is set in at least one of the 32 groups available.
+    -returns -1 in case of failure
+    -
+    -the following flags are available:
+    -2^0 - Volume Master
+    -2^1 - Volume Slave
+    -2^2 - Pan Master
+    -2^3 - Pan Slave
+    -2^4 - Mute Master
+    -2^5 - Mute Slave
+    -2^6 - Solo Master
+    -2^7 - Solo Slave
+    -2^8 - Record Arm Master
+    -2^9 - Record Arm Slave
+    -2^10 - Polarity/Phase Master
+    -2^11 - Polarity/Phase Slave
+    -2^12 - Automation Mode Master
+    -2^13 - Automation Mode Slave
+    -2^14 - Reverse Volume
+    -2^15 - Reverse Pan
+    -2^16 - Do not master when slaving
+    -2^17 - Reverse Width
+    -2^18 - Width Master
+    -2^19 - Width Slave
+    -2^20 - VCA Master
+    -2^21 - VCA Slave
+    -2^22 - VCA pre-FX slave
+    
+     array IndividualGroupState_Flags  - returns an array with 23 entries. Every entry represents one of the GroupState_as_Flags, but it's value is a flag, that describes, in which of the 32 Groups a certain flag is set.
+    -e.g. If Volume Master is set only in Group 1, entry 1 in the array will be set to 1. If Volume Master is set on Group 2 and Group 4, the first entry in the array will be set to 10.
+    -refer to the upper GroupState_as_Flags list to see, which entry in the array is for which set flag, e.g. array[22] is VCA pre-F slave, array[16] is Do not master when slaving, etc
+    -As said before, the values in each entry is a flag, that tells you, which of the groups is set with a certain flag. The following flags determine, in which group a certain flag is set:
+    -2^0 - Group 1
+    -2^1 - Group 2
+    -2^2 - Group 3
+    -2^3 - Group 4
+    -...
+    -2^30 - Group 31
+    -2^31 - Group 32
+  </retvals>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the groupshigh-state-state; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <chapter_context>
+    Track Management
+    Get Track States
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, groupflags, projectstatechunk</tags>
+  </US_DocBloc>
+--]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsHighState","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsHighState","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsHighState","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+
+  local Project_TrackGroupFlags=ProjectStateChunk:match("MASTER_GROUP_FLAGS_HIGH.-%c") 
+  if Project_TrackGroupFlags==nil then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsHighState", "", "no trackgroupflags available", -4) return -1 end
+  
+  
+  -- get groupflags-state
+  local retval=0  
+  local GroupflagString = Project_TrackGroupFlags:match("MASTER_GROUP_FLAGS_HIGH (.-)%c")
+  local count, Tracktable=ultraschall.CSV2IndividualLinesAsArray(GroupflagString, " ")
+
+  for i=1,23 do
+    Tracktable[i]=tonumber(Tracktable[i])
+    if Tracktable[i]~=nil and Tracktable[i]>=1 then retval=retval+2^(i-1) end
+  end
+  
+  return retval, Tracktable
+end
+
+--A,A1=ultraschall.GetProject_MasterGroupFlagsHighState("c:\\automitem\\automitem.RPP", A)
+
+
+function ultraschall.GetProject_GroupDisabled(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_GroupDisabled</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer disabled1, integer disabled2 = ultraschall.GetProject_GroupDisabled(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the group-disabled-stated, of the master-track of the project.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the groups-disabled-state; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    integer disabled1 - the disabled groups; it is a bitfield, with &1 for group 1; &32 for group 32; if it's set, the accompanying group is disabled
+    integer disabled2 - the disabled groups_high; it is a bitfield, with &1 for group 33; &32 for group 64; if it's set, the accompanying group is disabled
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, group, disabled, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_GroupDisabled","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_GroupDisabled","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_GroupDisabled","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  local a,b,c,d=ProjectStateChunk:match("GROUPS_DISABLED (.-) (.-)\n")
+  return tonumber(a), tonumber(b)
+end
+
+--B,B2,B3,B4,B5,B6,B7,B8=ultraschall.GetProject_GroupDisabled("c:\\automitem\\automitem.RPP", A)
+
+function ultraschall.GetProject_MasterHWVolEnvStateChunk(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterHWVolEnvStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string MasterHWVolEnvStateChunk = ultraschall.GetProject_MasterHWVolEnvStateChunk(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Master-HWVolEnv-StateChunk, that holds MasterHWVolEnv-settings of the master.
+    
+    It's the <MASTERHWVOLENV ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-hwvolenv-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string MasterHWVolEnvStateChunk - the statechunk of the HWVolEnv
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, master hwvolend, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterHWVolEnvStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterHWVolEnvStateChunk","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterHWVolEnvStateChunk","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<MASTERHWVOLENV.->")
+end
+
+--MasterHWVolEnvStateChunk = ultraschall.GetProject_MasterHWVolEnvStateChunk("c:\\automitem\\automitem.RPP", "")
+
+function ultraschall.GetProject_MasterFXListStateChunk(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterFXListStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string MasterFXListStateChunk = ultraschall.GetProject_MasterFXListStateChunk(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Master-FX_List-StateChunk, that holds Master-FX-settings for the window as well as the FX themselves, of the master.
+    
+    It's the <MASTERFXLIST ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-fxlist-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string MasterFXListStateChunk - the statechunk of the Master-FX-list
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, master fxlist, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterFXListStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterFXListStateChunk","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterFXListStateChunk","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<MASTERFXLIST.->")
+end
+
+--A = ultraschall.GetProject_MasterFXListStateChunk("c:\\automitem\\automitem.RPP", "")
+--reaper.MB(A,"",0)
+
+function ultraschall.GetProject_MasterDualPanEnvStateChunk(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterDualPanEnvStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string MasterDualPanEnvStateChunk = ultraschall.GetProject_MasterDualPanEnvStateChunk(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Master-DualPanEnv-StateChunk, that holds MasterDualPanEnv-settings of the master.
+    
+    It's the <MASTERDUALPANENV ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-dualpan-env-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string MasterDualPanEnvStateChunk - the statechunk of the Master-DualPan-Env-state
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, master dualpanenv, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterDualPanEnvStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterDualPanEnvStateChunk","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterDualPanEnvStateChunk","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<MASTERDUALPANENV\n.->")
+end
+
+--A = ultraschall.GetProject_MasterDualPanEnvStateChunk("c:\\automitem\\automitem.RPP", "")
+--reaper.MB(A,"",0)
+
+function ultraschall.GetProject_MasterDualPanEnv2StateChunk(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterDualPanEnv2StateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string MasterDualPanEnv2StateChunk = ultraschall.GetProject_MasterDualPanEnv2StateChunk(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Master-DualPanEnv2-StateChunk, that holds master-DualPanEnv2-settings of the master.
+    
+    It's the <MASTERDUALPANENV2 ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-dualpan-env2-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string MasterDualPanEnvStateChunk - the statechunk of the Master-DualPan-Env-state
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, master dualpanenv2, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterDualPanEnv2StateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterDualPanEnv2StateChunk","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterDualPanEnv2StateChunk","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<MASTERDUALPANENV2\n.->")
+end
+
+--A = ultraschall.GetProject_MasterDualPanEnvStateChunk("c:\\automitem\\automitem.RPP", "")
+--reaper.MB(A,"",0)
+
+function ultraschall.GetProject_MasterDualPanEnvLStateChunk(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterDualPanEnvLStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string MasterDualPanEnvLStateChunk = ultraschall.GetProject_MasterDualPanEnvLStateChunk(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Master-DualPan-EnvL-StateChunk, that holds Master-DualPan-EnvL-settings of the master.
+    
+    It's the <MASTERDUALPANENVL ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-dualpan-envL-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string MasterDualPanEnvLStateChunk - the statechunk of the Master-DualPan-EnvL-state
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, master dualpanenvl, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterDualPanEnvLStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterDualPanEnvLStateChunk","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterDualPanEnvLStateChunk","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<MASTERDUALPANENVL\n.->")
+end
+
+--A = ultraschall.GetProject_MasterDualPanEnvLStateChunk("c:\\automitem\\automitem.RPP", "")
+--reaper.MB(A,"",0)
+
+function ultraschall.GetProject_MasterDualPanEnvL2StateChunk(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterDualPanEnvL2StateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string MasterDualPanEnvL2StateChunk = ultraschall.GetProject_MasterDualPanEnvL2StateChunk(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Master-Dual-Pan-EnvL2-StateChunk, that holds Master-FX-Dual-Pan-EnvL2-settings of the master.
+    
+    It's the <MASTERDUALPANENVL2 ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-dualpan-envL2-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string MasterDualPanEnvL2StateChunk - the statechunk of the Master-DualPan-EnvL2-state
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, master dualpanenvl2, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterDualPanEnvL2StateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterDualPanEnvL2StateChunk","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterDualPanEnvL2StateChunk","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<MASTERDUALPANENVL2\n.->")
+end
+
+--A = ultraschall.GetProject_MasterDualPanEnvL2StateChunk("c:\\automitem\\automitem.RPP", "")
+--reaper.MB(A,"",0)
+
+function ultraschall.GetProject_MasterVolEnvStateChunk(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterVolEnvStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string MasterVolEnvStateChunk = ultraschall.GetProject_MasterVolEnvStateChunk(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Master-Vol-Env-StateChunk, that holds Master-Vol-Env-settings of the master.
+    
+    It's the <MASTERVOLENV ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-volenv-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string MasterVolEnvStateChunk - the statechunk of the Master-volenv-state
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, master volenv, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterVolEnvStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterVolEnvStateChunk","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterVolEnvStateChunk","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<MASTERVOLENV\n.->")
+end
+
+--A = ultraschall.GetProject_MasterVolEnvStateChunk("c:\\automitem\\automitem.RPP", "")
+--reaper.MB(A,"",0)
+
+
+function ultraschall.GetProject_MasterVolEnv2StateChunk(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterVolEnv2StateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string MasterVolEnv2StateChunk = ultraschall.GetProject_MasterVolEnv2StateChunk(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Master-Vol-Env2-StateChunk, that holds Master-Vol-Env2-settings of the master.
+    
+    It's the <MASTERVOLENV2 ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-volenv2-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string MasterVolEnv2StateChunk - the statechunk of the Master-volenv2-state
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, master volenv2, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterVolEnv2StateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterVolEnv2StateChunk","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterVolEnv2StateChunk","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<MASTERVOLENV2\n.->")
+end
+
+--A = ultraschall.GetProject_MasterVolEnvStateChunk("c:\\automitem\\automitem.RPP", "")
+--reaper.MB(A,"",0)
+
+function ultraschall.GetProject_MasterVolEnv3StateChunk(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterVolEnv3StateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string MasterVolEnv3StateChunk = ultraschall.GetProject_MasterVolEnv3StateChunk(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Master-Vol-Env3-StateChunk, that holds Master-Vol-Env3-settings of the master.
+    
+    It's the <MASTERVOLENV3 ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-volenv3-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string MasterVolEnv3StateChunk - the statechunk of the Master-volenv3-state
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, master volenv3, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterVolEnv3StateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterVolEnv3StateChunk","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterVolEnv3StateChunk","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<MASTERVOLENV3\n.->")
+end
+
+--A = ultraschall.GetProject_MasterVolEnv2StateChunk("c:\\automitem\\automitem.RPP", "")
+--reaper.MB(A,"",0)
+
+function ultraschall.GetProject_MasterHWPanEnvStateChunk(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterHWPanEnvStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string MasterHWPanEnvStateChunk = ultraschall.GetProject_MasterHWPanEnvStateChunk(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Master-HW-pan-env-StateChunk, that holds Master-pan-env-settings of the master.
+    
+    It's the <MASTERHWPANENV ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-HW-pan-env-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string MasterHWPanEnvStateChunk - the statechunk of the Master-volenv3-state
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, master pan env, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterVolEnv3StateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterVolEnv3StateChunk","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterVolEnv3StateChunk","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<MASTERHWPANENV\n.->")
+end
+
+--A = ultraschall.GetProject_MasterVolEnv2StateChunk("c:\\automitem\\automitem.RPP", "")
+--reaper.MB(A,"",0)
+
+function ultraschall.GetProject_MasterPanMode_Ex(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_MasterPanMode_Ex</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string MasterHWPanModeEx_StateChunk = ultraschall.GetProject_MasterPanMode_Ex(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the Master-HW-pan-mode-ex-StateChunk, that holds Master-pan-mode-ex-settings of the master.
+    
+    It's the <MASTER_PANMODE_EX ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the master-HW-pan-env-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string MasterHWPanModeEx_StateChunk - the statechunk of the Master-pan-mode-ex
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, master pan mode ex, statechunk, projectstatechunk</tags>
+  </US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterPanMode_Ex","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterPanMode_Ex","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_MasterPanMode_Ex","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  local a,b=ProjectStateChunk:match("MASTER_PANMODE_EX (.-) (.-)\n")
+  return tonumber(a), tonumber(b)
+end
+
+--A = ultraschall.GetProject_MasterPanMode_Ex("c:\\automitem\\automitem.RPP", "")
+--reaper.MB(A,"",0)
+
+
+function ultraschall.GetProject_TempoEnv_ExStateChunk(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_TempoEnv_ExStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string TempoEnv_ExStateChunk = ultraschall.GetProject_TempoEnv_ExStateChunk(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    returns the TempoEnv_ExStateChunk, that holds TempoEnv_Ex-settings of an rpp-project or ProjectStateChunk.
+    
+    It's the <TEMPOENVEX ... > - tag
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfile+path, from which to get the tempo-env-ex-statechunk; nil to use ProjectStateChunk
+    optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
+  </parameters>
+  <retvals>
+    string TempoEnv_ExStateChunk - the statechunk of the Tempo-Env-Ex
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>USApiFunctionsReference</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, tempo env ex, statechunk, projectstatechunk</tags>
+</US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_TempoEnv_ExStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_TempoEnv_ExStateChunk","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_TempoEnv_ExStateChunk","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+  end
+  return ProjectStateChunk:match("<TEMPOENVEX\n.->")
+end
+
+--A = ultraschall.GetProject_TempoEnv_ExStateChunk("c:\\automitem\\automitem.RPP", "")
+--reaper.MB(A,"",0)
+
 
 
 ultraschall.ShowLastErrorMessage()

@@ -242,7 +242,24 @@
   - GetProject_MasterTrackColor - returns the Mastertrack-trackcolor-mode-settings of an rpp-file or a ProjectStateChunk
   - GetProject_CountMasterHWOuts - counts the HWOuts for a Master-track of an rpp-file or a ProjectStateChunk
   - GetProject_MasterHWOut - returns the Mastertrack-HWOUT-settings of an rpp-file or a ProjectStateChunk; there can be multiple ones, selectable by idx
-  
+  - GetProject_MasterVolume - returns the Master-volume-settings of an rpp-file or a ProjectStateChunk
+  - GetProject_MasterPanMode - returns the MasterPanMode of an rpp-file or a ProjectStateChunk
+  - GetProject_MasterWidth - returns the Width-Knob2-settings of an rpp-file or a ProjectStateChunk
+  - GetProject_MasterGroupFlagsState - returns the Master-groupflags-state of an rpp-file or a ProjectStateChunk
+  - GetProject_MasterGroupFlagsHighState - returns the Master-grouphigh-flags-state of an rpp-file or a ProjectStateChunk
+  - GetProject_GroupDisabled - returns the state, which groups are disabled, of an rpp-file or a ProjectStateChunk
+  - GetProject_MasterHWVolEnvStateChunk - returns the statechunk of the MasterHWVolEnv
+  - GetProject_MasterFXListStateChunk - returns the statechunk of the MasterFXList
+  - GetProject_MasterDualPanEnvStateChunk - returns the statechunk of the MasterDualPanEnv
+  - GetProject_MasterDualPanEnv2StateChunk - returns the statechunk of the MasterDualPanEnv2
+  - GetProject_MasterDualPanEnvLStateChunk - returns the statechunk of the MasterDualPanEnvL
+  - GetProject_MasterDualPanEnvL2StateChunk - returns the statechunk of the MasterDualPanEnvL2
+  - GetProject_MasterVolEnvStateChunk - returns the statechunk of the MasterVolEnv
+  - GetProject_MasterVolEnv2StateChunk - returns the statechunk of the MasterVolEnv2
+  - GetProject_MasterVolEnv3StateChunk - returns the statechunk of the MasterVolEnv3
+  - GetProject_MasterHWPanEnvStateChunk - returns the statechunk of the MasterHWPanEnv
+  - GetProject_MasterPanMode_Ex - returns the state of the MasterPanMode_Ex
+  - GetProject_TempoEnv_ExStateChunk - returns the statechunk of the TempoEnv_Ex
   <TODO>
       TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
       TODO!!  - ReturnTableAsIndividualValues - ... macht Probleme als retval in Docs (vermute ich mal meintest Du)
@@ -336,9 +353,11 @@
       TODO!!  - Envelope-StateChunk-functions
       TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
       TODO!!  - GetProject-functions for
+                      
 
-                      MASTERHWOUT 0 0 1 0 0 0 0 -1
-                      MASTER_VOLUME 1 0 -1 -1 1
+                      <POOLEDENV - can be multiple
+                      <TEMPOENVEX
+                      
               - SetProject-functions for
                   - GetProject_CountAutomationItems - counts the automation-items in a project/ProjectStateChunk
                   - GetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
@@ -349,7 +368,7 @@
                   - GetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk
                   - GetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk
                   - GetProject_GlobalAuto - returns the global automation override-settings of an rpp-file or ProjectStateChunk
-                  - GetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk                  
+                  - GetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk
                   - GetProject_Playrate 
                   - GetProject_MasterAutomode
                   - GetProject_MasterSel
@@ -358,10 +377,29 @@
                   - GetProject_MasterNChans
                   - GetProject_MasterTrackHeight
                   - GetProject_MasterTrackColor
-                  
                   - GetProject_MasterTrackView
                   - GetProject_CountMasterHWOuts
                   - GetProject_MasterHWOut
+                  
+                  - GetProject_MasterVolume - 
+                  - GetProject_MasterPanMode - 
+                  - GetProject_MasterWidth - 
+                  - GetProject_MasterGroupFlagsState - 
+                  - GetProject_MasterGroupFlagsHighState - 
+                  - GetProject_GroupDisabled - 
+                  
+                  - GetProject_MasterHWVolEnvStateChunk
+                  - GetProject_MasterFXListStateChunk - 
+                  - GetProject_MasterDualPanEnvStateChunk - 
+                  - GetProject_MasterDualPanEnv2StateChunk - 
+                  - GetProject_MasterDualPanEnvLStateChunk - 
+                  - GetProject_MasterDualPanEnvL2StateChunk - 
+                  - GetProject_MasterVolEnvStateChunk - 
+                  - GetProject_MasterVolEnv2StateChunk - 
+                  - GetProject_MasterVolEnv3StateChunk - 
+                  - GetProject_MasterHWPanEnvStateChunk - 
+                  - GetProject_MasterPanMode_Ex - 
+                  - GetProject_TempoEnv_ExStateChunk
                   
                - IsValid-check functions for
                     - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions

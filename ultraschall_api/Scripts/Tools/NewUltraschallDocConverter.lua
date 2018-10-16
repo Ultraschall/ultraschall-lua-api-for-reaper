@@ -17,18 +17,20 @@ date="15th of October 2018"
 function ultraschall.SplitUSDocBlocs(String)
   local Table={}
   local Counter=0
-
+  TUT=""
   while String:match("<US_DocBloc")~=nil do
     Counter=Counter+1
     Table[Counter]={}
     Table[Counter][2], Offset=String:match("(<US_DocBloc.-</US_DocBloc>)()")        -- USDocBloc
     Table[Counter][1]=Table[Counter][2]:match("<slug>\n*%s*\t*(.-)\n*%s*\t*</slug>")               -- the Slug
+    TUT=TUT.."\n"..Table[Counter][1]
     Table[Counter][3]=Table[Counter][2]:match("<US_DocBloc.-version=\"(.-)\".->")   -- version
     Table[Counter][4]=Table[Counter][2]:match("<US_DocBloc.-spok_lang=\"(.-)\".->") -- spok-language
     Table[Counter][5]=Table[Counter][2]:match("<US_DocBloc.-prog_lang=\"(.-)\".->") -- prog-language
     
     String=String:sub(Offset,-1)
   end
+  reaper.CF_SetClipboard(TUT)
   return Counter+1, Table
 end
 
@@ -775,7 +777,10 @@ for lolo=1, 60 do
       reaper.ShowConsoleMsg((math.floor(100/Ccount*index)+1).."% : ")
       for iii=1, math.floor(progressbar/Ccount*index) do reaper.ShowConsoleMsg("#") end
       for iii=math.floor(progressbar/Ccount), math.floor(progressbar/Ccount*(Ccount-index))-1 do reaper.ShowConsoleMsg("~") end
-      reaper.ShowConsoleMsg("\nProcessing entry:"..index.." of "..Ccount.." - "..C[index][1])
+      if C[index]~=nil then tudelu=C[index][1]
+      else tudelu=""
+      end
+      reaper.ShowConsoleMsg("\nProcessing entry:"..tostring(index).." of "..tostring(Ccount).." - "..tostring(tudelu))
       b=0
     else 
       b=b+1
