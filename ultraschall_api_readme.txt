@@ -17,6 +17,9 @@ ultraschall.ApiTest()
 Requires at least Reaper 5.95 and SWS 2.9.7
    
 Written by Meo Mespotine(mespotine.de) with contributions from Udo Sauer(https://twitter.com/fernsehmuell) and Ralf Stockmann(https://twitter.com/rstockm)
+MakeCopyOfTable-function adapted from Tyler Neylon's (twitter.com/tylerneylon) function, found at [Stack Overflow](https://stackoverflow.com/questions/640642/how-do-you-copy-a-lua-table-by-value/26367080#26367080)
+Thanks for allowing me to use it :)
+
 Kudos to lokasenna, who suggested some cool things, that made some functions much faster and sparkled new ones. Cheers!
 
 more information about the Ultraschall podcast extension at: ultraschall.fm

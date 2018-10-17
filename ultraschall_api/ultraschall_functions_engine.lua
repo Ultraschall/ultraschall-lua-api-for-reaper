@@ -34926,8 +34926,10 @@ function ultraschall.MakeCopyOfTable(table, seen, recursive) --copy an array
     Lua=5.3
   </requires>
   <functioncall>table table_copy = ultraschall.MakeCopyOfTable(table table)</functioncall>
-  <description>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Creates a true copy of a table(not only references).
+    
+    adapted from Tyler Neylon's function, found at [Stack Overflow](https://stackoverflow.com/questions/640642/how-do-you-copy-a-lua-table-by-value/26367080#26367080)
     
     Returns nil if table isn't a valid table
   </description>
