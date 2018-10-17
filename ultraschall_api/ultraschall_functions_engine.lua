@@ -111,10 +111,10 @@ function ultraschall.CountCharacterInString(checkstring, character)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, string, character, check, find, count, position, numbers</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(checkstring)~="string" then ultraschall.AddErrorMessage("CountCharacterInString", "checkstring", "only strings allowed as parameter", -1) return -1 end
   if type(character)~="string" or character:len()>1 then ultraschall.AddErrorMessage("CountCharacterInString", "character", "only a string with one(!) character allowed", -2) return -1 end
@@ -155,10 +155,10 @@ function ultraschall.IsValidMatchingPattern(patstring)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, pattern, string, check, valid, matching</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local A=pcall(ultraschall.malformedpatternhelper,patstring)
   return A
@@ -192,10 +192,10 @@ function ultraschall.GetTrackStateChunk_Tracknumber(tracknumber)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, trackstatechunk, get</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- prepare variables
   local Track, A, AA, Overflow
@@ -241,10 +241,10 @@ function ultraschall.IsValidMediaItemStateChunk(itemstatechunk)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, check, mediaitemstatechunk, valid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(itemstatechunk)~="string" then ultraschall.AddErrorMessage("IsValidMediaItemStateChunk", "itemstatechunk", "Must be a string.", -1) return false end  
   itemstatechunk=itemstatechunk:match("<ITEM.*%c>\n")
@@ -289,10 +289,10 @@ function ultraschall.CheckMediaItemArray(MediaItemArray)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, check</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(MediaItemArray)~="table" then ultraschall.AddErrorMessage("CheckMediaItemArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return false,0,{} end
   local count=1
@@ -337,10 +337,10 @@ function ultraschall.IsValidMediaItemArray(MediaItemArray)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, check</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(MediaItemArray)~="table" then ultraschall.AddErrorMessage("IsValidMediaItemArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return false,0,{} end
   local count=1
@@ -383,10 +383,10 @@ function ultraschall.CheckMediaItemStateChunkArray(MediaItemStateChunkArray)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, chunk, check</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 --checks, if MediaItemStateChunkArray is a valid array.
 -- throws out all invalid table-entries
@@ -431,10 +431,10 @@ function ultraschall.IsValidMediaItemStateChunkArray(MediaItemStateChunkArray)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, chunk, check</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter0 = ultraschall.GetLastErrorMessage()
   local retval, count, retMediaItemStateChunkArray = ultraschall.CheckMediaItemStateChunkArray(MediaItemStateChunkArray)
@@ -473,10 +473,10 @@ function ultraschall.CSV2IndividualLinesAsArray(csv_line,separator)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>notes,csv,converter,string,array</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(csv_line)~="string" then ultraschall.AddErrorMessage("CSV2IndividualLinesAsArray","csv_line", "only string is allowed", -1) return -1 end
@@ -525,10 +525,10 @@ function ultraschall.IsValidTrackString(trackstring)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, trackstring, check, valid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if type(trackstring)~="string" then ultraschall.AddErrorMessage("IsValidTrackString","trackstring", "Must be a string!", -1) return false end
@@ -570,10 +570,10 @@ function ultraschall.CountProjectTabs()
     Project-Files
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, projectfiles, count, projecttab</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local ProjCount=-1
   local Aretval="t"
@@ -612,10 +612,10 @@ function ultraschall.GetProject_Tabs()
     Project-Files
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, projectfiles, count, projecttab, project, filename</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local ProjTabList={}
   local CountProj=ultraschall.CountProjectTabs()
@@ -650,10 +650,10 @@ end
   <chapter_context>
     API-Variables
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>api, variable, starttime</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
 
@@ -674,10 +674,10 @@ end
     Developer
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>help,api,test, developer</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
 function ultraschall.GetApiVersion()
@@ -702,10 +702,10 @@ function ultraschall.GetApiVersion()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>version,versionmanagement</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   return "4.00 \"John Cage - 4:33\"","30th of July 2018", "beta 2.7", 400.027
 end
@@ -734,10 +734,10 @@ function ultraschall.IsValidTrackStateChunk(statechunk)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, check, validity, track, statechunk, valid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(statechunk)~="string" then ultraschall.AddErrorMessage("IsValidTrackStateChunk","statechunk", "must be a string", -1) return false end
   if statechunk:match("<TRACK.*>\n$")~=nil then return true end
@@ -767,10 +767,10 @@ function ultraschall.IsValidEnvStateChunk(statechunk)
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, check, validity, envelope, statechunk, valid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(statechunk)~="string" then ultraschall.AddErrorMessage("IsValidEnvStateChunk","statechunk", "must be a string", -1) return false end
   if statechunk:match("<.-ENV.-\n.*>\n$")~=nil then return true end
@@ -797,10 +797,10 @@ function ultraschall.GetStringFromClipboard_SWS()
   <chapter_context>
     Clipboard Functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>copy and paste, clipboard, sws</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 -- gets a big string from clipboard, using the 
 -- CF_GetClipboardBig-function from SWS
@@ -843,10 +843,10 @@ function ultraschall.AddErrorMessage(functionname, parametername, errormessage, 
     Developer
     Error Handling
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, add, message</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if functionname==nil or errormessage==nil then a=false functionname="ultraschall.AddErrorMessage" errormessage="functionname or errormessage is nil. Must contain valid value instead!" end
@@ -917,10 +917,10 @@ function ultraschall.ToggleIDE_Errormessages(togglevalue)
     Developer
     Error Handling
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, toggle, message, ide</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- sets ultraschall.IDEerror to true or false(dependend on parameter togglevalue)  
   if togglevalue==true or togglevalue==false then ultraschall.IDEerror=togglevalue
@@ -974,10 +974,10 @@ function ultraschall.ReadErrorMessage(errornumber)
     Developer
     Error Handling
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, get, message</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   errornumber=tonumber(errornumber)
@@ -1034,10 +1034,10 @@ function ultraschall.GetLastErrorMessage()
     Developer
     Error Handling
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, get, message</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.ErrorCounter==0 then ultraschall.AddErrorMessage("GetLastErrorMessage","","No Error Message available!",-1) return false end
   local errornumber=ultraschall.ErrorCounter
@@ -1081,10 +1081,10 @@ function ultraschall.DeleteLastErrorMessage()
     Developer
     Error Handling
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, delete, message</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.ErrorCounter==0 then ultraschall.AddErrorMessage("DeleteLastErrorMessage","","No Error Message available!",-1) return false
   else
@@ -1125,10 +1125,10 @@ function ultraschall.DeleteAllErrorMessages()
     Developer
     Error Handling
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, delete, message</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.ErrorCounter==0 then ultraschall.AddErrorMessage("DeleteAllErrorMessages","","No Error Message available!",-1) return false
   else
@@ -1184,10 +1184,10 @@ function ultraschall.GetLastErrorMessage2(count,setread)
     Developer
     Error Handling
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, get, message</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   count=tonumber(count)
@@ -1252,10 +1252,10 @@ function ultraschall.CountErrorMessages()
     Developer
     Error Handling
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, count, message</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   return ultraschall.ErrorCounter
 end
@@ -1277,10 +1277,10 @@ function ultraschall.ShowLastErrorMessage()
     Developer
     Error Handling
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, show, message</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- get the error-information
   local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter = ultraschall.GetLastErrorMessage()
@@ -1293,7 +1293,7 @@ function ultraschall.ShowLastErrorMessage()
       reaper.MB(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
     else
       -- if no error-causing-parameter was given, display that message
-      reaper.MB(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
+      --reaper.MB(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
     end
   end
 end
@@ -1335,10 +1335,10 @@ function ultraschall.ConvertColor(r,g,b)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, color, native, convert, red, gree, blue</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
     if math.type(r)~="integer" then ultraschall.AddErrorMessage("ConvertColor","r", "only integer allowed", -1) return -1 end
     if math.type(g)~="integer" then ultraschall.AddErrorMessage("ConvertColor","g", "only integer allowed", -2) return -1 end
@@ -1372,10 +1372,10 @@ function ultraschall.ConvertColorReverse(color)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, color, native, convert, red, gree, blue</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
     if math.type(color)~="integer" then ultraschall.AddErrorMessage("ConvertColorReverse", "color", "only integer allowed", -1) return -1 end
     if color<0 or color>33554431 then ultraschall.AddErrorMessage("ConvertColorReverse", "color", "must be between 0 and 33554431", -2) return -1 end
@@ -1409,10 +1409,10 @@ function ultraschall.Msg(val)
     Developer
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, message, console</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   reaper.ShowConsoleMsg(tostring(val).."\n")
 end
@@ -1441,10 +1441,10 @@ function ultraschall.RoundNumber(num)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>number, rounding</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
     -- check parameters  
     if type(num)~="number" then ultraschall.AddErrorMessage("RoundNumber","number", "only a number allowed", -1) return nil end
@@ -1489,10 +1489,10 @@ function ultraschall.GetPath(str,sep)
     File Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement,path,separator</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -1544,10 +1544,10 @@ function ultraschall.GetPartialString(str,sep1,sep2)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>string,separator</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(str)~="string" then ultraschall.AddErrorMessage("GetPartialString","str", "only a string allowed", -1) return nil end
@@ -1595,10 +1595,10 @@ function ultraschall.RunCommand(actioncommand_id)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>command,commandid,actioncommandid,action,run</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if ultraschall.CheckActionCommandIDFormat(actioncommand_id)==false then ultraschall.AddErrorMessage("RunCommand", "actioncommand_id", "must be a command-number or start with an _underscore", -1) return -1 end
@@ -1631,10 +1631,10 @@ function ultraschall.Notes2CSV()
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>notes,csv,converter,string</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local csv = ""
   local linenumber=1
@@ -1672,10 +1672,10 @@ string csv_line - the csv-line, values separated by commas
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>notes,csv,converter,string</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if type(csv_line)~="string" then ultraschall.AddErrorMessage("CSV2Line","csv_line", "only string is allowed", -1) return nil end
@@ -1719,10 +1719,10 @@ function ultraschall.RGB2Grayscale(red,green,blue)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>colorvalues,rgb,gray,grayscale,grey,greyscale</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(red)~="integer" then ultraschall.AddErrorMessage("RGB2Grayscale","red".."only integer is allowed", -1) return nil end
@@ -1770,10 +1770,10 @@ function ultraschall.IsItemInTrack(tracknumber, itemIDX)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>itemmanagement,item,track,existence</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("IsItemInTrack","tracknumber", "only integer is allowed", -1) return nil end
@@ -1831,10 +1831,10 @@ function ultraschall.WriteValueToFile(filename_with_path, value, binarymode, app
     File Management
     Write Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement,export,write,file,textfile,binary</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("WriteValueToFile","filename_with_path", "invalid filename", -1) return -1 end
@@ -1890,10 +1890,10 @@ function ultraschall.CreateTrackString(firstnumber, lastnumber, step)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackstring, track, create</tags>
-  </US_DocBloc>
+</US_DocBloc>
 
 --]]
   -- check parameters
@@ -1950,10 +1950,10 @@ function ultraschall.SetUSExternalState(section, key, value)
     Configuration-Files Management
     Ultraschall.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, value, insert, store</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(section)~="string" then ultraschall.AddErrorMessage("SetUSExternalState","section", "only string allowed", -1) return false end
@@ -1997,10 +1997,10 @@ function ultraschall.GetUSExternalState(section, key)
     Configuration-Files Management
     Ultraschall.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, value, get</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(section)~="string" then ultraschall.AddErrorMessage("GetUSExternalState","section", "only string allowed", -1) return false end
@@ -2033,10 +2033,10 @@ function ultraschall.CountUSExternalState_sec()
     Configuration-Files Management
     Ultraschall.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, count, section</tags>
-  </US_DocBloc>
+</US_DocBloc>
 
 --]]
   -- check existence of ultraschall.ini
@@ -2077,10 +2077,10 @@ function ultraschall.CountUSExternalState_key(section)
     Configuration-Files Management
     Ultraschall.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, count, key</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter and existence of ultraschall.ini
   if type(section)~="string" then ultraschall.AddErrorMessage("CountUSExternalState_key","section", "only string allowed", -1) return false end
@@ -2131,10 +2131,10 @@ function ultraschall.EnumerateUSExternalState_sec(number)
     Configuration-Files Management
     Ultraschall.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, enumerate, section</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter and existence of ultraschall.ini
   if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateUSExternalState_sec", "number", "only integer allowed", -1) return false end
@@ -2179,10 +2179,10 @@ function ultraschall.EnumerateUSExternalState_key(section, number)
     Configuration-Files Management
     Ultraschall.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, enumerate, key</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if type(section)~="string" then ultraschall.AddErrorMessage("EnumerateUSExternalState_key", "section", "only string allowed", -1) return false end
@@ -2244,10 +2244,10 @@ function ultraschall.GetTrackName(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, name, state, get, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -2302,10 +2302,10 @@ function ultraschall.GetTrackPeakColorState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, trackcolor, color, get, state, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackPeakColorState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -2356,10 +2356,10 @@ function ultraschall.GetTrackBeatState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, beat, get, state, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackBeatState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -2413,10 +2413,10 @@ function ultraschall.GetTrackAutoRecArmState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, autorecarm, rec, state, get, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackAutoRecArmState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -2472,10 +2472,10 @@ function ultraschall.GetTrackMuteSoloState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, mute, solo, solodefeat, state, get, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMuteSoloState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -2529,10 +2529,10 @@ function ultraschall.GetTrackIPhaseState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, iphase, phase, button, state, get, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackIPhaseState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -2593,10 +2593,10 @@ function ultraschall.GetTrackIsBusState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, busstate, folder, subfolders, state, get, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackIsBusState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -2651,10 +2651,10 @@ function ultraschall.GetTrackBusCompState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, busstate, folder, subfolders, state, get, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackBusCompState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -2715,10 +2715,10 @@ function ultraschall.GetTrackShowInMixState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, mixer, show, mcp, tcp, fx, visible, state, get, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackShowInMixState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -2777,10 +2777,10 @@ function ultraschall.GetTrackFreeModeState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, trackfreemode, state, get, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackFreeModeState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -2885,10 +2885,10 @@ function ultraschall.GetTrackRecState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, midi, recordingpath, path, input, recinput, pdc, monitor, arm, state, get, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackRecState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -2949,10 +2949,10 @@ function ultraschall.GetTrackVUState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, vu, metering, meter, multichannel, state, get, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackVUState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -3013,10 +3013,10 @@ function ultraschall.GetTrackHeightState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, height, compact, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackHeightState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -3082,10 +3082,10 @@ function ultraschall.GetTrackINQState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, inq, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackINQState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -3143,10 +3143,10 @@ function ultraschall.GetTrackNChansState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, channels, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackNChansState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -3206,10 +3206,10 @@ function ultraschall.GetTrackBypFXState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, bypass, fx, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackBypFXState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -3273,10 +3273,10 @@ function ultraschall.GetTrackPerfState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, trackperformance, fx, buffering, media, anticipative, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackPerfState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -3343,10 +3343,10 @@ function ultraschall.GetTrackMIDIOutState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, midi, outstate, routing, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMIDIOutState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -3406,10 +3406,10 @@ function ultraschall.GetTrackMainSendState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, parent, channel, send, main, routing, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMainSendState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -3547,10 +3547,10 @@ function ultraschall.GetTrackGroupFlagsState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, group, groupstate, individual, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackGroupFlagsState", "tracknumber", "no valid tracknumber", -1) return -1 end
@@ -3692,10 +3692,10 @@ function ultraschall.GetTrackGroupFlags_HighState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, group, groupstate, individual, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackGroupFlags_HighState", "tracknumber", "no valid tracknumber", -1) return -1 end
@@ -3764,10 +3764,10 @@ function ultraschall.GetTrackLockState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, lockstate, locked, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackLockState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -3829,10 +3829,10 @@ function ultraschall.GetTrackLayoutNames(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, theme, layout, name, mcp, tcp, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackLayoutNames", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -3893,10 +3893,10 @@ function ultraschall.GetTrackAutomodeState(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, automode, envelopes, automation, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackAutomodeState", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -3956,10 +3956,10 @@ function ultraschall.GetTrackIcon_Filename(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, graphics, image, icon, trackicon, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackIcon_Filename", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -4015,10 +4015,10 @@ function ultraschall.GetTrackRecCFG(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, reccfg, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackRecCFG", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -4071,10 +4071,10 @@ function ultraschall.GetTrackMidiInputChanMap(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, midi, input, chanmap, channelmap, channel, mapping, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMidiInputChanMap", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -4126,10 +4126,10 @@ function ultraschall.GetTrackMidiCTL(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, midi, channel, linked, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMidiCTL", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -4191,10 +4191,10 @@ function ultraschall.GetTrackWidth(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, width, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackWidth", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -4258,10 +4258,10 @@ function ultraschall.GetTrackPanMode(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, panmode, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackPanMode", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -4320,10 +4320,10 @@ function ultraschall.GetTrackMidiColorMapFn(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, midicolormap, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMidiColorMapFn", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -4372,10 +4372,10 @@ function ultraschall.GetTrackMidiBankProgFn(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, midibankprog, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMidiBankProgFn", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -4425,10 +4425,10 @@ function ultraschall.GetTrackMidiTextStrFn(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, MidiTextStrFn, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMidiTextStrFn", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -4477,10 +4477,10 @@ function ultraschall.GetTrackID(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, trackid, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackID", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -4533,10 +4533,10 @@ function ultraschall.GetTrackScore(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, get, score, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackScore", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -4603,10 +4603,10 @@ function ultraschall.GetTrackVolPan(tracknumber, str)
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, get, vol, pan, override, panlaw, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackVolPan", "tracknumber", "no valid tracknumber", -1) return nil end
@@ -4684,10 +4684,10 @@ function ultraschall.SetTrackName(tracknumber, name, TrackStateChunk)
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, name, set, state, track, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackName", "tracknumber", "no valid tracknumber", -1) return false end
@@ -4756,10 +4756,10 @@ function ultraschall.SetTrackPeakColorState(tracknumber, colorvalue, TrackStateC
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, color, state, set, track, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackPeakColorState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -4831,10 +4831,10 @@ function ultraschall.SetTrackBeatState(tracknumber, beatstate, TrackStateChunk)
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, beat, state, set, track, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackBeatState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -4904,10 +4904,10 @@ function ultraschall.SetTrackAutoRecArmState(tracknumber, autorecarmstate, Track
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, autorecarm, rec, arm, track, set, state, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackAutoRecArmState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -4983,10 +4983,10 @@ function ultraschall.SetTrackMuteSoloState(tracknumber, Mute, Solo, SoloDefeat, 
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, mute, solo, solo defeat, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -5059,10 +5059,10 @@ function ultraschall.SetTrackIPhaseState(tracknumber, iphasestate, TrackStateChu
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, set, track, state, iphase, phase, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackIPhaseState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -5139,10 +5139,10 @@ function ultraschall.SetTrackIsBusState(tracknumber, busstate1, busstate2, Track
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, busstate, folder, subfolder, compactible, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackIsBusState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -5221,10 +5221,10 @@ function ultraschall.SetTrackBusCompState(tracknumber, buscompstate1, buscompsta
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, compacting, busstate, folder, minimize, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackBusCompState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -5307,10 +5307,10 @@ function ultraschall.SetTrackShowInMixState(tracknumber, MCPvisible, MCP_FX_visi
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, state, set, show in mix, mcp, fx, tcp, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -5390,10 +5390,10 @@ function ultraschall.SetTrackFreeModeState(tracknumber, freemodestate, TrackStat
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, trackfree, item, positioning, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackFreeModeState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -5550,10 +5550,10 @@ RecordingPath - 0 Primary Recording-Path only, 1 Secondary Recording-Path only, 
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, armstate, inputchannel, monitorinput, recinput, monitorwhilerec, pdc, recordingpath, midi, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackRecState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -5634,10 +5634,10 @@ function ultraschall.SetTrackVUState(tracknumber, VUState, TrackStateChunk)
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, armstate, vu, metering, multichannel, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -5715,10 +5715,10 @@ function ultraschall.SetTrackHeightState(tracknumber, heightstate1, heightstate2
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, trackheight, height, compact, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackHeightState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -5805,10 +5805,10 @@ function ultraschall.SetTrackINQState(tracknumber, INQ1, INQ2, INQ3, INQ4, INQ5,
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, inq, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackINQState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -5888,10 +5888,10 @@ function ultraschall.SetTrackNChansState(tracknumber, NChans, TrackStateChunk)
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, channels, number, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackNChansState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -5967,10 +5967,10 @@ function ultraschall.SetTrackBypFXState(tracknumber, FXBypassState, TrackStateCh
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, track, set, fx, bypass, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackBypFXState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -6049,10 +6049,10 @@ function ultraschall.SetTrackPerfState(tracknumber, Perf, TrackStateChunk)
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, state, set, fx, performance, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackPerfState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -6139,10 +6139,10 @@ function ultraschall.SetTrackMIDIOutState(tracknumber, MIDIOutState, TrackStateC
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, state, set, midi, midiout, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackMIDIOutState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -6218,10 +6218,10 @@ function ultraschall.SetTrackMainSendState(tracknumber, MainSendOn, ParentChanne
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, state, set, mainsend, parent channels, parent, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackMainSendState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -6294,10 +6294,10 @@ function ultraschall.SetTrackLockState(tracknumber, LockedState, TrackStateChunk
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, lock, state, set, track, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackLockState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -6371,10 +6371,10 @@ function ultraschall.SetTrackLayoutNames(tracknumber, TCP_Layoutname, MCP_Layout
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, state, set, mcp, tcp, layout, mixer, trackcontrol, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackLayoutNames", "tracknumber", "no valid tracknumber", -1) return false end
@@ -6448,10 +6448,10 @@ function ultraschall.SetTrackAutomodeState(tracknumber, automodestate, TrackStat
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, automode, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackAutomodeState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -6524,10 +6524,10 @@ function ultraschall.SetTrackIcon_Filename(tracknumber, Iconfilename_with_path, 
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, state, track, set, trackicon, image, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackIcon_Filename", "tracknumber", "no valid tracknumber", -1) return false end
@@ -6603,10 +6603,10 @@ function ultraschall.SetTrackMidiInputChanMap(tracknumber, InputChanMap, TrackSt
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, input, chanmap, channelmap, midi, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackMidiInputChanMap", "tracknumber", "no valid tracknumber", -1) return false end
@@ -6683,10 +6683,10 @@ function ultraschall.SetTrackMidiCTL(tracknumber, LinkedToMidiChannel, unknown, 
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, linked, midi, midichannel, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackMidiCTL", "tracknumber", "no valid tracknumber", -1) return false end
@@ -6756,10 +6756,10 @@ function ultraschall.SetTrackID(tracknumber, TrackID, TrackStateChunk)
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, guid, trackid, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackID", "tracknumber", "no valid tracknumber", -1) return false end
@@ -6828,10 +6828,10 @@ function ultraschall.SetTrackMidiColorMapFn(tracknumber, MIDI_ColorMapFN, TrackS
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, midi, colormap, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackMidiColorMapFn", "tracknumber", "no valid tracknumber", -1) return false end
@@ -6900,10 +6900,10 @@ function ultraschall.SetTrackMidiBankProgFn(tracknumber, MIDIBankProgFn, TrackSt
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, midi, bank, prog, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackMidiBankProgFn", "tracknumber", "no valid tracknumber", -1) return false end
@@ -6972,10 +6972,10 @@ function ultraschall.SetTrackMidiTextStrFn(tracknumber, MIDITextStrFn, TrackStat
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, midi, text, str, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackMidiTextStrFn", "tracknumber", "no valid tracknumber", -1) return false end
@@ -7049,10 +7049,10 @@ function ultraschall.SetTrackPanMode(tracknumber, panmode, TrackStateChunk)
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, panmode, pan, balance, dual pan, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackPanMode", "tracknumber", "no valid tracknumber", -1) return false end
@@ -7121,10 +7121,10 @@ function ultraschall.SetTrackWidth(tracknumber, width, TrackStateChunk)
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, width, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackWidth", "tracknumber", "no valid tracknumber", -1) return false end
@@ -7196,10 +7196,10 @@ function ultraschall.SetTrackScore(tracknumber, unknown1, unknown2, unknown3, un
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, score, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackScore", "tracknumber", "no valid tracknumber", -1) return false end
@@ -7275,10 +7275,10 @@ function ultraschall.SetTrackVolPan(tracknumber, vol, pan, overridepanlaw, unkno
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, vol, pan, override, panlaw, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackVolPan", "tracknumber", "no valid tracknumber", -1) return false end
@@ -7352,10 +7352,10 @@ function ultraschall.SetTrackRecCFG(tracknumber, reccfg_string, reccfg_nr, Track
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, state, reccfg, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackRecCFG", "tracknumber", "no valid tracknumber", -1) return false end
@@ -7442,10 +7442,10 @@ function ultraschall.SetID3TagsForCurrentProject(title, artist, album, track, ye
     Metadata Management
     ID3-Tags
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>tagmanagement, id3, title, artist, album, track, year, genre, comment, date, involved people, language, cover</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
     if title~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Title", title) end
     if artist~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Artist", artist) end
@@ -7496,10 +7496,10 @@ function ultraschall.SetID3TagsForCurrentProject_PodcastTags(podcast, podcast_ca
     Metadata Management
     ID3-Tags
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>tagmanagement, podcast, name, category, description, id, keywords, url</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
     if podcast~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Podcast", podcast) end
     if podcast_category~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Podcast_Category", podcast_category) end
@@ -7549,10 +7549,10 @@ function ultraschall.GetID3TagsFromCurrentProject()
     Metadata Management
     ID3-Tags
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>tagmanagement, id3, title, artist, album, track, year, genre, comment, date, involved people, language, cover</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
     local retval, title=reaper.GetProjExtState(0, "US_ID3_Tags", "Title")
     local retval, artist=reaper.GetProjExtState(0, "US_ID3_Tags", "Artist")
@@ -7603,10 +7603,10 @@ function ultraschall.GetID3TagsFromCurrentProject_PodcastTags()
     Metadata Management
     ID3-Tags
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>tagmanagement, podcast, name, category, description, id, keywords, url</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
     local retval, podcast=reaper.GetProjExtState(0, "US_ID3_Tags", "Podcast")
     local retval, podcast_category=reaper.GetProjExtState(0, "US_ID3_Tags", "Podcast_Category")
@@ -7663,10 +7663,10 @@ function ultraschall.ToggleScrollingDuringPlayback(scrolling_switch, move_editcu
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, scrolling, toggle, edit cursor, play cursor</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
     if math.type(scrolling_switch)~="integer" then ultraschall.AddErrorMessage("ToggleScrollingDuringPlayback", "scrolling_switch", "must be an integer", -1) return -1 end
     if scrolling_switch<0 or scrolling_switch>1 then ultraschall.AddErrorMessage("ToggleScrollingDuringPlayback", "scrolling_switch", "0, turn scrolling off; 1, turn scrolling on", -2) return -1 end
@@ -7728,10 +7728,10 @@ function ultraschall.SetPlayCursor_WhenPlaying(position)--, move_view)--, length
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, play cursor, set</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if reaper.GetPlayState()~=1 then ultraschall.AddErrorMessage("SetPlayCursor_WhenPlaying", "", "Works only, when it's playing.", -1) return -1 end
@@ -7777,10 +7777,10 @@ function ultraschall.SetPlayAndEditCursor_WhenPlaying(position)--, move_view)--,
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, set, play cursor, edit cursor</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if reaper.GetPlayState()==0 then ultraschall.AddErrorMessage("SetPlayAndEditCursor_WhenPlaying", "", "Works only, when it's not stopped.", -1) return -1 end
@@ -7818,10 +7818,10 @@ function ultraschall.JumpForwardBy(seconds, seekplay)
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, set, forward, jump</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(seconds)==nil then ultraschall.AddErrorMessage("JumpForwardBy","seconds", "no nil allowed", -1) return -1 end
@@ -7861,10 +7861,10 @@ function ultraschall.JumpBackwardBy(seconds, seekplay)
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, set, backward, jump</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(seconds)==nil then ultraschall.AddErrorMessage("JumpBackwardBy","seconds", "no nil allowed", -1) return -1 end
@@ -7903,10 +7903,10 @@ function ultraschall.JumpForwardBy_Recording(seconds)
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, set, forward, recording</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(seconds)==nil then ultraschall.AddErrorMessage("JumpForwardBy_Recording","seconds", "no nil allowed", -1) return -1 end
@@ -7952,10 +7952,10 @@ function ultraschall.JumpBackwardBy_Recording(seconds)
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, jump, forward, recording</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(seconds)==nil then ultraschall.AddErrorMessage("JumpBackwardBy_Recording","seconds", "no nil allowed", -1) return -1 end
@@ -8013,10 +8013,10 @@ function ultraschall.GetNextClosestItemEdge(tracks, cursor_type, time_position)
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, next item, position, edge</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local cursortime=0
   
@@ -8137,10 +8137,10 @@ function ultraschall.GetPreviousClosestItemEdge(tracks, cursor_type, time_positi
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, previous item, position, edge</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local cursortime=0
   local _count
@@ -8243,10 +8243,10 @@ function ultraschall.GetClosestNextMarker(cursor_type, time_position)
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, next marker, position, marker </tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local cursortime=0
 
@@ -8326,10 +8326,10 @@ function ultraschall.GetClosestPreviousMarker(cursor_type, time_position)
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, previous marker, position, marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local cursortime=0
   
@@ -8410,10 +8410,10 @@ function ultraschall.GetClosestNextRegionEdge(cursor_type, time_position)
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, next region, region, position</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local cursortime=0
   
@@ -8501,10 +8501,10 @@ function ultraschall.GetClosestPreviousRegionEdge(cursor_type, time_position)
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, previous region, region, position</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local cursortime=0
   
@@ -8606,10 +8606,10 @@ function ultraschall.GetClosestGoToPoints(trackstring, time_position, check_item
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, previous, next, marker, region, item, edge</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -8709,10 +8709,10 @@ function ultraschall.ToggleMute(track, position, state)
     Cough-Button
     Muting tracks within envelope-lanes
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>cough button, mute, cough, position</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(track)==nil then ultraschall.AddErrorMessage("ToggleMute","track", "invalid track-number. Only integer allowed.", -1) return -1 end  
@@ -8763,10 +8763,10 @@ function ultraschall.ToggleMute_TrackObject(trackobject, position, state)
     Cough-Button
     Muting tracks within envelope-lanes
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>cough button, mute, cough, position, trackobject, mediatrack</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if trackobject==nil then ultraschall.AddErrorMessage("ToggleMute_TrackObject", "trackobject", "no MediaTrack-object.", -1) return -1 end
@@ -8823,10 +8823,10 @@ function ultraschall.GetNextMuteState(track, position)
     Cough-Button
     Muting tracks within envelope-lanes
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>cough button, mute, position, envelope, state, value</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -8880,10 +8880,10 @@ function ultraschall.GetPreviousMuteState(track, position)
     Cough-Button
     Muting tracks within envelope-lanes
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>cough button, mute, position, envelope, state, value</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(track)==nil then ultraschall.AddErrorMessage("GetPreviousMuteState", "track", "no such track", -1) return -1 end
@@ -8936,10 +8936,10 @@ function ultraschall.GetNextMuteState_TrackObject(MediaTrack, position)
     Cough-Button
     Muting tracks within envelope-lanes
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>cough button, mute, position, envelope, state, value</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   
   -- check parameters
@@ -8996,10 +8996,10 @@ function ultraschall.GetPreviousMuteState_TrackObject(MediaTrack, position)
     Cough-Button
     Muting tracks within envelope-lanes
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>cough button, mute, position, envelope, state, value</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if reaper.ValidatePtr2(0, MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("GetPreviousMuteState_TrackObject", "track", "must be a MediaTrack", -1) return -1 end
@@ -9046,10 +9046,10 @@ function ultraschall.CountMuteEnvelopePoints(track)
     Cough-Button
     Muting tracks within envelope-lanes
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>cough button, mute, envelope, state</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if math.type(track)~="integer" then ultraschall.AddErrorMessage("CountMuteEnvelopePoints", "track", "must be an integer", -1) return -1 end
@@ -9096,10 +9096,10 @@ function ultraschall.CheckActionCommandIDFormat(aid)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>command, commandid, actioncommandid, check, validity</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if math.type(aid)~="integer" and type(aid)~="string" then ultraschall.AddErrorMessage("CheckActionCommandIDFormat", "action_command_id", "must be an integer or a string", -1) return false end
@@ -9134,10 +9134,10 @@ function ultraschall.CheckActionCommandIDFormat2(aid)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>command, commandid, actioncommandid, check, validity</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if math.type(aid)~="integer" and type(aid)~="string" then ultraschall.AddErrorMessage("CheckActionCommandIDFormat2", "action_command_id", "must be an integer or a string", -1) return false end
@@ -9190,10 +9190,10 @@ function ultraschall.ToggleStateAction(section, actioncommand_id, state)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>command,commandid,actioncommandid,action,run,state,section</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if actioncommand_id==nil then ultraschall.AddErrorMessage("ToggleStateAction", "action_command_id", "must be a number or a string", -1) return -1 end
@@ -9240,10 +9240,10 @@ function ultraschall.RefreshToolbar_Action(section, actioncommand_id)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>command,commandid,actioncommandid,action,run,toolbar,refresh</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if actioncommand_id==nil then ultraschall.AddErrorMessage("RefreshToolbar_Action", "action_command_id", "must be a number or a string", -1) return -1 end
@@ -9293,10 +9293,10 @@ function ultraschall.ToggleStateButton(section, actioncommand_id, state)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>command,commandid,actioncommandid,action,run,toolbar,toggle,button</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if actioncommand_id==nil then ultraschall.AddErrorMessage("ToggleStateButton", "action_command_id", "must be a string or a number", -1) return false end
   if math.type(state)~="integer" then ultraschall.AddErrorMessage("ToggleStateButton", "state", "must be an integer", -2) return false end
@@ -9347,10 +9347,10 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, add, normal marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(position)~="number" then ultraschall.AddErrorMessage("AddNormalMarker", "position", "must be a number", -1) return -1 end
@@ -9399,10 +9399,10 @@ function ultraschall.AddPodRangeRegion(startposition, endposition)
     Markers
     PodRange Region
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, add, podrange, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   
   -- prepare variables
@@ -9464,10 +9464,10 @@ function ultraschall.GetMarkerByName(searchname, searchisrgn)
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, get, marker, region, name</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(searchname)~="string" then ultraschall.AddErrorMessage("GetMarkerByName", "searchname", "must be a string", -1) return -1 end
@@ -9519,10 +9519,10 @@ function ultraschall.GetMarkerByName_Pattern(searchname, searchisrgn)
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, get, marker, region, pattern</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(searchname)~="string" then ultraschall.AddErrorMessage("GetMarkerByName_Pattern", "searchname", "must be a string", -1) return -1 end
@@ -9577,10 +9577,10 @@ function ultraschall.GetMarkerAndRegionsByIndex(idx, searchisrgn)
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, get, marker, region, index, color, name, position, regionend, shownnumber, shown</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetMarkerAndRegionsByIndex", "idx", "must be an integer", -1) return  end
@@ -9633,10 +9633,10 @@ function ultraschall.SetMarkerByIndex(idx, searchisrgn, shown_number, pos, rgnen
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, set, marker, region, index, color, name, position, regionend, shownnumber, shown</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("SetMarkerByIndex", "idx", "must be an integer", -1) return -1 end
@@ -9718,10 +9718,10 @@ function ultraschall.AddEditMarker(position, shown_number, edittitle)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, add, edit, marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- prepare variables
   local color=0
@@ -9776,10 +9776,10 @@ function ultraschall.CountNormalMarkers()
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, normal marker, marker, count</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- prepare variables
   local a,nummarkers,b=reaper.CountProjectMarkers(0)
@@ -9821,10 +9821,10 @@ function ultraschall.CountEditMarkers()
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, count, edit markers, edit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- prepare variables
   local a,nummarkers,b=reaper.CountProjectMarkers(0)
@@ -9870,10 +9870,10 @@ function ultraschall.GetPodRangeRegion()
     Markers
     PodRange Region
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, enumerate, podrange region, podrange, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- prepare variables
   local color=ultraschall.ConvertColor(255,255,255)
@@ -9931,10 +9931,10 @@ function ultraschall.EnumerateNormalMarkers(number)
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, normal, normal marker, enumerate</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateNormalMarkers", "number", "must be an integer", -1) return -1 end
@@ -10002,10 +10002,10 @@ function ultraschall.EnumerateEditMarkers(number)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, enumerate, edit, edit marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateEditMarkers", "number", "must be an integer", -1) return -1 end
@@ -10074,10 +10074,10 @@ function ultraschall.GetAllEditMarkers()
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, get, get all, edit, edit marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- prepare variables
   local count=ultraschall.CountEditMarkers()
@@ -10128,10 +10128,10 @@ function ultraschall.GetAllNormalMarkers()
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, get, get all, normal, normal marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- prepare variables
   local count=ultraschall.CountNormalMarkers()
@@ -10186,10 +10186,10 @@ function ultraschall.GetAllMarkers()
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, get, get all</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- prepare variable
   local count,aa,bb= reaper.CountProjectMarkers(0)
@@ -10252,10 +10252,10 @@ function ultraschall.SetNormalMarker(number, position, shown_number, markertitle
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, set, set normal, normal marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(position)~="number" and position~=nil then ultraschall.AddErrorMessage("SetNormalMarker", "position", "must be a number", -1) return false end
@@ -10329,10 +10329,10 @@ function ultraschall.SetEditMarker(number, position, shown_number, edittitle)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, set, set edit, edit marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   
   -- check parameters
@@ -10405,10 +10405,10 @@ function ultraschall.SetPodRangeRegion(startposition, endposition)
     Markers
     PodRange Region
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, set, set podrange, podrange region, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(startposition)~="number" then ultraschall.AddErrorMessage("SetPodRangeRegion", "startposition", "must be a number", -1) return -1 end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("SetPodRangeRegion", "endposition", "must be a number", -2) return -1 end
@@ -10443,10 +10443,10 @@ function ultraschall.DeletePodRangeRegion()
     Markers
     PodRange Region
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, delete, delete podrange, podrange region, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- prepare variables
   local a,nummarkers,numregions=reaper.CountProjectMarkers(0)
@@ -10493,10 +10493,10 @@ function ultraschall.DeleteNormalMarker(number)
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, delete, normal marker, normal</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(number)~="integer" then ultraschall.AddErrorMessage("DeleteNormalMarker", "number", "must be a number", -1) return -1 end
@@ -10556,10 +10556,10 @@ function ultraschall.DeleteEditMarker(number)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, delete, edit marker, edit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(number)~="integer" then ultraschall.AddErrorMessage("DeleteEditMarker", "number", "must be integer", -1) return -1 end
@@ -10617,10 +10617,10 @@ function ultraschall.SecondsToTime(pos)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>timestring, converter, seconds, string</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if type(pos)~="number" then ultraschall.AddErrorMessage("SecondsToTime","pos", "only numbers allowed", -1) return nil end
@@ -10714,10 +10714,10 @@ function ultraschall.TimeToSeconds(timestring)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>timestring, converter, seconds, string</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if type(timestring)~="string" then ultraschall.AddErrorMessage("TimeToSeconds","timestring", "only string is allowed", -1) return -1 end
@@ -10836,10 +10836,10 @@ function ultraschall.ExportEditMarkersToFile(filename_with_path, PodRangeStart, 
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, export, file, edit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("ExportEditMarkersToFile", "filename_with_path", "must be a filename", -1) return -1 end
@@ -10915,10 +10915,10 @@ function ultraschall.ExportNormalMarkersToFile(filename_with_path, PodRangeStart
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, export, file, normal</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("ExportNormalMarkersToFile", "filename_with_path", "must be a filename", -1) return -1 end
@@ -11000,10 +11000,10 @@ function ultraschall.ImportEditFromFile(filename_with_path,PodRangeStart)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, import, file, edit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(filename_with_path) ~= "string" then ultraschall.AddErrorMessage("ImportEditFromFile", "filename_with_path", "must be a filename", -1) return -1 end
@@ -11076,10 +11076,10 @@ function ultraschall.ImportMarkersFromFile(filename_with_path,PodRangeStart)
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, import, file</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(filename_with_path) ~= "string" then ultraschall.AddErrorMessage("ImportMarkersFromFile", "filename_with_path", "must be a filename", -1) return -1 end
@@ -11150,10 +11150,10 @@ function ultraschall.MarkerToEditMarker(number)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, convert, edit, normal</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if math.type(number)~="integer" then ultraschall.AddErrorMessage("MarkerToEditMarker", "number", "must be an integer", -1) return -1 end
@@ -11202,10 +11202,10 @@ function ultraschall.EditToMarker(number)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, convert, normal, edit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameter
   if math.type(number)~="integer" then ultraschall.AddErrorMessage("EditToMarker", "number", "must be an integer", -1) return -1 end
@@ -11271,10 +11271,10 @@ function ultraschall.CreateTrackString_SelectedTracks()
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, datastructure</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- prepare variable
   local trackstring=""
@@ -11328,10 +11328,10 @@ function ultraschall.ReadFullFile(filename_with_path, binary)
     File Management
     Read Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, read file, full file, binary, ascii</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if filename_with_path == nil then ultraschall.AddErrorMessage("ReadFullFile", "filename_with_path", "must be a string", -1) return nil end
@@ -11403,10 +11403,10 @@ function ultraschall.ReadValueFromFile(filename_with_path, value)
     File Management
     Read Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, read file, value, pattern, lines</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if filename_with_path == nil then ultraschall.AddErrorMessage("ReadValueFromFile", "filename_with_path", "must be a string", -1) return nil end
@@ -11499,10 +11499,10 @@ function ultraschall.ReadLinerangeFromFile(filename_with_path, firstlinenumber, 
     File Management
     Read Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, read file, range</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(firstlinenumber)~="integer" then ultraschall.AddErrorMessage("ReadLinerangeFromFile","firstlinenumber", "Must be an integer!", -1) return nil end
   if math.type(lastlinenumber)~="integer" then ultraschall.AddErrorMessage("ReadLinerangeFromFile","lastlinenumber", "Must be an integer!", -2) return nil end
@@ -11558,11 +11558,11 @@ function ultraschall.MakeCopyOfFile(input_filename_with_path, output_filename_wi
     File Management
     Manipulate Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>read file, value</tags>
   <tags>filemanagement, copy, file management</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("MakeCopyOfFile", "input_filename_with_path", "must be a string", -1) return false end
   if type(output_filename_with_path)~="string" then ultraschall.AddErrorMessage("MakeCopyOfFile", "output_filename_with_path", "must be a string", -2) return false end
@@ -11607,10 +11607,10 @@ function ultraschall.MakeCopyOfFile_Binary(input_filename_with_path, output_file
     File Management
     Manipulate Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, read file, binary</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "input_filename_with_path", "must be a string", -1) return false end
   if type(output_filename_with_path)~="string" then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "output_filename_with_path", "must be a string", -2) return false end
@@ -11658,10 +11658,10 @@ function ultraschall.ReadBinaryFile(input_filename_with_path)
     File Management
     Read Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, read file, binary</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local temp=""
 
@@ -11709,10 +11709,10 @@ function ultraschall.ReadBinaryFileUntilPattern(input_filename_with_path, patter
     File Management
     Read Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, read file, pattern, binary</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local temp=""
   local temp2
@@ -11766,10 +11766,10 @@ function ultraschall.ReadBinaryFileFromPattern(input_filename_with_path, pattern
     File Management
     Read Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, read file, pattern, binary</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local temp=""
   local temp2
@@ -11828,10 +11828,10 @@ function ultraschall.CountLinesInFile(filename_with_path)
     File Management
     File Analysis
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, count</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters  
   if type(filename_with_path) ~= "string" then ultraschall.AddErrorMessage("CountLinesInFile", "filename_with_path", "must be a string", -1) return nil end
@@ -11889,10 +11889,10 @@ function ultraschall.SetIniFileExternalState(section, key, value, ini_filename_w
     Configuration-Files Management
     Ini-Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, set, external state, value, ini-files</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(section)~="string" then ultraschall.AddErrorMessage("SetIniFileExternalState", "section", "must be a string.", -1) return false end
   if type(key)~="string" then ultraschall.AddErrorMessage("SetIniFileExternalState", "key", "must be a string.", -2) return false end
@@ -11936,10 +11936,10 @@ function ultraschall.GetIniFileExternalState(section, key, ini_filename_with_pat
     Configuration-Files Management
     Ini-Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, get, external state, value, ini-files</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(section)~="string" then ultraschall.AddErrorMessage("GetIniFileExternalState","section", "must be a string", -1) return -1 end
   if type(key)~="string" then ultraschall.AddErrorMessage("GetIniFileExternalState","key", "must be a string", -2) return -1 end
@@ -11982,10 +11982,10 @@ function ultraschall.CountIniFileExternalState_sec(ini_filename_with_path)
     Configuration-Files Management
     Ini-Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, count, sections, ini-files</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   
   if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("CountIniFileExternalState_sec", "ini_filename_with_path", "File does not exist.", -1) return -1 end
@@ -12029,10 +12029,10 @@ function ultraschall.CountIniFileExternalState_key(section, ini_filename_with_pa
     Configuration-Files Management
     Ini-Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, count, keys, ini-files</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local count=0
   local startcount=0
@@ -12082,10 +12082,10 @@ function ultraschall.EnumerateIniFileExternalState_sec(number_of_section, ini_fi
     Configuration-Files Management
     Ini-Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, get, section, enumerate, ini-files</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(number_of_section)~="integer" then ultraschall.AddErrorMessage("EnumerateIniFileExternalState_sec", "number_of_section", "Must be an integer.", -1) return nil end
   if type(ini_filename_with_path)~="string" then ultraschall.AddErrorMessage("EnumerateIniFileExternalState_sec", "ini_filename_with_path", "Must be a string.", -2) return nil end
@@ -12134,10 +12134,10 @@ function ultraschall.EnumerateIniFileExternalState_key(section, number, ini_file
     Configuration-Files Management
     Ini-Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, get, key, enumerate, ini-files</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(section)~="string" then ultraschall.AddErrorMessage("EnumerateIniFileExternalState_key", "section", "Must be a string.", -1) return nil end
   if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateIniFileExternalState_key", "number", "Must be an integer.", -2) return nil end
@@ -12206,10 +12206,10 @@ function ultraschall.CountSectionsByPattern(pattern, ini_filename_with_path)
     Configuration-Files Management
     Ini-Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, count, sections, pattern, get, ini-files</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(pattern)~="string" then ultraschall.AddErrorMessage("CountSectionsByPattern", "pattern", "must be a string", -1) return -1 end
   if ini_filename_with_path==nil then ultraschall.AddErrorMessage("CountSectionsByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
@@ -12267,10 +12267,10 @@ function ultraschall.CountKeysByPattern(pattern, ini_filename_with_path)
     Configuration-Files Management
     Ini-Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, count, keys, pattern, get, ini-files</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(pattern)~="string" then ultraschall.AddErrorMessage("CountKeysByPattern", "pattern", "must be a string", -1) return -1 end
   if ini_filename_with_path==nil then ultraschall.AddErrorMessage("CountKeysByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
@@ -12338,10 +12338,10 @@ function ultraschall.CountValuesByPattern(pattern, ini_filename_with_path)
     Configuration-Files Management
     Ini-Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, count, values, pattern, get, ini-files</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(pattern)~="string" then ultraschall.AddErrorMessage("CountValuesByPattern", "pattern", "must be a string", -1) return -1 end
   if ini_filename_with_path==nil then ultraschall.AddErrorMessage("CountValuesByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
@@ -12408,10 +12408,10 @@ function ultraschall.EnumerateSectionsByPattern(pattern, id, ini_filename_with_p
     Configuration-Files Management
     Ini-Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, enumerate, section, pattern, get, ini-files</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(pattern)~="string" then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "pattern", "must be a string", -1) return -1 end
   if ini_filename_with_path==nil then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
@@ -12472,10 +12472,10 @@ function ultraschall.EnumerateKeysByPattern(pattern, section, id, ini_filename_w
     Configuration-Files Management
     Ini-Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, ini-files, enumerate, section, key, pattern, get</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(pattern)~="string" then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "pattern", "must be a string", -1) return -1 end
   if ini_filename_with_path==nil then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
@@ -12540,10 +12540,10 @@ function ultraschall.EnumerateValuesByPattern(pattern, section, id, ini_filename
     Configuration-Files Management
     Ini-Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, ini-files, enumerate, section, key, value, pattern, get</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(pattern)~="string" then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "pattern", "must be a string", -1) return -1 end
   if ini_filename_with_path==nil then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
@@ -12605,10 +12605,10 @@ function ultraschall.GetMarkerByScreenCoordinates(xmouseposition, retina)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, get marker, position, marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(xmouseposition)~="integer" then ultraschall.AddErrorMessage("GetMarkerByScreenCoordinates", "xmouseposition", "must be an integer", -1) return nil end
   local one,two,three,four,five,six,seven,eight,nine,ten
@@ -12696,10 +12696,10 @@ function ultraschall.GetMarkerByTime(position, retina)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, get marker, position, marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("GetMarkerByTime", "position", "must be a number", -1) return nil end
   local one,two,three,four,five,six,seven,eight,nine,ten
@@ -12809,10 +12809,10 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition, retina)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, get region, position, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(xmouseposition)~="integer" then ultraschall.AddErrorMessage("GetRegionByScreenCoordinates", "xmouseposition", "must be an integer", -1) return nil end
   
@@ -12902,10 +12902,10 @@ function ultraschall.GetRegionByTime(position, retina)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, get region, position, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("GetRegionByTime", "position", "must be a number", -1) return nil end
   local one,two,three,four,five,six,seven,eight,nine,ten
@@ -12994,10 +12994,10 @@ function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition, retina
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, get region, position, time signature, tempo, marker, tempo marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(xmouseposition)~="integer" then ultraschall.AddErrorMessage("GetTimesignaturesByScreenCoordinates", "xmouseposition", "must be an integer", -1) return nil end
   local one,two,three,four,five,six,seven,eight,nine,ten
@@ -13074,10 +13074,10 @@ function ultraschall.GetTimeSignaturesByTime(position, retina)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, get region, position, time signature, tempo, marker, tempo marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("GetTimeSignaturesByTime", "position", "must be a number", -1) return nil end
   local one,two,three,four,five,six,seven,eight,nine,ten
@@ -13151,10 +13151,10 @@ function ultraschall.IsMarkerEdit(markerid)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, check, edit marker, edit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(markerid)~="integer" then ultraschall.AddErrorMessage("IsMarkerEdit","markerid", "must be an integer", -1) return nil end
   markerid=tonumber(markerid)
@@ -13200,10 +13200,10 @@ function ultraschall.IsMarkerNormal(markerid)
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, check, normal marker, normal</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(markerid)~="integer" then ultraschall.AddErrorMessage("IsMarkerNormal","markerid", "must be an integer", -1) return nil end
   markerid=tonumber(markerid)
@@ -13247,10 +13247,10 @@ function ultraschall.IsRegionPodrange(markerid)
     Markers
     PodRange Region
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, check, podrangeregion, podrange, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(markerid)~="integer" then ultraschall.AddErrorMessage("IsRegionPodrange","markerid", "must be an integer", -1) return nil end
   markerid=tonumber(markerid)
@@ -13294,10 +13294,10 @@ function ultraschall.IsRegionEditRegion(markerid)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, check, edit region, edit, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(markerid)~="integer" then ultraschall.AddErrorMessage("IsRegionEditRegion","markerid", "must be an integer", -1) return nil end
   markerid=tonumber(markerid)
@@ -13344,10 +13344,10 @@ function ultraschall.AddEditRegion(startposition, endposition, text)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, add, edit region, edit, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local color=0
   local retval=0
@@ -13408,10 +13408,10 @@ function ultraschall.SetEditRegion(number, position, endposition, edittitle)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, set, edit region, edit, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(number)~="integer" then ultraschall.AddErrorMessage("SetEditRegion", "number", "must be an integer", -1) return -1 end
   if type(position)~="number" then ultraschall.AddErrorMessage("SetEditRegion", "position", "must be a number", -2) return -1 end
@@ -13483,10 +13483,10 @@ function ultraschall.DeleteEditRegion(number)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, delete, edit region, edit, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]   
   if math.type(number)~="integer" then ultraschall.AddErrorMessage("DeleteEditRegion","number", "must be an integer", -1) return false end
   
@@ -13537,10 +13537,10 @@ function ultraschall.EnumerateEditRegion(number)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, get, enumerate, edit region, edit, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]   
   if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateEditRegion","number", "must be an integer", -1) return false end
   
@@ -13586,10 +13586,10 @@ function ultraschall.CountEditRegions()
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, navigation, count, edit region, edit, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   local c,nummarkers,b=reaper.CountProjectMarkers(0)
   local count=0
@@ -13641,10 +13641,10 @@ function ultraschall.GetKBIniFilepath()
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   return reaper.GetResourcePath()..ultraschall.Separator.."reaper-kb.ini"
 end
@@ -13676,10 +13676,10 @@ string filename_with_path - path and filename of the reaper-kb.ini
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, count, actions, action</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("CountKBIniActions", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("CountKBIniActions", "filename_with_path", "file does not exist", -2) return -1 end
@@ -13720,10 +13720,10 @@ string filename_with_path - path and filename of the reaper-kb.ini
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, count, scripts, script</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("CountKBIniScripts", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("CountKBIniScripts", "filename_with_path", "file does not exist", -2) return -1 end
@@ -13764,10 +13764,10 @@ string filename_with_path - path and filename of the reaper-kb.ini
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, count, keys, key</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("CountKBIniKeys", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("CountKBIniKeys", "filename_with_path", "file does not exist", -2) return -1 end
@@ -13830,10 +13830,10 @@ function ultraschall.GetKBIniActions(filename_with_path, idx)
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, actions, action</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniActions", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniActions", "filename_with_path", "file does not exist", -2) return -1 end
@@ -13900,10 +13900,10 @@ function ultraschall.GetKBIniScripts(filename_with_path, idx)
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, scripts, script</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniScripts", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniScripts", "filename_with_path", "file does not exist", -2) return -1 end
@@ -13970,10 +13970,10 @@ function ultraschall.GetKBIniKeys(filename_with_path, idx)
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, keys, key</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniKeys", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniKeys", "filename_with_path", "file does not exist", -2) return -1 end
@@ -14022,10 +14022,10 @@ function ultraschall.GetKBIniActionsID_ByActionCommandID(filename_with_path, Act
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, actions, action</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniActionsID_ByActionCommandID", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniActionsID_ByActionCommandID", "filename_with_path", "file does not exist", -2) return -1 end
@@ -14071,10 +14071,10 @@ function ultraschall.GetKBIniScripts_ByActionCommandID(filename_with_path, Actio
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, scripts, script</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniScripts_ByActionCommandID", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniScripts_ByActionCommandID", "filename_with_path", "file does not exist", -2) return -1 end
@@ -14120,10 +14120,10 @@ function ultraschall.GetKBIniKeys_ByActionCommandID(filename_with_path, ActionCo
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, keys, key</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniKeys_ByActionCommandID", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniKeys_ByActionCommandID", "filename_with_path", "file does not exist", -2) return -1 end
@@ -14183,10 +14183,10 @@ function ultraschall.ReadFileAsLines_Array(filename_with_path, firstlinenumber, 
     File Management
     Read Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, read file, range</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if math.type(firstlinenumber)~="integer" then ultraschall.AddErrorMessage("ReadFileAsLines_Array","firstlinenumber", "Must be an integer!", -1) return nil end
   if math.type(lastlinenumber)~="integer" then ultraschall.AddErrorMessage("ReadFileAsLines_Array","lastlinenumber", "Must be an integer!", -2) return nil end
@@ -14270,10 +14270,10 @@ function ultraschall.SetKBIniActions(filename_with_path, consolidate, section, A
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, add, set, replace, action, actions</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("SetKBIniActions", "filename_with_path", "must be a string", -1) return false end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("SetKBIniActions", "filename_with_path", "file does not exist", -2) return false end
@@ -14374,10 +14374,10 @@ function ultraschall.SetKBIniScripts(filename_with_path, terminate_state, sectio
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, add, set, script, scripts, replace</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("SetKBIniScripts", "filename_with_path", "must be a string", -1) return false end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("SetKBIniScripts", "filename_with_path", "file does not exist", -2) return false end
@@ -14484,10 +14484,10 @@ function ultraschall.SetKBIniKeys(filename_with_path, KeyType, KeyNote, ActionCo
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, add, set, key, keys, replace</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
 
 -- filename_with_path, KeyType, KeyNote, ActionCommandID, section, replace
@@ -14575,10 +14575,10 @@ function ultraschall.DeleteKBIniActions(filename_with_path, idx)
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, delete, action, actions</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("DeleteKBIniActions", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("DeleteKBIniActions", "filename_with_path", "file does not exist", -2) return -1 end
@@ -14638,10 +14638,10 @@ function ultraschall.DeleteKBIniScripts(filename_with_path, idx)
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, delete, script, scripts</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("DeleteKBIniScripts", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("DeleteKBIniScripts", "filename_with_path", "file does not exist", -2) return -1 end
@@ -14701,10 +14701,10 @@ function ultraschall.DeleteKBIniKeys(filename_with_path, idx)
     Configuration-Files Management
     Reaper-kb.ini
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, delete, key, keys, keybind</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("DeleteKBIniKeys", "filename_with_path", "must be a string", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("DeleteKBIniKeys", "filename_with_path", "file does not exist", -2) return -1 end
@@ -14763,10 +14763,10 @@ function ultraschall.IsValidProjectStateChunk(ProjectStateChunk)
     Project-Files
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, projectstatechunk, statechunk, check, valid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(ProjectStateChunk)=="string" and ProjectStateChunk:match("^<REAPER_PROJECT.*>")~=nil then return true else return false end
 end
@@ -14801,10 +14801,10 @@ function ultraschall.GetProject_ReaperVersion(projectfilename_with_path, Project
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, reaperversion, timestamp, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_ReaperVersion","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -14847,10 +14847,10 @@ function ultraschall.GetProject_RenderCFG(projectfilename_with_path, ProjectStat
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, renderstring, rendercfg</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderCFG","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -14896,10 +14896,10 @@ function ultraschall.GetProject_RippleState(projectfilename_with_path, ProjectSt
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, ripple, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RippleState","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -14945,10 +14945,10 @@ function ultraschall.GetProject_GroupOverride(projectfilename_with_path, Project
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, group, override, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_GroupOverride","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -14994,10 +14994,10 @@ function ultraschall.GetProject_AutoCrossFade(projectfilename_with_path, Project
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, crossfade, state, auto, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_AutoCrossFade","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15042,10 +15042,10 @@ function ultraschall.GetProject_EnvAttach(projectfilename_with_path, ProjectStat
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, envattach</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_EnvAttach","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15135,10 +15135,10 @@ function ultraschall.GetProject_MixerUIFlags(projectfilename_with_path, ProjectS
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, mixer, ui, flags</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MixerUIFlags","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15182,10 +15182,10 @@ function ultraschall.GetProject_PeakGain(projectfilename_with_path, ProjectState
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, mixer, peakgain, peak, gain</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_PeakGain","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15230,10 +15230,10 @@ function ultraschall.GetProject_Feedback(projectfilename_with_path, ProjectState
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, mixer, feedback</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Feedback","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15280,10 +15280,10 @@ function ultraschall.GetProject_PanLaw(projectfilename_with_path, ProjectStateCh
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, mixer, panlaw, pan</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_PanLaw","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15331,10 +15331,10 @@ function ultraschall.GetProject_ProjOffsets(projectfilename_with_path, ProjectSt
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, project, offset, start, starttime</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_ProjOffsets","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15384,10 +15384,10 @@ function ultraschall.GetProject_MaxProjectLength(projectfilename_with_path, Proj
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, project, end, length, limit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MaxProjectLength","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15437,10 +15437,10 @@ function ultraschall.GetProject_Grid(projectfilename_with_path, ProjectStateChun
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, grid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Grid","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15502,10 +15502,10 @@ function ultraschall.GetProject_Timemode(projectfilename_with_path, ProjectState
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, timemode</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Timemode","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15582,10 +15582,10 @@ function ultraschall.GetProject_VideoConfig(projectfilename_with_path, ProjectSt
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, video, videoconfig</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_VideoConfig","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15636,10 +15636,10 @@ function ultraschall.GetProject_PanMode(projectfilename_with_path, ProjectStateC
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, panmode</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_PanMode","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15683,10 +15683,10 @@ function ultraschall.GetProject_CursorPos(projectfilename_with_path, ProjectStat
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, cursor, position, cursorposition, editcursor, edit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_CursorPos","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15738,10 +15738,10 @@ function ultraschall.GetProject_HorizontalZoom(projectfilename_with_path, Projec
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, zoom, horizontal, scrollbar, factor</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_HorizontalZoom","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15787,10 +15787,10 @@ function ultraschall.GetProject_VerticalZoom(projectfilename_with_path, ProjectS
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, zoom, vertical, scrollbar, factor</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_VerticalZoom","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15841,10 +15841,10 @@ function ultraschall.GetProject_UseRecConfig(projectfilename_with_path, ProjectS
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, recording, rec, config</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_UseRecConfig","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15895,10 +15895,10 @@ function ultraschall.GetProject_RecMode(projectfilename_with_path, ProjectStateC
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, recording, rec, mode</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RecMode","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -15967,10 +15967,10 @@ function ultraschall.GetProject_SMPTESync(projectfilename_with_path, ProjectStat
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, smpte, sync</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_SMPTESync","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16030,10 +16030,10 @@ function ultraschall.GetProject_Loop(projectfilename_with_path, ProjectStateChun
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, loop, button</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Loop","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16077,10 +16077,10 @@ function ultraschall.GetProject_LoopGran(projectfilename_with_path, ProjectState
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, loop, gran</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_LoopGran","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16126,10 +16126,10 @@ function ultraschall.GetProject_RecPath(projectfilename_with_path, ProjectStateC
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, recording, path, recording path, primary, secondary</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RecPath","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16178,10 +16178,10 @@ function ultraschall.GetProject_RecordCFG(projectfilename_with_path, ProjectStat
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, recording, configuration</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RecordCFG","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16226,10 +16226,10 @@ function ultraschall.GetProject_ApplyFXCFG(projectfilename_with_path, ProjectSta
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, fx, configuration</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_ApplyFXCFG","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16271,10 +16271,10 @@ function ultraschall.GetProject_RenderFilename(projectfilename_with_path, Projec
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, recording, path, render filename, filename, render</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderFilename","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16363,10 +16363,10 @@ function ultraschall.GetProject_RenderPattern(projectfilename_with_path, Project
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, recording, render pattern, filename, render</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderPattern","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16418,10 +16418,10 @@ function ultraschall.GetProject_RenderFreqNChans(projectfilename_with_path, Proj
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, frequency, num channels, channels</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderFreqNChans","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16476,10 +16476,10 @@ function ultraschall.GetProject_RenderSpeed(projectfilename_with_path, ProjectSt
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, speed</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderSpeed","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16550,10 +16550,10 @@ function ultraschall.GetProject_RenderRange(projectfilename_with_path, ProjectSt
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, timestart, timeend, range, tail, bounds</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderRange","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16638,10 +16638,10 @@ function ultraschall.GetProject_RenderResample(projectfilename_with_path, Projec
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, resample, playback, mixing, fx, synth</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderResample","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16690,10 +16690,10 @@ function ultraschall.GetProject_AddMediaToProjectAfterRender(projectfilename_wit
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, add, media, after, project</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_AddMediaToProjectAfterRender","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16748,10 +16748,10 @@ function ultraschall.GetProject_RenderStems(projectfilename_with_path, ProjectSt
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, stems, multichannel</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderStems","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16803,10 +16803,10 @@ function ultraschall.GetProject_RenderDitherState(projectfilename_with_path, Pro
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, render, dither, state, master, noise shaping</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderDitherState","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16857,10 +16857,10 @@ function ultraschall.GetProject_TimeBase(projectfilename_with_path, ProjectState
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, timebase, time, beats, items, envelopes, markers</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_TimeBase","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16909,10 +16909,10 @@ function ultraschall.GetProject_TempoTimeSignature(projectfilename_with_path, Pr
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, timebase, time, beats, tempo, signature</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_TempoTimeSignature","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -16965,10 +16965,10 @@ function ultraschall.GetProject_ItemMixBehavior(projectfilename_with_path, Proje
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, item, mix</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_ItemMixBehavior","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -17955,10 +17955,10 @@ function ultraschall.GetProject_DefPitchMode(projectfilename_with_path, ProjectS
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, default, pitch mode, pitch</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_DefPitchMode","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -18002,10 +18002,10 @@ function ultraschall.GetProject_TakeLane(projectfilename_with_path, ProjectState
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, take, lane</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_TakeLane","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -18054,10 +18054,10 @@ function ultraschall.GetProject_SampleRate(projectfilename_with_path, ProjectSta
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, sample, rate, samplerate, tempo, time, signature</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_SampleRate","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -18118,10 +18118,10 @@ function ultraschall.GetProject_TrackMixingDepth(projectfilename_with_path, Proj
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, track, mixing, depth</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_TrackMixingDepth","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return -1 end
@@ -18175,10 +18175,10 @@ function ultraschall.GetProject_TrackStateChunk(projectfilename_with_path, idx, 
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, track, chunk, rppxml, trackstate, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_TrackStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return -1 end
@@ -18235,10 +18235,10 @@ function ultraschall.GetProject_NumberOfTracks(projectfilename_with_path, GetPro
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, track, count</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_NumberOfTracks","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return -1 end
@@ -18294,10 +18294,10 @@ function ultraschall.InsertTrack_TrackStateChunk(trackstatechunk)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackstring, track, create, trackstate, trackstatechunk, chunk, state</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]--
   if ultraschall.IsValidTrackStateChunk(trackstatechunk)==false then ultraschall.AddErrorMessage("InsertTrack_TrackStateChunk", "trackstatechunk", "Must be a valid TrackStateChunk", -1) return false end
   reaper.InsertTrackAtIndex(reaper.CountTracks(0), true)
@@ -18341,10 +18341,10 @@ function ultraschall.GetProject_Selection(projectfilename_with_path, ProjectStat
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, selection, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Selection","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -18395,10 +18395,10 @@ function ultraschall.SetProject_RippleState(projectfilename_with_path, ripple_st
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, ripple, all, one</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RippleState", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RippleState", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -18449,10 +18449,10 @@ function ultraschall.SetProject_Selection(projectfilename_with_path, starttime, 
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, ripple, all, one</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Selection", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_Selection", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -18512,10 +18512,10 @@ function ultraschall.SetProject_GroupOverride(projectfilename_with_path, group_o
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, group, override</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_GroupOverride", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_GroupOverride", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -18566,10 +18566,10 @@ function ultraschall.SetProject_AutoCrossFade(projectfilename_with_path, autocro
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, autocrossfade, crossfade</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_AutoCrossFade", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_AutoCrossFade", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -18618,10 +18618,10 @@ function ultraschall.SetProject_EnvAttach(projectfilename_with_path, env_attach,
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, env, attach, envattach</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_EnvAttach", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_EnvAttach", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -18713,10 +18713,10 @@ function ultraschall.SetProject_MixerUIFlags(projectfilename_with_path, state_bi
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, mixer, ui, flags, folders, tracks, master, fx, groups</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]         
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MixerUIFlags", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_MixerUIFlags", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -18764,10 +18764,10 @@ function ultraschall.SetProject_PeakGain(projectfilename_with_path, peakgain_sta
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, peak, gain, peakgain</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_PeakGain", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_PeakGain", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -18814,10 +18814,10 @@ function ultraschall.SetProject_Feedback(projectfilename_with_path, feedback_sta
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, feedback</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Feedback", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_Feedback", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -18865,10 +18865,10 @@ function ultraschall.SetProject_PanLaw(projectfilename_with_path, panlaw_state, 
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, pan, law, pan law</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_PanLaw", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_PanLaw", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -18918,10 +18918,10 @@ function ultraschall.SetProject_ProjOffsets(projectfilename_with_path, start_tim
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, project, offset, start, starttime, measure</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_ProjOffsets", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_ProjOffsets", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -18973,10 +18973,10 @@ function ultraschall.SetProject_MaxProjectLength(projectfilename_with_path, limi
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, project, end, length, limit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MaxProjectLength", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_MaxProjectLength", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19038,10 +19038,10 @@ function ultraschall.SetProject_Grid(projectfilename_with_path, gridstate1, grid
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, grid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Grid", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
@@ -19122,10 +19122,10 @@ function ultraschall.SetProject_Timemode(projectfilename_with_path, timemode1, t
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, timemode</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Timemode", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_Timemode", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19205,10 +19205,10 @@ function ultraschall.SetProject_VideoConfig(projectfilename_with_path, preferred
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, video, videoconfig</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]         
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_VideoConfig", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_VideoConfig", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19266,10 +19266,10 @@ function ultraschall.SetProject_PanMode(projectfilename_with_path, panmode_state
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, panmode</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_PanMode", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_PanMode", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19322,10 +19322,10 @@ function ultraschall.SetProject_CursorPos(projectfilename_with_path, cursorpos, 
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, cursor, position, cursorposition, editcursor, edit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_CursorPos", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_CursorPos", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19376,10 +19376,10 @@ function ultraschall.SetProject_HorizontalZoom(projectfilename_with_path, hzoom,
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, zoom, horizontal, scrollbar, factor</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]         
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_HorizontalZoom", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_HorizontalZoom", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19429,10 +19429,10 @@ function ultraschall.SetProject_VerticalZoom(projectfilename_with_path, vzoom, P
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, zoom, vertical, scrollbar, factor</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]         
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_VerticalZoom", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_VerticalZoom", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19483,10 +19483,10 @@ function ultraschall.SetProject_UseRecConfig(projectfilename_with_path, rec_cfg,
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, recording, rec, config</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_UseRecConfig", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_UseRecConfig", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19540,10 +19540,10 @@ function ultraschall.SetProject_RecMode(projectfilename_with_path, rec_mode, Pro
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, recording, rec, mode</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RecMode", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RecMode", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19614,10 +19614,10 @@ function ultraschall.SetProject_SMPTESync(projectfilename_with_path, smptesync_s
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, smpte, sync</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_SMPTESync", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_SMPTESync", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19673,10 +19673,10 @@ function ultraschall.SetProject_Loop(projectfilename_with_path, loopbutton_state
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, loop, button</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Loop", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_Loop", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19723,10 +19723,10 @@ function ultraschall.SetProject_LoopGran(projectfilename_with_path, loopgran_sta
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, loop, gran</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]         
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_LoopGran", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_LoopGran", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19773,10 +19773,10 @@ function ultraschall.SetProject_RecPath(projectfilename_with_path, prim_recpath,
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, recording, path, primary, secondary</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RecPath", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RecPath", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19829,10 +19829,10 @@ function ultraschall.SetProject_RecordCFG(projectfilename_with_path, recording_c
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, recording, configuration</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RecordCFG", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RecordCFG", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19879,10 +19879,10 @@ function ultraschall.SetProject_RenderCFG(projectfilename_with_path, rendercfg_s
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, configuration</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderCFG", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RenderCFG", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19929,10 +19929,10 @@ function ultraschall.SetProject_ApplyFXCFG(projectfilename_with_path, applyfx_cf
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, fx, configuration</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_ApplyFXCFG", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_ApplyFXCFG", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -19981,10 +19981,10 @@ function ultraschall.SetProject_RenderFilename(projectfilename_with_path, render
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, recording, path, render filename, filename, render</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderFilename", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RenderFilename", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -20076,10 +20076,10 @@ function ultraschall.SetProject_RenderPattern(projectfilename_with_path, render_
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, recording, render pattern, filename, render</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderPattern", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RenderPattern", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -20135,10 +20135,10 @@ function ultraschall.SetProject_RenderFreqNChans(projectfilename_with_path, unkn
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, frequency, num channels, channels</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]           
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderFreqNChans", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RenderFreqNChans", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -20194,10 +20194,10 @@ function ultraschall.SetProject_RenderSpeed(projectfilename_with_path, render_sp
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, speed</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderSpeed", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RenderSpeed", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -20273,10 +20273,10 @@ function ultraschall.SetProject_RenderRange(projectfilename_with_path, bounds, t
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, timestart, timeend, range, tail, bounds</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderRange", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RenderRange", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -20363,10 +20363,10 @@ function ultraschall.SetProject_RenderResample(projectfilename_with_path, resamp
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, resample, playback, mixing, fx, synth</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderResample", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RenderResample", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -20416,10 +20416,10 @@ function ultraschall.SetProject_AddMediaToProjectAfterRender(projectfilename_wit
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, add, media, after, project</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_AddMediaToProjectAfterRender", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_AddMediaToProjectAfterRender", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -20478,10 +20478,10 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, stems, multichannel</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderStems", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RenderStems", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -20535,10 +20535,10 @@ function ultraschall.SetProject_RenderDitherState(projectfilename_with_path, ren
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, render, dither, state, master, noise shaping</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderDitherState", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RenderDitherState", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -20590,10 +20590,10 @@ function ultraschall.SetProject_TimeBase(projectfilename_with_path, timebase, Pr
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, timebase, time, beats, items, envelopes, markers</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_TimeBase", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_TimeBase", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -20643,10 +20643,10 @@ function ultraschall.SetProject_TempoTimeSignature(projectfilename_with_path, te
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, timebase, time, beats, tempo, signature</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_TempoTimeSignature", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_TempoTimeSignature", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -20700,10 +20700,10 @@ function ultraschall.SetProject_ItemMixBehavior(projectfilename_with_path, item_
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, item, mix</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_ItemMixBehavior", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_ItemMixBehavior", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -21691,10 +21691,10 @@ function ultraschall.SetProject_DefPitchMode(projectfilename_with_path, def_pitc
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, default, pitch mode, pitch</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_DefPitchMode", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_DefPitchMode", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -21741,10 +21741,10 @@ function ultraschall.SetProject_TakeLane(projectfilename_with_path, take_lane_st
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, take, lane</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_TakeLane", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_TakeLane", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -21797,10 +21797,10 @@ function ultraschall.SetProject_SampleRate(projectfilename_with_path, sample_rat
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, sample, rate, samplerate, tempo, time, signature</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_SampleRate", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_SampleRate", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -21862,10 +21862,10 @@ function ultraschall.SetProject_TrackMixingDepth(projectfilename_with_path, mixi
     Project-Files
     RPP-Files Set
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, set, sample, rate, samplerate, tempo, time, signature</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_TrackMixingDepth", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_TrackMixingDepth", "projectfilename_with_path", "File does not exist", -2) return -1 end
@@ -21948,10 +21948,10 @@ function ultraschall.MoveTrackEnvelopePointsBy(startposition, endposition, moveb
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, move, moveby</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(startposition)~="number" then ultraschall.AddErrorMessage("MoveTrackEnvelopePointsBy", "startposition", "must be a number", -1) return -1 end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("MoveTrackEnvelopePointsBy", "endposition", "must be a number", -2) return -1 end
@@ -22021,10 +22021,10 @@ function ultraschall.MoveMarkersBy(startposition, endposition, moveby, cut_at_bo
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, move, moveby, region, marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(startposition)~="number" then ultraschall.AddErrorMessage("MoveMarkersBy","startposition", "must be a number", -1) return -1 end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("MoveMarkersBy","endposition", "must be a number", -2) return -1 end
@@ -22107,10 +22107,10 @@ function ultraschall.GetAllMarkersBetween(startposition, endposition)
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, get, get all between</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(startposition)~="number" then ultraschall.AddErrorMessage("GetAllMarkersBetween","startposition", "Must be a number!", -1) return -1 end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("GetAllMarkersBetween","endposition", "Must be a number!", -2) return -1 end
@@ -22157,10 +22157,10 @@ function ultraschall.GetAllRegions()
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, region, get, get all</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local Count=reaper.CountProjectMarkers(0)
   local RegionArray={}
@@ -22221,10 +22221,10 @@ function ultraschall.GetAllRegionsBetween(startposition, endposition, partial)
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, region, get, get all</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(startposition)~="number" then ultraschall.AddErrorMessage("GetAllRegionsBetween","startposition", "Must be a number!", -1) return -1 end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("GetAllRegionsBetween","endposition", "Must be a number!", -2) return -1 end
@@ -22287,10 +22287,10 @@ function ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, tracks, trackstring, sort, order</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
     if type(trackstring)~="string" then ultraschall.AddErrorMessage("RemoveDuplicateTracksInTrackstring","trackstring", "must be a string", -1) return -1 end
     local _count, Trackstring_array=ultraschall.CSV2IndividualLinesAsArray(trackstring)    
@@ -22351,10 +22351,10 @@ function ultraschall.GetMediaItemsAtPosition(position, trackstring)
     MediaItem Management
     Get MediaItems
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, selection, statechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   if type(position)~="number" then ultraschall.AddErrorMessage("GetMediaItemsAtPosition","position", "must be a number", -1) return -1 end
@@ -22422,10 +22422,10 @@ function ultraschall.OnlyMediaItemsOfTracksInTrackstring(MediaItemArray, trackst
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, selection</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("OnlyMediaItemsOfTracksInTrackstring","MediaItemArray", "must be a MediaItemArray", -1) return -1 end
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("OnlyMediaItemsOfTracksInTrackstring","trackstring", "must be a valid trackstring", -2) return -1 end
@@ -22488,10 +22488,10 @@ function ultraschall.SplitMediaItems_Position(position, trackstring, crossfade)
     MediaItem Management
     Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, split, edit, crossfade</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("SplitMediaItems_Position","position", "must be a number", -1) return -1 end
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("SplitMediaItems_Position","trackstring", "must be valid trackstring", -2) return -1 end
@@ -22576,10 +22576,10 @@ function ultraschall.SplitItemsAtPositionFromArray(position, MediaItemArray, cro
     MediaItem Management
     Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, split, edit, crossfade, mediaitemarray</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("SplitItemsAtPositionFromArray", "position", "Must be a number", -1) return false end
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("SplitItemsAtPositionFromArray", "MediaItemArray", "Must be a valid MediaItemArray", -2) return false end
@@ -22634,10 +22634,10 @@ function ultraschall.DeleteMediaItem(MediaItemObject)
     MediaItem Management
     Delete
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, delete</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
     if reaper.ValidatePtr2(0, MediaItemObject, "MediaItem*")==false then ultraschall.AddErrorMessage("DeleteMediaItem","MediaItem", "must be a MediaItem", -1) return false end
     local MediaTrack=reaper.GetMediaItemTrack(MediaItemObject)
@@ -22679,10 +22679,10 @@ function ultraschall.DeleteMediaItemsFromArray(MediaItemArray)
     MediaItem Management
     Delete
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, delete</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("DeleteMediaItemsFromArray", "MediaItemArray", "must be a valid MediaItemArray", -1) return false end
 --  reaper.MB(tostring(MediaItemArray),"",0)
@@ -22736,10 +22736,10 @@ function ultraschall.DeleteMediaItems_Position(position, trackstring)
     MediaItem Management
     Delete
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, delete</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("DeleteMediaItems_Position", "position", "must be a number", -1) return false end
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("DeleteMediaItems_Position", "trackstring", "must be a valid trackstring", -2) return false end
@@ -22821,10 +22821,10 @@ function ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackst
     MediaItem Management
     Get MediaItems
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, selection, position, statechunk, rppxml</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(startposition)~="number" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "startposition", "must be a number", -1) return -1 end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("GetAllMediaItemsBetween", "endposition", "must be a number", -2) return -1 end
@@ -22925,10 +22925,10 @@ function ultraschall.MoveMediaItemsAfter_By(oldposition, changepositionby, track
     MediaItem Management
     Manipulate
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, move, position</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   
   if type(oldposition)~="number" then ultraschall.AddErrorMessage("MoveMediaItemsAfter_By", "old_position", "must be a number", -1) return false end
@@ -22991,10 +22991,10 @@ function ultraschall.MoveMediaItemsBefore_By(oldposition, changepositionby, trac
     MediaItem Management
     Manipulate
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, move, position</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   
   if type(oldposition)~="number" then ultraschall.AddErrorMessage("MoveMediaItemsBefore_By", "old_position", "Must be a number.", -1) return false end
@@ -23069,10 +23069,10 @@ function ultraschall.MoveMediaItemsSectionTo(sectionstart, sectionend, newpositi
     MediaItem Management
     Manipulate
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, move, position</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 -- sectionstart, sectionend, newposition, trackstring, inside
   
@@ -23141,10 +23141,10 @@ function ultraschall.ChangeLengthOfMediaItems_FromArray(MediaItemArray, newlengt
     MediaItem Management
     Manipulate
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, length</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("ChangeLengthOfMediaItems_FromArray", "MediaItemArray", "must be a valid MediaItemArray", -1) return false end
   if type(newlength)~="number" then ultraschall.AddErrorMessage("ChangeLengthOfMediaItems_FromArray", "newlength", "must be a number", -2) return false end
@@ -23195,10 +23195,10 @@ function ultraschall.ChangeDeltaLengthOfMediaItems_FromArray(MediaItemArray, del
     MediaItem Management
     Manipulate
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, length</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("ChangeDeltaLengthOfMediaItems_FromArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return false end
@@ -23249,10 +23249,10 @@ function ultraschall.ChangeOffsetOfMediaItems_FromArray(MediaItemArray, newoffse
     MediaItem Management
     Manipulate
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, offset</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("ChangeOffsetOfMediaItems_FromArray", "MediaItemArray", "must be a valid MediaItemArray", -1) return false end
   if type(newoffset)~="number" then ultraschall.AddErrorMessage("ChangeOffsetOfMediaItems_FromArray", "newoffset", "must be a number", -2) return false end
@@ -23308,10 +23308,10 @@ function ultraschall.ChangeDeltaOffsetOfMediaItems_FromArray(MediaItemArray, del
     MediaItem Management
     Manipulate
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, offset</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("ChangeDeltaOffsetOfMediaItems_FromArray", "MediaItemArray", "must be a valid MediaItemArray", -1) return false end
@@ -23367,10 +23367,10 @@ function ultraschall.SectionCut(startposition, endposition, trackstring)
     MediaItem Management
     Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, edit, section, cut</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if type(startposition)~="number" then ultraschall.AddErrorMessage("SectionCut", "startposition", "must be a number", -1) return -1 end
@@ -23431,10 +23431,10 @@ function ultraschall.SectionCut_Inverse(startposition, endposition, trackstring)
     MediaItem Management
     Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, edit, section, inverse, cut</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if type(startposition)~="number" then ultraschall.AddErrorMessage("SectionCut_Inverse", "startposition", "must be a number", -1) return -1 end
@@ -23494,10 +23494,10 @@ function ultraschall.RippleCut(startposition, endposition, trackstring, movemark
     MediaItem Management
     Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, edit, ripple</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   --trackstring=ultraschall.CreateTrackString(1,reaper.CountTracks(),1)
   --returns the number of deleted items as well as a table with the ItemStateChunks of all deleted Items  
@@ -23570,10 +23570,10 @@ function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, 
     MediaItem Management
     Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, edit, ripple, reverse</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   if type(startposition)~="number" then ultraschall.AddErrorMessage("RippleCut_Reverse", "startposition", "must be a number", -1) return -1 end
@@ -23644,10 +23644,10 @@ function ultraschall.InsertMediaItem_MediaItem(position, MediaItem, MediaTrack)
     MediaItem Management
     Insert
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, insert</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("InsertMediaItem_MediaItem","position", "must be a number", -1) return -1 end
   if reaper.ValidatePtr(MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItem","MediaItem", "must be a MediaItem", -2) return -1 end
@@ -23694,10 +23694,10 @@ function ultraschall.InsertMediaItem_MediaItemStateChunk(position, MediaItemStat
     MediaItem Management
     Insert
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, insert</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("InsertMediaItem_MediaItemStateChunk","position", "must be a number", -1) return -1 end
   if ultraschall.IsValidMediaItemStateChunk(MediaItemStateChunk)==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItemStateChunk","MediaItemStateChunk", "must be a valid MediaItemStateChunk", -2) return -1 end
@@ -23749,10 +23749,10 @@ function ultraschall.InsertMediaItemArray(position, MediaItemArray, trackstring)
     MediaItem Management
     Insert
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, insert</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]    
   if type(position)~="number" then ultraschall.AddErrorMessage("InsertMediaItemArray","position", "must be a number", -1) return -1 end
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("InsertMediaItemArray","MediaItemArray", "must be a valid MediaItemArray", -2) return -1 end
@@ -23824,10 +23824,10 @@ function ultraschall.GetMediaItemStateChunksFromItems(MediaItemArray)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, chunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("GetMediaItemStateChunksFromItems", "MediaItemArray", "must be a valid MediaItemArray", -1) return -1 end
   local count=1
@@ -23884,10 +23884,10 @@ function ultraschall.RippleInsert(position, MediaItemArray, trackstring, moveenv
     MediaItem Management
     Insert
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, insert, ripple</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("RippleInsert", "startposition", "must be a number", -1) return -1 end
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("RippleInsert", "MediaItemArray", "must be a valid MediaItemArray", -2) return -1 end
@@ -24000,10 +24000,10 @@ function ultraschall.MoveMediaItems_FromArray(MediaItemArray, newposition)
     MediaItem Management
     Manipulate
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, insert, ripple</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("MoveMediaItems_FromArray", "MediaItemArray", "must be a valid MediaItemArray", -1) return -1 end
   if type(newposition)~="number" then ultraschall.AddErrorMessage("MoveMediaItems_FromArray", "newposition", "must be a number", -2) return -1 end
@@ -24048,10 +24048,10 @@ end
   <chapter_context>
     API-Variables
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>api, variable, separator</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
 --[[
@@ -24069,10 +24069,10 @@ end
   <chapter_context>
     API-Variables
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>api, variable, script, path, scriptpath</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
 --[[
@@ -24090,10 +24090,10 @@ end
   <chapter_context>
     API-Variables
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>api, variable, path, folder</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
 --[[
@@ -24111,10 +24111,10 @@ end
   <chapter_context>
     API-Variables
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>api, variable, install, path, folder</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
 function ultraschall.HelpSort(one,two,three)
@@ -24186,7 +24186,7 @@ function ultraschall.CreateUSApiDocs_HTML(filename_with_path,LLL)
     Help and Documentation
     Ultraschall Api-docs
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>api, docs, documentation, html, create</tags>
 <\/ApiDocBlocFunc>
@@ -24494,10 +24494,10 @@ function ultraschall.SetAllTracksSelected(selected)
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, tracks, get, selected</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(selected)~="boolean" then ultraschall.AddErrorMessage("SetAllTracksSelected","selected", "must be a boolean", -1) return -1 end
   for i=0, reaper.CountTracks(0)-1 do
@@ -24535,10 +24535,10 @@ function ultraschall.SetTracksSelected(trackstring, reset)
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, tracks, get, selected</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(reset)~="boolean" then ultraschall.AddErrorMessage("SetTracksSelected", "reset", "must be boolan", -1) return -1 end
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
@@ -24583,10 +24583,10 @@ function ultraschall.GetItemPosition(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, position</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -24634,10 +24634,10 @@ function ultraschall.GetItemLength(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, length</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -24683,10 +24683,10 @@ function ultraschall.GetItemSnapOffset(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, snap, offset</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -24734,10 +24734,10 @@ function ultraschall.GetItemLoop(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, loop</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -24784,10 +24784,10 @@ function ultraschall.GetItemAllTakes(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, alltakes, all, takes</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -24838,10 +24838,10 @@ function ultraschall.GetItemFadeIn(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, fade in</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -24899,10 +24899,10 @@ function ultraschall.GetItemFadeOut(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, fade out</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -24955,10 +24955,10 @@ function ultraschall.GetItemMute(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, fade out</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -25012,10 +25012,10 @@ function ultraschall.GetItemFadeFlag(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, autofade</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -25069,10 +25069,10 @@ function ultraschall.GetItemLock(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, lock</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -25127,10 +25127,10 @@ function ultraschall.GetItemSelected(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, selected</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -25185,10 +25185,10 @@ function ultraschall.GetItemGroup(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, group</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -25241,10 +25241,10 @@ function ultraschall.GetItemIGUID(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, guid, iguid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -25296,10 +25296,10 @@ function ultraschall.GetItemIID(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, iid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -25351,10 +25351,10 @@ function ultraschall.GetItemName(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, name</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -25407,10 +25407,10 @@ function ultraschall.GetItemVolPan(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, volume, pan</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -25464,10 +25464,10 @@ function ultraschall.GetItemSampleOffset(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, sample, offset</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -26467,10 +26467,10 @@ function ultraschall.GetItemPlayRate(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, playrate, pitch</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -26535,10 +26535,10 @@ function ultraschall.GetItemChanMode(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, channel, mode</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -26591,10 +26591,10 @@ function ultraschall.GetItemGUID(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, guid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -26638,10 +26638,10 @@ function ultraschall.GetItemRecPass(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, recpass</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -26697,10 +26697,10 @@ function ultraschall.GetItemBeat(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, beat, timebase</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -26757,10 +26757,10 @@ function ultraschall.GetItemMixFlag(MediaItem, statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, itemmix behavior</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -26815,10 +26815,10 @@ function ultraschall.GetItemUSTrackNumber_StateChunk(statechunk)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, track, tracknumber</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare statechunk-variable
   local retval
@@ -26857,10 +26857,10 @@ function ultraschall.SetItemUSTrackNumber_StateChunk(statechunk, tracknumber)
     MediaItem Management
     Set MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, track, tracknumber</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemUSTrackNumber_StateChunk","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return -1 end
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("SetItemUSTrackNumber_StateChunk","tracknumber", "must be an integer.", -2) end
@@ -26900,10 +26900,10 @@ function ultraschall.SetItemPosition(MediaItem, position, statechunk)
     MediaItem Management
     Set MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, position</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   local _tudelu
@@ -26956,10 +26956,10 @@ function ultraschall.SetItemLength(MediaItem, length, statechunk)
     MediaItem Management
     Set MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, length</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   local _tudelu
@@ -27022,10 +27022,10 @@ function ultraschall.InsertMediaItemStateChunkArray(position, MediaItemStateChun
     MediaItem Management
     Insert
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, insert, statechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]    
   if type(position)~="number" then ultraschall.AddErrorMessage("InsertMediaItemStateChunkArray", "position", "Must be a number.", -1) return -1 end
   if ultraschall.IsValidMediaItemStateChunkArray(MediaItemStateChunkArray)==false then ultraschall.AddErrorMessage("InsertMediaItemStateChunkArray", "MediaItemStateChunkArray", "Must be a valid MediaItemStateChunkArray.", -2) return -1 end
@@ -27093,10 +27093,10 @@ function ultraschall.OnlyMediaItemsOfTracksInTrackstring_StateChunk(MediaItemSta
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, selection, statechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.IsValidMediaItemStateChunkArray(MediaItemStateChunkArray)==false then ultraschall.AddErrorMessage("OnlyMediaItemsOfTracksInTrackstring_StateChunk", "MediaItemStateChunkArray", "Must be a valid MediaItemStateChunkArray.", -1) return -1 end
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("OnlyMediaItemsOfTracksInTrackstring_StateChunk", "trackstring", "Must be a valid trackstring.", -2) return -1 end
@@ -27171,10 +27171,10 @@ function ultraschall.RippleInsert_MediaItemStateChunks(position, MediaItemStateC
     MediaItem Management
     Insert
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, insert, ripple</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   if type(position)~="number" then ultraschall.AddErrorMessage("RippleInsert_MediaItemStateChunks", "position", "must be a number", -1) return -1 end
@@ -27278,10 +27278,10 @@ function ultraschall.IsTrackObjectTracknumber(MediaTrack, tracknumber)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, check, tracknumber, mediatrack, object</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 --returns true, if MediaTrack=tracknumber, false if not; as well as the tracknumber of MediaTrack
 --returns nil in case of error
@@ -27323,10 +27323,10 @@ function ultraschall.InverseTrackstring(trackstring, limit)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, trackstring, inverse, tracknumber, tracknumbers, limit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 --returns a newtrackstring with numbers, that are NOT in trackstring, from 0 to limit
   local retval, trackstring, trackstringarray, number_of_entries = ultraschall.RemoveDuplicateTracksInTrackstring(trackstring) 
@@ -27373,10 +27373,10 @@ function ultraschall.SetTracksToLocked(trackstring, reset)
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, trackstring, lock, lockstate, lockedstate, locked, set</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local retval, trackstring, trackstringarray, number_of_entries = ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
   if retval==-1 then ultraschall.AddErrorMessage("SetTracksToLocked","trackstring", "must be a valid trackstring", -1) return false end
@@ -27420,10 +27420,10 @@ function ultraschall.SetTracksToUnlocked(trackstring)
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, trackstring, lock, lockstate, lockedstate, locked, set, unlock, unlocked</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 --sets tracks in trackstring unlocked.
 --returns false in case or error, true in case of success
@@ -27458,10 +27458,10 @@ function ultraschall.GetAllLockedTracks()
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, trackstring, lock, lockstate, lockedstate, locked, get</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 --returns a trackstring with all locked tracks; empty string if none is locked
   local trackstring=""
@@ -27495,10 +27495,10 @@ function ultraschall.GetAllSelectedTracks()
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, trackstring, selection, unselect, select, get</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
 --returns a trackstring with all selected tracks, as well as a trackstring with unselected tracks
@@ -27539,10 +27539,10 @@ function ultraschall.GetMediaItemsFromClipboard()
   <chapter_context>
     Clipboard Functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>copy and paste, clipboard, mediaitems, statechunk, mediaitemstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local trackstring_old=ultraschall.GetAllSelectedTracks()
   local Aoldmarker=reaper.GetCursorPosition()
@@ -27586,10 +27586,10 @@ function ultraschall.GetAllMediaItemsFromTrack(tracknumber)
     MediaItem Management
     Get MediaItems
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, track, get, item, mediaitem, statechunk, state, chunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 --  tracknumber=tonumber(tracknumber) 
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetAllMediaItemsFromTrack","tracknumber", "must be an integer", -1) return -1 end
@@ -27643,10 +27643,10 @@ function ultraschall.SetItemsLockState(MediaItemArray, lockstate)
     MediaItem Management
     Manipulate
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, track, set, item, mediaitem, lock</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   if type(lockstate)~="boolean" then ultraschall.AddErrorMessage("SetItemsLockState", "lockstate", "Must be a boolean.", -1) return false end
@@ -27690,10 +27690,10 @@ function ultraschall.AddLockStateToMediaItemStateChunk(MediaItemStateChunk, lock
     MediaItem Management
     Manipulate
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, track, set, item, mediaitem, statechunk, state, chunk, lock</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(lockstate)~="boolean" then ultraschall.AddErrorMessage("AddLockStateToMediaItemStateChunk", "lockstate", "Must be a boolean.", -1) return -1 end
   if ultraschall.IsValidMediaItemStateChunk(MediaItemStateChunk)==false then ultraschall.AddErrorMessage("AddLockStateToMediaItemStateChunk", "MediaItemStateChunk", "Must be a valid MediaItemStateChunk.", -2) return -1 end
@@ -27732,10 +27732,10 @@ function ultraschall.AddLockStateTo_MediaItemStateChunkArray(MediaItemStateChunk
     MediaItem Management
     Manipulate
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, track, set, item, mediaitem, statechunk, state, chunk, lock</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.IsValidMediaItemStateChunkArray(MediaItemStateChunkArray)==false then ultraschall.AddErrorMessage("AddLockStateTo_MediaItemStateChunkArray", "MediaItemStateChunkArray", "must be a valid MediaItemStateChunkArray", -1) return -1 end
   if type(lockstate)~="boolean" then ultraschall.AddErrorMessage("AddLockStateTo_MediaItemStateChunkArray", "lockstate", "must be a boolean", -2) return -1 end
@@ -27782,10 +27782,10 @@ function ultraschall.ApplyStateChunkToItems(MediaItemStateChunkArray, undostate)
     MediaItem Management
     Manipulate
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, track, set, item, mediaitem, statechunk, state, chunk, apply</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.CheckMediaItemStateChunkArray(MediaItemStateChunkArray)==false then ultraschall.AddErrorMessage("ApplyStateChunkToItems","MediaItemStateChunkArray", "must be a valid MediaItemStateChunkArray", -1) return false end
   if type(undostate)~="boolean" then ultraschall.AddErrorMessage("ApplyStateChunkToItems","undostate", "must be a boolean", -2) return false end
@@ -27836,10 +27836,10 @@ function ultraschall.GetAllLockedItemsFromMediaItemArray(MediaItemArray)
     MediaItem Management
     Get MediaItems
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, track, set, item, mediaitem, selection, lock, lockstate, locked state, unlock, unlocked state</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 --lockedstate = true return only locked items
 --            = false return only unlocked items
@@ -27887,10 +27887,10 @@ function ultraschall.GetMediaItemStateChunksFromMediaItemArray(MediaItemArray)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, track, set, item, mediaitem, selection, chunk, statechunk, state chunk, state</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("GetMediaItemStateChunksFromMediaItemArray", "MediaItemArray", "No valid MediaItemArray", -1) return -1 end
   local MediaItemStateChunkArray={}
@@ -27961,10 +27961,10 @@ function ultraschall.GetTrackHWOut(tracknumber,idx)
     Track Management
     Hardware Out
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, get, hwout, routing, phase, source, mute, pan, volume, post, pre, fader, channel, automation</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 -- HWOUT %d %d %.14f %.14f %d %d %d %.14f:U %d
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackHWOut", "tracknumber", "must be an integer", -1) return -1 end
@@ -28077,10 +28077,10 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber,idx)
     Track Management
     Send/Receive-Routing
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, get, send, receive, phase, source, mute, pan, volume, post, pre, fader, channel, automation, midi</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 --AUXRECV %d %d %.14f %.14f %d %d %d %d %d %.14f:U %d %d '%s'
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackAUXSendReceives", "tracknumber", "must be an integer", -1) return -1 end
@@ -28140,10 +28140,10 @@ function ultraschall.CountTrackHWOuts(tracknumber)
     Track Management
     Hardware Out
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, get, count, hwout, routing</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("CountTrackHWOuts", "tracknumber", "must be an integer", -1) return -1 end
   if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("CountTrackHWOuts", "tracknumber", "no such track", -2) return -1 end
@@ -28188,10 +28188,10 @@ function ultraschall.CountTrackAUXSendReceives(tracknumber)
     Track Management
     Send/Receive-Routing
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, get, count, send, receive, routing</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("CountTrackAUXSendReceives", "tracknumber", "must be an integer", -1) return -1 end
   if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("CountTrackAUXSendReceives", "tracknumber", "no such track", -2) return -1 end
@@ -28263,10 +28263,10 @@ function ultraschall.AddTrackHWOut(tracknumber, a, b, c, d, e, f, g, h, i, undo)
     Track Management
     Hardware Out
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, add, hwout, routing, phase, source, mute, pan, volume, post, pre, fader, channel, automation</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 --integer tracknumber, integer outputchannel, integer post_pre_fader, number volume, number pan, 
 --integer mute, integer phase, integer source, number unknown, integer automationmode, boolean undo
@@ -28393,10 +28393,10 @@ function ultraschall.AddTrackAUXSendReceives(tracknumber, a, b, c, d, e, f, g, h
     Track Management
     Send/Receive-Routing
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, add, send, receive, phase, source, mute, pan, volume, post, pre, fader, channel, automation, midi</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 -- integer tracknumber, integer recv_tracknumber, integer post_pre_fader, number volume, 
 --                      number pan, integer mute, integer mono_stereo, integer phase, 
@@ -28469,10 +28469,10 @@ function ultraschall.DeleteTrackHWOut(tracknumber,idx,undo)
     Track Management
     Hardware Out
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, delete, hwout, routing</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("DeleteTrackHWOut", "tracknumber", "must be an integer", -1) return false end
   if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("DeleteTrackHWOut", "tracknumber", "no such track", -2) return false end
@@ -28532,10 +28532,10 @@ function ultraschall.DeleteTrackAUXSendReceives(tracknumber,idx,undo)
     Track Management
     Send/Receive-Routing
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, delete, send, receive, routing</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("DeleteTrackAUXSendReceives", "tracknumber", "must be an integer", -1) return false end
   if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("DeleteTrackAUXSendReceives", "tracknumber", "no such track", -2) return false end
@@ -28626,10 +28626,10 @@ function ultraschall.SetTrackHWOut(tracknumber, idx, a, b, c, d, e, f, g, h, i, 
     Track Management
     Hardware Out
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, hwout, routing, phase, source, mute, pan, volume, post, pre, fader, channel, automation</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("SetTrackHWOut", "tracknumber", "must be an integer", -1) return false end
   if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("SetTrackHWOut", "tracknumber", "no such track", -2) return false end
@@ -28769,10 +28769,10 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, a, b, c, d, e, f,
     Track Management
     Send/Receive-Routing
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, track, set, send, receive, phase, source, mute, pan, volume, post, pre, fader, channel, automation, midi</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("SetTrackAUXSendReceives", "tracknumber", "must be an integer", -1) return false end
   if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("SetTrackAUXSendReceives", "tracknumber", "no such track", -2) return false end
@@ -28857,10 +28857,10 @@ function ultraschall.GetReaperWindowPosition_Left()
     Reaper Element Positions
     Reaper Window
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>reaper, window, left, position, pixels</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   local temp,Technopop=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
@@ -28902,10 +28902,10 @@ function ultraschall.GetReaperWindowPosition_Right()
     Reaper Element Positions
     Reaper Window
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>reaper, window, right, position, pixels</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local temp,Technopop=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
 
@@ -28948,10 +28948,10 @@ function ultraschall.ConvertScreen2ClientXCoordinate_ReaperWindow(Xscreencoordin
     Reaper Element Positions
     Reaper Window
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>reaper, window, position, pixels, convert, screen, client</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(Xscreencoordinate)~="integer" then ultraschall.AddErrorMessage("ConvertScreen2ClientXCoordinate_ReaperWindow", "Xscreencoordinate", "must be an integer", -1) return -1 end
   local A=ultraschall.GetReaperWindowPosition_Left()
@@ -28986,10 +28986,10 @@ function ultraschall.ConvertClient2ScreenXCoordinate_ReaperWindow(Xclientcoordin
     Reaper Element Positions
     Reaper Window
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>reaper, window, position, pixels, convert, screen, client</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(Xclientcoordinate)~="integer" then ultraschall.AddErrorMessage("ConvertClient2ScreenXCoordinate_ReaperWindow", "Xclientcoordinate", "must be an integer", -1) return -1 end
   local A=ultraschall.GetReaperWindowPosition_Left()
@@ -29028,10 +29028,10 @@ function ultraschall.SplitStringAtLineFeedToArray(unsplitstring)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>string, split, linefeed, tabs, control characters, array</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local array={}
   local i=1
@@ -29084,10 +29084,10 @@ function ultraschall.GetProject_CountMarkersAndRegions(projectfilenamewithpath)
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, count, marker, regions</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if reaper.file_exists(projectfilenamewithpath)==false then ultraschall.AddErrorMessage("GetProject_CountMarkersAndRegions", "projectfilename_with_path", "Projectfile does not exist", -1)  return -1 end
   local A=ultraschall.ReadValueFromFile(projectfilenamewithpath,"MARKER", false)
@@ -29133,10 +29133,10 @@ function ultraschall.GetProject_GetMarker(projectfilenamewithpath, idx)
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, marker, shown number, name, color, position</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if reaper.file_exists(projectfilenamewithpath)==false then ultraschall.AddErrorMessage("GetProject_GetMarker", "projectfilenamewithpath", "Projectfile does not exist", -1)  return false end
   idx=tonumber(idx)
@@ -29196,10 +29196,10 @@ function ultraschall.GetProject_GetRegion(projectfilenamewithpath, idx)
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, region, shown number, name, color, position</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if reaper.file_exists(projectfilenamewithpath)==false then ultraschall.AddErrorMessage("GetProject_GetRegion", "projectfilenamewithpath", "Projectfile does not exist", -1)  return false end
   idx=tonumber(idx)
@@ -29265,10 +29265,10 @@ function ultraschall.CountItemsInTrackStateChunk(trackstatechunk)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, tracks, media, item, statechunk, chunk, get</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   if type(trackstatechunk)~="string" then ultraschall.AddErrorMessage("CountItemsInTrackStateChunk", "trackstatechunk", "only trackstatechunk is allowed", -1) return -1 end
@@ -29312,10 +29312,10 @@ function ultraschall.GetItemStateChunkFromTrackStateChunk(trackstatechunk, idx)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, tracks, media, item, statechunk, chunk, get</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(trackstatechunk)~="string" then ultraschall.AddErrorMessage("GetItemStateChunkFromTrackStateChunk", "trackstatechunk", "only trackstatechunk is allowed", -1) return false end
   local nums=ultraschall.CountItemsInTrackStateChunk(trackstatechunk)
@@ -29367,10 +29367,10 @@ function ultraschall.AddMediaItemStateChunk_To_TrackStateChunk(trackstatechunk, 
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, tracks, media, item, statechunk, chunk, add</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(trackstatechunk)~="string" then ultraschall.AddErrorMessage("AddMediaItemStateChunk_To_TrackStateChunk", "trackstatechunk", "only trackstatechunk is allowed, not "..type(trackstatechunk), -1) return nil end
   if type(mediaitemstatechunk)~="string" then ultraschall.AddErrorMessage("AddMediaItemStateChunk_To_TrackStateChunk", "mediaitemstatechunk", "only mediaitemstatechunk is allowed, not "..type(mediaitemstatechunk), -2) return nil end
@@ -29408,10 +29408,10 @@ function ultraschall.RemoveMediaItem_TrackStateChunk(trackstatechunk, idx)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, tracks, media, item, statechunk, chunk, delete</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(trackstatechunk)~="string" then ultraschall.AddErrorMessage("RemoveMediaItem_TrackStateChunk", "trackstatechunk", "only trackstatechunk is allowed", -1) return false end
   local nums=ultraschall.CountItemsInTrackStateChunk(trackstatechunk)
@@ -29463,10 +29463,10 @@ function ultraschall.CountCharacterInString(checkstring, character)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, string, character, check, find, count, position, numbers</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(checkstring)~="string" then ultraschall.AddErrorMessage("CountCharacterInString", "checkstring", "only strings allowed as parameter", -1) return -1 end
   if type(character)~="string" or character:len()>1 then ultraschall.AddErrorMessage("CountCharacterInString", "character", "only a string with one(!) character allowed", -2) return -1 end
@@ -29505,10 +29505,10 @@ function ultraschall.RemoveMediaItemByIGUID_TrackStateChunk(trackstatechunk, IGU
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, tracks, media, item, statechunk, chunk, delete, iguid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(trackstatechunk)~="string" then ultraschall.AddErrorMessage("RemoveMediaItemByIGUID_TrackStateChunk", "trackstatechunk", "only trackstatechunk is allowed", -1) return false end
   if trackstatechunk:match("<TRACK.*>")==nil then ultraschall.AddErrorMessage("RemoveMediaItemByIGUID_TrackStateChunk", "trackstatechunk", "no valid trackstatechunk", -2) return false end
@@ -29556,10 +29556,10 @@ function ultraschall.RemoveMediaItemByGUID_TrackStateChunk(trackstatechunk, GUID
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, tracks, media, item, statechunk, chunk, delete, guid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(trackstatechunk)~="string" then ultraschall.AddErrorMessage("RemoveMediaItemByGUID_TrackStateChunk", "trackstatechunk", "only trackstatechunk is allowed", -1) return false end
   if trackstatechunk:match("<TRACK.*>")==nil then ultraschall.AddErrorMessage("RemoveMediaItemByGUID_TrackStateChunk", "trackstatechunk", "no valid trackstatechunk", -2) return false end
@@ -29611,10 +29611,10 @@ function ultraschall.OnlyTracksInBothTrackstrings(trackstring1, trackstring2)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, tracks, trackstring, sort, order</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(trackstring1)~="string" then ultraschall.AddErrorMessage("OnlyTracksInBothTrackstrings", "trackstring1", "not a valid trackstring", -1) return -1 end
   if type(trackstring2)~="string" then ultraschall.AddErrorMessage("OnlyTracksInBothTrackstrings", "trackstring2", "not a valid trackstring", -2)return -1 end
@@ -29658,10 +29658,10 @@ function ultraschall.OnlyTracksInOneTrackstring(trackstring1, trackstring2)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, tracks, trackstring, sort, order</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(trackstring1)~="string" then ultraschall.AddErrorMessage("OnlyTracksInOneTrackstring", "trackstring1", "not a valid trackstring", -1) return -1 end
   if type(trackstring2)~="string" then ultraschall.AddErrorMessage("OnlyTracksInOneTrackstring", "trackstring2", "not a valid trackstring", -2) return -1 end
@@ -29715,10 +29715,10 @@ function ultraschall.SetMediaItemStateChunk_in_TrackStateChunk(trackstatechunk, 
     MediaItem Management
     Set MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, chunk, set</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(trackstatechunk)~="string" then ultraschall.AddErrorMessage("SetMediaItemStateChunk_in_TrackStateChunk", "trackstatechunk", "only trackstatechunk is allowed, not "..type(trackstatechunk), -1) return false end
   if type(mediaitemstatechunk)~="string" then ultraschall.AddErrorMessage("SetMediaItemStateChunk_in_TrackStateChunk", "mediaitemstatechunk", "only mediaitemstatechunk is allowed, not "..type(mediaitemstatechunk), -2) return false end
@@ -29780,10 +29780,10 @@ function ultraschall.GetSelectedMediaItemsAtPosition(position, trackstring)
     MediaItem Management
     Selected Items
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, get, selected, selection</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("GetSelectedMediaItemsAtPosition", "position", "must be a number", -1) return -1 end
   local retval, trackstring, trackstringarray, number_of_entries = ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
@@ -29830,10 +29830,10 @@ function ultraschall.GetSelectedMediaItemsBetween(startposition, endposition, tr
     MediaItem Management
     Selected Items
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, get, selected, selection, startposition, endposition</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(inside)~="boolean" then ultraschall.AddErrorMessage("GetSelectedMediaItemsBetween", "inside", "must be either true or false", -1) return -1 end
   if type(startposition)~="number" then ultraschall.AddErrorMessage("GetSelectedMediaItemsBetween", "startposition", "must be a number", -2) return -1 end
@@ -29879,10 +29879,10 @@ function ultraschall.DeselectMediaItems_MediaItemArray(MediaItemArray)
     MediaItem Management
     Selected Items
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, selected, selection, deselect, unselect</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(MediaItemArray)~="table" then ultraschall.AddErrorMessage("DeselectMediaItems_MediaItemArray", "MediaItemArray", "must be an array with MediaItem-objects", -1) return -1 end
   local count=1
@@ -29920,10 +29920,10 @@ function ultraschall.SelectMediaItems_MediaItemArray(MediaItemArray)
     MediaItem Management
     Selected Items
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, selected, selection, select</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(MediaItemArray)~="table" then ultraschall.AddErrorMessage("SelectMediaItems_MediaItemArray", "MediaItemArray", "must be an array with MediaItem-objects", -1) return -1 end
   local count=1
@@ -29963,10 +29963,10 @@ function ultraschall.GetAllMediaItemsFromTrackStateChunk(trackstatechunk)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, get, trackstatechunk, mediaitemstatechunk, mediaitemstatechunkarray</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(trackstatechunk)~="string" or trackstatechunk:match("<TRACK.*>")==nil then ultraschall.AddErrorMessage("GetAllMediaItemsFromTrackStateChunk", "trackstatechunk", "not a valid trackstatechunk", -1) return -1 end
   local A=trackstatechunk:match("<ITEM.*>")
@@ -30007,10 +30007,10 @@ function ultraschall.CreateAllTracksTrackString()
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, tracks, trackstring</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   local trackstring=""
@@ -30067,10 +30067,10 @@ function ultraschall.GetEnvelopePoint(Tracknumber, EnvelopeName, idx)
     Envelope Management
     Get Envelope
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, get, db, time, value, envelopepointobject</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if tonumber(Tracknumber)==nil then ultraschall.AddErrorMessage("GetEnvelopePoint", "track", "invalid tracknumber", -1) return -1 end
   local Tracknumber=tonumber(Tracknumber)
@@ -30129,10 +30129,10 @@ function ultraschall.GetClosestEnvelopePointIDX_ByTime(Tracknumber, EnvelopeName
     Envelope Management
     Get Envelope
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, get, idx, closest, previous, following, envelopepointobject</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if tonumber(Tracknumber)==nil then ultraschall.AddErrorMessage("GetClosestEnvelopePointIDX_ByTime", "Tracknumber", "invalid tracknumber", -1) return -1 end
   Tracknumber=tonumber(Tracknumber)
@@ -30192,10 +30192,10 @@ function ultraschall.GetEnvelopePointIDX_Between(Tracknumber, EnvelopeName, star
     Envelope Management
     Get Envelope
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, get, idx, selection, envelopepointobject, envelopepointarray</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if tonumber(Tracknumber)==nil then ultraschall.AddErrorMessage("GetEnvelopePointIDX_Between", "Tracknumber", "invalid tracknumber", -1) return -1 end
   Tracknumber=tonumber(Tracknumber)
@@ -30261,10 +30261,10 @@ function ultraschall.CheckEnvelopePointObject(EnvelopePointObject)
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, check, envelopepointobject</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   if EnvelopePointObject==nil then ultraschall.AddErrorMessage("CheckEnvelopePointObject","EnvelopePointObject", "no nil allowed", -1) return false end
@@ -30303,10 +30303,10 @@ function ultraschall.IsValidEnvelopePointObject(EnvelopePointObject)
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, check, envelopepointobject</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local retval, errcode, functionname, parmname, errormessage, lastreadtime, err_creation_date, err_creation_timestamp, errorcounter0 = ultraschall.GetLastErrorMessage()
   local A=ultraschall.CheckEnvelopePointObject(EnvelopePointObject)
@@ -30342,10 +30342,10 @@ function ultraschall.SetEnvelopePoints_EnvelopePointObject(EnvelopePointObject, 
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, set, envelopepointobject</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(sort_in)~="boolean" then ultraschall.AddErrorMessage("SetEnvelopePoints_EnvelopePointObject","sort_in", "only boolean allowed", -1) return false end
   if ultraschall.CheckEnvelopePointObject(EnvelopePointObject)==false then ultraschall.AddErrorMessage("SetEnvelopePoints_EnvelopePointObject","EnvelopePointObject", "not a valid EnvelopePointObject", -2) return false end
@@ -30378,10 +30378,10 @@ function ultraschall.SetEnvelopePoints_EnvelopePointArray(EnvelopePointArray, so
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, set, envelopepointobject, envelopepointarray</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(sort_in)~="boolean" then ultraschall.AddErrorMessage("SetEnvelopePoints_EnvelopePointArray","sort_in", "only boolean allowed", -1) return false end
   if type(EnvelopePointArray)~="table" then ultraschall.AddErrorMessage("SetEnvelopePoints_EnvelopePointArray","EnvelopePointArray", "not an EnvelopePointArray", -2) return false end
@@ -30422,10 +30422,10 @@ function ultraschall.DeleteEnvelopePoints_EnvelopePointObject(EnvelopePointObjec
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, delete, envelopepointobject</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.CheckEnvelopePointObject(EnvelopePointObject)==false then ultraschall.AddErrorMessage("DeleteEnvelopePoints_EnvelopePointObject","EnvelopePointObject", "not a valid EnvelopePointObject", -1) return false end
   BR_Envelope=reaper.BR_EnvAlloc(EnvelopePointObject[1], true)
@@ -30459,10 +30459,10 @@ function ultraschall.DeleteEnvelopePoints_EnvelopePointArray(EnvelopePointArray)
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, delete, envelopepointobject, envelopepointarray</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(EnvelopePointArray)~="table" then ultraschall.AddErrorMessage("DeleteEnvelopePoints_EnvelopePointArray","EnvelopePointArray", "not an EnvelopePointArray", -1) return false end
   local count=1
@@ -30507,10 +30507,10 @@ function ultraschall.AddEnvelopePoints_EnvelopePointObject(EnvelopePointObject, 
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, add, envelopepointobject</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(sort_in)~="boolean" then ultraschall.AddErrorMessage("AddEnvelopePoints_EnvelopePointObject","sort_in", "only boolean allowed", -1) return false end
   if ultraschall.CheckEnvelopePointObject(EnvelopePointObject)==false then ultraschall.AddErrorMessage("AddEnvelopePoints_EnvelopePointObject","EnvelopePointObject", "not a valid EnvelopePointObject", -2) return false end
@@ -30542,10 +30542,10 @@ function ultraschall.AddEnvelopePoints_EnvelopePointArray(EnvelopePointObjectArr
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, add, envelopepointobject, envelopepointarray</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(sort_in)~="boolean" then ultraschall.AddErrorMessage("AddEnvelopePoints_EnvelopePointArray","sort_in", "only boolean allowed", -1) return false end
   count=1
@@ -30605,10 +30605,10 @@ function ultraschall.CreateEnvelopePointObject(TrackEnvelope, idx, time, value, 
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, create, db, time, value, envelopepointobject</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   if reaper.ValidatePtr(TrackEnvelope, "TrackEnvelope*")==false then ultraschall.AddErrorMessage("CreateEnvelopePointObject", "TrackEnvelope", "not a valid Trackenvelope.", -1) return false end
@@ -30657,10 +30657,10 @@ function ultraschall.CountEnvelopePoints(Tracknumber, EnvelopeName)
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, count</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if tonumber(Tracknumber)==nil then ultraschall.AddErrorMessage("CountEnvelopePoints", "track", "invalid tracknumber", -1) return -1 end
   local Tracknumber=tonumber(Tracknumber)
@@ -30707,10 +30707,10 @@ function ultraschall.WriteValueToFile_Insert(filename_with_path, linenumber, val
     File Management
     Write Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement,export,write,file,textfile,insert</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_Insert","filename_with_path", "nil not allowed as filename", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_Insert","filename_with_path", "file does not exist", -2) return -1 end
@@ -30753,10 +30753,10 @@ function ultraschall.WriteValueToFile_Replace(filename_with_path, startlinenumbe
     File Management
     Write Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement,export,write,file,textfile,replace</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_Replace","filename_with_path", "nil not allowed as filename", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_Replace","filename_with_path", "file does not exist", -2) return -1 end
@@ -30795,10 +30795,10 @@ function ultraschall.GetTrackLength(Tracknumber)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement,count,length,items,end</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if tonumber(Tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackLength", "Tracknumber", "invalid tracknumber", -1) return -1 end
   local Tracknumber=tonumber(Tracknumber)
@@ -30844,10 +30844,10 @@ function ultraschall.GetMediaItemArrayLength(MediaItemArray)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>itemmanagement,count,length,items,end,mediaitem,item</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local retval, count, retMediaItemArray = ultraschall.CheckMediaItemArray(MediaItemArray)
   if retval==false then ultraschall.AddErrorMessage("GetMediaItemArrayLength", "MediaItemArray", "no valid MediaItemArray", -1) return -1 end  local start=reaper.GetMediaItemInfo_Value(retMediaItemArray[1], "D_POSITION")
@@ -30890,10 +30890,10 @@ function ultraschall.GetMediaItemStateChunkArrayLength(MediaItemStateChunkArray)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>itemmanagement,count,length,items,end, mediaitem, statechunk,item</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local retval, count, retMediaItemArray = ultraschall.CheckMediaItemStateChunkArray(MediaItemStateChunkArray)
   if retval==false then ultraschall.AddErrorMessage("GetMediaItemStateChunkArrayLength", "MediaItemStateChunkArray", "no valid MediaItemStateChunkArray", -1) return -1 end
@@ -30942,10 +30942,10 @@ function ultraschall.ReadBinaryFile_Offset(input_filename_with_path, startoffset
     File Management
     Read Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, read file, binary</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   local temp=""
@@ -30996,10 +30996,10 @@ function ultraschall.GetLengthOfFile(filename_with_path)
     File Management
     File Analysis
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement,file,length,bytes,count</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if filename_with_path==nil then ultraschall.AddErrorMessage("GetLengthOfFile", "filename_with_path", "nil not allowed as filename", -1) return false end
   local numberofbytes
@@ -31043,10 +31043,10 @@ function ultraschall.WriteValueToFile_InsertBinary(filename_with_path, byteposit
     File Management
     Write Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement,export,write,file,textfile,insert,binary</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","filename_with_path", "nil not allowed as filename", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","filename_with_path", "file does not exist", -2) return -1 end
@@ -31089,10 +31089,10 @@ function ultraschall.WriteValueToFile_ReplaceBinary(filename_with_path, startbyt
     File Management
     Write Files
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement,export,write,file,textfile,replace,binary</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","filename_with_path", "nil not allowed as filename", -1) return -1 end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","filename_with_path", "file does not exist", -2) return -1 end
@@ -31138,10 +31138,10 @@ function ultraschall.SecondsToTimeString_hh_mm_ss_mss(time)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>timestring, converter, seconds, string</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(time)~="number" then ultraschall.AddErrorMessage("SecondsToTimeString_hh_mm_ss_mss","time", "must be a string", -1) return -1 end
   if time<0 then ultraschall.AddErrorMessage("SecondsToTimeString_hh_mm_ss_mss","time", "must be bigger or equal 0", -2) return -1 end
@@ -31184,10 +31184,10 @@ function ultraschall.TimeStringToSeconds_hh_mm_ss_mss(timestring)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>timestring, converter, seconds, string</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 -- converts timestring to seconds
 -- expects hh:mm:ss.mss as time, i.e. 12:23:34.456 or it returns -1 as result
@@ -31243,10 +31243,10 @@ function ultraschall.ParseMarkerString(markerstring, strict)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, import, parse</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 -- splits the entries in markerstring into timeposition and name
 -- returns the number of entries in markerstring, as well as a table with all entries in them
@@ -31319,10 +31319,10 @@ function ultraschall.RenumerateMarkers(colorvalue, startingnumber)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, numerate, shown number</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 -- renumerates the shown number of markers(no regions!) that have 
 -- color "colorvalue", beginning with "startingnumber"
@@ -31378,10 +31378,10 @@ function ultraschall.SetTrackStateChunk_Tracknumber(tracknumber, trackstatechunk
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, trackstatechunk, set</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   tracknumber=tonumber(tracknumber)
@@ -31426,10 +31426,10 @@ function ultraschall.SetEnvelopeHeight(Height, Compacted, TrackEnvelope, TrackEn
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, trackenvelopestatechunk, set, height, compactible</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local str, retval, newstr
   if type(Compacted)~="boolean" and Compacted~=nil then ultraschall.AddErrorMessage("SetEnvelopeHeight","Compacted", "only true, false or nil allowed", -1) return false end
@@ -31497,10 +31497,10 @@ function ultraschall.GetAllTrackEnvelopes()
     Envelope Management
     Get Envelope
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, trackenvelope, get, envelope</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   local TrackEnvelopeArray={}
@@ -31568,10 +31568,10 @@ function ultraschall.CountPatternInString(sourcestring, searchstring, non_case_s
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, string, character, check, find, count, position, numbers</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if type(sourcestring)~="string" then ultraschall.AddErrorMessage("CountPatternInString", "sourcestring", "must be a string", -1) return -1 end
@@ -31627,10 +31627,10 @@ function ultraschall.CountNormalMarkers_NumGap()
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, marker, count, gap, position</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local nix=""
   a,nummarkers,b=reaper.CountProjectMarkers(0)
@@ -31673,10 +31673,10 @@ function ultraschall.CenterViewToCursor(cursortype, position)
   <chapter_context>
     Navigation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>navigation, center, cursor, mouse, edit, play</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
     if math.type(cursortype)~="integer" then ultraschall.AddErrorMessage("CenterViewToCursor","cursortype", "only integer allowed", -1) return end
     if position~=nil and type(position)~="number" then ultraschall.AddErrorMessage("CenterViewToCursor","position", "only numbers allowed", -3) return end
@@ -31852,10 +31852,10 @@ function toboolean(value)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, string, convert, boolean</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
     if type(value)=="boolean" then return value end
     if value==nil then ultraschall.AddErrorMessage("toboolean","value", "must contain either true or false, nothing else. Spaces and tabs are allowed.", -1) return end
@@ -31898,10 +31898,10 @@ function ultraschall.SetReaperWindowToSize(x,y)
     Reaper Element Positions
     Reaper Window
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>reaper, window, width, height, set</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if math.type(x)~="integer" then ultraschall.AddErrorMessage("SetReaperWindowToSize","x", "only integer-numbers are allowed", -1) return -1 end
   if math.type(y)~="integer" then ultraschall.AddErrorMessage("SetReaperWindowToSize","y", "only integer-numbers are allowed", -2) return -1 end
@@ -31935,10 +31935,10 @@ integer retval - -1 in case of error
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, string, url, open, browser</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 --  if url:match(".-(://)")==nil then return false end
   if type(url)~="string" then ultraschall.AddErrorMessage("OpenURL","url", "Must be a string.", -1) return -1 end
@@ -31985,10 +31985,10 @@ function ultraschall.IsMarkerAtPosition(position)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, get, marker, position</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(position)~="number" then ultraschall.AddErrorMessage("IsMarkerAtPosition","position", "only numbers are allowed", -1) return false end
   if position<0 then ultraschall.AddErrorMessage("IsMarkerAtPosition","position", "only positive numbers are allowed", -2) return false end
@@ -32043,10 +32043,10 @@ function ultraschall.IsRegionAtPosition(position)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, get, region, position</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(position)~="number" then ultraschall.AddErrorMessage("IsRegionAtPosition","position", "only numbers are allowed", -1) return false end
   if position<0 then ultraschall.AddErrorMessage("IsRegionAtPosition","position", "only positive numbers are allowed", -2) return false end
@@ -32098,10 +32098,10 @@ function ultraschall.GetMediafileAttributes(filename)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, get, position, length, num, channels, samplerate, filetype</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(filename)~="string" then ultraschall.AddErrorMessage("GetMediafileAttributes","filename", "must be a string", -1) return -1 end
   if reaper.file_exists(filename)==false then ultraschall.AddErrorMessage("GetMediafileAttributes","filename", "file does not exist", -2) return -1 end
@@ -32142,10 +32142,10 @@ function ultraschall.GetAllMediaItemGUIDs()
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, get, guid, mediaitem, item</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local GUID_Array={}
   for i=0, reaper.CountMediaItems(0)-1 do
@@ -32187,10 +32187,10 @@ function ultraschall.CountEntriesInTable_Main(table)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, count, entries, table, array, maintable</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(table)~="table" then ultraschall.AddErrorMessage("CountEntriesInTable_Main","table", "Must be a table!", -1) return -1 end
   local count=0
@@ -32249,10 +32249,10 @@ function ultraschall.CompareArrays(Array, CompareArray2)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, check, compare, table, array, indexed</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   if type(Array)~="table" then ultraschall.AddErrorMessage("CompareArrays","Array", "Must be a table!", -1) return nil end
@@ -32331,10 +32331,10 @@ function ultraschall.InsertMediaItemFromFile(filename, track, position, endposit
     MediaItem Management
     Insert
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, insert, mediaitem, position, mediafile, track</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -32409,10 +32409,10 @@ function ultraschall.GetOS()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, operating system, os, mac, win, osx, linux, other, bits</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- prepare variables
   local retval=reaper.GetOS()
@@ -32447,10 +32447,10 @@ function ultraschall.IsOS_Windows()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, operating system, os, check, win, bits</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- prepare variables
   local retval=reaper.GetOS()
@@ -32489,10 +32489,10 @@ function ultraschall.IsOS_Mac()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, check, operating system, os, mac, osx, bits</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- prepare variables
   local retval=reaper.GetOS()
@@ -32529,10 +32529,10 @@ function ultraschall.IsOS_Other()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, check, operating system, os, other, linux, bits</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- prepare variables
   local retval=reaper.GetOS()
@@ -32572,10 +32572,10 @@ function ultraschall.GetReaperAppVersion()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, appversion, reaper, version, bits</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- if exe-path and resource-path are the same, it is an portable-installation
   if reaper.GetExePath()==reaper.GetResourcePath() then portable=true else portable=false end
@@ -32614,10 +32614,10 @@ function ultraschall.GetItemSpectralConfig(itemidx, MediaItemStateChunk)
     MediaItem Management
     Spectral Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, get, item, spectral edit, fft, size</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(itemidx)~="integer" then ultraschall.AddErrorMessage("GetItemSpectralConfig","itemidx", "only integer allowed", -1) return -1 end
@@ -32673,10 +32673,10 @@ function ultraschall.SetItemSpectralConfig(itemidx, item_spectral_config, MediaI
     MediaItem Management
     Spectral Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, set, item, spectral edit, fft, size</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -32749,10 +32749,10 @@ function ultraschall.ConvertColorToGFX(r,g,b,a)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, convert, red, green, blue, alpha, color, gfx</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(r)~="integer" then ultraschall.AddErrorMessage("ConvertColorToGFX","r", "must be an integer", -1)  return end
@@ -32803,10 +32803,10 @@ function ultraschall.ConvertGFXToColor(r,g,b,a)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, convert, red, green, blue, alpha, color, gfx</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(r)~="number" then ultraschall.AddErrorMessage("ConvertGFXToColor","r", "must be a number", -1)  return nil end
@@ -32853,10 +32853,10 @@ function ultraschall.CountItemSpectralEdits(itemidx, MediaItemStateChunk)
     MediaItem Management
     Spectral Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, count, item, spectral edit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(itemidx)~="integer" then ultraschall.AddErrorMessage("CountItemSpectralEdits","itemidx", "only integer allowed", -1) return -1 end
@@ -32930,10 +32930,10 @@ function ultraschall.GetItemSpectralEdit(itemidx, spectralidx, MediaItemStateChu
     MediaItem Management
     Spectral Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, get, item, spectral edit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -33004,10 +33004,10 @@ function ultraschall.DeleteItemSpectralEdit(itemidx, spectralidx, MediaItemState
     MediaItem Management
     Spectral Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, delete, item, spectral edit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -33077,10 +33077,10 @@ function ultraschall.SetItemSpectralVisibilityState(item, state, statechunk)
     MediaItem Management
     Spectral Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, spectrogram, set</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(item)~="integer" then ultraschall.AddErrorMessage("SetItemSpectralVisibilityState", "item", "Must be an integer; -1, to use trackstatechunk.", -1) return -1 end
   if item~=-1 and reaper.ValidatePtr2(0, reaper.GetMediaItem(0,item-1), "MediaItem*")==false then ultraschall.AddErrorMessage("SetItemSpectralVisibilityState", "item", "Must be a valid MediaItem-idx or -1, when using ItemStateChunk).", -2) return -1 end
@@ -33156,10 +33156,10 @@ function ultraschall.SetItemSpectralEdit(item, spectralidx, start_pos, end_pos, 
     MediaItem Management
     Spectral Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, spectraledit, edit, set</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(item)~="integer" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "item", "Must be an integer; -1, to use trackstatechunk.", -1) return -1 end
   if item~=-1 and reaper.ValidatePtr2(0, reaper.GetMediaItem(0,item-1), "MediaItem*")==false then ultraschall.AddErrorMessage("SetItemSpectralEdit", "item", "Must be a valid MediaItem-idx or -1, when using ItemStateChunk).", -2) return -1 end
@@ -33239,10 +33239,10 @@ function ultraschall.LimitFractionOfFloat(number, length_of_fraction, roundit)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, limit, fraction, round, number</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(number)~="number" then ultraschall.AddErrorMessage("LimitFractionOfFloat", "number", "must be a number", -1) return end
   if math.type(length_of_fraction)~="integer" then ultraschall.AddErrorMessage("LimitFractionOfFloat", "length_of_fraction", "must be an integer", -2) return end
@@ -33295,10 +33295,10 @@ function ultraschall.SearchStringInString(fullstring, searchstring, skipnested)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, search, string, nested</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -33366,10 +33366,10 @@ function ultraschall.GetAllEntriesFromTable(table)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, table, iterable, all entries, get</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(table)~="table" then ultraschall.AddErrorMessage("GetAllEntriesFromTable", "table", "must be a table", -1) return -1 end
@@ -33437,10 +33437,10 @@ function ultraschall.GetItemSourceFile_Take(MediaItem, take_nr)
     MediaItem Management
     Get MediaItem-Takes
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, track, get, item, mediaitem, take, pcmsource, filename</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")~=true then ultraschall.AddErrorMessage("GetItemSourceFile_Take", "MediaItem", "must be a MediaItem-object", -1) return nil end
@@ -33509,10 +33509,10 @@ function ultraschall.AddItemSpectralEdit(itemidx, start_pos, end_pos, gain, fade
     MediaItem Management
     Spectral Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, add, item, spectral edit</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(itemidx)~="integer" then ultraschall.AddErrorMessage("AddItemSpectralEdit", "itemidx", "must be an integer", -18) return false end
@@ -33583,10 +33583,10 @@ function ultraschall.APIExists(functionname)
     Developer
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, api, exists, function, variable, developer</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if ultraschall[functionname]~=nil then return true end
   return false
@@ -33618,10 +33618,10 @@ function ultraschall.CountDirectoriesAndFilesInPath(path)
     File Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, count, directory, file, path</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if type(path)~="string" then ultraschall.AddErrorMessage("CountDirectoriesAndFilesInPath", "path", "must be a string", -1) return -1 end
@@ -33676,10 +33676,10 @@ function ultraschall.GetAllFilesnamesInPath(path)
     File Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, get, filenames, file, path</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -33727,10 +33727,10 @@ function ultraschall.GetAllDirectoriesInPath(path)
     File Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, get, directory, file, path</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -33782,10 +33782,10 @@ function ultraschall.GetItemSpectralVisibilityState(itemidx, MediaItemStateChunk
     MediaItem Management
     Spectral Edit
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, get, item, spectral edit, spectogram, show</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(itemidx)~="integer" then ultraschall.AddErrorMessage("GetItemSpectralVisibilityState","itemidx", "only integer allowed", -1) return -1 end
@@ -33838,10 +33838,10 @@ function ultraschall.EnumProjects(idx)
     Project-Files
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, projectfiles, get, filename, project, reaproject, rendering, opened</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("EnumProjects","idx", "must be an integer", -1) return nil end
   if idx==0 then idx=-1
@@ -33890,10 +33890,10 @@ function ultraschall.DeleteProjExtState_Section(section)
     Metadata Management
     Extension States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>metadatamanagement, project, delete, extension, state, section</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(section)~="string" then ultraschall.AddErrorMessage("DeleteProjExtState_Section","section", "must be a string", -1) return -1 end
   if reaper.EnumProjExtState(0, section, 0)==false then ultraschall.AddErrorMessage("DeleteProjExtState_Section","section", "no key/values to delete", -2) return -1 end
@@ -33926,10 +33926,10 @@ function ultraschall.DeleteProjExtState_Key(section, key)
     Metadata Management
     Extension States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>metadatamanagement, project, delete, extension, state, key</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(section)~="string" then ultraschall.AddErrorMessage("DeleteProjExtState_Key","section", "must be a string", -1) return -1 end
   if type(key)~="string" then ultraschall.AddErrorMessage("DeleteProjExtState_Key","key", "must be a string", -1) return -2 end
@@ -33975,10 +33975,10 @@ function ultraschall.GetProjExtState_AllKeyValues(section)
     Metadata Management
     Extension States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>metadatamanagement, project, extension, state, get, all, key, values, section</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   if type(section)~="string" then ultraschall.AddErrorMessage("GetProjExtState_AllKeyValues","section", "must be a string", -1) return 0 end
@@ -34031,10 +34031,10 @@ function ultraschall.IsValidGuid(guid, strict)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, guid, check</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(guid)~="string" then ultraschall.AddErrorMessage("IsValidGuid","guid", "must be a string", -1) return false end
   if type(strict)~="boolean" then ultraschall.AddErrorMessage("IsValidGuid","strict", "must be a boolean", -2) return false end
@@ -34084,10 +34084,10 @@ function ultraschall.SetGuidExtState(guid, key, value, savelocation, overwrite, 
     Metadata Management
     Extension States(Guid)
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>metadatamanagement, project, extension, state, set, guid, key, values</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if ultraschall.IsValidGuid(guid, false)==false then ultraschall.AddErrorMessage("SetGuidExtState","guid", "must be a valid guid", -1) return -1 end
   if ultraschall.IsValidGuid(guid, false)==false then ultraschall.AddErrorMessage("SetGuidExtState","key", "must be a string", -2) return -1 end
@@ -34147,10 +34147,10 @@ function ultraschall.GetGuidExtState(guid, key, savelocation)
     Metadata Management
     Extension States(Guid)
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>metadatamanagement, project, extension, state, get, guid, key, values</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if ultraschall.IsValidGuid(guid, false)==false then ultraschall.AddErrorMessage("GetGuidExtState","guid", "must be a valid guid", -1) return -1 end
   if ultraschall.IsValidGuid(guid, false)==false then ultraschall.AddErrorMessage("GetGuidExtState","key", "must be a string", -2) return -1 end
@@ -34194,10 +34194,10 @@ function ultraschall.GetVZoom()
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, get, vertical, zoom, factor</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- prepare variables and check, whether config-variable vzoom2 is still a valid one
   local vzoom=reaper.SNM_GetIntConfigVar("vzoom2",-9)
@@ -34238,10 +34238,10 @@ function ultraschall.SetVZoom(vertical_zoom_factor)
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, set, vertical, zoom, factor</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(vertical_zoom_factor)~="integer" then ultraschall.AddErrorMessage("SetVZoom","vertical_zoom_factor", "Must be an integer", -1) return -1 end
@@ -34287,10 +34287,10 @@ function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, set, arrangeview, snapshot</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(slot)~="integer" then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","slot", "Must be an integer", -1) return -1 end
@@ -34356,10 +34356,10 @@ function ultraschall.IsValidArrangeviewSnapshot(slot)
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, check, arrangeview, snapshot</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]  
   -- check parameters
   if math.type(slot)~="integer" then ultraschall.AddErrorMessage("IsValidArrangeviewSnapshot","slot", "Must be an integer", -1) return false end
@@ -34413,10 +34413,10 @@ function ultraschall.RetrieveArrangeviewSnapshot(slot)
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, get, arrangeview, snapshot, startposition, endposition, verticalzoom, horizontal zoom</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(slot)~="integer" then ultraschall.AddErrorMessage("RetrieveArrangeviewSnapshot","slot", "Must be an integer", -1) return false end
@@ -34487,10 +34487,10 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, set, arrangeview, snapshot, startposition, endposition, verticalzoom, horizontalzoom</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(slot)~="integer" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","slot", "Must be an integer", -1) return false end
@@ -34560,10 +34560,10 @@ function ultraschall.SetBitfield(integer_bitfield, set_to, ...)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, bitfield, set, unset, toggle</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if math.type(integer_bitfield)~="integer" then ultraschall.AddErrorMessage("SetBitfield","integer_bitfield", "Must be an integer!", -1) return nil end
@@ -34620,10 +34620,10 @@ function ultraschall.PreventCreatingUndoPoint()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, undo, prevent, creation, undopoint</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   reaper.defer(ultraschall.Dummy)
 end
@@ -34657,10 +34657,10 @@ function ultraschall.SetIntConfigVar_Bitfield(configvar, set_to, ...)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, bitfield, set, unset, toggle, configvar</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local integer_bitfield=reaper.SNM_GetIntConfigVar(configvar, -22)
   local integer_bitfield2=reaper.SNM_GetIntConfigVar(configvar, -23)
@@ -34728,10 +34728,10 @@ function ultraschall.CountMarkersAndRegions()
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, count, marker, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local retval=reaper.CountProjectMarkers(0)
   local markercount=0
@@ -34772,10 +34772,10 @@ function ultraschall.GetLastMarkerPosition()
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, get, last, marker, position, markeridx</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local Markers=ultraschall.CountMarkersAndRegions()
   if Markers==0 then ultraschall.AddErrorMessage("GetLastMarkerPosition","", "No markers available in project!", -1) return -1 end
@@ -34816,10 +34816,10 @@ function ultraschall.GetLastRegion()
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, get, last, region, position, regionidx</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local Markers, Regions=ultraschall.CountMarkersAndRegions()
   local retval=reaper.CountProjectMarkers(0)
@@ -34862,10 +34862,10 @@ function ultraschall.GetLastTimeSigMarkerPosition()
     Markers
     Time Signature Markers
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, get, last, timesig, time signature, position, timesigidx, measure, beat</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   retval=reaper.CountTempoTimeSigMarkers(0)
   if retval==0 then ultraschall.AddErrorMessage("GetLastTimeSigMarkerPosition","", "No time-signature-markers available in project!", -1) return -1 end
@@ -34901,10 +34901,10 @@ function ultraschall.DeleteArrangeviewSnapshot(slot)
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, delete, arrangeview, snapshot, startposition, endposition, verticalzoom</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   return ultraschall.DeleteProjExtState_Section("Ultraschall", "ArrangeViewSnapShot_"..slot)
 end
@@ -34941,10 +34941,10 @@ function ultraschall.MakeCopyOfTable(table, seen, recursive) --copy an array
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, table, copy, true copy</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(table)~="table" and recursive==true then return table elseif type(table)~="table" then ultraschall.AddErrorMessage("MakeCopyOfTable","table", "Must be a table!", -1)  return nil end
   if seen and seen[table] then return seen[table] end
@@ -34998,10 +34998,10 @@ function ultraschall.ConvertStringToAscii_Array(string)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, convert, string, bytevalue, numerical representation</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(string)~="string" then ultraschall.AddErrorMessage("ConvertStringToAscii_Array","string", "Must be a string!", -1) return -1 end
   local Table={}
@@ -35047,10 +35047,10 @@ function ultraschall.CompareStringWithAsciiValues(string,...)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, check, compare, string, byte, bytevalues</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(string)~="string" then ultraschall.AddErrorMessage("CompareStringWithAsciiValues","string", "Must be a string!", -1) return -1 end  
   local length, Table=ultraschall.ConvertStringToAscii_Array(string)
@@ -35099,10 +35099,10 @@ function ultraschall.CheckForValidFileFormats(filename_with_path)
     File Management
     File Analysis
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, image, video, audio, fileformat, check</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
 
   -- check parameters
@@ -35188,10 +35188,10 @@ function ultraschall.InsertImageFile(filename_with_path, track, position, length
     MediaItem Management
     Insert
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, insert, mediaitem, position, mediafile, image, loop</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if filename_with_path==nil then ultraschall.AddErrorMessage("InsertImageFile","filename_with_path", "Must be a string!", -1) return false end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("InsertImageFile","filename_with_path", "File does not exist!", -2) return false end
@@ -35244,10 +35244,10 @@ function ultraschall.SetItemExtState(item, key, value, overwrite)
     Metadata Management
     Extension States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, set, extstate, item, guid, key, value, metadata</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
     if reaper.ValidatePtr2(0, item, "MediaItem*")==false then ultraschall.AddErrorMessage("SetItemExtState","item", "Must be a valid MediaItem!", -1) return false end
     if type(key)~="string" then ultraschall.AddErrorMessage("SetItemExtState","key", "Must be a string!", -2) return false end
@@ -35286,10 +35286,10 @@ function ultraschall.GetItemExtState(item, key)
     Metadata Management
     Extension States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, get, extstate, item, guid, key, value, metadata</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
     if reaper.ValidatePtr2(0, item, "MediaItem*")==false then ultraschall.AddErrorMessage("GetItemExtState","item", "Must be a valid MediaItem!", -1) return false end
     if type(key)~="string" then ultraschall.AddErrorMessage("GetItemExtState","key", "Must be a string!", -2) return false end
@@ -35328,10 +35328,10 @@ function ultraschall.SetTrackExtState(track, key, value, overwrite)
     Metadata Management
     Extension States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, set, extstate, track, guid, key, value, metadata</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
     if reaper.ValidatePtr2(0, track, "MediaTrack*")==false then ultraschall.AddErrorMessage("SetTrackExtState","track", "Must be a valid MediaTrack!", -1) return false end
     if type(key)~="string" then ultraschall.AddErrorMessage("SetTrackExtState","key", "Must be a string!", -2) return false end
@@ -35370,10 +35370,10 @@ function ultraschall.GetTrackExtState(track, key)
     Metadata Management
     Extension States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, get, extstate, track, guid, key, value, metadata</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
     if reaper.ValidatePtr2(0, item, "MediaTrack*")==false then ultraschall.AddErrorMessage("GetTrackExtState","track", "Must be a valid MediaTrack!", -1) return false end
     if type(key)~="string" then ultraschall.AddErrorMessage("GetTrackExtState","key", "Must be a string!", -2) return false end
@@ -35407,10 +35407,10 @@ function ultraschall.ReturnsMinusOneInCaseOfError_Arzala()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>returns, -1, in, case, of, error, arzala</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   return 1
 end
@@ -35440,10 +35440,10 @@ function ultraschall.CountLinesInString(String)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, count, lines, string</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(String)~="string" then ultraschall.AddErrorMessage("CountLinesInString","String", "Must be a string!", -1) return -1 end
   local Count=1
@@ -35479,10 +35479,10 @@ function ultraschall.SetIDEFontSize(fontsize)
     User Interface
     Miscellaneous
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>user interface, ide, fontsize, set</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if math.type(fontsize)~="integer" then ultraschall.AddErrorMessage("SetIDEFontSize","fontsize", "Must be an integer!", -1) return false end
   if fontsize<=-1 then ultraschall.AddErrorMessage("SetIDEFontSize","fontsize", "Must be bigger or equal 0!", -2) return false end
@@ -35511,10 +35511,10 @@ function ultraschall.GetIDEFontSize()
     User Interface
     Miscellaneous
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>user interface, ide, fontsize, get</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local A=reaper.SNM_GetIntConfigVar("edit_fontsize", -1)
   local B=reaper.SNM_GetIntConfigVar("edit_fontsize", -2)
@@ -35565,10 +35565,10 @@ function ultraschall.MB(msg,title,mbtype)
     User Interface
     Miscellaneous
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>user interface, user, interface, input, dialog, messagebox</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(msg)~="string" then ultraschall.AddErrorMessage("MB","msg", "Must be a string!", -1) return -1 end
   if type(title)~="string" then title="" end
@@ -35695,10 +35695,10 @@ function ultraschall.MoveMarkersTo(startposition, endposition, newposition)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, move, moveto, marker</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(startposition)~="number" then ultraschall.AddErrorMessage("MoveMarkersTo","startposition", "Must be a number!", -1) return false end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("MoveMarkersTo","endposition", "Must be a number!", -2) return false end
@@ -35751,10 +35751,10 @@ function ultraschall.MoveRegionsTo(startposition, endposition, newposition, part
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markermanagement, move, moveto, region</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(startposition)~="number" then ultraschall.AddErrorMessage("MoveRegionsTo","startposition", "Must be a number!", -1) return false end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("MoveRegionsTo","endposition", "Must be a number!", -2) return false end
@@ -35806,10 +35806,10 @@ function ultraschall.CreateValidTempFile(filename_with_path, create, suffix, ret
     File Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, create, temporary, file, filename</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("CreateValidTempFile","filename_with_path", "Must be a string!", -2) return nil end
   if type(create)~="boolean" then ultraschall.AddErrorMessage("CreateValidTempFile","create", "Must be boolean!", -3) return nil end
@@ -35870,10 +35870,10 @@ function ultraschall.CheckForChangedProjectTabs(update)
     Project-Files
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, projectfiles, check, projecttab, change, order, new, closed, close</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(update)~="boolean" then ultraschall.AddErrorMessage("CheckForChangedProjectTabs","update", "Must be a boolean!", -1) return false, -1 end
   local Count, Projects = ultraschall.GetProject_Tabs()
@@ -35975,10 +35975,10 @@ function ultraschall.GetAllSelectedMediaItems()
     MediaItem Management
     Selected Items
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, get, all, selected, selection</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- prepare variables
   local selitemcount=reaper.CountSelectedMediaItems(0)
@@ -36010,10 +36010,10 @@ function ultraschall.SetMediaItemsSelected_TimeSelection()
     MediaItem Management
     Selected Items
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, set, selected, item, mediaitem, timeselection</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   reaper.Main_OnCommand(40717,0)
 end
@@ -36044,10 +36044,10 @@ function ultraschall.GetParentTrack_MediaItem(MediaItem)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, get, parent, track, item, mediaitem, mediatrack</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("GetParentTrack_MediaItem","MediaItem", "Must be a MediaItem!", -1) return -1 end
   
@@ -36087,10 +36087,10 @@ function ultraschall.IsItemInTrack2(MediaItem, tracknumber)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, check, item, track</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("IsItemInTrack2","tracknumber", "Must be an integer!", -1) return end
@@ -36134,10 +36134,10 @@ function ultraschall.ReturnTypeOfReaperObject(object)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, check, type, reaper, object, project, track, item, take, envelope, pcmsource</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if reaper.ValidatePtr2(0, object, "ReaProject*")==true then return "ReaProject" end
   if reaper.ValidatePtr2(0, object, "MediaTrack*")==true then return "MediaTrack" end
@@ -36175,10 +36175,10 @@ function ultraschall.IsObjectValidReaperObject(object)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, check, type, reaper, object, project, track, item, take, envelope, pcmsource</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if reaper.ValidatePtr2(0, object, "ReaProject*")==true then return true, "ReaProject" end
   if reaper.ValidatePtr2(0, object, "MediaTrack*")==true then return true, "MediaTrack" end
@@ -36221,10 +36221,10 @@ function ultraschall.KeepTableEntriesOfType(worktable, keeptype)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, keep, alter, table, types</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if type(worktable)~="table" then ultraschall.AddErrorMessage("KeepTableEntriesOfType","worktable", "Must be a table!", -1) return end
@@ -36274,10 +36274,10 @@ function ultraschall.RemoveTableEntriesOfType(worktable, removetype)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, remove, alter, table, types</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if type(worktable)~="table" then ultraschall.AddErrorMessage("RemoveTableEntriesOfType","worktable", "Must be a table!", -1) return end
@@ -36335,10 +36335,10 @@ function ultraschall.IsItemInTrack3(MediaItem, trackstring)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, check, item, track, trackstring</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if type(trackstring)~="string" then ultraschall.AddErrorMessage("IsItemInTrack3","trackstring", "Must be a string!", -1) return end
@@ -36382,10 +36382,10 @@ function ultraschall.IsItemInTimerange(MediaItem, startposition, endposition, in
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, check, timerange, tracks, mediaitems</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if type(startposition)~="number" then ultraschall.AddErrorMessage("IsItemInTimerange","startposition", "Must be a number!", -1) return end
@@ -36442,10 +36442,10 @@ function ultraschall.OnlyItemsInTracksAndTimerange(MediaItemArray, trackstring, 
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, check, alter, timerange, tracks, mediaitem, mediaitemarray</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("OnlyItemsInTracksAndTimerange","MediaItemArray", "No valid MediaItemArray!", -1) return -1 end
@@ -36508,10 +36508,10 @@ function ultraschall.ApplyActionToMediaItem(MediaItem, actioncommandid, repeat_a
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, run, action, midi, main, midieditor, item, mediaitem</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("ApplyActionToMediaItem","MediaItem", "Must be a MediaItem!", -1) return false end
@@ -36569,10 +36569,10 @@ function ultraschall.ZoomVertical_MidiEditor(zoomamt, HWND)
   <chapter_context>
     MIDI Management
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>midimanagement, zoom, midieditor, vertically</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare correct zoom-actioncommandid
   if HWND==nil then HWND=reaper.MIDIEditor_GetActive() end
@@ -36614,10 +36614,10 @@ function ultraschall.ZoomHorizontal_MidiEditor(zoomamt, HWND)
   <chapter_context>
     MIDI Management
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>midimanagement, zoom, midieditor, horizontally</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare correct zoom-actioncommandid
   if HWND==nil then HWND=reaper.MIDIEditor_GetActive() end
@@ -36660,10 +36660,10 @@ function ultraschall.OpenItemInMidiEditor(MediaItem)
   <chapter_context>
     MIDI Management
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>midimanagement, open, item, midieditor</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("OpenItemInMidiEditor","MediaItem", "Must be a MediaItem!", -1) return false end
   ultraschall.ApplyActionToMediaItem(MediaItem, 40153, 1, false)
@@ -36703,10 +36703,10 @@ function ultraschall.ApplyActionToMediaItemArray(MediaItemArray, actioncommandid
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, run, action, midi, main, midieditor, item, mediaitemarray</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("ApplyActionToMediaItemArray","MediaItemArray", "No valid MediaItemArray!", -1) return false end
@@ -36759,10 +36759,10 @@ function ultraschall.ApplyActionToTrack(trackstring, actioncommandid)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, run, command, track</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("ApplyActionToTrack","trackstring", "Must be a valid trackstring!", -1) return false end
@@ -36806,10 +36806,10 @@ function ultraschall.GetAllMediaItemsInTimeSelection(trackstring, inside)
     MediaItem Management
     Get MediaItems
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, get, items, time, selection</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("GetAllMediaItemsInTimeSelection","trackstring", "Must be a valid trackstring!", -1) return -1 end
@@ -36873,10 +36873,10 @@ function ultraschall.NormalizeItems(MediaItemArray)
     MediaItem Management
     Manipulate
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, normalize, items</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("NormalizeItems","MediaItemArray", "No valid MediaItemArray!", -1) return -1 end
   ultraschall.ApplyActionToMediaItemArray(MediaItemArray, 40108, 1, false)
@@ -36912,10 +36912,10 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring)
     Project-Files
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, get, render, outputformat</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 --[[
 AIFF:     ZmZpY    12
@@ -36994,10 +36994,10 @@ function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity)
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, opus</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
@@ -37058,10 +37058,10 @@ function ultraschall.CreateRenderCFG_Opus2(Mode, Kbps, Complexity, channel_audio
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, opus, multichannel</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
@@ -37133,10 +37133,10 @@ function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_wi
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, audiocd, cd, image, burn cd</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes-for-AudioCD.ini"
@@ -37214,10 +37214,10 @@ function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, 
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, ogg</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
 --(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, ABR_KBPS_MIN, ABR_KBPS_MAX)
@@ -37281,10 +37281,10 @@ function ultraschall.CreateRenderCFG_DDP()
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, ddp</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   return "IHBkZA="
 end
@@ -37317,10 +37317,10 @@ function ultraschall.CreateRenderCFG_AIFF(bits)
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, aiff</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(bits)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AIFF", "bits", "must be an integer", -1) return nil end
   local renderstring="mZpY..AAA=="
@@ -37371,10 +37371,10 @@ function ultraschall.CreateRenderCFG_FLAC(Bitrate, EncSpeed)
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, flac</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(Bitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_FLAC", "Bitrate", "must be an integer", -1) return nil end
   if math.type(EncSpeed)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_FLAC", "EncSpeed", "must be an integer", -2) return nil end
@@ -37457,10 +37457,10 @@ function ultraschall.CreateRenderCFG_WAVPACK(Mode, Bitdepth, Writemarkers, Write
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, wavpack</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(Mode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WAVPACK", "Mode", "must be an integer", -1) return nil end
   if math.type(Bitdepth)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WAVPACK", "Bitdepth", "must be an integer", -2) return nil end
@@ -37548,10 +37548,10 @@ function ultraschall.CreateRenderCFG_WebMVideo(VIDKBPS, AUDKBPS, WIDTH, HEIGHT, 
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, webm</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
   if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_WebMVideo", "Ooops", "external render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
@@ -37639,7 +37639,7 @@ function ultraschall.SaveProjectAs(projectfilename_with_path, createsubdir, copy
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, save, saveas</tags>
 <//ApiDocBlocFunc>
@@ -37699,10 +37699,10 @@ function ultraschall.GetAllMediaItems()
     MediaItem Management
     Get MediaItems
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, get, all, mediaitems, mediaitemarray</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local MediaItemArray={}
   for i=0, reaper.CountMediaItems(0) do
@@ -37741,10 +37741,10 @@ function ultraschall.ChangeToActiveProject_ProjNr(TabNr)
     Project-Files
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, activate, project, tab</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(TabNr)~="integer" then ultraschall.AddErrorMessage("ChangeToActiveProject_ProjNr", "TabNr", "Must be an integer.", -1) return -1 end
   if TabNr>ultraschall.CountProjectTabs() or TabNr<1 then ultraschall.AddErrorMessage("ChangeToActiveProject_ProjNr", "TabNr", "No such Project available.", -2) return -1 end
@@ -37774,10 +37774,10 @@ function ultraschall.CreateRenderCFG_MP3MaxQuality()
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, mp3 high quality, mp3</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   return "bDNwbUABAAABAAAACgAAAP////8EAAAAQAEAAAAAAAA="
 end
@@ -37814,10 +37814,10 @@ function ultraschall.CreateRenderCFG_MP3VBR(quality, encoding_speed)
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, mp3 vbr, mp3</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "quality", "Must be an integer.", -1) return nil end
   if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "encoding_speed", "Must be an integer.", -2) return nil end
@@ -37894,10 +37894,10 @@ function ultraschall.CreateRenderCFG_MP3ABR(quality, encoding_speed)
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, mp3 abr, mp3</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "quality", "Must be an integer.", -1) return nil end
   if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "encoding_speed", "Must be an integer.", -2) return nil end
@@ -37992,10 +37992,10 @@ function ultraschall.CreateRenderCFG_MP3CBR(quality, encoding_speed)
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, mp3 cbr, mp3</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "quality", "Must be an integer.", -1) return nil end
   if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "encoding_speed", "Must be an integer.", -2) return nil end
@@ -38096,10 +38096,10 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
     Rendering of Project
     Creating Renderstrings
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, create, render, outputformat, wav</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(BitDepth)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "BitDepth", "Must be an integer.", -1) return nil end
   if math.type(LargeFiles)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_WAV", "LargeFiles", "Must be an integer.", -2) return nil end
@@ -38206,10 +38206,10 @@ function ultraschall.DirectoryExists(path, directory)
     File Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, directory, check, exists</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(path)~="string" then ultraschall.AddErrorMessage("DirectoryExists", "path", "Must be a string", -1) return false end
   if type(directory)~="string" then ultraschall.AddErrorMessage("DirectoryExists", "directory", "Must be a string", -2) return false end
@@ -38260,10 +38260,10 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
     Rendering of Project
     Rendering any Outputformat
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, render, output, file</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local retval
   local curProj=reaper.EnumProjects(-1,"")
@@ -38403,10 +38403,10 @@ function ultraschall.AddIntToChar(char, int)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, add, character, value</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(char)~="string" then ultraschall.AddErrorMessage("AddIntToChar", "char", "must be a string with one character" , -1) return nil end
   if char:len()~=1 then ultraschall.AddErrorMessage("AddIntToChar", "char", "must be a string with one character" , -2) return nil end
@@ -38449,10 +38449,10 @@ function ultraschall.PreviewMediaItem(MediaItem, Previewtype)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, preview, audio, mediaitem, track, mediaexplorer</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if reaper.ValidatePtr2(0,MediaItem,"MediaItem*")==false then ultraschall.AddErrorMessage("PreviewMediaItem", "MediaItem", "Must be a valid MediaItem.", -1) return false end
   if math.type(Previewtype)~="integer" then ultraschall.AddErrorMessage("PreviewMediaItem", "Previewtype", "Must be an integer.", -2) return false end
@@ -38486,10 +38486,10 @@ function ultraschall.StopAnyPreview()
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, stop, preview, audio, mediaitem, track, mediaexplorer</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   ultraschall.RunCommand("_SWS_STOPPREVIEW") -- Xenakios/SWS: Stop current media item/take preview
 end
@@ -38525,10 +38525,10 @@ function ultraschall.InsertTrackAtIndex(index, number_of_tracks, wantdefaults)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, insert, new, track</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if math.type(index)~="integer" then ultraschall.AddErrorMessage("InsertTrackAtIndex", "index", "Must be an integer.", -1) return end
   if math.type(number_of_tracks)~="integer" then ultraschall.AddErrorMessage("InsertTrackAtIndex", "number_of_tracks", "Must be an integer.", -2) return end
@@ -38600,10 +38600,10 @@ function ultraschall.MoveTracks(trackstring, targetindex, makepreviousfolder)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, move, track, tracks, folder</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("MoveTracks", "trackstring", "Must be a valid trackstring.", -1) return false end
   if math.type(targetindex)~="integer" then ultraschall.AddErrorMessage("MoveTracks", "targetindex", "Must be an integer.", -2) return false end
@@ -38657,10 +38657,10 @@ function ultraschall.PreviewMediaFileA(filename_with_path)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, preview, play, audio, file</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("PreviewMediaItem", "filename_with_path", "Must be a string.", -1) return false end
@@ -38735,10 +38735,10 @@ function ultraschall.MakeFunctionUndoable(Func, UndoMessage, Flag, ...)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, undo, create, undopoint, function</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(Func)~="function" then ultraschall.AddErrorMessage("MakeFunctionUndoable", "Func", "Must be a function.", -1) return false end
   if type(UndoMessage)~="string" then ultraschall.AddErrorMessage("MakeFunctionUndoable", "UndoMessage", "Must be a string.", -2) return false end
@@ -38779,10 +38779,10 @@ function ultraschall.GetMediaItemTake(MediaItem, TakeNr)
     MediaItem Management
     Get MediaItem-Takes
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, take, get, take, active</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("GetMediaItemTake", "MediaItem", "must be a valid MediaItem-object", -1) return nil end
   if math.type(TakeNr)~="integer" then ultraschall.AddErrorMessage("GetMediaItemTake", "TakeNr", "must be an integer", -2) return nil end
@@ -38806,12 +38806,12 @@ function ultraschall.ReturnTableAsIndividualValues(Table)
     Reaper=5.92
     Lua=5.3
   </requires>
-  <functioncall> ... = ultraschall.ReturnTableAsIndividualValues(table Table)</functioncall>
+  <functioncall>retval1, retval2, retval3, ... , retval64 = ultraschall.ReturnTableAsIndividualValues(table Table)</functioncall>
   <description>
     Returns the first 64 entries of an numerical-indexed table as returnvalues
   </description>
   <retvals>
-    ... - the values from Table returned
+    retval1 ... retval64 - the values from Table returned
   </retvals>
   <parameters>
     table Table - the table, whose values you want to return. It will only return values with index 1...64!
@@ -38820,10 +38820,10 @@ function ultraschall.ReturnTableAsIndividualValues(Table)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, table, return, values, indexed</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   
   if type(Table)~="table" then Table={} end
@@ -38871,10 +38871,10 @@ function ultraschall.ApplyFunctionToMediaItemArray(MediaItemArray, functionname,
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, apply, function, mediaitem, mediaitemarray</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]  
   if type(functionname)~="function" then ultraschall.AddErrorMessage("ApplyFunctionToMediaItemArray", "functionname", "Must be a function.", -1) return nil end
   if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("ApplyFunctionToMediaItemArray", "functionname", "Must be a function.", -1) return nil end
@@ -38937,10 +38937,10 @@ function ultraschall.GetProject_MarkersAndRegions(projectfilename_with_path, Pro
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, rpp, state, get, marker, regions</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
 --[[
 MARKER integer shownnumber number position string name integer isrgn integer color integer unknown string R
@@ -39044,10 +39044,10 @@ function ultraschall.RenderProjectRegions_RenderCFG(projectfilename_with_path, r
     Rendering of Project
     Rendering any Outputformat
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectfiles, render, output, file</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local retval
   local curProj=reaper.EnumProjects(-1,"")
@@ -39111,10 +39111,10 @@ function ultraschall.GetGapsBetweenItems(MediaTrack)
     MediaItem Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, get, gaps, between, items, item, mediaitem</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if reaper.ValidatePtr2(0, MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("GetGapsBetweenItems", "MediaTrack", "Must be a valid MediaTrack-object", -1) return -1 end
   if reaper.GetTrackMediaItem(MediaTrack, 0)==nil then ultraschall.AddErrorMessage("GetGapsBetweenItems", "MediaTrack", "No MediaItem in track", -2) return -1 end
@@ -39199,10 +39199,10 @@ function ultraschall.IsValidReaProject(ReaProject)
     Project-Files
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, check, reaproject, project, object, valid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ReaProject==nil or type(ReaProject)=="number" then return false end
   local count=0
@@ -39244,10 +39244,10 @@ function ultraschall.type(object)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, check, datatype, reaper-objects, lua, return</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if     object==nil then return "nil"
   elseif math.type(object)=="integer" then return "number: integer"
@@ -39370,10 +39370,10 @@ function ultraschall.SetTrackGroupFlagsState(tracknumber, groups_bitfield_table,
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, groupflag, group, set, state, track, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackGroupFlagsState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -39485,10 +39485,10 @@ function ultraschall.SetTrackGroupFlags_HighState(tracknumber, groups_bitfield_t
     Track Management
     Set Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackmanagement, groupflag, group, set, state, track, trackstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters
   if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("SetTrackGroupFlags_HighState", "tracknumber", "no valid tracknumber", -1) return false end
@@ -39569,10 +39569,10 @@ function ultraschall.NewProjectTab(switch_to_new_tab)
     Project-Files
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, new, project, tab, switch, select</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(switch_to_new_tab)~="boolean" then ultraschall.AddErrorMessage("NewProjectTab", "switch_to_new_tab", "Must be a boolean", -1) return end
   reaper.PreventUIRefresh(1)
@@ -39611,10 +39611,10 @@ function ultraschall.GetCurrentTimeLengthOfFrame(ReaProject)
     Project-Files
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, new, project, tab, switch, select</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if ReaProject~=nil and ReaProject~=0 and ultraschall.IsValidReaProject(ReaProject)==false then ultraschall.AddErrorMessage("GetCurrentTimeLengthOfFrame", "ReaProject", "Must be valid ReaProject", -1) return -1 end  
   if ReaProject==nil then ReaProject=0 end
@@ -39650,10 +39650,10 @@ function ultraschall.GetLengthOfFrames(frames, ReaProject)
     Project-Files
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, new, project, tab, switch, select</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if math.type(frames)~="integer" then ultraschall.AddErrorMessage("GetLengthOfFrames", "frames", "Must be an integer", -2) return -1 end  
   if ReaProject~=nil and ReaProject~=0 and ultraschall.IsValidReaProject(ReaProject)==false then ultraschall.AddErrorMessage("GetLengthOfFrames", "ReaProject", "Must be valid ReaProject", -1) return -1 end
@@ -39690,10 +39690,10 @@ function ultraschall.GetStartNewFileRecSizeState()
     Recording
     Configuration
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>recordingmanagement, maximum, file, size, file, switch, offset, restart, recording, get</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local maxrecsize=reaper.SNM_GetIntConfigVar("maxrecsize", -1)
   local maxrecsize_use=reaper.SNM_GetIntConfigVar("maxrecsize_use", -1)
@@ -39736,10 +39736,10 @@ function ultraschall.SetStartNewFileRecSizeState(start_new_files, offset_file_sw
     Recording
     Configuration
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>recordingmanagement, maximum, file, size, file, switch, offset, restart, recording, set</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(start_new_files)~="boolean" then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "start_new_files", "Must be a boolean", -1) return false end
   if type(offset_file_switches)~="boolean" then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "offset_file_switches", "Must be a boolean", -2) return false end
@@ -39789,10 +39789,10 @@ function ultraschall.GetPlayCursorWidth()
     User Interface
     Transport
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, get, playcursor, width</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local playcursormode=reaper.SNM_GetIntConfigVar("playcursormode", -1)
   return playcursormode
@@ -39829,10 +39829,10 @@ function ultraschall.SetPlayCursorWidth(play_cursor_width, persist)
     User Interface
     Transport
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, set, playcursor, width</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if math.type(play_cursor_width)~="integer" then ultraschall.AddErrorMessage("SetPlayCursorWidth", "play_cursor_width", "Must be an integer", -1) return false end
   if play_cursor_width<0 or play_cursor_width>2147483647 then ultraschall.AddErrorMessage("SetPlayCursorWidth", "play_cursor_width", "Must be between 0 and 2147483647", -2) return false end
@@ -39875,10 +39875,10 @@ function ultraschall.CreateTrackString_ArmedTracks()
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, get, tracks, armed, trackstring</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local trackstring=""
   for i=0, reaper.CountTracks(0)-1 do
@@ -39910,10 +39910,10 @@ function ultraschall.CreateTrackString_UnarmedTracks()
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, get, tracks, unarmed, trackstring</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local trackstring=""
   for i=0, reaper.CountTracks(0)-1 do
@@ -39950,10 +39950,10 @@ function ultraschall.IsValidEnvelopePointArray(EnvelopePointArray)
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, check, envelopepointarray</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(EnvelopePointArray)~="table" then ultraschall.AddErrorMessage("IsValidEnvelopePointArray", "EnvelopePointArray", "Must be a table", -1) return false end
   local counter=1
@@ -39998,10 +39998,10 @@ function ultraschall.ConvertOldProjectToCurrentReaperVersion(filename_with_path)
     Project-Files
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, convert, old, project, rpp, current, reaper version</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("ConvertOldProjectToCurrentReaperVersion", "filename_with_path", "Must be a string", -1) return false end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ConvertOldProjectToCurrentReaperVersion", "filename_with_path", "File does not exist", -2)  return false end
@@ -40041,10 +40041,10 @@ function ultraschall.GetMarkerUpdateCounter()
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>markers, update, counter, get</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   return reaper.SNM_GetIntConfigVar("g_markerlist_updcnt", -33)
 end
@@ -40090,10 +40090,10 @@ function ultraschall.GetSetConfigAcidImport(set, setting, persist)
     Configuration Settings
     Preferences: Video/REX/Misc
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationsettings, tempo, get, set, persist, tempo, import, media</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAcidImport", "set", "must be a boolean", -1) return -1 end
   if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAcidImport", "persist", "must be a boolean", -2) return -1 end
@@ -40143,10 +40143,10 @@ function ultraschall.GetSetConfigActionMenu(set, setting, persist)
     Configuration Settings
     Menus
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationsettings, get, set, persist, actions, menu</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigActionMenu", "set", "must be a boolean", -1) return -1 end
   if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigActionMenu", "persist", "must be a boolean", -2) return -1 end
@@ -40196,10 +40196,10 @@ function ultraschall.GetSetConfigAdjRecLat(set, setting, persist)
     Configuration Settings
     Preferences: Recording
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationsettings, get, set, persist, recording, adjreclat, audio, driver, latency</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAdjRecLat", "set", "must be a boolean", -1) return -1 end
   if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAdjRecLat", "persist", "must be a boolean", -2) return -1 end
@@ -40245,10 +40245,10 @@ function ultraschall.GetSetConfigAdjRecManLat(set, setting, persist)
     Configuration Settings
     Preferences: Recording
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationsettings, get, set, persist, recording, adjrecmanlat, manual, output, offset, samples</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAdjRecManLat", "set", "must be a boolean", -1) return -1 end
   if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAdjRecManLat", "persist", "must be a boolean", -2) return -1 end
@@ -40320,10 +40320,10 @@ function ultraschall.GetSetConfigAfxCfg(set, setting, persist)
     Configuration Settings
     Project Settings: Media
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationsettings, get, set, persist, project settings, media, apply fx glue freeze</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAfxCfg", "set", "must be a boolean", -1) return -1 end
   if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAfxCfg", "persist", "must be a boolean", -2) return -1 end
@@ -40389,10 +40389,10 @@ function ultraschall.GetSetConfigAllStereoPairs(set, setting, persist)
     Configuration Settings
     Preferences: Audio
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>configurationsettings, get, set, persist, audio, stereo, pairs</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAllStereoPairs", "set", "must be a boolean", -1) return -1 end
   if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAllStereoPairs", "persist", "must be a boolean", -2) return -1 end
@@ -40433,10 +40433,10 @@ function ultraschall.CreateTrackStringByGUID(guid_csv_string)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackstring, track, create, guid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(guid_csv_string)~="string" then ultraschall.AddErrorMessage("CreateTrackStringByGUID", "guid_csv_string", "Must be a string", -1) return "" end
   local Trackstring=""
@@ -40477,10 +40477,10 @@ function ultraschall.CreateTrackStringByTracknames(tracknames_csv_string)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackstring, track, create, tracknames</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(tracknames_csv_string)~="string" then ultraschall.AddErrorMessage("CreateTrackStringByTracknames", "tracknames_csv_string", "Must be a string", -1) return "" end
   local Trackstring=""
@@ -40524,10 +40524,10 @@ function ultraschall.CreateTrackStringByMediaTracks(MediaTrackArray)
     Track Management
     Assistance functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackstring, track, create, mediatrack, mediatracks</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if type(MediaTrackArray)~="table" then ultraschall.AddErrorMessage("CreateTrackStringByMediaTracks", "MediaTrackArray", "Must be an array", -1) return "" end
   local Trackstring=""
@@ -40572,10 +40572,10 @@ function ultraschall.GetScreenWidth(want_workarea)
     User Interface
     Screen and Windowmanagement
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, get, screen, width</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if want_workarea~=nil and type(want_workarea)~="boolean" then ultraschall.AddErrorMessage("GetScreenWidth", "want_workarea", "Must be a boolean", -1) return -1 end  
   if want_workarea==nil then want_workarea=true end
@@ -40609,10 +40609,10 @@ function ultraschall.GetScreenHeight(want_workarea)
     User Interface
     Screen and Windowmanagement
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, get, screen, height</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   if want_workarea~=nil and type(want_workarea)~="boolean" then ultraschall.AddErrorMessage("GetScreenHeight", "want_workarea", "Must be a boolean", -1) return -1 end  
   if want_workarea==nil then want_workarea=true end
@@ -40643,10 +40643,10 @@ function ultraschall.pause_follow_one_cycle()
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, follow, off, followmode, turn off one cycle</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   local follow_actionnumber = reaper.NamedCommandLookup("_Ultraschall_Toggle_Follow")
   if reaper.GetToggleCommandState(follow_actionnumber)==1 then
@@ -40684,10 +40684,10 @@ function ultraschall.DeleteMediaItemsBetween(startposition, endposition,  tracks
     MediaItem Management
     Delete
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, tracks, media, item, delete, between</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(startposition)~="number" then ultraschall.AddErrorMessage("DeleteMediaItemsBetween", "startposition", "must be a number", -1) return false end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("DeleteMediaItemsBetween", "endposition", "must be a number", -2) return false end
@@ -41061,10 +41061,10 @@ function ultraschall.CreateColorTable(startr, startg, startb, endr, endg, endb, 
     User Interface
     Track Design
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, create, colortable</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.type(number_of_steps)~="number: integer" or number_of_steps==0 then ultraschall.AddErrorMessage("CreateColorTable", "number_of_steps", "must be a positive or negative integer, no 0 allowed", -1) return nil end
   if ultraschall.type(startr)~="number: integer" then ultraschall.AddErrorMessage("CreateColorTable", "startr", "must be an integer", -2) return nil end
@@ -41137,10 +41137,10 @@ function ultraschall.CreateSonicRainboomColorTable()
     User Interface
     Track Design
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, create, colortable, sonic rainboom</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local group={}
   group[0]=16753246
@@ -41204,10 +41204,10 @@ function ultraschall.IsValidColorTable(ColorTable)
     User Interface
     Track Design
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, check, colortable</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(ColorTable)~="table" then ultraschall.AddErrorMessage("CreateColorTable", "ColorTable", "must be a table", -1) return false end
   local Count1 = ultraschall.CountEntriesInTable_Main(ColorTable)
@@ -41256,10 +41256,10 @@ function ultraschall.ConcatIntegerIndexedTables(table1, table2)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, concatenate, concat, table, tables</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local Count1 = ultraschall.CountEntriesInTable_Main(table1)
   local Count2 = ultraschall.CountEntriesInTable_Main(table2)
@@ -41309,10 +41309,10 @@ function ultraschall.ApplyColorTableToTrackColors(ColorTable, Spread, StartTrack
     User Interface
     Track Design
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>userinterface, create, colortable</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local Count1 = ultraschall.CountEntriesInTable_Main(ColorTable)
   local Count2 = 1
@@ -41458,10 +41458,10 @@ function ultraschall.GetItemStateChunk(MediaItem, AddTracknumber)
     MediaItem Management
     Get MediaItem States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>mediaitemmanagement, get, statechunk, tracknumber</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("GetItemStateChunk","MediaItem", "must be a MediaItem", -1) return false end
   if AddTracknumber~=nil and ultraschall.type(AddTracknumber)~="boolean" then ultraschall.AddErrorMessage("GetItemStateChunk","AddTracknumber", "must be a boolean", -1) return false end
@@ -41514,10 +41514,10 @@ function ultraschall.GetDuplicatesFromArrays(array1, array2)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, get, duplicates, originals, arrays</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(array1)~="table" then ultraschall.AddErrorMessage("GetDuplicatesFromArrays", "array1", "must be a table", -1) return -1 end
   if type(array2)~="table" then ultraschall.AddErrorMessage("GetDuplicatesFromArrays", "array2", "must be a table", -2) return -1 end
@@ -41595,10 +41595,10 @@ function ultraschall.OnlyFilesOfCertainType(filearray, filetype)
     File Management
     File Analysis
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, get, filetype</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if type(filearray)~="table" then ultraschall.AddErrorMessage("OnlyFilesOfCertainType", "filearray", "must be a table", -1) return -1 end
   if type(filetype)~="string" then ultraschall.AddErrorMessage("OnlyFilesOfCertainType", "filetype", "must be a string", -2) return -1 end
@@ -41634,10 +41634,10 @@ function ultraschall.GetCurrentReaperWorkDir()
     File Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, get, current workdir of reaper</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   local temp, dir = reaper.BR_Win32_GetPrivateProfileString("REAPER", "lastcwd", "", reaper.get_ini_file())
   return dir
@@ -41673,10 +41673,10 @@ function ultraschall.DirectoryExists2(Path)
     File Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, check, directory, existence</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.type(Path)~="string" then ultraschall.AddErrorMessage("DirectoryExists2", "path", "must be a string", -1) return false end
   if Path:sub(-1,-1)=="\\" or Path:sub(-1,-1)=="/" then Path=Path:sub(1,-2) end
@@ -41721,10 +41721,10 @@ function ultraschall.SetReaperWorkDir(path)
     File Management
     Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, set, new workdir of reaper</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.type(path)~="string" then ultraschall.AddErrorMessage("SetReaperWorkDir", "path", "must be a string", -1) return false end
   if ultraschall.DirectoryExists2(path)==false then ultraschall.AddErrorMessage("SetReaperWorkDir", "path", "no such path existing", -2) return false end
@@ -41760,10 +41760,10 @@ function ultraschall.GetScriptFilenameFromActionCommandID(action_command_id)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>filemanagement, get, scriptfilename, actioncommandid</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   if ultraschall.type(action_command_id)~="string" then ultraschall.AddErrorMessage("GetScriptFilenameFromActionCommandID", "action_command_id", "must be a string", -1) return end
   if ultraschall.CheckActionCommandIDFormat2(action_command_id)==false then ultraschall.AddErrorMessage("GetScriptFilenameFromActionCommandID", "action_command_id", "no such action-command-id", -2) return end
@@ -41810,10 +41810,10 @@ function ultraschall.GetProject_CountAutomationItems(projectfilename_with_path, 
   <chapter_context>
     Automation Items
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>automationitems, count, automation, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_CountAutomationItems","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -41866,10 +41866,10 @@ function ultraschall.GetProject_AutomationItemStateChunk(projectfilename_with_pa
   <chapter_context>
     Automation Items
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>automationitems, get, automation, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_AutomationItemStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -41922,10 +41922,10 @@ function ultraschall.GetProject_ProjectBay(projectfilename_with_path, ProjectSta
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, projectbay, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_ProjectBay","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -41973,10 +41973,10 @@ function ultraschall.GetProject_Metronome(projectfilename_with_path, ProjectStat
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, metronome, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Metronome","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42022,10 +42022,10 @@ function ultraschall.GetProject_MasterPlayspeed(projectfilename_with_path, Proje
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, master playspeed, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterPlayspeed","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42071,10 +42071,10 @@ function ultraschall.GetProject_Tempo(projectfilename_with_path, ProjectStateChu
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, tempo, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Tempo","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42120,10 +42120,10 @@ function ultraschall.GetProject_Extensions(projectfilename_with_path, ProjectSta
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, extensions, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Extensions","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42182,10 +42182,10 @@ function ultraschall.GetProject_Lock(projectfilename_with_path, ProjectStateChun
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, lock, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Lock","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42233,10 +42233,10 @@ function ultraschall.GetProject_GlobalAuto(projectfilename_with_path, ProjectSta
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, global automation, master track, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_GlobalAuto","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42283,10 +42283,10 @@ function ultraschall.GetProject_Tempo(projectfilename_with_path, ProjectStateChu
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, beat, tempo, denominator, master track, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Tempo","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42335,10 +42335,10 @@ function ultraschall.GetProject_Playrate(projectfilename_with_path, ProjectState
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, playrate, master track, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Playrate","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42387,10 +42387,10 @@ function ultraschall.GetProject_MasterAutomode(projectfilename_with_path, Projec
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, automation mode, master track, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterAutomode","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42434,10 +42434,10 @@ function ultraschall.GetProject_MasterSel(projectfilename_with_path, ProjectStat
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, selected, master track, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterSel","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42481,10 +42481,10 @@ function ultraschall.GetProject_MasterFXByp(projectfilename_with_path, ProjectSt
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, fx, bypass, master track, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterFXByp","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42535,10 +42535,10 @@ function ultraschall.GetProject_MasterMuteSolo(projectfilename_with_path, Projec
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, mute, solo, mono, master track, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterMuteSolo","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42582,10 +42582,10 @@ function ultraschall.GetProject_MasterNChans(projectfilename_with_path, ProjectS
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, number of channels, master track, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterNChans","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42629,10 +42629,10 @@ function ultraschall.GetProject_MasterTrackHeight(projectfilename_with_path, Pro
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, trackheight, trackheightlock, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterTrackHeight","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42675,10 +42675,10 @@ function ultraschall.GetProject_MasterTrackColor(projectfilename_with_path, Proj
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, color, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterTrackColor","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42728,10 +42728,10 @@ function ultraschall.GetProject_MasterTrackView(projectfilename_with_path, Proje
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, view, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterTrackView","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42774,10 +42774,10 @@ function ultraschall.GetProject_CountMasterHWOuts(projectfilename_with_path, Pro
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, count, hwout, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_CountMasterHWOuts","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return 0 end
@@ -42845,10 +42845,10 @@ function ultraschall.GetProject_MasterHWOut(projectfilename_with_path, idx, Proj
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, hwout, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterHWOut","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42903,10 +42903,10 @@ function ultraschall.GetProject_MasterVolume(projectfilename_with_path, ProjectS
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, mastervolume, pan, volume, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterVolume","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -42955,10 +42955,10 @@ function ultraschall.GetProject_MasterPanMode(projectfilename_with_path, Project
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, panmode, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterPanMode","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43001,10 +43001,10 @@ function ultraschall.GetProject_MasterWidth(projectfilename_with_path, ProjectSt
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, pan knob two, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterPanMode","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43125,10 +43125,10 @@ function ultraschall.GetProject_MasterGroupFlagsState(projectfilename_with_path,
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, groupflags, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsState","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43264,10 +43264,10 @@ function ultraschall.GetProject_MasterGroupFlagsHighState(projectfilename_with_p
     Track Management
     Get Track States
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, groupflags, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 --]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsHighState","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43325,10 +43325,10 @@ function ultraschall.GetProject_GroupDisabled(projectfilename_with_path, Project
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, group, disabled, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_GroupDisabled","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43372,10 +43372,10 @@ function ultraschall.GetProject_MasterHWVolEnvStateChunk(projectfilename_with_pa
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, master hwvolend, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterHWVolEnvStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43418,10 +43418,10 @@ function ultraschall.GetProject_MasterFXListStateChunk(projectfilename_with_path
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, master fxlist, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterFXListStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43465,10 +43465,10 @@ function ultraschall.GetProject_MasterDualPanEnvStateChunk(projectfilename_with_
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, master dualpanenv, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterDualPanEnvStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43512,10 +43512,10 @@ function ultraschall.GetProject_MasterDualPanEnv2StateChunk(projectfilename_with
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, master dualpanenv2, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterDualPanEnv2StateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43559,10 +43559,10 @@ function ultraschall.GetProject_MasterDualPanEnvLStateChunk(projectfilename_with
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, master dualpanenvl, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterDualPanEnvLStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43606,10 +43606,10 @@ function ultraschall.GetProject_MasterDualPanEnvL2StateChunk(projectfilename_wit
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, master dualpanenvl2, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterDualPanEnvL2StateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43653,10 +43653,10 @@ function ultraschall.GetProject_MasterVolEnvStateChunk(projectfilename_with_path
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, master volenv, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterVolEnvStateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43701,10 +43701,10 @@ function ultraschall.GetProject_MasterVolEnv2StateChunk(projectfilename_with_pat
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, master volenv2, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterVolEnv2StateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43748,10 +43748,10 @@ function ultraschall.GetProject_MasterVolEnv3StateChunk(projectfilename_with_pat
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, master volenv3, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterVolEnv3StateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43795,10 +43795,10 @@ function ultraschall.GetProject_MasterHWPanEnvStateChunk(projectfilename_with_pa
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, master pan env, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterVolEnv3StateChunk","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43842,10 +43842,10 @@ function ultraschall.GetProject_MasterPanMode_Ex(projectfilename_with_path, Proj
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, master pan mode ex, statechunk, projectstatechunk</tags>
-  </US_DocBloc>
+</US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterPanMode_Ex","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -43891,7 +43891,7 @@ function ultraschall.GetProject_TempoEnv_ExStateChunk(projectfilename_with_path,
     Project-Files
     RPP-Files Get
   </chapter_context>
-  <target_document>USApiFunctionsReference</target_document>
+  <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>projectmanagement, get, tempo env ex, statechunk, projectstatechunk</tags>
 </US_DocBloc>
@@ -43911,6 +43911,7 @@ end
 --reaper.MB(A,"",0)
 
 
+ultraschall.Euro=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/Euro.txt")
 
 ultraschall.ShowLastErrorMessage()
 

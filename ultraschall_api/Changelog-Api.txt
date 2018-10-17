@@ -261,21 +261,13 @@
   - GetProject_MasterPanMode_Ex - returns the state of the MasterPanMode_Ex
   - GetProject_TempoEnv_ExStateChunk - returns the statechunk of the TempoEnv_Ex
   <TODO>
-      TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function
-      TODO!!  - ReturnTableAsIndividualValues - ... macht Probleme als retval in Docs (vermute ich mal meintest Du)
-      TODO!!  - ArrangeViewSnapshots - use reaper.JS_Window_SetScrollPos(HWND, "SB_VERT", value) to set and JS_Window_GetScrollInfo from JS new plugin to get/store vertscrollpos
-      
-      TODO!!  - Docs: parameter/retval-names often go into their descriptions; see GetStartNewFileRecSizeState for one such example
-                    in general, the size of the parameters/retvals/description-table is...to be honest..fucked up.
-      TODO!!  - 1. Introduction to Renderfunctions has old and outdated information
-      TODO!!  - add multiple-target-documents and multiple-structured chapters(in index of a document) into the new docengine(not working right now)
+      TODO!!  - MakeCopyOfTable - add "based upon"-reference to the original creator of this function, Tyler
       TODO!!  - write final documentation for public-beta
-      TODO!!  - construct final documentation-document, including automatic generation of ChangeLog.
-      TODO!!  - Include automatic adding of "Help: Show Ultraschall Api Help"-action
       TODO!!  - Docs: Add docs for new Datatype ColorTable
       
       
     For 4.00beta2.8:
+      TODO!!  - ArrangeViewSnapshots - use reaper.JS_Window_SetScrollPos(HWND, "SB_VERT", value) to set and JS_Window_GetScrollInfo from JS new plugin to get/store vertscrollpos
       TODO!!  - integer number_of_items, array MediaItemArray, number endpos_inserted_items = ultraschall.RippleInsert(number position, array MediaItemStateChunkArray, string trackstring, boolean moveenvelopepoints, boolean movemarkers)
                 allows inserting items from a MediaItemStateChunkArray.
                 That way, it is possible to change the track, by altering the ULTRASCHALL_TRACKNUMBER-entry.
@@ -354,12 +346,7 @@
       TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
       TODO!!  - GetProject-functions for
                       
-
-                      <POOLEDENV - can be multiple
-                      <TEMPOENVEX
-                      
               - SetProject-functions for
-                  - GetProject_CountAutomationItems - counts the automation-items in a project/ProjectStateChunk
                   - GetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
                   - GetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk
                   - GetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk
@@ -402,7 +389,9 @@
                   - GetProject_TempoEnv_ExStateChunk
                   
                - IsValid-check functions for
-                    - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions
+                    - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
+                      MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex
+                      
       TODO!!  - In the render window I think it would be really helpful to have the option of adding the rendered files into a new project tab.
 
                     There could be a section of the render window for After Export functions

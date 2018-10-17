@@ -725,21 +725,6 @@ for lolo=1, 60 do
   FunctionList=FunctionList.."<tr><td style=\"vertical-align:top; padding-left:4%;\">"..newdesc.."</td></tr></table>"
   if C[index][2]:match("<chapter_context>.-API%-Documentation.-</chapter_context>")==nil then FunctionList=FunctionList.."</divl>" end  
   
--- Parameters
-
-  counter, params, markup_type, markup_version= ultraschall.ParseParameters(C[index][2])
-  for a=1, counter do
-    params[a][1]=ultraschall.ColorateDatatypes(params[a][1])
-    if markup_type=="plain_text" then params[a][2]=ultraschall.ConvertPlainTextToHTML(params[a][2])
-    elseif markup_type=="markdown" then params[a][2]=ultraschall.ConvertMarkdownToHTML(params[a][2], markup_version)
-    end
-  end
-  if counter>0 then    
-    FunctionList=FunctionList.."<tr><td style=\"\"><u>Parameters:</u></td><td> </td><td> </td></tr><table style=\"padding-left:4%;\"border=\"0\">"
-    for a=1, counter do
-      FunctionList=FunctionList.."<tr style=\"background:#EEEEEE;\"><td style=\"vertical-align:top; white-space:pre;\">&nbsp;<i>"..params[a][1].."</i>&nbsp;</td><td style=\"vertical-align:top; \">&nbsp;"..params[a][2].."&nbsp;</td></tr>"
-    end   
-  end
 
 -- Retvals
   counter, retvals, markup_type, markup_version = ultraschall.ParseRetvals(C[index][2])
@@ -750,7 +735,6 @@ for lolo=1, 60 do
     end
   end
 
-  FunctionList=FunctionList.."</table><br>"
 
   if counter>0 then
     FunctionList=FunctionList.."<tr><td style=\"\"><u>Returnvalues:</u></td><td> </td><td> </td></tr><table style=\"padding-left:4%;\"border=\"0\">"
@@ -758,6 +742,24 @@ for lolo=1, 60 do
       FunctionList=FunctionList.."<tr style=\"background:#EEEEEE;\"><td style=\"vertical-align:top; white-space:pre;\">&nbsp;<i>"..retvals[a][1].."</i>&nbsp;</td><td style=\"vertical-align:top;\">&nbsp;"..retvals[a][2].."&nbsp;</td></tr>"
     end   
   end
+  
+-- Parameters
+
+  counter, params, markup_type, markup_version= ultraschall.ParseParameters(C[index][2])
+  for a=1, counter do
+    params[a][1]=ultraschall.ColorateDatatypes(params[a][1])
+    if markup_type=="plain_text" then params[a][2]=ultraschall.ConvertPlainTextToHTML(params[a][2])
+    elseif markup_type=="markdown" then params[a][2]=ultraschall.ConvertMarkdownToHTML(params[a][2], markup_version)
+    end
+  end
+  FunctionList=FunctionList.."</table><br>"
+  if counter>0 then    
+    FunctionList=FunctionList.."<tr><td style=\"\"><u>Parameters:</u></td><td> </td><td> </td></tr><table style=\"padding-left:4%;\"border=\"0\">"
+    for a=1, counter do
+      FunctionList=FunctionList.."<tr style=\"background:#EEEEEE;\"><td style=\"vertical-align:top; white-space:pre;\">&nbsp;<i>"..params[a][1].."</i>&nbsp;</td><td style=\"vertical-align:top; \">&nbsp;"..params[a][2].."&nbsp;</td></tr>"
+    end   
+  end
+
   
   FunctionList=FunctionList.."</table><br>"
   --]]
