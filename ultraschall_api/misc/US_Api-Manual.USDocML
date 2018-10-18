@@ -11,22 +11,22 @@
                 This API was to be used within Ultraschall only, but quickly evolved into a huge 600+ function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:
                
                    - Rendering - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want.
-                                   just create a renderstring and pass it over to [RenderProject_RenderCFG](#RenderProject_RenderCFG) or [RenderProjectRegions_RenderCFG](#RenderProjectRegions_RenderCFG)
+                                   just create a renderstring and pass it over to [RenderProject_RenderCFG](usdocml://RenderProject_RenderCFG) or [RenderProjectRegions_RenderCFG](usdocml://RenderProjectRegions_RenderCFG)
                    - Navigation, Follow and Arrangeview-Manipulation - get/set cursors, zoom, autoscroll-management, scroll, etc
                    - ArrangeView-Snapshots - you can save, retrieve snapshots of the arrangeview, including position, zoomstates to quickly jump through parts of your project
                    - Trackstates - you can access and set all(!) track-states available
                    - Mediaitem-states - you can access and set many mediaitem-states (more will follow)
                    - ItemExtStates/TrackExtStates - you can save additional metadata easily for specific tracks and items using ItemExtStates and TrackExtStates
                    - File access - many helperfunctions for reading, writing, copying files. No more hassle writing it yourself!
-                       e.g [ReadFullFile](#ReadFullFile), [WriteValueToFile](#WriteValueToFile), etc
+                       e.g [ReadFullFile](usdocml://ReadFullFile), [WriteValueToFile](usdocml://WriteValueToFile), etc
                    - Cough-Mute-management - you can write your own cough-buttons, that set the state of the mute-envelope of a track easily
                    - Marker - extensive set of marker functions, get, set, export, import, enumerate, etc
                    - Spectrogram - you can program the spectrogram-view
                    - Get MediaItems - you can get all media-items within a time-range AND within the tracks you prefer; a 2D-approach
-                       e.g. [GetAllMediaItemsBetween](#GetAllMediaItemsBetween) and [GetMediaItemsAtPosition ](#GetMediaItemsAtPosition ), etc
-                   - Gaps between items - you can get the gaps between items in a track, using [GetGapsBetweenItems](#GetGapsBetweenItems)
+                       e.g. [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween) and [GetMediaItemsAtPosition ](usdocml://GetMediaItemsAtPosition ), etc
+                   - Gaps between items - you can get the gaps between items in a track, using [GetGapsBetweenItems](usdocml://GetGapsBetweenItems)
                    - Edit item(s) - Split, Cut, Copy, Paste, Move, RippleCut, RippleInsert, SectionCut by tracks AND time/start to endposition
-                       e.g. [RippleCut](#RippleCut), [RippleInsert](RippleInsert), [SectionCut](#SectionCut), [SplitMediaItems_Position](#SplitMediaItems_Position), [MoveMediaItemsBefore_By](#MoveMediaItemsBefore_By), [MoveMediaItemsSectionTo](#MoveMediaItemsSectionTo) and many more
+                       e.g. [RippleCut](usdocml://RippleCut), [RippleInsert](RippleInsert), [SectionCut](usdocml://SectionCut), [SplitMediaItems_Position](usdocml://SplitMediaItems_Position), [MoveMediaItemsBefore_By](usdocml://MoveMediaItemsBefore_By), [MoveMediaItemsSectionTo](usdocml://MoveMediaItemsSectionTo) and many more
                    - Previewing MediaItems and files - you can preview MediaItems and files without having to start playback of a project
                    - KB-Ini-Management - manipulate the reaper-kb.ini-file with custom-settings
                    - Checking for Datatypes - check all datatypes introduced with Ultraschall-API and all Lua/Reaper-datatypes
@@ -36,7 +36,7 @@
                    - ExtState-Management - an extensive set of functions for working with extstates as well as ini-files
                    - Data Manipulation- manipulate many of your data, including bitwise-integers, tables, etc
                    - Clipboard-Management - get items from clipboard
-                   - Error Messaging System - all functions create useful error-messages that can be shown using, eg: [ShowLastErrorMessage](#ShowLastErrorMessage), for easier debugging
+                   - Error Messaging System - all functions create useful error-messages that can be shown using, eg: [ShowLastErrorMessage](usdocml://ShowLastErrorMessage), for easier debugging
                    - tons of other helper-functions AND
                 
                    - it's documented with this documentation. :D
@@ -306,13 +306,13 @@
             With trackstrings, passing the wanted tracks to a function is really easy.  
             
             - You can create trackstrings using:  
-                    [CreateTrackString](#CreateTrackString), [CreateAllTracksTrackString](#CreateAllTracksTrackString), [CreateTrackString_ArmedTracks](#CreateTrackString_ArmedTracks), [CreateTrackString_UnarmedTracks](#CreateTrackString_UnarmedTracks), [CreateTrackString_SelectedTracks](#CreateTrackString_SelectedTracks).  
+                    [CreateTrackString](usdocml://CreateTrackString), [CreateAllTracksTrackString](usdocml://CreateAllTracksTrackString), [CreateTrackString_ArmedTracks](usdocml://CreateTrackString_ArmedTracks), [CreateTrackString_UnarmedTracks](usdocml://CreateTrackString_UnarmedTracks), [CreateTrackString_SelectedTracks](usdocml://CreateTrackString_SelectedTracks).  
             - You can manipulate trackstrings using:  
-                    [InverseTrackstring](#InverseTrackstring), [OnlyTracksInBothTrackstrings](#OnlyTracksInBothTrackstrings), [OnlyTracksInOneTrackstring](#OnlyTracksInOneTrackstring), [RemoveDuplicateTracksInTrackstring](#RemoveDuplicateTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring](#OnlyMediaItemsOfTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring_StateChunk](#OnlyMediaItemsOfTracksInTrackstring_StateChunk)
+                    [InverseTrackstring](usdocml://InverseTrackstring), [OnlyTracksInBothTrackstrings](usdocml://OnlyTracksInBothTrackstrings), [OnlyTracksInOneTrackstring](usdocml://OnlyTracksInOneTrackstring), [RemoveDuplicateTracksInTrackstring](usdocml://RemoveDuplicateTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring](usdocml://OnlyMediaItemsOfTracksInTrackstring), [OnlyMediaItemsOfTracksInTrackstring_StateChunk](usdocml://OnlyMediaItemsOfTracksInTrackstring_StateChunk)
             - You can check for valid trackstrings using:  
-                    [IsValidTrackString](#IsValidTrackString)
+                    [IsValidTrackString](usdocml://IsValidTrackString)
             - Some of the functions who make use of trackstrings are: 
-                    [GetAllMediaItemsBetween](#GetAllMediaItemsBetween), [GetAllMediaItemsInTimeSelection](#GetAllMediaItemsInTimeSelection), [DeleteMediaItems_Position](#DeleteMediaItems_Position), [IsItemInTrack3](#IsItemInTrack3), and more
+                    [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween), [GetAllMediaItemsInTimeSelection](usdocml://GetAllMediaItemsInTimeSelection), [DeleteMediaItems_Position](usdocml://DeleteMediaItems_Position), [IsItemInTrack3](usdocml://IsItemInTrack3), and more
 
         </description>
         <target_document>ReaperApiConcepts</target_document>
@@ -352,13 +352,13 @@
             With MediaItemArray, passing the wanted MediaItems to a function is really easy.
             
             - You can create MediaItemArrays using:  
-                    [GetAllMediaItems](#GetAllMediaItems), [GetAllMediaItemsBetween](#GetAllMediaItemsBetween), [GetAllMediaItemsFromTrack](#GetAllMediaItemsFromTrack), [GetMediaItemsAtPosition](#GetMediaItemsAtPosition), [GetAllMediaItemsInTimeSelection](#GetAllMediaItemsInTimeSelection), etc
+                    [GetAllMediaItems](usdocml://GetAllMediaItems), [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween), [GetAllMediaItemsFromTrack](usdocml://GetAllMediaItemsFromTrack), [GetMediaItemsAtPosition](usdocml://GetMediaItemsAtPosition), [GetAllMediaItemsInTimeSelection](usdocml://GetAllMediaItemsInTimeSelection), etc
             - You can manipulate MediaItemArrays using:  
-                    [ApplyActionToMediaItemArray](#ApplyActionToMediaItemArray), [ApplyFunctionToMediaItemArray](#ApplyFunctionToMediaItemArray), [InsertMediaItemArray](#InsertMediaItemArray), [ChangeDeltaLengthOfMediaItems_FromArray](#ChangeDeltaLengthOfMediaItems_FromArray), [ChangeDeltaOffsetOfMediaItems_FromArray](#ChangeDeltaOffsetOfMediaItems_FromArray), etc
+                    [ApplyActionToMediaItemArray](usdocml://ApplyActionToMediaItemArray), [ApplyFunctionToMediaItemArray](usdocml://ApplyFunctionToMediaItemArray), [InsertMediaItemArray](usdocml://InsertMediaItemArray), [ChangeDeltaLengthOfMediaItems_FromArray](usdocml://ChangeDeltaLengthOfMediaItems_FromArray), [ChangeDeltaOffsetOfMediaItems_FromArray](usdocml://ChangeDeltaOffsetOfMediaItems_FromArray), etc
             - You can check for valid MediaItemArrays using:  
-                    [IsValidMediaItemArray](#IsValidMediaItemArray)
+                    [IsValidMediaItemArray](usdocml://IsValidMediaItemArray)
             - Some of the functions who make use of MediaItemArray are:  
-                    [DeleteMediaItemsFromArray](#DeleteMediaItemsFromArray), [DeselectMediaItems_MediaItemArray](#DeselectMediaItems_MediaItemArray), [GetAllLockedItemsFromMediaItemArray](#GetAllLockedItemsFromMediaItemArray), [InsertMediaItemArray](#InsertMediaItemArray), and more
+                    [DeleteMediaItemsFromArray](usdocml://DeleteMediaItemsFromArray), [DeselectMediaItems_MediaItemArray](usdocml://DeselectMediaItems_MediaItemArray), [GetAllLockedItemsFromMediaItemArray](usdocml://GetAllLockedItemsFromMediaItemArray), [InsertMediaItemArray](usdocml://InsertMediaItemArray), and more
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -404,13 +404,13 @@
             With MediaItemStateChunkArrays, passing the wanted MediaItemStateChunks to a function is really easy.  
             
             - You can create MediaItemStateChunkArrays using:  
-                    [GetAllMediaItems](#GetAllMediaItems), [GetAllMediaItemsBetween](#GetAllMediaItemsBetween), [GetAllMediaItemsFromTrack](#GetAllMediaItemsFromTrack), [GetMediaItemsAtPosition](#GetMediaItemsAtPosition), [GetAllMediaItemsInTimeSelection](#GetAllMediaItemsInTimeSelection), etc
+                    [GetAllMediaItems](usdocml://GetAllMediaItems), [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween), [GetAllMediaItemsFromTrack](usdocml://GetAllMediaItemsFromTrack), [GetMediaItemsAtPosition](usdocml://GetMediaItemsAtPosition), [GetAllMediaItemsInTimeSelection](usdocml://GetAllMediaItemsInTimeSelection), etc
             - You can manipulate MediaItemStateChunkArrays using:  
-                    [AddLockStateTo_MediaItemStateChunkArray](#AddLockStateTo_MediaItemStateChunkArray), [ApplyStateChunkToItems](#ApplyStateChunkToItems), [OnlyMediaItemsOfTracksInTrackstring_StateChunk](#OnlyMediaItemsOfTracksInTrackstring_StateChunk), etc
+                    [AddLockStateTo_MediaItemStateChunkArray](usdocml://AddLockStateTo_MediaItemStateChunkArray), [ApplyStateChunkToItems](usdocml://ApplyStateChunkToItems), [OnlyMediaItemsOfTracksInTrackstring_StateChunk](usdocml://OnlyMediaItemsOfTracksInTrackstring_StateChunk), etc
             - You can check for valid MediaItemStateChunkArrays using:  
-                    [IsValidMediaItemStateChunkArray](#IsValidMediaItemStateChunkArray)
+                    [IsValidMediaItemStateChunkArray](usdocml://IsValidMediaItemStateChunkArray)
             - Some of the functions who make use of MediaItemStateChunkArrays are:  
-                    [GetMediaItemStateChunkArrayLength](#GetMediaItemStateChunkArrayLength), [InsertMediaItemStateChunkArray](#InsertMediaItemStateChunkArray), [RippleInsert_MediaItemStateChunks](#RippleInsert_MediaItemStateChunks), [GetAllMediaItemsFromTrackStateChunk](#GetAllMediaItemsFromTrackStateChunk) and more
+                    [GetMediaItemStateChunkArrayLength](usdocml://GetMediaItemStateChunkArrayLength), [InsertMediaItemStateChunkArray](usdocml://InsertMediaItemStateChunkArray), [RippleInsert_MediaItemStateChunks](usdocml://RippleInsert_MediaItemStateChunks), [GetAllMediaItemsFromTrackStateChunk](usdocml://GetAllMediaItemsFromTrackStateChunk) and more
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -456,11 +456,11 @@
             EnvelopePointObjects make handling of envelope-points and it's attributes much easier.
             
             - You can create EnvelopePointObjects, using: 
-                    [CreateEnvelopePointObject](#CreateEnvelopePointObject), [GetEnvelopePoint](#GetEnvelopePoint), etc
+                    [CreateEnvelopePointObject](usdocml://CreateEnvelopePointObject), [GetEnvelopePoint](usdocml://GetEnvelopePoint), etc
             - You can check for valid EnvelopePointObjects using: 
-                    [IsValidEnvelopePointObject](#IsValidEnvelopePointObject)
+                    [IsValidEnvelopePointObject](usdocml://IsValidEnvelopePointObject)
             - Some of the functions who make use of EnvelopePointObjects are: 
-                    [AddEnvelopePoints_EnvelopePointObject](#AddEnvelopePoints_EnvelopePointObject), [SetEnvelopePoints_EnvelopePointObject](#SetEnvelopePoints_EnvelopePointObject), [DeleteEnvelopePoints_EnvelopePointObject](#DeleteEnvelopePoints_EnvelopePointObject) and more
+                    [AddEnvelopePoints_EnvelopePointObject](usdocml://AddEnvelopePoints_EnvelopePointObject), [SetEnvelopePoints_EnvelopePointObject](usdocml://SetEnvelopePoints_EnvelopePointObject), [DeleteEnvelopePoints_EnvelopePointObject](usdocml://DeleteEnvelopePoints_EnvelopePointObject) and more
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -498,11 +498,11 @@
             EnvelopePointArray makes passing multiple EnvelopePointObjects to functions much easier.
             
             - You can create EnvelopePointArrays using: 
-                    [GetEnvelopePointIDX_Between](#GetEnvelopePointIDX_Between)
+                    [GetEnvelopePointIDX_Between](usdocml://GetEnvelopePointIDX_Between)
             - You can check for valid EnvelopePointArrays using: 
-                    [IsValidEnvelopePointArray](#IsValidEnvelopePointArray)
+                    [IsValidEnvelopePointArray](usdocml://IsValidEnvelopePointArray)
             - Some of the functions who make use of EnvelopePointArrays are: 
-                    [AddEnvelopePoints_EnvelopePointArray](#AddEnvelopePoints_EnvelopePointArray), [SetEnvelopePoints_EnvelopePointArray](#SetEnvelopePoints_EnvelopePointArray), [DeleteEnvelopePoints_EnvelopePointArray](#DeleteEnvelopePoints_EnvelopePointArray) and more
+                    [AddEnvelopePoints_EnvelopePointArray](usdocml://AddEnvelopePoints_EnvelopePointArray), [SetEnvelopePoints_EnvelopePointArray](usdocml://SetEnvelopePoints_EnvelopePointArray), [DeleteEnvelopePoints_EnvelopePointArray](usdocml://DeleteEnvelopePoints_EnvelopePointArray) and more
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -523,7 +523,7 @@
             
             However, sometimes you want to have one function to check them all, and all these functions do not include Ultraschall-API-specific datatypes, so I added some stuff for that.  
             
-            1. [type](#type)  
+            1. [type](usdocml://type)  
                    works like Lua's own type-function, but checks for Reaper's own datatypes as well, like:  
                    
                            Lua: nil, number: integer, number: float, boolean, string, function, table, thread, userdata,  
@@ -543,28 +543,28 @@
 
                 Ultraschall-API-specific:
                 
-                   - [IsValidTrackString](#IsValidTrackString) - checks, if a string is a valid [trackstring](#Datatypes_trackstring)  
-                   - [IsValidMediaItemArray](#IsValidMediaItemArray) - checks, if a table is a valid [MediaItemArray](#Datatypes_MediaItemArray)  
-                   - [IsValidMediaItemStateChunkArray](#IsValidMediaItemStateChunkArray) - checks, if a table is a valid [MediaItemStateChunkArray](#Datatypes_MediaItemStateChunkArray)  
-                   - [IsValidEnvelopePointObject](#IsValidEnvelopePointObject) - checks, if a table is a valid [EnvelopePointObject](#Datatypes_EnvelopePointObject)  
-                   - [IsValidEnvelopePointArray](#IsValidEnvelopePointArray) - checks, if a table is a valid [EnvelopePointArray](#Datatypes_EnvelopePointArray)
-                   - [IsValidArrangeviewSnapshot](#IsValidArrangeviewSnapshot) - checks, if an extstate is a valid ArrangeviewSnapshot
+                   - [IsValidTrackString](usdocml://IsValidTrackString) - checks, if a string is a valid [trackstring](#Datatypes_trackstring)  
+                   - [IsValidMediaItemArray](usdocml://IsValidMediaItemArray) - checks, if a table is a valid [MediaItemArray](#Datatypes_MediaItemArray)  
+                   - [IsValidMediaItemStateChunkArray](usdocml://IsValidMediaItemStateChunkArray) - checks, if a table is a valid [MediaItemStateChunkArray](#Datatypes_MediaItemStateChunkArray)  
+                   - [IsValidEnvelopePointObject](usdocml://IsValidEnvelopePointObject) - checks, if a table is a valid [EnvelopePointObject](#Datatypes_EnvelopePointObject)  
+                   - [IsValidEnvelopePointArray](usdocml://IsValidEnvelopePointArray) - checks, if a table is a valid [EnvelopePointArray](#Datatypes_EnvelopePointArray)
+                   - [IsValidArrangeviewSnapshot](usdocml://IsValidArrangeviewSnapshot) - checks, if an extstate is a valid ArrangeviewSnapshot
                     
                 Other Reaper-datatypes:
                 
-                   - [IsValidReaProject](#IsValidReaProject) - checks, if an object is a valid ReaProject
-                   - [IsValidProjectStateChunk](#IsValidProjectStateChunk) - checks, if a string is a valid ProjectStateChunk
-                   - [IsValidTrackStateChunk](#IsValidTrackStateChunk) - checks, if a string is a valid TrackStateChunk
-                   - [IsValidMediaItemStateChunk](#IsValidMediaItemStateChunk) - checks, if a string is a valid MediaItemStateChunk
-                   - [IsValidEnvStateChunk](#IsValidEnvStateChunk) - checks, if a string is a valid EnvelopeStateChunk
+                   - [IsValidReaProject](usdocml://IsValidReaProject) - checks, if an object is a valid ReaProject
+                   - [IsValidProjectStateChunk](usdocml://IsValidProjectStateChunk) - checks, if a string is a valid ProjectStateChunk
+                   - [IsValidTrackStateChunk](usdocml://IsValidTrackStateChunk) - checks, if a string is a valid TrackStateChunk
+                   - [IsValidMediaItemStateChunk](usdocml://IsValidMediaItemStateChunk) - checks, if a string is a valid MediaItemStateChunk
+                   - [IsValidEnvStateChunk](usdocml://IsValidEnvStateChunk) - checks, if a string is a valid EnvelopeStateChunk
                     
                 They will be part of ultraschall.type() someday.
                 
             3. other types of data  
                 These aren't datatypes, but you may want to check them for validity as well  
                 
-                   - [IsValidGuid](#IsValidGuid) - checks, whether a string is a valid GUID  
-                   - [IsValidMatchingPattern](#IsValidMatchingPattern) - checks, whether a string is a valid matching pattern for Lua's pattern-matching  
+                   - [IsValidGuid](usdocml://IsValidGuid) - checks, whether a string is a valid GUID  
+                   - [IsValidMatchingPattern](usdocml://IsValidMatchingPattern) - checks, whether a string is a valid matching pattern for Lua's pattern-matching  
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -583,11 +583,11 @@
             When working with the Ultraschall-API or general programming in Reaper, some additional things may or may not be helpful to know.  
             So I added some API-variables, like:
             
-               1. [Script_Path](#Script_Path) - which contains the current path to Reaper's-scripts-folder
-               2. [Separator](#Separator) - which contains the correct separator for paths; on Windows it is \ on Mac and Linux it is /
-               3. [StartTime](#StartTime) - contains the starting time of the Ultraschall-API as used in the current script. That means, the starting time of the now running script.
-               4. [Api_Path](#Api_Path) - the current path to the Ultraschall-API folder.
-               5. [Api_InstallPath](#Api_InstallPath) - an API-variable that contains the path to the install-folder of the Ultraschall-API
+               1. [Script_Path](usdocml://Script_Path) - which contains the current path to Reaper's-scripts-folder
+               2. [Separator](usdocml://Separator) - which contains the correct separator for paths; on Windows it is \ on Mac and Linux it is /
+               3. [StartTime](usdocml://StartTime) - contains the starting time of the Ultraschall-API as used in the current script. That means, the starting time of the now running script.
+               4. [Api_Path](usdocml://Api_Path) - the current path to the Ultraschall-API folder.
+               5. [Api_InstallPath](usdocml://Api_InstallPath) - an API-variable that contains the path to the install-folder of the Ultraschall-API
                
             These can be accessed using:
             
@@ -617,12 +617,12 @@
             Basically the process is based on:  
                 
                1. creating a renderstring with all format-specific-settings, using the accompanying functions:  
-                   [CreateRenderCFG_AIFF](#CreateRenderCFG_AIFF), [CreateRenderCFG_DDP](#CreateRenderCFG_DDP), [CreateRenderCFG_FLAC](#CreateRenderCFG_FLAC), [CreateRenderCFG_MP3ABR](#CreateRenderCFG_MP3ABR), [CreateRenderCFG_MP3CBR](#CreateRenderCFG_MP3CBR), 
-                   [CreateRenderCFG_MP3MaxQuality](#CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG_MP3VBR](#CreateRenderCFG_MP3VBR), [CreateRenderCFG_OGG](#CreateRenderCFG_OGG), [CreateRenderCFG_Opus](#CreateRenderCFG_Opus),  
-                   [CreateRenderCFG_Opus2](#CreateRenderCFG_Opus2), [CreateRenderCFG_WAV](#CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](#CreateRenderCFG_WAVPACK), [CreateRenderCFG_WebMVideo](#CreateRenderCFG_WebMVideo)  
+                   [CreateRenderCFG_AIFF](usdocml://CreateRenderCFG_AIFF), [CreateRenderCFG_DDP](usdocml://CreateRenderCFG_DDP), [CreateRenderCFG_FLAC](usdocml://CreateRenderCFG_FLAC), [CreateRenderCFG_MP3ABR](usdocml://CreateRenderCFG_MP3ABR), [CreateRenderCFG_MP3CBR](usdocml://CreateRenderCFG_MP3CBR), 
+                   [CreateRenderCFG_MP3MaxQuality](usdocml://CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG_MP3VBR](usdocml://CreateRenderCFG_MP3VBR), [CreateRenderCFG_OGG](usdocml://CreateRenderCFG_OGG), [CreateRenderCFG_Opus](usdocml://CreateRenderCFG_Opus),  
+                   [CreateRenderCFG_Opus2](usdocml://CreateRenderCFG_Opus2), [CreateRenderCFG_WAV](usdocml://CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](usdocml://CreateRenderCFG_WAVPACK), [CreateRenderCFG_WebMVideo](usdocml://CreateRenderCFG_WebMVideo)  
                     
                2. passing the render-string to one of the Render-functions  
-                   [RenderProject_RenderCFG](#RenderProject_RenderCFG), [RenderProjectRegions_RenderCFG](#RenderProjectRegions_RenderCFG)
+                   [RenderProject_RenderCFG](usdocml://RenderProject_RenderCFG), [RenderProjectRegions_RenderCFG](usdocml://RenderProjectRegions_RenderCFG)
                     
                So the following code should render the current project into an MP3 with a Constant Bitrate of 128kbps.
                Note: to render the currently opened project, it must be saved first!
@@ -634,7 +634,7 @@
                        retval = ultraschall.RenderProject_RenderCFG(nil, "c:\\exportfile.mp3", 0, -1, false, false, false, render_cfg_string)
                
                
-               Read the accompanying documentation-entries for [CreateRenderCFG_MP3CBR](#CreateRenderCFG_MP3CBR) and [RenderProject_RenderCFG](#RenderProject_RenderCFG) for more details and/or the following chapters.
+               Read the accompanying documentation-entries for [CreateRenderCFG_MP3CBR](usdocml://CreateRenderCFG_MP3CBR) and [RenderProject_RenderCFG](usdocml://RenderProject_RenderCFG) for more details and/or the following chapters.
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -673,12 +673,12 @@
             
             This will create a render-string for FLAC with 24bit-depth and the encoding-speed of 5(which is the default-setting in the render-dialog).
             
-            This renderstring can then be passed over to [SetProject_RenderCFG](#SetProject_RenderCFG) to set it into a project-file, or to [RenderProject_RenderCFG](#RenderProject_RenderCFG) to render a projectfile using the format-settings in the Render-string.
+            This renderstring can then be passed over to [SetProject_RenderCFG](usdocml://SetProject_RenderCFG) to set it into a project-file, or to [RenderProject_RenderCFG](usdocml://RenderProject_RenderCFG) to render a projectfile using the format-settings in the Render-string.
             
             The following render-string-functions are available in Ultraschall-API:  
-                     [CreateRenderCFG_AIFF](#CreateRenderCFG_AIFF), [CreateRenderCFG_DDP](#CreateRenderCFG_DDP), [CreateRenderCFG_FLAC](#CreateRenderCFG_FLAC), [CreateRenderCFG_MP3ABR](#CreateRenderCFG_MP3ABR), [CreateRenderCFG_MP3CBR](#CreateRenderCFG_MP3CBR), [CreateRenderCFG_MP3MaxQuality](#CreateRenderCFG_MP3MaxQuality), 
-                     [CreateRenderCFG_MP3VBR](#CreateRenderCFG_MP3VBR), [CreateRenderCFG_OGG](#CreateRenderCFG_OGG), [CreateRenderCFG_Opus](#CreateRenderCFG_Opus), [CreateRenderCFG_Opus2](#CreateRenderCFG_Opus2), [CreateRenderCFG_WAV](#CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](#CreateRenderCFG_WAVPACK),  
-                     [CreateRenderCFG_WebMVideo](#CreateRenderCFG_WebMVideo)            
+                     [CreateRenderCFG_AIFF](usdocml://CreateRenderCFG_AIFF), [CreateRenderCFG_DDP](usdocml://CreateRenderCFG_DDP), [CreateRenderCFG_FLAC](usdocml://CreateRenderCFG_FLAC), [CreateRenderCFG_MP3ABR](usdocml://CreateRenderCFG_MP3ABR), [CreateRenderCFG_MP3CBR](usdocml://CreateRenderCFG_MP3CBR), [CreateRenderCFG_MP3MaxQuality](usdocml://CreateRenderCFG_MP3MaxQuality), 
+                     [CreateRenderCFG_MP3VBR](usdocml://CreateRenderCFG_MP3VBR), [CreateRenderCFG_OGG](usdocml://CreateRenderCFG_OGG), [CreateRenderCFG_Opus](usdocml://CreateRenderCFG_Opus), [CreateRenderCFG_Opus2](usdocml://CreateRenderCFG_Opus2), [CreateRenderCFG_WAV](usdocml://CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](usdocml://CreateRenderCFG_WAVPACK),  
+                     [CreateRenderCFG_WebMVideo](usdocml://CreateRenderCFG_WebMVideo)            
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -699,8 +699,8 @@
             
             There are currently two different render-functions available:  
             
-            1. [RenderProject_RenderCFG](#RenderProject_RenderCFG) - with this one, you can render a whole project or just from startposition to endposition in seconds
-            2. [RenderProjectRegions_RenderCFG](#RenderProjectRegions_RenderCFG) with this one, you can render specific regions of a project
+            1. [RenderProject_RenderCFG](usdocml://RenderProject_RenderCFG) - with this one, you can render a whole project or just from startposition to endposition in seconds
+            2. [RenderProjectRegions_RenderCFG](usdocml://RenderProjectRegions_RenderCFG) with this one, you can render specific regions of a project
             
             Basically they are the same, with the only difference, that with the first one you can set a specific startposition and endposition, while the second one, you set it to a region-number.  
             That said, a lot of the parameters are the same.
@@ -748,17 +748,17 @@
             
             In the likely case, that you want to influence more things for rendering, like samplerate, stereo or mono, etc, you should do the following things:
             
-            1. make a copy of the rpp-file that you want to render using [MakeCopyOfFile](#MakeCopyOfFile). The copy must have a different name and be in the same folder, as the original rpp-file!
+            1. make a copy of the rpp-file that you want to render using [MakeCopyOfFile](usdocml://MakeCopyOfFile). The copy must have a different name and be in the same folder, as the original rpp-file!
             2. Now you can alter the copy of the projectfile using the following Ultraschall-Framework-functions, that represent certain elements from Reaper's Render-Dialog:
             
-                - [SetProject_RenderFilename](#SetProject_RenderFilename) - to alter the output-filename
-                - [SetProject_RenderPattern](#SetProject_RenderPattern) - to set the wildcards for the output-filename 
-                - [SetProject_RenderDitherState](#SetProject_RenderDitherState) - to set the "Master mix: Dither/Noise shaping"-checkboxes
-                - [SetProject_RenderFreqNChans](#SetProject_RenderFreqNChans) - to set the Sample rate in Hz and Channels
-                - [SetProject_RenderRange](#SetProject_RenderRange) - to set Bounds-dropdownlist, Time bounds-entryboxes and Tail
-                - [SetProject_RenderResample](#SetProject_RenderResample) - to set "Resample mode (if needed)" 
-                - [SetProject_RenderSpeed](#SetProject_RenderSpeed) to set the render-speed, and
-                - [SetProject_RenderStems](#SetProject_RenderStems) to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)  
+                - [SetProject_RenderFilename](usdocml://SetProject_RenderFilename) - to alter the output-filename
+                - [SetProject_RenderPattern](usdocml://SetProject_RenderPattern) - to set the wildcards for the output-filename 
+                - [SetProject_RenderDitherState](usdocml://SetProject_RenderDitherState) - to set the "Master mix: Dither/Noise shaping"-checkboxes
+                - [SetProject_RenderFreqNChans](usdocml://SetProject_RenderFreqNChans) - to set the Sample rate in Hz and Channels
+                - [SetProject_RenderRange](usdocml://SetProject_RenderRange) - to set Bounds-dropdownlist, Time bounds-entryboxes and Tail
+                - [SetProject_RenderResample](usdocml://SetProject_RenderResample) - to set "Resample mode (if needed)" 
+                - [SetProject_RenderSpeed](usdocml://SetProject_RenderSpeed) to set the render-speed, and
+                - [SetProject_RenderStems](usdocml://SetProject_RenderStems) to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)  
                 
             3. after you've set the individual render-settings, you create a render-string, as described in [Rendering: About Renderstrings](#Rendering_02_About_Renderstrings).  
             
@@ -814,7 +814,7 @@
         <slug>Arrangeview_Snapshots_HowToStoreRetrieveDelete</slug>
         <title>Arrangeview Snapshots: How to store, retrieve, delete</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            If you want to store the current position and zoom-factor of the Arrangeview, you can use the function [StoreArrangeviewSnapshot](#StoreArrangeviewSnapshot).  
+            If you want to store the current position and zoom-factor of the Arrangeview, you can use the function [StoreArrangeviewSnapshot](usdocml://StoreArrangeviewSnapshot).  
             
             It accepts the following parameters:
             
@@ -824,12 +824,12 @@
                         position    - set to true to store the startposition and endposition of the arrangeview. Otherwise(false), it will only store the current horizontal zoom-factor
                         vzoom       - set to true, if you want to store the vertical zoom-factor as well; set to false, if you don't want it to be stored.
                 
-            If you want to retrieve the settings of a certain Arrange-View-Snapshot, you can use [RetrieveArrangeviewSnapshot](#RetrieveArrangeviewSnapshot), which will
+            If you want to retrieve the settings of a certain Arrange-View-Snapshot, you can use [RetrieveArrangeviewSnapshot](usdocml://RetrieveArrangeviewSnapshot), which will
             return all settings from an Arrangeview-snapshot. The return-values of RetrieveArrangeviewSnapshot basically work the same as the parameters of StoreArrangeviewSnapshot.
             
-            If you want to check, whether a slot is already used, you can use [IsValidArrangeviewSnapshot](#IsValidArrangeviewSnapshot), which will return true in that case and false, if the slot is unused.
+            If you want to check, whether a slot is already used, you can use [IsValidArrangeviewSnapshot](usdocml://IsValidArrangeviewSnapshot), which will return true in that case and false, if the slot is unused.
             
-            To delete a certain slot, just use [DeleteArrangeviewSnapshot](#DeleteArrangeviewSnapshot).
+            To delete a certain slot, just use [DeleteArrangeviewSnapshot](usdocml://DeleteArrangeviewSnapshot).
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -845,7 +845,7 @@
         <slug>Arrangeview_Snapshots_HowToRestore</slug>
         <title>Arrangeview Snapshots: How to restore</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            When having stored an Arrangeview-Snapshot into a slot, you certainly want to restore it at one point. For that, use [RestoreArrangeviewSnapshot](#RestoreArrangeviewSnapshot).
+            When having stored an Arrangeview-Snapshot into a slot, you certainly want to restore it at one point. For that, use [RestoreArrangeviewSnapshot](usdocml://RestoreArrangeviewSnapshot).
             
             This function let's you restore an earlier arrange-view completely, but also allows you to individually set, what you want to restore, using the parameters:  
             
@@ -906,16 +906,16 @@
             For that we have numerous functions:  
                 
                - Editcursor only:
-                  - [JumpForwardBy](#JumpForwardBy) - jumps forward editcursor by as many seconds you like; optionally you can move the playcursor as well to the new position.
-                  - [JumpBackwardBy](#JumpBackwardBy) - jumps backward editcursor by as many seconds you like; optionally you can move the playcursor as well to the new position.
+                  - [JumpForwardBy](usdocml://JumpForwardBy) - jumps forward editcursor by as many seconds you like; optionally you can move the playcursor as well to the new position.
+                  - [JumpBackwardBy](usdocml://JumpBackwardBy) - jumps backward editcursor by as many seconds you like; optionally you can move the playcursor as well to the new position.
                
                - Playcursor only:
-                  - [SetPlayCursor_WhenPlaying](#SetPlayCursor_WhenPlaying) - sets the playcursor to a new position, during playing
-                  - [JumpForwardBy_Recording](#JumpForwardBy_Recording) - stops recording, jumps forward a given amount of seconds and resumes recording
-                  - [JumpBackwardBy_Recording](#JumpBackwardBy_Recording) - stops recording, jumps backward a given amount of seconds and resumes recording
+                  - [SetPlayCursor_WhenPlaying](usdocml://SetPlayCursor_WhenPlaying) - sets the playcursor to a new position, during playing
+                  - [JumpForwardBy_Recording](usdocml://JumpForwardBy_Recording) - stops recording, jumps forward a given amount of seconds and resumes recording
+                  - [JumpBackwardBy_Recording](usdocml://JumpBackwardBy_Recording) - stops recording, jumps backward a given amount of seconds and resumes recording
                    
                - Both:
-                  - [SetPlayAndEditCursor_WhenPlaying](#SetPlayAndEditCursor_WhenPlaying) - sets play and editcursor to position during playback
+                  - [SetPlayAndEditCursor_WhenPlaying](usdocml://SetPlayAndEditCursor_WhenPlaying) - sets play and editcursor to position during playback
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -934,12 +934,12 @@
             Markers and items provide you with much additional helpful information regarding the project. They also provide you with an additional information: useful positions to navigate through.  
             To make use of that, I added some functions for that:  
             
-               1. [GetClosestPreviousMarker](#GetClosestPreviousMarker), [GetClosestNextMarker](#GetClosestNextMarker) - Get the previous/next closest marker at a given position
-               2. [GetClosestPreviousRegionEdge](#GetClosestPreviousRegionEdge), [GetClosestNextRegionEdge](#GetClosestNextRegionEdge) - Get the previous/next closest regionedge at a given position
-               3. [GetPreviousClosestItemEdge](#GetPreviousClosestItemEdge), [GetNextClosestItemEdge](#GetNextClosestItemEdge) - Get the previous/next closest itemedge at a given position
-               4. [GetClosestGoToPoints](#GetClosestGoToPoints) - get previous/next markers/regionedges/itemedges/projectstart/projectend from position, for those who need the full marker/region/item-position-package
+               1. [GetClosestPreviousMarker](usdocml://GetClosestPreviousMarker), [GetClosestNextMarker](usdocml://GetClosestNextMarker) - Get the previous/next closest marker at a given position
+               2. [GetClosestPreviousRegionEdge](usdocml://GetClosestPreviousRegionEdge), [GetClosestNextRegionEdge](usdocml://GetClosestNextRegionEdge) - Get the previous/next closest regionedge at a given position
+               3. [GetPreviousClosestItemEdge](usdocml://GetPreviousClosestItemEdge), [GetNextClosestItemEdge](usdocml://GetNextClosestItemEdge) - Get the previous/next closest itemedge at a given position
+               4. [GetClosestGoToPoints](usdocml://GetClosestGoToPoints) - get previous/next markers/regionedges/itemedges/projectstart/projectend from position, for those who need the full marker/region/item-position-package
             
-            Let's go into more detail, by examining [GetClosestPreviousRegionEdge](#GetClosestPreviousRegionEdge).
+            Let's go into more detail, by examining [GetClosestPreviousRegionEdge](usdocml://GetClosestPreviousRegionEdge).
                 
                 
                         number markerindex, number position, string markername, string edge_type = 
@@ -961,7 +961,7 @@
             The Marker-functions (from 1) ) work the same, the Item-edge-functions (from 3) ) however have an additional parameter trackstring, with which you can set, from which tracks you want to get the next/previous closest item-edge-position.
             
             
-            The function [GetClosestGoToPoints](#GetClosestGoToPoints) is the combination of all of these functions, which let's you decide fully, which edges/positions you want to check for.   
+            The function [GetClosestGoToPoints](usdocml://GetClosestGoToPoints) is the combination of all of these functions, which let's you decide fully, which edges/positions you want to check for.   
             It will also check, if the next/previous closest edge is the beginning or the end of the project.
         </description>
         <target_document>ReaperApiConcepts</target_document>
@@ -980,7 +980,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Sometimes it's a good idea to center the arrangeview to a certain point, may it be different points of interests within your project or just to get back to the playcursor/editcursor out of the view.
             
-            For that, I added the function [CenterViewToCursor](#CenterViewToCursor).  
+            For that, I added the function [CenterViewToCursor](usdocml://CenterViewToCursor).  
             Let's have a look at it:  
             
 
@@ -1013,7 +1013,7 @@
         <title>Navigation: Autoscroll and Followmode</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Reaper allows you to set autoscrolling during playback/recording. It allows you to set it to continuous scrolling or to "page-wise"-scrolling.  
-            This is quite flexible but hidden somewhat within the actions of Reaper. So I added the function [ToggleScrollingDuringPlayback](#ToggleScrollingDuringPlayback).  
+            This is quite flexible but hidden somewhat within the actions of Reaper. So I added the function [ToggleScrollingDuringPlayback](usdocml://ToggleScrollingDuringPlayback).  
             It turns on autoscrolling for playback and recording AND continuous scrolling.  
             Let's have a look at it:  
             
@@ -1058,7 +1058,7 @@
             In Setting-State-functions, it is basically the same: the first parameter the object and the last parameter is the optional StateChunk(when the first parameter is set to nil). The parameters inbetween set the individual settings for that state.  
             
             
-            Let's have a look at two example functions [GetProject_CursorPos](#GetProject_CursorPos) and [SetProject_CursorPos](#SetProject_CursorPos):  
+            Let's have a look at two example functions [GetProject_CursorPos](usdocml://GetProject_CursorPos) and [SetProject_CursorPos](usdocml://SetProject_CursorPos):  
             Get Project-State:  
 
                         number cursorpos = ultraschall.GetProject_CursorPos(string projectfilename_with_path, optional string ProjectStateChunk) 
@@ -1130,11 +1130,11 @@
             In either way, you select them in a 2Dimensional way.
             Not with Reaper's own API. Sure, you can somehow choose the MediaItems by track or by project, but you can't select them by multiple tracks. And certainly not by a time-range.  
             
-            This was annoying for me, so to address this, I wrote the two functions [GetMediaItemsAtPosition](#GetMediaItemsAtPosition) and [GetAllMediaItemsBetween](#GetAllMediaItemsBetween) (my favorite ones in this api, I have to admit ;) ).  
+            This was annoying for me, so to address this, I wrote the two functions [GetMediaItemsAtPosition](usdocml://GetMediaItemsAtPosition) and [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween) (my favorite ones in this api, I have to admit ;) ).  
               
             Let's have a closer look at them.  
             
-            **[GetMediaItemsAtPosition](#GetMediaItemsAtPosition)**:
+            **[GetMediaItemsAtPosition](usdocml://GetMediaItemsAtPosition)**:
             
                         integer number_of_items, array MediaItemArray, array MediaItemStateChunkArray 
                                                                        = ultraschall.GetMediaItemsAtPosition(number position, string trackstring)
@@ -1148,7 +1148,7 @@
             But what, if you want to get the MediaItems inbetween a startingposition and an endposition?  
             For this, I wrote the function 
             
-            **[GetAllMediaItemsBetween](#GetAllMediaItemsBetween)**:
+            **[GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween)**:
             
 
                          integer count, array MediaItemArray, array MediaItemStateChunkArray = 
@@ -1165,13 +1165,13 @@
             
             In addition to them, I also added some more functions for getting MediaItems, namely:
             
-               - [GetAllMediaItems](#GetAllMediaItems) - get all MediaItems from the project into a handy MediaItemArray, for further "mass-manipulation" of them.
-               - [GetAllLockedItemsFromMediaItemArray](#GetAllLockedItemsFromMediaItemArray) - get all MediaItems that are locked, from a MediaItemArray
-               - [GetAllMediaItemsFromTrack](#GetAllMediaItemsFromTrack) - get all MediaItems from a track, returned as MediaItemArray
-               - [GetAllMediaItemsInTimeSelection](#GetAllMediaItemsInTimeSelection) - get all MediaItems in given tracks from the current time-selection
-               - [GetAllSelectedMediaItems](#GetAllSelectedMediaItems) - gets all selected MediaItems as MediaItemArray
-               - [GetSelectedMediaItemsAtPosition](#GetSelectedMediaItemsAtPosition) - gets all selected MediaItems in given tracks from a time-position
-               - [GetSelectedMediaItemsBetween](#GetSelectedMediaItemsBetween) - gets all selected MediaITems in given tracks between start- and endposition
+               - [GetAllMediaItems](usdocml://GetAllMediaItems) - get all MediaItems from the project into a handy MediaItemArray, for further "mass-manipulation" of them.
+               - [GetAllLockedItemsFromMediaItemArray](usdocml://GetAllLockedItemsFromMediaItemArray) - get all MediaItems that are locked, from a MediaItemArray
+               - [GetAllMediaItemsFromTrack](usdocml://GetAllMediaItemsFromTrack) - get all MediaItems from a track, returned as MediaItemArray
+               - [GetAllMediaItemsInTimeSelection](usdocml://GetAllMediaItemsInTimeSelection) - get all MediaItems in given tracks from the current time-selection
+               - [GetAllSelectedMediaItems](usdocml://GetAllSelectedMediaItems) - gets all selected MediaItems as MediaItemArray
+               - [GetSelectedMediaItemsAtPosition](usdocml://GetSelectedMediaItemsAtPosition) - gets all selected MediaItems in given tracks from a time-position
+               - [GetSelectedMediaItemsBetween](usdocml://GetSelectedMediaItemsBetween) - gets all selected MediaITems in given tracks between start- and endposition
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -1188,10 +1188,10 @@
         <title>MediaItems: Splitting MediaItems by Time and Tracks</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Getting MediaItems by time and tracks is cool. Editing them by time and tracks is even better. For that, I also added some functions:  
-            The easiest ones are [SplitMediaItems_Position](#SplitMediaItems_Position) and [SplitItemsAtPositionFromArray](#SplitItemsAtPositionFromArray)  
+            The easiest ones are [SplitMediaItems_Position](usdocml://SplitMediaItems_Position) and [SplitItemsAtPositionFromArray](usdocml://SplitItemsAtPositionFromArray)  
             Let's have a look at:  
             
-            **[SplitMediaItems_Position](#SplitMediaItems_Position)**:
+            **[SplitMediaItems_Position](usdocml://SplitMediaItems_Position)**:
             
                             boolean retval, array MediaItemArray = ultraschall.SplitMediaItems_Position(number position, string trackstring, boolean crossfade)
             
@@ -1204,7 +1204,7 @@
             
             >This function returns, if splitting was successful and the newly "created"-right-hand-split-items as an MediaItemAray.
             
-            **[SplitItemsAtPositionFromArray](#SplitItemsAtPositionFromArray):**  
+            **[SplitItemsAtPositionFromArray](usdocml://SplitItemsAtPositionFromArray):**  
             >The function SplitItemsAtPositionFromArray works quite similar, but with the difference, that you don't give tracks, but items to the function, that shall be split at position.
                 
                             boolean retval, array MediaItemArray = ultraschall.SplitItemsAtPositionFromArray(number position, array MediaItemArray, boolean crossfade)
@@ -1230,7 +1230,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Deleting of MediaItems is often a useful thing. Unfortunately, this is inconvenient to do within the Reaper-API. The only such function is DeleteTrackMediaItem, but it requires you to give the function the track in which the MediaItem lies too. 
             But often, you want to have a function that simply deletes a MediaItem-object or deletes items at position from numerous tracks, etc.  
-            So I added some functions, that make life easier: [DeleteMediaItem](#DeleteMediaItem), [DeleteMediaItemsFromArray](#DeleteMediaItemsFromArray), [DeleteMediaItems_Position](#DeleteMediaItems_Position) and [DeleteMediaItemsBetween](#DeleteMediaItemsBetween)
+            So I added some functions, that make life easier: [DeleteMediaItem](usdocml://DeleteMediaItem), [DeleteMediaItemsFromArray](usdocml://DeleteMediaItemsFromArray), [DeleteMediaItems_Position](usdocml://DeleteMediaItems_Position) and [DeleteMediaItemsBetween](usdocml://DeleteMediaItemsBetween)
             
             In addition to deleting the MediaItems, all these functions return the statechunks of the deleted MediaItems. These statechunks contain an additional field 
             
@@ -1240,21 +1240,21 @@
             This may help doing cut and paste functions, as otherwise, you lose the information, in which track a certain MediaItem was located.
             
             
-            **[DeleteMediaItem](#DeleteMediaItem):**
+            **[DeleteMediaItem](usdocml://DeleteMediaItem):**
             
                             boolean retval, string MediaItemStateChunk = ultraschall.DeleteMediaItem(MediaItem MediaItem)
             
             >This function is simple. Just pass the MediaItem that you want to delete to it and it will delete it. If no such MediaItem exists, it will return false.
             
             
-            **[DeleteMediaItemsFromArray](#DeleteMediaItemsFromArray):**
+            **[DeleteMediaItemsFromArray](usdocml://DeleteMediaItemsFromArray):**
             
                             boolean retval, array MediaItemArray = ultraschall.DeleteMediaItemsFromArray(array MediaItemArray)
                 
-            >This function might be more interesting if you want to delete a number of MediaItems at once. Just pass to it a MediaItemArray(like the one returned by functions like [GetAllMediaItemsBetween](#GetAllMediaItemsBetween))
+            >This function might be more interesting if you want to delete a number of MediaItems at once. Just pass to it a MediaItemArray(like the one returned by functions like [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween))
 
             
-            **[DeleteMediaItems\_Position](#DeleteMediaItems_Position):**
+            **[DeleteMediaItems\_Position](usdocml://DeleteMediaItems_Position):**
             
                             boolean retval, array MediaItemStateChunkArray = ultraschall.DeleteMediaItems_Position(number position, string trackstring)
                 
@@ -1264,13 +1264,13 @@
                             retval = ultraschall.DeleteMediaItems_Position(22, "1,4,8,9")
                 
                 
-            **[DeleteMediaItems\_Position](#DeleteMediaItems_Position):**
+            **[DeleteMediaItems\_Position](usdocml://DeleteMediaItems_Position):**
             
                             boolean retval, array MediaItemStateChunkArray  = 
                                         ultraschall.DeleteMediaItems_Between(number startposition, number endposition, string trackstring, boolean inside)
             
             >This function deletes MediaItems between start and endposition, within the track given by parameter trackstring. You can use the parameter inside to set, if you want to delete only items that are completely within start and endposition(true) or also include items, that are only partially within start and endposition.  
-            >This function works like [GetAllMediaItemsBetween](#GetAllMediaItemsBetween), with the additional benefit of deleting the MediaItems.  
+            >This function works like [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween), with the additional benefit of deleting the MediaItems.  
             >Let's assume, you want to delete all MediaItems between position 33 and 98, within the tracks 3, 5, 10 and 14 and only the items that are completely within the position 33 and 98, you type:  
             
                             retval, MediaItemStateChunkArray  = ultraschall.DeleteMediaItems_Between(33, 98, "3,5,10,14", true)
@@ -1296,10 +1296,10 @@
             Impossible you say!  
             With naked Reaper, yes. But possible with the Ultraschall-API.  
             
-            For that I added the following functions: [RippleCut](#RippleCut), [RippleCut_Reverse](#RippleCut_Reverse), [RippleInsert](#RippleInsert), [SectionCut](#SectionCut), [SectionCut_Inverse](#SectionCut_Inverse)  
+            For that I added the following functions: [RippleCut](usdocml://RippleCut), [RippleCut_Reverse](usdocml://RippleCut_Reverse), [RippleInsert](usdocml://RippleInsert), [SectionCut](usdocml://SectionCut), [SectionCut_Inverse](usdocml://SectionCut_Inverse)  
             All these functions return a MediaItemStateChunkArray, where every StateChunk includes an additional entry "ULTRASCHALL_TRACKNUMBER", which holds the tracknumber, in which the cut MediaItem/piece of a MediaItem was originally located.  
             
-            **[RippleCut](#RippleCut)**:
+            **[RippleCut](usdocml://RippleCut)**:
                 
                             integer number_items, array MediaItemArray_StateChunk = 
                                 ultraschall.RippleCut(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)
@@ -1313,7 +1313,7 @@
                 
             >This cuts out the section between seconds 20 and 50 and moves everything after that toward the beginning of the project, to fill the gap of the cut section.
             
-            **[RippleCut\_Reverse](#RippleCut_Reverse)**:
+            **[RippleCut\_Reverse](usdocml://RippleCut_Reverse)**:
             
                             integer number_items, array MediaItemArray_StateChunk = 
                                ultraschall.RippleCut_Reverse(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)
@@ -1322,7 +1322,7 @@
             >Everything else is just the same as RippleCut.
             
             
-            **[RippleInsert](#RippleInsert)**:
+            **[RippleInsert](usdocml://RippleInsert)**:
             
                             integer number_of_items, array MediaItemArray, number endpos_inserted_items = 
                                 ultraschall.RippleInsert(number position, array MediaItemArray, string trackstring, boolean moveenvelopepoints, boolean movemarkers)
@@ -1339,7 +1339,7 @@
             >This will insert all MediaItems from MediaItemArray, ordered by their relative position, at position 20 seconds. Only the MediaItems from tracks 1,4,9,10 will be included. All others will be ignored.  
             >Markers and Envelopepoints will not move in this example.
             
-            **[SectionCut](#SectionCut)**:
+            **[SectionCut](usdocml://SectionCut)**:
             
                             integer number_items, array MediaItemArray_StateChunk = ultraschall.SectionCut(number startposition, number endposition, string trackstring)
                 
@@ -1349,7 +1349,7 @@
             
                             number_items, MediaItemArray_StateChunk = ultraschall.SectionCut(77, 99, "1,2,4,6")
                 
-            **[SectionCut_Inverse](#SectionCut_Inverse)**:
+            **[SectionCut_Inverse](usdocml://SectionCut_Inverse)**:
             
                             integer number_items_beforestart, array MediaItemArray_StateChunk_beforestart, integer number_items_afterend, array MediaItemArray_StateChunk_afterend = 
                                         ultraschall.SectionCut_Inverse(number startposition, number endposition, string trackstring)
@@ -1383,9 +1383,9 @@
             Getting, splitting, editing and deleting MediaItems isn't enough. In fact, you also want to manipulate them. And you also want to be able to manipulate many of them at once.  
             Hence, I added lots of functions to manipulate MediaItems, like:  
                 
-            - Moving: [MoveMediaItemsAfter_By](#MoveMediaItemsAfter_By), [MoveMediaItemsBefore_By](#MoveMediaItemsBefore_By), [MoveMediaItemsBetween_To](#MoveMediaItemsBetween_To), [MoveMediaItems_FromArray](#MoveMediaItems_FromArray)  
-            - Length: [ChangeLengthOfMediaItems_FromArray](#ChangeLengthOfMediaItems_FromArray), [ChangeDeltaLengthOfMediaItems_FromArray](#ChangeDeltaLengthOfMediaItems_FromArray)  
-            - Offset: [ChangeOffsetOfMediaItems_FromArray](#ChangeOffsetOfMediaItems_FromArray), [ChangeDeltaOffsetOfMediaItems_FromArray](#ChangeDeltaOffsetOfMediaItems_FromArray)  
+            - Moving: [MoveMediaItemsAfter_By](usdocml://MoveMediaItemsAfter_By), [MoveMediaItemsBefore_By](usdocml://MoveMediaItemsBefore_By), [MoveMediaItemsBetween_To](usdocml://MoveMediaItemsBetween_To), [MoveMediaItems_FromArray](usdocml://MoveMediaItems_FromArray)  
+            - Length: [ChangeLengthOfMediaItems_FromArray](usdocml://ChangeLengthOfMediaItems_FromArray), [ChangeDeltaLengthOfMediaItems_FromArray](usdocml://ChangeDeltaLengthOfMediaItems_FromArray)  
+            - Offset: [ChangeOffsetOfMediaItems_FromArray](usdocml://ChangeOffsetOfMediaItems_FromArray), [ChangeDeltaOffsetOfMediaItems_FromArray](usdocml://ChangeDeltaOffsetOfMediaItems_FromArray)  
             
             **Moving**  
             >Let's have a look at the moving-MediaItems-functions.
@@ -1477,12 +1477,12 @@
             
             Other functions for manipulating MediaItems:  
 
-               - [SetItemsLockState](#SetItemsLockState) - sets MediaItems in a MediaItemArray to either locked or unlocked    
-               - [AddLockStateToMediaItemStateChunk](#AddLockStateToMediaItemStateChunk) - sets the locked-state in a MediaItemStateChunk  
-               - [AddLockStateTo_MediaItemStateChunkArray](#AddLockStateTo_MediaItemStateChunkArray) - sets the locked-state to the MediaItemStateChunks in a MediaItemStateChunkArray  
-               - [SetMediaItemsSelected_TimeSelection](#SetMediaItemsSelected_TimeSelection) - sets MediaItems selected within time-selection  
-               - [SelectMediaItems_MediaItemArray](#SelectMediaItems_MediaItemArray) - sets MediaItems in MediaItemArray to selected  
-               - [DeselectMediaItems_MediaItemArray](#DeselectMediaItems_MediaItemArray) - sets MediaItems in MediaItemArray deselected  
+               - [SetItemsLockState](usdocml://SetItemsLockState) - sets MediaItems in a MediaItemArray to either locked or unlocked    
+               - [AddLockStateToMediaItemStateChunk](usdocml://AddLockStateToMediaItemStateChunk) - sets the locked-state in a MediaItemStateChunk  
+               - [AddLockStateTo_MediaItemStateChunkArray](usdocml://AddLockStateTo_MediaItemStateChunkArray) - sets the locked-state to the MediaItemStateChunks in a MediaItemStateChunkArray  
+               - [SetMediaItemsSelected_TimeSelection](usdocml://SetMediaItemsSelected_TimeSelection) - sets MediaItems selected within time-selection  
+               - [SelectMediaItems_MediaItemArray](usdocml://SelectMediaItems_MediaItemArray) - sets MediaItems in MediaItemArray to selected  
+               - [DeselectMediaItems_MediaItemArray](usdocml://DeselectMediaItems_MediaItemArray) - sets MediaItems in MediaItemArray deselected  
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -1499,7 +1499,7 @@
         <title>MediaItems: Inserting Items and Files</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Last, but not least, it would be nice to be able to insert MediaItems as well. And not just inserting them from a project, but also from files.  
-            For that, I made: [InsertMediaItem_MediaItem](#InsertMediaItem_MediaItem), [InsertMediaItem_MediaItemStateChunk](#InsertMediaItem_MediaItemStateChunk), [InsertMediaItemArray](#InsertMediaItemArray), [InsertMediaItemStateChunkArray](#InsertMediaItemStateChunkArray), [InsertMediaItemFromFile](#InsertMediaItemFromFile), [InsertImageFile](#InsertImageFile)  
+            For that, I made: [InsertMediaItem_MediaItem](usdocml://InsertMediaItem_MediaItem), [InsertMediaItem_MediaItemStateChunk](usdocml://InsertMediaItem_MediaItemStateChunk), [InsertMediaItemArray](usdocml://InsertMediaItemArray), [InsertMediaItemStateChunkArray](usdocml://InsertMediaItemStateChunkArray), [InsertMediaItemFromFile](usdocml://InsertMediaItemFromFile), [InsertImageFile](usdocml://InsertImageFile)  
             
             Lets have a look at inserting MediaItems.
             
@@ -1525,7 +1525,7 @@
                                             = ultraschall.InsertMediaItemStateChunkArray(number position, array MediaItemStateChunkArray, string trackstring)
 
            This works like InsertMediaItemArray, but it's inserting MediaItemStateChunks from the MediaItemStateChunkArray instead.  
-           In addition to that, it also lifts the track-limitation, when you insert the tracknumber into each MediaItemStateChunk using [SetItemUSTRackNumber_StateChunk](#SetItemUSTRackNumber_StateChunk), which is automatically done by [GetItem-functions](#Getting_Manipulating_Items_GetMediaItems) from the Ultraschall-API.  
+           In addition to that, it also lifts the track-limitation, when you insert the tracknumber into each MediaItemStateChunk using [SetItemUSTRackNumber_StateChunk](usdocml://SetItemUSTRackNumber_StateChunk), which is automatically done by [GetItem-functions](#Getting_Manipulating_Items_GetMediaItems) from the Ultraschall-API.  
            The addition of the tracknumber is mandatory, otherwise the MediaItemStateChunk will not be inserted!  
 
                             integer retval, MediaItem item, number endposition, integer numchannels, integer Samplerate, string Filetype

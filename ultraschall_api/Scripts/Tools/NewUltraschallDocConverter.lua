@@ -3,7 +3,7 @@ Tempfile=ultraschall.Api_Path.."/temp/temporary"
 ConversionToolMD2HTML="c:\\Program Files (x86)\\Pandoc\\pandoc.exe -f markdown -t html "..ultraschall.Api_Path.."/temp/temporary.md -o "..ultraschall.Api_Path.."/temp/temporary.html"
 
 Infilename=ultraschall.Api_Path.."/ultraschall_functions_engine.lua"
-Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Documentation.html"
+Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Functions.html"
 
 --Infilename=ultraschall.Api_Path.."/misc/US_Api-Manual.USDocML"
 --Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Documentation2.html"
@@ -442,7 +442,7 @@ Ultraschall API functions
         <div style="background-color:#282828;width:95%; font-family:tahoma; font-size:16;">
 
 
-           <a href="US_Api_Introduction_and_Concepts.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button.png" alt="Ultraschall Internals Documentation"></a>  
+           <a href="US_Api_Functions.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button.png" alt="Ultraschall Internals Documentation"></a>  
            <a href="Reaper_Api_Documentation.html"><img style="position: absolute; left:15.2%; width:8.7%;" src="gfx/Reaper_Button_Un.png" alt="Reaper Internals Documentation"></a>
          <img alt="" style="width:6.9%; position: absolute; left:23.9%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:30.8%;" src="gfx/linedance.png">
          <img alt="" style="width:6.9%; position: absolute; left:36.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:42.8%;" src="gfx/linedance.png">
@@ -466,7 +466,7 @@ Ultraschall API functions
                 </tr>
                 <tr>
                     <td></td>
-                    <td style="background-color:#777777; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Documentation.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions Reference&nbsp;</a></td>
+                    <td style="background-color:#777777; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Functions.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions Reference&nbsp;</a></td>
                 </tr>
                 <tr><td></td><tr>
                 </table>
@@ -490,7 +490,7 @@ function header()
 end
 
 function contentindex()
-  FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..beta.." \"John Cage - 4\'33\" - "..date.." - Build: "..build.."</div><h3>The Functions Reference</h3><table style=\"font-size:10pt; width:100%;\" >"
+  FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..beta.." \"John Cage - 4\'33\" - "..date.." - Build: "..build.."</div><h3>The Functions Reference</h3>To add the API to your script, just add<pre><code>           dofile(reaper.GetResourcePath()..\"/UserPlugins/ultraschall_api.lua\")</code></pre>as first line into your script.<br><br>For more details, read the docs in the <a href=\"US_Api_Introduction_and_Concepts.html\">Introduction and Concepts</a>-area of this page.<br><br><table style=\"font-size:10pt; width:100%;\" >"
   reaper.ClearConsole()
   reaper.ShowConsoleMsg("Create Index\n")
   HeaderList={}

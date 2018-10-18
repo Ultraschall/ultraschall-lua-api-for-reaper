@@ -39,7 +39,6 @@ function ultraschall.ParseSlug(String)
 end
 
 
-
 function ultraschall.ParseTitle(String)
   return String:match("<title>\n*%s*\t*(.-)\n*%s*\t*</title>")
 end
@@ -299,6 +298,7 @@ function ultraschall.ConvertPlainTextToHTML(text)
 end
 
 function ultraschall.ConvertMarkdownToHTML(text, version)
+  text=string.gsub(text, "usdocml://", "US_Api_Functions.html#") -- this line is a hack, just supporting functions-reference!
   ultraschall.WriteValueToFile(Tempfile..".md", text)
   L=reaper.ExecProcess(ConversionToolMD2HTML, 0)
   L3=text
@@ -443,7 +443,7 @@ Ultraschall API functions
         <div style="background-color:#282828;width:95%; font-family:tahoma; font-size:16;">
 
 
-           <a href="US_Api_Introduction_and_Concepts.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button.png" alt="Ultraschall Internals Documentation"></a>  
+           <a href="US_Api_Functions.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button.png" alt="Ultraschall Internals Documentation"></a>  
            <a href="Reaper_Api_Documentation.html"><img style="position: absolute; left:15.2%; width:8.7%;" src="gfx/Reaper_Button_Un.png" alt="Reaper Internals Documentation"></a>
          <img alt="" style="width:6.9%; position: absolute; left:23.9%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:30.8%;" src="gfx/linedance.png">
          <img alt="" style="width:6.9%; position: absolute; left:36.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:42.8%;" src="gfx/linedance.png">
@@ -467,7 +467,7 @@ Ultraschall API functions
                 </tr>
                 <tr>
                     <td></td>
-                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Documentation.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions Reference&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Functions.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions Reference&nbsp;</a></td>
                 </tr>
                 <tr><td></td><tr>
                 </table>
