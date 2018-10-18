@@ -298,7 +298,9 @@ Ultraschall API Changelog
 <li>GetProject_MasterVolEnv3StateChunk - returns the statechunk of the MasterVolEnv3</li>
 <li>GetProject_MasterHWPanEnvStateChunk - returns the statechunk of the MasterHWPanEnv</li>
 <li>GetProject_MasterPanMode_Ex - returns the state of the MasterPanMode_Ex</li>
-<li>GetProject_TempoEnv_ExStateChunk - returns the statechunk of the TempoEnv_Ex ####Changes from 4.00beta2.6 to 4.00beta2.7</li>
+<li>GetProject_TempoEnv_ExStateChunk - returns the statechunk of the TempoEnv_Ex</li>
+<li>Docs: MediaItems: Moving and Manipulating - added</li>
+<li>Docs: MediaItems: Inserting Items and Files - added ####Changes from 4.00beta2.6 to 4.00beta2.7</li>
 <li>Tons of bugfixes. I mean, tons as in metric tons ;)</li>
 <li>GetTrackRecCFG - added documentation, that was still missing -&gt; fixed now; added missing return-value</li>
 <li>GetLastErrorMessage2 - had wrong functionname, corrected documentation</li>
@@ -653,7 +655,10 @@ Ultraschall API Changelog
 <li>CenterViewToCursor - added parameter for a non-cursor-position of your choice to center to</li>
 <li>SetItemPosition - exchanged position and optional statechunk-parameters to be in line with SetProject/Track-statefunctions</li>
 <li>SetItemLength - exchanged length and optional statechunk-parameters to be in line with SetProject/Track-statefunctions</li>
-<li><p>GetSplitCrossFadeState_ReaperIni - removed, will return as a new function</p></li>
+<li>GetSplitCrossFadeState_ReaperIni - removed, will return as a new function</li>
+<li>MoveMediaItemsSectionTo - renamed to MoveMediaItemsBetween_To, as this is more in line with the corresponding of functionnames for getting, deleting, splitting items</li>
+<li>InsertMediaItem_MediaItem - allows now inserting MediaItems from other projects as well and into tracks of other projects</li>
+<li><p>InsertMediaItem_MediaItemStateChunk - allows now tracks in other projects to be target; h ad an issue, that it always required ULTRASCHALL_TRACKNUMBER in the itemstatechunk to get the target-track -&gt; fixed now to also allow passing a MediaTrack, as the docs always stated has now additional retvals startposition, endposition, length fixed the docs</p></li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>

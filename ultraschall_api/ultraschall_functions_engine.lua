@@ -23025,7 +23025,7 @@ end
 
 --A=ultraschall.MoveMediaItemsBefore_By(1,1,"1")
 
-function ultraschall.MoveMediaItemsSectionTo(sectionstart, sectionend, newposition, trackstring, inside)
+function ultraschall.MoveMediaItemsBetween_To(startposition, endposition, newposition, trackstring, inside)
 --Moves all MediaItems within sectionstart and sectionend to newposition in all tracks given by trackstring.
 -- Use inside to tell, if only the items that are completely within the section, shall be moved
 --intended for things as RippleCut
@@ -23040,13 +23040,13 @@ function ultraschall.MoveMediaItemsSectionTo(sectionstart, sectionend, newpositi
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>MoveMediaItemsSectionTo</slug>
+  <slug>MoveMediaItemsBetween_To</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.MoveMediaItemsSectionTo(number sectionstart, number sectionend, number newposition, string trackstring, boolean inside)</functioncall>
+  <functioncall>boolean retval = ultraschall.MoveMediaItemsBetween_To(number startposition, number endposition, number newposition, string trackstring, boolean inside)</functioncall>
   <description>
     Moves the items between sectionstart and sectionend to newposition, within the tracks given by trackstring.
     If inside is set to true, only items completely within the section are moved; if set to false, also items are affected, that are just partially within the section.
@@ -23056,8 +23056,8 @@ function ultraschall.MoveMediaItemsSectionTo(sectionstart, sectionend, newpositi
     Returns false in case of failure, true in case of success.
   </description>
   <parameters>
-    number sectionstart - begin of the section in seconds
-    number sectionend - end of the section in seconds
+    number startposition - begin of the item-selection in seconds
+    number endposition - end of the item-selection in seconds
     number newposition - new position in seconds
     string trackstring - the tracknumbers, separated by a ,
     boolean inside - true, only items completely within the section; false, also items partially within the section
@@ -23076,12 +23076,12 @@ function ultraschall.MoveMediaItemsSectionTo(sectionstart, sectionend, newpositi
 ]]
 -- sectionstart, sectionend, newposition, trackstring, inside
   
-  if type(sectionstart)~="number" then ultraschall.AddErrorMessage("MoveMediaItemsSectionTo", "sectionstart", "Must be a number.", -1) return false end
-  if type(sectionend)~="number" then ultraschall.AddErrorMessage("MoveMediaItemsSectionTo", "sectionend", "Must be a number.", -2) return false end
-  if type(newposition)~="number" then ultraschall.AddErrorMessage("MoveMediaItemsSectionTo", "newposition", "Must be a number.", -3) return false end
-  if sectionend<sectionstart then ultraschall.AddErrorMessage("MoveMediaItemsSectionTo", "sectionend", "Must be bigger than sectionstart.", -4) return false end
-  if ultraschall.IsValidTrackString(trackstring) then ultraschall.AddErrorMessage("MoveMediaItemsSectionTo", "trackstring", "Must be a valid trackstring.", -5) return false end
-  if type(inside)~="boolean" then ultraschall.AddErrorMessage("MoveMediaItemsSectionTo", "inside", "Must be a boolean.", -6) return false end  
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("MoveMediaItemsBetween_To", "sectionstart", "Must be a number.", -1) return false end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("MoveMediaItemsBetween_To", "sectionend", "Must be a number.", -2) return false end
+  if type(newposition)~="number" then ultraschall.AddErrorMessage("MoveMediaItemsBetween_To", "newposition", "Must be a number.", -3) return false end
+  if sectionend<sectionstart then ultraschall.AddErrorMessage("MoveMediaItemsBetween_To", "sectionend", "Must be bigger than sectionstart.", -4) return false end
+  if ultraschall.IsValidTrackString(trackstring) then ultraschall.AddErrorMessage("MoveMediaItemsBetween_To", "trackstring", "Must be a valid trackstring.", -5) return false end
+  if type(inside)~="boolean" then ultraschall.AddErrorMessage("MoveMediaItemsBetween_To", "inside", "Must be a boolean.", -6) return false end  
 
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
   if trackstring==-1 or trackstring==""  then return false end
@@ -23105,7 +23105,7 @@ function ultraschall.MoveMediaItemsSectionTo(sectionstart, sectionend, newpositi
   return true
 end
 
---A=ultraschall.MoveMediaItemsSectionTo(1, 3, 100, "ö", false)
+--A=ultraschall.MoveMediaItemsBetween_To(1, 3, 100, "ö", false)
 
 
 
@@ -23650,8 +23650,8 @@ function ultraschall.InsertMediaItem_MediaItem(position, MediaItem, MediaTrack)
 </US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("InsertMediaItem_MediaItem","position", "must be a number", -1) return -1 end
-  if reaper.ValidatePtr(MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItem","MediaItem", "must be a MediaItem", -2) return -1 end
-  if reaper.ValidatePtr(MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItem","MediaTrack", "must be a MediaTrack", -3) return -1 end
+  if reaper.GetItemStateChunk(MediaItem, "", false)==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItem","MediaItem", "must be a MediaItem", -2) return -1 end
+  if reaper.GetTrackStateChunk(MediaTrack, "", false)==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItem","MediaTrack", "must be a MediaTrack", -3) return -1 end
   local MediaItemNew=reaper.AddMediaItemToTrack(MediaTrack)
   local Aretval, Astr = reaper.GetItemStateChunk(MediaItem, "", true)
   Astr=Astr:match(".-POSITION ")..position..Astr:match(".-POSITION.-(%c.*)")
@@ -23675,7 +23675,7 @@ function ultraschall.InsertMediaItem_MediaItemStateChunk(position, MediaItemStat
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval, MediaItem MediaItem = ultraschall.InsertMediaItem_MediaItemStateChunk(number position, string MediaItemStateChunk, MediaTrack MediaTrack)</functioncall>
+  <functioncall>integer retval, MediaItem MediaItem, number startposition, number endposition, number length = ultraschall.InsertMediaItem_MediaItemStateChunk(number position, string MediaItemStateChunk, MediaTrack MediaTrack)</functioncall>
   <description>
     Inserts a new MediaItem in MediaTrack at position. Uses a mediaitem-state-chunk as created by functions like <a href="#GetAllMediaItemsBetween">GetAllMediaItemsBetween</a>, reaper.GetItemStateChunk and reaper.SetItemStateChunk.. Returns the newly created MediaItem.
     
@@ -23689,6 +23689,9 @@ function ultraschall.InsertMediaItem_MediaItemStateChunk(position, MediaItemStat
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
     MediaItem MediaItem - the newly created MediaItem
+    number startposition - the startposition of the inserted MediaItem in seconds
+    number endposition - the endposition of the inserted MediaItem in seconds
+    number length - the length of the inserted MediaItem in seconds
   </retvals>
   <chapter_context>
     MediaItem Management
@@ -23701,21 +23704,23 @@ function ultraschall.InsertMediaItem_MediaItemStateChunk(position, MediaItemStat
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("InsertMediaItem_MediaItemStateChunk","position", "must be a number", -1) return -1 end
   if ultraschall.IsValidMediaItemStateChunk(MediaItemStateChunk)==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItemStateChunk","MediaItemStateChunk", "must be a valid MediaItemStateChunk", -2) return -1 end
-  if MediaTrack~=nil and reaper.ValidatePtr(MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItemStateChunk","MediaTrack", "must be a valid MediaTrack-object", -3) return -1 end
-  if ultraschall.GetItemUSTrackNumber_StateChunk(MediaItemStateChunk)==-1 then ultraschall.AddErrorMessage("InsertMediaItem_MediaItemStateChunk","MediaItemStateChunk", "contains no ULTRASCHALL_TRACKNUMBER entry, so I can't determine the original track", -4) return -1 end
-  MediaTrack=reaper.GetTrack(0,ultraschall.GetItemUSTrackNumber_StateChunk(MediaItemStateChunk)-1)
+  if MediaTrack~=nil and reaper.GetTrackStateChunk(MediaTrack, "", false)==false then ultraschall.AddErrorMessage("InsertMediaItem_MediaItem","MediaTrack", "must be a MediaTrack", -3) return -1 end
+  if MediaTrack==nil and ultraschall.GetItemUSTrackNumber_StateChunk(MediaItemStateChunk)==-1 then ultraschall.AddErrorMessage("InsertMediaItem_MediaItemStateChunk","MediaItemStateChunk", "contains no ULTRASCHALL_TRACKNUMBER entry, so I can't determine the original track", -4) return -1 end
+  if MediaTrack==nil then MediaTrack=reaper.GetTrack(0,ultraschall.GetItemUSTrackNumber_StateChunk(MediaItemStateChunk)-1) end
 
   local MediaItemNew=reaper.AddMediaItemToTrack(MediaTrack)
   local MediaItemStateChunk=MediaItemStateChunk:match(".-POSITION ")..position..MediaItemStateChunk:match(".-POSITION.-(%c.*)")
   local Aboolean = reaper.SetItemStateChunk(MediaItemNew, MediaItemStateChunk, true)
-  
-  return 1, MediaItemNew
+  local start_position=reaper.GetMediaItemInfo_Value(MediaItemNew, "D_POSITION")
+  local length=reaper.GetMediaItemInfo_Value(MediaItemNew, "D_LENGTH")
+    
+  return 1, MediaItemNew, start_position, start_position+length, length
 end
 
 --C,CC=ultraschall.GetAllMediaItemsBetween(0,400,"1,2,3,4,5",false)
 --MT=reaper.GetTrack(0,0)
 --Aretval, Astr = reaper.GetItemStateChunk(reaper.GetMediaItem(0,0), "", true)
---ALABASTER,ALHula=ultraschall.InsertMediaItem_MediaItemStateChunk(1,Astr, MT)
+--ALABASTER,ALHula=ultraschall.InsertMediaItem_MediaItemStateChunk(1000,Astr, MT)
 
 function ultraschall.InsertMediaItemArray(position, MediaItemArray, trackstring)
 --[[
@@ -27006,8 +27011,8 @@ function ultraschall.InsertMediaItemStateChunkArray(position, MediaItemStateChun
     Returns the number of newly created items, as well as an array with the newly create MediaItems.
     Returns -1 in case of failure.
     
-    Note: this inserts the items only in the tracks, where the original items came from. Items from track 1 will be included into track 1. Trackstring only helps to include or exclude the items from inclusion into certain tracks.
-    If you have a MediaItemArray with items from track 1,2,3,4,5 and you give trackstring only the tracknumber for track 3 and 4 -> 3,4, then only the items, that were in tracks 3 and 4 originally, will be included, all the others will be ignored.
+    Note: this inserts the items only in the tracks, where the original items came from(or the tracks set with the entry ULTRASCHALL_TRACKNUMBER). Items from track 1 will be included into track 1. Trackstring only helps to include or exclude the items from inclusion into certain tracks.
+    If you have a MediaItemStateChunkArray with items from track 1,2,3,4,5 and you give trackstring only the tracknumber for track 3 and 4 -> 3,4, then only the items, that were in tracks 3 and 4 originally, will be included, all the others will be ignored.
   </description>
   <parameters>
     number position - the position of the newly created mediaitem
@@ -27766,6 +27771,8 @@ function ultraschall.ApplyStateChunkToItems(MediaItemStateChunkArray, undostate)
   <functioncall>boolean retval, integer skippeditemscount, array skipped_MediaItemStateChunkArray = ultraschall.ApplyStateChunkToItems(array MediaItemStateChunkArray, boolean undostate)</functioncall>
   <description>
     Applies changed StateChunks to the respective items. Skips deleted items, as they can't be set.
+    
+    It will look into the IGUID-entry of the statechunks, to find the right corresponding MediaItem to apply the statechunk to.
     
     returns the number of entries and the altered MediaItemStateChunkArray; -1 in case of failure
   </description>
@@ -32309,14 +32316,14 @@ function ultraschall.InsertMediaItemFromFile(filename, track, position, endposit
   <parameters>
     string filename - the path+filename of the mediafile to be inserted into the project
     integer track - the track, in which the file shall be inserted
-                  - 0, insert the file into a newly inserted track after the last track
+                  -  0, insert the file into a newly inserted track after the last track
                   - -1, insert the file into a newly inserted track before the first track
     number position - the position of the newly inserted item
     number endposition - the length of the newly created mediaitem; -1, use the length of the sourcefile
     integer editcursorpos - the position of the editcursor after insertion of the mediafile
-          -0 - the old editcursorposition
-          -1 - the position, at which the item was inserted
-          -2 - the end of the newly inserted item
+          - 0 - the old editcursorposition
+          - 1 - the position, at which the item was inserted
+          - 2 - the end of the newly inserted item
     optional number offset - an offset, to delay the insertion of the item, to overcome possible "too late"-starting of playback of item during recording
   </parameters>
   <retvals>
@@ -35168,7 +35175,7 @@ function ultraschall.InsertImageFile(filename_with_path, track, position, length
     SWS=2.9.7
     Lua=5.3
   </requires>
-  <functioncall>boolan retval, MediaItem item = ultraschall.InsertImageFile(string filename_with_path, integer track, number position, number length, boolean looped)</functioncall>
+  <functioncall>boolean retval, MediaItem item = ultraschall.InsertImageFile(string filename_with_path, integer track, number position, number length, boolean looped)</functioncall>
   <description>
     Inserts a supported image-file into your project.
     Due API-limitations, it creates two undo-points(one for inserting the MediaItem and one for changing the length).
@@ -35183,7 +35190,7 @@ function ultraschall.InsertImageFile(filename_with_path, track, position, length
     boolean looped - true, loop the inserted image-file; false, don't loop the inserted image-file
   </parameters>
   <retvals>
-    boolan retval - true, if inserting was successful; false, if inserting was unsuccessful
+    boolean retval - true, if inserting was successful; false, if inserting was unsuccessful
     MediaItem item - the MediaItem of the newly inserted image
   </retvals>
   <chapter_context>
@@ -43923,3 +43930,10 @@ ultraschall.ShowLastErrorMessage()
 --ALABASTER,ALHula=ultraschall.InsertMediaItem_MediaItemStateChunk(8300,Astr, MT)
 
 --L=ultraschall.SetIDEFontSize(15)
+
+
+--MT=reaper.GetTrack(reaper.EnumProjects(2,""),0)
+--Aretval, Astr = reaper.GetItemStateChunk(reaper.GetMediaItem(0,0), "", true)
+--Astr=ultraschall.SetUS_Tracknumber(
+--A,B,C,D,E,F,G=ultraschall.InsertMediaItem_MediaItemStateChunk(1000,Astr, MT)
+ultraschall.ShowLastErrorMessage()

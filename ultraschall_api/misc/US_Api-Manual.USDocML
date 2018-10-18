@@ -1169,6 +1169,9 @@
                - [GetAllLockedItemsFromMediaItemArray](#GetAllLockedItemsFromMediaItemArray) - get all MediaItems that are locked, from a MediaItemArray
                - [GetAllMediaItemsFromTrack](#GetAllMediaItemsFromTrack) - get all MediaItems from a track, returned as MediaItemArray
                - [GetAllMediaItemsInTimeSelection](#GetAllMediaItemsInTimeSelection) - get all MediaItems in given tracks from the current time-selection
+               - [GetAllSelectedMediaItems](#GetAllSelectedMediaItems) - gets all selected MediaItems as MediaItemArray
+               - [GetSelectedMediaItemsAtPosition](#GetSelectedMediaItemsAtPosition) - gets all selected MediaItems in given tracks from a time-position
+               - [GetSelectedMediaItemsBetween](#GetSelectedMediaItemsBetween) - gets all selected MediaITems in given tracks between start- and endposition
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -1369,7 +1372,186 @@
             MediaItems
         </chapter_context>
         <previous_chapter>Getting_Manipulating_Items_Deleting</previous_chapter>
-        <next_chapter></next_chapter>
+        <next_chapter>Getting_Manipulating_Items_Moving_Manipulating</next_chapter>
         <tags>documentation, mediaitems, items, editing</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Getting_Manipulating_Items_Moving_Manipulating</slug>
+        <title>MediaItems: Moving and Manipulating</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Getting, splitting, editing and deleting MediaItems isn't enough. In fact, you also want to manipulate them. And you also want to be able to manipulate many of them at once.  
+            Hence, I added lots of functions to manipulate MediaItems, like:  
+                
+            - Moving: [MoveMediaItemsAfter_By](#MoveMediaItemsAfter_By), [MoveMediaItemsBefore_By](#MoveMediaItemsBefore_By), [MoveMediaItemsBetween_To](#MoveMediaItemsBetween_To), [MoveMediaItems_FromArray](#MoveMediaItems_FromArray)  
+            - Length: [ChangeLengthOfMediaItems_FromArray](#ChangeLengthOfMediaItems_FromArray), [ChangeDeltaLengthOfMediaItems_FromArray](#ChangeDeltaLengthOfMediaItems_FromArray)  
+            - Offset: [ChangeOffsetOfMediaItems_FromArray](#ChangeOffsetOfMediaItems_FromArray), [ChangeDeltaOffsetOfMediaItems_FromArray](#ChangeDeltaOffsetOfMediaItems_FromArray)  
+            
+            **Moving**  
+            >Let's have a look at the moving-MediaItems-functions.
+            
+                            boolean retval = ultraschall.MoveMediaItemsAfter_By(number old_position, number change_position_by, string trackstring)
+                
+            >This function moves all MediaItems from old\_position and later by a number of seconds, as given by the parameter change\_position\_by.  
+            >If change\_position\_by is negative, the MediaItems will be move towards the beginning of the project; a positive value will move the MediaItems toward the end.  
+            >The parameter trackstring tells the function, in which tracks the MediaItems shall be moved.  
+            
+                            boolean retval = ultraschall.MoveMediaItemsBefore_By(number old_position, number change_position_by, string trackstring)
+               
+            >This basically works like the MoveMediaItemsAfter_By above, with the difference, that it moves the MediaItems BEFORE old\_position.
+            
+                            boolean retval = ultraschall.MoveMediaItemsBetween_To(number startposition, number endposition, number newposition, string trackstring, boolean inside)
+            
+            >This also moves MediaItems, but the MediaItems between startposition and endposition. Unlike the functions above, you give the new position in seconds, at which the MediaItems shall start. The relative-positions of the MediaItems will stay intact.  
+            >The parameter inside allows you to tell the function, whether to include only MediaItems completely within start and endposition(true) or also MediaItems that are partially within start and endposition(false).  
+            
+                            integer retval, number earliest_itemtime, number latest_itemtime = ultraschall.MoveMediaItems_FromArray(array MediaItemArray, number newposition)
+            
+            >This moves the MediaItems in MediaItemArray to the newposition. It will retain the relative positions of the MediaItems as well.
+            
+            **Length**  
+            >You can change the length of the MediaItems with functioncalls of Reaper's own API already. I added functions, that allow you to change the length of multiple MediaItems at once, using MediaItemArray.
+            >And not just the length to a given length, but also a deltalength.
+            >Let's have a look.
+            
+                            boolean retval = ultraschall.ChangeLengthOfMediaItems_FromArray(array MediaItemArray, number newlength)
+                
+            >This changes the length of all MediaItems in the MediaItemArray to newlength in seconds.  
+            >Example:
+            
+                            MediaItemArray={}
+                            MediaItemArray[1]=reaper.GetMediaItem(0,0)
+                            MediaItemArray[2]=reaper.GetMediaItem(0,1)
+                            MediaItemArray[3]=reaper.GetMediaItem(0,2)
+                        
+                            retval = ultraschall.ChangeLengthOfMediaItems_FromArray(MediaItemArray, 3)
+                
+            >This examplecode will change the length of all MediaItems in MediaItemArray to a length of 3 seconds.
+            
+                            boolean retval = ultraschall.ChangeDeltaLengthOfMediaItems_FromArray(array MediaItemArray, number deltalength)
+                
+            >This changes the length of the MediaItems in MediaItemArray as well, BUT it will change the length BY deltalength in seconds. That means, if deltalength is 4, all MediaItems in the MediaItemArray will become longer by 4 seconds, if deltalength is -3, all MediaItems in MediaItemArray will become 3 seconds shorter(!)  
+            >Example:
+            
+                            MediaItemArray={}
+                            MediaItemArray[1]=reaper.GetMediaItem(0,0) -- let's assume, this MediaItem is 10 seconds long
+                            MediaItemArray[2]=reaper.GetMediaItem(0,1) -- let's assume, this MediaItem is 30 seconds long
+                            MediaItemArray[3]=reaper.GetMediaItem(0,2) -- let's assume, this MediaItem is 5 seconds long
+                        
+                            retval = ultraschall.ChangeDeltaLengthOfMediaItems_FromArray(MediaItemArray, 4)
+                
+            >This examplecode will change the length of all MediaItems in MediaItemArray by 4 seconds, so the first item is now 14 seconds long, the second 34 and the third 9 seconds.  
+            
+            **Offset**  
+            >Just like the length of MediaItems, you can change the offset as well with functioncalls of Reaper's own API. I added functions, that allow you to change the length of multiple MediaItems at once, using MediaItemArray.
+            >And not just the length to a given length, but also a deltalength.
+            >Let's have a look.
+            
+                            boolean retval = ultraschall.ChangeOffsetOfMediaItems_FromArray(array MediaItemArray, number newoffset)
+                
+            >This changes the offset of all MediaItems in the MediaItemArray to newoffset in seconds.  
+            >Example:
+            
+                            MediaItemArray={}
+                            MediaItemArray[1]=reaper.GetMediaItem(0,0)
+                            MediaItemArray[2]=reaper.GetMediaItem(0,1)
+                            MediaItemArray[3]=reaper.GetMediaItem(0,2)
+                        
+                            retval = ultraschall.ChangeOffsetOfMediaItems_FromArray(MediaItemArray, 3)
+                
+            >This examplecode will change the offset of all MediaItems in MediaItemArray to a the new offset of 3 seconds.
+            
+                            boolean retval = ultraschall.ChangeDeltaOffsetOfMediaItems_FromArray(array MediaItemArray, number deltaoffset)
+                
+            >This changes the offset of the MediaItems in MediaItemArray as well, BUT it will change the offset BY deltaoffset in seconds. That means, if deltaoffset is 4, all MediaItems in the MediaItemArray will start 4 seconds later, if deltaoffset is -3, all MediaItems in MediaItemArray will start 3 seconds earlier(!)  
+            >Example:
+            
+                            MediaItemArray={}
+                            MediaItemArray[1]=reaper.GetMediaItem(0,0) -- let's assume, this MediaItem's offset starts at 10 seconds
+                            MediaItemArray[2]=reaper.GetMediaItem(0,1) -- let's assume, this MediaItem's offset starts at 30 seconds
+                            MediaItemArray[3]=reaper.GetMediaItem(0,2) -- let's assume, this MediaItem's offset starts at 0 seconds
+                            
+                            retval = ultraschall.ChangeDeltaOffsetOfMediaItems_FromArray(MediaItemArray, 4)
+                
+            >This examplecode will change the offset of all MediaItems in MediaItemArray by 4 seconds, so the first item's offset starts now at 14 seconds, the second 34 and the third 4 seconds.  
+            
+            Other functions for manipulating MediaItems:  
+
+               - [SetItemsLockState](#SetItemsLockState) - sets MediaItems in a MediaItemArray to either locked or unlocked    
+               - [AddLockStateToMediaItemStateChunk](#AddLockStateToMediaItemStateChunk) - sets the locked-state in a MediaItemStateChunk  
+               - [AddLockStateTo_MediaItemStateChunkArray](#AddLockStateTo_MediaItemStateChunkArray) - sets the locked-state to the MediaItemStateChunks in a MediaItemStateChunkArray  
+               - [SetMediaItemsSelected_TimeSelection](#SetMediaItemsSelected_TimeSelection) - sets MediaItems selected within time-selection  
+               - [SelectMediaItems_MediaItemArray](#SelectMediaItems_MediaItemArray) - sets MediaItems in MediaItemArray to selected  
+               - [DeselectMediaItems_MediaItemArray](#DeselectMediaItems_MediaItemArray) - sets MediaItems in MediaItemArray deselected  
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            MediaItems
+        </chapter_context>
+        <previous_chapter>Getting_Manipulating_Items_Section_And_Ripple_Cut</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_Inserting</next_chapter>
+        <tags>documentation, mediaitems, items, editing, moving, offset, modifying</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Getting_Manipulating_Items_Inserting</slug>
+        <title>MediaItems: Inserting Items and Files</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Last, but not least, it would be nice to be able to insert MediaItems as well. And not just inserting them from a project, but also from files.  
+            For that, I made: [InsertMediaItem_MediaItem](#InsertMediaItem_MediaItem), [InsertMediaItem_MediaItemStateChunk](#InsertMediaItem_MediaItemStateChunk), [InsertMediaItemArray](#InsertMediaItemArray), [InsertMediaItemStateChunkArray](#InsertMediaItemStateChunkArray), [InsertMediaItemFromFile](#InsertMediaItemFromFile), [InsertImageFile](#InsertImageFile)  
+            
+            Lets have a look at inserting MediaItems.
+            
+                            integer retval, MediaItem MediaItem, number startposition, number endposition, number length 
+                                        = ultraschall.InsertMediaItem_MediaItem(number position, MediaItem MediaItem, MediaTrack MediaTrack)
+            
+            With this function, you can make a copy of an already existing MediaItem and insert at position into a certain track. It allows using MediaItems and MediaTracks of other projects than the current one, as well.  
+            Just give the position, at which to insert the MediaItem, the MediaItem to be included and the MediaTrack into which to include the MediaItem.  
+            It will return the newly created MediaItem, it's startposition, endposition and the length.  
+            
+                            integer retval, MediaItem MediaItem 
+                                        = ultraschall.InsertMediaItem_MediaItemStateChunk(number position, string MediaItemStateChunk, MediaTrack MediaTrack)
+            
+            This is like InsertMediaItem_MediaItem, but uses a MediaItemStateChunk instead. The rest is just the same, including the possibility to insert the new MediaItem into a MediaTrack in another project than the current one.  
+            
+                            integer number_of_items, array MediaItemArray = ultraschall.InsertMediaItemArray(number position, array MediaItemArray, string trackstring)
+                            
+            This allows you to insert multiple items at once, that are stored in a MediaItemArray at position. With trackstring you can set, into which tracks to insert the MediaItems.  
+            There's a limitation, however: MediaItems will only be inserted into the tracks from where they originated from. That means, if you have MediaItems located in tracks 1-5 and you set trackstring to "1,2", only the MediaItems originating in tracks 1 and 2 will be inserted.  
+            I'm still looking into a better way to provide the track, in which to insert the MediaItems into other MediaTracks as well.  
+            
+                            integer number_of_items, array MediaItemArray 
+                                            = ultraschall.InsertMediaItemStateChunkArray(number position, array MediaItemStateChunkArray, string trackstring)
+
+           This works like InsertMediaItemArray, but it's inserting MediaItemStateChunks from the MediaItemStateChunkArray instead.  
+           In addition to that, it also lifts the track-limitation, when you insert the tracknumber into each MediaItemStateChunk using [SetItemUSTRackNumber_StateChunk](#SetItemUSTRackNumber_StateChunk), which is automatically done by [GetItem-functions](#Getting_Manipulating_Items_GetMediaItems) from the Ultraschall-API.  
+           The addition of the tracknumber is mandatory, otherwise the MediaItemStateChunk will not be inserted!  
+
+                            integer retval, MediaItem item, number endposition, integer numchannels, integer Samplerate, string Filetype
+                               = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, integer editcursorpos, optional number offset)
+                               
+           This function allows you to insert a file as a new MediaItem into your project, including the tracknumber, position, endposition(if wanted), the editcursorposition and the offset, if wanted.  
+           Example:
+           
+                            retval, item, endposition, numchannels, Samplerate, Filetype = ultraschall.InsertMediaItemFromFile("C:\\file.wav", 1, 20, -1, 2, 0)
+           
+           This example inserts the file file.wav into track 1, at position 20, with the length set to the length of the audio-file, the editcursorposition being put at the end of the new MediaItem and no offset-changes.  
+           
+           With that, you can easily insert files into your project.
+           
+                            boolean retval, MediaItem item = ultraschall.InsertImageFile(string filename_with_path, integer track, number position, number length, boolean looped)
+
+           This is a special function, focusing on inserting image-files into the project. You can set the track, position, length of the image-MediaItem and, if it shall be looped.  
+           If you don't loop it(looped=false), the MediaItem will have the length anyway, but the image will be shown only for 1 second in the VideoProcessor-window.  
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            MediaItems
+        </chapter_context>
+        <previous_chapter>Getting_Manipulating_Items_Moving_Manipulating</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_Spectral_Edit</next_chapter>
+        <tags>documentation, mediaitems, items, inserting, mediaitem, mediaitemstatechunk, image</tags>
     </US_DocBloc>
 </USDocML>

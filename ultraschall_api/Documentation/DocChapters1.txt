@@ -1,22 +1,17 @@
 
 Getting, manipulating MediaItems in Projects:
-    getting MediaItem-objects by time AND track, 
-    editing
-      Split, Cut, Copy, Paste, Move:
-        Move
-    inserting
-    manipulating
-    spectral edit
-    previewing
-    SectionCut
-    working with locked, selected items
-    applying Reaper-actions to MediaItems, etc.
-    
-    GetAllMediaItemsBetween, etc
 
-    Spectrogram:
-    Previewing MediaItems and files:
     Miscellaneous
+    previewing
+    applying Reaper-actions to MediaItems, etc.
+    Previewing MediaItems and files:
+    
+    Spectrogram:
+    spectral edit
+    
+    
+    
+Trackmanagement:
     
 ItemExtStates/TrackExtStates:
     save extension states for tracks and items

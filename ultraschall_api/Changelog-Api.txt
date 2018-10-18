@@ -262,6 +262,8 @@
   - GetProject_MasterHWPanEnvStateChunk - returns the statechunk of the MasterHWPanEnv
   - GetProject_MasterPanMode_Ex - returns the state of the MasterPanMode_Ex
   - GetProject_TempoEnv_ExStateChunk - returns the statechunk of the TempoEnv_Ex
+  - Docs: MediaItems: Moving and Manipulating - added 
+  - Docs: MediaItems: Inserting Items and Files - added
   <TODO>
       TODO!!  - write final documentation for public-beta
       TODO!!  - Docs: Add docs for new Datatype ColorTable
@@ -773,6 +775,12 @@
   - SetItemPosition - exchanged position and optional statechunk-parameters to be in line with SetProject/Track-statefunctions
   - SetItemLength - exchanged length and optional statechunk-parameters to be in line with SetProject/Track-statefunctions
   - GetSplitCrossFadeState_ReaperIni - removed, will return as a new function
+  - MoveMediaItemsSectionTo - renamed to MoveMediaItemsBetween_To, as this is more in line with the corresponding of functionnames for getting, deleting, splitting items
+  - InsertMediaItem_MediaItem - allows now inserting MediaItems from other projects as well and into tracks of other projects
+  - InsertMediaItem_MediaItemStateChunk - allows now tracks in other projects to be target; h
+                                          ad an issue, that it always required ULTRASCHALL_TRACKNUMBER in the itemstatechunk to get the target-track -> fixed now to also allow passing a MediaTrack, as the docs always stated
+                                          has now additional retvals startposition, endposition, length 
+                                          fixed the docs
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:
