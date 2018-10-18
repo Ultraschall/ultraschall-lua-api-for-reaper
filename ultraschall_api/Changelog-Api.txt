@@ -264,6 +264,10 @@
   - GetProject_TempoEnv_ExStateChunk - returns the statechunk of the TempoEnv_Ex
   - Docs: MediaItems: Moving and Manipulating - added 
   - Docs: MediaItems: Inserting Items and Files - added
+  - ChangeColorBrightness - changes the brightness of a r, g, b-color-value
+  - ChangeColorContrast - changes contrast of a r,g,b-color-value
+  - ReverseTable - reverses the order of the entries of an integer-indexed table
+  - ChangeColorSaturation - changes the saturation of a color-value
   <TODO>
       TODO!!  - write final documentation for public-beta
       TODO!!  - Docs: Add docs for new Datatype ColorTable
@@ -340,7 +344,7 @@
       TODO!!  - MoveTakeInTakeOrderInMediaitem, which allows changing the order of takes within an item
       TODO!!  - functions to setup the LICECAP-settings, before running it; a function to run LiceCap
             set filename with .gif or .lcf to set the default filetype used!
-      TODO!!  - functions for native-colorstuff like, gradients, brightness, saturation, hue, contrast(color, basecolor, topcolor, centercolor)
+      TODO!!  - functions for native-colorstuff like, gradients, hue
             as well as the same functions for a colorarray, which has a number of colors inside of it, that can be contrasted, gradiented, etc
             they shall support gfx.init-color-values as output(boolean gfx.init-colorvalues (0 to 1)
             Already started with ColorTables for Colorpicker(!!!!)

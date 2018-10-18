@@ -1320,9 +1320,11 @@ function ultraschall.ConvertColor(r,g,b)
     Reaper=5.52
     Lua=5.3
   </requires>
-  <functioncall>integer colorvalue = ultraschall.ConvertColor(integer r, integer g, integer b)</functioncall>
+  <functioncall>integer colorvalue, boolean retval = ultraschall.ConvertColor(integer r, integer g, integer b)</functioncall>
   <description>
     converts r, g, b-values to native-system-color. Works like reaper's ColorToNative, but doesn't need |0x1000000 added.
+    
+    returns color-value 0, and retval=false in case of an error
   </description>
   <retvals>
     integer colorvalue - the native-system-color; 0 to 33554431
@@ -1333,17 +1335,17 @@ function ultraschall.ConvertColor(r,g,b)
     integer b - the blue colorvalue
   </parameters>
   <chapter_context>
-    API-Helper functions
+    Color Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, color, native, convert, red, gree, blue</tags>
 </US_DocBloc>
 ]]
-    if math.type(r)~="integer" then ultraschall.AddErrorMessage("ConvertColor","r", "only integer allowed", -1) return -1 end
-    if math.type(g)~="integer" then ultraschall.AddErrorMessage("ConvertColor","g", "only integer allowed", -2) return -1 end
-    if math.type(b)~="integer" then ultraschall.AddErrorMessage("ConvertColor","b", "only integer allowed", -3) return -1 end
-    return reaper.ColorToNative(r,g,b)|0x1000000
+    if math.type(r)~="integer" then ultraschall.AddErrorMessage("ConvertColor","r", "only integer allowed", -1) return 0, false end
+    if math.type(g)~="integer" then ultraschall.AddErrorMessage("ConvertColor","g", "only integer allowed", -2) return 0, false end
+    if math.type(b)~="integer" then ultraschall.AddErrorMessage("ConvertColor","b", "only integer allowed", -3) return 0, false end
+    return reaper.ColorToNative(r,g,b)|0x1000000, true
 end
 
 --ultraschall.ConvertColor(9,9,9.9)
@@ -1357,30 +1359,33 @@ function ultraschall.ConvertColorReverse(color)
     Reaper=5.52
     Lua=5.3
   </requires>
-  <functioncall>integer r, integer g, integer b = ultraschall.ConvertColorReverse(integer colorvalue)</functioncall>
+  <functioncall>integer r, integer g, integer b, boolean retval = ultraschall.ConvertColorReverse(integer colorvalue)</functioncall>
   <description>
     converts a native-system-color to r, g, b-values. Works like reaper's ColorToNative, but doesn't need |0x1000000 added.
+    
+    returns 0,0,0,false in case of an error
   </description>
   <retvals>
     integer r - the red colorvalue
     integer g - the green colorvalue
     integer b - the blue colorvalue
+    boolean retval - true, color-conversion was successful; false, color-conversion was unsuccessful
   </retvals>
   <parameters>
     integer colorvalue - the native-system-color; 0 to 33554431
   </parameters>
   <chapter_context>
-    API-Helper functions
+    Color Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, color, native, convert, red, gree, blue</tags>
 </US_DocBloc>
 ]]
-    if math.type(color)~="integer" then ultraschall.AddErrorMessage("ConvertColorReverse", "color", "only integer allowed", -1) return -1 end
-    if color<0 or color>33554431 then ultraschall.AddErrorMessage("ConvertColorReverse", "color", "must be between 0 and 33554431", -2) return -1 end
---                        33554431
-    return reaper.ColorFromNative(color)
+    if math.type(color)~="integer" then ultraschall.AddErrorMessage("ConvertColorReverse", "color", "only integer allowed", -1) return  0, 0, 0, false end
+    if color<0 or color>33554431 then ultraschall.AddErrorMessage("ConvertColorReverse", "color", "must be between 0 and 33554431", -2) return  0, 0, 0, false end
+
+    return reaper.ColorFromNative(color), true
 end
 --O=reaper.ColorToNative(255,255,255)|0x1000000
 --P=ultraschall.ConvertColor(255,255,255)
@@ -32164,7 +32169,7 @@ end
 
 --C1,C2=ultraschall.GetAllMediaItemGUIDs()
 
-function ultraschall.CountEntriesInTable_Main(table)
+function ultraschall.CountEntriesInTable_Main(the_table)
 -- counts only the entries in the main table; subtables are not count but returned as retval2, with the number of entries in retval
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -32174,9 +32179,9 @@ function ultraschall.CountEntriesInTable_Main(table)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer count, table subtables, integer count_of_subtables = ultraschall.CountEntriesInTable_Main(table table)</functioncall>
+  <functioncall>integer count, table subtables, integer count_of_subtables = ultraschall.CountEntriesInTable_Main(table the_table)</functioncall>
   <description>
-    Counts the number of entries in a table. 
+    Counts the number of entries in an indexed table.
     Will only count the entries from the main-table, not it's subtables. If you want to know the number of subtables, this function returns a table that includes all subtables found in the main-table,
     as well as the number of found subtables.
     
@@ -32199,15 +32204,16 @@ function ultraschall.CountEntriesInTable_Main(table)
   <tags>helper functions, count, entries, table, array, maintable</tags>
 </US_DocBloc>
 --]]
-  if type(table)~="table" then ultraschall.AddErrorMessage("CountEntriesInTable_Main","table", "Must be a table!", -1) return -1 end
-  local count=0
+  if type(the_table)~="table" then ultraschall.AddErrorMessage("CountEntriesInTable_Main","table", "Must be a table!", -1) return -1 end
+  local count=1
   local SubTables={}
   local SubTablesCount=1
-  for k, v in pairs(table) do
-    if type(v)=="table" then SubTables[SubTablesCount]=v SubTablesCount=SubTablesCount+1 end
+  while the_table[count]~=nil do
+--    reaper.MB(tostring(the_table[count]),"",0)
+    if type(the_table[count])=="table" then SubTables[SubTablesCount]=v SubTablesCount=SubTablesCount+1 end
     count=count+1
   end
-  return count, SubTables, SubTablesCount-1
+  return count-1, SubTables, SubTablesCount-1
 end
 
 --A={}
@@ -32754,7 +32760,7 @@ function ultraschall.ConvertColorToGFX(r,g,b,a)
     number a - the converted alpha-value between -1 and +1
   </retvals>
   <chapter_context>
-    API-Helper functions
+    Color Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -32808,7 +32814,7 @@ function ultraschall.ConvertGFXToColor(r,g,b,a)
     integer a - the alpha-color-value between -255 and +255
   </retvals>
   <chapter_context>
-    API-Helper functions
+    Color Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -41067,12 +41073,11 @@ function ultraschall.CreateColorTable(startr, startg, startb, endr, endg, endb, 
                      - each indexentry holds entries "r"(0-255), "g"(0-255), "b"(0-255), "nativecolor" and "gfxr"(0-1), "gfxg"(0-1), "gfxb"(0-1).
   </retvals>
   <chapter_context>
-    User Interface
-    Track Design
+    Color Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>userinterface, create, colortable</tags>
+  <tags>color management, create, colortable</tags>
 </US_DocBloc>
 ]]
   if ultraschall.type(number_of_steps)~="number: integer" or number_of_steps==0 then ultraschall.AddErrorMessage("CreateColorTable", "number_of_steps", "must be a positive or negative integer, no 0 allowed", -1) return nil end
@@ -41137,18 +41142,17 @@ function ultraschall.CreateSonicRainboomColorTable()
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns a colortable in Ultraschall's standard-trackcolor-setting "Sonic Rainboom"-style.
     
-    Can be used by [ApplyColorTableToTrackColors](#ApplyColorTableToTrackColors]
+    Can be used by [ApplyColorTableToTrackColors](#ApplyColorTableToTrackColors)
   </description>
   <retvals>
     array ColorTable - a colortable with all values for Ultraschall's track-color "Sonic Rainboom"
   </retvals>
   <chapter_context>
-    User Interface
-    Track Design
+    Color Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>userinterface, create, colortable, sonic rainboom</tags>
+  <tags>color management, create, colortable, sonic rainboom</tags>
 </US_DocBloc>
 ]]
   local group={}
@@ -41199,7 +41203,7 @@ function ultraschall.IsValidColorTable(ColorTable)
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.CreateSonicRainboomColorTable(array ColorTable)</functioncall>
+  <functioncall>boolean retval = ultraschall.IsValidColorTable(array ColorTable)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Checks for valid color-tables.
   </description>
@@ -41210,12 +41214,11 @@ function ultraschall.IsValidColorTable(ColorTable)
     boolean retval - true, if it's a valid ColorTable; false, if it's not a valid ColorTable
   </retvals>
   <chapter_context>
-    User Interface
-    Track Design
+    Color Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>userinterface, check, colortable</tags>
+  <tags>color management, check, colortable</tags>
 </US_DocBloc>
 ]]
   if type(ColorTable)~="table" then ultraschall.AddErrorMessage("CreateColorTable", "ColorTable", "must be a table", -1) return false end
@@ -41315,12 +41318,11 @@ function ultraschall.ApplyColorTableToTrackColors(ColorTable, Spread, StartTrack
     boolean retval - true, adjusting track-colors was successful; false, adjusting trackcolors was unsuccessful
   </retvals>
   <chapter_context>
-    User Interface
-    Track Design
+    Color Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>userinterface, create, colortable</tags>
+  <tags>color management, create, colortable</tags>
 </US_DocBloc>
 ]]
   local Count1 = ultraschall.CountEntriesInTable_Main(ColorTable)
@@ -41352,10 +41354,312 @@ end
 --ultraschall.ApplyColorTableToTrackColors(L, 2, 2, 6)
 
 
+function ultraschall.ReverseTable(the_table)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ReverseTable</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>table reversed_table, integer entry_count = ultraschall.ReverseTable(table the_table)</functioncall>
+  <description>
+    reversed the order of the entries of a table, means, the last entry will become the first, the first become the last, etc.
+    The table must be indexed by integers.
+    
+    Returns nil if table isn't a valid table
+  </description>
+  <parameters>
+    table table - the table, whose entries you want to reverse
+  </parameters>
+  <retvals>
+    table reversed_table - the resulting table with the reversed order of all entries
+    integer entry_count - the number of entries in the reversed_table
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, reverse, entries, table, array, maintable</tags>
+</US_DocBloc>
+--]]
+  if type(the_table)~="table" then ultraschall.AddErrorMessage("ReverseTable", "the_table", "Must be a table.", -1) return nil end
+  local count=ultraschall.CountEntriesInTable_Main(the_table)
+  local table2={}
+  local count2=1
+  for i=count, 1, -1 do
+    table2[count2]=the_table[i]
+    count2=count2+1
+  end
+  return table2, count2-1
+end
+
+-- DDD={1,2,3,4,5,6,7,8,9,10}
+--A,B=ultraschall.ReverseTable(DDD)
 
 
 function ultraschall.TracksToColorPattern(colorpattern, startingcolor, direction)
 end
+
+--A=reaper.GetTrackColor(reaper.GetTrack(0,0))
+
+
+
+function ultraschall.ChangeColorBrightness(r, g, b, bright_r, bright_g, bright_b)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ChangeColorBrightness</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer red, integer green, integer blue, boolean retval = ultraschall.ChangeColorBrightness(integer r, integer g, integer b, integer bright_r, optional integer bright_g, optional integer bright_b)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Changes brightness of a colorvalue. If you only set bright_r without setting bright_g and bright_b, then the value for bright_r will affect g and b as well.
+    
+    If a color-value becomes >255 or <0, it will be set to 255 or 0 respectively.
+    
+    returns color-value 0,0,0 and retval=false in case of an error
+  </description>
+  <parameters>
+    integer r - the red-value to be changed
+    integer g - the green-value to be changed
+    integer b - the blue-value to be changed
+    integer bright_r - the change in brightness for the red-color; positive, brighter; negative, darker
+    optional integer bright_g - the change in brightness for the green-color; positive, brighter; negative, darker; if nil, value in bright_r will be used
+    optional integer bright_b - the change in brightness for the blue-color; positive, brighter; negative, darker; if nil, value in bright_r will be used
+  </parameters>
+  <retvals>
+    integer red - the new red-value
+    integer green - the new green-value
+    integer blue - the new blue-value
+    boolean retval - true, color-calculation was successful; false, color-calculation was unsuccessful
+  </retvals>
+  <chapter_context>
+    Color Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>color management, change, color, brightness</tags>
+</US_DocBloc>
+]]
+  if math.type(r)~="integer" then ultraschall.AddErrorMessage("ChangeColorBrightness", "r", "must be an integer", -1) return 0, 0, 0, false end
+  if r<0 or r>255 then  ultraschall.AddErrorMessage("ChangeColorBrightness", "r", "must be between 0 and 255", -2) return 0, 0, 0, false end
+  if math.type(g)~="integer" then ultraschall.AddErrorMessage("ChangeColorBrightness", "g", "must be an integer", -3) return 0, 0, 0, false end
+  if g<0 or g>255 then  ultraschall.AddErrorMessage("ChangeColorBrightness", "g", "must be between 0 and 255", -4) return 0, 0, 0, false end
+  if math.type(b)~="integer" then ultraschall.AddErrorMessage("ChangeColorBrightness", "b", "must be an integer", -5) return 0, 0, 0, false end
+  if b<0 or b>255 then  ultraschall.AddErrorMessage("ChangeColorBrightness", "b", "must be between 0 and 255", -6) return 0, 0, 0, false end
+
+  if math.type(bright_r)~="integer" then ultraschall.AddErrorMessage("ChangeColorBrightness", "bright_r", "must be an integer", -7) return 0, 0, 0, false end
+  if bright_r~=nil and (bright_r<-256 or bright_r>255) then  ultraschall.AddErrorMessage("ChangeColorBrightness", "bright_r", "must be between 0 and 255", -8) return 0, 0, 0, false end
+  if bright_g~=nil and math.type(bright_g)~="integer" then ultraschall.AddErrorMessage("ChangeColorBrightness", "bright_g", "must be either nil or an integer", -9) return 0, 0, 0, false end
+  if bright_g~=nil and (bright_g<-256 or bright_g>255) then ultraschall.AddErrorMessage("ChangeColorBrightness", "bright_g", "must be between 0 and 255", -10) return 0, 0, 0, false end  
+  if bright_b~=nil and math.type(bright_b)~="integer" then ultraschall.AddErrorMessage("ChangeColorBrightness", "bright_b", "must be either nil or an integer", -11) return 0, 0, 0, false end
+  if bright_b~=nil and (bright_b<-256 or bright_b>255) then ultraschall.AddErrorMessage("ChangeColorBrightness", "bright_b", "must be between 0 and 255", -12) return 0, 0, 0, false end  
+  
+  if bright_g==nil then bright_g=bright_r end
+  if bright_b==nil then bright_b=bright_r end
+  
+  r=r+bright_r
+  g=g+bright_g
+  b=b+bright_b
+
+  if r>255 then r=255 end
+  if g>255 then g=255 end
+  if b>255 then b=255 end
+  if r<0 then r=0 end
+  if g<0 then g=0 end
+  if b<0 then b=0 end
+  return r,g,b, true
+end
+
+--A1, B1, C1, D1 = ultraschall.ChangeColorBrightness(A0, B0, C0, -10,1,9)
+--reaper.SetTrackColor(reaper.GetTrack(0,0), ultraschall.ConvertColor(A1,B1,C1))
+
+function ultraschall.ChangeColorContrast(r, g, b, Minimum_r, Maximum_r, Minimum_g, Maximum_g, Minimum_b, Maximum_b)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ChangeColorContrast</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer red, integer green, integer blue, boolean retval = ultraschall.ChangeColorContrast(integer r, integer g, integer b, integer Minimum_r, optional integer Maximum_r, optional integer Minimum_g, optional integer Maximum_g, optional integer Minimum_b, optional integer Maximum_b)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Changes contrast of a colorvalue.
+    
+    Minimum will set the new minimal, Maximum will set the new maximum-brightness-level.
+    If you set Minimum to 0 and Maximum to 255, contrast will not change.
+    
+    The lower you set Minimum/Maximum, the darker it becomes; the higher, the brighter it becomes.
+    The farther away Minimum is from Maximum, the stronger the contrast becomes; the closer Minimum is to Maximum, the weaker the contrast becomes.
+    
+    If you only set Minimum_r and Maximum_r, then these values will be applied to g and b too.
+    
+    If you omit/set to nil a Maximum-value; it's default value will be 255.
+    
+    If a color-value becomes >255 or <0, it will be set to 255 or 0 respectively.
+    
+    returns color-value 0,0,0 and retval=false in case of an error
+  </description>
+  <parameters>
+    integer r - the red-value to be changed
+    integer g - the green-value to be changed
+    integer b - the blue-value to be changed
+    integer Minimum_r - the new minimum brightness of the contrast-range of the red-color
+    optional integer Maximum_r - the new maximum brightness of the contrast-range of the red-color; if nil, it will be seen as 255
+    optional integer Minimum_g - the new minimum brightness of the contrast-range of the green-color; if nil, it will use the value of Minimum_r
+    optional integer Maximum_g - the new maximum brightness of the contrast-range of the green-color; if nil, it will be seen as 255
+    optional integer Minimum_b - the new minimum brightness of the contrast-range of the blue-color; if nil, it will use the value of Minimum_r
+    optional integer Maximum_b - the new maximum brightness of the contrast-range of the blue-color; if nil, it will be seen as 255
+  </parameters>
+  <retvals>
+    integer red - the new red-value
+    integer green - the new green-value
+    integer blue - the new blue-value
+    boolean retval - true, color-calculation was successful; false, color-calculation was unsuccessful
+  </retvals>
+  <chapter_context>
+    Color Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>color management, change, color, brightness</tags>
+</US_DocBloc>
+]]
+  if Minimum_g==nil then Minimum_g=Minimum_r end
+  if Minimum_b==nil then Minimum_b=Minimum_r end
+  if Maximum_g==nil then Maximum_g=Maximum_r end
+  if Maximum_b==nil then Maximum_b=Maximum_r end
+  local ding
+
+  if math.type(r)~="integer" then ultraschall.AddErrorMessage("ChangeColorContrast", "r", "must be an integer", -1) return 0, 0, 0, false end
+  if r<0 or r>255 then  ultraschall.AddErrorMessage("ChangeColorContrast", "r", "must be between 0 and 255", -2) return 0, 0, 0, false end
+  if math.type(g)~="integer" then ultraschall.AddErrorMessage("ChangeColorContrast", "g", "must be an integer", -3) return 0, 0, 0, false end
+  if g<0 or g>255 then  ultraschall.AddErrorMessage("ChangeColorContrast", "g", "must be between 0 and 255", -4) return 0, 0, 0, false end
+  if math.type(b)~="integer" then ultraschall.AddErrorMessage("ChangeColorContrast", "b", "must be an integer", -5) return 0, 0, 0, false end
+  if b<0 or b>255 then  ultraschall.AddErrorMessage("ChangeColorContrast", "b", "must be between 0 and 255", -6) return 0, 0, 0, false end
+
+  if math.type(Minimum_r)~="integer" then ultraschall.AddErrorMessage("ChangeColorContrast", "Minimum_r", "must be an integer", -7) return 0, 0, 0, false end
+  if Minimum_g~=nil and math.type(Minimum_g)~="integer"then ultraschall.AddErrorMessage("ChangeColorContrast", "Minimum_g", "must be either nil or an integer", -8) return 0, 0, 0, false end
+  if Minimum_b~=nil and math.type(Minimum_b)~="integer" then ultraschall.AddErrorMessage("ChangeColorContrast", "Minimum_b", "must be either nil or an integer", -9) return 0, 0, 0, false end
+
+  if Maximum_r~=nil and math.type(Maximum_r)~="integer"then ultraschall.AddErrorMessage("ChangeColorContrast", "Maximum_r", "must be either nil or an integer", -10) return 0, 0, 0, false end
+  if Maximum_g~=nil and math.type(Maximum_g)~="integer"then ultraschall.AddErrorMessage("ChangeColorContrast", "Maximum_g", "must be either nil or an integer", -11) return 0, 0, 0, false end
+  if Maximum_b~=nil and math.type(Maximum_b)~="integer"then ultraschall.AddErrorMessage("ChangeColorContrast", "Maximum_b", "must be either nil or an integer", -12) return 0, 0, 0, false end
+
+  if Maximum_r==nil then Maximum_r=255 ding=true end
+  if ding==true and Minimum_r>0 then Maximum_r=Maximum_r-Minimum_r end
+  local Dyn_r=Maximum_r-Minimum_r
+  ding=false
+
+  if Maximum_g==nil then Maximum_g=255 ding=true end
+  if ding==true and Minimum_g>0 then Maximum_g=Maximum_g-Minimum_g end
+  local Dyn_g=Maximum_g-Minimum_g
+  ding=false
+
+  if Maximum_b==nil then Maximum_b=255 ding=true end
+  if ding==true and Minimum_b>0 then Maximum_b=Maximum_b-Minimum_b end
+  local Dyn_b=Maximum_b-Minimum_b
+  ding=false
+  
+  r=r/255*Dyn_r
+  r=r+Minimum_r
+
+  g=g/255*Dyn_g
+  g=g+Minimum_g
+  
+  b=b/255*Dyn_b
+  b=b+Minimum_b
+  
+  if r>255 then r=255 end
+  if g>255 then g=255 end
+  if b>255 then b=255 end
+  if r<0 then r=0 end
+  if g<0 then g=0 end
+  if b<0 then b=0 end
+  return math.floor(r), math.floor(g), math.floor(b), true
+end
+
+--A1, B1, C1 = ultraschall.ChangeColorContrast(10, 100, 200, 100, 255, 100, 255, 100, 255)
+
+
+function ultraschall.ChangeColorSaturation(r,g,b,delta)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ChangeColorSaturation</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer red, integer green, integer blue, number median, boolean retval = ultraschall.ChangeColorSaturation(integer r, integer g, integer b, integer delta)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Changes saturation of a colorvalue by delta.
+    
+    If a color-value becomes >255 or <0, it will be set to 255 or 0 respectively.
+    
+    returns color-value 0,0,0 and retval=false in case of an error
+  </description>
+  <parameters>
+    integer r - the red-value to be changed
+    integer g - the green-value to be changed
+    integer b - the blue-value to be changed
+    integer delta - the saturation/desaturation-value; negative, desaturates color; positive, saturates color
+  </parameters>
+  <retvals>
+    integer red - the new red-value
+    integer green - the new green-value
+    integer blue - the new blue-value
+    number median - the median-value, calculated from the the old red, green and blue, values (red+green+blue)/3, which is the basis for the brightness of the unsaturated value
+    boolean retval - true, color-calculation was successful; false, color-calculation was unsuccessful
+  </retvals>
+  <chapter_context>
+    Color Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>color management, change, color, saturation</tags>
+</US_DocBloc>
+]]
+  if math.type(r)~="integer" then ultraschall.AddErrorMessage("ChangeColorSaturation", "r", "must be an integer", -1) return 0, 0, 0, 0, false end
+  if r<0 or r>255 then  ultraschall.AddErrorMessage("ChangeColorSaturation", "r", "must be between 0 and 255", -2) return 0, 0, 0, 0, false end
+  if math.type(g)~="integer" then ultraschall.AddErrorMessage("ChangeColorSaturation", "g", "must be an integer", -3) return 0, 0, 0, 0, false end
+  if g<0 or g>255 then  ultraschall.AddErrorMessage("ChangeColorSaturation", "g", "must be between 0 and 255", -4) return 0, 0, 0, 0, false end
+  if math.type(b)~="integer" then ultraschall.AddErrorMessage("ChangeColorSaturation", "b", "must be an integer", -5) return 0, 0, 0, 0, false end
+  if b<0 or b>255 then  ultraschall.AddErrorMessage("ChangeColorSaturation", "b", "must be between 0 and 255", -6) return 0, 0, 0, 0, false end
+
+  if math.type(delta)~="integer" then ultraschall.AddErrorMessage("ChangeColorSaturation", "delta", "must be an integer", -7) return 0, 0, 0, 0, false end
+  
+  local Median=(r+g+b)/3
+  delta=delta*-1
+  
+  if r>Median then r=r-delta if r<Median then r=Median end elseif r<Median then r=r+delta if r>Median then r=Median end end
+  if g>Median then g=g-delta if g<Median then g=Median end elseif g<Median then g=g+delta if g>Median then g=Median end end
+  if b>Median then b=b-delta if b<Median then b=Median end elseif b<Median then b=b+delta if b>Median then b=Median end end
+
+  if r>255 then r=255 end
+  if g>255 then g=255 end
+  if b>255 then b=255 end
+  if r<0 then r=0 end
+  if g<0 then g=0 end
+  if b<0 then b=0 end
+    
+  return math.floor(r),math.floor(g),math.floor(b), Median, true
+end
+--ultraschall.ToggleIDE_Errormessages()
+A,B,C,D=ultraschall.ChangeColorSaturation(1,100,200,10)
+
+--for i=0, reaper.CountTracks()-1 do
+--  A0, B0, C0 = ultraschall.ConvertColorReverse(reaper.GetTrackColor(reaper.GetTrack(0,i)))
+--  A,B,C,D=ultraschall.ChangeColorSaturation(A0, B0, C0, 10)
+--  reaper.SetTrackColor(reaper.GetTrack(0,i), ultraschall.ConvertColor(A,B,C))
+--end
 
 ---------------------------
 ---- Routing Snapshots ----
@@ -43920,7 +44224,7 @@ end
 --reaper.MB(A,"",0)
 
 
-ultraschall.Euro=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/Euro.txt")
+ultraschall.Euro="€"
 
 ultraschall.ShowLastErrorMessage()
 
@@ -43936,4 +44240,7 @@ ultraschall.ShowLastErrorMessage()
 --Aretval, Astr = reaper.GetItemStateChunk(reaper.GetMediaItem(0,0), "", true)
 --Astr=ultraschall.SetUS_Tracknumber(
 --A,B,C,D,E,F,G=ultraschall.InsertMediaItem_MediaItemStateChunk(1000,Astr, MT)
+
+
+
 ultraschall.ShowLastErrorMessage()
