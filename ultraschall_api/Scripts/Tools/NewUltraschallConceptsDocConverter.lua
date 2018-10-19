@@ -1,4 +1,4 @@
-reaper.MB("Still Work To Do With This Here!","",0)
+--reaper.MB("Still Work To Do With This Here!","",0)
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 Tempfile=ultraschall.Api_Path.."/temp/temporary"
 ConversionToolMD2HTML="c:\\Program Files (x86)\\Pandoc\\pandoc.exe -f markdown_strict -t html "..ultraschall.Api_Path.."/temp/temporary.md -o "..ultraschall.Api_Path.."/temp/temporary.html"

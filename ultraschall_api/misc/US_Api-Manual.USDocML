@@ -275,6 +275,7 @@
                - [EnvelopePointObject](#Datatypes_EnvelopePointObject) - it's a table containing all attributes of an envelope-point, 
                   like: parent TrackEnvelope-object, envelope-idx, time, value, shape, tension, selected, dBValue converted from value
                - [EnvelopePointArray](#Datatypes_EnvelopePointArray) - it's a table with multiple EnvelopePointObjects in it, indexed by an integer
+               - [ColorTable][#Datatypes_ColorTable) - it's a table that holds multiple color-values; for i.e. gradients
                     
             These Ultraschall-API-specific datatypes are described in more detail in the following chapters.
         </description>
@@ -479,6 +480,45 @@
             When working with multiple EnvelopePointObjects, I introduced the datatype EnvelopePointArray, containing multiple EnvelopePointObjects.
             
             An EnvelopePointArray is an array with multiple EnvelopePointObjects, indexed by an integer.  
+            Structure:  
+
+                        ColorTable[index][r]=red color-value(0-255)
+                        ColorTable[index][g]=green color-value(0-255)
+                        ColorTable[index][b]=blue color-value(0-255)
+                        ColorTable[index][gfxr]=red color-value, useable by gfx-related-functions(0-1)
+                        ColorTable[index][gfxg]=green color-value, useable by gfx-related-functions(0-1)
+                        ColorTable[index][gfxb]=blue color-value, useable by gfx-related-functions(0-1)
+                        ColorTable[index]["nativecolor"]=the r-g-b-color-value converted to the native-color, used in your system
+                    
+            
+            ColorTables can be used to store gradients, or temporary track-colors, or anything related to multiple colors.
+            
+            - You can create ColorTables using: 
+                    [CreateColorTable](usdocml://CreateColorTable), [CreateSonicRainboomColorTable](usdocml://CreateSonicRainboomColorTable)
+            - You can check for valid ColorTables using: 
+                    [IsValidColorTable](usdocml://IsValidColorTable)
+            - Some of the functions who make use of ColorTables are: 
+                    [ApplyColorTableToTrackColors](usdocml://ApplyColorTableToTrackColors)
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Datatypes
+        </chapter_context>
+        <previous_chapter>Datatypes_EnvelopePointObject</previous_chapter>
+        <next_chapter>Datatypes_ColorTable</next_chapter>
+        <tags>documentation, datatypes, datatype, envelopepointarray</tags>
+    </US_DocBloc>
+
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Datatypes_ColorTable</slug>
+        <title>Datatypes: ColorTable</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            When having to work with many colors, like MediaTrack-colors or the colors set to individual MediaItems, one may wish to have a proper datastructure to store these colorvalues.
+            For that, I introduce the ColorTable.
+            
+            A ColorTable is an array containing the multiple colors, indexed by an integer.  
             Examplecode:  
 
                         -- create EnvelopePointObjects
@@ -489,10 +529,7 @@
                         retval, EnvelopePointObject3 = ultraschall.CreateEnvelopePointObject(TrackEnvelope, 1, 20, 10, 0, 0, false) -- create EnvelopePointObject3
                         
                         -- creating EnvelopePointArray
-                        EnvelopePointArray={}
-                        EnvelopePointArray[1]=EnvelopePointObject1
-                        EnvelopePointArray[2]=EnvelopePointObject2
-                        EnvelopePointArray[3]=EnvelopePointObject3
+                        ColorTable={}
                     
             
             EnvelopePointArray makes passing multiple EnvelopePointObjects to functions much easier.
@@ -512,8 +549,8 @@
         <previous_chapter>Datatypes_EnvelopePointObject</previous_chapter>
         <next_chapter>Datatypes_CheckingDatatypes</next_chapter>
         <tags>documentation, datatypes, datatype, envelopepointarray</tags>
-    </US_DocBloc>
-
+    </US_DocBloc>    
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Datatypes_CheckingDatatypes</slug>
         <title>Datatypes: Checking Datatypes</title>
@@ -571,7 +608,7 @@
         <chapter_context>
             Datatypes
         </chapter_context>
-        <previous_chapter>Datatypes_EnvelopePointArray</previous_chapter>
+        <previous_chapter>Datatypes_ColorTable</previous_chapter>
         <next_chapter>Introduction_API_Variables</next_chapter>
         <tags>documentation, datatypes, datatype, checking</tags>
     </US_DocBloc>

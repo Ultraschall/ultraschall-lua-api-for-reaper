@@ -39,19 +39,20 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 21063</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 21080</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
 <td><a href="#Introduction_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 </tr><tr><td><a href="#Introduction_License">Introduction: License</a></td>
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Datatypes</b></td></tr><tr><td><a href="#Datatypes_CheckingDatatypes">Datatypes: Checking Datatypes</a></td>
+<td><a href="#Datatypes_ColorTable">Datatypes: ColorTable</a></td>
 <td><a href="#Datatypes_EnvelopePointArray">Datatypes: EnvelopePointArray</a></td>
 <td><a href="#Datatypes_EnvelopePointObject">Datatypes: EnvelopePointObject</a></td>
-<td><a href="#Datatypes_Introduction">Datatypes: Introduction</a></td>
-</tr><tr><td><a href="#Datatypes_MediaItemArray">Datatypes: MediaItemArray</a></td>
+</tr><tr><td><a href="#Datatypes_Introduction">Datatypes: Introduction</a></td>
+<td><a href="#Datatypes_MediaItemArray">Datatypes: MediaItemArray</a></td>
 <td><a href="#Datatypes_MediaItemStateChunkArray">Datatypes: MediaItemStateChunkArray</a></td>
 <td><a href="#Datatypes_trackstring">Datatypes: Trackstrings</a></td>
-</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>API-Variables</b></td></tr><tr><td><a href="#Introduction_API_Variables">API-Variables</a></td>
+</tr><tr></tr><p><tr><td>&nbsp;</td></tr><tr><td><b>API-Variables</b></td></tr><tr><td><a href="#Introduction_API_Variables">API-Variables</a></td>
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Rendering</b></td></tr><tr><td><a href="#Rendering_01_Introduction">Rendering: Introduction</a></td>
 <td><a href="#Rendering_02_About_Renderstrings">Rendering: About Renderstrings</a></td>
 <td><a href="#Rendering_03_About_Renderingfunctions">Rendering: About Rendering-functions</a></td>
@@ -212,6 +213,7 @@ Sendegate: <a href="http://www.sendegate.de">sendegate.de</a> into the Ultrascha
 <li><a href="#Datatypes_MediaItemStateChunkArray">MediaItemStateChunkArray</a> - some functions accept multiple mediaitem-statechunks. MediaItemStateChunkArrays are tables containing MediaItemStateChunks. The index of the table is integers.</li>
 <li><a href="#Datatypes_EnvelopePointObject">EnvelopePointObject</a> - it's a table containing all attributes of an envelope-point, like: parent TrackEnvelope-object, envelope-idx, time, value, shape, tension, selected, dBValue converted from value</li>
 <li><a href="#Datatypes_EnvelopePointArray">EnvelopePointArray</a> - it's a table with multiple EnvelopePointObjects in it, indexed by an integer</li>
+<li>[ColorTable][#Datatypes_ColorTable) - it's a table that holds multiple color-values; for i.e. gradients</li>
 </ul>
 <p>These Ultraschall-API-specific datatypes are described in more detail in the following chapters.</p>
 
@@ -330,6 +332,25 @@ Examplecode:</p>
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_EnvelopePointArray"></a>
 <div style="font-size:100%"><h4><a href="#Datatypes_EnvelopePointArray">^</a> <u>Datatypes: EnvelopePointArray</u></h4></div><p><p>When working with multiple EnvelopePointObjects, I introduced the datatype EnvelopePointArray, containing multiple EnvelopePointObjects.</p>
 <p>An EnvelopePointArray is an array with multiple EnvelopePointObjects, indexed by an integer.<br />
+Structure:</p>
+<pre><code>        ColorTable[index][r]=red color-value(0-255)
+        ColorTable[index][g]=green color-value(0-255)
+        ColorTable[index][b]=blue color-value(0-255)
+        ColorTable[index][gfxr]=red color-value, useable by gfx-related-functions(0-1)
+        ColorTable[index][gfxg]=green color-value, useable by gfx-related-functions(0-1)
+        ColorTable[index][gfxb]=blue color-value, useable by gfx-related-functions(0-1)
+        ColorTable[index][&quot;nativecolor&quot;]=the r-g-b-color-value converted to the native-color, used in your system
+    </code></pre>
+<p>ColorTables can be used to store gradients, or temporary track-colors, or anything related to multiple colors.</p>
+<ul>
+<li>You can create ColorTables using: <a href="US_Api_Functions.html#CreateColorTable">CreateColorTable</a>, <a href="US_Api_Functions.html#CreateSonicRainboomColorTable">CreateSonicRainboomColorTable</a></li>
+<li>You can check for valid ColorTables using: <a href="US_Api_Functions.html#IsValidColorTable">IsValidColorTable</a></li>
+<li>Some of the functions who make use of ColorTables are: <a href="US_Api_Functions.html#ApplyColorTableToTrackColors">ApplyColorTableToTrackColors</a></li>
+</ul>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_ColorTable"></a>
+<div style="font-size:100%"><h4><a href="#Datatypes_ColorTable">^</a> <u>Datatypes: ColorTable</u></h4></div><p><p>When having to work with many colors, like MediaTrack-colors or the colors set to individual MediaItems, one may wish to have a proper datastructure to store these colorvalues. For that, I introduce the ColorTable.</p>
+<p>A ColorTable is an array containing the multiple colors, indexed by an integer.<br />
 Examplecode:</p>
 <pre><code>        -- create EnvelopePointObjects
         MediaTrack=reaper.GetTrack(0,0) -- get MediaTrack
@@ -339,10 +360,7 @@ Examplecode:</p>
         retval, EnvelopePointObject3 = ultraschall.CreateEnvelopePointObject(TrackEnvelope, 1, 20, 10, 0, 0, false) -- create EnvelopePointObject3
         
         -- creating EnvelopePointArray
-        EnvelopePointArray={}
-        EnvelopePointArray[1]=EnvelopePointObject1
-        EnvelopePointArray[2]=EnvelopePointObject2
-        EnvelopePointArray[3]=EnvelopePointObject3
+        ColorTable={}
     </code></pre>
 <p>EnvelopePointArray makes passing multiple EnvelopePointObjects to functions much easier.</p>
 <ul>
@@ -969,4 +987,4 @@ Example:</p>
 <p>This is a special function, focusing on inserting image-files into the project. You can set the track, position, length of the image-MediaItem and, if it shall be looped.<br />
 If you don't loop it(looped=false), the MediaItem will have the length anyway, but the image will be shown only for 1 second in the VideoProcessor-window.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 33 chapters available</td></table><br><hr></div></body></html>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 34 chapters available</td></table><br><hr></div></body></html>

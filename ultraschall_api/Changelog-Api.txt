@@ -268,6 +268,8 @@
   - ChangeColorContrast - changes contrast of a r,g,b-color-value
   - ReverseTable - reverses the order of the entries of an integer-indexed table
   - ChangeColorSaturation - changes the saturation of a color-value
+  - Docs: Datatypes_Colortables - docs about the structure of a ColorTable
+  - ultraschall.Euro - holds an €-symbol, that is difficult to type into Reaper's IDE
   <TODO>
       TODO!!  - write final documentation for public-beta
       TODO!!  - Docs: Add docs for new Datatype ColorTable

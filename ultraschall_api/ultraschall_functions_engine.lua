@@ -36083,7 +36083,7 @@ function ultraschall.IsItemInTrack2(MediaItem, tracknumber)
     Lua=5.3
   </requires>
   <functioncall>boolean retval, integer tracknumber = ultraschall.IsItemInTrack2(MediaItem MediaItem, integer tracknumber)</functioncall>
-  <description>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Checks, whether a MediaItem is in track with tracknumber.
     
     see [IsItemInTrack](#IsItemInTrack) to use itemidx instead of the MediaItem-object.
@@ -36331,7 +36331,7 @@ function ultraschall.IsItemInTrack3(MediaItem, trackstring)
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.IsItemInTrack3(MediaItem MediaItem, string trackstring)</functioncall>
-  <description>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Checks, whether a MediaItem is in any of the tracks, given by trackstring.
     
     see [IsItemInTrack](#IsItemInTrack) to use itemidx instead of the MediaItem-object.
@@ -41057,7 +41057,7 @@ function ultraschall.CreateColorTable(startr, startg, startb, endr, endg, endb, 
     
     The colorvalue for start and end can be 0 to 255 or the other way round 255 to 0
     
-    Can be used by [ApplyColorTableToTrackColors](#ApplyColorTableToTrackColors]
+    Can be used by [ApplyColorTableToTrackColors](#ApplyColorTableToTrackColors)
   </description>
   <parameters>
     integer startr - start redvalue, between 0 and 255
@@ -41096,6 +41096,7 @@ function ultraschall.CreateColorTable(startr, startg, startb, endr, endg, endb, 
   if endg<0 or endg>255 then ultraschall.AddErrorMessage("CreateColorTable", "endg", "must be between 0 and 255", -12) return nil end
   if endb<0 or endb>255 then ultraschall.AddErrorMessage("CreateColorTable", "endb", "must be between 0 and 255", -13) return nil end
   
+  local start, stepr, stepg, stepb, steps, stop
   local colortable={}
   if number_of_steps>0 then start=1 stop=number_of_steps steps=1 else start=number_of_steps*-1 stop=1 steps=-1 end
   
@@ -41255,14 +41256,17 @@ function ultraschall.ConcatIntegerIndexedTables(table1, table2)
   <functioncall>integer numentries, array concatenated_table = ultraschall.ConcatIntegerIndexedTables(array table1, array table2)</functioncall>
   <description>
     Concatenates the entries of two tables into one table. The entries of each table must be indexed by integers
+    
+    The new table still has the same references as the old table, means: if you remove the old tables/entries in the old tables, the concatenated table/accompanying entries will loose elements.
+    To get a "true"-concatenated copy, you should first create new copies of the tables, using [MakeCopyOfTable](#MakeCopyOfTable).
   </description>
   <parameters>
     array table1 - the first table to be concatenated; the entries must be indexed by integer-numbers!
     array table2 - the second table to be concatenated; the entries must be indexed by integer-numbers!
   </parameters>
   <retvals>
-    array ColorTable - a colortable for the colors with the number of steps of your choice; 
-                     - each indexentry holds entries "r"(0-255), "g"(0-255), "b"(0-255), "nativecolor" and "gfxr"(0-1), "gfxg"(0-1), "gfxb"(0-1).
+    integer numentries - the number of entries in the new table
+    array concatenated_table - the new concatenated table
   </retvals>
   <chapter_context>
     API-Helper functions
@@ -41294,17 +41298,17 @@ end
 function ultraschall.ApplyColorTableToTrackColors(ColorTable, Spread, StartTrack, EndTrack)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ConcatIntegerIndexedTables</slug>
+  <slug>ApplyColorTableToTrackColors</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.ConcatIntegerIndexedTables(array ColorTable, integer Spread, integer StartTrack, integer EndTrack)</functioncall>
+  <functioncall>boolean retval = ultraschall.ApplyColorTableToTrackColors(array ColorTable, integer Spread, integer StartTrack, integer EndTrack)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Apply a ColorTable to Tracks, to colorize MediaTracks
     
-    Can be used by [CreateColorTable](#CreateColorTable]
+    Can be used by [CreateColorTable](#CreateColorTable)
   </description>
   <parameters>
     array ColorTable - the ColorTable to apply to the MediaTrackColors
@@ -41653,7 +41657,7 @@ function ultraschall.ChangeColorSaturation(r,g,b,delta)
   return math.floor(r),math.floor(g),math.floor(b), Median, true
 end
 --ultraschall.ToggleIDE_Errormessages()
-A,B,C,D=ultraschall.ChangeColorSaturation(1,100,200,10)
+--A,B,C,D=ultraschall.ChangeColorSaturation(1,100,200,10)
 
 --for i=0, reaper.CountTracks()-1 do
 --  A0, B0, C0 = ultraschall.ConvertColorReverse(reaper.GetTrackColor(reaper.GetTrack(0,i)))
