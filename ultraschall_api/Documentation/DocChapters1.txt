@@ -1,14 +1,5 @@
-
-Getting, manipulating MediaItems in Projects:
-    Spectrogram:
-        spectral edit
-
-    Miscellaneous
-        previewing
-        applying Reaper-actions to MediaItems, etc.
-        Previewing MediaItems and files:
-    
 Trackmanagement:
+    RunCommand for Tracks:
     
 ItemExtStates/TrackExtStates:
     save extension states for tracks and items
@@ -31,11 +22,7 @@ File Access Management:
     Write
     Analyse
     
-UndoManagement:
-
 Checking for changed projecttabs:
-
-RunCommand for Items/Tracks:
 
 ExtState-Management:
     extstate-files
@@ -51,3 +38,5 @@ Error Messaging System:
 KB-Ini-Management:
 
 Helper functions:
+    Lua-helper-functions
+    UndoManagement:

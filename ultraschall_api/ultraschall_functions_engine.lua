@@ -31805,36 +31805,6 @@ end
 
 
 
-
-function ultraschall.SetTrackMIDIColorMapFn(tracknumber, Colormapfilename_with_path)
---TODO - GetTrackMIDICOlorMapFn() and ... what the heck does this function?
---Sets MIDICOLORMAPFN
--- tracknumber - counted from 0
--- Colormapfilename_with_path - filename with path
-
-  if tonumber(tracknumber)==nil then return false end
-  if tonumber(tracknumber)<1 or tonumber(tracknumber)>reaper.CountTracks(0) then return false end
-    tracknumber=tonumber(tracknumber)
-  if Colormapfilename_with_path==nil then Colormapfilename_with_path="" end
-  local str="MIDICOLORMAPFN \""..Colormapfilename_with_path.."\""
-  local Mediatrack=reaper.GetTrack(0,tracknumber-1)
-  local A,AA=ultraschall.GetTrackStateChunk(Mediatrack,str,false)
-
-  local B1=AA:match("(.-)MIDICOLORMAPFN")
-  local B3=AA:match("MIDICOLORMAPFN.-%c(.*)")
-  if B1==nil then B1=AA:match("(.-TRACK)") B3=AA:match(".-TRACK(.*)") end
-
-  local B=reaper.SetTrackStateChunk(Mediatrack,B1.."\n"..str.."\n"..B3,false)
---  reaper.ClearConsole()
-  --reaper.ShowConsoleMsg(AA)
-  return B
-end
-
---A=ultraschall.SetTrackMIDIColorMapFn(0, "us.png")
-
-
-
-
 function toboolean(value)
     -- converts a value to boolean, or returns nil, if not convertible
 --[[
@@ -32359,7 +32329,8 @@ function ultraschall.InsertMediaItemFromFile(filename, track, position, endposit
   if math.type(editcursorpos)~="integer" then ultraschall.AddErrorMessage("InsertMediaItemFromFile", "editcursorpos", "must be an integer between 0 and 2", -6) return -1 end
   if track<-1 or track>reaper.CountTracks(0) then ultraschall.AddErrorMessage("InsertMediaItemFromFile","track", "no such track available", -7) return -1 end  
   if offset~=nil and type(offset)~="number" then ultraschall.AddErrorMessage("InsertMediaItemFromFile","offset", "must be either nil or a number", -8) return -1 end  
-
+  if offset==nil then offset=0 end
+    
   -- where to insert and where to have the editcursor after insert
   local editcursor, mode
   if editcursorpos==0 then editcursor=reaper.GetCursorPosition()
@@ -32572,12 +32543,13 @@ function ultraschall.GetReaperAppVersion()
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>number version, string bits = ultraschall.GetReaperAppVersion()</functioncall>
+  <functioncall>integer majorversion, integer subversion, string bits, string os, boolean portable = ultraschall.GetReaperAppVersion()</functioncall>
   <description>
     Returns operating system and if it's a 64bit/32bit-operating system.
   </description>
   <retvals>
-    number version - the version used. Can be used for comparisions like "if version<5.77 then ... end".
+    integer majorversion - the majorversion of Reaper. Can be used for comparisions like "if version<5 then ... end".
+    integer subversion - the subversion of Reaper. Can be used for comparisions like "if subversion<96 then ... end".
     string bits - the number of bits of the reaper-app
     string os - the operating system, either "Win", "OSX" or "Other"
     boolean portable - true, if it's a portable installation; false, if it isn't a portable installation
@@ -32587,18 +32559,18 @@ function ultraschall.GetReaperAppVersion()
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, appversion, reaper, version, bits</tags>
+  <tags>helper functions, appversion, reaper, version, bits, majorversion, subversion</tags>
 </US_DocBloc>
 --]]
   -- if exe-path and resource-path are the same, it is an portable-installation
   if reaper.GetExePath()==reaper.GetResourcePath() then portable=true else portable=false end
   -- separate the returned value from GetAppVersion
-  return tonumber(reaper.GetAppVersion():match("(.-)/")), reaper.GetAppVersion():match("/(.*)"), reaper.GetOS():match("(.-)%d"), portable
+  return tonumber(reaper.GetAppVersion():match("(.-)%..-/")), tonumber(reaper.GetAppVersion():match("%.(.-)/")), reaper.GetAppVersion():match("/(.*)"), reaper.GetOS():match("(.-)%d"), portable
 end
 
 
 --A,B,C,D=ultraschall.GetReaperAppVersion()
---H=reaper.GetAppVersion()
+--A,B,C,D,E,F,G=ultraschall.GetReaperAppVersion()
 
 function ultraschall.GetItemSpectralConfig(itemidx, MediaItemStateChunk)
 --[[
@@ -38446,6 +38418,7 @@ function ultraschall.PreviewMediaItem(MediaItem, Previewtype)
   <functioncall>boolean retval = ultraschall.PreviewMediaItem(MediaItem MediaItem, integer Previewtype)</functioncall>
   <description>
     Will play a preview a given MediaItem.
+    You can just play one preview at a time, except when previewing additionally through the MediaExplorer.
     
     Returns false in case of an error
   </description>
@@ -38458,7 +38431,7 @@ function ultraschall.PreviewMediaItem(MediaItem, Previewtype)
                         - 0, Preview the MediaItem in the Media Explorer
                         - 1, Preview the MediaItem
                         - 2, Preview the MediaItem at track fader volume of the track, in which it lies
-                        - 3, Preview the MediaItem through the track, in which it lies
+                        - 3, Preview the MediaItem through the track, in which it lies(including FX-settings)
   </parameters>
   <chapter_context>
     MediaItem Management
@@ -38507,9 +38480,10 @@ function ultraschall.StopAnyPreview()
 </US_DocBloc>
 ]]
   ultraschall.RunCommand("_SWS_STOPPREVIEW") -- Xenakios/SWS: Stop current media item/take preview
+  ultraschall.PreviewMediaFile(ultraschall.Api_Path.."/misc/silence.flac")
+  --ultraschall.StopAnyPreview()
 end
 
---ultraschall.StopAnyPreview()
 
 function ultraschall.InsertTrackAtIndex(index, number_of_tracks, wantdefaults)
 --[[
@@ -38708,7 +38682,9 @@ function ultraschall.PreviewMediaFile(filename_with_path)
   reaper.PreventUIRefresh(1)
 end
 
---A=ultraschall.PreviewMediaFile("c:\\Users\\meo\\Desktop\\Deep Purple - Smoke on the Water.mp3")
+--A=ultraschall.PreviewMediaFile("c:\\Users\\meo\\Desktop\\The Beatles - Baby Youre A Rich Man (Remastered 2009).mp3")
+--ultraschall.StopAnyPreview()
+
 --B=reaper.Undo_DoUndo2(0)
 --B=reaper.Undo_DoUndo2(0)
 
@@ -38862,7 +38838,7 @@ function ultraschall.ApplyFunctionToMediaItemArray(MediaItemArray, functionname,
     Reaper=5.92
     Lua=5.3
   </requires>
-  <functioncall>table returnvalues  = ultraschall.ApplyFunctionToMediaItemArray(MediaItemArray MediaItemArray, function functionname, ...)</functioncall>
+  <functioncall>table returnvalues  = ultraschall.ApplyFunctionToMediaItemArray(MediaItemArray MediaItemArray, function functionname, functionparameters1, ..., functionparametersn)</functioncall>
   <description>
     Applies function "functionname" on all items in MediaItemArray. Parameter ... is all parameters used for function "functionname", where you should use nil in place of the parameter that shall hold a MediaItem.
     
@@ -38879,8 +38855,8 @@ function ultraschall.ApplyFunctionToMediaItemArray(MediaItemArray, functionname,
   <parameters>
     MediaItemArray MediaItemArray - an array with all MediaItems, who you want to apply functionname to.
     function functionname - the name of the function to apply to every MediaItem in MediaItemArray
-    ... - the parameters needed for function "functionname". Important: the parameter that is intended for the MediaItem, must be nil. This nil-parameter
-        -    will be fille with the appropriate MediaItem by this function automatically
+    functionparameters1...n - the parameters needed for function "functionname". Important: the function-parameter that is intended for the MediaItem, must be nil. 
+                            - This nil-parameter will be filled with the appropriate MediaItem by ApplyFunctionToMediaItemArray automatically
   </parameters>
   <chapter_context>
     MediaItem Management
@@ -44245,6 +44221,7 @@ ultraschall.ShowLastErrorMessage()
 --Astr=ultraschall.SetUS_Tracknumber(
 --A,B,C,D,E,F,G=ultraschall.InsertMediaItem_MediaItemStateChunk(1000,Astr, MT)
 
-
+--ultraschall.StopAnyPreview()
 
 ultraschall.ShowLastErrorMessage()
+

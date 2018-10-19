@@ -1678,6 +1678,83 @@
         <next_chapter>Getting_Manipulating_Items_Miscellaneous</next_chapter>
         <tags>documentation, mediaitems, items, spectral, edit, add, count, delete, set, visibility, resolution, fft</tags>
     </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Getting_Manipulating_Items_Miscellaneous</slug>
+        <title>MediaItems: Miscellaneous</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Still not enough? Well, I've added numerous other functions, and I want to introduce you to some of the gems included.  
+            Feel free to browse through the [Functions-Reference](US_Api_Functions.html) to find more.  
+            
+            What about, previewing MediaItems and files? Use this:
+            
+                            boolean retval = ultraschall.PreviewMediaItem(MediaItem MediaItem, integer Previewtype)
+                            
+            This previews an existing MediaItem, which means: Reaper will play it, regardless of what you hear in your project currently.  
+            You can also set, where you want to have it previewed, through the MediaExplorer, the MediaItem itself, through the volume-settings of the track, in which it lies and through the track, in which it lies(including FX and such).  
+            You can just play one MediaItem at a time, unless you play one through the MediaExplorer and one through another previewing-type.  
+            
+            If you want to preview a file not in the current project, you can use:
+            
+                            boolean retval = ultraschall.PreviewMediaFile(string filename_with_path)
+                            
+            which will simply play the file you gave using filename\_with\_path.
+            
+            To stop any preview, just use 
+                            
+                            ultraschall.StopAnyPreview()
+                            
+            
+            What about applying Actions to MediaItems? Use this:
+                            
+                            boolean retval = ultraschall.ApplyActionToMediaItem(MediaItem MediaItem, string actioncommandid, 
+                                                                                integer repeat_action, boolean midi, optional HWND MIDI_hwnd)
+                                                                                
+            which allows applying main and midi-editor-actions to MediaItem. Just pass the command\_id/action\_command\_id to the parameter.  
+            With parameter repeat\_action, you can set, how often the action shall be applied to the MediaItem.  
+            To apply MIDI-Editor, actions, set midi=true and pass over a HWND of the used MIDI-Editor, using Reaper's own API function [MIDIEditor_GetActive](Reaper_Api_Documentation.html#MIDIEditor_GetActive).  
+            
+            To apply action to multiple MediaItems, use:
+                
+                            boolean retval = ultraschall.ApplyActionToMediaItemArray(MediaItemArray MediaItemArray, string actioncommandid, 
+                                                                                     integer repeat_action, boolean midi, optional HWND MIDI_hwnd)
+                            
+            which works just the same as ApplyActionToMediaItem, but uses a [MediaItemArray](#Datatypes_MediaItemArray) that includes the MediaItems to be affected.  
+            In addition to actions, you can also apply functions to MediaItems:
+            
+                            table returnvalues 
+                                    = ultraschall.ApplyFunctionToMediaItemArray(MediaItemArray MediaItemArray, function functionname, 
+                                                                                        functionparameters1, ..., functionparametersn)
+            
+            You just pass to it the MediaItemArray, the functionname, the parameters for the function functionname.  
+            Keep in mind: if a parameter of functionname shall hold the MediaItem, you need to set the accompanying parameter to nil,  ApplyFunctionToMediaItemArray will
+            automatically insert the appropriate MediaItem at this nil parameter.
+            
+            What else? What about Normalizing MediaItems? Use this:
+            
+                            integer retval = ultraschall.NormalizeItems(array MediaItemArray)
+                            
+            Just pass to it a MediaItemArray, that holds all MediaItems to be normalized.
+            
+            And last, but not least: What about applying MediaItemStateChunks to MediaItems? Use this:
+            
+                            boolean retval, integer skippeditemscount, array skipped_MediaItemStateChunkArray 
+                                    = ultraschall.ApplyStateChunkToItems(array MediaItemStateChunkArray, boolean undostate)
+                                    
+            This applies the MediaItemStateChunks in MediaItemStateChunkArray to the appropriate MediaItems. That means, if a StateChunk is of a certain, existing MediaItem, the function will apply the StateChunk to the MediaItem.  
+            This function is especially helpful, when mass manipulating StateChunks and wanting to mass-apply the changed ones back.
+            Easy to do now.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            MediaItems
+        </chapter_context>
+        <previous_chapter>Getting_Manipulating_Items_Spectral_Edit</previous_chapter>
+        <next_chapter></next_chapter>
+        <tags>documentation, mediaitems, items, preview, apply actions, apply function, normalize, apply statechunks</tags>
+    </US_DocBloc>
+    
 </USDocML>
 
 

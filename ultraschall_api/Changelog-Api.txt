@@ -270,7 +270,8 @@
   - ChangeColorSaturation - changes the saturation of a color-value
   - Docs: Datatypes_Colortables - docs about the structure of a ColorTable
   - ultraschall.Euro - holds an €-symbol, that is difficult to type into Reaper's IDE
-  - Docs: MediaItems: Programming Spectral Edit
+  - Docs: MediaItems: Programming Spectral Edit - added
+  - Docs: MediaItems: Miscellaneous - added
   <TODO>
       TODO!!  - write final documentation for public-beta
       
