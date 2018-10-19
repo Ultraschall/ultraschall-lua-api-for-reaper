@@ -39,7 +39,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 21161</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 21253</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
 <td><a href="#Introduction_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
@@ -56,7 +56,7 @@ Ultraschall API functions
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Rendering</b></td></tr><tr><td><a href="#Rendering_01_Introduction">Rendering: Introduction</a></td>
 <td><a href="#Rendering_02_About_Renderstrings">Rendering: About Renderstrings</a></td>
 <td><a href="#Rendering_03_About_Renderingfunctions">Rendering: About Rendering-functions</a></td>
-<td><a href="#Rendering_04_Change_more_render_settings">Rendering: 04_ Change more render-settings</a></td>
+<td><a href="#Rendering_04_Change_more_render_settings">Rendering: Change more render-settings</a></td>
 </tr><tr></tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Arrangeview Snapshots</b></td></tr><tr><td><a href="#Arrangeview_Snapshots_HowToRestore">Arrangeview Snapshots: How to restore</a></td>
 <td><a href="#Arrangeview_Snapshots_HowToStoreRetrieveDelete">Arrangeview Snapshots: How to store, retrieve, delete</a></td>
 <td><a href="#Arrangeview_Snapshots_Introduction">Arrangeview Snapshots: Introduction</a></td>
@@ -497,10 +497,10 @@ That said, a lot of the parameters are the same.</p>
 <pre><code>         rendercfg           - the renderstring, as created using a CreateRenderCFG_XXX-function, as described in 
                                the chapter &quot;Rendering: About Renderstrings&quot;</code></pre>
 <p>With that, you should be able to successfully render your project.</p>
-<p>For more enhanced customization of Rendering, see <a href="#Rendering_04_Change_more_render_settings">Rendering: 04_ Change more render-settings</a> for more details.</p>
+<p>For more enhanced customization of Rendering, see <a href="#Rendering_04_Change_more_render_settings">Rendering: Change more render-settings</a> for more details.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_04_Change_more_render_settings"></a>
-<div style="font-size:100%"><h4><a href="#Rendering_04_Change_more_render_settings">^</a> <u>Rendering: 04_ Change more render-settings</u></h4></div><p><p>Reaper's own render-dialog provides you with much more possibilities, than the rendering-functions themselves provide you with.</p>
+<div style="font-size:100%"><h4><a href="#Rendering_04_Change_more_render_settings">^</a> <u>Rendering: Change more render-settings</u></h4></div><p><p>Reaper's own render-dialog provides you with much more possibilities, than the rendering-functions themselves provide you with.</p>
 <p>In the likely case, that you want to influence more things for rendering, like samplerate, stereo or mono, etc, you should do the following things:</p>
 <ol>
 <li>make a copy of the rpp-file that you want to render using <a href="US_Api_Functions.html#MakeCopyOfFile">MakeCopyOfFile</a>. The copy must have a different name and be in the same folder, as the original rpp-file!</li>

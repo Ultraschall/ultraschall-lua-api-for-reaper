@@ -668,8 +668,9 @@ function writefile()
       reaper.ShowConsoleMsg("Done\n")
       Time2=reaper.time_precise()    
       Time3=reaper.format_timestr(Time2-Time1, "")
-      reaper.MB(Time3,"",0)
+      --reaper.MB(Time3,"",0)
       kuddel=1
+      reaper.SetExtState("ultraschall", "doc", "function-engine", false)
 end
 
 function entries()

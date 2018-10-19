@@ -32,7 +32,9 @@ function ultraschall.SplitUSDocBlocs(String)
     Table[Counter][5]=Table[Counter][2]:match("<US_DocBloc.-prog_lang=\"(.-)\".->") -- prog-language
     
     String=String:sub(Offset,-1)
+    -- if Counter==300 then break end -- DebugCode
   end
+
   return Counter, Table
 end
 
@@ -51,6 +53,7 @@ function ultraschall.ParseFunctionCall(String)
   local FoundFuncArray={}
   local count, positions = ultraschall.CountPatternInString(String, "<functioncall", true) 
   local temp, func, prog_lang
+  i=1
   for i=1, count do
     temp=String:sub(positions[i], String:match("</functioncall>\n()", positions[i]))
     func=temp:match("<functioncall.->\n*(.-)\n*</functioncall>")
@@ -615,67 +618,9 @@ function contentindex()
 --    writefile()
 end
 
-function contentindex2()
-  -- let's prepare all data-structures
-  reaper.ClearConsole()
-  reaper.ShowConsoleMsg("Create Index\n")
-  HeaderList={}
-  local A,B=ultraschall.GetAllChapterContexts(C)
-  local count=1
-  while B[count]~=nil do
-    HeaderList[B[count]]={}
-    count=count+1
-  end
-  count=1
-  local count2=1
-  while C[count]~=nil do
-    -- associate slugs to chapters
-    A1,B1,B2=ultraschall.ParseChapterContext(C[count][2])
-    while HeaderList[B2][count2]~=nil do      
-      count2=count2+1
-    end    
-    Title=ultraschall.ParseTitle(C[count][2])
-    if Title==nil then Title=C[count][1] end
-    HeaderList[B2][count2]=C[count][1].."\n"..Title
-    count2=1
-    count=count+1    
-  end
-  count=1
-  while B[count]~=nil do
-    -- sort slugs within chapters
-    table.sort(HeaderList[B[count]])
-    HeaderList[B[count]][0]=""
-    count=count+1
-  end
-  
-  -- now we create the actual index
-  count=1
-  FunctionList=FunctionList.."<h2><img src=\"gfx/reaper.png\"><br>Reaper Reascript-Api-Documentation 5.95 - \"I am Gnomon. I abhor endings.\"</h2><h3>The Functions Reference</h3><table style=\"font-size:10pt;\" width=\"100%\">"
-  while B[count]~=nil do
-    count2=1
-    local tud=1
-    HeaderList[B[count]][0]="<tr><td>&nbsp;</td></tr><tr><td><b>"..B[count]:sub(1,-3).."</b></td></tr><tr>"
-    while HeaderList[B[count]][count2]~=nil do      
-      IDX=HeaderList[B[count][count2]]
-    
-      HeaderList[B[count]][0]=HeaderList[B[count]][0].."<td><a href=\"#"..HeaderList[B[count]][count2]:match("(.-)\n").."\">"..HeaderList[B[count]][count2]:match("\n(.*)").."</a></td>\n"
-      if tud==4 and B[count]~="API-Documentation" then HeaderList[B[count]][0]=HeaderList[B[count]][0].."</tr><tr>" tud=0 end
-      if B[count]=="API-Documentation" then HeaderList[B[count]][0]=HeaderList[B[count]][0].."</tr><tr>" end
-      tud=tud+1
-      count2=count2+1
-    end
-    HeaderList[B[count]][0]=HeaderList[B[count]][0].."</tr><p>"
-    FunctionList=FunctionList..HeaderList[B[count]][0]
---    reaper.ShowConsoleMsg(B[count]..": \n"..HeaderList[B[count]][0].."\n\n")
---    reaper.ShowConsoleMsg(IndexString.."\n")
---    reaper.MB("","",0)
-    count=count+1
-  end
-  FunctionList=FunctionList.."</table>"
-  entries()
-end
-
 function entries()
+
+for inf=0, 0 do
 -- Slug as HTML-Anchor
 
   FunctionList=FunctionList.."<hr><a id=\""..C[index][1].."\"></a>"
@@ -683,14 +628,13 @@ function entries()
 
 -- Requirement-images + Functionname
   A,A2,A3=ultraschall.ParseRequires(C[index][2])
---  FunctionList=FunctionList..
+
   if A~=nil then FunctionList=FunctionList.."<img width=\"3%\" src=\"gfx/reaper"..A..".png\" alt=\"Reaper version "..A.."\">" end
   if A2~=nil then FunctionList=FunctionList.."<img width=\"3%\" src=\"gfx/sws"..A2..".png\" alt=\"SWS version "..A2.."\">" end
   if A3~=nil then FunctionList=FunctionList.."<img width=\"3%\" src=\"gfx/lua"..A3..".png\" alt=\"Lua version "..A3.."\">" end
   if A~=nil or A2~=nil or A3~=nil then 
     FunctionList=FunctionList.." <a href=\"#"..C[index][1].."\"><b>"..ultraschall.ParseTitle(C[index][2]).."</b></a>"--" <b>"..C[index][1].."</b>"--.." - "..C[index][2]:match("<tags>(.-)</tags>") 
   end
---  FunctionList=FunctionList
 
 -- Functioncalls
   A,B=ultraschall.ParseFunctionCall(C[index][2])
@@ -706,7 +650,6 @@ function entries()
   if lua==nil then lua="" end
   if python==nil then python="" end  
   
-  
   if C[index][2]:match("<chapter_context>.-API%-Documentation.-</chapter_context>")==nil then FunctionList=FunctionList.."<p><u>Functioncall:</u>" end
   FunctionList=FunctionList.."<div style=\"padding-left:4%;font-size:104%\">\n<b>"..cpp.."\n"..eel.."\n"..lua.."\n"..python.."</b></div>\n"
   cpp=""
@@ -719,11 +662,10 @@ function entries()
   if markup_type=="plain_text" then newdesc=ultraschall.ConvertPlainTextToHTML(newdesc)
   elseif markup_type=="markdown" then newdesc=ultraschall.ConvertMarkdownToHTML(newdesc, markup_version)
   end
---  reaper.MB(tostring(C[index][2]:match("<chapter_context>(.-API%-Documentation.-)</chapter_context>")),C[index][1],0)
   if C[index][2]:match("<chapter_context>.-API%-Documentation.-</chapter_context>")==nil then FunctionList=FunctionList.."\n<u>Description:</u>".."<br><div style=\"padding-left:4%;\">" end
   FunctionList=FunctionList..newdesc
   if C[index][2]:match("<chapter_context>.-API%-Documentation.-</chapter_context>")==nil then FunctionList=FunctionList.."</div>" end
-  
+
 -- Parameters
   counter, params, markup_type, markup_version= ultraschall.ParseParameters(C[index][2])
   for a=1, counter do
@@ -757,15 +699,17 @@ function entries()
     end   
   end
   FunctionList=FunctionList.."</table><br>"
-  
+
   FunctionList2=FunctionList2..FunctionList
   FunctionList=""
-  
+  end
   progressbar=30
+
   if index<Ccount then 
-    index=index+1
+    index=index+1    
     b=b+1
-    if b>=30 then 
+    --[
+    if b>=3 then 
       reaper.ClearConsole() 
       reaper.ShowConsoleMsg((math.floor(100/Ccount*index)+1).."% : ")
       for iii=1, math.floor(progressbar/Ccount*index) do reaper.ShowConsoleMsg("#") end
@@ -774,18 +718,21 @@ function entries()
       b=0
     else 
       b=b+1
-    end
+    end--]]
     reaper.defer(entries)
   else
     FunctionList=FunctionList.."<br><hr><table width=\"100%\"><td>View: [<span class='aclick'>all</span>] [<span class='cclick'><a href=\"#c\" onClick=\"setdocview('c')\">C/C++</a></span>] [<span class='eclick'><a href=\"#e\" onClick=\"setdocview('e')\">EEL</a></span>] [<span class='lclick'><a href=\"#l\" onClick=\"setdocview('l')\">Lua</a></span>] [<span class='pclick'><a href=\"#p\" onClick=\"setdocview('p')\">Python</a></span>]</td><td>&#160;</td><td style=\"padding-left:20.5%;\">Automatically generated by Ultraschall-API 4.00 beta 2.7 - "..Ccount.." functions available (Reaper and SWS)</td></table><hr></div></body></html>"
     reaper.ShowConsoleMsg("\nSave File\n")
     ultraschall.WriteValueToFile(Outfile, FunctionList2..FunctionList)
+    reaper.SetExtState("ultraschall", "doc", "reaper-docs", false)    
 
-    reaper.ShowConsoleMsg("Done\n")
+--    reaper.ShowConsoleMsg("Done\n")
     Time2=reaper.time_precise()    
     Time3=reaper.format_timestr(Time2-Time1, "")
     reaper.MB(Time3,"",0)
   end  
+
+
 end
 
 --header()

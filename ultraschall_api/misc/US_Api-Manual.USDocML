@@ -765,7 +765,7 @@
             
             With that, you should be able to successfully render your project.
             
-            For more enhanced customization of Rendering, see [Rendering: 04_ Change more render-settings](#Rendering_04_Change_more_render_settings) for more details.
+            For more enhanced customization of Rendering, see [Rendering: Change more render-settings](#Rendering_04_Change_more_render_settings) for more details.
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -779,7 +779,7 @@
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Rendering_04_Change_more_render_settings</slug>
-        <title>Rendering: 04_ Change more render-settings</title>
+        <title>Rendering: Change more render-settings</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Reaper's own render-dialog provides you with much more possibilities, than the rendering-functions themselves provide you with.
             

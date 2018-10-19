@@ -1,4 +1,5 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+timer=reaper.time_precise()
 Tempfile=ultraschall.Api_Path.."temp/"
 ChangeLogFile="Changelog-Api.txt"
 Pandoc="c:\\Program Files (x86)\\pandoc\\pandoc -f markdown -t html \""..Tempfile..ChangeLogFile.."\" -o \""..ultraschall.Api_Path.."/Documentation/ChangeLog.html\""
@@ -103,14 +104,34 @@ ultraschall.WriteValueToFile(ultraschall.Api_Path.."/Documentation/ChangeLog.htm
 
 reaper.ShowConsoleMsg("Creating Functions Reference\n")
 --ALABAMA=ultraschall.CreateUSApiDocs_HTML(ultraschall.Api_Path.."/Documentation/US_Api_Documentation.html", ultraschall.Api_Path.."/ultraschall_functions_engine.lua")
-ultraschall.RunCommand("_RSafb7013a8d8bbc8ef2b5f044da8d0fa327ac4a10")
-ultraschall.RunCommand("_RSdd25c8bda91067981223b0efd6a4c3c07ac26a92")
 progresscounter(false)
 
 reaper.ShowConsoleMsg("Creating Reaper-Functions Doc\n")
-if reaper.MB("Create Reaper-Docs as well?", "Reaper-Docs", 4)==6 then ultraschall.RunCommand("_RS09fa5f0d2a033e344d533043b5eeb22b7be4743c") end
 
+os.remove(Tempfile..ChangeLogFile)
 
 --ultraschall.ShowLastErrorMessage()
 
 --]]
+reaper.SetExtState("ultraschall", "doc", "", false)
+if reaper.MB("Create Reaper-Docs as well?", "Reaper-Docs", 4)==6 then p=1 end
+ -- introduction-concepts
+A=0
+function main()
+  if A==0 then ultraschall.RunCommand("_RSdd25c8bda91067981223b0efd6a4c3c07ac26a92") A=1 end
+  if reaper.GetExtState("ultraschall", "doc") == "intro-concepts-engine" and A==1 then  ultraschall.RunCommand("_RSafb7013a8d8bbc8ef2b5f044da8d0fa327ac4a10") A=2 end -- functions-engine  
+  if reaper.GetExtState("ultraschall", "doc") == "function-engine" and A==2 then if p==1 then ultraschall.RunCommand("_RS09fa5f0d2a033e344d533043b5eeb22b7be4743c") else reaper.SetExtState("ultraschall", "doc", "reaper-docs", false) end A=3 end
+  if reaper.GetExtState("ultraschall", "doc") == "reaper-docs" then
+    Time2=reaper.time_precise()    
+    Time3=reaper.format_timestr(Time2-timer, "") 
+    reaper.MB(Time3, "", 0) 
+    os.remove(ultraschall.Api_Path.."/temp/temporary.md")
+    os.remove(ultraschall.Api_Path.."/temp/temporary.html")
+  else
+    M=reaper.time_precise()
+    N=reaper.GetExtState("ultraschall", "doc")
+    reaper.defer(main)
+  end
+end
+
+main()

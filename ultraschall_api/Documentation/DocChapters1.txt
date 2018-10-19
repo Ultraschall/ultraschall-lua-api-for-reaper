@@ -1,9 +1,18 @@
 Trackmanagement:
+    Introduction
+    Trackstrings
+    TrackStates
+    Routing HWOut/Send/Receive
     RunCommand for Tracks:
     
 ItemExtStates/TrackExtStates:
     save extension states for tracks and items
 
+File Access Management:
+    Read
+    Write
+    Analyse
+    
 Cough-Mute-management:
 
 Marker:
@@ -16,11 +25,6 @@ Marker:
     Import
     Move
     Helpers: Renumerate, etc
-
-File Access Management:
-    Read
-    Write
-    Analyse
     
 Checking for changed projecttabs:
 

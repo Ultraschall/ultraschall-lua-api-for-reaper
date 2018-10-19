@@ -680,12 +680,13 @@ for lolo=1, 1 do
  --   end
     
     KLONGEL=ultraschall.WriteValueToFile(Outfile, FunctionList2..FunctionList)
+    reaper.SetExtState("ultraschall", "doc", "intro-concepts-engine", false)
     if KLONGEL==-1 then ultraschall.ShowLastErrorMessage() end
 
     reaper.ShowConsoleMsg("Done\n")
     Time2=reaper.time_precise()    
     Time3=reaper.format_timestr(Time2-Time1, "")
-    reaper.MB(Time3,"",0)
+--    reaper.MB(Time3,"",0)
     kuddel=1
   end  
   end
@@ -695,6 +696,8 @@ end
 --header()
 Time1=reaper.time_precise()
 contentindex()
+
+
 
 
 --    ultraschall.WriteValueToFile("c:\\Reaper-Help-Redone.html", FunctionList)
