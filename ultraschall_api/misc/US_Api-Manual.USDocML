@@ -1591,4 +1591,93 @@
         <next_chapter>Getting_Manipulating_Items_Spectral_Edit</next_chapter>
         <tags>documentation, mediaitems, items, inserting, mediaitem, mediaitemstatechunk, image</tags>
     </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Getting_Manipulating_Items_Spectral_Edit</slug>
+        <title>MediaItems: Programming Spectral Edit</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+           With Reaper v5.50c, the devs introduced a new feature, called, spectral editing, which is a cool feature to influence frequencies in a spectral view of a MediaItem.  
+           But they didn't include some functions to program this feature. So I added them myself.
+           
+           The functions for using, manipulating, adding, deleting spectral-edits are: 
+              [AddItemSpectralEdit](usdocml://AddItemSpectralEdit), [CountItemSpectralEdits](usdocml://CountItemSpectralEdits), [DeleteItemSpectralEdit](usdocml://DeleteItemSpectralEdit), [GetItemSpectralConfig](usdocml://GetItemSpectralConfig), [GetItemSpectralEdit](usdocml://GetItemSpectralEdit), [GetItemSpectralVisibilityState](usdocml://GetItemSpectralVisibilityState), [SetItemSpectralConfig](usdocml://SetItemSpectralConfig), [SetItemSpectralEdit](usdocml://SetItemSpectralEdit), [SetItemSpectralVisibilityState](usdocml://SetItemSpectralVisibilityState)  
+           
+           Let's go into this in more detail.
+           
+           
+           To use the SpectralEdit-mode, you need to first enable visibility of it in a MediaItem. You can do this later too, but you will not see any of your changes, until you enable visibility first.
+           
+                            string MediaItemStateChunk = ultraschall.SetItemSpectralVisibilityState(integer itemidx, integer state, optional string MediaItemStateChunk)
+                            
+           This function enables visibility of Spectral-Edit of item itemidx. The parameter state must be set to 1 to set to visible, or set to 0 to turn visibility off.  
+           The function returns the altered MediaItemStateChunk in any way.  
+           If you set itemidx to -1, you can use the optional parameter MediaItemStateChunk instead. This will add the corresponding entry for the visibility into the MediaItemStateChunk and returns the modified one.  
+           
+           Now that we have toggled the visibility of SpectralEdit, we might want to add SpectralEdit-instances to the MediaItem. For that we use:
+           
+                            boolean retval, MediaItemStateChunk statechunk 
+                                        = ultraschall.AddItemSpectralEdit(integer itemidx, number start_pos, number end_pos, number gain, number fade, 
+                                                                          number freq_fade, number freq_range_bottom, number freq_range_top, integer h, 
+                                                                          integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, 
+                                                                          number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, 
+                                                                          string MediaItemStateChunk)
+                                                                          
+           This will add a SpectralEdit-instance into your MediaItem. You can add as many individual instances, as you want.  
+           
+           As you can see, you can influence a hell lot of parameters for such a SpectralEdit-instance, so I will not explain them in detail here. I suggest you to read the accompanying doc-entry for [AddItemSpectralEdit](usdocml://AddItemSpectralEdit), which explains the parameters in more detail.  
+           Just some bits: 
+           Every Spectral-Edit-instance will be shown as a square/rectangle on top of the MediaItem. You can influence this rectangle's position and length, the frequency-ranges covered, the fades as well as all settings of all knobs appearing in it.  
+           And as the cherry on the top: you can also bypass and solo it.  
+           And, as the SetItemSpectralVisibilityState-function above, if you set itemidx to -1, you can add the Spectral-Edit-instance to a MediaItemStateChunk instead.  
+           
+           But what if you want to modify an already existing SpectralEdit-instance? Good question and I have a good answer to that:
+           
+                            string MediaItemStateChunk 
+                                        = ultraschall.SetItemSpectralEdit(integer itemix, integer spectralidx, number start_pos, number end_pos, number gain, 
+                                                                          number fade, number freq_fade, number freq_range_bottom, number freq_range_top, 
+                                                                          integer h, integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, 
+                                                                          number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, 
+                                                                          string MediaItemStateChunk)
+                                                                          
+           This sets an already existing SpectralEdit-instance, and it probably reminds you very much of the AddItemSpectralEdit-function.   
+           However, there is a small difference in it, the second parameter spectralidx, which tells the function, which spectral-edit-instance you want to change, with 1 for the first.  
+           The rest is like AddItemSpectralEdit.  
+           
+           To delete such an instance, you can use the function:
+                            
+                            boolean retval, string MediaItemStateChunk = ultraschall.DeleteItemSpectralEdit(integer itemidx, integer spectralidx, string MediaItemStateChunk)
+                            
+           With that, you can easily delete a SpectralEdit-instance, by giving the item's idx(itemidx) and the number of the SpectralEdit-instance(spectralidx).  
+           And, as most of the functions before: when setting itemidx to -1, you can use the optional parameter MediaItemStateChunk  
+           
+           To successfully set an already existing instance, you probably want to know, what current settings are in a SpectralEdit-instance.  
+           For that, there is:
+           
+                            number start_pos, number end_pos, number gain, number fade, number freq_fade, 
+                            number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, 
+                            number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, 
+                            number n, number o, number fade2, number freq_fade2 
+                                        = ultraschall.GetItemSpectralEdit(integer itemidx, integer spectralidx, string MediaItemStateChunk)
+                                        
+           This returns all settings you can set with AddItemSpectralEdit and SetItemSpectralEdit, by giving the item's idx within the project(itemidx) and the SpectralEdit-instance(spectralidx).  
+           And you know the drill: when setting itemidx to -1, you can pass a MediaItemStateChunk to the function.
+           
+           Some other functions for SpectralEdit-management are:  
+           
+              - [GetItemSpectralVisibilityState](usdocml://GetItemSpectralVisibilityState) - to get, if SpectralEdit is visible for this MediaItem  
+              - [SetItemSpectralConfig](usdocml://SetItemSpectralConfig) - to set the resolution(FFT-size) of the SpectralEdit of the MediaItem  
+              - [GetItemSpectralConfig](usdocml://GetItemSpectralConfig) - to get the current resolution(FFT-size) of the SpectralEdit of the MediaItem  
+              - [CountItemSpectralEdits](usdocml://CountItemSpectralEdits) - to count the number of currently existing SpectralEdit-instances in a MediaItem  
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            MediaItems
+        </chapter_context>
+        <previous_chapter>Getting_Manipulating_Items_Inserting</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_Miscellaneous</next_chapter>
+        <tags>documentation, mediaitems, items, spectral, edit, add, count, delete, set, visibility, resolution, fft</tags>
+    </US_DocBloc>
 </USDocML>
+
+

@@ -1,15 +1,12 @@
 
 Getting, manipulating MediaItems in Projects:
+    Spectrogram:
+        spectral edit
 
     Miscellaneous
-    previewing
-    applying Reaper-actions to MediaItems, etc.
-    Previewing MediaItems and files:
-    
-    Spectrogram:
-    spectral edit
-    
-    
+        previewing
+        applying Reaper-actions to MediaItems, etc.
+        Previewing MediaItems and files:
     
 Trackmanagement:
     

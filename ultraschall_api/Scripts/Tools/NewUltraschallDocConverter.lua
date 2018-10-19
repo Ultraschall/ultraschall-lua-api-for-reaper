@@ -30,7 +30,7 @@ function ultraschall.SplitUSDocBlocs(String)
     
     String=String:sub(Offset,-1)
   end
-  reaper.CF_SetClipboard(TUT)
+  --reaper.CF_SetClipboard(TUT)
   return Counter+1, Table
 end
 

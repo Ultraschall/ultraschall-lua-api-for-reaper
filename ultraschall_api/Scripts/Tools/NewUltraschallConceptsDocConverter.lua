@@ -102,7 +102,7 @@ function ultraschall.ParseDescription(String)
       if line:len()==0 then line="\n" end
       description=description:sub(offset,-1)
       newdesc=newdesc..line
-      reaper.CF_SetClipboard(newdesc)
+--      reaper.CF_SetClipboard(newdesc)
     end
   elseif indent=="minus_starts_line" then
     -- remove all spaces and tabs, until the first -

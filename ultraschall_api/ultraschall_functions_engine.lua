@@ -32847,7 +32847,7 @@ function ultraschall.CountItemSpectralEdits(itemidx, MediaItemStateChunk)
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>integer count = ultraschall.CountItemSpectralEdits(integer itemidx, string MediaItemStateChunk)</functioncall>
+  <functioncall>integer count = ultraschall.CountItemSpectralEdits(integer itemidx, optional string MediaItemStateChunk)</functioncall>
   <description>
     counts the number of SPECTRAL_EDITs in a given MediaItem/MediaItemStateChunk.
     The SPECTRAL_EDITs are the individual edit-boundary-boxes in the spectral-view.
@@ -32857,7 +32857,7 @@ function ultraschall.CountItemSpectralEdits(itemidx, MediaItemStateChunk)
   </description>
   <parameters>
     integer itemidx - the MediaItem to look in for the spectral-edit; -1, to use the parameter MediaItemStateChunk instead
-    string MediaItemStateChunk - if itemidx is -1, this can be a MediaItemStateChunk to use, otherwise this will be ignored
+    optional string MediaItemStateChunk - if itemidx is -1, this can be a MediaItemStateChunk to use, otherwise this will be ignored
   </parameters>
   <retvals>
     integer count - the number of spectral-edits available in a given MediaItem/MediaItemStateChunk
@@ -32907,7 +32907,7 @@ function ultraschall.GetItemSpectralEdit(itemidx, spectralidx, MediaItemStateChu
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>number start_pos, number end_pos, number gain, number fade, number freq_fade, number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, number n, number o, number fade2, number freq_fade2 = ultraschall.GetItemSpectralEdit(integer itemidx, integer spectralidx, string MediaItemStateChunk)</functioncall>
+  <functioncall>number start_pos, number end_pos, number gain, number fade, number freq_fade, number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, number n, number o, number fade2, number freq_fade2 = ultraschall.GetItemSpectralEdit(integer itemidx, integer spectralidx, optional string MediaItemStateChunk)</functioncall>
   <description>
     returns the settings of a specific SPECTRAL_EDIT in a given MediaItem/MediaItemStateChunk.
     The SPECTRAL_EDITs are the individual edit-boundary-boxes in the spectral-view.
@@ -32918,7 +32918,7 @@ function ultraschall.GetItemSpectralEdit(itemidx, spectralidx, MediaItemStateChu
   <parameters>
     integer itemidx - the MediaItem to look in for the spectral-edit; -1, to use the parameter MediaItemStateChunk instead
     integer spectralidx - the number of the spectral-edit to return; 1 for the first, 2 for the second, etc
-    string MediaItemStateChunk - if itemidx is -1, this can be a MediaItemStateChunk to use, otherwise this will be ignored
+    optional string MediaItemStateChunk - if itemidx is -1, this can be a MediaItemStateChunk to use, otherwise this will be ignored
   </parameters>
   <retvals>
     number start_pos - the startposition of the spectral-edit-region in seconds
@@ -32996,7 +32996,7 @@ function ultraschall.DeleteItemSpectralEdit(itemidx, spectralidx, MediaItemState
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string MediaItemStateChunk = ultraschall.DeleteItemSpectralEdit(integer itemidx, integer spectralidx, string MediaItemStateChunk)</functioncall>
+  <functioncall>boolean retval, string MediaItemStateChunk = ultraschall.DeleteItemSpectralEdit(integer itemidx, integer spectralidx, optional string MediaItemStateChunk)</functioncall>
   <description>
     deletes a specific SPECTRAL_EDIT in a given MediaItem/MediaItemStateChunk.
     The SPECTRAL_EDITs are the individual edit-boundary-boxes in the spectral-view.
@@ -33007,7 +33007,7 @@ function ultraschall.DeleteItemSpectralEdit(itemidx, spectralidx, MediaItemState
   <parameters>
     integer itemidx - the MediaItem to look in for the spectral-edit; -1, to use the parameter MediaItemStateChunk instead
     integer spectralidx - the number of the spectral-edit to delete; 1 for the first, 2 for the second, etc
-    string MediaItemStateChunk - if itemidx is -1, this can be a MediaItemStateChunk to use, otherwise this will be ignored
+    optional string MediaItemStateChunk - if itemidx is -1, this can be a MediaItemStateChunk to use, otherwise this will be ignored
   </parameters>
   <retvals>
     boolean retval - true, if deleting an spectral-edit-entry was successful; false, if it was unsuccessful
@@ -33070,7 +33070,7 @@ function ultraschall.SetItemSpectralVisibilityState(item, state, statechunk)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>string MediaItemStateChunk = ultraschall.SetItemSpectralVisibilityState(integer itemidx, integer state, string MediaItemStateChunk)</functioncall>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemSpectralVisibilityState(integer itemidx, integer state, optional string MediaItemStateChunk)</functioncall>
   <description>
     Sets SPECTROGRAM-state in a MediaItem or MediaItemStateChunk.
     Setting it shows the spectrogram, in which you can do spectral-editing, as selected in the MediaItem-menu "Spectral-editing -> Toggle show spectrogram for selected items"
@@ -33080,8 +33080,8 @@ function ultraschall.SetItemSpectralVisibilityState(item, state, statechunk)
   </description>
   <parameters>
     integer itemidx - the number of the item in the project; use -1 to use MediaItemStateChunk instead
-    integer state - the state of the SPECTROGRAM
-    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    integer state - the state of the SPECTROGRAM; 0, to hide SpectralEdit; 1, to set SpectralEdit visible
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk; only read, when itemidx=-1
   </parameters>
   <retvals>
     string MediaItemStateChunk - the altered rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
@@ -33117,12 +33117,12 @@ end
 
 --item=reaper.GetMediaItem(0,0)
 --a,A=reaper.GetItemStateChunk(item, "", true)
---A=ultraschall.SetItemSpectrogram(-1, 1, A)
+--A=ultraschall.SetItemSpectralVisibilityState(1, 1)
 --reaper.MB(A,"",0)
 --reaper.SetItemStateChunk(item, A, false)
 --reaper.UpdateArrange()
 
-function ultraschall.SetItemSpectralEdit(item, spectralidx, start_pos, end_pos, gain, fade, freq_fade, freq_range_bottom, freq_range_top, h, byp_solo, gate_thres, gate_floor, comp_thresh, comp_exp_ratio, n, o, fade2, freq_fade2, statechunk)
+function ultraschall.SetItemSpectralEdit(itemidx, spectralidx, start_pos, end_pos, gain, fade, freq_fade, freq_range_bottom, freq_range_top, h, byp_solo, gate_thres, gate_floor, comp_thresh, comp_exp_ratio, n, o, fade2, freq_fade2, statechunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetItemSpectralEdit</slug>
@@ -33131,7 +33131,7 @@ function ultraschall.SetItemSpectralEdit(item, spectralidx, start_pos, end_pos, 
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>string MediaItemStateChunk = ultraschall.SetItemSpectralEdit(integer itemix, integer spectralidx, number start_pos, number end_pos, number gain, number fade, number freq_fade, number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, string MediaItemStateChunk)</functioncall>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemSpectralEdit(integer itemidx, integer spectralidx, number start_pos, number end_pos, number gain, number fade, number freq_fade, number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, optional string MediaItemStateChunk)</functioncall>
   <description>
     Sets a spectral-edit-instance in a MediaItem or MediaItemStateChunk.
     
@@ -33160,7 +33160,7 @@ function ultraschall.SetItemSpectralEdit(item, spectralidx, start_pos, end_pos, 
     number o - unknown
     number fade2 - negative with fade_in set; positive with fadeout-set
     number freq_fade2 - negative with low frequency-fade, positive with high-frequency-fade
-    string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
+    optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
   </parameters>
   <retvals>
     string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
@@ -33174,13 +33174,13 @@ function ultraschall.SetItemSpectralEdit(item, spectralidx, start_pos, end_pos, 
   <tags>mediaitemmanagement, tracks, media, item, statechunk, rppxml, state, chunk, spectraledit, edit, set</tags>
 </US_DocBloc>
 ]]
-  if math.type(item)~="integer" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "item", "Must be an integer; -1, to use trackstatechunk.", -1) return -1 end
-  if item~=-1 and reaper.ValidatePtr2(0, reaper.GetMediaItem(0,item-1), "MediaItem*")==false then ultraschall.AddErrorMessage("SetItemSpectralEdit", "item", "Must be a valid MediaItem-idx or -1, when using ItemStateChunk).", -2) return -1 end
-  if type(statechunk)~="string" and item==-1 then ultraschall.AddErrorMessage("SetItemSpectralEdit", "statechunk", "Must be a string", -3) return -1 end
+  if math.type(itemidx)~="integer" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "itemidx", "Must be an integer; -1, to use trackstatechunk.", -1) return -1 end
+  if itemidx~=-1 and reaper.ValidatePtr2(0, reaper.GetMediaItem(0,itemidx-1), "MediaItem*")==false then ultraschall.AddErrorMessage("SetItemSpectralEdit", "itemidx", "Must be a valid MediaItem-idx or -1, when using ItemStateChunk).", -2) return -1 end
+  if type(statechunk)~="string" and itemidx==-1 then ultraschall.AddErrorMessage("SetItemSpectralEdit", "statechunk", "Must be a string", -3) return -1 end
 
   local _bool, item2, count
-  item2=item
-  if item~=-1 then item=reaper.GetMediaItem(0,item-1) _bool, statechunk=reaper.GetItemStateChunk(item,"",false) end
+  item2=itemidx
+  if itemidx~=-1 then itemidx=reaper.GetMediaItem(0,itemidx-1) _bool, statechunk=reaper.GetItemStateChunk(itemidx,"",false) end
   if math.type(spectralidx)~="integer" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "spectralidx", "Must be an integer", -7) return -1 end
   if type(start_pos)~="number" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "start_pos", "Must be a number", -8) return -1 end
   if type(end_pos)~="number" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "end_pos", "Must be a number", -9) return -1 end
@@ -33213,7 +33213,7 @@ function ultraschall.SetItemSpectralEdit(item, spectralidx, start_pos, end_pos, 
 
   statechunk=part1..new_entry.."\n"..part2:match("SPECTRAL_EDIT.-%c(.*)")
   
-  if item~=-1 then reaper.SetItemStateChunk(item,statechunk,true) end
+  if itemidx~=-1 then reaper.SetItemStateChunk(itemidx,statechunk,true) end
   return statechunk
 end
 
@@ -33485,7 +33485,7 @@ function ultraschall.AddItemSpectralEdit(itemidx, start_pos, end_pos, gain, fade
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, MediaItemStateChunk statechunk = ultraschall.AddItemSpectralEdit(integer itemidx, number start_pos, number end_pos, number gain, number fade, number freq_fade, number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, string MediaItemStateChunk)</functioncall>
+  <functioncall>boolean retval, MediaItemStateChunk statechunk = ultraschall.AddItemSpectralEdit(integer itemidx, number start_pos, number end_pos, number gain, number fade, number freq_fade, number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, optional string MediaItemStateChunk)</functioncall>
   <description>
     Adds a new SPECTRAL_EDIT-entry in a given MediaItem/MediaItemStateChunk.
     The SPECTRAL_EDITs are the individual edit-boundary-boxes in the spectral-view.
@@ -33516,7 +33516,7 @@ function ultraschall.AddItemSpectralEdit(itemidx, start_pos, end_pos, gain, fade
   </parameters>
   <retvals>
     boolean retval - true, if adding was successful; false, if adding wasn't successful
-    MediaItemStateChunk statechunk - the altered MediaItemStateChunk
+    optional MediaItemStateChunk statechunk - the altered MediaItemStateChunk
   </retvals>
   <chapter_context>
     MediaItem Management
@@ -35673,7 +35673,7 @@ function progresscounter(state)
   local M=100/L
   local N=done*M
     
-  reaper.CF_SetClipboard(todostring)
+  --reaper.CF_SetClipboard(todostring)
 --  reaper.CF_SetClipboard(donestring)
 
   reaper.MB("Du hast schon "..done.." von ".. done+todo.." Funktionen fertig. \nDas sind schon "..N.." Prozent. \nFehlen noch "..todo.." Funktionen.\n\nNicht schlecht :D", "Hui!", 0)
