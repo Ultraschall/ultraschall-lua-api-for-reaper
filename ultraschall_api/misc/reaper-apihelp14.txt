@@ -6954,13 +6954,16 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1">
-            Get the path of the project, usually the recordings-folder.
+            Get the path of the project. Will return the project-path, when the project hasn't been saved yet; when the project has been saved, it will return the path to the recording-folder.
             
             If you need the filename of the path+projectfile itself, use [EnumProjects](#EnumProjects) instead.            
         </description>
         <retvals>
-            buf - unknown
+            string buf - the returned path
         </retvals>
+        <parmeters>
+            string buf - unknown
+        </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
         <chapter_context>

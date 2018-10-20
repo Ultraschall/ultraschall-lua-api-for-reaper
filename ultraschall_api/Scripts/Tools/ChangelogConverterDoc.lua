@@ -120,7 +120,9 @@ A=0
 function main()
   if A==0 then ultraschall.RunCommand("_RSdd25c8bda91067981223b0efd6a4c3c07ac26a92") A=1 end
   if reaper.GetExtState("ultraschall", "doc") == "intro-concepts-engine" and A==1 then  ultraschall.RunCommand("_RSafb7013a8d8bbc8ef2b5f044da8d0fa327ac4a10") A=2 end -- functions-engine  
-  if reaper.GetExtState("ultraschall", "doc") == "function-engine" and A==2 then if p==1 then ultraschall.RunCommand("_RS09fa5f0d2a033e344d533043b5eeb22b7be4743c") else reaper.SetExtState("ultraschall", "doc", "reaper-docs", false) end A=3 end
+  if reaper.GetExtState("ultraschall", "doc") == "function-engine" and A==2 then ultraschall.RunCommand("_RS9b36c573d2290919d06f83fef31989e121f46685") A=3 end
+  if reaper.GetExtState("ultraschall", "doc") == "reaper_config_var" and A==3 then if p==1 then ultraschall.RunCommand("_RS09fa5f0d2a033e344d533043b5eeb22b7be4743c") else reaper.SetExtState("ultraschall", "doc", "reaper-docs", false) end A=4 end
+                                                                                                        
   if reaper.GetExtState("ultraschall", "doc") == "reaper-docs" then
     Time2=reaper.time_precise()    
     Time3=reaper.format_timestr(Time2-timer, "") 

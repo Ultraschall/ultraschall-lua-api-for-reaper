@@ -53,16 +53,18 @@ function onLoad() {
            <a href="ChangeLog.html"><img style="position:absolute; left:81.3%; width:6.9%;" src="gfx/Changelog_Un.png" alt="Changelog of documentation"></a>
            <a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/Impressum_Un.png" alt="Impressum and Contact"></a>
            <div style="padding-top:2.5%">
-           <table border="0" style="color:#aaaaaa; width:45%;">
+           <table border="0" style="color:#aaaaaa; width:62%;">
                 <tr>
-                    <td style="width:30%;">
+                    <td style="width:45.2%;">
                       <a href="http://www.reaper.fm"><img style="width:118%;" src="gfx/Reaper_Internals.png" alt="Reaper internals logo"></a>
                     </td>
-                    <td width="4%;"><u>Documentation</u></td>
+                    <td style="width:27%;"><u>Documentation</u></td>
+                    <td> </td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper-Filetype-Descriptions.html" style="color:#BBBBBB; text-decoration: none; white-space:pre;">&nbsp;&nbsp;&nbsp;Filetype Descriptions&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper-Filetype-Descriptions.html" style="color:#BBBBBB; text-decoration: none; white-space:pre;">&nbsp;&nbsp;&nbsp;&nbsp;Filetype Descriptions&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper_Config_Variables.html" style="color:#BBBBBB; text-decoration: none; white-space:pre;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Config Variables&nbsp;</a></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -2456,9 +2458,9 @@ Note: the C++ pure virtual interfaces used require the MSVC-compatible C++ ABI o
 <div class="l_func"><span class='all_view'>Lua: </span><code><i style="color:#0000ff;">string</i> buf = reaper.GetProjectPath(<i style="color:#0000ff;">string</i> buf)</code><br><br></div>
 <div class="p_func"><span class='all_view'>Python: </span><code>(<i style="color:#0000ff;">String</i> buf, <i style="color:#0000ff;">Int</i> buf_sz) = RPR_GetProjectPath(buf, buf_sz)</code><br><br></div></b></div>
 
-<u>Description:</u><br><div style="padding-left:4%;">Get the path of the project, usually the recordings-folder.<br> <br> If you need the filename of the path+projectfile itself, use <a href="#EnumProjects">EnumProjects</a> instead. <br> <br>
+<u>Description:</u><br><div style="padding-left:4%;">Get the path of the project. Will return the project-path, when the project hasn't been saved yet; when the project has been saved, it will return the path to the recording-folder.<br> <br> If you need the filename of the path+projectfile itself, use <a href="#EnumProjects">EnumProjects</a> instead. <br> <br>
 </div></table>
-<table><tr><td><u>Returnvalues:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>buf</i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; ">unknown
+<table><tr><td><u>Returnvalues:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><i style="color:#0000ff;">string</i> buf</i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; ">the returned path
 </td></tr></table><br><hr><a id="GetProjectPathEx"></a>
 <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><img width="3%" src="gfx/lua5.3.png" alt="Lua version 5.3"> <a href="#GetProjectPathEx"><b>GetProjectPathEx</b></a><p><u>Functioncall:</u><div style="padding-left:4%;font-size:104%">
 <b><div class="c_func"><span class='all_view'>C: </span><code><i style="color:#0000ff;">void</i> GetProjectPathEx(<i style="color:#0000ff;">ReaProject*</i> proj, <i style="color:#0000ff;">char*</i> buf, <i style="color:#0000ff;">int</i> buf_sz)</code><br><br></div>

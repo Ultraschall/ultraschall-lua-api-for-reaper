@@ -272,18 +272,15 @@
   - ultraschall.Euro - holds an €-symbol, that is difficult to type into Reaper's IDE
   - Docs: MediaItems: Programming Spectral Edit - added
   - Docs: MediaItems: Miscellaneous - added
+  - Docs: Added Config-Variable into the Reaper-Internals-docs
+  - added converted Config-Variable-docs as USDocML-file
   <TODO>
       TODO!!  - write final documentation for public-beta
       
     For 4.00beta2.8:
       TODO!!  - ArrangeViewSnapshots - use reaper.JS_Window_SetScrollPos(HWND, "SB_VERT", value) to set and JS_Window_GetScrollInfo from JS new plugin to get/store vertscrollpos
-      TODO!!  - integer number_of_items, array MediaItemArray, number endpos_inserted_items = ultraschall.RippleInsert(number position, array MediaItemStateChunkArray, string trackstring, boolean moveenvelopepoints, boolean movemarkers)
-                allows inserting items from a MediaItemStateChunkArray.
-                That way, it is possible to change the track, by altering the ULTRASCHALL_TRACKNUMBER-entry.
-                If no such entry exists, the item will be included into the first track, regardless of possible overlap.
       TODO!!  - Get Length of all Items in a track GetLengthOfAllItems_Track()
       TODO!!  - Add options to Normalize-Items-function, as there are numerous different actions for normalizing
-      TODO!!  - SetTrackMIDIColorMapFn - finish it
       TODO!!  - Envelope-ExtStates
       TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
       TODO!!  - GetReaperPaths - returns app-path(?), exe-path, resourcepath
