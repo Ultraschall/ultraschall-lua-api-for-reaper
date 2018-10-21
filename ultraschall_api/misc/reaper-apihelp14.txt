@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ##ReaScript API as of Reaper 5.95
+            ##ReaScript API as of Reaper 5.961
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -5430,7 +5430,7 @@
         <title>GetMainHwnd</title>
         <functioncall prog_lang="cpp">HWND GetMainHwnd()</functioncall>
         <functioncall prog_lang="eel">HWND GetMainHwnd()</functioncall>
-        <functioncall prog_lang="lua">HWND = reaper.GetMainHwnd()</functioncall>
+        <functioncall prog_lang="lua">HWND hwnd = reaper.GetMainHwnd()</functioncall>
         <functioncall prog_lang="python">HWND RPR_GetMainHwnd()</functioncall>
         <requires>
             Reaper=5.62
@@ -5440,7 +5440,7 @@
             Get the Reaper-window as an HWND-object
         </description>
         <retvals>
-            HWND - the Reaper-Window
+            HWND hwnd - the Reaper-Window
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -5455,7 +5455,7 @@
         <title>GetMasterMuteSoloFlags</title>
         <functioncall prog_lang="cpp">int GetMasterMuteSoloFlags()</functioncall>
         <functioncall prog_lang="eel">int GetMasterMuteSoloFlags()</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.GetMasterMuteSoloFlags()</functioncall>
+        <functioncall prog_lang="lua">integer mastermutesolo = reaper.GetMasterMuteSoloFlags()</functioncall>
         <functioncall prog_lang="python">Int RPR_GetMasterMuteSoloFlags()</functioncall>
         <requires>
             Reaper=5.62
@@ -5465,7 +5465,7 @@
             Deprecated: Get the mute/solo-state of the master-track. This is deprecated as you can just query the master track as well.
         </description>
         <retvals>
-            integer - state of mute/solo of the master-track; &amp;1=master mute,&amp;2=master solo.
+            integer mastermutesolo - state of mute/solo of the master-track; &amp;1=master mute,&amp;2=master solo.
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -5480,7 +5480,7 @@
         <title>GetMasterTrack</title>
         <functioncall prog_lang="cpp">MediaTrack* GetMasterTrack(ReaProject* proj)</functioncall>
         <functioncall prog_lang="eel">MediaTrack GetMasterTrack(ReaProject proj)</functioncall>
-        <functioncall prog_lang="lua">MediaTrack = reaper.GetMasterTrack(ReaProject proj)</functioncall>
+        <functioncall prog_lang="lua">MediaTrack track = reaper.GetMasterTrack(ReaProject proj)</functioncall>
         <functioncall prog_lang="python">MediaTrack RPR_GetMasterTrack(ReaProject proj)</functioncall>
         <requires>
             Reaper=5.62
@@ -5490,7 +5490,7 @@
             Get a MediaTrack-object of the MasterTrack.
         </description>
         <retvals>
-            MediaTrack - the MediaTrack-object of the MasterTrack
+            MediaTrack track - the MediaTrack-object of the MasterTrack
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
             ReaProject proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
@@ -5508,7 +5508,7 @@
         <title>GetMasterTrackVisibility</title>
         <functioncall prog_lang="cpp">int GetMasterTrackVisibility()</functioncall>
         <functioncall prog_lang="eel">int GetMasterTrackVisibility()</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.GetMasterTrackVisibility()</functioncall>
+        <functioncall prog_lang="lua">integer master_visibility = reaper.GetMasterTrackVisibility()</functioncall>
         <functioncall prog_lang="python">Int RPR_GetMasterTrackVisibility()</functioncall>
         <requires>
             Reaper=5.62
@@ -5518,7 +5518,7 @@
             Get the visibility of the master-track in mixer and track-control-panel. See [SetMasterTrackVisibility](#SetMasterTrackVisibility).
         </description>
         <retvals>
-            integer - state of visibility of the master-track
+            integer master_visibility - state of visibility of the master-track
                     &1 - 1, master track visible in tcp; 0, master track invisible in mixer
                     &2 - 2, master track invisible in mixer; 0, master track visible in mixer
         </retvals>
@@ -5614,7 +5614,7 @@
         <title>GetMediaItem_Track</title>
         <functioncall prog_lang="cpp">MediaTrack* GetMediaItem_Track(MediaItem* item)</functioncall>
         <functioncall prog_lang="eel">MediaTrack GetMediaItem_Track(MediaItem item)</functioncall>
-        <functioncall prog_lang="lua">MediaTrack = reaper.GetMediaItem_Track(MediaItem item)</functioncall>
+        <functioncall prog_lang="lua">MediaTrack track = reaper.GetMediaItem_Track(MediaItem item)</functioncall>
         <functioncall prog_lang="python">MediaTrack RPR_GetMediaItem_Track(MediaItem item)</functioncall>
         <requires>
             Reaper=5.62
@@ -5624,7 +5624,7 @@
             Get parent track of media item
         </description>
         <retvals>
-            MediaTrack - the returned MediaTrack, in which the MediaItem lies
+            MediaTrack track - the returned MediaTrack, in which the MediaItem lies
         </retvals>
         <parameters>
             MediaItem item - the MediaItem, whose track you want to know
@@ -5694,7 +5694,7 @@
         <title>GetMediaItemInfo_Value</title>
         <functioncall prog_lang="cpp">double GetMediaItemInfo_Value(MediaItem* item, const char* parmname)</functioncall>
         <functioncall prog_lang="eel">double GetMediaItemInfo_Value(MediaItem item, "parmname")</functioncall>
-        <functioncall prog_lang="lua">number = reaper.GetMediaItemInfo_Value(MediaItem item, string parmname)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.GetMediaItemInfo_Value(MediaItem item, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaItemInfo_Value(MediaItem item, String parmname)</functioncall>
         <requires>
             Reaper=5.95
@@ -5704,7 +5704,7 @@
             Get media item numerical-value attributes.
         </description>
         <retvals>
-            number - the value you requested
+            number retval - the value you requested
         </retvals>
         <parameters>
             MediaItem item - the MediaItem, whose value you want to have
@@ -5750,7 +5750,7 @@
         <title>GetMediaItemNumTakes</title>
         <functioncall prog_lang="cpp">int GetMediaItemNumTakes(MediaItem* item)</functioncall>
         <functioncall prog_lang="eel">int GetMediaItemNumTakes(MediaItem item)</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.GetMediaItemNumTakes(MediaItem item)</functioncall>
+        <functioncall prog_lang="lua">integer itemnumtakes = reaper.GetMediaItemNumTakes(MediaItem item)</functioncall>
         <functioncall prog_lang="python">Int RPR_GetMediaItemNumTakes(MediaItem item)</functioncall>
         <requires>
             Reaper=5.62
@@ -5760,7 +5760,7 @@
             Get the number of takes in a MediaItem-object.
         </description>
         <retvals>
-            integer - the number of takes within the MediaItem-object
+            integer itemnumtakes- the number of takes within the MediaItem-object
         </retvals>
         <parameters>
             MediaItem item - the MediaItem-object, whose number of takes you want to know.
@@ -5807,7 +5807,7 @@
         <title>GetMediaItemTake_Item</title>
         <functioncall prog_lang="cpp">MediaItem* GetMediaItemTake_Item(MediaItem_Take* take)</functioncall>
         <functioncall prog_lang="eel">MediaItem GetMediaItemTake_Item(MediaItem_Take take)</functioncall>
-        <functioncall prog_lang="lua">MediaItem = reaper.GetMediaItemTake_Item(MediaItem_Take take)</functioncall>
+        <functioncall prog_lang="lua">MediaItem item = reaper.GetMediaItemTake_Item(MediaItem_Take take)</functioncall>
         <functioncall prog_lang="python">MediaItem RPR_GetMediaItemTake_Item(MediaItem_Take take)</functioncall>
         <requires>
             Reaper=5.62
@@ -5817,7 +5817,7 @@
             Get parent item of media item take.
         </description>
         <retvals>
-            MediaItem - the MediaItem, in which the MediaItem_Take takes place.
+            MediaItem item - the MediaItem, in which the MediaItem_Take takes place.
         </retvals>
         <parameters>
             MediaItem_Take take - the MediaItem_Take-object, whose accompanying MediaItem you want to request.
@@ -5835,7 +5835,7 @@
         <title>GetMediaItemTake_Peaks</title>
         <functioncall prog_lang="cpp">int GetMediaItemTake_Peaks(MediaItem_Take* take, double peakrate, double starttime, int numchannels, int numsamplesperchannel, int want_extra_type, double* buf)</functioncall>
         <functioncall prog_lang="eel">int GetMediaItemTake_Peaks(MediaItem_Take take, peakrate, starttime, int numchannels, int numsamplesperchannel, int want_extra_type, buffer_ptr buf)</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.GetMediaItemTake_Peaks(MediaItem_Take take, number peakrate, number starttime, integer numchannels, integer numsamplesperchannel, integer want_extra_type, reaper.array buf)</functioncall>
+        <functioncall prog_lang="lua">integer peaks = reaper.GetMediaItemTake_Peaks(MediaItem_Take take, number peakrate, number starttime, integer numchannels, integer numsamplesperchannel, integer want_extra_type, reaper.array buf)</functioncall>
         <functioncall prog_lang="python">(Int retval, MediaItem_Take take, Float peakrate, Float starttime, Int numchannels, Int numsamplesperchannel, Int want_extra_type, Float buf) = RPR_GetMediaItemTake_Peaks(take, peakrate, starttime, numchannels, numsamplesperchannel, want_extra_type, buf)</functioncall>
         <requires>
             Reaper=5.62
@@ -5845,7 +5845,7 @@
             Gets block of peak samples to buf. Note that the peak samples are interleaved, but in two or three blocks (maximums, then minimums, then extra). Return value has 20 bits of returned sample count, then 4 bits of output_mode (0xf00000), then a bit to signify whether extra_type was available (0x1000000). extra_type can be 115 ('s') for spectral information, which will return peak samples as integers with the low 15 bits frequency, next 14 bits tonality.
         </description>
         <retvals>
-            integer - 
+            integer peaks - 
         </retvals>
         <parameters>
             MediaItem_Take take - 
@@ -5868,7 +5868,7 @@
         <title>GetMediaItemTake_Source</title>
         <functioncall prog_lang="cpp">PCM_source* GetMediaItemTake_Source(MediaItem_Take* take)</functioncall>
         <functioncall prog_lang="eel">PCM_source GetMediaItemTake_Source(MediaItem_Take take)</functioncall>
-        <functioncall prog_lang="lua">PCM_source = reaper.GetMediaItemTake_Source(MediaItem_Take take)</functioncall>
+        <functioncall prog_lang="lua">PCM_source source = reaper.GetMediaItemTake_Source(MediaItem_Take take)</functioncall>
         <functioncall prog_lang="python">PCM_source RPR_GetMediaItemTake_Source(MediaItem_Take take)</functioncall>
         <requires>
             Reaper=5.62
@@ -5878,7 +5878,7 @@
             Get media source of media item take
         </description>
         <retvals>
-            PCM_source - 
+            PCM_source source - 
         </retvals>
         <parameters>
             MediaItem_Take take - 
@@ -5896,7 +5896,7 @@
         <title>GetMediaItemTake_Track</title>
         <functioncall prog_lang="cpp">MediaTrack* GetMediaItemTake_Track(MediaItem_Take* take)</functioncall>
         <functioncall prog_lang="eel">MediaTrack GetMediaItemTake_Track(MediaItem_Take take)</functioncall>
-        <functioncall prog_lang="lua">MediaTrack = reaper.GetMediaItemTake_Track(MediaItem_Take take)</functioncall>
+        <functioncall prog_lang="lua">MediaTrack track = reaper.GetMediaItemTake_Track(MediaItem_Take take)</functioncall>
         <functioncall prog_lang="python">MediaTrack RPR_GetMediaItemTake_Track(MediaItem_Take take)</functioncall>
         <requires>
             Reaper=5.62
@@ -5906,7 +5906,7 @@
             Get parent track of media item take
         </description>
         <retvals>
-            MediaTrack - 
+            MediaTrack track - 
         </retvals>
         <parameters>
             MediaItem_Take take - 
@@ -5924,7 +5924,7 @@
         <title>GetMediaItemTakeByGUID</title>
         <functioncall prog_lang="cpp">MediaItem_Take* GetMediaItemTakeByGUID(ReaProject* project, const GUID* guid)</functioncall>
         <functioncall prog_lang="eel">MediaItem_Take GetMediaItemTakeByGUID(ReaProject project, "guidGUID")</functioncall>
-        <functioncall prog_lang="lua">MediaItem_Take = reaper.GetMediaItemTakeByGUID(ReaProject project, string guidGUID)</functioncall>
+        <functioncall prog_lang="lua">MediaItem_Take take = reaper.GetMediaItemTakeByGUID(ReaProject project, string guidGUID)</functioncall>
         <functioncall prog_lang="python">MediaItem_Take RPR_GetMediaItemTakeByGUID(ReaProject project, const GUID guid)</functioncall>
         <requires>
             Reaper=5.62
@@ -5934,7 +5934,7 @@
             
         </description>
         <retvals>
-            MediaItem_Take - 
+            MediaItem_Take - take
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
             ReaProject project - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
@@ -5953,7 +5953,7 @@
         <title>GetMediaItemTakeInfo_Value</title>
         <functioncall prog_lang="cpp">double GetMediaItemTakeInfo_Value(MediaItem_Take* take, const char* parmname)</functioncall>
         <functioncall prog_lang="eel">double GetMediaItemTakeInfo_Value(MediaItem_Take take, "parmname")</functioncall>
-        <functioncall prog_lang="lua">number = reaper.GetMediaItemTakeInfo_Value(MediaItem_Take take, string parmname)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.GetMediaItemTakeInfo_Value(MediaItem_Take take, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaItemTakeInfo_Value(MediaItem_Take take, String parmname)</functioncall>
         <requires>
             Reaper=5.95
@@ -5977,7 +5977,7 @@
             P_SOURCE : PCM_source *. Note that if setting this, you should first retrieve the old source, set the new, THEN delete the old.
         </description>
         <retvals>
-            number - 
+            number retval - 
         </retvals>
         <parameters>
             MediaItem_Take take - 
@@ -6038,6 +6038,7 @@
         </retvals>
         <parameters>
             PCM_source source - 
+            string filenamebuf - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6081,7 +6082,7 @@
         <title>GetMediaSourceNumChannels</title>
         <functioncall prog_lang="cpp">int GetMediaSourceNumChannels(PCM_source* source)</functioncall>
         <functioncall prog_lang="eel">int GetMediaSourceNumChannels(PCM_source source)</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.GetMediaSourceNumChannels(PCM_source source)</functioncall>
+        <functioncall prog_lang="lua">integer mediasourcenumchans = reaper.GetMediaSourceNumChannels(PCM_source source)</functioncall>
         <functioncall prog_lang="python">Int RPR_GetMediaSourceNumChannels(PCM_source source)</functioncall>
         <requires>
             Reaper=5.62
@@ -6091,7 +6092,7 @@
             Returns the number of channels in the source media.
         </description>
         <retvals>
-            integer - 
+            integer mediasourcenumchans - 
         </retvals>
         <parameters>
             PCM_source source - 
@@ -6137,7 +6138,7 @@
         <title>GetMediaSourceSampleRate</title>
         <functioncall prog_lang="cpp">int GetMediaSourceSampleRate(PCM_source* source)</functioncall>
         <functioncall prog_lang="eel">int GetMediaSourceSampleRate(PCM_source source)</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.GetMediaSourceSampleRate(PCM_source source)</functioncall>
+        <functioncall prog_lang="lua">integer mediasourcesamplerate = reaper.GetMediaSourceSampleRate(PCM_source source)</functioncall>
         <functioncall prog_lang="python">Int RPR_GetMediaSourceSampleRate(PCM_source source)</functioncall>
         <requires>
             Reaper=5.62
@@ -6147,7 +6148,7 @@
             Returns the sample rate. MIDI source media will return zero.
         </description>
         <retvals>
-            integer - 
+            integer mediasourcesamplerate - 
         </retvals>
         <parameters>
             PCM_source source - 
@@ -6175,10 +6176,10 @@
             copies the media source type ("WAV", "MIDI", etc) to typebuf
         </description>
         <retvals>
-            typebuf - 
+            string typebuf - a string-buffer needed by the function, use "" in Lua
         </retvals>
         <parameters>
-            source - 
+           PCM_source source - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6193,7 +6194,7 @@
         <title>GetMediaTrackInfo_Value</title>
         <functioncall prog_lang="cpp">double GetMediaTrackInfo_Value(MediaTrack* tr, const char* parmname)</functioncall>
         <functioncall prog_lang="eel">double GetMediaTrackInfo_Value(MediaTrack tr, "parmname")</functioncall>
-        <functioncall prog_lang="lua">number = reaper.GetMediaTrackInfo_Value(MediaTrack tr, string parmname)</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.GetMediaTrackInfo_Value(MediaTrack tr, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaTrackInfo_Value(MediaTrack tr, String parmname)</functioncall>
         <requires>
             Reaper=5.95
@@ -6242,11 +6243,11 @@
             P_PROJECT : ReaProject * : parent project (read-only)
         </description>
         <retvals>
-            number - 
+            number retval - 
         </retvals>
         <parameters>
-            tr - 
-            parmname - 
+            MediaTrack tr - 
+            string parmname - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6271,11 +6272,12 @@
             returns true if device present
         </description>
         <retvals>
-             retval - 
-            nameout - 
+            boolean retval - 
+            string nameout - 
         </retvals>
         <parameters>
-            dev - 
+            integer dev - 
+            string nameout - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6300,11 +6302,12 @@
             returns true if device present
         </description>
         <retvals>
-             retval - 
-            nameout - 
+            boolean retval - 
+            string nameout - 
         </retvals>
         <parameters>
-            dev - 
+            integer dev - 
+            string nameout - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6319,7 +6322,7 @@
         <title>GetMixerScroll</title>
         <functioncall prog_lang="cpp">MediaTrack* GetMixerScroll()</functioncall>
         <functioncall prog_lang="eel">MediaTrack GetMixerScroll()</functioncall>
-        <functioncall prog_lang="lua">MediaTrack = reaper.GetMixerScroll()</functioncall>
+        <functioncall prog_lang="lua">MediaTrack leftmosttrack = reaper.GetMixerScroll()</functioncall>
         <functioncall prog_lang="python">MediaTrack RPR_GetMixerScroll()</functioncall>
         <requires>
             Reaper=5.62
@@ -6329,7 +6332,7 @@
             Get the leftmost track visible in the mixer
         </description>
         <retvals>
-            MediaTrack - the leftmose track in the MCP
+            MediaTrack leftmosttrack - the leftmost track in the MCP
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6357,11 +6360,12 @@
             See [SetMouseModifier](#SetMouseModifier) for more information.
         </description>
         <retvals>
-            action - 
+            string action - 
         </retvals>
         <parameters>
-            context - 
-            modifier_flag - 
+            string context - 
+            integer modifier_flag - 
+            string action - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6376,7 +6380,7 @@
         <title>GetMousePosition</title>
         <functioncall prog_lang="cpp">void GetMousePosition(int* xOut, int* yOut)</functioncall>
         <functioncall prog_lang="eel">GetMousePosition(int &amp;x, int &amp;y)</functioncall>
-        <functioncall prog_lang="lua">number x, number y = reaper.GetMousePosition()</functioncall>
+        <functioncall prog_lang="lua">integer x, integer y = reaper.GetMousePosition()</functioncall>
         <functioncall prog_lang="python">(Int xOut, Int yOut) = RPR_GetMousePosition(xOut, yOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -6386,8 +6390,8 @@
             get mouse position in screen coordinates
         </description>
         <retvals>
-            x - horizontal position of the mouse in pixels
-            y - vertical position of the mouse in pixels
+            integer x - horizontal position of the mouse in pixels
+            integer y - vertical position of the mouse in pixels
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6402,7 +6406,7 @@
         <title>GetNumAudioInputs</title>
         <functioncall prog_lang="cpp">int GetNumAudioInputs()</functioncall>
         <functioncall prog_lang="eel">int GetNumAudioInputs()</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.GetNumAudioInputs()</functioncall>
+        <functioncall prog_lang="lua">integer numAudioIns = reaper.GetNumAudioInputs()</functioncall>
         <functioncall prog_lang="python">Int RPR_GetNumAudioInputs()</functioncall>
         <requires>
             Reaper=5.62
@@ -6412,7 +6416,7 @@
             Return number of normal audio hardware inputs available
         </description>
         <retvals>
-            integer - the number of audio hardware outputs available
+            integer numAudioIns - the number of audio hardware outputs available
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6427,7 +6431,7 @@
         <title>GetNumAudioOutputs</title>
         <functioncall prog_lang="cpp">int GetNumAudioOutputs()</functioncall>
         <functioncall prog_lang="eel">int GetNumAudioOutputs()</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.GetNumAudioOutputs()</functioncall>
+        <functioncall prog_lang="lua">integer numAudioOuts = reaper.GetNumAudioOutputs()</functioncall>
         <functioncall prog_lang="python">Int RPR_GetNumAudioOutputs()</functioncall>
         <requires>
             Reaper=5.62
@@ -6437,7 +6441,7 @@
             Return number of normal audio hardware outputs available
         </description>
         <retvals>
-            integer - the number of audio hardware outputs available
+            integer numAudioOuts - the number of audio hardware outputs available
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6452,7 +6456,7 @@
         <title>GetNumMIDIInputs</title>
         <functioncall prog_lang="cpp">int GetNumMIDIInputs()</functioncall>
         <functioncall prog_lang="eel">int GetNumMIDIInputs()</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.GetNumMIDIInputs()</functioncall>
+        <functioncall prog_lang="lua">integer numMidiIns = reaper.GetNumMIDIInputs()</functioncall>
         <functioncall prog_lang="python">Int RPR_GetNumMIDIInputs()</functioncall>
         <requires>
             Reaper=5.62
@@ -6462,7 +6466,7 @@
             returns max number of real midi hardware inputs
         </description>
         <retvals>
-            returns max number of real midi hardware inputs
+            integer numMidiIns - 
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6477,7 +6481,7 @@
         <title>GetNumMIDIOutputs</title>
         <functioncall prog_lang="cpp">int GetNumMIDIOutputs()</functioncall>
         <functioncall prog_lang="eel">int GetNumMIDIOutputs()</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.GetNumMIDIOutputs()</functioncall>
+        <functioncall prog_lang="lua">integer numMidiOuts = reaper.GetNumMIDIOutputs()</functioncall>
         <functioncall prog_lang="python">Int RPR_GetNumMIDIOutputs()</functioncall>
         <requires>
             Reaper=5.62
@@ -6487,7 +6491,7 @@
             returns max number of real midi hardware outputs
         </description>
         <retvals>
-            integer - the number of real midi hardware outputs
+            integer numMidiOuts - the number of real midi hardware outputs
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6502,7 +6506,7 @@
         <title>GetNumTracks</title>
         <functioncall prog_lang="cpp">int GetNumTracks()</functioncall>
         <functioncall prog_lang="eel">int GetNumTracks()</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.GetNumTracks()</functioncall>
+        <functioncall prog_lang="lua">integer numtracks = reaper.GetNumTracks()</functioncall>
         <functioncall prog_lang="python">Int RPR_GetNumTracks()</functioncall>
         <requires>
             Reaper=5.62
@@ -6512,7 +6516,7 @@
             Get the number of tracks. Excluding the master-track.
         </description>
         <retvals>
-            integer - the number of tracks in the current project.
+            integer numtracks - the number of tracks in the current project.
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6527,7 +6531,7 @@
         <title>GetOS</title>
         <functioncall prog_lang="cpp">const char* GetOS()</functioncall>
         <functioncall prog_lang="eel">bool GetOS(#retval)</functioncall>
-        <functioncall prog_lang="lua">string = reaper.GetOS()</functioncall>
+        <functioncall prog_lang="lua">string os = reaper.GetOS()</functioncall>
         <functioncall prog_lang="python">String RPR_GetOS()</functioncall>
         <requires>
             Reaper=5.62
@@ -6537,7 +6541,7 @@
             Returns the current operating-system. Good for determining, e.g. the correct filesystem-separators.
         </description>
         <retvals>
-            string - "Win32", "Win64", "OSX32", "OSX64", or "Other"
+            string os - "Win32", "Win64", "OSX32", "OSX64", or "Other"
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6552,7 +6556,7 @@
         <title>GetOutputChannelName</title>
         <functioncall prog_lang="cpp">const char* GetOutputChannelName(int channelIndex)</functioncall>
         <functioncall prog_lang="eel">bool GetOutputChannelName(#retval, int channelIndex)</functioncall>
-        <functioncall prog_lang="lua">string = reaper.GetOutputChannelName(integer channelIndex)</functioncall>
+        <functioncall prog_lang="lua">string outputchanname= reaper.GetOutputChannelName(integer channelIndex)</functioncall>
         <functioncall prog_lang="python">String RPR_GetOutputChannelName(Int channelIndex)</functioncall>
         <requires>
             Reaper=5.62
@@ -6562,10 +6566,10 @@
             Get the name of a specific output-channel.
         </description>
         <retvals>
-            string - the name of the output-channel.
+            string outputchanname - the name of the output-channel.
         </retvals>
         <parameters>
-            channelIndex - the index of the output-channel
+            integer channelIndex - the index of the output-channel
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6580,7 +6584,7 @@
         <title>GetOutputLatency</title>
         <functioncall prog_lang="cpp">double GetOutputLatency()</functioncall>
         <functioncall prog_lang="eel">double GetOutputLatency()</functioncall>
-        <functioncall prog_lang="lua">number = reaper.GetOutputLatency()</functioncall>
+        <functioncall prog_lang="lua">number outputlatency = reaper.GetOutputLatency()</functioncall>
         <functioncall prog_lang="python">Float RPR_GetOutputLatency()</functioncall>
         <requires>
             Reaper=5.62
@@ -6590,7 +6594,7 @@
             returns output latency in seconds
         </description>
         <retvals>
-            number - output-latency in seconds
+            number outputlatency - output-latency in seconds
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6605,7 +6609,7 @@
         <title>GetParentTrack</title>
         <functioncall prog_lang="cpp">MediaTrack* GetParentTrack(MediaTrack* track)</functioncall>
         <functioncall prog_lang="eel">MediaTrack GetParentTrack(MediaTrack track)</functioncall>
-        <functioncall prog_lang="lua">MediaTrack = reaper.GetParentTrack(MediaTrack track)</functioncall>
+        <functioncall prog_lang="lua">MediaTrack parenttrack = reaper.GetParentTrack(MediaTrack track)</functioncall>
         <functioncall prog_lang="python">MediaTrack RPR_GetParentTrack(MediaTrack track)</functioncall>
         <requires>
             Reaper=5.62
@@ -6615,10 +6619,10 @@
             Get the parent MediaTrack, if a MediaTrack is a track of a foldered track.
         </description>
         <retvals>
-            MediaTrack - the returned parent MediaTrack of a foldered MediaTrack
+            MediaTrack parenttrack- the returned parent MediaTrack of a foldered MediaTrack
         </retvals>
         <parameters>
-            track - the MediaTrack in a folder, whose parent MediaTrack you want
+            MediaTrack track - the MediaTrack in a folder, whose parent MediaTrack you want
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6643,10 +6647,10 @@
             get the peak file name for a given file (can be either filename.reapeaks,or a hashed filename in another path)
         </description>
         <retvals>
-            buf - 
+            string buf - 
         </retvals>
         <parameters>
-            fn - 
+            string fn - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6671,12 +6675,12 @@
             get the peak file name for a given file (can be either filename.reapeaks,or a hashed filename in another path)
         </description>
         <retvals>
-            buf - 
+            string buf - the peak-filename
         </retvals>
         <parameters>
-            fn - 
-            forWrite - 
-            forWrite - 
+            string fn - 
+            string buf - a string-buffer needed by the function, just give "" in Lua
+            boolean forWrite - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6701,13 +6705,13 @@
             Like GetPeakFileNameEx, but you can specify peaksfileextension such as ".reapeaks"
         </description>
         <retvals>
-            buf - 
+           string buf - the peak-filename
         </retvals>
         <parameters>
-            fn - 
-            forWrite - 
-            forWrite - 
-            peaksfileextension - 
+           string fn - 
+           string buf - a string-buffer needed by the function, just give "" in Lua
+           boolean forWrite - 
+           string peaksfileextension - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6722,7 +6726,7 @@
         <title>GetPlayPosition</title>
         <functioncall prog_lang="cpp">double GetPlayPosition()</functioncall>
         <functioncall prog_lang="eel">double GetPlayPosition()</functioncall>
-        <functioncall prog_lang="lua">number = reaper.GetPlayPosition()</functioncall>
+        <functioncall prog_lang="lua">number playposition = reaper.GetPlayPosition()</functioncall>
         <functioncall prog_lang="python">Float RPR_GetPlayPosition()</functioncall>
         <requires>
             Reaper=5.62
@@ -6732,7 +6736,7 @@
             returns latency-compensated actual-what-you-hear position
         </description>
         <retvals>
-            number - the playposition in seconds
+            number playposition - the playposition in seconds
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6747,7 +6751,7 @@
         <title>GetPlayPosition2</title>
         <functioncall prog_lang="cpp">double GetPlayPosition2()</functioncall>
         <functioncall prog_lang="eel">double GetPlayPosition2()</functioncall>
-        <functioncall prog_lang="lua">number = reaper.GetPlayPosition2()</functioncall>
+        <functioncall prog_lang="lua">number playposition = reaper.GetPlayPosition2()</functioncall>
         <functioncall prog_lang="python">Float RPR_GetPlayPosition2()</functioncall>
         <requires>
             Reaper=5.62
@@ -6757,7 +6761,7 @@
             returns position of next audio block being processed
         </description>
         <retvals>
-            number - the playposition in seconds
+            number playposition - the playposition in seconds
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6772,7 +6776,7 @@
         <title>GetPlayPosition2Ex</title>
         <functioncall prog_lang="cpp">double GetPlayPosition2Ex(ReaProject* proj)</functioncall>
         <functioncall prog_lang="eel">double GetPlayPosition2Ex(ReaProject proj)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.GetPlayPosition2Ex(ReaProject proj)</functioncall>
+        <functioncall prog_lang="lua">number playposition = reaper.GetPlayPosition2Ex(ReaProject proj)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetPlayPosition2Ex(ReaProject proj)</functioncall>
         <requires>
             Reaper=5.62
@@ -6782,10 +6786,10 @@
             returns position of next audio block being processed from a specific project
         </description>
         <retvals>
-            number - the playposition in seconds
+            number playposition - the playposition in seconds
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
+            ReaProject proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6800,7 +6804,7 @@
         <title>GetPlayPositionEx</title>
         <functioncall prog_lang="cpp">double GetPlayPositionEx(ReaProject* proj)</functioncall>
         <functioncall prog_lang="eel">double GetPlayPositionEx(ReaProject proj)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.GetPlayPositionEx(ReaProject proj)</functioncall>
+        <functioncall prog_lang="lua">number playposition = reaper.GetPlayPositionEx(ReaProject proj)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetPlayPositionEx(ReaProject proj)</functioncall>
         <requires>
             Reaper=5.62
@@ -6810,10 +6814,10 @@
             returns latency-compensated actual-what-you-hear position from a specific project
         </description>
         <retvals>
-            number - the playposition in seconds
+            number playposition - the playposition in seconds
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
+            ReaProject proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6828,7 +6832,7 @@
         <title>GetPlayState</title>
         <functioncall prog_lang="cpp">int GetPlayState()</functioncall>
         <functioncall prog_lang="eel">int GetPlayState()</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.GetPlayState()</functioncall>
+        <functioncall prog_lang="lua">integer playstate = reaper.GetPlayState()</functioncall>
         <functioncall prog_lang="python">Int RPR_GetPlayState()</functioncall>
         <requires>
             Reaper=5.62
@@ -6838,7 +6842,7 @@
             returns, in which play-state the current project is
         </description>
         <retvals>
-            integer - Either bitwise: &amp;1=playing,&amp;2=pause,&amp;=4 is recording, or
+            integer playstate - Either bitwise: &amp;1=playing,&amp;2=pause,&amp;=4 is recording, or
             -0, stop
             -1, play
             -2, paused play
@@ -6858,7 +6862,7 @@
         <title>GetPlayStateEx</title>
         <functioncall prog_lang="cpp">int GetPlayStateEx(ReaProject* proj)</functioncall>
         <functioncall prog_lang="eel">int GetPlayStateEx(ReaProject proj)</functioncall>
-        <functioncall prog_lang="lua">integer = reaper.GetPlayStateEx(ReaProject proj)</functioncall>
+        <functioncall prog_lang="lua">integer playstate = reaper.GetPlayStateEx(ReaProject proj)</functioncall>
         <functioncall prog_lang="python">Int RPR_GetPlayStateEx(ReaProject proj)</functioncall>
         <requires>
             Reaper=5.62
@@ -6868,7 +6872,7 @@
             returns, in which play-state a certain project is
         </description>
         <retvals>
-            integer - Either bitwise: &amp;1=playing,&amp;2=pause,&amp;=4 is recording, or
+            integer playstate - Either bitwise: &amp;1=playing,&amp;2=pause,&amp;=4 is recording, or
             -0, stop
             -1, play
             -2, paused play
@@ -6876,7 +6880,7 @@
             -6, paused recording
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
+            ReaProject proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6891,7 +6895,7 @@
         <title>GetProjectLength</title>
         <functioncall prog_lang="cpp">double GetProjectLength(ReaProject* proj)</functioncall>
         <functioncall prog_lang="eel">double GetProjectLength(ReaProject proj)</functioncall>
-        <functioncall prog_lang="lua">number = reaper.GetProjectLength(ReaProject proj)</functioncall>
+        <functioncall prog_lang="lua">number length = reaper.GetProjectLength(ReaProject proj)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetProjectLength(ReaProject proj)</functioncall>
         <requires>
             Reaper=5.62
@@ -6901,10 +6905,10 @@
             returns length of project (maximum of end of media item, markers, end of regions, tempo map)
         </description>
         <retvals>
-            number - the length of the project in seconds
+            number length - the length of the project in seconds
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
+            ReaProject proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6929,10 +6933,10 @@
             Get the name of the projectfile.
         </description>
         <retvals>
-            buf - unknown
+            string buf - a string-buffer needed by the function; just give "" in Lua
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
+            ReaProject proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6954,7 +6958,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1">
-            Get the path of the project. Will return the project-path, when the project hasn't been saved yet; when the project has been saved, it will return the path to the recording-folder.
+            Get the path of the project. Will return the defaults project-path's recording-folder, when the project hasn't been saved yet; when the project has been saved, it will return the path to the recording-folder.
             
             If you need the filename of the path+projectfile itself, use [EnumProjects](#EnumProjects) instead.            
         </description>
@@ -6962,7 +6966,7 @@
             string buf - the returned path
         </retvals>
         <parmeters>
-            string buf - unknown
+            string buf - a string-buffer needed by the function, just give "" in Lua
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -6987,10 +6991,10 @@
             Get the path of a specific project, usually the recordings-folder.
         </description>
         <retvals>
-            buf - unknown
+            string buf - a string-buffer needed by the function, just use "" in Lua
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
+            ReaProject proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -13918,11 +13922,11 @@
         <functioncall prog_lang="lua">boolean = reaper.SetMediaItemTake_Source(MediaItem_Take take, PCM_source source)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_SetMediaItemTake_Source(MediaItem_Take take, PCM_source source)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.961
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            Set media source of media item take
+            Set media source of media item take. The old source will not be destroyed, it is the caller's responsibility to retrieve it and destroy it after. If source already exists in any project, it will be duplicated before being set. C/C++ code should not use this and instead use GetSetMediaItemTakeInfo() with P_SOURCE to manage ownership directly.
         </description>
         <retvals>
             boolean - 

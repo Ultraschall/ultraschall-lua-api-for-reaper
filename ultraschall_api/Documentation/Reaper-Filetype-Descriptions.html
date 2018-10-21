@@ -43,7 +43,6 @@ REAPER Filetype Descriptions
             <div style="position: absolute; padding-left: 10%; width:80%; top:20%;">
             
                 <h2>Filetype Descriptions</h2>
-                hacked out, written and compiled by Meo Mespotine(mespotine.de) for the Ultraschall.FM-Project.<p>
                 <h3>Index</h3>
                 <a href="#Introduction">Introduction</a><br>
                 <a href="#MetadataCache">MetadataCache</a><br>
@@ -528,7 +527,7 @@ REAPER Filetype Descriptions
             <i>Item0=a [b|OR|NOT c|OR|NOT...]</i><br>
         <div style="padding-left:4%;">    
             <i>a,b,c</i> - Filterkeywords for filtering the plugins for this smart-folder<br>
-            <i>OR</i> - If you want to use more keywords, you need to seperate them with an OR. Must be uppercase(OR) or Reaper uses it as filter or. It's not XOR!<br>
+            <i>OR</i> - If you want to use more keywords, you need to separate them with an OR. Must be uppercase(OR) or Reaper uses it as filter or. It's not XOR!<br>
             <i>NOT</i> - If you want to exclude a keyword. Must be uppercase(NOT) or Reaper uses it as filter not. No exclusive-NOT, means, following ORs will not act as NOT but rather as additional keywords to find plugins, not exclude them!<br>
         </div>
             <br>
@@ -1069,7 +1068,7 @@ The entries below a header can be either item_ID, title or icon_ID(icons in tool
                     Stored in the Ressources-folder or the Reaper-application-folder(in portable installations).
                     
                     The <i>Reaper-extstate.ini</i> is to store persistent external states, that have been set by scripts, plugins, etc.<p>
-                        You can't change persistent external states in the reaper-extstate.ini (i.e. using a texteditor) while Reaper is running, as Reaper will ignore these changes. While Reaper is running, you need to set external states using the api-function <a href="Reaper_API_Lua.html#SetExtState">SetExtState</a> or Reaper will not update the state, leading GetExtState showing the older state instead! Though, Reaper will change the file, when using SetExtState() even while Reaper is running.<p>
+                        You can't change persistent external states in the reaper-extstate.ini (i.e. using a texteditor) while Reaper is running, as Reaper will ignore these changes. While Reaper is running, you need to set external states using the api-function <a href="Reaper_Api_Documentation.html#SetExtState">SetExtState</a> or Reaper will not update the state, leading GetExtState showing the older state instead! Though, Reaper will change the file, when using SetExtState() even while Reaper is running.<p>
                         The structure of the file is like many of the other ini-files of Reaper. It contains sections (written in [] ). The next line is the key, set to a value.<p>
                         
                     <div style="padding-left:4%;"><i>
@@ -1091,7 +1090,7 @@ The entries below a header can be either item_ID, title or icon_ID(icons in tool
                     A given name for <i>[sections]</i> can be in the file multiple times, but this can confuse Reaper, so avoid that.<br>
                     Names of <i>Keys</i> can be multiple time within a <i>[section]</i>, but this can confuse Reaper, so avoid that.<p></p>
                     The <i>value</i> can be either a number, a string or true or false. Spaces are allowed within these <i>values</i>. Reaper will treat a <i>value</i> as a string.<p></p>
-                    There are no default sections, key or values in the <i>reaper-extstate.ini</i>, so these are freely chooseable. You can write them by hand into this file, but you should prefer using the API-Functions <a href="Reaper_API_Lua.html#SetExtState">SetExtState</a>, <a href="Reaper_API_Lua.html#GetExtState">GetExtState</a>, <a href="Reaper_API_Lua.html#HasExtState">HasExtState</a> and <a href="Reaper_API_Lua.html#DeleteExtState">DeleteExtState</a> instead.<p> 
+                    There are no default sections, key or values in the <i>reaper-extstate.ini</i>, so these are freely chooseable. You can write them by hand into this file, but you should prefer using the API-Functions <a href="Reaper_Api_Documentation.html#SetExtState">SetExtState</a>, <a href="Reaper_Api_Documentation.html#GetExtState">GetExtState</a>, <a href="Reaper_Api_Documentation.html#HasExtState">HasExtState</a> and <a href="Reaper_Api_Documentation.html#DeleteExtState">DeleteExtState</a> instead.<p> 
                         Keep in mind: Only persistent External States are stored into this file and non-persistent-ones are forgotten by Reaper after exit!<br>
                         Once an external state has been made persistent, it will stay in the <i>reaper-extstate.ini</i>, even if you set it's persistancy to false. But if you set persistance of such an external state to false, Reaper will use the non-persistent(false) one instead, until you close Reaper.<p>
                     
@@ -2311,7 +2310,7 @@ Also note: Double Click and Left Click also allows _ActionCommandIDs and Command
                         In the editor, quite at the lower end of all entries, there is a section "ReaScript/JSFX/Video IDE (non-theme) -- click for options". Click on it for options of saving and loading a ReaperIDEtheme.<br>
                         If a theme is loaded, the key <i>ide_colors</i>, with all it's entries, will be added to the <a href="#reaper.ini">reaper.ini</a>-section [REAPER].<p>
                         The file begins with [REAPER_IDE_THEME].<p>
-                        Next comes the key <i>ide-colors=</i> with the 30 individual rgb-color-values following after it, seperated by a simple whitespace. Each rgb-color-value is written in hexadecimal values, rrggbb (i.e. Full red would be FF0000).<p>
+                        Next comes the key <i>ide-colors=</i> with the 30 individual rgb-color-values following after it, separated by a simple whitespace. Each rgb-color-value is written in hexadecimal values, rrggbb (i.e. Full red would be FF0000).<p>
                         The values are associated to the following elements within the IDE-Window in the following order:<p>
                         <div style="padding-left:4%">
                         Normal foreground<br>
@@ -2390,14 +2389,14 @@ Also note: Double Click and Left Click also allows _ActionCommandIDs and Command
                     <hr>
                     <a id="ReaperMenuSet"><h2>ReaperMenuSets </h2></a>
                     Can be stored anywhere, standard folder is MenuSets in the Ressources-folder or the Reaper-application-folder(in portable installations).<p>
-                        It is basically a 1:1 export of the <a href="#reaper-menu.ini">reaper-menu.ini</a>.<p>
+                        It is basically a 1:1 export of the <a href="#Reaper-menu.ini">reaper-menu.ini</a>.<p>
                 </div>
 
                 <div style="width: 95%;">
                     <hr>
                     <a id="ReaperMenu"><h2>ReaperMenu </h2></a>
                     Can be stored anywhere, standard folder is MenuSets in the Ressources-folder or the Reaper-application-folder(in portable installations).<p>
-                        It is basically an export of one menu or one toolbar. The rules for this file are the same as for the <a href="#reaper-menu.ini">reaper-menu.ini</a>.<p>
+                        It is basically an export of one menu or one toolbar. The rules for this file are the same as for the <a href="#Reaper-menu.ini">reaper-menu.ini</a>.<p>
                 </div>
 
 
