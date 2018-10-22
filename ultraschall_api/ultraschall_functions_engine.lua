@@ -44206,6 +44206,72 @@ end
 
 ultraschall.Euro="€"
 
+function ultraschall.CombineBytesToInteger(bitoffset, ...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CombineBytesToInteger</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.CombineBytesToInteger(integer bitoffset, integer Byte_1, optional Byte_2, ..., optional Byte_n)</functioncall>
+  <description>
+    Combines the Byte-values Byte_1 to Byte_n into one integer.
+    That means, if you give 4 values, it will return a 32bit-integer(4*8Bits).
+    
+    Negative values will use the maximum possible value of that byte minus the bits. 
+    In Byte_1, -2 will be 255-1=254, in Byte 2, -2 will be 65280-256=65024.
+    
+    Use bitoffset to define, from which bit on you want to combine the values.
+    
+    Returns -1 in case of an error
+  </description>
+  <parameters>
+    integer bitoffset - if you want to combine the values from a certain bit-onwards, set it here; use 0 to start with the first bit.
+    integer Byte_1 - a bytevalue that you want to combine into one
+    optional integer Byte_2 - a bytevalue that you want to combine into one
+    ...
+    optional integer Byte_n - a bytevalue that you want to combine into one
+  </parameters>
+  <retvals>
+    integer retval - the combined integer
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, combine, bytes, integer</tags>
+</US_DocBloc>
+]]
+  if math.type(bitoffset)~="integer" then ultraschall.AddErrorMessage("AddBytesToInteger", "bitoffset", "Must be an integer", -1) return -1 end
+  if bitoffset<0 then ultraschall.AddErrorMessage("AddBytesToInteger", "bitoffset", "Must be bigger or equal 0", -2) return -1 end
+  local F={...}
+  local c=0
+  local count=1
+  local bitcount=0+bitoffset
+  while F[count]~=nil do
+    if math.type(F[count])~="integer" then ultraschall.AddErrorMessage("AddBytesToInteger", "Byte_"..count, "Must be an integer", -3) return -1 end
+    if F[count]>255 or F[count]<-256 then ultraschall.AddErrorMessage("AddBytesToInteger", "Byte_"..count, "Must be between -256 and 255", -4) return -1 end
+    if F[count]&1~=0 then c=c+(2^bitcount) end
+    if F[count]&2~=0 then c=c+(2^(bitcount+1)) end
+    if F[count]&4~=0 then c=c+(2^(bitcount+2)) end
+    if F[count]&8~=0 then c=c+(2^(bitcount+3)) end
+    
+    if F[count]&16~=0 then c=c+(2^(bitcount+4)) end
+    if F[count]&32~=0 then c=c+(2^(bitcount+5)) end
+    if F[count]&64~=0 then c=c+(2^(bitcount+6)) end
+    if F[count]&128~=0 then c=c+(2^(bitcount+7)) end
+    count=count+1
+    bitcount=bitcount+8
+  end
+  return c
+end
+
+--L=ultraschall.CombineBytesToInteger(255,255)
+
 ultraschall.ShowLastErrorMessage()
 
 --MT=reaper.GetTrack(0,0)

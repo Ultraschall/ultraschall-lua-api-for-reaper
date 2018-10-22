@@ -26289,16 +26289,34 @@
             Reaper=5.94
             Lua=5.3
         </requires>
-        <description indent="default">
-            If char is 0 or omitted, returns a character from the keyboard queue, or 0 if no character is available, or -1 if the graphics window is not open. If char is specified and nonzero, that character's status will be checked, and the function will return greater than 0 if it is pressed.Common values are standard ASCII, such as 'a', 'A', '=' and '1', but for many keys multi-byte values are used, including 'home', 'up', 'down', 'left', 'rght', 'f1'.. 'f12', 'pgup', 'pgdn', 'ins', and 'del'. Modified and special keys can also be returned, including:
-            - Ctrl/Cmd+A..Ctrl+Z as 1..26
-            - Ctrl/Cmd+Alt+A..Z as 257..282
-            - Alt+A..Z as 'A'+256..'Z'+256
-            - 27 for ESC
-            - 13 for Enter
-            - ' ' for space
-            - 
-            - use 65536 as parameter charactercode for query of special flags, returns: &1 (supported in this script), &2=window has focus, &4=window is visible
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            If char is 0 or omitted, returns a character from the keyboard queue, or 0 if no character is available, or -1 if the graphics window is not open. 
+            
+            If char is specified and nonzero, that character's status will be checked, and the function will return greater than 0 if it is pressed.
+            Common values are standard ASCII, such as 'a', 'A', '=' and '1', but for many keys multi-byte values are used, 
+            including 'home', 'up', 'down', 'left', 'right', 'f1'.. 'f12', 'pgup', 'pgdn', 'ins', and 'del'. 
+            
+            Modified and special keys can also be returned, including:  
+            
+            - Ctrl/Cmd+A..Ctrl+Z as 1..26  
+            - Ctrl/Cmd+Alt+A..Z as 257..282  
+            - Alt+A..Z as 'A'+256..'Z'+256  
+            - 27 for ESC  
+            - 13 for Enter  
+            - ' ' for space  
+            -   
+            - use 65536 as parameter charactercode to query special flags, returns: &1 (supported in this script), &2=window has focus, &4=window is visible  
+            
+            Some multibyte-characters, like home, up, down, left, right, f1 .. f12, pgup, pgdn, ins, del are returned as values above 255, but some other characters, like €,  
+            are "real"-multibyte-characters(Unicode, etc).  
+            To retreive them, you need to run gfx.getchar() twice per defer-cycle and return their retvals into two variables:  
+            Example:
+            
+                        A=gfx.getchar() -- first byte
+                        B=gfx.getchar() -- second byte
+                        
+                        if A==261 and B==128 then reaper.MB("You typed the €-symbol.", "Message", 0) end -- typed character is the Euro-currency-symbol: €
+                                                
         </description>
         <retvals>
             integer charactercode - either the charactercode or 0 if nothing is pressed

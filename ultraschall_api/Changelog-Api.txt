@@ -274,6 +274,7 @@
   - Docs: MediaItems: Miscellaneous - added
   - Docs: Added Config-Variable into the Reaper-Internals-docs
   - added converted Config-Variable-docs as USDocML-file
+  - CombineBytesToInteger - combines multiple bytes into one integer-value
   <TODO>
       TODO!!  - write final documentation for public-beta
       
@@ -295,13 +296,6 @@
       TODO!!  - number seconds = ultraschall.GetEndOfProject(string trackstring, boolean only_items, boolean only_envpoints, boolean only_marker, boolean only_regions, boolean only_timesigmarker)
       TODO!!  - Renderfunctions - full featured Video(documentation refers still MP3!); add GIF, LCF, AudioCD
       TODO!!  - MP4 on Mac-Rendering
-      TODO!!  - integer finval = ultraschall.ConvertBytesToInteger(integer sourcevalue, integer bitoffset, integer byteval1, ... optional integer byteval8)
-                combines the byteval1..n to an integer. That means, byteval1 becomes bit 1-8, byteval2 becomes bit 9-16, etc.
-                sourcevalue - will be added to the finval, leave 0 to create a totally new one
-                bitoffset - if you want to add the bytevals not beginning with bit 1 but later, use this to set that.
-                      That means: bitoffset 2 makes byteval NOT bit 1-8 but 2-9!
-                      negative values are allowed and will make the value high-endian, beginning with bitoffset to 1,
-                      rather than bitoffset to maximum 64
       TODO!!  - integer byteval .. optional integer byteval8 = ultraschall.ConvertIntegerToBytes(integer number_of_bits, ???)
                 like ConvertBytesToInteger, but the other way round, to take apart an integer-value into it's byte-values.    
       TODO!!  - Add3rdParty-Script-support/functions-support
