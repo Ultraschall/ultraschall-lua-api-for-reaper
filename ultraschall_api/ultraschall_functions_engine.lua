@@ -3067,7 +3067,7 @@ function ultraschall.GetTrackINQState(tracknumber, str)
   </requires>
   <functioncall>integer quantMIDI, integer quantPOS, integer quantNoteOffs, number quantToFractBeat, integer quantStrength, integer swingStrength, integer quantRangeMin, integer quantRangeMax =  ultraschall.GetTrackINQState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
-    Gets INQ-state, mostly the quantize-settings for MIDI.
+    Gets INQ-state, mostly the quantize-settings for MIDI, as set in the "Track: View track recording settings (MIDI quantize, file format/path) for last touched track"-dialog (action 40604)
   </description>
   <retvals>
     integer quantMIDI -  quantize MIDI; 0 or 1
@@ -4010,7 +4010,9 @@ function ultraschall.GetTrackRecCFG(tracknumber, str)
   </description>
   <retvals>
     string reccfg - the string, that encodes the recording configuration of the track.
-    integer reccfgnr - the number of the recording-configuration of the track; either 0 or 1
+    integer reccfgnr - the number of the recording-configuration of the track; 
+                     - 0, use default project rec-setting
+                     - 1, use track-customized rec-setting, as set in the "Track: View track recording settings (MIDI quantize, file format/path) for last touched track"-dialog (action 40604)
   </retvals>
   <parameters>
     integer tracknumber - number of the track, beginning with 1; 0 for master track; -1, if you want to use the parameter TrackStateChunk instead.
@@ -5788,7 +5790,7 @@ function ultraschall.SetTrackINQState(tracknumber, INQ1, INQ2, INQ3, INQ4, INQ5,
   </requires>
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackINQState(integer tracknumber, integer quantMIDI, integer quantPOS, integer quantNoteOffs, number quantToFractBeat, integer quantStrength, integer swingStrength, integer quantRangeMin, integer quantRangeMax, optional string TrackStateChunk)</functioncall>
   <description>
-    Sets INQ-state, mostly the quantize-settings for MIDI, of a track or a TrackStateChunk.
+    Sets INQ-state, mostly the quantize-settings for MIDI, of a track or a TrackStateChunk, as set in the "Track: View track recording settings (MIDI quantize, file format/path) for last touched track"-dialog (action 40604)
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -7350,7 +7352,9 @@ function ultraschall.SetTrackRecCFG(tracknumber, reccfg_string, reccfg_nr, Track
   <parameters>
     integer tracknumber - number of the track, beginning with 1; 0 for master-track; -1 if you want to use parameter TrackStateChunk
     string reccfg_string -  the string, that encodes the recording configuration of the track
-    integer reccfg_nr - the reccfg-number, 0 or 1
+    integer reccfgnr - the number of the recording-configuration of the track; 
+                     - 0, use default project rec-setting
+                     - 1, use track-customized rec-setting, as set in the "Track: View track recording settings (MIDI quantize, file format/path) for last touched track"-dialog (action 40604)
     optional string TrackStateChunk - use a trackstatechunk instead of a track; only used when tracknumber is -1
   </parameters>
   <chapter_context>
@@ -44228,7 +44232,7 @@ function ultraschall.CombineBytesToInteger(bitoffset, ...)
     Returns -1 in case of an error
   </description>
   <parameters>
-    integer bitoffset - if you want to combine the values from a certain bit-onwards, set it here; use 0 to start with the first bit.
+    integer bitoffset - if you want to start combining the values from a certain bitoffset-onwards, set the offset here; use 0 to start with the first bit.
     integer Byte_1 - a bytevalue that you want to combine into one
     optional integer Byte_2 - a bytevalue that you want to combine into one
     ...
@@ -44267,11 +44271,196 @@ function ultraschall.CombineBytesToInteger(bitoffset, ...)
     count=count+1
     bitcount=bitcount+8
   end
-  return c
+  return math.floor(c)
 end
 
---L=ultraschall.CombineBytesToInteger(255,255)
+--L=ultraschall.CombineBytesToInteger(0,255,255,255,255)
 
+function ultraschall.SplitIntegerIntoBytes(integervalue)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SplitIntegerIntoBytes</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer Byte1, integer Byte2, integer Byte3, integer Byte4 = ultraschall.SplitIntegerIntoBytes(integer integervalue)</functioncall>
+  <description>
+    Splits a 32-bit-integer-value into four bytes.
+    
+    Returns -1 in case of an error
+  </description>
+  <parameters>
+    integer integeroffset - the integer-value that you want to split into individual bytes
+  </parameters>
+  <retvals>
+    integer Byte1 - the first eight bits of the integer-value as a Byte
+    integer Byte2 - the second eight bits of the integer-value as a Byte
+    integer Byte3 - the third eight bits of the integer-value as a Byte
+    integer Byte4 - the fourth eight bits of the integer-value as a Byte
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, split, bytes, integer</tags>
+</US_DocBloc>
+]]
+  if math.type(integervalue)~="integer" then ultraschall.AddErrorMessage("SplitIntegerIntoBytes", "integervalue", "Must be an integer", -1) return -1 end
+  if integervalue<-4294967296 or integervalue>4294967295 then ultraschall.AddErrorMessage("SplitIntegerIntoBytes", "integervalue", "Must be between -4294967296 and 4294967295", -2) return -1 end
+  local vars={}
+  vars[1]=0
+  vars[2]=0
+  vars[3]=0
+  vars[4]=0
+  local entry=1
+  local bitcount=0
+  local count=0
+  for bitcount=0, 31 do
+    count=count+1
+    if count==9 then count=1 entry=entry+1 end -- vars[entry]=0 end
+    if integervalue&(math.floor(2^bitcount))~=0 then       
+      vars[entry]=math.floor(vars[entry]+(2^(count-1)))
+    end
+  end
+  return table.unpack(vars)
+end
+
+function ultraschall.GetReaperScriptPath()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetReaperScriptPath</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string reaper_script_path = ultraschall.GetReaperScriptPath()</functioncall>
+  <description>
+    Returns path to Reaper's script-folder
+  </description>
+  <retvals>
+    string reaper_script_path - the path of the scripts-folder of Reaper
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, reaper, get, scriptpath</tags>
+</US_DocBloc>
+]]
+  if ultraschall.DirectoryExists(reaper.GetResourcePath(), "Scripts")==true then 
+  return reaper.GetResourcePath()..ultraschall.Separator.."Scripts"
+  else return "" end
+end
+
+--A=ultraschall.GetReaperScriptPath()
+
+
+function ultraschall.GetReaperColorThemesPath()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetReaperColorThemesPath</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string reaper_colorthemes_path = ultraschall.GetReaperColorThemesPath()</functioncall>
+  <description>
+    Returns path to Reaper's color-theme-folder
+  </description>
+  <retvals>
+    string reaper_colorthemes_path - the path of the color-theme-folder of Reaper
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, reaper, get, colorthemepath</tags>
+</US_DocBloc>
+]]
+  if ultraschall.DirectoryExists(reaper.GetResourcePath(), "ColorThemes")==true then 
+  return reaper.GetResourcePath()..ultraschall.Separator.."ColorThemes"
+  else return "" end
+end
+
+--A=ultraschall.GetReaperColorThemesPath()
+
+function ultraschall.GetReaperJSFXPath()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetReaperJSFXPath</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string reaper_jsfx_path = ultraschall.GetReaperJSFXPath()</functioncall>
+  <description>
+    Returns path to Reaper's JSFX-plugin-folder
+  </description>
+  <retvals>
+    string reaper_jsfx_path - the path of the JSFX-plugin-folder of Reaper
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, reaper, get, jsfxpath</tags>
+</US_DocBloc>
+]]
+  if ultraschall.DirectoryExists(reaper.GetResourcePath(), "Effects")==true then 
+  return reaper.GetResourcePath()..ultraschall.Separator.."Effects"
+  else return "" end
+end
+
+--A=ultraschall.GetReaperJSFXPath()
+
+
+function ultraschall.GetReaperWebRCPath()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetReaperWebRCPath</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string reaper_webrc_path, string user_webrc_path = ultraschall.GetReaperWebRCPath()</functioncall>
+  <description>
+    Returns path to the Web-RC-folder for Reaper as well for the user-webrc-pages.
+  </description>
+  <retvals>
+    string reaper_script_path - the path of the JSFX-plugin-folder of Reaper
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, reaper, get, webrcpath</tags>
+</US_DocBloc>
+]]
+  local user_dir=""
+  local reaper_dir=""
+  if ultraschall.DirectoryExists(reaper.GetResourcePath(), "reaper_www_root")==true then user_dir=reaper.GetResourcePath()..ultraschall.Separator.."reaper_www_root" end
+  if ultraschall.DirectoryExists(reaper.GetExePath()..ultraschall.Separator.."Plugins", "reaper_www_root")==true then reaper_dir=reaper.GetResourcePath()..ultraschall.Separator.."reaper_www_root" end
+  return reaper_dir, user_dir
+end
+
+--A,B=ultraschall.GetReaperWebRCPath()
+
+--A=9223199999999999999
+--A,B,C,D,E,F,G,H=ultraschall.SplitIntegerIntoBytes(-4294967296)
+--reaper.CF_SetClipboard(9222999999999999999+100000000000000)
+--A=math.floor(2^0)
 ultraschall.ShowLastErrorMessage()
 
 --MT=reaper.GetTrack(0,0)
@@ -44288,6 +44477,4 @@ ultraschall.ShowLastErrorMessage()
 --A,B,C,D,E,F,G=ultraschall.InsertMediaItem_MediaItemStateChunk(1000,Astr, MT)
 
 --ultraschall.StopAnyPreview()
-
-ultraschall.ShowLastErrorMessage()
 

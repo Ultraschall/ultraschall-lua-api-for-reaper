@@ -275,6 +275,11 @@
   - Docs: Added Config-Variable into the Reaper-Internals-docs
   - added converted Config-Variable-docs as USDocML-file
   - CombineBytesToInteger - combines multiple bytes into one integer-value
+  - SplitIntegerIntoBytes - splits a  32-bit-integer-value into four bytes
+  - GetReaperScriptPath - returns path to the scripts-folder of Reaper
+  - GetReaperColorThemesPath - returns path to the theme-folder of Reaoer
+  - GetReaperJSFXPath - returns path to the JSFX-plugin-folder of Reaper
+  - GetReaperWebRCPath - returns path to Reaper's own and User's own WebRC-webpage-folder
   <TODO>
       TODO!!  - write final documentation for public-beta
       
@@ -285,19 +290,13 @@
       TODO!!  - Envelope-ExtStates
       TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
       TODO!!  - GetReaperPaths - returns app-path(?), exe-path, resourcepath
-              - GetReaperScriptPath
-              - GetReaperThemePath
-              - GetReaperJSFXPath
-              - GetReaperWebRCPaths
       TODO!!  - import/export Bonus-script-packs-functions(for importing and registering additional bonus scripts)
       TODO!!  - GetLastEnvelopePoint (How to do that with AutomationItems ?)
       TODO!!  - RenderProjectRegions_RenderCFG2  and RenderProject_RenderCFG2 - set RenderPattern instead of RenderFilenameWithPath
       TODO!!  - RenderProjectRegions_RenderCFG3  and RenderProject_RenderCFG3 - set Track(s) to be rendered
       TODO!!  - number seconds = ultraschall.GetEndOfProject(string trackstring, boolean only_items, boolean only_envpoints, boolean only_marker, boolean only_regions, boolean only_timesigmarker)
-      TODO!!  - Renderfunctions - full featured Video(documentation refers still MP3!); add GIF, LCF, AudioCD
+      TODO!!  - Renderfunctions - full featured Video; add GIF, LCF
       TODO!!  - MP4 on Mac-Rendering
-      TODO!!  - integer byteval .. optional integer byteval8 = ultraschall.ConvertIntegerToBytes(integer number_of_bits, ???)
-                like ConvertBytesToInteger, but the other way round, to take apart an integer-value into it's byte-values.    
       TODO!!  - Add3rdParty-Script-support/functions-support
       TODO!!  - AddUltraschallScripts() AddUltraschall3rdPartyScripts() add all 3rd party-scripts from the 3rd-party-US-folder
             also add scripts to do that, that will be registered into the ActionList together with the ShowUSApiHelp-script as well

@@ -1,0 +1,1 @@
+ the saturation/desaturation-value; negative, desaturates color; positive, saturates color
