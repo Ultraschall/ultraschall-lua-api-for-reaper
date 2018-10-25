@@ -777,6 +777,7 @@
                                           ad an issue, that it always required ULTRASCHALL_TRACKNUMBER in the itemstatechunk to get the target-track -> fixed now to also allow passing a MediaTrack, as the docs always stated
                                           has now additional retvals startposition, endposition, length 
                                           fixed the docs
+  - ReadBinaryFile_Offset - if startoffset is negative, the offset will be seen from the end of the file now
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:

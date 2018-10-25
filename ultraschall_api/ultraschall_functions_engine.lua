@@ -30929,7 +30929,7 @@ end
 
 
 function ultraschall.ReadBinaryFile_Offset(input_filename_with_path, startoffset, numberofbytes)
---reads a binary file
+--reads a binary file from offset
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -30943,16 +30943,19 @@ function ultraschall.ReadBinaryFile_Offset(input_filename_with_path, startoffset
   <description>
     Returns the contents of a binary file from startoffset until startoffset+numberofbytes.
     
+    When setting startoffset to a negative value, it will read from the end of the file, means: 
+    -100 will start -100 characters before the end of the file and numberofbytes will read from that point on    
+    
     Returns false, if file can not be opened.
   </description>
   <retvals>
-    integer length - the length of the returned file
+    integer length - the length of the returned part of the file, might be shorter than requested, if file ends before
     string content - the content of the file, that has been read
   </retvals>
   <parameters>
     string input_filename_with_path - filename of the file to be read
-    integer startoffset - the offset, at where to begin the fileread. 0 for the beginning of the file.
-    integer numberofbytes - the number of bytes to read. -1 for until the end of the file. If there are fewer bytes than requested, the returne string will be shorter.
+    integer startoffset - the offset, at where to begin the fileread. 0 for the beginning of the file; negative values set offset from the end of the file
+    integer numberofbytes - the number of bytes to read. -1 for until the end of the file. If there are fewer bytes than requested, the returned string will be shorter.
   </parameters>
   <chapter_context>
     File Management
@@ -30960,31 +30963,29 @@ function ultraschall.ReadBinaryFile_Offset(input_filename_with_path, startoffset
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>filemanagement, read file, binary</tags>
+  <tags>filemanagement, read file, binary, offset</tags>
 </US_DocBloc>
 ]]
 
   local temp=""
-  local length
+  local length, eof
   local temp2
   if input_filename_with_path==nil then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "filename_with_path", "nil not allowed as filename", -1) return false end
-  startoffset=tonumber(startoffset)
-  numberofbytes=tonumber(numberofbytes)
-  if startoffset==nil then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "startoffset", "no valid startoffset. Only integer allowed.", -2) return false end
-  if startoffset<0 then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "startoffset", "must be positive value (0 to n)", -3) return false end
-  if numberofbytes==nil then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "numberofbytes", "no valid value. Only integer allowed.", -4) return false end
-  if numberofbytes<-1 then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "numberofbytes", "must be positive value (0 to n) or -1 for until end of file.", -5) return false end
+  if math.type(startoffset)~="integer" then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "startoffset", "no valid startoffset. Only integer allowed.", -2) return false end
+  if math.type(numberofbytes)~="integer" then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "numberofbytes", "no valid value. Only integer allowed.", -3) return false end
+  if numberofbytes<-1 then ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "numberofbytes", "must be positive value (0 to n) or -1 for until end of file.", -4) return false end
+  
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
-      if numberofbytes==-1 then numberofbytes=fileread:seek ("end" , 0)-startoffset end
-      fileread:seek ("set" , startoffset)
-      temp=fileread:read(numberofbytes)
+    if numberofbytes==-1 then numberofbytes=fileread:seek ("end" , 0)-startoffset end
+    if startoffset>=0 then fileread:seek ("set" , startoffset) else eof=fileread:seek ("end") fileread:seek ("set" , eof-1-(startoffset*-1)) end
+    temp=fileread:read(numberofbytes)
     fileread:close()
+    return temp:len(), temp
   else
     ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "filename_with_path", "file does not exist.", -6)
     return false
   end
-  return temp:len(), temp
 end
 
 
@@ -32078,7 +32079,7 @@ function ultraschall.GetMediafileAttributes(filename)
     number length - the length of the mediafile in seconds
     integer numchannels - the number of channels of the mediafile
     integer Samplerate - the samplerate of the mediafile in hertz
-    string Filetype - the type of the mediafile, like MP3, WAV, MIDI, FLAC, etc
+    string Filetype - the type of the mediafile, like MP3, WAV, MIDI, FLAC, RPP_PROJECT etc
   </retvals>
   <chapter_context>
     MediaItem Management
@@ -32101,6 +32102,7 @@ function ultraschall.GetMediafileAttributes(filename)
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetMediafileAttributes("c:\\Derek And The Dominos - Layla.mp3")
+--A,B,C,D,E,F,G,H,I=ultraschall.GetMediafileAttributes("C:\\MarkerProject.RPP")
 
 function ultraschall.GetAllMediaItemGUIDs()
 --[[
@@ -35084,7 +35086,7 @@ function ultraschall.CheckForValidFileFormats(filename_with_path)
   <retvals>
     string fileformat - the format of the file; JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI,  unknown
     boolean supported_by_reaper - true, if importing of the fileformat is supported by Reaper; false, if not
-    string mediatype - the type of the media; Image, Audio, Audio/Video, Video
+    string mediatype - the type of the media; Image, Audio, Audio/Video, Video, Reaper
   </retvals>
   <chapter_context>
     File Management
@@ -35132,13 +35134,17 @@ function ultraschall.CheckForValidFileFormats(filename_with_path)
   -- video formats
   elseif ultraschall.CompareStringWithAsciiValues(content, 0x1A, 0x45, 0xDF, 0xA3)==true then return "MKV/MKA/MKS/MK3D/WEBM", true, "Video"
   elseif ultraschall.CompareStringWithAsciiValues(content, 0x52, 0x49, 0x46, 0x46, -1, -1, -1, -1, 0x41, 0x56, 0x49, 0x20)==true then return "AVI", true, "Video"
-    
+  else -- Reaper's own projectfiles
+    local A,B=ultraschall.ReadBinaryFile_Offset(filename_with_path, 0, 100)
+    local C,D=ultraschall.ReadBinaryFile_Offset(filename_with_path, -20, 21)
+    if ultraschall.IsValidProjectStateChunk(B..D)==true then return "RPP_PROJECT", true, "Reaper" end
+      
   -- other formats
-  else return "unknown", false, "unknown"
+  return "unknown", false, "unknown"
   end
 end
 
---L,L2=ultraschall.CheckForValidFileFormats("C:\\Users\\meo\\Desktop\\temp6-1.aif")
+--L,L2,L3=ultraschall.CheckForValidFileFormats("C:\\MarkerProject.RPP")
 --L,L2=ultraschall.CheckForValidImageformat("h:\\aufräum\\Minerva-Digital_T-werk\\Videomaterial\\Source Code a.avi")
 --AA=string.char(1, 176, 206)
 --A=reaper.GetMediaSourceType(PCM_source source, string typebuf)
@@ -41791,7 +41797,7 @@ function ultraschall.GetDuplicatesFromArrays(array1, array2)
   <description>
     Returns the duplicates and the originals(entries only in one of the arrays) of two arrays. It will also return the number of entries.
     
-    This works only on array with integer-indexed entries; index must start with index 1!
+    This works only on arrays with integer-indexed entries; index must start with index 1!
     
     returns -1 in case of an error
   </description>
@@ -41874,15 +41880,13 @@ function ultraschall.OnlyFilesOfCertainType(filearray, filetype)
   </requires>
   <functioncall>integer foundfilecount, array foundfilearray = ultraschall.OnlyFilesOfCertainType(array filearray, string filetype)</functioncall>
   <description>
-    Returns the duplicates and the originals(entries only in one of the arrays) of two arrays. It will also return the number of entries.
-    
-    This works only on array with integer-indexed entries; index must start with index 1!
+    Returns the filenames_with_path from a filearray, that are of a certain filetype
     
     returns -1 in case of an error
   </description>
   <parameters>
     array filearray - an array with files to check for; index is 1-based
-    string fileformat - the format of the file; JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI,  unknown
+    string fileformat - the format of the file; JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI, RPP_PROJECT, unknown
   </parameters>
   <retvals>
     integer foundfilecount - the number of files that contain the right filetype
@@ -41910,17 +41914,21 @@ function ultraschall.OnlyFilesOfCertainType(filearray, filetype)
   return foundcount, foundfiles
 end
 
-function ultraschall.GetCurrentReaperWorkDir()
+--local A={"C:\\MarkerProject.RPP","C:\\tudel.aif"}
+--A={"C:\\MarkerProject.RPP","C:\\Reaper-Internal-Docs.wav"}
+--B,C=ultraschall.OnlyFilesOfCertainType(A,"RPP_PROJECT")
+
+function ultraschall.GetReaperWorkDir()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetCurrentReaperWorkDir</slug>
+  <slug>GetReaperWorkDir</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.95
     SWS=2.9.7
     Lua=5.3
   </requires>
-  <functioncall>string current_workdir = ultraschall.GetCurrentReaperWorkDir()</functioncall>
+  <functioncall>string current_workdir = ultraschall.GetReaperWorkDir()</functioncall>
   <description>
     returns the current workdir, which is the directory. If you create a file without giving a path, this file will be created in this work-dir.
   </description>
@@ -42002,9 +42010,6 @@ function ultraschall.SetReaperWorkDir(path)
   <functioncall>boolean retval = ultraschall.SetReaperWorkDir(string Path)</functioncall>
   <description>
     sets a new current working directory for Reaper. This requires a restart of Reaper to take effect, due API-limitations!
-    
-    Note for windows-users: if you give only volume-letters as Path like C:\\ or L:\\, it will return this as an existing path, even if it doesn't exist.
-                            this is due API-limitations.
                             
     returns false in case of an error
   </description>
@@ -44478,3 +44483,10 @@ ultraschall.ShowLastErrorMessage()
 
 --ultraschall.StopAnyPreview()
 
+
+--input_filename_with_path="C:\\MarkerProject.RPP"
+
+--A,B=ultraschall.ReadBinaryFile_Offset(input_filename_with_path, 0, 100)
+--C,D=ultraschall.ReadBinaryFile_Offset(input_filename_with_path, -20, 21)
+
+--reaper.MB(B..D,tostring(ultraschall.IsValidProjectStateChunk(B..D)),0)
