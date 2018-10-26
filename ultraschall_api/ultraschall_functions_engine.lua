@@ -657,6 +657,28 @@ end
 ]]
 
 
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Euro</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.Euro</functioncall>
+  <description>
+    Holds the Euro-currency-symbol(€), which is hard to type in Reaper's own IDE.
+  </description>
+  <chapter_context>
+    API-Variables
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>api, variable, euro, currency, symbol</tags>
+</US_DocBloc>
+]]
+
+
 -- Note for myself: the function ApiTest isn't defined in here, but rather in UserPlugins/ultraschall_api.lua
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -11639,54 +11661,6 @@ end
 --A=ultraschall.MakeCopyOfFile_Binary("c:\\testcopy.webm","c:\\testcopy2.webm")
 --ultraschall.MakeCopyOfFile_Binary("c:\\reaper.exe","c:\\reaper.testrl")
 
-function ultraschall.ReadBinaryFile(input_filename_with_path)
---reads a binary file
-
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ReadBinaryFile</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>integer length, string content = ultraschall.ReadBinaryFile(string input_filename_with_path)</functioncall>
-  <description>
-    Returns the contents of a binary file.
-    
-    Returns false, if file can not be opened.
-  </description>
-  <retvals>
-    integer length - the length of the returned file
-    string content - the content of the file, that has been read
-  </retvals>
-  <parameters>
-    string input_filename_with_path - filename of the file to be read
-  </parameters>
-  <chapter_context>
-    File Management
-    Read Files
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>filemanagement, read file, binary</tags>
-</US_DocBloc>
-]]
-  local temp=""
-
-  if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadBinaryFile", "input_filename_with_path", "must be a string", -1) return false end
-  if reaper.file_exists(input_filename_with_path)==true then
-    local fileread=io.open(input_filename_with_path,"rb")
-    temp=fileread:read("*a")
-    fileread:close()
-  else
-    ultraschall.AddErrorMessage("ReadBinaryFile", "input_filename_with_path", "file does no exist", -2) return false
-  end
-  return temp:len(), temp
-end
-
---A,AA=ultraschall.ReadBinaryFile("c:\\reaper.exe")
-
 function ultraschall.ReadBinaryFileUntilPattern(input_filename_with_path, pattern)
 --reads a binary file until the first occurence of pattern
 --pattern - case sensitive
@@ -14152,17 +14126,6 @@ end
 --A=ultraschall.GetKBIniKeys_ByActionCommandID("c:\\test.txt","40626")
 
 function ultraschall.ReadFileAsLines_Array(filename_with_path, firstlinenumber, lastlinenumber)
-  -- Returns a string with the contents of the file "filename_with_path" from line
-  -- firstlinenumber to lastlinenumber as well as a
-  -- boolean false if fewer lines are returned than requested, true if as many lines returned as requested
-  --
-  -- every line is separated with a newline from each other
-  -- Keep in mind, that you need to escape \ by writing \\, or it will not work
-  -- returns nil in case of error like non existing file or invalid linenumbers
-  -- returns "", if nothing was found
-  --
-  -- counting of linenumbers starts with 1 for the first line
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ReadFileAsLines_Array</slug>
@@ -14171,16 +14134,16 @@ function ultraschall.ReadFileAsLines_Array(filename_with_path, firstlinenumber, 
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>atray contents, boolean correctnumberoflines, integer number_of_lines = ultraschall.ReadFileAsLines_Array(string filename_with_path, integer firstlinenumber, integer lastlinenumber)</functioncall>
+  <functioncall>array contents, boolean correctnumberoflines, integer number_of_lines = ultraschall.ReadFileAsLines_Array(string filename_with_path, integer firstlinenumber, integer lastlinenumber)</functioncall>
   <description>
     Return contents of filename_with_path, from firstlinenumber to lastlinenumber as an array. Counting of linenumbers starts with 1 for the first line.
-    The returned string contains all requested lines, separated by a newline.
+    The returned array contains all requested lines, which each entry holding one returned line.
     
     Returns nil, if the linenumbers are invalid.
   </description>
   <retvals>
-    string contents - the contents the lines of the file, that you requested
-    boolean correctnumberoflines - true, if the number of lines are returned, as requested; false if fewer lines are returned
+    array contents - the contents the lines of the file, that you requested as an array, in which each entry hold one line of the file
+    boolean correctnumberoflines - true, if the number of lines are returned, as you requested; false if fewer lines are returned
     integer number_of_lines - the number of lines returned
   </retvals>
   <parameters>
@@ -14194,7 +14157,7 @@ function ultraschall.ReadFileAsLines_Array(filename_with_path, firstlinenumber, 
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>filemanagement, read file, range</tags>
+  <tags>filemanagement, read file, range, array</tags>
 </US_DocBloc>
 ]]  
   if math.type(firstlinenumber)~="integer" then ultraschall.AddErrorMessage("ReadFileAsLines_Array","firstlinenumber", "Must be an integer!", -1) return nil end
@@ -35658,7 +35621,8 @@ function progresscounter(state)
   --reaper.CF_SetClipboard(todostring)
 --  reaper.CF_SetClipboard(donestring)
 
-  reaper.MB("Du hast schon "..done.." von ".. done+todo.." Funktionen fertig. \nDas sind schon "..N.." Prozent. \nFehlen noch "..todo.." Funktionen.\n\nNicht schlecht :D", "Hui!", 0)
+  if state~=false then reaper.MB("Du hast schon "..done.." von ".. done+todo.." Funktionen fertig. \nDas sind schon "..N.." Prozent. \nFehlen noch "..todo.." Funktionen.\n\nNicht schlecht :D", "Hui!", 0) end
+  return done
 end
 --progresscounter(false)
 
@@ -41872,7 +41836,7 @@ end
 function ultraschall.OnlyFilesOfCertainType(filearray, filetype)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetDuplicatesFromArrays</slug>
+  <slug>OnlyFilesOfCertainType</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.95
@@ -44440,7 +44404,7 @@ function ultraschall.GetReaperWebRCPath()
   </requires>
   <functioncall>string reaper_webrc_path, string user_webrc_path = ultraschall.GetReaperWebRCPath()</functioncall>
   <description>
-    Returns path to the Web-RC-folder for Reaper as well for the user-webrc-pages.
+    Returns path to the Web-RC-folder for Reaper as well as for the user-webrc-pages.
   </description>
   <retvals>
     string reaper_script_path - the path of the JSFX-plugin-folder of Reaper

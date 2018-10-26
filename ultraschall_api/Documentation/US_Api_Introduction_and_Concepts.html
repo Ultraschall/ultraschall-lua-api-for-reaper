@@ -39,44 +39,49 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 21364</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_Api">Introduction to the Ultraschall API</a></td>
-<td><a href="#Introduction_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
-<td><a href="#Introduction_How_to_Use">How to use the Ultraschall API</a></td>
-<td><a href="#Introduction_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
-</tr><tr><td><a href="#Introduction_License">Introduction: License</a></td>
-</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Datatypes</b></td></tr><tr><td><a href="#Datatypes_CheckingDatatypes">Datatypes: Checking Datatypes</a></td>
-<td><a href="#Datatypes_ColorTable">Datatypes: ColorTable</a></td>
-<td><a href="#Datatypes_EnvelopePointArray">Datatypes: EnvelopePointArray</a></td>
-<td><a href="#Datatypes_EnvelopePointObject">Datatypes: EnvelopePointObject</a></td>
-</tr><tr><td><a href="#Datatypes_Introduction">Datatypes: Introduction</a></td>
-<td><a href="#Datatypes_MediaItemArray">Datatypes: MediaItemArray</a></td>
-<td><a href="#Datatypes_MediaItemStateChunkArray">Datatypes: MediaItemStateChunkArray</a></td>
-<td><a href="#Datatypes_trackstring">Datatypes: Trackstrings</a></td>
-</tr><tr></tr><p><tr><td>&nbsp;</td></tr><tr><td><b>API-Variables</b></td></tr><tr><td><a href="#Introduction_API_Variables">API-Variables</a></td>
-</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Rendering</b></td></tr><tr><td><a href="#Rendering_01_Introduction">Rendering: Introduction</a></td>
-<td><a href="#Rendering_02_About_Renderstrings">Rendering: About Renderstrings</a></td>
-<td><a href="#Rendering_03_About_Renderingfunctions">Rendering: About Rendering-functions</a></td>
-<td><a href="#Rendering_04_Change_more_render_settings">Rendering: Change more render-settings</a></td>
-</tr><tr></tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Arrangeview Snapshots</b></td></tr><tr><td><a href="#Arrangeview_Snapshots_HowToRestore">Arrangeview Snapshots: How to restore</a></td>
-<td><a href="#Arrangeview_Snapshots_HowToStoreRetrieveDelete">Arrangeview Snapshots: How to store, retrieve, delete</a></td>
-<td><a href="#Arrangeview_Snapshots_Introduction">Arrangeview Snapshots: Introduction</a></td>
-</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Navigation</b></td></tr><tr><td><a href="#GetSetStates_Project_Track_Item_Env_Introduction">Get/Set States for Project, Tracks and Items</a></td>
-<td><a href="#Navigation_Autoscroll_Followmode">Navigation: Autoscroll and Followmode</a></td>
-<td><a href="#Navigation_CenterView">Navigation: Center View</a></td>
-<td><a href="#Navigation_GotoMarkersRegionItemEdges">Navigation: Go to markers, regionedges and itemedges</a></td>
-</tr><tr><td><a href="#Navigation_Introduction">Navigation: Introduction</a></td>
-<td><a href="#Navigation_MovePlay_and_Editcursor">Navigation: Move Play and Editcursor</a></td>
-</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>MediaItems</b></td></tr><tr><td><a href="#Getting_Manipulating_Items_Deleting">MediaItems: Deleting MediaItems by Time and Tracks</a></td>
-<td><a href="#Getting_Manipulating_Items_GetMediaItems">MediaItems: Getting MediaItems by Time and Tracks</a></td>
-<td><a href="#Getting_Manipulating_Items_Inserting">MediaItems: Inserting Items and Files</a></td>
-<td><a href="#Getting_Manipulating_Items_Introduction">MediaItems: Introduction</a></td>
-</tr><tr><td><a href="#Getting_Manipulating_Items_Miscellaneous">MediaItems: Miscellaneous</a></td>
-<td><a href="#Getting_Manipulating_Items_Moving_Manipulating">MediaItems: Moving and Manipulating</a></td>
-<td><a href="#Getting_Manipulating_Items_Section_And_Ripple_Cut">MediaItems: SectionCut, RippleCut, RippleInsert</a></td>
-<td><a href="#Getting_Manipulating_Items_Spectral_Edit">MediaItems: Programming Spectral Edit</a></td>
-</tr><tr><td><a href="#Getting_Manipulating_Items_Splitting">MediaItems: Splitting MediaItems by Time and Tracks</a></td>
-</tr><p></table><hr><a id="Introduction_Api"></a>
-<div style="font-size:100%"><h4><a href="#Introduction_Api">^</a> <u>Introduction to the Ultraschall API</u></h4></div><p><p>The Ultraschall-Extension is intended to be an extension for the DAW Reaper, that enhances it with podcast functionalities. Most DAWs are intended to be used by musicians, for music, but podcasters have their own needs to be fulfilled. In fact, in some places their needs differ from the needs of a musician heavily. Ultraschall is intended to optimise the Reaper's workflows, by reworking them with functionalities for the special needs of podcasters.</p>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 21382</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
+<td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
+<td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
+</tr><tr><td><a href="#Introduction_005_License">Introduction: License</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Datatypes</b></td></tr><tr><td><a href="#Datatypes_001_Introduction">Datatypes: Introduction</a></td>
+<td><a href="#Datatypes_002_trackstring">Datatypes: Trackstrings</a></td>
+<td><a href="#Datatypes_003_MediaItemArray">Datatypes: MediaItemArray</a></td>
+<td><a href="#Datatypes_004_MediaItemStateChunkArray">Datatypes: MediaItemStateChunkArray</a></td>
+</tr><tr><td><a href="#Datatypes_005_EnvelopePointObject">Datatypes: EnvelopePointObject</a></td>
+<td><a href="#Datatypes_006_EnvelopePointArray">Datatypes: EnvelopePointArray</a></td>
+<td><a href="#Datatypes_007_ColorTable">Datatypes: ColorTable</a></td>
+<td><a href="#Datatypes_050_CheckingDatatypes">Datatypes: Checking Datatypes</a></td>
+</tr><tr></tr><p><tr><td>&nbsp;</td></tr><tr><td><b>API-Variables</b></td></tr><tr><td><a href="#API_Variables_001_Introduction">API-Variables</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Rendering</b></td></tr><tr><td><a href="#Rendering_001_Introduction">Rendering: Introduction</a></td>
+<td><a href="#Rendering_002_About_Renderstrings">Rendering: About Renderstrings</a></td>
+<td><a href="#Rendering_003_About_Renderingfunctions">Rendering: About Rendering-functions</a></td>
+<td><a href="#Rendering_004_Change_more_render_settings">Rendering: Change more render-settings</a></td>
+</tr><tr></tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Arrangeview Snapshots</b></td></tr><tr><td><a href="#Arrangeview_Snapshots_001_Introduction">Arrangeview Snapshots: Introduction</a></td>
+<td><a href="#Arrangeview_Snapshots_002_HowToStoreRetrieveDelete">Arrangeview Snapshots: How to store, retrieve, delete</a></td>
+<td><a href="#Arrangeview_Snapshots_003_HowToRestore">Arrangeview Snapshots: How to restore</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Navigation</b></td></tr><tr><td><a href="#Navigation_001_Introduction">Navigation: Introduction</a></td>
+<td><a href="#Navigation_002_MovePlay_and_Editcursor">Navigation: Move Play and Editcursor</a></td>
+<td><a href="#Navigation_003_GotoMarkersRegionItemEdges">Navigation: Go to markers, regionedges and itemedges</a></td>
+<td><a href="#Navigation_004_CenterView">Navigation: Center View</a></td>
+</tr><tr><td><a href="#Navigation_005_Autoscroll_Followmode">Navigation: Autoscroll and Followmode</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Get/Set Project/Track/MediaItem-States</b></td></tr><tr><td><a href="#GetSetStates_Project_Track_Item_Env_001_Introduction">Get/Set States for Project, Tracks and Items</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>MediaItems</b></td></tr><tr><td><a href="#Getting_Manipulating_Items_001_Introduction">MediaItems: Introduction</a></td>
+<td><a href="#Getting_Manipulating_Items_002_GetMediaItems">MediaItems: Getting MediaItems by Time and Tracks</a></td>
+<td><a href="#Getting_Manipulating_Items_003_Splitting">MediaItems: Splitting MediaItems by Time and Tracks</a></td>
+<td><a href="#Getting_Manipulating_Items_004_Deleting">MediaItems: Deleting MediaItems by Time and Tracks</a></td>
+</tr><tr><td><a href="#Getting_Manipulating_Items_005_Section_And_Ripple_Cut">MediaItems: SectionCut, RippleCut, RippleInsert</a></td>
+<td><a href="#Getting_Manipulating_Items_006_Moving_Manipulating">MediaItems: Moving and Manipulating</a></td>
+<td><a href="#Getting_Manipulating_Items_007_Inserting">MediaItems: Inserting Items and Files</a></td>
+<td><a href="#Getting_Manipulating_Items_008_Spectral_Edit">MediaItems: Programming Spectral Edit</a></td>
+</tr><tr><td><a href="#Getting_Manipulating_Items_009_Miscellaneous">MediaItems: Miscellaneous</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>File Management</b></td></tr><tr><td><a href="#1FileManagement_001_Introduction">File Management: Introduction</a></td>
+<td><a href="#FileManagement_002_Read">File Management: Read</a></td>
+<td><a href="#FileManagement_003_Write">File Management: Write</a></td>
+<td><a href="#FileManagement_004_Analyse">File Management: Analyse</a></td>
+</tr><tr><td><a href="#FileManagement_005_Misc">File Management: Misc</a></td>
+</tr><p></table><hr><a id="Introduction_001_Api"></a>
+<div style="font-size:100%"><h4><a href="#Introduction_001_Api">^</a> <u>Introduction to the Ultraschall API</u></h4></div><p><p>The Ultraschall-Extension is intended to be an extension for the DAW Reaper, that enhances it with podcast functionalities. Most DAWs are intended to be used by musicians, for music, but podcasters have their own needs to be fulfilled. In fact, in some places their needs differ from the needs of a musician heavily. Ultraschall is intended to optimise the Reaper's workflows, by reworking them with functionalities for the special needs of podcasters.</p>
 <p>The Ultraschall-Framework itself is intended to include a set of Lua-functions, that help creating such functionalities. By giving programmers helper functions to get access to each and every corner of Reaper. That way, extending Ultraschall and Reaper is more comfortable to do.</p>
 <p>This API was to be used within Ultraschall only, but quickly evolved into a huge 600+ function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:</p>
 <ul>
@@ -111,8 +116,8 @@ Ultraschall API functions
 <p>For more information about Ultraschall itself, see <a href="http://www.ultraschall.fm">ultraschall.fm</a> and if you want to support us, see <a href="http://www.ultraschall.fm/danke">ultraschall.fm/danke</a> for donating to us.</p>
 <p>PS: In this documentation, I assume you have some basic knowledge in Lua and in using Reaper's own API-functions. Explaining both of these is beyond the scope of this doc.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_How_to_Use"></a>
-<div style="font-size:100%"><h4><a href="#Introduction_How_to_Use">^</a> <u>How to use the Ultraschall API</u></h4></div><p><p>Using the Ultraschall-API is quite easy.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_002_How_to_Use"></a>
+<div style="font-size:100%"><h4><a href="#Introduction_002_How_to_Use">^</a> <u>How to use the Ultraschall API</u></h4></div><p><p>Using the Ultraschall-API is quite easy.</p>
 <p>First make sure, you use the right versions of Reaper and SWS: Reaper 5.95 and SWS 2.9.7 You can download them at <a href="http://www.reaper.fm">reaper.fm</a> and <a href="http://www.sws-extension.org">sws-extension.org</a> respectively.</p>
 <ol>
 <li>Just download the zip-file of the current version from <a href="http://api.ultraschall.fm">api.ultraschall.fm</a>.</li>
@@ -133,8 +138,8 @@ e.g. reaper.ShowConsoleMsg(&quot;msg&quot;)</p>
 e.g. ultraschall.ApiTest()</p>
 <p>See the functions-reference for all available functions or read on in this documentation for a collection of concepts introduced by the Ultraschall-API.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_How_to_Use_Beta_Functions_And_Hotfixes"></a>
-<div style="font-size:100%"><h4><a href="#Introduction_How_to_Use_Beta_Functions_And_Hotfixes">^</a> <u>How to use Beta functions and hotfixes</u></h4></div><p><p>Before a new version of the Ultraschall-API is finished, it is in beta-stage. But sometimes, bugs need to be fixed even before a new release is done or you may want to test new functions from the next release for bugs and quirks. So I added two ways to deal with that.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes"></a>
+<div style="font-size:100%"><h4><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">^</a> <u>How to use Beta functions and hotfixes</u></h4></div><p><p>Before a new version of the Ultraschall-API is finished, it is in beta-stage. But sometimes, bugs need to be fixed even before a new release is done or you may want to test new functions from the next release for bugs and quirks. So I added two ways to deal with that.</p>
 <ol>
 <li><p>Hotfixes<br />
 Hotfixes are available at <a href="http://api.ultraschall.fm">api.ultraschall.fm</a>. They provide fixes for functions and bugs that came across after a release, but no new functions.<br />
@@ -153,8 +158,8 @@ Extract the files in the Beta-pack to UserPlugins of the Resources-folder of you
 <p>Be aware, they are in beta-stage. They will probably change, disappear or be exchanged with better functions. Beta-functions are only for testing purposes, not for productive coding!</p></li>
 </ol>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_Bugreporting_FeatureRequests"></a>
-<div style="font-size:100%"><h4><a href="#Introduction_Bugreporting_FeatureRequests">^</a> <u>Introduction: Bugreporting and Feature Requests</u></h4></div><p><p>If you find any bugs or itches and want to report them, I suggest you the following procedure:</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_004_Bugreporting_FeatureRequests"></a>
+<div style="font-size:100%"><h4><a href="#Introduction_004_Bugreporting_FeatureRequests">^</a> <u>Introduction: Bugreporting and Feature Requests</u></h4></div><p><p>If you find any bugs or itches and want to report them, I suggest you the following procedure:</p>
 <ol>
 <li>Make notes of: what operating-system you use(Mac, Win, Linux), which Reaper-version, which SWS-Version and which Ultraschall-Framework-Version.</li>
 <li><p>Write down, what you wanted to do, what you expected to happen and what has happened instead. Make it as detailed as possible(a code-fragment that triggers a bug, a screenvideo i.e. would be perfect), as more information helps to find out, where the problem lies. It's always better to write too much, than the other way around. Please keep in mind when sending code-fragments: they need to be able to trigger the bug without any of your other code. And please don't send me hundreds of lines of your code, as I can't debug it for you. Just concentrate on the line(s), that trigger the bug successfully.</p></li>
@@ -168,8 +173,8 @@ Sendegate: <a href="http://www.sendegate.de">sendegate.de</a> into the Ultrascha
 <p>For your comments just send a mail at: lspmp3@yahoo.de(for framework-related stuff only!!) or go to sendegate.de into the Ultraschall-section.</p>
 <p>PS: If you know how to implement impossible things or do things better than the current implementation, you are welcome to donate your improved codes. :)</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_License"></a>
-<div style="font-size:100%"><h4><a href="#Introduction_License">^</a> <u>Introduction: License</u></h4></div><p><p>Copyright (c) 2014-2018 Ultraschall (http://ultraschall.fm)</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_005_License"></a>
+<div style="font-size:100%"><h4><a href="#Introduction_005_License">^</a> <u>Introduction: License</u></h4></div><p><p>Copyright (c) 2014-2018 Ultraschall (http://ultraschall.fm)</p>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights o use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 <p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
@@ -178,8 +183,8 @@ Sendegate: <a href="http://www.sendegate.de">sendegate.de</a> into the Ultrascha
 <p>Ultraschall-API written by Meo Mespotine<a href="http://www.mespotine.de">mespotine.de</a> with contributions from <a href="https://twitter.com/fernsehmuell">Udo Sauer</a> and <a href="https://twitter.com/rstockm">Ralf Stockmann</a> If you want to donate to our project, head over to <a href="http://www.ultraschall.fm/danke">ultraschall.fm/danke</a>.</p>
 <p>Kudos to lokasenna, who suggested some cool things, that made some functions much faster and sparkled new ones. Cheers!</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_Introduction"></a>
-<div style="font-size:100%"><h4><a href="#Datatypes_Introduction">^</a> <u>Datatypes: Introduction</u></h4></div><p><p>Parameters and returnvalues are usually of specific types. Let's look at the following function:</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_001_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#Datatypes_001_Introduction">^</a> <u>Datatypes: Introduction</u></h4></div><p><p>Parameters and returnvalues are usually of specific types. Let's look at the following function:</p>
 <pre><code>        integer number_of_items, array MediaItemArray, array MediaItemStateChunkArray = ultraschall.GetMediaItemsAtPosition(number position, string trackstring)</code></pre>
 <p>The returnvalues number_of_items is of type integer, MediaItemArray is of type array/type, MediaItemStateChunkArray if of type array. The parameters position is of type number, trackstring is of type string. These parameters/returnvalues only accept/return data of these given types.</p>
 <p>The Ultraschall-API uses a lot of the standard-datatypes provided by Lua and Reaper/SWS, which are:</p>
@@ -210,17 +215,17 @@ Sendegate: <a href="http://www.sendegate.de">sendegate.de</a> into the Ultrascha
 <p>If a datatype has &quot;optional&quot; before it, this parameter/returnvalue is optional. That means, such parameters don't need to be given, such return-values can be nil.</p>
 <p>In addition to the already used datatypes, the Ultraschall-API introduces some more datatypes, like:</p>
 <ul>
-<li><a href="#Datatypes_trackstring">trackstrings</a> - some functions accept multiple tracks. Trackstrings are a string with all tracknumbers, separated by commas.</li>
-<li><a href="#Datatypes_MediaItemArray">MediaItemArray</a> - some functions accept multiple mediaitems. MediaItemArrays are tables containing MediaItem-objects. The index of the table is integers.</li>
-<li><a href="#Datatypes_MediaItemStateChunkArray">MediaItemStateChunkArray</a> - some functions accept multiple mediaitem-statechunks. MediaItemStateChunkArrays are tables containing MediaItemStateChunks. The index of the table is integers.</li>
-<li><a href="#Datatypes_EnvelopePointObject">EnvelopePointObject</a> - it's a table containing all attributes of an envelope-point, like: parent TrackEnvelope-object, envelope-idx, time, value, shape, tension, selected, dBValue converted from value</li>
-<li><a href="#Datatypes_EnvelopePointArray">EnvelopePointArray</a> - it's a table with multiple EnvelopePointObjects in it, indexed by an integer</li>
-<li>[ColorTable][#Datatypes_ColorTable) - it's a table that holds multiple color-values; for i.e. gradients</li>
+<li><a href="#Datatypes_002_trackstring">trackstrings</a> - some functions accept multiple tracks. Trackstrings are a string with all tracknumbers, separated by commas.</li>
+<li><a href="#Datatypes_003_MediaItemArray">MediaItemArray</a> - some functions accept multiple mediaitems. MediaItemArrays are tables containing MediaItem-objects. The index of the table is integers.</li>
+<li><a href="#Datatypes_004_MediaItemStateChunkArray">MediaItemStateChunkArray</a> - some functions accept multiple mediaitem-statechunks. MediaItemStateChunkArrays are tables containing MediaItemStateChunks. The index of the table is integers.</li>
+<li><a href="#Datatypes_005_EnvelopePointObject">EnvelopePointObject</a> - it's a table containing all attributes of an envelope-point, like: parent TrackEnvelope-object, envelope-idx, time, value, shape, tension, selected, dBValue converted from value</li>
+<li><a href="#Datatypes_006_EnvelopePointArray">EnvelopePointArray</a> - it's a table with multiple EnvelopePointObjects in it, indexed by an integer</li>
+<li>[ColorTable][#Datatypes<em>007</em>ColorTable) - it's a table that holds multiple color-values; for i.e. gradients</li>
 </ul>
 <p>These Ultraschall-API-specific datatypes are described in more detail in the following chapters.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_trackstring"></a>
-<div style="font-size:100%"><h4><a href="#Datatypes_trackstring">^</a> <u>Datatypes: Trackstrings</u></h4></div><p><p>Many functions allow you to process through multiple tracks. As good as this is, this provided some difficulty in telling a function, to which track it shall be applied to.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_002_trackstring"></a>
+<div style="font-size:100%"><h4><a href="#Datatypes_002_trackstring">^</a> <u>Datatypes: Trackstrings</u></h4></div><p><p>Many functions allow you to process through multiple tracks. As good as this is, this provided some difficulty in telling a function, to which track it shall be applied to.<br />
 Hence the datatype: trackstring</p>
 <p>A trackstring is just a simple string with all tracknumbers that you want a certain function to be applied to.<br />
 Examplecode:</p>
@@ -238,8 +243,8 @@ Examplecode:</p>
 <li>Some of the functions who make use of trackstrings are: <a href="US_Api_Functions.html#GetAllMediaItemsBetween">GetAllMediaItemsBetween</a>, <a href="US_Api_Functions.html#GetAllMediaItemsInTimeSelection">GetAllMediaItemsInTimeSelection</a>, <a href="US_Api_Functions.html#DeleteMediaItems_Position">DeleteMediaItems_Position</a>, <a href="US_Api_Functions.html#IsItemInTrack3">IsItemInTrack3</a>, and more</li>
 </ul>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_MediaItemArray"></a>
-<div style="font-size:100%"><h4><a href="#Datatypes_MediaItemArray">^</a> <u>Datatypes: MediaItemArray</u></h4></div><p><p>Many functions allow you to process through multiple mediaitems. To be able to pass multiple mediaitems at once to a function, I added the datatype MediaItemArray.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_003_MediaItemArray"></a>
+<div style="font-size:100%"><h4><a href="#Datatypes_003_MediaItemArray">^</a> <u>Datatypes: MediaItemArray</u></h4></div><p><p>Many functions allow you to process through multiple mediaitems. To be able to pass multiple mediaitems at once to a function, I added the datatype MediaItemArray.</p>
 <p>A MediaItemArray is an array with many MediaItems, indexed by an integer.<br />
 Examplecode:</p>
 <pre><code>        -- get the MediaItems
@@ -267,8 +272,8 @@ Examplecode:</p>
 <a href="US_Api_Functions.html#DeleteMediaItemsFromArray">DeleteMediaItemsFromArray</a>, <a href="US_Api_Functions.html#DeselectMediaItems_MediaItemArray">DeselectMediaItems_MediaItemArray</a>, <a href="US_Api_Functions.html#GetAllLockedItemsFromMediaItemArray">GetAllLockedItemsFromMediaItemArray</a>, <a href="US_Api_Functions.html#InsertMediaItemArray">InsertMediaItemArray</a>, and more</li>
 </ul>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_MediaItemStateChunkArray"></a>
-<div style="font-size:100%"><h4><a href="#Datatypes_MediaItemStateChunkArray">^</a> <u>Datatypes: MediaItemStateChunkArray</u></h4></div><p><p>Many functions allow you to process through multiple mediaitem-statechunks. To be able to pass multiple mediaitem-statechunks at once to a function, I added the datatype MediaItemStateChunkArray.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_004_MediaItemStateChunkArray"></a>
+<div style="font-size:100%"><h4><a href="#Datatypes_004_MediaItemStateChunkArray">^</a> <u>Datatypes: MediaItemStateChunkArray</u></h4></div><p><p>Many functions allow you to process through multiple mediaitem-statechunks. To be able to pass multiple mediaitem-statechunks at once to a function, I added the datatype MediaItemStateChunkArray.</p>
 <p>A MediaItemStateChunkArray is an array with many MediaItemStateChunks, indexed by an integer.<br />
 Examplecode:</p>
 <pre><code>        -- get the MediaItems
@@ -302,8 +307,8 @@ Examplecode:</p>
 <a href="US_Api_Functions.html#GetMediaItemStateChunkArrayLength">GetMediaItemStateChunkArrayLength</a>, <a href="US_Api_Functions.html#InsertMediaItemStateChunkArray">InsertMediaItemStateChunkArray</a>, <a href="US_Api_Functions.html#RippleInsert_MediaItemStateChunks">RippleInsert_MediaItemStateChunks</a>, <a href="US_Api_Functions.html#GetAllMediaItemsFromTrackStateChunk">GetAllMediaItemsFromTrackStateChunk</a> and more</li>
 </ul>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_EnvelopePointObject"></a>
-<div style="font-size:100%"><h4><a href="#Datatypes_EnvelopePointObject">^</a> <u>Datatypes: EnvelopePointObject</u></h4></div><p><p>When working with envelope-points, handling all the attributes such an envelope-point is quite unhandy. So I introduced the datatype EnvelopePointObject, containing all it's attributes.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_005_EnvelopePointObject"></a>
+<div style="font-size:100%"><h4><a href="#Datatypes_005_EnvelopePointObject">^</a> <u>Datatypes: EnvelopePointObject</u></h4></div><p><p>When working with envelope-points, handling all the attributes such an envelope-point is quite unhandy. So I introduced the datatype EnvelopePointObject, containing all it's attributes.</p>
 <p>An EnvelopePointObject is an array with all attributes an envelope-point has.<br />
 Examplecode:</p>
 <pre><code>        MediaTrack=reaper.GetTrack(0,0) -- get MediaTrack
@@ -331,8 +336,8 @@ Examplecode:</p>
 <li>Some of the functions who make use of EnvelopePointObjects are: <a href="US_Api_Functions.html#AddEnvelopePoints_EnvelopePointObject">AddEnvelopePoints_EnvelopePointObject</a>, <a href="US_Api_Functions.html#SetEnvelopePoints_EnvelopePointObject">SetEnvelopePoints_EnvelopePointObject</a>, <a href="US_Api_Functions.html#DeleteEnvelopePoints_EnvelopePointObject">DeleteEnvelopePoints_EnvelopePointObject</a> and more</li>
 </ul>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_EnvelopePointArray"></a>
-<div style="font-size:100%"><h4><a href="#Datatypes_EnvelopePointArray">^</a> <u>Datatypes: EnvelopePointArray</u></h4></div><p><p>When working with multiple EnvelopePointObjects, I introduced the datatype EnvelopePointArray, containing multiple EnvelopePointObjects.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_006_EnvelopePointArray"></a>
+<div style="font-size:100%"><h4><a href="#Datatypes_006_EnvelopePointArray">^</a> <u>Datatypes: EnvelopePointArray</u></h4></div><p><p>When working with multiple EnvelopePointObjects, I introduced the datatype EnvelopePointArray, containing multiple EnvelopePointObjects.</p>
 <p>An EnvelopePointArray is an array with multiple EnvelopePointObjects, indexed by an integer.<br />
 Structure:</p>
 <pre><code>        ColorTable[index][r]=red color-value(0-255)
@@ -350,8 +355,8 @@ Structure:</p>
 <li>Some of the functions who make use of ColorTables are: <a href="US_Api_Functions.html#ApplyColorTableToTrackColors">ApplyColorTableToTrackColors</a></li>
 </ul>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_ColorTable"></a>
-<div style="font-size:100%"><h4><a href="#Datatypes_ColorTable">^</a> <u>Datatypes: ColorTable</u></h4></div><p><p>When having to work with many colors, like MediaTrack-colors or the colors set to individual MediaItems, one may wish to have a proper datastructure to store these colorvalues. For that, I introduce the ColorTable.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_007_ColorTable"></a>
+<div style="font-size:100%"><h4><a href="#Datatypes_007_ColorTable">^</a> <u>Datatypes: ColorTable</u></h4></div><p><p>When having to work with many colors, like MediaTrack-colors or the colors set to individual MediaItems, one may wish to have a proper datastructure to store these colorvalues. For that, I introduce the ColorTable.</p>
 <p>A ColorTable is an array containing the multiple colors, indexed by an integer.<br />
 Examplecode:</p>
 <pre><code>        -- create EnvelopePointObjects
@@ -371,8 +376,8 @@ Examplecode:</p>
 <li>Some of the functions who make use of EnvelopePointArrays are: <a href="US_Api_Functions.html#AddEnvelopePoints_EnvelopePointArray">AddEnvelopePoints_EnvelopePointArray</a>, <a href="US_Api_Functions.html#SetEnvelopePoints_EnvelopePointArray">SetEnvelopePoints_EnvelopePointArray</a>, <a href="US_Api_Functions.html#DeleteEnvelopePoints_EnvelopePointArray">DeleteEnvelopePoints_EnvelopePointArray</a> and more</li>
 </ul>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_CheckingDatatypes"></a>
-<div style="font-size:100%"><h4><a href="#Datatypes_CheckingDatatypes">^</a> <u>Datatypes: Checking Datatypes</u></h4></div><p><p>When you work with data of different sources but need to work with data of a specific type, it would be handy to have ways of checking, whether a certain variable has data of a specific type.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_050_CheckingDatatypes"></a>
+<div style="font-size:100%"><h4><a href="#Datatypes_050_CheckingDatatypes">^</a> <u>Datatypes: Checking Datatypes</u></h4></div><p><p>When you work with data of different sources but need to work with data of a specific type, it would be handy to have ways of checking, whether a certain variable has data of a specific type.<br />
 Lua provides ways of checking for valid datatypes(type() and math.type()) as well as Reaper(ValidatePtr() and ValidatePtr2()).</p>
 <p>However, sometimes you want to have one function to check them all, and all these functions do not include Ultraschall-API-specific datatypes, so I added some stuff for that.</p>
 <ol>
@@ -389,15 +394,15 @@ works like Lua's own type-function, but checks for Reaper's own datatypes as wel
 To check for Ultraschall-API specific or other Reaper-datatypes, you can use the following functions:</p>
 <p>Ultraschall-API-specific:</p>
 <ul>
-<li><a href="US_Api_Functions.html#IsValidTrackString">IsValidTrackString</a> - checks, if a string is a valid <a href="#Datatypes_trackstring">trackstring</a><br />
+<li><a href="US_Api_Functions.html#IsValidTrackString">IsValidTrackString</a> - checks, if a string is a valid <a href="#Datatypes_002_trackstring">trackstring</a><br />
 </li>
-<li><a href="US_Api_Functions.html#IsValidMediaItemArray">IsValidMediaItemArray</a> - checks, if a table is a valid <a href="#Datatypes_MediaItemArray">MediaItemArray</a><br />
+<li><a href="US_Api_Functions.html#IsValidMediaItemArray">IsValidMediaItemArray</a> - checks, if a table is a valid <a href="#Datatypes_003_MediaItemArray">MediaItemArray</a><br />
 </li>
-<li><a href="US_Api_Functions.html#IsValidMediaItemStateChunkArray">IsValidMediaItemStateChunkArray</a> - checks, if a table is a valid <a href="#Datatypes_MediaItemStateChunkArray">MediaItemStateChunkArray</a><br />
+<li><a href="US_Api_Functions.html#IsValidMediaItemStateChunkArray">IsValidMediaItemStateChunkArray</a> - checks, if a table is a valid <a href="#Datatypes_004_MediaItemStateChunkArray">MediaItemStateChunkArray</a><br />
 </li>
-<li><a href="US_Api_Functions.html#IsValidEnvelopePointObject">IsValidEnvelopePointObject</a> - checks, if a table is a valid <a href="#Datatypes_EnvelopePointObject">EnvelopePointObject</a><br />
+<li><a href="US_Api_Functions.html#IsValidEnvelopePointObject">IsValidEnvelopePointObject</a> - checks, if a table is a valid <a href="#Datatypes_005_EnvelopePointObject">EnvelopePointObject</a><br />
 </li>
-<li><a href="US_Api_Functions.html#IsValidEnvelopePointArray">IsValidEnvelopePointArray</a> - checks, if a table is a valid <a href="#Datatypes_EnvelopePointArray">EnvelopePointArray</a></li>
+<li><a href="US_Api_Functions.html#IsValidEnvelopePointArray">IsValidEnvelopePointArray</a> - checks, if a table is a valid <a href="#Datatypes_006_EnvelopePointArray">EnvelopePointArray</a></li>
 <li><a href="US_Api_Functions.html#IsValidArrangeviewSnapshot">IsValidArrangeviewSnapshot</a> - checks, if an extstate is a valid ArrangeviewSnapshot</li>
 </ul>
 <p>Other Reaper-datatypes:</p>
@@ -418,8 +423,8 @@ These aren't datatypes, but you may want to check them for validity as well</p>
 </ul></li>
 </ol>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_API_Variables"></a>
-<div style="font-size:100%"><h4><a href="#Introduction_API_Variables">^</a> <u>API-Variables</u></h4></div><p><p>When working with the Ultraschall-API or general programming in Reaper, some additional things may or may not be helpful to know.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="API_Variables_001_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#API_Variables_001_Introduction">^</a> <u>API-Variables</u></h4></div><p><p>When working with the Ultraschall-API or general programming in Reaper, some additional things may or may not be helpful to know.<br />
 So I added some API-variables, like:</p>
 <ol>
 <li><a href="US_Api_Functions.html#Script_Path">Script_Path</a> - which contains the current path to Reaper's-scripts-folder</li>
@@ -434,8 +439,8 @@ So I added some API-variables, like:</p>
 <p>which would put the current-scriptpath to the variable scriptpath.</p>
 <p>You could change them as well, but that would be pointless.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_01_Introduction"></a>
-<div style="font-size:100%"><h4><a href="#Rendering_01_Introduction">^</a> <u>Rendering: Introduction</u></h4></div><p><p>The Ultraschall-API provides functions for rendering your projects, without having to use the Rendering-dialog of Reaper. This gives you a wide range of possibilities to customize your rendering-needs.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_001_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#Rendering_001_Introduction">^</a> <u>Rendering: Introduction</u></h4></div><p><p>The Ultraschall-API provides functions for rendering your projects, without having to use the Rendering-dialog of Reaper. This gives you a wide range of possibilities to customize your rendering-needs.</p>
 <p>Basically the process is based on:</p>
 <ol>
 <li><p>creating a renderstring with all format-specific-settings, using the accompanying functions:<br />
@@ -452,8 +457,8 @@ So I added some API-variables, like:</p>
        retval = ultraschall.RenderProject_RenderCFG(nil, &quot;c:\\exportfile.mp3&quot;, 0, -1, false, false, false, render_cfg_string)</code></pre>
 <p>Read the accompanying documentation-entries for <a href="US_Api_Functions.html#CreateRenderCFG_MP3CBR">CreateRenderCFG_MP3CBR</a> and <a href="US_Api_Functions.html#RenderProject_RenderCFG">RenderProject_RenderCFG</a> for more details and/or the following chapters.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_02_About_Renderstrings"></a>
-<div style="font-size:100%"><h4><a href="#Rendering_02_About_Renderstrings">^</a> <u>Rendering: About Renderstrings</u></h4></div><p><p>Render-strings(or render_cfg, as they are named in Reaper) are strings, that contain all settings for a specific Render-Output-format, as MP3, WAV, AIF, FLAC, etc.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_002_About_Renderstrings"></a>
+<div style="font-size:100%"><h4><a href="#Rendering_002_About_Renderstrings">^</a> <u>Rendering: About Renderstrings</u></h4></div><p><p>Render-strings(or render_cfg, as they are named in Reaper) are strings, that contain all settings for a specific Render-Output-format, as MP3, WAV, AIF, FLAC, etc.<br />
 They are usually stored into RPP-projectfiles and are quite cryptic(for those of you, who know what that means: BASE64-encoded).<br />
 These are essential for rendering a project using the provided rendering-functions, so the Ultraschall-API provides functions who create these render-strings.</p>
 <p>All these functions start with CreateRenderCFG_ in their name, so if you are looking for a specific format, use CreateRenderCFG_audioformat (like CreateRenderCFG_FLAC, etc).<br />
@@ -470,8 +475,8 @@ Have a look into the functions-reference to get the possible values for these pa
 <a href="US_Api_Functions.html#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="US_Api_Functions.html#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="US_Api_Functions.html#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3ABR">CreateRenderCFG_MP3ABR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3CBR">CreateRenderCFG_MP3CBR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3MaxQuality">CreateRenderCFG_MP3MaxQuality</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3VBR">CreateRenderCFG_MP3VBR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="US_Api_Functions.html#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="US_Api_Functions.html#CreateRenderCFG_Opus2">CreateRenderCFG_Opus2</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WAV">CreateRenderCFG_WAV</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>,<br />
 <a href="US_Api_Functions.html#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a></p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_03_About_Renderingfunctions"></a>
-<div style="font-size:100%"><h4><a href="#Rendering_03_About_Renderingfunctions">^</a> <u>Rendering: About Rendering-functions</u></h4></div><p><p>The rendering-functions let you render a project, either a stored rpp-project-file or the currently opened one(only when it has been saved!).<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_003_About_Renderingfunctions"></a>
+<div style="font-size:100%"><h4><a href="#Rendering_003_About_Renderingfunctions">^</a> <u>Rendering: About Rendering-functions</u></h4></div><p><p>The rendering-functions let you render a project, either a stored rpp-project-file or the currently opened one(only when it has been saved!).<br />
 They provide you with a wide range of functionality, so the rendering process should be quite close to Reaper's &quot;official&quot;-own-process using the render-dialog.</p>
 <p>There are currently two different render-functions available:</p>
 <ol>
@@ -497,10 +502,10 @@ That said, a lot of the parameters are the same.</p>
 <pre><code>         rendercfg           - the renderstring, as created using a CreateRenderCFG_XXX-function, as described in 
                                the chapter &quot;Rendering: About Renderstrings&quot;</code></pre>
 <p>With that, you should be able to successfully render your project.</p>
-<p>For more enhanced customization of Rendering, see <a href="#Rendering_04_Change_more_render_settings">Rendering: Change more render-settings</a> for more details.</p>
+<p>For more enhanced customization of Rendering, see <a href="#Rendering_004_Change_more_render_settings">Rendering: Change more render-settings</a> for more details.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_04_Change_more_render_settings"></a>
-<div style="font-size:100%"><h4><a href="#Rendering_04_Change_more_render_settings">^</a> <u>Rendering: Change more render-settings</u></h4></div><p><p>Reaper's own render-dialog provides you with much more possibilities, than the rendering-functions themselves provide you with.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_004_Change_more_render_settings"></a>
+<div style="font-size:100%"><h4><a href="#Rendering_004_Change_more_render_settings">^</a> <u>Rendering: Change more render-settings</u></h4></div><p><p>Reaper's own render-dialog provides you with much more possibilities, than the rendering-functions themselves provide you with.</p>
 <p>In the likely case, that you want to influence more things for rendering, like samplerate, stereo or mono, etc, you should do the following things:</p>
 <ol>
 <li>make a copy of the rpp-file that you want to render using <a href="US_Api_Functions.html#MakeCopyOfFile">MakeCopyOfFile</a>. The copy must have a different name and be in the same folder, as the original rpp-file!</li>
@@ -515,24 +520,24 @@ That said, a lot of the parameters are the same.</p>
 <li><a href="US_Api_Functions.html#SetProject_RenderSpeed">SetProject_RenderSpeed</a> to set the render-speed, and</li>
 <li><a href="US_Api_Functions.html#SetProject_RenderStems">SetProject_RenderStems</a> to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)</li>
 </ul></li>
-<li><p>after you've set the individual render-settings, you create a render-string, as described in <a href="#Rendering_02_About_Renderstrings">Rendering: About Renderstrings</a>.</p></li>
-<li><p>render using the altered copy(!) of the projectfile(not the original projectfile!), as described in <a href="#Rendering_03_About_Renderingfunctions">Rendering: About Rendering-functions</a>.</p></li>
+<li><p>after you've set the individual render-settings, you create a render-string, as described in <a href="#Rendering_002_About_Renderstrings">Rendering: About Renderstrings</a>.</p></li>
+<li><p>render using the altered copy(!) of the projectfile(not the original projectfile!), as described in <a href="#Rendering_003_About_Renderingfunctions">Rendering: About Rendering-functions</a>.</p></li>
 </ol>
 <p>If you want to alter the currently opened project, you need to save it first. After that, use:</p>
 <pre><code>        retval, projectfilename_with_path = reaper.EnumProjects(-1,&quot;&quot;)</code></pre>
 <p>to get the projectfilename_with_path of the current project as returnvalue. Use projectfilename_with_path and go through steps 1 through 4.</p>
 <p>The functions in step 2) are just a small selection of the functions to alter project-files, as provided by the Ultraschall-API. Browse through the functions in the &quot;Project-Files&quot;-section of the index of the Ultraschall-API-Functions-Reference for many more of them.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Arrangeview_Snapshots_Introduction"></a>
-<div style="font-size:100%"><h4><a href="#Arrangeview_Snapshots_Introduction">^</a> <u>Arrangeview Snapshots: Introduction</u></h4></div><p><p>When working with big or complex projects:</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Arrangeview_Snapshots_001_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#Arrangeview_Snapshots_001_Introduction">^</a> <u>Arrangeview Snapshots: Introduction</u></h4></div><p><p>When working with big or complex projects:</p>
 <p>Sometimes it's a good thing to have quick access to certain parts of the project, certain view-settings, zoom-factors. Arrangeview-snapshots are meant to help with that.</p>
 <p>Arrangeview-Snapshots are snapshots that store the current position of the arrangeview as well as it's zoom-factor. You can decide, whether to store only the zoom-factor or the position. You can also give a short description to a ArrangeView-Snapshot, so you can store, what to expect from a certain snapshot.<br />
 They can be retrieved and the arrange-view can be set to these settings. That way, quick navigation through often accessed parts of the project is fast and easy.</p>
 <p>Arrangeview-Snapshots are stored as ProjExtStates, which means, that the settings are stored in the project itself and can be retrieved the next time the project is loaded.</p>
 <p>Due limitations with Reaper's own API, storing the vertical-scroll-position of the arrangeview isn't possible yet. This will change as soon as the limitation is raised from Reaper's own API.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Arrangeview_Snapshots_HowToStoreRetrieveDelete"></a>
-<div style="font-size:100%"><h4><a href="#Arrangeview_Snapshots_HowToStoreRetrieveDelete">^</a> <u>Arrangeview Snapshots: How to store, retrieve, delete</u></h4></div><p><p>If you want to store the current position and zoom-factor of the Arrangeview, you can use the function <a href="US_Api_Functions.html#StoreArrangeviewSnapshot">StoreArrangeviewSnapshot</a>.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Arrangeview_Snapshots_002_HowToStoreRetrieveDelete"></a>
+<div style="font-size:100%"><h4><a href="#Arrangeview_Snapshots_002_HowToStoreRetrieveDelete">^</a> <u>Arrangeview Snapshots: How to store, retrieve, delete</u></h4></div><p><p>If you want to store the current position and zoom-factor of the Arrangeview, you can use the function <a href="US_Api_Functions.html#StoreArrangeviewSnapshot">StoreArrangeviewSnapshot</a>.</p>
 <p>It accepts the following parameters:</p>
 <pre><code>        slot        - the slot for the snapshot, which must be an integer. The function will overwrite an already existing snapshot. To prevent that,
                       use ultraschall.IsValidArrangeviewSnapshot() to check, if it&#39;s already existing.
@@ -543,8 +548,8 @@ They can be retrieved and the arrange-view can be set to these settings. That wa
 <p>If you want to check, whether a slot is already used, you can use <a href="US_Api_Functions.html#IsValidArrangeviewSnapshot">IsValidArrangeviewSnapshot</a>, which will return true in that case and false, if the slot is unused.</p>
 <p>To delete a certain slot, just use <a href="US_Api_Functions.html#DeleteArrangeviewSnapshot">DeleteArrangeviewSnapshot</a>.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Arrangeview_Snapshots_HowToRestore"></a>
-<div style="font-size:100%"><h4><a href="#Arrangeview_Snapshots_HowToRestore">^</a> <u>Arrangeview Snapshots: How to restore</u></h4></div><p><p>When having stored an Arrangeview-Snapshot into a slot, you certainly want to restore it at one point. For that, use <a href="US_Api_Functions.html#RestoreArrangeviewSnapshot">RestoreArrangeviewSnapshot</a>.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Arrangeview_Snapshots_003_HowToRestore"></a>
+<div style="font-size:100%"><h4><a href="#Arrangeview_Snapshots_003_HowToRestore">^</a> <u>Arrangeview Snapshots: How to restore</u></h4></div><p><p>When having stored an Arrangeview-Snapshot into a slot, you certainly want to restore it at one point. For that, use <a href="US_Api_Functions.html#RestoreArrangeviewSnapshot">RestoreArrangeviewSnapshot</a>.</p>
 <p>This function let's you restore an earlier arrange-view completely, but also allows you to individually set, what you want to restore, using the parameters:</p>
 <pre><code>        slot        - is the Arrangeview-Snapshot you want to restore</code></pre>
 <p>the other parameters are optional, means, if you omit them or set them to nil, they will restore the setting from the snapshot or use a default setting</p>
@@ -560,8 +565,8 @@ They can be retrieved and the arrange-view can be set to these settings. That wa
          </code></pre>
 <p>This should give you full control in what to restore from an Arrangeview-Snapshot and what to ignore.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Navigation_Introduction"></a>
-<div style="font-size:100%"><h4><a href="#Navigation_Introduction">^</a> <u>Navigation: Introduction</u></h4></div><p><p>When editing and postproducing a project, navigating through it is essential. For that, I added some functions that are not part of Reaper's own API, to help navigation, with functions for:</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Navigation_001_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#Navigation_001_Introduction">^</a> <u>Navigation: Introduction</u></h4></div><p><p>When editing and postproducing a project, navigating through it is essential. For that, I added some functions that are not part of Reaper's own API, to help navigation, with functions for:</p>
 <ol>
 <li>more control about moving the playcursor and the editcursor</li>
 <li>jumping to the next/previous closest marker/regionedge/itemedge</li>
@@ -570,8 +575,8 @@ They can be retrieved and the arrange-view can be set to these settings. That wa
 </ol>
 <p>This should give you more control about programming faster and quicker navigation-capabilities.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Navigation_MovePlay_and_Editcursor"></a>
-<div style="font-size:100%"><h4><a href="#Navigation_MovePlay_and_Editcursor">^</a> <u>Navigation: Move Play and Editcursor</u></h4></div><p><p>The Ultraschall-API provides you with many functions regarding changing the position of the playcursor and the editcursor.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Navigation_002_MovePlay_and_Editcursor"></a>
+<div style="font-size:100%"><h4><a href="#Navigation_002_MovePlay_and_Editcursor">^</a> <u>Navigation: Move Play and Editcursor</u></h4></div><p><p>The Ultraschall-API provides you with many functions regarding changing the position of the playcursor and the editcursor.<br />
 For that we have numerous functions:</p>
 <ul>
 <li>Editcursor only:
@@ -591,8 +596,8 @@ For that we have numerous functions:</p>
 </ul></li>
 </ul>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Navigation_GotoMarkersRegionItemEdges"></a>
-<div style="font-size:100%"><h4><a href="#Navigation_GotoMarkersRegionItemEdges">^</a> <u>Navigation: Go to markers, regionedges and itemedges</u></h4></div><p><p>Markers and items provide you with much additional helpful information regarding the project. They also provide you with an additional information: useful positions to navigate through.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Navigation_003_GotoMarkersRegionItemEdges"></a>
+<div style="font-size:100%"><h4><a href="#Navigation_003_GotoMarkersRegionItemEdges">^</a> <u>Navigation: Go to markers, regionedges and itemedges</u></h4></div><p><p>Markers and items provide you with much additional helpful information regarding the project. They also provide you with an additional information: useful positions to navigate through.<br />
 To make use of that, I added some functions for that:</p>
 <ol>
 <li><a href="US_Api_Functions.html#GetClosestPreviousMarker">GetClosestPreviousMarker</a>, <a href="US_Api_Functions.html#GetClosestNextMarker">GetClosestNextMarker</a> - Get the previous/next closest marker at a given position</li>
@@ -614,8 +619,8 @@ To make use of that, I added some functions for that:</p>
 <p>The function <a href="US_Api_Functions.html#GetClosestGoToPoints">GetClosestGoToPoints</a> is the combination of all of these functions, which let's you decide fully, which edges/positions you want to check for.<br />
 It will also check, if the next/previous closest edge is the beginning or the end of the project.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Navigation_CenterView"></a>
-<div style="font-size:100%"><h4><a href="#Navigation_CenterView">^</a> <u>Navigation: Center View</u></h4></div><p><p>Sometimes it's a good idea to center the arrangeview to a certain point, may it be different points of interests within your project or just to get back to the playcursor/editcursor out of the view.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Navigation_004_CenterView"></a>
+<div style="font-size:100%"><h4><a href="#Navigation_004_CenterView">^</a> <u>Navigation: Center View</u></h4></div><p><p>Sometimes it's a good idea to center the arrangeview to a certain point, may it be different points of interests within your project or just to get back to the playcursor/editcursor out of the view.</p>
 <p>For that, I added the function <a href="US_Api_Functions.html#CenterViewToCursor">CenterViewToCursor</a>.<br />
 Let's have a look at it:</p>
 <pre><code>        ultraschall.CenterViewToCursor(integer cursortype, optional number position) </code></pre>
@@ -627,8 +632,8 @@ Let's have a look at it:</p>
 <p>The second parameter position is an optional one and only used, if cursortype is set to 4. It allows you to give a specific position in seconds, which the arrangeview shall be centered around.</p>
 <p>This functions only centers the given position/cursor-position to the arrangeview. It keeps the zoom-factor intact.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Navigation_Autoscroll_Followmode"></a>
-<div style="font-size:100%"><h4><a href="#Navigation_Autoscroll_Followmode">^</a> <u>Navigation: Autoscroll and Followmode</u></h4></div><p><p>Reaper allows you to set autoscrolling during playback/recording. It allows you to set it to continuous scrolling or to &quot;page-wise&quot;-scrolling.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Navigation_005_Autoscroll_Followmode"></a>
+<div style="font-size:100%"><h4><a href="#Navigation_005_Autoscroll_Followmode">^</a> <u>Navigation: Autoscroll and Followmode</u></h4></div><p><p>Reaper allows you to set autoscrolling during playback/recording. It allows you to set it to continuous scrolling or to &quot;page-wise&quot;-scrolling.<br />
 This is quite flexible but hidden somewhat within the actions of Reaper. So I added the function <a href="US_Api_Functions.html#ToggleScrollingDuringPlayback">ToggleScrollingDuringPlayback</a>.<br />
 It turns on autoscrolling for playback and recording AND continuous scrolling.<br />
 Let's have a look at it:</p>
@@ -643,8 +648,8 @@ The last parameter goto_playcursor allows you to change the view to the current 
 <p>which means, it sets if a certain autoscrolling behavior is turned on or not.<br />
 If you have your own custom actions toggling these actions, you probably shouldn't use this function. Otherwise it probably messes up your workflows.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="GetSetStates_Project_Track_Item_Env_Introduction"></a>
-<div style="font-size:100%"><h4><a href="#GetSetStates_Project_Track_Item_Env_Introduction">^</a> <u>Get/Set States for Project, Tracks and Items</u></h4></div><p><p>One of the long-term-goals of the Ultraschall-API is full access to all states within projects, tracks, items, envelopes, including all states only available in StateChunks.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="GetSetStates_Project_Track_Item_Env_001_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#GetSetStates_Project_Track_Item_Env_001_Introduction">^</a> <u>Get/Set States for Project, Tracks and Items</u></h4></div><p><p>One of the long-term-goals of the Ultraschall-API is full access to all states within projects, tracks, items, envelopes, including all states only available in StateChunks.<br />
 As of the current version, all track-states and many project and item-states are get and settable.</p>
 <p>The functions all work after the same principle, with the first parameter being the object to get/set the state from/to (Projectfile, MediaItem-object, MediaTrack-object and TrackEnvelope-Object).</p>
 <p>The last parameter, which is an optional one, can be a StateChunk-representation of the object, like ProjectStateChunk, MediaItemStateChunk, TrackStateChunk, TrackEnvelopeStateChunk. This optional parameter will only be seen, when the first parameter(for the object) is set to nil.<br />
@@ -668,17 +673,17 @@ Get Project-State:</p>
 <p>StateChunks can be gotten using reaper.GetTrackStateChunk(), reaper.SetTrackStateChunk(), reaper.GetItemStateChunk(), reaper.SetItemStateChunk(), reaper.GetEnvelopeStateChunk(), reaper.SetEnvelopeStateChunk().<br />
 To get ProjectStateChunks, you need to read the rpp-file, as currently there's no Get/SetProjectStateChunk-function in Reaper's own API.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Introduction"></a>
-<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_Introduction">^</a> <u>MediaItems: Introduction</u></h4></div><p><p>When working with MediaItems, it often was frustrating for me to code, how to get their MediaItem-objects. Especially when &quot;mass-working&quot; with dozens and more MediaItems.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_001_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_001_Introduction">^</a> <u>MediaItems: Introduction</u></h4></div><p><p>When working with MediaItems, it often was frustrating for me to code, how to get their MediaItem-objects. Especially when &quot;mass-working&quot; with dozens and more MediaItems.<br />
 So I wrote a set of functions to work with MediaItems more comfortably.</p>
-<p>These functions include getting MediaItem-objects by time AND track, <a href="#GetSetStates_Project_Track_Item_Env_Introduction">getting MediaItem-states</a>, editing, inserting, manipulating, spectral edit, previewing, RippleCut, RippleInsert, SectionCut, working with locked, selected items, applying Reaper-actions to MediaItems, etc.</p>
-<p>When working with masses of MediaItems, I either use the datatypes <a href="#Datatypes_MediaItemArray">MediaItemArrays</a> or <a href="#Datatypes_MediaItemStateChunkArrays">MediaItemStateChunkArrays</a>.<br />
-When passing over the tracks wanted, I use the datatype <a href="#Datatypes_trackstring">trackstring</a>.</p>
+<p>These functions include getting MediaItem-objects by time AND track, <a href="#GetSetStates_Project_Track_Item_Env_001_Introduction">getting MediaItem-states</a>, editing, inserting, manipulating, spectral edit, previewing, RippleCut, RippleInsert, SectionCut, working with locked, selected items, applying Reaper-actions to MediaItems, etc.</p>
+<p>When working with masses of MediaItems, I either use the datatypes <a href="#Datatypes_003_MediaItemArray">MediaItemArrays</a> or <a href="#Datatypes_004_MediaItemStateChunkArrays">MediaItemStateChunkArrays</a>.<br />
+When passing over the tracks wanted, I use the datatype <a href="#Datatypes_002_trackstring">trackstring</a>.</p>
 <p>All this stuff should help you getting and manipulating MediaItems much more easier.</p>
 <p>Let's begin with getting items by time(range) and tracks.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_GetMediaItems"></a>
-<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_GetMediaItems">^</a> <u>MediaItems: Getting MediaItems by Time and Tracks</u></h4></div><p><p>Let's face it, when editing items of a project in Reaper, you either click on the items or select them in a 2D-way, by drawing a boundary box around the items of your choice or using a time-selection.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_002_GetMediaItems"></a>
+<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_002_GetMediaItems">^</a> <u>MediaItems: Getting MediaItems by Time and Tracks</u></h4></div><p><p>Let's face it, when editing items of a project in Reaper, you either click on the items or select them in a 2D-way, by drawing a boundary box around the items of your choice or using a time-selection.<br />
 What you do by that is selecting the items by time. What you also do is, selecting the items by track, as your boundary box may go over several tracks. Or you use a track-selection by clicking on the tracks you want.<br />
 In either way, you select them in a 2Dimensional way. Not with Reaper's own API. Sure, you can somehow choose the MediaItems by track or by project, but you can't select them by multiple tracks. And certainly not by a time-range.</p>
 <p>This was annoying for me, so to address this, I wrote the two functions <a href="US_Api_Functions.html#GetMediaItemsAtPosition">GetMediaItemsAtPosition</a> and <a href="US_Api_Functions.html#GetAllMediaItemsBetween">GetAllMediaItemsBetween</a> (my favorite ones in this api, I have to admit ;) ).</p>
@@ -699,7 +704,7 @@ For this, I wrote the function</p>
                      ultraschall.GetAllMediaItemsBetween(number startposition, number endposition, string trackstring, boolean inside) </code></pre>
 <blockquote>
 <p>which basically returns the same things, as GetMediaItemsAtPosition. The difference lies in the parameters.<br />
-You can pass to the function a startposition and an endposition(which must be bigger than or equal startposition), <a href="#Datatypes_trackstring">trackstrings</a>, which is a string with all tracks, separated by commas as well as inside as parameters. When you set inside to true, it will return only items that are completely within startposition and endposition. When setting inside to false, it will also return items, that are partially within start- and endposition, like items beginning before startposition or ending after endposition.</p>
+You can pass to the function a startposition and an endposition(which must be bigger than or equal startposition), <a href="#Datatypes_002_trackstring">trackstrings</a>, which is a string with all tracks, separated by commas as well as inside as parameters. When you set inside to true, it will return only items that are completely within startposition and endposition. When setting inside to false, it will also return items, that are partially within start- and endposition, like items beginning before startposition or ending after endposition.</p>
 </blockquote>
 <p>With these two functions, getting items is much, much easier than before.</p>
 <p>The returned MediaItems, MediaItemArrays and MediaItemStateChunkArrays can then be passed over to other functions, who accept them, for &quot;mass manipulation&quot; of the MediaItems.</p>
@@ -714,8 +719,8 @@ You can pass to the function a startposition and an endposition(which must be bi
 <li><a href="US_Api_Functions.html#GetSelectedMediaItemsBetween">GetSelectedMediaItemsBetween</a> - gets all selected MediaITems in given tracks between start- and endposition</li>
 </ul>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Splitting"></a>
-<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_Splitting">^</a> <u>MediaItems: Splitting MediaItems by Time and Tracks</u></h4></div><p><p>Getting MediaItems by time and tracks is cool. Editing them by time and tracks is even better. For that, I also added some functions:<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_003_Splitting"></a>
+<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_003_Splitting">^</a> <u>MediaItems: Splitting MediaItems by Time and Tracks</u></h4></div><p><p>Getting MediaItems by time and tracks is cool. Editing them by time and tracks is even better. For that, I also added some functions:<br />
 The easiest ones are <a href="US_Api_Functions.html#SplitMediaItems_Position">SplitMediaItems_Position</a> and <a href="US_Api_Functions.html#SplitItemsAtPositionFromArray">SplitItemsAtPositionFromArray</a><br />
 Let's have a look at:</p>
 <p><strong><a href="US_Api_Functions.html#SplitMediaItems_Position">SplitMediaItems_Position</a></strong>:</p>
@@ -744,8 +749,8 @@ This function will split only items, that have the position in them somewhere. T
 <p>This function returns, if splitting was successful and the newly &quot;created&quot;-right-hand-split-items as an MediaItemAray. Only the right-hand-split-MediaItem of MediaItems, that could be split, will be returned. If a MediaItem could not be split(position outside MediaItemstart and MediaItemEnd), there will be no returned MediaItem for it then.</p>
 </blockquote>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Deleting"></a>
-<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_Deleting">^</a> <u>MediaItems: Deleting MediaItems by Time and Tracks</u></h4></div><p><p>Deleting of MediaItems is often a useful thing. Unfortunately, this is inconvenient to do within the Reaper-API. The only such function is DeleteTrackMediaItem, but it requires you to give the function the track in which the MediaItem lies too. But often, you want to have a function that simply deletes a MediaItem-object or deletes items at position from numerous tracks, etc.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_004_Deleting"></a>
+<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_004_Deleting">^</a> <u>MediaItems: Deleting MediaItems by Time and Tracks</u></h4></div><p><p>Deleting of MediaItems is often a useful thing. Unfortunately, this is inconvenient to do within the Reaper-API. The only such function is DeleteTrackMediaItem, but it requires you to give the function the track in which the MediaItem lies too. But often, you want to have a function that simply deletes a MediaItem-object or deletes items at position from numerous tracks, etc.<br />
 So I added some functions, that make life easier: <a href="US_Api_Functions.html#DeleteMediaItem">DeleteMediaItem</a>, <a href="US_Api_Functions.html#DeleteMediaItemsFromArray">DeleteMediaItemsFromArray</a>, <a href="US_Api_Functions.html#DeleteMediaItems_Position">DeleteMediaItems_Position</a> and <a href="US_Api_Functions.html#DeleteMediaItemsBetween">DeleteMediaItemsBetween</a></p>
 <p>In addition to deleting the MediaItems, all these functions return the statechunks of the deleted MediaItems. These statechunks contain an additional field</p>
 <pre><code>            &quot;ULTRASCHALL_TRACKNUMBER&quot;</code></pre>
@@ -779,8 +784,8 @@ Let's assume, you want to delete all MediaItems between position 33 and 98, with
 <pre><code>            retval, MediaItemStateChunkArray  = ultraschall.DeleteMediaItems_Between(33, 98, &quot;3,5,10,14&quot;, true)</code></pre>
 <p>With all these functions, deleting MediaItems is now comfortable to do.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Section_And_Ripple_Cut"></a>
-<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_Section_And_Ripple_Cut">^</a> <u>MediaItems: SectionCut, RippleCut, RippleInsert</u></h4></div><p><p>One of Reaper's real great features is Ripple-Edit. On of the big shortcomings, it only allows Ripple Cut all tracks, Ripple Cut one track, no Ripple Cut.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_005_Section_And_Ripple_Cut"></a>
+<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_005_Section_And_Ripple_Cut">^</a> <u>MediaItems: SectionCut, RippleCut, RippleInsert</u></h4></div><p><p>One of Reaper's real great features is Ripple-Edit. On of the big shortcomings, it only allows Ripple Cut all tracks, Ripple Cut one track, no Ripple Cut.<br />
 But what if you want to RippleCut two or more tracks, but not all of them? What, if you want to RippleCut only selected tracks? What if you just want to cut a section without rippling?<br />
 Impossible you say!<br />
 With naked Reaper, yes. But possible with the Ultraschall-API.</p>
@@ -843,8 +848,8 @@ In addition to that, the function returns a MediaItemStateChunkArray for both, t
 </blockquote>
 <p>This should give you many additional use-cases into your hands.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Moving_Manipulating"></a>
-<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_Moving_Manipulating">^</a> <u>MediaItems: Moving and Manipulating</u></h4></div><p><p>Getting, splitting, editing and deleting MediaItems isn't enough. In fact, you also want to manipulate them. And you also want to be able to manipulate many of them at once.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_006_Moving_Manipulating"></a>
+<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_006_Moving_Manipulating">^</a> <u>MediaItems: Moving and Manipulating</u></h4></div><p><p>Getting, splitting, editing and deleting MediaItems isn't enough. In fact, you also want to manipulate them. And you also want to be able to manipulate many of them at once.<br />
 Hence, I added lots of functions to manipulate MediaItems, like:</p>
 <ul>
 <li>Moving: <a href="US_Api_Functions.html#MoveMediaItemsAfter_By">MoveMediaItemsAfter_By</a>, <a href="US_Api_Functions.html#MoveMediaItemsBefore_By">MoveMediaItemsBefore_By</a>, <a href="US_Api_Functions.html#MoveMediaItemsBetween_To">MoveMediaItemsBetween_To</a>, <a href="US_Api_Functions.html#MoveMediaItems_FromArray">MoveMediaItems_FromArray</a><br />
@@ -857,20 +862,32 @@ Hence, I added lots of functions to manipulate MediaItems, like:</p>
 <blockquote>
 <p>Let's have a look at the moving-MediaItems-functions.</p>
 </blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#MoveMediaItemsAfter_By">MoveMediaItemsAfter_By</a></strong></p>
+</blockquote>
 <pre><code>            boolean retval = ultraschall.MoveMediaItemsAfter_By(number old_position, number change_position_by, string trackstring)</code></pre>
 <blockquote>
 <p>This function moves all MediaItems from old_position and later by a number of seconds, as given by the parameter change_position_by.<br />
 If change_position_by is negative, the MediaItems will be move towards the beginning of the project; a positive value will move the MediaItems toward the end.<br />
 The parameter trackstring tells the function, in which tracks the MediaItems shall be moved.</p>
 </blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#MoveMediaItemsBefore_By">MoveMediaItemsBefore_By</a></strong></p>
+</blockquote>
 <pre><code>            boolean retval = ultraschall.MoveMediaItemsBefore_By(number old_position, number change_position_by, string trackstring)</code></pre>
 <blockquote>
 <p>This basically works like the MoveMediaItemsAfter_By above, with the difference, that it moves the MediaItems BEFORE old_position.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#MoveMediaItemsBetween_To">MoveMediaItemsBetween_To</a></strong></p>
 </blockquote>
 <pre><code>            boolean retval = ultraschall.MoveMediaItemsBetween_To(number startposition, number endposition, number newposition, string trackstring, boolean inside)</code></pre>
 <blockquote>
 <p>This also moves MediaItems, but the MediaItems between startposition and endposition. Unlike the functions above, you give the new position in seconds, at which the MediaItems shall start. The relative-positions of the MediaItems will stay intact.<br />
 The parameter inside allows you to tell the function, whether to include only MediaItems completely within start and endposition(true) or also MediaItems that are partially within start and endposition(false).</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#MoveMediaItems_FromArray">MoveMediaItems_FromArray</a></strong></p>
 </blockquote>
 <pre><code>            integer retval, number earliest_itemtime, number latest_itemtime = ultraschall.MoveMediaItems_FromArray(array MediaItemArray, number newposition)</code></pre>
 <blockquote>
@@ -879,6 +896,9 @@ The parameter inside allows you to tell the function, whether to include only Me
 <p><strong>Length</strong></p>
 <blockquote>
 <p>You can change the length of the MediaItems with functioncalls of Reaper's own API already. I added functions, that allow you to change the length of multiple MediaItems at once, using MediaItemArray. And not just the length to a given length, but also a deltalength. Let's have a look.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ChangeLengthOfMediaItems_FromArray">ChangeLengthOfMediaItems_FromArray</a></strong></p>
 </blockquote>
 <pre><code>            boolean retval = ultraschall.ChangeLengthOfMediaItems_FromArray(array MediaItemArray, number newlength)</code></pre>
 <blockquote>
@@ -893,6 +913,9 @@ Example:</p>
             retval = ultraschall.ChangeLengthOfMediaItems_FromArray(MediaItemArray, 3)</code></pre>
 <blockquote>
 <p>This examplecode will change the length of all MediaItems in MediaItemArray to a length of 3 seconds.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ChangeDeltaLengthOfMediaItems_FromArray">ChangeDeltaLengthOfMediaItems_FromArray</a></strong></p>
 </blockquote>
 <pre><code>            boolean retval = ultraschall.ChangeDeltaLengthOfMediaItems_FromArray(array MediaItemArray, number deltalength)</code></pre>
 <blockquote>
@@ -912,6 +935,9 @@ Example:</p>
 <blockquote>
 <p>Just like the length of MediaItems, you can change the offset as well with functioncalls of Reaper's own API. I added functions, that allow you to change the length of multiple MediaItems at once, using MediaItemArray. And not just the length to a given length, but also a deltalength. Let's have a look.</p>
 </blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ChangeOffsetOfMediaItems_FromArray">ChangeOffsetOfMediaItems_FromArray</a></strong></p>
+</blockquote>
 <pre><code>            boolean retval = ultraschall.ChangeOffsetOfMediaItems_FromArray(array MediaItemArray, number newoffset)</code></pre>
 <blockquote>
 <p>This changes the offset of all MediaItems in the MediaItemArray to newoffset in seconds.<br />
@@ -925,6 +951,9 @@ Example:</p>
             retval = ultraschall.ChangeOffsetOfMediaItems_FromArray(MediaItemArray, 3)</code></pre>
 <blockquote>
 <p>This examplecode will change the offset of all MediaItems in MediaItemArray to a the new offset of 3 seconds.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ChangeDeltaOffsetOfMediaItems_FromArray">ChangeDeltaOffsetOfMediaItems_FromArray</a></strong></p>
 </blockquote>
 <pre><code>            boolean retval = ultraschall.ChangeDeltaOffsetOfMediaItems_FromArray(array MediaItemArray, number deltaoffset)</code></pre>
 <blockquote>
@@ -955,52 +984,96 @@ Example:</p>
 <li><a href="US_Api_Functions.html#DeselectMediaItems_MediaItemArray">DeselectMediaItems_MediaItemArray</a> - sets MediaItems in MediaItemArray deselected</li>
 </ul>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Inserting"></a>
-<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_Inserting">^</a> <u>MediaItems: Inserting Items and Files</u></h4></div><p><p>Last, but not least, it would be nice to be able to insert MediaItems as well. And not just inserting them from a project, but also from files.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_007_Inserting"></a>
+<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_007_Inserting">^</a> <u>MediaItems: Inserting Items and Files</u></h4></div><p><p>Last, but not least, it would be nice to be able to insert MediaItems as well. And not just inserting them from a project, but also from files.<br />
 For that, I made: <a href="US_Api_Functions.html#InsertMediaItem_MediaItem">InsertMediaItem_MediaItem</a>, <a href="US_Api_Functions.html#InsertMediaItem_MediaItemStateChunk">InsertMediaItem_MediaItemStateChunk</a>, <a href="US_Api_Functions.html#InsertMediaItemArray">InsertMediaItemArray</a>, <a href="US_Api_Functions.html#InsertMediaItemStateChunkArray">InsertMediaItemStateChunkArray</a>, <a href="US_Api_Functions.html#InsertMediaItemFromFile">InsertMediaItemFromFile</a>, <a href="US_Api_Functions.html#InsertImageFile">InsertImageFile</a></p>
 <p>Lets have a look at inserting MediaItems.</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#InsertMediaItem_MediaItem">InsertMediaItem_MediaItem</a></strong></p>
+</blockquote>
 <pre><code>            integer retval, MediaItem MediaItem, number startposition, number endposition, number length 
                         = ultraschall.InsertMediaItem_MediaItem(number position, MediaItem MediaItem, MediaTrack MediaTrack)</code></pre>
+<blockquote>
 <p>With this function, you can make a copy of an already existing MediaItem and insert at position into a certain track. It allows using MediaItems and MediaTracks of other projects than the current one, as well.<br />
 Just give the position, at which to insert the MediaItem, the MediaItem to be included and the MediaTrack into which to include the MediaItem.<br />
 It will return the newly created MediaItem, it's startposition, endposition and the length.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#InsertMediaItem_MediaItemStateChunk">InsertMediaItem_MediaItemStateChunk</a></strong></p>
+</blockquote>
 <pre><code>            integer retval, MediaItem MediaItem 
                         = ultraschall.InsertMediaItem_MediaItemStateChunk(number position, string MediaItemStateChunk, MediaTrack MediaTrack)</code></pre>
+<blockquote>
 <p>This is like InsertMediaItem_MediaItem, but uses a MediaItemStateChunk instead. The rest is just the same, including the possibility to insert the new MediaItem into a MediaTrack in another project than the current one.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#InsertMediaItemArray">InsertMediaItemArray</a></strong></p>
+</blockquote>
 <pre><code>            integer number_of_items, array MediaItemArray = ultraschall.InsertMediaItemArray(number position, array MediaItemArray, string trackstring)
             </code></pre>
+<blockquote>
 <p>This allows you to insert multiple items at once, that are stored in a MediaItemArray at position. With trackstring you can set, into which tracks to insert the MediaItems.<br />
 There's a limitation, however: MediaItems will only be inserted into the tracks from where they originated from. That means, if you have MediaItems located in tracks 1-5 and you set trackstring to &quot;1,2&quot;, only the MediaItems originating in tracks 1 and 2 will be inserted.<br />
 I'm still looking into a better way to provide the track, in which to insert the MediaItems into other MediaTracks as well.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#InsertMediaItemStateChunkArray">InsertMediaItemStateChunkArray</a></strong></p>
+</blockquote>
 <pre><code>            integer number_of_items, array MediaItemArray 
                             = ultraschall.InsertMediaItemStateChunkArray(number position, array MediaItemStateChunkArray, string trackstring)</code></pre>
+<blockquote>
 <p>This works like InsertMediaItemArray, but it's inserting MediaItemStateChunks from the MediaItemStateChunkArray instead.<br />
-In addition to that, it also lifts the track-limitation, when you insert the tracknumber into each MediaItemStateChunk using <a href="US_Api_Functions.html#SetItemUSTRackNumber_StateChunk">SetItemUSTRackNumber_StateChunk</a>, which is automatically done by <a href="#Getting_Manipulating_Items_GetMediaItems">GetItem-functions</a> from the Ultraschall-API.<br />
+In addition to that, it also lifts the track-limitation, when you insert the tracknumber into each MediaItemStateChunk using <a href="US_Api_Functions.html#SetItemUSTRackNumber_StateChunk">SetItemUSTRackNumber_StateChunk</a>, which is automatically done by <a href="#Getting_Manipulating_Items_002_GetMediaItems">GetItem-functions</a> from the Ultraschall-API.<br />
 The addition of the tracknumber is mandatory, otherwise the MediaItemStateChunk will not be inserted!</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#InsertMediaItemFromFile">InsertMediaItemFromFile</a></strong></p>
+</blockquote>
 <pre><code>            integer retval, MediaItem item, number endposition, integer numchannels, integer Samplerate, string Filetype
                = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, integer editcursorpos, optional number offset)
                </code></pre>
+<blockquote>
 <p>This function allows you to insert a file as a new MediaItem into your project, including the tracknumber, position, endposition(if wanted), the editcursorposition and the offset, if wanted.<br />
 Example:</p>
+</blockquote>
 <pre><code>            retval, item, endposition, numchannels, Samplerate, Filetype = ultraschall.InsertMediaItemFromFile(&quot;C:\\file.wav&quot;, 1, 20, -1, 2, 0)</code></pre>
+<blockquote>
 <p>This example inserts the file file.wav into track 1, at position 20, with the length set to the length of the audio-file, the editcursorposition being put at the end of the new MediaItem and no offset-changes.</p>
+</blockquote>
+<blockquote>
 <p>With that, you can easily insert files into your project.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#InsertImageFile">InsertImageFile</a></strong></p>
+</blockquote>
 <pre><code>            boolean retval, MediaItem item = ultraschall.InsertImageFile(string filename_with_path, integer track, number position, number length, boolean looped)</code></pre>
+<blockquote>
 <p>This is a special function, focusing on inserting image-files into the project. You can set the track, position, length of the image-MediaItem and, if it shall be looped.<br />
 If you don't loop it(looped=false), the MediaItem will have the length anyway, but the image will be shown only for 1 second in the VideoProcessor-window.</p>
+</blockquote>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Spectral_Edit"></a>
-<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_Spectral_Edit">^</a> <u>MediaItems: Programming Spectral Edit</u></h4></div><p><p>With Reaper v5.50c, the devs introduced a new feature, called, spectral editing, which is a cool feature to influence frequencies in a spectral view of a MediaItem.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_008_Spectral_Edit"></a>
+<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_008_Spectral_Edit">^</a> <u>MediaItems: Programming Spectral Edit</u></h4></div><p><p>With Reaper v5.50c, the devs introduced a new feature, called, spectral editing, which is a cool feature to influence frequencies in a spectral view of a MediaItem.<br />
 But they didn't include some functions to program this feature. So I added them myself.</p>
 <p>The functions for using, manipulating, adding, deleting spectral-edits are: <a href="US_Api_Functions.html#AddItemSpectralEdit">AddItemSpectralEdit</a>, <a href="US_Api_Functions.html#CountItemSpectralEdits">CountItemSpectralEdits</a>, <a href="US_Api_Functions.html#DeleteItemSpectralEdit">DeleteItemSpectralEdit</a>, <a href="US_Api_Functions.html#GetItemSpectralConfig">GetItemSpectralConfig</a>, <a href="US_Api_Functions.html#GetItemSpectralEdit">GetItemSpectralEdit</a>, <a href="US_Api_Functions.html#GetItemSpectralVisibilityState">GetItemSpectralVisibilityState</a>, <a href="US_Api_Functions.html#SetItemSpectralConfig">SetItemSpectralConfig</a>, <a href="US_Api_Functions.html#SetItemSpectralEdit">SetItemSpectralEdit</a>, <a href="US_Api_Functions.html#SetItemSpectralVisibilityState">SetItemSpectralVisibilityState</a></p>
 <p>Let's go into this in more detail.</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#SetItemSpectralVisibilityState">SetItemSpectralVisibilityState</a></strong></p>
+</blockquote>
+<blockquote>
 <p>To use the SpectralEdit-mode, you need to first enable visibility of it in a MediaItem. You can do this later too, but you will not see any of your changes, until you enable visibility first.</p>
+</blockquote>
 <pre><code>             string MediaItemStateChunk = ultraschall.SetItemSpectralVisibilityState(integer itemidx, integer state, optional string MediaItemStateChunk)
              </code></pre>
+<blockquote>
 <p>This function enables visibility of Spectral-Edit of item itemidx. The parameter state must be set to 1 to set to visible, or set to 0 to turn visibility off.<br />
 The function returns the altered MediaItemStateChunk in any way.<br />
 If you set itemidx to -1, you can use the optional parameter MediaItemStateChunk instead. This will add the corresponding entry for the visibility into the MediaItemStateChunk and returns the modified one.</p>
+</blockquote>
 <p>Now that we have toggled the visibility of SpectralEdit, we might want to add SpectralEdit-instances to the MediaItem. For that we use:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#AddItemSpectralEdit">AddItemSpectralEdit</a></strong></p>
+</blockquote>
 <pre><code>             boolean retval, MediaItemStateChunk statechunk 
                          = ultraschall.AddItemSpectralEdit(integer itemidx, number start_pos, number end_pos, number gain, number fade, 
                                                            number freq_fade, number freq_range_bottom, number freq_range_top, integer h, 
@@ -1008,12 +1081,19 @@ If you set itemidx to -1, you can use the optional parameter MediaItemStateChunk
                                                            number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, 
                                                            string MediaItemStateChunk)
                                                            </code></pre>
+<blockquote>
 <p>This will add a SpectralEdit-instance into your MediaItem. You can add as many individual instances, as you want.</p>
+</blockquote>
+<blockquote>
 <p>As you can see, you can influence a hell lot of parameters for such a SpectralEdit-instance, so I will not explain them in detail here. I suggest you to read the accompanying doc-entry for <a href="US_Api_Functions.html#AddItemSpectralEdit">AddItemSpectralEdit</a>, which explains the parameters in more detail.<br />
 Just some bits: Every Spectral-Edit-instance will be shown as a square/rectangle on top of the MediaItem. You can influence this rectangle's position and length, the frequency-ranges covered, the fades as well as all settings of all knobs appearing in it.<br />
 And as the cherry on the top: you can also bypass and solo it.<br />
 And, as the SetItemSpectralVisibilityState-function above, if you set itemidx to -1, you can add the Spectral-Edit-instance to a MediaItemStateChunk instead.</p>
+</blockquote>
 <p>But what if you want to modify an already existing SpectralEdit-instance? Good question and I have a good answer to that:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#SetItemSpectralEdit">SetItemSpectralEdit</a></strong></p>
+</blockquote>
 <pre><code>             string MediaItemStateChunk 
                          = ultraschall.SetItemSpectralEdit(integer itemix, integer spectralidx, number start_pos, number end_pos, number gain, 
                                                            number fade, number freq_fade, number freq_range_bottom, number freq_range_top, 
@@ -1021,24 +1101,36 @@ And, as the SetItemSpectralVisibilityState-function above, if you set itemidx to
                                                            number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, 
                                                            string MediaItemStateChunk)
                                                            </code></pre>
+<blockquote>
 <p>This sets an already existing SpectralEdit-instance, and it probably reminds you very much of the AddItemSpectralEdit-function.<br />
 However, there is a small difference in it, the second parameter spectralidx, which tells the function, which spectral-edit-instance you want to change, with 1 for the first.<br />
 The rest is like AddItemSpectralEdit.</p>
+</blockquote>
 <p>To delete such an instance, you can use the function:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#DeleteItemSpectralEdit">DeleteItemSpectralEdit</a></strong></p>
+</blockquote>
 <pre><code>             boolean retval, string MediaItemStateChunk = ultraschall.DeleteItemSpectralEdit(integer itemidx, integer spectralidx, string MediaItemStateChunk)
              </code></pre>
+<blockquote>
 <p>With that, you can easily delete a SpectralEdit-instance, by giving the item's idx(itemidx) and the number of the SpectralEdit-instance(spectralidx).<br />
 And, as most of the functions before: when setting itemidx to -1, you can use the optional parameter MediaItemStateChunk</p>
+</blockquote>
 <p>To successfully set an already existing instance, you probably want to know, what current settings are in a SpectralEdit-instance.<br />
 For that, there is:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#GetItemSpectralEdit">GetItemSpectralEdit</a></strong></p>
+</blockquote>
 <pre><code>             number start_pos, number end_pos, number gain, number fade, number freq_fade, 
              number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, 
              number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, 
              number n, number o, number fade2, number freq_fade2 
                          = ultraschall.GetItemSpectralEdit(integer itemidx, integer spectralidx, string MediaItemStateChunk)
                          </code></pre>
+<blockquote>
 <p>This returns all settings you can set with AddItemSpectralEdit and SetItemSpectralEdit, by giving the item's idx within the project(itemidx) and the SpectralEdit-instance(spectralidx).<br />
 And you know the drill: when setting itemidx to -1, you can pass a MediaItemStateChunk to the function.</p>
+</blockquote>
 <p>Some other functions for SpectralEdit-management are:</p>
 <ul>
 <li><a href="US_Api_Functions.html#GetItemSpectralVisibilityState">GetItemSpectralVisibilityState</a> - to get, if SpectralEdit is visible for this MediaItem<br />
@@ -1050,49 +1142,189 @@ And you know the drill: when setting itemidx to -1, you can pass a MediaItemStat
 <li><a href="US_Api_Functions.html#CountItemSpectralEdits">CountItemSpectralEdits</a> - to count the number of currently existing SpectralEdit-instances in a MediaItem</li>
 </ul>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_Miscellaneous"></a>
-<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_Miscellaneous">^</a> <u>MediaItems: Miscellaneous</u></h4></div><p><p>Still not enough? Well, I've added numerous other functions, and I want to introduce you to some of the gems included.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Getting_Manipulating_Items_009_Miscellaneous"></a>
+<div style="font-size:100%"><h4><a href="#Getting_Manipulating_Items_009_Miscellaneous">^</a> <u>MediaItems: Miscellaneous</u></h4></div><p><p>Still not enough? Well, I've added numerous other functions, and I want to introduce you to some of the gems included.<br />
 Feel free to browse through the <a href="US_Api_Functions.html">Functions-Reference</a> to find more.</p>
 <p>What about, previewing MediaItems and files? Use this:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#PreviewMediaItem">PreviewMediaItem</a></strong></p>
+</blockquote>
 <pre><code>            boolean retval = ultraschall.PreviewMediaItem(MediaItem MediaItem, integer Previewtype)
             </code></pre>
+<blockquote>
 <p>This previews an existing MediaItem, which means: Reaper will play it, regardless of what you hear in your project currently.<br />
 You can also set, where you want to have it previewed, through the MediaExplorer, the MediaItem itself, through the volume-settings of the track, in which it lies and through the track, in which it lies(including FX and such).<br />
 You can just play one MediaItem at a time, unless you play one through the MediaExplorer and one through another previewing-type.</p>
+</blockquote>
 <p>If you want to preview a file not in the current project, you can use:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#PreviewMediaFile">PreviewMediaFile</a></strong></p>
+</blockquote>
 <pre><code>            boolean retval = ultraschall.PreviewMediaFile(string filename_with_path)
             </code></pre>
+<blockquote>
 <p>which will simply play the file you gave using filename_with_path.</p>
+</blockquote>
 <p>To stop any preview, just use</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#StopAnyPreview">StopAnyPreview</a></strong></p>
+</blockquote>
 <pre><code>            ultraschall.StopAnyPreview()
             </code></pre>
+<blockquote>
+<p>which stops any previewing, be it from a MediaItem or an external mediafile.</p>
+</blockquote>
 <p>What about applying Actions to MediaItems? Use this:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ApplyActionToMediaItem">ApplyActionToMediaItem</a></strong></p>
+</blockquote>
 <pre><code>            boolean retval = ultraschall.ApplyActionToMediaItem(MediaItem MediaItem, string actioncommandid, 
                                                                 integer repeat_action, boolean midi, optional HWND MIDI_hwnd)
                                                                 </code></pre>
+<blockquote>
 <p>which allows applying main and midi-editor-actions to MediaItem. Just pass the command_id/action_command_id to the parameter.<br />
 With parameter repeat_action, you can set, how often the action shall be applied to the MediaItem.<br />
 To apply MIDI-Editor, actions, set midi=true and pass over a HWND of the used MIDI-Editor, using Reaper's own API function <a href="Reaper_Api_Documentation.html#MIDIEditor_GetActive">MIDIEditor_GetActive</a>.</p>
+</blockquote>
 <p>To apply action to multiple MediaItems, use:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ApplyActionToMediaItemArray">ApplyActionToMediaItemArray</a></strong></p>
+</blockquote>
 <pre><code>            boolean retval = ultraschall.ApplyActionToMediaItemArray(MediaItemArray MediaItemArray, string actioncommandid, 
                                                                      integer repeat_action, boolean midi, optional HWND MIDI_hwnd)
             </code></pre>
-<p>which works just the same as ApplyActionToMediaItem, but uses a <a href="#Datatypes_MediaItemArray">MediaItemArray</a> that includes the MediaItems to be affected.<br />
-In addition to actions, you can also apply functions to MediaItems:</p>
+<blockquote>
+<p>which works just the same as ApplyActionToMediaItem, but uses a <a href="#Datatypes_003_MediaItemArray">MediaItemArray</a> that includes the MediaItems to be affected.</p>
+</blockquote>
+<p>In addition to actions, you can also apply functions to MediaItems:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ApplyFunctionToMediaItemArray">ApplyFunctionToMediaItemArray</a></strong></p>
+</blockquote>
 <pre><code>            table returnvalues 
                     = ultraschall.ApplyFunctionToMediaItemArray(MediaItemArray MediaItemArray, function functionname, 
                                                                         functionparameters1, ..., functionparametersn)</code></pre>
+<blockquote>
 <p>You just pass to it the MediaItemArray, the functionname, the parameters for the function functionname.<br />
 Keep in mind: if a parameter of functionname shall hold the MediaItem, you need to set the accompanying parameter to nil, ApplyFunctionToMediaItemArray will automatically insert the appropriate MediaItem at this nil parameter.</p>
+</blockquote>
 <p>What else? What about Normalizing MediaItems? Use this:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#NormalizeItems">NormalizeItems</a></strong></p>
+</blockquote>
 <pre><code>            integer retval = ultraschall.NormalizeItems(array MediaItemArray)
             </code></pre>
+<blockquote>
 <p>Just pass to it a MediaItemArray, that holds all MediaItems to be normalized.</p>
+</blockquote>
 <p>And last, but not least: What about applying MediaItemStateChunks to MediaItems? Use this:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ApplyStateChunkToItems">ApplyStateChunkToItems</a></strong></p>
+</blockquote>
 <pre><code>            boolean retval, integer skippeditemscount, array skipped_MediaItemStateChunkArray 
                     = ultraschall.ApplyStateChunkToItems(array MediaItemStateChunkArray, boolean undostate)
                     </code></pre>
+<blockquote>
 <p>This applies the MediaItemStateChunks in MediaItemStateChunkArray to the appropriate MediaItems. That means, if a StateChunk is of a certain, existing MediaItem, the function will apply the StateChunk to the MediaItem.<br />
-This function is especially helpful, when mass manipulating StateChunks and wanting to mass-apply the changed ones back. Easy to do now.</p>
+This function is especially helpful, when mass manipulating StateChunks and wanting to mass-apply the changed ones back.<br />
+Easy to do now.</p>
+</blockquote>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 36 chapters available</td></table><br><hr></div></body></html>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="1FileManagement_001_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#1FileManagement_001_Introduction">^</a> <u>File Management: Introduction</u></h4></div><p><p>Even if file-management isn't that hard to program in Lua, it is quite inconvenient. Especially for &quot;normal&quot; use-cases, it is often a drag to always go through the four steps, checking if file exists, open file, read/write, close file.<br />
+Wouldn't it be cool, to have functions to do it for you?</p>
+<p>Well now, there are, as the Ultraschall-API includes 28 functions to do it for you.<br />
+These functions include functions for reading and writing, copying them.<br />
+You can also check for valid filetypes, for valid directories, can count files and directories in paths, get paths and files in a path, and get length or number of lines in a file.</p>
+<p>With that, you can do a lot of file-operation quite easy, without having to dig through the little details of the Lua-Reference-Manual.</p>
+<p>Let's start with reading files.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="FileManagement_002_Read"></a>
+<div style="font-size:100%"><h4><a href="#FileManagement_002_Read">^</a> <u>File Management: Read</u></h4></div><p><p>To read files, I included some nice functions, like: <a href="US_Api_Functions.html#ReadFullFile">ReadFullFile</a>, <a href="US_Api_Functions.html#ReadBinaryFile">ReadBinaryFile</a>, <a href="US_Api_Functions.html#ReadBinaryFileFromPattern">ReadBinaryFileFromPattern</a>, <a href="US_Api_Functions.html#ReadBinaryFileUntilPattern">ReadBinaryFileUntilPattern</a>,<br />
+<a href="US_Api_Functions.html#ReadFileAsLines_Array">ReadFileAsLines_Array</a>, <a href="US_Api_Functions.html#ReadLinerangeFromFile">ReadLinerangeFromFile</a>, <a href="US_Api_Functions.html#ReadValueFromFile">ReadValueFromFile</a>, <a href="US_Api_Functions.html#ReadBinaryFile_Offset">ReadBinaryFile_Offset</a></p>
+<p>Let's start with the function probably used the most:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ReadFullFile">ReadFullFile</a></strong></p>
+</blockquote>
+<pre><code>            string contents, integer length_of_file, integer number_of_lines = ultraschall.ReadFullFile(string filename_with_path, boolean binary)</code></pre>
+<blockquote>
+<p>This reads a file fully and returns it's contents to the return-variable contents. It will also return the length of the file.<br />
+If you set the parameter binary to true, it will read the files as binary files; if set to false or nil, it will read the file either until the end or until a eof-character comes up.<br />
+If you're dealing with textfiles, set it to false or nil, otherwise to true.</p>
+</blockquote>
+<p>If you want to return all lines from a textfile, that have a certain character-pattern in them, use this function:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ReadValueFromFile">ReadValueFromFile</a></strong></p>
+</blockquote>
+<pre><code>            string contents, string linenumbers, integer numberoflines, integer number_of_foundlines = 
+                                                ultraschall.ReadValueFromFile(string filename_with_path, string value)
+            </code></pre>
+<blockquote>
+<p>This reads a file as textfile and returns it. When you give parameter value a string, it will return all lines from the file, that contain this string.<br />
+The returned values are contents, the linenumbers returned as a comma-separated-csv, the total number of lines in the file and the number of lines found and returned<br />
+This should help you to read only the lines useful for you, however, it is much slower than ReadFullFile() due the massive pattern-matching used in it.<br />
+So, even if you can read the full file with that, better use ReadFullFile when you want the full file returned.</p>
+</blockquote>
+<p>If you want to return everything from a pattern to the end of a file, use:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ReadBinaryFileFromPattern">ReadBinaryFileFromPattern</a></strong></p>
+</blockquote>
+<pre><code>            integer length, string content = ultraschall.ReadBinaryFileFromPattern(string input_filename_with_path, string pattern)</code></pre>
+<blockquote>
+<p>with this function, you can read a file from a pattern onwards. That means, the function searches for the first(!) instance of pattern and returns the file from that pattern until the end of the file.</p>
+</blockquote>
+<p>Similar to this is:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ReadBinaryFileUntilPattern">ReadBinaryFileUntilPattern</a></strong></p>
+</blockquote>
+<pre><code>            integer length, string content = ultraschall.ReadBinaryFileUntilPattern(string input_filename_with_path, string pattern)</code></pre>
+<blockquote>
+<p>which reads a file until(!) a certain pattern is found in it and returns this. That means, it returns the file from it's start until the pattern.</p>
+</blockquote>
+<p>But what if you want to read a file from a start-offset to an endoffset? Use this:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ReadBinaryFile_Offset">ReadBinaryFile_Offset</a></strong></p>
+</blockquote>
+<pre><code>            integer length, string content = 
+                    ultraschall.ReadBinaryFile_Offset(string input_filename_with_path, integer startoffset, integer numberofbytes)</code></pre>
+<blockquote>
+<p>This function returns the contents of the file from startoffset(in Bytes) until startoffset+numberofbytes.<br />
+If you set number of bytes to -1, the function will return the file from startoffset to it's end.<br />
+Positive value in startoffset will be related to the beginning of the file. If you want to return the file from a startoffset related to the end of the file,<br />
+use negative value for startoffset.<br />
+A startoffset of -1 is for the end of the file, -2 for the last byte in the file, -3 for the second to last byte in the file, etc.<br />
+Even with negative startoffset, parameter numberofbytes will count from the startoffset to startoffset+numberofbytes.<br />
+If the startoffset+numberofbytes reach or cross the end of the file, it will return a shorter string.<br />
+To check, whether it returned the requested length, check the returnvalue length.<br />
+Returnvalue content holds the requested part of the file</p>
+</blockquote>
+<p>When you have a textfile and you want to work with it on an individual line-basis, use:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ReadFileAsLines_Array">ReadFileAsLines_Array</a></strong></p>
+</blockquote>
+<pre><code>            array contents, boolean correctnumberoflines, integer number_of_lines = 
+                    ultraschall.ReadFileAsLines_Array(string filename_with_path, integer firstlinenumber, integer lastlinenumber)</code></pre>
+<blockquote>
+<p>This returns a textfile, split into it's individual lines put into an array. You can also set the linenumbers, that you want to have returned.<br />
+If the linenumbers returned are fewer than you requested, correctnumberoflines will be false, otherwise it will be true.</p>
+</blockquote>
+<p>If you want to have the lines returned in one string, use the following instead:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ReadLinerangeFromFile">ReadLinerangeFromFile</a></strong></p>
+</blockquote>
+<pre><code>            string contents, boolean correctnumberoflines, integer number_of_lines = 
+                     ultraschall.ReadLinerangeFromFile(string filename_with_path, integer firstlinenumber, integer lastlinenumber)</code></pre>
+<blockquote>
+<p>This works basically the same as ReadFileAsLines_Array, but returns the found-lines as a newline-separated string.</p>
+</blockquote>
+<p>These functions should fulfill most of your daily file-read-usecases.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="FileManagement_003_Write"></a>
+<div style="font-size:100%"><h4><a href="#FileManagement_003_Write">^</a> <u>File Management: Write</u></h4></div><p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="FileManagement_004_Analyse"></a>
+<div style="font-size:100%"><h4><a href="#FileManagement_004_Analyse">^</a> <u>File Management: Analyse</u></h4></div><p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="FileManagement_005_Misc"></a>
+<div style="font-size:100%"><h4><a href="#FileManagement_005_Misc">^</a> <u>File Management: Misc</u></h4></div><p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 41 chapters available</td></table><br><hr></div></body></html>

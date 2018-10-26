@@ -316,7 +316,13 @@ Ultraschall API Changelog
 <li>GetReaperScriptPath - returns path to the scripts-folder of Reaper</li>
 <li>GetReaperColorThemesPath - returns path to the theme-folder of Reaoer</li>
 <li>GetReaperJSFXPath - returns path to the JSFX-plugin-folder of Reaper</li>
-<li>GetReaperWebRCPath - returns path to Reaper's own and User's own WebRC-webpage-folder ####Changes from 4.00beta2.6 to 4.00beta2.7</li>
+<li>GetReaperWebRCPath - returns path to Reaper's own and User's own WebRC-webpage-folder</li>
+<li>Docs - added File Management: Introduction to the Introduction/Concepts-page</li>
+<li>Docs - added docs for ultraschall.Euro, which holds the €-currency symbol</li>
+<li><p>Docs - added - File Management: Read to the Introduction/Concepts-page</p></li>
+</ul>
+<h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
+<ul>
 <li>Tons of bugfixes. I mean, tons as in metric tons ;)</li>
 <li>GetTrackRecCFG - added documentation, that was still missing -&gt; fixed now; added missing return-value</li>
 <li>GetLastErrorMessage2 - had wrong functionname, corrected documentation</li>
@@ -675,7 +681,9 @@ Ultraschall API Changelog
 <li>MoveMediaItemsSectionTo - renamed to MoveMediaItemsBetween_To, as this is more in line with the corresponding of functionnames for getting, deleting, splitting items</li>
 <li>InsertMediaItem_MediaItem - allows now inserting MediaItems from other projects as well and into tracks of other projects</li>
 <li>InsertMediaItem_MediaItemStateChunk - allows now tracks in other projects to be target; h ad an issue, that it always required ULTRASCHALL_TRACKNUMBER in the itemstatechunk to get the target-track -&gt; fixed now to also allow passing a MediaTrack, as the docs always stated has now additional retvals startposition, endposition, length fixed the docs</li>
-<li><p>ReadBinaryFile_Offset - if startoffset is negative, the offset will be seen from the end of the file now</p></li>
+<li>ReadBinaryFile_Offset - if startoffset is negative, the offset will be seen from the end of the file now</li>
+<li>ReadBinaryFile - removed, due being a duplication of ReadFullFile</li>
+<li>ReadFileAsLines_Array - corrected docs</li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>

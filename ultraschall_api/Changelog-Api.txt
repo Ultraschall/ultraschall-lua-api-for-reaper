@@ -280,6 +280,10 @@
   - GetReaperColorThemesPath - returns path to the theme-folder of Reaoer
   - GetReaperJSFXPath - returns path to the JSFX-plugin-folder of Reaper
   - GetReaperWebRCPath - returns path to Reaper's own and User's own WebRC-webpage-folder
+  - Docs - added File Management: Introduction to the Introduction/Concepts-page
+  - Docs - added docs for ultraschall.Euro, which holds the €-currency symbol
+  - Docs - added   - File Management: Read to the Introduction/Concepts-page
+    
   <TODO>
       TODO!!  - write final documentation for public-beta
       
@@ -778,6 +782,8 @@
                                           has now additional retvals startposition, endposition, length 
                                           fixed the docs
   - ReadBinaryFile_Offset - if startoffset is negative, the offset will be seen from the end of the file now
+  - ReadBinaryFile - removed, due being a duplication of ReadFullFile
+  - ReadFileAsLines_Array - corrected docs
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:

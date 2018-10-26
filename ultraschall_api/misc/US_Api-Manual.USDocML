@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <USDocML>
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Introduction_Api</slug>
+        <slug>Introduction_001_Api</slug>
         <title>Introduction to the Ultraschall API</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
                 The Ultraschall-Extension is intended to be an extension for the DAW Reaper, that enhances it with podcast functionalities. Most DAWs are intended to be used by musicians, for music, but podcasters have their own needs to be fulfilled. In fact, in some places their needs differ from the needs of a musician heavily. Ultraschall is intended to optimise the Reaper's workflows, by reworking them with functionalities for the special needs of podcasters.
@@ -55,12 +55,12 @@
             Introduction
         </chapter_context>
         <previous_chapter></previous_chapter>
-        <next_chapter>Introduction_How_to_Use</next_chapter>
+        <next_chapter>Introduction_002_How_to_Use</next_chapter>
         <tags>documentation, introduction, ultraschall-api</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Introduction_How_to_Use</slug>
+        <slug>Introduction_002_How_to_Use</slug>
         <title>How to use the Ultraschall API</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Using the Ultraschall-API is quite easy.
@@ -100,13 +100,13 @@
         <chapter_context>
             Introduction
         </chapter_context>
-        <previous_chapter>Introduction_Api</previous_chapter>
-        <next_chapter>Introduction_How_to_Use_Beta_Functions_And_Hotfixes</next_chapter>
+        <previous_chapter>Introduction_001_Api</previous_chapter>
+        <next_chapter>Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes</next_chapter>
         <tags>documentation, introduction, how to use</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Introduction_How_to_Use_Beta_Functions_And_Hotfixes</slug>
+        <slug>Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes</slug>
         <title>How to use Beta functions and hotfixes</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Before a new version of the Ultraschall-API is finished, it is in beta-stage. But sometimes, bugs need to be fixed even before a new release is done or you may want to test new functions from the next release for bugs and quirks.
@@ -144,13 +144,13 @@
         <chapter_context>
             Introduction
         </chapter_context>
-        <previous_chapter>Introduction_How_to_Use</previous_chapter>
-        <next_chapter>Introduction_Bugreporting_FeatureRequests</next_chapter>
+        <previous_chapter>Introduction02_How_to_Use</previous_chapter>
+        <next_chapter>Introduction_004_Bugreporting_FeatureRequests</next_chapter>
         <tags>documentation, introduction, beta, hotfixes</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Introduction_Bugreporting_FeatureRequests</slug>
+        <slug>Introduction_004_Bugreporting_FeatureRequests</slug>
         <title>Introduction: Bugreporting and Feature Requests</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             If you find any bugs or itches and want to report them, I suggest you the following procedure:
@@ -178,13 +178,13 @@
         <chapter_context>
             Introduction
         </chapter_context>
-        <previous_chapter>Introduction_How_to_Use_Beta_Functions_And_Hotfixes</previous_chapter>
-        <next_chapter>Introduction_License</next_chapter>
+        <previous_chapter>Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes</previous_chapter>
+        <next_chapter>Introduction_005_License</next_chapter>
         <tags>documentation, introduction, beta, hotfixes</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Introduction_License</slug>
+        <slug>Introduction_005_License</slug>
         <title>Introduction: License</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
                          
@@ -224,13 +224,13 @@
         <chapter_context>
             Introduction
         </chapter_context>
-        <previous_chapter>Introduction_Bugreporting_FeatureRequests</previous_chapter>
-        <next_chapter>Datatypes_Introduction</next_chapter>
+        <previous_chapter>Introduction_004_Bugreporting_FeatureRequests</previous_chapter>
+        <next_chapter>Datatypes_001_Introduction</next_chapter>
         <tags>documentation, introduction, license</tags>
     </US_DocBloc>
 
         <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Datatypes_Introduction</slug>
+        <slug>Datatypes_001_Introduction</slug>
         <title>Datatypes: Introduction</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Parameters and returnvalues are usually of specific types. Let's look at the following function:
@@ -269,13 +269,13 @@
              
             In addition to the already used datatypes, the Ultraschall-API introduces some more datatypes, like:
             
-               - [trackstrings](#Datatypes_trackstring) - some functions accept multiple tracks. Trackstrings are a string with all tracknumbers, separated by commas.
-               - [MediaItemArray](#Datatypes_MediaItemArray) - some functions accept multiple mediaitems. MediaItemArrays are tables containing MediaItem-objects. The index of the table is integers.
-               - [MediaItemStateChunkArray](#Datatypes_MediaItemStateChunkArray) - some functions accept multiple mediaitem-statechunks. MediaItemStateChunkArrays are tables containing MediaItemStateChunks. The index of the table is integers.
-               - [EnvelopePointObject](#Datatypes_EnvelopePointObject) - it's a table containing all attributes of an envelope-point, 
+               - [trackstrings](#Datatypes_002_trackstring) - some functions accept multiple tracks. Trackstrings are a string with all tracknumbers, separated by commas.
+               - [MediaItemArray](#Datatypes_003_MediaItemArray) - some functions accept multiple mediaitems. MediaItemArrays are tables containing MediaItem-objects. The index of the table is integers.
+               - [MediaItemStateChunkArray](#Datatypes_004_MediaItemStateChunkArray) - some functions accept multiple mediaitem-statechunks. MediaItemStateChunkArrays are tables containing MediaItemStateChunks. The index of the table is integers.
+               - [EnvelopePointObject](#Datatypes_005_EnvelopePointObject) - it's a table containing all attributes of an envelope-point, 
                   like: parent TrackEnvelope-object, envelope-idx, time, value, shape, tension, selected, dBValue converted from value
-               - [EnvelopePointArray](#Datatypes_EnvelopePointArray) - it's a table with multiple EnvelopePointObjects in it, indexed by an integer
-               - [ColorTable][#Datatypes_ColorTable) - it's a table that holds multiple color-values; for i.e. gradients
+               - [EnvelopePointArray](#Datatypes_006_EnvelopePointArray) - it's a table with multiple EnvelopePointObjects in it, indexed by an integer
+               - [ColorTable][#Datatypes_007_ColorTable) - it's a table that holds multiple color-values; for i.e. gradients
                     
             These Ultraschall-API-specific datatypes are described in more detail in the following chapters.
         </description>
@@ -284,13 +284,13 @@
         <chapter_context>
             Datatypes
         </chapter_context>
-        <previous_chapter>Introduction_License</previous_chapter>
-        <next_chapter>Datatypes_MediaItemArray</next_chapter>
+        <previous_chapter>Introduction_005_License</previous_chapter>
+        <next_chapter>Datatypes_002_trackstring</next_chapter>
         <tags>documentation, datatypes, datatype, introduction</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Datatypes_trackstring</slug>
+        <slug>Datatypes_002_trackstring</slug>
         <title>Datatypes: Trackstrings</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Many functions allow you to process through multiple tracks. As good as this is, this provided some difficulty in telling a function, to which track it shall be applied to.  
@@ -321,13 +321,13 @@
         <chapter_context>
             Datatypes
         </chapter_context>
-        <previous_chapter>Datatypes_Introduction</previous_chapter>
-        <next_chapter>Datatypes_MediaItemArray</next_chapter>
+        <previous_chapter>Datatypes_001_Introduction</previous_chapter>
+        <next_chapter>Datatypes_003_MediaItemArray</next_chapter>
         <tags>documentation, datatypes, datatype, trackstring, trackstrings</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Datatypes_MediaItemArray</slug>
+        <slug>Datatypes_003_MediaItemArray</slug>
         <title>Datatypes: MediaItemArray</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Many functions allow you to process through multiple mediaitems. To be able to pass multiple mediaitems at once to a function, I added the datatype MediaItemArray.
@@ -366,13 +366,13 @@
         <chapter_context>
             Datatypes
         </chapter_context>
-        <previous_chapter>Datatypes_trackstring</previous_chapter>
-        <next_chapter>Datatypes_MediaItemStateChunkArray</next_chapter>
+        <previous_chapter>Datatypes_002_trackstring</previous_chapter>
+        <next_chapter>Datatypes_004_MediaItemStateChunkArray</next_chapter>
         <tags>documentation, datatypes, datatype, mediaitemarray</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Datatypes_MediaItemStateChunkArray</slug>
+        <slug>Datatypes_004_MediaItemStateChunkArray</slug>
         <title>Datatypes: MediaItemStateChunkArray</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Many functions allow you to process through multiple mediaitem-statechunks. To be able to pass multiple mediaitem-statechunks at once to a function, I added the datatype MediaItemStateChunkArray.  
@@ -418,13 +418,13 @@
         <chapter_context>
             Datatypes
         </chapter_context>
-        <previous_chapter>Datatypes_MediaItemArray</previous_chapter>
-        <next_chapter>Datatypes_EnvelopePointObject</next_chapter>
+        <previous_chapter>Datatypes_003_MediaItemArray</previous_chapter>
+        <next_chapter>Datatypes_005_EnvelopePointObject</next_chapter>
         <tags>documentation, datatypes, datatype, mediaitemstatechunkarray</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Datatypes_EnvelopePointObject</slug>
+        <slug>Datatypes_005_EnvelopePointObject</slug>
         <title>Datatypes: EnvelopePointObject</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             When working with envelope-points, handling all the attributes such an envelope-point is quite unhandy. So I introduced the datatype EnvelopePointObject, containing all it's attributes.  
@@ -468,13 +468,13 @@
         <chapter_context>
             Datatypes
         </chapter_context>
-        <previous_chapter>Datatypes_MediaItemArray</previous_chapter>
-        <next_chapter>Datatypes_EnvelopePointArray</next_chapter>
+        <previous_chapter>Datatypes_004_MediaItemArray</previous_chapter>
+        <next_chapter>Datatypes_006_EnvelopePointArray</next_chapter>
         <tags>documentation, datatypes, datatype, envelopepointobject</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Datatypes_EnvelopePointArray</slug>
+        <slug>Datatypes_006_EnvelopePointArray</slug>
         <title>Datatypes: EnvelopePointArray</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             When working with multiple EnvelopePointObjects, I introduced the datatype EnvelopePointArray, containing multiple EnvelopePointObjects.
@@ -505,14 +505,14 @@
         <chapter_context>
             Datatypes
         </chapter_context>
-        <previous_chapter>Datatypes_EnvelopePointObject</previous_chapter>
-        <next_chapter>Datatypes_ColorTable</next_chapter>
+        <previous_chapter>Datatypes_005_EnvelopePointObject</previous_chapter>
+        <next_chapter>Datatypes_007_ColorTable</next_chapter>
         <tags>documentation, datatypes, datatype, envelopepointarray</tags>
     </US_DocBloc>
 
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Datatypes_ColorTable</slug>
+        <slug>Datatypes_007_ColorTable</slug>
         <title>Datatypes: ColorTable</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             When having to work with many colors, like MediaTrack-colors or the colors set to individual MediaItems, one may wish to have a proper datastructure to store these colorvalues.
@@ -546,13 +546,13 @@
         <chapter_context>
             Datatypes
         </chapter_context>
-        <previous_chapter>Datatypes_EnvelopePointObject</previous_chapter>
-        <next_chapter>Datatypes_CheckingDatatypes</next_chapter>
+        <previous_chapter>Datatypes_006_EnvelopePointObject</previous_chapter>
+        <next_chapter>Datatypes_050_CheckingDatatypes</next_chapter>
         <tags>documentation, datatypes, datatype, envelopepointarray</tags>
     </US_DocBloc>    
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Datatypes_CheckingDatatypes</slug>
+        <slug>Datatypes_050_CheckingDatatypes</slug>
         <title>Datatypes: Checking Datatypes</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             When you work with data of different sources but need to work with data of a specific type, it would be handy to have ways of checking, whether a certain variable has data of a specific type.  
@@ -580,11 +580,11 @@
 
                 Ultraschall-API-specific:
                 
-                   - [IsValidTrackString](usdocml://IsValidTrackString) - checks, if a string is a valid [trackstring](#Datatypes_trackstring)  
-                   - [IsValidMediaItemArray](usdocml://IsValidMediaItemArray) - checks, if a table is a valid [MediaItemArray](#Datatypes_MediaItemArray)  
-                   - [IsValidMediaItemStateChunkArray](usdocml://IsValidMediaItemStateChunkArray) - checks, if a table is a valid [MediaItemStateChunkArray](#Datatypes_MediaItemStateChunkArray)  
-                   - [IsValidEnvelopePointObject](usdocml://IsValidEnvelopePointObject) - checks, if a table is a valid [EnvelopePointObject](#Datatypes_EnvelopePointObject)  
-                   - [IsValidEnvelopePointArray](usdocml://IsValidEnvelopePointArray) - checks, if a table is a valid [EnvelopePointArray](#Datatypes_EnvelopePointArray)
+                   - [IsValidTrackString](usdocml://IsValidTrackString) - checks, if a string is a valid [trackstring](#Datatypes_002_trackstring)  
+                   - [IsValidMediaItemArray](usdocml://IsValidMediaItemArray) - checks, if a table is a valid [MediaItemArray](#Datatypes_003_MediaItemArray)  
+                   - [IsValidMediaItemStateChunkArray](usdocml://IsValidMediaItemStateChunkArray) - checks, if a table is a valid [MediaItemStateChunkArray](#Datatypes_004_MediaItemStateChunkArray)  
+                   - [IsValidEnvelopePointObject](usdocml://IsValidEnvelopePointObject) - checks, if a table is a valid [EnvelopePointObject](#Datatypes_005_EnvelopePointObject)  
+                   - [IsValidEnvelopePointArray](usdocml://IsValidEnvelopePointArray) - checks, if a table is a valid [EnvelopePointArray](#Datatypes_006_EnvelopePointArray)
                    - [IsValidArrangeviewSnapshot](usdocml://IsValidArrangeviewSnapshot) - checks, if an extstate is a valid ArrangeviewSnapshot
                     
                 Other Reaper-datatypes:
@@ -608,13 +608,13 @@
         <chapter_context>
             Datatypes
         </chapter_context>
-        <previous_chapter>Datatypes_ColorTable</previous_chapter>
-        <next_chapter>Introduction_API_Variables</next_chapter>
+        <previous_chapter>Datatypes_70_ColorTable</previous_chapter>
+        <next_chapter>API_Variables_001_Introduction</next_chapter>
         <tags>documentation, datatypes, datatype, checking</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Introduction_API_Variables</slug>
+        <slug>API_Variables_001_Introduction</slug>
         <title>API-Variables</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             When working with the Ultraschall-API or general programming in Reaper, some additional things may or may not be helpful to know.  
@@ -639,13 +639,13 @@
         <chapter_context>
             API-Variables
         </chapter_context>
-        <previous_chapter>Datatypes_CheckingDatatypes</previous_chapter>
-        <next_chapter>Rendering_01_Introduction</next_chapter>
+        <previous_chapter>Datatypes_050_CheckingDatatypes</previous_chapter>
+        <next_chapter>Rendering_001_Introduction</next_chapter>
         <tags>documentation, api-variables</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Rendering_01_Introduction</slug>
+        <slug>Rendering_001_Introduction</slug>
         <title>Rendering: Introduction</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             The Ultraschall-API provides functions for rendering your projects, without having to use the Rendering-dialog of Reaper. 
@@ -678,13 +678,13 @@
         <chapter_context>
             Rendering
         </chapter_context>
-        <previous_chapter>Rendering_02_About_Renderstrings</previous_chapter>
-        <next_chapter>slug</next_chapter>
+        <previous_chapter>API_Variables_001_Introduction</previous_chapter>
+        <next_chapter>Rendering_002_About_Renderstrings</next_chapter>
         <tags>documentation, introduction, rendering, projects, functions, render</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Rendering_02_About_Renderstrings</slug>
+        <slug>Rendering_002_About_Renderstrings</slug>
         <title>Rendering: About Renderstrings</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Render-strings(or render_cfg, as they are named in Reaper) are strings, that contain all settings for a specific Render-Output-format, as MP3, WAV, AIF, FLAC, etc.  
@@ -722,13 +722,13 @@
         <chapter_context>
             Rendering
         </chapter_context>
-        <previous_chapter>Rendering_01_Introduction</previous_chapter>
-        <next_chapter>Rendering_03_About_Renderingfunctions</next_chapter>
+        <previous_chapter>Rendering_001_Introduction</previous_chapter>
+        <next_chapter>Rendering_003_About_Renderingfunctions</next_chapter>
         <tags>documentation, rendering, projects, functions, render, renderstring, rendercfg, render_cfg</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Rendering_03_About_Renderingfunctions</slug>
+        <slug>Rendering_003_About_Renderingfunctions</slug>
         <title>Rendering: About Rendering-functions</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             The rendering-functions let you render a project, either a stored rpp-project-file or the currently opened one(only when it has been saved!).  
@@ -765,20 +765,20 @@
             
             With that, you should be able to successfully render your project.
             
-            For more enhanced customization of Rendering, see [Rendering: Change more render-settings](#Rendering_04_Change_more_render_settings) for more details.
+            For more enhanced customization of Rendering, see [Rendering: Change more render-settings](#Rendering_004_Change_more_render_settings) for more details.
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Rendering
         </chapter_context>
-        <previous_chapter>Rendering_02_About_Renderstrings</previous_chapter>
-        <next_chapter>Rendering_04_Change_more_render_settings</next_chapter>
+        <previous_chapter>Rendering_002_About_Renderstrings</previous_chapter>
+        <next_chapter>Rendering_004_Change_more_render_settings</next_chapter>
         <tags>documentation, rendering, projects, functions, render, renderstring, rendercfg, render_cfg</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Rendering_04_Change_more_render_settings</slug>
+        <slug>Rendering_004_Change_more_render_settings</slug>
         <title>Rendering: Change more render-settings</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Reaper's own render-dialog provides you with much more possibilities, than the rendering-functions themselves provide you with.
@@ -797,9 +797,9 @@
                 - [SetProject_RenderSpeed](usdocml://SetProject_RenderSpeed) to set the render-speed, and
                 - [SetProject_RenderStems](usdocml://SetProject_RenderStems) to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)  
                 
-            3. after you've set the individual render-settings, you create a render-string, as described in [Rendering: About Renderstrings](#Rendering_02_About_Renderstrings).  
+            3. after you've set the individual render-settings, you create a render-string, as described in [Rendering: About Renderstrings](#Rendering_002_About_Renderstrings).  
             
-            4. render using the altered copy(!) of the projectfile(not the original projectfile!), as described in [Rendering: About Rendering-functions](#Rendering_03_About_Renderingfunctions).
+            4. render using the altered copy(!) of the projectfile(not the original projectfile!), as described in [Rendering: About Rendering-functions](#Rendering_003_About_Renderingfunctions).
             
             
             If you want to alter the currently opened project, you need to save it first. After that, use:
@@ -817,13 +817,13 @@
         <chapter_context>
             Rendering
         </chapter_context>
-        <previous_chapter>Rendering_03_About_Renderingfunctions</previous_chapter>
-        <next_chapter>Arrangeview_Snapshots_Introduction</next_chapter>
+        <previous_chapter>Rendering_003_About_Renderingfunctions</previous_chapter>
+        <next_chapter>Arrangeview_Snapshots_001_Introduction</next_chapter>
         <tags>documentation, rendering, projects, functions, render, renderstring, rendercfg, render_cfg, advanced</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Arrangeview_Snapshots_Introduction</slug>
+        <slug>Arrangeview_Snapshots_001_Introduction</slug>
         <title>Arrangeview Snapshots: Introduction</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             When working with big or complex projects: 
@@ -842,13 +842,13 @@
         <chapter_context>
             Arrangeview Snapshots
         </chapter_context>
-        <previous_chapter>Rendering_04_Change_more_render_settings</previous_chapter>
-        <next_chapter>Arrangeview_Snapshots_HowToStoreRetrieveDelete</next_chapter>
+        <previous_chapter>Rendering_004_Change_more_render_settings</previous_chapter>
+        <next_chapter>Arrangeview_Snapshots_002_HowToStoreRetrieveDelete</next_chapter>
         <tags>documentation, arrangeview-snapshots, introduction</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Arrangeview_Snapshots_HowToStoreRetrieveDelete</slug>
+        <slug>Arrangeview_Snapshots_002_HowToStoreRetrieveDelete</slug>
         <title>Arrangeview Snapshots: How to store, retrieve, delete</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             If you want to store the current position and zoom-factor of the Arrangeview, you can use the function [StoreArrangeviewSnapshot](usdocml://StoreArrangeviewSnapshot).  
@@ -873,13 +873,13 @@
         <chapter_context>
             Arrangeview Snapshots
         </chapter_context>
-        <previous_chapter>Arrangeview_Snapshots_Introduction</previous_chapter>
-        <next_chapter>Arrangeview_Snapshots_HowToRestore</next_chapter>
+        <previous_chapter>Arrangeview_Snapshots_001_Introduction</previous_chapter>
+        <next_chapter>Arrangeview_Snapshots_003_HowToRestore</next_chapter>
         <tags>documentation, arrangeview-snapshots, retrieve, store, delete</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Arrangeview_Snapshots_HowToRestore</slug>
+        <slug>Arrangeview_Snapshots_003_HowToRestore</slug>
         <title>Arrangeview Snapshots: How to restore</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             When having stored an Arrangeview-Snapshot into a slot, you certainly want to restore it at one point. For that, use [RestoreArrangeviewSnapshot](usdocml://RestoreArrangeviewSnapshot).
@@ -907,13 +907,13 @@
         <chapter_context>
             Arrangeview Snapshots
         </chapter_context>
-        <previous_chapter>Arrangeview_Snapshots_HowToStoreRetrieveDelete</previous_chapter>
-        <next_chapter>Navigation_Introduction</next_chapter>
+        <previous_chapter>Arrangeview_Snapshots_002_HowToStoreRetrieveDelete</previous_chapter>
+        <next_chapter>Navigation_001_Introduction</next_chapter>
         <tags>documentation, arrangeview-snapshots, restore</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Navigation_Introduction</slug>
+        <slug>Navigation_001_Introduction</slug>
         <title>Navigation: Introduction</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             When editing and postproducing a project, navigating through it is essential. For that, I added some functions that are not part of Reaper's own API, to help navigation, with functions for:
@@ -930,13 +930,13 @@
         <chapter_context>
             Navigation
         </chapter_context>
-        <previous_chapter>Arrangeview_Snapshots_HowToRestore</previous_chapter>
-        <next_chapter>Navigation_MovePlay_and_Editcursor</next_chapter>
+        <previous_chapter>Arrangeview_Snapshots_003_HowToRestore</previous_chapter>
+        <next_chapter>Navigation_002_MovePlay_and_Editcursor</next_chapter>
         <tags>documentation, arrangeview, navigation, introduction</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Navigation_MovePlay_and_Editcursor</slug>
+        <slug>Navigation_002_MovePlay_and_Editcursor</slug>
         <title>Navigation: Move Play and Editcursor</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             The Ultraschall-API provides you with many functions regarding changing the position of the playcursor and the editcursor.  
@@ -959,13 +959,13 @@
         <chapter_context>
             Navigation
         </chapter_context>
-        <previous_chapter>Navigation_Introduction</previous_chapter>
-        <next_chapter>Navigation_GotoMarkersRegionItemEdges</next_chapter>
+        <previous_chapter>Navigation_001_Introduction</previous_chapter>
+        <next_chapter>Navigation_003_GotoMarkersRegionItemEdges</next_chapter>
         <tags>documentation, arrangeview, navigation, playcursor, editcursor</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Navigation_GotoMarkersRegionItemEdges</slug>
+        <slug>Navigation_003_GotoMarkersRegionItemEdges</slug>
         <title>Navigation: Go to markers, regionedges and itemedges</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Markers and items provide you with much additional helpful information regarding the project. They also provide you with an additional information: useful positions to navigate through.  
@@ -1006,13 +1006,13 @@
         <chapter_context>
             Navigation
         </chapter_context>
-        <previous_chapter>Navigation_Introduction</previous_chapter>
-        <next_chapter>Navigation_CenterView</next_chapter>
+        <previous_chapter>Navigation_002_MovePlay_and_Editcursor</previous_chapter>
+        <next_chapter>Navigation_004_CenterView</next_chapter>
         <tags>documentation, arrangeview, navigation, playcursor, editcursor, marker, regions, region, edge, item, projectstart, projectend</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Navigation_CenterView</slug>
+        <slug>Navigation_004_CenterView</slug>
         <title>Navigation: Center View</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Sometimes it's a good idea to center the arrangeview to a certain point, may it be different points of interests within your project or just to get back to the playcursor/editcursor out of the view.
@@ -1040,13 +1040,13 @@
         <chapter_context>
             Navigation
         </chapter_context>
-        <previous_chapter>Navigation_GotoMarkersRegionItemEdges</previous_chapter>
-        <next_chapter>Navigation_Autoscroll_Followmode</next_chapter>
+        <previous_chapter>Navigation_003_GotoMarkersRegionItemEdges</previous_chapter>
+        <next_chapter>Navigation_005_Autoscroll_Followmode</next_chapter>
         <tags>documentation, arrangeview, navigation, playcursor, editcursor, position, center</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Navigation_Autoscroll_Followmode</slug>
+        <slug>Navigation_005_Autoscroll_Followmode</slug>
         <title>Navigation: Autoscroll and Followmode</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Reaper allows you to set autoscrolling during playback/recording. It allows you to set it to continuous scrolling or to "page-wise"-scrolling.  
@@ -1075,13 +1075,13 @@
         <chapter_context>
             Navigation
         </chapter_context>
-        <previous_chapter>Navigation_CenterView</previous_chapter>
-        <next_chapter>GetSetStates_Project_Track_Item_Env_Introduction</next_chapter>
+        <previous_chapter>Navigation_004_CenterView</previous_chapter>
+        <next_chapter>GetSetStates_Project_Track_Item_Env_001_Introduction</next_chapter>
         <tags>documentation, arrangeview, navigation, playcursor, editcursor, position, center</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>GetSetStates_Project_Track_Item_Env_Introduction</slug>
+        <slug>GetSetStates_Project_Track_Item_Env_001_Introduction</slug>
         <title>Get/Set States for Project, Tracks and Items</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             One of the long-term-goals of the Ultraschall-API is full access to all states within projects, tracks, items, envelopes, including all states only available in StateChunks.  
@@ -1125,24 +1125,24 @@
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
         <chapter_context>
-            Navigation
+            Get/Set Project/Track/MediaItem-States
         </chapter_context>
-        <previous_chapter>Navigation_Autoscroll_Followmode</previous_chapter>
-        <next_chapter>Getting_Manipulating_Items_Introduction</next_chapter>
+        <previous_chapter>Navigation_005_Autoscroll_Followmode</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_001_Introduction</next_chapter>
         <tags>documentation, arrangeview, navigation, playcursor, editcursor, position, center</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Getting_Manipulating_Items_Introduction</slug>
+        <slug>Getting_Manipulating_Items_001_Introduction</slug>
         <title>MediaItems: Introduction</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             When working with MediaItems, it often was frustrating for me to code, how to get their MediaItem-objects. Especially when "mass-working" with dozens and more MediaItems.  
             So I wrote a set of functions to work with MediaItems more comfortably.
             
-            These functions include getting MediaItem-objects by time AND track, [getting MediaItem-states](#GetSetStates_Project_Track_Item_Env_Introduction), editing, inserting, manipulating, spectral edit, previewing, RippleCut, RippleInsert, SectionCut, working with locked, selected items, applying Reaper-actions to MediaItems, etc.  
+            These functions include getting MediaItem-objects by time AND track, [getting MediaItem-states](#GetSetStates_Project_Track_Item_Env_001_Introduction), editing, inserting, manipulating, spectral edit, previewing, RippleCut, RippleInsert, SectionCut, working with locked, selected items, applying Reaper-actions to MediaItems, etc.  
             
-            When working with masses of MediaItems, I either use the datatypes [MediaItemArrays](#Datatypes_MediaItemArray) or [MediaItemStateChunkArrays](#Datatypes_MediaItemStateChunkArrays).  
-            When passing over the tracks wanted, I use the datatype [trackstring](#Datatypes_trackstring).  
+            When working with masses of MediaItems, I either use the datatypes [MediaItemArrays](#Datatypes_003_MediaItemArray) or [MediaItemStateChunkArrays](#Datatypes_004_MediaItemStateChunkArrays).  
+            When passing over the tracks wanted, I use the datatype [trackstring](#Datatypes_002_trackstring).  
             
             All this stuff should help you getting and manipulating MediaItems much more easier.  
             
@@ -1153,13 +1153,13 @@
         <chapter_context>
             MediaItems
         </chapter_context>
-        <previous_chapter>GetSetStates_Project_Track_Item_Env_Introduction</previous_chapter>
-        <next_chapter>Getting_Manipulating_Items_GetMediaItems</next_chapter>
+        <previous_chapter>GetSetStates_Project_Track_Item_Env_001_Introduction</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_002_GetMediaItems</next_chapter>
         <tags>documentation, mediaitems, items, introduction</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Getting_Manipulating_Items_GetMediaItems</slug>
+        <slug>Getting_Manipulating_Items_002_GetMediaItems</slug>
         <title>MediaItems: Getting MediaItems by Time and Tracks</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Let's face it, when editing items of a project in Reaper, you either click on the items or select them in a 2D-way, by drawing a boundary box around the items of your choice or using a time-selection.  
@@ -1193,7 +1193,7 @@
 
             
             >which basically returns the same things, as GetMediaItemsAtPosition. The difference lies in the parameters.  
-            >You can pass to the function a startposition and an endposition(which must be bigger than or equal startposition), [trackstrings](#Datatypes_trackstring), which is a string with all tracks, separated by commas as well as inside as parameters.
+            >You can pass to the function a startposition and an endposition(which must be bigger than or equal startposition), [trackstrings](#Datatypes_002_trackstring), which is a string with all tracks, separated by commas as well as inside as parameters.
             >When you set inside to true, it will return only items that are completely within startposition and endposition. When setting inside to false, it will also return items, that are partially within start- and endposition, like items beginning before startposition or ending after endposition.
             
             With these two functions, getting items is much, much easier than before.
@@ -1215,13 +1215,13 @@
         <chapter_context>
             MediaItems
         </chapter_context>
-        <previous_chapter>Getting_Manipulating_Items_Introduction</previous_chapter>
-        <next_chapter>Getting_Manipulating_Items_Splitting</next_chapter>
+        <previous_chapter>Getting_Manipulating_Items_001_Introduction</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_003_Splitting</next_chapter>
         <tags>documentation, mediaitems, items, getting</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Getting_Manipulating_Items_Splitting</slug>
+        <slug>Getting_Manipulating_Items_003_Splitting</slug>
         <title>MediaItems: Splitting MediaItems by Time and Tracks</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Getting MediaItems by time and tracks is cool. Editing them by time and tracks is even better. For that, I also added some functions:  
@@ -1256,13 +1256,13 @@
         <chapter_context>
             MediaItems
         </chapter_context>
-        <previous_chapter>Getting_Manipulating_Items_GetMediaItems</previous_chapter>
-        <next_chapter>Getting_Manipulating_Items_Deleting</next_chapter>
+        <previous_chapter>Getting_Manipulating_Items_002_GetMediaItems</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_004_Deleting</next_chapter>
         <tags>documentation, mediaitems, items, editing</tags>
     </US_DocBloc>
     
         <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Getting_Manipulating_Items_Deleting</slug>
+        <slug>Getting_Manipulating_Items_004_Deleting</slug>
         <title>MediaItems: Deleting MediaItems by Time and Tracks</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Deleting of MediaItems is often a useful thing. Unfortunately, this is inconvenient to do within the Reaper-API. The only such function is DeleteTrackMediaItem, but it requires you to give the function the track in which the MediaItem lies too. 
@@ -1319,13 +1319,13 @@
         <chapter_context>
             MediaItems
         </chapter_context>
-        <previous_chapter>Getting_Manipulating_Items_Splitting</previous_chapter>
-        <next_chapter>Getting_Manipulating_Items_Section_And_Ripple_Cut</next_chapter>
+        <previous_chapter>Getting_Manipulating_Items_003_Splitting</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_005_Section_And_Ripple_Cut</next_chapter>
         <tags>documentation, mediaitems, items, editing</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Getting_Manipulating_Items_Section_And_Ripple_Cut</slug>
+        <slug>Getting_Manipulating_Items_005_Section_And_Ripple_Cut</slug>
         <title>MediaItems: SectionCut, RippleCut, RippleInsert</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             One of Reaper's real great features is Ripple-Edit. On of the big shortcomings, it only allows Ripple Cut all tracks, Ripple Cut one track, no Ripple Cut.  
@@ -1408,13 +1408,13 @@
         <chapter_context>
             MediaItems
         </chapter_context>
-        <previous_chapter>Getting_Manipulating_Items_Deleting</previous_chapter>
-        <next_chapter>Getting_Manipulating_Items_Moving_Manipulating</next_chapter>
+        <previous_chapter>Getting_Manipulating_Items_004_Deleting</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_006_Moving_Manipulating</next_chapter>
         <tags>documentation, mediaitems, items, editing</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Getting_Manipulating_Items_Moving_Manipulating</slug>
+        <slug>Getting_Manipulating_Items_006_Moving_Manipulating</slug>
         <title>MediaItems: Moving and Manipulating</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Getting, splitting, editing and deleting MediaItems isn't enough. In fact, you also want to manipulate them. And you also want to be able to manipulate many of them at once.  
@@ -1427,20 +1427,28 @@
             **Moving**  
             >Let's have a look at the moving-MediaItems-functions.
             
+            >**[MoveMediaItemsAfter_By](usdocml://MoveMediaItemsAfter_By)**
+            
                             boolean retval = ultraschall.MoveMediaItemsAfter_By(number old_position, number change_position_by, string trackstring)
                 
             >This function moves all MediaItems from old\_position and later by a number of seconds, as given by the parameter change\_position\_by.  
             >If change\_position\_by is negative, the MediaItems will be move towards the beginning of the project; a positive value will move the MediaItems toward the end.  
             >The parameter trackstring tells the function, in which tracks the MediaItems shall be moved.  
             
+            >**[MoveMediaItemsBefore_By](usdocml://MoveMediaItemsBefore_By)**
+            
                             boolean retval = ultraschall.MoveMediaItemsBefore_By(number old_position, number change_position_by, string trackstring)
                
             >This basically works like the MoveMediaItemsAfter_By above, with the difference, that it moves the MediaItems BEFORE old\_position.
+            
+            >**[MoveMediaItemsBetween_To](usdocml://MoveMediaItemsBetween_To)**
             
                             boolean retval = ultraschall.MoveMediaItemsBetween_To(number startposition, number endposition, number newposition, string trackstring, boolean inside)
             
             >This also moves MediaItems, but the MediaItems between startposition and endposition. Unlike the functions above, you give the new position in seconds, at which the MediaItems shall start. The relative-positions of the MediaItems will stay intact.  
             >The parameter inside allows you to tell the function, whether to include only MediaItems completely within start and endposition(true) or also MediaItems that are partially within start and endposition(false).  
+            
+            >**[MoveMediaItems_FromArray](usdocml://MoveMediaItems_FromArray)**
             
                             integer retval, number earliest_itemtime, number latest_itemtime = ultraschall.MoveMediaItems_FromArray(array MediaItemArray, number newposition)
             
@@ -1450,6 +1458,8 @@
             >You can change the length of the MediaItems with functioncalls of Reaper's own API already. I added functions, that allow you to change the length of multiple MediaItems at once, using MediaItemArray.
             >And not just the length to a given length, but also a deltalength.
             >Let's have a look.
+            
+            >**[ChangeLengthOfMediaItems_FromArray](usdocml://ChangeLengthOfMediaItems_FromArray)**
             
                             boolean retval = ultraschall.ChangeLengthOfMediaItems_FromArray(array MediaItemArray, number newlength)
                 
@@ -1464,6 +1474,8 @@
                             retval = ultraschall.ChangeLengthOfMediaItems_FromArray(MediaItemArray, 3)
                 
             >This examplecode will change the length of all MediaItems in MediaItemArray to a length of 3 seconds.
+            
+            >**[ChangeDeltaLengthOfMediaItems_FromArray](usdocml://ChangeDeltaLengthOfMediaItems_FromArray)**
             
                             boolean retval = ultraschall.ChangeDeltaLengthOfMediaItems_FromArray(array MediaItemArray, number deltalength)
                 
@@ -1484,6 +1496,8 @@
             >And not just the length to a given length, but also a deltalength.
             >Let's have a look.
             
+            >**[ChangeOffsetOfMediaItems_FromArray](usdocml://ChangeOffsetOfMediaItems_FromArray)**
+            
                             boolean retval = ultraschall.ChangeOffsetOfMediaItems_FromArray(array MediaItemArray, number newoffset)
                 
             >This changes the offset of all MediaItems in the MediaItemArray to newoffset in seconds.  
@@ -1497,6 +1511,8 @@
                             retval = ultraschall.ChangeOffsetOfMediaItems_FromArray(MediaItemArray, 3)
                 
             >This examplecode will change the offset of all MediaItems in MediaItemArray to a the new offset of 3 seconds.
+            
+            >**[ChangeDeltaOffsetOfMediaItems_FromArray](usdocml://ChangeDeltaOffsetOfMediaItems_FromArray)**
             
                             boolean retval = ultraschall.ChangeDeltaOffsetOfMediaItems_FromArray(array MediaItemArray, number deltaoffset)
                 
@@ -1526,13 +1542,15 @@
         <chapter_context>
             MediaItems
         </chapter_context>
-        <previous_chapter>Getting_Manipulating_Items_Section_And_Ripple_Cut</previous_chapter>
-        <next_chapter>Getting_Manipulating_Items_Inserting</next_chapter>
+        <previous_chapter>Getting_Manipulating_Items_005_Section_And_Ripple_Cut</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_007_Inserting</next_chapter>
         <tags>documentation, mediaitems, items, editing, moving, offset, modifying</tags>
     </US_DocBloc>
     
+
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Getting_Manipulating_Items_Inserting</slug>
+        <slug>Getting_Manipulating_Items_007_Inserting</slug>
         <title>MediaItems: Inserting Items and Files</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Last, but not least, it would be nice to be able to insert MediaItems as well. And not just inserting them from a project, but also from files.  
@@ -1540,60 +1558,72 @@
             
             Lets have a look at inserting MediaItems.
             
+            >**[InsertMediaItem_MediaItem](usdocml://InsertMediaItem_MediaItem)**
+            
                             integer retval, MediaItem MediaItem, number startposition, number endposition, number length 
                                         = ultraschall.InsertMediaItem_MediaItem(number position, MediaItem MediaItem, MediaTrack MediaTrack)
             
-            With this function, you can make a copy of an already existing MediaItem and insert at position into a certain track. It allows using MediaItems and MediaTracks of other projects than the current one, as well.  
-            Just give the position, at which to insert the MediaItem, the MediaItem to be included and the MediaTrack into which to include the MediaItem.  
-            It will return the newly created MediaItem, it's startposition, endposition and the length.  
+            >With this function, you can make a copy of an already existing MediaItem and insert at position into a certain track. It allows using MediaItems and MediaTracks of other projects than the current one, as well.  
+            >Just give the position, at which to insert the MediaItem, the MediaItem to be included and the MediaTrack into which to include the MediaItem.  
+            >It will return the newly created MediaItem, it's startposition, endposition and the length.  
+            
+            >**[InsertMediaItem_MediaItemStateChunk](usdocml://InsertMediaItem_MediaItemStateChunk)**
             
                             integer retval, MediaItem MediaItem 
                                         = ultraschall.InsertMediaItem_MediaItemStateChunk(number position, string MediaItemStateChunk, MediaTrack MediaTrack)
             
-            This is like InsertMediaItem_MediaItem, but uses a MediaItemStateChunk instead. The rest is just the same, including the possibility to insert the new MediaItem into a MediaTrack in another project than the current one.  
+            >This is like InsertMediaItem_MediaItem, but uses a MediaItemStateChunk instead. The rest is just the same, including the possibility to insert the new MediaItem into a MediaTrack in another project than the current one.  
+            
+            >**[InsertMediaItemArray](usdocml://InsertMediaItemArray)**
             
                             integer number_of_items, array MediaItemArray = ultraschall.InsertMediaItemArray(number position, array MediaItemArray, string trackstring)
                             
-            This allows you to insert multiple items at once, that are stored in a MediaItemArray at position. With trackstring you can set, into which tracks to insert the MediaItems.  
-            There's a limitation, however: MediaItems will only be inserted into the tracks from where they originated from. That means, if you have MediaItems located in tracks 1-5 and you set trackstring to "1,2", only the MediaItems originating in tracks 1 and 2 will be inserted.  
-            I'm still looking into a better way to provide the track, in which to insert the MediaItems into other MediaTracks as well.  
+            >This allows you to insert multiple items at once, that are stored in a MediaItemArray at position. With trackstring you can set, into which tracks to insert the MediaItems.  
+            >There's a limitation, however: MediaItems will only be inserted into the tracks from where they originated from. That means, if you have MediaItems located in tracks 1-5 and you set trackstring to "1,2", only the MediaItems originating in tracks 1 and 2 will be inserted.  
+            >I'm still looking into a better way to provide the track, in which to insert the MediaItems into other MediaTracks as well.  
+            
+            >**[InsertMediaItemStateChunkArray](usdocml://InsertMediaItemStateChunkArray)**
             
                             integer number_of_items, array MediaItemArray 
                                             = ultraschall.InsertMediaItemStateChunkArray(number position, array MediaItemStateChunkArray, string trackstring)
 
-           This works like InsertMediaItemArray, but it's inserting MediaItemStateChunks from the MediaItemStateChunkArray instead.  
-           In addition to that, it also lifts the track-limitation, when you insert the tracknumber into each MediaItemStateChunk using [SetItemUSTRackNumber_StateChunk](usdocml://SetItemUSTRackNumber_StateChunk), which is automatically done by [GetItem-functions](#Getting_Manipulating_Items_GetMediaItems) from the Ultraschall-API.  
-           The addition of the tracknumber is mandatory, otherwise the MediaItemStateChunk will not be inserted!  
-
+           >This works like InsertMediaItemArray, but it's inserting MediaItemStateChunks from the MediaItemStateChunkArray instead.  
+           >In addition to that, it also lifts the track-limitation, when you insert the tracknumber into each MediaItemStateChunk using [SetItemUSTRackNumber_StateChunk](usdocml://SetItemUSTRackNumber_StateChunk), which is automatically done by [GetItem-functions](#Getting_Manipulating_Items_002_GetMediaItems) from the Ultraschall-API.  
+           >The addition of the tracknumber is mandatory, otherwise the MediaItemStateChunk will not be inserted!  
+           
+           >**[InsertMediaItemFromFile](usdocml://InsertMediaItemFromFile)**
+           
                             integer retval, MediaItem item, number endposition, integer numchannels, integer Samplerate, string Filetype
                                = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, integer editcursorpos, optional number offset)
                                
-           This function allows you to insert a file as a new MediaItem into your project, including the tracknumber, position, endposition(if wanted), the editcursorposition and the offset, if wanted.  
-           Example:
+           >This function allows you to insert a file as a new MediaItem into your project, including the tracknumber, position, endposition(if wanted), the editcursorposition and the offset, if wanted.  
+           >Example:
            
                             retval, item, endposition, numchannels, Samplerate, Filetype = ultraschall.InsertMediaItemFromFile("C:\\file.wav", 1, 20, -1, 2, 0)
            
-           This example inserts the file file.wav into track 1, at position 20, with the length set to the length of the audio-file, the editcursorposition being put at the end of the new MediaItem and no offset-changes.  
+           >This example inserts the file file.wav into track 1, at position 20, with the length set to the length of the audio-file, the editcursorposition being put at the end of the new MediaItem and no offset-changes.  
            
-           With that, you can easily insert files into your project.
+           >With that, you can easily insert files into your project.
+           
+           >**[InsertImageFile](usdocml://InsertImageFile)**
            
                             boolean retval, MediaItem item = ultraschall.InsertImageFile(string filename_with_path, integer track, number position, number length, boolean looped)
 
-           This is a special function, focusing on inserting image-files into the project. You can set the track, position, length of the image-MediaItem and, if it shall be looped.  
-           If you don't loop it(looped=false), the MediaItem will have the length anyway, but the image will be shown only for 1 second in the VideoProcessor-window.  
+           >This is a special function, focusing on inserting image-files into the project. You can set the track, position, length of the image-MediaItem and, if it shall be looped.  
+           >If you don't loop it(looped=false), the MediaItem will have the length anyway, but the image will be shown only for 1 second in the VideoProcessor-window.  
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
         <chapter_context>
             MediaItems
         </chapter_context>
-        <previous_chapter>Getting_Manipulating_Items_Moving_Manipulating</previous_chapter>
-        <next_chapter>Getting_Manipulating_Items_Spectral_Edit</next_chapter>
+        <previous_chapter>Getting_Manipulating_Items_006_Moving_Manipulating</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_008_Spectral_Edit</next_chapter>
         <tags>documentation, mediaitems, items, inserting, mediaitem, mediaitemstatechunk, image</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Getting_Manipulating_Items_Spectral_Edit</slug>
+        <slug>Getting_Manipulating_Items_008_Spectral_Edit</slug>
         <title>MediaItems: Programming Spectral Edit</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
            With Reaper v5.50c, the devs introduced a new feature, called, spectral editing, which is a cool feature to influence frequencies in a spectral view of a MediaItem.  
@@ -1604,16 +1634,20 @@
            
            Let's go into this in more detail.
            
+           >**[SetItemSpectralVisibilityState](usdocml://SetItemSpectralVisibilityState)**
            
-           To use the SpectralEdit-mode, you need to first enable visibility of it in a MediaItem. You can do this later too, but you will not see any of your changes, until you enable visibility first.
+           >To use the SpectralEdit-mode, you need to first enable visibility of it in a MediaItem. You can do this later too, but you will not see any of your changes, until you enable visibility first.
            
                             string MediaItemStateChunk = ultraschall.SetItemSpectralVisibilityState(integer itemidx, integer state, optional string MediaItemStateChunk)
                             
-           This function enables visibility of Spectral-Edit of item itemidx. The parameter state must be set to 1 to set to visible, or set to 0 to turn visibility off.  
-           The function returns the altered MediaItemStateChunk in any way.  
-           If you set itemidx to -1, you can use the optional parameter MediaItemStateChunk instead. This will add the corresponding entry for the visibility into the MediaItemStateChunk and returns the modified one.  
+           >This function enables visibility of Spectral-Edit of item itemidx. The parameter state must be set to 1 to set to visible, or set to 0 to turn visibility off.  
+           >The function returns the altered MediaItemStateChunk in any way.  
+           >If you set itemidx to -1, you can use the optional parameter MediaItemStateChunk instead. This will add the corresponding entry for the visibility into the MediaItemStateChunk and returns the modified one.  
+           
            
            Now that we have toggled the visibility of SpectralEdit, we might want to add SpectralEdit-instances to the MediaItem. For that we use:
+           
+           >**[AddItemSpectralEdit](usdocml://AddItemSpectralEdit)**
            
                             boolean retval, MediaItemStateChunk statechunk 
                                         = ultraschall.AddItemSpectralEdit(integer itemidx, number start_pos, number end_pos, number gain, number fade, 
@@ -1622,15 +1656,18 @@
                                                                           number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, 
                                                                           string MediaItemStateChunk)
                                                                           
-           This will add a SpectralEdit-instance into your MediaItem. You can add as many individual instances, as you want.  
+           >This will add a SpectralEdit-instance into your MediaItem. You can add as many individual instances, as you want.  
            
-           As you can see, you can influence a hell lot of parameters for such a SpectralEdit-instance, so I will not explain them in detail here. I suggest you to read the accompanying doc-entry for [AddItemSpectralEdit](usdocml://AddItemSpectralEdit), which explains the parameters in more detail.  
-           Just some bits: 
-           Every Spectral-Edit-instance will be shown as a square/rectangle on top of the MediaItem. You can influence this rectangle's position and length, the frequency-ranges covered, the fades as well as all settings of all knobs appearing in it.  
-           And as the cherry on the top: you can also bypass and solo it.  
-           And, as the SetItemSpectralVisibilityState-function above, if you set itemidx to -1, you can add the Spectral-Edit-instance to a MediaItemStateChunk instead.  
+           >As you can see, you can influence a hell lot of parameters for such a SpectralEdit-instance, so I will not explain them in detail here. I suggest you to read the accompanying doc-entry for [AddItemSpectralEdit](usdocml://AddItemSpectralEdit), which explains the parameters in more detail.  
+           >Just some bits: 
+           >Every Spectral-Edit-instance will be shown as a square/rectangle on top of the MediaItem. You can influence this rectangle's position and length, the frequency-ranges covered, the fades as well as all settings of all knobs appearing in it.  
+           >And as the cherry on the top: you can also bypass and solo it.  
+           >And, as the SetItemSpectralVisibilityState-function above, if you set itemidx to -1, you can add the Spectral-Edit-instance to a MediaItemStateChunk instead.  
+           
            
            But what if you want to modify an already existing SpectralEdit-instance? Good question and I have a good answer to that:
+           
+           >**[SetItemSpectralEdit](usdocml://SetItemSpectralEdit)**
            
                             string MediaItemStateChunk 
                                         = ultraschall.SetItemSpectralEdit(integer itemix, integer spectralidx, number start_pos, number end_pos, number gain, 
@@ -1639,19 +1676,25 @@
                                                                           number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, 
                                                                           string MediaItemStateChunk)
                                                                           
-           This sets an already existing SpectralEdit-instance, and it probably reminds you very much of the AddItemSpectralEdit-function.   
-           However, there is a small difference in it, the second parameter spectralidx, which tells the function, which spectral-edit-instance you want to change, with 1 for the first.  
-           The rest is like AddItemSpectralEdit.  
+           >This sets an already existing SpectralEdit-instance, and it probably reminds you very much of the AddItemSpectralEdit-function.   
+           >However, there is a small difference in it, the second parameter spectralidx, which tells the function, which spectral-edit-instance you want to change, with 1 for the first.  
+           >The rest is like AddItemSpectralEdit.  
+           
            
            To delete such an instance, you can use the function:
-                            
+           
+           >**[DeleteItemSpectralEdit](usdocml://DeleteItemSpectralEdit)**
+           
                             boolean retval, string MediaItemStateChunk = ultraschall.DeleteItemSpectralEdit(integer itemidx, integer spectralidx, string MediaItemStateChunk)
                             
-           With that, you can easily delete a SpectralEdit-instance, by giving the item's idx(itemidx) and the number of the SpectralEdit-instance(spectralidx).  
-           And, as most of the functions before: when setting itemidx to -1, you can use the optional parameter MediaItemStateChunk  
+           >With that, you can easily delete a SpectralEdit-instance, by giving the item's idx(itemidx) and the number of the SpectralEdit-instance(spectralidx).  
+           >And, as most of the functions before: when setting itemidx to -1, you can use the optional parameter MediaItemStateChunk  
+           
            
            To successfully set an already existing instance, you probably want to know, what current settings are in a SpectralEdit-instance.  
            For that, there is:
+           
+           >**[GetItemSpectralEdit](usdocml://GetItemSpectralEdit)**
            
                             number start_pos, number end_pos, number gain, number fade, number freq_fade, 
                             number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, 
@@ -1659,8 +1702,8 @@
                             number n, number o, number fade2, number freq_fade2 
                                         = ultraschall.GetItemSpectralEdit(integer itemidx, integer spectralidx, string MediaItemStateChunk)
                                         
-           This returns all settings you can set with AddItemSpectralEdit and SetItemSpectralEdit, by giving the item's idx within the project(itemidx) and the SpectralEdit-instance(spectralidx).  
-           And you know the drill: when setting itemidx to -1, you can pass a MediaItemStateChunk to the function.
+           >This returns all settings you can set with AddItemSpectralEdit and SetItemSpectralEdit, by giving the item's idx within the project(itemidx) and the SpectralEdit-instance(spectralidx).  
+           >And you know the drill: when setting itemidx to -1, you can pass a MediaItemStateChunk to the function.
            
            Some other functions for SpectralEdit-management are:  
            
@@ -1674,13 +1717,13 @@
         <chapter_context>
             MediaItems
         </chapter_context>
-        <previous_chapter>Getting_Manipulating_Items_Inserting</previous_chapter>
-        <next_chapter>Getting_Manipulating_Items_Miscellaneous</next_chapter>
+        <previous_chapter>Getting_Manipulating_Items_007_Inserting</previous_chapter>
+        <next_chapter>Getting_Manipulating_Items_009_Miscellaneous</next_chapter>
         <tags>documentation, mediaitems, items, spectral, edit, add, count, delete, set, visibility, resolution, fft</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>Getting_Manipulating_Items_Miscellaneous</slug>
+        <slug>Getting_Manipulating_Items_009_Miscellaneous</slug>
         <title>MediaItems: Miscellaneous</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Still not enough? Well, I've added numerous other functions, and I want to introduce you to some of the gems included.  
@@ -1688,73 +1731,260 @@
             
             What about, previewing MediaItems and files? Use this:
             
+            >**[PreviewMediaItem](usdocml://PreviewMediaItem)**
+            
                             boolean retval = ultraschall.PreviewMediaItem(MediaItem MediaItem, integer Previewtype)
                             
-            This previews an existing MediaItem, which means: Reaper will play it, regardless of what you hear in your project currently.  
-            You can also set, where you want to have it previewed, through the MediaExplorer, the MediaItem itself, through the volume-settings of the track, in which it lies and through the track, in which it lies(including FX and such).  
-            You can just play one MediaItem at a time, unless you play one through the MediaExplorer and one through another previewing-type.  
+            >This previews an existing MediaItem, which means: Reaper will play it, regardless of what you hear in your project currently.  
+            >You can also set, where you want to have it previewed, through the MediaExplorer, the MediaItem itself, through the volume-settings of the track, in which it lies and through the track, in which it lies(including FX and such).  
+            >You can just play one MediaItem at a time, unless you play one through the MediaExplorer and one through another previewing-type.  
             
             If you want to preview a file not in the current project, you can use:
             
+            >**[PreviewMediaFile](usdocml://PreviewMediaFile)**
+            
                             boolean retval = ultraschall.PreviewMediaFile(string filename_with_path)
                             
-            which will simply play the file you gave using filename\_with\_path.
+            >which will simply play the file you gave using filename\_with\_path.
             
             To stop any preview, just use 
-                            
+            
+            >**[StopAnyPreview](usdocml://StopAnyPreview)**
+            
                             ultraschall.StopAnyPreview()
                             
+            >which stops any previewing, be it from a MediaItem or an external mediafile.
             
             What about applying Actions to MediaItems? Use this:
-                            
+            
+            >**[ApplyActionToMediaItem](usdocml://ApplyActionToMediaItem)**
+            
                             boolean retval = ultraschall.ApplyActionToMediaItem(MediaItem MediaItem, string actioncommandid, 
                                                                                 integer repeat_action, boolean midi, optional HWND MIDI_hwnd)
                                                                                 
-            which allows applying main and midi-editor-actions to MediaItem. Just pass the command\_id/action\_command\_id to the parameter.  
-            With parameter repeat\_action, you can set, how often the action shall be applied to the MediaItem.  
-            To apply MIDI-Editor, actions, set midi=true and pass over a HWND of the used MIDI-Editor, using Reaper's own API function [MIDIEditor_GetActive](Reaper_Api_Documentation.html#MIDIEditor_GetActive).  
+            >which allows applying main and midi-editor-actions to MediaItem. Just pass the command\_id/action\_command\_id to the parameter.  
+            >With parameter repeat\_action, you can set, how often the action shall be applied to the MediaItem.  
+            >To apply MIDI-Editor, actions, set midi=true and pass over a HWND of the used MIDI-Editor, using Reaper's own API function [MIDIEditor_GetActive](Reaper_Api_Documentation.html#MIDIEditor_GetActive).  
             
             To apply action to multiple MediaItems, use:
-                
+            
+            >**[ApplyActionToMediaItemArray](usdocml://ApplyActionToMediaItemArray)**
+            
                             boolean retval = ultraschall.ApplyActionToMediaItemArray(MediaItemArray MediaItemArray, string actioncommandid, 
                                                                                      integer repeat_action, boolean midi, optional HWND MIDI_hwnd)
                             
-            which works just the same as ApplyActionToMediaItem, but uses a [MediaItemArray](#Datatypes_MediaItemArray) that includes the MediaItems to be affected.  
+            >which works just the same as ApplyActionToMediaItem, but uses a [MediaItemArray](#Datatypes_003_MediaItemArray) that includes the MediaItems to be affected.  
+            
             In addition to actions, you can also apply functions to MediaItems:
+            
+            >**[ApplyFunctionToMediaItemArray](usdocml://ApplyFunctionToMediaItemArray)**
             
                             table returnvalues 
                                     = ultraschall.ApplyFunctionToMediaItemArray(MediaItemArray MediaItemArray, function functionname, 
                                                                                         functionparameters1, ..., functionparametersn)
             
-            You just pass to it the MediaItemArray, the functionname, the parameters for the function functionname.  
-            Keep in mind: if a parameter of functionname shall hold the MediaItem, you need to set the accompanying parameter to nil,  ApplyFunctionToMediaItemArray will
-            automatically insert the appropriate MediaItem at this nil parameter.
+            >You just pass to it the MediaItemArray, the functionname, the parameters for the function functionname.  
+            >Keep in mind: if a parameter of functionname shall hold the MediaItem, you need to set the accompanying parameter to nil,  ApplyFunctionToMediaItemArray will
+            >automatically insert the appropriate MediaItem at this nil parameter.
             
             What else? What about Normalizing MediaItems? Use this:
             
+            >**[NormalizeItems](usdocml://NormalizeItems)**
+            
                             integer retval = ultraschall.NormalizeItems(array MediaItemArray)
                             
-            Just pass to it a MediaItemArray, that holds all MediaItems to be normalized.
+            >Just pass to it a MediaItemArray, that holds all MediaItems to be normalized.
             
             And last, but not least: What about applying MediaItemStateChunks to MediaItems? Use this:
+            
+            >**[ApplyStateChunkToItems](usdocml://ApplyStateChunkToItems)**
             
                             boolean retval, integer skippeditemscount, array skipped_MediaItemStateChunkArray 
                                     = ultraschall.ApplyStateChunkToItems(array MediaItemStateChunkArray, boolean undostate)
                                     
-            This applies the MediaItemStateChunks in MediaItemStateChunkArray to the appropriate MediaItems. That means, if a StateChunk is of a certain, existing MediaItem, the function will apply the StateChunk to the MediaItem.  
-            This function is especially helpful, when mass manipulating StateChunks and wanting to mass-apply the changed ones back.
-            Easy to do now.
+            >This applies the MediaItemStateChunks in MediaItemStateChunkArray to the appropriate MediaItems. That means, if a StateChunk is of a certain, existing MediaItem, the function will apply the StateChunk to the MediaItem.  
+            >This function is especially helpful, when mass manipulating StateChunks and wanting to mass-apply the changed ones back.  
+            >Easy to do now.
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
         <chapter_context>
             MediaItems
         </chapter_context>
-        <previous_chapter>Getting_Manipulating_Items_Spectral_Edit</previous_chapter>
-        <next_chapter></next_chapter>
+        <previous_chapter>Getting_Manipulating_Items_008_Spectral_Edit</previous_chapter>
+        <next_chapter>1FileManagement_001_Introduction</next_chapter>
         <tags>documentation, mediaitems, items, preview, apply actions, apply function, normalize, apply statechunks</tags>
     </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>1FileManagement_001_Introduction</slug>
+        <title>File Management: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Even if file-management isn't that hard to program in Lua, it is quite inconvenient. Especially for "normal" use-cases, it is often a drag to always go through the four steps, checking if file exists, open file, read/write, close file.  
+            Wouldn't it be cool, to have functions to do it for you?
+            
+            Well now, there are, as the Ultraschall-API includes 28 functions to do it for you.  
+            These functions include functions for reading and writing, copying them.  
+            You can also check for valid filetypes, for valid directories, can count files and directories in paths, get paths and files in a path, and get length or number of lines in a file.  
+            
+            With that, you can do a lot of file-operation quite easy, without having to dig through the little details of the Lua-Reference-Manual.
+            
+            Let's start with reading files.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            File Management
+        </chapter_context>
+        <previous_chapter>Getting_Manipulating_Items_009_Miscellaneous</previous_chapter>
+        <next_chapter>FileManagement_002_Read</next_chapter>
+        <tags>documentation, files, filemanagement, introduction</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>FileManagement_002_Read</slug>
+        <title>File Management: Read</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            To read files, I included some nice functions, like: [ReadFullFile](usdocml://ReadFullFile), [ReadBinaryFile](usdocml://ReadBinaryFile), [ReadBinaryFileFromPattern](usdocml://ReadBinaryFileFromPattern), [ReadBinaryFileUntilPattern](usdocml://ReadBinaryFileUntilPattern),  
+                                                                 [ReadFileAsLines_Array](usdocml://ReadFileAsLines_Array), [ReadLinerangeFromFile](usdocml://ReadLinerangeFromFile), [ReadValueFromFile](usdocml://ReadValueFromFile), [ReadBinaryFile_Offset](usdocml://ReadBinaryFile_Offset)  
+                                                                 
+            Let's start with the function probably used the most:
+            
+            >**[ReadFullFile](usdocml://ReadFullFile)**
+            
+                            string contents, integer length_of_file, integer number_of_lines = ultraschall.ReadFullFile(string filename_with_path, boolean binary)
+            
+            > This reads a file fully and returns it's contents to the return-variable contents. It will also return the length of the file.  
+            > If you set the parameter binary to true, it will read the files as binary files; if set to false or nil, it will read the file either until the end or until a eof-character comes up.  
+            > If you're dealing with textfiles, set it to false or nil, otherwise to true.
+            
+            If you want to return all lines from a textfile, that have a certain character-pattern in them, use this function:
+            
+            >**[ReadValueFromFile](usdocml://ReadValueFromFile)**
+            
+                            string contents, string linenumbers, integer numberoflines, integer number_of_foundlines = 
+                                                                ultraschall.ReadValueFromFile(string filename_with_path, string value)
+                            
+            > This reads a file as textfile and returns it. When you give parameter value a string, it will return all lines from the file, that contain this string.  
+            > The returned values are contents, the linenumbers returned as a comma-separated-csv, the total number of lines in the file and the number of lines found and returned  
+            > This should help you to read only the lines useful for you, however, it is much slower than ReadFullFile() due the massive pattern-matching used in it.  
+            > So, even if you can read the full file with that, better use ReadFullFile when you want the full file returned.  
+            
+            If you want to return everything from a pattern to the end of a file, use:
+            
+            >**[ReadBinaryFileFromPattern](usdocml://ReadBinaryFileFromPattern)**
+            
+                            integer length, string content = ultraschall.ReadBinaryFileFromPattern(string input_filename_with_path, string pattern)
+            
+            > with this function, you can read a file from a pattern onwards. That means, the function searches for the first(!) instance of pattern and returns the file from that pattern until the end of the file.
+            
+            Similar to this is:
+
+            >**[ReadBinaryFileUntilPattern](usdocml://ReadBinaryFileUntilPattern)**
+            
+                            integer length, string content = ultraschall.ReadBinaryFileUntilPattern(string input_filename_with_path, string pattern)
+            
+            > which reads a file until(!) a certain pattern is found in it and returns this. That means, it returns the file from it's start until the pattern.
+            
+            But what if you want to read a file from a start-offset to an endoffset? Use this:
+
+            >**[ReadBinaryFile_Offset](usdocml://ReadBinaryFile_Offset)**
+            
+                            integer length, string content = 
+                                    ultraschall.ReadBinaryFile_Offset(string input_filename_with_path, integer startoffset, integer numberofbytes)
+            
+            > This function returns the contents of the file from startoffset(in Bytes) until startoffset+numberofbytes.  
+            > If you set number of bytes to -1, the function will return the file from startoffset to it's end.  
+            > Positive value in startoffset will be related to the beginning of the file. If you want to return the file from a startoffset related to the end of the file,  
+            > use negative value for startoffset.  
+            > A startoffset of -1 is for the end of the file, -2 for the last byte in the file, -3 for the second to last byte in the file, etc.  
+            > Even with negative startoffset, parameter numberofbytes will count from the startoffset to startoffset+numberofbytes.  
+            > If the startoffset+numberofbytes reach or cross the end of the file, it will return a shorter string.  
+            > To check, whether it returned the requested length, check the returnvalue length.  
+            > Returnvalue content holds the requested part of the file  
+            
+            When you have a textfile and you want to work with it on an individual line-basis, use:  
+            
+            >**[ReadFileAsLines_Array](usdocml://ReadFileAsLines_Array)**
+            
+                            array contents, boolean correctnumberoflines, integer number_of_lines = 
+                                    ultraschall.ReadFileAsLines_Array(string filename_with_path, integer firstlinenumber, integer lastlinenumber)
+            
+            > This returns a textfile, split into it's individual lines put into an array. You can also set the linenumbers, that you want to have returned.  
+            > If the linenumbers returned are fewer than you requested, correctnumberoflines will be false, otherwise it will be true.  
+            
+            If you want to have the lines returned in one string, use the following instead:
+            
+            >**[ReadLinerangeFromFile](usdocml://ReadLinerangeFromFile)**
+            
+                            string contents, boolean correctnumberoflines, integer number_of_lines = 
+                                     ultraschall.ReadLinerangeFromFile(string filename_with_path, integer firstlinenumber, integer lastlinenumber)
+            
+            > This works basically the same as ReadFileAsLines_Array, but returns the found-lines as a newline-separated string.
+            
+            
+            These functions should fulfill most of your daily file-read-usecases.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            File Management
+        </chapter_context>
+        <previous_chapter>FileManagement_001_Introduction</previous_chapter>
+        <next_chapter>FileManagement_003_Write</next_chapter>
+        <tags>documentation, files, filemanagement, read</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>FileManagement_003_Write</slug>
+        <title>File Management: Write</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            File Management
+        </chapter_context>
+        <previous_chapter>FileManagement_002_Read</previous_chapter>
+        <next_chapter>FileManagement_004_Analyse</next_chapter>
+        <tags>documentation, files, filemanagement, write</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>FileManagement_004_Analyse</slug>
+        <title>File Management: Analyse</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            File Management
+        </chapter_context>
+        <previous_chapter>FileManagement_003_Write</previous_chapter>
+        <next_chapter>FileManagement_005_Misc</next_chapter>
+        <tags>documentation, files, filemanagement, analyse</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>FileManagement_005_Misc</slug>
+        <title>File Management: Misc</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            File Management
+        </chapter_context>
+        <previous_chapter>FileManagement_004_Analyse</previous_chapter>
+        <next_chapter></next_chapter>
+        <tags>documentation, files, filemanagement, miscellaneous</tags>
+    </US_DocBloc>
+    
     
 </USDocML>
 
 
+>**[](usdocml://)**
