@@ -34,7 +34,7 @@
                    - RunCommand for Items/Tracks - apply actions to specific items/tracks
                    - Checking for changed projecttabs - check, if projecttabs have been added/removed
                    - ExtState-Management - an extensive set of functions for working with extstates as well as ini-files
-                   - Data Manipulation- manipulate many of your data, including bitwise-integers, tables, etc
+                   - Data Manipulation- manipulate a lot of your data, including bitwise-integers, tables, etc
                    - Clipboard-Management - get items from clipboard
                    - Error Messaging System - all functions create useful error-messages that can be shown using, eg: [ShowLastErrorMessage](usdocml://ShowLastErrorMessage), for easier debugging
                    - tons of other helper-functions AND

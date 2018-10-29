@@ -283,9 +283,19 @@
   - Docs - added File Management: Introduction to the Introduction/Concepts-page
   - Docs - added docs for ultraschall.Euro, which holds the €-currency symbol
   - Docs - added   - File Management: Read to the Introduction/Concepts-page
+  - Added example-scripts:
+        ArrangeView_Snapshots_Example.lua
+        Changed_Project_Tab_Example.lua
+        Color_Example.lua
+        Render_Current_Project.lua
+        Render_Project.lua
+        RippleCut_Selected_Tracks.lua
+        Shorten_MediaItems_In_Selection_Example.lua
     
   <TODO>
       TODO!!  - write final documentation for public-beta
+      TODO!!  - check for valid project-files in Set-Project-functions!
+            if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MaxProjectLength", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
       
     For 4.00beta2.8:
       TODO!!  - ArrangeViewSnapshots - use reaper.JS_Window_SetScrollPos(HWND, "SB_VERT", value) to set and JS_Window_GetScrollInfo from JS new plugin to get/store vertscrollpos
@@ -331,9 +341,9 @@
       TODO!!  - ultraschall.gfx_getkey(integer buffer), allows pipe-ing of UserInput directly into a textbuffer. The textbuffer acts like a invisible textbox, which can be shown using drawstr or something
                                                         must support arrow, bspc, enter, return, copynpaste as well
       TODO!!  - Open$Window(optional boolean openstate) - this needs to be for all Reaper windows available. Opens a $window(like video), when openstate==true, closes it when openstate==false, toggles when openstate==nil
-      TODO!!  - CompareSWSVersionWith(string versionnumber) (Only, when new SWS-version comes out)
-      TODO!!  - CompareReaperVersionWith(string versionnumber)
-      TODO!!  - CompareUSAPIVersionWith(string versionnumber)
+      TODO!!  - CompareSWSVersionWith(integer majornumber, number subversion) (Only, when new SWS-version comes out)
+      TODO!!  - CompareReaperVersionWith(integer majornumber, number subversion) - subversion must be converted to 0.xxx
+      TODO!!  - CompareUSAPIVersionWith(integer majornumber, number subversion, optional number betaversion)
       TODO!!  - CreateItemFromTake, which creates a new item from an existing take. Like cropping, but leaves the original untouched.
       TODO!!  - CropTakeFromItem, which removes a take from an item; maybe allowing multiple ones?
       TODO!!  - MoveTakeInTakeOrderInMediaitem, which allows changing the order of takes within an item
