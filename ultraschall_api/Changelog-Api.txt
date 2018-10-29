@@ -294,8 +294,6 @@
     
   <TODO>
       TODO!!  - write final documentation for public-beta
-      TODO!!  - check for valid project-files in Set-Project-functions!
-            if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MaxProjectLength", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
       
     For 4.00beta2.8:
       TODO!!  - ArrangeViewSnapshots - use reaper.JS_Window_SetScrollPos(HWND, "SB_VERT", value) to set and JS_Window_GetScrollInfo from JS new plugin to get/store vertscrollpos

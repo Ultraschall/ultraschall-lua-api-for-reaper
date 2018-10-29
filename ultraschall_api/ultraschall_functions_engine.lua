@@ -18147,7 +18147,7 @@ function ultraschall.GetProject_TrackMixingDepth(projectfilename_with_path, Proj
     if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
     else ultraschall.AddErrorMessage("GetProject_TrackMixingDepth","projectfilename_with_path", "File does not exist!", -3) return -1
     end
-    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_TrackMixingDepth", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_TrackMixingDepth", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return -1 end
   end
   -- get the values and return them
   ProjectStateChunk=ProjectStateChunk:match("<REAPER_PROJECT.-INTMIXMODE(%s.-)%c.-<RENDER_CFG").." "
@@ -18205,7 +18205,7 @@ function ultraschall.GetProject_TrackStateChunk(projectfilename_with_path, idx, 
     if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
     else ultraschall.AddErrorMessage("GetProject_TrackStateChunk","projectfilename_with_path", "File does not exist!", -3) return -1
     end
-    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_TrackStateChunk", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_TrackStateChunk", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return -1 end
   end
   -- get the values and return them
   local trackstate
@@ -18266,7 +18266,7 @@ function ultraschall.GetProject_NumberOfTracks(projectfilename_with_path, GetPro
     if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
     else ultraschall.AddErrorMessage("GetProject_NumberOfTracks","projectfilename_with_path", "File does not exist!", -3) return -1
     end
-    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_NumberOfTracks", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_NumberOfTracks", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return -1 end
   end
   -- count tracks and return the number
   local count=0
@@ -18426,13 +18426,14 @@ function ultraschall.SetProject_RippleState(projectfilename_with_path, ripple_st
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RippleState", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(ripple_state)~="integer" then ultraschall.AddErrorMessage("SetProject_RippleState", "ripple_state", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RippleState", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RIPPLE%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RIPPLE%s.-%c(.-<RECORD_CFG.*)")
   
   ProjectStateChunk=FileStart..ripple_state.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -18483,13 +18484,14 @@ function ultraschall.SetProject_Selection(projectfilename_with_path, starttime, 
   if type(endtime)~="number" then ultraschall.AddErrorMessage("SetProject_Selection", "endtime", "Must be an integer", -5) return -1 end
   if type(starttime2)~="number" then ultraschall.AddErrorMessage("SetProject_Selection", "starttime", "Must be an integer", -6) return -1 end
   if type(endtime2)~="number" then ultraschall.AddErrorMessage("SetProject_Selection", "endtime", "Must be an integer", -7) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Selection", "projectfilename_with_path", "No valid RPP-Projectfile!", -8) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-SELECTION%s).-%c")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-SELECTION2%s.-%c(.*)")
   
   ProjectStateChunk=FileStart..starttime.." "..endtime.."\n  SELECTION2 "..starttime2.." "..endtime2.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -18545,13 +18547,14 @@ function ultraschall.SetProject_GroupOverride(projectfilename_with_path, group_o
   if math.type(group_override1)~="integer" then ultraschall.AddErrorMessage("SetProject_GroupOverride", "group_override1", "Must be an integer", -4) return -1 end
   if math.type(group_override2)~="integer" then ultraschall.AddErrorMessage("SetProject_GroupOverride", "group_override2", "Must be an integer", -5) return -1 end
   if math.type(group_override3)~="integer" then ultraschall.AddErrorMessage("SetProject_GroupOverride", "group_override3", "Must be an integer", -6) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_GroupOverride", "projectfilename_with_path", "No valid RPP-Projectfile!", -7) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-GROUPOVERRIDE%s).-%s.-%s.-%s.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-GROUPOVERRIDE%s.-%s.-%s.-%c(.-<RECORD_CFG.*)")
 
   ProjectStateChunk=FileStart..group_override1.." "..group_override2.." "..group_override3.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -18597,13 +18600,14 @@ function ultraschall.SetProject_AutoCrossFade(projectfilename_with_path, autocro
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_AutoCrossFade", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(autocrossfade_state)~="integer" then ultraschall.AddErrorMessage("SetProject_AutoCrossFade", "autocrossfade_state", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_AutoCrossFade", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-AUTOXFADE%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-AUTOXFADE%s.-%c(.-<RECORD_CFG.*)")
 
   ProjectStateChunk=FileStart..autocrossfade_state.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -18649,13 +18653,14 @@ function ultraschall.SetProject_EnvAttach(projectfilename_with_path, env_attach,
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_EnvAttach", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(env_attach)~="integer" then ultraschall.AddErrorMessage("SetProject_EnvAttach", "env_attach", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_EnvAttach", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-ENVATTACH%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-ENVATTACH%s.-%c(.-<RECORD_CFG.*)")
   
   ProjectStateChunk=FileStart..env_attach.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end    
 end
 
@@ -18745,13 +18750,14 @@ function ultraschall.SetProject_MixerUIFlags(projectfilename_with_path, state_bi
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MixerUIFlags", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(state_bitfield1)~="integer" then ultraschall.AddErrorMessage("SetProject_MixerUIFlags", "state_bitfield1", "Must be an integer", -4) return -1 end
   if math.type(state_bitfield2)~="integer" then ultraschall.AddErrorMessage("SetProject_MixerUIFlags", "state_bitfield2", "Must be an integer", -5) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MixerUIFlags", "projectfilename_with_path", "No valid RPP-Projectfile!", -6) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-MIXERUIFLAGS%s).-%s.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-MIXERUIFLAGS%s.-%c(.-<RECORD_CFG.*)")
   
   ProjectStateChunk=FileStart..tonumber(state_bitfield1).." "..tonumber(state_bitfield2).."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -18795,13 +18801,14 @@ function ultraschall.SetProject_PeakGain(projectfilename_with_path, peakgain_sta
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_PeakGain", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if type(peakgain_state)~="number" then ultraschall.AddErrorMessage("SetProject_PeakGain", "peakgain_state", "Must be a number", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_PeakGain", "projectfilename_with_path", "No valid RPP-Projectfile!", -6) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-PEAKGAIN%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-PEAKGAIN%s.-%c(.-<RECORD_CFG.*)")
 
   ProjectStateChunk=FileStart..peakgain_state.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -18845,13 +18852,14 @@ function ultraschall.SetProject_Feedback(projectfilename_with_path, feedback_sta
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Feedback", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(feedback_state)~="integer" then ultraschall.AddErrorMessage("SetProject_Feedback", "feedback_state", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Feedback", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-FEEDBACK%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-FEEDBACK%s.-%c(.-<RECORD_CFG.*)")
 
   ProjectStateChunk=FileStart..feedback_state.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -18896,14 +18904,14 @@ function ultraschall.SetProject_PanLaw(projectfilename_with_path, panlaw_state, 
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_PanLaw", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if type(panlaw_state)~="number" then ultraschall.AddErrorMessage("SetProject_PanLaw", "state", "Must be a number", -4) return -1 end
-
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_PanLaw", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-PANLAW%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-PANLAW%s.-%c(.-<RECORD_CFG.*)")
   
   ProjectStateChunk=FileStart..panlaw_state.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -18950,12 +18958,13 @@ function ultraschall.SetProject_ProjOffsets(projectfilename_with_path, start_tim
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_ProjOffsets", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if type(start_time)~="number" then ultraschall.AddErrorMessage("SetProject_ProjOffsets", "start_time", "Must be a number", -4) return -1 end
   if math.type(start_measure)~="integer" then ultraschall.AddErrorMessage("SetProject_ProjOffsets", "start_measure", "Must be an integer", -5) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_ProjOffsets", "projectfilename_with_path", "No valid RPP-Projectfile!", -6) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-PROJOFFS%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-PROJOFFS%s.-%c(.-<RECORD_CFG.*)")
   ProjectStateChunk=FileStart..start_time.." "..start_measure.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -19005,12 +19014,13 @@ function ultraschall.SetProject_MaxProjectLength(projectfilename_with_path, limi
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MaxProjectLength", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(limit_project_length)~="integer" then ultraschall.AddErrorMessage("SetProject_MaxProjectLength", "limit_project_length", "Must be an integer", -4) return -1 end
   if type(projectlength_limit)~="number" then ultraschall.AddErrorMessage("SetProject_MaxProjectLength", "projectlength_limit", "Must be a number", -5) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MaxProjectLength", "projectfilename_with_path", "No valid RPP-Projectfile!", -6) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-MAXPROJLEN%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-MAXPROJLEN%s.-%c(.-<RECORD_CFG.*)")
   ProjectStateChunk=FileStart..limit_project_length.." "..projectlength_limit.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -19077,13 +19087,14 @@ function ultraschall.SetProject_Grid(projectfilename_with_path, gridstate1, grid
   if math.type(gridstate6)~="integer" then ultraschall.AddErrorMessage("SetProject_Grid", "gridstate6", "Must be an integer", -9) return -1 end
   if math.type(gridstate7)~="integer" then ultraschall.AddErrorMessage("SetProject_Grid", "gridstate7", "Must be an integer", -10) return -1 end
   if type(gridstate8)~="number" then ultraschall.AddErrorMessage("SetProject_Grid", "gridstate8", "Must be an integer", -11) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Grid", "projectfilename_with_path", "No valid RPP-Projectfile!", -12) return -1 end
   
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-GRID%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-GRID%s.-%c(.-<RECORD_CFG.*)")
 
   ProjectStateChunk=FileStart..gridstate1.." "..gridstate2.." "..gridstate3.." "..gridstate4.." "..gridstate5.." "..gridstate6.." "..gridstate7.." "..gridstate8.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -19157,12 +19168,13 @@ function ultraschall.SetProject_Timemode(projectfilename_with_path, timemode1, t
   if math.type(showntime)~="integer" then ultraschall.AddErrorMessage("SetProject_Timemode", "showntime", "Must be an integer", -6) return -1 end
   if math.type(timemode4)~="integer" then ultraschall.AddErrorMessage("SetProject_Timemode", "timemode4", "Must be an integer", -7) return -1 end
   if math.type(timemode5)~="integer" then ultraschall.AddErrorMessage("SetProject_Timemode", "timemode5", "Must be an integer", -8) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Timemode", "projectfilename_with_path", "No valid RPP-Projectfile!", -9) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-TIMEMODE%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-TIMEMODE%s.-%c(.-<RECORD_CFG.*)")
   ProjectStateChunk=FileStart..timemode1.." "..timemode2.." "..showntime.." "..timemode4.." "..timemode5.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -19238,13 +19250,14 @@ function ultraschall.SetProject_VideoConfig(projectfilename_with_path, preferred
   if math.type(preferredVidSizeX)~="integer" then ultraschall.AddErrorMessage("SetProject_VideoConfig", "preferredVidSizeX", "Must be an integer", -4) return -1 end
   if math.type(preferredVidSizeY)~="integer" then ultraschall.AddErrorMessage("SetProject_VideoConfig", "preferredVidSizeY", "Must be an integer", -5) return -1 end
   if math.type(settingsBitfield)~="integer"  then ultraschall.AddErrorMessage("SetProject_VideoConfig", "settingsBitfield", "Must be an integer", -6) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_VideoConfig", "projectfilename_with_path", "No valid RPP-Projectfile!", -7) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-VIDEO_CONFIG%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-VIDEO_CONFIG%s.-%c(.-<RECORD_CFG.*)")
   
   ProjectStateChunk=FileStart..preferredVidSizeX.." "..preferredVidSizeY.." "..settingsBitfield.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -19297,7 +19310,8 @@ function ultraschall.SetProject_PanMode(projectfilename_with_path, panmode_state
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_PanMode", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(panmode_state)~="integer" then ultraschall.AddErrorMessage("SetProject_PanMode", "panmode_state", "Must be an integer", -4) return -1 end
-
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_PanMode", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
+  
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-PANMODE%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-PANMODE%s.-%c(.-<RECORD_CFG.*)")
   if FileStart==nil or FileEnd==nil then 
@@ -19308,7 +19322,7 @@ function ultraschall.SetProject_PanMode(projectfilename_with_path, panmode_state
   
   ProjectStateChunk=FileStart..panmode_state.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -19353,12 +19367,13 @@ function ultraschall.SetProject_CursorPos(projectfilename_with_path, cursorpos, 
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_CursorPos", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(cursorpos)~="integer" then ultraschall.AddErrorMessage("SetProject_CursorPos", "cursorpos", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_CursorPos", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-CURSOR%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-CURSOR%s.-%c(.-<RECORD_CFG.*)")
   ProjectStateChunk=FileStart..cursorpos.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -19409,13 +19424,14 @@ function ultraschall.SetProject_HorizontalZoom(projectfilename_with_path, hzoom,
   if type(hzoom)~="number" then ultraschall.AddErrorMessage("SetProject_HorizontalZoom", "hzoom", "Must be a number", -4) return -1 end
   if math.type(hzoomscrollpos)~="integer" then ultraschall.AddErrorMessage("SetProject_HorizontalZoom", "hzoomscrollpos", "Must be an integer", -5) return -1 end
   if math.type(scrollbarfactor)~="integer" then ultraschall.AddErrorMessage("SetProject_HorizontalZoom", "scrollbarfactor", "Must be an integer", -6) return -1 end
-
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_HorizontalZoom", "projectfilename_with_path", "No valid RPP-Projectfile!", -7) return -1 end
+  
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-ZOOM%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-ZOOM%s.-%c(.-<RECORD_CFG.*)")
   
   ProjectStateChunk=FileStart..hzoom.." "..hzoomscrollpos.." "..scrollbarfactor.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -19460,13 +19476,14 @@ function ultraschall.SetProject_VerticalZoom(projectfilename_with_path, vzoom, P
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_VerticalZoom", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(vzoom)~="integer" then ultraschall.AddErrorMessage("SetProject_VerticalZoom", "vzoom", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_VerticalZoom", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-VZOOMEX%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-VZOOMEX%s.-%c(.-<RECORD_CFG.*)")
   
   ProjectStateChunk=FileStart..vzoom.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -19514,13 +19531,14 @@ function ultraschall.SetProject_UseRecConfig(projectfilename_with_path, rec_cfg,
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_UseRecConfig", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(rec_cfg)~="integer" then ultraschall.AddErrorMessage("SetProject_UseRecConfig", "rec_cfg", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_UseRecConfig", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-USE_REC_CFG%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-USE_REC_CFG%s.-%c(.-<RECORD_CFG.*)")
   
   ProjectStateChunk=FileStart..rec_cfg.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -19571,13 +19589,14 @@ function ultraschall.SetProject_RecMode(projectfilename_with_path, rec_mode, Pro
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RecMode", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(rec_mode)~="integer" then ultraschall.AddErrorMessage("SetProject_RecMode", "rec_mode", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RecMode", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RECMODE%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RECMODE%s.-%c(.-<RECORD_CFG.*)")
 
   ProjectStateChunk=FileStart..rec_mode.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -19655,13 +19674,14 @@ function ultraschall.SetProject_SMPTESync(projectfilename_with_path, smptesync_s
   if math.type(smptesync_stop_rec_drift)~="integer" then ultraschall.AddErrorMessage("SetProject_SMPTESync", "smptesync_stop_rec_drift", "Must be an integer", -12) return -1 end
   if math.type(smptesync_state10)~="integer" then ultraschall.AddErrorMessage("SetProject_SMPTESync", "smptesync_state10", "Must be an integer", -13) return -1 end
   if math.type(smptesync_stop_rec_lacktime)~="integer" then ultraschall.AddErrorMessage("SetProject_SMPTESync", "smptesync_stop_rec_lacktime", "Must be an integer", -14) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_SMPTESync", "projectfilename_with_path", "No valid RPP-Projectfile!", -15) return -1 end
   
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-SMPTESYNC%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-SMPTESYNC%s.-%c(.-<RECORD_CFG.*)")
   
   ProjectStateChunk=FileStart.." "..smptesync_state1.." "..smptesync_fps.." "..smptesync_resyncdrift.." "..smptesync_skipdropframes.." "..smptesync_syncseek.." "..smptesync_freewheel.." "..smptesync_userinput.." "..smptesync_offsettimecode.." "..smptesync_stop_rec_drift.." "..smptesync_state10.." "..smptesync_stop_rec_lacktime.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -19704,13 +19724,14 @@ function ultraschall.SetProject_Loop(projectfilename_with_path, loopbutton_state
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Loop", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(loopbutton_state)~="integer" then ultraschall.AddErrorMessage("SetProject_Loop", "loopbutton_state", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Loop", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-LOOP%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-LOOP%s.-%c(.-<RECORD_CFG.*)")
 
   ProjectStateChunk=FileStart..loopbutton_state.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -19755,12 +19776,13 @@ function ultraschall.SetProject_LoopGran(projectfilename_with_path, loopgran_sta
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_LoopGran", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(loopgran_state1)~="integer" then ultraschall.AddErrorMessage("SetProject_LoopGran", "loopgran_state1", "Must be an integer", -4) return -1 end
   if type(loopgran_state2)~="number" then ultraschall.AddErrorMessage("SetProject_LoopGran", "loopgran_state2", "Must be an integer", -5) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_LoopGran", "projectfilename_with_path", "No valid RPP-Projectfile!", -6) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-LOOPGRAN%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-LOOPGRAN%s.-%c(.-<RECORD_CFG.*)")
   ProjectStateChunk=FileStart..loopgran_state1.." "..loopgran_state2.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -19805,13 +19827,14 @@ function ultraschall.SetProject_RecPath(projectfilename_with_path, prim_recpath,
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RecPath", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if type(prim_recpath)~="string" then ultraschall.AddErrorMessage("SetProject_RecPath", "prim_recpath", "Must be a string", -4) return -1 end
   if type(sec_recpath)~="string" then ultraschall.AddErrorMessage("SetProject_RecPath", "sec_recpath", "Must be a string", -5) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RecPath", "projectfilename_with_path", "No valid RPP-Projectfile!", -6) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RECORD_PATH%s).-%c.-<RECORD_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RECORD_PATH%s.-%c(.-<RECORD_CFG.*)")
   
   ProjectStateChunk=FileStart.."\""..prim_recpath.."\" \""..sec_recpath.."\"\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -19860,13 +19883,14 @@ function ultraschall.SetProject_RecordCFG(projectfilename_with_path, recording_c
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RecordCFG", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if type(recording_cfg_string)~="string" then ultraschall.AddErrorMessage("SetProject_RecordCFG", "recording_cfg_string", "Must be a string", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RecordCFG", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RECORD_CFG%c%s*).-%c.-RENDER_FILE.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RECORD_CFG%c%s*.-(%c.-RENDER_FILE.*)")
   
   ProjectStateChunk=FileStart..recording_cfg_string..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -19910,14 +19934,20 @@ function ultraschall.SetProject_RenderCFG(projectfilename_with_path, rendercfg_s
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderCFG", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if type(rendercfg_string)~="string" then ultraschall.AddErrorMessage("SetProject_RenderCFG", "rendercfg_string", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderCFG", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_CFG%c%s*).-%c.->.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_CFG%c%s*.-(%c.->.*)")
-  return ultraschall.WriteValueToFile(projectfilename_with_path, FileStart..rendercfg_string..FileEnd)
+
+  ProjectStateChunk=FileStart..rendercfg_string..FileEnd
+  if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
+    else return 1, ProjectStateChunk
+  end  
 end
 
 --L=ultraschall.ReadFullFile("c:\\tt.rpp")
---A=ultraschall.SetProject_RecordCFG("c:\\tt.rpp", "Hubbelbubbel==")
+--B,C=ultraschall.SetProject_RenderCFG("c:\\tt.rpp", "Hubbelbubbel==")
+--reaper.MB(C,"",0)
 --A=ultraschall.GetProject_RenderCFG("c:\\tt.rpp", "IHBkZA=")
 
 function ultraschall.SetProject_ApplyFXCFG(projectfilename_with_path, applyfx_cfg_string, ProjectStateChunk)
@@ -19960,13 +19990,14 @@ function ultraschall.SetProject_ApplyFXCFG(projectfilename_with_path, applyfx_cf
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_ApplyFXCFG", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if type(applyfx_cfg_string)~="string" then ultraschall.AddErrorMessage("SetProject_ApplyFXCFG", "applyfx_cfg_string", "Must be a string", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_ApplyFXCFG", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-APPLYFX_CFG%c%s*).-%c.-RENDER_FILE.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-APPLYFX_CFG%c%s*.-(%c.-RENDER_FILE.*)")
   
   ProjectStateChunk=FileStart..applyfx_cfg_string..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -20017,7 +20048,7 @@ function ultraschall.SetProject_RenderFilename(projectfilename_with_path, render
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_FILE%s.-%c(.-<RENDER_CFG.*)")
   ProjectStateChunk=FileStart.."\""..renderfilename.."\" \n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -20107,6 +20138,7 @@ function ultraschall.SetProject_RenderPattern(projectfilename_with_path, render_
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderPattern", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if render_pattern~=nil and type(render_pattern)~="string" then ultraschall.AddErrorMessage("SetProject_RenderPattern", "render_pattern", "Must be a string", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderPattern", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_FILE.-%c)")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-(RENDER_FMT.*)")
@@ -20115,7 +20147,7 @@ function ultraschall.SetProject_RenderPattern(projectfilename_with_path, render_
   
   ProjectStateChunk=FileStart..RenderPattern.."  "..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -20168,12 +20200,13 @@ function ultraschall.SetProject_RenderFreqNChans(projectfilename_with_path, unkn
   if math.type(unknown)~="integer" then ultraschall.AddErrorMessage("SetProject_RenderFreqNChans", "unknown", "Must be an integer", -4) return -1 end
   if math.type(rendernum_chans)~="integer" then ultraschall.AddErrorMessage("SetProject_RenderFreqNChans", "rendernum_chans", "Must be an integer", -5) return -1 end
   if math.type(render_frequency)~="integer" then ultraschall.AddErrorMessage("SetProject_RenderFreqNChans", "render_frequency", "Must be an integer", -6) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderFreqNChans", "projectfilename_with_path", "No valid RPP-Projectfile!", -7) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_FMT%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_FMT%s.-%c(.-<RENDER_CFG.*)")
   ProjectStateChunk=FileStart..unknown.." "..rendernum_chans.." "..render_frequency.." \n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -20225,12 +20258,13 @@ function ultraschall.SetProject_RenderSpeed(projectfilename_with_path, render_sp
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderSpeed", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(render_speed)~="integer" then ultraschall.AddErrorMessage("SetProject_RenderSpeed", "render_speed", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderSpeed", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_1X%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_1X%s.-%c(.-<RENDER_CFG.*)")
   ProjectStateChunk=FileStart..render_speed.." \n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -20308,12 +20342,13 @@ function ultraschall.SetProject_RenderRange(projectfilename_with_path, bounds, t
   if type(time_end)~="number" then ultraschall.AddErrorMessage("SetProject_RenderRange", "time_end", "Must be a number", -6) return -1 end
   if math.type(tail)~="integer" then ultraschall.AddErrorMessage("SetProject_RenderRange", "tail", "Must be an integer", -7) return -1 end
   if math.type(tail_length)~="integer" then ultraschall.AddErrorMessage("SetProject_RenderRange", "tail_length", "Must be an integer", -8) return -1 end
-
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderRange", "projectfilename_with_path", "No valid RPP-Projectfile!", -9) return -1 end
+  
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_RANGE%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_RANGE%s.-%c(.-<RENDER_CFG.*)")
   ProjectStateChunk=FileStart..bounds.." "..time_start.." "..time_end.." "..tail.." "..tail_length.." \n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -20396,12 +20431,13 @@ function ultraschall.SetProject_RenderResample(projectfilename_with_path, resamp
   if math.type(resample_mode)~="integer" then ultraschall.AddErrorMessage("SetProject_RenderResample", "resample_mode", "Must be an integer", -4) return -1 end
   if math.type(playback_resample_mode)~="integer" then ultraschall.AddErrorMessage("SetProject_RenderResample", "playback_resample_mode", "Must be an integer", -5) return -1 end
   if math.type(project_smplrate4mix_and_fx)~="integer" then ultraschall.AddErrorMessage("SetProject_RenderResample", "project_smplrate4mix_and_fx", "Must be an integer", -6) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderResample", "projectfilename_with_path", "No valid RPP-Projectfile!", -7) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_RESAMPLE%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_RESAMPLE%s.-%c(.-<RENDER_CFG.*)")
   ProjectStateChunk=FileStart..resample_mode.." "..playback_resample_mode.." "..project_smplrate4mix_and_fx.." \n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -20447,15 +20483,16 @@ function ultraschall.SetProject_AddMediaToProjectAfterRender(projectfilename_wit
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_AddMediaToProjectAfterRender", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(addmedia_after_render_state)~="integer" then ultraschall.AddErrorMessage("SetProject_AddMediaToProjectAfterRender", "addmedia_after_render_state", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_AddMediaToProjectAfterRender", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_ADDTOPROJ%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_ADDTOPROJ%s.-%c(.-<RENDER_CFG.*)")
   
   ProjectStateChunk=FileStart..addmedia_after_render_state.." \n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
-  end
+end
 
 --A=ultraschall.SetProject_AddMediaToProjectAfterRender("c:\\tt.rpp",9)
 --A=ultraschall.GetProject_AddMediaToProjectAfterRender("c:\\tt.rpp",1)
@@ -20509,13 +20546,14 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderStems", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(render_stems)~="integer" then ultraschall.AddErrorMessage("SetProject_RenderStems", "render_stems", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderStems", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_STEMS%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_STEMS%s.-%c(.-<RENDER_CFG.*)")
 
   ProjectStateChunk=FileStart..tonumber(render_stems).." \n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -20566,13 +20604,14 @@ function ultraschall.SetProject_RenderDitherState(projectfilename_with_path, ren
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderDitherState", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(renderdither_state)~="integer" then ultraschall.AddErrorMessage("SetProject_RenderDitherState", "renderdither_state", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderDitherState", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_DITHER%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_DITHER%s.-%c(.-<RENDER_CFG.*)")
   
   ProjectStateChunk=FileStart..tonumber(renderdither_state).." \n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -20621,13 +20660,14 @@ function ultraschall.SetProject_TimeBase(projectfilename_with_path, timebase, Pr
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_TimeBase", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(timebase)~="integer" then ultraschall.AddErrorMessage("SetProject_TimeBase", "timebase", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_TimeBase", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
   
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-TIMELOCKMODE%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-TIMELOCKMODE%s.-%c(.-<RENDER_CFG.*)")
 
   ProjectStateChunk=FileStart..timebase.." \n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -20674,13 +20714,14 @@ function ultraschall.SetProject_TempoTimeSignature(projectfilename_with_path, te
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_TempoTimeSignature", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(tempotimesignature)~="integer" then ultraschall.AddErrorMessage("SetProject_TempoTimeSignature", "tempotimesignature", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_TempoTimeSignature", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-TEMPOENVLOCKMODE%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-TEMPOENVLOCKMODE%s.-%c(.-<RENDER_CFG.*)")
   
   ProjectStateChunk=FileStart..tempotimesignature.." \n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -20731,13 +20772,14 @@ function ultraschall.SetProject_ItemMixBehavior(projectfilename_with_path, item_
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_ItemMixBehavior", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(item_mix_behav_state)~="integer" then ultraschall.AddErrorMessage("SetProject_ItemMixBehavior", "item_mix_behav_state", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_ItemMixBehavior", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
   
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-ITEMMIX%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-ITEMMIX%s.-%c(.-<RENDER_CFG.*)")
   
   ProjectStateChunk=FileStart..item_mix_behav_state.." \n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -21722,13 +21764,14 @@ function ultraschall.SetProject_DefPitchMode(projectfilename_with_path, def_pitc
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_DefPitchMode", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(def_pitch_mode_state)~="integer" then ultraschall.AddErrorMessage("SetProject_DefPitchMode", "def_pitch_mode_state", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_DefPitchMode", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-DEFPITCHMODE%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-DEFPITCHMODE%s.-%c(.-<RENDER_CFG.*)")
 
   ProjectStateChunk=FileStart..def_pitch_mode_state .." \n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end
 end
 
@@ -21772,13 +21815,14 @@ function ultraschall.SetProject_TakeLane(projectfilename_with_path, take_lane_st
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_TakeLane", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(take_lane_state)~="integer" then ultraschall.AddErrorMessage("SetProject_TakeLane", "take_lane_state", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_TakeLane", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-TAKELANE%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-TAKELANE%s.-%c(.-<RENDER_CFG.*)")
 
   ProjectStateChunk=FileStart..take_lane_state.." \n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -21830,13 +21874,14 @@ function ultraschall.SetProject_SampleRate(projectfilename_with_path, sample_rat
   if math.type(sample_rate)~="integer" then ultraschall.AddErrorMessage("SetProject_SampleRate", "sample_rate", "Must be an integer", -4) return -1 end
   if math.type(project_sample_rate)~="integer" then ultraschall.AddErrorMessage("SetProject_SampleRate", "project_sample_rate", "Must be an integer", -5) return -1 end
   if math.type(force_tempo_time_sig)~="integer" then ultraschall.AddErrorMessage("SetProject_SampleRate", "force_tempo_time_sig", "Must be an integer", -6) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_SampleRate", "projectfilename_with_path", "No valid RPP-Projectfile!", -7) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-SAMPLERATE%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-SAMPLERATE%s.-%c(.-<RENDER_CFG.*)")
 
   ProjectStateChunk=FileStart..sample_rate.." "..project_sample_rate.." "..force_tempo_time_sig.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 
@@ -21893,6 +21938,7 @@ function ultraschall.SetProject_TrackMixingDepth(projectfilename_with_path, mixi
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_TrackMixingDepth", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if math.type(mixingdepth)~="integer" then ultraschall.AddErrorMessage("SetProject_TrackMixingDepth", "mixingdepth", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_TrackMixingDepth", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-INTMIXMODE%s).-%c.-<RENDER_CFG.*")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-INTMIXMODE%s.-%c(.-<RENDER_CFG.*)")
@@ -21905,7 +21951,7 @@ function ultraschall.SetProject_TrackMixingDepth(projectfilename_with_path, mixi
 
   ProjectStateChunk=FileStart..mixingdepth.."\n"..FileEnd
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return true, ProjectStateChunk
+  else return 1, ProjectStateChunk
   end  
 end
 

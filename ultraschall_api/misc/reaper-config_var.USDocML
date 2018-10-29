@@ -301,7 +301,7 @@
       <title>altpeaksopathlist</title>
       <description>
           The alternate peak cache path for the following paths-inputbox, as set in the Preferences -> Paths
-          It is string value
+          It is a string
           
           Note: the string-representation can be accessed only using get_config_var_string(), which is only available in pre-releases of Reaper
                  at the time of writing.
@@ -324,7 +324,7 @@
       <title>altpeakspath</title>
       <description>
           The alternate peaks-path, as set in the Preferences -> Paths
-          It is string value
+          It is a string
           
           Note: the string-representation can be accessed only using get_config_var_string(), which is only available in pre-releases of Reaper
                  at the time of writing.
@@ -2058,7 +2058,7 @@
       <title>defrenderpath</title>
       <description>
           The Default render path-inputbox, as set in the Preferences -> Paths
-          It is string value
+          It is a string
           
           Note: the string-representation can be accessed only using get_config_var_string(), which is only available in pre-releases of Reaper
                  at the time of writing.
@@ -2081,7 +2081,7 @@
       <title>defsavepath</title>
       <description>
           The Default path to save new projects-inputbox, as set in the Preferences -> Paths
-          It is string value
+          It is a string
           
           Note: the string-representation can be accessed only using get_config_var_string(), which is only available in pre-releases of Reaper
                  at the time of writing.
@@ -4042,7 +4042,7 @@
       <description>
           The currently selected theme.
           It is a string
-               <classic> for the classic-theme; others are path+filename.ReaperTheme
+               &lt;classic&gt; for the classic-theme; others are path+filename.ReaperTheme
                
           Note: the string-representation can be accessed only using get_config_var_string(), which is only available in pre-releases of Reaper
                  at the time of writing.
