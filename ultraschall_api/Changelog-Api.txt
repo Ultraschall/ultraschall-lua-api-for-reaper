@@ -291,6 +291,7 @@
         Render_Project.lua
         RippleCut_Selected_Tracks.lua
         Shorten_MediaItems_In_Selection_Example.lua
+  - GetProject_Length - gets the length of an rpp-projectfile
     
   <TODO>
       TODO!!  - write final documentation for public-beta
@@ -306,7 +307,6 @@
       TODO!!  - GetLastEnvelopePoint (How to do that with AutomationItems ?)
       TODO!!  - RenderProjectRegions_RenderCFG2  and RenderProject_RenderCFG2 - set RenderPattern instead of RenderFilenameWithPath
       TODO!!  - RenderProjectRegions_RenderCFG3  and RenderProject_RenderCFG3 - set Track(s) to be rendered
-      TODO!!  - number seconds = ultraschall.GetEndOfProject(string trackstring, boolean only_items, boolean only_envpoints, boolean only_marker, boolean only_regions, boolean only_timesigmarker)
       TODO!!  - Renderfunctions - full featured Video; add GIF, LCF
       TODO!!  - MP4 on Mac-Rendering
       TODO!!  - Add3rdParty-Script-support/functions-support

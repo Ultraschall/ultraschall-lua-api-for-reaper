@@ -32349,7 +32349,9 @@ function ultraschall.InsertMediaItemFromFile(filename, track, position, endposit
   <functioncall>integer retval, MediaItem item, number endposition, integer numchannels, integer Samplerate, string Filetype = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, integer editcursorpos, optional number offset)</functioncall>
   <description>
     Inserts the mediafile filename into the project at position in track
-    Due API-limitations, it creates two undo-points: one for inserting the MediaItem and one for changing the length(when endposition isn't -1).
+    When giving an rpp-projectfile, it will be rendered by Reaper and inserted as subproject!
+    
+    Due API-limitations, it creates two undo-points: one for inserting the MediaItem and one for changing the length(when endposition isn't -1).    
     
     Returns -1 in case of failure
   </description>
@@ -35144,7 +35146,7 @@ function ultraschall.CheckForValidFileFormats(filename_with_path)
     string filename_with_path - the file to check for it's image-fileformat
   </parameters>
   <retvals>
-    string fileformat - the format of the file; JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI,  unknown
+    string fileformat - the format of the file; JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI, RPP_PROJECT unknown
     boolean supported_by_reaper - true, if importing of the fileformat is supported by Reaper; false, if not
     string mediatype - the type of the media; Image, Audio, Audio/Video, Video, Reaper
   </retvals>
@@ -38366,12 +38368,12 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
   
   -- Add the rendertime to the temporary project-file, when 
   local bounds, time_start, time_end, tail, tail_length = ultraschall.GetProject_RenderRange(tempfile)
---  if time_end==0 then time_end = ultraschall.GetProject_Length(tempfile) end
+  if time_end==0 then time_end = ultraschall.GetProject_Length(tempfile) end
   local timesel1_start, timesel1_end = ultraschall.GetProject_Selection(tempfile)
   --   if startposition and/or endposition are -1, retain the start/endposition from the project-file
 
   if startposition==-1 then startposition=time_start end
-  if endposition==-1 then endposition=time_end end
+  if endposition==-1 or endposition==0 then endposition=time_end end
   if startposition==-2 then startposition=timesel1_start end
   if endposition==-2 then endposition=timesel1_end end
   
@@ -38401,18 +38403,14 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
     if val&1==0 then val=val+1 end
     if val==-99 then val=1 end
   elseif renderclosewhendone==false then 
---    val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
     if val&1==1 then val=val-1 end
     if val==-99 then val=0 end
-  else
-    --val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
   end
   
   if filenameincrease==true then 
     if val&16==0 then val=val+16 end
     if val==-99 then val=16 end
   elseif filenameincrease==false then 
-  --  val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
     if val&16==16 then val=val-16 end
     if val==-99 then val=0 end
   end
@@ -39042,9 +39040,10 @@ string R - a simple R, whose purpose is unknown
   local MarkerCount=0
   local NumMarker=0
   local NumRegions=0
-  local Markerlist=ProjectStateChunk:match("MARKER.*MARKER.-\n")
+  local Markerlist=ProjectStateChunk:match("MARKER.*%<PROJBAY.-\n")
   local endposition=0
   local Offset
+  if Markerlist~=nil then Markerlist=Markerlist.."  MARKER" end
   
   while Markerlist~=nil do
     Marker, Offset=Markerlist:match("(MARKER.-\n)()")
@@ -39054,7 +39053,12 @@ string R - a simple R, whose purpose is unknown
 --    reaper.MB(Markerlist, Marker,0)
     local shownnumber, position, name, isrgn, color, unknown, unknown2=Marker:match("MARKER (.-) (.-) \"(.-)\" (.-) (.-) (.-) (.*)")
     if name==nil then shownnumber, position, name, isrgn, color, unknown, unknown2=Marker:match("MARKER (.-) (.-) (.-) (.-) (.-) (.-) (.*)") end
-    if isrgn=="1" then endposition, Markerlist=Markerlist:match("MARKER .- (.-) .-(MARKER.*)") else endposition=0.0 end
+    if isrgn=="1" then 
+      endposition, Markerlist=Markerlist:match("MARKER .- (.-) .-(MARKER.*)") 
+    else 
+      endposition=0.0 
+    end
+    
     MarkerArray[MarkerCount]={}
     if tonumber(isrgn)==1 then 
       MarkerArray[MarkerCount][1]=true 
@@ -39075,7 +39079,8 @@ end
 
 
 --A,AA=ultraschall.GetProject_ReaperVersion("c:\\tt.rpp","<REAPER_PROJECT 0.1 \"5.77/x64\" 1529100928\n>")
---A,AA,AAA,AAAA=ultraschall.GetProject_MarkersAndRegions("c:\\MarkerProject.RPP","")
+--A,AA,AAA,AAAA=ultraschall.GetProject_MarkersAndRegions("c:\\Users/Meo/Desktop/Lula/lula.rpp","")
+--A,AA,AAA,AAAA=ultraschall.GetProject_MarkersAndRegions("c:\\rendercode-project-dupl.RPP","")
 --reaper.MB(A,"",0)
 
 function ultraschall.RenderProjectRegions_RenderCFG(projectfilename_with_path, renderfilename_with_path, region, addregionname, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
@@ -42170,7 +42175,7 @@ function ultraschall.GetProject_CountAutomationItems(projectfilename_with_path, 
   <description>
     returns the number of automation-items available in a ProjectStateChunk.
 
-    automation-items are stored with the <POOLEDENV ... > -tag in ProjectStateChunks
+    automation-items are stored with the &lt;POOLEDENV ... &gt; -tag in ProjectStateChunks
                             
     returns -1 in case of an error
   </description>
@@ -42226,7 +42231,7 @@ function ultraschall.GetProject_AutomationItemStateChunk(projectfilename_with_pa
   <description>
     returns the idx'th automation-item from a ProjectStateChunk.
     
-    automation-items are stored with the <POOLEDENV ... > -tag in ProjectStateChunks
+    automation-items are stored with the &lt;POOLEDENV ... &gt; -tag in ProjectStateChunks
     
     returns nil in case of an error
   </description>
@@ -42283,7 +42288,7 @@ function ultraschall.GetProject_ProjectBay(projectfilename_with_path, ProjectSta
     returns the ProjectBay-StateChunk, that holds MediaItems, that shall be retained in the "background" of the project, even if they are deleted from the project.
     These MediaItems can be seen and set to retain from within the ProjectBay-window.
 
-    It's the <PROJBAY ... > - tag
+    It's the &lt;PROJBAY ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -42335,7 +42340,7 @@ function ultraschall.GetProject_Metronome(projectfilename_with_path, ProjectStat
   <description>
     returns the Metronome-StateChunk, that holds metronome-settings.
     
-    It's the <METRONOME ... > - tag
+    It's the &lt;METRONOME ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -42385,7 +42390,7 @@ function ultraschall.GetProject_MasterPlayspeed(projectfilename_with_path, Proje
   <description>
     returns the Master-Playspeed-StateChunk, that holds Playspeed-settings of the master.
     
-    It's the <MASTERPLAYSPEEDENV ... > - tag
+    It's the &lt;MASTERPLAYSPEEDENV ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -42435,7 +42440,7 @@ function ultraschall.GetProject_Tempo(projectfilename_with_path, ProjectStateChu
   <description>
     returns the Tempo-StateChunk, that holds tempo-settings of the master.
     
-    It's the <TEMPOENVEX ... > - tag
+    It's the &lt;TEMPOENVEX ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -42485,7 +42490,7 @@ function ultraschall.GetProject_Extensions(projectfilename_with_path, ProjectSta
   <description>
     returns the Extensions-settings-StateChunk, that holds tempo-settings of the master.
     
-    It's the <EXTENSIONS ... > - tag
+    It's the &lt;EXTENSIONS ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -43758,7 +43763,7 @@ function ultraschall.GetProject_MasterHWVolEnvStateChunk(projectfilename_with_pa
   <description>
     returns the Master-HWVolEnv-StateChunk, that holds MasterHWVolEnv-settings of the master.
     
-    It's the <MASTERHWVOLENV ... > - tag
+    It's the &lt;MASTERHWVOLENV ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -43805,7 +43810,7 @@ function ultraschall.GetProject_MasterFXListStateChunk(projectfilename_with_path
   <description>
     returns the Master-FX_List-StateChunk, that holds Master-FX-settings for the window as well as the FX themselves, of the master.
     
-    It's the <MASTERFXLIST ... > - tag
+    It's the &lt;MASTERFXLIST ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -43853,7 +43858,7 @@ function ultraschall.GetProject_MasterDualPanEnvStateChunk(projectfilename_with_
   <description>
     returns the Master-DualPanEnv-StateChunk, that holds MasterDualPanEnv-settings of the master.
     
-    It's the <MASTERDUALPANENV ... > - tag
+    It's the &lt;MASTERDUALPANENV ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -43901,7 +43906,7 @@ function ultraschall.GetProject_MasterDualPanEnv2StateChunk(projectfilename_with
   <description>
     returns the Master-DualPanEnv2-StateChunk, that holds master-DualPanEnv2-settings of the master.
     
-    It's the <MASTERDUALPANENV2 ... > - tag
+    It's the &lt;MASTERDUALPANENV2 ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -43949,7 +43954,7 @@ function ultraschall.GetProject_MasterDualPanEnvLStateChunk(projectfilename_with
   <description>
     returns the Master-DualPan-EnvL-StateChunk, that holds Master-DualPan-EnvL-settings of the master.
     
-    It's the <MASTERDUALPANENVL ... > - tag
+    It's the &lt;MASTERDUALPANENVL ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -43997,7 +44002,7 @@ function ultraschall.GetProject_MasterDualPanEnvL2StateChunk(projectfilename_wit
   <description>
     returns the Master-Dual-Pan-EnvL2-StateChunk, that holds Master-FX-Dual-Pan-EnvL2-settings of the master.
     
-    It's the <MASTERDUALPANENVL2 ... > - tag
+    It's the &lt;MASTERDUALPANENVL2 ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -44045,7 +44050,7 @@ function ultraschall.GetProject_MasterVolEnvStateChunk(projectfilename_with_path
   <description>
     returns the Master-Vol-Env-StateChunk, that holds Master-Vol-Env-settings of the master.
     
-    It's the <MASTERVOLENV ... > - tag
+    It's the &lt;MASTERVOLENV ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -44094,7 +44099,7 @@ function ultraschall.GetProject_MasterVolEnv2StateChunk(projectfilename_with_pat
   <description>
     returns the Master-Vol-Env2-StateChunk, that holds Master-Vol-Env2-settings of the master.
     
-    It's the <MASTERVOLENV2 ... > - tag
+    It's the &lt;MASTERVOLENV2 ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -44142,7 +44147,7 @@ function ultraschall.GetProject_MasterVolEnv3StateChunk(projectfilename_with_pat
   <description>
     returns the Master-Vol-Env3-StateChunk, that holds Master-Vol-Env3-settings of the master.
     
-    It's the <MASTERVOLENV3 ... > - tag
+    It's the &lt;MASTERVOLENV3 ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -44190,7 +44195,7 @@ function ultraschall.GetProject_MasterHWPanEnvStateChunk(projectfilename_with_pa
   <description>
     returns the Master-HW-pan-env-StateChunk, that holds Master-pan-env-settings of the master.
     
-    It's the <MASTERHWPANENV ... > - tag
+    It's the &lt;MASTERHWPANENV ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -44238,7 +44243,7 @@ function ultraschall.GetProject_MasterPanMode_Ex(projectfilename_with_path, Proj
   <description>
     returns the Master-HW-pan-mode-ex-StateChunk, that holds Master-pan-mode-ex-settings of the master.
     
-    It's the <MASTER_PANMODE_EX ... > - tag
+    It's the &lt;MASTER_PANMODE_EX ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -44288,7 +44293,7 @@ function ultraschall.GetProject_TempoEnv_ExStateChunk(projectfilename_with_path,
   <description>
     returns the TempoEnv_ExStateChunk, that holds TempoEnv_Ex-settings of an rpp-project or ProjectStateChunk.
     
-    It's the <TEMPOENVEX ... > - tag
+    It's the &lt;TEMPOENVEX ... &gt; - tag
     
     returns nil in case of an error
   </description>
@@ -44577,6 +44582,92 @@ end
 --A,B,C,D,E,F,G,H=ultraschall.SplitIntegerIntoBytes(-4294967296)
 --reaper.CF_SetClipboard(9222999999999999999+100000000000000)
 --A=math.floor(2^0)
+
+
+function ultraschall.GetProject_Length(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_Length</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>number length, number last_itemedge, number last_marker_reg_edge, number last_timesig_marker = ultraschall.GetProject_Length(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    Returns the projectlength of an rpp-project-file.
+    
+    It's eturning the position of the overall length, as well as the position of the last itemedge/regionedge/marker/time-signature-marker of the project.
+    
+    Returns -1 in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the filename of the project, that you want to know it's length of; nil to use parameter ProjectStateChunk instead
+    optional string ProjectStateChunk - a ProjectStateChunk to count the length of; only available when projectfilename_with_path=nil
+  </parameters>
+  <retvals>
+    number length - the length of the project
+    number last_itemedge - the postion of the last itemedge in the project
+    number last_marker_reg_edge - the position of the last marker/regionedge in the project
+    number last_timesig_marker - the position of the last time-signature-marker in the project
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>project management, get, length of project, marker, region, timesignature, lengt, item, edge</tags>
+</US_DocBloc>
+]]
+
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_Length","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return -1 end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_Length","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return -1 end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_Length","projectfilename_with_path", "File does not exist!", -3) return -1
+    end
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_Length", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return -1 end
+  end
+
+  local B, C, ProjectLength, Len
+
+  -- search for the last item-edge in the project
+  B=ProjectStateChunk
+  B=B:match("%<TRACK.*")
+  ProjectLength=0
+  local Item_Length=0
+  local Marker_Length=0
+  local TempoMarker_Length=0
+  
+  while B:match("%<ITEM")~=nil do
+    local Pos, Len, Offs = B:match("POSITION (.-)\n.-LENGTH (.-)\n()")
+    if ProjectLength<tonumber(Pos)+tonumber(Len) then ProjectLength=tonumber(Pos)+tonumber(Len) end
+    B=B:sub(Offs,-1)  
+  end
+  Item_Length=ProjectLength
+  
+  -- search for the last marker/regionedge in the project
+  local markerregioncount, NumMarker, Numregions, Markertable = ultraschall.GetProject_MarkersAndRegions(nil, ProjectStateChunk)
+  
+  for i=1, markerregioncount do
+    if ProjectLength<Markertable[i][2]+Markertable[i][3] then ProjectLength=Markertable[i][2]+Markertable[i][3] end
+    if Marker_Length<Markertable[i][2]+Markertable[i][3] then Marker_Length=Markertable[i][2]+Markertable[i][3] end
+  end
+  
+  -- search for the last tempo-envx-marker in the project
+  B=ultraschall.GetProject_TempoEnv_ExStateChunk(nil, ProjectStateChunk)  
+  C=B:match(".*PT (.-) ")
+  if C~=nil and ProjectLength<tonumber(C) then ProjectLength=tonumber(C) end
+  if C~=nil and TempoMarker_Length<tonumber(C) then TempoMarker_Length=tonumber(C) end
+  
+  return ProjectLength, Item_Length, Marker_Length, TempoMarker_Length
+end
+
+
+--L=ultraschall.RenderProject_RenderCFG("c:\\rendercode-project-dupl.RPP", "c:\\Reaper-Internal-Docs.mp3", 0, 0, false, true, true, A)
+
 ultraschall.ShowLastErrorMessage()
 
 --MT=reaper.GetTrack(0,0)
@@ -44636,4 +44727,5 @@ A2=string.char(128)
   
 --  reaper.MB(A,A:len(),0)
 --]]
+--L,L2,L3,L4=ultraschall.GetProject_Length("c:\\Users/Meo/Desktop/Lula/lula.rpp")
 
