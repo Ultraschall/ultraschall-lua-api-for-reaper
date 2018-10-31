@@ -670,6 +670,9 @@
                        -- Pass this Render-string to the rendering-function
                        retval = ultraschall.RenderProject_RenderCFG(nil, "c:\\exportfile.mp3", 0, -1, false, false, false, render_cfg_string)
                
+               One downside, though: when you want to render the currently opened project, it will be opened a second time for the rendering.  
+               So if the current project has many effect-plugins and/or uses much memory, this means, the rendering of the current project using the UltraschallAPI-functions needs twice the ressources of your project!
+               This is due Reaper-limitations, unfortunately.
                
                Read the accompanying documentation-entries for [CreateRenderCFG_MP3CBR](usdocml://CreateRenderCFG_MP3CBR) and [RenderProject_RenderCFG](usdocml://RenderProject_RenderCFG) for more details and/or the following chapters.
         </description>
@@ -762,6 +765,7 @@
             
                          rendercfg           - the renderstring, as created using a CreateRenderCFG_XXX-function, as described in 
                                                the chapter "Rendering: About Renderstrings"
+                                               if you omit it or set it to nil, it will use the format-settings already set in the projectfile
             
             With that, you should be able to successfully render your project.
             
@@ -801,12 +805,9 @@
             
             4. render using the altered copy(!) of the projectfile(not the original projectfile!), as described in [Rendering: About Rendering-functions](#Rendering_003_About_Renderingfunctions).
             
-            
             If you want to alter the currently opened project, you need to save it first. After that, use:
             
-            
                         retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
-            
             
             to get the projectfilename\_with\_path of the current project as returnvalue. Use projectfilename\_with\_path and go through steps 1 through 4.
             

@@ -298,7 +298,6 @@
   - Docs: File Management: Misc - added to Introduction/Concepts-page
   - Docs: Project Management: Introduction - added to Introduction/Concepts-page
   - Docs: Project Management: Check for changed projecttabs - added to Introduction/Concepts-page
-  - 
     
   <TODO>
       TODO!!  - write final documentation for public-beta
