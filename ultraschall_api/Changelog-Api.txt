@@ -292,6 +292,13 @@
         RippleCut_Selected_Tracks.lua
         Shorten_MediaItems_In_Selection_Example.lua
   - GetProject_Length - gets the length of an rpp-projectfile
+  - added new analyser-scripts: Item_State_Diffs_Monitor.lua, Track_State_Diffs_Monitor.lua, Project_State_Diffs_Monitor.lua
+  - Docs: File Management: Write - added to Introduction/Concepts-page
+  - Docs: File Management: Analyse - added to Introduction/Concepts-page
+  - Docs: File Management: Misc - added to Introduction/Concepts-page
+  - Docs: Project Management: Introduction - added to Introduction/Concepts-page
+  - Docs: Project Management: Check for changed projecttabs - added to Introduction/Concepts-page
+  - 
     
   <TODO>
       TODO!!  - write final documentation for public-beta
@@ -355,49 +362,51 @@
       TODO!!  - Get/SetProjectBay-functions
       TODO!!  - Envelope-StateChunk-functions
       TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
+                        - not possible, as I can't programatically change the selected envelope...maybe with SetCursorContext, as this allows focusing a trackenvelope, 
+                                but also sets focus to arrangeview, which is quite brutal
       TODO!!  - GetProject-functions for
                       
               - SetProject-functions for
-                  - GetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
-                  - GetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk
-                  - GetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk
-                  - GetProject_MasterPlayspeed - gets the statechunk for all master-playspeed-settings from a project/ProjectStateChunk
-                  - GetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk
-                  - GetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk
-                  - GetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk
-                  - GetProject_GlobalAuto - returns the global automation override-settings of an rpp-file or ProjectStateChunk
-                  - GetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk
-                  - GetProject_Playrate 
-                  - GetProject_MasterAutomode
-                  - GetProject_MasterSel
-                  - GetProject_MasterFXByp
-                  - GetProject_MasterMuteSolo
-                  - GetProject_MasterNChans
-                  - GetProject_MasterTrackHeight
-                  - GetProject_MasterTrackColor
-                  - GetProject_MasterTrackView
-                  - GetProject_CountMasterHWOuts
-                  - GetProject_MasterHWOut
+                  - SetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
+                  - SetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk
+                  - SetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk
+                  - SetProject_MasterPlayspeed - gets the statechunk for all master-playspeed-settings from a project/ProjectStateChunk
+                  - SetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk
+                  - SetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk
+                  - SetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk
+                  - SetProject_GlobalAuto - returns the global automation override-settings of an rpp-file or ProjectStateChunk
+                  - SetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk
+                  - SetProject_Playrate 
+                  - SetProject_MasterAutomode
+                  - SetProject_MasterSel
+                  - SetProject_MasterFXByp
+                  - SetProject_MasterMuteSolo
+                  - SetProject_MasterNChans
+                  - SetProject_MasterTrackHeight
+                  - SetProject_MasterTrackColor
+                  - SetProject_MasterTrackView
+                  - SetProject_CountMasterHWOuts
+                  - SetProject_MasterHWOut
                   
-                  - GetProject_MasterVolume - 
-                  - GetProject_MasterPanMode - 
-                  - GetProject_MasterWidth - 
-                  - GetProject_MasterGroupFlagsState - 
-                  - GetProject_MasterGroupFlagsHighState - 
-                  - GetProject_GroupDisabled - 
+                  - SetProject_MasterVolume - 
+                  - SetProject_MasterPanMode - 
+                  - SetProject_MasterWidth - 
+                  - SetProject_MasterGroupFlagsState - 
+                  - SetProject_MasterGroupFlagsHighState - 
+                  - SetProject_GroupDisabled - 
                   
-                  - GetProject_MasterHWVolEnvStateChunk
-                  - GetProject_MasterFXListStateChunk - 
-                  - GetProject_MasterDualPanEnvStateChunk - 
-                  - GetProject_MasterDualPanEnv2StateChunk - 
-                  - GetProject_MasterDualPanEnvLStateChunk - 
-                  - GetProject_MasterDualPanEnvL2StateChunk - 
-                  - GetProject_MasterVolEnvStateChunk - 
-                  - GetProject_MasterVolEnv2StateChunk - 
-                  - GetProject_MasterVolEnv3StateChunk - 
-                  - GetProject_MasterHWPanEnvStateChunk - 
-                  - GetProject_MasterPanMode_Ex - 
-                  - GetProject_TempoEnv_ExStateChunk
+                  - SetProject_MasterHWVolEnvStateChunk
+                  - SetProject_MasterFXListStateChunk - 
+                  - SetProject_MasterDualPanEnvStateChunk - 
+                  - SetProject_MasterDualPanEnv2StateChunk - 
+                  - SetProject_MasterDualPanEnvLStateChunk - 
+                  - SetProject_MasterDualPanEnvL2StateChunk - 
+                  - SetProject_MasterVolEnvStateChunk - 
+                  - SetProject_MasterVolEnv2StateChunk - 
+                  - SetProject_MasterVolEnv3StateChunk - 
+                  - SetProject_MasterHWPanEnvStateChunk - 
+                  - SetProject_MasterPanMode_Ex - 
+                  - SetProject_TempoEnv_ExStateChunk
                   
                - IsValid-check functions for
                     - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv

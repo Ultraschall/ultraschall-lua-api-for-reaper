@@ -1939,7 +1939,50 @@
         <slug>FileManagement_003_Write</slug>
         <title>File Management: Write</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Reading files is cool, writing files is cool as well, so I added some for exactly that: [WriteValueToFile](usdocml://WriteValueToFile), [WriteValueToFile_Insert](usdocml://WriteValueToFile_Insert), [WriteValueToFile_Replace](usdocml://WriteValueToFile_Replace), [WriteValueToFile_InsertBinary](usdocml://WriteValueToFile_InsertBinary), [WriteValueToFile_ReplaceBinary](usdocml://WriteValueToFile_ReplaceBinary)
             
+            Let's start with the function, that you'll probably use the most for writing:
+            
+            >**[WriteValueToFile](usdocml://WriteValueToFile)**
+            
+                            integer retval = ultraschall.WriteValueToFile(string filename_with_path, string value, optional boolean binarymode, optional boolean append)
+                            
+            > This writes a value to filename\_with\_path. Optionally, you can control, if the file shall be written as binary-file and if value shall be appended to the current contents of the file.  
+            > Default is, file will be stored as binary and value replaces the current contents of the file.
+
+            To insert values into a textfile, use:
+            
+            >**[WriteValueToFile_Insert](usdocml://WriteValueToFile_Insert)**
+            
+                            integer retval = ultraschall.WriteValueToFile_Insert(string filename_with_path, integer linenumber, string value)
+                            
+            > This inserts value after the line, given by parameter linenumber. This works only for textfiles, not for binary-files.  
+            
+            To replace parts of a textfile, use:
+            
+            >**[WriteValueToFile_Replace](usdocml://WriteValueToFile_Replace)**
+            
+                            integer retval = ultraschall.WriteValueToFile_Replace(string filename_with_path, integer startlinenumber, integer endlinenumber, string value)
+            
+            > This replaces the lines between (including)-startnumber and (including)-endlinenumber with the parameter value. This works only for textfiles, not for binary-files.
+            
+            For binary-files, we have dedicated functions for that as well:
+            
+            >**[WriteValueToFile_InsertBinary](usdocml://WriteValueToFile_InsertBinary)**
+            
+                            integer retval = ultraschall.WriteValueToFile_InsertBinary(string filename_with_path, integer byteposition, string value)
+                            
+            > This inserts parameter value at the fileoffset given by parameter byteposition. This works for binary-files and for textfiles(though textfiles may cause issues at some points).
+            
+            To replace contents of a binaryfile, you can use:
+            
+            >**[WriteValueToFile_ReplaceBinary](usdocml://WriteValueToFile_ReplaceBinary)**
+            
+                            integer retval = ultraschall.WriteValueToFile_ReplaceBinary(string filename_with_path, integer startbyteposition, integer endbyteposition, string value)
+                            
+            > This inserts parameter value between (including) startbyteposition and (including)endbyteposition. This works for binary-files and for textfiles(though textfiles may cause issues at some points).
+            
+            This should make saving files easier than having to code it completely yourself by hand.
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -1955,7 +1998,48 @@
         <slug>FileManagement_004_Analyse</slug>
         <title>File Management: Analyse</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Sometimes, you want to know more about the contents of a file. For that, I included some functions as well: [CountLinesInFile](usdocml://CountLinesInFile), [GetLengthOfFile](usdocml://GetLengthOfFile), [CheckForValidFileFormats](usdocml://CheckForValidFileFormats), [OnlyFilesOfCertainType](usdocml://OnlyFilesOfCertainType)
             
+            For reading files, you probably want to know the length of the files or number of lines in it. For that you can use:
+            
+            >**[GetLengthOfFile](usdocml://GetLengthOfFile)**
+            
+                            integer lengthoffile = ultraschall.GetLengthOfFile(string filename_with_path)
+            
+            > This returns the length of the file in bytes.
+            
+            >**[CountLinesInFile](usdocml://CountLinesInFile)**
+            
+                            integer linesinfile = ultraschall.CountLinesInFile(string filename_with_path)
+            
+            > This returns the number of lines in a textfile.
+            
+            If you want to know, what type a certain file is, you can use:
+            
+            >**[CheckForValidFileFormats](usdocml://CheckForValidFileFormats)**
+            
+                            string fileformat, boolean supported_by_reaper, string mediatype = ultraschall.CheckForValidFileFormats(string filename_with_path)
+            
+            > This returns the type of a file, which is either  
+            
+                            JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI, RPP_PROJECT, unknown 
+            
+            > and it returns, if the filetype is supported by Reaper and what kind of mediatype the file is, which is either
+            
+                            Image, Audio, Audio/Video, Video, Reaper
+                            
+            But what, if you want to know all files of a certain types in a filelist(like the file in a directory)? Use this:
+            
+            >**[OnlyFilesOfCertainType](usdocml://OnlyFilesOfCertainType)**
+            
+                            integer foundfilecount, array foundfilearray = ultraschall.OnlyFilesOfCertainType(array filearray, string filetype)
+                  
+            > This returns all files from parameter filearray, that are of a certain filetype.
+            > Create an array with all filenames you want to check for and use this for parameter filearray. In the parameter filetype, you can use one of:
+            
+                            JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI, RPP_PROJECT, unknown 
+            
+            > After that, the function returns an array with all files, that are of the filetype you gave to parameter filetype.
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -1971,7 +2055,19 @@
         <slug>FileManagement_005_Misc</slug>
         <title>File Management: Misc</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Last, but not least, I added many other useful functions regarding file-management, like:
             
+            - [CountDirectoriesAndFilesInPath](usdocml://CountDirectoriesAndFilesInPath) - this counts all files and directories in a path
+            - [CreateValidTempFile](usdocml://CreateValidTempFile) - this creates a valid tempfile
+            - [DirectoryExists](usdocml://DirectoryExists) - checks, if a certain path exists
+            - [DirectoryExists2](usdocml://DirectoryExists2) - another version of a check, if a certain path exists
+            - [GetAllDirectoriesInPath](usdocml://GetAllDirectoriesInPath) - returns all directorynames in a path as array
+            - [GetAllFilesnamesInPath](usdocml://GetAllFilesnamesInPath) - returns all filenames in a path as array
+            - [GetPath](usdocml://GetPath) - separates a filename from it's path
+            - [MakeCopyOfFile](usdocml://MakeCopyOfFile) - copies a textfile
+            - [MakeCopyOfFile_Binary](usdocml://MakeCopyOfFile_Binary) - copies a binaryfile
+            - [GetReaperWorkDir](usdocml://GetReaperWorkDir) - returns the current workdir of Reaper, where files(without a path) will be created in
+            - [SetReaperWorkDir](usdocml://SetReaperWorkDir) - sets the current workdir of Reaper, where files(without a path) will be created in(needs Reaper-restart)
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -1979,11 +2075,78 @@
             File Management
         </chapter_context>
         <previous_chapter>FileManagement_004_Analyse</previous_chapter>
-        <next_chapter></next_chapter>
+        <next_chapter>Project_Management_001_Introduction</next_chapter>
         <tags>documentation, files, filemanagement, miscellaneous</tags>
     </US_DocBloc>
     
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Project_Management_001_Introduction</slug>
+        <title>Project Management: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Beside of many functions to [read and set project-states](#GetSetStates_Project_Track_Item_Env_001_Introduction) in RPP-files and ProjectStateChunks, I also added some other things to work with projects.
+            
+            - [NewProjectTab](usdocml://NewProjectTab) - creates a new project-tab
+            - [CheckForChangedProjectTabs](usdocml://CheckForChangedProjectTabs) - checks, if projecttabs have been changed/added/removed(explained in the next chapter)
+            - [ConvertOldProjectToCurrentReaperVersion](usdocml://ConvertOldProjectToCurrentReaperVersion) - simply loads a project into Reaper and saves it again, to update the project to Reaper's current projectfile-style
+            - [CountProjectTabs](usdocml://CountProjectTabs) - count the current project-tabs
+            - [EnumProjects](usdocml://EnumProjects) - returns Project and projectfilename of an opened project; more streamlined alternative to Reaper's own EnumProjects
+            - [GetCurrentTimeLengthOfFrame](usdocml://GetCurrentTimeLengthOfFrame) - returns the length in seconds of a frame in a project
+            - [GetLengthOfFrames](usdocml://GetLengthOfFrames) - returns the length of a number of frames in a project
+            - [GetOutputFormat_RenderCfg](usdocml://GetOutputFormat_RenderCfg) - get the output-format of a render-string as used by [Rendering functions](#Rendering_002_About_Renderstrings)
+            - [GetProject_Tabs](usdocml://GetProject_Tabs) - returns all projects and project-filenames currently opened in tabs
+            - [IsValidProjectStateChunk](usdocml://IsValidProjectStateChunk) - checks, whether a string is a valid ProjectStateChunk(i.e. you read an rpp-roject into a variable, you can check this)
+            - [IsValidReaProject](usdocml://IsValidReaProject) - checks, whether an object is a valid ReaProject-object
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            File Management
+        </chapter_context>
+        <previous_chapter>FileManagement_005_Misc</previous_chapter>
+        <next_chapter>Project_Management_002_Check_Changed_Projecttabs</next_chapter>
+        <tags>documentation, projectmanagement, introduction </tags>
+    </US_DocBloc>
     
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Project_Management_002_Check_Changed_Projecttabs</slug>
+        <title>Project Management: Check for changed projecttabs</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Sometimes, you want to know, if projecttabs have been reordered, closed, opened, created. For this, I created the function
+            
+            >**[CheckForChangedProjectTabs](usdocml://CheckForChangedProjectTabs)**
+            
+                            boolean retval, integer countReorderedProj, array reorderedProj, integer countNewProj, 
+                                                         array newProj, integer countClosedProj, array closedProj 
+                                                                      = ultraschall.CheckForChangedProjectTabs(boolean update)
+            
+            > This checks, if there are changed projecttabs and the number of these changes.  
+            > Let's go into details:  
+            > When you run a script, that includes the Ultraschall-API, the API creates a list of the currently existing projecttabs.  
+            > When you run this function, it will check this internal list and compare, if projects have been added, reordered or closed since them.  
+            > 
+            > This function returns, if there's a change, into the return-value retval. The other return-values return  
+            
+            > - the number of reordered projects(countReorderedProj),  
+            > - an array with all reorderd Projects(reorderedProj),  
+            > - the number of new projects(countNewProj),  
+            > - an array with all newly created/opened projects(newProj),  
+            > - the number of closed projects(countClosedProj) and  
+            > - an array with all closed projects(closedProj)  
+            
+            When you want to update this internal list, you should set parameter update to true, otherwise set it to false.
+            
+            That way, you can for instance work with newly created projects, to automatically add things to projects, that can't be added using TemplateProjects.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            File Management
+        </chapter_context>
+        <previous_chapter>Project_Management_001_Introduction</previous_chapter>
+        <next_chapter></next_chapter>
+        <tags>documentation, projectmanagement, projecttabs, changed, reordered, created, closed</tags>
+    </US_DocBloc>
+
 </USDocML>
 
 

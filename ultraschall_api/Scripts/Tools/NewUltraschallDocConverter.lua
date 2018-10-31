@@ -294,13 +294,20 @@ function ultraschall.GetAllChapterContexts(Table)
   return count, ChapterTable, counter-1
 end
 
-function ultraschall.ConvertPlainTextToHTML(text)  
+function ultraschall.ConvertPlainTextToHTML(text)
+  text=text:match("%s*\t*(.*)")
   text=string.gsub(text, "\r", "")
   text=string.gsub(text, "\n", "<br>")
   text=string.gsub(text, "  ", "&nbsp;&nbsp;")
   text=string.gsub(text, "\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
   return text
 end
+
+A=ultraschall.ConvertPlainTextToHTML(" true, update Ultraschall's internal projecttab-monitoring-list to the current state of all tabs\nfalse, don't update the internal projecttab-monitoring-list, so it will keep the \"old\" project-tab-state as checking-reference")
+
+--reaper.MB(A,"",0)
+
+--if L==nil then return end
 
 function ultraschall.ConvertMarkdownToHTML(text, version)
   text=string.gsub(text, "\r", "")
@@ -744,7 +751,7 @@ for lolo=1, 60 do
   if counter>0 then
     FunctionList=FunctionList.."<tr><td style=\"\"><u>Returnvalues:</u></td><td> </td><td> </td></tr><table style=\"padding-left:4%;\"border=\"0\">"
     for a=1, counter do
-      FunctionList=FunctionList.."<tr style=\"background:#EEEEEE;\"><td style=\"vertical-align:top; white-space:pre;\">&nbsp;<i>"..retvals[a][1].."</i>&nbsp;</td><td style=\"vertical-align:top;\">&nbsp;"..retvals[a][2].."&nbsp;</td></tr>"
+      FunctionList=FunctionList.."<tr style=\"background:#EEEEEE;\"><td style=\"vertical-align:top; white-space:pre;\">&nbsp;<i>"..retvals[a][1].."</i>&nbsp;</td><td style=\"vertical-align:top; \">"..retvals[a][2].."&nbsp;</td></tr>"
     end   
   end
   
@@ -761,7 +768,7 @@ for lolo=1, 60 do
   if counter>0 then    
     FunctionList=FunctionList.."<tr><td style=\"\"><u>Parameters:</u></td><td> </td><td> </td></tr><table style=\"padding-left:4%;\"border=\"0\">"
     for a=1, counter do
-      FunctionList=FunctionList.."<tr style=\"background:#EEEEEE;\"><td style=\"vertical-align:top; white-space:pre;\">&nbsp;<i>"..params[a][1].."</i>&nbsp;</td><td style=\"vertical-align:top; \">&nbsp;"..params[a][2].."&nbsp;</td></tr>"
+      FunctionList=FunctionList.."<tr style=\"background:#EEEEEE;\"><td style=\"vertical-align:top; white-space:pre;\">&nbsp;<i>"..params[a][1].."</i>&nbsp;</td><td style=\"vertical-align:top;\">"..params[a][2].."&nbsp;</td></tr>"
     end   
   end
 

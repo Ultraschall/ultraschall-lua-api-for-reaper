@@ -39,7 +39,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 21649</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 21681</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -80,6 +80,8 @@ Ultraschall API functions
 <td><a href="#FileManagement_003_Write">File Management: Write</a></td>
 <td><a href="#FileManagement_004_Analyse">File Management: Analyse</a></td>
 </tr><tr><td><a href="#FileManagement_005_Misc">File Management: Misc</a></td>
+<td><a href="#Project_Management_001_Introduction">Project Management: Introduction</a></td>
+<td><a href="#Project_Management_002_Check_Changed_Projecttabs">Project Management: Check for changed projecttabs</a></td>
 </tr><p></table><hr><a id="Introduction_001_Api"></a>
 <div style="font-size:100%"><h4><a href="#Introduction_001_Api">^</a> <u>Introduction to the Ultraschall API</u></h4></div><p><p>The Ultraschall-Extension is intended to be an extension for the DAW Reaper, that enhances it with podcast functionalities. Most DAWs are intended to be used by musicians, for music, but podcasters have their own needs to be fulfilled. In fact, in some places their needs differ from the needs of a musician heavily. Ultraschall is intended to optimise the Reaper's workflows, by reworking them with functionalities for the special needs of podcasters.</p>
 <p>The Ultraschall-Framework itself is intended to include a set of Lua-functions, that help creating such functionalities. By giving programmers helper functions to get access to each and every corner of Reaper. That way, extending Ultraschall and Reaper is more comfortable to do.</p>
@@ -1319,12 +1321,162 @@ If the linenumbers returned are fewer than you requested, correctnumberoflines w
 <p>These functions should fulfill most of your daily file-read-usecases.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="FileManagement_003_Write"></a>
-<div style="font-size:100%"><h4><a href="#FileManagement_003_Write">^</a> <u>File Management: Write</u></h4></div><p>
+<div style="font-size:100%"><h4><a href="#FileManagement_003_Write">^</a> <u>File Management: Write</u></h4></div><p><p>Reading files is cool, writing files is cool as well, so I added some for exactly that: <a href="US_Api_Functions.html#WriteValueToFile">WriteValueToFile</a>, <a href="US_Api_Functions.html#WriteValueToFile_Insert">WriteValueToFile_Insert</a>, <a href="US_Api_Functions.html#WriteValueToFile_Replace">WriteValueToFile_Replace</a>, <a href="US_Api_Functions.html#WriteValueToFile_InsertBinary">WriteValueToFile_InsertBinary</a>, <a href="US_Api_Functions.html#WriteValueToFile_ReplaceBinary">WriteValueToFile_ReplaceBinary</a></p>
+<p>Let's start with the function, that you'll probably use the most for writing:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#WriteValueToFile">WriteValueToFile</a></strong></p>
+</blockquote>
+<pre><code>            integer retval = ultraschall.WriteValueToFile(string filename_with_path, string value, optional boolean binarymode, optional boolean append)
+            </code></pre>
+<blockquote>
+<p>This writes a value to filename_with_path. Optionally, you can control, if the file shall be written as binary-file and if value shall be appended to the current contents of the file.<br />
+Default is, file will be stored as binary and value replaces the current contents of the file.</p>
+</blockquote>
+<p>To insert values into a textfile, use:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#WriteValueToFile_Insert">WriteValueToFile_Insert</a></strong></p>
+</blockquote>
+<pre><code>            integer retval = ultraschall.WriteValueToFile_Insert(string filename_with_path, integer linenumber, string value)
+            </code></pre>
+<blockquote>
+<p>This inserts value after the line, given by parameter linenumber. This works only for textfiles, not for binary-files.</p>
+</blockquote>
+<p>To replace parts of a textfile, use:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#WriteValueToFile_Replace">WriteValueToFile_Replace</a></strong></p>
+</blockquote>
+<pre><code>            integer retval = ultraschall.WriteValueToFile_Replace(string filename_with_path, integer startlinenumber, integer endlinenumber, string value)</code></pre>
+<blockquote>
+<p>This replaces the lines between (including)-startnumber and (including)-endlinenumber with the parameter value. This works only for textfiles, not for binary-files.</p>
+</blockquote>
+<p>For binary-files, we have dedicated functions for that as well:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#WriteValueToFile_InsertBinary">WriteValueToFile_InsertBinary</a></strong></p>
+</blockquote>
+<pre><code>            integer retval = ultraschall.WriteValueToFile_InsertBinary(string filename_with_path, integer byteposition, string value)
+            </code></pre>
+<blockquote>
+<p>This inserts parameter value at the fileoffset given by parameter byteposition. This works for binary-files and for textfiles(though textfiles may cause issues at some points).</p>
+</blockquote>
+<p>To replace contents of a binaryfile, you can use:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#WriteValueToFile_ReplaceBinary">WriteValueToFile_ReplaceBinary</a></strong></p>
+</blockquote>
+<pre><code>            integer retval = ultraschall.WriteValueToFile_ReplaceBinary(string filename_with_path, integer startbyteposition, integer endbyteposition, string value)
+            </code></pre>
+<blockquote>
+<p>This inserts parameter value between (including) startbyteposition and (including)endbyteposition. This works for binary-files and for textfiles(though textfiles may cause issues at some points).</p>
+</blockquote>
+<p>This should make saving files easier than having to code it completely yourself by hand.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="FileManagement_004_Analyse"></a>
-<div style="font-size:100%"><h4><a href="#FileManagement_004_Analyse">^</a> <u>File Management: Analyse</u></h4></div><p>
+<div style="font-size:100%"><h4><a href="#FileManagement_004_Analyse">^</a> <u>File Management: Analyse</u></h4></div><p><p>Sometimes, you want to know more about the contents of a file. For that, I included some functions as well: <a href="US_Api_Functions.html#CountLinesInFile">CountLinesInFile</a>, <a href="US_Api_Functions.html#GetLengthOfFile">GetLengthOfFile</a>, <a href="US_Api_Functions.html#CheckForValidFileFormats">CheckForValidFileFormats</a>, <a href="US_Api_Functions.html#OnlyFilesOfCertainType">OnlyFilesOfCertainType</a></p>
+<p>For reading files, you probably want to know the length of the files or number of lines in it. For that you can use:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#GetLengthOfFile">GetLengthOfFile</a></strong></p>
+</blockquote>
+<pre><code>            integer lengthoffile = ultraschall.GetLengthOfFile(string filename_with_path)</code></pre>
+<blockquote>
+<p>This returns the length of the file in bytes.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#CountLinesInFile">CountLinesInFile</a></strong></p>
+</blockquote>
+<pre><code>            integer linesinfile = ultraschall.CountLinesInFile(string filename_with_path)</code></pre>
+<blockquote>
+<p>This returns the number of lines in a textfile.</p>
+</blockquote>
+<p>If you want to know, what type a certain file is, you can use:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#CheckForValidFileFormats">CheckForValidFileFormats</a></strong></p>
+</blockquote>
+<pre><code>            string fileformat, boolean supported_by_reaper, string mediatype = ultraschall.CheckForValidFileFormats(string filename_with_path)</code></pre>
+<blockquote>
+<p>This returns the type of a file, which is either</p>
+</blockquote>
+<pre><code>            JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI, RPP_PROJECT, unknown </code></pre>
+<blockquote>
+<p>and it returns, if the filetype is supported by Reaper and what kind of mediatype the file is, which is either</p>
+</blockquote>
+<pre><code>            Image, Audio, Audio/Video, Video, Reaper
+            </code></pre>
+<p>But what, if you want to know all files of a certain types in a filelist(like the file in a directory)? Use this:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#OnlyFilesOfCertainType">OnlyFilesOfCertainType</a></strong></p>
+</blockquote>
+<pre><code>            integer foundfilecount, array foundfilearray = ultraschall.OnlyFilesOfCertainType(array filearray, string filetype)
+  </code></pre>
+<blockquote>
+<p>This returns all files from parameter filearray, that are of a certain filetype. Create an array with all filenames you want to check for and use this for parameter filearray. In the parameter filetype, you can use one of:</p>
+</blockquote>
+<pre><code>            JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI, RPP_PROJECT, unknown </code></pre>
+<blockquote>
+<p>After that, the function returns an array with all files, that are of the filetype you gave to parameter filetype.</p>
+</blockquote>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="FileManagement_005_Misc"></a>
-<div style="font-size:100%"><h4><a href="#FileManagement_005_Misc">^</a> <u>File Management: Misc</u></h4></div><p>
+<div style="font-size:100%"><h4><a href="#FileManagement_005_Misc">^</a> <u>File Management: Misc</u></h4></div><p><p>Last, but not least, I added many other useful functions regarding file-management, like:</p>
+<ul>
+<li><a href="US_Api_Functions.html#CountDirectoriesAndFilesInPath">CountDirectoriesAndFilesInPath</a> - this counts all files and directories in a path</li>
+<li><a href="US_Api_Functions.html#CreateValidTempFile">CreateValidTempFile</a> - this creates a valid tempfile</li>
+<li><a href="US_Api_Functions.html#DirectoryExists">DirectoryExists</a> - checks, if a certain path exists</li>
+<li><a href="US_Api_Functions.html#DirectoryExists2">DirectoryExists2</a> - another version of a check, if a certain path exists</li>
+<li><a href="US_Api_Functions.html#GetAllDirectoriesInPath">GetAllDirectoriesInPath</a> - returns all directorynames in a path as array</li>
+<li><a href="US_Api_Functions.html#GetAllFilesnamesInPath">GetAllFilesnamesInPath</a> - returns all filenames in a path as array</li>
+<li><a href="US_Api_Functions.html#GetPath">GetPath</a> - separates a filename from it's path</li>
+<li><a href="US_Api_Functions.html#MakeCopyOfFile">MakeCopyOfFile</a> - copies a textfile</li>
+<li><a href="US_Api_Functions.html#MakeCopyOfFile_Binary">MakeCopyOfFile_Binary</a> - copies a binaryfile</li>
+<li><a href="US_Api_Functions.html#GetReaperWorkDir">GetReaperWorkDir</a> - returns the current workdir of Reaper, where files(without a path) will be created in</li>
+<li><a href="US_Api_Functions.html#SetReaperWorkDir">SetReaperWorkDir</a> - sets the current workdir of Reaper, where files(without a path) will be created in(needs Reaper-restart)</li>
+</ul>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 41 chapters available</td></table><br><hr></div></body></html>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Project_Management_001_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#Project_Management_001_Introduction">^</a> <u>Project Management: Introduction</u></h4></div><p><p>Beside of many functions to <a href="#GetSetStates_Project_Track_Item_Env_001_Introduction">read and set project-states</a> in RPP-files and ProjectStateChunks, I also added some other things to work with projects.</p>
+<ul>
+<li><a href="US_Api_Functions.html#NewProjectTab">NewProjectTab</a> - creates a new project-tab</li>
+<li><a href="US_Api_Functions.html#CheckForChangedProjectTabs">CheckForChangedProjectTabs</a> - checks, if projecttabs have been changed/added/removed(explained in the next chapter)</li>
+<li><a href="US_Api_Functions.html#ConvertOldProjectToCurrentReaperVersion">ConvertOldProjectToCurrentReaperVersion</a> - simply loads a project into Reaper and saves it again, to update the project to Reaper's current projectfile-style</li>
+<li><a href="US_Api_Functions.html#CountProjectTabs">CountProjectTabs</a> - count the current project-tabs</li>
+<li><a href="US_Api_Functions.html#EnumProjects">EnumProjects</a> - returns Project and projectfilename of an opened project; more streamlined alternative to Reaper's own EnumProjects</li>
+<li><a href="US_Api_Functions.html#GetCurrentTimeLengthOfFrame">GetCurrentTimeLengthOfFrame</a> - returns the length in seconds of a frame in a project</li>
+<li><a href="US_Api_Functions.html#GetLengthOfFrames">GetLengthOfFrames</a> - returns the length of a number of frames in a project</li>
+<li><a href="US_Api_Functions.html#GetOutputFormat_RenderCfg">GetOutputFormat_RenderCfg</a> - get the output-format of a render-string as used by <a href="#Rendering_002_About_Renderstrings">Rendering functions</a></li>
+<li><a href="US_Api_Functions.html#GetProject_Tabs">GetProject_Tabs</a> - returns all projects and project-filenames currently opened in tabs</li>
+<li><a href="US_Api_Functions.html#IsValidProjectStateChunk">IsValidProjectStateChunk</a> - checks, whether a string is a valid ProjectStateChunk(i.e. you read an rpp-roject into a variable, you can check this)</li>
+<li><a href="US_Api_Functions.html#IsValidReaProject">IsValidReaProject</a> - checks, whether an object is a valid ReaProject-object</li>
+</ul>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Project_Management_002_Check_Changed_Projecttabs"></a>
+<div style="font-size:100%"><h4><a href="#Project_Management_002_Check_Changed_Projecttabs">^</a> <u>Project Management: Check for changed projecttabs</u></h4></div><p><p>Sometimes, you want to know, if projecttabs have been reordered, closed, opened, created. For this, I created the function</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#CheckForChangedProjectTabs">CheckForChangedProjectTabs</a></strong></p>
+</blockquote>
+<pre><code>            boolean retval, integer countReorderedProj, array reorderedProj, integer countNewProj, 
+                                         array newProj, integer countClosedProj, array closedProj 
+                                                      = ultraschall.CheckForChangedProjectTabs(boolean update)</code></pre>
+<blockquote>
+<p>This checks, if there are changed projecttabs and the number of these changes.<br />
+Let's go into details:<br />
+When you run a script, that includes the Ultraschall-API, the API creates a list of the currently existing projecttabs.<br />
+When you run this function, it will check this internal list and compare, if projects have been added, reordered or closed since them.</p>
+<p>This function returns, if there's a change, into the return-value retval. The other return-values return</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>the number of reordered projects(countReorderedProj),<br />
+</li>
+<li>an array with all reorderd Projects(reorderedProj),<br />
+</li>
+<li>the number of new projects(countNewProj),<br />
+</li>
+<li>an array with all newly created/opened projects(newProj),<br />
+</li>
+<li>the number of closed projects(countClosedProj) and<br />
+</li>
+<li>an array with all closed projects(closedProj)</li>
+</ul>
+</blockquote>
+<p>When you want to update this internal list, you should set parameter update to true, otherwise set it to false.</p>
+<p>That way, you can for instance work with newly created projects, to automatically add things to projects, that can't be added using TemplateProjects.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 43 chapters available</td></table><br><hr></div></body></html>

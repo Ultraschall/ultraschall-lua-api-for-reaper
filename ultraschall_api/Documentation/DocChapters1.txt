@@ -8,11 +8,6 @@ Trackmanagement:
 ItemExtStates/TrackExtStates:
     save extension states for tracks and items
 
-File Access Management:
-    Read
-    Write
-    Analyse
-    
 Cough-Mute-management:
 
 Marker:
@@ -25,8 +20,6 @@ Marker:
     Import
     Move
     Helpers: Renumerate, etc
-    
-Checking for changed projecttabs:
 
 ExtState-Management:
     extstate-files

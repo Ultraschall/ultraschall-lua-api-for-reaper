@@ -1853,8 +1853,8 @@ function ultraschall.WriteValueToFile(filename_with_path, value, binarymode, app
   <parameters>
     string filename_with_path - the filename with it's path
     string value - the value to export, can be a long string that includes newlines and stuff. nil is not allowed!
-    boolean binarymode - true - it will store the value as binary-file; false will store it as textstring
-    boolean append - true, add the value to the end of the file; false, write value to file and erase all previous data in the file
+    boolean binarymode - true or nil, it will store the value as binary-file; false, will store it as textstring
+    boolean append - true, add the value to the end of the file; false or nil, write value to file and erase all previous data in the file
   </parameters>
   <chapter_context>
     File Management
@@ -35146,7 +35146,7 @@ function ultraschall.CheckForValidFileFormats(filename_with_path)
     string filename_with_path - the file to check for it's image-fileformat
   </parameters>
   <retvals>
-    string fileformat - the format of the file; JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI, RPP_PROJECT unknown
+    string fileformat - the format of the file; JPG, PNG, GIF, LCF, ICO, WAV, AIFF, ASF/WMA/WMV, MP3, MP3 -ID3TAG, FLAC, MKV/MKA/MKS/MK3D/WEBM, AVI, RPP_PROJECT, unknown
     boolean supported_by_reaper - true, if importing of the fileformat is supported by Reaper; false, if not
     string mediatype - the type of the media; Image, Audio, Audio/Video, Video, Reaper
   </retvals>
@@ -37773,46 +37773,6 @@ end
 
 
 --A,B=ultraschall.GetAllMediaItems()
-
-function ultraschall.ChangeToActiveProject_ProjNr(TabNr)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ChangeToActiveProject_ProjNr</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.77
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval = ultraschall.ChangeToActiveProject_ProjNr(integer TabNr)</functioncall>
-  <description>
-    Change active project-tab to TabNr.
-    
-    use <a href="#CountProjectTabs">CountProjectTabs</a> to count current number of opened project-tabs.
-    
-    Returns -1 in case of an error
-  </description>
-  <retvals>
-    integer retval - -1, in case of error
-  </retvals>
-  <parameters>
-    integer TabNr - the tab, that shall be made the active tab
-  </parameters>
-  <chapter_context>
-    Project-Files
-    Helper functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, activate, project, tab</tags>
-</US_DocBloc>
-]]
-  if math.type(TabNr)~="integer" then ultraschall.AddErrorMessage("ChangeToActiveProject_ProjNr", "TabNr", "Must be an integer.", -1) return -1 end
-  if TabNr>ultraschall.CountProjectTabs() or TabNr<1 then ultraschall.AddErrorMessage("ChangeToActiveProject_ProjNr", "TabNr", "No such Project available.", -2) return -1 end
-  local TabNr=reaper.EnumProjects(TabNr-1, "")
-  reaper.SelectProjectInstance(TabNr)
-end
-
---ultraschall.ChangeToActiveProject_ProjNr(11)
 
 function ultraschall.CreateRenderCFG_MP3MaxQuality()
 --[[
