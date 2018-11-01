@@ -2125,14 +2125,14 @@
             > When you run a script, that includes the Ultraschall-API, the API creates a list of the currently existing projecttabs.  
             > When you run this function, it will check this internal list and compare, if projects have been added, reordered or closed since them.  
             > 
-            > This function returns, if there's a change, into the return-value retval. The other return-values return  
+            > This function returns if there's a change, into the return-value retval. The other return-values return  
             
-            > - the number of reordered projects(countReorderedProj),  
-            > - an array with all reorderd Projects(reorderedProj),  
-            > - the number of new projects(countNewProj),  
-            > - an array with all newly created/opened projects(newProj),  
-            > - the number of closed projects(countClosedProj) and  
-            > - an array with all closed projects(closedProj)  
+            >> - the number of reordered projects(countReorderedProj),  
+            >> - an array with all reorderd Projects(reorderedProj),  
+            >> - the number of new projects(countNewProj),  
+            >> - an array with all newly created/opened projects(newProj),  
+            >> - the number of closed projects(countClosedProj) and  
+            >> - an array with all closed projects(closedProj)  
             
             When you want to update this internal list, you should set parameter update to true, otherwise set it to false.
             

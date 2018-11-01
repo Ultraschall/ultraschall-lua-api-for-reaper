@@ -36,13 +36,13 @@ end
 
 
 function ultraschall.ParseSlug(String)
-  return String:match("<slug>\n*%s*\t*(.-)\n*%s*\t*</slug>")
+  return String:match("<slug>.-\n*%s*\t*(.-)\n*%s*\t*</slug>")
 end
 
 
 
 function ultraschall.ParseTitle(String)
-  return String:match("<title>\n*%s*\t*(.-)\n*%s*\t*</title>")
+  return String:match("<title>.-\n*%s*\t*(.-)\n*%s*\t*</title>")
 end
 
 function ultraschall.ParseFunctionCall(String)
@@ -51,7 +51,7 @@ function ultraschall.ParseFunctionCall(String)
   local temp, func, prog_lang
   for i=1, count do
     temp=String:sub(positions[i], String:match("</functioncall>\n()", positions[i]))
-    func=temp:match("<functioncall.->\n*(.-)\n*</functioncall>")
+    func=temp:match("<functioncall.->.-\n*(.-)\n*</functioncall>")
     prog_lang=temp:match("prog_lang=\"(.-)\"")
     if prog_lang==nil then prog_lang="*" end
     FoundFuncArray[i]={}
@@ -66,7 +66,7 @@ end
 function ultraschall.ParseChapterContext(String)
   local ChapContext={}
   local Count=0
-  local TempChapCont=String:match("<chapter_context>\n*(.-)\n*</chapter_context>")
+  local TempChapCont=String:match("<chapter_context>.-\n*(.-)\n*</chapter_context>")
   for i=1, ultraschall.CountLinesInString(TempChapCont) do
 --    reaper.MB(Count,"",0)
     ChapContext[Count],offset=TempChapCont:match("%s*t*(.-)\n()")
@@ -78,7 +78,7 @@ end
 function ultraschall.ParseDescription(String)
 -- TODO: What if there are numerous descriptions, for other languages/prog_langs?
 --       Still missing...
-  local description=String:match("<description.->\n(.-)</description>")
+  local description=String:match("<description.->.-\n(.-)</description>")
   local markup_type=String:match("<description.-markup_type=\"(.-)\".-</description>")
   local markup_version=String:match("<description.-markup_version=\"(.-)\".-</description>")
   local lang=String:match("<description.-lang=\"(.-)\"")
@@ -122,7 +122,7 @@ function ultraschall.ParseChapterContext(String)
   local counter=0
   local chapterstring=""
 --  reaper.MB(String,"",0)
-  String=String:match("<chapter_context>\n*(.*)\n*</chapter_context>")
+  String=String:match("<chapter_context>.-\n*(.*)\n*</chapter_context>")
   if String==nil then String="" end
   String=String.."\n"
   while String~=nil do
@@ -142,7 +142,7 @@ function ultraschall.ParseChapterContext(String)
 end
 
 function ultraschall.ParseTags(String)
-  String=String:match("<tags>\n*%s*%t*(.-)\n*%s*%t*</tags>")
+  String=String:match("<tags>.-\n*%s*%t*(.-)\n*%s*%t*</tags>")
   String=string.gsub(String, " ,", "\n")
   String=string.gsub(String, ", ", "\n")
   String=string.gsub(String, ",", "\n")
@@ -161,7 +161,7 @@ end
 function ultraschall.ParseParameters(String)
   local MarkupType=String:match("markup_type=\"(.-)\"")
   local MarkupVers=String:match("markup_version=\"(.-)\"")
-  String=String:match("<parameters.->\n*(.*)\n*</parameters>")
+  String=String:match("<parameters.->.-\n*(.*)\n*</parameters>")
   local Params={}
   local counter=0
   local Count, Splitarray = ultraschall.CSV2IndividualLinesAsArray(String, "\n")
@@ -188,7 +188,7 @@ function ultraschall.ParseRetvals(String)
   MarkupType=String:match("markup_type=\"(.-)\"")
   MarkupVers=String:match("markup_version=\"(.-)\"")
   ASLUG=String:match("slug>\n*(.-)\n*</slug")
-  String=String:match("<retvals.->\n*(.*)\n*</retvals>")
+  String=String:match("<retvals.->.-\n*(.*)\n*</retvals>")
   Retvals={}
   counter=0
   Count, Splitarray = ultraschall.CSV2IndividualLinesAsArray(String, "\n")
@@ -221,11 +221,11 @@ function ultraschall.GetIndexNumberFromSlug(Table,Slug)
 end
 
 function ultraschall.ParseTargetDocument(String)
-  return String:match("<target_document>\n*(.-)\n*</target_document>")
+  return String:match("<target_document>.-\n*(.-)\n*</target_document>")
 end
 
 function ultraschall.ParseSourceDocument(String)
-  return String:match("<source_document>\n*(.-)\n*</source_document>")
+  return String:match("<source_document>.-\n*(.-)\n*</source_document>")
 end
 
 function ultraschall.BubbleSortDocBlocTable_Slug(Table)
@@ -299,17 +299,21 @@ function ultraschall.ConvertPlainTextToHTML(text)
 end
 
 function ultraschall.ConvertMarkdownToHTML(text, version)
-  text=string.gsub(text, "\r", "")
-  text=string.gsub(text, "\n", "<br>\n")
-  if text:sub(-4,-1)=="<br>" then text=text:sub(1,-5) end
+  text=string.gsub(text, "usdocml://", "US_Api_Functions.html#") -- this line is a hack, just supporting functions-reference!
   ultraschall.WriteValueToFile(Tempfile..".md", text)
-  local L=reaper.ExecProcess(ConversionToolMD2HTML, 0)
+  L=reaper.ExecProcess(ConversionToolMD2HTML, 0)
   L3=text
-  local L2=ultraschall.ReadFullFile(Tempfile..".html")
-  L3=string.gsub(L2,"<p>","")
-  L3=string.gsub(L3,"</p>","")
-  L3=string.gsub(L3, "  ", "&nbsp;&nbsp;")
-  L3=string.gsub(L3, "\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+  L3=ultraschall.ReadFullFile(Tempfile..".html")
+--  L3=string.gsub(L3, "\r", "")
+--  L3=string.gsub(L3, "\n", "<br>\n")
+--  if L3:sub(-4,-1)=="<br>" then L3=L3:sub(1,-5) end
+
+--  L3=string.gsub(L3,"<p>","")
+--  L3=string.gsub(L3,"</p>","")
+--  L3=string.gsub(L3, "  ", "&nbsp;&nbsp;")
+--  L3=string.gsub(L3, "\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+--  reaper.MB(L3,"",0)
+  reaper.CF_SetClipboard(L3)
   return L3
 end
 
@@ -648,7 +652,7 @@ function contentindex2()
     if Title==nil then Title=C[count][1] end
     HeaderList[B2][count2]=C[count][1].."\n"..Title
     count2=1
-    count=count+1    
+    count=count+1
   end
   count=1
   while B[count]~=nil do

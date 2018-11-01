@@ -39,7 +39,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 21695</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 21705</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -1462,8 +1462,9 @@ Default is, file will be stored as binary and value replaces the current content
 Let's go into details:<br />
 When you run a script, that includes the Ultraschall-API, the API creates a list of the currently existing projecttabs.<br />
 When you run this function, it will check this internal list and compare, if projects have been added, reordered or closed since them.</p>
-<p>This function returns, if there's a change, into the return-value retval. The other return-values return</p>
+<p>This function returns if there's a change, into the return-value retval. The other return-values return</p>
 </blockquote>
+<blockquote>
 <blockquote>
 <ul>
 <li>the number of reordered projects(countReorderedProj),<br />
@@ -1478,6 +1479,7 @@ When you run this function, it will check this internal list and compare, if pro
 </li>
 <li>an array with all closed projects(closedProj)</li>
 </ul>
+</blockquote>
 </blockquote>
 <p>When you want to update this internal list, you should set parameter update to true, otherwise set it to false.</p>
 <p>That way, you can for instance work with newly created projects, to automatically add things to projects, that can't be added using TemplateProjects.</p>
