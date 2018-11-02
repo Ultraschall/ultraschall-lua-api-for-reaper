@@ -7,9 +7,9 @@
            
          The following 415 variable-names can be used for the SWS-functions   
           
-            SNM_GetIntConfigVar(), SNM_SetIntConfigVar(), SNM_GetDoubleConfigVar() and SNM_SetDoubleConfigVar(),   
+            [SNM_GetIntConfigVar()](Reaper_Api_Documentation.html#SNM_GetIntConfigVar), [SNM_SetIntConfigVar()](Reaper_Api_Documentation.html#SNM_SetIntConfigVar), [SNM_GetDoubleConfigVar()](Reaper_Api_Documentation.html#SNM_SetIntConfigVar) and [SNM_SetDoubleConfigVar()](Reaper_Api_Documentation.html#SNM_SetDoubleConfigVar),  
          as well as the C++-only functions  
-            get_config_var(), projectconfig_var_addr() and projectconfig_var_getoffs()  
+            [get_config_var()](Reaper_Api_Documentation.html#get_config_var), [projectconfig_var_addr()](Reaper_Api_Documentation.html#projectconfig_var_addr) and [projectconfig_var_getoffs()](Reaper_Api_Documentation.html#projectconfig_var_getoffs)  
          and Reaper's prerelease-only function  
             get_config_var_string()  
           
@@ -17,54 +17,42 @@
           
          These variablenames are from Reaper 5.95 and probably missing some, but should be fairly complete anyway.  
           
-         These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog,  
-         many context-menus(like MCP or transport-context-menus) and many others.  
+         These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
           
-         They are either double or integer-values. The integer-values are usually bitfields, where every bit stores  
-         e.g. the value of a checkbox in the preferences.  
+         They are either double or integer-values. The integer-values are usually bitfields, where every bit stores e.g. the value of a checkbox in the preferences.  
          That said: one variable may contain the settings for up to 32(or more?) settings at once.  
-         Some variables are string-variables, but they can be accessed only with get_config_var_string(), which is  
-         only available in pre-releases of Reaper only, at the time of writing(I tried to document them as well anyway).  
+         
+         Some variables are string-variables, but they can be accessed only with get_config_var_string(), which is only available in pre-releases of Reaper only, at the time of writing(I tried to document them as well anyway).  
          They can also be accessed as integer, but only have the first 8/9 bytes available(64bits)  
           
          Integer-variables are usually 32bits, only those who can be accessed as string-variable can be 64bits as well.  
           
-          
          To get/set double variables, use the functions SNM_GetDoubleConfigVar and SNM_SetDoubleConfigVar,  
          to get/set integer(-bitfield) variables, use the functions SNM_GetIntConfigVar or SNM_SetIntConfigVar.  
-         You need SWS(www.sws-extension.org) installed to have these functions available!  
-         The alternative is to use the C++-only function get_config_var(), which is not available for ReaScripts.  
+         You need [SWS](http://www.sws-extension.org) installed to have these functions available!  
+         The alternative is to use the C++-only function get_config_var(), which is not available for ReaScripts directly.  
           
-         I documented bitfields differently than you usually use them. That means, &16384=1 is actually &16384=16384,   
-         while &16384=0 is &16384=0. This is only for better readability of the document, not for any technical reasons.  
+         I documented bitfields differently than you usually use them. That means, &16384=1 is actually &16384=16384, while &16384=0 is &16384=0. This is only for better readability of the document, not for any technical reasons.  
          Some bitfields are documented as "unknown", though it's uncertain if they're unknown or just unused.  
           
-         Sometimes, variables seem not be existing and valid until they've been set somehow. For instance, afxcfg appears  
-         only as valid, when an audio-format for "Apply FX, Glue, Freeze, etc" in the Project Settings -> Media-dialog has   
+         Sometimes, variables seem not be existing and valid until they've been set somehow. For instance, [afxcfg](#afxcfg) appears only as valid, when an audio-format for "Apply FX, Glue, Freeze, etc" in the Project Settings -> Media-dialog has   
          been set.  
-         So if you discover a variable as not functioning, keep in mind it might not be set(yet) and therefore not be available.  
-         Just set it and it should appear as existing.  
+         So if you discover a variable as not functioning, keep in mind it might not be set(yet) and therefore not be available. Just set it and it should appear as existing.  
           
-         Some variables can't be set. Even if you can set them with new values using the SWS-functions, these new values have no  
-         effect on the setting behind them and therefore can only be used for getting their current setting.  
+         Some variables can't be set. Even if you can set them with new values using the SWS-functions, these new values have no effect on the setting behind them and therefore can only be used for getting their current setting.  
          So test this out, if you need to get/set a specific variable.  
           
          Setting some of the variables results in a different behavior, as you might expect them to behave.   
-         Such examples are [mastermutesolo](#mastermutesolo), where you can set the master's mute and solo-states successfully, however, the UserInterface   
-         of Reaper will NOT reflect that. It rather will show the old mute-solo-state instead.  
-         Another such example is [reccfg](#reccfg), where you can set another recording-audio-format, but setting it to Video, GIF or AudioCD will result  
-         in strange behavior of the Project Settings-dialog, even though you can successfully record in these formats as well.  
+         Such examples are [mastermutesolo](#mastermutesolo), where you can set the master's mute and solo-states successfully, however, the UserInterface of Reaper will NOT reflect that. It rather will show the old mute-solo-state instead.  
+         Another such example is [reccfg](#reccfg), where you can set another recording-audio-format, but setting it to Video, GIF or AudioCD will result in strange behavior of the Project Settings-dialog, even though you can successfully record in these formats as well.  
          So doublecheck them twice for any side-effects. These sideeffects aren't documented much in here(too much work for one young fellow like me ;) )  
           
-         I also document limitations with variables within this textfile. These are not taken from actually setting these variables,   
-         but rather taken from the limitations imposed by setting-dialogs. So, even if I write about limitations, other values  
+         I also document limitations with variables within this textfile. These are not taken from actually setting these variables, but rather taken from the limitations imposed by setting-dialogs. So, even if I write about limitations, other values  
          may be possible as well, though I would say, this could lead to unpredictable behavior of Reaper.  
-         It is unclear, if the SWS-functions (or the underlying C++ function get_config_var) are checking for valid values to  
-         reject them, if invalid(and prevent possible crashes, etc).   
+         It is unclear, if the SWS-functions (or the underlying C++ function get_config_var) are checking for valid values to reject them, if invalid(and prevent possible crashes, etc).   
          So, be better on the safe side and stay within the boundaries I document.  
           
-         I tried to retain the original names of dialogs, settings, menu-entries, checkboxes, etc, so you can search their names   
-         in this document to find their accompanying config-variable easier.  
+         I tried to retain the original names of dialogs, settings, menu-entries, checkboxes, etc, so you can search their names in this document to find their accompanying config-variable easier.  
           
          Keep in mind: 
             
@@ -75,19 +63,20 @@
             >Project-settings should be stored the next time a project is saved, but doublecheck that, if storing projectsettings into a projectfile is a must in your script!  
             >Some project-settings can be stored into the reaper.ini as default-project-settings. I documented that as well, when I could find that out.  
           
-         documented by Meo Mespotine mespotine.de for the ultraschall.fm-project  
+         documented by Meo Mespotine mespotine.de for the [ultraschall.fm](http://www.ultraschall.fm)-project  
          some of the variable-names were collected by various users in the Reaper-forums, thanx for that :)  
-         This document is licensed under creative-commons cc-by-sa-nc license. More information about Creative Commons, at creativecommons.org  
+         This document is licensed under creative-commons cc-by-sa-nc license. More information about Creative Commons, at [creativecommons.org](http://www.creativecommons.org)  
           
-         If you want, you can thank me for this work at ultraschall.fm/danke, where you can find my Amazon-wishlist(hint hint, nudge nudge ;) )  
+         If you want, you can thank me for this work at [ultraschall.fm/danke](http://www.ultraschall.fm/danke), where you can find my Amazon-wishlist(hint hint, nudge nudge ;) )  
   
   
-         393 variables documented  
-         Preferences, Playrate context menu, Help-information display context-menu, Transport-Context Menus, Project Settings, the Master VU-settings,   
-         Ruler context-menu, Metronome and pre-roll settings, Projecttab-context-menu, MixerControlPanel-context menu, Action-menu,   
-         TrackControlPanel-context menu, Crossfade-editor, FX browser, Peaks Display Settings, Scale Finder, Screensets/Layouts  
-         the View-menu, the Options-menu, Customize menus/toolbars, Adjust Entire Tempo Envelope, Quantize Item Positions, MIDI Editor and   
-         Render to File-dialogs are completely documented, as well as all variables toggled by actions only.  
+         393 variables documented, including settings for:
+         
+         >Preferences, Playrate context menu, Help-information display context-menu, Transport-Context Menus, Project Settings, the Master VU-settings,   
+         >Ruler context-menu, Metronome and pre-roll settings, Projecttab-context-menu, MixerControlPanel-context menu, Action-menu,   
+         >TrackControlPanel-context menu, Crossfade-editor, FX browser, Peaks Display Settings, Scale Finder, Screensets/Layouts  
+         >the View-menu, the Options-menu, Customize menus/toolbars, Adjust Entire Tempo Envelope, Quantize Item Positions, MIDI Editor and   
+         >Render to File-dialogs are completely documented, as well as all variables toggled by actions only.  
           
          Some variables I couldn't trigger, so the following 22 aren't documented and are unknown:  
            [ctrlcopyitem](#ctrlcopyitem), [disk_rdblksex](#disk_rdblksex), [itemdblclk](#itemdblclk), [itemprops](#itemprops), [itemprops_timemode](#itemprops_timemode), [maxspeakgain](#maxspeakgain), [metronome_flags](#metronome_flags), [midiins](#midiins), [midiins_cs](#midiins_cs), [mousemovemod](#mousemovemod), [newfnopt](#newfnopt), [projmidieditor](#projmidieditor), [renderqdelay](#renderqdelay), [rightclickemulate](#rightclickemulate), [scoreminnotelen](#scoreminnotelen), [scorequant](#scorequant), [selitemtop](#selitemtop), [titlebarreghide](#titlebarreghide), [tsmarker](#tsmarker), [vstfolder_settings](#vstfolder_settings), [projmeasoffsruler](#projmeasoffsruler), [miscopts](#miscopts)  
@@ -791,11 +780,11 @@
            >&2=0, Trim content behing media items when editing(off) - unchecked  
            >&2=1, Trim content behing media items when editing(on) - checked  
            
-           >The settings from Options -> New recording that overlaps existing media items)  
-            &4 &8  
-             0 0, Splits existing items and created new takes (default)  
-             1 0, Trims existing items behind new recording (tape mode)  
-             0 1, Creates new media items in separate lanes (layers)  
+           >&4 &8, The settings from Options -> New recording that overlaps existing media items)  
+            
+            >> 0 0, Splits existing items and created new takes (default)  
+            >> 1 0, Trims existing items behind new recording (tape mode)  
+            >> 0 1, Creates new media items in separate lanes (layers)  
            
            >&16=0, Always add takes to new recorded items when looping(only available, when &4=0 and &8=1)(off) - unchecked  
            >&16=1, Always add takes to new recorded items when looping(only available, when &4=0 and &8=1)(off) - checked  

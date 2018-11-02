@@ -292,12 +292,15 @@
         RippleCut_Selected_Tracks.lua
         Shorten_MediaItems_In_Selection_Example.lua
   - GetProject_Length - gets the length of an rpp-projectfile
-  - added new analyser-scripts: Item_State_Diffs_Monitor.lua, Track_State_Diffs_Monitor.lua, Project_State_Diffs_Monitor.lua
+  - added new analyser-scripts for statechunks: Item_State_Diffs_Monitor.lua, Track_State_Diffs_Monitor.lua, Project_State_Diffs_Monitor.lua, Env_State_Diffs_Monitor.lua
   - Docs: File Management: Write - added to Introduction/Concepts-page
   - Docs: File Management: Analyse - added to Introduction/Concepts-page
   - Docs: File Management: Misc - added to Introduction/Concepts-page
   - Docs: Project Management: Introduction - added to Introduction/Concepts-page
   - Docs: Project Management: Check for changed projecttabs - added to Introduction/Concepts-page
+  - Docs: added WebRC-API-docs
+  - Docs: added Video-Processor-API-docs
+  - Docs: reworked slightly the header of the Reaper-Internals-page
     
   <TODO>
       TODO!!  - write final documentation for public-beta
