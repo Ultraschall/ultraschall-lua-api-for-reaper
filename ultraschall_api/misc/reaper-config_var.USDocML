@@ -3,62 +3,60 @@
       <slug>Introduction</slug>  
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 5.95  
-           
-         The following 415 variable-names can be used for the SWS-functions   
-          
-            [SNM_GetIntConfigVar()](Reaper_Api_Documentation.html#SNM_GetIntConfigVar), [SNM_SetIntConfigVar()](Reaper_Api_Documentation.html#SNM_SetIntConfigVar), [SNM_GetDoubleConfigVar()](Reaper_Api_Documentation.html#SNM_SetIntConfigVar) and [SNM_SetDoubleConfigVar()](Reaper_Api_Documentation.html#SNM_SetDoubleConfigVar),  
-         as well as the C++-only functions  
-            [get_config_var()](Reaper_Api_Documentation.html#get_config_var), [projectconfig_var_addr()](Reaper_Api_Documentation.html#projectconfig_var_addr) and [projectconfig_var_getoffs()](Reaper_Api_Documentation.html#projectconfig_var_getoffs)  
-         and Reaper's prerelease-only function  
-            get_config_var_string()  
-          
-         who change Reaper's configuration-variables at run time. Just pass the variable-name to the parameter "varname".  
-          
-         These variablenames are from Reaper 5.95 and probably missing some, but should be fairly complete anyway.  
-          
+         List of all Config Variables as of Reaper 5.95 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
+         To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
-         They are either double or integer-values. The integer-values are usually bitfields, where every bit stores e.g. the value of a checkbox in the preferences.  
-         That said: one variable may contain the settings for up to 32(or more?) settings at once.  
+            >For Integer-values, use [SNM_GetIntConfigVar()](Reaper_Api_Documentation.html#SNM_GetIntConfigVar), [SNM_SetIntConfigVar()](Reaper_Api_Documentation.html#SNM_SetIntConfigVar),  
+             For Double/Float-values, use [SNM_GetDoubleConfigVar()](Reaper_Api_Documentation.html#SNM_SetIntConfigVar) and [SNM_SetDoubleConfigVar()](Reaper_Api_Documentation.html#SNM_SetDoubleConfigVar), 
+
+         as well as the C++-only API-functions:
          
-         Some variables are string-variables, but they can be accessed only with get_config_var_string(), which is only available in pre-releases of Reaper only, at the time of writing(I tried to document them as well anyway).  
-         They can also be accessed as integer, but only have the first 8/9 bytes available(64bits)  
+            >For (Global) Configuration, use [get_config_var()](Reaper_Api_Documentation.html#get_config_var)
+             For Project-configuration, use[projectconfig_var_addr()](Reaper_Api_Documentation.html#projectconfig_var_addr) and [projectconfig_var_getoffs()](Reaper_Api_Documentation.html#projectconfig_var_getoffs)  
+            
+         and Reaper's prerelease-only function:  
+         
+            >string value = get_config_var_string(string config_variable)  
           
-         Integer-variables are usually 32bits, only those who can be accessed as string-variable can be 64bits as well.  
+         who change Reaper's configuration-variables at run time. Just pass the variable-name to the parameter "varname".
           
-         To get/set double variables, use the functions SNM_GetDoubleConfigVar and SNM_SetDoubleConfigVar,  
-         to get/set integer(-bitfield) variables, use the functions SNM_GetIntConfigVar or SNM_SetIntConfigVar.  
-         You need [SWS](http://www.sws-extension.org) installed to have these functions available!  
-         The alternative is to use the C++-only function get_config_var(), which is not available for ReaScripts directly.  
+         Configuration-variables are either double, integer, or string-values. The integer-values are usually(but not always!) bitfields, where every bit stores e.g. the value of a checkbox in the preferences.  
+         That said: one variable may contain the settings for up to 32(or more?) settings at once.           
+         Some variables are string-variables, but they can be accessed with get_config_var_string(), which is available in pre-releases of Reaper only, at the time of writing(I tried to document them as well anyway).  
+         They can also be accessed as integer, but only have the first 8 bytes available(64bits)  
+          
+         Integer-variables are usually 32bits, only those who can be accessed as string-variable can be read as up to 64bits-integers as well.  
           
          I documented bitfields differently than you usually use them. That means, &16384=1 is actually &16384=16384, while &16384=0 is &16384=0. This is only for better readability of the document, not for any technical reasons.  
          Some bitfields are documented as "unknown", though it's uncertain if they're unknown or just unused.  
           
-         Sometimes, variables seem not be existing and valid until they've been set somehow. For instance, [afxcfg](#afxcfg) appears only as valid, when an audio-format for "Apply FX, Glue, Freeze, etc" in the Project Settings -> Media-dialog has   
-         been set.  
-         So if you discover a variable as not functioning, keep in mind it might not be set(yet) and therefore not be available. Just set it and it should appear as existing.  
+         Sometimes, variables seem not be existing and valid until they've been set somehow. For instance, [afxcfg](#afxcfg) appears only as valid, when an audio-format for "Apply FX, Glue, Freeze, etc" in the Project Settings -> Media-dialog has  
+         been set. So if you discover a variable as not functioning, keep in mind it might not be set(yet) and therefore not be available. Just set it and it should appear as existing.  
           
          Some variables can't be set. Even if you can set them with new values using the SWS-functions, these new values have no effect on the setting behind them and therefore can only be used for getting their current setting.  
-         So test this out, if you need to get/set a specific variable.  
+         So test this out beforehand, if you need to get/set a specific variable in your script.  
           
          Setting some of the variables results in a different behavior, as you might expect them to behave.   
-         Such examples are [mastermutesolo](#mastermutesolo), where you can set the master's mute and solo-states successfully, however, the UserInterface of Reaper will NOT reflect that. It rather will show the old mute-solo-state instead.  
+         Such example is [mastermutesolo](#mastermutesolo), where you can set the master's mute and solo-states successfully, however, the UserInterface of Reaper will NOT reflect that. It rather will show the old mute-solo-state instead.  
          Another such example is [reccfg](#reccfg), where you can set another recording-audio-format, but setting it to Video, GIF or AudioCD will result in strange behavior of the Project Settings-dialog, even though you can successfully record in these formats as well.  
          So doublecheck them twice for any side-effects. These sideeffects aren't documented much in here(too much work for one young fellow like me ;) )  
           
-         I also document limitations with variables within this textfile. These are not taken from actually setting these variables, but rather taken from the limitations imposed by setting-dialogs. So, even if I write about limitations, other values  
-         may be possible as well, though I would say, this could lead to unpredictable behavior of Reaper.  
+         I also document limitations with variables within this textfile. These are not taken from actually setting these variables, but rather taken from the limitations imposed by setting-dialogs. So, even if I write about limitations, 
+         other values may be possible as well, though I would say, this could lead to unpredictable behavior of Reaper.  
          It is unclear, if the SWS-functions (or the underlying C++ function get_config_var) are checking for valid values to reject them, if invalid(and prevent possible crashes, etc).   
          So, be better on the safe side and stay within the boundaries I document.  
           
          I tried to retain the original names of dialogs, settings, menu-entries, checkboxes, etc, so you can search their names in this document to find their accompanying config-variable easier.  
+         
+         Many variables are also influenced by actions, so refer to [Reaper-All_ConfigVars_as_toggled_by_Actions.txt](../misc/Reaper-All_ConfigVars_as_toggled_by_Actions.txt) to get a full list of which actions triggers which configvar.
           
          Keep in mind: 
             
             >If you change settings, these changes might not be stored in Reaper's setting-files, so they may get lost, when Reaper is exited.  
             >If you want to retain settings, you need to set them in the corresponding ini-files as well(usually the reaper.ini) 
-            >with BR_Win32_WritePrivateProfileString()  
+            >with BR_Win32_WritePrivateProfileString()
+            >Only exception I know of it is [edit_fontsize](#edit_fontsize), which sets the fontsize in Reaper's IDE. Changing this makes this setting immediately persisting.
           
             >Project-settings should be stored the next time a project is saved, but doublecheck that, if storing projectsettings into a projectfile is a must in your script!  
             >Some project-settings can be stored into the reaper.ini as default-project-settings. I documented that as well, when I could find that out.  
@@ -72,20 +70,23 @@
   
          393 variables documented, including settings for:
          
-         >Preferences, Playrate context menu, Help-information display context-menu, Transport-Context Menus, Project Settings, the Master VU-settings,   
-         >Ruler context-menu, Metronome and pre-roll settings, Projecttab-context-menu, MixerControlPanel-context menu, Action-menu,   
-         >TrackControlPanel-context menu, Crossfade-editor, FX browser, Peaks Display Settings, Scale Finder, Screensets/Layouts  
-         >the View-menu, the Options-menu, Customize menus/toolbars, Adjust Entire Tempo Envelope, Quantize Item Positions, MIDI Editor and   
-         >Render to File-dialogs are completely documented, as well as all variables toggled by actions only.  
+           >Preferences, Playrate context menu, Help-information display context-menu, Transport-Context Menus, Project Settings, the Master VU-settings,   
+           >Ruler context-menu, Metronome and pre-roll settings, Projecttab-context-menu, MixerControlPanel-context menu, Action-menu,   
+           >TrackControlPanel-context menu, Crossfade-editor, FX browser, Peaks Display Settings, Scale Finder, Screensets/Layouts  
+           >the View-menu, the Options-menu, Customize menus/toolbars, Adjust Entire Tempo Envelope, Quantize Item Positions, MIDI Editor and   
+           >Render to File-dialogs are completely documented, as well as all variables toggled by actions only.  
           
          Some variables I couldn't trigger, so the following 22 aren't documented and are unknown:  
-           [ctrlcopyitem](#ctrlcopyitem), [disk_rdblksex](#disk_rdblksex), [itemdblclk](#itemdblclk), [itemprops](#itemprops), [itemprops_timemode](#itemprops_timemode), [maxspeakgain](#maxspeakgain), [metronome_flags](#metronome_flags), [midiins](#midiins), [midiins_cs](#midiins_cs), [mousemovemod](#mousemovemod), [newfnopt](#newfnopt), [projmidieditor](#projmidieditor), [renderqdelay](#renderqdelay), [rightclickemulate](#rightclickemulate), [scoreminnotelen](#scoreminnotelen), [scorequant](#scorequant), [selitemtop](#selitemtop), [titlebarreghide](#titlebarreghide), [tsmarker](#tsmarker), [vstfolder_settings](#vstfolder_settings), [projmeasoffsruler](#projmeasoffsruler), [miscopts](#miscopts)  
+         
+           >[ctrlcopyitem](#ctrlcopyitem), [disk_rdblksex](#disk_rdblksex), [itemdblclk](#itemdblclk), [itemprops](#itemprops), [itemprops_timemode](#itemprops_timemode), [maxspeakgain](#maxspeakgain), [metronome_flags](#metronome_flags), [midiins](#midiins), [midiins_cs](#midiins_cs), [mousemovemod](#mousemovemod), [newfnopt](#newfnopt), [projmidieditor](#projmidieditor), [renderqdelay](#renderqdelay), [rightclickemulate](#rightclickemulate), [scoreminnotelen](#scoreminnotelen), [scorequant](#scorequant), [selitemtop](#selitemtop), [titlebarreghide](#titlebarreghide), [tsmarker](#tsmarker), [vstfolder_settings](#vstfolder_settings), [projmeasoffsruler](#projmeasoffsruler), [miscopts](#miscopts)  
   
          The following variables can be triggered by actions only  
-           [aot](#aot), [cueitems](#cueitems), [itemtexthide](#itemtexthide), [psmaxv](#psmaxv), [psminv](#psminv), [templateditcursor](#templateditcursor)  
+         
+           >[aot](#aot), [cueitems](#cueitems), [itemtexthide](#itemtexthide), [psmaxv](#psmaxv), [psminv](#psminv), [templateditcursor](#templateditcursor)  
   
          the following variables are available in pre-releases of Reaper only  
-           [ara](#ara), [bouncecfg](#bouncecfg), [defstretchmode](#defstretchmode), [wiring_options](#wiring_options), [uiscale](#uiscale)  
+         
+           >[ara](#ara), [bouncecfg](#bouncecfg), [defstretchmode](#defstretchmode), [wiring_options](#wiring_options), [uiscale](#uiscale)  
       </description>  
       <chapter_context>  
          An Introduction  
@@ -11089,7 +11090,7 @@
       <slug>volenvrange</slug>  
       <title>volenvrange</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          The scaling for new envelopes, as set in Preferences Track/Send Defaults.  
+          The scaling for new envelopes, as set in Preferences Envelope display
           It is an integer-bitfield  
           
            >&1 and &4, the Volume envelope range-dropdownlist  

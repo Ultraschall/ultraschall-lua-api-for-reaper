@@ -306,6 +306,8 @@
       TODO!!  - write final documentation for public-beta
       
     For 4.00beta2.8:
+      TODO!!  - Mix-Snapshots, who store/retreive the current/a former mix
+      TODO!!  - totype(value, string type), converts a value to type and returns it, if impossible, returns nil; includes string, boolean, integer, float, hex, oct, base64, etc
       TODO!!  - ArrangeViewSnapshots - use reaper.JS_Window_SetScrollPos(HWND, "SB_VERT", value) to set and JS_Window_GetScrollInfo from JS new plugin to get/store vertscrollpos
       TODO!!  - Get Length of all Items in a track GetLengthOfAllItems_Track()
       TODO!!  - Add options to Normalize-Items-function, as there are numerous different actions for normalizing
