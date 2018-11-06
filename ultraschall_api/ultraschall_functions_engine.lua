@@ -1383,7 +1383,7 @@ function ultraschall.ConvertColorReverse(color)
   </requires>
   <functioncall>integer r, integer g, integer b, boolean retval = ultraschall.ConvertColorReverse(integer colorvalue)</functioncall>
   <description>
-    converts a native-system-color to r, g, b-values. Works like reaper's ColorToNative, but doesn't need |0x1000000 added.
+    converts a native-system-color to r, g, b-values.
     
     returns 0,0,0,false in case of an error
   </description>
@@ -41203,7 +41203,7 @@ function ultraschall.CreateSonicRainboomColorTable()
   group[20]=12615680
   group[21]=32960
   group[22]=12583040
-  group2={}
+  local group2={}
   for i=1, 20 do
     group2[i]={}
     group2[i]["nativecolor"]=group[i-1]
@@ -41277,7 +41277,7 @@ function ultraschall.ConcatIntegerIndexedTables(table1, table2)
     Lua=5.3
   </requires>
   <functioncall>integer numentries, array concatenated_table = ultraschall.ConcatIntegerIndexedTables(array table1, array table2)</functioncall>
-  <description>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Concatenates the entries of two tables into one table. The entries of each table must be indexed by integers
     
     The new table still has the same references as the old table, means: if you remove the old tables/entries in the old tables, the concatenated table/accompanying entries will loose elements.
@@ -41331,7 +41331,7 @@ function ultraschall.ApplyColorTableToTrackColors(ColorTable, Spread, StartTrack
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Apply a ColorTable to Tracks, to colorize MediaTracks
     
-    Can be used by [CreateColorTable](#CreateColorTable)
+    ColorTables can be created by [CreateColorTable](#CreateColorTable)
   </description>
   <parameters>
     array ColorTable - the ColorTable to apply to the MediaTrackColors
@@ -41342,14 +41342,14 @@ function ultraschall.ApplyColorTableToTrackColors(ColorTable, Spread, StartTrack
     integer EndTrack - the last track to colorize; nil, to use the last track in project
   </parameters>
   <retvals>
-    boolean retval - true, adjusting track-colors was successful; false, adjusting trackcolors was unsuccessful
+    boolean retval - true, adjusting track-colors was successful; false, adjusting track-colors was unsuccessful
   </retvals>
   <chapter_context>
     Color Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>color management, create, colortable</tags>
+  <tags>color management, apply, colortable, colorize, mediatracks</tags>
 </US_DocBloc>
 ]]
   local Count1 = ultraschall.CountEntriesInTable_Main(ColorTable)
@@ -41379,6 +41379,67 @@ end
 
 
 --ultraschall.ApplyColorTableToTrackColors(L, 2, 2, 6)
+
+
+function ultraschall.ApplyColorTableToItemColors(ColorTable, Spread, MediaItemArray)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ApplyColorTableToItemColors</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ApplyColorTableToItemColors(array ColorTable, integer Spread, MediaItemArray MediaItemArray)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Apply a ColorTable to MediaItems in a MediaItemArray, to colorize MediaItems
+    
+    ColorTables can be created by [CreateColorTable](#CreateColorTable)
+  </description>
+  <parameters>
+    array ColorTable - the ColorTable to apply to the MediaItemColors
+    integer Spread - 0, apply ColorTable once; will return false, if fewer colors are in ColorTable available than items in the MediaItemArray
+                   - nil or 1, repeat the colors from the ColorTable over and over again over the item; means: if you have 10 items and 5 colors, the colors will fill items 1 to 5 and then again items 6 to 10
+                   - 2, spread the colors from the ColorTable over all items equally
+    MediaItemArray MediaItemArray - an array with all the MediaItems to colorize
+  </parameters>
+  <retvals>
+    boolean retval - true, adjusting item-colors was successful; false, adjusting item-colors was unsuccessful
+  </retvals>
+  <chapter_context>
+    Color Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>color management, apply, colortable, mediaitems, colorize</tags>
+</US_DocBloc>
+]]
+  local Count1 = ultraschall.CountEntriesInTable_Main(ColorTable)
+  local Count3 = ultraschall.CountEntriesInTable_Main(MediaItemArray)
+  local Count2 = 1
+  local step=1
+  if ultraschall.IsValidColorTable(ColorTable)==false or Count1<Count2 then ultraschall.AddErrorMessage("ApplyColorTableToItemColors", "Colortable", "Must be a valid ColorTable with at least on entry", -1) return false end
+  if ultraschall.IsValidMediaItemArray(MediaItemArray)==false or Count1<Count2 then ultraschall.AddErrorMessage("ApplyColorTableToItemColors", "MediaItemArray", "Must be a valid MediaItemArray", -2) return false end
+  if Spread==nil then Spread=1 end
+  if Spread~=nil and math.type(Spread)~="integer" then ultraschall.AddErrorMessage("ApplyColorTableToItemColors", "Spread", "must be an integer", -3) return false end
+  if Spread<0 or Spread>2 then ultraschall.AddErrorMessage("ApplyColorTableToItemColors", "Spread", "must be between 0 and 2", -4) return false end
+  if Spread==0 and Count1<Count3 then ultraschall.AddErrorMessage("ApplyColorTableToItemColors", "ColorTable", "Not enough colors in Colortable for the number of Items in MediaItemArray", -5) return false end
+  if Spread==1 then step=1 end
+  if Spread==2 then step=(Count1-1)/(Count3-1) end
+
+  for i=1, Count3-1 do
+    local col=ColorTable[math.ceil(Count2)]["nativecolor"]
+    local retval = reaper.SetMediaItemInfo_Value(MediaItemArray[i],"I_CUSTOMCOLOR", -col|0x100000)
+    Count2=Count2+step
+    if Count2>Count1 then Count2=1 end
+  end
+  return true
+end
+
+--L=ultraschall.CreateSonicRainboomColorTable()
+--A,B,C,D,E=ultraschall.GetAllMediaItemsBetween(0,10,"1,2,3,4,5,6",false)
+--ultraschall.ApplyColorTableToItemColors(L, 2, B)
+--reaper.UpdateArrange()
 
 
 function ultraschall.ReverseTable(the_table)
@@ -44630,7 +44691,6 @@ end
 
 --L=ultraschall.RenderProject_RenderCFG("c:\\rendercode-project-dupl.RPP", "c:\\Reaper-Internal-Docs.mp3", 0, 0, false, true, true, A)
 
-ultraschall.ShowLastErrorMessage()
 
 --MT=reaper.GetTrack(0,0)
 --C,CC=ultraschall.GetAllMediaItemsBetween(0,400,"1,2,3,4,5",false)
@@ -44693,3 +44753,168 @@ A2=string.char(128)
 
 --L=ultraschall.RenderProject_RenderCFG(nil, "c:\\Reaper-Internal-Docs.mp3", 0, 100, false, true, true)
 --A, AA=ultraschall.RenderProjectRegions_RenderCFG("c:\\MarkerProject.rpp", "c:\\Tudelu-test", 1, false, true, true, true)
+
+function ultraschall.ConvertColorToMac(red, green, blue)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertColorToMac</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer mac_colorvalue, boolean retval = ultraschall.ConvertColorToMac(integer red, integer green, integer blue)</functioncall>
+  <description>
+    Converts a colorvalue to the correct-native-colorvalue for Mac, no matter if you're using Mac, Windows or Linux.
+    
+    returns 0, false in case of an error
+  </description>
+  <parameters>
+    integer red - the red-value of the color
+    integer green - the green-value of the color
+    integer blue - the blue-value of the color
+  </parameters>
+  <retvals>
+    integer mac_colorvalue - the Mac-native-colorvalue
+    boolean retval - true, if conversion succeeded; false, if conversion failed
+  </retvals>
+  <chapter_context>
+    Color Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>color management, native, mac, convert</tags>
+</US_DocBloc>
+]]
+  if math.type(red)~="integer" then ultraschall.AddErrorMessage("ConvertColorToMac","red","must be an integer",-1) return 0, false end
+  if math.type(green)~="integer" then ultraschall.AddErrorMessage("ConvertColorToMac","green","must be an integer",-2) return 0, false end
+  if math.type(blue)~="integer" then ultraschall.AddErrorMessage("ConvertColorToMac","blue","must be an integer",-3) return 0, false end
+  if ultraschall.IsOS_Mac()==false then red, blue = blue,red end
+  return ultraschall.ConvertColor(red, green, blue)
+end
+
+--A=ultraschall.ConvertColorToMac(255,0,127)
+
+function ultraschall.ConvertColorToWin(red, green, blue)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertColorToWin</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer win_linux_colorvalue, boolean retval = ultraschall.ConvertColorToWin(integer red, integer green, integer blue)</functioncall>
+  <description>
+    Converts a colorvalue to the correct-native-colorvalue for Windows/Linux, no matter if you're using Mac, Windows or Linux.
+    
+    returns 0, false in case of an error
+  </description>
+  <parameters>
+    integer red - the red-value of the color
+    integer green - the green-value of the color
+    integer blue - the blue-value of the color
+  </parameters>
+  <retvals>
+    integer win_linux_colorvalue - the Windows/Linux-native-colorvalue
+    boolean retval - true, if conversion succeeded; false, if conversion failed
+  </retvals>
+  <chapter_context>
+    Color Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>color management, native, windows, linux, convert</tags>
+</US_DocBloc>
+]]
+  if math.type(red)~="integer" then ultraschall.AddErrorMessage("ConvertColorToWin","red","must be an integer",-1) return 0, false end
+  if math.type(green)~="integer" then ultraschall.AddErrorMessage("ConvertColorToWin","green","must be an integer",-2) return 0, false end
+  if math.type(blue)~="integer" then ultraschall.AddErrorMessage("ConvertColorToWin","blue","must be an integer",-3) return 0, false end
+  if ultraschall.IsOS_Mac()==true then red, blue = blue,red end
+  return ultraschall.ConvertColor(red, green, blue)
+end
+
+--A=ultraschall.ConvertColorToWin(255,2,127)
+
+function ultraschall.ConvertColorFromMac(mac_colorvalue)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertColorFromMac</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer red, integer green, integer blue, boolean retval = ultraschall.ConvertColorFromMac(integer mac_colorvalue)</functioncall>
+  <description>
+    Converts a native-colorvalue to the correct rgb-color-values for Mac, no matter if you're using Mac, Windows or Linux.
+    
+    returns 0, 0, 0, false in case of an error
+  </description>
+  <parameters>
+    integer mac_colorvalue - the Mac-native-colorvalue
+  </parameters>
+  <retvals>
+    integer red - the red-value of the color
+    integer green - the green-value of the color
+    integer blue - the blue-value of the color
+    boolean retval - true, if conversion succeeded; false, if conversion failed
+  </retvals>
+  <chapter_context>
+    Color Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>color management, native, mac, convert</tags>
+</US_DocBloc>
+]]
+  if math.type(mac_colorvalue)~="integer" then ultraschall.AddErrorMessage("ConvertColorFromMac","mac_colorvalue","must be an integer",-1) return 0, false end
+  local red, green, blue, retval=ultraschall.ConvertColorReverse(mac_colorvalue)
+  if ultraschall.IsOS_Mac()==false then red, blue = blue,red end
+  return red, green, blue, retval
+end
+
+--B,C,D,E=ultraschall.ConvertColorFromMac(A)
+
+function ultraschall.ConvertColorFromWin(win_colorvalue)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertColorFromWin</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer red, integer green, integer blue, boolean retval = ultraschall.ConvertColorFromWin(integer win_colorvalue)</functioncall>
+  <description>
+    Converts a native-colorvalue to the correct rgb-color-values for Windows/Linux, no matter if you're using Mac, Windows or Linux.
+    
+    returns 0, 0, 0, false in case of an error
+  </description>
+  <parameters>
+    integer win_colorvalue - the Windows/Linux-native-colorvalue
+  </parameters>
+  <retvals>
+    integer red - the red-value of the color
+    integer green - the green-value of the color
+    integer blue - the blue-value of the color
+    boolean retval - true, if conversion succeeded; false, if conversion failed
+  </retvals>
+  <chapter_context>
+    Color Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>color management, native, windows, linux, convert</tags>
+</US_DocBloc>
+]]
+  if math.type(win_colorvalue)~="integer" then ultraschall.AddErrorMessage("ConvertColorFromWin","win_colorvalue","must be an integer",-1) return 0, false end
+  local red, green, blue, retval=ultraschall.ConvertColorReverse(win_colorvalue)
+  if ultraschall.IsOS_Mac()==true then red, blue = blue,red end
+  return red, green, blue, retval
+end
+
+--B,C,D,E=ultraschall.ConvertColorFromWin(A)
+
+
+ultraschall.ShowLastErrorMessage()

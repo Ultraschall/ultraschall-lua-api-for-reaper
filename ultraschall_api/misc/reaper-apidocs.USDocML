@@ -4958,7 +4958,7 @@
             Reaper=5.62
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Gets the RPPXML state of an envelope.
             
             This function has a limitation: if a returned statechunk. Use [SNM_GetSetObjectState](#SNM_GetSetObjectState) instead in that case.
@@ -5293,7 +5293,7 @@
             Reaper=5.62
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Gets the RPPXML state of an item, returns true if successful. Undo flag is a performance/caching hint.
             
             This function has a limitation: if a returned statechunk. Use [SNM_GetSetObjectState](#SNM_GetSetObjectState) instead in that case.
@@ -9133,7 +9133,7 @@
             Reaper=5.62
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Gets the RPPXML state of a track, returns true if successful. Undo flag is a performance/caching hint.
             
             This function has a limitation: if a returned statechunk. Use [SNM_GetSetObjectState](#SNM_GetSetObjectState) instead in that case.
@@ -18135,7 +18135,7 @@
             Reaper=5.95
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             See [TrackFX_GetOffline](#TrackFX_GetOffline)
         </description>
         <parameters>
@@ -18162,7 +18162,7 @@
             Reaper=5.95
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             See [TakeFX_GetOffline](#TakeFX_GetOffline)
         </description>
         <parameters>
@@ -18189,7 +18189,7 @@
             Reaper=5.95
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             See [TakeFX_SetOffline](#TakeFX_SetOffline)
         </description>
         <retvals>
@@ -18305,7 +18305,7 @@
             Reaper=5.95
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             See [TrackFX_SetOffline](#TrackFX_SetOffline)
         </description>
         <retvals>
@@ -23937,8 +23937,8 @@
         <requires>
             Reaper=5.62
         </requires>
-        <description indent="default">
-            Measures the drawing dimensions of a character with the current font (as set by gfx_setfont). 
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Measures the drawing dimensions of a character with the current font (as set by [gfx.setfont](#lua_gfx.setfont)). Returns width and height of character.
         </description>
         <parameters>
             character - 
@@ -26431,7 +26431,7 @@
             Reaper=5.62
             Lua=5.3
         </requires>
-        <description indent="default">
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Measures the drawing dimensions of a character with the current font (as set by [gfx.setfont](#lua_gfx.setfont)). Returns width and height of character.
         </description>
         <retvals>
@@ -26457,7 +26457,7 @@
             Reaper=5.62
             Lua=5.3
         </requires>
-        <description indent="default">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Measures the drawing dimensions of a string with the current font (as set by [gfx.setfont](#lua_gfx.setfont)). Returns width and height of string.
         </description>
         <retvals>

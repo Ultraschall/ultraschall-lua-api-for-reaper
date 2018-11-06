@@ -301,6 +301,18 @@
   - Docs: added WebRC-API-docs
   - Docs: added Video-Processor-API-docs
   - Docs: reworked slightly the header of the Reaper-Internals-page
+  - Docs: Color Management: Introduction - added chapter
+  - Docs: Color Management: Native Color Conversion - added chapter
+  - Docs: Color Management: Brightness, Contrast and Colorsaturation - added chapter
+  - Docs: Color Management: Working with Colortables - added chapter
+  - Docs: Color Management: Creating Colortables - added chapter
+  - Docs: Color Management: Applying Colortables - added chapter
+  - ConvertColorFromMac - Converts a native-Mac to rgb-values
+  - ConvertColorFromWin - Converts a native-Windows/Linux-color to rgb-values
+  - ConvertColorToMac - Converts rgb-values to a native-MacOS-color
+  - ConvertColorToWin - Converts rgb-values to a native-Windows/Linux-color
+  - ApplyColorTableToItemColors - applies a ColorTable to MediaItems in a MediaItemArray
+
     
   <TODO>
       TODO!!  - write final documentation for public-beta

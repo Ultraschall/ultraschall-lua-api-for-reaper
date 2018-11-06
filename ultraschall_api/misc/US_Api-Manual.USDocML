@@ -8,7 +8,7 @@
                 
                 The Ultraschall-Framework itself is intended to include a set of Lua-functions, that help creating such functionalities. By giving programmers helper functions to get access to each and every corner of Reaper. That way, extending Ultraschall and Reaper is more comfortable to do.
                 
-                This API was to be used within Ultraschall only, but quickly evolved into a huge 600+ function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:
+                This API was to be used within Ultraschall only, but quickly evolved into a huge 700 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:
                
                    - Rendering - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want.
                                    just create a renderstring and pass it over to [RenderProject_RenderCFG](usdocml://RenderProject_RenderCFG) or [RenderProjectRegions_RenderCFG](usdocml://RenderProjectRegions_RenderCFG)
@@ -480,25 +480,29 @@
             When working with multiple EnvelopePointObjects, I introduced the datatype EnvelopePointArray, containing multiple EnvelopePointObjects.
             
             An EnvelopePointArray is an array with multiple EnvelopePointObjects, indexed by an integer.  
-            Structure:  
+            Examplecode:  
 
-                        ColorTable[index][r]=red color-value(0-255)
-                        ColorTable[index][g]=green color-value(0-255)
-                        ColorTable[index][b]=blue color-value(0-255)
-                        ColorTable[index][gfxr]=red color-value, useable by gfx-related-functions(0-1)
-                        ColorTable[index][gfxg]=green color-value, useable by gfx-related-functions(0-1)
-                        ColorTable[index][gfxb]=blue color-value, useable by gfx-related-functions(0-1)
-                        ColorTable[index]["nativecolor"]=the r-g-b-color-value converted to the native-color, used in your system
-                    
+                        -- create EnvelopePointObjects
+                        MediaTrack=reaper.GetTrack(0,0) -- get MediaTrack
+                        TrackEnvelope=reaper.GetTrackEnvelope(MediaTrack, 0) -- get TrackEnvelope
+                        retval, EnvelopePointObject1 = ultraschall.CreateEnvelopePointObject(TrackEnvelope, 1, 20, 10, 0, 0, false) -- create EnvelopePointObject1
+                        retval, EnvelopePointObject2 = ultraschall.CreateEnvelopePointObject(TrackEnvelope, 1, 20, 10, 0, 0, false) -- create EnvelopePointObject2
+                        retval, EnvelopePointObject3 = ultraschall.CreateEnvelopePointObject(TrackEnvelope, 1, 20, 10, 0, 0, false) -- create EnvelopePointObject3
+                        
+                        -- creating EnvelopePointArray
+                        EnvelopePointArray={}
+                        EnvelopePointArray[1]=EnvelopePointObject1
+                        EnvelopePointArray[2]=EnvelopePointObject2
+                        EnvelopePointArray[3]=EnvelopePointObject3
             
-            ColorTables can be used to store gradients, or temporary track-colors, or anything related to multiple colors.
+            EnvelopePointArray makes passing multiple EnvelopePointObjects to functions much easier.
             
-            - You can create ColorTables using: 
-                    [CreateColorTable](usdocml://CreateColorTable), [CreateSonicRainboomColorTable](usdocml://CreateSonicRainboomColorTable)
-            - You can check for valid ColorTables using: 
-                    [IsValidColorTable](usdocml://IsValidColorTable)
-            - Some of the functions who make use of ColorTables are: 
-                    [ApplyColorTableToTrackColors](usdocml://ApplyColorTableToTrackColors)
+            - You can create EnvelopePointArrays using: 
+                    [GetEnvelopePointIDX_Between](usdocml://GetEnvelopePointIDX_Between)
+            - You can check for valid EnvelopePointArrays using: 
+                    [IsValidEnvelopePointArray](usdocml://IsValidEnvelopePointArray)
+            - Some of the functions who make use of EnvelopePointArrays are: 
+                    [AddEnvelopePoints_EnvelopePointArray](usdocml://AddEnvelopePoints_EnvelopePointArray), [SetEnvelopePoints_EnvelopePointArray](usdocml://SetEnvelopePoints_EnvelopePointArray), [DeleteEnvelopePoints_EnvelopePointArray](usdocml://DeleteEnvelopePoints_EnvelopePointArray) and more
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -519,27 +523,25 @@
             For that, I introduce the ColorTable.
             
             A ColorTable is an array containing the multiple colors, indexed by an integer.  
-            Examplecode:  
+            Structure:  
 
-                        -- create EnvelopePointObjects
-                        MediaTrack=reaper.GetTrack(0,0) -- get MediaTrack
-                        TrackEnvelope=reaper.GetTrackEnvelope(MediaTrack, 0) -- get TrackEnvelope
-                        retval, EnvelopePointObject1 = ultraschall.CreateEnvelopePointObject(TrackEnvelope, 1, 20, 10, 0, 0, false) -- create EnvelopePointObject1
-                        retval, EnvelopePointObject2 = ultraschall.CreateEnvelopePointObject(TrackEnvelope, 1, 20, 10, 0, 0, false) -- create EnvelopePointObject2
-                        retval, EnvelopePointObject3 = ultraschall.CreateEnvelopePointObject(TrackEnvelope, 1, 20, 10, 0, 0, false) -- create EnvelopePointObject3
-                        
-                        -- creating EnvelopePointArray
-                        ColorTable={}
+                        ColorTable[index]["r"]=red color-value(0-255)
+                        ColorTable[index]["g"]=green color-value(0-255)
+                        ColorTable[index]["b"]=blue color-value(0-255)
+                        ColorTable[index]["gfxr"]=red color-value, useable by gfx-related-functions(0-1)
+                        ColorTable[index]["gfxg"]=green color-value, useable by gfx-related-functions(0-1)
+                        ColorTable[index]["gfxb"]=blue color-value, useable by gfx-related-functions(0-1)
+                        ColorTable[index]["nativecolor"]=the r-g-b-color-value converted to the native-color, used in your system
                     
             
-            EnvelopePointArray makes passing multiple EnvelopePointObjects to functions much easier.
+            ColorTables can be used to store gradients, or temporary track-colors, or anything related to multiple colors.
             
-            - You can create EnvelopePointArrays using: 
-                    [GetEnvelopePointIDX_Between](usdocml://GetEnvelopePointIDX_Between)
-            - You can check for valid EnvelopePointArrays using: 
-                    [IsValidEnvelopePointArray](usdocml://IsValidEnvelopePointArray)
-            - Some of the functions who make use of EnvelopePointArrays are: 
-                    [AddEnvelopePoints_EnvelopePointArray](usdocml://AddEnvelopePoints_EnvelopePointArray), [SetEnvelopePoints_EnvelopePointArray](usdocml://SetEnvelopePoints_EnvelopePointArray), [DeleteEnvelopePoints_EnvelopePointArray](usdocml://DeleteEnvelopePoints_EnvelopePointArray) and more
+            - You can create ColorTables using: 
+                    [CreateColorTable](usdocml://CreateColorTable), [CreateSonicRainboomColorTable](usdocml://CreateSonicRainboomColorTable)
+            - You can check for valid ColorTables using: 
+                    [IsValidColorTable](usdocml://IsValidColorTable)
+            - Some of the functions who make use of ColorTables are: 
+                    [ApplyColorTableToTrackColors](usdocml://ApplyColorTableToTrackColors)            
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -2101,7 +2103,7 @@
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
         <chapter_context>
-            File Management
+            Project Management
         </chapter_context>
         <previous_chapter>FileManagement_005_Misc</previous_chapter>
         <next_chapter>Project_Management_002_Check_Changed_Projecttabs</next_chapter>
@@ -2141,13 +2143,336 @@
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
         <chapter_context>
-            File Management
+            Project Management
         </chapter_context>
         <previous_chapter>Project_Management_001_Introduction</previous_chapter>
-        <next_chapter></next_chapter>
+        <next_chapter>ColorManagement_001_Introduction</next_chapter>
         <tags>documentation, projectmanagement, projecttabs, changed, reordered, created, closed</tags>
     </US_DocBloc>
 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ColorManagement_001_Introduction</slug>
+        <title>Color Management: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Reaper has a lot of cool themeing abilities, which allows you to customize most of the design of Reaper yourself.  
+            One of these things is: customized colors.
+            
+            Unfortunately, Reaper has it's own way to deal with color. In fact there are two main ways of dealing with color:
+            
+               - native color
+               - r,g,b-color
+               
+            The r,g,b-color is, as you are used to it: you have a red-color-value, a green-color-value and a blue-color-value, each going from 0 to 255.  
+            The higher the value of one of these colors, the brighter that part of the color becomes.  
+            
+               - If red is 255 and green and blue are 0, the color will become pure red.  
+               - If the color is red=0, green=60, blue=0 then the color will be green, but a darker shade of green.  
+               - If all three colors are the same, they are either white(all three are 255), black(all three are 0), or gray(all three are somewhere between 1 and 254), where the brightness is influenced by how high the value is.
+            
+            The native-color is a system-dependent color-value used by Reaper. It is more difficult to understand, but basically it is 
+            
+                    red+(green\*green)+(blue\*blue\*blue)|0x1000000
+                
+            Or it isn't, because on MacOS, you need to reverse red and blue, so it becomes 
+                
+                    blue+(green\*green)+(red\*red\*red)|0x1000000  
+            
+            Why that is, is a mystery to me, but there's a function by Reaper, that does the correct conversion for you automatically: reaper.ColorToNative(r,g,b)|0x1000000  
+            But you always need to add that |0x1000000 after the function, and I usually forget, how to write that properly.  
+            
+            There's also some other nice stuff in many gfx-applications, that is completely missing from Reaper's own color-functions: adjusting brightness, saturation and contrast of colors, which would be helpful for adjusting track-colors and item-colors and such.
+            
+            And what about manipulating multiple colors at once?
+            
+            So I thought, why not adding functions, that make that stuff easier?
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Color Management
+        </chapter_context>
+        <previous_chapter>Project_Management_002_Check_Changed_Projecttabs</previous_chapter>
+        <next_chapter>ColorManagement_002_Native_Color_Conversion</next_chapter>
+        <tags>documentation, color management, native, introduction</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ColorManagement_002_Native_Color_Conversion</slug>
+        <title>Color Management: Native Color Conversion</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            For color-conversion into a system-dependent native-color, there are the functions: 
+               >[ConvertColor](usdocml://ConvertColor), [ConvertColorReverse](usdocml://ConvertColorReverse), [ConvertColorToMac](usdocml://ConvertColorToMac), [ConvertColorFromMac](usdocml://ConvertColorFromMac), [ConvertColorToWin](usdocml://ConvertColorFromWin), [ConvertColorFromWin](usdocml://ConvertColorFromWin), [ConvertGFXToColor](usdocml://ConvertGFXToColor), [ConvertColorToGFX](usdocml://ConvertColorToGFX)  
+        
+            Let's start with standard-color-conversion, from/to system-dependent native-colors:
+        
+               >**[ConvertColor](usdocml://ConvertColor)**
+           
+                                integer colorvalue, boolean retval = ultraschall.ConvertColor(integer r, integer g, integer b)
+                            
+               >This function converts red, green and blue-values into the native-color of your system. Unlike Reaper's own function, you don't need to add |0x1000000, which makes it easier to use.  
+               >If for one reason or another the conversion fails, it will return 0 and false as returnvalues.  
+               >If you want to convert it into a Mac-native-color-value while on Windows or a Windows one while on Mac, just swap the r and the b values.
+            
+               >**[ConvertColorReverse](usdocml://ConvertColorReverse)**
+            
+                                integer r, integer g, integer b, boolean retval = ultraschall.ConvertColorReverse(integer colorvalue)
+
+               >This one converts a native-color-value into it's original red, green and blue-colorvalues. If color-conversion failed, the returnvalue retval is false, else it is true.
+            
+            But what if you want to convert a color from/to a native-Mac-color, even if you're using Windows or Linux? And what if you're using Mac and want to convert from/to the native-color for Windows/Linux?  
+            For that, I added four functions:  
+                
+               >**[ConvertColorToMac](usdocml://ConvertColorToMac)**
+               
+                                integer mac_colorvalue, boolean retval = ultraschall.ConvertColorToMac(integer red, integer green, integer blue)
+               
+               >This converts a red, green, blue-value to a Mac-native-colorvalue. This works on Windows, Mac and Linux the same way.  
+               >Will set returnvalue retval to false, if conversion failed; if conversion succeeded, it will be set to true.
+               
+               >**[ConvertColorFromMac](usdocml://ConvertColorFromMac)**
+               
+                                integer red, integer green, integer blue, boolean retval = ultraschall.ConvertColorFromMac(integer mac_colorvalue)
+
+               >This converts a Mac-native colorvalue into it's red, green and blue-values. If retval is true then conversion was successful; if false, conversion failed.
+                                
+               >**[ConvertColorToWin](usdocml://ConvertColorToWin)**
+               
+                                integer win_linux_colorvalue, boolean retval = ultraschall.ConvertColorToWin(integer red, integer green, integer blue)
+               
+               >This converts a red, green, blue-value to a Windows/Linus-native-colorvalue. This works on Windows, Mac and Linux the same way.  
+               >Will set returnvalue retval to false, if conversion failed; if conversion succeeded, it will be set to true.
+               
+               >**[ConvertColorFromWin](usdocml://ConvertColorFromWin)**
+               
+                                integer red, integer green, integer blue, boolean retval = ultraschall.ConvertColorFromWin(integer win_colorvalue)
+                                
+               >This converts a Windows/Linux-native colorvalue into it's red, green and blue-values. If retval is true then conversion was successful; if false, conversion failed.
+               
+            If you want to convert the red, green, blue, alpha-colorvalues with a range from 0 to 255, into colorvalues useable by the gfx.functions for [gfx.init](Reaper_Api_Documentation.html#lua_gfx.init)-windows (range 0 ... 1), you can use the following functions:
+        
+               >**[ConvertColorToGFX](usdocml://ConvertColorToGFX)**
+               
+                                number r, number g, number b, number a = ultraschall.ConvertColorToGFX(integer r, integer g, integer b, integer a)
+               
+               >This converts red, green, blue, alpha-values(0-255) into gfx-useable functions(0-1). Simply pass the values between 0 to 255 to the function.
+               >These returned values can be used by [gfx.set](Reaper_Api_Documentation.html#lua_gfx.set).
+               
+               >**[ConvertGFXToColor](usdocml://ConvertGFXToColor)**
+               
+                                integer r, integer g, integer b, integer a = ultraschall.ConvertGFXToColor(number r, number g, number b, number a)
+               
+               >This converts red, green, blue, alpha-values(0-255) into gfx-useable functions(0-1). Simply pass the values between 0 to 255 to the function.
+               
+            With that, you can convert color-values into all color-values you ever want to have.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Color Management
+        </chapter_context>
+        <previous_chapter>Project_Management_001_Introduction</previous_chapter>
+        <next_chapter>ColorManagement_003_Brightness_Saturation_Contrast</next_chapter>
+        <tags>documentation, color management, native, color, conversion</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ColorManagement_003_Brightness_Contrast_Saturation</slug>
+        <title>Color Management: Brightness, Contrast and Colorsaturation</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Sometimes, you want to alter brightness, contrast or saturation of a color but have no idea, how to do that. For that, I added three functions that do that for you: 
+            [ChangeColorBrightness](usdocml://ChangeColorBrightness), [ChangeColorContrast](usdocml://ChangeColorContrast), [ChangeColorSaturation](usdocml://ChangeColorSaturation)
+            
+            Let's start with adjusting the brightness:
+            
+            >**[ChangeColorBrightness](usdocml://ChangeColorBrightness)**
+            
+                                integer red, integer green, integer blue, boolean retval = 
+                                        ultraschall.ChangeColorBrightness(integer r, integer g, integer b, 
+                                                                          integer bright_r, optional integer bright_g, optional integer bright_b)
+                                                                          
+            >This function alters the brightness of a color. Just pass to it the old r,g,b-values and the by how much the color shall be brightened/darkened.  
+            >To do this, set bright\_r, bright\_g and bright\_b to the new deltavalue. If these delta-values are negative, the color will become darker, if positive, it will become brighter.  
+            >If you pass only bright\_r and omit bright\_g and bright\_b, the deltavalue set by bright\_r will be applied to red, green and blue at the same time.  
+            >To prevent that, set bright\_g and bright\_b to 0.  
+            >It returns the changed colorvalues and the returnvalue retval, which will tell you, if changing saturation was successful(true) or not(false).
+            
+            Sometimes adjusting brightness is not enough, so let's see, how we can alter contrast of a color:
+            
+            >**[ChangeColorContrast](usdocml://ChangeColorContrast)**
+            
+                                integer red, integer green, integer blue, boolean retval = 
+                                        ultraschall.ChangeColorContrast(integer r, integer g, integer b, 
+                                                                        integer Minimum_r, optional integer Maximum_r, 
+                                                                        optional integer Minimum_g, optional integer Maximum_g, 
+                                                                        optional integer Minimum_b, optional integer Maximum_b)
+
+            >This function alters the contrast of a color.
+            >It does it by assuming, that the color-value you pass to it, will be seen as the center of the brightness-range, while Minimum\_color and Maximum\_color are the minimum and maximum of the color-range available.  
+            >For example: If you pass as parameter r the value 100, the function will assume, that the current minimum is at 0 and the current maximum is at 255.
+            >When you pass now Minimum\_r as 0 and Maximum\_r as 200, it will calculate the red-colorvalue in relation to the new minimum and maximum. That means, it will divide the new range of 200 by 255 and multiply this value by the old red-value.  
+                    
+                               new_redcolor = ((Maximum_r-Minimum_r)/255)*r
+                               
+            >The more apart Minimum and Maximum become, the stronger the contrast, the closer they become to each other, the weaker the contrast.  
+            >You can also influence the brightness by making Maximum and Minimum higher(making it brighter) or lower(making it darker).  
+            
+            >If you use only the Minimum\_r and Maximum\_r-parameters, these will be applied to red, green and blue at the same time.  
+            >To prevent that, set Minimum\_g to 0 and Minimum\_b to 0, Maximum\_g to 255 and Maximum\_b to 255.
+
+            To intensify or desaturate color, you can use the following function:
+            
+            >**[ChangeColorSaturation](usdocml://ChangeColorSaturation)**
+            
+                                integer red, integer green, integer blue, number median, boolean retval = 
+                                        ultraschall.ChangeColorSaturation(integer r, integer g, integer b, integer delta)
+            
+            >This saturates/desaturates a color-value.  
+            >Using it is easy, just pass red, green and blue to it, as well as a delta-value that affects the saturation.  
+            >To desaturate, set the value for delta negative, to saturate, make delta a positive value.  
+            >It will return the new color-values(r,g,b), as well as the median. It also returns retval, which will tell you, if changing saturation was successful(true) or not(false).  
+            
+            >The function calculates the new saturation-value by first calculating a median-brightness-value from the red, green and blue-value.   
+            >For desaturation: after that, it will add delta to values below median and subtract delta from values above delta.  
+            >For saturation: after that, it will subtract delta from values below median and add delta to values above delta.  
+            >  
+            >By that, it will desaturate or saturate.  
+            
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Color Management
+        </chapter_context>
+        <previous_chapter>ColorManagement_002_Native_Color_Conversion</previous_chapter>
+        <next_chapter>ColorManagement_004_ColorTables</next_chapter>
+        <tags>documentation, color management, brightness, contrast, saturation, color, conversion</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ColorManagement_004_ColorTables_Introduction</slug>
+        <title>Color Management: Working with Colortables</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            When working with multiple colors at once, you can use a [ColorTable](#Datatypes_007_ColorTable), which can hold multiple colors, as 0-255 integer- and 0-1 float-representation, as well as the current native-color.
+            Such colortables can be used to apply colors to track-colors or item-colors.
+            This is still work in progress but will become more elaborated over time.
+            
+            There are currently multiple color-table-functions available, like: [CreateColorTable](usdocml://CreateColorTable), [CreateSonicRainboomColorTable](usdocml://CreateSonicRainboomColorTable), [IsValidColorTable](usdocml://IsValidColorTable), [ApplyColorTableToTrackColors](usdocml://ApplyColorTableToTrackColors)
+            
+            Over time, I intend to add functions to these colortables as well, so adding, removing, altering and changing colors in the colortable(like brightness, saturation and such) is possible more easily.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Color Management
+        </chapter_context>
+        <previous_chapter>ColorManagement_003_Brightness_Contrast_Saturation</previous_chapter>
+        <next_chapter>ColorManagement_005_ColorTables_Creating_And_Checking</next_chapter>
+        <tags>documentation, color management, native, color, colortables, introduction</tags>
+    </US_DocBloc>    
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ColorManagement_005_ColorTables_Creating_And_Checking</slug>
+        <title>Color Management: Creating Colortables</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Let's create such a new [ColorTable](#Datatypes_007_ColorTable):
+            
+            >**[CreateColorTable](usdocml://CreateColorTable)**
+            
+                                array ColorTable = ultraschall.CreateColorTable(integer startr, integer startg, integer startb, 
+                                                                                integer endr, integer endg, integer endb, integer number_of_steps)
+            
+            >This creates a new ColorTable with colors from a given color-range. You set startr, startg, startb to the first color, endr, endg and endb to the last color and the number\_of\_steps from the first to the last color.  
+            >After that, you'll have a ColorTable with number\_of\_steps-colors from startcolor to endcolor. So the following code returns a colortable with 50 shades of gray from black to white:  
+            
+                                ColorTable = ultraschall.CreateColorTable(0, 0, 0, 255, 255, 255, 50)
+            
+            >If you've created multiple ColorTables and want to have them combined into one, just combine them using the function [ConcatIntegerIndexedTables](usdocml://ConcatIntegerIndexedTables).
+            
+            >**[CreateColorTable](usdocml://CreateColorTable)**
+            
+                                array ColorTable = ultraschall.CreateSonicRainboomColorTable()
+                                
+            >This is a simple function, that creates a ColorTable in Ultraschall's "Sonic Rainboom"-style.
+            
+            If you want to check, whether a certain table is a valid ColorTable, you can easily check this, using the function IsValidColorTable:
+            
+            >**[IsValidColorTable](usdocml://IsValidColorTable)**
+            
+                                boolean retval = ultraschall.IsValidColorTable(array ColorTable)
+                                
+            >Simply pass a table to check for and it will return, whether it is a valid ColorTable(true) or nor(false)
+            
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Color Management
+        </chapter_context>
+        <previous_chapter>ColorManagement_004_ColorTables_Introduction</previous_chapter>
+        <next_chapter>ColorManagement_006_ColorTables_Applying</next_chapter>
+        <tags>documentation, color management, native, color, colortables, create, check</tags>
+    </US_DocBloc>    
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ColorManagement_006_ColorTables_Applying</slug>
+        <title>Color Management: Applying Colortables</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Now, that we've created a new ColorTable, we might want to apply it somewhere, like tracks or items. 
+            For that, we have: [ApplyColorTableToTrackColors](usdocml://ApplyColorTableToTrackColors) and [ApplyColorTableToItemColors](usdocml://ApplyColorTableToItemColors)  
+            
+            Let's bring some colors into our lives:
+            
+            >**[ApplyColorTableToTrackColors](usdocml://ApplyColorTableToTrackColors)**
+            
+                                boolean retval = ultraschall.ApplyColorTableToTrackColors(array ColorTable, integer Spread, integer StartTrack, integer EndTrack)
+            
+            >This applies a ColorTable to tracks to colorize them. To do that, [create a Colortable](#ColorManagement_005_ColorTables_Creating) and pass it to this function to parameter ColorTable.  
+            >The parameter Spread decides, whether to apply a ColorTable once(0), or cyclic/repeating(1 or nil) or whether to spread the colors over all tracks equally(2).  
+            >The final parameters decide, to which tracks to apply this, starting from track StartTrack to EndTrack. Use nil as StartTrack to automatically use the first, nil as EndTrack to automatically use the last track in the project.  
+            
+            >**[ApplyColorTableToItemColors](usdocml://ApplyColorTableToItemColors)**
+            
+                                boolean retval = ultraschall.ApplyColorTableToItemColors(array ColorTable, integer Spread, MediaItemArray MediaItemArray)
+                                
+            >This applies a ColorTable to MediaItems and works basically as the ApplyColorTableToTrackColors-function above, with the exception, that you pass MediaItems as MediaItemArray.  
+            >The rest is the same, pass to the function a ColorTable and in the parameter Spread, how to spread/cycle the colors over the MediaItems.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Color Management
+        </chapter_context>
+        <previous_chapter>ColorManagement_005_ColorTables_Creating_And_Checking</previous_chapter>
+        <next_chapter>ObjectExtStates_001_Introduction</next_chapter>
+        <tags>documentation, color management, native, color, colortables, apply, item, track</tags>
+    </US_DocBloc>        
+
+
+
+
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ObjectExtStates_001_Introduction</slug>
+        <title>Object Extension States: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Color Management
+        </chapter_context>
+        <previous_chapter>ColorManagement_006_ColorTables_Applying</previous_chapter>
+        <next_chapter></next_chapter>
+        <tags>documentation, extension states, extstate</tags>
+    </US_DocBloc>    
 </USDocML>
 
 
