@@ -30059,16 +30059,16 @@ end
 ------ ULTRASCHALL FRAMEWORK 4.00 BETA 2.6 -------
 --------------------------------------------------
 
-function ultraschall.CreateAllTracksTrackString()
+function ultraschall.CreateTrackString_AllTracks()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CreateAllTracksTrackString</slug>
+  <slug>CreateTrackString_AllTracks</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>string trackstring = ultraschall.CreateAllTracksTrackString()</functioncall>
+  <functioncall>string trackstring = ultraschall.CreateTrackString_AllTracks()</functioncall>
   <description>
     Returns a trackstring with all tracknumbers from the current project.
     
@@ -35805,7 +35805,7 @@ function ultraschall.MoveRegionsTo(startposition, endposition, newposition, part
     number startposition - the startposition in seconds
     number endposition - the endposition in seconds
     number newposition - the new position in seconds; only the first region in time-selection is moved to this position, all others are moved in relation to the first marker
-    boolean retval - true, to move regions that are partially within start and endposition as well; false, only regions completely within start/endposition.
+    boolean partial - true, to move regions that are partially within start and endposition as well; false, only regions completely within start/endposition.
   </parameters>
   <chapter_context>
     Markers
@@ -37840,7 +37840,7 @@ function ultraschall.CreateRenderCFG_MP3VBR(quality, encoding_speed)
 </US_DocBloc>
 ]]
   if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "quality", "Must be an integer.", -1) return nil end
-  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "encoding_speed", "Must be an integer.", -2) return nil end
+  if math.type(encoding_speed)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "encoding_speed", "Must be an integer.", -2) return nil end
   if quality<1 or quality>10 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "quality", "Must be between 1 and 10.", -3) return nil end
   if encoding_speed<0 or encoding_speed>4 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "encoding_speed", "Must be between 0 and 4.", -3) return nil end
   
@@ -37920,7 +37920,7 @@ function ultraschall.CreateRenderCFG_MP3ABR(quality, encoding_speed)
 </US_DocBloc>
 ]]
   if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "quality", "Must be an integer.", -1) return nil end
-  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "encoding_speed", "Must be an integer.", -2) return nil end
+  if math.type(encoding_speed)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "encoding_speed", "Must be an integer.", -2) return nil end
   if quality<0 or quality>16 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "quality", "Must be between 1 and 16.", -3) return nil end
   if encoding_speed<0 or encoding_speed>4 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "encoding_speed", "Must be between 0 and 4.", -3) return nil end
 
@@ -38018,7 +38018,7 @@ function ultraschall.CreateRenderCFG_MP3CBR(quality, encoding_speed)
 </US_DocBloc>
 ]]
   if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "quality", "Must be an integer.", -1) return nil end
-  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "encoding_speed", "Must be an integer.", -2) return nil end
+  if math.type(encoding_speed)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "encoding_speed", "Must be an integer.", -2) return nil end
   if quality<0 or quality>16 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "quality", "Must be between 1 and 16.", -3) return nil end
   if encoding_speed<0 or encoding_speed>4 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "encoding_speed", "Must be between 0 and 4.", -3) return nil end
 

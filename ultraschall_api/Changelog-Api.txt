@@ -317,6 +317,7 @@
     
   <TODO>
       TODO!!  - write final documentation for public-beta
+      TODO!!  - MoveTimeSigMarkersBy MoveTimeSigMarkersTo
       
     For 4.00beta2.8:
       TODO!!  - issue with parameters/retvals in USDocML-files: nil-error, when a retval/parameter entry is only 
@@ -822,6 +823,7 @@
   - ReadBinaryFile_Offset - if startoffset is negative, the offset will be seen from the end of the file now
   - ReadBinaryFile - removed, due being a duplication of ReadFullFile
   - ReadFileAsLines_Array - corrected docs
+  - CreateTrackString_AllTracks - renamed from CreateAllTracksTrackString to be more in line with other CreateTrackString-functions
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:
