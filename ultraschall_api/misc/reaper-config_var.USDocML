@@ -778,8 +778,8 @@
            >&1=0, Auto-crossfade media items when editing(off) - unchecked  
            >&1=1, Auto-crossfade media items when editing(on) - checked  
            
-           >&2=0, Trim content behing media items when editing(off) - unchecked  
-           >&2=1, Trim content behing media items when editing(on) - checked  
+           >&2=0, Trim content behind media items when editing(off) - unchecked  
+           >&2=1, Trim content behind media items when editing(on) - checked  
            
            >&4 &8, The settings from Options -> New recording that overlaps existing media items)  
             
@@ -7412,7 +7412,7 @@
            
            >&2048 and &4096, Media items snap at-dropdownlist  
            
-            >> 0 0, Mouse-position dependant  
+            >> 0 0, Mouse-position dependent  
             >> 1 0, Only snap at start/snap offset  
             >> 0 1, Snap both start/end  
            

@@ -318,8 +318,11 @@
   <TODO>
       TODO!!  - write final documentation for public-beta
       TODO!!  - MoveTimeSigMarkersBy MoveTimeSigMarkersTo
+      TODO!!   - 1 - bla bla umwandeln in 1, bla bla
       
     For 4.00beta2.8:
+      TODO!!  - SetStateChunk-functions: how to check for ProjectStateChunk/TrackStateChunk/ItemStateChunk/EnvStateChunk, when new parameters are added to the function?
+                                         something with ... ? Otherwise, new added parameters will break old scripts...
       TODO!!  - issue with parameters/retvals in USDocML-files: nil-error, when a retval/parameter entry is only 
                 <retvals>
                     -

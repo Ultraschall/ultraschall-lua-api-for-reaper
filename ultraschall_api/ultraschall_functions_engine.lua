@@ -2261,6 +2261,8 @@ function ultraschall.GetTrackName(tracknumber, str)
   <functioncall>string trackname = ultraschall.GetTrackName(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns name of the track.
+    
+    It's the entry NAME
   </description>
   <retvals>
     string trackname  - the name of the track
@@ -2316,9 +2318,11 @@ function ultraschall.GetTrackPeakColorState(tracknumber, str)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>string PeakColorState = ultraschall.GetTrackPeakColorState(integer tracknumber, optional string TrackStateChunk)</functioncall>
+  <functioncall>integer PeakColorState = ultraschall.GetTrackPeakColorState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns state of the PeakColor-number, which is the trackcolor. Will be returned as string, to avoid losing trailing or preceding zeros.
+    
+    It's the entry PEAKCOL
   </description>
   <retvals>
     string PeakColorState  - the color of the track
@@ -2373,6 +2377,8 @@ function ultraschall.GetTrackBeatState(tracknumber, str)
   <functioncall>number BeatState = ultraschall.GetTrackBeatState(integer tracknumber,optional string TrackStateChunk)</functioncall>
   <description>
     returns Track-BeatState. 
+
+    It's the entry BEAT
   </description>
   <retvals>
     number BeatState  - -1 - Project time base; 0 - Time; 1 - Beats position, length, rate; 2 - Beats position only
@@ -2430,6 +2436,8 @@ function ultraschall.GetTrackAutoRecArmState(tracknumber, str)
   <functioncall>integer AutoRecArmState = ultraschall.GetTrackAutoRecArmState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns if the track is in AutoRecArm, when selected. Returns nil if not.
+
+    It's the entry AUTO_RECARM
   </description>
   <retvals>
     integer AutoRecArmState  - state of autorecarm; 1 for set; nil if unset
@@ -2487,6 +2495,8 @@ function ultraschall.GetTrackMuteSoloState(tracknumber, str)
   <functioncall>integer Mute, integer Solo, integer SoloDefeat = ultraschall.GetTrackMuteSoloState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns states of Mute and Solo-Buttons.
+    
+    It's the entry MUTESOLO
   </description>
   <retvals>
     integer Mute - Mute set to 0 - Mute off, 1 - Mute On
@@ -2546,9 +2556,11 @@ function ultraschall.GetTrackIPhaseState(tracknumber, str)
   <functioncall>number IPhase = ultraschall.GetTrackIPhaseState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns state of the IPhase. If the Phase-button is pressed, it will return 1, else it will return 0.
+    
+    It's the entry IPHASE
   </description>
   <retvals>
-    number IPhase  - state of the phase-button
+    number IPhase  - state of the phase-button; 0, normal phase; 1, inverted phase(180°)
   </retvals>
   <parameters>
     integer tracknumber - number of the track, beginning with 1; 0 for master track; -1, if you want to use the parameter TrackStateChunk instead.
@@ -2589,7 +2601,7 @@ function ultraschall.GetTrackIPhaseState(tracknumber, str)
          tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s"))
 end
 
---A=ultraschall.GetTrackIPhaseState(0)
+--A=ultraschall.GetTrackIPhaseState(1)
 
 function ultraschall.GetTrackIsBusState(tracknumber, str)
 -- for folder-management
@@ -2604,6 +2616,8 @@ function ultraschall.GetTrackIsBusState(tracknumber, str)
   <functioncall>integer busstate1, integer busstate2 = ultraschall.GetTrackIsBusState(integer tracknumber, optional string trackstatechunk)</functioncall>
   <description>
     returns busstate of the track, means: if it's a folder track
+    
+    It's the entry ISBUS
   </description>
   <retvals>
     integer busstate1=0, integer busstate2=0 - track is no folder
@@ -2667,6 +2681,8 @@ function ultraschall.GetTrackBusCompState(tracknumber, str)
   <functioncall>number BusCompState1, number BusCompState2 = ultraschall.GetTrackBusCompState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns BusCompState, if the tracks in a folder are compacted or not.
+    
+    It's the entry BUSCOMP
   </description>
   <retvals>
     number BusCompState1 - 0 - no compacting, 1 - compacted tracks, 2 - minimized tracks
@@ -2725,6 +2741,8 @@ function ultraschall.GetTrackShowInMixState(tracknumber, str)
   <functioncall>integer MCPvisible, number MCP_FX_visible, number MCPTrackSendsVisible, integer TCPvisible, number ShowInMix5, number ShowInMix6, number ShowInMix7, number ShowInMix8 = ultraschall.GetTrackShowInMixState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns Show in Mix-state.
+    
+    It's the entry SHOWINMIX
   </description>
   <retvals>
      integer MCPvisible - 0 invisible, 1 visible
@@ -2794,6 +2812,8 @@ function ultraschall.GetTrackFreeModeState(tracknumber, str)
   <functioncall>integer FreeModeState = ultraschall.GetTrackFreeModeState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns if the track has track free item positioning enabled(1) or not(0).
+    
+    It's the entry FREEMODE
   </description>
   <retvals>
     integer FreeModeState  - 1 - enabled, 0 - not enabled
@@ -2856,6 +2876,8 @@ function ultraschall.GetTrackRecState(tracknumber, str)
   <functioncall>integer ArmState, integer InputChannel, integer MonitorInput, integer RecInput, integer MonitorWhileRec, integer presPDCdelay, integer RecordingPath = ultraschall.GetTrackRecState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns Track Rec State.
+    
+    It's the entry REC
   </description>
   <retvals>
     integer ArmState - returns 1(armed) or 0(unarmed)
@@ -2966,6 +2988,8 @@ function ultraschall.GetTrackVUState(tracknumber, str)
   <functioncall>integer VUState = ultraschall.GetTrackVUState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns VUState. 
+    
+    It's the entry VU
   </description>
   <retvals>
     integer VUState  - nil if MultiChannelMetering is off, 2 if MultichannelMetering is on, 3 Metering is off
@@ -3028,6 +3052,8 @@ function ultraschall.GetTrackHeightState(tracknumber, str)
   <functioncall>integer height, integer heightstate2, integer unknown = ultraschall.GetTrackHeightState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns height of the track.
+    
+    It's the entry TRACKHEIGHT
   </description>
   <retvals>
     integer height - 24 up to 443
@@ -3092,6 +3118,8 @@ function ultraschall.GetTrackINQState(tracknumber, str)
   <functioncall>integer quantMIDI, integer quantPOS, integer quantNoteOffs, number quantToFractBeat, integer quantStrength, integer swingStrength, integer quantRangeMin, integer quantRangeMax =  ultraschall.GetTrackINQState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     Gets INQ-state, mostly the quantize-settings for MIDI, as set in the "Track: View track recording settings (MIDI quantize, file format/path) for last touched track"-dialog (action 40604)
+    
+    It's the entry INQ
   </description>
   <retvals>
     integer quantMIDI -  quantize MIDI; 0 or 1
@@ -3160,6 +3188,8 @@ function ultraschall.GetTrackNChansState(tracknumber, str)
   <functioncall>integer channelnumber = ultraschall.GetTrackNChansState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns the number of channels for this track, as set in the routing.
+    
+    It's the entry NCHAN
   </description>
   <retvals>
     integer channelnumber  - number of channels for this track
@@ -3223,6 +3253,8 @@ function ultraschall.GetTrackBypFXState(tracknumber, str)
   <functioncall>integer FXState = ultraschall.GetTrackBypFXState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns the off/bypass(0) or nobypass(1) state of the FX-Chain
+    
+    It's the entry FX
   </description>
   <retvals>
     integer FXState - off/bypass(0) or nobypass(1)
@@ -3285,6 +3317,8 @@ function ultraschall.GetTrackPerfState(tracknumber, str)
   <functioncall>integer TrackPerfState = ultraschall.GetTrackPerfState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns TrackPerformance-state
+    
+    It's the entry PERF
   </description>
   <retvals>
     integer TrackPerfState  - TrackPerformance-state
@@ -3355,6 +3389,8 @@ function ultraschall.GetTrackMIDIOutState(tracknumber, str)
   <functioncall>integer MidiOutState = ultraschall.GetTrackMIDIOutState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns MIDI_Out-State, as set in the Routing-Settings
+    
+    It's the entry MIDIOUT
   </description>
   <retvals>
     integer MidiOutState  - MIDI_Out-State, as set in the Routing-Settings
@@ -3422,6 +3458,8 @@ function ultraschall.GetTrackMainSendState(tracknumber, str)
   <functioncall>integer MainSendOn, integer ParentChannels = ultraschall.GetTrackMainSendState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns, if Main-Send is on(1) or off(0) and the ParentChannels(0-63), as set in the Routing-Settings.
+    
+    It's the entry MAINSEND
   </description>
   <retvals>
     integer MainSendOn - Main-Send is on(1) or off(0)
@@ -3524,6 +3562,8 @@ function ultraschall.GetTrackGroupFlagsState(tracknumber, str)
     The GroupState_as_Flags-bitfield is a hint, if a certain flag is set in any of the groups. So, if you want to know, if VCA Master is set in any group, check if flag &1048576 (2^20) is set to 1048576.
     
     This function will work only for Groups 1 to 32. To get Groups 33 to 64, use <a href="#GetTrackGroupFlags_HighState">GetTrackGroupFlags_HighState</a> instead!
+    
+    It's the entry GROUP_FLAGS
     
     returns -1 in case of failure
   </description>
@@ -3670,6 +3710,8 @@ function ultraschall.GetTrackGroupFlags_HighState(tracknumber, str)
     
     This function will work only for Groups 33(2^0) to 64(2^31). To get Groups 1 to 32, use <a href="#GetTrackGroupFlagsState">GetTrackGroupFlagsState</a> instead!
     
+    It's the entry GROUP_FLAGS_HIGH
+    
     returns -1 in case of failure
   </description>
   <retvals>
@@ -3781,6 +3823,9 @@ function ultraschall.GetTrackLockState(tracknumber, str)
   <functioncall>integer lockedstate = ultraschall.GetTrackLockState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns, if the track-controls of this track are locked(1) or not(nil).
+    
+    It's the entry LOCK
+    Only the LOCK within TrackStateChunks, but not MediaItemStateChunks
   </description>
   <retvals>
     integer lockedstate  - locked(1) or not(nil)
@@ -3845,6 +3890,8 @@ function ultraschall.GetTrackLayoutNames(tracknumber, str)
   <functioncall>string TCP_Layoutname, string MCP_Layoutname = ultraschall.GetTrackLayoutNames(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns the current selected layouts for TrackControlPanel and MixerControlPanel for this track as strings. Returns nil, if default is set.
+    
+    It's the entry LAYOUTS
   </description>
   <retvals>
     string TCP_Layoutname - name of the TCP-Layoutname
@@ -3910,6 +3957,8 @@ function ultraschall.GetTrackAutomodeState(tracknumber, str)
   <functioncall>integer automodestate = ultraschall.GetTrackAutomodeState(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns, if the automation-mode for envelopes of this track
+    
+    It's the entry AUTOMODE
   </description>
   <retvals>
     integer automodestate  - is set to 0 - trim/read, 1 - read, 2 - touch, 3 - write, 4 - latch.
@@ -3973,6 +4022,8 @@ function ultraschall.GetTrackIcon_Filename(tracknumber, str)
   <functioncall>string filename_with_path = ultraschall.GetTrackIcon_Filename(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns the filename with path for the track-icon of the current track. Returns nil, if no trackicon has been set.
+    
+    It's the entry TRACKIMGFN
   </description>
   <retvals>
     string filename_with_path  - filename with path for the current track-icon.
@@ -4031,6 +4082,8 @@ function ultraschall.GetTrackRecCFG(tracknumber, str)
   <functioncall>string reccfg = ultraschall.GetTrackRecCFG(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns the Rec-configuration-string, with which recordings are made. Returns nil, if no reccfg exists.
+    
+    It's the entry <RECCFG
   </description>
   <retvals>
     string reccfg - the string, that encodes the recording configuration of the track.
@@ -4090,9 +4143,11 @@ function ultraschall.GetTrackMidiInputChanMap(tracknumber, str)
   <functioncall>integer MidiInputChanMap_state = ultraschall.GetTrackMidiInputChanMap(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns the state of the MIDIInputChanMap for the current track, as set in the Input-MIDI->Map Input to Channel menu. 0 for channel 1, 2 for channel 2, etc. Nil, if not existing.
+    
+    It's the entry MIDI_INPUT_CHANMAP
   </description>
   <retvals>
-    integer MidiInputChanMap_state  - 0 for channel 1, 2 for channel 2, etc; nil, if not existing.
+    integer MidiInputChanMap_state  - 0 for channel 1, 1 for channel 2, ... 15 for channel 16; nil, source channel.
   </retvals>
   <parameters>
     integer tracknumber - number of the track, beginning with 1; 0 for master track; -1, if you want to use the parameter TrackStateChunk instead.
@@ -4144,6 +4199,8 @@ function ultraschall.GetTrackMidiCTL(tracknumber, str)
   <functioncall>integer LinkedToMidiChannel, integer unknown = ultraschall.GetTrackMidiCTL(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns linked to Midi channel and an unknown value. Nil if not existing.
+    
+    It's the entry MIDICTL
   </description>
   <retvals>
     integer LinkedToMidiChannel - linked to midichannel
@@ -4210,6 +4267,8 @@ function ultraschall.GetTrackWidth(tracknumber, str)
     returns width of the track. 1 if set to +100%. 
     
     Note for TrackStateChunk-enthusiasts: When set to +100%, it is not stored in the TrackStateChunk
+    
+    It's the entry WIDTH
   </description>
   <retvals>
     number width - width of the track, from -1(-100%) to 1(+100%)
@@ -4272,6 +4331,8 @@ function ultraschall.GetTrackPanMode(tracknumber, str)
   <functioncall>integer PanMode = ultraschall.GetTrackPanMode(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns Panmode of the track.
+    
+    It's the entry PANMODE
   </description>
   <retvals>
     integer PanMode - the Panmode of the track
@@ -4339,6 +4400,8 @@ function ultraschall.GetTrackMidiColorMapFn(tracknumber, str)
   <functioncall>string MidiColorMapFn = ultraschall.GetTrackMidiColorMapFn(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns MidiColorMap-Filename of the track. Nil if not existing.
+    
+    It's the entry MIDICOLORMAPFN
   </description>
   <retvals>
     string MidiColorMapFn - the MidiColorMap-Filename; nil if not existing
@@ -4391,6 +4454,8 @@ function ultraschall.GetTrackMidiBankProgFn(tracknumber, str)
   <functioncall>string MidiBankProgFn = ultraschall.GetTrackMidiBankProgFn(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns MidiBankProg-Filename of the track. Nil if not existing.
+    
+    It's the entry MIDIBANKPROGFN
   </description>
   <retvals>
     string MidiBankProgFn - the MidiBankProg-Filename; nil if not existing
@@ -4444,6 +4509,8 @@ function ultraschall.GetTrackMidiTextStrFn(tracknumber, str)
   <functioncall>string MidiTextStrFn = ultraschall.GetTrackMidiTextStrFn(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns MidiTextStrFn-Filename of the track. Nil if not existing.
+    
+    It's the entry MIDIEXTSTRFN
   </description>
   <retvals>
     string MidiTextStrFn - the MidiTextStrFn-Filename; nil if not existing
@@ -4496,9 +4563,11 @@ function ultraschall.GetTrackID(tracknumber, str)
   <functioncall>string TrackID = ultraschall.GetTrackID(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns TrackID of the track.
+    
+    It's the entry TRACKID
   </description>
   <retvals>
-    string TrackID - the TrackID
+    string TrackID - the TrackID as GUID
   </retvals>
   <parameters>
     integer tracknumber - number of the track, beginning with 1; 0 for master track; -1, if you want to use the parameter TrackStateChunk instead.
@@ -4549,6 +4618,8 @@ function ultraschall.GetTrackScore(tracknumber, str)
   <functioncall>integer Score1, integer Score2, number Score3, number Score4  = ultraschall.GetTrackScore(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns Score of the track.
+    
+    It's the entry SCORE
   </description>
   <retvals>
     integer Score1 - unknown 
@@ -4615,6 +4686,8 @@ function ultraschall.GetTrackVolPan(tracknumber, str)
   <functioncall>number Vol, number Pan, number OverridePanLaw, number unknown, number unknown2 = ultraschall.GetTrackVolPan(integer tracknumber, optional string TrackStateChunk)</functioncall>
   <description>
     returns Vol and Pan-states of the track.
+    
+    It's the entry VOLPAN
   </description>
   <retvals>
     number Vol - Volume Settings
@@ -14761,6 +14834,9 @@ function ultraschall.GetProject_ReaperVersion(projectfilename_with_path, Project
   <functioncall>string reaperversion, string timestamp = ultraschall.GetProject_ReaperVersion(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the reaperversion and the timestamp from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry "&lt;REAPER_PROJECT"
+    
     Returns nil in case of error or if no such entry exists.
   </description>
   <parameters>
@@ -14809,6 +14885,9 @@ function ultraschall.GetProject_RenderCFG(projectfilename_with_path, ProjectStat
   <functioncall>string render_cfg = ultraschall.GetProject_RenderCFG(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the render-cfg-string, that contains all render-settings of a project from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry &lt;RENDER_CFG
+    
     Returns nil in case of error or if no such entry exists.
   </description>
   <parameters>
@@ -14859,6 +14938,9 @@ function ultraschall.GetProject_RippleState(projectfilename_with_path, ProjectSt
   <functioncall>integer ripplestate = ultraschall.GetProject_RippleState(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the ripple-state from an RPP-Projectfile or a ProjectStateChunk.
+
+    It's the entry RIPPLE
+
     Returns nil in case of error or if no such entry exists.
   </description>
   <parameters>
@@ -14907,6 +14989,9 @@ function ultraschall.GetProject_GroupOverride(projectfilename_with_path, Project
   <functioncall>integer group_override1, integer group_override2, integer group_override3 = ultraschall.GetProject_GroupOverride(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the group-override-state from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry GROUPOVERRIDE
+    
     Returns nil in case of error or if no such entry exists.
   </description>
   <parameters>
@@ -14959,6 +15044,9 @@ function ultraschall.GetProject_AutoCrossFade(projectfilename_with_path, Project
   <functioncall>integer autocrossfade_state = ultraschall.GetProject_AutoCrossFade(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the autocrossfade-state from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry AUTOXFADE
+    
     Returns nil in case of error or if no such entry exists.
   </description>
   <parameters>
@@ -15008,6 +15096,9 @@ function ultraschall.GetProject_EnvAttach(projectfilename_with_path, ProjectStat
   <functioncall>integer env_attach = ultraschall.GetProject_EnvAttach(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the EnvAttach-state from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry ENVATTACH
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15080,6 +15171,9 @@ function ultraschall.GetProject_MixerUIFlags(projectfilename_with_path, ProjectS
   <functioncall>integer state1, integer state2 = ultraschall.GetProject_MixerUIFlags(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the MixerUI-state-flags from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry MIXERUIFLAGS
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15150,6 +15244,9 @@ function ultraschall.GetProject_PeakGain(projectfilename_with_path, ProjectState
   <functioncall>number peakgain_state = ultraschall.GetProject_PeakGain(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the GetProject_PeakGain-state from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry PEAKGAIN
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15199,6 +15296,9 @@ function ultraschall.GetProject_Feedback(projectfilename_with_path, ProjectState
   <functioncall>integer feedback_state = ultraschall.GetProject_Feedback(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the GetProject_Feedback-state from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry FEEDBACK
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15250,6 +15350,9 @@ function ultraschall.GetProject_PanLaw(projectfilename_with_path, ProjectStateCh
   <functioncall>number panlaw_state = ultraschall.GetProject_PanLaw(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the GetProject_PanLaw-state from an RPP-Projectfile or a ProjectStateChunk, as set in the project-settings->Advanced->Pan law/mode->Pan:law(db).
+    
+    It's the entry PANLAW
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15294,13 +15397,16 @@ function ultraschall.GetProject_ProjOffsets(projectfilename_with_path, ProjectSt
   <slug>GetProject_ProjOffsets</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.941
     Lua=5.3
   </requires>
-  <functioncall>number start_time, integer start_measure = ultraschall.GetProject_ProjOffsets(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <functioncall>number start_time, integer start_measure, integer base_ruler_marking_off_this_measure = ultraschall.GetProject_ProjOffsets(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the Project Offset-state from an RPP-Projectfile or a ProjectStateChunk, start time as well as start measure.
-    as set in ProjectSettings->ProjectSettings->Project Start Time/Measure.
+    as set in ProjectSettings->ProjectSettings->Project Start Time/Measure and the checkbox Base Ruler Marking Off This Measure-checkbox
+    
+    It's the entry PROJOFFS
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15310,6 +15416,7 @@ function ultraschall.GetProject_ProjOffsets(projectfilename_with_path, ProjectSt
   <retvals>
     number start_time - the project-start-time in seconds
     integer start_measure - starting with 0, unlike the Settingswindow, where the 0 becomes 1 as measure
+    integer base_ruler_marking_off_this_measure - 0, checkbox unchecked; 1, checkbox checked
   </retvals>
   <chapter_context>
     Project-Files
@@ -15333,10 +15440,12 @@ function ultraschall.GetProject_ProjOffsets(projectfilename_with_path, ProjectSt
   ProjectStateChunk=ProjectStateChunk:match("<REAPER_PROJECT.-(PROJOFFS%s.-)%c.-<RECORD_CFG").." "
   
   return tonumber(ProjectStateChunk:match("%s(.-)%s")),
-         tonumber(ProjectStateChunk:match("%s.-%s(.-)%s"))
+         tonumber(ProjectStateChunk:match("%s.-%s(.-)%s")), 
+         tonumber(ProjectStateChunk:match("%s.-%s.-%s(.-)%s"))
 end
 
---A,AA=ultraschall.GetProject_ProjOffsets("c:\\tt.rpp")
+--BB,B=reaper.EnumProjects(-1,"")
+--A,AA,AAA=ultraschall.GetProject_ProjOffsets(B)
 
 function ultraschall.GetProject_MaxProjectLength(projectfilename_with_path, ProjectStateChunk)
 -- returns ProjectSettings->Advanced->
@@ -15355,6 +15464,9 @@ function ultraschall.GetProject_MaxProjectLength(projectfilename_with_path, Proj
   <description>
     Returns the maximum-project-length from an RPP-Projectfile or a ProjectStateChunk, as set in ProjectSettings->Advanced->
     as set in ProjectSettings->ProjectSettings->Project Start Time/Measure.
+    
+    It's the entry MAXPROJLEN
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15404,6 +15516,9 @@ function ultraschall.GetProject_Grid(projectfilename_with_path, ProjectStateChun
   <functioncall>integer gridstate1, integer gridstate2, number gridstate3, integer gridstate4, number gridstate5, integer gridstate6, integer gridstate7, number gridstate8 = ultraschall.GetProject_Grid(string projectfilename_with_path)</functioncall>
   <description>
     Returns the grid-state from an RPP-Projectfile or a ProjectStateChunk.
+
+    It's the entry GRID
+
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15461,9 +15576,12 @@ function ultraschall.GetProject_Timemode(projectfilename_with_path, ProjectState
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer timemode1, integer timemode2, integer showntime, integer timemode4, integer timemode5 = ultraschall.GetProject_Timemode(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer ruler_timemode, integer timemode2, integer showntime, integer timemode4, integer timemode5 = ultraschall.GetProject_Timemode(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the timemode-state from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry TIMEMODE
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15471,7 +15589,15 @@ function ultraschall.GetProject_Timemode(projectfilename_with_path, ProjectState
     optional string ProjectStateChunk - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil
   </parameters>
   <retvals>
-    integer timemode1 - timemode-state
+    integer ruler_timemode - ruler-timemode-state
+    - -1, Use ruler time unit
+    -  0, Minutes:Seconds
+    -  1, Measures.Beats / Minutes:Seconds
+    -  2, Measures.Beats
+    -  3, Seconds
+    -  4, Samples
+    -  5, Hours:Minutes:Seconds:Frames
+    -  8, Absolute Frames
     integer timemode2 - timemode-state
     integer showntime - Transport shown time
     -      -1 - use ruler time unit
@@ -15544,6 +15670,9 @@ function ultraschall.GetProject_VideoConfig(projectfilename_with_path, ProjectSt
   <functioncall>integer preferredVidSizeX, integer preferredVidSizeY, integer settingsflags = ultraschall.GetProject_VideoConfig(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the videoconfig-state from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry VIDEO_CONFIG
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15608,6 +15737,9 @@ function ultraschall.GetProject_PanMode(projectfilename_with_path, ProjectStateC
   <functioncall>integer panmode_state = ultraschall.GetProject_PanMode(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the panmode-state from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry PANMODE
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15660,6 +15792,9 @@ function ultraschall.GetProject_CursorPos(projectfilename_with_path, ProjectStat
   <functioncall>number cursorpos = ultraschall.GetProject_CursorPos(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the cursorposition-state from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry CURSOR
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15714,6 +15849,8 @@ function ultraschall.GetProject_HorizontalZoom(projectfilename_with_path, Projec
     Keep in mind, that hzoomscrollpos and scrollbarfactor depend on each other. hzoomscrollpos is a smaller positioning-unit, while scrollbarfactor is the bigger positioning-unit.
     Experiment with it to get an idea.
     
+    It's the entry ZOOM
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15766,6 +15903,9 @@ function ultraschall.GetProject_VerticalZoom(projectfilename_with_path, ProjectS
   <functioncall>integer vzoom = ultraschall.GetProject_VerticalZoom(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the verticalzoom from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry VZOOMEX
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15818,6 +15958,9 @@ function ultraschall.GetProject_UseRecConfig(projectfilename_with_path, ProjectS
   <functioncall>integer rec_cfg = ultraschall.GetProject_UseRecConfig(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the rec-cfg-state from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry USE_REC_CFG
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15873,6 +16016,9 @@ function ultraschall.GetProject_RecMode(projectfilename_with_path, ProjectStateC
   <functioncall>integer rec_mode = ultraschall.GetProject_RecMode(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the rec-mode-state from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry RECMODE
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -15924,6 +16070,9 @@ function ultraschall.GetProject_SMPTESync(projectfilename_with_path, ProjectStat
   <functioncall>integer smptesync_state1, number smptesync_fps, integer smptesync_resyncdrift, integer smptesync_skipdropframes, integer smptesync_syncseek, integer smptesync_freewheel, integer smptesync_userinput, number smptesync_offsettimecode, integer smptesync_stop_rec_drift, integer smptesync_state10, integer smptesync_stop_rec_lacktime  = ultraschall.GetProject_SMPTESync(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the smpte-sync-state from an RPP-Projectfile or a ProjectStateChunk.
+
+    It's the entry SMPTESYNC
+
     Returns nil in case of error.
   </description>
   <parameters>
@@ -16013,6 +16162,9 @@ function ultraschall.GetProject_Loop(projectfilename_with_path, ProjectStateChun
   <functioncall>integer loopbutton_state = ultraschall.GetProject_Loop(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the loop-button-state from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry LOOP
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -16060,6 +16212,9 @@ function ultraschall.GetProject_LoopGran(projectfilename_with_path, ProjectState
   <functioncall>integer loopgran_state1, number loopgran_state2 = ultraschall.GetProject_LoopGran(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the loop_gran-state from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry LOOPGRAN
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -16110,6 +16265,9 @@ function ultraschall.GetProject_RecPath(projectfilename_with_path, ProjectStateC
   <functioncall>string prim_recpath, string sec_recpath = ultraschall.GetProject_RecPath(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the primary and secondary recording-path from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry RECORD_PATH
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -16162,7 +16320,9 @@ function ultraschall.GetProject_RecordCFG(projectfilename_with_path, ProjectStat
   </requires>
   <functioncall>string recording_cfg_string = ultraschall.GetProject_RecordCFG(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
-    Returns the recording-configuration as encoded string from an RPP-Projectfile or a ProjectStateChunk, as set in ProjectSettings->Media->Recording.
+    Returns the recording-configuration as encoded BASE64-string from an RPP-Projectfile or a ProjectStateChunk, as set in ProjectSettings->Media->Recording.
+    
+    It's the entry &lt;RECORD_CFG
     
     Returns nil in case of error.
   </description>
@@ -16211,7 +16371,9 @@ function ultraschall.GetProject_ApplyFXCFG(projectfilename_with_path, ProjectSta
   </requires>
   <functioncall>string applyfx_cfg_string = ultraschall.GetProject_ApplyFXCFG(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
-    Returns the audioformat-configuration, for fx-appliance-operation, as an encoded string from an RPP-Projectfile or a ProjectStateChunk, as set in ProjectSettings->Media->Format for Apply FX, Glue, Freeze, etc
+    Returns the audioformat-configuration, for fx-appliance-operation, as an encoded BASE64-string from an RPP-Projectfile or a ProjectStateChunk, as set in ProjectSettings->Media->Format for Apply FX, Glue, Freeze, etc
+    
+    It's the entry &lt;APPLY_CFG
     
     Returns nil in case of error.
   </description>
@@ -16259,6 +16421,9 @@ function ultraschall.GetProject_RenderFilename(projectfilename_with_path, Projec
   <functioncall>string render_filename = ultraschall.GetProject_RenderFilename(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the render-filename from an RPP-Projectfile or a ProjectStateChunk. If it contains only a path or nothing, you should check the Render_Pattern using <a href="#GetProject_RenderPattern">GetProject_RenderPattern</a>, as a render-pattern influences the rendering-filename as well.
+    
+    It's the entry RENDER_FILE
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -16307,6 +16472,8 @@ function ultraschall.GetProject_RenderPattern(projectfilename_with_path, Project
   <functioncall>string render_pattern = ultraschall.GetProject_RenderPattern(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the render-pattern, that tells Reaper, how to automatically name the render-file, from an RPP-Projectfile or a ProjectStateChunk. If it contains nothing, you should check the Render_Pattern using <a href="#GetProject_RenderFilename">GetProject_RenderFilename</a>, as a render-pattern influences the rendering-filename as well.
+    
+    It's the entry RENDER_PATTERN
     
     Returns nil in case of error.
   </description>
@@ -16404,7 +16571,7 @@ function ultraschall.GetProject_RenderFreqNChans(projectfilename_with_path, Proj
   <functioncall>integer unknown, integer rendernum_chans, integer render_frequency = ultraschall.GetProject_RenderFreqNChans(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns an unknown number, the render-frequency and rendernumber of channels from an RPP-Projectfile or a ProjectStateChunk.
-    It's the entry "RENDER_FMT x x x"
+    It's the entry RENDER_FMT
     
     Returns nil in case of error.
   </description>
@@ -16460,7 +16627,7 @@ function ultraschall.GetProject_RenderSpeed(projectfilename_with_path, ProjectSt
   <functioncall>integer render_speed = ultraschall.GetProject_RenderSpeed(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the rendering-speed from an RPP-Projectfile or a ProjectStateChunk.
-    It's the entry "RENDER_1X x"
+    It's the entry RENDER_1X
     
     Returns nil in case of error.
   </description>
@@ -16526,6 +16693,9 @@ function ultraschall.GetProject_RenderRange(projectfilename_with_path, ProjectSt
   <functioncall>integer bounds, number time_start, number time_end, integer tail, integer tail_length = ultraschall.GetProject_RenderRange(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the render-range, render-timestart, render-timeend, render-tail and render-taillength from an RPP-Projectfile or a ProjectStateChunk. To get RENDER_STEMS, refer <a href="#GetProject_RenderStems">GetProject_RenderStems</a>
+    
+    It's the entry RENDER_RANGE
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -16608,6 +16778,9 @@ function ultraschall.GetProject_RenderResample(projectfilename_with_path, Projec
   <functioncall>integer resample_mode, integer playback_resample_mode, integer project_smplrate4mix_and_fx = ultraschall.GetProject_RenderResample(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns Resamplemode for a)Rendering and b)Playback as well as c)if both are combined from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry RENDER_RESAMPLE
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -16683,7 +16856,7 @@ function ultraschall.GetProject_AddMediaToProjectAfterRender(projectfilename_wit
   <functioncall>integer addmedia_after_render_state = ultraschall.GetProject_AddMediaToProjectAfterRender(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns, if rendered media shall be added to the project afterwards, from an RPP-Projectfile or a ProjectStateChunk.
-    It's entry "RENDER_ADDTOPROJ x"
+    It's the entry RENDER_ADDTOPROJ
     
     Returns nil in case of error.
   </description>
@@ -16737,6 +16910,9 @@ function ultraschall.GetProject_RenderStems(projectfilename_with_path, ProjectSt
   <functioncall>integer render_stems = ultraschall.GetProject_RenderStems(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the render-stems-state from an rpp-project-file or a ProjectStateChunk.
+    
+    It's the entry RENDER_STEMS
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -16794,7 +16970,8 @@ function ultraschall.GetProject_RenderDitherState(projectfilename_with_path, Pro
   <functioncall>integer renderdither_state = ultraschall.GetProject_RenderDitherState(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the render-dither-state from an rpp-project-file or a ProjectStateChunk.
-    It's the entry "RENDER_DITHER x"
+
+    It's the entry RENDER_DITHER
     
     Returns nil in case of error.
   </description>
@@ -16850,7 +17027,7 @@ function ultraschall.GetProject_TimeBase(projectfilename_with_path, ProjectState
   <functioncall>integer timebase = ultraschall.GetProject_TimeBase(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the timebase-state from an rpp-project-file or a ProjectStateChunk.
-    It's the entry "TIMELOCKMODE x"
+    It's the entry TIMELOCKMODE x
     
     Returns nil in case of error.
   </description>
@@ -16904,7 +17081,7 @@ function ultraschall.GetProject_TempoTimeSignature(projectfilename_with_path, Pr
   <functioncall>integer tempotimesignature = ultraschall.GetProject_TempoTimeSignature(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the timebase for tempo/time-signature as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
-    It's the entry "TEMPOENVLOCKMODE x"
+    It's the entry TEMPOENVLOCKMODE
     
     Returns nil in case of error.
   </description>
@@ -16960,7 +17137,7 @@ function ultraschall.GetProject_ItemMixBehavior(projectfilename_with_path, Proje
   <functioncall>integer item_mix_behav_state = ultraschall.GetProject_ItemMixBehavior(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the item mix behavior, as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
-    It's the entry "ITEMMIX x"
+    It's the entry ITEMMIX
     
     Returns nil in case of error.
   </description>
@@ -17014,6 +17191,9 @@ function ultraschall.GetProject_DefPitchMode(projectfilename_with_path, ProjectS
   <functioncall>integer def_pitch_mode_state = ultraschall.GetProject_DefPitchMode(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the default-pitch-mode, as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
+    
+    It's the entry DEFPITCHMODE
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -18004,6 +18184,9 @@ function ultraschall.GetProject_TakeLane(projectfilename_with_path, ProjectState
   <functioncall>integer take_lane_state = ultraschall.GetProject_TakeLane(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the take-lane-state from an rpp-project-file or a ProjectStateChunk.
+    
+    It's the entry TAKELANE
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -18055,6 +18238,9 @@ function ultraschall.GetProject_SampleRate(projectfilename_with_path, ProjectSta
   <functioncall>integer sample_rate, integer project_sample_rate, integer force_tempo_time_sig = ultraschall.GetProject_SampleRate(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the take-lane-state, as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
+    
+    It's the entry SAMPLERATE
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -18113,7 +18299,7 @@ function ultraschall.GetProject_TrackMixingDepth(projectfilename_with_path, Proj
   <functioncall>integer track_mixing_depth = ultraschall.GetProject_TrackMixingDepth(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the track-mixing-state, as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
-    It's entry "INTMIXMODE x"
+    It's the entry INTMIXMODE
     
     Returns -1 in case of error, nil if it's set to 64bit(default)!
   </description>
@@ -18345,6 +18531,9 @@ function ultraschall.GetProject_Selection(projectfilename_with_path, ProjectStat
   <functioncall>number start_selection, number end_selection, number start_selection2, number end_selection2 = ultraschall.GetProject_Selection(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the selection-range from an RPP-Projectfile or a ProjectStateChunk.
+    
+    It's the entry SELECTION
+    
     Returns nil in case of error or if no such entry exists.
   </description>
   <parameters>
@@ -18918,7 +19107,7 @@ end
 --A=ultraschall.SetProject_PanLaw("c:\\tt.rpp",9.786)
 --B=ultraschall.GetProject_PanLaw("c:\\tt.rpp")
 
-function ultraschall.SetProject_ProjOffsets(projectfilename_with_path, start_time, start_measure, ProjectStateChunk)
+function ultraschall.SetProject_ProjOffsets(projectfilename_with_path, start_time, start_measure, base_ruler_marking_off_this_measure, ProjectStateChunk)
 -- number state1
 -- integer state2
 --[[
@@ -18926,18 +19115,22 @@ function ultraschall.SetProject_ProjOffsets(projectfilename_with_path, start_tim
   <slug>SetProject_ProjOffsets</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.941
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_ProjOffsets(string projectfilename_with_path, number start_time, integer start_measure, optional ProjectStateChunk)</functioncall>
+  <functioncall>integer retval = ultraschall.SetProject_ProjOffsets(string projectfilename_with_path, number start_time, integer start_measure, integer base_ruler_marking_off_this_measure, optional ProjectStateChunk)</functioncall>
   <description>
     Sets the project-offset-state, as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
+    
+    The project-offset, as set in the ProjectSettings -> Project Time Start, Project start measure and Base Ruler Marking Off This Measure-checkbox
+    
     Returns -1 in case of error.
   </description>
   <parameters>
     string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
     number start_time - the project-start-time in seconds
     integer start_measure - the start-measure; starting with 0, unlike in the Project-Settings-window, where the 0 becomes 1 as startmeasure
+    integer base_ruler_marking_off_this_measure - 0, checkbox unchecked; 1, checkbox checked
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>
@@ -19132,7 +19325,15 @@ function ultraschall.SetProject_Timemode(projectfilename_with_path, timemode1, t
   </description>
   <parameters>
     string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
-    integer timemode1 - timemode-state
+    integer ruler_timemode - ruler-timemode-state
+      - -1, Use ruler time unit
+      -  0, Minutes:Seconds
+      -  1, Measures.Beats / Minutes:Seconds
+      -  2, Measures.Beats
+      -  3, Seconds
+      -  4, Samples
+      -  5, Hours:Minutes:Seconds:Frames
+      -  8, Absolute Frames
     integer timemode2 - timemode-state
     integer showntime - Transport shown time
     -              -1 - use ruler time unit
@@ -27996,6 +28197,8 @@ function ultraschall.GetTrackHWOut(tracknumber,idx)
   <description>
     Returns the settings of the HWOUT-HW-destination, as set in the routing-matrix, as well as in the Destination "Controls for Track"-dialogue, of tracknumber. There can be more than one, which you can choose with idx.
     
+    It's the entry HWOUT
+    
     returns -1 in case of failure
   </description>
   <parameters>
@@ -28085,6 +28288,8 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber,idx)
   <description>
     Returns the settings of the Send/Receive, as set in the routing-matrix, as well as in the Destination "Controls for Track"-dialogue, of tracknumber. There can be more than one, which you can choose with idx.
     Remember, if you want to get the sends of a track, you need to check the recv_tracknumber-returnvalues of the OTHER(!) tracks, as you can only get the receives. With the receives checked, you know, which track sends.
+    
+    It's the entry AUXRECV
     
     returns -1 in case of failure
   </description>
@@ -29145,6 +29350,8 @@ function ultraschall.GetProject_CountMarkersAndRegions(projectfilenamewithpath)
   <functioncall>integer number_of_markers_and_regions, integer number_of_regions_only, integer number_of_markers_only = ultraschall.GetProject_CountMarkersAndRegions(string projectfilename_with_path)</functioncall>
   <description>
     returns the number of all markers, the number of regions and the number of markers(that are not regions) in the project.
+    
+    It's the entry MARKER
   </description>
   <parameters>
     string projectfilename_with_path - the projectfilename in which to count the markers
@@ -29189,6 +29396,8 @@ function ultraschall.GetProject_GetMarker(projectfilenamewithpath, idx)
   <functioncall>boolean retval, integer shownnumber, number markerposition, string markername, integer markercolor = ultraschall.GetProject_GetMarker(string projectfilename_with_path, integer idx)</functioncall>
   <description>
     returns the information of the marker idx in a projectfile.
+    
+    It's the entry MARKER
     
     returns false in case of error
   </description>
@@ -29251,6 +29460,8 @@ function ultraschall.GetProject_GetRegion(projectfilenamewithpath, idx)
   <functioncall>boolean retval, integer shownnumber, number start_of_region, number end_of_region, string regionname, integer regioncolor = ultraschall.GetProject_GetRegion(string projectfilename_with_path, integer idx)</functioncall>
   <description>
     returns the information of the region idx in a projectfile.
+    
+    It's the entry MARKER
     
     returns false in case of error
   </description>
@@ -38709,14 +38920,16 @@ function ultraschall.PreviewMediaFileA(filename_with_path)
   if retval==-1 then return false else return true end
 end
 
-function ultraschall.PreviewMediaFile(filename_with_path)
+function ultraschall.PreviewMediaFile(filename_with_path, undo)
   local id=reaper.time_precise()
-  reaper.Undo_BeginBlock()
+  if undo~=false then reaper.Undo_BeginBlock() end
   reaper.PreventUIRefresh(1)  
   local A=ultraschall.PreviewMediaFileA(filename_with_path)
-  reaper.Undo_EndBlock("ultraschall_undo"..id, 0)
-  local B=reaper.Undo_CanUndo2(0)  
-  if B=="ultraschall_undo"..id then reaper.Undo_DoUndo2(0) end
+  if undo~=false then 
+    reaper.Undo_EndBlock("ultraschall_undo"..id, 0)
+    local B=reaper.Undo_CanUndo2(0)  
+    if B=="ultraschall_undo"..id then reaper.Undo_DoUndo2(0) end
+  end
   reaper.PreventUIRefresh(1)
 end
 
@@ -42198,7 +42411,7 @@ function ultraschall.GetProject_CountAutomationItems(projectfilename_with_path, 
   <description>
     returns the number of automation-items available in a ProjectStateChunk.
 
-    automation-items are stored with the &lt;POOLEDENV ... &gt; -tag in ProjectStateChunks
+    It's the entry &lt;POOLEDENV
                             
     returns -1 in case of an error
   </description>
@@ -42254,7 +42467,7 @@ function ultraschall.GetProject_AutomationItemStateChunk(projectfilename_with_pa
   <description>
     returns the idx'th automation-item from a ProjectStateChunk.
     
-    automation-items are stored with the &lt;POOLEDENV ... &gt; -tag in ProjectStateChunks
+    It's the entry &lt;POOLEDENV
     
     returns nil in case of an error
   </description>
@@ -42311,7 +42524,7 @@ function ultraschall.GetProject_ProjectBay(projectfilename_with_path, ProjectSta
     returns the ProjectBay-StateChunk, that holds MediaItems, that shall be retained in the "background" of the project, even if they are deleted from the project.
     These MediaItems can be seen and set to retain from within the ProjectBay-window.
 
-    It's the &lt;PROJBAY ... &gt; - tag
+    It's the entry &lt;PROJBAY ... &gt;
     
     returns nil in case of an error
   </description>
@@ -42363,7 +42576,7 @@ function ultraschall.GetProject_Metronome(projectfilename_with_path, ProjectStat
   <description>
     returns the Metronome-StateChunk, that holds metronome-settings.
     
-    It's the &lt;METRONOME ... &gt; - tag
+    It's the entry &lt;METRONOME ... &gt;
     
     returns nil in case of an error
   </description>
@@ -42413,7 +42626,7 @@ function ultraschall.GetProject_MasterPlayspeed(projectfilename_with_path, Proje
   <description>
     returns the Master-Playspeed-StateChunk, that holds Playspeed-settings of the master.
     
-    It's the &lt;MASTERPLAYSPEEDENV ... &gt; - tag
+    It's the entry &lt;MASTERPLAYSPEEDENV ... &gt;
     
     returns nil in case of an error
   </description>
@@ -42450,20 +42663,20 @@ end
 
 --reaper.MB(B,"",0)
 
-function ultraschall.GetProject_Tempo(projectfilename_with_path, ProjectStateChunk)
+function ultraschall.GetProject_TempoEnvEx(projectfilename_with_path, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetProject_Tempo</slug>
+  <slug>GetProject_TempoEnvEx</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>string TempoStateChunk = ultraschall.GetProject_Tempo(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <functioncall>string TempoStateChunk = ultraschall.GetProject_TempoEnvEx(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     returns the Tempo-StateChunk, that holds tempo-settings of the master.
     
-    It's the &lt;TEMPOENVEX ... &gt; - tag
+    It's the entry &lt;TEMPOENVEX ... &gt;
     
     returns nil in case of an error
   </description>
@@ -42513,7 +42726,7 @@ function ultraschall.GetProject_Extensions(projectfilename_with_path, ProjectSta
   <description>
     returns the Extensions-settings-StateChunk, that holds tempo-settings of the master.
     
-    It's the &lt;EXTENSIONS ... &gt; - tag
+    It's the entry &lt;EXTENSIONS ... &gt;
     
     returns nil in case of an error
   </description>
@@ -42561,7 +42774,9 @@ function ultraschall.GetProject_Lock(projectfilename_with_path, ProjectStateChun
   <description>
     returns the individual lock-settings of the project, as set in menu Options -> Locking -> Locking Settings
     
-    It's the LOCK-entry before(!) any <TRACK-tags !
+    It's the entry LOCK 
+    It is the one before(!) any <TRACK-tags !
+    
     It is a bitfield, containing numerous settings.
     
     returns nil in case of an error
@@ -42630,6 +42845,8 @@ function ultraschall.GetProject_GlobalAuto(projectfilename_with_path, ProjectSta
   <description>
     returns the global-automation-settings of the project.
     
+    It's the entry GLOBAL_AUTO
+    
     returns nil in case of an error or if the setting isn't existing
   </description>
   <parameters>
@@ -42678,6 +42895,8 @@ function ultraschall.GetProject_Tempo(projectfilename_with_path, ProjectStateChu
   <functioncall>number bpm, integer beat, integer denominator = ultraschall.GetProject_Tempo(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     returns the tempo-settings of the project, as set in the Project Settings -> Project Settings-tab
+    
+    It's the entry TEMPO
     
     returns nil in case of an error
   </description>
@@ -42731,6 +42950,8 @@ function ultraschall.GetProject_Playrate(projectfilename_with_path, ProjectState
   <description>
     returns the tempo-settings of the project, as set in the Project Settings -> Project Settings-tab
     
+    It's the entry PLAYRATE
+    
     returns nil in case of an error
   </description>
   <parameters>
@@ -42780,6 +43001,8 @@ function ultraschall.GetProject_MasterAutomode(projectfilename_with_path, Projec
   <functioncall>integer automode = ultraschall.GetProject_MasterAutomode(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     returns the automation-mode of the master-track of the project, as set in the "Envelopes for Master Track"-dialog or the context-menu for the Master Track -> Set track automation mode -> ...
+    
+    It's the entry MASTERAUTOMODE
     
     returns nil in case of an error
   </description>
@@ -42835,6 +43058,8 @@ function ultraschall.GetProject_MasterSel(projectfilename_with_path, ProjectStat
   <description>
     returns the master-track-selection-state of the master-track of the project.
     
+    It's the entry MASTER_SEL
+    
     returns nil in case of an error
   </description>
   <parameters>
@@ -42883,6 +43108,8 @@ function ultraschall.GetProject_MasterFXByp(projectfilename_with_path, ProjectSt
   <description>
     returns the fx-bypass-state of the master-track of the project.
     
+    It's the entry MASTER_FX
+    
     returns nil in case of an error
   </description>
   <parameters>
@@ -42930,6 +43157,8 @@ function ultraschall.GetProject_MasterMuteSolo(projectfilename_with_path, Projec
   <description>
     returns the mute-solo-state of the master-track of the project.
     Has no exclusive-solo/mute-settings!
+    
+    It's the entry MASTERMUTESOLO
     
     returns nil in case of an error
   </description>
@@ -42984,6 +43213,8 @@ function ultraschall.GetProject_MasterNChans(projectfilename_with_path, ProjectS
   <functioncall>integer number_of_channels, integer peak_metering = ultraschall.GetProject_MasterNChans(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     returns the number of output channels-settings of the master-track of the project.
+
+    It's the entry MASTER_NCH
     
     returns nil in case of an error
   </description>
@@ -43033,6 +43264,8 @@ function ultraschall.GetProject_MasterTrackHeight(projectfilename_with_path, Pro
   <description>
     returns the master-trackheight-states of the master-track of the project.
     
+    It's the entry MASTERTRACKHEIGHT
+    
     returns nil in case of an error
   </description>
   <parameters>
@@ -43081,6 +43314,8 @@ function ultraschall.GetProject_MasterTrackColor(projectfilename_with_path, Proj
   <description>
     returns the master-color of the master-track of the project.
     
+    It's the entry MASTERPEAKCOL
+    
     returns nil in case of an error
   </description>
   <parameters>
@@ -43128,6 +43363,8 @@ function ultraschall.GetProject_MasterTrackView(projectfilename_with_path, Proje
   <functioncall>integer tcp_visibility, number state2, number state3, number state4, integer state5, integer state6, integer state7 = ultraschall.GetProject_MasterTrackView(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     returns the master-view-state of the master-track of the project.
+    
+    It's the entry MASTERTRACKVIEW
     
     returns nil in case of an error
   </description>
@@ -43182,6 +43419,8 @@ function ultraschall.GetProject_CountMasterHWOuts(projectfilename_with_path, Pro
   <description>
     returns the number of available hwouts in an rpp-project or ProjectStateChunk
     
+    It's the entry MASTERHWOUT
+    
     returns nil in case of an error
   </description>
   <parameters>
@@ -43235,6 +43474,8 @@ function ultraschall.GetProject_MasterHWOut(projectfilename_with_path, idx, Proj
   <description>
     returns the HWOut of the master-track of the project, as set in the "Outputs for Master Track"-dialog
     There can be multiple HWOuts for the Master-Track.
+    
+    It's the entry MASTERHWOUT
     
     returns nil in case of an error
   </description>
@@ -43309,6 +43550,8 @@ function ultraschall.GetProject_MasterVolume(projectfilename_with_path, ProjectS
   <description>
     returns the Master-volume-state of the master-track of the project.
     
+    It's the entry MASTER_VOLUME
+    
     returns nil in case of an error
   </description>
   <parameters>
@@ -43361,6 +43604,8 @@ function ultraschall.GetProject_MasterPanMode(projectfilename_with_path, Project
   <description>
     returns the master-panmode of the master-track of the project.
     
+    It's the entry MASTER_PANMODE
+    
     returns nil in case of an error
   </description>
   <parameters>
@@ -43412,6 +43657,8 @@ function ultraschall.GetProject_MasterWidth(projectfilename_with_path, ProjectSt
   <functioncall>number pan_knob_two = ultraschall.GetProject_MasterWidth(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     returns the master-width for the second pan-knob in stereo pan-modes, of the master-track of the project.
+    
+    It's the entry MASTER_WIDTH
     
     returns nil in case of an error
   </description>
@@ -43499,6 +43746,8 @@ function ultraschall.GetProject_MasterGroupFlagsState(projectfilename_with_path,
     The GroupState_as_Flags-bitfield is a hint, if a certain flag is set in any of the groups. So, if you want to know, if VCA Master is set in any group, check if flag &1048576 (2^20) is set to 1048576.
     
     This function will work only for Groups 1 to 32. To get Groups 33 to 64, use <a href="#GetTrackGroupFlags_HighState">GetTrackGroupFlags_HighState</a> instead!
+    
+    It's the entry MASTER_GROUP_FLAGS
     
     returns -1 in case of failure
   </description>
@@ -43640,6 +43889,8 @@ function ultraschall.GetProject_MasterGroupFlagsHighState(projectfilename_with_p
     
     This function will work only for Groups 1 to 32. To get Groups 33 to 64, use <a href="#GetTrackGroupFlags_HighState">GetTrackGroupFlags_HighState</a> instead!
     
+    It's the entry MASTER_GROUP_FLAGS_HIGH
+    
     returns -1 in case of failure
   </description>
   <retvals>
@@ -43739,6 +43990,8 @@ function ultraschall.GetProject_GroupDisabled(projectfilename_with_path, Project
   <description>
     returns the group-disabled-stated, of the master-track of the project.
     
+    It's the entry GROUPS_DISABLED
+    
     returns nil in case of an error
   </description>
   <parameters>
@@ -43786,7 +44039,7 @@ function ultraschall.GetProject_MasterHWVolEnvStateChunk(projectfilename_with_pa
   <description>
     returns the Master-HWVolEnv-StateChunk, that holds MasterHWVolEnv-settings of the master.
     
-    It's the &lt;MASTERHWVOLENV ... &gt; - tag
+    It's the entry &lt;MASTERHWVOLENV ... &gt;
     
     returns nil in case of an error
   </description>
@@ -43833,7 +44086,7 @@ function ultraschall.GetProject_MasterFXListStateChunk(projectfilename_with_path
   <description>
     returns the Master-FX_List-StateChunk, that holds Master-FX-settings for the window as well as the FX themselves, of the master.
     
-    It's the &lt;MASTERFXLIST ... &gt; - tag
+    It's the entry &lt;MASTERFXLIST ... &gt;
     
     returns nil in case of an error
   </description>
@@ -43881,7 +44134,7 @@ function ultraschall.GetProject_MasterDualPanEnvStateChunk(projectfilename_with_
   <description>
     returns the Master-DualPanEnv-StateChunk, that holds MasterDualPanEnv-settings of the master.
     
-    It's the &lt;MASTERDUALPANENV ... &gt; - tag
+    It's the entry &lt;MASTERDUALPANENV ... &gt;
     
     returns nil in case of an error
   </description>
@@ -43929,7 +44182,7 @@ function ultraschall.GetProject_MasterDualPanEnv2StateChunk(projectfilename_with
   <description>
     returns the Master-DualPanEnv2-StateChunk, that holds master-DualPanEnv2-settings of the master.
     
-    It's the &lt;MASTERDUALPANENV2 ... &gt; - tag
+    It's the entry &lt;MASTERDUALPANENV2 ... &gt;
     
     returns nil in case of an error
   </description>
@@ -43977,7 +44230,7 @@ function ultraschall.GetProject_MasterDualPanEnvLStateChunk(projectfilename_with
   <description>
     returns the Master-DualPan-EnvL-StateChunk, that holds Master-DualPan-EnvL-settings of the master.
     
-    It's the &lt;MASTERDUALPANENVL ... &gt; - tag
+    It's the entry &lt;MASTERDUALPANENVL ... &gt;
     
     returns nil in case of an error
   </description>
@@ -44025,7 +44278,7 @@ function ultraschall.GetProject_MasterDualPanEnvL2StateChunk(projectfilename_wit
   <description>
     returns the Master-Dual-Pan-EnvL2-StateChunk, that holds Master-FX-Dual-Pan-EnvL2-settings of the master.
     
-    It's the &lt;MASTERDUALPANENVL2 ... &gt; - tag
+    It's the entry &lt;MASTERDUALPANENVL2 ... &gt;
     
     returns nil in case of an error
   </description>
@@ -44073,7 +44326,7 @@ function ultraschall.GetProject_MasterVolEnvStateChunk(projectfilename_with_path
   <description>
     returns the Master-Vol-Env-StateChunk, that holds Master-Vol-Env-settings of the master.
     
-    It's the &lt;MASTERVOLENV ... &gt; - tag
+    It's the entry &lt;MASTERVOLENV ... &gt;
     
     returns nil in case of an error
   </description>
@@ -44122,7 +44375,7 @@ function ultraschall.GetProject_MasterVolEnv2StateChunk(projectfilename_with_pat
   <description>
     returns the Master-Vol-Env2-StateChunk, that holds Master-Vol-Env2-settings of the master.
     
-    It's the &lt;MASTERVOLENV2 ... &gt; - tag
+    It's the entry &lt;MASTERVOLENV2 ... &gt;
     
     returns nil in case of an error
   </description>
@@ -44170,7 +44423,7 @@ function ultraschall.GetProject_MasterVolEnv3StateChunk(projectfilename_with_pat
   <description>
     returns the Master-Vol-Env3-StateChunk, that holds Master-Vol-Env3-settings of the master.
     
-    It's the &lt;MASTERVOLENV3 ... &gt; - tag
+    It's the entry &lt;MASTERVOLENV3 ... &gt;
     
     returns nil in case of an error
   </description>
@@ -44218,7 +44471,7 @@ function ultraschall.GetProject_MasterHWPanEnvStateChunk(projectfilename_with_pa
   <description>
     returns the Master-HW-pan-env-StateChunk, that holds Master-pan-env-settings of the master.
     
-    It's the &lt;MASTERHWPANENV ... &gt; - tag
+    It's the entry &lt;MASTERHWPANENV ... &gt;
     
     returns nil in case of an error
   </description>
@@ -44266,7 +44519,7 @@ function ultraschall.GetProject_MasterPanMode_Ex(projectfilename_with_path, Proj
   <description>
     returns the Master-HW-pan-mode-ex-StateChunk, that holds Master-pan-mode-ex-settings of the master.
     
-    It's the &lt;MASTER_PANMODE_EX ... &gt; - tag
+    It's the entry &lt;MASTER_PANMODE_EX ... &gt;
     
     returns nil in case of an error
   </description>
@@ -44316,7 +44569,7 @@ function ultraschall.GetProject_TempoEnv_ExStateChunk(projectfilename_with_path,
   <description>
     returns the TempoEnv_ExStateChunk, that holds TempoEnv_Ex-settings of an rpp-project or ProjectStateChunk.
     
-    It's the &lt;TEMPOENVEX ... &gt; - tag
+    It's the entry &lt;TEMPOENVEX ... &gt;
     
     returns nil in case of an error
   </description>
