@@ -490,7 +490,7 @@
     <parameters>
       integer rec_cfg - recording-cfg-state
       - 0 - Automatic .wav (recommended)
-      - 1 - Custom (use ultraschall.GetProject_ApplyFXCFG to get recording_cfg_string)
+      - 1 - Custom (use <a href="#APPLY_CFG">APPLY_CFG</a> to get recording_cfg_string)
       - 2 - Recording Format
     </parameters>
     <chapter_context>

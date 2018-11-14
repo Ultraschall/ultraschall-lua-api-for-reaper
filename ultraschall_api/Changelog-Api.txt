@@ -312,8 +312,11 @@
   - ConvertColorToMac - Converts rgb-values to a native-MacOS-color
   - ConvertColorToWin - Converts rgb-values to a native-Windows/Linux-color
   - ApplyColorTableToItemColors - applies a ColorTable to MediaItems in a MediaItemArray
-  - Docs:  added all functions from JS-plugin by Julian Sader and Xenakios to Reaper-Api-Docs
-
+  - Docs: added all functions from JS-plugin by Julian Sader and Xenakios to Reaper-Api-Docs
+  - ultraschall_track_old_cursorposition.lua - background-script for returning the last editcursor-position before the current one
+  - RunBackgroundHelperFeatures - runs background-scripts included with the Ultraschall-API
+  - GetLastCursorPosition - returns the last editcursor-position before the current one; needs Backgroundscripts started first using RunBackgroundHelperFeatures
+  - Docs: added chapter about Extstates for MediaTracks, MediaItems and guids
     
   <TODO>
       TODO!!  - write final documentation for public-beta
@@ -321,13 +324,14 @@
       TODO!!   - 1 - bla bla umwandeln in 1, bla bla
       
     For 4.00beta2.8:
+      TODO!!  - DeleteItemExtState, DeleteTrackExtState
       TODO!!  - SetStateChunk-functions: how to check for ProjectStateChunk/TrackStateChunk/ItemStateChunk/EnvStateChunk, when new parameters are added to the function?
                                          something with ... ? Otherwise, new added parameters will break old scripts...
       TODO!!  - issue with parameters/retvals in USDocML-files: nil-error, when a retval/parameter entry is only 
                 <retvals>
                     -
                 </retvals> 
-      TODO!!  - Mix-Snapshots, who store/retreive the current/a former mix
+      TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
       TODO!!  - totype(value, string type), converts a value to type and returns it, if impossible, returns nil; includes string, boolean, integer, float, hex, oct, base64, etc
       TODO!!  - ArrangeViewSnapshots - use reaper.JS_Window_SetScrollPos(HWND, "SB_VERT", value) to set and JS_Window_GetScrollInfo from JS new plugin to get/store vertscrollpos
       TODO!!  - Get Length of all Items in a track GetLengthOfAllItems_Track()
