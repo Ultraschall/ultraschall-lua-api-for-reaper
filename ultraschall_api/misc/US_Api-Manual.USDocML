@@ -92,7 +92,10 @@
                 
             The Ultraschall-API is quite the same, but is using the table "ultraschall." instead.  
                 e.g. ultraschall.ApiTest()
-                
+            
+            
+            Some functions need background-scripts be run first. Refer the [Introdution to background-scripts](#Background_Scripts_001_Introduction) for information about that.
+            
             See the functions-reference for all available functions or read on in this documentation for a collection of concepts introduced by the Ultraschall-API.
         </description>
         <target_document>ReaperApiConcepts</target_document>
@@ -109,7 +112,7 @@
         <slug>Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes</slug>
         <title>How to use Beta functions and hotfixes</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Before a new version of the Ultraschall-API is finished, it is in beta-stage. But sometimes, bugs need to be fixed even before a new release is done or you may want to test new functions from the next release for bugs and quirks.
+            Before a new version of the Ultraschall-API is finished, it is in beta-stage. But sometimes, bugs need to be fixed even before a new release is done or you may want to test new functions from the next release for bugs and quirks.  
             So I added two ways to deal with that.
             
             1. Hotfixes  
@@ -2584,8 +2587,189 @@
             Extension States
         </chapter_context>
         <previous_chapter>ObjectExtStates_003_MediaItemExtensionStates</previous_chapter>
-        <next_chapter></next_chapter>
+        <next_chapter>Background_Scripts_001_Introduction</next_chapter>
         <tags>documentation, extension states, extstate, other, guid</tags>
     </US_DocBloc>    
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Background_Scripts_001_Introduction</slug>
+        <title>Background Scripts: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Some things in Reaper can't be solved easily without having something monitoring in the background. So to include some new features otherwise impossible, I added some background-scripts, that can be easily run using:
+            
+            >**[RunBackgroundHelperFeatures](usdocml://RunBackgroundHelperFeatures)**
+            
+                                ultraschall.RunBackgroundHelperFeatures()
+                                
+            >This starts the background-scripts, that provide additional features.
+            
+            Without having the background-scripts started, some functions will always produce error-codes.  
+            Features that use these background-scripts are:
+            
+            >**[GetLastCursorPosition](usdocml://GetLastCursorPosition)** - gets the last editcursor-position before the current one. Helpful for left-click-triggered scripts, who change the editcursorposition due the mouseclick
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Background-Scripts
+        </chapter_context>
+        <previous_chapter>ObjectExtStates_050_OtherExtensionStates</previous_chapter>
+        <next_chapter>Cough_Mute_Buttons_001_Introduction</next_chapter>
+        <tags>background scripts, run, introduction</tags>
+    </US_DocBloc>    
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Cough_Mute_Buttons_001_Introduction</slug>
+        <title>Cough and Mute Buttons/Actions: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            When recording over a long period of time, especially when recording interviews for podcasts, radio and such, you probably run into the issue that someone is coughing or drinking something. Though both of these things are important, a recording of it is usually not wished.  
+            For that, Reaper provides a Mute-Envelope for each track, which allows to mute a track for a period of time and unmute it again. This muting can be recorded, so it will remain even after the recording is finished.  
+            Problem is: You need to "arm" the mute-envelope first, otherwise any mute-information as send by e.g. MIDI-devices will not be added to the mute-envelope and therefor is lost after the recording.  
+            In some cases, this behavior is a good thing and gives you flexibility when to record the mutes and when not, but for casual users, who do not want to have this kind of freedom, this can be really hard to use.  
+            
+            So I added some functions, that add mute-points into a mute-envelope regardless of it's arming-state. This should make using the mute-envelope for your benefits much easier.  
+            
+            Let's go into more detail.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Cough and Mute-Buttons
+        </chapter_context>
+        <previous_chapter>Background_Scripts_001_Introduction</previous_chapter>
+        <next_chapter>Cough_Mute_Buttons_002_Toggling_Mute</next_chapter>
+        <tags>cough, mute, buttons, introduction</tags>
+    </US_DocBloc>    
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Cough_Mute_Buttons_002_Toggling_Mute</slug>
+        <title>Cough and Mute Buttons/Actions: Toggling Mute</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            The first and foremost thing you probably want is actually muting a mute-envelope of a track, for that there are the two functions: [ToggleMute](usdocml://ToggleMute), [ToggleMute_TrackObject](usdocml://ToggleMute_TrackObject)
+            
+            >**[ToggleMute](usdocml://ToggleMute)**
+            
+                                    integer retval = ultraschall.ToggleMute(integer track, number position, integer state)
+                                    
+            >This mutes a given track using the mute-envelope of the track(not the mute-buttons in the TCP/MCP).  
+            >Just pass over the tracknumber(with 1 for the first track, 2 for the second, etc!), the position, at which to insert the mute-point and the state of muting.  
+            >The state of muting can be either muted(0) or unmuted(1)
+            
+            To mute a certain MediaTrack-object, you can use the function:
+            
+            >**[ToggleMute_TrackObject](usdocml://ToggleMute_TrackObject)**
+            
+                                    integer retval = ultraschall.ToggleMute_TrackObject(MediaTrack trackobject, number position, integer state)
+                                    
+            >This works the same as ToggleMute, but accepts a MediaTrack instead of a tracknumber. The rest is the same, position for the position of the new mutepoint and state for mute(0) or unmute(1).
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Cough and Mute-Buttons
+        </chapter_context>
+        <previous_chapter>Background_Scripts_001_Introduction</previous_chapter>
+        <next_chapter>Cough_Mute_Buttons_003_FindingMutes</next_chapter>
+        <tags>cough, mute, buttons, introduction</tags>
+    </US_DocBloc>    
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Cough_Mute_Buttons_003_FindingMutes</slug>
+        <title>Cough and Mute Buttons/Actions: Toggling Mute</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Toggling is cool, but you probably want to know, if toggling is even necessary of where the next/previous mute-object currently is.  
+            For that, I added the functions: [IsMuteAtPosition](usdocml://IsMuteAtPosition), [IsMuteAtPosition_TrackObject](usdocml://IsMuteAtPosition_TrackObject), [GetNextMuteState](usdocml://GetNextMuteState), [GetNextMuteState_TrackObject](usdocml://GetNextMuteState_TrackObject), [GetPreviousMuteState](usdocml://GetPreviousMuteState), [GetPreviousMuteState_TrackObject](usdocml://GetPreviousMuteState_TrackObject)
+            
+            If you want to know, how many mute-points exist in a track, you can use:
+            
+            >**[CountMuteEnvelopePoints](usdocml://CountMuteEnvelopePoints)**
+            
+                                    integer retval = ultraschall.CountMuteEnvelopePoints(integer track)
+                                    
+            >This counts the envelope-points of a mute-envelope in a given track.
+            
+            To check, if there's already a mute-point at a given position in a track, you can use the IsMuteAtPosition-function.
+            
+            >**[IsMuteAtPosition](usdocml://IsMuteAtPosition)**
+            
+                                    boolean retval, optional integer envIDX, optional number envVal  = ultraschall.IsMuteAtPosition(integer tracknumber, number position)
+                                    
+            >This checks, whether there is a mute-point in track tracknumber at position. Parameter tracknumber is 1-based, with 1 for the first track, 2 for the second, etc.  
+            >If there is a mutepoint at the position, it will return the index of the mute-point and it's current value.  
+            >It will return false in case of an error
+            
+            With this, you can check, whether adding/toggling at the position is actually necessary.
+            
+            If you want to know, which is the next or previous mute-point, you can use:
+            
+            >**[GetNextMuteState](usdocml://GetNextMuteState)**
+            
+                                    integer envIDX, number envVal, number envPosition = ultraschall.GetNextMuteState(integer track, number position)
+                                    
+            >Returns the attributes of the next mute-point from position. Just give the tracknumber and the position and it returns the corresponding indexnumber, value and position.  
+            >It will return -1, if no such mute-point exists
+            
+             >**[GetPreviousMuteState](usdocml://GetPreviousMuteState)**
+            
+                                    integer envIDX, number envVal, number envPosition = ultraschall.GetPreviousMuteState(integer track, number position)
+                                    
+            >Returns the attributes of the previous mute-point from position. Just give the tracknumber and the position and it returns the corresponding indexnumber, value and position.  
+            >It will return -1, if no such mute-point exists
+            
+            If you want to use a trackobject rather than the tracknumber, you can use the functions:
+            
+             - [IsMuteAtPosition_TrackObject](usdocml://IsMuteAtPosition_TrackObject) - like IsMuteAtPosition, but uses a MediaTrack-object instead of a tracknumber
+             - [GetNextMuteState_TrackObject](usdocml://GetNextMuteState_TrackObject) - like GetNextMuteState, but uses a MediaTrack-object instead of a tracknumber
+             - [GetPreviousMuteState_TrackObject](usdocml://GetPreviousMuteState_TrackObject) - like GetPreviousMuteState, but uses a MediaTrack-object instead of a tracknumber
+             
+            With that, you should get a good overview over the mute-points in your project.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Cough and Mute-Buttons
+        </chapter_context>
+        <previous_chapter>Cough_Mute_Buttons_002_Toggling_Mute</previous_chapter>
+        <next_chapter>Cough_Mute_Buttons_004_DeletingMutes</next_chapter>
+        <tags>cough, finding, next, previous, is at position, mute, buttons, introduction</tags>
+    </US_DocBloc>    
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Cough_Mute_Buttons_004_DeletingMutes</slug>
+        <title>Cough and Mute Buttons/Actions: Toggling Mute</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Being able to set and toggle and find mute-points is quite good, but sometimes, you want to get rid of them as well.  
+            For that, I added the functions: [DeleteMuteState](usdocml://DeleteMuteState), [DeleteMuteState_TrackObject](usdocml://DeleteMuteState_TrackObject)
+            
+            >**[DeleteMuteState](usdocml://DeleteMuteState)**
+            
+                                    boolean retval = ultraschall.DeleteMuteState(integer tracknumber, number position)
+                                    
+            >This deletes a mute-point in track with tracknumber at position. It returns false, if there is no mute-point to delete.
+            >Parameter tracknumber is 1-based, with 1 for track 1, 2 for track 2, etc.
+            
+            To delete a mute-point using a MediaTrack-object, you can use instead:
+            
+            >**[DeleteMuteState_TrackObject](usdocml://DeleteMuteState_TrackObject)**
+            
+                                    boolean retval = ultraschall.DeleteMuteState_TrackObject(MediaTrack MediaTrack, number position)
+                                    
+            >Works exactly like DeleteMuteState, but expects a MediaTrack-object instead of a tracknumber.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Cough and Mute-Buttons
+        </chapter_context>
+        <previous_chapter>Cough_Mute_Buttons_003_FindingMutes</previous_chapter>
+        <next_chapter></next_chapter>
+        <tags>cough, delete, mute, buttons, introduction</tags>
+    </US_DocBloc>    
+    
 </USDocML>
 >**[](usdocml://)**

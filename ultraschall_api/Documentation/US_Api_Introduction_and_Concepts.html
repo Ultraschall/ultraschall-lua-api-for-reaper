@@ -39,7 +39,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 22130</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 22193</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -92,6 +92,11 @@ Ultraschall API functions
 <td><a href="#ObjectExtStates_002_MediaTrackExtensionStates">Object Extension States: MediaTrack Extension States</a></td>
 <td><a href="#ObjectExtStates_003_MediaItemExtensionStates">Object Extension States: MediaItem Extension States</a></td>
 <td><a href="#ObjectExtStates_050_OtherExtensionStates">Object Extension States: Other Extension States</a></td>
+</tr><tr></tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Background-Scripts</b></td></tr><tr><td><a href="#Background_Scripts_001_Introduction">Background Scripts: Introduction</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Cough and Mute-Buttons</b></td></tr><tr><td><a href="#Cough_Mute_Buttons_001_Introduction">Cough and Mute Buttons/Actions: Introduction</a></td>
+<td><a href="#Cough_Mute_Buttons_002_Toggling_Mute">Cough and Mute Buttons/Actions: Toggling Mute</a></td>
+<td><a href="#Cough_Mute_Buttons_003_FindingMutes">Cough and Mute Buttons/Actions: Toggling Mute</a></td>
+<td><a href="#Cough_Mute_Buttons_004_DeletingMutes">Cough and Mute Buttons/Actions: Toggling Mute</a></td>
 </tr><tr></tr><p></table><hr><a id="Introduction_001_Api"></a>
 <div style="font-size:100%"><h4><a href="#Introduction_001_Api">^</a> <u>Introduction to the Ultraschall API</u></h4></div><p><p>The Ultraschall-Extension is intended to be an extension for the DAW Reaper, that enhances it with podcast functionalities. Most DAWs are intended to be used by musicians, for music, but podcasters have their own needs to be fulfilled. In fact, in some places their needs differ from the needs of a musician heavily. Ultraschall is intended to optimise the Reaper's workflows, by reworking them with functionalities for the special needs of podcasters.</p>
 <p>The Ultraschall-Framework itself is intended to include a set of Lua-functions, that help creating such functionalities. By giving programmers helper functions to get access to each and every corner of Reaper. That way, extending Ultraschall and Reaper is more comfortable to do.</p>
@@ -148,10 +153,12 @@ Include the following line in your script at the beginning:</p>
 e.g. reaper.ShowConsoleMsg(&quot;msg&quot;)</p>
 <p>The Ultraschall-API is quite the same, but is using the table &quot;ultraschall.&quot; instead.<br />
 e.g. ultraschall.ApiTest()</p>
+<p>Some functions need background-scripts be run first. Refer the <a href="#Background_Scripts_001_Introduction">Introdution to background-scripts</a> for information about that.</p>
 <p>See the functions-reference for all available functions or read on in this documentation for a collection of concepts introduced by the Ultraschall-API.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes"></a>
-<div style="font-size:100%"><h4><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">^</a> <u>How to use Beta functions and hotfixes</u></h4></div><p><p>Before a new version of the Ultraschall-API is finished, it is in beta-stage. But sometimes, bugs need to be fixed even before a new release is done or you may want to test new functions from the next release for bugs and quirks. So I added two ways to deal with that.</p>
+<div style="font-size:100%"><h4><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">^</a> <u>How to use Beta functions and hotfixes</u></h4></div><p><p>Before a new version of the Ultraschall-API is finished, it is in beta-stage. But sometimes, bugs need to be fixed even before a new release is done or you may want to test new functions from the next release for bugs and quirks.<br />
+So I added two ways to deal with that.</p>
 <ol>
 <li><p>Hotfixes<br />
 Hotfixes are available at <a href="http://api.ultraschall.fm">api.ultraschall.fm</a>. They provide fixes for functions and bugs that came across after a release, but no new functions.<br />
@@ -1798,4 +1805,122 @@ Parameter persists controls, whether a global extstate shall be still available 
 Parameter savelocation decides, whether to read the extstate from the global extstates or the local extstates. That means, you can have two guid-extstates of the same name, with one being global and one being project-local.</p>
 </blockquote>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 53 chapters available</td></table><br><hr></div></body></html>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Background_Scripts_001_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#Background_Scripts_001_Introduction">^</a> <u>Background Scripts: Introduction</u></h4></div><p><p>Some things in Reaper can't be solved easily without having something monitoring in the background. So to include some new features otherwise impossible, I added some background-scripts, that can be easily run using:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#RunBackgroundHelperFeatures">RunBackgroundHelperFeatures</a></strong></p>
+</blockquote>
+<pre><code>                ultraschall.RunBackgroundHelperFeatures()
+                </code></pre>
+<blockquote>
+<p>This starts the background-scripts, that provide additional features.</p>
+</blockquote>
+<p>Without having the background-scripts started, some functions will always produce error-codes.<br />
+Features that use these background-scripts are:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#GetLastCursorPosition">GetLastCursorPosition</a></strong> - gets the last editcursor-position before the current one. Helpful for left-click-triggered scripts, who change the editcursorposition due the mouseclick</p>
+</blockquote>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Cough_Mute_Buttons_001_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#Cough_Mute_Buttons_001_Introduction">^</a> <u>Cough and Mute Buttons/Actions: Introduction</u></h4></div><p><p>When recording over a long period of time, especially when recording interviews for podcasts, radio and such, you probably run into the issue that someone is coughing or drinking something. Though both of these things are important, a recording of it is usually not wished.<br />
+For that, Reaper provides a Mute-Envelope for each track, which allows to mute a track for a period of time and unmute it again. This muting can be recorded, so it will remain even after the recording is finished.<br />
+Problem is: You need to &quot;arm&quot; the mute-envelope first, otherwise any mute-information as send by e.g. MIDI-devices will not be added to the mute-envelope and therefor is lost after the recording.<br />
+In some cases, this behavior is a good thing and gives you flexibility when to record the mutes and when not, but for casual users, who do not want to have this kind of freedom, this can be really hard to use.</p>
+<p>So I added some functions, that add mute-points into a mute-envelope regardless of it's arming-state. This should make using the mute-envelope for your benefits much easier.</p>
+<p>Let's go into more detail.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Cough_Mute_Buttons_002_Toggling_Mute"></a>
+<div style="font-size:100%"><h4><a href="#Cough_Mute_Buttons_002_Toggling_Mute">^</a> <u>Cough and Mute Buttons/Actions: Toggling Mute</u></h4></div><p><p>The first and foremost thing you probably want is actually muting a mute-envelope of a track, for that there are the two functions: <a href="US_Api_Functions.html#ToggleMute">ToggleMute</a>, <a href="US_Api_Functions.html#ToggleMute_TrackObject">ToggleMute_TrackObject</a></p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ToggleMute">ToggleMute</a></strong></p>
+</blockquote>
+<pre><code>                    integer retval = ultraschall.ToggleMute(integer track, number position, integer state)
+                    </code></pre>
+<blockquote>
+<p>This mutes a given track using the mute-envelope of the track(not the mute-buttons in the TCP/MCP).<br />
+Just pass over the tracknumber(with 1 for the first track, 2 for the second, etc!), the position, at which to insert the mute-point and the state of muting.<br />
+The state of muting can be either muted(0) or unmuted(1)</p>
+</blockquote>
+<p>To mute a certain MediaTrack-object, you can use the function:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ToggleMute_TrackObject">ToggleMute_TrackObject</a></strong></p>
+</blockquote>
+<pre><code>                    integer retval = ultraschall.ToggleMute_TrackObject(MediaTrack trackobject, number position, integer state)
+                    </code></pre>
+<blockquote>
+<p>This works the same as ToggleMute, but accepts a MediaTrack instead of a tracknumber. The rest is the same, position for the position of the new mutepoint and state for mute(0) or unmute(1).</p>
+</blockquote>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Cough_Mute_Buttons_003_FindingMutes"></a>
+<div style="font-size:100%"><h4><a href="#Cough_Mute_Buttons_003_FindingMutes">^</a> <u>Cough and Mute Buttons/Actions: Toggling Mute</u></h4></div><p><p>Toggling is cool, but you probably want to know, if toggling is even necessary of where the next/previous mute-object currently is.<br />
+For that, I added the functions: <a href="US_Api_Functions.html#IsMuteAtPosition">IsMuteAtPosition</a>, <a href="US_Api_Functions.html#IsMuteAtPosition_TrackObject">IsMuteAtPosition_TrackObject</a>, <a href="US_Api_Functions.html#GetNextMuteState">GetNextMuteState</a>, <a href="US_Api_Functions.html#GetNextMuteState_TrackObject">GetNextMuteState_TrackObject</a>, <a href="US_Api_Functions.html#GetPreviousMuteState">GetPreviousMuteState</a>, <a href="US_Api_Functions.html#GetPreviousMuteState_TrackObject">GetPreviousMuteState_TrackObject</a></p>
+<p>If you want to know, how many mute-points exist in a track, you can use:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#CountMuteEnvelopePoints">CountMuteEnvelopePoints</a></strong></p>
+</blockquote>
+<pre><code>                    integer retval = ultraschall.CountMuteEnvelopePoints(integer track)
+                    </code></pre>
+<blockquote>
+<p>This counts the envelope-points of a mute-envelope in a given track.</p>
+</blockquote>
+<p>To check, if there's already a mute-point at a given position in a track, you can use the IsMuteAtPosition-function.</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#IsMuteAtPosition">IsMuteAtPosition</a></strong></p>
+</blockquote>
+<pre><code>                    boolean retval, optional integer envIDX, optional number envVal  = ultraschall.IsMuteAtPosition(integer tracknumber, number position)
+                    </code></pre>
+<blockquote>
+<p>This checks, whether there is a mute-point in track tracknumber at position. Parameter tracknumber is 1-based, with 1 for the first track, 2 for the second, etc.<br />
+If there is a mutepoint at the position, it will return the index of the mute-point and it's current value.<br />
+It will return false in case of an error</p>
+</blockquote>
+<p>With this, you can check, whether adding/toggling at the position is actually necessary.</p>
+<p>If you want to know, which is the next or previous mute-point, you can use:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#GetNextMuteState">GetNextMuteState</a></strong></p>
+</blockquote>
+<pre><code>                    integer envIDX, number envVal, number envPosition = ultraschall.GetNextMuteState(integer track, number position)
+                    </code></pre>
+<blockquote>
+<p>Returns the attributes of the next mute-point from position. Just give the tracknumber and the position and it returns the corresponding indexnumber, value and position.<br />
+It will return -1, if no such mute-point exists</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#GetPreviousMuteState">GetPreviousMuteState</a></strong></p>
+</blockquote>
+<pre><code>                    integer envIDX, number envVal, number envPosition = ultraschall.GetPreviousMuteState(integer track, number position)
+                    </code></pre>
+<blockquote>
+<p>Returns the attributes of the previous mute-point from position. Just give the tracknumber and the position and it returns the corresponding indexnumber, value and position.<br />
+It will return -1, if no such mute-point exists</p>
+</blockquote>
+<p>If you want to use a trackobject rather than the tracknumber, you can use the functions:</p>
+<ul>
+<li><a href="US_Api_Functions.html#IsMuteAtPosition_TrackObject">IsMuteAtPosition_TrackObject</a> - like IsMuteAtPosition, but uses a MediaTrack-object instead of a tracknumber</li>
+<li><a href="US_Api_Functions.html#GetNextMuteState_TrackObject">GetNextMuteState_TrackObject</a> - like GetNextMuteState, but uses a MediaTrack-object instead of a tracknumber</li>
+<li><a href="US_Api_Functions.html#GetPreviousMuteState_TrackObject">GetPreviousMuteState_TrackObject</a> - like GetPreviousMuteState, but uses a MediaTrack-object instead of a tracknumber</li>
+</ul>
+<p>With that, you should get a good overview over the mute-points in your project.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Cough_Mute_Buttons_004_DeletingMutes"></a>
+<div style="font-size:100%"><h4><a href="#Cough_Mute_Buttons_004_DeletingMutes">^</a> <u>Cough and Mute Buttons/Actions: Toggling Mute</u></h4></div><p><p>Being able to set and toggle and find mute-points is quite good, but sometimes, you want to get rid of them as well.<br />
+For that, I added the functions: <a href="US_Api_Functions.html#DeleteMuteState">DeleteMuteState</a>, <a href="US_Api_Functions.html#DeleteMuteState_TrackObject">DeleteMuteState_TrackObject</a></p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#DeleteMuteState">DeleteMuteState</a></strong></p>
+</blockquote>
+<pre><code>                    boolean retval = ultraschall.DeleteMuteState(integer tracknumber, number position)
+                    </code></pre>
+<blockquote>
+<p>This deletes a mute-point in track with tracknumber at position. It returns false, if there is no mute-point to delete. Parameter tracknumber is 1-based, with 1 for track 1, 2 for track 2, etc.</p>
+</blockquote>
+<p>To delete a mute-point using a MediaTrack-object, you can use instead:</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#DeleteMuteState_TrackObject">DeleteMuteState_TrackObject</a></strong></p>
+</blockquote>
+<pre><code>                    boolean retval = ultraschall.DeleteMuteState_TrackObject(MediaTrack MediaTrack, number position)
+                    </code></pre>
+<blockquote>
+<p>Works exactly like DeleteMuteState, but expects a MediaTrack-object instead of a tracknumber.</p>
+</blockquote>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 58 chapters available</td></table><br><hr></div></body></html>

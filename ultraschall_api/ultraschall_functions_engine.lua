@@ -8851,7 +8851,7 @@ function ultraschall.ToggleMute_TrackObject(trackobject, position, state)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.ToggleMute_TrackObject(Mediatrack trackobject, number position, integer state)</functioncall>
+  <functioncall>integer retval = ultraschall.ToggleMute_TrackObject(MediaTrack trackobject, number position, integer state)</functioncall>
   <description>
     Sets mute within the mute-envelope-lane, by inserting the fitting envelope-points. Can be used to program coughbuttons. Returns -1, if it fails.
     
@@ -8861,7 +8861,7 @@ function ultraschall.ToggleMute_TrackObject(trackobject, position, state)
     integer retval  - toggling was 0 - success, -1 - fail
   </retvals>
   <parameters>
-    Mediatrack trackobject - the track-object for the track, where you want to set the mute-envelope-lane. Refer <a href="Reaper_API_Lua.html#reaper.GetTrack">GetTrack()</a> for more details.
+    MediaTrack trackobject - the track-object for the track, where you want to set the mute-envelope-lane. Refer <a href="Reaper_API_Lua.html#reaper.GetTrack">GetTrack()</a> for more details.
     number position - position in seconds
     integer state - 0 for mute the track on this position, 1 for unmuting the track on this position
   </parameters>
@@ -32491,14 +32491,14 @@ function ultraschall.CompareArrays(Array, CompareArray2)
   </requires>
   <functioncall>table diff_array = ultraschall.CompareArrays(table Array, table CompareArray2)</functioncall>
   <description>
-    Compares Array using CompareArray2 and returns an array with all entries in CompareArray2, that are not in Array.
+    Compares Array using parameter CompareArray2 and returns an array with all entries in CompareArray2, that are not in Array.
     The comparable arrays must be indexed by integer-numbers.
     
     Returns nil in case of an error
   </description>
   <parameters>
     table Array - the reference-array
-    table CompareArray2 - the array yo uwant to check against Array; all entries in CompareArray2 that are not in Array will be returned
+    table CompareArray2 - the array you want to check against Array; all entries in CompareArray2 that are not in Array will be returned
   </parameters>
   <retvals>
     table diff_array - an array with all entries from CompareArray2, that are not in Array
@@ -45241,5 +45241,179 @@ end
 --A=reaper.GetExtState("ultraschall", "last_editcursor_position")
 
 --L=ultraschall.GetLastCursorPosition()
+
+function ultraschall.DeleteMuteState(tracknumber, position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteMuteState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.DeleteMuteState(integer tracknumber, number position)</functioncall>
+  <description>
+    Deletes a mute-point in track tracknumber at position.
+    
+    Returns false in case of an error
+  </description>
+  <parameters>
+    integer tracknumber - the track in which to delete the mute-point; is 1-based, means 1 for track 1
+    number position - the position of the mute-point to delete
+  </parameters>
+  <retvals>
+    boolean retval - true, deleting was successful; false, deleting wasn't successful.
+  </retvals>
+  <chapter_context>
+    Cough-Button
+    Muting tracks within envelope-lanes
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>cough button, delete, mute, cough, position, tracknumber</tags>
+</US_DocBloc>
+]]
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("DeleteMuteState", "tracknumber", "Must be an integer.", -1) return false end
+  if type(position)~="number" then ultraschall.AddErrorMessage("DeleteMuteState", "position", "Must be a number.", -2) return false end
+  if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("DeleteMuteState", "tracknumber", "No such track.", -3) return false end
+  if position<0 then ultraschall.AddErrorMessage("DeleteMuteState", "position", "Must be bigger or equal 0.", -4) return false end
+  local TrackEnvelope=reaper.GetTrackEnvelopeByName(reaper.GetTrack(0,tracknumber-1), "Mute")
+  local A=reaper.DeleteEnvelopePointRange(TrackEnvelope, position, position+.000000000000001)
+  if A==false then ultraschall.AddErrorMessage("DeleteMuteState", "position", "No mute-envelope-point at position", -5) return false end
+  reaper.Envelope_SortPoints(TrackEnvelope)
+  --reaper.UpdateArrange()
+  return A
+end
+
+--L=ultraschall.DeleteMuteState("2", 10)
+
+function ultraschall.DeleteMuteState_TrackObject(MediaTrack, position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteMuteState_TrackObject</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.DeleteMuteState_TrackObject(MediaTrack MediaTrack, number position)</functioncall>
+  <description>
+    Deletes a mute-point in a MediaTrack-object at position.
+    
+    Returns false in case of an error
+  </description>
+  <parameters>
+    MediaTrack MediaTrack - the track in which to delete the mute-point
+    number position - the position of the mute-point to delete
+  </parameters>
+  <retvals>
+    boolean retval - true, deleting was successful; false, deleting wasn't successful.
+  </retvals>
+  <chapter_context>
+    Cough-Button
+    Muting tracks within envelope-lanes
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>cough button, delete, mute, cough, position, mediatrack</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(MediaTrack)~="MediaTrack" then ultraschall.AddErrorMessage("DeleteMuteState_TrackObject", "MediaTrack", "Must be a valid MediaTrack-object.", -1) return false end
+  if type(position)~="number" then ultraschall.AddErrorMessage("DeleteMuteState_TrackObject", "position", "Must be a number.", -2) return false end
+  if position<0 then ultraschall.AddErrorMessage("DeleteMuteState_TrackObject", "position", "Must be bigger or equal 0.", -3) return false end
+  local TrackEnvelope=reaper.GetTrackEnvelopeByName(MediaTrack, "Mute")
+  local A=reaper.DeleteEnvelopePointRange(TrackEnvelope, position, position+.000000000000001)
+  if A==false then ultraschall.AddErrorMessage("DeleteMuteState_TrackObject", "position", "No mute-envelope-point at position", -4) return false end
+  reaper.Envelope_SortPoints(TrackEnvelope)
+  -- reaper.UpdateArrange()
+  return A
+end
+
+--ultraschall.DeleteMuteState_TrackObject(reaper.GetTrack(0,1), 1)
+
+function ultraschall.IsMuteAtPosition(tracknumber, position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsMuteAtPosition</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional integer envIDX, optional number envVal = ultraschall.IsMuteAtPosition(integer tracknumber, number position)</functioncall>
+  <description>
+    Returns true, if a mute-point exists in track tracknumber at position position.
+    
+    Returns false in case of an error
+  </description>
+  <parameters>
+    integer tracknumber - the track in which to check for a mute-point; is 1-based, means 1 for track 1
+    number position - the position to check for a mute-point
+  </parameters>
+  <retvals>
+    boolean retval - true, if there is a mute-point; false, if there isn't one
+    optional integer envIDX - if a mute-point is at position, this holds the index of the envelope-point
+    optional number envVal - the current set value of the mute-point
+  </retvals>
+  <chapter_context>
+    Cough-Button
+    Muting tracks within envelope-lanes
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>cough button, check, mute, cough, position, tracknumber</tags>
+</US_DocBloc>
+]]
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("IsMuteAtPosition", "tracknumber", "Must be an integer.", -1) return false end
+  if type(position)~="number" then ultraschall.AddErrorMessage("IsMuteAtPosition", "position", "Must be a number.", -2) return false end
+  if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("IsMuteAtPosition", "tracknumber", "No such track.", -3) return false end
+  if position<0 then ultraschall.AddErrorMessage("IsMuteAtPosition", "position", "Must be bigger or equal 0.", -4) return false end
+  local envIDX, envVal, envPosition = ultraschall.GetNextMuteState(tracknumber, position-.000000000000001)
+  if envPosition==position then return true, envIDX, envVal else return false end
+end
+
+--ALABAMA,A,B=ultraschall.IsMuteAtPosition(2, 1)
+
+function ultraschall.IsMuteAtPosition_TrackObject(MediaTrack, position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsMuteAtPosition_TrackObject</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional integer envIDX, optional number envVal = ultraschall.IsMuteAtPosition_TrackObject(MediaTrack MediaTrack, number position)</functioncall>
+  <description>
+    Returns true, if a mute-point exists in MediaTrack-object at position position.
+    
+    Returns false in case of an error
+  </description>
+  <parameters>
+    MediaTrack MediaTrack - the track in which to check for a mute-point
+    number position - the position to check for a mute-point
+  </parameters>
+  <retvals>
+    boolean retval - true, if there is a mute-point; false, if there isn't one
+    optional integer envIDX - if a mute-point is at position, this holds the index of the envelope-point
+    optional number envVal - the current set value of the mute-point
+  </retvals>
+  <chapter_context>
+    Cough-Button
+    Muting tracks within envelope-lanes
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>cough button, check, mute, cough, position, mediatrack</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(MediaTrack)~="MediaTrack" then ultraschall.AddErrorMessage("IsMuteAtPosition_TrackObject", "MediaTrack", "Must be a valid MediaTrack-object.", -1) return false end
+  if type(position)~="number" then ultraschall.AddErrorMessage("IsMuteAtPosition_TrackObject", "position", "Must be a number.", -2) return false end
+  if position<0 then ultraschall.AddErrorMessage("IsMuteAtPosition_TrackObject", "position", "Must be bigger or equal 0.", -4) return false end
+  local envIDX, envVal, envPosition = ultraschall.GetNextMuteState_TrackObject(MediaTrack, position-.000000000000001)
+  if envPosition==position then return true, envIDX, envVal else return false end
+end
+
+--A,B,C=ultraschall.IsMuteAtPosition_TrackObject(reaper.GetTrack(0,1), 1)
 
 ultraschall.ShowLastErrorMessage()

@@ -316,7 +316,13 @@
   - ultraschall_track_old_cursorposition.lua - background-script for returning the last editcursor-position before the current one
   - RunBackgroundHelperFeatures - runs background-scripts included with the Ultraschall-API
   - GetLastCursorPosition - returns the last editcursor-position before the current one; needs Backgroundscripts started first using RunBackgroundHelperFeatures
-  - Docs: added chapter about Extstates for MediaTracks, MediaItems and guids
+  - Docs: Concepts-page - added chapter about Extstates for MediaTracks, MediaItems and guids
+  - IsMuteAtPosition - checks, whether a mute-point exists in a track at a position
+  - IsMuteAtPosition_TrackObject - checks, whether a mute-point exists in a MediaTrack-object at a position
+  - DeleteMuteState - deletes a mute-point in a track at a given position
+  - DeleteMuteState_TrackObject - deletes a mute-point in a MediaTrack-object at a given position
+  - Docs: Concepts-page - added chapter about backgroundscripts in Ultraschall-API and the use of it for functions like GetLastCursorPosition
+  - Docs: Concepts-page - added chapter about cough/mute-buttons
     
   <TODO>
       TODO!!  - write final documentation for public-beta
