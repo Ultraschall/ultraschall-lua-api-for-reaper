@@ -38424,6 +38424,8 @@ function ultraschall.DirectoryExists(path, directory)
   <description>
     Checks, if a directory exists in path.
     
+    On Linux: path and directory are case-sensitive!
+    
     Returns false in case of error.
   </description>
   <retvals>
@@ -38446,14 +38448,16 @@ function ultraschall.DirectoryExists(path, directory)
   if type(directory)~="string" then ultraschall.AddErrorMessage("DirectoryExists", "directory", "Must be a string", -2) return false end
   local index=0
   local found=false
+  if ultraschall.IsOS_Other()==false then path=path:lower() directory=directory:lower() end
   while reaper.EnumerateSubdirectories(path,index)~=nil do
-    if reaper.EnumerateSubdirectories(path, index)==directory then found=true break end
+--  reaper.ShowConsoleMsg(reaper.EnumerateSubdirectories(path, index).."\n")
+    if reaper.EnumerateSubdirectories(path, index):lower()==directory then found=true break end
     index=index+1
   end
   return found
 end
 
---L=ultraschall.DirectoryExists("c:\\", "Reaper-Docs-Wiki")
+--L=ultraschall.DirectoryExists("c:/windows/", "system32")
 --L=ultraschall.DirectoryExists("", "")
 
 function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, startposition, endposition, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
@@ -42273,9 +42277,6 @@ function ultraschall.DirectoryExists2(Path)
   <functioncall>boolean retval = ultraschall.DirectoryExists2(string Path)</functioncall>
   <description>
     returns, if Path is an existing path.
-    
-    Note for windows-users: if you give only volume-letters as Path like C:\\ or L:\\, it will return this as an existing path, even if it doesn't exist.
-                            this is due API-limitations.
 
     returns false in case of an error
   </description>
@@ -42295,12 +42296,19 @@ function ultraschall.DirectoryExists2(Path)
 </US_DocBloc>
 ]]
   if ultraschall.type(Path)~="string" then ultraschall.AddErrorMessage("DirectoryExists2", "path", "must be a string", -1) return false end
+  if Path:len()==0 then return false end
   if Path:sub(-1,-1)=="\\" or Path:sub(-1,-1)=="/" then Path=Path:sub(1,-2) end
-  if Path:sub(-1,-1)==":" and Path:sub(2,2)==":" then return true end
-  local Path1, Path2 = Path:match("(.*%A)(%a.*)")
-  if Path1==nil then Path1=Path end  
-  if Path2==nil then Path2="" end  
-  return ultraschall.DirectoryExists(Path1, Path2)
+
+  local Path0=string.gsub(Path,"\\","/")
+  Path=string.gsub(Path,"/","\\")
+  local Path1, Path2 = Path0:match("(.*)/(.*)")
+
+  if ultraschall.IsOS_Windows()==true then 
+    local LL2=tonumber(reaper.ExecProcess("cmd.exe /Q /C cd "..Path, 1000):match("(.-)\n"))
+    if LL2==1 then return false else return true end
+  else
+    return ultraschall.DirectoryExists(Path1, Path2)
+  end
 end
 
 --L=os.tmpname("C:\\B\\tudelu")
@@ -42308,7 +42316,7 @@ end
 --Path="C:\\"
 --L=Path:sub(2,2)
 
---A=ultraschall.DirectoryExists2("C:\\")
+--A,B=ultraschall.DirectoryExists2("c://")
 
 function ultraschall.SetReaperWorkDir(path)
 --[[
