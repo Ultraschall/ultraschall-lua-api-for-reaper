@@ -824,6 +824,7 @@ for lolo=1, 100 do
     b=b+1
     if b>=120 then 
       reaper.ClearConsole() 
+      reaper.ShowConsoleMsg("Creating Reaper-Config-Vars-Docs\n")
       reaper.ShowConsoleMsg((math.floor(100/Ccount*index)+1).."% : ")
       for iii=1, math.floor(progressbar/Ccount*index) do reaper.ShowConsoleMsg("#") end
       for iii=math.floor(progressbar/Ccount), math.floor(progressbar/Ccount*(Ccount-index))-1 do reaper.ShowConsoleMsg("~") end

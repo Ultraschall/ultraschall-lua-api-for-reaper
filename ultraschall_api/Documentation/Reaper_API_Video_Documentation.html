@@ -82,9 +82,8 @@ function onLoad() {
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;"><p></p>    
-            <h2>Reaper Api - Video Processor Plugin(Reascripts)</h2>
-            hacked out, written and compiled by Meo Mespotine(mespotine.de) for the Ultraschall.FM-Project.<p>
-            
+            <h2>Reaper Api - Video Processor Plugin for Reaper 5.962 </h2>
+                        
             <h3>Index</h3>
             <a href="#introduction">Introduction</a><br>
             <a href="#codingintroduction">Coding Introduction</a><br>
@@ -132,6 +131,7 @@ function onLoad() {
                 <a href="#gfx_blit">	gfx_blit(input[,preserve_aspect=0,x,y,w,h,srcx,srcy,srcw,srch]) copies input to framebuffer.</a><br>
                 <a href="#gfx_fillrect">	gfx_fillrect(x,y,w,h) fills a rectangle	</a><br>
                 <a href="#gfx_procrect">	gfx_procrect(x,y,w,h,channel_tab) processes a rectangle with 768-entry channel table [256 items of 0..1 per channel]	</a><br>
+                <a href="#gfx_evalrect">	gfx_evalrect(x,y,w,h,code_string[,flags,src2]) processes a rectangle with code_string being executed for every pixel/pixel-group. </a><br>                
                 <a href="#gfx_gradrect">	gfx_gradrect(x,y,w,h, r,g,b,a	[,drdx,dgdx,dbdx,dadx,	drdy,dgdy,dbdy,dady]);	</a><br>
                 <a href="#gfx_rotoblit">	gfx_rotoblit(srcidx, angle [,x, y, w, h, srcx, srcy, w, h, cliptosrcrect = 0, centxoffs=0, centyoffs=0])	</a><br>
                 <a href="#gfx_deltablit">	gfx_deltablit(srcidx, x,y,w,h srcx,srcy, dsdx, dtdx, dsdy, dtdy, dsdxdy, dtdxdy[, dadx, dady, dadxdy])	</a><br>
@@ -265,8 +265,10 @@ updates r/g/b/a/mode always, dest only if specified
 copies input to framebuffer. preserve_aspect=-1 for no fill in pad areas	
  <hr><i><a id="gfx_fillrect">	gfx_fillrect(x,y,w,h) </a></i><p>
 fills a rectangle	
- <hr><i><a id="gfx_procrect">	gfx_procrect(x,y,w,h,channel_tab) </a></i><p>
-processes a rectangle with 768-entry channel table [256 items of 0..1 per channel]	
+ <hr><i><a id="gfx_procrect">	gfx_procrect(x,y,w,h,channel_tab[,mode]) </a></i><p>
+processes a rectangle with 768-entry channel table [256 items of 0..1 per channel]. specify mode=1 to use Y value for U/V source channels (colorization mode)
+ <hr><i><a id="gfx_evalrect">	gfx_evalrect(x,y,w,h,code_string[,flags,src2]) </a></i><p>
+processes a rectangle with code_string being executed for every pixel/pixel-group. code should reference, depending on colorspace: RGBA:  r/g/b/a, YUY2: y1,y2,u,v, YV12: y1-y4, u, v. Values are 0-255, and are not clamped. set flags|=1 in order to prevent multiprocessing (if your routine needs to process pixels in-order; side-note: variables _1-_99 are thread-local variables which will always be initialized to 0, and _0 will be initialized to the thread index (0 or 1 usually)). set flags|=2 to ignore output (analysis-only). if src2 specified, sr/sg/sb/sa, sy1/su/sv etc will be available to read. In this case only the intersection of valid rectangles between src2 and the destination buffer will be valid.
  <hr><i><a id="gfx_gradrect">	gfx_gradrect(x,y,w,h, r,g,b,a
 	&Tab; [,drdx,dgdx,dbdx,dadx,	
 	&Tab; drdy,dgdy,dbdy,dady]);		</a></i><p>

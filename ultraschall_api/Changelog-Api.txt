@@ -323,6 +323,8 @@
   - DeleteMuteState_TrackObject - deletes a mute-point in a MediaTrack-object at a given position
   - Docs: Concepts-page - added chapter about backgroundscripts in Ultraschall-API and the use of it for functions like GetLastCursorPosition
   - Docs: Concepts-page - added chapter about cough/mute-buttons
+  - requires now Julian Sader's plugin as well
+  - CloseReaConsole - closes ReaConsole-window
     
   <TODO>
       TODO!!  - write final documentation for public-beta

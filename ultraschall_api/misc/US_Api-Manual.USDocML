@@ -66,12 +66,14 @@
             Using the Ultraschall-API is quite easy.
             
             First make sure, you use the right versions of Reaper and SWS:
-               Reaper 5.95 and SWS 2.9.7
+               Reaper 5.95, SWS 2.9.7 and Julian Sader's plugin 0.951.
             You can download them at [reaper.fm](http://www.reaper.fm) and [sws-extension.org](http://www.sws-extension.org) respectively.
+            Julian Sader's plugin can be installed using ReaPack.
             
+            To install the Ultraschall-API:
             1. Just download the zip-file of the current version from [api.ultraschall.fm](http://api.ultraschall.fm).
             2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -> Show REAPER resource path in explorer/finder...".  
-               The folder UserPlugins should contain the folder ultraschall_api and the files ultraschall_api_readme.txt and ultraschall_api.lua
+               The folder UserPlugins should contain the folder ultraschall_api and the files ultraschall_api_readme.txt and ultraschall_api.lua after this step.
             3. Now create a new script, by opening the Actions-window (Menu: Actions -> Show action list) and clicking the New-button next to "ReaScript:", give it a name and hit save.  
                     Include the following line in your script at the beginning: 
                

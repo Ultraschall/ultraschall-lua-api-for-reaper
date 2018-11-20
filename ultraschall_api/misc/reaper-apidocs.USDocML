@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ##ReaScript API as of Reaper 5.961
+            ##ReaScript API as of Reaper 5.962
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -15,10 +15,12 @@
             
             Learn more about ReaScript: [http://www.cockos.com/reaper/sdk/reascript/reascript.php](http://www.cockos.com/reaper/sdk/reascript/reascript.php).
             
+            This documentation includes the functions provided by SWS: [sws-extension.org](https://www.sws-extension.org) as well as Julian Sader's plugin, that can be installed via ReaPack.
+            
             The IDE in Reaper has some limitations, as every line must not exceed 4095 characters, or they will be split when the script is loaded the next time.
             
             The base-directory for ReaScript can be read from the reaper.ini -> [REAPER] -> lastcwd=
-            That means, if you create a new file without giving it a path, it will be created in the path set in lastcwd.            
+            That means, if you create a new file without giving it a path, it will be created in the path set in lastcwd.
         </description>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -22679,9 +22681,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the unsigned byte at address[offset]. Offset is added as steps of 1 byte each.
-           
-           
-           
+
         </description>
         <retvals>
            number byte   - 
@@ -22712,9 +22712,6 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the 8-byte floating point value at address[offset]. Offset is added as steps of 8 bytes each.
-           
-           
-           
         </description>
         <retvals>
            number double   - 
@@ -22745,9 +22742,6 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Blits between two device contexts, which may include LICE "system bitmaps".
-           
-           
-           
         </description>
 
         <parameters>
@@ -22821,9 +22815,7 @@
            
            
            Note: Text color must be set separately.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -22918,9 +22910,7 @@
             Parameters:
            
             * align: Combination of: "TOP", "VCENTER", "LEFT", "HCENTER", "RIGHT", "BOTTOM", "WORDBREAK", "SINGLELINE", "NOCLIP", "CALCRECT", "NOPREFIX" or "ELLIPSIS"
-           
-           
-           
+
         </description>
         <retvals>
            integer  - 
@@ -22988,9 +22978,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             packedX and packedY are strings of points, each packed as "&lt;i4".
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -23085,9 +23073,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the device context for the client area of the specified window.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -23121,9 +23107,7 @@
            
            
            WARNING: Only available on Windows, not Linux or MacOS.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -23208,9 +23192,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the device context for the entire window, including title bar and frame.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -23271,9 +23253,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             packedX and packedY are strings of points, each packed as "&lt;i4".
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -23332,9 +23312,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Activates a font, pen, or fill brush for subsequent drawing in the specified device context.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -23479,9 +23457,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Blits between two device contexts, which may include LICE "system bitmaps".
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -23518,9 +23494,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the 4-byte signed integer at address[offset]. Offset is added as steps of 4 bytes each.
-           
-           
-           
+
         </description>
         <retvals>
            number int   - 
@@ -23555,9 +23529,7 @@
            
            
            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -23598,9 +23570,7 @@
            
            
            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -23641,9 +23611,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA".
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -23684,9 +23652,7 @@
            
            
            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -23934,9 +23900,7 @@
            
            
            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -23979,9 +23943,7 @@
            
            
            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -24019,9 +23981,7 @@
            
            
            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -24060,9 +24020,7 @@
            
            
            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -24157,9 +24115,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the color of the specified pixel.
-           
-           
-           
+
         </description>
         <retvals>
            integer  - 
@@ -24297,9 +24253,7 @@
            
            
            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -24335,9 +24289,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns a (non-system) LICE bitmap containing the PNG.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -24371,9 +24323,7 @@
            
            
            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -24435,9 +24385,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA".
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -24484,9 +24432,7 @@
            
            
            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -24523,9 +24469,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA".
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -24626,9 +24570,7 @@
            The font can be modified by the following flags, in a comma-separated list:
            
            "VERTICAL", "BOTTOMUP", "NATIVE", "BLUR", "INVERT", "MONO", "SHADOW" or "OUTLINE".
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -24662,9 +24604,7 @@
             * The addresses are stored in the provided reaper.array.
            
             * Each address can be converted to a REAPER object (HWND) by the function JS_Window_HandleFromAddress.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -24696,9 +24636,7 @@
             * The list is formatted as a comma-separated (and terminated) string of hexadecimal values.
            
             * Each value is an address that can be converted to a HWND by the function Window_HandleFromAddress.
-           
-           
-           
+
         </description>
         <retvals>
            string buf   - 
@@ -24734,9 +24672,7 @@
            Parameters:
            
             * flags, state: The parameter and the return value both use the same format as gfx.mouse_cap. I.e., to get the states of the left mouse button and the ctrl key, use flags = 0b00000101.
-           
-           
-           
+
         </description>
         <retvals>
            integer  - 
@@ -24770,9 +24706,7 @@
            cursorNumber: Same as used for gfx.setcursor, and includes some of Windows' predefined cursors (with numbers &gt; 32000; refer to documentation for the Win32 C++ function LoadCursor), and REAPER's own cursors (with numbers &lt; 2000). 
            
            If successful, returns a handle to the cursor, which can be used in JS_Mouse_SetCursor.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -24804,9 +24738,7 @@
             Loads a cursor from a .cur file.
            
            If successful, returns a handle to the cursor, which can be used in JS_Mouse_SetCursor.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -24836,9 +24768,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Sets the mouse cursor.  (Only lasts while script is running, and for a single "defer" cycle.)
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -24866,9 +24796,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Moves the mouse cursor to the specified coordinates.
-           
-           
-           
+
         </description>
         <retvals>
            boolean  - 
@@ -24928,9 +24856,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the version of the js_ReaScriptAPI extension.
-           
-           
-           
+
         </description>
         <retvals>
            number version   - 
@@ -24994,9 +24920,7 @@
             * To check whether a message type is being blocked or passed through, Peek the message type, or retrieve the entire List of intercepts.
            
             * Mouse events are typically received by the child window under the mouse, not the parent window.
-           
-           
-           
+
         </description>
         <retvals>
            integer  - 
@@ -25062,9 +24986,7 @@
             * Intercepted messages can be edited, if necessary, and then forwarded to their original destination using JS_WindowMessage_Post or JS_WindowMessage_Send.
            
             * To check whether a message type is being blocked or passed through, Peek the message type, or retrieve the entire List of intercepts.
-           
-           
-           
+
         </description>
         <retvals>
            integer  - 
@@ -25095,9 +25017,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns a string with a list of all message types currently being intercepted for the specified window.
-           
-           
-           
+
         </description>
         <retvals>
            boolean retval - 
@@ -25129,9 +25049,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Changes the passthrough setting of a message type that is already being intercepted.
-           
-           
-           
+
         </description>
         <retvals>
            integer  - 
@@ -25185,9 +25103,7 @@
             * For example, in the case of mousewheel, returns mousewheel delta, modifier keys, x position and y position.
            
             * wParamHigh, lParamLow and lParamHigh are signed, whereas wParamLow is unsigned.
-           
-           
-           
+
         </description>
         <retvals>
            boolean retval - 
@@ -25244,9 +25160,7 @@
             * The message will be sent directly to the window, skipping interception by scripts.
            
             * Useful for simulating mouse clicks and calling mouse modifier actions from scripts.
-           
-           
-           
+
         </description>
         <retvals>
            boolean  - 
@@ -25287,9 +25201,7 @@
            Parameters:
            
             * messages: "WM_SETCURSOR,WM_MOUSEHWHEEL" or "0x0020,0x020E", for example.
-           
-           
-           
+
         </description>
         <retvals>
            integer  - 
@@ -25320,9 +25232,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Release script intercepts of window messages for all windows.
-           
-           
-           
+
         </description>
 
 
@@ -25348,9 +25258,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Release script intercepts of window messages for specified window.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -25404,9 +25312,7 @@
             * The message will be sent directly to the window, skipping interception by scripts.
            
             * Useful for simulating mouse clicks and calling mouse modifier actions from scripts.
-           
-           
-           
+
         </description>
         <retvals>
            integer  - 
@@ -25474,9 +25380,7 @@
            
            
            The addresses are stored in the provided reaper.array, and can be converted to REAPER objects (HWNDs) by the function JS_Window_HandleFromAddress.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -25509,9 +25413,7 @@
            
            
            The addresses are stored in the provided reaper.array, and can be converted to REAPER objects (HWNDs) by the function JS_Window_HandleFromAddress.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -25547,9 +25449,7 @@
            
            
            Parameters: * exact: Match entire title exactly, or match substring of title.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -25633,9 +25533,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Converts the client-area coordinates of a specified point to screen coordinates.
-           
-           
-           
+
         </description>
         <retvals>
            number x - 
@@ -25668,9 +25566,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Destroys the specified window.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -25698,9 +25594,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Enables or disables mouse and keyboard input to the specified window or control.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -25735,9 +25629,7 @@
            Parameters:
            
             * exact: Match entire title exactly, or match substring of title.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -25774,9 +25666,7 @@
            Parameters:
            
             * exact: Match entire title exactly, or match substring of title.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -25808,9 +25698,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Retrieves a HWND to the window that contains the specified point.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -25841,9 +25729,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             WARNING: May not be fully implemented on MacOS and Linux.
-           
-           
-           
+
         </description>
         <retvals>
            string buf   - 
@@ -25878,9 +25764,7 @@
            NOTE 1: Unlike the C++ function GetClientRect, this function returns the actual coordinates, not the width and height.
            
            NOTE 2: The pixel at (right, bottom) lies immediately outside the rectangle.
-           
-           
-           
+
         </description>
         <retvals>
            boolean retval - 
@@ -25914,9 +25798,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Retrieves a HWND to the window that has the keyboard focus, if the window is attached to the calling thread's message queue.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -25944,9 +25826,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Retrieves a HWND to the foreground window (the window with which the user is currently working).
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -25982,9 +25862,7 @@
            
            
            For documentation about the types of information returned, refer to the Win32 function GetWindowLongPtr.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -26017,9 +25895,7 @@
             Retrieves a HWND to the specified window's parent or owner.
            
            Returns NULL if the window is unowned or if the function otherwise fails.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -26051,9 +25927,7 @@
             Retrieves the coordinates of the bounding rectangle of the specified window. The dimensions are given in screen coordinates relative to the upper-left corner of the screen.
            
            NOTE: The pixel at (right, bottom) lies immediately outside the rectangle.
-           
-           
-           
+
         </description>
         <retvals>
            boolean retval - 
@@ -26091,9 +25965,7 @@
            relation: "LAST", "NEXT", "PREV", "OWNER" or "CHILD".
            
            (Refer to documentation for Win32 C++ function GetWindow.)
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -26136,9 +26008,7 @@
            Returns:
            
             * Leftmost or topmost visible pixel position, as well as the visible page size, the range minimum and maximum, and scroll box tracking position.
-           
-           
-           
+
         </description>
         <retvals>
            boolean retval - 
@@ -26174,9 +26044,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the title (if any) of the specified window.
-           
-           
-           
+
         </description>
         <retvals>
            string buf   - 
@@ -26207,9 +26075,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Converts an address to a handle (such as a HWND) that can be utilized by REAPER and other API functions.
-           
-           
-           
+
         </description>
         <retvals>
            identifier  - 
@@ -26239,9 +26105,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Determines whether a window is a child window or descendant window of a specified parent window.
-           
-           
-           
+
         </description>
         <retvals>
            boolean  - 
@@ -26272,9 +26136,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Determines the visibility state of the window.
-           
-           
-           
+
         </description>
         <retvals>
            boolean  - 
@@ -26304,9 +26166,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Determines whether the specified window handle identifies an existing window.
-           
-           
-           
+
         </description>
         <retvals>
            boolean  - 
@@ -26346,9 +26206,7 @@
            Parameters:
            
             * section, key: Since the list string can sometimes be much longer than the maximum length of strings that can be returned by the Lua API, the list will instead by stored as a temporary ExtState specified by section and key.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -26388,9 +26246,7 @@
            Parameters:
            
             * section, key: Since the list string can sometimes be much longer than the maximum length of strings that can be returned by the Lua API, the list will instead by stored as a temporary ExtState specified by section and key.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -26431,9 +26287,7 @@
             * section, key: Since the list string can sometimes be much longer than the maximum length of strings that can be returned by the Lua API, the list will instead by stored as a temporary ExtState specified by section and key.
            
             * exact: Match entire title exactly, or match substring of title.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -26468,9 +26322,7 @@
             * For a top-level window, the position is relative to the upper-left corner of the screen.
            
             * For a child window, they are relative to the upper-left corner of the parent window's client area.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -26532,9 +26384,7 @@
             Changes the dimensions of the specified window, keeping the top left corner position constant.
            
             * If resizing script GUIs, call gfx.update() after resizing.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -26564,9 +26414,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Converts the screen coordinates of a specified point on the screen to client-area coordinates.
-           
-           
-           
+
         </description>
         <retvals>
            number x - 
@@ -26599,9 +26447,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Sets the keyboard focus to the specified window.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -26629,9 +26475,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Brings the specified window into the foreground, activates the window, and directs keyboard input to it.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -26673,9 +26517,7 @@
            
            
            WARNING: COLOR mode is only available in Windows, not Linux or MacOS.
-           
-           
-           
+
         </description>
         <retvals>
            boolean  - 
@@ -26707,9 +26549,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Sets the window position and size.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -26747,9 +26587,7 @@
            
            
            NOTE: API functions can scroll REAPER's windows, but cannot zoom them.  Instead, use actions such as "View: Zoom to one loop iteration".
-           
-           
-           
+
         </description>
         <retvals>
            boolean  - 
@@ -26781,9 +26619,7 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Changes the title of the specified window. Returns true if successful.
-           
-           
-           
+
         </description>
         <retvals>
            boolean  - 
@@ -26822,9 +26658,7 @@
             * ZOrder: "INSERT_AFTER", "BOTTOM", "TOPMOST", "NOTOPMOST" or "TOP" ).
            
             * InsertAfterHWND: If ZOrder is INSERT_AFTER, insertAfterHWND must be a handle to the window to precede windowHWND in the Z order; otherwise, insertAfterHWND is ignored.
-           
-           
-           
+
         </description>
 
         <parameters>
@@ -26860,9 +26694,7 @@
            Parameters:
            
             * state: Either "SHOW", "SHOWNA", "SHOWMINIMIZED",  or "HIDE".
-           
-           
-           
+
         </description>
 
         <parameters>

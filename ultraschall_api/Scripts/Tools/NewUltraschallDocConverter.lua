@@ -118,7 +118,7 @@ function ultraschall.ParseDescription(String)
 end
 
 function ultraschall.ParseRequires(String)
-  return String:match("Reaper=(.-)\n"), String:match("SWS=(.-)\n"), String:match("Lua=(.-)\n")
+  return String:match("Reaper=(.-)\n"), String:match("SWS=(.-)\n"), String:match("Lua=(.-)\n"), String:match("JS=(.-)\n")
 end
 
 function ultraschall.ParseChapterContext(String)
@@ -691,10 +691,11 @@ for lolo=1, 60 do
   FunctionList=FunctionList.."\n"
 
 -- Requirement-images + Functionname
-  A,A2,A3=ultraschall.ParseRequires(C[index][2])
+  A,A2,A3,A4=ultraschall.ParseRequires(C[index][2])
 --  FunctionList=FunctionList..
   if A~=nil then FunctionList=FunctionList.."<img width=\"3%\" src=\"gfx/reaper"..A..".png\" alt=\"Reaper version "..A.."\">" end
   if A2~=nil then FunctionList=FunctionList.."<img width=\"3%\" src=\"gfx/sws"..A2..".png\" alt=\"SWS version "..A2.."\">" end
+  if A4~=nil then FunctionList=FunctionList.."<img width=\"3%\" src=\"gfx/JS_"..A4..".png\" alt=\"Julian Sader's plugin version "..A4.."\">" end
   if A3~=nil then FunctionList=FunctionList.."<img width=\"3%\" src=\"gfx/lua"..A3..".png\" alt=\"Lua version "..A3.."\">" end
   if A~=nil or A2~=nil or A3~=nil then 
     Title=ultraschall.ParseTitle(C[index][2])
@@ -788,6 +789,7 @@ for lolo=1, 60 do
     b=b+1
     if b>=120 then 
       reaper.ClearConsole() 
+      reaper.ShowConsoleMsg("Creating Ultraschall Api-Functions Reference-Docs\n")
       reaper.ShowConsoleMsg((math.floor(100/Ccount*index)+1).."% : ")
       for iii=1, math.floor(progressbar/Ccount*index) do reaper.ShowConsoleMsg("#") end
       for iii=math.floor(progressbar/Ccount), math.floor(progressbar/Ccount*(Ccount-index))-1 do reaper.ShowConsoleMsg("~") end

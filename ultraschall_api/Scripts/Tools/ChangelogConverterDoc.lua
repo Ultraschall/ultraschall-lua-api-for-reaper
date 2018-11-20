@@ -129,6 +129,7 @@ function main()
     reaper.MB(Time3, "", 0) 
     os.remove(ultraschall.Api_Path.."/temp/temporary.md")
     os.remove(ultraschall.Api_Path.."/temp/temporary.html")
+    ultraschall.CloseReaConsole()
   else
     M=reaper.time_precise()
     N=reaper.GetExtState("ultraschall", "doc")

@@ -1315,7 +1315,7 @@ function ultraschall.ShowLastErrorMessage()
       reaper.MB(functionname.."\n\n"..parmname.."\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
     else
       -- if no error-causing-parameter was given, display that message
-      --reaper.MB(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
+      reaper.MB(functionname.."\n\nerror  : "..errormessage.."\n\nerrcode: "..errcode,"Ultraschall Api Error Message",0) 
     end
   end
 end
@@ -45423,5 +45423,47 @@ function ultraschall.IsMuteAtPosition_TrackObject(MediaTrack, position)
 end
 
 --A,B,C=ultraschall.IsMuteAtPosition_TrackObject(reaper.GetTrack(0,1), 1)
+
+function ultraschall.CloseReaConsole()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CloseReaConsole</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    JS=0.951
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.CloseReaConsole()</functioncall>
+  <description>
+    Closes the ReaConsole-window, if opened.
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if there is a mute-point; false, if there isn't one
+  </retvals>
+  <chapter_context>
+    User Interface
+    Screen and Windowmanagement
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>window, reaconsole, close</tags>
+</US_DocBloc>
+]]
+  reaper.JS_Window_ListFind("ReaScript console output", true, "ultraschall", "console_window_hwnd")
+
+  local A=reaper.GetExtState("ultraschall", "console_window_hwnd")
+  local count = ultraschall.CountCharacterInString(A, ",")
+  if count>1 then ultraschall.AddErrorMessage("CloseReaConsole", "", "Multiple windows are open, that are named \"ReaScript console output\". Can't find the right one, sorry.", -1) return false end
+  if A:match("(.-),")==nil then ultraschall.AddErrorMessage("CloseReaConsole", "", "ReaConsole-window not opened", -2) return false end
+  local B=reaper.JS_Window_HandleFromAddress(A:match("(.-),"))
+  reaper.JS_Window_Destroy(B)
+  return true
+end
+
+--reaper.ShowConsoleMsg("Tudelu")
+--LL,LL=ultraschall.CloseReaConsole()
 
 ultraschall.ShowLastErrorMessage()
