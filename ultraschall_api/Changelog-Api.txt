@@ -325,6 +325,8 @@
   - Docs: Concepts-page - added chapter about cough/mute-buttons
   - requires now Julian Sader's plugin as well
   - CloseReaConsole - closes ReaConsole-window
+  - DeleteErrorMessage - deletes a specific error-message from the error-messaging-system
+  - Docs: Error-Messaging-System - added docchapters to Introductions/Concepts-page
     
   <TODO>
       TODO!!  - write final documentation for public-beta

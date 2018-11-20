@@ -2675,7 +2675,7 @@
         </chapter_context>
         <previous_chapter>Background_Scripts_001_Introduction</previous_chapter>
         <next_chapter>Cough_Mute_Buttons_003_FindingMutes</next_chapter>
-        <tags>cough, mute, buttons, introduction</tags>
+        <tags>cough, mute, buttons, toggling</tags>
     </US_DocBloc>    
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -2737,7 +2737,7 @@
         </chapter_context>
         <previous_chapter>Cough_Mute_Buttons_002_Toggling_Mute</previous_chapter>
         <next_chapter>Cough_Mute_Buttons_004_DeletingMutes</next_chapter>
-        <tags>cough, finding, next, previous, is at position, mute, buttons, introduction</tags>
+        <tags>cough, finding, next, previous, is at position, mute, buttons</tags>
     </US_DocBloc>    
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -2769,9 +2769,215 @@
             Cough and Mute-Buttons
         </chapter_context>
         <previous_chapter>Cough_Mute_Buttons_003_FindingMutes</previous_chapter>
-        <next_chapter></next_chapter>
-        <tags>cough, delete, mute, buttons, introduction</tags>
+        <next_chapter>Error_Messaging_System_001_Introduction</next_chapter>
+        <tags>cough, delete, mute, buttons</tags>
     </US_DocBloc>    
     
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Error_Messaging_System_001_Introduction</slug>
+        <title>Error Messaging System: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            When coding, one of the most boring things, beside documentation, is debugging.  
+            This is especially true, when the development-system used itself creates error- and bugmessages from hell, that just tell you that something went wrong, but not what.  
+            
+            And as I'm known to be lazy, I thought "When creating many API-functions, they should be able to tell me, where I went wrong, what went wrong and when I'm holding it wrong."
+            
+            Thus, I created an error-messaging-system that tells you exactly that: Which parameter caused which issue and a hint in how to solve this, if needed.  
+            And furthermore, I worked this error-messaging system out in a way, that it does not stop script-execution if you do not want to. In fact, if you want to reuse error-messages created by an Ultraschall-API-function you used, you can do that.  
+            So using error checks from other Ultraschall-API-functions for your benefits is quite easy.
+            
+            Let's go into more details on that.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Error Messaging System
+        </chapter_context>
+        <previous_chapter>Cough_Mute_Buttons_004_DeletingMutes</previous_chapter>
+        <next_chapter>Error_Messaging_System_002_Creating_Error_Messages</next_chapter>
+        <tags>error messaging system, introduction</tags>
+    </US_DocBloc>    
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Error_Messaging_System_002_Creating_Error_Messages</slug>
+        <title>Error Messaging System: Creating Error Messages</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Before you can use error-messages, they need to be created first. For that, you can use the function: [AddErrorMessage](usdocml://AddErrorMessage).
+            
+            Let's create an error-message.
+            
+            >**[AddErrorMessage](usdocml://AddErrorMessage)**
+                
+                                    boolean retval, integer errorcount = 
+                                        ultraschall.AddErrorMessage(string functionname, string parametername, string errormessage, integer errorcode)
+                                        
+            >This creates a new error-message, that will be fed into the error-messaging-system.  
+            >The parameters are the functionname, the name of the parameter(set it to "" if you don't want to set this parameter), and error-message and an error-code.  
+            
+            >The functionname is for the programmer who uses your function, so they know, which function caused this error.  
+            >The parametername is simply the name of the parameter, so if a validity-check for a parameter didn't go well, set this to the name of the problematic parameter.  
+            >The errormessage should tell the programmer, what went wrong. It should be easy to understand. Tell, in a few words, what went wrong and what was expected instead.  
+            >So if checking for an integer-parameter went wrong because the user passed a string instead, the errormessage should be "Must be an integer."
+            >The errorcode must be unique, means, every error-message in your function must get it's own errorcode, even if two error-messages are quite similar. This is to help the user to determine, which error happened, without having to check the error-message itself.  
+            >A unique errorcode has also other benefits for you as function-coder: if you want to change the error-message to be more descriptive, a check for the errorcode would still work. Another thing: a unique errorcode will help to determine possible bugs in your function more easily, as you immediately know, which errormessage caused it.  
+            >I usually use negative numbers for Ultraschall-API-errorcodes, but you are free to choose them anyway you like. But once you decided on one, you must keep it forever until it becomes obsolete!  
+            
+            >The function returns two parameters, retval and errorcount.
+            >Returnvalue retval tells you, if adding the error-message worked well. If not(usually when passing invalid parameters) it returns false, otherwise true.  
+            >Returnvalue errorcount tells you, which number the newly created errormessage has withing the error-messaging-system. This can be used to get the errormessage directly(more on that later).  
+            
+            
+            >Example: Let's assume, you have a function with one parameter which shall be a string and you want to check for it to be valid:
+            
+                                    function myfunction(this_is_a_string)
+                                        if type(this_is_a_string)~="string" then
+                                            retval, errorcount = ultraschall.AddErrorMessage("myfunction", "this_is_a_string", "must be a string", -1)
+                                            return false, errorcount
+                                        end
+                                    end
+                                    
+            >This checks, if the parameter this_is_a_string is actually a string. If not, it adds an error-message to the error-messaging-system.  
+            >After that, the function returns false and the index of the error-message, so the user can use this number to retrieve the error-message directly from the Ultraschall-API.
+            
+            Now, we've created a new error-message, which is now kept by the Ultraschall-API-instance locally within your script.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Error Messaging System
+        </chapter_context>
+        <previous_chapter>Error_Messaging_System_001_Introduction</previous_chapter>
+        <next_chapter>Error_Messaging_System_003_Getting_Error_Messages</next_chapter>
+        <tags>error messaging system, creating</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Error_Messaging_System_003_Getting_Error_Messages</slug>
+        <title>Error Messaging System: Getting Error Messages</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Now that we've created a new error-message, we probably want to retrieve it somehow.  
+            For that, I added the following functions: [CountErrorMessages](usdocml://CountErrorMessages), [GetLastErrorMessage](usdocml://GetLastErrorMessage), [GetLastErrorMessage2](usdocml://GetLastErrorMessage2), [ReadErrorMessage](usdocml://ReadErrorMessage), [ShowLastErrorMessage](usdocml://ShowLastErrorMessage)  
+            
+            >**[ShowLastErrorMessage](usdocml://ShowLastErrorMessage)**
+            
+                                    ultraschall.ShowLastErrorMessage()
+                                    
+            >This is probably the most useful for debugging purposes. It simply shows a message-box with the last added error-message in the error-messaging-system, including the functionname, the parametername, the errormessage and the errorcode.
+            >Add this at the end of your script or within a function, after the code where problems arise to see, which function caused the trouble.
+            
+            >**[GetLastErrorMessage](usdocml://GetLastErrorMessage)**
+            
+                                    boolean retval, integer errcode, string functionname, string parmname, string errormessage, 
+                                    string lastreadtime, string err_creation_date, string err_creation_timestamp, integer errorcounter 
+                                                                                                            = ultraschall.GetLastErrorMessage()
+            
+            >This returns you the last error-message without opening a messagebox. It also returns attributes associated with the errormessage.
+            >Returnvalue retval returns, if an errormessage exists(true) or not(false).
+            >The other returnvalues are 
+            >>errcode, which contains the errorcode of the errormessage. This is unique and always associated with the same error, so you can check for the errorcode directly, rather than the errormessage.  
+            >>functionname, which contains the name of the function, in which the error occured  
+            >>parmname, which contains the name of the parameter, which caused the trouble. It is "", if the problem is unrelated to a parameter  
+            >>errormessage, which is the actual errormessage  
+            >>lastreadtime, the time, at which the errormessage was read from the error-messaging-system the last time. That way you can see, which errormessage you already read  
+            >>err\_creation\_date, the date, at which the error was created  
+            >>err\_creation\_timestamp, the time, at which the error was created  
+            >>errorcounter, the indexnumber of the errormessage within the error-messaging-system.
+            
+            >**[GetLastErrorMessage2](usdocml://GetLastErrorMessage2)**
+            
+                                    boolean retval, array ErrorMessages = ultraschall.GetLastErrorMessage2(integer count, boolean setread)
+                                    
+            >Very much like GetLastErrorMessage, but returns the values as an array. You can also get the last x error-messages(as set by parameter count) and if the read-status of an errormessage shall be set to true.  
+            >When setread is set to true, ShowLastErrorMessage will not show this errormessage, even if it's the last one.
+            
+            For more sophisticated use-cases, where you need to retrieve one specific errormessage, you can use the following:
+            
+            >**[ReadErrorMessage](usdocml://ReadErrorMessage)**
+            
+                                    boolean retval, integer errcode, string functionname, string parmname, string errormessage, 
+                                    string lastreadtime, string err_creation_date, string err_creation_timestamp = 
+                                                                                        ultraschall.ReadErrorMessage(integer errornumber)
+                                                                                        
+            >Just like GetLastErrorMessage, but returns a specific errormessage, as specified by the parameter errornumber.
+            
+            In addition to that, there's also:
+               
+             - [CountErrorMessages](usdocml://CountErrorMessages) - which returns the number of error-messages currently available
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Error Messaging System
+        </chapter_context>
+        <previous_chapter>Error_Messaging_System_002_Creating_Error_Messages</previous_chapter>
+        <next_chapter>Error_Messaging_System_004_Deleting_Error_Messages</next_chapter>
+        <tags>error messaging system, getting</tags>
+    </US_DocBloc>    
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Error_Messaging_System_004_Deleting_Error_Messages</slug>
+        <title>Error Messaging System: Deleting Error Messages</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            If you want to get rid of old errormessages, you can delete them using: [DeleteLastErrorMessage](usdocml://DeleteLastErrorMessage), [DeleteAllErrorMessages](usdocml://DeleteAllErrorMessages), [DeleteErrorMessage](usdocml://DeleteErrorMessage)  
+            These functions work in the same vein, as the read-functions.
+            
+            >**[DeleteLastErrorMessage](usdocml://DeleteLastErrorMessage)**
+            
+                                    boolean retval = ultraschall.DeleteLastErrorMessage()
+                                    
+            >This simply deletes the last error-message from the error-messaging system. It returns true, if it succeeded.
+            
+            >**[DeleteAllErrorMessages](usdocml://DeleteAllErrorMessages)**
+            
+                                    boolean retval = ultraschall.DeleteAllErrorMessages()
+                                    
+            >Just like DeleteLastErrorMessage, but deletes all errormessages from the error-messaging system. It also returns true, if it succeeded.
+            
+            >**[DeleteErrorMessage](usdocml://DeleteErrorMessage)**
+            
+                                    boolean retval = ultraschall.DeleteErrorMessage(integer errornumber)
+                                    
+            >This deletes a specific errormessage, as specified by errornumber. Remember, to get the current number of error-messages available, use [CountErrorMessages](usdocml://CountErrorMessages)!
+            
+            And that's all you need to know about deleting errormessages.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Error Messaging System
+        </chapter_context>
+        <previous_chapter>Error_Messaging_System_003_Getting_Error_Messages</previous_chapter>
+        <next_chapter>Error_Messaging_System_005_TogglingIDEErrorMessages</next_chapter>
+        <tags>error messaging system, delete</tags>
+    </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Error_Messaging_System_005_TogglingIDEErrorMessages</slug>
+        <title>Error Messaging System: Toggling showing errors in IDE instead</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            As cool, as the error-messaging-system is for debugging, you may prefer getting your errors like any other Lua/Reaper-API-error at the bottom of the IDE or in Reaper's error-window.  
+            So I included toggling exactly that, using: [ToggleIDE_Errormessages](usdocml://ToggleIDE_Errormessages)
+            
+            >**[ToggleIDE_Errormessages](usdocml://ToggleIDE_Errormessages)**
+            
+                                    boolean retval = ultraschall.ToggleIDE_Errormessages(optional boolean togglevalue)
+                                    
+            >This toggles, whether to display error-messages at the bottom of the ReaScript-IDE-window/Reaper's error-window or if you prefer using Ultraschall-API's own functions for error-handling.  
+            >Opitonally, you can set it by setting togglevalue to either true(show errormessages at the bottom of the IDE) or false(use the Ultraschall-API error-management-behavior).
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Error Messaging System
+        </chapter_context>
+        <previous_chapter>Error_Messaging_System_004_Deleting_Error_Messages</previous_chapter>
+        <next_chapter></next_chapter>
+        <tags>error messaging system, toggle, ide, error message</tags>
+    </US_DocBloc>        
 </USDocML>
 >**[](usdocml://)**
