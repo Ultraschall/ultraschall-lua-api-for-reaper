@@ -21,8 +21,6 @@ Data Manipulation:
 
 Clipboard-Management:
     
-Error Messaging System:
-    
 KB-Ini-Management:
 
 Helper functions:
