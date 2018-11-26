@@ -109,6 +109,69 @@ end
 
 --A=ultraschall.GFX_DrawThickRoundRect(1,2,30,40,10)
 
+function ultraschall.GFX_BlitFramebuffer(framebufferidx, showidx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GFX_BlitFramebuffer</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.GFX_BlitFramebuffer(integer framebufferidx, optional boolean showidx)</functioncall>
+  <description>
+    blits a framebuffer at position 0,0. If the gfx-window is smaller than the contents of the framebuffer, it will resize it before blitting to window size, retaining the correct aspect-ratio.
+    
+    Mostly intended for debugging-purposes, when you want to track, if a certain framebuffer contains, what you expect it to contain.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    integer framebufferidx - the indexnumber of the framebuffer to blit; 0 to 1023; -1 is the displaying framebuffer
+    optional boolean showidx - true, displays the id-number of the framebuffer in the top-left corner; false, does not display framebuffer-idx
+  </parameters>
+  <retvals>
+    boolean retval - true, drawing was successful; false, drawing wasn't successful
+  </retvals>
+  <chapter_context>
+    Blitting
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>gfx, functions, gfx, blit, framebuffer</tags>
+</US_DocBloc>
+]]
+  if math.type(framebufferidx)~="integer" then ultraschall.AddErrorMessage("GFX_BlitFramebuffer", "framebufferidx", "must be an integer", -1) return false end
+  if framebufferidx<-1 or framebufferidx>1023 then ultraschall.AddErrorMessage("GFX_BlitFramebuffer", "framebufferidx", "must be between -1 and 1023", -1) return false end
+  if showidx~=nil and type(showidx)~="boolean" then ultraschall.AddErrorMessage("GFX_BlitFramebuffer", "showidx", "must be a boolean", -3) return false end
+  local x,y=gfx.getimgdim(framebufferidx)
+  local ratiox=((100/x)*gfx.w)/100
+  local ratioy=((100/y)*gfx.h)/100
+  if ratiox<ratioy then ratio=ratiox else ratio=ratioy end
+  if x<gfx.w and y<gfx.h then ratio=1 end
+  local oldx=gfx.x
+  local oldy=gfx.y
+  gfx.x=0
+  gfx.y=0
+  A1,B,C,D,E=gfx.blit(framebufferidx,ratio,0)
+  if showidx==true then 
+    gfx.x=-1
+    gfx.y=0
+    gfx.set(0)
+    gfx.drawstr(framebufferidx) 
+    gfx.x=1
+    gfx.y=1
+    gfx.set(0)
+    gfx.drawstr(framebufferidx) 
+    gfx.x=0
+    gfx.y=0
+    gfx.set(1)
+    gfx.drawstr(framebufferidx) 
+  end    
+  gfx.x=oldx
+  gfx.y=oldy
+  return true
+end
 
 function ultraschall.AddVirtualFramebuffer(framebufferobj, fromframebuffer, from_x, from_y, from_w, from_h, to_x,to_y,to_w,to_h, repeat_x, repeat_y)
   local table2

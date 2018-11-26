@@ -327,6 +327,7 @@
   - CloseReaConsole - closes ReaConsole-window
   - DeleteErrorMessage - deletes a specific error-message from the error-messaging-system
   - Docs: Error-Messaging-System - added docchapters to Introductions/Concepts-page
+  - GFX_BlitBifferImage - blits the framebuffer into the window and resizes it, if needed, using the correct aspect ratio; preliminary support
     
   <TODO>
       TODO!!  - write final documentation for public-beta
@@ -334,6 +335,93 @@
       TODO!!   - 1 - bla bla umwandeln in 1, bla bla
       
     For 4.00beta2.8:
+      TODO!!  - using the option "Add rendered files to new tracks in project"-checkbox, I can easily find out, what has been rendered. Just create a MediaItemStateChunkArray from that, before closing the project.
+                These new items will be included into new tracks, so I just need to check, which tracks are new and us GetAllMediaItemsBetween() and voila
+                AWESOME!
+      TODO!! Additions:
+            - DeleteErrorMessage - deletes a specific error-message from the error-messaging-system
+            - Docs: Error-Messaging-System - added docchapters to Introductions/Concepts-page
+
+            Changes:
+            - ReadErrorMessage - improved error-message, errornumber now checks, if being an integer
+            - GetAllLockedTracks - improved checking for validity of parameters
+            - GetAllSelectedTracks - improved checking for validity of parameters
+            - GetProject_MasterGroupFlagsHighState - improved checking for validity of parameters
+            - GetProject_MasterGroupFlagsState - improved checking for validity of parameters
+            - GetTrackAutoRecArmState - improved checking for validity of parameters
+            - GetTrackAutomodeState - improved checking for validity of parameters
+            - GetTrackBeatState - improved checking for validity of parameters
+            - GetTrackBusCompState - improved checking for validity of parameters
+            - GetTrackBypFXState - improved checking for validity of parameters
+            - GetTrackFreeModeState - improved checking for validity of parameters
+            - GetTrackGroupFlagsState - improved checking for validity of parameters
+            - GetTrackGroupFlags_HighState - improved checking for validity of parameters
+            - GetTrackHeightState - improved checking for validity of parameters
+            - GetTrackID - improved checking for validity of parameters
+            - GetTrackINQState - improved checking for validity of parameters
+            - GetTrackIPhaseState - improved checking for validity of parameters
+            - GetTrackIcon_Filename - improved checking for validity of parameters
+            - GetTrackIsBusState - improved checking for validity of parameters
+            - GetTrackLayoutNames - improved checking for validity of parameters
+            - GetTrackLockState - improved checking for validity of parameters
+            - GetTrackMIDIOutState - improved checking for validity of parameters
+            - GetTrackMainSendState - improved checking for validity of parameters
+            - GetTrackMidiBankProgFn - improved checking for validity of parameters
+            - GetTrackMidiCTL - improved checking for validity of parameters
+            - GetTrackMidiColorMapFn - improved checking for validity of parameters
+            - GetTrackMidiInputChanMap - improved checking for validity of parameters
+            - GetTrackMidiTextStrFn - improved checking for validity of parameters
+            - GetTrackMuteSoloState - improved checking for validity of parameters
+            - GetTrackNChansState - improved checking for validity of parameters
+            - GetTrackName - improved checking for validity of parameters
+            - GetTrackPanMode - improved checking for validity of parameters
+            - GetTrackPeakColorState - improved checking for validity of parameters
+            - GetTrackPerfState - improved checking for validity of parameters
+            - GetTrackRecCFG - improved checking for validity of parameters
+            - GetTrackRecState - improved checking for validity of parameters
+            - GetTrackScore - improved checking for validity of parameters
+            - GetTrackShowInMixState - improved checking for validity of parameters
+            - GetTrackStateChunk_Tracknumber - improved checking for validity of parameters
+            - GetTrackVUState	GetTrackVolPan - improved checking for validity of parameters
+            - GetTrackWidth - improved checking for validity of parameters
+            - JumpForwardBy - improved checking for validity of parameters
+            - JumpBackwardBy - improved checking for validity of parameters
+            - JumpForwardBy_Recording - improved checking for validity of parameters
+            - JumpBackwardBy_Recording - improved checking for validity of parameters
+            - GetNextClosestItemEdge - improved checking for validity of parameters
+            - GetPreviousClosestItemEdge - improved checking for validity of parameters
+            - GetClosestNextMarker - improved checking for validity of parameters
+            - GetClosestPreviousMarker - improved checking for validity of parameters
+            - GetClosestNextRegionEdge - improved checking for validity of parameters
+            - GetClosestPreviousRegionEdge - improved checking for validity of parameters
+            - ToggleMute - improved checking for validity of parameters
+            - ToggleMute_TrackObject - improved checking for validity of parameters
+            - GetNextMuteState - improved checking for validity of parameters
+            - GetPreviousMuteState - improved checking for validity of parameters
+            - GetNextMuteState_TrackObject - improved checking for validity of parameters
+            - GetPreviousMuteState_TrackObject - improved checking for validity of parameters
+            - CountMuteEnvelopePoints - improved checking for validity of parameters
+            - IsMarkerEdit - improved checking for validity of parameters
+            - IsMarkerNormal - improved checking for validity of parameters
+            - IsRegionPodrange - improved checking for validity of parameters
+            - IsRegionEditRegion - improved checking for validity of parameters
+            - GetProject_GetMarker - improved checking for validity of parameters
+            - GetProject_CountMarkersAndRegions - improved checking for validity of parameters
+            - GetProject_GetRegion - improved checking for validity of parameters
+            - GetEnvelopePoint - improved checking for validity of parameters
+            - GetClosestEnvelopePointIDX_ByTime - improved checking for validity of parameters
+            - GetEnvelopePointIDX_Between - improved checking for validity of parameters
+            - CountEnvelopePoints - improved checking for validity of parameters
+            - WriteValueToFile_Insert - improved checking for validity of parameters
+            - WriteValueToFile_Replace - improved checking for validity of parameters
+            - GetTrackLength - improved checking for validity of parameters
+            - GetLengthOfFile - improved checking for validity of parameters
+            - WriteValueToFile_InsertBinary - improved checking for validity of parameters
+            - WriteValueToFile_ReplaceBinary - improved checking for validity of parameters
+
+            SetTrack-functions still need that kind of treatment.
+            Code still has countless of useless tonumber-conversions included
+
       TODO!!  - DeleteItemExtState, DeleteTrackExtState
       TODO!!  - SetStateChunk-functions: how to check for ProjectStateChunk/TrackStateChunk/ItemStateChunk/EnvStateChunk, when new parameters are added to the function?
                                          something with ... ? Otherwise, new added parameters will break old scripts...

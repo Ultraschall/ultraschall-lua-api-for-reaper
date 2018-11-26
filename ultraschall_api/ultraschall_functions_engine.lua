@@ -52,6 +52,19 @@ ultraschall.ErrorCounter=0
 ultraschall.StartTime=os.clock()
 ultraschall.ErrorMessage={}
 
+-- HoHoHo
+ultraschall.temp,ultraschall.tempfilename=reaper.get_action_context()
+if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and os.date():match(".....")=="24.11" then
+  oldgfx=gfx.update
+  function gfx.update()
+    if GUI.US_snowmain~=nil then GUI.US_snowmain() end
+    oldgfx()
+  end      
+  dofile(script_path .. "test-snowflakes3.lua")
+  if GUI.US_snowmain~=nil then GUI.US_snowmain() end
+end
+
+--back2business
 if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
     -- user_folder = buf --"C:\\Users\\[username]" -- need to be test
     ultraschall.Separator = "\\"
@@ -1109,7 +1122,7 @@ function ultraschall.GetLastErrorMessage()
   <tags>developer, error, get, message</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.ErrorCounter==0 then ultraschall.AddErrorMessage("GetLastErrorMessage","","No Error Message available!",-1) return false end
+  if ultraschall.ErrorCounter==0 then return false end --ultraschall.AddErrorMessage("GetLastErrorMessage","","No Error Message available!",-1) return false end
   local errornumber=ultraschall.ErrorCounter
   local readstate=ultraschall.ErrorMessage[errornumber]["readstate"]
   ultraschall.ErrorMessage[ultraschall.ErrorCounter]["readstate"]=os.date()
@@ -38440,7 +38453,10 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
     Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).
   </description>
   <retvals>
-    integer retval - -1 in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
+    integer retval - -1, in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
+    integer count - the number of rendered files
+    array MediaItemStateChunkArray - the MediaItemStateChunks of all rendered files, with the one in entry 1 being the rendered master-track(when rendering stems)
+    array Filearray - the filenames of the rendered files, including their paths. The filename in entry 1 is the one of the mastered track(when rendering stems)
   </retvals>
   <parameters>
     string projectfilename_with_path - the project to render; nil, for the currently opened project(needs to be saved first)
@@ -38502,7 +38518,9 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
   -- Add the render-filename to the project
   ultraschall.SetProject_RenderFilename(tempfile, renderfilename_with_path)
   ultraschall.SetProject_RenderPattern(tempfile, nil)
+  -- Add render-format-settings as well as adding media to project after rendering
   ultraschall.SetProject_RenderCFG(tempfile, rendercfg)
+  ultraschall.SetProject_AddMediaToProjectAfterRender(tempfile, 1)
   
   -- Add the rendertime to the temporary project-file, when 
   local bounds, time_start, time_end, tail, tail_length = ultraschall.GetProject_RenderRange(tempfile)
@@ -38553,10 +38571,20 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
     if val==-99 then val=0 end
   end
   reaper.SNM_SetIntConfigVar("renderclosewhendone", val)
-
+  
+  local AllTracks=ultraschall.CreateTrackString_AllTracks() -- get number of tracks after rendering and adding of rendered files
+  
   reaper.Main_OnCommand(41824,0)    -- render using it with the last rendersettings(those, we inserted included)
   reaper.Main_SaveProject(0, false) -- save it(no use, but otherwise, Reaper would open a Save-Dialog, that we don't want and need)
+  local AllTracks2=ultraschall.CreateTrackString_AllTracks() -- get number of tracks after rendering and adding of rendered files
+  local retval, Trackstring = ultraschall.OnlyTracksInOneTrackstring(AllTracks, AllTracks2) -- only get the newly added tracks as trackstring
+  local count, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(0, reaper.GetProjectLength(0), Trackstring, false) -- get the new MediaItems created after adding the rendered files
   reaper.Main_OnCommand(40860,0)    -- close the temporary-tab again
+
+  local Filearray={}
+  for i=1, count do
+    Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \"(.-)\"")
+  end
 
   -- reset old renderclose/overwrite-settings
   reaper.SNM_SetIntConfigVar("renderclosewhendone", oldval)
@@ -38565,14 +38593,14 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
   os.remove (tempfile)
   os.remove (tempfile.."-bak")
   reaper.SelectProjectInstance(curProj)
-  return 0
+  return 0, count, MediaItemStateChunkArray, Filearray
 end
 
 
 
 --A=ultraschall.CreateRenderCFG_MP3CBR(1, 4, 10)
 --B=ultraschall.CreateRenderCFG_MP3CBR(1, 10, 10)
---L=ultraschall.RenderProject_RenderCFG(nil, "c:\\Reaper-Internal-Docs.mp3", 0, 10, false, true, true)
+--L=ultraschall.RenderProject_RenderCFG(nil, "c:\\Reaper-Internal-Docs.mp3", 0, 10, false, true, true,A)
 --L=reaper.IsProjectDirty(0)
   
 
@@ -39241,7 +39269,10 @@ function ultraschall.RenderProjectRegions_RenderCFG(projectfilename_with_path, r
     Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).
   </description>
   <retvals>
-    integer retval - -1 in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
+    integer retval - -1, in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
+    integer count - the number of rendered files
+    array MediaItemStateChunkArray - the MediaItemStateChunks of all rendered files, with the one in entry 1 being the rendered master-track(when rendering stems)
+    array Filearray - the filenames of the rendered files, including their paths. The filename in entry 1 is the one of the mastered track(when rendering stems)
   </retvals>
   <parameters>
     string projectfilename_with_path - the project to render; nil, for the currently opened project(needs to be saved first)
@@ -44887,7 +44918,7 @@ function ultraschall.GetProject_Length(projectfilename_with_path, ProjectStateCh
   local Marker_Length=0
   local TempoMarker_Length=0
   
-  while B:match("%<ITEM")~=nil do
+  while B~=nil and B:match("%<ITEM")~=nil do
     local Pos, Len, Offs = B:match("POSITION (.-)\n.-LENGTH (.-)\n()")
     if ProjectLength<tonumber(Pos)+tonumber(Len) then ProjectLength=tonumber(Pos)+tonumber(Len) end
     B=B:sub(Offs,-1)  
@@ -45520,3 +45551,10 @@ end
 
 --ultraschall.RippleDrag_StartOffset(13,"2",10)
 
+--A=ultraschall.CreateRenderCFG_MP3CBR(1, 4, 10)
+--B=ultraschall.CreateRenderCFG_MP3CBR(1, 10, 10)
+--L,L2,L3,L4=ultraschall.RenderProject_RenderCFG(nil, "c:\\Reaper-Internal-Docs.mp3", 0, 10, false, true, true,A)
+--L,L1,L2,L3,L4=ultraschall.RenderProjectRegions_RenderCFG(nil, "c:\\Reaper-Internal-Docs.mp3", 1, false, false, true, true,A)
+--L=reaper.IsProjectDirty(0)
+
+ultraschall.ShowLastErrorMessage()
