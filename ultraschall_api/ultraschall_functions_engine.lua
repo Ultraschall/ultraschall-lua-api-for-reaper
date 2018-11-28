@@ -23777,7 +23777,7 @@ end
 --  L=ultraschall.ChangeDeltaOffsetOfMediaItems_FromArray(MediaItem, -1.2)
 --  reaper.UpdateArrange()
 
-function ultraschall.SectionCut(startposition, endposition, trackstring)
+function ultraschall.SectionCut(startposition, endposition, trackstring, add_to_clipboard)
 --cuts all items between startposition and endposition in the tracks, given with trackstring
 --returns the number of deleted items as well as a table with the ItemStateChunks of all deleted Items
 
@@ -23789,7 +23789,7 @@ function ultraschall.SectionCut(startposition, endposition, trackstring)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer number_items, array MediaItemArray_StateChunk = ultraschall.SectionCut(number startposition, number endposition, string trackstring)</functioncall>
+  <functioncall>integer number_items, array MediaItemArray_StateChunk = ultraschall.SectionCut(number startposition, number endposition, string trackstring, boolean add_to_clipboard)</functioncall>
   <description>
     Cuts out all items between startposition and endposition in the tracks given by trackstring.
     
@@ -23800,6 +23800,7 @@ function ultraschall.SectionCut(startposition, endposition, trackstring)
     number startposition - the startposition of the section in seconds
     number endposition - the endposition of the section in seconds
     string trackstring - the tracknumbers, separated by ,
+    boolean add_to_clipboard - true, puts the cut items into the clipboard; false, don't put into the clipboard
   </parameters>
   <retvals>
     integer number_items - the number of cut items
@@ -23811,7 +23812,7 @@ function ultraschall.SectionCut(startposition, endposition, trackstring)
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, edit, section, cut</tags>
+  <tags>mediaitemmanagement, tracks, media, item, edit, section, cut, clipboard</tags>
 </US_DocBloc>
 ]]
   -- check parameters
@@ -23819,7 +23820,8 @@ function ultraschall.SectionCut(startposition, endposition, trackstring)
   if type(endposition)~="number" then ultraschall.AddErrorMessage("SectionCut", "endposition", "must be a number", -2) return -1 end
   if endposition<startposition then ultraschall.AddErrorMessage("SectionCut", "endposition", "must be bigger than startposition", -3)  return -1 end
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("SectionCut", "trackstring", "must be a valid trackstring", -4)  return -1 end
-  
+  if type(add_to_clipboard)~="boolean" then ultraschall.AddErrorMessage("SectionCut", "add_to_clipboard", "must be a boolean", -5) return -1 end  
+
   -- manage duplicates in trackstring
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
 
@@ -23827,6 +23829,10 @@ function ultraschall.SectionCut(startposition, endposition, trackstring)
   local A,AA=ultraschall.SplitMediaItems_Position(startposition,trackstring, false)
   local B,BB=ultraschall.SplitMediaItems_Position(endposition,trackstring,false)
   local C,CC,CCC=ultraschall.GetAllMediaItemsBetween(startposition,endposition,trackstring,true)
+
+  -- put the items into the clipboard  
+  if add_to_clipboard==true then ultraschall.PutMediaItemsToClipboard_MediaItemArray(CC) end
+
   local D=ultraschall.DeleteMediaItemsFromArray(CC)
   return C, CCC
 end
@@ -23834,7 +23840,7 @@ end
 --H=reaper.GetCursorPosition()
 --reaper.UpdateArrange()
 
-function ultraschall.SectionCut_Inverse(startposition, endposition, trackstring)
+function ultraschall.SectionCut_Inverse(startposition, endposition, trackstring, add_to_clipboard)
 -- throws away everything before startpositon and after endposition in tracks defined in trackstring.
 -- keeps only, what is inside selection
 -- returns: 
@@ -23883,6 +23889,7 @@ function ultraschall.SectionCut_Inverse(startposition, endposition, trackstring)
   if type(endposition)~="number" then ultraschall.AddErrorMessage("SectionCut_Inverse", "endposition", "must be a number", -2) return -1 end
   if endposition<startposition then ultraschall.AddErrorMessage("SectionCut_Inverse", "endposition", "must be bigger than startposition", -3)  return -1 end
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("SectionCut_Inverse", "trackstring", "must be a valid trackstring", -4)  return -1 end
+  if type(add_to_clipboard)~="boolean" then ultraschall.AddErrorMessage("SectionCut_Inverse", "add_to_clipboard", "must be a boolean", -5) return -1 end  
   
   -- remove duplicate tracks from trackstring
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
@@ -23891,21 +23898,70 @@ function ultraschall.SectionCut_Inverse(startposition, endposition, trackstring)
   -- do the splitting, selection of all mediaitems before first and after last split and delete them
   local A,AA=ultraschall.SplitMediaItems_Position(startposition,trackstring, false)
   local B,BB=ultraschall.SplitMediaItems_Position(endposition,trackstring,false) -- Buggy: needs to take care of autocrossfade!!
-  C,CC,CCC=ultraschall.GetAllMediaItemsBetween(0,startposition,trackstring,true)
-  C2,CC2,CCC2=ultraschall.GetAllMediaItemsBetween(endposition,reaper.GetProjectLength(),trackstring,true)
-  D=ultraschall.DeleteMediaItemsFromArray(CC)
-  D2=ultraschall.DeleteMediaItemsFromArray(CC2)
+  local C,CC,CCC=ultraschall.GetAllMediaItemsBetween(0,startposition,trackstring,true)
+  local C2,CC2,CCC2=ultraschall.GetAllMediaItemsBetween(endposition,reaper.GetProjectLength(),trackstring,true)
+  
+  -- put the items into the clipboard  
+  
+  if add_to_clipboard==true then 
+    local COMBIC, COMBIC2=ultraschall.ConcatIntegerIndexedTables(CC, CC2)
+    ultraschall.PutMediaItemsToClipboard_MediaItemArray(COMBIC2) 
+  end
+  
+  local D=ultraschall.DeleteMediaItemsFromArray(CC)
+  local D2=ultraschall.DeleteMediaItemsFromArray(CC2)
   
   -- return removed items
   return C,CCC,C2,CCC2
 end
 
---A,AA,AAA,AAAA=ultraschall.SectionCut_Inverse(5,10,"1")
+--A,AA,AAA,AAAA=ultraschall.SectionCut_Inverse(2,4,"1",true)
 --C,CC,CCC=ultraschall.GetAllMediaItemsBetween(0,5,"1",false)
 --D=ultraschall.DeleteMediaItemsFromArray(CC)
 --reaper.UpdateArrange()
+function ultraschall.PutMediaItemsToClipboard_MediaItemArray(MediaItemArray)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>PutMediaItemsToClipboard_MediaItemArray</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.PutMediaItemsToClipboard_MediaItemArray(MediaItemArray MediaItemArray)</functioncall>
+  <description>
+    Puts the items in MediaItemArray into the clipboard.
+    
+    Returns false in case of an error
+  </description>
+  <parameters>
+    MediaItemArray MediaItemArray - an array with all MediaItems, that shall be put into the clipboard
+  </parameters>
+  <retvals>
+    boolean retval - true, if successful; false, if not
+  </retvals>
+  <chapter_context>
+    Clipboard Functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitem, put, clipboard, set</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("PutMediaItemsToClipboard_MediaItemArray", "MediaItemArray", "must be a valid MediaItemArray", -1) return false end
+  reaper.PreventUIRefresh(1)
+  local count, MediaItemArray_selected = ultraschall.GetAllSelectedMediaItems() -- get old selection
+  reaper.SelectAllMediaItems(0, false) -- deselect all MediaItems
+  local retval = ultraschall.SelectMediaItems_MediaItemArray(MediaItemArray) -- select to-be-cut-MediaItems
+  reaper.Main_OnCommand(40057,0) -- copy them into clipboard
+  reaper.SelectAllMediaItems(0, false) -- deselect all MediaItems
+  local retval = ultraschall.SelectMediaItems_MediaItemArray(MediaItemArray_selected) -- select formerly selected MediaItems
+  reaper.PreventUIRefresh(-1)
+  reaper.UpdateArrange()
+  return true
+end
 
-function ultraschall.RippleCut(startposition, endposition, trackstring, movemarkers, moveenvelopepoints)
+function ultraschall.RippleCut(startposition, endposition, trackstring, moveenvelopepoints, add_to_clipboard)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RippleCut</slug>
@@ -23914,7 +23970,7 @@ function ultraschall.RippleCut(startposition, endposition, trackstring, movemark
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer number_items, array MediaItemArray_StateChunk = ultraschall.RippleCut(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)</functioncall>
+  <functioncall>integer number_items, array MediaItemArray_StateChunk = ultraschall.RippleCut(number startposition, number endposition, string trackstring, boolean moveenvelopepoints, boolean add_to_clipboard)</functioncall>
   <description>
     Cuts out all items between startposition and endposition in the tracks given by trackstring. After cut, it moves the remaining items after(!) endposition toward projectstart, by the difference between start and endposition.
     
@@ -23925,8 +23981,8 @@ function ultraschall.RippleCut(startposition, endposition, trackstring, movemark
     number startposition - the startposition of the section in seconds
     number endposition - the endposition of the section in seconds
     string trackstring - the tracknumbers, separated by ,
-    boolean movemarkers - moves markers/regions as well
     boolean moveenvelopepoints - moves envelopepoints, if existing, as well
+    boolean add_to_clipboard - true, puts the cut items into the clipboard; false, don't put into the clipboard
   </parameters>
   <retvals>
     integer number_items - the number of cut items
@@ -23938,7 +23994,7 @@ function ultraschall.RippleCut(startposition, endposition, trackstring, movemark
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, edit, ripple</tags>
+  <tags>mediaitemmanagement, tracks, media, item, edit, ripple, clipboard</tags>
 </US_DocBloc>
 ]]
   --trackstring=ultraschall.CreateTrackString(1,reaper.CountTracks(),1)
@@ -23947,7 +24003,7 @@ function ultraschall.RippleCut(startposition, endposition, trackstring, movemark
   if type(startposition)~="number" then ultraschall.AddErrorMessage("RippleCut", "startposition", "must be a number", -1) return -1 end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("RippleCut", "endposition", "must be a number", -2) return -1 end
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("RippleCut", "trackstring", "must be a valid trackstring", -3) return -1 end
-  if type(movemarkers)~="boolean" then ultraschall.AddErrorMessage("RippleCut", "movemarkers", "must be a boolean", -4) return -1 end
+  if type(add_to_clipboard)~="boolean" then ultraschall.AddErrorMessage("RippleCut", "add_to_clipboard", "must be a boolean", -4) return -1 end  
   if type(moveenvelopepoints)~="boolean" then ultraschall.AddErrorMessage("RippleCut", "moveenvelopepoints", "must be a boolean", -5) return -1 end
 
   local L,trackstring,A2,A3=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
@@ -23956,6 +24012,10 @@ function ultraschall.RippleCut(startposition, endposition, trackstring, movemark
   local A,AA=ultraschall.SplitMediaItems_Position(startposition,trackstring,false)
   local B,BB=ultraschall.SplitMediaItems_Position(endposition,trackstring,false)
   local C,CC,CCC=ultraschall.GetAllMediaItemsBetween(startposition,endposition,trackstring,true)
+    
+  -- put the items into the clipboard  
+  if add_to_clipboard==true then ultraschall.PutMediaItemsToClipboard_MediaItemArray(CC) end
+  
   local D=ultraschall.DeleteMediaItemsFromArray(CC) 
   if moveenvelopepoints==true then
     local CountTracks=reaper.CountTracks()
@@ -23979,7 +24039,7 @@ end
 --A,B=ultraschall.RippleCut(1,2,"1,2,3",true,true)
 
 
-function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, movemarkers, moveenvelopepoints)
+function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, moveenvelopepoints, add_to_clipboard)
   --trackstring=ultraschall.CreateTrackString(1,reaper.CountTracks(),1)
   --returns the number of deleted items as well as a table with the ItemStateChunks of all deleted Items  
 --[[
@@ -23990,7 +24050,7 @@ function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, 
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer number_items, array MediaItemArray_StateChunk = ultraschall.RippleCut_Reverse(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)</functioncall>
+  <functioncall>integer number_items, array MediaItemArray_StateChunk = ultraschall.RippleCut_Reverse(number startposition, number endposition, string trackstring, boolean moveenvelopepoints, boolean add_to_clipboard)</functioncall>
   <description>
     Cuts out all items between startposition and endposition in the tracks given by trackstring. After cut, it moves the remaining items before(!) startposition toward projectend, by the difference between start and endposition.
     
@@ -24001,8 +24061,8 @@ function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, 
     number startposition - the startposition of the section in seconds
     number endposition - the endposition of the section in seconds
     string trackstring - the tracknumbers, separated by ,
-    boolean movemarkers - moves markers/regions as well
     boolean moveenvelopepoints - moves envelopepoints, if existing, as well
+    boolean add_to_clipboard - true, puts the cut items into the clipboard; false, don't put into the clipboard
   </parameters>
   <retvals>
     integer number_items - the number of cut items
@@ -24014,14 +24074,14 @@ function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, 
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>mediaitemmanagement, tracks, media, item, edit, ripple, reverse</tags>
+  <tags>mediaitemmanagement, tracks, media, item, edit, ripple, reverse, clipboard</tags>
 </US_DocBloc>
 ]]
 
   if type(startposition)~="number" then ultraschall.AddErrorMessage("RippleCut_Reverse", "startposition", "must be a number", -1) return -1 end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("RippleCut_Reverse", "endposition", "must be a number", -2) return -1 end
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("RippleCut_Reverse", "trackstring", "must be a valid trackstring", -3) return -1 end
-  if type(movemarkers)~="boolean" then ultraschall.AddErrorMessage("RippleCut_Reverse", "movemarkers", "must be a boolean", -4) return -1 end
+  if type(add_to_clipboard)~="boolean" then ultraschall.AddErrorMessage("RippleCut_Reverse", "add_to_clipboard", "must be a boolean", -4) return -1 end
   if type(moveenvelopepoints)~="boolean" then ultraschall.AddErrorMessage("RippleCut_Reverse", "moveenvelopepoints", "must be a boolean", -5) return -1 end
   
   local L,trackstring,A2,A3=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
@@ -24030,6 +24090,10 @@ function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, 
   local A,AA=ultraschall.SplitMediaItems_Position(startposition,trackstring,false)
   local B,BB=ultraschall.SplitMediaItems_Position(endposition,trackstring,false)
   local C,CC,CCC=ultraschall.GetAllMediaItemsBetween(startposition,endposition,trackstring,true)
+
+  -- put the items into the clipboard  
+  if add_to_clipboard==true then ultraschall.PutMediaItemsToClipboard_MediaItemArray(CC) end
+
   local D=ultraschall.DeleteMediaItemsFromArray(CC) 
   if moveenvelopepoints==true then
     local CountTracks=reaper.CountTracks()
@@ -36849,9 +36913,9 @@ function ultraschall.ApplyActionToMediaItem(MediaItem, actioncommandid, repeat_a
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ApplyActionToMediaItem(MediaItem MediaItem, string actioncommandid, integer repeat_action, boolean midi, optional HWND MIDI_hwnd)</functioncall>
-  <description>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Applies an action to a MediaItem, in either main or MIDI-Editor section-context.
-    The action given must support applying itself to selected items.
+    The action given must support applying itself to selected items.    
     
     Returns false in case of an error
   </description>
@@ -37044,9 +37108,11 @@ function ultraschall.ApplyActionToMediaItemArray(MediaItemArray, actioncommandid
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ApplyActionToMediaItemArray(MediaItemArray MediaItemArray, string actioncommandid, integer repeat_action, boolean midi, optional HWND MIDI_hwnd)</functioncall>
-  <description>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Applies an action to the MediaItems in MediaItemArray, in either main or MIDI-Editor section-context
     The action given must support applying itself to selected items.
+    
+    This function applies the action to each MediaItem individually. To apply the action to all MediaItems in MediaItemArray at once, see <a href="#ApplyActionToMediaItemArray2">ApplyActionToMediaItemArray2</a>.
     
     Returns false in case of an error
   </description>
@@ -38556,7 +38622,7 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
   <slug>RenderProject_RenderCFG</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.963
+    Reaper=5.96
     Lua=5.3
   </requires>
   <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg)</functioncall>
@@ -39372,7 +39438,7 @@ function ultraschall.RenderProjectRegions_RenderCFG(projectfilename_with_path, r
   <slug>RenderProjectRegions_RenderCFG</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.95
+    Reaper=5.96
     Lua=5.3
   </requires>
   <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProjectRegions_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg)</functioncall>
@@ -45673,6 +45739,144 @@ end
 --L=reaper.IsProjectDirty(0)
 
 --outputchannel, post_pre_fader, volume, pan, mute, phase, source, unknown, automationmode = ultraschall.GetTrackHWOut(0, 1)
+
+--count, MediaItemArray_selected = ultraschall.GetAllSelectedMediaItems() -- get old selection
+--A=ultraschall.PutMediaItemsToClipboard_MediaItemArray(MediaItemArray_selected)
+
+function ultraschall.ApplyActionToMediaItemArray2(MediaItemArray, actioncommandid, repeat_action, midi, MIDI_hwnd)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ApplyActionToMediaItemArray2</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ApplyActionToMediaItemArray2(MediaItemArray MediaItemArray, string actioncommandid, integer repeat_action, boolean midi, optional HWND MIDI_hwnd)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Applies an action to the MediaItems in MediaItemArray, in either main or MIDI-Editor section-context
+    The action given must support applying itself to selected items.
+    
+    This function applies the action to all MediaItems at once. To apply the action to each MediaItem in MediaItemArray individually, see <a href="#ApplyActionToMediaItemArray">ApplyActionToMediaItemArray</a>
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if running the action was successful; false, if not or an error occured
+  </retvals>
+  <parameters>
+    MediaItemArray MediaItemArray - an array with all MediaItems, to whom the action shall be applied to
+    string actioncommandid - the commandid-number or ActionCommandID, that shall be run.
+    integer repeat_action - the number of times this action shall be applied to each item; minimum value is 1
+    boolean midi - true, run an action from MIDI-Editor-section-context; false, run an action from the main section
+    optional HWND MIDI_hwnd - the HWND-handle of the MIDI-Editor, to which a MIDI-action shall be applied to; nil, to use the currently selected one
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitemmanagement, run, action, midi, main, midieditor, item, mediaitemarray</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("ApplyActionToMediaItemArray2","MediaItemArray", "No valid MediaItemArray!", -1) return false end
+  if ultraschall.CheckActionCommandIDFormat2(actioncommandid)==false then ultraschall.AddErrorMessage("ApplyActionToMediaItemArray2","actioncommandid", "No such action registered!", -2) return false end
+  if type(midi)~="boolean" then ultraschall.AddErrorMessage("ApplyActionToMediaItemArray2","midi", "Must be boolean!", -3) return false end
+  if math.type(repeat_action)~="integer" then ultraschall.AddErrorMessage("ApplyActionToMediaItemArray2","repeat_action", "Must be an integer!", -4) return false end
+  if repeat_action<1 then ultraschall.AddErrorMessage("ApplyActionToMediaItemArray2","repeat_action", "Must be bigger than 0!", -5) return false end
+  
+  reaper.PreventUIRefresh(1)
+  local count, MediaItemArray_selected = ultraschall.GetAllSelectedMediaItems() -- get old selection
+  reaper.SelectAllMediaItems(0, false) -- deselect all MediaItems
+  local retval = ultraschall.SelectMediaItems_MediaItemArray(MediaItemArray) -- select to-be-processed-MediaItems
+  for i=1, repeat_action do
+    ultraschall.RunCommand(actioncommandid,0) -- apply the action
+  end
+  reaper.SelectAllMediaItems(0, false) -- deselect all MediaItems
+  local retval = ultraschall.SelectMediaItems_MediaItemArray(MediaItemArray_selected) -- select the MediaItems formerly selected
+  reaper.PreventUIRefresh(-1)
+  reaper.UpdateArrange()
+  return true
+end
+
+-- count, MediaItemArray_selected = ultraschall.GetAllSelectedMediaItems()
+
+-- ultraschall.ApplyActionToMediaItemArray2(MediaItemArray_selected, 41925, 100, false)
+
+function ultraschall.MoveTimeSigMarkersBy(startposition, endposition, newposition, update_timeline)
+-- Buggy! mixes up order of the markers, during changing the position of a marker
+--        would need a unique identifier for timesig-markers to deal with that. Or a clever solution.
+--        The most brutal would be: Get them all as array, change the array, delete them all and readd them from the array
+  local integer = reaper.CountTempoTimeSigMarkers(0)
+  for i=integer, 0, -1 do
+    local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
+    if timepos>=startposition and timepos<=endposition then
+      reaper.SetTempoTimeSigMarker(0, i, timepos+newposition, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo)
+    end
+  end
+  if update_timeline==true then reaper.UpdateTimeline() end
+end
+
+--ultraschall.MoveTimeSigMarkersBy(2, 5, 10, true)
+
+function ultraschall.MoveTimeSigMarkersTo(startposition, endposition, newposition, update_timeline)
+-- Buggy! mixes up order of the markers, during changing the position of a marker
+--        would need a unique identifier for timesig-markers to deal with that. Or a clever solution.
+--        The most brutal would be: Get them all as array, change the array, delete them all and readd them from the array
+  integer = reaper.CountTempoTimeSigMarkers(0)
+  local timepos_offset, retval
+  
+  for i=0, integer do
+    retval, timepos_offset = reaper.GetTempoTimeSigMarker(0, i)
+    if timepos_offset>=startposition and timepos_offset<=endposition then break end
+  end
+  
+  projectendposition=reaper.GetProjectLength()+newposition
+  projectendposition2=reaper.GetProjectLength()+newposition+endposition
+  
+--  if ol==nil then return end
+  i=0
+  while i<=integer do
+    local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
+    if timepos>=startposition and timepos<=endposition then
+      reaper.SetTempoTimeSigMarker(0, i, timepos-timepos_offset+newposition+projectendposition, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo)
+      i=i-1
+      integer=integer-1
+      reaper.MB(projectendposition+endposition+newposition,timepos-timepos_offset+newposition+projectendposition,0)
+    end
+    i=i+1
+  end
+
+  for i=integer, reaper.CountTempoTimeSigMarkers() do
+    local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
+--    if timepos>=projectendposition and timepos<=projectendposition+endposition+newposition then
+--      reaper.SetTempoTimeSigMarker(0, i, timepos-projectendposition2, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo)
+      reaper.MB(projectendposition,timepos,1)
+--    end
+  end
+  
+  if update_timeline==true then reaper.UpdateTimeline() end
+end
+
+--ultraschall.MoveTimeSigMarkersTo(1, 5, 6, true)
+
+function ultraschall.GetAllTimeSigMarkers()
+  local markerarray={}
+  for i=0, reaper.CountTempoTimeSigMarkers(0) do
+    markerarray[i+1] = {reaper.GetTempoTimeSigMarker(0, i)}
+  end
+  return reaper.CountTempoTimeSigMarkers(0), markerarray
+end
+
+--retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo
+--A,B=ultraschall.GetAllTimeSigMarkers()
+
+--A,AA,AAA,AAAA=ultraschall.SectionCut_Inverse(2,4,"1",true)
+--ultraschall.SectionCut(2, 4, "1", true)
+
+--ultraschall.RippleCut_Reverse(2, 4, "1", false, true)
 
 ultraschall.ShowLastErrorMessage()
 

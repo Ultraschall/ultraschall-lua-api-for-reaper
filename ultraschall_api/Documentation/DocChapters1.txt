@@ -8,8 +8,8 @@
     extstate-files
     itemextstates
     trackextstates
-- Data Manipulation:
-- Clipboard-Management:
 - Helper functions:
+    Clipboard-Management
+    Data Manipulation:
     Lua-helper-functions
     UndoManagement:  

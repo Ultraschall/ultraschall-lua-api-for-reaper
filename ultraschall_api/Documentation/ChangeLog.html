@@ -361,7 +361,9 @@ Ultraschall API Changelog
 <li>Docs: Trackstate Management: Introduction - added chapter to Introduction/Concepts-page</li>
 <li>Routing: Introduction - added chapter to Introduction/Concepts-page</li>
 <li>Routing: Send and Receives - added chapter to Introduction/Concepts-page</li>
-<li><p>Routing: Hardware Outs - added chapter to Introduction/Concepts-page</p></li>
+<li>Routing: Hardware Outs - added chapter to Introduction/Concepts-page</li>
+<li>ApplyActionToMediaItemArray2 - applies an action to multiple items at once, unlike ApplyActionToMediaItemArray(which applies the action to each item individually)</li>
+<li><p>PutMediaItemsToClipboard_MediaItemArray - puts all MediaItems from MediaItemArray into the clipboard</p></li>
 </ul>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
 <ul>
@@ -727,6 +729,10 @@ Ultraschall API Changelog
 <li>ReadBinaryFile - removed, due being a duplication of ReadFullFile</li>
 <li>ReadFileAsLines_Array - corrected docs</li>
 <li>CreateTrackString_AllTracks - renamed from CreateAllTracksTrackString to be more in line with other CreateTrackString-functions</li>
+<li>RippleCut - removed the move_markers parameter; added add_to_clipboard parameters, which puts the cut-items to the clipboard</li>
+<li>RippleCut_Reverse - removed the move_markers parameter; added add_to_clipboard parameters, which puts the cut-items to the clipboard</li>
+<li>SectionCut - removed the move_markers parameter; added add_to_clipboard parameters, which puts the cut-items to the clipboard</li>
+<li>SectionCut_Inverse - removed the move_markers parameter; added add_to_clipboard parameters, which puts the cut-items to the clipboard</li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>
