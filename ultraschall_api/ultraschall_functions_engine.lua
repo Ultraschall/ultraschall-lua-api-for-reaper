@@ -23859,7 +23859,7 @@ function ultraschall.SectionCut_Inverse(startposition, endposition, trackstring,
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer number_items_beforestart, array MediaItemArray_StateChunk_beforestart, integer number_items_afterend, array MediaItemArray_StateChunk_afterend = ultraschall.SectionCut_Inverse(number startposition, number endposition, string trackstring)</functioncall>
+  <functioncall>integer number_items_beforestart, array MediaItemArray_StateChunk_beforestart, integer number_items_afterend, array MediaItemArray_StateChunk_afterend = ultraschall.SectionCut_Inverse(number startposition, number endposition, string trackstring, boolean add_to_clipboard)</functioncall>
   <description>
     Cuts out all items before(!) startposition and after(!) endposition in the tracks given by trackstring; it keeps all items inbetween startposition and endposition.
     
@@ -23870,6 +23870,7 @@ function ultraschall.SectionCut_Inverse(startposition, endposition, trackstring,
     number startposition - the startposition of the section in seconds
     number endposition - the endposition of the section in seconds
     string trackstring - the tracknumbers, separated by ,
+    boolean add_to_clipboard - true, puts the cut items into the clipboard; false, don't put into the clipboard
   </parameters>
   <retvals>
     integer number_items_beforestart - the number of cut items before startposition
@@ -30703,7 +30704,7 @@ function ultraschall.GetEnvelopePointIDX_Between(Tracknumber, EnvelopeName, star
   </requires>
   <functioncall>string EnvelopeString, array EnvelopePointArray = ultraschall.GetEnvelopePointIDX_Between(integer Tracknumber, string EnvelopeName, number startposition, number endposition)</functioncall>
   <description>
-    Returns a string and an EnvelopePointObjectArray with all idx/EnvelopePointObjects of all envelopepoints between startposition and endposition in the EnvelopeName-lane.
+    Returns a string and an EnvelopePointArray with all idx/EnvelopePointObjects of all envelopepoints between startposition and endposition in the EnvelopeName-lane.
     returns -1 in case of error
   </description>
   <parameters>

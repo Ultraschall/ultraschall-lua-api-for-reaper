@@ -281,6 +281,7 @@
                   like: parent TrackEnvelope-object, envelope-idx, time, value, shape, tension, selected, dBValue converted from value
                - [EnvelopePointArray](#Datatypes_006_EnvelopePointArray) - it's a table with multiple EnvelopePointObjects in it, indexed by an integer
                - [ColorTable][#Datatypes_007_ColorTable) - it's a table that holds multiple color-values; for i.e. gradients
+               
                     
             These Ultraschall-API-specific datatypes are described in more detail in the following chapters.
         </description>
@@ -1356,22 +1357,24 @@
             
             **[RippleCut](usdocml://RippleCut)**:
                 
-                            integer number_items, array MediaItemArray_StateChunk = 
-                                ultraschall.RippleCut(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)
+                            integer number_items, array MediaItemArray_StateChunk 
+                                 = ultraschall.RippleCut(number startposition, number endposition, string trackstring, boolean moveenvelopepoints, boolean add_to_clipboard)
                 
-            >With this function, you can RippleCut between startposition, endposition within the tracks as given in trackstring. You can also decide, whether to move the markers and the envelope-points as well.  
+            >With this function, you can RippleCut between startposition, endposition within the tracks as given in trackstring. You can also decide, whether to move the envelope-points as well.  
+            >You can also decide, whether the cut items shall be put into the clipboard as well.
             >This should give you total control in how RippleCut is behaving for your needs.  
             >Let's take an example. If you want to cut between seconds 20 and 50 in track 1,4,5,7, not moving the markers but the envelope-points, you type in this
             >Example:
                 
-                            number_items, MediaItemArray_StateChunk = ultraschall.RippleCut(20, 50, "1,4,5,7", false, true)
+                            number_items, MediaItemArray_StateChunk = ultraschall.RippleCut(20, 50, "1,4,5,7", true, true)
                 
             >This cuts out the section between seconds 20 and 50 and moves everything after that toward the beginning of the project, to fill the gap of the cut section.
+            >It also puts the cut items into the clipboard.
             
             **[RippleCut\_Reverse](usdocml://RippleCut_Reverse)**:
             
                             integer number_items, array MediaItemArray_StateChunk = 
-                               ultraschall.RippleCut_Reverse(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)
+                                 ultraschall.RippleCut_Reverse(number startposition, number endposition, string trackstring, boolean moveenvelopepoints, boolean add_to_clipboard)
                 
             >With this function, you can RippleCut, but unlike RippleCut above, RippleCut_Reverse moves everything BEFORE the cut towards the end to fill the cut.  
             >Everything else is just the same as RippleCut.
@@ -1396,25 +1399,28 @@
             
             **[SectionCut](usdocml://SectionCut)**:
             
-                            integer number_items, array MediaItemArray_StateChunk = ultraschall.SectionCut(number startposition, number endposition, string trackstring)
+                            integer number_items, array MediaItemArray_StateChunk = 
+                                              ultraschall.SectionCut(number startposition, number endposition, string trackstring, boolean add_to_clipboard)
                 
             >This function just cuts out the section between start and endposition in the tracks, given in trackstring, leaving a "gap" in it. Useful, when you don't want to ripple stuff.  
+            >You can also decide, whether to put the cut items into the clipboard.
             >If you want to cut between seconds 77 and 99 in tracks 1,2,4,6 do it like in this
             >Example:
             
-                            number_items, MediaItemArray_StateChunk = ultraschall.SectionCut(77, 99, "1,2,4,6")
+                            number_items, MediaItemArray_StateChunk = ultraschall.SectionCut(77, 99, "1,2,4,6", false)
                 
             **[SectionCut_Inverse](usdocml://SectionCut_Inverse)**:
             
-                            integer number_items_beforestart, array MediaItemArray_StateChunk_beforestart, integer number_items_afterend, array MediaItemArray_StateChunk_afterend = 
-                                        ultraschall.SectionCut_Inverse(number startposition, number endposition, string trackstring)
+                            integer number_items_beforestart, array MediaItemArray_StateChunk_beforestart, 
+                            integer number_items_afterend, array MediaItemArray_StateChunk_afterend 
+                                                   = ultraschall.SectionCut_Inverse(number startposition, number endposition, string trackstring, boolean add_to_clipboard)
             
             >This function cuts everything BEFORE AND AFTER start and endposition within the tracks given by trackstring. This is comparable to crop-functionality in graphic-applications like Photoshop, applied to MediaItems.  
             >If you have a 10 minute project, but want to use only the audio from seconds 60 to 89 in tracks 1,2,7,8 you type in this
             >Example:
 
                             number_items_beforestart, MediaItemArray_StateChunk_beforestart, number_items_afterend, MediaItemArray_StateChunk_afterend = 
-                                                                                                            ultraschall.SectionCut_Inverse(60, 89, "1,2,7,8")
+                                                                                                            ultraschall.SectionCut_Inverse(60, 89, "1,2,7,8", false)
                 
              >With that, everything before second 60 and everything after second 89 in tracks 1,2,7,8 will be deleted.  
              >In addition to that, the function returns a MediaItemStateChunkArray for both, the items cut before startposition and one for the items cut after endposition.  

@@ -39,7 +39,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 22734</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 22740</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -839,20 +839,20 @@ With naked Reaper, yes. But possible with the Ultraschall-API.</p>
 <p>For that I added the following functions: <a href="US_Api_Functions.html#RippleCut">RippleCut</a>, <a href="US_Api_Functions.html#RippleCut_Reverse">RippleCut_Reverse</a>, <a href="US_Api_Functions.html#RippleInsert">RippleInsert</a>, <a href="US_Api_Functions.html#SectionCut">SectionCut</a>, <a href="US_Api_Functions.html#SectionCut_Inverse">SectionCut_Inverse</a><br />
 All these functions return a MediaItemStateChunkArray, where every StateChunk includes an additional entry &quot;ULTRASCHALL_TRACKNUMBER&quot;, which holds the tracknumber, in which the cut MediaItem/piece of a MediaItem was originally located.</p>
 <p><strong><a href="US_Api_Functions.html#RippleCut">RippleCut</a></strong>:</p>
-<pre><code>            integer number_items, array MediaItemArray_StateChunk = 
-                ultraschall.RippleCut(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)</code></pre>
+<pre><code>            integer number_items, array MediaItemArray_StateChunk 
+                 = ultraschall.RippleCut(number startposition, number endposition, string trackstring, boolean moveenvelopepoints, boolean add_to_clipboard)</code></pre>
 <blockquote>
-<p>With this function, you can RippleCut between startposition, endposition within the tracks as given in trackstring. You can also decide, whether to move the markers and the envelope-points as well.<br />
-This should give you total control in how RippleCut is behaving for your needs.<br />
+<p>With this function, you can RippleCut between startposition, endposition within the tracks as given in trackstring. You can also decide, whether to move the envelope-points as well.<br />
+You can also decide, whether the cut items shall be put into the clipboard as well. This should give you total control in how RippleCut is behaving for your needs.<br />
 Let's take an example. If you want to cut between seconds 20 and 50 in track 1,4,5,7, not moving the markers but the envelope-points, you type in this Example:</p>
 </blockquote>
-<pre><code>            number_items, MediaItemArray_StateChunk = ultraschall.RippleCut(20, 50, &quot;1,4,5,7&quot;, false, true)</code></pre>
+<pre><code>            number_items, MediaItemArray_StateChunk = ultraschall.RippleCut(20, 50, &quot;1,4,5,7&quot;, true, true)</code></pre>
 <blockquote>
-<p>This cuts out the section between seconds 20 and 50 and moves everything after that toward the beginning of the project, to fill the gap of the cut section.</p>
+<p>This cuts out the section between seconds 20 and 50 and moves everything after that toward the beginning of the project, to fill the gap of the cut section. It also puts the cut items into the clipboard.</p>
 </blockquote>
 <p><strong><a href="US_Api_Functions.html#RippleCut_Reverse">RippleCut_Reverse</a></strong>:</p>
 <pre><code>            integer number_items, array MediaItemArray_StateChunk = 
-               ultraschall.RippleCut_Reverse(number startposition, number endposition, string trackstring, boolean movemarkers, boolean moveenvelopepoints)</code></pre>
+                 ultraschall.RippleCut_Reverse(number startposition, number endposition, string trackstring, boolean moveenvelopepoints, boolean add_to_clipboard)</code></pre>
 <blockquote>
 <p>With this function, you can RippleCut, but unlike RippleCut above, RippleCut_Reverse moves everything BEFORE the cut towards the end to fill the cut.<br />
 Everything else is just the same as RippleCut.</p>
@@ -874,21 +874,23 @@ Example:</p>
 Markers and Envelopepoints will not move in this example.</p>
 </blockquote>
 <p><strong><a href="US_Api_Functions.html#SectionCut">SectionCut</a></strong>:</p>
-<pre><code>            integer number_items, array MediaItemArray_StateChunk = ultraschall.SectionCut(number startposition, number endposition, string trackstring)</code></pre>
+<pre><code>            integer number_items, array MediaItemArray_StateChunk = 
+                              ultraschall.SectionCut(number startposition, number endposition, string trackstring, boolean add_to_clipboard)</code></pre>
 <blockquote>
 <p>This function just cuts out the section between start and endposition in the tracks, given in trackstring, leaving a &quot;gap&quot; in it. Useful, when you don't want to ripple stuff.<br />
-If you want to cut between seconds 77 and 99 in tracks 1,2,4,6 do it like in this Example:</p>
+You can also decide, whether to put the cut items into the clipboard. If you want to cut between seconds 77 and 99 in tracks 1,2,4,6 do it like in this Example:</p>
 </blockquote>
-<pre><code>            number_items, MediaItemArray_StateChunk = ultraschall.SectionCut(77, 99, &quot;1,2,4,6&quot;)</code></pre>
+<pre><code>            number_items, MediaItemArray_StateChunk = ultraschall.SectionCut(77, 99, &quot;1,2,4,6&quot;, false)</code></pre>
 <p><strong><a href="US_Api_Functions.html#SectionCut_Inverse">SectionCut_Inverse</a></strong>:</p>
-<pre><code>            integer number_items_beforestart, array MediaItemArray_StateChunk_beforestart, integer number_items_afterend, array MediaItemArray_StateChunk_afterend = 
-                        ultraschall.SectionCut_Inverse(number startposition, number endposition, string trackstring)</code></pre>
+<pre><code>            integer number_items_beforestart, array MediaItemArray_StateChunk_beforestart, 
+            integer number_items_afterend, array MediaItemArray_StateChunk_afterend 
+                                   = ultraschall.SectionCut_Inverse(number startposition, number endposition, string trackstring, boolean add_to_clipboard)</code></pre>
 <blockquote>
 <p>This function cuts everything BEFORE AND AFTER start and endposition within the tracks given by trackstring. This is comparable to crop-functionality in graphic-applications like Photoshop, applied to MediaItems.<br />
 If you have a 10 minute project, but want to use only the audio from seconds 60 to 89 in tracks 1,2,7,8 you type in this Example:</p>
 </blockquote>
 <pre><code>            number_items_beforestart, MediaItemArray_StateChunk_beforestart, number_items_afterend, MediaItemArray_StateChunk_afterend = 
-                                                                                            ultraschall.SectionCut_Inverse(60, 89, &quot;1,2,7,8&quot;)</code></pre>
+                                                                                            ultraschall.SectionCut_Inverse(60, 89, &quot;1,2,7,8&quot;, false)</code></pre>
 <blockquote>
 <p>With that, everything before second 60 and everything after second 89 in tracks 1,2,7,8 will be deleted.<br />
 In addition to that, the function returns a MediaItemStateChunkArray for both, the items cut before startposition and one for the items cut after endposition.</p>
