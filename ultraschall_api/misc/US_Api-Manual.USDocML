@@ -3219,8 +3219,331 @@
             Routing
         </chapter_context>
         <previous_chapter>Routing_002_Send_Receive</previous_chapter>
-        <next_chapter>Clipboard_Management_001_Introduction</next_chapter>
+        <next_chapter>ExtStateManagement_001_Introduction</next_chapter>
         <tags>routing, hwout, count, get, set, delete, master, track</tags>
+    </US_DocBloc>
+
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ExtStateManagement_001_Introduction</slug>
+        <title>ExtState Management: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            One of the concepts of Reaper to exchange data between scripts, functions, instances are so called extstates.  
+            Such extstates are usually key-value-stores, in which you can store strings. They can be stored either as ini-files or in Reaper's memory itself.  
+            
+            In the Ultraschall-API, I added numerous functions to get/set/enumerate values in ini-files as well as analyzing them for certain patterns and information.  
+            You can find all functions related to storing/analyzing ini-files in the index of the functions-reference Configuration-Files Management -> Ini-Files.
+            
+            Another thing I added is extstate-management for tracks and items. That means, you can easily store additional information about MediaItems or MediaTracks in your project, 
+            just like ItemNotes or ProjectNotes, but more flexible.  
+            That way, you can do things like storing additional metadata for items, without having to store them into the item-notes field.  
+            You can find all these functions for item/track-extstates in the functions-reference-index under Metadata Management -> Extension States(Guid) and Extension States
+            
+            Let's go into more detail on these concepts.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            ExtState Management
+        </chapter_context>
+        <previous_chapter>Routing_003_HWOuts</previous_chapter>
+        <next_chapter>ExtStateManagement_002_IniFiles</next_chapter>
+        <tags>extstate management, introduction</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ExtStateManagement_002_IniFiles</slug>
+        <title>ExtState Management: Ini-Files</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Ini-files are an easy way to store information. Many of Reaper's own configuration-files are ini-files.  
+            They all work under the same structural concept:  
+            
+                    [section]
+                    key=value
+                    anotherkey=anothervalue
+                    
+                    [anothersection]
+                    morekeyadditions=with a value
+                    thelaskey=and the last value
+                    
+            As you can see, you have one or more sections in the file, usually written \[sectionname\], with one or more key=values associated with them.  
+
+            Sections are used to create a basic semantical structure in the ini-file.  
+            So if you want to create an ini-file for yourself, a sectionname should reflect a little, what kind of nature the key-values are, that you store in such a section.  
+            The same goes for the keys, but their names should be orientated on the nature of the value stored with this specific key.  
+            
+            Names of sections should be unique within a file. Names of keys should be unique within a section(!), values can be anything.  
+            You should avoid an = in a section name and brackets \[ \] in a keyname, as this could confuse reading of an ini-file.
+            
+            You can create such ini-files by hand and edit them by hand.  
+            
+            These key-value-stores can be read and set using Ultraschall-API-functions.  
+            
+            Note: Reaper's own configuration-files can be changed only, when Reaper isn't running. To be more precise: you can change them, but Reaper will ignore these changes until restart, sometimes even overwrite them.  
+            Changing Reaper's config-files needs a restart of Reaper for the changes to take effect.  
+            Some of the configuration-settings can be set also at runtime, but need another approach, which you can find on the Reaper-Internals-page for [Configuration Variables](Reaper_Config_Variables.html)
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            ExtState Management
+        </chapter_context>
+        <previous_chapter>ExtStateManagement_001_Introduction</previous_chapter>
+        <next_chapter>ExtStateManagement_003_IniFiles_Functions</next_chapter>
+        <tags>extstate management, inifiles</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ExtStateManagement_003_IniFiles_Functions</slug>
+        <title>ExtState Management: Inifile-Functions</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+             Let's start with setting and getting key-values in ini-files.
+             
+             >**[GetIniFileExternalState](usdocml://GetIniFileExternalState)**
+             
+                                    string value = ultraschall.GetIniFileExternalState(string section, string key, string ini_filename_with_path)
+                                    
+             >This gets a value stored in a key within a specific section. Just pass to the function the name of the section, the name of the key and the ini-file, from where to read the value.
+             
+             Setting a key-value is also quite simple. Just use:
+             
+             >**[SetIniFileExternalState](usdocml://SetIniFileExternalState)**
+            
+                                    boolean retval = ultraschall.SetIniFileExternalState(string section, string key, string value, string ini_filename_with_path)
+                                    
+             >This sets a value into a specific key within a specific section. Just pass over sectionname, keyname, the value to be stored(as string!) and the filename with path of the ini-file.  
+             
+             This is easy, but sometimes you have to deal with unknown ini-files or want to search through it for sections, keys and values stored inside of ini-files, without haveing to guess.  
+             For that, I added numerous functions for:  
+              
+              - counting the number of sections/keys/values in an ini-file: [CountIniFileExternalState_key](usdocml://CountIniFileExternalState_key), [CountIniFileExternalState_sec](usdocml://CountIniFileExternalState_sec), [CountKeysByPattern](usdocml://CountKeysByPattern), [CountSectionsByPattern](usdocml://CountSectionsByPattern), [CountValuesByPattern](usdocml://CountValuesByPattern)  
+              - enumerating ini-file-extstates by index-number: [EnumerateIniFileExternalState_key](usdocml://EnumerateIniFileExternalState_key), [EnumerateIniFileExternalState_sec](usdocml://EnumerateIniFileExternalState_sec)  
+              - enumerating ini-file-extstates by pattern: [EnumerateKeysByPattern](usdocml://EnumerateKeysByPattern), [EnumerateSectionsByPattern](usdocml://EnumerateSectionsByPattern), [EnumerateValuesByPattern](usdocml://EnumerateValuesByPattern)  
+
+              **Count Ini-File-ExtStates**
+              >Let's count extstates first. There are two kinds of counting-functions, two for counting sections in the ini-file and two for counting the keys in a specific section.  
+              >They also split into two functions, with one for counting all of them, with the other only counting the ones, that contain a specific string in them, so e.g. you can count the sections with the string ultra in them.  
+              >Let's have a look at some of them:
+              
+              >>**[CountIniFileExternalState_sec](usdocml://CountIniFileExternalState_sec)**
+              
+                                    integer sectioncount = ultraschall.CountIniFileExternalState_sec(string ini_filename_with_path)
+                                    
+              >>This counts all sections contained within the ini-file.
+              
+              >>**[CountSectionsByPattern](usdocml://CountSectionsByPattern)**
+              
+                                    integer number_of_sections, string sectionnames 
+                                                        = ultraschall.CountSectionsByPattern(string pattern, string ini_filename_with_path)
+                                                        
+              >>This counts all sections in the ini-file, that have a specific string in them, specified by the parameter pattern.  
+              >>It also returns a list of all sections with the pattern in them found.
+              
+              >In addition to that, I also added a function, that allows you to count the values within an ini-file including a certain pattern
+              
+              >>**[CountValuesByPattern](usdocml://CountValuesByPattern)**
+              
+                                    integer number_of_keys, string sections_and_keys 
+                                                            = ultraschall.CountValuesByPattern(string pattern, string ini_filename_with_path)
+                                                            
+              >>Pass to it the pattern to look for during counting and the ini-filename with path.  
+              >>It also returns a string with the sections, keys and values found, that fit the pattern.  
+              >>It is a comma-separated string of the format: [section1],key1=,value,key4=,value,[section4],key2=,value 
+              
+              >The other functions work quite the same, but focused on a key within a specific section.
+              
+              **Enumerate Ini-Files by number**
+              >These functions are meant to enumerate within sections and keys.
+              
+              >>**[EnumerateIniFileExternalState_sec](usdocml://EnumerateIniFileExternalState_sec)**
+              
+                                    string sectionname = ultraschall.EnumerateIniFileExternalState_sec(integer number_of_section, string ini_filename_with_path)
+              
+              >>This enumerates the sections within an ini-file. You just pass the index-number to the function into parameter number\_of\_section and the ini-filename with path and it returns the appropriate sectionname.
+              
+              >>**[EnumerateIniFileExternalState_key](usdocml://EnumerateIniFileExternalState_key)**
+              
+                                    string keyname = ultraschall.EnumerateIniFileExternalState_key(string section, integer number, string ini_filename_with_path)
+                                    
+              >>This enumerates the keys within a given section. Just pass over to it the sectionname, the index-number of the key and the ini-filename and it returns the correct name.
+              
+              **Enumerate Ini-Files by pattern**
+              >These functions are meant to to enumerate sections, keys and values in a file, that follow a certain name-pattern.
+              
+              >>**[EnumerateSectionsByPattern](usdocml://EnumerateSectionsByPattern)**
+              
+                                    string sectionname = ultraschall.EnumerateSectionsByPattern(string pattern, integer id, string ini_filename_with_path)
+                                    
+              >>This enumerates the name of a section, that follows a certain pattern. Just pass over to it the string-pattern the name shall contain, the index of the section you want to have returned and the ini-filename.
+              >>Example:
+              
+                                    string sectionname = ultraschall.EnumerateSectionsByPattern("Hawaii", 3, "c:\\test.ini")
+                                    
+              >>This returns from the file c:\test.ini the third section, that contains the string Hawaii in it.
+              
+              >>**[EnumerateKeysByPattern](usdocml://EnumerateKeysByPattern)**
+              
+                                    string keyname = ultraschall.EnumerateKeysByPattern(string pattern, string section, integer id, string ini_filename_with_path)
+                                    
+              >>This enumerates the name of a key within a certain section, that follows a certain pattern. Pass to it the string-pattern, the sectionname, the index of the key you want to have returned and the ini-filename.
+              >>Like with EnumerateSectionsByPattern, you can use the parameter id to determine, that only the id'th key shall be returned, that follows the string-pattern.
+              
+              >>**[EnumerateValuesByPattern](usdocml://EnumerateValuesByPattern)**
+              
+                                    string value, string keyname = ultraschall.EnumerateValuesByPattern(pattern, section, id, ini_filename_with_path)
+              
+              >>Just like EnumerateKeysByPattern, but this enumerates through the values within a given section. It will return the value and it's corresponding keyname found.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            ExtState Management
+        </chapter_context>
+        <previous_chapter>ExtStateManagement_002_IniFiles</previous_chapter>
+        <next_chapter>ExtStateManagement_004_Ultraschall_Ini</next_chapter>
+        <tags>extstate management, inifiles, get, set, enumerate, count, pattern, idx</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ExtStateManagement_004_Ultraschall_Ini</slug>
+        <title>ExtState Management: Ultraschall.ini</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            The Ultraschall-Podcasting-Extension itself makes use of it's own configuration-file, called ultraschall.ini, which is located in the resourcesfolder of Reaper.  
+            This file can be used by you as well, even if it's mainly intended for an installed Ultraschall-installation. The Ultraschall-API has some functions to deal with the ultraschall.ini.  
+            
+            You need to know, however: sectionnames must contain a leading signature, that is used purely by you, like MaxMiller_sectionname.  
+            All signature variants of Ultraschall_ or US_ or ULT_ (no matter if upper/lower/camelcase) as well as sections with no leading signature are reserved for us.  
+            That way, you don't risk naming conflicts with Ultraschall's own config-settings.  
+            This is only for the ultraschall.ini-file, all other ini-files can be used by you the way you want.  
+            
+            The functions themselves basically work, as the functions described in the chapter [ExtStateManagement_003_IniFiles_Functions](ExtStateManagement_003_IniFiles_Functions).
+            
+             - [GetUSExternalState](usdocml://GetUSExternalState) - gets an external state from the ultraschall.ini
+             - [SetUSExternalState](usdocml://SetUSExternalState) - sets an external state to the ultraschall.ini
+             - [CountUSExternalState_key](usdocml://CountUSExternalState_key) - counts the number of keys in the ultraschall.ini
+             - [CountUSExternalState_sec](usdocml://CountUSExternalState_sec) - counts the number of sections in the ultraschall.ini
+             - [EnumerateUSExternalState_key](usdocml://EnumerateUSExternalState_key) - enumerates the keys of a section in the ultraschall.ini
+             - [EnumerateUSExternalState_sec](usdocml://EnumerateUSExternalState_sec) - enumerates the sections of the ultraschall.ini
+
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            ExtState Management
+        </chapter_context>
+        <previous_chapter>ExtStateManagement_003_IniFiles_Functions</previous_chapter>
+        <next_chapter>ExtStateManagement_005_TrackItemExtStates</next_chapter>
+        <tags>extstate management, inifiles, ultraschall.ini</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ExtStateManagement_005_TrackItemExtStates</slug>
+        <title>ExtState Management: Track and Item-Extstates</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Another concept, I introduce with the Ultraschall-API are Track and Item-Extstates.
+            
+            To store them, I make use of the fact, that tracks and items have their own guids. I use these guids as basis for the section-name, while the key and value can be freely chosen by you.  
+            A valid guid is a string that follows the following pattern {........-....-....-....-............} where . is a hexadecimal value(0-F)
+            These extstates are stored as ProjectExtStates, that means: when you save the project, these extstates will be saved with it.  
+            
+            To make this possible in general, I included two functions: [GetGuidExtState](usdocml://GetGuidExtState), [SetGuidExtState](usdocml://SetGuidExtState)  
+            Let's go into more detail:
+            
+            >**[SetGuidExtState](usdocml://SetGuidExtState)**
+            
+                                  integer retval = ultraschall.SetGuidExtState(string guid, string key, string value, integer savelocation, boolean overwrite, boolean persists)
+            
+            >This sets an extstate using a guid. So if you have an object, that provides a guid, use that one. You can add additional characters before or after the guid, but it must contain a valid guid.  
+            >After that, set the key and the value.  
+            >With this function, you can also choose, whether to store the extstate as a global extstate that can be used from everywhere in Reaper or only within the current project.  
+            >You can choose, whether to overwrite it, if it already exists and if the state shall persist after existing Reaper(only when storing it as a global extstate).
+            
+            To get such a stored state, just use:
+            
+            >**[GetGuidExtState](usdocml://GetGuidExtState)**
+            
+                                  integer retval, string value = ultraschall.GetGuidExtState(string guid, string key, integer savelocation)
+                                  
+            >With this one, you can simply get this extstate again. Just pass to it the guid, the key and the savelocation(either global or in the project) and it returns a success-indicator-return value as well as the stored value itself.
+            
+            With these two functions as a base, I made variants for tracks and items.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            ExtState Management
+        </chapter_context>
+        <previous_chapter>ExtStateManagement_004_Ultraschall_Ini</previous_chapter>
+        <next_chapter>ExtStateManagement_006_TrackExtStates</next_chapter>
+        <tags>extstate management, inifiles, trackextstates, itemextstates</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ExtStateManagement_006_TrackExtStates</slug>
+        <title>ExtState Management: Track Extstates</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Let's store some extstates for tracks. For that, I added the functions: [GetTrackExtState](usdocml://GetTrackExtState), [SetTrackExtState](usdocml://SetTrackExtState)  
+            TrackExtStates are stored as ProjectExtState within the projectfile.
+            
+            >**[SetTrackExtState](usdocml://SetTrackExtState)**
+            
+                                  boolean retval = ultraschall.SetTrackExtState(MediaTrack track, string key, string value, boolean overwrite)
+                                  
+            >This sets an extstate to a certain MediaTrack. Just pass to it a MediaTrack-object, a key and the value to store. You can also decide, whether you want to overwrite an already existing trackextstate.
+                                  
+            >**[GetTrackExtState](usdocml://GetTrackExtState)**
+            
+                                  boolean retval, string value = ultraschall.GetTrackExtState(MediaTrack track, string key)
+            
+            >This returns a stored trackextstate. Just pass to it a MediaTrack-object and the key, whose value you want.
+            >It will return if getting the value was successful or not with return-value retval, as well as the value with value.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            ExtState Management
+        </chapter_context>
+        <previous_chapter>ExtStateManagement_005_TrackItemExtStates</previous_chapter>
+        <next_chapter>ExtStateManagement_007_ItemExtStates</next_chapter>
+        <tags>extstate management, inifiles, trackextstates</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ExtStateManagement_007_ItemExtStates</slug>
+        <title>ExtState Management: Item Extstates</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Let's store some extstates for items. For that, I added the functions: [GetItemExtState](usdocml://GetItemExtState), [SetItemExtState](usdocml://SetItemExtState)  
+            ItemExtStates are stored as ProjectExtState within the projectfile.
+            These functions work basically like the ones for TrackExtStates
+            
+            >**[SetItemExtState](usdocml://SetItemExtState)**
+            
+                                  boolean retval = ultraschall.SetItemExtState(MediaItem item, string key, string value, boolean overwrite)
+                                  
+            >This sets an extstate to a certain MediaItem. Just pass to it a MediaItem-object, a key and the value to store. You can also decide, whether you want to overwrite an already existing itemextstate.
+                                  
+            >**[GetItemExtState](usdocml://GetItemExtState)**
+            
+                                  boolean retval, string value = ultraschall.GetItemExtState(MediaItem item, string key)
+            
+            >This returns a stored itemextstate. Just pass to it a MediaItem-object and the key, whose value you want.
+            >It will return if getting the value was successful or not with return-value retval, as well as the value with value.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            ExtState Management
+        </chapter_context>
+        <previous_chapter>ExtStateManagement_006_TrackExtStates</previous_chapter>
+        <next_chapter></next_chapter>
+        <tags>extstate management, inifiles, itemextstates</tags>
     </US_DocBloc>
 </USDocML>
 >**[](usdocml://)**

@@ -2183,13 +2183,14 @@ function ultraschall.GetUSExternalState(section, key)
     SWS=2.8.8
     Lua=5.3
   </requires>
-  <functioncall>integer value_length, string value = ultraschall.GetUSExternalState(string section, string key)</functioncall>
+  <functioncall>string value = ultraschall.GetUSExternalState(string section, string key)</functioncall>
   <description>
-    gets a value from ultraschall.ini. Returns length of value(integer) and the value itself(string).
+    gets a value from ultraschall.ini. 
+    
+    returns an empty string in case of an error
   </description>
   <retvals>
-    integer value_length - the number of characters of the value
-    string value  - the value itself
+    string value  - the value itself; empty string in case of an error or no such extstate
   </retvals>
   <parameters>
     string section - the section of the ultraschall.ini.
@@ -2205,14 +2206,15 @@ function ultraschall.GetUSExternalState(section, key)
 </US_DocBloc>
 --]]
   -- check parameters
-  if type(section)~="string" then ultraschall.AddErrorMessage("GetUSExternalState","section", "only string allowed", -1) return false end
-  if type(key)~="string" then ultraschall.AddErrorMessage("GetUSExternalState","key", "only string allowed", -2) return false end
+  if type(section)~="string" then ultraschall.AddErrorMessage("GetUSExternalState","section", "only string allowed", -1) return "" end
+  if type(key)~="string" then ultraschall.AddErrorMessage("GetUSExternalState","key", "only string allowed", -2) return "" end
  
   -- get value
-  return reaper.BR_Win32_GetPrivateProfileString(section, key, -1, reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")
+  local A, B = reaper.BR_Win32_GetPrivateProfileString(section, key, "", reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")
+  return B
 end
 
---A,AA=ultraschall.GetUSExternalState("tes89to","cafdfaaowbsfijdfdoy bebop2")
+--A,AA=ultraschall.GetUSExternalState("ultraschall_clock","docked")
 
 function ultraschall.CountUSExternalState_sec()
 --count number of sections in the ultraschall.ini
@@ -12307,7 +12309,7 @@ function ultraschall.EnumerateIniFileExternalState_sec(number_of_section, ini_fi
     string sectionname - the name of the numberth section in the ini-file
   </retvals>
   <parameters>
-    integer number_of_section - the section within the ini-filename
+    integer number_of_section - the section within the ini-filename; 1, for the first section
     string ini_filename_with_path - filename of the ini-file
   </parameters>
   <chapter_context>
@@ -12322,10 +12324,10 @@ function ultraschall.EnumerateIniFileExternalState_sec(number_of_section, ini_fi
   if math.type(number_of_section)~="integer" then ultraschall.AddErrorMessage("EnumerateIniFileExternalState_sec", "number_of_section", "Must be an integer.", -1) return nil end
   if type(ini_filename_with_path)~="string" then ultraschall.AddErrorMessage("EnumerateIniFileExternalState_sec", "ini_filename_with_path", "Must be a string.", -2) return nil end
 
-  if reaper.file_exists(ini_filename_with_path)==false  then ultraschall.AddErrorMessage("EnumerateIniFileExternalState_sec", "ini_filename_with_path", "File does not exist.", -3) return nil end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("EnumerateIniFileExternalState_sec", "ini_filename_with_path", "File does not exist.", -3) return nil end
   
-  if number_of_section<=0 then return nil end
-  if number_of_section>ultraschall.CountIniFileExternalState_sec(ini_filename_with_path) then return nil end
+  if number_of_section<=0 then ultraschall.AddErrorMessage("EnumerateIniFileExternalState_sec", "ini_filename_with_path", "No such section.", -4) return nil end
+  if number_of_section>ultraschall.CountIniFileExternalState_sec(ini_filename_with_path) then ultraschall.AddErrorMessage("EnumerateIniFileExternalState_sec", "ini_filename_with_path", "No such section.", -5) return nil end
   
   local count=0
   for line in io.lines(ini_filename_with_path) do
@@ -12335,7 +12337,7 @@ function ultraschall.EnumerateIniFileExternalState_sec(number_of_section, ini_fi
   end
 end
 
---A=ultraschall.EnumerateIniFileExternalState_sec(9,"c:\\test.ini")
+--A=ultraschall.EnumerateIniFileExternalState_sec(0,"c:\\test.ini")
 
 function ultraschall.EnumerateIniFileExternalState_key(section, number, ini_filename_with_path)
 -- returns name of a numberth key within a section in ini_filename_with_path or nil if invalid or not existing
@@ -12359,7 +12361,7 @@ function ultraschall.EnumerateIniFileExternalState_key(section, number, ini_file
   </retvals>
   <parameters>
     string section - the name of the section
-    integer number - the number of the key within a section within the ini-filename
+    integer number - the number of the key within a section within the ini-filename, with 1 for the first key in the section
     string ini_filename_with_path - filename of the ini-file
   </parameters>
   <chapter_context>
@@ -12395,7 +12397,7 @@ function ultraschall.EnumerateIniFileExternalState_key(section, number, ini_file
 end
 
 
---A=ultraschall.EnumerateIniFileExternalState_key("GuiElement_1",2,"c:\\test.ini")
+--A=ultraschall.EnumerateIniFileExternalState_key("GuiElement_1",0,"c:\\test.ini")
 
 function ultraschall.CountSectionsByPattern(pattern, ini_filename_with_path)
 --uses "pattern"-string to determine, how often a section with a certain pattern exists. Good for sections, that have a number in them, like

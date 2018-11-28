@@ -4,10 +4,6 @@
     Export Import
     Move
     Helpers: Renumerate, etc
-- ExtState-Management:
-    extstate-files
-    itemextstates
-    trackextstates
 - Helper functions:
     Clipboard-Management
     Data Manipulation:

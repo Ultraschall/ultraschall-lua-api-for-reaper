@@ -313,7 +313,7 @@ function ultraschall.ConvertMarkdownToHTML(text, version)
 --  L3=string.gsub(L3, "  ", "&nbsp;&nbsp;")
 --  L3=string.gsub(L3, "\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
 --  reaper.MB(L3,"",0)
-  reaper.CF_SetClipboard(L3)
+--  reaper.CF_SetClipboard(L3)
   return L3
 end
 
@@ -721,7 +721,7 @@ function writefile()
 end
 
 function entries()
-for lolo=1, 100 do
+for lolo=1, 50 do
 -- Slug as HTML-Anchor
   FunctionList=FunctionList.."<hr><a id=\""..C[index][1].."\"></a>"
   FunctionList=FunctionList.."\n"
