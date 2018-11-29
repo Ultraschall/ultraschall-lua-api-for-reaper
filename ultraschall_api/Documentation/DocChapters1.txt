@@ -1,9 +1,3 @@
-- Marker:
-    Markertypes(PodRangeRegion, Chapter, Edit, normal)
-    Add, Set, Enumerate, Delete
-    Export Import
-    Move
-    Helpers: Renumerate, etc
 - Helper functions:
     Clipboard-Management
     Data Manipulation:

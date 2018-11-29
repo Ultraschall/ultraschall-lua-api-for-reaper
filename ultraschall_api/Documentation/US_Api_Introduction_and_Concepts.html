@@ -39,7 +39,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 24335</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of December 2018 - Build: 24786</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -113,12 +113,15 @@ Ultraschall API functions
 </tr><tr><td><a href="#ExtStateManagement_005_TrackItemExtStates">ExtState Management: Track and Item-Extstates</a></td>
 <td><a href="#ExtStateManagement_006_TrackExtStates">ExtState Management: Track Extstates</a></td>
 <td><a href="#ExtStateManagement_007_ItemExtStates">ExtState Management: Item Extstates</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Marker Management</b></td></tr><tr><td><a href="#MarkersAndRegions_General_How_To">Markers and Regions: General How To</a></td>
+<td><a href="#MarkersAndRegions_Helpers_and_Manipulation">Markers and Regions: Helpers and Manipulation</a></td>
+<td><a href="#MarkersAndRegions_Introduction">Markers and Regions: Introduction</a></td>
 </tr><p></table><hr><a id="Introduction_001_Api"></a>
 <div style="font-size:100%"><h4><a href="#Introduction_001_Api">^</a> <u>Introduction to the Ultraschall API</u></h4></div><p><p>The Ultraschall-Extension is intended to be an extension for the DAW Reaper, that enhances it with podcast functionalities. Most DAWs are intended to be used by musicians, for music, but podcasters have their own needs to be fulfilled. In fact, in some places their needs differ from the needs of a musician heavily. Ultraschall is intended to optimise the Reaper's workflows, by reworking them with functionalities for the special needs of podcasters.</p>
 <p>The Ultraschall-Framework itself is intended to include a set of Lua-functions, that help creating such functionalities. By giving programmers helper functions to get access to each and every corner of Reaper. That way, extending Ultraschall and Reaper is more comfortable to do.</p>
 <p>This API was to be used within Ultraschall only, but quickly evolved into a huge 700 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:</p>
 <ul>
-<li>Rendering - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want. just create a renderstring and pass it over to <a href="US_Api_Functions.html#RenderProject_RenderCFG">RenderProject_RenderCFG</a> or <a href="US_Api_Functions.html#RenderProjectRegions_RenderCFG">RenderProjectRegions_RenderCFG</a></li>
+<li>Rendering - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want. Just create a renderstring and pass it over to <a href="US_Api_Functions.html#RenderProject_RenderCFG">RenderProject_RenderCFG</a> or <a href="US_Api_Functions.html#RenderProjectRegions_RenderCFG">RenderProjectRegions_RenderCFG</a></li>
 <li>Navigation, Follow and Arrangeview-Manipulation - get/set cursors, zoom, autoscroll-management, scroll, etc</li>
 <li>ArrangeView-Snapshots - you can save, retrieve snapshots of the arrangeview, including position, zoomstates to quickly jump through parts of your project</li>
 <li>Trackstates - you can access and set all(!) track-states available</li>
@@ -156,15 +159,14 @@ Ultraschall API functions
 <p>To install the Ultraschall-API: 1. Just download the zip-file of the current version from <a href="http://api.ultraschall.fm">api.ultraschall.fm</a>. 2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu &quot;Options -&gt; Show REAPER resource path in explorer/finder...&quot;.<br />
 The folder UserPlugins should contain the folder ultraschall<em>api and the files ultraschall</em>api<em>readme.txt and ultraschall</em>api.lua after this step. 3. Now create a new script, by opening the Actions-window (Menu: Actions -&gt; Show action list) and clicking the New-button next to &quot;ReaScript:&quot;, give it a name and hit save.<br />
 Include the following line in your script at the beginning:</p>
-<pre><code>        dofile(reaper.GetResourcePath()..&quot;/UserPlugins/ultraschall_api.lua&quot;)
-
-   Now you can program with the Ultraschall-API. Just add the functions AFTER the dofile-line.</code></pre>
+<pre><code>        dofile(reaper.GetResourcePath()..&quot;/UserPlugins/ultraschall_api.lua&quot;)</code></pre>
+<p>Now you can program with the Ultraschall-API. Just add the functions AFTER the dofile-line.</p>
 <ol>
 <li><p>To test, if it's successfully installed, add</p>
 <pre><code>    ultraschall.ApiTest()</code></pre>
-<p>after the dofile-line and hit ctrl+s or cmd+s(on mac).</p>
-<p>The script should show a messagebox, that tells you, which of the Ultraschall-API-parts are activated. If it shows, everything works fine :)</p></li>
+<p>after the dofile-line and hit ctrl+s or cmd+s(on mac).</p></li>
 </ol>
+<p>The script should show a messagebox, that tells you, which of the Ultraschall-API-parts are activated. If it shows, everything works fine :)</p>
 <p>If you are already familiar with programming Reaper's own API-functions, you know, that all of Reaper's functions are placed in a table called &quot;reaper.&quot;<br />
 e.g. reaper.ShowConsoleMsg(&quot;msg&quot;)</p>
 <p>The Ultraschall-API is quite the same, but is using the table &quot;ultraschall.&quot; instead.<br />
@@ -215,8 +217,9 @@ Sendegate: <a href="http://www.sendegate.de">sendegate.de</a> into the Ultrascha
 <p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 <p>Reaper and the Reaper-Logo are trademarks of Cockos inc and can be found at <a href="http://www.reaper.fm">reaper.fm</a></p>
 <p>The SWS-logo has been taken from the SWS-extension-project, which can be found at <a href="http://www.sws-extension.org">sws-extension.org</a></p>
-<p>Ultraschall-API written by Meo Mespotine<a href="http://www.mespotine.de">mespotine.de</a> with contributions from <a href="https://twitter.com/fernsehmuell">Udo Sauer</a> and <a href="https://twitter.com/rstockm">Ralf Stockmann</a> If you want to donate to our project, head over to <a href="http://www.ultraschall.fm/danke">ultraschall.fm/danke</a>.</p>
-<p>Kudos to lokasenna, who suggested some cool things, that made some functions much faster and sparkled new ones. Cheers!</p>
+<p>Ultraschall-API written by Meo Mespotine <a href="http://www.mespotine.de">mespotine.de</a> with contributions from <a href="https://twitter.com/fernsehmuell">Udo Sauer</a> and <a href="https://twitter.com/rstockm">Ralf Stockmann</a></p>
+<p>If you want to donate to our project, head over to <a href="http://www.ultraschall.fm/danke">ultraschall.fm/danke</a>.</p>
+<p>Kudos to lokasenna, who suggested some cool things, that made some functions much faster and sparkled new ones. Cheers! MakeCopyOfTable-function adapted from Tyler Neylon's (twitter.com/tylerneylon) function, found at <a href="https://stackoverflow.com/questions/640642/how-do-you-copy-a-lua-table-by-value/26367080#26367080">Stack Overflow</a> Thanks to him for allowing me to use it :)</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_001_Introduction"></a>
 <div style="font-size:100%"><h4><a href="#Datatypes_001_Introduction">^</a> <u>Datatypes: Introduction</u></h4></div><p><p>Parameters and returnvalues are usually of specific types. Let's look at the following function:</p>
@@ -2553,4 +2556,157 @@ ItemExtStates are stored as ProjectExtState within the projectfile. These functi
 <p>This returns a stored itemextstate. Just pass to it a MediaItem-object and the key, whose value you want. It will return if getting the value was successful or not with return-value retval, as well as the value with value.</p>
 </blockquote>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 74 chapters available</td></table><br><hr></div></body></html>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="MarkersAndRegions_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#MarkersAndRegions_Introduction">^</a> <u>Markers and Regions: Introduction</u></h4></div><p><p>In the Ultraschall-extension, we make heavy use of markers and regions for all kinds of things. So, to simplify programming for markers, I added a number of functions to deal with them.</p>
+<p>The markers used by Ultraschall and represented in the Ultraschall-API, are: normal markers, chapter markers, planned chapter markers, edit-markers, edit-regions, time-markers and PodRangeRegions.</p>
+<ul>
+<li>normal markers - these are common markers, as you are used to</li>
+<li>chapter markers - they actually are normal markers but are treated differently, as they structure a podcast, like chapters in books do<br />
+</li>
+<li>_edit-markers - they can be set to signal, that you want to come back later to edit something. They are red with the text _edit:<br />
+</li>
+<li>_edit-regions - like edit-markers, but they are regions. They can be used to signal, whether a specific region shall be cut later on<br />
+</li>
+<li>planned chapter markers - like normal markers, but green. They hold the chapter-markers that aren't set yet at the right position. For podcast with a strict structure.<br />
+</li>
+<li>_time-markers - they hold a date and time of the format &quot;_time: dd.mm.yyyy hh:mm:ss&quot;<br />
+</li>
+<li>Podrange-regions - intended to signal, where a podcast starts and where it ends. So if you didn't start the podcast at position 0 in the project and want to save the chapters into your mp3-audiofile, they risk to be offset by the amount of time between projectstart and the actual start of the podcast. So using a PodRangeRegion, the proper start- and endtimes for rendering as well as chaptermarker export can be set by the user.</li>
+</ul>
+<p>These kind of markers get the most attention, though regular marker/region/tempo-time signature marker-management is part of this API as well.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="MarkersAndRegions_General_How_To"></a>
+<div style="font-size:100%"><h4><a href="#MarkersAndRegions_General_How_To">^</a> <u>Markers and Regions: General How To</u></h4></div><p><p>All functions for all kinds of markers settable in the Ultraschall-Api share the same basic subset of workflows.<br />
+All markers can be added, set, deleted, enumerated, counted, imported and exported from/to a file, checked for being a certain markertype and converted into a certain markertype(if possible).<br />
+Let's take edit-markers as an example, who have the functions:</p>
+<p><a href="US_Api_Functions.html#AddEditMarker">AddEditMarker</a>, <a href="US_Api_Functions.html#SetEditMarker">SetEditMarker</a>, <a href="US_Api_Functions.html#DeleteEditMarker">DeleteEditMarker</a>, <a href="US_Api_Functions.html#EnumerateEditMarkers">EnumerateEditMarkers</a>, <a href="US_Api_Functions.html#CountEditMarkers">CountEditMarkers</a>, <a href="US_Api_Functions.html#ImportEditFromFile">ImportEditFromFile</a>, <a href="US_Api_Functions.html#ExportEditMarkersToFile">ExportEditMarkersToFile</a>, <a href="US_Api_Functions.html#IsMarkerEdit">IsMarkerEdit</a>, <a href="US_Api_Functions.html#MarkerToEditMarker">MarkerToEditMarker</a>, <a href="US_Api_Functions.html#EditToMarker">EditToMarker</a></p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#AddEditMarker">AddEditMarker</a></strong></p>
+</blockquote>
+<pre><code>                  integer marker_number = ultraschall.AddEditMarker(number position, integer shown_number, string edittitle)
+                  </code></pre>
+<blockquote>
+<p>This adds a new edit-marker. Give it a position, the shown number and an edittitle, which should hint at the reason of having to edit later.<br />
+The title will be shown in the marker as &quot;<em>edit: Title&quot;. You can change it manually in Reaper, but should retain &quot;</em>edit: &quot;, as this signals the<br />
+Ultraschall-API, if this is an edit-marker. The editmarker also is red (255 0 0).<br />
+It will return the marker-number, which is the index of all markers in the project, means: markers and regions.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#SetEditMarker">SetEditMarker</a></strong></p>
+</blockquote>
+<pre><code>                  boolean retval = ultraschall.SetEditMarker(integer edit_index, number position, integer shown_number, string edittitle)
+                  </code></pre>
+<blockquote>
+<p>This sets an already existing edit-marker. Pass to it the index-number of the edit-marker, which is the index for edit-markers only(!).<br />
+The rest is like AddEditMarker.<br />
+It will return the true, if setting it was successful.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#DeleteEditMarker">DeleteEditMarker</a></strong></p>
+</blockquote>
+<pre><code>                  boolean retval = ultraschall.boolean retval = ultraschall.DeleteEditMarker(integer edit_index)
+                  </code></pre>
+<blockquote>
+<p>This deletes an edit-marker. Pass to it the index-number of the edit-marker, which is the index for edit-markers only(!). That means, if you have<br />
+five markers with the last one being an edit-marker and you want to delete that, the number is 1, not 5!<br />
+It will return the true, if deleting it was successful.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#EnumerateEditMarkers">EnumerateEditMarkers</a></strong></p>
+</blockquote>
+<pre><code>                  integer retnumber, integer shown_number, number position, string edittitle = ultraschall.EnumerateEditMarkers(integer edit_index)
+                  </code></pre>
+<blockquote>
+<p>This enumerates an edit-marker and all of it's attributes. Just pass over to it the edit-index-number and it will return the overall marker-index-number(markers and regions)<br />
+the shown-number as well as it's position and the title of the edit(without the _edit: ).</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#CountEditMarkers">CountEditMarkers</a></strong></p>
+</blockquote>
+<pre><code>                  integer number_of_edit_markers = ultraschall.CountEditMarkers()
+                  </code></pre>
+<blockquote>
+<p>This returns the number of edit-markers in your project. With that information, you know, how many of these editmarkers can be enumerated.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ExportEditMarkersToFile">ExportEditMarkersToFile</a></strong></p>
+</blockquote>
+<pre><code>                  integer retval = ultraschall.ExportEditMarkersToFile(string filename_with_path, number PodRangeStart, number PodRangeEnd)
+                  </code></pre>
+<blockquote>
+<p>This exports the edit-markers into an exportfile. You can also pass to it from which startposition to which endposition the markers shall be exported.<br />
+The file created contains the attributes for one edit-marker each line. The format for each line in the file is: hh:mm:ss.mss Title<br />
+This file is generic, so it can be reimported as other types or markers, like normal markers, as well.<br />
+Speaking of importing:</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#ImportEditFromFile">ImportEditFromFile</a></strong></p>
+</blockquote>
+<pre><code>                  array editmarkers = ultraschall.ImportEditFromFile(string filename_with_path, PodRangestart)
+                  </code></pre>
+<blockquote>
+<p>This imports a markerexportfile, as created by functions like ExportEditMarkersToFile into the project. Podrangestart is for adding an offset to the edit-marker-positions.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#IsMarkerEdit">IsMarkerEdit</a></strong></p>
+</blockquote>
+<pre><code>                  boolean retval = ultraschall.IsMarkerEdit(integer markerid)
+                  </code></pre>
+<blockquote>
+<p>Checks, if a certain marker is an edit-marker or not. The markerid is the index for all markers and regions, not only edit-markers.<br />
+Returns true, if it's an edit-marker, false if not.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#MarkerToEditMarker">MarkerToEditMarker</a></strong></p>
+</blockquote>
+<pre><code>                  integer idx, integer shown_number, number position, string markertitle = ultraschall.MarkerToEditMarker(integer markerindex)
+                  </code></pre>
+<blockquote>
+<p>This converts a marker into an edit-marker, which usually means, it colors it red (255, 0, 0) and adds &quot;_edit: &quot; at the beginning of the title.<br />
+The markerindex is the one for all markers. It returns the overall-marker-indexnumber, the shown number as well as it's position and the new markertitle.</p>
+</blockquote>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#EditToMarker">EditToMarker</a></strong></p>
+</blockquote>
+<pre><code>                  integer idx, integer shown_number, number position, string markertitle = ultraschall.EditToMarker(integer edit_index)
+                  </code></pre>
+<blockquote>
+<p>This also converts, but this time the other way around: From edit-marker to a normal marker, which means: coloring it with the standard-color and removing the _edit: from the beginning of the title.</p>
+</blockquote>
+<p>The other marker-types follow the same lead, so if you understood it for this marker, you understood it for all others as well.<br />
+One limitation though, you can't (yet) export/import regions into/from an exportfile.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="MarkersAndRegions_Helpers_and_Manipulation"></a>
+<div style="font-size:100%"><h4><a href="#MarkersAndRegions_Helpers_and_Manipulation">^</a> <u>Markers and Regions: Helpers and Manipulation</u></h4></div><p><p>Adding and getting markers is quite good, but sometimes, you want to do more with them. For that, I added numerous functions as well, like:</p>
+<ul>
+<li><a href="US_Api_Functions.html#CountMarkersAndRegions">CountMarkersAndRegions</a> - counts all markers and regions</li>
+<li><a href="US_Api_Functions.html#GetMarkerByScreenCoordinates">GetMarkerByScreenCoordinates</a> - gets a marker by screen-coordinate, like mouse coordinates</li>
+<li><a href="US_Api_Functions.html#GetMarkerByTime">GetMarkerByTime</a> - gets a marker by the time-position, but according to it's graphical representation in the arrange-view</li>
+<li><a href="US_Api_Functions.html#GetRegionByScreenCoordinates">GetRegionByScreenCoordinates</a> - gets a region by screen-coordinate, like mouse coordinates</li>
+<li><a href="US_Api_Functions.html#GetRegionByTime">GetRegionByTime</a> - gets a region by the time-position, but according to it's graphical representation in the arrange-view</li>
+<li><a href="US_Api_Functions.html#GetTimeSignaturesByTime">GetTimeSignaturesByTime</a> - gets a tempo/time-signature-marker by screen-coordinate, like mouse coordinates</li>
+<li><a href="US_Api_Functions.html#GetTimesignaturesByScreenCoordinates">GetTimesignaturesByScreenCoordinates</a> - gets a tempo/time-signature-marker by the time-position, but according to it's graphical representation in the arrange-view</li>
+<li><a href="US_Api_Functions.html#GetMarkerUpdateCounter">GetMarkerUpdateCounter</a> - returns a counter that counts up when any marker in any project has been changed</li>
+<li><a href="US_Api_Functions.html#IsMarkerAtPosition">IsMarkerAtPosition</a> - returns, if a marker is at a position and if yes, it returns the attributes of the marker(s)</li>
+<li><a href="US_Api_Functions.html#IsRegionAtPosition">IsRegionAtPosition</a> - returns, if a region is at a position and if yes, it returns the attributes of the region(s)</li>
+<li><a href="US_Api_Functions.html#MoveMarkersBy">MoveMarkersBy</a> - moves markers by seconds; you can choose the affected markers by choosing the start- and endposition</li>
+<li><a href="US_Api_Functions.html#MoveRegionsBy">MoveRegionsBy</a> - moves regions by seconds; you can choose the affected markers by choosing the start- and endposition</li>
+<li><a href="US_Api_Functions.html#MoveTimeSigMarkersBy">MoveTimeSigMarkersBy</a> - moves tempo/timesignature-markers by seconds; you can choose the affected markers by choosing the start- and endposition</li>
+<li><a href="US_Api_Functions.html#ParseMarkerString">ParseMarkerString</a> - parses a marker-string, like the one from marker-export-files</li>
+<li><a href="US_Api_Functions.html#RenumerateMarkers">RenumerateMarkers</a> - renumerates the shown numbers of markers</li>
+<li><a href="US_Api_Functions.html#GetAllMarkers">GetAllMarkers</a> - returns an array with all attributes from all markers</li>
+<li><a href="US_Api_Functions.html#GetAllMarkersBetween">GetAllMarkersBetween</a> - returns an array between start- and endposition with all attributes from all markers within</li>
+<li><a href="US_Api_Functions.html#GetAllRegions">GetAllRegions</a> - returns an array with all attributes from all regions</li>
+<li><a href="US_Api_Functions.html#GetAllRegionsBetween">GetAllRegionsBetween</a> - returns an array between start- and endposition with all attributes from all regions within</li>
+<li><a href="US_Api_Functions.html#GetLastMarkerPosition">GetLastMarkerPosition</a> - returns the position of the last marker in the project</li>
+<li><a href="US_Api_Functions.html#GetLastRegion">GetLastRegion</a> - returns the position of the last ending region in the project</li>
+<li><a href="US_Api_Functions.html#GetLastTimeSigMarkerPosition">GetLastTimeSigMarkerPosition</a>) - returns the last tempo/time-signature-marker in the project</li>
+<li><a href="US_Api_Functions.html#GetMarkerAndRegionsByIndex">GetMarkerAndRegionsByIndex</a> - returns markers and regions by index</li>
+<li><a href="US_Api_Functions.html#GetMarkerByName">GetMarkerByName</a> - returns markers by their title</li>
+<li><a href="US_Api_Functions.html#GetMarkerByName_Pattern">GetMarkerByName_Pattern</a> - returns markers by their title but using the title as a pattern</li>
+<li><a href="US_Api_Functions.html#ImportMarkersFromFile">ImportMarkersFromFile</a> - imports markers from an exported file as normal markers</li>
+<li><a href="US_Api_Functions.html#SetMarkerByIndex">SetMarkerByIndex</a> - allows you to set markers and regions on their own, without having to deal with differentiating between them</li>
+</ul>
+<p>So, with this, most of your wishes in regards of marker-management should be fulfilled.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 77 chapters available</td></table><br><hr></div></body></html>

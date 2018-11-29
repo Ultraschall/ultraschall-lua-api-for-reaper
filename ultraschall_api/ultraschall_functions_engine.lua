@@ -8509,14 +8509,14 @@ function ultraschall.GetClosestNextMarker(cursor_type, time_position)
     SWS=2.8.8
     Lua=5.3
   </requires>
-  <functioncall>number markerindex, number position, string markername = ultraschall.GetClosestNextMarker(integer cursor_type, optional number time_position)</functioncall>
+  <functioncall>number markerindex, number position, string markertitle = ultraschall.GetClosestNextMarker(integer cursor_type, optional number time_position)</functioncall>
   <description>
     returns the markerindex(counted from all markers), the position and the name of the next closest marker in seconds.
   </description>
   <retvals>
     number markerindex - the next closest markerindex (of all(!) markers)
     number position - the position of the next closest marker
-    string markername - the name of the next closest marker
+    string markertitle - the name of the next closest marker
   </retvals>
   <parameters>
     integer cursor_type - previous closest marker related to the current position of 0 - Edit Cursor, 1 - Play Cursor, 2 - Mouse Cursor, 3 - Timeposition
@@ -8592,14 +8592,14 @@ function ultraschall.GetClosestPreviousMarker(cursor_type, time_position)
     SWS=2.8.8
     Lua=5.3
   </requires>
-  <functioncall>number markerindex, number position, string markername = ultraschall.GetClosestPreviousMarker(integer cursor_type, optional number time_position)</functioncall>
+  <functioncall>number markerindex, number position, string markertitle = ultraschall.GetClosestPreviousMarker(integer cursor_type, optional number time_position)</functioncall>
   <description>
     returns the markerindex(counted from all markers), the position and the name of the previous closest marker in seconds.
   </description>
   <retvals>
     number markerindex - the previous closest markerindex (of all(!) markers)
     number position - the position of the previous closest marker
-    string markername - the name of the previous closest marker
+    string markertitle - the name of the previous closest marker
   </retvals>
   <parameters>
     integer cursor_type - previous closest marker related to the current position of 0 - Edit Cursor, 1 - Play Cursor, 2 - Mouse Cursor, 3 - Timeposition
@@ -8675,14 +8675,14 @@ function ultraschall.GetClosestNextRegionEdge(cursor_type, time_position)
     SWS=2.8.8
     Lua=5.3
   </requires>
-  <functioncall>number markerindex, number position, string markername, string edge_type = ultraschall.GetClosestNextRegionEdge(integer cursor_type, optional number time_position)</functioncall>
+  <functioncall>number markerindex, number position, string markertitle, string edge_type = ultraschall.GetClosestNextRegionEdge(integer cursor_type, optional number time_position)</functioncall>
   <description>
     returns the regionindex(counted from all markers and regions), the position and the name of the next closest regionstart/end(depending on which is closer to time_position) in seconds.
   </description>
   <retvals>
     number markerindex - the next closest markerindex (of all(!) markers)
     number position - the position of the next closest region
-    string markername - the name of the next closest region
+    string markertitle - the name of the next closest region
     string edge_type - the type of the edge of the region, either "beg" or "end"
   </retvals>
   <parameters>
@@ -8766,14 +8766,14 @@ function ultraschall.GetClosestPreviousRegionEdge(cursor_type, time_position)
     SWS=2.8.8
     Lua=5.3
   </requires>
-  <functioncall>number markerindex, number position, string markername, string edge_type = ultraschall.GetClosestPreviousRegionEdge(integer cursor_type, optional number time_position)</functioncall>
+  <functioncall>number markerindex, number position, string markertitle, string edge_type = ultraschall.GetClosestPreviousRegionEdge(integer cursor_type, optional number time_position)</functioncall>
   <description>
     returns the regionindex(counted from all markers and regions), the position and the name of the previous closest regionstart/end(depending on which is closer to time_position) in seconds.
   </description>
   <retvals>
     number markerindex - the previous closest markerindex (of all(!) markers)
     number position - the position of the previous closest marker
-    string markername - the name of the previous closest marker
+    string markertitle - the name of the previous closest marker
     string edge_type - the type of the edge of the region, either "beg" or "end"
   </retvals>
   <parameters>
@@ -9763,7 +9763,7 @@ function ultraschall.GetMarkerByName(searchname, searchisrgn)
   
   -- look for markers/regions
   for i=0, reaper.CountProjectMarkers(0)-1 do
-    retval, isrgn, pos, rgnend, name, markrgnindexnumber = reaper.EnumProjectMarkers(i)
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber = reaper.EnumProjectMarkers(i)
     if searchisrgn==isrgn then markercount=markercount+1 end -- count markers/region
     if isrgn==searchisrgn and name:upper()==searchname:upper() then foundmarkers[count]=markercount count=count+1 end -- if right marker/region has been found,
                                                                                                                       -- add it to the foundmarkers-array
@@ -9994,7 +9994,7 @@ function ultraschall.AddEditMarker(position, shown_number, edittitle)
   <parameters>
     number position - position in seconds.
     integer shown_number - the number, that will be shown within Reaper. Can be multiple times. Use -1 to let Reaper decide the number.
-    string edittitle - the title of the chaptermarker; will be shown as _Edit:edittitle
+    string edittitle - the title of the edit-marker; will be shown as _Edit:edittitle
   </parameters>
   <chapter_context>
     Markers
@@ -10191,7 +10191,7 @@ function ultraschall.EnumerateNormalMarkers(number)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retnumber, integer retidxnum, number position, string markername = ultraschall.EnumerateNormalMarkers(integer number)</functioncall>
+  <functioncall>integer retnumber, integer retidxnum, number position, string markertitle = ultraschall.EnumerateNormalMarkers(integer number)</functioncall>
   <description>
     Get the data of a normal marker. 
     Normal markers are all markers, that don't include "_Shownote:" or "_Edit" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
@@ -10204,7 +10204,7 @@ function ultraschall.EnumerateNormalMarkers(number)
     - the end of the timeline, it will be the last one, NOT the first one in the retval! For use with reaper's own marker-functions.
      integer retidxnum - indexnumber of the marker
      number position - the position of the marker
-     string markername  - the name of the marker
+     string markertitle  - the name of the marker
   </retvals>
   <parameters>
     integer number - number of the marker(normal markers only). Refer <a href="#CountNormalMarkers">ultraschall.CountNormalMarkers</a> for getting the number of normal markers.
@@ -10265,7 +10265,7 @@ function ultraschall.EnumerateEditMarkers(number)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall> integer retnumber, integer retidxnum, number position, string editname = ultraschall.EnumerateEditMarkers(integer number)</functioncall>
+  <functioncall> integer retnumber, integer shown_number, number position, string edittitle = ultraschall.EnumerateEditMarkers(integer edit_index)</functioncall>
   <description>
     Get the data of an edit marker.
   </description>
@@ -10273,12 +10273,12 @@ function ultraschall.EnumerateEditMarkers(number)
      integer retnumber - overallmarker/regionnumber of marker beginning with 1 for the first marker; ignore the order of first,second,etc creation of
     - markers but counts from position 00:00:00 to end of project. So if you created a marker at position 00:00:00 and move the first created marker to
     - the end of the timeline, it will be the last one, NOT the first one in the retval! For use with reaper's own marker-functions.
-     integer retidxnum - indexnumber of the marker
+     integer shown_number - indexnumber of the marker
      number position - the position of the marker
      string dummyname  - the name of the marker
   </retvals>
   <parameters>
-    number - number of the edit-marker. Refer <a href="#CountEditMarkers">ultraschall.CountEditMarkers</a> for getting the number of edit-markers.
+    integer edit_index - number of the edit-marker. Refer <a href="#CountEditMarkers">ultraschall.CountEditMarkers</a> for getting the number of edit-markers.
   </parameters>
   <chapter_context>
     Markers
@@ -10290,7 +10290,7 @@ function ultraschall.EnumerateEditMarkers(number)
 </US_DocBloc>
 --]]
   -- check parameter
-  if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateEditMarkers", "number", "must be an integer", -1) return -1 end
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateEditMarkers", "edit_index", "must be an integer", -1) return -1 end
   
   -- prepare variables
   local a,nummarkers,b=reaper.CountProjectMarkers(0)
@@ -10324,7 +10324,7 @@ function ultraschall.EnumerateEditMarkers(number)
 end
 
 --A=ultraschall.AddEditMarker(4,4,"titleD")
---A,AA,AAA,AAAA=ultraschall.EnumerateEditMarkers(4)
+--A,AA,AAA,AAAA=ultraschall.EnumerateEditMarkers(1)
 
 
 
@@ -10594,12 +10594,12 @@ function ultraschall.SetEditMarker(number, position, shown_number, edittitle)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall> boolean retval = ultraschall.SetEditMarker(integer number, number position, integer shown_number, string edittitle)</functioncall>
+  <functioncall> boolean retval = ultraschall.SetEditMarker(integer edit_index, number position, integer shown_number, string edittitle)</functioncall>
   <description>
     Sets values of an Edit Marker. Returns true if successful and false if not(i.e. marker doesn't exist)
   </description>
   <parameters>
-    integer number - the number of the edit marker
+    integer edit_index - the number of the edit marker
     number position - position of the marker in seconds
     integer shown_number - the number of the marker
     string markertitle - title of the marker
@@ -10621,7 +10621,7 @@ function ultraschall.SetEditMarker(number, position, shown_number, edittitle)
   if type(position)~="number" and position~=nil then ultraschall.AddErrorMessage("SetEditMarker", "position", "must be a number", -1) return false end
   if position==nil or position<0 then position=-1 end
   if tonumber(shown_number)==nil then shown_number=-1 end
-  if math.type(number)~="integer" then ultraschall.AddErrorMessage("SetEditMarker", "number", "must be an integer", -2) return false end
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("SetEditMarker", "edit_index", "must be an integer", -2) return false end
 
   -- prepare variables
   local color=ultraschall.ConvertColor(255,0,0)  
@@ -10650,7 +10650,7 @@ function ultraschall.SetEditMarker(number, position, shown_number, edittitle)
   
   -- change edit-marker, if existing
   if wentfine==1 then return reaper.SetProjectMarkerByIndex(0, retnumber, 0, position, 0, shown_number, "_Edit:" .. edittitle, color)
-  else ultraschall.AddErrorMessage("SetEditMarker", "number", "no such edit-marker", -3) return false
+  else ultraschall.AddErrorMessage("SetEditMarker", "edit_index", "no such edit-marker", -3) return false
   end
 end
 
@@ -10824,12 +10824,12 @@ function ultraschall.DeleteEditMarker(number)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall> boolean retval = ultraschall.DeleteEditMarker(integer number)</functioncall>
+  <functioncall> boolean retval = ultraschall.DeleteEditMarker(integer edit_index)</functioncall>
   <description>
     Deletes an _Edit:-Marker. Returns true if successful and false if not(i.e. marker doesn't exist) Use <a href="#EnumerateEditMarkers">ultraschall.EnumerateEditMarkers</a> to get the correct number.
   </description>
   <parameters>
-    integer number - number of a chapter marker
+    integer edit_index - number of an edit marker
   </parameters>
   <retvals>
      boolean retval  - true, if successful, false if not
@@ -10844,7 +10844,7 @@ function ultraschall.DeleteEditMarker(number)
 </US_DocBloc>
 --]]
   -- check parameters
-  if math.type(number)~="integer" then ultraschall.AddErrorMessage("DeleteEditMarker", "number", "must be integer", -1) return -1 end
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("DeleteEditMarker", "edit_index", "must be integer", -1) return -1 end
   
   -- prepare variables
   number=number-1
@@ -10865,7 +10865,7 @@ function ultraschall.DeleteEditMarker(number)
   
   -- remove found _Edit-marker, if any
   if wentfine==1 then return reaper.DeleteProjectMarkerByIndex(0, retnumber)
-  else ultraschall.AddErrorMessage("DeleteEditMarker", "number", "no such _Edit-marker found", -2) return false
+  else ultraschall.AddErrorMessage("DeleteEditMarker", "edit_index", "no such _Edit-marker found", -2) return false
   end
 end
 
@@ -11104,7 +11104,13 @@ function ultraschall.ExportEditMarkersToFile(filename_with_path, PodRangeStart, 
   </requires>
   <functioncall> integer retval = ultraschall.ExportEditMarkersToFile(string filename_with_path, number PodRangeStart, number PodRangeEnd)</functioncall>
   <description>
-    Export Edit-Markers (not regions!) to filename_with_path. Returns -1 in case of error.
+    Export Edit-Markers (not regions!) to filename_with_path. 
+    
+    Each line in the exportfile contains an entry for such an edit-marker in the format:
+    
+    hh:mm:ss.mss Title
+    
+    Returns -1 in case of error.
   </description>
   <retvals>
      integer retval  - 1 in case of success, -1 if it failed
@@ -11158,7 +11164,7 @@ end
 --A,AA=ultraschall.AddEditMarker(10,10,"ed10")
 --A,AA=ultraschall.AddEditMarker(20,20,"ed20")
 --A,AA=ultraschall.AddEditMarker(30,30,"ed30")
---APACHEN=ultraschall.ExportEditMarkersToFile("c:\\test.txt")
+--APACHEN=ultraschall.ExportEditMarkersToFile("c:\\edit-test.txt")
 
 
 
@@ -11411,7 +11417,7 @@ function ultraschall.MarkerToEditMarker(number)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall> integer idx, integer shown_number, number position, string markername = ultraschall.MarkerToEditMarker(integer number)</functioncall>
+  <functioncall> integer idx, integer shown_number, number position, string markertitle = ultraschall.MarkerToEditMarker(integer markerindex)</functioncall>
   <description>
     Converts a normal-marker to an edit-marker.
     
@@ -11423,10 +11429,10 @@ function ultraschall.MarkerToEditMarker(number)
     -the end of the timeline, it will be the last one, NOT the first one in the retval! For use with reaper's own marker-functions.
      integer shown_number - the shown number of the marker
      number position - the position of the marker in seconds
-     string markername  - the markername
+     string markertitle  - the markertitle
   </retvals>
   <parameters>
-    integer number - number of the chapter-marker. Refer <a href="#CountNormalMarkers">ultraschall.CountNormalMarkers</a> for getting the number of normal-markers.
+    integer markerindex - number of the normal-marker. Refer <a href="#CountNormalMarkers">ultraschall.CountNormalMarkers</a> for getting the number of normal-markers.
   </parameters>
   <chapter_context>
     Markers
@@ -11438,13 +11444,13 @@ function ultraschall.MarkerToEditMarker(number)
 </US_DocBloc>
 --]]
   -- check parameter
-  if math.type(number)~="integer" then ultraschall.AddErrorMessage("MarkerToEditMarker", "number", "must be an integer", -1) return -1 end
-  if number<1 then ultraschall.AddErrorMessage("MarkerToEditMarker", "number", "must be greater than 0", -2) return -1 end
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("MarkerToEditMarker", "merkerindex", "must be an integer", -1) return -1 end
+  if number<1 then ultraschall.AddErrorMessage("MarkerToEditMarker", "markerindex", "must be greater than 0", -2) return -1 end
   
   -- prepare variables and get old marker-attributes
   local color = ultraschall.ConvertColor(255,0,0)
   local idx, shownmarker, position, markername = ultraschall.EnumerateNormalMarkers(number)
-  if idx==-1 then  ultraschall.AddErrorMessage("MarkerToEditMarker", "number", "no such normal marker", -3) return -1 end
+  if idx==-1 then  ultraschall.AddErrorMessage("MarkerToEditMarker", "markerindex", "no such normal marker", -3) return -1 end
   
   -- change the found marker to edit
   local itworks=reaper.SetProjectMarkerByIndex(0, idx-1, false, position, 0, shownmarker, "_Edit: "..markername, color)
@@ -11465,7 +11471,7 @@ function ultraschall.EditToMarker(number)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall> integer idx, integer shown_number, number position, string markername = ultraschall.EditToMarker(integer number)</functioncall>
+  <functioncall> integer idx, integer shown_number, number position, string markertitle = ultraschall.EditToMarker(integer edit_index)</functioncall>
   <description>
     Converts an edit-marker to a normal marker.
   </description>
@@ -11475,10 +11481,10 @@ function ultraschall.EditToMarker(number)
     -the end of the timeline, it will be the last one, NOT the first one in the retval! For use with reaper's own marker-functions.
      integer shown_number - the shown number of the marker
      number position - the position of the marker in seconds
-     string markername  - the markername
+     string markertitle  - the markertitle
   </retvals>
   <parameters>
-    integer number - number of the edit-marker. Refer <a href="#CountEditMarkers">ultraschall.CountEditMarkers</a> for getting the number of edit-markers.
+    integer edit_index - number of the edit-marker. Refer <a href="#CountEditMarkers">ultraschall.CountEditMarkers</a> for getting the number of edit-markers.
   </parameters>
   <chapter_context>
     Markers
@@ -11490,13 +11496,13 @@ function ultraschall.EditToMarker(number)
 </US_DocBloc>
 --]]
   -- check parameter
-  if math.type(number)~="integer" then ultraschall.AddErrorMessage("EditToMarker", "number", "must be an integer", -1) return -1 end
-  if number<1 then ultraschall.AddErrorMessage("EditToMarker", "number", "must be greater than 0", -2) return -1 end
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("EditToMarker", "edit_index", "must be an integer", -1) return -1 end
+  if number<1 then ultraschall.AddErrorMessage("EditToMarker", "edit_index", "must be greater than 0", -2) return -1 end
   
   -- prepare variables and get old marker-attributes  
   local color = ultraschall.ConvertColor(100,100,100)  
   local idx, shownmarker, position, markername = ultraschall.EnumerateEditMarkers(number)
-  if idx==-1 then ultraschall.AddErrorMessage("EditToMarker", "number", "no such edit-marker", -3) return -1 end
+  if idx==-1 then ultraschall.AddErrorMessage("EditToMarker", "edit_index", "no such edit-marker", -3) return -1 end
 
   -- change the found edit-marker to a normal marker
   if markername=="" then 
@@ -12828,7 +12834,7 @@ function ultraschall.GetMarkerByScreenCoordinates(xmouseposition, retina)
     returns nil in case of an error
   </description>
   <retvals>
-    string marker - a string with all markernumbers, markerpositions and markernames, separated by a newline. 
+    string marker - a string with all markernumbers, markerpositions and markertitles, separated by a newline. 
     -Can contain numerous markers, if there are more markers in one position.
   </retvals>
   <parameters>
@@ -12915,11 +12921,15 @@ function ultraschall.GetMarkerByTime(position, retina)
   </requires>
   <functioncall>string markers = ultraschall.GetMarkerByTime(number position, boolean retina)</functioncall>
   <description>
-    returns the markers at a given absolute-x-pixel-position. It sees markers according their graphical representation in the arrange-view, not just their position! Returned string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2\n...".
+    returns the markers at a given project-position in seconds. 
+    It sees markers according their actual graphical representation in the arrange-view, not just their position. 
+    If, for example, you pass to it the current playposition, the function will return the marker as long as the playcursor is behind the marker-graphics.
+    
+    Returned string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2\n...".
     Returns only markers, no time markers or regions!
   </description>
   <retvals>
-    string marker - a string with all markernumbers, markerpositions and markernames, separated by a newline. 
+    string marker - a string with all markernumbers, markerpositions and markertitles, separated by a newline. 
     -Can contain numerous markers, if there are more markers in one position.
   </retvals>
   <parameters>
@@ -29555,7 +29565,7 @@ function ultraschall.GetProject_GetMarker(projectfilenamewithpath, idx)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer shownnumber, number markerposition, string markername, integer markercolor = ultraschall.GetProject_GetMarker(string projectfilename_with_path, integer idx)</functioncall>
+  <functioncall>boolean retval, integer shownnumber, number markerposition, string markertitle, integer markercolor = ultraschall.GetProject_GetMarker(string projectfilename_with_path, integer idx)</functioncall>
   <description>
     returns the information of the marker idx in a projectfile.
     
@@ -29571,7 +29581,7 @@ function ultraschall.GetProject_GetMarker(projectfilenamewithpath, idx)
     boolean retval - true, in case of success; false in case of failure
     integer shownnumber - the number that is shown with the marker in the arrange-view
     number markerposition - the position of the marker in seconds
-    string markername - the name of the marker. "" if no name is given.
+    string markertitle - the name of the marker. "" if no name is given.
     integer markercolor - the colorvalue of the marker
   </retvals>
   <chapter_context>
@@ -31666,7 +31676,7 @@ function ultraschall.ParseMarkerString(markerstring, strict)
   </requires>
   <functioncall>integer number_of_entries, array markerarray = ultraschall.ParseMarkerString(string markerstring, boolean strict)</functioncall>
   <description>
-    Parses the entries in markerstring for timestrings and markernames.
+    Parses the entries in markerstring for timestrings and markertitles.
     It returns the number of entries as well as a table with all marker-information.
     The table works as such:
     
@@ -31677,7 +31687,7 @@ function ultraschall.ParseMarkerString(markerstring, strict)
     returns -1 in case of an error
   </description>
   <parameters>
-    string markerstring - a string with all markers. An entry is "timestring markername\n". Each marker-entry must be separated by a newline from each other.
+    string markerstring - a string with all markers. An entry is "timestring markertitle\n". Each marker-entry must be separated by a newline from each other.
     boolean strict - interpret the time in timestring more strict or more loosely?
     -true, the time in markerstring must follow the format hh:mm:ss.mss , e.g. 11:22:33.444
     -false, the time can be more flexible, leading to possible misinterpretation of indexnumbers as time/seconds
@@ -36810,6 +36820,7 @@ function ultraschall.ZoomVertical_MidiEditor(zoomamt, HWND)
   </parameters>
   <chapter_context>
     MIDI Management
+    MIDI Editor
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -36855,6 +36866,7 @@ function ultraschall.ZoomHorizontal_MidiEditor(zoomamt, HWND)
   </parameters>
   <chapter_context>
     MIDI Management
+    MIDI Editor
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -36901,6 +36913,7 @@ function ultraschall.OpenItemInMidiEditor(MediaItem)
   </parameters>
   <chapter_context>
     MIDI Management
+    MIDI Editor
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>

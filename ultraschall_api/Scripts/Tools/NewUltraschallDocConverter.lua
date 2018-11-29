@@ -16,7 +16,7 @@ local FunctionList2=""
 
 temp, build=reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", ultraschall.Api_Path.."/IniFiles/ultraschall_api.ini")
 beta="Beta 2.7 - "
-date="15th of October 2018"
+date="15th of December 2018"
 
 function ultraschall.SplitUSDocBlocs(String)
   local Table={}

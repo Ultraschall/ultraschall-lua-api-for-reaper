@@ -11,7 +11,7 @@
                 This API was to be used within Ultraschall only, but quickly evolved into a huge 700 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:
                
                    - Rendering - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want.
-                                   just create a renderstring and pass it over to [RenderProject_RenderCFG](usdocml://RenderProject_RenderCFG) or [RenderProjectRegions_RenderCFG](usdocml://RenderProjectRegions_RenderCFG)
+                                   Just create a renderstring and pass it over to [RenderProject_RenderCFG](usdocml://RenderProject_RenderCFG) or [RenderProjectRegions_RenderCFG](usdocml://RenderProjectRegions_RenderCFG)
                    - Navigation, Follow and Arrangeview-Manipulation - get/set cursors, zoom, autoscroll-management, scroll, etc
                    - ArrangeView-Snapshots - you can save, retrieve snapshots of the arrangeview, including position, zoomstates to quickly jump through parts of your project
                    - Trackstates - you can access and set all(!) track-states available
@@ -76,11 +76,11 @@
             2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -> Show REAPER resource path in explorer/finder...".  
                The folder UserPlugins should contain the folder ultraschall_api and the files ultraschall_api_readme.txt and ultraschall_api.lua after this step.
             3. Now create a new script, by opening the Actions-window (Menu: Actions -> Show action list) and clicking the New-button next to "ReaScript:", give it a name and hit save.  
-                    Include the following line in your script at the beginning: 
+               Include the following line in your script at the beginning: 
                
                         dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
                
-                   Now you can program with the Ultraschall-API. Just add the functions AFTER the dofile-line.
+            Now you can program with the Ultraschall-API. Just add the functions AFTER the dofile-line.
             
             4. To test, if it's successfully installed, add 
                 
@@ -88,7 +88,7 @@
                 
                    after the dofile-line and hit ctrl+s or cmd+s(on mac).
                 
-                   The script should show a messagebox, that tells you, which of the Ultraschall-API-parts are activated. If it shows, everything works fine :)
+            The script should show a messagebox, that tells you, which of the Ultraschall-API-parts are activated. If it shows, everything works fine :)
             
             If you are already familiar with programming Reaper's own API-functions, you know, that all of Reaper's functions are placed in a table called "reaper."  
                 e.g. reaper.ShowConsoleMsg("msg")
@@ -220,10 +220,13 @@
 
             The SWS-logo has been taken from the SWS-extension-project, which can be found at [sws-extension.org](http://www.sws-extension.org)
             
-            Ultraschall-API written by Meo Mespotine[mespotine.de](http://www.mespotine.de) with contributions from [Udo Sauer](https://twitter.com/fernsehmuell) and [Ralf Stockmann](https://twitter.com/rstockm)
+            Ultraschall-API written by Meo Mespotine [mespotine.de](http://www.mespotine.de) with contributions from [Udo Sauer](https://twitter.com/fernsehmuell) and [Ralf Stockmann](https://twitter.com/rstockm)
+            
             If you want to donate to our project, head over to [ultraschall.fm/danke](http://www.ultraschall.fm/danke).
             
             Kudos to lokasenna, who suggested some cool things, that made some functions much faster and sparkled new ones. Cheers!
+            MakeCopyOfTable-function adapted from Tyler Neylon's (twitter.com/tylerneylon) function, found at [Stack Overflow](https://stackoverflow.com/questions/640642/how-do-you-copy-a-lua-table-by-value/26367080#26367080)
+            Thanks to him for allowing me to use it :)
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -3549,8 +3552,187 @@
             ExtState Management
         </chapter_context>
         <previous_chapter>ExtStateManagement_006_TrackExtStates</previous_chapter>
-        <next_chapter></next_chapter>
+        <next_chapter>MarkersAndRegions_Introduction</next_chapter>
         <tags>extstate management, inifiles, itemextstates</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MarkersAndRegions_Introduction</slug>
+        <title>Markers and Regions: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            In the Ultraschall-extension, we make heavy use of markers and regions for all kinds of things. 
+            So, to simplify programming for markers, I added a number of functions to deal with them.  
+            
+            The markers used by Ultraschall and represented in the Ultraschall-API, are: normal markers, chapter markers, planned chapter markers, edit-markers, edit-regions, time-markers and PodRangeRegions.  
+            
+            - normal markers - these are common markers, as you are used to
+            - chapter markers - they actually are normal markers but are treated differently, as they structure a podcast, like chapters in books do  
+            - \_edit-markers - they can be set to signal, that you want to come back later to edit something. They are red with the text \_edit:  
+            - \_edit-regions - like edit-markers, but they are regions. They can be used to signal, whether a specific region shall be cut later on  
+            - planned chapter markers - like normal markers, but green. They hold the chapter-markers that aren't set yet at the right position. For podcast with a strict structure.  
+            - \_time-markers - they hold a date and time of the format "_time: dd.mm.yyyy hh:mm:ss"  
+            - Podrange-regions - intended to signal, where a podcast starts and where it ends. So if you didn't start the podcast at position 0 in the project and want to save the chapters 
+              into your mp3-audiofile, they risk to be offset by the amount of time between projectstart and the actual start of the podcast. So using a PodRangeRegion, the proper start- 
+              and endtimes for rendering as well as chaptermarker export can be set by the user.  
+            
+            These kind of markers get the most attention, though regular marker/region/tempo-time signature marker-management is part of this API as well.  
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Marker Management
+        </chapter_context>
+        <previous_chapter>ExtStateManagement_007_ItemExtStates</previous_chapter>
+        <next_chapter>MarkersAndRegions_General_How_To</next_chapter>
+        <tags>markermanagement, introduction</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MarkersAndRegions_General_How_To</slug>
+        <title>Markers and Regions: General How To</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            All functions for all kinds of markers settable in the Ultraschall-Api share the same basic subset of workflows.  
+            All markers can be added, set, deleted, enumerated, counted, imported and exported from/to a file, checked for being a certain markertype and converted into a certain markertype(if possible).  
+            Let's take edit-markers as an example, who have the functions: 
+                
+            [AddEditMarker](usdocml://AddEditMarker), [SetEditMarker](usdocml://SetEditMarker), [DeleteEditMarker](usdocml://DeleteEditMarker), [EnumerateEditMarkers](usdocml://EnumerateEditMarkers), [CountEditMarkers](usdocml://CountEditMarkers), [ImportEditFromFile](usdocml://ImportEditFromFile), [ExportEditMarkersToFile](usdocml://ExportEditMarkersToFile),  [IsMarkerEdit](usdocml://IsMarkerEdit), [MarkerToEditMarker](usdocml://MarkerToEditMarker), [EditToMarker](usdocml://EditToMarker)  
+            
+            >**[AddEditMarker](usdocml://AddEditMarker)**
+            
+                                  integer marker_number = ultraschall.AddEditMarker(number position, integer shown_number, string edittitle)
+                                  
+            >This adds a new edit-marker. Give it a position, the shown number and an edittitle, which should hint at the reason of having to edit later.  
+            >The title will be shown in the marker as "_edit: Title". You can change it manually in Reaper, but should retain "_edit: ", as this signals the  
+            >Ultraschall-API, if this is an edit-marker. The editmarker also is red (255 0 0).  
+            >It will return the marker-number, which is the index of all markers in the project, means: markers and regions.  
+            
+            >**[SetEditMarker](usdocml://SetEditMarker)**
+            
+                                  boolean retval = ultraschall.SetEditMarker(integer edit_index, number position, integer shown_number, string edittitle)
+                                  
+            >This sets an already existing edit-marker. Pass to it the index-number of the edit-marker, which is the index for edit-markers only(!).  
+            >The rest is like AddEditMarker.  
+            >It will return the true, if setting it was successful.
+            
+            >**[DeleteEditMarker](usdocml://DeleteEditMarker)**
+            
+                                  boolean retval = ultraschall.boolean retval = ultraschall.DeleteEditMarker(integer edit_index)
+                                  
+            >This deletes an edit-marker. Pass to it the index-number of the edit-marker, which is the index for edit-markers only(!). That means, if you have  
+            >five markers with the last one being an edit-marker and you want to delete that, the number is 1, not 5!  
+            >It will return the true, if deleting it was successful.
+            
+            >**[EnumerateEditMarkers](usdocml://EnumerateEditMarkers)**
+            
+                                  integer retnumber, integer shown_number, number position, string edittitle = ultraschall.EnumerateEditMarkers(integer edit_index)
+                                  
+            >This enumerates an edit-marker and all of it's attributes. Just pass over to it the edit-index-number and it will return the overall marker-index-number(markers and regions)  
+            >the shown-number as well as it's position and the title of the edit(without the \_edit: ).
+            
+            >**[CountEditMarkers](usdocml://CountEditMarkers)**
+            
+                                  integer number_of_edit_markers = ultraschall.CountEditMarkers()
+                                  
+            >This returns the number of edit-markers in your project. With that information, you know, how many of these editmarkers can be enumerated.
+            
+            >**[ExportEditMarkersToFile](usdocml://ExportEditMarkersToFile)**
+            
+                                  integer retval = ultraschall.ExportEditMarkersToFile(string filename_with_path, number PodRangeStart, number PodRangeEnd)
+                                  
+            >This exports the edit-markers into an exportfile. You can also pass to it from which startposition to which endposition the markers shall be exported.  
+            >The file created contains the attributes for one edit-marker each line. The format for each line in the file is: hh:mm:ss.mss Title  
+            >This file is generic, so it can be reimported as other types or markers, like normal markers, as well.  
+            >Speaking of importing:  
+
+            
+            >**[ImportEditFromFile](usdocml://ImportEditFromFile)**
+            
+                                  array editmarkers = ultraschall.ImportEditFromFile(string filename_with_path, PodRangestart)
+                                  
+            >This imports a markerexportfile, as created by functions like ExportEditMarkersToFile into the project. Podrangestart is for adding an offset to the edit-marker-positions.
+            
+            >**[IsMarkerEdit](usdocml://IsMarkerEdit)**
+            
+                                  boolean retval = ultraschall.IsMarkerEdit(integer markerid)
+                                  
+            >Checks, if a certain marker is an edit-marker or not. The markerid is the index for all markers and regions, not only edit-markers.  
+            >Returns true, if it's an edit-marker, false if not.
+            
+            >**[MarkerToEditMarker](usdocml://MarkerToEditMarker)**
+            
+                                  integer idx, integer shown_number, number position, string markertitle = ultraschall.MarkerToEditMarker(integer markerindex)
+                                  
+            >This converts a marker into an edit-marker, which usually means, it colors it red (255, 0, 0) and adds "\_edit: " at the beginning of the title.  
+            >The markerindex is the one for all markers.
+            >It returns the overall-marker-indexnumber, the shown number as well as it's position and the new markertitle.
+            
+            >**[EditToMarker](usdocml://EditToMarker)**
+            
+                                  integer idx, integer shown_number, number position, string markertitle = ultraschall.EditToMarker(integer edit_index)
+                                  
+            >This also converts, but this time the other way around: From edit-marker to a normal marker, which means: coloring it with the standard-color 
+            >and removing the \_edit: from the beginning of the title.
+            
+            The other marker-types follow the same lead, so if you understood it for this marker, you understood it for all others as well.  
+            One limitation though, you can't (yet) export/import regions into/from an exportfile.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Marker Management
+        </chapter_context>
+        <previous_chapter>MarkersAndRegions_Introduction</previous_chapter>
+        <next_chapter>MarkersAndRegions_Helpers_and_Manipulation</next_chapter>
+        <tags>markermanagement, how to, get, enumerate, add, set, delete, marker, count, edit, export, import, validitycheck</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MarkersAndRegions_Helpers_and_Manipulation</slug>
+        <title>Markers and Regions: Helpers and Manipulation</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Adding and getting markers is quite good, but sometimes, you want to do more with them. For that, I added numerous functions as well, like:  
+            
+            - [CountMarkersAndRegions](usdocml://CountMarkersAndRegions) - counts all markers and regions
+            - [GetMarkerByScreenCoordinates](usdocml://GetMarkerByScreenCoordinates) - gets a marker by screen-coordinate, like mouse coordinates
+            - [GetMarkerByTime](usdocml://GetMarkerByTime) - gets a marker by the time-position, but according to it's graphical representation in the arrange-view
+            - [GetRegionByScreenCoordinates](usdocml://GetRegionByScreenCoordinates) - gets a region by screen-coordinate, like mouse coordinates
+            - [GetRegionByTime](usdocml://GetRegionByTime) - gets a region by the time-position, but according to it's graphical representation in the arrange-view
+            - [GetTimeSignaturesByTime](usdocml://GetTimeSignaturesByTime) - gets a tempo/time-signature-marker by screen-coordinate, like mouse coordinates
+            - [GetTimesignaturesByScreenCoordinates](usdocml://GetTimesignaturesByScreenCoordinates) - gets a tempo/time-signature-marker by the time-position, but according to it's graphical representation in the arrange-view
+            - [GetMarkerUpdateCounter](usdocml://GetMarkerUpdateCounter) - returns a counter that counts up when any marker in any project has been changed
+            - [IsMarkerAtPosition](usdocml://IsMarkerAtPosition) - returns, if a marker is at a position and if yes, it returns the attributes of the marker(s)
+            - [IsRegionAtPosition](usdocml://IsRegionAtPosition) - returns, if a region is at a position and if yes, it returns the attributes of the region(s)
+            - [MoveMarkersBy](usdocml://MoveMarkersBy) - moves markers by seconds; you can choose the affected markers by choosing the start- and endposition
+            - [MoveRegionsBy](usdocml://MoveRegionsBy) - moves regions by seconds; you can choose the affected markers by choosing the start- and endposition
+            - [MoveTimeSigMarkersBy](usdocml://MoveTimeSigMarkersBy) - moves tempo/timesignature-markers by seconds; you can choose the affected markers by choosing the start- and endposition
+            - [ParseMarkerString](usdocml://ParseMarkerString) - parses a marker-string, like the one from marker-export-files
+            - [RenumerateMarkers](usdocml://RenumerateMarkers) - renumerates the shown numbers of markers
+            - [GetAllMarkers](usdocml://GetAllMarkers) - returns an array with all attributes from all markers
+            - [GetAllMarkersBetween](usdocml://GetAllMarkersBetween) - returns an array between start- and endposition with all attributes from all markers within
+            - [GetAllRegions](usdocml://GetAllRegions) - returns an array with all attributes from all regions
+            - [GetAllRegionsBetween](usdocml://GetAllRegionsBetween) - returns an array between start- and endposition with all attributes from all regions within
+            - [GetLastMarkerPosition](usdocml://GetLastMarkerPosition) - returns the position of the last marker in the project
+            - [GetLastRegion](usdocml://GetLastRegion) - returns the position of the last ending region in the project
+            - [GetLastTimeSigMarkerPosition](usdocml://GetLastTimeSigMarkerPosition)) - returns the last tempo/time-signature-marker in the project
+            - [GetMarkerAndRegionsByIndex](usdocml://GetMarkerAndRegionsByIndex) - returns markers and regions by index
+            - [GetMarkerByName](usdocml://GetMarkerByName) - returns markers by their title
+            - [GetMarkerByName_Pattern](usdocml://GetMarkerByName_Pattern) - returns markers by their title but using the title as a pattern
+            - [ImportMarkersFromFile](usdocml://ImportMarkersFromFile) - imports markers from an exported file as normal markers
+            - [SetMarkerByIndex](usdocml://SetMarkerByIndex) - allows you to set markers and regions on their own, without having to deal with differentiating between them
+
+            So, with this, most of your wishes in regards of marker-management should be fulfilled.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Marker Management
+        </chapter_context>
+        <previous_chapter>MarkersAndRegions_General_How_To</previous_chapter>
+        <next_chapter></next_chapter>
+        <tags>markermanagement, manipulate, move, get marker by time, renumerate, get marker by screen coordinate, is marker at position</tags>
     </US_DocBloc>
 </USDocML>
 >**[](usdocml://)**

@@ -1204,7 +1204,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Count the number of tempo/time signature markers in the project. See [GetTempoTimeSigMarker](#GetTempoTimeSigMarker), [SetTempoTimeSigMarker](#SetTempoTimeSigMarker), [AddTempoTimeSigMarker](#AddTempoTimeSigMarker).
+            Count the number of tempo/time signature markers in the project. See [GetTempoTimeSigMarker](#GetTempoTimeSigMarker), [SetTempoTimeSigMarker](#SetTempoTimeSigMarker), [AddTempoTimeSigMarker](#AddTempoTimeSigMarker), [DeleteTempoTimeSigMarker](#DeleteTempoTimeSigMarker).
         </description>
         <retvals>
             integer - the number of tempo/time-signature markers in the project.
@@ -3103,7 +3103,9 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            Delete a tempo/time signature marker.
+            Delete a tempo/time signature marker. 
+            
+            See [CountTempoTimeSigMarkers](#CountTempoTimeSigMarkers), [GetTempoTimeSigMarker](#GetTempoTimeSigMarker), [SetTempoTimeSigMarker](#SetTempoTimeSigMarker), [AddTempoTimeSigMarker](#AddTempoTimeSigMarker).
         </description>
         <retvals>
             boolean - 
@@ -8266,7 +8268,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get information about a tempo/time signature marker. See [CountTempoTimeSigMarkers](#CountTempoTimeSigMarkers), [SetTempoTimeSigMarker](#SetTempoTimeSigMarker), [AddTempoTimeSigMarker](#AddTempoTimeSigMarker).
+            Get information about a tempo/time signature marker. See [CountTempoTimeSigMarkers](#CountTempoTimeSigMarkers), [SetTempoTimeSigMarker](#SetTempoTimeSigMarker), [AddTempoTimeSigMarker](#AddTempoTimeSigMarker), [DeleteTempoTimeSigMarker](#DeleteTempoTimeSigMarker).
         </description>
         <retvals>
              retval - 
@@ -14535,7 +14537,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Set parameters of a tempo/time signature marker. Provide either timepos (with measurepos=-1, beatpos=-1), or measurepos and beatpos (with timepos=-1). If timesig_num and timesig_denom are zero, the previous time signature will be used. ptidx=-1 will insert a new tempo/time signature marker. See [CountTempoTimeSigMarkers](#CountTempoTimeSigMarkers), [GetTempoTimeSigMarker](#GetTempoTimeSigMarker), [AddTempoTimeSigMarker](#AddTempoTimeSigMarker).
+            Set parameters of a tempo/time signature marker. Provide either timepos (with measurepos=-1, beatpos=-1), or measurepos and beatpos (with timepos=-1). If timesig_num and timesig_denom are zero, the previous time signature will be used. ptidx=-1 will insert a new tempo/time signature marker. See [CountTempoTimeSigMarkers](#CountTempoTimeSigMarkers), [GetTempoTimeSigMarker](#GetTempoTimeSigMarker), [AddTempoTimeSigMarker](#AddTempoTimeSigMarker), [DeleteTempoTimeSigMarker](#DeleteTempoTimeSigMarker).
         </description>
         <retvals>
             boolean - 
