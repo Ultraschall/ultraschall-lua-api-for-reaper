@@ -341,11 +341,16 @@
   - Docs: ExtState Management: Track and Item-Extstates - added chapter to Introduction/Concepts-page
   - Docs: ExtState Management: Track Extstates - added chapter to Introduction/Concepts-page
   - Docs: ExtState Management: Item Extstates - added chapter to Introduction/Concepts-page
+  - MoveRegionsBy - moves regions by seconds
+  - MoveTimeSigMarkersBy - moves Timesignature/Tempo-markers by seconds
+  - DrawMenu - shows a new context-menu at a given position
     
   <TODO>
       TODO!!  - write final documentation for public-beta
       TODO!!  - possible issue with MoveMarkers
       TODO!!  - 1 - bla bla umwandeln in 1, bla bla
+      TODO!!  - Reaper-ApiDocs: timesigmarker descriptions all miss the reaper.DeleteTempoTimeSigMarker(ReaProject project, integer markerindex) link!!
+      TODO!!  - Reaper-Apidocs: gfx.showmenu - entries that are given as || (without anything inbetween) are shown as separator-line -> add that to the docs
       
     For 4.00beta2.8:
       TODO!!  - MoveTimeSigMarkersBy MoveTimeSigMarkersTo - moving them mixes up the order. 
@@ -755,7 +760,7 @@
   - SplitStringAtLineFeedToArray - used to treat LFCR as two linebreaks, which caused empty lines in windows-strings. Treats LFCR as one linebreak now.
   - ReadLinerangeFromFile - allows now reading the whole file, when giving -1 as lastlinenumber; added missing information in the docs
   - As the Functions-Engine is essential for all parts of the Ultraschall-API, it can't be turned off anymore.
-  - renamed MoveMarkers to MoveMarkersBy
+  - renamed MoveMarkers to MoveMarkersBy, reimplemented it, as sometimes, it messed up marker order after movement
   - ReadValueFromFile - sped up code, returned wrong found-lines-value -> fixed
   - CheckMediaItemArray - did not return the altered MediaItemArray and count, when returning retval=false -> fixed
   - ChangeOffsetOfMediaItems_FromArray - typos in the docs -> fixed

@@ -22,6 +22,7 @@
                    - Cough-Mute-management - you can write your own cough-buttons, that set the state of the mute-envelope of a track easily
                    - Marker - extensive set of marker functions, get, set, export, import, enumerate, etc
                    - Spectrogram - you can program the spectrogram-view
+                   - Routing - you can set Sends/Receives and HWOuts more straightforward than with Reaper's own Routing-functions. Includes mastertrack as well.
                    - Get MediaItems - you can get all media-items within a time-range AND within the tracks you prefer; a 2D-approach
                        e.g. [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween) and [GetMediaItemsAtPosition ](usdocml://GetMediaItemsAtPosition ), etc
                    - Gaps between items - you can get the gaps between items in a track, using [GetGapsBetweenItems](usdocml://GetGapsBetweenItems)
@@ -35,7 +36,7 @@
                    - Checking for changed projecttabs - check, if projecttabs have been added/removed
                    - ExtState-Management - an extensive set of functions for working with extstates as well as ini-files
                    - Data Manipulation- manipulate a lot of your data, including bitwise-integers, tables, etc
-                   - Clipboard-Management - get items from clipboard
+                   - Clipboard-Management - get items from clipboard, put them to clipboard, even multiple ones
                    - Error Messaging System - all functions create useful error-messages that can be shown using, eg: [ShowLastErrorMessage](usdocml://ShowLastErrorMessage), for easier debugging
                    - tons of other helper-functions AND
                 

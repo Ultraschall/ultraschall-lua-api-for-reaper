@@ -22434,86 +22434,6 @@ end
 ---- Marker Management ----
 ---------------------------
 
-function ultraschall.MoveMarkersBy(startposition, endposition, moveby, cut_at_borders)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>MoveMarkersBy</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval = ultraschall.MoveMarkersBy(number startposition, number endposition, number moveby, boolean cut_at_borders)</functioncall>
-  <description>
-    Moves the markers and regions between startposition and endposition by moveby.
-    
-    Does NOT move time-signature-markers!
-    
-    Returns -1 in case of failure.
-  </description>
-  <retvals>
-    integer retval - -1 in case of failure
-  </retvals>
-  <parameters>
-    number startposition - the startposition in seconds
-    number endposition - the endposition in seconds
-    number moveby - in seconds, negative values: move toward beginning of project, positive values: move toward the end of project
-    boolean cut_at_borders - shortens or cuts markers/regions, that leave (partially) the section between startposition and endposition
-    - Regions will only be affected, if they are completely within the section, otherwise, they will be just shortened.
-  </parameters>
-  <chapter_context>
-    Markers
-    Assistance functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>markermanagement, move, moveby, region, marker</tags>
-</US_DocBloc>
-]]
-  if type(startposition)~="number" then ultraschall.AddErrorMessage("MoveMarkersBy","startposition", "must be a number", -1) return -1 end
-  if type(endposition)~="number" then ultraschall.AddErrorMessage("MoveMarkersBy","endposition", "must be a number", -2) return -1 end
-  if startposition>endposition then ultraschall.AddErrorMessage("MoveMarkersBy","endposition", "must be bigger than startposition", -3) return -1 end
-  if type(moveby)~="number" then ultraschall.AddErrorMessage("MoveMarkersBy","moveby", "must be a number", -4) return -1 end
-  if type(cut_at_borders)~="boolean" then ultraschall.AddErrorMessage("MoveMarkersBy","cut_at_borders", "must be a boolean", -5) return -1 end
-  
-  local retval, num_markers, num_regions = reaper.CountProjectMarkers(0)
-  
-  for i=0, retval do
-    local sretval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, i)
-    if pos>=tonumber(startposition) and pos<=tonumber(endposition) then
-      if cut_at_borders==true then
-        if isrgn==true and pos+moveby>=tonumber(startposition) and rgnend+moveby<=tonumber(endposition) then
-          local boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos+moveby, rgnend+moveby, name)
-        elseif isrgn==true and pos+moveby<tonumber(startposition) and rgnend+moveby<=tonumber(startposition) then
-          local boolean=reaper.DeleteProjectMarker(0, markrgnindexnumber, true)
-        elseif isrgn==true and pos+moveby>=tonumber(endposition) and rgnend<=tonumber(endposition)+moveby then
-          local boolean=reaper.DeleteProjectMarker(0, markrgnindexnumber, true)
-        elseif isrgn==true and pos+moveby<tonumber(startposition) and rgnend+moveby<=tonumber(endposition) then
-          local boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, startposition, rgnend+moveby, name)
-        elseif isrgn==true and pos+moveby>=tonumber(startposition) and rgnend+moveby>tonumber(endposition) and moveby<0 then
-          local boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos+moveby, rgnend, name)
-        elseif isrgn==true and pos+moveby>=tonumber(startposition) and rgnend+moveby>tonumber(endposition) and moveby>=0 then
-          local boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos+moveby, rgnend, name)
-          
-        elseif isrgn==false and pos+moveby>=tonumber(startposition) and pos+moveby<=tonumber(endposition) then
-          local boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos+moveby, rgnend+moveby, name)
-        elseif isrgn==false and pos+moveby<tonumber(startposition) or pos+moveby>tonumber(endposition) then
-          local boolean=reaper.DeleteProjectMarker(0, markrgnindexnumber, false)          
-        end
-      else
-        local boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos+moveby, rgnend+moveby, name)
-      end --if cutborders
-    elseif isrgn==true and pos<=tonumber(startposition) and pos<=tonumber(endposition) then
-      if cut_at_borders==true then
-        if rgnend+moveby<=tonumber(endposition) and rgnend+moveby>=tonumber(startposition)then
-          local boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos, rgnend+moveby, name)
-        end
-      end --if cutborders - only regions that start before startposition
-    end --if
-  end --for
-end
-
---Aretval = ultraschall.MoveMarkersBy(0, 169, 1, true)
 
 function ultraschall.GetAllMarkersBetween(startposition, endposition)
 --[[
@@ -24358,7 +24278,7 @@ end
 --PK,BA=ultraschall.CreateMediaItemStateChunksFromItems(CC)
 --ultraschall.GetMediaItemStateChunksFromItems(hsdji)
 
-function ultraschall.RippleInsert(position, MediaItemArray, trackstring, moveenvelopepoints, movemarkers)
+function ultraschall.RippleInsert(position, MediaItemArray, trackstring, moveenvelopepoints)
 --splits the items at position and inserts MediaItemArray at that position, and moves 
 --all following toward the end, accordingly.
 --position - the position of the earliest item in the MediaItemArray. All others will be relative to the earliest Item
@@ -24407,14 +24327,13 @@ function ultraschall.RippleInsert(position, MediaItemArray, trackstring, moveenv
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("RippleInsert", "MediaItemArray", "must be a valid MediaItemArray", -2) return -1 end
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("RippleInsert", "trackstring", "must be a valid trackstring", -3) return -1 end
   if type(moveenvelopepoints)~="boolean" then ultraschall.AddErrorMessage("RippleInsert", "moveenvelopepoints", "must be a boolean", -4) return -1 end
-  if type(movemarkers)~="boolean" then ultraschall.AddErrorMessage("RippleInsert", "movemarkers", "must be a boolean", -5) return -1 end
   
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
   --reaper.MB(trackstring,"",0)
   if trackstring==-1 or trackstring=="" then ultraschall.AddErrorMessage("RippleInsert", "trackstring", "must be a valid trackstring", -6) return -1 end
 
 -- local NumberOfItems
-  NewMediaItemArray={}
+  local NewMediaItemArray={}
   local count=1
   local ItemStart=reaper.GetProjectLength()+1
   local ItemEnd=0
@@ -36093,113 +36012,8 @@ function progresscounter(state)
 end
 --progresscounter(false)
 
-function ultraschall.MoveMarkersTo(startposition, endposition, newposition)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>MoveMarkersTo</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = ultraschall.MoveMarkersTo(number startposition, number endposition, number newposition)</functioncall>
-  <description>
-    Moves the markers between startposition and endposition to newposition.
-    Only the first marker in between start/endposition will be moved to newposition, all others will be moved relative to the first marker!
-    
-    Does NOT move time-signature-markers or regions!
-    
-    Returns false in case of failure.
-  </description>
-  <retvals>
-    boolean retval - true, in case of success; false, in case of error
-  </retvals>
-  <parameters>
-    number startposition - the startposition in seconds
-    number endposition - the endposition in seconds
-    number newposition - the new position in seconds; only the first marker in time-selection is moved to this position, all others are moved in relation to the first marker
-  </parameters>
-  <chapter_context>
-    Markers
-    Assistance functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>markermanagement, move, moveto, marker</tags>
-</US_DocBloc>
-]]
-  if type(startposition)~="number" then ultraschall.AddErrorMessage("MoveMarkersTo","startposition", "Must be a number!", -1) return false end
-  if type(endposition)~="number" then ultraschall.AddErrorMessage("MoveMarkersTo","endposition", "Must be a number!", -2) return false end
-  if endposition<startposition then ultraschall.AddErrorMessage("MoveMarkersTo","endposition", "Must be bigger than startposition!", -3) return false end
-  if startposition<0 then ultraschall.AddErrorMessage("MoveMarkersTo","startposition", "Must be bigger or equal 0!", -4) return false end
-  if type(newposition)~="number" then ultraschall.AddErrorMessage("MoveMarkersTo","newposition", "Must be a number!", -5) return false end
-  if newposition<0 then ultraschall.AddErrorMessage("MoveMarkersTo","newposition", "Must be bigger or equal 0!", -6) return false end
-    
-  local A,B=ultraschall.GetAllMarkersBetween(startposition, endposition)
-  if A==0 then return false end
-  local deltapos=B[1][0]-newposition
-  for i=1,A do
-    reaper.SetProjectMarkerByIndex(0, B[i][2], false, B[i][0]-deltapos, 0, B[i][3], B[i][1], B[i][4])
-  end
-  return true
-end
-
---ultraschall.MoveMarkersTo(0, 220, -10)
 
 
-function ultraschall.MoveRegionsTo(startposition, endposition, newposition, partial)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>MoveRegionsTo</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = ultraschall.MoveRegionsTo(number startposition, number endposition, number newposition, boolean partial)</functioncall>
-  <description>
-    Moves the regions between startposition and endposition to newposition.
-    Only the first region inbetween start/endposition will be moved to newposition, all others will be moved relative to the first region!
-    Set partial to true, if you want to move regions as well, who are only partially inbetween start/endposition.
-    
-    Does NOT move time-signature-markers or markers!
-    
-    Returns false in case of failure.
-  </description>
-  <retvals>
-    boolean retval - true, in case of success; false, in case of error
-  </retvals>
-  <parameters>
-    number startposition - the startposition in seconds
-    number endposition - the endposition in seconds
-    number newposition - the new position in seconds; only the first region in time-selection is moved to this position, all others are moved in relation to the first marker
-    boolean partial - true, to move regions that are partially within start and endposition as well; false, only regions completely within start/endposition.
-  </parameters>
-  <chapter_context>
-    Markers
-    Assistance functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>markermanagement, move, moveto, region</tags>
-</US_DocBloc>
-]]
-  if type(startposition)~="number" then ultraschall.AddErrorMessage("MoveRegionsTo","startposition", "Must be a number!", -1) return false end
-  if type(endposition)~="number" then ultraschall.AddErrorMessage("MoveRegionsTo","endposition", "Must be a number!", -2) return false end
-  if endposition<startposition then ultraschall.AddErrorMessage("MoveRegionsTo","endposition", "Must be bigger than startposition!", -3) return false end
-  if startposition<0 then ultraschall.AddErrorMessage("MoveRegionsTo","startposition", "Must be bigger or equal 0!", -4) return false end
-  if type(newposition)~="number" then ultraschall.AddErrorMessage("MoveRegionsTo","newposition", "Must be a number!", -5) return false end
-  if newposition<0 then ultraschall.AddErrorMessage("MoveRegionsTo","newposition", "Must be bigger or equal 0!", -6) return false end
-  if type(partial)~="boolean" then ultraschall.AddErrorMessage("MoveRegionsTo","partial", "Must be boolean!", -5) return false end
-  
-  local A,B=ultraschall.GetAllRegionsBetween(startposition, endposition, partial)
-  if A==0 then return false end
-  local deltapos=B[1][0]-newposition
-  for i=1,A do
-    reaper.SetProjectMarkerByIndex(0, B[i][3], true, B[i][0]-deltapos, B[i][1]-deltapos, B[i][4], B[i][2], B[i][5])
-  end
-  return true
-end
 
 function ultraschall.CreateValidTempFile(filename_with_path, create, suffix, retainextension)
 --[[
@@ -45808,62 +45622,80 @@ end
 
 -- ultraschall.ApplyActionToMediaItemArray2(MediaItemArray_selected, 41925, 100, false)
 
-function ultraschall.MoveTimeSigMarkersBy(startposition, endposition, newposition, update_timeline)
--- Buggy! mixes up order of the markers, during changing the position of a marker
---        would need a unique identifier for timesig-markers to deal with that. Or a clever solution.
---        The most brutal would be: Get them all as array, change the array, delete them all and readd them from the array
-  local integer = reaper.CountTempoTimeSigMarkers(0)
-  for i=integer, 0, -1 do
-    local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
-    if timepos>=startposition and timepos<=endposition then
-      reaper.SetTempoTimeSigMarker(0, i, timepos+newposition, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo)
+
+function ultraschall.MoveTimeSigMarkersBy(startposition, endposition, moveby, cut_at_borders, update_timeline)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MoveTimeSigMarkersBy</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.MoveTimeSigMarkersBy(number startposition, number endposition, number moveby, boolean cut_at_borders, boolean update_timeline)</functioncall>
+  <description>
+    Moves time-signature-markers between startposition and endposition by moveby.
+    
+    Does NOT move normal projectmarkers or regions!
+    
+    Returns -1 in case of failure.
+  </description>
+  <retvals>
+    integer retval - -1 in case of failure
+  </retvals>
+  <parameters>
+    number startposition - the startposition in seconds
+    number endposition - the endposition in seconds
+    number moveby - in seconds, negative values: move toward beginning of project, positive values: move toward the end of project
+    boolean cut_at_borders - shortens or cuts markers, that leave the section between startposition and endposition
+    boolean update_timeline - true, updates the timeline after moving time-signature markers; false, don't update timeline(must be done manually then)
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>markermanagement, move, moveby, timesignature</tags>
+</US_DocBloc>
+]]
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("MoveTimeSigMarkersBy","startposition", "must be a number", -1) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("MoveTimeSigMarkersBy","endposition", "must be a number", -2) return -1 end
+  if startposition>endposition then ultraschall.AddErrorMessage("MoveTimeSigMarkersBy","endposition", "must be bigger than startposition", -3) return -1 end
+  if type(moveby)~="number" then ultraschall.AddErrorMessage("MoveTimeSigMarkersBy","moveby", "must be a number", -4) return -1 end
+  if type(cut_at_borders)~="boolean" then ultraschall.AddErrorMessage("MoveTimeSigMarkersBy","cut_at_borders", "must be a boolean", -5) return -1 end
+  if type(update_timeline)~="boolean" then ultraschall.AddErrorMessage("MoveTimeSigMarkersBy","update_timeline", "must be a boolean", -6) return -1 end
+  if moveby==0 then return -1 end
+  local numtimesigmarkers = reaper.CountTempoTimeSigMarkers(0)
+  
+  local start, stop, step, boolean
+  if moveby>0 then start=numtimesigmarkers stop=0 step=-1
+  elseif moveby<0 then start=0 stop=numtimesigmarkers step=1
+  end
+
+  if cut_at_borders==true then
+    for i=numtimesigmarkers, 0, -1 do
+      local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
+      if timepos>=startposition and timepos<=endposition then
+        if (timepos+moveby>endposition or timepos+moveby<startposition) then
+          boolean=reaper.DeleteTempoTimeSigMarker(0, i)
+        end
+      end
     end
   end
-  if update_timeline==true then reaper.UpdateTimeline() end
-end
 
---ultraschall.MoveTimeSigMarkersBy(2, 5, 10, true)
-
-function ultraschall.MoveTimeSigMarkersTo(startposition, endposition, newposition, update_timeline)
--- Buggy! mixes up order of the markers, during changing the position of a marker
---        would need a unique identifier for timesig-markers to deal with that. Or a clever solution.
---        The most brutal would be: Get them all as array, change the array, delete them all and readd them from the array
-  integer = reaper.CountTempoTimeSigMarkers(0)
-  local timepos_offset, retval
-  
-  for i=0, integer do
-    retval, timepos_offset = reaper.GetTempoTimeSigMarker(0, i)
-    if timepos_offset>=startposition and timepos_offset<=endposition then break end
-  end
-  
-  projectendposition=reaper.GetProjectLength()+newposition
-  projectendposition2=reaper.GetProjectLength()+newposition+endposition
-  
---  if ol==nil then return end
-  i=0
-  while i<=integer do
+  for i=start, stop, step do
     local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
     if timepos>=startposition and timepos<=endposition then
-      reaper.SetTempoTimeSigMarker(0, i, timepos-timepos_offset+newposition+projectendposition, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo)
-      i=i-1
-      integer=integer-1
-      reaper.MB(projectendposition+endposition+newposition,timepos-timepos_offset+newposition+projectendposition,0)
+        boolean = reaper.SetTempoTimeSigMarker(0, i, timepos+moveby, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo)
     end
-    i=i+1
-  end
-
-  for i=integer, reaper.CountTempoTimeSigMarkers() do
-    local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
---    if timepos>=projectendposition and timepos<=projectendposition+endposition+newposition then
---      reaper.SetTempoTimeSigMarker(0, i, timepos-projectendposition2, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo)
-      reaper.MB(projectendposition,timepos,1)
---    end
   end
   
   if update_timeline==true then reaper.UpdateTimeline() end
+  return 1
 end
 
---ultraschall.MoveTimeSigMarkersTo(1, 5, 6, true)
+--L=ultraschall.MoveTimeSigMarkersBy(20, 55, -1, true, true)
 
 function ultraschall.GetAllTimeSigMarkers()
   local markerarray={}
@@ -45880,6 +45712,255 @@ end
 --ultraschall.SectionCut(2, 4, "1", true)
 
 --ultraschall.RippleCut_Reverse(2, 4, "1", false, true)
+
+function ultraschall.MoveMarkersBy(startposition, endposition, moveby, cut_at_borders)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MoveMarkersBy</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.MoveMarkersBy(number startposition, number endposition, number moveby, boolean cut_at_borders)</functioncall>
+  <description>
+    Moves the markers between startposition and endposition by moveby.
+    
+    Does NOT move regions and time-signature-markers!
+    
+    Returns -1 in case of failure.
+  </description>
+  <retvals>
+    integer retval - -1 in case of failure
+  </retvals>
+  <parameters>
+    number startposition - the startposition in seconds
+    number endposition - the endposition in seconds
+    number moveby - in seconds, negative values: move toward beginning of project, positive values: move toward the end of project
+    boolean cut_at_borders - shortens or cuts markers, that leave the section between startposition and endposition when applying moveby
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>markermanagement, move, moveby, marker</tags>
+</US_DocBloc>
+]]
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("MoveMarkersBy","startposition", "must be a number", -1) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("MoveMarkersBy","endposition", "must be a number", -2) return -1 end
+  if startposition>endposition then ultraschall.AddErrorMessage("MoveMarkersBy","endposition", "must be bigger than startposition", -3) return -1 end
+  if type(moveby)~="number" then ultraschall.AddErrorMessage("MoveMarkersBy","moveby", "must be a number", -4) return -1 end
+  if type(cut_at_borders)~="boolean" then ultraschall.AddErrorMessage("MoveMarkersBy","cut_at_borders", "must be a boolean", -5) return -1 end
+
+  if moveby==0 then return -1 end
+  local retval, num_markers, num_regions = reaper.CountProjectMarkers(0)
+  
+  local start, stop, step, boolean
+  if moveby>0 then start=retval-1 stop=0 step=-1
+  elseif moveby<0 then start=0 stop=retval step=1
+  end
+
+  if cut_at_borders==true then
+    for i=retval, 0, -1 do
+      local sretval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, i)
+      if pos>=startposition and pos<=endposition then
+        if (pos+moveby>endposition or pos+moveby<startposition) then
+          boolean=reaper.DeleteProjectMarkerByIndex(0, i)
+        end
+      end
+    end
+  end
+
+  for i=start, stop, step do
+    local sretval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, i)
+    if pos>=startposition and pos<=endposition then
+        boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos+moveby, rgnend, name)
+    end
+  end
+  
+  return 1
+end
+
+--Aretval = ultraschall.MoveMarkersBy(15, 80, -10, true)
+
+
+function ultraschall.MoveRegionsBy(startposition, endposition, moveby, cut_at_borders)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MoveRegionsBy</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.MoveRegionsBy(number startposition, number endposition, number moveby, boolean cut_at_borders)</functioncall>
+  <description>
+    Moves the regions between startposition and endposition by moveby.
+    Will affect only regions, who start within start and endposition. It will not affect those, who end within start and endposition but start before startposition.
+    
+    Does NOT move markers and time-signature-markers!
+    
+    Returns -1 in case of failure.
+  </description>
+  <retvals>
+    integer retval - -1 in case of failure
+  </retvals>
+  <parameters>
+    number startposition - the startposition in seconds
+    number endposition - the endposition in seconds
+    number moveby - in seconds, negative values: move toward beginning of project, positive values: move toward the end of project
+    boolean cut_at_borders - shortens or cuts markers, that leave the section between startposition and endposition
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>markermanagement, move, moveby, marker</tags>
+</US_DocBloc>
+]]
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("MoveRegionsBy","startposition", "must be a number", -1) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("MoveRegionsBy","endposition", "must be a number", -2) return -1 end
+  if startposition>endposition then ultraschall.AddErrorMessage("MoveRegionsBy","endposition", "must be bigger than startposition", -3) return -1 end
+  if type(moveby)~="number" then ultraschall.AddErrorMessage("MoveRegionsBy","moveby", "must be a number", -4) return -1 end
+  if type(cut_at_borders)~="boolean" then ultraschall.AddErrorMessage("MoveRegionsBy","cut_at_borders", "must be a boolean", -5) return -1 end
+  if moveby==0 then return -1 end
+  local retval, num_markers, num_regions = reaper.CountProjectMarkers(0)
+  
+  local start, stop, step, boolean
+  if moveby>0 then start=retval stop=0 step=-1     -- if moveby is positive, count through the markers backwards
+  elseif moveby<0 then start=0 stop=retval step=1  -- if moveby is positive, count through the markers forward
+  end
+  local markerdeleter={}
+  local count=0
+  
+  for i=start, stop, step do
+    local sretval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, i)
+    
+    if isrgn==true and (pos>=startposition and pos<=endposition) then
+      -- only regions within start and endposition
+      if cut_at_borders==true then
+        -- if cutting at the borders=true, with borders determined by start and endposition 
+        if pos+moveby>endposition and rgnend+moveby>endposition then
+          -- when regions would move after endposition, put it into the markerdelete-array
+          markerdeleter[count]=markrgnindexnumber
+          count=count+1
+        elseif pos+moveby<startposition and rgnend+moveby<startposition then
+          -- when regions would move before startposition, put it into the markerdelete-array
+          markerdeleter[count]=markrgnindexnumber
+          count=count+1
+        elseif pos+moveby<startposition and rgnend+moveby>=startposition and rgnend+moveby<=endposition then
+          -- when start of the region is before startposition and end of the region is within start and endposition,
+          -- set start of the region to startposition and only move regionend by moveby
+          boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, startposition, rgnend+moveby, name)
+        elseif rgnend+moveby>endposition and pos+moveby>=startposition and pos+moveby<=endposition then
+          -- when end of the region is after endposition and start of the region is within start and endposition,
+          -- set end of the region to endposition and only move regionstart(pos) by moveby
+          boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos+moveby, endposition, name)
+        else
+          -- move the region by moveby
+          boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos+moveby, rgnend+moveby, name)
+        end
+      else
+        -- move the region by moveby
+        boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos+moveby, rgnend+moveby, name)
+      end
+    end
+  end
+  for i=0, count-1 do
+    Aboolean=reaper.DeleteProjectMarker(0, markerdeleter[i], true)
+  end
+  return 1
+end
+
+--Aretval = ultraschall.MoveRegionsBy(-10, 180, -1, false)
+
+function ultraschall.ShowMenu(Title,Entries,x,y)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ShowMenu</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.ShowMenu(string Title, string Entries, integer x, integer y)</functioncall>
+  <description>
+    Draws a menu at position x,y.
+    
+    Entries is the string, that contains the Menuentries, separated by |
+    Example: "Entry1|Entry2|Entry3"
+    
+    Each field can start with a special character
+      # grays out the entry
+      ! entry is checked
+      > starts a new submenu, where every following entry will be part of the submenu
+      < ends a submenu with this entry being the last one
+    These special characters can be combined, however, grayed out entries don't open submenus, even if they are shown as submenus.
+    A field with nothing in it || creates a separator.    
+    
+    The returned number follows the numbering of the clickable(!) entries. Even if grayed out-entries can't be selected, they count as well.
+    However, opening-submenu-entries and separators don't count as clickable.
+    That said, if you have one grayed out entry and one normal entry, the grayed out entry is 1, the normal entry(the only selectable one) is 2.
+    
+    The following entry 
+
+      Normal1|>SubmenuOpener|Submenuentry1|<SubmenuEntry2Closer|#Grayed Out
+
+    creates the following menu:
+    
+      Normal1
+      SubmenuOpener >
+        Submenuentry1
+        SubmenuEntry2Closer
+      Grayed Out
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the selected entry; 0, nothing selected
+  </retvals>
+  <parameters>
+    string Title - the title shown on top of the menu
+    string Entries - the individual entries. See above on how to create such an entry.
+    integer x - the x-position of the menu
+    integer y - the y-position of the menu
+  </parameters>
+  <chapter_context>
+    User Interface
+    Context Menus
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, create, menu, contextmenu</tags>
+</US_DocBloc>
+]]
+  if type(Title)~="string" then ultraschall.AddErrorMessage("DrawMenu", "Title", "must be a string", -1) return -1 end
+  if type(Entries)~="string" then ultraschall.AddErrorMessage("DrawMenu", "Entries", "must be a string", -2) return -1 end
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("DrawMenu", "x", "must be an integer", -3) return -1 end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("DrawMenu", "y", "must be an integer", -4) return -1 end
+  if Entries=="" then ultraschall.AddErrorMessage("DrawMenu", "Entries", "must have at least one entry", -5) return -1 end
+  if Title:len()<=5 then for i=5-Title:len(),1, -1 do Title=Title.." " end end
+
+  local ownwindow=false
+  if gfx.h==0 and gfx.w==0 then gfx.init("Ultraschall-Menu",0,0,0,x,y)
+    gfx.x=-10
+    gfx.y=-25
+    ownwindow=true
+  else
+    convx, convy = gfx.screentoclient(x, y)
+    gfx.x=convx
+    gfx.y=convy
+  end
+  local selection=gfx.showmenu("#"..Title.."||"..Entries)
+  if ownwindow==true then gfx.quit() end
+  return math.floor(selection)
+end
+
+--L=ultraschall.ShowMenu("","Normal1|>SubmenuOpener|Submenuentry1|<SubmenuEntry2Closer|#Grayed Out",-1,-1)
 
 ultraschall.ShowLastErrorMessage()
 

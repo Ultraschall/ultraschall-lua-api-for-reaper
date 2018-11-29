@@ -39,7 +39,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 22740</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "John Cage - 4'33" - 15th of October 2018 - Build: 24335</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -128,6 +128,7 @@ Ultraschall API functions
 <li>Cough-Mute-management - you can write your own cough-buttons, that set the state of the mute-envelope of a track easily</li>
 <li>Marker - extensive set of marker functions, get, set, export, import, enumerate, etc</li>
 <li>Spectrogram - you can program the spectrogram-view</li>
+<li>Routing - you can set Sends/Receives and HWOuts more straightforward than with Reaper's own Routing-functions. Includes mastertrack as well.</li>
 <li>Get MediaItems - you can get all media-items within a time-range AND within the tracks you prefer; a 2D-approach e.g. <a href="US_Api_Functions.html#GetAllMediaItemsBetween">GetAllMediaItemsBetween</a> and <a href="US_Api_Functions.html#GetMediaItemsAtPosition">GetMediaItemsAtPosition</a>, etc</li>
 <li>Gaps between items - you can get the gaps between items in a track, using <a href="US_Api_Functions.html#GetGapsBetweenItems">GetGapsBetweenItems</a></li>
 <li>Edit item(s) - Split, Cut, Copy, Paste, Move, RippleCut, RippleInsert, SectionCut by tracks AND time/start to endposition e.g. <a href="US_Api_Functions.html#RippleCut">RippleCut</a>, <a href="RippleInsert" class="uri">RippleInsert</a>, <a href="US_Api_Functions.html#SectionCut">SectionCut</a>, <a href="US_Api_Functions.html#SplitMediaItems_Position">SplitMediaItems_Position</a>, <a href="US_Api_Functions.html#MoveMediaItemsBefore_By">MoveMediaItemsBefore_By</a>, <a href="US_Api_Functions.html#MoveMediaItemsSectionTo">MoveMediaItemsSectionTo</a> and many more</li>
@@ -139,7 +140,7 @@ Ultraschall API functions
 <li>Checking for changed projecttabs - check, if projecttabs have been added/removed</li>
 <li>ExtState-Management - an extensive set of functions for working with extstates as well as ini-files</li>
 <li>Data Manipulation- manipulate a lot of your data, including bitwise-integers, tables, etc</li>
-<li>Clipboard-Management - get items from clipboard</li>
+<li>Clipboard-Management - get items from clipboard, put them to clipboard, even multiple ones</li>
 <li>Error Messaging System - all functions create useful error-messages that can be shown using, eg: <a href="US_Api_Functions.html#ShowLastErrorMessage">ShowLastErrorMessage</a>, for easier debugging</li>
 <li><p>tons of other helper-functions AND</p></li>
 <li><p>it's documented with this documentation. :D</p></li>
