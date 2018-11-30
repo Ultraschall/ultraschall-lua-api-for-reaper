@@ -7683,229 +7683,7 @@ end
 
 ------------------------------
 ---- Meta Data Management ----
-------------------------------
-
-function ultraschall.SetID3TagsForCurrentProject(title, artist, album, track, year, genre, comment, date, involved_people, language, coverfilename_and_path, coverfilename_and_path2, coverfilename_and_path3)
--- sets project-states with the ID3-Tags. Use nil, if you don't want to change an already set ID3-Tag
--- sets the following tags:
--- Title, Artist, Album, Track, Years, Genre, Comment, Date, Involved_People, Language, Coverfilename_And_Path, Cover2filename_And_Path, Cover3filename_And_Path
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SetID3TagsForCurrentProject</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>ultraschall.SetID3TagsForCurrentProject(string title, string artist, string album, string track, string year, string genre, string comment, string date, string involved_people, string language, string coverfilename_and_path, string coverfilename_and_path2, string coverfilename_and_path3)</functioncall>
-  <description>
-    sets project-states with the ID3-Tags. Use nil, if you don't want to change an already set ID3-Tag.
-    
-    Sets the following tags:
-    
-    Title, Artist, Album, Track, Years, Genre, Comment, Date, Involved_People, Language, Coverfilename_And_Path, Cover2filename_And_Path, Cover3filename_And_Path
-  </description>
-  <parameters>
-    string title - the file's title
-    string artist - the file's artist  
-    string album - the file's album
-    string track - the file's track
-    string year - the file's years
-    string genre - the file's genre
-    string comment - the file's comment
-    string date - the file's date
-    string involved_people - the file's involved people
-    string language - the file's language
-    string coverfilename_and_path - the file's cover 1
-    string coverfilename_and_path2 - the file's cover 2
-    string coverfilename_and_path3 - the file's cover 3
-  </parameters>
-  <chapter_context>
-    Metadata Management
-    ID3-Tags
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>tagmanagement, id3, title, artist, album, track, year, genre, comment, date, involved people, language, cover</tags>
-</US_DocBloc>
---]]
-    if title~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Title", title) end
-    if artist~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Artist", artist) end
-    if album~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Album", album) end
-    if track~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Track", track) end
-    if year~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Year", year) end
-    if genre~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Genre", genre) end
-    if comment~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Comment", comment) end
-    if date~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Date", date) end
-    if involved_people~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Involved_People", involved_people) end
-    if language~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Language", language) end
-    if coverfilename_and_path~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Coverfilename_And_Path", coverfilename_and_path) end        
-    if coverfilename_and_path2~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Coverfilename_And_Path2", coverfilename_and_path2) end        
-    if coverfilename_and_path3~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Coverfilename_And_Path3", coverfilename_and_path3) end        
-end
-
---ultraschall.SetID3TagsForCurrentProject("tit","art","alb","tr","yr","gen","com","dat","inv","lang","coverf1","coverf2","coverf3")
-
-function ultraschall.SetID3TagsForCurrentProject_PodcastTags(podcast, podcast_category, podcast_description, podcast_id, podcast_keywords, podcast_url)
--- sets project-states with the ID3-Tags specifically for Podcasts. Use nil, if you don't want to change an already set ID3-Tag
--- sets the following tags:
---Podcasttags for Podcast, Category, Description, ID, Keywords, URL
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SetID3TagsForCurrentProject_PodcastTags</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>ultraschall.SetID3TagsForCurrentProject_PodcastTags(string podcast, string podcast_category, string podcast_description, string podcast_id, string podcast_keywords, string podcast_url)</functioncall>
-  <description>
-    sets project-states with the ID3-Tags specifically for Podcasts. Use nil, if you don't want to change an already set ID3-Tag.
-    
-    Sets the following tags:
-    
-    Podcasttags for Podcast, Category, Description, ID, Keywords, URL
-  </description>
-  <parameters>
-    string podcast - podcast name
-    string podcast_category - podcast category
-    string podcast_description - podcast description
-    string podcast_id - podcast id
-    string podcast_keywords - podcast keywords
-    string podcast_url - podcast url
-  </parameters>
-  <chapter_context>
-    Metadata Management
-    ID3-Tags
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>tagmanagement, podcast, name, category, description, id, keywords, url</tags>
-</US_DocBloc>
---]]
-    if podcast~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Podcast", podcast) end
-    if podcast_category~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Podcast_Category", podcast_category) end
-    if podcast_description~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Podcast_Description", podcast_description) end
-    if podcast_id~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Podcast_ID", podcast_id) end
-    if podcast_keywords~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Podcast_Keywords", podcast_keywords) end
-    if podcast_url~=nil then reaper.SetProjExtState(0, "US_ID3_Tags", "Podcast_Url", podcast_url) end
-end
-
---ultraschall.SetID3TagsForCurrentProject_PodcastTags("A","A","A","A","A","A","A","A","A","A","A","A","A")
-
-function ultraschall.GetID3TagsFromCurrentProject()
-   --returns project-states with the ID3-Tags for
-   -- Title, Artist, Album, Track, Years, Genre, Comment, Date, Involved_People, Language, Coverfilename_And_Path, Cover2filename_And_Path, Cover3filename_And_Path
-   --
-   -- returns empty string(s) for each ID3-Tag that's unset
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetID3TagsFromCurrentProject</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>string title, string artist, string album, string track, string year, string genre, string comment, string date, string involved_people, string language, string coverfilename_and_path, string coverfilename_and_path2, string coverfilename_and_path3 = ultraschall.GetID3TagsFromCurrentProject()</functioncall>
-  <description>
-    returns project-states with the ID3-Tags for:
-    
-    Title, Artist, Album, Track, Years, Genre, Comment, Date, Involved_People, Language, Coverfilename_And_Path, Cover2filename_And_Path, Cover3filename_And_Path
-  </description>
-  <retvals>
-    string title - the file's title
-    string artist - the file's artist  
-    string album - the file's album
-    string track - the file's track
-    string year - the file's years
-    string genre - the file's genre
-    string comment - the file's comment
-    string date - the file's date
-    string involved_people - the file's involved people
-    string language - the file's language
-    string coverfilename_and_path - the file's cover 1
-    string coverfilename_and_path2 - the file's cover 2
-    string coverfilename_and_path3 - the file's cover 3
-  </retvals>
-  <chapter_context>
-    Metadata Management
-    ID3-Tags
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>tagmanagement, id3, title, artist, album, track, year, genre, comment, date, involved people, language, cover</tags>
-</US_DocBloc>
---]]
-    local retval, title=reaper.GetProjExtState(0, "US_ID3_Tags", "Title")
-    local retval, artist=reaper.GetProjExtState(0, "US_ID3_Tags", "Artist")
-    local retval, album=reaper.GetProjExtState(0, "US_ID3_Tags", "Album")
-    local retval, track=reaper.GetProjExtState(0, "US_ID3_Tags", "Track")
-    local retval, year=reaper.GetProjExtState(0, "US_ID3_Tags", "Year")
-    local retval, genre=reaper.GetProjExtState(0, "US_ID3_Tags", "Genre")
-    local retval, comment=reaper.GetProjExtState(0, "US_ID3_Tags", "Comment")
-    local retval, date=reaper.GetProjExtState(0, "US_ID3_Tags", "Date")
-    local retval, involved_people=reaper.GetProjExtState(0, "US_ID3_Tags", "Involved_People")
-    local retval, language=reaper.GetProjExtState(0, "US_ID3_Tags", "Language")
-    local retval, coverfilename_and_path=reaper.GetProjExtState(0, "US_ID3_Tags", "Coverfilename_And_Path")
-    local retval, coverfilename_and_path2=reaper.GetProjExtState(0, "US_ID3_Tags", "Coverfilename_And_Path2")
-    local retval, coverfilename_and_path3=reaper.GetProjExtState(0, "US_ID3_Tags", "Coverfilename_And_Path3")
-    return title, artist, album, track, year, genre, comment, date, involved_people, language, coverfilename_and_path, coverfilename_and_path2, coverfilename_and_path3
-end
-
---A,B,C,D,E,F,G,H,I,J,K=ultraschall.GetID3TagsFromCurrentProject()
-
-function ultraschall.GetID3TagsFromCurrentProject_PodcastTags()
-  --returns returns project-states with the ID3-tags specifically for podcasts for 
-  -- Podcast, Category, Description, ID, Keywords, URL
-  --
-  -- returns empty string(s) for each ID3-Tag that's unset
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetID3TagsFromCurrentProject_PodcastTags</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>string podcast, string podcast_category, string podcast_description, string podcast_id, string podcast_keywords, string podcast_url = ultraschall.GetID3TagsFromCurrentProject_PodcastTags()</functioncall>
-  <description>
-    returns project-states with the ID3-tags specifically for podcasts for 
-    
-    Podcast, Category, Description, ID, Keywords, URL
-  </description>
-  <retvals>
-    string podcast - podcast name
-    string podcast_category - podcast category
-    string podcast_description - podcast description
-    string podcast_id - podcast id
-    string podcast_keywords - podcast keywords
-    string podcast_url - podcast url
-  </retvals>
-  <chapter_context>
-    Metadata Management
-    ID3-Tags
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>tagmanagement, podcast, name, category, description, id, keywords, url</tags>
-</US_DocBloc>
---]]
-    local retval, podcast=reaper.GetProjExtState(0, "US_ID3_Tags", "Podcast")
-    local retval, podcast_category=reaper.GetProjExtState(0, "US_ID3_Tags", "Podcast_Category")
-    local retval, podcast_description=reaper.GetProjExtState(0, "US_ID3_Tags", "Podcast_Description")
-    local retval, podcast_id=reaper.GetProjExtState(0, "US_ID3_Tags", "Podcast_ID")
-    local retval, podcast_keywords=reaper.GetProjExtState(0, "US_ID3_Tags", "Podcast_Keywords")
-    local retval, podcast_url=reaper.GetProjExtState(0, "US_ID3_Tags", "Podcast_Url")
-    return podcast, podcast_category, podcast_description, podcast_id, podcast_keywords, podcast_url
-end
-
---ultraschall.SetID3TagsForProject("Mach den Affen weg","FreakShow","FreakShowAlbum","76","2011","techtalk","Kommentare","march2011","tim,hukl,dennis,roddi","german","c:\\freakshow.png", "cover2", "cover3")
---ultraschall.SetID3TagsForProject_PodcastTags("podcast", "podcast_category","podcast_description","podcast_id","podcast_keywords","podcast_url")
---ultraschall.SetID3TagsForProject_PodcastTags("a","b","c","d","e","f")
---a,b,c,d,e,f,g,h,i,j,k,l,m=ultraschall.GetID3TagsFromCurrentProject_PodcastTags()
---reaper.ShowConsoleMsg(a.."."..b.."."..c.."."..d.."."..e.."."..f.." end\n")
---if a=="" then reaper.MB("nilalarm","",0) end
-
+-----------------------------
 
 
 --------------------
@@ -22421,6 +22199,41 @@ function ultraschall.MoveTrackEnvelopePointsBy(startposition, endposition, moveb
   if reaper.ValidatePtr2(0, MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("MoveTrackEnvelopePointsBy", "MediaTrack", "must be a valid MediaTrack", -4) return -1 end
   if type(cut_at_border)~="boolean" then ultraschall.AddErrorMessage("MoveTrackEnvelopePointsBy", "cut_at_border", "must be a boolean", -5) return -1 end
 
+  if moveby==0 then return -1 end
+--[[
+
+  local EnvTrackCount=reaper.CountTrackEnvelopes(MediaTrack)
+--  local numtimesigmarkers = reaper.CountTempoTimeSigMarkers(0)
+  
+  local start, stop, step, boolean
+  if moveby>0 then start=EnvTrackCount stop=0 step=-1
+  elseif moveby<0 then start=0 stop=EnvTrackCount step=1
+  end
+
+  if cut_at_borders==true then
+    for i=EnvTrackCount, 0, -1 do
+      local retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, i)
+--    local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
+      if timepos>=startposition and timepos<=endposition then
+        if (timepos+moveby>endposition or timepos+moveby<startposition) then
+          boolean=reaper.DeleteTempoTimeSigMarker(0, i)
+        end
+      end
+    end
+  end
+
+  for i=start, stop, step do
+    local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
+    if timepos>=startposition and timepos<=endposition then
+        boolean = reaper.SetTempoTimeSigMarker(0, i, timepos+moveby, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo)
+    end
+  end
+  
+  if update_timeline==true then reaper.UpdateTimeline() end
+  return 1
+end
+--]]
+
   local EnvTrackCount=reaper.CountTrackEnvelopes(MediaTrack)
 
   for a=0, EnvTrackCount-1 do
@@ -22441,9 +22254,9 @@ function ultraschall.MoveTrackEnvelopePointsBy(startposition, endposition, moveb
   end
   
 end
-
+--]]
 --B=reaper.GetTrack(0,0)
---A=ultraschall.MoveTrackEnvelopePointsBy(3, 32, 1, B, true)
+--A=ultraschall.MoveTrackEnvelopePointsBy(20, 1068, 101, B, true)
 --reaper.UpdateArrange()
 --Envelope_SortPoints
 
@@ -24505,30 +24318,10 @@ end
 </US_DocBloc>
 --]]
 
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Script_Path</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>ultraschall.Script_Path</functioncall>
-  <description>
-    Contains the current script-path of Reaper.
-  </description>
-  <chapter_context>
-    API-Variables
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>api, variable, script, path, scriptpath</tags>
-</US_DocBloc>
---]]
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ultraschall.Api_Path</slug>
+  <slug>Api_Path</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.40
@@ -24549,7 +24342,7 @@ end
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ultraschall.Api_InstallPath</slug>
+  <slug>Api_InstallPath</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.40
@@ -29902,47 +29695,6 @@ function ultraschall.RemoveMediaItem_TrackStateChunk(trackstatechunk, idx)
   return true, begin..temptrackstatechunk
 end
 
-function ultraschall.CountCharacterInString(checkstring, character)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CountCharacterInString</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>integer count, array positions = ultraschall.CountCharacterInString(string checkstring, string character)</functioncall>
-  <description>
-    Counts, how often character appears in checkstring and returns the count, as well as a array an with the position-numbers.
-    
-    returns -1 in case of error
-  </description>
-  <parameters>
-    string checkstring - the string to check search through
-    string character - the character to search for. Only single characters are allowed. Controlcodes like \n \t count as single character. Case sensitive.
-  </parameters>
-  <retvals>
-    integer count - the number of occurences of character in checkstring
-    array positions - the positionnumbers of the character in checkstring
-  </retvals>
-  <chapter_context>
-    API-Helper functions
-    Data Manipulation
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, string, character, check, find, count, position, numbers</tags>
-</US_DocBloc>
-]]
-  if type(checkstring)~="string" then ultraschall.AddErrorMessage("CountCharacterInString", "checkstring", "only strings allowed as parameter", -1) return -1 end
-  if type(character)~="string" or character:len()>1 then ultraschall.AddErrorMessage("CountCharacterInString", "character", "only a string with one(!) character allowed", -2) return -1 end
-  local count=0
-  local countarray={}
-  for i=1,checkstring:len() do
-    if checkstring:sub(0+i,0+i)==character then count=count+1 countarray[count]=i end
-  end
-  return count, countarray
-end
 
 function ultraschall.RemoveMediaItemByIGUID_TrackStateChunk(trackstatechunk, IGUID)
 --[[
@@ -44914,8 +44666,8 @@ function ultraschall.GetProject_Length(projectfilename_with_path, ProjectStateCh
     number last_timesig_marker - the position of the last time-signature-marker in the project
   </retvals>
   <chapter_context>
-    API-Helper functions
-    Data Manipulation
+    Project-Files
+    Helper functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -46222,4 +45974,4 @@ end
 --A,B,C,D,E=ultraschall.GetErrorMessage_Funcname("GetAllMediaItemsBetween", -1)
 
 --ultraschall.ShowLastErrorMessage()
-
+--A=ultraschall.Api_Path

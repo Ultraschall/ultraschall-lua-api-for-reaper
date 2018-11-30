@@ -8,7 +8,7 @@ Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Functions.html"
 --Infilename=ultraschall.Api_Path.."/misc/US_Api-Manual.USDocML"
 --Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Documentation2.html"
 
-func_done_count=progresscounter(false)
+func_done_count=progresscounter(false)-1
 
 --if L==nil then return end
 

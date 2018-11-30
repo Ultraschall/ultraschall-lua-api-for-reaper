@@ -3552,12 +3552,12 @@
             ExtState Management
         </chapter_context>
         <previous_chapter>ExtStateManagement_006_TrackExtStates</previous_chapter>
-        <next_chapter>MarkersAndRegions_Introduction</next_chapter>
+        <next_chapter>MarkersAndRegions_001_Introduction</next_chapter>
         <tags>extstate management, inifiles, itemextstates</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>MarkersAndRegions_Introduction</slug>
+        <slug>MarkersAndRegions_001_Introduction</slug>
         <title>Markers and Regions: Introduction</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             In the Ultraschall-extension, we make heavy use of markers and regions for all kinds of things. 
@@ -3584,12 +3584,12 @@
             Marker Management
         </chapter_context>
         <previous_chapter>ExtStateManagement_007_ItemExtStates</previous_chapter>
-        <next_chapter>MarkersAndRegions_General_How_To</next_chapter>
+        <next_chapter>MarkersAndRegions_002_General_How_To</next_chapter>
         <tags>markermanagement, introduction</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>MarkersAndRegions_General_How_To</slug>
+        <slug>MarkersAndRegions_002_General_How_To</slug>
         <title>Markers and Regions: General How To</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             All functions for all kinds of markers settable in the Ultraschall-Api share the same basic subset of workflows.  
@@ -3683,13 +3683,13 @@
         <chapter_context>
             Marker Management
         </chapter_context>
-        <previous_chapter>MarkersAndRegions_Introduction</previous_chapter>
-        <next_chapter>MarkersAndRegions_Helpers_and_Manipulation</next_chapter>
+        <previous_chapter>MarkersAndRegions_001_Introduction</previous_chapter>
+        <next_chapter>MarkersAndRegions_003_Helpers_and_Manipulation</next_chapter>
         <tags>markermanagement, how to, get, enumerate, add, set, delete, marker, count, edit, export, import, validitycheck</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>MarkersAndRegions_Helpers_and_Manipulation</slug>
+        <slug>MarkersAndRegions_003_Helpers_and_Manipulation</slug>
         <title>Markers and Regions: Helpers and Manipulation</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Adding and getting markers is quite good, but sometimes, you want to do more with them. For that, I added numerous functions as well, like:  
@@ -3730,9 +3730,292 @@
         <chapter_context>
             Marker Management
         </chapter_context>
-        <previous_chapter>MarkersAndRegions_General_How_To</previous_chapter>
-        <next_chapter></next_chapter>
+        <previous_chapter>MarkersAndRegions_002_General_How_To</previous_chapter>
+        <next_chapter>Helper_Functions_001_Introduction</next_chapter>
         <tags>markermanagement, manipulate, move, get marker by time, renumerate, get marker by screen coordinate, is marker at position</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Helper_Functions_001_Introduction</slug>
+        <title>Helper_Functions: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Beside all the concepts you just read about, I also added tons of functions and things to the API, that are helpful in one way or another in your everyday coding.  
+            Manipulation of Lua's datastructures, clipboard-functions, stuff for undo-management, checking for the current system being either Mac, Windows or Other, Reaper's Configuration-Settings,
+            User Interface-stuff, applying actions to MediaTracks and MediaItems and many other things.  
+            
+            In this chapter, I want you to introduce you to some of these things.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Helper Functions
+        </chapter_context>
+        <previous_chapter>MarkersAndRegions_003_Helpers_and_Manipulation</previous_chapter>
+        <next_chapter>Helper_Functions_002_ClipboardManagement</next_chapter>
+        <tags>helper functions, introduction</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Helper_Functions_002_ClipboardManagement</slug>
+        <title>Helper_Functions: Clipboard Management</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Getting and setting things to the clipboard is really helpful in many ways. With SWS 2.9.7 we got clipboard-functions, Reaper itself has clipboard-functions for items and such.  
+            But: it's in parts not really convenient to use.  
+            reaper.CF_SetClipboard() needs an obscure datastructure called Faststrings to circumvent a Lua-restriction of strings with a length of only 1023 bytes. Inconvenient to use, as you always need to create and destroy these FastStrings or they'll eat up memory for no good.  
+            Putting MediaItems into the clipboard or finding out, which MediaItems are located in the clipboard is also possible but really inconvenient.  
+            So I added functions to deal with that.
+            
+            >**[GetStringFromClipboard_SWS](udsocml://GetStringFromClipboard_SWS)**
+            
+                                    string clipboard_string = ultraschall.GetStringFromClipboard_SWS()
+                                    
+            >This is like reaper.CF_SetClipboard(), but is doing all the FastString-management for you in the background. In other words: it simply returns the string-contents from the clipboard.
+            
+            
+            When dealing with MediaItems, I also created functions for that. Let's put something into the clipboard.
+            
+            >**[PutMediaItemsToClipboard_MediaItemArray](usdocml://PutMediaItemsToClipboard_MediaItemArray)**
+            
+                                    boolean retval = ultraschall.PutMediaItemsToClipboard_MediaItemArray(MediaItemArray MediaItemArray)
+                                    
+            >This function adds all MediaItems in MediaItem into the clipboard. It returns true, in case of success.
+            
+            Putting MediaItems into the clipboard is cool, but sometimes you simply want to know, what already is in the clipboard.
+            
+            >**[GetMediaItemsFromClipboard](usdocml://GetMediaItemsFromClipboard)**
+            
+                                    integer count, array MediaItemStateChunkArray = ultraschall.GetMediaItemsFromClipboard()
+                                    
+            >This function returns the number of MediaItems in the clipboard as well as an array with all StateChunks of the MediaItems in the clipboard.  
+            >Why not the MediaItem-objects? Because, they only work within the current project, but MediaItems in the clipboard can also be from another project,
+            >not having any references to the current project. Working with StateChunks instead makes them independent from a certain project.  
+            >But what if you want to insert them into a project? Use [InsertMediaItem_MediaItemStateChunk](usdocml://InsertMediaItem_MediaItemStateChunk) to insert 
+            >a MediaItem into a project using it's StateChunk.  
+            >How does GetMediaItemsFromClipboard work? It inserts the Items from the clipboard at the end of the project, gets them, using [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween) and deletes them again.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Helper Functions
+        </chapter_context>
+        <previous_chapter>Helper_Functions_001_Introduction</previous_chapter>
+        <next_chapter>Helper_Functions_003_Data_Manipulation</next_chapter>
+        <tags>helper functions, clipboard, string, item, set, get</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Helper_Functions_003_Data_Manipulation</slug>
+        <title>Helper_Functions: Data Manipulation</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            One of the bread and butter things you have to do in your daily programming is to deal with data-structures of many kinds, be it tables, strings, integers, bits, etc.  
+            Dealing with them can sometimes be a pain in the butt, when using pure Lua. And as I'm lazy(did I already mention that?), I wrote me some functions to make things easier
+            to deal with, especially with datastructures existing and fundamental in Reaper.  
+            
+            **Dealing with Numbers and Bits**
+            
+            - [AddIntToChar](usdocml://AddIntToChar) - this function allows you to add an integer value to a character, without having to convert the character into an integer first.  
+            - [CombineBytesToInteger](usdocml://CombineBytesToInteger) - this combines numerous bytes-values into one integer-value. So if you have a multibyte-character, you can easily combine these byte into one integer that way.  
+            - [LimitFractionOfFloat](usdocml://LimitFractionOfFloat) - this limits the fraction-part of a number to a specified number of digits, even rounding it, if you want  
+            - [RoundNumber](usdocml://RoundNumber) - this rounds a number, depending on the last digit in the number: if it's 5 and higher, it will round up, otherwise it will round down  
+            - [SetBitfield](usdocml://SetBitfield) - this allows you to alter a bitfield, where every parameter represents an individual bit. Good for those who don't know how to bit-fumble much.  
+            - [SplitIntegerIntoBytes](usdocml://SplitIntegerIntoBytes) - this function splits an integer value into it's individual bytes. A 32-bit value becomes 4 bytes.  
+            
+            **Dealing with Strings**
+            
+            - [CSV2IndividualLinesAsArray](usdocml://CSV2IndividualLinesAsArray) - this splits a csv-line into individual entries as array. You can define the separator, default is a ,  
+            - [CompareStringWithAsciiValues](usdocml://CompareStringWithAsciiValues) - this allows you to compare a string with individual bytes, with one byte per string-position. Good for file-header-checking-stuff.  
+            - [GetPartialString](usdocml://GetPartialString) - gets a part of a string that is in the middle of a string. You can define a left and a right separator for cropping this searchstring out.  
+            - [ConvertStringToAscii_Array](usdocml://ConvertStringToAscii_Array) - converts a string into it's individual bytes, returning a byte-array that includes the character and the ascii-representation of each character  
+            - [CountCharacterInString](usdocml://CountCharacterInString) - counts a character in a string. good for &gt; and &lt; character counting in statechunks  
+            - [CountLinesInString](usdocml://CountLinesInString) - counts the number of lines within a string  
+            - [CountPatternInString](usdocml://CountPatternInString) - counts the number a certain pattern occurs in a string  
+            - [SearchStringInString](usdocml://SearchStringInString) - allows you to search for a searchstrings in a string. You can decide, whether to skip nested searchstrings in the string  
+            - [SplitStringAtLineFeedToArray](usdocml://SplitStringAtLineFeedToArray) - splits a string a linefeed, tabs and control-characters and returns the result as array  
+            
+            **Dealing with Tables**
+            
+            - [CountEntriesInTable_Main](usdocml://CountEntriesInTable_Main) - counts the number of entries in the main-branch of an array  
+            - [CycleTable](usdocml://CycleTable) - cycles the entries in a table forward or backward. You can also decide the stepsize. Good for color-cycling-effects.  
+            - [GetAllEntriesFromTable](usdocml://GetAllEntriesFromTable) - returns an interable version of a table, so non-numerical tables can be iterated over  
+            - [GetDuplicatesFromArrays](usdocml://GetDuplicatesFromArrays) - returns duplicates as well as unique values from two tables  
+            - [CompareArrays](usdocml://CompareArrays) - compares two tables and returns all entries from table2 that aren't in table1  
+            - [ConcatIntegerIndexedTables](usdocml://ConcatIntegerIndexedTables) - combines two integer-indexed tables into one(only the references)  
+            - [MakeCopyOfTable](usdocml://MakeCopyOfTable) - makes a true copy of a table, not just references (adapted from a function written by Tyler Neylon)  
+            - [KeepTableEntriesOfType](usdocml://KeepTableEntriesOfType) - returns a table with only entries of a requested type, you can decide between various datatypes  
+            - [RemoveTableEntriesOfType](usdocml://RemoveTableEntriesOfType) - removes table-entries that are of a certain datatype  
+            - [ReturnTableAsIndividualValues](usdocml://ReturnTableAsIndividualValues) - returns the 64 first entries of an integer-indexed table as return-values  
+            - [ReverseTable](usdocml://ReverseTable) - reversed the entries of a table  
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Helper Functions
+        </chapter_context>
+        <previous_chapter>Helper_Functions_002_ClipboardManagement</previous_chapter>
+        <next_chapter>Helper_Functions_004_UndoManagement</next_chapter>
+        <tags>helper functions, manipulate, data, numbers, bits, integer, bitfield, string, table, array</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Helper_Functions_004_UndoManagement</slug>
+        <title>Helper_Functions: Undo Management</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Undo-Management can be difficult to program in Reaper at times, so I added some things to deal with that to some extend.  
+            
+            >**[PreventCreatingUndoPoint](usdocml://PreventCreatingUndoPoint)**
+            
+                                    ultraschall.PreventCreatingUndoPoint()
+                                    
+            >This function prevents creating an undo-point in non-defer-scripts, which is sometimes desireable.
+            
+            >**[MakeFunctionUndoable](usdocml://MakeFunctionUndoable)
+            
+                                    boolean retval, string current_UndoMessage, retvals_1, ..., retvals_2 
+                                                            = ultraschall.MakeFunctionUndoable(function Func, string UndoMessage, integer Flag, 
+                                                                                                            Func_parameters_1, ... Func_parameters_n)
+                                                                                                            
+            >With this function, you can create an undopoint for a specific function.  
+            >You need to pass the function itself, an undo-message that is shown in the undo-history and an undo-flag.  
+            >The other parameters are all the parameters the function Func needs to run. Just write them in the order you would do, if you would run the function Func directly.  
+            >It will return a boolean(true for success), the current undo-message and alle the return-values returned by function Func.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Helper Functions
+        </chapter_context>
+        <previous_chapter>Helper_Functions_003_Data_Manipulation</previous_chapter>
+        <next_chapter>Helper_Functions_005_Miscellaneous</next_chapter>
+        <tags>helper functions, undo, management, function, prevent</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Helper_Functions_005_Miscellaneous</slug>
+        <title>Helper_Functions: Miscellaneous</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            In this final chapter, I show you around some nice things that didn't fit anywhere else in the docs. They may or may not be of use for you.  
+            
+            **Checking for the current operating system**
+                
+            - [IsOS_Windows](usdocml://IsOS_Windows) - returns true, if the current operating system is Windows  
+            - [IsOS_Mac](usdocml://IsOS_Mac) - returns true, if the current operating system is MacOS  
+            - [IsOS_Other](usdocml://IsOS_Other) - returns true, if the current operating system is Other(usually Linux)  
+                
+            **Reaper-related stuff**
+                
+            - [GetReaperAppVersion](usdocml://GetReaperAppVersion) - returns the version of Reaper, the subversion, the bits and the os Reaper runs on, as well as if it's a portable installation  
+            - [GetReaperColorThemesPath](usdocml://GetReaperColorThemesPath) - returns the path to the Theme-folder  
+            - [GetReaperJSFXPath](usdocml://GetReaperJSFXPath) - returns the path to the JSFX-folder  
+            - [GetReaperScriptPath](usdocml://GetReaperScriptPath) - returns the path to the scripts-folder of Reaper  
+            - [GetReaperWebRCPath](usdocml://GetReaperWebRCPath) - returns the paths to the folders of the WebRC-files  
+
+                
+            **Ultraschall-Api-Variables**
+                
+            - [Euro](usdocml://Euro) - the Euro-symbol, which is difficult to type in Reaper's IDE  
+            - [Separator](usdocml://Separator) - the correct-separator for the current system your script is running on  
+            - [StartTime](usdocml://StartTime) - the start-time of the current instance of the Ultraschall-API, which is usually the starting time of your script  
+            - [Api_InstallPath](usdocml://Api_InstallPath) - the installation-path of the Ultraschall-API, in which the ultraschall_api.lua and the ultraschall_api-folder lie  
+            - [Api_Path](usdocml://Api_Path) - the path to the ultraschall_api-folder  
+                
+            **Configuration Settings**
+                
+            - [SetIntConfigVar_Bitfield](usdocml://SetIntConfigVar_Bitfield) - this helps you setting an integer-bitfield for a specific [configuration-variable](Reaper_Config_Variables.html)  
+            
+            **User Interface stuff**
+                
+            - [ShowMenu](usdocml://ShowMenu) - shows a context-menu that you can customize yourself  
+            - [OpenItemInMidiEditor](usdocml://OpenItemInMidiEditor) - this opens a midi-item in a MidiEditor  
+            - [ZoomHorizontal_MidiEditor](usdocml://ZoomHorizontal_MidiEditor) - this zooms horizontally within the current or another Midi-Editor  
+            - [ZoomVertical_MidiEditor](usdocml://ZoomVertical_MidiEditor) - this zooms vertically within the current or another Midi-Editor  
+            - [GetVZoom](usdocml://GetVZoom) - gets the vertical-zoom-factor currently set in the arrange-view  
+            - [SetVZoom](usdocml://SetVZoom) - sets the vertical-zoom-factor in the arrange-view  
+            - [CloseReaConsole](usdocml://CloseReaConsole) - closes the ReaConsole-window  
+            - [GetScreenHeight](usdocml://GetScreenHeight) - returns the current screen-height in pixels  
+            - [GetScreenWidth](usdocml://GetScreenWidth) - returns the current screen-width in pixels  
+            - [GetIDEFontSize](usdocml://GetIDEFontSize) - gets the current size of the font in the IDE  
+            - [SetIDEFontSize](usdocml://SetIDEFontSize) - sets the size of the font in the IDE. The IDE must be reopened for the changes to take effect.  
+            
+            **Apply actions to MediaTracks and MediaItems**
+                
+            - [ApplyActionToTrack](usdocml://ApplyActionToTrack) - this function applies a Reaper-action to a certain MediaTrack. That given action must apply itself to selected MediaTracks.  
+            - [ApplyActionToMediaItem](usdocml://ApplyActionToMediaItem) - this function applies a Reaper-action to a certain MediaItem. That given action must apply itself to selected MediaItems.  
+            - [ApplyActionToMediaItemArray](usdocml://ApplyActionToMediaItemArray) - this function applies a Reaper-action to all MediaItems in MediaItemArray individually. That given action must apply itself to selected MediaItems.  
+            - [ApplyActionToMediaItemArray2](usdocml://ApplyActionToMediaItemArray2) - this function applies a Reaper-action to all MediaItems in MediaItemArray at once. That given action must apply itself to selected MediaItems.  
+            
+            **miscellaneous**
+                
+            - [toboolean](usdocml://toboolean) - this tries to convert a value into a boolean. Never understood, why Lua hasn't this function itself. Has no ultraschall. at the beginning of the functionname!  
+            - [RunCommand](usdocml://RunCommand) - this runs a command directly, without the hassle of needing to get the command-id. So you can run an action by it's command-id as well as the ActionCommandID, like _RSblabla.  
+            - [ToggleStateAction](usdocml://ToggleStateAction) - toggles the state of an action and like RunCommand, doesn't need the conversion of a ActionCommandID to a command-id-nr first.  
+            - [ToggleStateButton](usdocml://ToggleStateButton) - toggles the state of a button and like RunCommand, doesn't need the conversion of a ActionCommandID to a command-id-nr first.  
+            - [RefreshToolbar_Action](usdocml://RefreshToolbar_Action) - refreshes a toolbar-button and like RunCommand, doesn't need the conversion of a ActionCommandID to a command-id-nr first.  
+            - [CheckActionCommandIDFormat](usdocml://CheckActionCommandIDFormat) - checks, if a string is a valid formatted ActionCommandID or commandid-nr  
+            - [CheckActionCommandIDFormat2](usdocml://CheckActionCommandIDFormat2) - checks, if a string is a valid formatted ActionCommandID or commandid-nr; checks also for the existence of the commandid/ActionCommandID  
+            - [OpenURL](usdocml://OpenURL) - opens an html-webpage in your browser  
+            
+            and more and more and more....
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Helper Functions
+        </chapter_context>
+        <previous_chapter>Helper_Functions_004_UndoManagement</previous_chapter>
+        <next_chapter>Final_Words_001</next_chapter>
+        <tags>helper functions, miscellaneous, user interface, api variables, reaper helpers, apply actions, configuration, operating system</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Final_Words_001</slug>
+        <title>Final words</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            I can't believe it, but after over one and a half years, I can finally write these last words for this mammoth-project.  
+            But what can I say, what I haven't said in this docs?  
+            
+            Feel free to use it. Feel free to code with it. Feel free to learn from the functions I wrote. Dig into the functions-reference, which holds much much more.  
+            
+            If you like it, you can donate to our project at: [ultraschall.fm/danke](https://www.ultraschall.fm/danke).
+            
+            Let me take some more time to thank to the many Reaper-Forum-users, who provided me with ideas, hints, bits and pieces and tons of information, which itself informed this API.  
+            I don't want to pick up anyone specific, so if you think, I want to thank you for your ideas and contributions, help or whatever, I do exactly that:  
+            Thank you :)
+            
+            Let me also thank the Reaper-guys Justin and Schwa, who created this piece of great software. Even though I constantly throw more and more Feature-requests into the forum, I'm deeply impressed with this piece of software and the more I dive into it, the more I can find.  
+            Reaper is like a fractalised fractal: the closer you get, the more details are revealed.  
+            
+            More thanks also to the whole podcast community in Germany, be it at PodStock, ChaosCommunicationCongress, Sendegate, which gave me more than just countless hours of good entertainment and information. You probably saved my life countless times and I don't know how many podcasts I listened through in the endless hours of coding this monster.  
+            Without you, I wouldn't have survived coding this.  
+            
+            Also thanks to the wonderful Ultraschall-team, whose focus on improving Reaper for podcasters shows, what is possible in Reaper and how powerful this software is. And who answered ma tons of questions.  
+            And who survived my constantly being annyoing with this API ;)  
+            I want to thank in particular Ralf Stockmann, whose rant in the Sendegate brought me into the project and back into programming.  
+            Though, after not having seen the lights of the days for months now, I'm not sure, whether this was a good thing ;)
+            
+            Thanks also to all the other people who supported me over the years. I dedicate this thing to you. And for someone special even a whole function, yay :D
+            
+            So, that's all for now. Feel free to work with it and have fun.
+            
+            I go to sleep now. I think, I deserved it :)
+            
+            Meo Mespotine, Leipzig(Germany) 30th of November 2018
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Final Words
+        </chapter_context>
+        <previous_chapter>Helper_Functions_004_UndoManagement</previous_chapter>
+        <next_chapter>Final_Words_001</next_chapter>
+        <tags>final words</tags>
     </US_DocBloc>
 </USDocML>
 >**[](usdocml://)**
+
+

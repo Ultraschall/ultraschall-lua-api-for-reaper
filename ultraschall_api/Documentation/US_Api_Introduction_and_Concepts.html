@@ -39,7 +39,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018 - Build: 25090</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018 - Build: 25118</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -113,9 +113,15 @@ Ultraschall API functions
 </tr><tr><td><a href="#ExtStateManagement_005_TrackItemExtStates">ExtState Management: Track and Item-Extstates</a></td>
 <td><a href="#ExtStateManagement_006_TrackExtStates">ExtState Management: Track Extstates</a></td>
 <td><a href="#ExtStateManagement_007_ItemExtStates">ExtState Management: Item Extstates</a></td>
-</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Marker Management</b></td></tr><tr><td><a href="#MarkersAndRegions_General_How_To">Markers and Regions: General How To</a></td>
-<td><a href="#MarkersAndRegions_Helpers_and_Manipulation">Markers and Regions: Helpers and Manipulation</a></td>
-<td><a href="#MarkersAndRegions_Introduction">Markers and Regions: Introduction</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Marker Management</b></td></tr><tr><td><a href="#MarkersAndRegions_001_Introduction">Markers and Regions: Introduction</a></td>
+<td><a href="#MarkersAndRegions_002_General_How_To">Markers and Regions: General How To</a></td>
+<td><a href="#MarkersAndRegions_003_Helpers_and_Manipulation">Markers and Regions: Helpers and Manipulation</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Helper Functions</b></td></tr><tr><td><a href="#Helper_Functions_001_Introduction">Helper_Functions: Introduction</a></td>
+<td><a href="#Helper_Functions_002_ClipboardManagement">Helper_Functions: Clipboard Management</a></td>
+<td><a href="#Helper_Functions_003_Data_Manipulation">Helper_Functions: Data Manipulation</a></td>
+<td><a href="#Helper_Functions_004_UndoManagement">Helper_Functions: Undo Management</a></td>
+</tr><tr><td><a href="#Helper_Functions_005_Miscellaneous">Helper_Functions: Miscellaneous</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Final Words</b></td></tr><tr><td><a href="#Final_Words_001">Final words</a></td>
 </tr><p></table><hr><a id="Introduction_001_Api"></a>
 <div style="font-size:100%"><h4><a href="#Introduction_001_Api">^</a> <u>Introduction to the Ultraschall API</u></h4></div><p><p>The Ultraschall-Extension is intended to be an extension for the DAW Reaper, that enhances it with podcast functionalities. Most DAWs are intended to be used by musicians, for music, but podcasters have their own needs to be fulfilled. In fact, in some places their needs differ from the needs of a musician heavily. Ultraschall is intended to optimise the Reaper's workflows, by reworking them with functionalities for the special needs of podcasters.</p>
 <p>The Ultraschall-Framework itself is intended to include a set of Lua-functions, that help creating such functionalities. By giving programmers helper functions to get access to each and every corner of Reaper. That way, extending Ultraschall and Reaper is more comfortable to do.</p>
@@ -2555,8 +2561,8 @@ ItemExtStates are stored as ProjectExtState within the projectfile. These functi
 <p>This returns a stored itemextstate. Just pass to it a MediaItem-object and the key, whose value you want. It will return if getting the value was successful or not with return-value retval, as well as the value with value.</p>
 </blockquote>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="MarkersAndRegions_Introduction"></a>
-<div style="font-size:100%"><h4><a href="#MarkersAndRegions_Introduction">^</a> <u>Markers and Regions: Introduction</u></h4></div><p><p>In the Ultraschall-extension, we make heavy use of markers and regions for all kinds of things. So, to simplify programming for markers, I added a number of functions to deal with them.</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="MarkersAndRegions_001_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#MarkersAndRegions_001_Introduction">^</a> <u>Markers and Regions: Introduction</u></h4></div><p><p>In the Ultraschall-extension, we make heavy use of markers and regions for all kinds of things. So, to simplify programming for markers, I added a number of functions to deal with them.</p>
 <p>The markers used by Ultraschall and represented in the Ultraschall-API, are: normal markers, chapter markers, planned chapter markers, edit-markers, edit-regions, time-markers and PodRangeRegions.</p>
 <ul>
 <li>normal markers - these are common markers, as you are used to</li>
@@ -2574,8 +2580,8 @@ ItemExtStates are stored as ProjectExtState within the projectfile. These functi
 </ul>
 <p>These kind of markers get the most attention, though regular marker/region/tempo-time signature marker-management is part of this API as well.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="MarkersAndRegions_General_How_To"></a>
-<div style="font-size:100%"><h4><a href="#MarkersAndRegions_General_How_To">^</a> <u>Markers and Regions: General How To</u></h4></div><p><p>All functions for all kinds of markers settable in the Ultraschall-Api share the same basic subset of workflows.<br />
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="MarkersAndRegions_002_General_How_To"></a>
+<div style="font-size:100%"><h4><a href="#MarkersAndRegions_002_General_How_To">^</a> <u>Markers and Regions: General How To</u></h4></div><p><p>All functions for all kinds of markers settable in the Ultraschall-Api share the same basic subset of workflows.<br />
 All markers can be added, set, deleted, enumerated, counted, imported and exported from/to a file, checked for being a certain markertype and converted into a certain markertype(if possible).<br />
 Let's take edit-markers as an example, who have the functions:</p>
 <p><a href="US_Api_Functions.html#AddEditMarker">AddEditMarker</a>, <a href="US_Api_Functions.html#SetEditMarker">SetEditMarker</a>, <a href="US_Api_Functions.html#DeleteEditMarker">DeleteEditMarker</a>, <a href="US_Api_Functions.html#EnumerateEditMarkers">EnumerateEditMarkers</a>, <a href="US_Api_Functions.html#CountEditMarkers">CountEditMarkers</a>, <a href="US_Api_Functions.html#ImportEditFromFile">ImportEditFromFile</a>, <a href="US_Api_Functions.html#ExportEditMarkersToFile">ExportEditMarkersToFile</a>, <a href="US_Api_Functions.html#IsMarkerEdit">IsMarkerEdit</a>, <a href="US_Api_Functions.html#MarkerToEditMarker">MarkerToEditMarker</a>, <a href="US_Api_Functions.html#EditToMarker">EditToMarker</a></p>
@@ -2675,8 +2681,8 @@ The markerindex is the one for all markers. It returns the overall-marker-indexn
 <p>The other marker-types follow the same lead, so if you understood it for this marker, you understood it for all others as well.<br />
 One limitation though, you can't (yet) export/import regions into/from an exportfile.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="MarkersAndRegions_Helpers_and_Manipulation"></a>
-<div style="font-size:100%"><h4><a href="#MarkersAndRegions_Helpers_and_Manipulation">^</a> <u>Markers and Regions: Helpers and Manipulation</u></h4></div><p><p>Adding and getting markers is quite good, but sometimes, you want to do more with them. For that, I added numerous functions as well, like:</p>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="MarkersAndRegions_003_Helpers_and_Manipulation"></a>
+<div style="font-size:100%"><h4><a href="#MarkersAndRegions_003_Helpers_and_Manipulation">^</a> <u>Markers and Regions: Helpers and Manipulation</u></h4></div><p><p>Adding and getting markers is quite good, but sometimes, you want to do more with them. For that, I added numerous functions as well, like:</p>
 <ul>
 <li><a href="US_Api_Functions.html#CountMarkersAndRegions">CountMarkersAndRegions</a> - counts all markers and regions</li>
 <li><a href="US_Api_Functions.html#GetMarkerByScreenCoordinates">GetMarkerByScreenCoordinates</a> - gets a marker by screen-coordinate, like mouse coordinates</li>
@@ -2708,4 +2714,244 @@ One limitation though, you can't (yet) export/import regions into/from an export
 </ul>
 <p>So, with this, most of your wishes in regards of marker-management should be fulfilled.</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 77 chapters available</td></table><br><hr></div></body></html>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Helper_Functions_001_Introduction"></a>
+<div style="font-size:100%"><h4><a href="#Helper_Functions_001_Introduction">^</a> <u>Helper_Functions: Introduction</u></h4></div><p><p>Beside all the concepts you just read about, I also added tons of functions and things to the API, that are helpful in one way or another in your everyday coding.<br />
+Manipulation of Lua's datastructures, clipboard-functions, stuff for undo-management, checking for the current system being either Mac, Windows or Other, Reaper's Configuration-Settings, User Interface-stuff, applying actions to MediaTracks and MediaItems and many other things.</p>
+<p>In this chapter, I want you to introduce you to some of these things.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Helper_Functions_002_ClipboardManagement"></a>
+<div style="font-size:100%"><h4><a href="#Helper_Functions_002_ClipboardManagement">^</a> <u>Helper_Functions: Clipboard Management</u></h4></div><p><p>Getting and setting things to the clipboard is really helpful in many ways. With SWS 2.9.7 we got clipboard-functions, Reaper itself has clipboard-functions for items and such.<br />
+But: it's in parts not really convenient to use.<br />
+reaper.CF_SetClipboard() needs an obscure datastructure called Faststrings to circumvent a Lua-restriction of strings with a length of only 1023 bytes. Inconvenient to use, as you always need to create and destroy these FastStrings or they'll eat up memory for no good.<br />
+Putting MediaItems into the clipboard or finding out, which MediaItems are located in the clipboard is also possible but really inconvenient.<br />
+So I added functions to deal with that.</p>
+<blockquote>
+<p><strong><a href="udsocml://GetStringFromClipboard_SWS">GetStringFromClipboard_SWS</a></strong></p>
+</blockquote>
+<pre><code>                    string clipboard_string = ultraschall.GetStringFromClipboard_SWS()
+                    </code></pre>
+<blockquote>
+<p>This is like reaper.CF_SetClipboard(), but is doing all the FastString-management for you in the background. In other words: it simply returns the string-contents from the clipboard.</p>
+</blockquote>
+<p>When dealing with MediaItems, I also created functions for that. Let's put something into the clipboard.</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#PutMediaItemsToClipboard_MediaItemArray">PutMediaItemsToClipboard_MediaItemArray</a></strong></p>
+</blockquote>
+<pre><code>                    boolean retval = ultraschall.PutMediaItemsToClipboard_MediaItemArray(MediaItemArray MediaItemArray)
+                    </code></pre>
+<blockquote>
+<p>This function adds all MediaItems in MediaItem into the clipboard. It returns true, in case of success.</p>
+</blockquote>
+<p>Putting MediaItems into the clipboard is cool, but sometimes you simply want to know, what already is in the clipboard.</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#GetMediaItemsFromClipboard">GetMediaItemsFromClipboard</a></strong></p>
+</blockquote>
+<pre><code>                    integer count, array MediaItemStateChunkArray = ultraschall.GetMediaItemsFromClipboard()
+                    </code></pre>
+<blockquote>
+<p>This function returns the number of MediaItems in the clipboard as well as an array with all StateChunks of the MediaItems in the clipboard.<br />
+Why not the MediaItem-objects? Because, they only work within the current project, but MediaItems in the clipboard can also be from another project, not having any references to the current project. Working with StateChunks instead makes them independent from a certain project.<br />
+But what if you want to insert them into a project? Use <a href="US_Api_Functions.html#InsertMediaItem_MediaItemStateChunk">InsertMediaItem_MediaItemStateChunk</a> to insert a MediaItem into a project using it's StateChunk.<br />
+How does GetMediaItemsFromClipboard work? It inserts the Items from the clipboard at the end of the project, gets them, using <a href="US_Api_Functions.html#GetAllMediaItemsBetween">GetAllMediaItemsBetween</a> and deletes them again.</p>
+</blockquote>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Helper_Functions_003_Data_Manipulation"></a>
+<div style="font-size:100%"><h4><a href="#Helper_Functions_003_Data_Manipulation">^</a> <u>Helper_Functions: Data Manipulation</u></h4></div><p><p>One of the bread and butter things you have to do in your daily programming is to deal with data-structures of many kinds, be it tables, strings, integers, bits, etc.<br />
+Dealing with them can sometimes be a pain in the butt, when using pure Lua. And as I'm lazy(did I already mention that?), I wrote me some functions to make things easier to deal with, especially with datastructures existing and fundamental in Reaper.</p>
+<p><strong>Dealing with Numbers and Bits</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#AddIntToChar">AddIntToChar</a> - this function allows you to add an integer value to a character, without having to convert the character into an integer first.<br />
+</li>
+<li><a href="US_Api_Functions.html#CombineBytesToInteger">CombineBytesToInteger</a> - this combines numerous bytes-values into one integer-value. So if you have a multibyte-character, you can easily combine these byte into one integer that way.<br />
+</li>
+<li><a href="US_Api_Functions.html#LimitFractionOfFloat">LimitFractionOfFloat</a> - this limits the fraction-part of a number to a specified number of digits, even rounding it, if you want<br />
+</li>
+<li><a href="US_Api_Functions.html#RoundNumber">RoundNumber</a> - this rounds a number, depending on the last digit in the number: if it's 5 and higher, it will round up, otherwise it will round down<br />
+</li>
+<li><a href="US_Api_Functions.html#SetBitfield">SetBitfield</a> - this allows you to alter a bitfield, where every parameter represents an individual bit. Good for those who don't know how to bit-fumble much.<br />
+</li>
+<li><a href="US_Api_Functions.html#SplitIntegerIntoBytes">SplitIntegerIntoBytes</a> - this function splits an integer value into it's individual bytes. A 32-bit value becomes 4 bytes.</li>
+</ul>
+<p><strong>Dealing with Strings</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#CSV2IndividualLinesAsArray">CSV2IndividualLinesAsArray</a> - this splits a csv-line into individual entries as array. You can define the separator, default is a ,<br />
+</li>
+<li><a href="US_Api_Functions.html#CompareStringWithAsciiValues">CompareStringWithAsciiValues</a> - this allows you to compare a string with individual bytes, with one byte per string-position. Good for file-header-checking-stuff.<br />
+</li>
+<li><a href="US_Api_Functions.html#GetPartialString">GetPartialString</a> - gets a part of a string that is in the middle of a string. You can define a left and a right separator for cropping this searchstring out.<br />
+</li>
+<li><a href="US_Api_Functions.html#ConvertStringToAscii_Array">ConvertStringToAscii_Array</a> - converts a string into it's individual bytes, returning a byte-array that includes the character and the ascii-representation of each character<br />
+</li>
+<li><a href="US_Api_Functions.html#CountCharacterInString">CountCharacterInString</a> - counts a character in a string. good for &gt; and &lt; character counting in statechunks<br />
+</li>
+<li><a href="US_Api_Functions.html#CountLinesInString">CountLinesInString</a> - counts the number of lines within a string<br />
+</li>
+<li><a href="US_Api_Functions.html#CountPatternInString">CountPatternInString</a> - counts the number a certain pattern occurs in a string<br />
+</li>
+<li><a href="US_Api_Functions.html#SearchStringInString">SearchStringInString</a> - allows you to search for a searchstrings in a string. You can decide, whether to skip nested searchstrings in the string<br />
+</li>
+<li><a href="US_Api_Functions.html#SplitStringAtLineFeedToArray">SplitStringAtLineFeedToArray</a> - splits a string a linefeed, tabs and control-characters and returns the result as array</li>
+</ul>
+<p><strong>Dealing with Tables</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#CountEntriesInTable_Main">CountEntriesInTable_Main</a> - counts the number of entries in the main-branch of an array<br />
+</li>
+<li><a href="US_Api_Functions.html#CycleTable">CycleTable</a> - cycles the entries in a table forward or backward. You can also decide the stepsize. Good for color-cycling-effects.<br />
+</li>
+<li><a href="US_Api_Functions.html#GetAllEntriesFromTable">GetAllEntriesFromTable</a> - returns an interable version of a table, so non-numerical tables can be iterated over<br />
+</li>
+<li><a href="US_Api_Functions.html#GetDuplicatesFromArrays">GetDuplicatesFromArrays</a> - returns duplicates as well as unique values from two tables<br />
+</li>
+<li><a href="US_Api_Functions.html#CompareArrays">CompareArrays</a> - compares two tables and returns all entries from table2 that aren't in table1<br />
+</li>
+<li><a href="US_Api_Functions.html#ConcatIntegerIndexedTables">ConcatIntegerIndexedTables</a> - combines two integer-indexed tables into one(only the references)<br />
+</li>
+<li><a href="US_Api_Functions.html#MakeCopyOfTable">MakeCopyOfTable</a> - makes a true copy of a table, not just references (adapted from a function written by Tyler Neylon)<br />
+</li>
+<li><a href="US_Api_Functions.html#KeepTableEntriesOfType">KeepTableEntriesOfType</a> - returns a table with only entries of a requested type, you can decide between various datatypes<br />
+</li>
+<li><a href="US_Api_Functions.html#RemoveTableEntriesOfType">RemoveTableEntriesOfType</a> - removes table-entries that are of a certain datatype<br />
+</li>
+<li><a href="US_Api_Functions.html#ReturnTableAsIndividualValues">ReturnTableAsIndividualValues</a> - returns the 64 first entries of an integer-indexed table as return-values<br />
+</li>
+<li><a href="US_Api_Functions.html#ReverseTable">ReverseTable</a> - reversed the entries of a table</li>
+</ul>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Helper_Functions_004_UndoManagement"></a>
+<div style="font-size:100%"><h4><a href="#Helper_Functions_004_UndoManagement">^</a> <u>Helper_Functions: Undo Management</u></h4></div><p><p>Undo-Management can be difficult to program in Reaper at times, so I added some things to deal with that to some extend.</p>
+<blockquote>
+<p><strong><a href="US_Api_Functions.html#PreventCreatingUndoPoint">PreventCreatingUndoPoint</a></strong></p>
+</blockquote>
+<pre><code>                    ultraschall.PreventCreatingUndoPoint()
+                    </code></pre>
+<blockquote>
+<p>This function prevents creating an undo-point in non-defer-scripts, which is sometimes desireable.</p>
+</blockquote>
+<blockquote>
+<p>**<a href="US_Api_Functions.html#MakeFunctionUndoable">MakeFunctionUndoable</a></p>
+</blockquote>
+<pre><code>                    boolean retval, string current_UndoMessage, retvals_1, ..., retvals_2 
+                                            = ultraschall.MakeFunctionUndoable(function Func, string UndoMessage, integer Flag, 
+                                                                                            Func_parameters_1, ... Func_parameters_n)
+                                                                                            </code></pre>
+<blockquote>
+<p>With this function, you can create an undopoint for a specific function.<br />
+You need to pass the function itself, an undo-message that is shown in the undo-history and an undo-flag.<br />
+The other parameters are all the parameters the function Func needs to run. Just write them in the order you would do, if you would run the function Func directly.<br />
+It will return a boolean(true for success), the current undo-message and alle the return-values returned by function Func.</p>
+</blockquote>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Helper_Functions_005_Miscellaneous"></a>
+<div style="font-size:100%"><h4><a href="#Helper_Functions_005_Miscellaneous">^</a> <u>Helper_Functions: Miscellaneous</u></h4></div><p><p>In this final chapter, I show you around some nice things that didn't fit anywhere else in the docs. They may or may not be of use for you.</p>
+<p><strong>Checking for the current operating system</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#IsOS_Windows">IsOS_Windows</a> - returns true, if the current operating system is Windows<br />
+</li>
+<li><a href="US_Api_Functions.html#IsOS_Mac">IsOS_Mac</a> - returns true, if the current operating system is MacOS<br />
+</li>
+<li><a href="US_Api_Functions.html#IsOS_Other">IsOS_Other</a> - returns true, if the current operating system is Other(usually Linux)</li>
+</ul>
+<p><strong>Reaper-related stuff</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#GetReaperAppVersion">GetReaperAppVersion</a> - returns the version of Reaper, the subversion, the bits and the os Reaper runs on, as well as if it's a portable installation<br />
+</li>
+<li><a href="US_Api_Functions.html#GetReaperColorThemesPath">GetReaperColorThemesPath</a> - returns the path to the Theme-folder<br />
+</li>
+<li><a href="US_Api_Functions.html#GetReaperJSFXPath">GetReaperJSFXPath</a> - returns the path to the JSFX-folder<br />
+</li>
+<li><a href="US_Api_Functions.html#GetReaperScriptPath">GetReaperScriptPath</a> - returns the path to the scripts-folder of Reaper<br />
+</li>
+<li><a href="US_Api_Functions.html#GetReaperWebRCPath">GetReaperWebRCPath</a> - returns the paths to the folders of the WebRC-files</li>
+</ul>
+<p><strong>Ultraschall-Api-Variables</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#Euro">Euro</a> - the Euro-symbol, which is difficult to type in Reaper's IDE<br />
+</li>
+<li><a href="US_Api_Functions.html#Separator">Separator</a> - the correct-separator for the current system your script is running on<br />
+</li>
+<li><a href="US_Api_Functions.html#StartTime">StartTime</a> - the start-time of the current instance of the Ultraschall-API, which is usually the starting time of your script<br />
+</li>
+<li><a href="US_Api_Functions.html#Api_InstallPath">Api_InstallPath</a> - the installation-path of the Ultraschall-API, in which the ultraschall<em>api.lua and the ultraschall</em>api-folder lie<br />
+</li>
+<li><a href="US_Api_Functions.html#Api_Path">Api_Path</a> - the path to the ultraschall_api-folder</li>
+</ul>
+<p><strong>Configuration Settings</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#SetIntConfigVar_Bitfield">SetIntConfigVar_Bitfield</a> - this helps you setting an integer-bitfield for a specific <a href="Reaper_Config_Variables.html">configuration-variable</a></li>
+</ul>
+<p><strong>User Interface stuff</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#ShowMenu">ShowMenu</a> - shows a context-menu that you can customize yourself<br />
+</li>
+<li><a href="US_Api_Functions.html#OpenItemInMidiEditor">OpenItemInMidiEditor</a> - this opens a midi-item in a MidiEditor<br />
+</li>
+<li><a href="US_Api_Functions.html#ZoomHorizontal_MidiEditor">ZoomHorizontal_MidiEditor</a> - this zooms horizontally within the current or another Midi-Editor<br />
+</li>
+<li><a href="US_Api_Functions.html#ZoomVertical_MidiEditor">ZoomVertical_MidiEditor</a> - this zooms vertically within the current or another Midi-Editor<br />
+</li>
+<li><a href="US_Api_Functions.html#GetVZoom">GetVZoom</a> - gets the vertical-zoom-factor currently set in the arrange-view<br />
+</li>
+<li><a href="US_Api_Functions.html#SetVZoom">SetVZoom</a> - sets the vertical-zoom-factor in the arrange-view<br />
+</li>
+<li><a href="US_Api_Functions.html#CloseReaConsole">CloseReaConsole</a> - closes the ReaConsole-window<br />
+</li>
+<li><a href="US_Api_Functions.html#GetScreenHeight">GetScreenHeight</a> - returns the current screen-height in pixels<br />
+</li>
+<li><a href="US_Api_Functions.html#GetScreenWidth">GetScreenWidth</a> - returns the current screen-width in pixels<br />
+</li>
+<li><a href="US_Api_Functions.html#GetIDEFontSize">GetIDEFontSize</a> - gets the current size of the font in the IDE<br />
+</li>
+<li><a href="US_Api_Functions.html#SetIDEFontSize">SetIDEFontSize</a> - sets the size of the font in the IDE. The IDE must be reopened for the changes to take effect.</li>
+</ul>
+<p><strong>Apply actions to MediaTracks and MediaItems</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#ApplyActionToTrack">ApplyActionToTrack</a> - this function applies a Reaper-action to a certain MediaTrack. That given action must apply itself to selected MediaTracks.<br />
+</li>
+<li><a href="US_Api_Functions.html#ApplyActionToMediaItem">ApplyActionToMediaItem</a> - this function applies a Reaper-action to a certain MediaItem. That given action must apply itself to selected MediaItems.<br />
+</li>
+<li><a href="US_Api_Functions.html#ApplyActionToMediaItemArray">ApplyActionToMediaItemArray</a> - this function applies a Reaper-action to all MediaItems in MediaItemArray individually. That given action must apply itself to selected MediaItems.<br />
+</li>
+<li><a href="US_Api_Functions.html#ApplyActionToMediaItemArray2">ApplyActionToMediaItemArray2</a> - this function applies a Reaper-action to all MediaItems in MediaItemArray at once. That given action must apply itself to selected MediaItems.</li>
+</ul>
+<p><strong>miscellaneous</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#toboolean">toboolean</a> - this tries to convert a value into a boolean. Never understood, why Lua hasn't this function itself. Has no ultraschall. at the beginning of the functionname!<br />
+</li>
+<li><a href="US_Api_Functions.html#RunCommand">RunCommand</a> - this runs a command directly, without the hassle of needing to get the command-id. So you can run an action by it's command-id as well as the ActionCommandID, like _RSblabla.<br />
+</li>
+<li><a href="US_Api_Functions.html#ToggleStateAction">ToggleStateAction</a> - toggles the state of an action and like RunCommand, doesn't need the conversion of a ActionCommandID to a command-id-nr first.<br />
+</li>
+<li><a href="US_Api_Functions.html#ToggleStateButton">ToggleStateButton</a> - toggles the state of a button and like RunCommand, doesn't need the conversion of a ActionCommandID to a command-id-nr first.<br />
+</li>
+<li><a href="US_Api_Functions.html#RefreshToolbar_Action">RefreshToolbar_Action</a> - refreshes a toolbar-button and like RunCommand, doesn't need the conversion of a ActionCommandID to a command-id-nr first.<br />
+</li>
+<li><a href="US_Api_Functions.html#CheckActionCommandIDFormat">CheckActionCommandIDFormat</a> - checks, if a string is a valid formatted ActionCommandID or commandid-nr<br />
+</li>
+<li><a href="US_Api_Functions.html#CheckActionCommandIDFormat2">CheckActionCommandIDFormat2</a> - checks, if a string is a valid formatted ActionCommandID or commandid-nr; checks also for the existence of the commandid/ActionCommandID<br />
+</li>
+<li><a href="US_Api_Functions.html#OpenURL">OpenURL</a> - opens an html-webpage in your browser</li>
+</ul>
+<p>and more and more and more....</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Final_Words_001"></a>
+<div style="font-size:100%"><h4><a href="#Final_Words_001">^</a> <u>Final words</u></h4></div><p><p>I can't believe it, but after over one and a half years, I can finally write these last words for this mammoth-project.<br />
+But what can I say, what I haven't said in this docs?</p>
+<p>Feel free to use it. Feel free to code with it. Feel free to learn from the functions I wrote. Dig into the functions-reference, which holds much much more.</p>
+<p>If you like it, you can donate to our project at: <a href="https://www.ultraschall.fm/danke">ultraschall.fm/danke</a>.</p>
+<p>Let me take some more time to thank to the many Reaper-Forum-users, who provided me with ideas, hints, bits and pieces and tons of information, which itself informed this API.<br />
+I don't want to pick up anyone specific, so if you think, I want to thank you for your ideas and contributions, help or whatever, I do exactly that:<br />
+Thank you :)</p>
+<p>Let me also thank the Reaper-guys Justin and Schwa, who created this piece of great software. Even though I constantly throw more and more Feature-requests into the forum, I'm deeply impressed with this piece of software and the more I dive into it, the more I can find.<br />
+Reaper is like a fractalised fractal: the closer you get, the more details are revealed.</p>
+<p>More thanks also to the whole podcast community in Germany, be it at PodStock, ChaosCommunicationCongress, Sendegate, which gave me more than just countless hours of good entertainment and information. You probably saved my life countless times and I don't know how many podcasts I listened through in the endless hours of coding this monster.<br />
+Without you, I wouldn't have survived coding this.</p>
+<p>Also thanks to the wonderful Ultraschall-team, whose focus on improving Reaper for podcasters shows, what is possible in Reaper and how powerful this software is. And who answered ma tons of questions.<br />
+And who survived my constantly being annyoing with this API ;)<br />
+I want to thank in particular Ralf Stockmann, whose rant in the Sendegate brought me into the project and back into programming.<br />
+Though, after not having seen the lights of the days for months now, I'm not sure, whether this was a good thing ;)</p>
+<p>Thanks also to all the other people who supported me over the years. I dedicate this thing to you. And for someone special even a whole function, yay :D</p>
+<p>So, that's all for now. Feel free to work with it and have fun.</p>
+<p>I go to sleep now. I think, I deserved it :)</p>
+<p>Meo Mespotine, Leipzig(Germany) 30th of November 2018</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 83 chapters available</td></table><br><hr></div></body></html>

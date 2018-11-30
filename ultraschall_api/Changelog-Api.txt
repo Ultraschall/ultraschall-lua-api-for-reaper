@@ -364,10 +364,14 @@
   - Color_Example.gif - added example-gif that demonstrates example-script
   - Shorten_MediaItems_In_Selection_Example.gif - added example-gif that demonstrates example-script
   - ColorTables_ColorCycler.gif - added example-gif that demonstrates example-script
+  - Docs: Helper_Functions: Introduction - added chapter to the Introduction/Concepts-page
+  - Docs: Helper_Functions: Clipboard Management - added chapter to the Introduction/Concepts-page
+  - Docs: Helper_Functions: Data Manipulation - added chapter to the Introduction/Concepts-page
+  - Docs: Helper_Functions: Undo Management - added chapter to the Introduction/Concepts-page
+  - Docs: Final words - added chapter to the Introduction/Concepts-page  
   
   <TODO>
-      TODO!!  - write final documentation for public-beta
-      TODO!!  - 1 - bla bla umwandeln in 1, bla bla
+      TODO!! - 9 last functions to the 700.
       
       
     For 4.00beta2.8:
@@ -974,6 +978,10 @@
   - SectionCut_Inverse - removed the move_markers parameter; added add_to_clipboard parameters, which puts the cut-items to the clipboard
   - EnumerateIniFileExternalState_sec - added error-messages for invalid section-indices
   - GetUSExternalState - returns now only the value-returnvalue
+  - GetID3TagsFromCurrentProject - removed, due being useless in Ultraschall 4.0
+  - GetID3TagsFromCurrentProject_PodcastTags - removed, due being useless in Ultraschall 4.0
+  - SetID3TagsForCurrentProject - removed, due being useless in Ultraschall 4.0
+  - SetID3TagsForCurrentProject_PodcastTags - removed, due being useless in Ultraschall 4.0
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:
