@@ -1986,15 +1986,38 @@
   
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>SELECTION</slug>
-    <functioncall>SELECTION number start_selection, number end_selection, number start_selection2, number end_selection2 </functioncall>
+    <functioncall>SELECTION number start_selection, number end_selection</functioncall>
     <description>
-    
+        The time/loop-selection in the project. 
+        
+        Start and endselection can be reversed!
+        
+        see also [SELECTION2](#SELECTION2)
     </description>
     <parameters>
       number start_selection - start of the time-selection
       number end_selection - end of the time-selection
-      number start_selection2 - start of the time-selection
-      number end_selection2 - end of the time-selection
+    </parameters>
+    <chapter_context>
+      ProjectStateChunk
+    </chapter_context>
+    <target_document>Reaper_StateChunk_Docs</target_document>
+    <source_document></source_document>
+    <tags></tags>
+  </US_DocBloc>
+  
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SELECTION2</slug>
+    <functioncall>SELECTION2 number start_selection, number end_selection</functioncall>
+    <description>
+        The time/loop-selection in the project. 
+        Start and endselection can be reversed!
+        
+        see also [SELECTION](#SELECTION)
+    </description>
+    <parameters>
+      number start_selection - start of the time-selection
+      number end_selection - end of the time-selection
     </parameters>
     <chapter_context>
       ProjectStateChunk

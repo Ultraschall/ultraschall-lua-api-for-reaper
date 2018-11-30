@@ -2901,7 +2901,7 @@
             >- functionname, which contains the name of the function, in which the error occured  
             >- parmname, which contains the name of the parameter, which caused the trouble. It is "", if the problem is unrelated to a parameter  
             >- errormessage, which is the actual errormessage  
-            >- lastreadtime, the time, at which the errormessage was read from the error-messaging-system the last time. That way you can see, which errormessage you already read  
+            >- lastreadtime, the time, at which the errormessage was read from the error-messaging-system the last time. Is "unread" if the errormessage hasn't been read yet.
             >- err\_creation\_date, the date, at which the error was created  
             >- err\_creation\_timestamp, the time, at which the error was created  
             >- errorcounter, the indexnumber of the errormessage within the error-messaging-system.

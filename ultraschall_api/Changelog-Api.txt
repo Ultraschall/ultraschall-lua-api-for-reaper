@@ -1,6 +1,6 @@
 ##Ultraschall Framework - Changelog
 
-###4.00 Beta 2.7: - "John Cage - 4:33" - 15th of December 2018
+###4.00 Beta 2.7: - "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018
 ####New features in 4.00beta2.7
   - SetEnvelopeHeight - set the height and compactible state of an envelope-lane/envelopestatechunk
   - GetTrackStateChunk_Tracknumber - get a TrackStateChunk without the hassle of creating a trackobject first  
@@ -347,7 +347,24 @@
   - Docs: Markers and Regions: Introduction - added to Introduction/Concepts-page
   - Docs: Markers and Regions: General How To - added to Introduction/Concepts-page
   - Docs: Markers and Regions: Helpers and Manipulation - added to Introduction/Concepts-page
-
+  - CycleTable - cycles the entries of a table through
+  - GetErrorMessage_Funcname - returns error-message of a certain function
+  - CountErrorMessage_Funcname - counts all error-messages a certain function left in the error-messagin-system
+  - GetLastErrorMessage_Funcname - returns the last error-message a certain function left in the error-messaging-system
+  - DisplayMarkersRegions_underneath_Mouse.lua - example-script that displays the markers/regions underneath the mouse
+  - ShowMediaItems_In_Timeselection_and_SelectedTracks.lua - example script that shows selected items by time-selection and track-selection
+  - TrackAndItem_ColorCycler.lua - example script that cycles colors of tracks and items
+  - Render_Project.gif - added example-gif that demonstrates example-script
+  - DisplayMarkersRegions_underneath_Mouse.gif - added example-gif that demonstrates example-script  
+  - ShowMediaItems_In_Timeselection_and_SelectedTracks.gif - added example-gif that demonstrates example-script
+  - Render_Current_Project.gif - added example-gif that demonstrates example-script
+  - Changed_Project_Tab_Example.gif - added example-gif that demonstrates example-script
+  - ArrangeView_Snapshots_Example.gif - added example-gif that demonstrates example-script
+  - RippleCut_Selected_Tracks.gif - added example-gif that demonstrates example-script
+  - Color_Example.gif - added example-gif that demonstrates example-script
+  - Shorten_MediaItems_In_Selection_Example.gif - added example-gif that demonstrates example-script
+  - ColorTables_ColorCycler.gif - added example-gif that demonstrates example-script
+  
   <TODO>
       TODO!!  - write final documentation for public-beta
       TODO!!  - 1 - bla bla umwandeln in 1, bla bla

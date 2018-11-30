@@ -6079,8 +6079,8 @@
            >&1=0, Generate peak caches: on import - unchecked  
            >&1=1, Generate peak caches: on import - checked  
            
-           >&2=0, Generate peak caches: in project load - unchecked  
-           >&2=1, Generate peak caches: in project load - checked  
+           >&2=0, Generate peak caches: on project load - unchecked  
+           >&2=1, Generate peak caches: on project load - checked  
            
           For other Media-settings, set in the preferences -> Media, see [copyimpmedia](#copyimpmedia), [relativeedges](#relativeedges), [applyfxtail](#applyfxtail), [itemfxtail](#itemfxtail), [peakcachegenmode](#peakcachegenmode),   
                                                       [showpeaksbuild](#showpeaksbuild), [altpeaks](#altpeaks), [showpeaks](#showpeaks), [offlineinact](#offlineinact), [insertmtrack](#insertmtrack), [opencopyprompt](#opencopyprompt)  

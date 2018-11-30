@@ -26,12 +26,19 @@ if retval2==true then
   render_cfg_string_Wav = ultraschall.CreateRenderCFG_WAV(1, 0, 0, 0, false)
   
   -- Render the files. Will automatically increment filenames(if already existing) and close the rendering-window after render.
-  ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, -1, -1, false, true, true, render_cfg_string_Flac)
-  ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, -1, -1, false, true, true, render_cfg_string_Opus)
-  ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, -1, -1, false, true, true, render_cfg_string_MP3_maxquality)
-  ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, -1, -1, false, true, true, render_cfg_string_Wav)
+  retval, renderfilecount, MediaItemStateChunkArray, Filearray = ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, -2, -2, false, true, true, render_cfg_string_Flac)
+  renderfile1=Filearray[1]
+  retval, renderfilecount, MediaItemStateChunkArray, Filearray = ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, -2, -2, false, true, true, render_cfg_string_Opus)
+  renderfile2=Filearray[1]
+  retval, renderfilecount, MediaItemStateChunkArray, Filearray = ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, -2, -2, false, true, true, render_cfg_string_MP3_maxquality)
+  renderfile3=Filearray[1]
+  retval, renderfilecount, MediaItemStateChunkArray, Filearray = ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, -2, -2, false, true, true, render_cfg_string_Wav)
+  renderfile4=Filearray[1]
+  
+  -- show the filenames of the rendered files
+  reaper.MB("The rendered files are:\n\n1: "..renderfile1.."\n2: "..renderfile2.."\n3: "..renderfile3.."\n4: "..renderfile4, "Rendered Files",0) 
 else
   reaper.MB("No outputfile Chosen. Quitting now.", "No outputfile Selected", 0)
 end
 
-ultraschall.ShowLastErrorMessage()
+--ultraschall.ShowLastErrorMessage() 

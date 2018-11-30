@@ -18751,13 +18751,21 @@ function ultraschall.GetProject_Selection(projectfilename_with_path, ProjectStat
     if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_Selection", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
   end
   -- get the values and return them
-  ProjectStateChunk=ProjectStateChunk:match("<REAPER_PROJECT.-SELECTION(%s.-)%c").." "
+  ProjectStateChunk1=ProjectStateChunk:match("<REAPER_PROJECT.-SELECTION(%s.-)%c").." "
+  ProjectStateChunk2=ProjectStateChunk:match("<REAPER_PROJECT.-SELECTION2(%s.-)%c").." "
   
-  return tonumber(ProjectStateChunk:match("%s(.-)%s")),
-         tonumber(ProjectStateChunk:match("%s.-%s(.-)%s"))
+  sel1_side1=tonumber(ProjectStateChunk1:match("%s(.-)%s"))
+  sel1_side2=tonumber(ProjectStateChunk1:match("%s.-%s(.-)%s"))
+  sel2_side1=tonumber(ProjectStateChunk2:match("%s(.-)%s"))
+  sel2_side2=tonumber(ProjectStateChunk2:match("%s.-%s(.-)%s"))  
+  
+  if sel1_side1>sel1_side2 then sel1_side1,sel1_side2=sel1_side2,sel1_side1 end
+  if sel2_side1>sel2_side2 then sel2_side1,sel2_side2=sel2_side2,sel2_side1 end
+  return sel1_side1, sel1_side2, sel2_side1, sel2_side2
 end
 
---A1,A2,A3,A4=ultraschall.GetProject_Selection("c:\\A-.rpp")
+--P,PN=reaper.EnumProjects(-1,"")
+--A1,A2,A3,A4=ultraschall.GetProject_Selection(PN)
 
 
 
@@ -38509,7 +38517,7 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
     retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
   end  
   
-  if reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "projectfilename_with_path", "File does not exist.", -6) return -1 end
+  if type(projectfilename_with_path)~="string" or reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "projectfilename_with_path", "File does not exist.", -6) return -1 end
   if type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "renderfilename_with_path", "Must be a string.", -7) return -1 end  
   if rendercfg~=nil and ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "rendercfg", "No valid render_cfg-string.", -9) return -1 end
   if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "overwrite_without_asking", "Must be boolean", -10) return -1 end
@@ -38535,15 +38543,15 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
   
   -- Add the rendertime to the temporary project-file, when 
   local bounds, time_start, time_end, tail, tail_length = ultraschall.GetProject_RenderRange(tempfile)
-  if time_end==0 then time_end = ultraschall.GetProject_Length(tempfile) end
+--  if time_end==0 then time_end = ultraschall.GetProject_Length(tempfile) end
   local timesel1_start, timesel1_end = ultraschall.GetProject_Selection(tempfile)
   --   if startposition and/or endposition are -1, retain the start/endposition from the project-file
 
   if startposition==-1 then startposition=time_start end
-  if endposition==-1 or endposition==0 then endposition=time_end end
+  if endposition==-1 or endposition==0 then if time_end==0 then endposition=ultraschall.GetProject_Length(tempfile) else endposition=time_end end end
   if startposition==-2 then startposition=timesel1_start end
   if endposition==-2 then endposition=timesel1_end end
-  
+
   if endposition==0 and startposition==0 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition or endposition in RPP-Project", "Can't render a project of length 0 seconds.", -13) os.remove (tempfile) return -1 end
   if endposition<=startposition and endposition~=0 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition or endposition in RPP-Project", "Must be bigger than startposition.", -11) os.remove (tempfile) return -1 end
   local Bretval = ultraschall.SetProject_RenderRange(tempfile, 0, startposition, endposition, 0, 0)
@@ -38553,6 +38561,7 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
     return -1 
   end
   
+
   -- Get currently opened project
   local _temp, oldprojectname=ultraschall.EnumProjects(0)
   
@@ -38583,6 +38592,10 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
   end
   reaper.SNM_SetIntConfigVar("renderclosewhendone", val)
   
+  -- temporarily disable building peak-caches
+  local peakval=reaper.SNM_GetIntConfigVar("peakcachegenmode", -99)
+  reaper.SNM_SetIntConfigVar("peakcachegenmode", 0)
+  
   local AllTracks=ultraschall.CreateTrackString_AllTracks() -- get number of tracks after rendering and adding of rendered files
   
   reaper.Main_OnCommand(41824,0)    -- render using it with the last rendersettings(those, we inserted included)
@@ -38597,8 +38610,9 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
     Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \"(.-)\"")
   end
 
-  -- reset old renderclose/overwrite-settings
+  -- reset old renderclose/overwrite/Peak-cache-settings
   reaper.SNM_SetIntConfigVar("renderclosewhendone", oldval)
+  reaper.SNM_SetIntConfigVar("peakcachegenmode", peakval)
 
   --remove the temp-file and we are done.
   os.remove (tempfile)
@@ -44919,23 +44933,50 @@ function ultraschall.GetProject_Length(projectfilename_with_path, ProjectStateCh
     if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_Length", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return -1 end
   end
 
-  local B, C, ProjectLength, Len
+  local B, C, ProjectLength, Len, Pos, Offs
 
   -- search for the last item-edge in the project
   B=ProjectStateChunk
-  B=B:match("%<TRACK.*")
+  B=B:match("(%<ITEM.*)<EXTENS").."\n<ITEM"
   ProjectLength=0
   local Item_Length=0
   local Marker_Length=0
   local TempoMarker_Length=0
   
-  while B~=nil and B:match("%<ITEM")~=nil do
-    local Pos, Len, Offs = B:match("POSITION (.-)\n.-LENGTH (.-)\n()")
+  -- let's take a huge project-string apart to make patternmatching much faster
+  local K={}
+  local counter=0
+--  reaper.MB(B:sub(-1000,-1),"",0)
+  while B:len()>1000 do     
+    K[counter]=B:sub(0, 100000)
+    B=B:sub(100001,-1)
+    counter=counter+1
+  end
+  
+  local counter2=1
+  local B=K[0]
+  
+  local Itemscount=0
+  
+--  reaper.MB(B:sub(1,200),"",0)
+  
+  while B~=nil and B:sub(1,5)=="<ITEM" do
+    if B:len()<10000 and counter2<counter then B=B..K[counter2] counter2=counter2+1 end
+    Offs=B:match(".()<ITEM")
+
+    local sc=B:sub(1,200)
+    if sc==nil then break end
+
+    Pos = sc:match("POSITION (.-)\n")
+    Len = sc:match("LENGTH (.-)\n")
+
+    if Pos==nil or Len==nil or Offs==nil then break end
     if ProjectLength<tonumber(Pos)+tonumber(Len) then ProjectLength=tonumber(Pos)+tonumber(Len) end
     B=B:sub(Offs,-1)  
+    Itemscount=Itemscount+1
   end
   Item_Length=ProjectLength
-  
+
   -- search for the last marker/regionedge in the project
   local markerregioncount, NumMarker, Numregions, Markertable = ultraschall.GetProject_MarkersAndRegions(nil, ProjectStateChunk)
   
@@ -44952,6 +44993,8 @@ function ultraschall.GetProject_Length(projectfilename_with_path, ProjectStateCh
   
   return ProjectLength, Item_Length, Marker_Length, TempoMarker_Length
 end
+
+--L=ultraschall.GetProject_Length("c:/temp/testproject/testproject.RPP")
 
 
 --L=ultraschall.RenderProject_RenderCFG("c:\\rendercode-project-dupl.RPP", "c:\\Reaper-Internal-Docs.mp3", 0, 0, false, true, true, A)
@@ -45931,6 +45974,8 @@ function ultraschall.ShowMenu(Title,Entries,x,y)
         SubmenuEntry2Closer
       Grayed Out
     
+    One last thing: the title does not count as entry!
+    
     returns -1 in case of an error
   </description>
   <retvals>
@@ -45951,11 +45996,11 @@ function ultraschall.ShowMenu(Title,Entries,x,y)
   <tags>user interface, create, menu, contextmenu</tags>
 </US_DocBloc>
 ]]
-  if type(Title)~="string" then ultraschall.AddErrorMessage("DrawMenu", "Title", "must be a string", -1) return -1 end
-  if type(Entries)~="string" then ultraschall.AddErrorMessage("DrawMenu", "Entries", "must be a string", -2) return -1 end
-  if math.type(x)~="integer" then ultraschall.AddErrorMessage("DrawMenu", "x", "must be an integer", -3) return -1 end
-  if math.type(y)~="integer" then ultraschall.AddErrorMessage("DrawMenu", "y", "must be an integer", -4) return -1 end
-  if Entries=="" then ultraschall.AddErrorMessage("DrawMenu", "Entries", "must have at least one entry", -5) return -1 end
+  if type(Title)~="string" then ultraschall.AddErrorMessage("ShowMenu", "Title", "must be a string", -1) return -1 end
+  if type(Entries)~="string" then ultraschall.AddErrorMessage("ShowMenu", "Entries", "must be a string", -2) return -1 end
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("ShowMenu", "x", "must be an integer", -3) return -1 end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("ShowMenu", "y", "must be an integer", -4) return -1 end
+  if Entries=="" then ultraschall.AddErrorMessage("ShowMenu", "Entries", "must have at least one entry", -5) return -1 end
   if Title:len()<=5 then for i=5-Title:len(),1, -1 do Title=Title.." " end end
 
   local ownwindow=false
@@ -45970,10 +46015,211 @@ function ultraschall.ShowMenu(Title,Entries,x,y)
   end
   local selection=gfx.showmenu("#"..Title.."||"..Entries)
   if ownwindow==true then gfx.quit() end
-  return math.floor(selection)
+  return math.floor(selection)-1
 end
 
---L=ultraschall.ShowMenu("","Normal1|>SubmenuOpener|Submenuentry1|<SubmenuEntry2Closer|#Grayed Out",-1,-1)
+--L=ultraschall.ShowMenu("","Normal1",-1,-1)
 
-ultraschall.ShowLastErrorMessage()
+function ultraschall.CycleTable(the_table, offset)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CycleTable</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>table new_table = ultraschall.CycleTable(table the_table, integer offset)</functioncall>
+  <description>
+    Cycles the entries by offset. Offset can be positive(cycle forward) or negative(cycle negative). The number also tells the function, by how many entries the table shall be cycled, with 1 for one entry, 2 for 2 entries, etc.
+    Entries "falling out" of one side(top or bottom) of the table will be readded on the other side.
+    
+    returns nil in case of error
+  </description>
+  <retvals>
+    table new_table - the altered table
+  </retvals>
+  <parameters>
+    table the_table - the table to cycle through
+    integer offset - the offset, by which to cycle the entries through; positive, cycle entries forward; negative, cycle entries backward
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, cycle, table</tags>
+</US_DocBloc>
+]]
+  if type(the_table)~="table" then ultraschall.AddErrorMessage("CycleTable", "the_table", "must be a table", -1) return end
+  if math.type(offset)~="integer" then ultraschall.AddErrorMessage("CycleTable", "offset", "must be an integer", -2) return end
+
+  local count, subtables, count_of_subtables = ultraschall.CountEntriesInTable_Main(the_table)
+  local the_new_table={}
+
+  local temp=math.floor(offset/count)
+  local counter=offset-(temp*count)+1
+
+  for i=1, count do
+    the_new_table[counter]=the_table[i]
+    counter=counter+1
+    if counter>count then counter=1 end
+  end
+  return the_new_table
+end
+
+function ultraschall.GetLastErrorMessage_Funcname(functionname)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLastErrorMessage_Funcname</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer errorindex, string parametername, string errormessage, integer errorcode = ultraschall.GetLastErrorMessage_Funcname(string functionname)</functioncall>
+  <description>
+    Returns the last errormessage, a certain function added to the Error-Messaging-System.
+    Sets read-state of the error-message to the date-time of accessing it.
+    
+    returns -1 in case of error
+  </description>
+  <retvals>
+    integer errorindex - the index of the error within the Error-Messaging-System
+    string parametername - the parameter that produced the problem, or "" if no parameter was involved
+    string errormessage - the errormessage
+    integer errorcode - the errorcode the error has
+  </retvals>
+  <parameters>
+    string functionname - the name of the function, whose last error message you want to retrieve
+  </parameters>
+  <chapter_context>
+    Developer
+    Error Handling
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>developer, error, get, last error message, function</tags>
+</US_DocBloc>
+]]
+  if type(functionname)~="string" then ultraschall.AddErrorMessage("GetLastErrorMessage_Funcname", "functionname", "must be a string", -1) return -1 end
+  if ultraschall[functionname]==nil then ultraschall.AddErrorMessage("GetLastErrorMessage_Funcname", "functionname", "no such function", -2) return -1 end
+  for i=ultraschall.ErrorCounter, 1, -1 do
+    if functionname==ultraschall.ErrorMessage[i]["funcname"] then
+      ultraschall.ErrorMessage[i]["readstate"]=os.date()
+      return i, ultraschall.ErrorMessage[i]["parmname"],
+                ultraschall.ErrorMessage[i]["errmsg"],
+                ultraschall.ErrorMessage[i]["errcode"]
+    end
+  end
+  return -1
+end
+
+--ultraschall.ShowMenu(9,9)
+--L=ultraschall.ErrorMessage
+
+--reaper.MB(ultraschall.ErrorMessage[1]["readstate"],"",0)
+--for i=0, 10000 do
+--end
+--ultraschall.GetLastErrorMessage_Funcname("ShowMenu")
+
+function ultraschall.CountErrorMessage_Funcname(functionname)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CountErrorMessage_Funcname</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer number_of_errormessages = ultraschall.CountErrorMessage_Funcname(string functionname)</functioncall>
+  <description>
+    Returns the number of available errormessages for functionname, existing in the Error-Messaging-System.
+    
+    returns -1 in case of error
+  </description>
+  <retvals>
+    integer number_of_errormessages - the number of errormessages functionname has left in the Error-Messaging-System
+  </retvals>
+  <parameters>
+    string functionname - the name of the function, whose error messages you want to count
+  </parameters>
+  <chapter_context>
+    Developer
+    Error Handling
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>developer, error, count, error messages, function</tags>
+</US_DocBloc>
+]]
+  if type(functionname)~="string" then ultraschall.AddErrorMessage("CountErrorMessage_Funcname", "functionname", "must be a string", -1) return -1 end
+  if ultraschall[functionname]==nil then ultraschall.AddErrorMessage("CountErrorMessage_Funcname", "functionname", "no such function", -2) return -1 end
+  local count=0
+  for i=ultraschall.ErrorCounter, 1, -1 do
+    if functionname==ultraschall.ErrorMessage[i]["funcname"] then
+      count=count+1
+    end
+  end
+  return count
+end
+
+function ultraschall.GetErrorMessage_Funcname(functionname, index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetErrorMessage_Funcname</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer errorindex, string parametername, string errormessage, integer errorcode = ultraschall.GetErrorMessage_Funcname(string functionname, integer index)</functioncall>
+  <description>
+    Returns a specific errormessage specified by index, functionname added to the Error-Messaging-System.
+    Sets read-state of the error-message to the date-time of accessing it.
+    
+    returns -1 in case of error
+  </description>
+  <retvals>
+    integer errorindex - the index of the error within the Error-Messaging-System
+    string parametername - the parameter that produced the problem, or "" if no parameter was involved
+    string errormessage - the errormessage
+    integer errorcode - the errorcode the error has
+  </retvals>
+  <parameters>
+    string functionname - the name of the function, whose last error message you want to retrieve
+    integer index - the index of the error-message for functionname
+  </parameters>
+  <chapter_context>
+    Developer
+    Error Handling
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>developer, error, get, index, error message, function</tags>
+</US_DocBloc>
+]]
+  if type(functionname)~="string" then ultraschall.AddErrorMessage("GetErrorMessage_Funcname", "functionname", "must be a string", -1) return -1 end
+  if ultraschall[functionname]==nil then ultraschall.AddErrorMessage("GetErrorMessage_Funcname", "functionname", "no such function", -2) return -1 end
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("GetErrorMessage_Funcname", "index", "must be an integer", -3) return -1 end
+  if index<1 then ultraschall.AddErrorMessage("GetErrorMessage_Funcname", "index", "must be higher than 0", -4) return -1 end
+  local count=0
+  for i=ultraschall.ErrorCounter, 1, -1 do
+    if functionname==ultraschall.ErrorMessage[i]["funcname"] then
+      count=count+1      
+      if count==index then 
+        ultraschall.ErrorMessage[i]["readstate"]=os.date()
+        return i, ultraschall.ErrorMessage[i]["parmname"],
+                  ultraschall.ErrorMessage[i]["errmsg"],
+                  ultraschall.ErrorMessage[i]["errcode"]
+      end
+    end
+  end
+  return count
+end
+
+--A,B,C,D,E=ultraschall.GetErrorMessage_Funcname("GetAllMediaItemsBetween", -1)
+
+--ultraschall.ShowLastErrorMessage()
 
