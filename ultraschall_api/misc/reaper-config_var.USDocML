@@ -278,7 +278,7 @@
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
           Some peak-settings, as set in the Waveform media peak caching settings in Preferences -> Media, as well as in Preferences -> Paths.  
           This is not(!) located in Preferences -> Appearances-Media!  
-          It is an integer.  
+          It is an integer bitfield.  
 
            >&1=0, Store all peak caches (.reapeaks) in alternate path(Preferences -> Path)(off) - unchecked  
            >&1=1, Store all peak caches (.reapeaks) in alternate path(Preferences -> Path)(on) - checked  
@@ -396,6 +396,7 @@
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
           Tail length when using Apply FX to items in milliseconds, as set in Preferences -> Media  
           This is not(!) located in Preferences -> Appearances-Media!  
+          The accompanying entry in the reaper.ini is always config-var-setting+1.
           It is an integer.  
 
            >0 to 2147483647; higher values become negative  
@@ -522,7 +523,7 @@
           For other settings in Preferences -> Audio, see [audiocloseinactive](#audiocloseinactive), [errnowarn](#errnowarn), [hwfadex](#hwfadex), [optimizesilence](#optimizesilence)  
             
                     
-          Stored in reaper.ini under the same name in the section REAPER.  
+          Stored in reaper.ini under the same           in the section REAPER.  
             
       </description>  
       <chapter_context>  
@@ -535,12 +536,16 @@
       <slug>audioprshift</slug>  
       <title>audioprshift</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          Preserve pitch in audio items when changing master playrate playrate, as set in the contextmenu of the master-playrate in the transport-area as well as toggled by action 40671(all sections)  
+          Preserve pitch in audio items when changing master playrate, as set in the contextmenu of the master-playrate in the transport-area as well as toggled by action 40671(all sections)  
+          This is a project-setting.
           It is an integer.  
 
            >0, don't preserve pitch - unchecked  
            >1, preserve pitch - checked  
            
+           For changing the master-playrate, see [playrate](#playrate)  
+           
+           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked..  
       </description>  
       <chapter_context>  
          Config Variables  
@@ -6252,11 +6257,14 @@
       <title>playrate</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
           The current master-[playrate](#playrate), as set in the transport-area.  
-          It is an double-float.  
+          This is a project-setting.
+          It is a double-float.  
           
            >0.01 to 4.0  
            
           For preserving pitch when setting master-playrate, see [audioprshift](#audioprshift)  
+          
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.
            
       </description>  
       <chapter_context>  
@@ -11721,6 +11729,147 @@
       </chapter_context>  
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
-      
 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>reaper_video->visible</slug>  
+      <title>reaper_video->visible</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          Visibility of the video-processor window.  
+          This can't be set, only read from reaper.ini -> [reaper_video] !  
+          
+          It is an integer  
+          
+          >0, video-processor-window is closed  
+          >1, video-processor-window is open
+            
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>reaper_video->smp</slug>  
+      <title>reaper_video->smp</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+            Only available in prereleases yet  
+            Video Processor multiprocessing, as set in the context-menu of the Video-Processor -> Performance tweaks(experimental)  
+            This can't be set, only read from reaper.ini -> [reaper_video] !  
+            Holds the last used setting, not the current one!  
+            
+            It is an integer
+
+            >0, checked  
+            >1, unchecked
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>reaper_video->vdprefetch_threads</slug>  
+      <title>reaper_video->vdprefetch_threads</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+            Only available in prereleases yet  
+            Video decoder pre-fetch-threads, as set in the context-menu of the Video-Processor -> Performance tweaks(experimental) -> Video decoder pre-fetch  
+            This can't be set, only read from reaper.ini -> [reaper_video] !  
+            Holds the last used setting, not the current one!  
+            
+            It is an integer
+            
+            >number of threads, with 0 being disabled(default)
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>reaper_video->misc_flags</slug>  
+      <title>reaper_video->misc_flags</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+            Only available in prereleases yet  
+            Misc settings as set in the context-menu of the Video-Processor -> Performance tweaks(experimental)  
+            This can't be set, only read from reaper.ini -> [reaper_video] !  
+            Holds the last used setting, not the current one!  
+
+            It is an integer-bitfield
+
+            &1=0, show underruns during playback as green frames - checked  
+            &1=1, show underruns during playback as green frames - unchecked  
+                
+            &2=0, Aggressively update video during arrange/edit scrolls - checked  
+            &2=1, Aggressively update video during arrange/edit scrolls - unchecked  
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>reaper_video->playback_cache</slug>  
+      <title>reaper_video->playback_cache</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+                Only available in prereleases yet  
+                Rendered frame cache size, as set in the context-menu of the Video-Processor -> Performance tweaks(experimental) -> Rendered-frame cache size  
+                This can't be set, only read from reaper.ini -> [reaper_video] !  
+                Holds the last used setting, not the current one!  
+
+                It is a double
+
+                Given in seconds
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>reaper_video->fx_mode</slug>  
+      <title>reaper_video->fx_mode</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+                Only available in prereleases yet  
+                Monitoring/master FX-settings, as set in the context-menu of the Video-Processor -> Performance tweaks(experimental) -> Monitoring/master FX  
+                This can't be set, only read from reaper.ini -> [reaper_video] !  
+                Holds the last used setting, not the current one!  
+                
+                It is an integer
+                    
+                0, Monitoring FX are low latency(default)  
+                1, Monitoring FX and master FX are low latency  
+                2, Monitoring FX and master FX are processed like track FX  
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>reaper_video->vdprefetch_srcs</slug>  
+      <title>reaper_video->vdprefetch_srcs</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+            Only available in prereleases yet  
+            Video-decoder prefetch last x sourced, as set in the context-menu of the Video-Processor -> Performance tweaks(experimental) -> Video decoder pre-fetch  
+            This can't be set, only read from reaper.ini -> [reaper_video] !  
+            Holds the last used setting, not the current one!  
+                
+            It is an integer
+                
+            the number of last prefetched video sources, defaults are 2, 5, 10, 15
+
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
 </USDocML>  

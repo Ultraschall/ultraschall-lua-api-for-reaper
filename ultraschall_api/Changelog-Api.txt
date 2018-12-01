@@ -1,6 +1,9 @@
 ##Ultraschall Framework - Changelog
 
 ###4.00 Beta 2.7: - "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018
+
+Has now 700 functions, with about 250 new ones!
+
 ####New features in 4.00beta2.7
   - SetEnvelopeHeight - set the height and compactible state of an envelope-lane/envelopestatechunk
   - GetTrackStateChunk_Tracknumber - get a TrackStateChunk without the hassle of creating a trackobject first  
@@ -369,15 +372,19 @@
   - Docs: Helper_Functions: Data Manipulation - added chapter to the Introduction/Concepts-page
   - Docs: Helper_Functions: Undo Management - added chapter to the Introduction/Concepts-page
   - Docs: Final words - added chapter to the Introduction/Concepts-page  
+  - GetSetConfigAlwaysAllowKB - gets/sets value for configvar alwaysallowkb
+  - GetSetConfigApplyFXTail - get/sets value for configvar applyfxtail
+  - GetSetConfigAdjRecManLatIn -get/sets value for configvar ajdrecmanlatin
+  - GetSetConfigAudioPrShift - get/sets value for configvar audioprshift
+  - GetSetConfigAudioCloseStop - get/sets value for configvar audioclosestop
+  - GetSetConfigAudioThreadPr - get/sets value for configvar audiothreadpr
+  - GetSetConfigAudioCloseTrackWnds - get/sets value for configvar audioclosetrackwnds
+  - WinterlySnowflakes - replaces gfx.update with a version, that displays falling snowflakes everytime gfx.update is run
+
   
   <TODO>
-      TODO!! - 9 last functions to the 700.
-      
-      
     For 4.00beta2.8:
-      TODO!!  - MoveTimeSigMarkersBy MoveTimeSigMarkersTo - moving them mixes up the order. 
-                Need to find a way to deal with that, without having an unique identifier for markers
-      TODO!! 
+      TODO!! Code still has countless of useless tonumber-conversions included and other weird old parameter-checks:
             - DeleteErrorMessage - deletes a specific error-message from the error-messaging-system
             - Docs: Error-Messaging-System - added docchapters to Introductions/Concepts-page
             - ReadErrorMessage - improved error-message, errornumber now checks, if being an integer
@@ -457,7 +464,6 @@
             - WriteValueToFile_ReplaceBinary - improved checking for validity of parameters
 
             SetTrack-functions still need that kind of treatment.
-            Code still has countless of useless tonumber-conversions included
 
       TODO!!  - DeleteItemExtState, DeleteTrackExtState
       TODO!!  - SetStateChunk-functions: how to check for ProjectStateChunk/TrackStateChunk/ItemStateChunk/EnvStateChunk, when new parameters are added to the function?
@@ -515,10 +521,6 @@
       TODO!!  - GFX: virtual screenbuffers(create/remove/blit)
       TODO!!  - ultraschall.gfx_getkey(integer buffer), allows pipe-ing of UserInput directly into a textbuffer. The textbuffer acts like a invisible textbox, which can be shown using drawstr or something
                                                         must support arrow, bspc, enter, return, copynpaste as well
-      TODO!!  - Open$Window(optional boolean openstate) - this needs to be for all Reaper windows available. Opens a $window(like video), when openstate==true, closes it when openstate==false, toggles when openstate==nil
-      TODO!!  - CompareSWSVersionWith(integer majornumber, number subversion) (Only, when new SWS-version comes out)
-      TODO!!  - CompareReaperVersionWith(integer majornumber, number subversion) - subversion must be converted to 0.xxx
-      TODO!!  - CompareUSAPIVersionWith(integer majornumber, number subversion, optional number betaversion)
       TODO!!  - CreateItemFromTake, which creates a new item from an existing take. Like cropping, but leaves the original untouched.
       TODO!!  - CropTakeFromItem, which removes a take from an item; maybe allowing multiple ones?
       TODO!!  - MoveTakeInTakeOrderInMediaitem, which allows changing the order of takes within an item
@@ -534,9 +536,7 @@
       TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
                         - not possible, as I can't programatically change the selected envelope...maybe with SetCursorContext, as this allows focusing a trackenvelope, 
                                 but also sets focus to arrangeview, which is quite brutal
-      TODO!!  - GetProject-functions for
-                      
-              - SetProject-functions for
+      TODO!!  - SetProject-functions for
                   - SetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
                   - SetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk
                   - SetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk
@@ -580,27 +580,7 @@
                   
                - IsValid-check functions for
                     - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
-                      MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex
-                      
-      TODO!!  - In the render window I think it would be really helpful to have the option of adding the rendered files into a new project tab.
-
-                    There could be a section of the render window for After Export functions
-                    - add to project on new track
-                    - add to new project tab on new track
-                    - add to new project tab on same track
-                    - ?
-                    - ?
-
-
-                    example 1 - rendering stems for a song, they get added to a new project on separate tracks automatically. bonus points if tempo map comes with.
-
-                    example 2 - rendering mastered songs for album (regions export). tracks are added to new project for final quality checks
-
-                    Right now we have the option of adding exported files to the original project and that just never made sense to me.
-
-                    Hope you'll consider this. Thanks
-                    https://forum.cockos.com/showthread.php?t=211539
-   
+                      MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex   
    </TODO>
 ####Changes from 4.00beta2.6 to 4.00beta2.7
   - Tons of bugfixes. I mean, tons as in metric tons ;)
@@ -982,6 +962,7 @@
   - GetID3TagsFromCurrentProject_PodcastTags - removed, due being useless in Ultraschall 4.0
   - SetID3TagsForCurrentProject - removed, due being useless in Ultraschall 4.0
   - SetID3TagsForCurrentProject_PodcastTags - removed, due being useless in Ultraschall 4.0
+  - Msg - removed, was useless
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 ####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:

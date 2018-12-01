@@ -56,6 +56,7 @@ ultraschall.ErrorMessage={}
 ultraschall.snowB=os.date("*t")
 
 ultraschall.snowtodaysdate=ultraschall.snowB.day.."."..ultraschall.snowB.month
+ultraschall.snowoldgfx=gfx.update
 
 ultraschall.temp,ultraschall.tempfilename=reaper.get_action_context()
 if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and 
@@ -64,9 +65,10 @@ if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and
      ultraschall.snowtodaysdate=="26.12") then
   ultraschall.snowoldgfx=gfx.update
   function gfx.update()
-    if GUI.US_snowmain~=nil then GUI.US_snowmain() end
+    if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
     ultraschall.snowoldgfx()
   end      
+end
 --gfx.init()
 
 -- initial values
@@ -122,8 +124,8 @@ end
 
 ultraschall.snowwindoffset=1
 
-if GUI==nil then GUI={} end
-function GUI.US_snowmain()
+--if GUI==nil then GUI={} end
+function ultraschall.US_snowmain()
   -- set sky to gray  
   gfx.clear=0--reaper.ColorToNative(15,15,15)
   local RUN=0
@@ -173,12 +175,12 @@ function GUI.US_snowmain()
 
   -- update gfx and start all over again
 --  gfx.update()
---  if gfx.getchar()~=-1 then reaper.defer(GUI.US_snowmain) end
+--  if gfx.getchar()~=-1 then reaper.defer(ultraschall.US_snowmain) end
 end
 
-GUI.US_snowmain()
-  if GUI.US_snowmain~=nil then GUI.US_snowmain() end
-end
+ultraschall.US_snowmain()
+  if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
+--end
 
 --back2business
 if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
@@ -1590,37 +1592,6 @@ end
 --P=ultraschall.ConvertColor(255,255,255)
 --reaper.CF_SetClipboard(O)
 --L,LL,LLL,LLLL=ultraschall.ConvertColorReverse(999)
-
-
-function ultraschall.Msg(val)
--- prints a message to the Reaper Console
--- val - your message as a string
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Msg</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>ultraschall.Msg(string val)</functioncall>
-  <description>
-    prints a message to the Reaper Console
-  </description>
-  <parameters>
-    string val - your message as a string 
-  </parameters>
-  <chapter_context>
-    Developer
-    Helper functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>developer, message, console</tags>
-</US_DocBloc>
---]]
-  reaper.ShowConsoleMsg(tostring(val).."\n")
-end
 
 
 function ultraschall.RoundNumber(num)
@@ -45506,9 +45477,47 @@ end
 --L=ultraschall.MoveTimeSigMarkersBy(20, 55, -1, true, true)
 
 function ultraschall.GetAllTimeSigMarkers()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllTimeSigMarkers</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer num_timesig_markers, array TimeSigArray = ultraschall.GetAllTimeSigMarkers()</functioncall>
+  <description>
+    Returns the number of Tempo/Time-Signature-Markers in the project, as well as an array with all attributes of all these markers.
+    
+    The array is of the format: TimeSigArray[markernumber(1-based)][attribute-idx]
+    where attribute-idx is
+    1, number timepos
+    2, number measurepos
+    3, number beatpos
+    4, number bpm
+    5, number timesig_num
+    6, number timesig_denom
+    7, boolean lineartempo 
+    
+    returns -1 in case of error
+  </description>
+  <retvals>
+    integer num_timesig_markers - the number of time-signature-markers in the project
+    array TimeSigArray - an array with all time-signature-markers and all their attributes; see Description for more details
+  </retvals>
+  <chapter_context>
+    Markers
+    Time Signature Markers
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>markermanagement, time signature, get, all</tags>
+</US_DocBloc>
+]]
   local markerarray={}
   for i=0, reaper.CountTempoTimeSigMarkers(0) do
     markerarray[i+1] = {reaper.GetTempoTimeSigMarker(0, i)}
+    table.remove(markerarray[i+1],1)
   end
   return reaper.CountTempoTimeSigMarkers(0), markerarray
 end
@@ -45856,7 +45865,6 @@ function ultraschall.GetLastErrorMessage_Funcname(functionname)
 </US_DocBloc>
 ]]
   if type(functionname)~="string" then ultraschall.AddErrorMessage("GetLastErrorMessage_Funcname", "functionname", "must be a string", -1) return -1 end
-  if ultraschall[functionname]==nil then ultraschall.AddErrorMessage("GetLastErrorMessage_Funcname", "functionname", "no such function", -2) return -1 end
   for i=ultraschall.ErrorCounter, 1, -1 do
     if functionname==ultraschall.ErrorMessage[i]["funcname"] then
       ultraschall.ErrorMessage[i]["readstate"]=os.date()
@@ -45907,7 +45915,6 @@ function ultraschall.CountErrorMessage_Funcname(functionname)
 </US_DocBloc>
 ]]
   if type(functionname)~="string" then ultraschall.AddErrorMessage("CountErrorMessage_Funcname", "functionname", "must be a string", -1) return -1 end
-  if ultraschall[functionname]==nil then ultraschall.AddErrorMessage("CountErrorMessage_Funcname", "functionname", "no such function", -2) return -1 end
   local count=0
   for i=ultraschall.ErrorCounter, 1, -1 do
     if functionname==ultraschall.ErrorMessage[i]["funcname"] then
@@ -45953,7 +45960,6 @@ function ultraschall.GetErrorMessage_Funcname(functionname, index)
 </US_DocBloc>
 ]]
   if type(functionname)~="string" then ultraschall.AddErrorMessage("GetErrorMessage_Funcname", "functionname", "must be a string", -1) return -1 end
-  if ultraschall[functionname]==nil then ultraschall.AddErrorMessage("GetErrorMessage_Funcname", "functionname", "no such function", -2) return -1 end
   if math.type(index)~="integer" then ultraschall.AddErrorMessage("GetErrorMessage_Funcname", "index", "must be an integer", -3) return -1 end
   if index<1 then ultraschall.AddErrorMessage("GetErrorMessage_Funcname", "index", "must be higher than 0", -4) return -1 end
   local count=0
@@ -45973,5 +45979,442 @@ end
 
 --A,B,C,D,E=ultraschall.GetErrorMessage_Funcname("GetAllMediaItemsBetween", -1)
 
---ultraschall.ShowLastErrorMessage()
---A=ultraschall.Api_Path
+
+function ultraschall.GetSetConfigAlwaysAllowKB(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAlwaysAllowKB</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAlwaysAllowKB(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of "Allow keyboard commands even when mouse-editing"-checkbox, as set in Preferences -> General ->Advanced UI/system tweaks
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "alwaysallowkb", as well as the reaper.ini-entry "REAPER -> alwaysallowkb"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value; 0(don't allow) to 1(allow)
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value; 0 to 1
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Advanced UI
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, recording, allow, keyboard</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAlwaysAllowKB", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAlwaysAllowKB", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAlwaysAllowKB", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>1 then ultraschall.AddErrorMessage("GetSetConfigAlwaysAllowKB", "setting", "must be between 0 and 1", -4) return -1 end
+  if set==false then return reaper.SNM_GetIntConfigVar("alwaysallowkb", -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar("alwaysallowkb", setting)
+    if temp==false then return -1 else if persist==true then retval = ultraschall.SetIniFileExternalState("REAPER", "adjrecmanlat", tostring(setting), reaper.get_ini_file()) end return setting end
+  end
+end
+
+--A=ultraschall.GetSetConfigAlwaysAllowKB(true, 2, true)
+
+function ultraschall.GetSetConfigApplyFXTail(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigApplyFXTail</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigApplyFXTail(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of "Tail length when using Apply FX to items"-inputbox in milliseconds, as set in Preferences -> Media
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "applyfxtail", as well as the reaper.ini-entry "REAPER -> applyfxtail"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value; 0 to 2147483647
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value; 0 to 2147483647
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Media
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, recording, fxtail, apply fx, item</tags>
+</US_DocBloc>
+--]]
+  local config_var="applyfxtail"
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigApplyFXTail", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigApplyFXTail", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigApplyFXTail", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>2147483647 then ultraschall.AddErrorMessage("GetSetConfigApplyFXTail", "setting", "must be between 0 and 2147483647", -4) return -1 end
+  if set==false then return reaper.SNM_GetIntConfigVar(config_var, -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar(config_var, setting)
+    if temp==false then return -1 else if persist==true then retval = ultraschall.SetIniFileExternalState("REAPER", config_var, tostring(setting), reaper.get_ini_file()) end return setting end
+  end
+end
+
+--A=ultraschall.GetSetConfigApplyFXTail(true, 0, true)
+
+function ultraschall.GetSetConfigAdjRecManLatIn(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAdjRecManLatIn</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAdjRecManLatIn(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of "Input manual offset-samples"-inputbox, as set in Preferences -> Recording
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "adjrecmanlatin", as well as the reaper.ini-entry "REAPER -> adjrecmanlatin"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Recording
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, input, manual offset</tags>
+</US_DocBloc>
+--]]
+  local config_var="adjrecmanlatin"
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAdjRecManLatIn", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAdjRecManLatIn", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAdjRecManLatIn", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>2147483647 then ultraschall.AddErrorMessage("GetSetConfigAdjRecManLatIn", "setting", "must be between 0 and 2147483647", -4) return -1 end
+  if set==false then return reaper.SNM_GetIntConfigVar(config_var, -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar(config_var, setting)
+    if temp==false then return -1 else if persist==true then retval = ultraschall.SetIniFileExternalState("REAPER", config_var, tostring(setting), reaper.get_ini_file()) end return setting end
+  end
+end
+
+--A=ultraschall.GetSetConfigAdjRecManLatIn(true, -10, true)
+
+
+function ultraschall.GetSetConfigAudioPrShift(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAudioPrShift</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAudioPrShift(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of "Preserve pitch in audio items when changing master playrate", as set in the contextmenu of the master-playrate in the transport-area as well as toggled by action 40671(all sections)
+    This is a project-setting. That means, setting persist to true will have an effect on new projects create, but only after you restarted Reaper!
+    
+    This alters the configuration-variable "audioprshift", as well as the reaper.ini-entry "REAPER -> audioprshift"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value
+                   - 0, don't preserve pitch - unchecked
+                   - 1, preserve pitch - checked
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+                   - 0, don't preserve pitch - unchecked
+                   - 1, preserve pitch - checked
+    integer setting - the current/new setting-value
+    boolean persist - true, this setting will be kept for new projects, but only after restart of Reaper; false, old standard-project-setting will be kept
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Transport: Contextmenu
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, preserve pitch, master playrate</tags>
+</US_DocBloc>
+--]]
+  local config_var="audioprshift"
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAudioPrShift", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAudioPrShift", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAudioPrShift", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>1 then ultraschall.AddErrorMessage("GetSetConfigAudioPrShift", "setting", "must be between 0 and 1", -4) return -1 end
+  if set==false then return reaper.SNM_GetIntConfigVar(config_var, -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar(config_var, setting)
+    if temp==false then return -1 else if persist==true then retval = ultraschall.SetIniFileExternalState("REAPER", config_var, tostring(setting), reaper.get_ini_file()) end return setting end
+  end
+end
+
+--A=ultraschall.GetSetConfigAudioPrShift(true, 1, true)
+
+function ultraschall.GetSetConfigAudioCloseStop(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAudioCloseStop</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAudioCloseStop(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of "Close audio device when stopped and active(less responsive)"-checkbox, as set in Preferences -> Audio  
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "audioclosestop", as well as the reaper.ini-entry "REAPER -> audioclosestop"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Audio
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, audio close, when stopped</tags>
+</US_DocBloc>
+--]]
+  local config_var="audioclosestop"
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAudioCloseStop", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAudioCloseStop", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAudioCloseStop", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>1 then ultraschall.AddErrorMessage("GetSetConfigAudioCloseStop", "setting", "must be between 0 and 1", -4) return -1 end
+  if set==false then return reaper.SNM_GetIntConfigVar(config_var, -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar(config_var, setting)
+    if temp==false then return -1 else if persist==true then retval = ultraschall.SetIniFileExternalState("REAPER", config_var, tostring(setting), reaper.get_ini_file()) end return setting end
+  end
+end
+
+--A=ultraschall.GetSetConfigAudioCloseStop(true, 1, true)
+
+function ultraschall.GetSetConfigAudioThreadPr(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAudioThreadPr</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAudioThreadPr(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of "Audio thread priority"-dropdownlist, as set in Preferences -> Device  
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "audiothreadpr", as well as the reaper.ini-entry "REAPER -> audiothreadpr"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value
+             --1, ASIO Default / MMCSS Pro Audio / Time Critical  
+             -0, Normal  
+             -1, Above normal  
+             -2, Highest  
+             -3, Time Critical  
+             -4, MMCSS / Time Critical  
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value
+                    --1, ASIO Default / MMCSS Pro Audio / Time Critical  
+                    -0, Normal  
+                    -1, Above normal  
+                    -2, Highest  
+                    -3, Time Critical  
+                    -4, MMCSS / Time Critical  
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Device
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, audio, thread, priority</tags>
+</US_DocBloc>
+--]]
+  local config_var="audiothreadpr"
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAudioThreadPr", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAudioThreadPr", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAudioThreadPr", "setting", "must be an integer", -3) return -1 end
+  if setting<-1 or setting>6 then ultraschall.AddErrorMessage("GetSetConfigAudioThreadPr", "setting", "must be between -1 and 6", -4) return -1 end
+  if set==false then return reaper.SNM_GetIntConfigVar(config_var, -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar(config_var, setting)
+    if temp==false then return -1 else if persist==true then retval = ultraschall.SetIniFileExternalState("REAPER", config_var, tostring(setting), reaper.get_ini_file()) end return setting end
+  end
+end
+
+--A=ultraschall.GetSetConfigAudioThreadPr(true, -1, true)
+
+function ultraschall.GetSetConfigAudioCloseTrackWnds(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAudioCloseTrackWnds</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAudioCloseTrackWnds(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of "Allow snap grid/track envelope/routing windows to stay open"-checkbox in Preferences -> General -> Advanced UI/system tweaks.  
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "autoclosetrackwnds", as well as the reaper.ini-entry "REAPER -> autoclosetrackwnds"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value
+                    - 0, it is allowed(on) - checked  
+                    - 1, it is not allowed(off) - unchecked  
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value
+                    - 0, it is allowed(on) - checked  
+                    - 1, it is not allowed(off) - unchecked  
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Advanced UI
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, keep open, windows, routing, track envelope, snapgrid</tags>
+</US_DocBloc>
+--]]
+  local config_var="autoclosetrackwnds"
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAudioCloseTrackWnds", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAudioCloseTrackWnds", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAudioCloseTrackWnds", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>1 then ultraschall.AddErrorMessage("GetSetConfigAudioCloseTrackWnds", "setting", "must be between 0 and 1", -4) return -1 end
+  if set==false then return reaper.SNM_GetIntConfigVar(config_var, -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar(config_var, setting)
+    if temp==false then return -1 else if persist==true then retval = ultraschall.SetIniFileExternalState("REAPER", config_var, tostring(setting), reaper.get_ini_file()) end return setting end
+  end
+end
+
+--A=ultraschall.GetSetConfigAudioCloseTrackWnds(true, 1, true)
+
+
+function ultraschall.tempgfxupdate_snowflakes()
+    if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
+    ultraschall.snowoldgfx()
+end
+
+function ultraschall.WinterlySnowflakes(toggle, falling_speed, number_snowflakes)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>WinterlySnowflakes</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.WinterlySnowflakes(boolean toggle, number falling_speed, integer number_snowflakes)</functioncall>
+  <description>
+    Exchanges the gfx.update()-function with a variant, that displays falling snowflakes everytime it is called.
+    
+    returns -1 in case of error
+  </description>
+  <retvals>
+    integer retval - returns -1 in case of an error; 1, in case of success
+  </retvals>
+  <parameters>
+    boolean toggle - true, toggles falling snow on; false, toggles falling snow off
+    number falling_speed - the falling speed of the snowflakes, 1.3 is recommended
+    integer number_snowflakes - the number of falling snowflakes at the same time on screen; 2000 is recommended
+  </parameters>
+  <chapter_context>
+    User Interface
+    Miscellaneous
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, miscellaneous, winterly snowflakes</tags>
+</US_DocBloc>
+]]  
+  if type(falling_speed)~="number" then ultraschall.AddErrorMessage("WinterlySnowflakes", "falling_speed", "must be a number", -1) return -1 end
+  if math.type(number_snowflakes)~="integer" then ultraschall.AddErrorMessage("WinterlySnowflakes", "number_snowflakes", "must be an integer", -2) return -1 end
+  ultraschall.snowspeed=falling_speed           -- the falling speed of the snowflakes
+  ultraschall.snowsnowfactor=number_snowflakes -- the number of snowflakes
+  if toggle==true then
+    gfx.update=ultraschall.tempgfxupdate_snowflakes
+  else
+    gfx.update=ultraschall.snowoldgfx
+  end
+  return 1
+end
+--[[
+--LL=ultraschall.WinterlySnowflakes(true,"1000",1)
+gfx.init()
+L=1
+function main()
+  for i=0, 1 do
+  L=L+1
+  gfx.update()
+  end
+  A=gfx.getchar()
+  if A==65 then ultraschall.WinterlySnowflakes(true, 1, 1000) end
+  if A==66 then ultraschall.WinterlySnowflakes(false, 1, 1000) end
+  reaper.defer(main)
+end
+
+main()
+--]]
+
+ultraschall.ShowLastErrorMessage()

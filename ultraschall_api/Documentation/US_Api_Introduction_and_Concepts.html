@@ -39,7 +39,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018 - Build: 25118</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018 - Build: 25269</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -127,31 +127,32 @@ Ultraschall API functions
 <p>The Ultraschall-Framework itself is intended to include a set of Lua-functions, that help creating such functionalities. By giving programmers helper functions to get access to each and every corner of Reaper. That way, extending Ultraschall and Reaper is more comfortable to do.</p>
 <p>This API was to be used within Ultraschall only, but quickly evolved into a huge 700 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:</p>
 <ul>
-<li>Rendering - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want. Just create a renderstring and pass it over to <a href="US_Api_Functions.html#RenderProject_RenderCFG">RenderProject_RenderCFG</a> or <a href="US_Api_Functions.html#RenderProjectRegions_RenderCFG">RenderProjectRegions_RenderCFG</a></li>
-<li>Navigation, Follow and Arrangeview-Manipulation - get/set cursors, zoom, autoscroll-management, scroll, etc</li>
-<li>ArrangeView-Snapshots - you can save, retrieve snapshots of the arrangeview, including position, zoomstates to quickly jump through parts of your project</li>
-<li>Trackstates - you can access and set all(!) track-states available</li>
-<li>Mediaitem-states - you can access and set many mediaitem-states (more will follow)</li>
-<li>ItemExtStates/TrackExtStates - you can save additional metadata easily for specific tracks and items using ItemExtStates and TrackExtStates</li>
-<li>File access - many helperfunctions for reading, writing, copying files. No more hassle writing it yourself! e.g <a href="US_Api_Functions.html#ReadFullFile">ReadFullFile</a>, <a href="US_Api_Functions.html#WriteValueToFile">WriteValueToFile</a>, etc</li>
-<li>Cough-Mute-management - you can write your own cough-buttons, that set the state of the mute-envelope of a track easily</li>
-<li>Marker - extensive set of marker functions, get, set, export, import, enumerate, etc</li>
-<li>Spectrogram - you can program the spectrogram-view</li>
-<li>Routing - you can set Sends/Receives and HWOuts more straightforward than with Reaper's own Routing-functions. Includes mastertrack as well.</li>
-<li>Get MediaItems - you can get all media-items within a time-range AND within the tracks you prefer; a 2D-approach e.g. <a href="US_Api_Functions.html#GetAllMediaItemsBetween">GetAllMediaItemsBetween</a> and <a href="US_Api_Functions.html#GetMediaItemsAtPosition">GetMediaItemsAtPosition</a>, etc</li>
+<li><a href="#Rendering_001_Introduction">Rendering</a> - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want. Just create a renderstring and pass it over to <a href="US_Api_Functions.html#RenderProject_RenderCFG">RenderProject_RenderCFG</a> or <a href="US_Api_Functions.html#RenderProjectRegions_RenderCFG">RenderProjectRegions_RenderCFG</a></li>
+<li><a href="#Navigation_001_Introduction">Navigation, Follow and Arrangeview-Manipulation</a> - get/set cursors, zoom, autoscroll-management, scroll, etc</li>
+<li><a href="#Arrangeview_Snapshots_001_Introduction">ArrangeView-Snapshots</a> - you can save, retrieve snapshots of the arrangeview, including position, zoomstates to quickly jump through parts of your project</li>
+<li><a href="#Trackstate_Management_001_Introduction">Trackstates</a> - you can access and set all(!) track-states available</li>
+<li><a href="#GetSetStates_Project_Track_Item_Env_001_Introduction">Mediaitem-states</a> - you can access and set many mediaitem-states (more will follow)</li>
+<li><a href="#ObjectExtStates_001_Introduction">ItemExtStates/TrackExtStates</a> - you can save additional metadata easily for specific tracks and items using ItemExtStates and TrackExtStates</li>
+<li><a href="#1FileManagement_001_Introduction">File access</a> - many helperfunctions for reading, writing, copying files. No more hassle writing it yourself! e.g <a href="US_Api_Functions.html#ReadFullFile">ReadFullFile</a>, <a href="US_Api_Functions.html#WriteValueToFile">WriteValueToFile</a>, etc</li>
+<li><a href="#Cough_Mute_Buttons_001_Introduction">Cough-Mute-management</a> - you can write your own cough-buttons, that set the state of the mute-envelope of a track easily</li>
+<li><a href="#MarkersAndRegions_001_Introduction">Marker</a> - extensive set of marker functions, get, set, export, import, enumerate, etc</li>
+<li><a href="#Getting_Manipulating_Items_008_Spectral_Edit">Spectrogram</a> - you can program the spectrogram-view</li>
+<li><a href="#Routing_001_Introduction">Routing</a> - you can set Sends/Receives and HWOuts more straightforward than with Reaper's own Routing-functions. Includes mastertrack as well.</li>
+<li><a href="#Getting_Manipulating_Items_002_GetMediaItems">Get MediaItems</a> - you can get all media-items within a time-range AND within the tracks you prefer; a 2D-approach e.g. <a href="US_Api_Functions.html#GetAllMediaItemsBetween">GetAllMediaItemsBetween</a> and <a href="US_Api_Functions.html#GetMediaItemsAtPosition">GetMediaItemsAtPosition</a>, etc</li>
 <li>Gaps between items - you can get the gaps between items in a track, using <a href="US_Api_Functions.html#GetGapsBetweenItems">GetGapsBetweenItems</a></li>
-<li>Edit item(s) - Split, Cut, Copy, Paste, Move, RippleCut, RippleInsert, SectionCut by tracks AND time/start to endposition e.g. <a href="US_Api_Functions.html#RippleCut">RippleCut</a>, <a href="RippleInsert" class="uri">RippleInsert</a>, <a href="US_Api_Functions.html#SectionCut">SectionCut</a>, <a href="US_Api_Functions.html#SplitMediaItems_Position">SplitMediaItems_Position</a>, <a href="US_Api_Functions.html#MoveMediaItemsBefore_By">MoveMediaItemsBefore_By</a>, <a href="US_Api_Functions.html#MoveMediaItemsSectionTo">MoveMediaItemsSectionTo</a> and many more</li>
-<li>Previewing MediaItems and files - you can preview MediaItems and files without having to start playback of a project</li>
+<li><a href="#Getting_Manipulating_Items_001_Introduction">Edit item(s)</a> - Split, Cut, Copy, Paste, Move, RippleCut, RippleInsert, SectionCut by tracks AND time/start to endposition e.g. <a href="US_Api_Functions.html#RippleCut">RippleCut</a>, <a href="RippleInsert" class="uri">RippleInsert</a>, <a href="US_Api_Functions.html#SectionCut">SectionCut</a>, <a href="US_Api_Functions.html#SplitMediaItems_Position">SplitMediaItems_Position</a>, <a href="US_Api_Functions.html#MoveMediaItemsBefore_By">MoveMediaItemsBefore_By</a>, <a href="US_Api_Functions.html#MoveMediaItemsSectionTo">MoveMediaItemsSectionTo</a> and many more</li>
+<li><a href="#Getting_Manipulating_Items_009_Miscellaneous">Previewing MediaItems and files</a> - you can preview MediaItems and files without having to start playback of a project</li>
 <li>KB-Ini-Management - manipulate the reaper-kb.ini-file with custom-settings</li>
-<li>Checking for Datatypes - check all datatypes introduced with Ultraschall-API and all Lua/Reaper-datatypes</li>
-<li>UndoManagement - functions for easily making undoing of functions as well as preventing creating an undo-point</li>
-<li>RunCommand for Items/Tracks - apply actions to specific items/tracks</li>
-<li>Checking for changed projecttabs - check, if projecttabs have been added/removed</li>
-<li>ExtState-Management - an extensive set of functions for working with extstates as well as ini-files</li>
-<li>Data Manipulation- manipulate a lot of your data, including bitwise-integers, tables, etc</li>
-<li>Clipboard-Management - get items from clipboard, put them to clipboard, even multiple ones</li>
-<li>Error Messaging System - all functions create useful error-messages that can be shown using, eg: <a href="US_Api_Functions.html#ShowLastErrorMessage">ShowLastErrorMessage</a>, for easier debugging</li>
-<li><p>tons of other helper-functions AND</p></li>
+<li><a href="#Datatypes_050_CheckingDatatypes">Checking for Datatypes</a> - check all datatypes introduced with Ultraschall-API and all Lua/Reaper-datatypes</li>
+<li><a href="#Helper_Functions_004_UndoManagement">UndoManagement</a> - functions for easily making undoing of functions as well as preventing creating an undo-point</li>
+<li><a href="US_Api_Functions.html#RunCommand">RunCommand</a> for Items/Tracks - apply actions to specific items/tracks</li>
+<li><a href="#Project_Management_002_Check_Changed_Projecttabs">Checking for changed projecttabs</a> - check, if projecttabs have been added/removed</li>
+<li><a href="#ExtStateManagement_001_Introduction">ExtState-Management</a> - an extensive set of functions for working with extstates as well as ini-files</li>
+<li><a href="#Helper_Functions_003_Data_Manipulation">Data Manipulation</a> - manipulate a lot of your data, including bitwise-integers, tables, etc</li>
+<li><a href="#Helper_Functions_002_ClipboardManagement">Clipboard-Management</a> - get items from clipboard, put them to clipboard, even multiple ones</li>
+<li><a href="#Error_Messaging_System_001_Introduction">Error Messaging System</a> - all functions create useful error-messages that can be shown using, eg: <a href="US_Api_Functions.html#ShowLastErrorMessage">ShowLastErrorMessage</a>, for easier debugging</li>
+<li>tons of other helper-functions</li>
+<li><p>my Reaper-Internals Documentation AND</p></li>
 <li><p>it's documented with this documentation. :D</p></li>
 </ul>
 <p>Happy coding and let's see, what you can do with it :D</p>
@@ -179,6 +180,7 @@ e.g. reaper.ShowConsoleMsg(&quot;msg&quot;)</p>
 e.g. ultraschall.ApiTest()</p>
 <p>Some functions need background-scripts be run first. Refer the <a href="#Background_Scripts_001_Introduction">Introdution to background-scripts</a> for information about that.</p>
 <p>See the functions-reference for all available functions or read on in this documentation for a collection of concepts introduced by the Ultraschall-API.</p>
+<p>Oh, before I forget: The ultraschall<em>api-folder holds a folder &quot;Scripts</em>Examples&quot; in which you can find some demos and example-scripts using this API.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes"></a>
 <div style="font-size:100%"><h4><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">^</a> <u>How to use Beta functions and hotfixes</u></h4></div><p><p>Before a new version of the Ultraschall-API is finished, it is in beta-stage. But sometimes, bugs need to be fixed even before a new release is done or you may want to test new functions from the next release for bugs and quirks.<br />
@@ -264,7 +266,7 @@ Sendegate: <a href="http://www.sendegate.de">sendegate.de</a> into the Ultrascha
 <li><a href="#Datatypes_004_MediaItemStateChunkArray">MediaItemStateChunkArray</a> - some functions accept multiple mediaitem-statechunks. MediaItemStateChunkArrays are tables containing MediaItemStateChunks. The index of the table is integers.</li>
 <li><a href="#Datatypes_005_EnvelopePointObject">EnvelopePointObject</a> - it's a table containing all attributes of an envelope-point, like: parent TrackEnvelope-object, envelope-idx, time, value, shape, tension, selected, dBValue converted from value</li>
 <li><a href="#Datatypes_006_EnvelopePointArray">EnvelopePointArray</a> - it's a table with multiple EnvelopePointObjects in it, indexed by an integer</li>
-<li>[ColorTable][#Datatypes<em>007</em>ColorTable) - it's a table that holds multiple color-values; for i.e. gradients</li>
+<li><a href="#Datatypes_007_ColorTable">ColorTable</a> - it's a table that holds multiple color-values; for i.e. gradients</li>
 </ul>
 <p>These Ultraschall-API-specific datatypes are described in more detail in the following chapters.</p>
 
@@ -2068,7 +2070,13 @@ When setread is set to true, ShowLastErrorMessage will not show this errormessag
 </blockquote>
 <p>In addition to that, there's also:</p>
 <ul>
-<li><a href="US_Api_Functions.html#CountErrorMessages">CountErrorMessages</a> - which returns the number of error-messages currently available</li>
+<li><a href="US_Api_Functions.html#CountErrorMessages">CountErrorMessages</a> - which returns the number of error-messages currently available<br />
+</li>
+<li><a href="US_Api_Functions.html#CountErrorMessage_Funcname">CountErrorMessage_Funcname</a> - returns the number of error-messages a specific function provided<br />
+</li>
+<li><a href="US_Api_Functions.html#GetErrorMessage_Funcname">GetErrorMessage_Funcname</a> - gets an errormessage a specific function provided, can be indexed<br />
+</li>
+<li><a href="US_Api_Functions.html#GetLastErrorMessage_Funcname">GetLastErrorMessage_Funcname</a> - gets the last errormessage a specific function provided</li>
 </ul>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Error_Messaging_System_004_Deleting_Error_Messages"></a>
