@@ -31,6 +31,7 @@
 -- 4. have fun using the API. Test it with ultraschall.ApiTest()
 
 if reaper.CF_GetClipboardBig==nil then reaper.MB("Sorry, SWS 2.9.7 or higher must be installed to use the API. \nGo to sws-extension.org to get it.","SWS missing",0) return end
+if reaper.JS_ReaScriptAPI_Version==nil then reaper.MB("Sorry, JS-extension-plugin 0.951 or higher must be installed to use the API. \nGo to https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/ to get it.","JS-Extension plugin missing",0) return end
 
 if type(ultraschall)~="table" then ultraschall={} end
 ultraschall.temp1,ultraschall.temp=reaper.get_action_context()
@@ -51,16 +52,19 @@ if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
   end
 
 local info = debug.getinfo(1,'S');
-ultraschall.Script_Path = info.source:match[[^@?(.*[\/])[^\/]-$]]
+--ultraschall.Script_Path = info.source:match[[^@?(.*[\/])[^\/]-$]]
+  ultraschall.Script_Path = reaper.GetResourcePath().."/Scripts/"-- ultraschall.info.source:match[[^@?(.*[\/])[^\/]-$]]
 local script_path = reaper.GetResourcePath().."/UserPlugins/ultraschall_api"..ultraschall.Separator
 ultraschall.Api_Path=script_path
 ultraschall.Api_Path=string.gsub(ultraschall.Api_Path,"\\","/")
+ultraschall.Api_InstallPath=reaper.GetResourcePath().."/UserPlugins/"
 
 ultraschall.Api_ScriptPath=ultraschall.Api_Path.."/Scripts"
 
 local L=reaper.GetExtState("ultraschall_api", "helpinstalled")
 if L~="4.0beta2.7" then 
   reaper.AddRemoveReaScript(true, 0, ultraschall.Api_ScriptPath.."/ultraschall_Help_Ultraschall_Api_Functions_Reference.lua", false)
+  reaper.AddRemoveReaScript(true, 0, ultraschall.Api_ScriptPath.."/ultraschall_Help_Ultraschall_Api_Introduction_and_Concepts.lua", false)
   reaper.AddRemoveReaScript(true, 0, ultraschall.Api_ScriptPath.."/ultraschall_Help_Reaper_Api_Documentation.lua", true)
   reaper.SetExtState("ultraschall_api", "helpinstalled", "4.0beta2.7", true)
 end
@@ -72,6 +76,11 @@ end
 ultraschall.ApiFunctionTest=function()
   --reaper.MB("Ultraschall Functions-Engine is OFF","Ultraschall-API",0)
   ultraschall.functions_works="off"
+end
+
+ultraschall.ApiGFXTest=function()
+  --reaper.MB("Ultraschall Functions-Engine is OFF","Ultraschall-API",0)
+  ultraschall.gfx_works="off"
 end
 
 ultraschall.ApiDataTest=function()
@@ -120,6 +129,11 @@ function ultraschall.ApiBetaDataTest()
   --reaper.MB("BETA-Ultraschall DataStructures-Engine is OFF","Ultraschall-API (BETA)",0)
 end
 
+ultraschall.ApiBetaGFXTest=function()
+  ultraschall.gfx_beta_works="off"
+  --reaper.MB("BETA-Ultraschall GUI-Engine is OFF","Ultraschall-API (BETA)",0)
+end
+
 ultraschall.ApiBetaGUITest=function()
   ultraschall.gui_beta_works="off"
   --reaper.MB("BETA-Ultraschall GUI-Engine is OFF","Ultraschall-API (BETA)",0)
@@ -154,6 +168,7 @@ end
 -- include the individual parts of the framework, if set to ON
 ultraschall.US_Functions_Engine = dofile(script_path .. "ultraschall_functions_engine.lua")
 if ultraschall.US_DataStructures~="OFF" then ultraschall.US_DataStructure_Engine = dofile(script_path .. "ultraschall_datastructures_engine.lua") end
+if ultraschall.US_GFX_Engine~="OFF" then ultraschall.US_GFX_Engine = dofile(script_path .. "ultraschall_gfx_engine.lua") end
 if ultraschall.US_GUI_Engine~="OFF" then ultraschall.US_GUI_Engine = dofile(script_path .. "ultraschall_gui_engine.lua") end
 if ultraschall.US_Sound_Engine~="OFF" then ultraschall.US_Sound_Engine = dofile(script_path .. "ultraschall_sound_engine.lua") end
 if ultraschall.US_Video_Engine~="OFF" then ultraschall.US_Video_Engine = dofile(script_path .. "ultraschall_video_engine.lua") end
@@ -168,6 +183,7 @@ if ultraschall.US_BetaFunctions=="ON" then
   if reaper.file_exists(script_path.."ultraschall_functions_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_functions_engine_beta.lua") end
   if reaper.file_exists(script_path.."ultraschall_datastructures_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_datastructures_engine_beta.lua") end
   if reaper.file_exists(script_path.."ultraschall_gui_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_gui_engine_beta.lua") end
+  if reaper.file_exists(script_path.."ultraschall_gfx_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_gfx_engine_beta.lua") end
   if reaper.file_exists(script_path.."ultraschall_sound_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_sound_engine_beta.lua") end
   if reaper.file_exists(script_path.."ultraschall_video_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_video_engine_beta.lua") end
   if reaper.file_exists(script_path.."ultraschall_doc_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_doc_engine_beta.lua") end

@@ -1,5 +1,47 @@
-<html><head><title>Ultraschall API - Changelog</title></head><body><div style="padding-left:4%;"><h2 id="ultraschall-framework---changelog">Ultraschall Framework - Changelog</h2>
-<h3 id="beta-2.7---john-cage---433---30th-of-july-2018">4.00 Beta 2.7: - &quot;John Cage - 4:33&quot; - 30th of July 2018</h3>
+<html><head><title>
+Ultraschall API Changelog
+</title>
+
+</head><body>
+    <div style=" position: absolute; padding-left:4%; ">
+        <div style="background-color:#282828;width:95%; font-family:tahoma; font-size:16;">
+
+
+           <a href="US_Api_Functions.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button_Un.png" alt="Ultraschall Internals Documentation"></a>
+           <a href="Reaper_Api_Documentation.html"><img style="position: absolute; left:15.2%; width:8.7%;" src="gfx/Reaper_Button_Un.png" alt="Reaper Internals Documentation"></a>
+         <img alt="" style="width:6.9%; position: absolute; left:23.9%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:30.8%;" src="gfx/linedance.png">
+         <img alt="" style="width:6.9%; position: absolute; left:36.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:42.8%;" src="gfx/linedance.png">
+         <img alt="" style="width:6.9%; position: absolute; left:48.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:54.8%;" src="gfx/linedance.png">
+         <img alt="" style="width:6.9%; position: absolute; left:60.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:66.8%;" src="gfx/linedance.png">
+         <img alt="" style="width:6.9%; position: absolute; left:68.8%;" src="gfx/linedance.png">
+           <a href="Downloads.html"><img style="position:absolute; left:74.4%; width:6.9%;" src="gfx/Downloads_Un.png" alt="Downloads"></a>
+           <a href="ChangeLog.html"><img style="position:absolute; left:81.3%; width:6.9%;" src="gfx/Changelog.png" alt="Changelog of documentation"></a>
+           <a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/Impressum_Un.png" alt="Impressum and Contact"></a>
+           <div style="padding-top:2.5%">
+           <table border="0" style="color:#aaaaaa; width:31%;">
+                <tr>
+                    <td style="width:30%;">
+                        <a href="http://www.ultraschall.fm"><img style="width:118%;" src="gfx/US-header.png" alt="Ultraschall-logo"></a>
+                    </td>
+                    <td width="4%;">  </td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                <tr><td></td><tr>
+                </table>
+           </div>
+        </div>
+    </div>
+    <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
+<h2 id="ultraschall-framework---changelog">Ultraschall Framework - Changelog</h2>
+<h3 id="beta-2.7---frank-zappa---the-return-of-the-son-of-monster-magnet---15th-of-december-2018">4.00 Beta 2.7: - &quot;Frank Zappa - The Return of the Son of Monster Magnet&quot; - 15th of December 2018</h3>
+<p>Has now 700 functions, with about 250 new ones!</p>
 <h4 id="new-features-in-4.00beta2.7">New features in 4.00beta2.7</h4>
 <ul>
 <li>SetEnvelopeHeight - set the height and compactible state of an envelope-lane/envelopestatechunk</li>
@@ -84,7 +126,7 @@
 <li>GetLastMarkerPosition - gets the position and idx of the last marker in the project</li>
 <li>GetLastRegion - gets start/endposition and idx of the last ending region in the project</li>
 <li>GetLastTimeSigMarkerPosition - gets position, measure- and beatposition of the last time-sig-marker in the project</li>
-<li>MakeCopyOfTable - creates a true copy of a table(not only references) -&gt; code provided by <span class="citation">@fernsehmuell</span></li>
+<li>MakeCopyOfTable - creates a true copy of a table(not only references) adapted from Tyler Neylon's function, found at <a href="https://stackoverflow.com/questions/640642/how-do-you-copy-a-lua-table-by-value/26367080#26367080">Stack Overflow</a> Thanks to him for allowing me to use it :)</li>
 <li>CheckForValidFileFormats - checks for valid fileformats that are supported by Reaper(still missing mp4, opus, m4a, m4v)</li>
 <li>CompareStringWithAsciiValues - Compares a string with a number of ASCII-Values, given as individual parameters</li>
 <li>CountEntriesInTable_Main - Counts the entries in a table; counts only the &quot;main&quot;-entries; returns subtables for recursive counting</li>
@@ -180,7 +222,194 @@
 <li><p>all functions create now useful error-messages, who can be retrieved with the error-message-functions, refer to the Developer -&gt; Error Handling-functions in the index of the functions-reference</p>
 <pre><code>    Good riddance, what a long term hard work to code that...</code></pre></li>
 <li>GetCurrentTimeLengthOfFrame - gets the length of a frame in seconds of a certain project; good for video/image-related functions like InsertImageFile</li>
-<li><p>GetLengthOfFrames - gets the length of a number of frames in seconds of a certain project; good for video/image-related functions like InsertImageFile</p></li>
+<li>GetLengthOfFrames - gets the length of a number of frames in seconds of a certain project; good for video/image-related functions like InsertImageFile</li>
+<li>GetStartNewFileRecSizeState - gets, if Reaper shall start a new file during recording, after XXX MBs, and the maximum size of a recorded file til restart</li>
+<li>SetStartNewFileRecSizeState - sets, if Reaper shall start a new file during recording, after XXX MBs, and the maximum size of a recorded file til restart</li>
+<li>GetPlayCursorWidth - get the width of the playcursor in pixels</li>
+<li>SetPlayCursorWidth - set the width of the playcursor in pixels</li>
+<li>GetReaperAlwaysOnTopState - get, if Reaper is set to be always on top of other applications, as set by action 40239</li>
+<li>GetInputOutputLatency_Seconds - returns the input/output-latency in seconds</li>
+<li>CreateTrackString_ArmedTracks - creates a trackstring with the tracknumbers of all armed tracks</li>
+<li>CreateTrackString_UnarmedTracks - creates a trackstring with the tracknumbers of all unarmed tracks</li>
+<li>IsValidEnvelopePointArray - checks, if an EnvelopePointArray is a valid one</li>
+<li>Api_InstallPath - an API-variable that contains the path to the install-folder of the Ultraschall-API</li>
+<li>ConvertOldProjectToCurrentReaperVersion - converts an rpp-projectfile from an earlier version of Reaper to the current one</li>
+<li>CreateRenderCFG_AudioCD - create a renderstring for audio-cd-images</li>
+<li>GetMarkerUpdateCounter - returns an update-counter for all markers in all projects, that is updated, as soon as a marker is added/deleted/set/moved/altered</li>
+<li>CreateTrackStringByGUID - creates a trackstring of all tracks, given as GUIDs</li>
+<li>CreateTrackStringByTracknames - creates a trackstring of all tracks, given as tracknames</li>
+<li>CreateTrackStringByMediaTracks - creates a trackstring with all track-objects in a MediaTrackArray</li>
+<li>GetScreenHeight - returns the height of the screen</li>
+<li>GetScreenWidth - returns the width of the screen</li>
+<li>pause_follow_one_cycle - skips followmode-auto-off-checking-script for one cycle; only relevant for scripts that shall work within Ultraschall.FM-extension</li>
+<li>DeleteMediaItemsBetween - deletes MediaItems between start and endposition within tracks, given by trackstring; the deleting-equivalent of GetAllMediaItemsBetween</li>
+<li>GetSetConfigAcidImport - gets/sets the configuration-setting for configuration-variable acidimport; also adds the setting to reaper.ini, if needed</li>
+<li>GetSetConfigActionMenu - gets/sets the configuration-setting for configuration-variable actionmenu; also adds the setting to reaper.ini, if needed</li>
+<li>GetSetConfigAdjRecLat - gets/sets the configuration-setting for configuration-variable adjreclat; also adds the setting to reaper.ini, if needed</li>
+<li>GetSetConfigAdjRecManLat - gets/sets the configuration-setting for configuration-variable adjrecmanlat; also adds the setting to reaper.ini, if needed</li>
+<li>GetSetConfigAdjRecManLatIn - gets/sets the configuration-setting for configuration-variable adjrecmanlatin; also adds the setting to reaper.ini, if needed</li>
+<li>GetSetConfigAfxCfg - gets/sets the configuration-setting for configuration-variable afxcfg; also adds the setting to reaper.ini, if needed</li>
+<li>GetSetConfigAllStereoPairs - gets/sets the configuration-setting for configuration-variable afxcfg; also adds the setting to reaper.ini, if needed</li>
+<li>GetDuplicatesFromArrays - returns the entries from an array, that are duplicate or are in only one of these two arrays</li>
+<li>OnlyFilesOfCertainType - returns all files of a certain type from an array of filenames</li>
+<li>ConcatIntegerIndexedTables - concatenate the entries from two tables into one</li>
+<li>CreateColorTable - create a ColorTable that includes colorpatterns</li>
+<li>CreateSonicRainboomColorTable - creates a ColorTable with Ultraschall's standard-trackcolor-pattern &quot;Sonic Rainboom Color&quot;</li>
+<li>IsValidColorTable - checks, whether a ColorTable is a valid one</li>
+<li>ApplyColorTableToTrackColors - Apply a ColorTable to colorize MediaTracks</li>
+<li>Docs - added parts of Reaper Internals to the US-Apidocs, more to come</li>
+<li>GetCurrentReaperWorkDir - gets the current working directory of Reaper; if you create file without a path in Lua, they will be stored in that path</li>
+<li>SetCurrentReaperWorkDir - sets the current working directory of Reaper; if you create file without a path in Lua, they will be stored in that path; needs a Reaper restart!</li>
+<li>DirectoryExists2 - returns, if a certain path exists. Unlike DirectoryExists, which checks, whether a directory in a path exists</li>
+<li>GetScriptFilenameFromActionCommandID - gets the script-filename associated to a specific ActionCommandID</li>
+<li>GetProject_CountAutomationItems - counts the automation-items in a project/ProjectStateChunk</li>
+<li>GetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk</li>
+<li>GetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk</li>
+<li>GetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk</li>
+<li>GetProject_MasterPlayspeed - gets the statechunk for all master-playspeed-settings from a project/ProjectStateChunk</li>
+<li>GetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk</li>
+<li>GetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk</li>
+<li>GetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk</li>
+<li>GetProject_GlobalAuto - returns the global automation override-settings of an rpp-file or ProjectStateChunk</li>
+<li>GetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_Playrate - returns the playrate-settings of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterAutomode - returns the Mastertrack-automation-mode-settings of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterSel - returns the Mastertrack-selection-mode-settings of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterFXByp - returns the Mastertrack-fx-bypass-mode-settings of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterMuteSolo - returns the Mastertrack-mute-solo-mode-settings of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterNChans - returns the Mastertrack-num-channels-mode-settings of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterTrackHeight - returns the Mastertrack-trackheight-mode-settings of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterTrackColor - returns the Mastertrack-trackcolor-mode-settings of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_CountMasterHWOuts - counts the HWOuts for a Master-track of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterHWOut - returns the Mastertrack-HWOUT-settings of an rpp-file or a ProjectStateChunk; there can be multiple ones, selectable by idx</li>
+<li>GetProject_MasterVolume - returns the Master-volume-settings of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterPanMode - returns the MasterPanMode of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterWidth - returns the Width-Knob2-settings of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterGroupFlagsState - returns the Master-groupflags-state of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterGroupFlagsHighState - returns the Master-grouphigh-flags-state of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_GroupDisabled - returns the state, which groups are disabled, of an rpp-file or a ProjectStateChunk</li>
+<li>GetProject_MasterHWVolEnvStateChunk - returns the statechunk of the MasterHWVolEnv</li>
+<li>GetProject_MasterFXListStateChunk - returns the statechunk of the MasterFXList</li>
+<li>GetProject_MasterDualPanEnvStateChunk - returns the statechunk of the MasterDualPanEnv</li>
+<li>GetProject_MasterDualPanEnv2StateChunk - returns the statechunk of the MasterDualPanEnv2</li>
+<li>GetProject_MasterDualPanEnvLStateChunk - returns the statechunk of the MasterDualPanEnvL</li>
+<li>GetProject_MasterDualPanEnvL2StateChunk - returns the statechunk of the MasterDualPanEnvL2</li>
+<li>GetProject_MasterVolEnvStateChunk - returns the statechunk of the MasterVolEnv</li>
+<li>GetProject_MasterVolEnv2StateChunk - returns the statechunk of the MasterVolEnv2</li>
+<li>GetProject_MasterVolEnv3StateChunk - returns the statechunk of the MasterVolEnv3</li>
+<li>GetProject_MasterHWPanEnvStateChunk - returns the statechunk of the MasterHWPanEnv</li>
+<li>GetProject_MasterPanMode_Ex - returns the state of the MasterPanMode_Ex</li>
+<li>GetProject_TempoEnv_ExStateChunk - returns the statechunk of the TempoEnv_Ex</li>
+<li>Docs: MediaItems: Moving and Manipulating - added</li>
+<li>Docs: MediaItems: Inserting Items and Files - added</li>
+<li>ChangeColorBrightness - changes the brightness of a r, g, b-color-value</li>
+<li>ChangeColorContrast - changes contrast of a r,g,b-color-value</li>
+<li>ReverseTable - reverses the order of the entries of an integer-indexed table</li>
+<li>ChangeColorSaturation - changes the saturation of a color-value</li>
+<li>Docs: Datatypes_Colortables - docs about the structure of a ColorTable</li>
+<li>ultraschall.Euro - holds an €-symbol, that is difficult to type into Reaper's IDE</li>
+<li>Docs: MediaItems: Programming Spectral Edit - added</li>
+<li>Docs: MediaItems: Miscellaneous - added</li>
+<li>Docs: Added Config-Variable into the Reaper-Internals-docs</li>
+<li>added converted Config-Variable-docs as USDocML-file</li>
+<li>CombineBytesToInteger - combines multiple bytes into one integer-value</li>
+<li>SplitIntegerIntoBytes - splits a 32-bit-integer-value into four bytes</li>
+<li>GetReaperScriptPath - returns path to the scripts-folder of Reaper</li>
+<li>GetReaperColorThemesPath - returns path to the theme-folder of Reaoer</li>
+<li>GetReaperJSFXPath - returns path to the JSFX-plugin-folder of Reaper</li>
+<li>GetReaperWebRCPath - returns path to Reaper's own and User's own WebRC-webpage-folder</li>
+<li>Docs - added File Management: Introduction to the Introduction/Concepts-page</li>
+<li>Docs - added docs for ultraschall.Euro, which holds the €-currency symbol</li>
+<li>Docs - added - File Management: Read to the Introduction/Concepts-page</li>
+<li>Added example-scripts: ArrangeView_Snapshots_Example.lua Changed_Project_Tab_Example.lua Color_Example.lua Render_Current_Project.lua Render_Project.lua RippleCut_Selected_Tracks.lua Shorten_MediaItems_In_Selection_Example.lua</li>
+<li>GetProject_Length - gets the length of an rpp-projectfile</li>
+<li>added new analyser-scripts for statechunks: Item_State_Diffs_Monitor.lua, Track_State_Diffs_Monitor.lua, Project_State_Diffs_Monitor.lua, Env_State_Diffs_Monitor.lua</li>
+<li>Docs: File Management: Write - added to Introduction/Concepts-page</li>
+<li>Docs: File Management: Analyse - added to Introduction/Concepts-page</li>
+<li>Docs: File Management: Misc - added to Introduction/Concepts-page</li>
+<li>Docs: Project Management: Introduction - added to Introduction/Concepts-page</li>
+<li>Docs: Project Management: Check for changed projecttabs - added to Introduction/Concepts-page</li>
+<li>Docs: added WebRC-API-docs</li>
+<li>Docs: added Video-Processor-API-docs</li>
+<li>Docs: reworked slightly the header of the Reaper-Internals-page</li>
+<li>Docs: Color Management: Introduction - added chapter</li>
+<li>Docs: Color Management: Native Color Conversion - added chapter</li>
+<li>Docs: Color Management: Brightness, Contrast and Colorsaturation - added chapter</li>
+<li>Docs: Color Management: Working with Colortables - added chapter</li>
+<li>Docs: Color Management: Creating Colortables - added chapter</li>
+<li>Docs: Color Management: Applying Colortables - added chapter</li>
+<li>ConvertColorFromMac - Converts a native-Mac to rgb-values</li>
+<li>ConvertColorFromWin - Converts a native-Windows/Linux-color to rgb-values</li>
+<li>ConvertColorToMac - Converts rgb-values to a native-MacOS-color</li>
+<li>ConvertColorToWin - Converts rgb-values to a native-Windows/Linux-color</li>
+<li>ApplyColorTableToItemColors - applies a ColorTable to MediaItems in a MediaItemArray</li>
+<li>Docs: added all functions from JS-plugin by Julian Sader and Xenakios to Reaper-Api-Docs</li>
+<li>ultraschall_track_old_cursorposition.lua - background-script for returning the last editcursor-position before the current one</li>
+<li>RunBackgroundHelperFeatures - runs background-scripts included with the Ultraschall-API</li>
+<li>GetLastCursorPosition - returns the last editcursor-position before the current one; needs Backgroundscripts started first using RunBackgroundHelperFeatures</li>
+<li>Docs: Concepts-page - added chapter about Extstates for MediaTracks, MediaItems and guids</li>
+<li>IsMuteAtPosition - checks, whether a mute-point exists in a track at a position</li>
+<li>IsMuteAtPosition_TrackObject - checks, whether a mute-point exists in a MediaTrack-object at a position</li>
+<li>DeleteMuteState - deletes a mute-point in a track at a given position</li>
+<li>DeleteMuteState_TrackObject - deletes a mute-point in a MediaTrack-object at a given position</li>
+<li>Docs: Concepts-page - added chapter about backgroundscripts in Ultraschall-API and the use of it for functions like GetLastCursorPosition</li>
+<li>Docs: Concepts-page - added chapter about cough/mute-buttons</li>
+<li>requires now Julian Sader's plugin as well</li>
+<li>CloseReaConsole - closes ReaConsole-window</li>
+<li>DeleteErrorMessage - deletes a specific error-message from the error-messaging-system</li>
+<li>Docs: Error-Messaging-System - added docchapters to Introductions/Concepts-page</li>
+<li>GFX_BlitBufferImage - blits the framebuffer into the window and resizes it, if needed, using the correct aspect ratio; preliminary support</li>
+<li>Docs: Trackstate Management: Introduction - added chapter to Introduction/Concepts-page</li>
+<li>Routing: Introduction - added chapter to Introduction/Concepts-page</li>
+<li>Routing: Send and Receives - added chapter to Introduction/Concepts-page</li>
+<li>Routing: Hardware Outs - added chapter to Introduction/Concepts-page</li>
+<li>ApplyActionToMediaItemArray2 - applies an action to multiple items at once, unlike ApplyActionToMediaItemArray(which applies the action to each item individually)</li>
+<li>PutMediaItemsToClipboard_MediaItemArray - puts all MediaItems from MediaItemArray into the clipboard</li>
+<li>Docs: ExtState Management: Introduction - added chapter to Introduction/Concepts-page</li>
+<li>Docs: ExtState Management: Ini-Files - added chapter to Introduction/Concepts-page</li>
+<li>Docs: ExtState Management: Inifile-Functions - added chapter to Introduction/Concepts-page</li>
+<li>Docs: ExtState Management: Ultraschall.ini - added chapter to Introduction/Concepts-page</li>
+<li>Docs: ExtState Management: Track and Item-Extstates - added chapter to Introduction/Concepts-page</li>
+<li>Docs: ExtState Management: Track Extstates - added chapter to Introduction/Concepts-page</li>
+<li>Docs: ExtState Management: Item Extstates - added chapter to Introduction/Concepts-page</li>
+<li>MoveRegionsBy - moves regions by seconds</li>
+<li>MoveTimeSigMarkersBy - moves Timesignature/Tempo-markers by seconds</li>
+<li>ShowMenu - shows a new context-menu at a given position</li>
+<li>Docs: Markers and Regions: Introduction - added to Introduction/Concepts-page</li>
+<li>Docs: Markers and Regions: General How To - added to Introduction/Concepts-page</li>
+<li>Docs: Markers and Regions: Helpers and Manipulation - added to Introduction/Concepts-page</li>
+<li>CycleTable - cycles the entries of a table through</li>
+<li>GetErrorMessage_Funcname - returns error-message of a certain function</li>
+<li>CountErrorMessage_Funcname - counts all error-messages a certain function left in the error-messagin-system</li>
+<li>GetLastErrorMessage_Funcname - returns the last error-message a certain function left in the error-messaging-system</li>
+<li>DisplayMarkersRegions_underneath_Mouse.lua - example-script that displays the markers/regions underneath the mouse</li>
+<li>ShowMediaItems_In_Timeselection_and_SelectedTracks.lua - example script that shows selected items by time-selection and track-selection</li>
+<li>TrackAndItem_ColorCycler.lua - example script that cycles colors of tracks and items</li>
+<li>Render_Project.gif - added example-gif that demonstrates example-script</li>
+<li>DisplayMarkersRegions_underneath_Mouse.gif - added example-gif that demonstrates example-script<br />
+</li>
+<li>ShowMediaItems_In_Timeselection_and_SelectedTracks.gif - added example-gif that demonstrates example-script</li>
+<li>Render_Current_Project.gif - added example-gif that demonstrates example-script</li>
+<li>Changed_Project_Tab_Example.gif - added example-gif that demonstrates example-script</li>
+<li>ArrangeView_Snapshots_Example.gif - added example-gif that demonstrates example-script</li>
+<li>RippleCut_Selected_Tracks.gif - added example-gif that demonstrates example-script</li>
+<li>Color_Example.gif - added example-gif that demonstrates example-script</li>
+<li>Shorten_MediaItems_In_Selection_Example.gif - added example-gif that demonstrates example-script</li>
+<li>ColorTables_ColorCycler.gif - added example-gif that demonstrates example-script</li>
+<li>Docs: Helper_Functions: Introduction - added chapter to the Introduction/Concepts-page</li>
+<li>Docs: Helper_Functions: Clipboard Management - added chapter to the Introduction/Concepts-page</li>
+<li>Docs: Helper_Functions: Data Manipulation - added chapter to the Introduction/Concepts-page</li>
+<li>Docs: Helper_Functions: Undo Management - added chapter to the Introduction/Concepts-page</li>
+<li>Docs: Final words - added chapter to the Introduction/Concepts-page<br />
+</li>
+<li>GetSetConfigAlwaysAllowKB - gets/sets value for configvar alwaysallowkb</li>
+<li>GetSetConfigApplyFXTail - get/sets value for configvar applyfxtail</li>
+<li>GetSetConfigAdjRecManLatIn -get/sets value for configvar ajdrecmanlatin</li>
+<li>GetSetConfigAudioPrShift - get/sets value for configvar audioprshift</li>
+<li>GetSetConfigAudioCloseStop - get/sets value for configvar audioclosestop</li>
+<li>GetSetConfigAudioThreadPr - get/sets value for configvar audiothreadpr</li>
+<li>GetSetConfigAudioCloseTrackWnds - get/sets value for configvar audioclosetrackwnds</li>
+<li><p>WinterlySnowflakes - replaces gfx.update with a version, that displays falling snowflakes everytime gfx.update is run</p></li>
 </ul>
 <h4 id="changes-from-4.00beta2.6-to-4.00beta2.7">Changes from 4.00beta2.6 to 4.00beta2.7</h4>
 <ul>
@@ -269,7 +498,7 @@
 <li>DeleteLastErrorMessage - deletes now the last errormessage, only changed the errorcounter before</li>
 <li>GetLastErrorMessage2 - includes the new parameters parametername and errorcode; used to reset creation date instead of readstate -&gt; fixed</li>
 <li>ShowLastErrorMessage - reworked the messagebox to include functionname, parametername, errormessage and errorcode</li>
-<li>GetPath - returns nil now, if the separator can't be found, and throws an error-message as well in that case</li>
+<li>GetPath - returns nil now, if the separator can't be found, and throws an error-message as well in that case; did return parts of the path in filename -&gt; fixed now</li>
 <li>GetPartialString - returns nil now, if the separator can't be found, and throws an error-message as well in that case; sped up code</li>
 <li>RunCommand - throws an error-message, if an invalid action-command-id is given</li>
 <li>CSV2Line - rewritten and sped up</li>
@@ -358,7 +587,7 @@
 <li>SplitStringAtLineFeedToArray - used to treat LFCR as two linebreaks, which caused empty lines in windows-strings. Treats LFCR as one linebreak now.</li>
 <li>ReadLinerangeFromFile - allows now reading the whole file, when giving -1 as lastlinenumber; added missing information in the docs</li>
 <li>As the Functions-Engine is essential for all parts of the Ultraschall-API, it can't be turned off anymore.</li>
-<li>renamed MoveMarkers to MoveMarkersBy</li>
+<li>renamed MoveMarkers to MoveMarkersBy, reimplemented it, as sometimes, it messed up marker order after movement</li>
 <li>ReadValueFromFile - sped up code, returned wrong found-lines-value -&gt; fixed</li>
 <li>CheckMediaItemArray - did not return the altered MediaItemArray and count, when returning retval=false -&gt; fixed</li>
 <li>ChangeOffsetOfMediaItems_FromArray - typos in the docs -&gt; fixed</li>
@@ -499,7 +728,7 @@
 <li>SetProject_VerticalZoom - allows usage of ProjectStateChunks now as well</li>
 <li>OpenURL - had a problem on Windows, when the url-string contained spaces -&gt; fixed; returns -1 in case of error, now</li>
 <li>GetReaperAppVersion - returns now the operating system as well if the Reaper-installation is a portable one.</li>
-<li>GetClosestGoToPoints - added options to get closest goto-points from current edit/playcursor-position</li>
+<li>GetClosestGoToPoints - added options to get closest goto-points from current edit/playcursor-position; added returning marker/region name</li>
 <li>ReadBinaryFileFromPattern - corrected docs, rewrote function for more speed</li>
 <li>CountKeysByPattern - checks for malformed patterns, now</li>
 <li>CountSectionsByPattern - checks for malformed patterns, now</li>
@@ -523,6 +752,40 @@
 <li>GetItemSpectralVisibilityState - had wrong functionname in docs -&gt; fixed</li>
 <li>GetTrackExtState - corrections in the docs</li>
 <li>DeleteArrangeviewSnapshot - had wrong functionname in docs -&gt; fixed</li>
+<li>CenterViewToCursor - had documented a retval that the function doesn't return -&gt; fixed</li>
+<li>CreateTrackNumbersString - renamed to CreateTrackString</li>
+<li>CreateTrackNumbersString_SelectedTracks - renamed to CreateTrackString_SelectedTracks</li>
+<li>GetMediaItemsFromClipboard - using renamed function CreateTrackString() now</li>
+<li>InsertMediaItemFromFile - using renamed function CreateTrackString_SelectedTracks() now</li>
+<li>GetClosestNextRegionEdge - docs: was missing additional return-value edge_type -&gt; fixed now</li>
+<li>JumpBackwardBy - docs: changed name of parameter position to seconds, as that represents more, what the parameter does</li>
+<li>JumpForwardBy - docs: changed name of parameter position to seconds, as that represents more, what the parameter does</li>
+<li>JumpBackwardBy_Recording - docs: changed name of parameter position to seconds, as that represents more, what the parameter does</li>
+<li>JumpForwardBy_Recording - docs: changed name of parameter position to seconds, as that represents more, what the parameter does</li>
+<li>GetClosestGoToPoints - added mouse-cursor-position as possible option</li>
+<li>GetNextClosestItemEdge - was returning wrong retvals when no item was found -&gt; fixed</li>
+<li>CenterViewToCursor - added parameter for a non-cursor-position of your choice to center to</li>
+<li>SetItemPosition - exchanged position and optional statechunk-parameters to be in line with SetProject/Track-statefunctions</li>
+<li>SetItemLength - exchanged length and optional statechunk-parameters to be in line with SetProject/Track-statefunctions</li>
+<li>GetSplitCrossFadeState_ReaperIni - removed, will return as a new function</li>
+<li>MoveMediaItemsSectionTo - renamed to MoveMediaItemsBetween_To, as this is more in line with the corresponding of functionnames for getting, deleting, splitting items</li>
+<li>InsertMediaItem_MediaItem - allows now inserting MediaItems from other projects as well and into tracks of other projects</li>
+<li>InsertMediaItem_MediaItemStateChunk - allows now tracks in other projects to be target; h ad an issue, that it always required ULTRASCHALL_TRACKNUMBER in the itemstatechunk to get the target-track -&gt; fixed now to also allow passing a MediaTrack, as the docs always stated has now additional retvals startposition, endposition, length fixed the docs</li>
+<li>ReadBinaryFile_Offset - if startoffset is negative, the offset will be seen from the end of the file now</li>
+<li>ReadBinaryFile - removed, due being a duplication of ReadFullFile</li>
+<li>ReadFileAsLines_Array - corrected docs</li>
+<li>CreateTrackString_AllTracks - renamed from CreateAllTracksTrackString to be more in line with other CreateTrackString-functions</li>
+<li>RippleCut - removed the move_markers parameter; added add_to_clipboard parameters, which puts the cut-items to the clipboard</li>
+<li>RippleCut_Reverse - removed the move_markers parameter; added add_to_clipboard parameters, which puts the cut-items to the clipboard</li>
+<li>SectionCut - removed the move_markers parameter; added add_to_clipboard parameters, which puts the cut-items to the clipboard</li>
+<li>SectionCut_Inverse - removed the move_markers parameter; added add_to_clipboard parameters, which puts the cut-items to the clipboard</li>
+<li>EnumerateIniFileExternalState_sec - added error-messages for invalid section-indices</li>
+<li>GetUSExternalState - returns now only the value-returnvalue</li>
+<li>GetID3TagsFromCurrentProject - removed, due being useless in Ultraschall 4.0</li>
+<li>GetID3TagsFromCurrentProject_PodcastTags - removed, due being useless in Ultraschall 4.0</li>
+<li>SetID3TagsForCurrentProject - removed, due being useless in Ultraschall 4.0</li>
+<li>SetID3TagsForCurrentProject_PodcastTags - removed, due being useless in Ultraschall 4.0</li>
+<li>Msg - removed, was useless</li>
 </ul>
 <h3 id="beta-2.6---is-that-all-there-is---peggy-lee---19th-of-october-2017">4.00 Beta 2.6: - &quot;Is that all there is? - Peggy Lee&quot; - 19th of October 2017</h3>
 <h4 id="new-features-in-4.00beta2.6---has-now-450-functions-with-about-30-new-ones">New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:</h4>
