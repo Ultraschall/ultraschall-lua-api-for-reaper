@@ -32,7 +32,7 @@
                    - KB-Ini-Management - manipulate the reaper-kb.ini-file with custom-settings
                    - [Checking for Datatypes](#Datatypes_050_CheckingDatatypes) - check all datatypes introduced with Ultraschall-API and all Lua/Reaper-datatypes
                    - [UndoManagement](#Helper_Functions_004_UndoManagement) - functions for easily making undoing of functions as well as preventing creating an undo-point
-                   - [RunCommand](usdocml://RunCommand) for Items/Tracks - apply actions to specific items/tracks
+                   - [Run an Action](usdocml://#Helper_Functions_005_Miscellaneous) for Items/Tracks - apply actions to specific items/tracks
                    - [Checking for changed projecttabs](#Project_Management_002_Check_Changed_Projecttabs) - check, if projecttabs have been added/removed
                    - [ExtState-Management](#ExtStateManagement_001_Introduction) - an extensive set of functions for working with extstates as well as ini-files
                    - [Data Manipulation](#Helper_Functions_003_Data_Manipulation) - manipulate a lot of your data, including bitwise-integers, tables, etc
