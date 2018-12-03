@@ -31,6 +31,7 @@
 -- 4. have fun using the API. Test it with ultraschall.ApiTest()
 
 if reaper.CF_GetClipboardBig==nil then reaper.MB("Sorry, SWS 2.9.7 or higher must be installed to use the API. \nGo to sws-extension.org to get it.","SWS missing",0) return end
+if reaper.JS_ReaScriptAPI_Version==nil then reaper.MB("Sorry, JS-extension-plugin 0.951 or higher must be installed to use the API. \nGo to https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/ to get it.","JS-Extension plugin missing",0) return end
 
 if type(ultraschall)~="table" then ultraschall={} end
 ultraschall.temp1,ultraschall.temp=reaper.get_action_context()

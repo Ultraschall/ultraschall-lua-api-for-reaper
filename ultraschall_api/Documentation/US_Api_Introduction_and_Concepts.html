@@ -39,7 +39,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018 - Build: 25269</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018 - Build: 25278</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -162,8 +162,8 @@ Ultraschall API functions
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_002_How_to_Use"></a>
 <div style="font-size:100%"><h4><a href="#Introduction_002_How_to_Use">^</a> <u>How to use the Ultraschall API</u></h4></div><p><p>Using the Ultraschall-API is quite easy.</p>
-<p>First make sure, you use the right versions of Reaper and SWS: Reaper 5.95, SWS 2.9.7 and Julian Sader's plugin 0.951. You can download them at <a href="http://www.reaper.fm">reaper.fm</a> and <a href="http://www.sws-extension.org">sws-extension.org</a> respectively. Julian Sader's plugin can be installed using ReaPack.</p>
-<p>To install the Ultraschall-API: 1. Just download the zip-file of the current version from <a href="http://api.ultraschall.fm">api.ultraschall.fm</a>. 2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu &quot;Options -&gt; Show REAPER resource path in explorer/finder...&quot;.<br />
+<p>First make sure, you use the right versions of Reaper and SWS: <a href="https://www.reaper.fm">Reaper 5.95</a>, <a href="https://www.sws-extension.org">SWS 2.9.7</a> and <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">Julian Sader's plugin 0.951.</a> You can download them at <a href="http://www.reaper.fm">reaper.fm</a> and <a href="http://www.sws-extension.org">sws-extension.org</a> respectively. Julian Sader's plugin can be installed using ReaPack or gotten from <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">his own github-site</a></p>
+<p>To install the Ultraschall-API: 1. Just download the zip-file of the current version from <a href="http://api.mespotine.de">api.mespotine.de</a>. 2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu &quot;Options -&gt; Show REAPER resource path in explorer/finder...&quot;.<br />
 The folder UserPlugins should contain the folder ultraschall<em>api and the files ultraschall</em>api<em>readme.txt and ultraschall</em>api.lua after this step. 3. Now create a new script, by opening the Actions-window (Menu: Actions -&gt; Show action list) and clicking the New-button next to &quot;ReaScript:&quot;, give it a name and hit save.<br />
 Include the following line in your script at the beginning:</p>
 <pre><code>        dofile(reaper.GetResourcePath()..&quot;/UserPlugins/ultraschall_api.lua&quot;)</code></pre>
@@ -178,7 +178,7 @@ Include the following line in your script at the beginning:</p>
 e.g. reaper.ShowConsoleMsg(&quot;msg&quot;)</p>
 <p>The Ultraschall-API is quite the same, but is using the table &quot;ultraschall.&quot; instead.<br />
 e.g. ultraschall.ApiTest()</p>
-<p>Some functions need background-scripts be run first. Refer the <a href="#Background_Scripts_001_Introduction">Introdution to background-scripts</a> for information about that.</p>
+<p>Some functions need background-scripts be run first. Refer the <a href="#Background_Scripts_001_Introduction">Introduction to background-scripts</a> for information about that.</p>
 <p>See the functions-reference for all available functions or read on in this documentation for a collection of concepts introduced by the Ultraschall-API.</p>
 <p>Oh, before I forget: The ultraschall<em>api-folder holds a folder &quot;Scripts</em>Examples&quot; in which you can find some demos and example-scripts using this API.</p>
 
@@ -187,19 +187,19 @@ e.g. ultraschall.ApiTest()</p>
 So I added two ways to deal with that.</p>
 <ol>
 <li><p>Hotfixes<br />
-Hotfixes are available at <a href="http://api.ultraschall.fm">api.ultraschall.fm</a>. They provide fixes for functions and bugs that came across after a release, but no new functions.<br />
+Hotfixes are available at <a href="http://api.mespotine.de">api.mespotine.de</a>. They provide fixes for functions and bugs that came across after a release, but no new functions.<br />
 Just download the ultraschall_hotfixes.lua and put it into UserPlugins/ultraschall_api-folder.<br />
 The chance is high, that there is already an ultraschall_hotfixes.lua-file in the folder. You can safely overwrite it.<br />
 Voila, you have added the most recent bugfixes.</p>
 <p>To get the bugs back, just delete the ultraschall_hotfixes.lua.</p>
 <p>All fixes in ultraschall_hotfixes.lua will be part of the next full version of the Ultraschall-API.</p>
 <p>Check again from time to time to get the latest hotfixes.</p></li>
-<li><p>Beta-functions and features Beta-functions are functions intended for a future release of the Ultraschall-API. If you want to test them, just download the latest Beta-Pack from <a href="http://api.ultraschall.fm">api.ultraschall.fm</a>.<br />
+<li><p>Beta-functions and features Beta-functions are functions intended for a future release of the Ultraschall-API. If you want to test them, just download the latest Beta-Pack from <a href="http://api.mespotine.de">api.mespotine.de</a>.<br />
 Extract the files in the Beta-pack to UserPlugins of the Resources-folder of your Reaper-installation. Voila, the beta-functions are installed.</p>
 <p>To use them, you need to explicitly turn them on in your script, using the following lines:</p>
 <pre><code>     ultraschall.US_BetaFunctions=&quot;ON&quot;          -- Only has an effect, if ultraschall-beta-functions exist in Scripts-folder  
                                                 -- Turn ON, if you want BETA-Api-Functions</code></pre>
-<p>The documentation for beta-versions can be found at <a href="http://api.ultraschall.fm/US_Beta.html">api.ultraschall.fm/US_Beta.html</a></p>
+<p>The documentation for beta-versions can be found at <a href="http://api.mespotine.de/Downloads.html">api.mespotine.de/Downloads.html</a></p>
 <p>Be aware, they are in beta-stage. They will probably change, disappear or be exchanged with better functions. Beta-functions are only for testing purposes, not for productive coding!</p></li>
 </ol>
 

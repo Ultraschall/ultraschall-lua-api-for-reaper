@@ -45208,6 +45208,8 @@ function ultraschall.CloseReaConsole()
   <description>
     Closes the ReaConsole-window, if opened.
     
+    Note for Mac-users: does not work currently on MacOS.
+    
     Returns false in case of an error
   </description>
   <retvals>
@@ -45737,6 +45739,9 @@ function ultraschall.ShowMenu(Title,Entries,x,y)
     
     One last thing: the title does not count as entry!
     
+    Note for Mac-users: has a possible issue with the y coordinate, where it's position is actually "reversed", due a Reaper-bug.
+    Note for Linux: does not work on Linux yet.
+    
     returns -1 in case of an error
   </description>
   <retvals>
@@ -45766,6 +45771,26 @@ function ultraschall.ShowMenu(Title,Entries,x,y)
 
   local ownwindow=false
   if gfx.h==0 and gfx.w==0 then gfx.init("Ultraschall-Menu",0,0,0,x,y)
+
+--possible workaround for Mac, but unused...
+--    left, top, right, bottom = reaper.my_getViewport(1, 1, 2, 2, 1, 1, 2, 2, true)
+--    convx, convy = gfx.screentoclient(0, 0)
+--    convx2, convy2 = gfx.clienttoscreen(0, 0)
+--[[
+    if convy~=y then
+      gfx.quit()
+      count=bottom
+      numtable={}
+      for i=0, bottom do
+        --reaper.ShowConsoleMsg(i.." ")
+        numtable[i]=count
+        count=count-1
+      end
+      
+      y=numtable[y]
+      gfx.init("Ultraschall-Menu",1,1,0,100,y-21)
+    end
+--]]
     gfx.x=-10
     gfx.y=-25
     ownwindow=true
