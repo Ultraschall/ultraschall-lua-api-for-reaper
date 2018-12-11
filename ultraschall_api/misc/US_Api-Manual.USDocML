@@ -16,7 +16,7 @@
                    - [ArrangeView-Snapshots](#Arrangeview_Snapshots_001_Introduction) - you can save, retrieve snapshots of the arrangeview, including position, zoomstates to quickly jump through parts of your project
                    - [Trackstates](#Trackstate_Management_001_Introduction) - you can access and set all(!) track-states available
                    - [Mediaitem-states](#GetSetStates_Project_Track_Item_Env_001_Introduction) - you can access and set many mediaitem-states (more will follow)
-                   - [ItemExtStates/TrackExtStates](#ObjectExtStates_001_Introduction) - you can save additional metadata easily for specific tracks and items using ItemExtStates and TrackExtStates
+                   - [ItemExtStates/TrackExtStates](#ExtStateManagement_005_TrackItemExtStates) - you can save additional metadata easily for specific tracks and items using ItemExtStates and TrackExtStates
                    - [File access](#1FileManagement_001_Introduction) - many helperfunctions for reading, writing, copying files. No more hassle writing it yourself!
                        e.g [ReadFullFile](usdocml://ReadFullFile), [WriteValueToFile](usdocml://WriteValueToFile), etc
                    - [Cough-Mute-management](#Cough_Mute_Buttons_001_Introduction) - you can write your own cough-buttons, that set the state of the mute-envelope of a track easily
@@ -32,7 +32,7 @@
                    - KB-Ini-Management - manipulate the reaper-kb.ini-file with custom-settings
                    - [Checking for Datatypes](#Datatypes_050_CheckingDatatypes) - check all datatypes introduced with Ultraschall-API and all Lua/Reaper-datatypes
                    - [UndoManagement](#Helper_Functions_004_UndoManagement) - functions for easily making undoing of functions as well as preventing creating an undo-point
-                   - [Run an Action](usdocml://#Helper_Functions_005_Miscellaneous) for Items/Tracks - apply actions to specific items/tracks
+                   - [Run an Action](#Helper_Functions_005_Miscellaneous) for Items/Tracks - apply actions to specific items/tracks
                    - [Checking for changed projecttabs](#Project_Management_002_Check_Changed_Projecttabs) - check, if projecttabs have been added/removed
                    - [ExtState-Management](#ExtStateManagement_001_Introduction) - an extensive set of functions for working with extstates as well as ini-files
                    - [Data Manipulation](#Helper_Functions_003_Data_Manipulation) - manipulate a lot of your data, including bitwise-integers, tables, etc
@@ -98,7 +98,7 @@
                 e.g. ultraschall.ApiTest()
             
             
-            Some functions need background-scripts be run first. Refer the [Introdution to background-scripts](#Background_Scripts_001_Introduction) for information about that.
+            Some functions need background-scripts be run first. Refer the [Introduction to background-scripts](#Background_Scripts_001_Introduction) for information about that.
             
             See the functions-reference for all available functions or read on in this documentation for a collection of concepts introduced by the Ultraschall-API.
             
@@ -2477,144 +2477,10 @@
             Color Management
         </chapter_context>
         <previous_chapter>ColorManagement_005_ColorTables_Creating_And_Checking</previous_chapter>
-        <next_chapter>ObjectExtStates_001_Introduction</next_chapter>
+        <next_chapter>Background_Scripts_001_Introduction</next_chapter>
         <tags>documentation, color management, native, color, colortables, apply, item, track</tags>
     </US_DocBloc>        
 
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ObjectExtStates_001_Introduction</slug>
-        <title>Object Extension States: Introduction</title>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            In Reaper, you can add notes to MediaItems. Unfortunately: only one note per MediaItem. But how often do you want to store multiple notes associated with a MediaItem?  
-            And what about MediaTracks? Currently, Reaper does not support storing notes for MediaTracks.  
-            
-            And I thought, why not adding additional Notes for MediaTracks and MediaItems or any other object that has a guid, storing them either globally using extstates or project-locally using Project-Extension-States?  
-            Maybe as easy to use, as you are used from ExtStates?  
-            So I added that.  
-            
-            With these extstates, you can add more than one note/information to MediaTracks, MediaItems or certain Guids.
-            
-            Let's go more into detail.
-        </description>
-        <target_document>ReaperApiConcepts</target_document>
-        <source_document></source_document>
-        </chapter_context>
-        <chapter_context>
-            Extension States
-        </chapter_context>
-        <previous_chapter>ColorManagement_006_ColorTables_Applying</previous_chapter>
-        <next_chapter>ObjectExtStates_002_MediaTrackExtensionStates</next_chapter>
-        <tags>documentation, extension states, extstate</tags>
-    </US_DocBloc>    
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ObjectExtStates_002_MediaTrackExtensionStates</slug>
-        <title>Object Extension States: MediaTrack Extension States</title>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Setting and getting ExtStates for MediaTracks is quite easy to do, using: [GetTrackExtState](usdocml://GetTrackExtState), [SetTrackExtState](usdocml://SetTrackExtState)  
-            Let's set a new ExtState:
-            
-            >**[SetTrackExtState](usdocml://SetTrackExtState)**
-            
-                                boolean retval = ultraschall.SetTrackExtState(MediaTrack track, string key, string value, boolean overwrite)
-                                
-            >This sets a new extstate to a certain MediaTrack. This is simple to use. Just pass a MediaTrack-object, a key and it's value to it.  
-            >The last parameter overwrite tells the function, if it shall overwrite an already existing extstate.  
-            >The returnvalue tells you, if setting the extstate was successful(true) or not(false).
-            
-            Getting the extstate is also real easy:
-            
-            >**[GetTrackExtState](usdocml://GetTrackExtState)**
-            
-                                boolean retval, string value = ultraschall.GetTrackExtState(MediaTrack track, string key)
-                                
-            >This gets an existing extstate of a MediaTrack. Just pass to it the MediaTrack, whose extstate you want, as well as the key to the value.  
-            >It will return two retvals, of which the first one tells, if getting the extstate was successful or not, and the second holds the actual value as a string.
-        </description>
-        <target_document>ReaperApiConcepts</target_document>
-        <source_document></source_document>
-        </chapter_context>
-        <chapter_context>
-            Extension States
-        </chapter_context>
-        <previous_chapter>ObjectExtStates_001_Introduction</previous_chapter>
-        <next_chapter>ObjectExtStates_003_MediaItemExtensionStates</next_chapter>
-        <tags>documentation, extension states, extstate, mediatrack</tags>
-    </US_DocBloc>    
-    
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ObjectExtStates_003_MediaItemExtensionStates</slug>
-        <title>Object Extension States: MediaItem Extension States</title>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Setting and getting ExtStates for MediaItems works the same as for MediaTracks, using: [GetItemExtState](usdocml://GetItemExtState), [SetItemExtState](usdocml://SetItemExtState)  
-            Let's set a new ExtState:
-            
-            >**[SetItemExtState](usdocml://SetItemExtState)**
-            
-                                boolean retval = ultraschall.SetItemExtState(MediaItem item, string key, string value, boolean overwrite)
-                                
-            >This sets a new extstate to a certain MediaItem. This is simple to use. Just pass a MediaItem-object, a key and it's value to it.  
-            >The last parameter overwrite tells the function, if it shall overwrite an already existing extstate.  
-            >The returnvalue tells you, if setting the extstate was successful(true) or not(false).
-            
-            Getting the extstate is also real easy:
-            
-            >**[GetItemExtState](usdocml://GetItemExtState)**
-            
-                                boolean retval, string value = ultraschall.GetItemExtState(MediaItem item, string key)
-                                
-            >This gets an existing extstate of a MediaItem. Just pass to it the MediaItem, whose extstate you want, as well as the key to the value.  
-            >It will return two retvals, of which the first one tells, if getting the extstate was successful or not, and the second holds the actual value as a string.
-        </description>
-        <target_document>ReaperApiConcepts</target_document>
-        <source_document></source_document>
-        </chapter_context>
-        <chapter_context>
-            Extension States
-        </chapter_context>
-        <previous_chapter>ObjectExtStates_002_MediaTrackExtensionStates</previous_chapter>
-        <next_chapter>ObjectExtStates_050_OtherExtensionStates</next_chapter>
-        <tags>documentation, extension states, extstate, mediaitem</tags>
-    </US_DocBloc>    
-
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-        <slug>ObjectExtStates_050_OtherExtensionStates</slug>
-        <title>Object Extension States: Other Extension States</title>
-        <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Sometimes, getting/setting extstates for objects isn't enough. In fact, you want sometimes store extstates for objects who have a certain guid.  
-            Even further: you want to store them not only within the current project, but globally.  
-            For that, I added the functions: [GetGuidExtState](usdocml://GetGuidExtState), [SetGuidExtState](usdocml://SetGuidExtState)
-            
-            >**[SetGuidExtState](usdocml://SetGuidExtState)**
-            
-                                integer retval = ultraschall.SetGuidExtState(string guid, string key, string value, integer savelocation, boolean overwrite, boolean persists)
-                                
-            >This sets an extstate for a specific guid(which can be obtained by many Reaper-objects). In addition to the guid, you pass the key and value to it.  
-            >The other parameters control where and how to store the extstate.
-            >Parameter savelocation decides, whether to store it globally or locally within the current project only. When storing it globally, it can be accessed from outside the project as well.  
-            >Parameter overwrite decides, whether to overwrite an already existing extstate or not.  
-            >Parameter persists controls, whether a global extstate shall be still available after restart of Reaper. It will be ignored, when the extstate is a local-project-one.
-            
-            Getting such an extstate for guids isn't that difficult at all:
-            
-            >**[GetGuidExtState](usdocml://GetGuidExtState)**
-            
-                                integer retval, string value = ultraschall.GetGuidExtState(string guid, string key, integer savelocation)
-                                
-            >This gets an extstate associated with a certain guid. Pass to the function the guid and the key to get returned.  
-            >Parameter savelocation decides, whether to read the extstate from the global extstates or the local extstates. That means, you can have two guid-extstates of the same name, with one being global and one being project-local.
-        </description>
-        <target_document>ReaperApiConcepts</target_document>
-        <source_document></source_document>
-        </chapter_context>
-        <chapter_context>
-            Extension States
-        </chapter_context>
-        <previous_chapter>ObjectExtStates_003_MediaItemExtensionStates</previous_chapter>
-        <next_chapter>Background_Scripts_001_Introduction</next_chapter>
-        <tags>documentation, extension states, extstate, other, guid</tags>
-    </US_DocBloc>    
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Background_Scripts_001_Introduction</slug>
@@ -3408,7 +3274,7 @@
               
               >>**[EnumerateValuesByPattern](usdocml://EnumerateValuesByPattern)**
               
-                                    string value, string keyname = ultraschall.EnumerateValuesByPattern(pattern, section, id, ini_filename_with_path)
+                                    string value, string keyname = ultraschall.EnumerateValuesByPattern(string pattern, string section, string id, string ini_filename_with_path)
               
               >>Just like EnumerateKeysByPattern, but this enumerates through the values within a given section. It will return the value and it's corresponding keyname found.
         </description>
@@ -3430,12 +3296,12 @@
             The Ultraschall-Podcasting-Extension itself makes use of it's own configuration-file, called ultraschall.ini, which is located in the resourcesfolder of Reaper.  
             This file can be used by you as well, even if it's mainly intended for an installed Ultraschall-installation. The Ultraschall-API has some functions to deal with the ultraschall.ini.  
             
-            You need to know, however: sectionnames must contain a leading signature, that is used purely by you, like MaxMiller_sectionname.  
-            All signature variants of Ultraschall_ or US_ or ULT_ (no matter if upper/lower/camelcase) as well as sections with no leading signature are reserved for us.  
+            You need to know, however: sectionnames must contain a leading signature, that is used purely by you, like MaxMiller\_sectionname.  
+            All signature variants of Ultraschall\_ or US\_ or ULT\_ (no matter if upper/lower/camelcase) as well as sections with no leading signature are reserved for us.  
             That way, you don't risk naming conflicts with Ultraschall's own config-settings.  
             This is only for the ultraschall.ini-file, all other ini-files can be used by you the way you want.  
             
-            The functions themselves basically work, as the functions described in the chapter [ExtStateManagement_003_IniFiles_Functions](ExtStateManagement_003_IniFiles_Functions).
+            The functions themselves basically work, as the functions described in the chapter [ExtState Management: Inifile-Functions](ExtStateManagement_003_IniFiles_Functions).
             
              - [GetUSExternalState](usdocml://GetUSExternalState) - gets an external state from the ultraschall.ini
              - [SetUSExternalState](usdocml://SetUSExternalState) - sets an external state to the ultraschall.ini
@@ -3485,8 +3351,11 @@
                                   integer retval, string value = ultraschall.GetGuidExtState(string guid, string key, integer savelocation)
                                   
             >With this one, you can simply get this extstate again. Just pass to it the guid, the key and the savelocation(either global or in the project) and it returns a success-indicator-return value as well as the stored value itself.
-            
+
             With these two functions as a base, I made variants for tracks and items.
+            
+            One important thing to mention: these extstates are bound to the project(if they aren't stored globally via parameter savelocation), so when copying an item with extstates into another project, the extstates will not be part of the new project.  
+            I will look into that problem at some point.  
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -3877,7 +3746,7 @@
                                     
             >This function prevents creating an undo-point in non-defer-scripts, which is sometimes desireable.
             
-            >**[MakeFunctionUndoable](usdocml://MakeFunctionUndoable)
+            >**[MakeFunctionUndoable](usdocml://MakeFunctionUndoable)**
             
                                     boolean retval, string current_UndoMessage, retvals_1, ..., retvals_2 
                                                             = ultraschall.MakeFunctionUndoable(function Func, string UndoMessage, integer Flag, 

@@ -12503,7 +12503,7 @@ function ultraschall.EnumerateValuesByPattern(pattern, section, id, ini_filename
     SWS=2.8.8
     Lua=5.3
   </requires>
-  <functioncall>string value, string keyname = ultraschall.EnumerateValuesByPattern(pattern, section, id, ini_filename_with_path)</functioncall>
+  <functioncall>string value, string keyname = ultraschall.EnumerateValuesByPattern(string pattern, string section, string id, string ini_filename_with_path)</functioncall>
   <description>
     Returns the numberth value(and it's accompanying key) within a section in an ini-file, that fits the pattern, e.g. the third value containing "hawaii" in it.
     
@@ -24755,7 +24755,7 @@ function ultraschall.SetTracksSelected(trackstring, reset)
   <tags>trackmanagement, tracks, get, selected</tags>
 </US_DocBloc>
 ]]
-  if type(reset)~="boolean" then ultraschall.AddErrorMessage("SetTracksSelected", "reset", "must be boolan", -1) return -1 end
+  if type(reset)~="boolean" then ultraschall.AddErrorMessage("SetTracksSelected", "reset", "must be boolean", -1) return -1 end
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
   --reaper.MB(trackstring,"",0)
   if trackstring==-1 or trackstring=="" then ultraschall.AddErrorMessage("SetTracksSelected", "trackstring", "must be a valid trackstring", -2) return -1 end
@@ -35325,7 +35325,7 @@ function ultraschall.SetItemExtState(item, key, value, overwrite)
     boolean overwrite - true, overwrite existing extstate; false, don't overwrite existing extstate
   </parameters>
   <retvals>
-    boolan retval - true, if setting extstate was successful; false, if setting extstate was unsuccessful
+    boolean retval - true, if setting extstate was successful; false, if setting extstate was unsuccessful
   </retvals>
   <chapter_context>
     Metadata Management
@@ -35366,7 +35366,7 @@ function ultraschall.GetItemExtState(item, key)
     string key - the key of the extstate
   </parameters>
   <retvals>
-    boolan retval - true, if getting extstate was successful; false, if getting extstate was unsuccessful
+    boolean retval - true, if getting extstate was successful; false, if getting extstate was unsuccessful
     string value - the value of this extstate; nil if not existing
   </retvals>
   <chapter_context>
@@ -35409,7 +35409,7 @@ function ultraschall.SetTrackExtState(track, key, value, overwrite)
     boolean overwrite - true, overwrite existing extstate; false, don't overwrite existing extstate
   </parameters>
   <retvals>
-    boolan retval - true, if setting extstate was successful; false, if setting extstate was unsuccessful
+    boolean retval - true, if setting extstate was successful; false, if setting extstate was unsuccessful
   </retvals>
   <chapter_context>
     Metadata Management
@@ -35450,7 +35450,7 @@ function ultraschall.GetTrackExtState(track, key)
     string key - the key of the extstate
   </parameters>
   <retvals>
-    boolan retval - true, if getting extstate was successful; false, if getting extstate was unsuccessful
+    boolean retval - true, if getting extstate was successful; false, if getting extstate was unsuccessful
     string value - the value of this extstate; nil if not existing
   </retvals>
   <chapter_context>
@@ -35462,7 +35462,7 @@ function ultraschall.GetTrackExtState(track, key)
   <tags>mediaitemmanagement, get, extstate, track, guid, key, value, metadata</tags>
 </US_DocBloc>
 --]]
-    if reaper.ValidatePtr2(0, item, "MediaTrack*")==false then ultraschall.AddErrorMessage("GetTrackExtState","track", "Must be a valid MediaTrack!", -1) return false end
+    if reaper.ValidatePtr2(0, track, "MediaTrack*")==false then ultraschall.AddErrorMessage("GetTrackExtState","track", "Must be a valid MediaTrack!", -1) return false end
     if type(key)~="string" then ultraschall.AddErrorMessage("GetTrackExtState","key", "Must be a string!", -2) return false end
     local guidString = reaper.GetTrackGUID(track)
     local retval, retval2 = ultraschall.GetGuidExtState("MediaTrack-"..guidString, key, 0)

@@ -14,8 +14,8 @@ ultraschall.ApiTest()
     Documentation\US_Api_Documentation.html
    for a functions-reference for the API, which will also be added automatically to your actionlist after the first time you used the API.
 
-Requires at least Reaper 5.95(reaper.fm) and SWS 2.9.7(sws-extension.org) 
-and Julian Sader's JS-extension-plugin(https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/).
+Requires at least Reaper 5.942(reaper.fm) and SWS 2.9.7(sws-extension.org) 
+and Julian Sader's JS-extension-plugin v0.951(https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/).
    
 Written by Meo Mespotine(mespotine.de) with contributions from Udo Sauer(https://twitter.com/fernsehmuell) and Ralf Stockmann(https://twitter.com/rstockm)
 MakeCopyOfTable-function adapted from Tyler Neylon's (twitter.com/tylerneylon) function, found at [Stack Overflow](https://stackoverflow.com/questions/640642/how-do-you-copy-a-lua-table-by-value/26367080#26367080)
