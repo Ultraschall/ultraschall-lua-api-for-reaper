@@ -73,11 +73,12 @@
             Julian Sader's plugin can be installed using ReaPack or gotten from [his own github-site](https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/)
             
             To install the Ultraschall-API:
-            1. Just download the zip-file of the current version from [api.ultraschall.fm](http://api.ultraschall.fm).
-            2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -> Show REAPER resource path in explorer/finder...".  
-               The folder UserPlugins should contain the folder ultraschall_api and the files ultraschall_api_readme.txt and ultraschall_api.lua after this step.
+            
+            1. Just download the zip-file of the current version from [api.ultraschall.fm](http://api.ultraschall.fm).  
+            2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -> Show REAPER resource path in explorer/finder...".    
+               The folder UserPlugins should contain the folder ultraschall_api and the files ultraschall_api_readme.txt and ultraschall_api.lua after this step.  
             3. Now create a new script, by opening the Actions-window (Menu: Actions -> Show action list) and clicking the New-button next to "ReaScript:", give it a name and hit save.  
-               Include the following line in your script at the beginning: 
+               Include the following line in your script at the beginning:   
                
                         dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
                
