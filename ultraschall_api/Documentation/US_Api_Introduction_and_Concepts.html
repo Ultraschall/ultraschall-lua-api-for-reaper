@@ -39,7 +39,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018 - Build: 25278</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018 - Build: 25377</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -88,11 +88,7 @@ Ultraschall API functions
 <td><a href="#ColorManagement_004_ColorTables_Introduction">Color Management: Working with Colortables</a></td>
 </tr><tr><td><a href="#ColorManagement_005_ColorTables_Creating_And_Checking">Color Management: Creating Colortables</a></td>
 <td><a href="#ColorManagement_006_ColorTables_Applying">Color Management: Applying Colortables</a></td>
-</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Extension States</b></td></tr><tr><td><a href="#ObjectExtStates_001_Introduction">Object Extension States: Introduction</a></td>
-<td><a href="#ObjectExtStates_002_MediaTrackExtensionStates">Object Extension States: MediaTrack Extension States</a></td>
-<td><a href="#ObjectExtStates_003_MediaItemExtensionStates">Object Extension States: MediaItem Extension States</a></td>
-<td><a href="#ObjectExtStates_050_OtherExtensionStates">Object Extension States: Other Extension States</a></td>
-</tr><tr></tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Background-Scripts</b></td></tr><tr><td><a href="#Background_Scripts_001_Introduction">Background Scripts: Introduction</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Background-Scripts</b></td></tr><tr><td><a href="#Background_Scripts_001_Introduction">Background Scripts: Introduction</a></td>
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Cough and Mute-Buttons</b></td></tr><tr><td><a href="#Cough_Mute_Buttons_001_Introduction">Cough and Mute Buttons/Actions: Introduction</a></td>
 <td><a href="#Cough_Mute_Buttons_002_Toggling_Mute">Cough and Mute Buttons/Actions: Toggling Mute</a></td>
 <td><a href="#Cough_Mute_Buttons_003_FindingMutes">Cough and Mute Buttons/Actions: Toggling Mute</a></td>
@@ -132,7 +128,7 @@ Ultraschall API functions
 <li><a href="#Arrangeview_Snapshots_001_Introduction">ArrangeView-Snapshots</a> - you can save, retrieve snapshots of the arrangeview, including position, zoomstates to quickly jump through parts of your project</li>
 <li><a href="#Trackstate_Management_001_Introduction">Trackstates</a> - you can access and set all(!) track-states available</li>
 <li><a href="#GetSetStates_Project_Track_Item_Env_001_Introduction">Mediaitem-states</a> - you can access and set many mediaitem-states (more will follow)</li>
-<li><a href="#ObjectExtStates_001_Introduction">ItemExtStates/TrackExtStates</a> - you can save additional metadata easily for specific tracks and items using ItemExtStates and TrackExtStates</li>
+<li><a href="#ExtStateManagement_005_TrackItemExtStates">ItemExtStates/TrackExtStates</a> - you can save additional metadata easily for specific tracks and items using ItemExtStates and TrackExtStates</li>
 <li><a href="#1FileManagement_001_Introduction">File access</a> - many helperfunctions for reading, writing, copying files. No more hassle writing it yourself! e.g <a href="US_Api_Functions.html#ReadFullFile">ReadFullFile</a>, <a href="US_Api_Functions.html#WriteValueToFile">WriteValueToFile</a>, etc</li>
 <li><a href="#Cough_Mute_Buttons_001_Introduction">Cough-Mute-management</a> - you can write your own cough-buttons, that set the state of the mute-envelope of a track easily</li>
 <li><a href="#MarkersAndRegions_001_Introduction">Marker</a> - extensive set of marker functions, get, set, export, import, enumerate, etc</li>
@@ -145,7 +141,7 @@ Ultraschall API functions
 <li>KB-Ini-Management - manipulate the reaper-kb.ini-file with custom-settings</li>
 <li><a href="#Datatypes_050_CheckingDatatypes">Checking for Datatypes</a> - check all datatypes introduced with Ultraschall-API and all Lua/Reaper-datatypes</li>
 <li><a href="#Helper_Functions_004_UndoManagement">UndoManagement</a> - functions for easily making undoing of functions as well as preventing creating an undo-point</li>
-<li><a href="#Helper_Functions_005_Miscellaneous">Run an action</a> for Items/Tracks - apply actions to specific items/tracks</li>
+<li><a href="#Helper_Functions_005_Miscellaneous">Run an Action</a> for Items/Tracks - apply actions to specific items/tracks</li>
 <li><a href="#Project_Management_002_Check_Changed_Projecttabs">Checking for changed projecttabs</a> - check, if projecttabs have been added/removed</li>
 <li><a href="#ExtStateManagement_001_Introduction">ExtState-Management</a> - an extensive set of functions for working with extstates as well as ini-files</li>
 <li><a href="#Helper_Functions_003_Data_Manipulation">Data Manipulation</a> - manipulate a lot of your data, including bitwise-integers, tables, etc</li>
@@ -163,8 +159,12 @@ Ultraschall API functions
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_002_How_to_Use"></a>
 <div style="font-size:100%"><h4><a href="#Introduction_002_How_to_Use">^</a> <u>How to use the Ultraschall API</u></h4></div><p><p>Using the Ultraschall-API is quite easy.</p>
 <p>First make sure, you use the right versions of Reaper and SWS: <a href="https://www.reaper.fm">Reaper 5.95</a>, <a href="https://www.sws-extension.org">SWS 2.9.7</a> and <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">Julian Sader's plugin 0.951.</a> You can download them at <a href="http://www.reaper.fm">reaper.fm</a> and <a href="http://www.sws-extension.org">sws-extension.org</a> respectively. Julian Sader's plugin can be installed using ReaPack or gotten from <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">his own github-site</a></p>
-<p>To install the Ultraschall-API: 1. Just download the zip-file of the current version from <a href="http://api.ultraschall.fm">api.ultraschall.fm</a>. 2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu &quot;Options -&gt; Show REAPER resource path in explorer/finder...&quot;.<br />
-The folder UserPlugins should contain the folder ultraschall<em>api and the files ultraschall</em>api<em>readme.txt and ultraschall</em>api.lua after this step. 3. Now create a new script, by opening the Actions-window (Menu: Actions -&gt; Show action list) and clicking the New-button next to &quot;ReaScript:&quot;, give it a name and hit save.<br />
+<p>To install the Ultraschall-API: <br>
+1. Just download the zip-file of the current version from <a href="http://api.ultraschall.fm">api.ultraschall.fm</a>. <br>
+2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu &quot;Options -&gt; Show REAPER resource path in explorer/finder...&quot;.<br />
+The folder UserPlugins should contain the folder ultraschall<em>api and the files ultraschall</em>api<em>readme.txt and ultraschall</em>api.lua after this step. <br>
+3. Now create a new script, by opening the Actions-window (Menu: Actions -&gt; Show action list) and clicking the New-button next to &quot;ReaScript:&quot;, give it a name and hit save.<br />
+<br>
 Include the following line in your script at the beginning:</p>
 <pre><code>        dofile(reaper.GetResourcePath()..&quot;/UserPlugins/ultraschall_api.lua&quot;)</code></pre>
 <p>Now you can program with the Ultraschall-API. Just add the functions AFTER the dofile-line.</p>
@@ -178,7 +178,7 @@ Include the following line in your script at the beginning:</p>
 e.g. reaper.ShowConsoleMsg(&quot;msg&quot;)</p>
 <p>The Ultraschall-API is quite the same, but is using the table &quot;ultraschall.&quot; instead.<br />
 e.g. ultraschall.ApiTest()</p>
-<p>Some functions need background-scripts be run first. Refer the <a href="#Background_Scripts_001_Introduction">Introdution to background-scripts</a> for information about that.</p>
+<p>Some functions need background-scripts be run first. Refer the <a href="#Background_Scripts_001_Introduction">Introduction to background-scripts</a> for information about that.</p>
 <p>See the functions-reference for all available functions or read on in this documentation for a collection of concepts introduced by the Ultraschall-API.</p>
 <p>Oh, before I forget: The ultraschall<em>api-folder holds a folder &quot;Scripts</em>Examples&quot; in which you can find some demos and example-scripts using this API.</p>
 
@@ -199,7 +199,7 @@ Extract the files in the Beta-pack to UserPlugins of the Resources-folder of you
 <p>To use them, you need to explicitly turn them on in your script, using the following lines:</p>
 <pre><code>     ultraschall.US_BetaFunctions=&quot;ON&quot;          -- Only has an effect, if ultraschall-beta-functions exist in Scripts-folder  
                                                 -- Turn ON, if you want BETA-Api-Functions</code></pre>
-<p>The documentation for beta-versions can be found at <a href="http://api.mespotine.de/Downloads.html">api.ultraschall.fm/Downloads.html</a></p>
+<p>The documentation for beta-versions can be found at <a href="http://api.ultraschall.fm/Downloads.html">api.ultraschall.fm/Downloads.html</a></p>
 <p>Be aware, they are in beta-stage. They will probably change, disappear or be exchanged with better functions. Beta-functions are only for testing purposes, not for productive coding!</p></li>
 </ol>
 
@@ -1759,89 +1759,6 @@ The final parameters decide, to which tracks to apply this, starting from track 
 The rest is the same, pass to the function a ColorTable and in the parameter Spread, how to spread/cycle the colors over the MediaItems.</p>
 </blockquote>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="ObjectExtStates_001_Introduction"></a>
-<div style="font-size:100%"><h4><a href="#ObjectExtStates_001_Introduction">^</a> <u>Object Extension States: Introduction</u></h4></div><p><p>In Reaper, you can add notes to MediaItems. Unfortunately: only one note per MediaItem. But how often do you want to store multiple notes associated with a MediaItem?<br />
-And what about MediaTracks? Currently, Reaper does not support storing notes for MediaTracks.</p>
-<p>And I thought, why not adding additional Notes for MediaTracks and MediaItems or any other object that has a guid, storing them either globally using extstates or project-locally using Project-Extension-States?<br />
-Maybe as easy to use, as you are used from ExtStates?<br />
-So I added that.</p>
-<p>With these extstates, you can add more than one note/information to MediaTracks, MediaItems or certain Guids.</p>
-<p>Let's go more into detail.</p>
-
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="ObjectExtStates_002_MediaTrackExtensionStates"></a>
-<div style="font-size:100%"><h4><a href="#ObjectExtStates_002_MediaTrackExtensionStates">^</a> <u>Object Extension States: MediaTrack Extension States</u></h4></div><p><p>Setting and getting ExtStates for MediaTracks is quite easy to do, using: <a href="US_Api_Functions.html#GetTrackExtState">GetTrackExtState</a>, <a href="US_Api_Functions.html#SetTrackExtState">SetTrackExtState</a><br />
-Let's set a new ExtState:</p>
-<blockquote>
-<p><strong><a href="US_Api_Functions.html#SetTrackExtState">SetTrackExtState</a></strong></p>
-</blockquote>
-<pre><code>                boolean retval = ultraschall.SetTrackExtState(MediaTrack track, string key, string value, boolean overwrite)
-                </code></pre>
-<blockquote>
-<p>This sets a new extstate to a certain MediaTrack. This is simple to use. Just pass a MediaTrack-object, a key and it's value to it.<br />
-The last parameter overwrite tells the function, if it shall overwrite an already existing extstate.<br />
-The returnvalue tells you, if setting the extstate was successful(true) or not(false).</p>
-</blockquote>
-<p>Getting the extstate is also real easy:</p>
-<blockquote>
-<p><strong><a href="US_Api_Functions.html#GetTrackExtState">GetTrackExtState</a></strong></p>
-</blockquote>
-<pre><code>                boolean retval, string value = ultraschall.GetTrackExtState(MediaTrack track, string key)
-                </code></pre>
-<blockquote>
-<p>This gets an existing extstate of a MediaTrack. Just pass to it the MediaTrack, whose extstate you want, as well as the key to the value.<br />
-It will return two retvals, of which the first one tells, if getting the extstate was successful or not, and the second holds the actual value as a string.</p>
-</blockquote>
-
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="ObjectExtStates_003_MediaItemExtensionStates"></a>
-<div style="font-size:100%"><h4><a href="#ObjectExtStates_003_MediaItemExtensionStates">^</a> <u>Object Extension States: MediaItem Extension States</u></h4></div><p><p>Setting and getting ExtStates for MediaItems works the same as for MediaTracks, using: <a href="US_Api_Functions.html#GetItemExtState">GetItemExtState</a>, <a href="US_Api_Functions.html#SetItemExtState">SetItemExtState</a><br />
-Let's set a new ExtState:</p>
-<blockquote>
-<p><strong><a href="US_Api_Functions.html#SetItemExtState">SetItemExtState</a></strong></p>
-</blockquote>
-<pre><code>                boolean retval = ultraschall.SetItemExtState(MediaItem item, string key, string value, boolean overwrite)
-                </code></pre>
-<blockquote>
-<p>This sets a new extstate to a certain MediaItem. This is simple to use. Just pass a MediaItem-object, a key and it's value to it.<br />
-The last parameter overwrite tells the function, if it shall overwrite an already existing extstate.<br />
-The returnvalue tells you, if setting the extstate was successful(true) or not(false).</p>
-</blockquote>
-<p>Getting the extstate is also real easy:</p>
-<blockquote>
-<p><strong><a href="US_Api_Functions.html#GetItemExtState">GetItemExtState</a></strong></p>
-</blockquote>
-<pre><code>                boolean retval, string value = ultraschall.GetItemExtState(MediaItem item, string key)
-                </code></pre>
-<blockquote>
-<p>This gets an existing extstate of a MediaItem. Just pass to it the MediaItem, whose extstate you want, as well as the key to the value.<br />
-It will return two retvals, of which the first one tells, if getting the extstate was successful or not, and the second holds the actual value as a string.</p>
-</blockquote>
-
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="ObjectExtStates_050_OtherExtensionStates"></a>
-<div style="font-size:100%"><h4><a href="#ObjectExtStates_050_OtherExtensionStates">^</a> <u>Object Extension States: Other Extension States</u></h4></div><p><p>Sometimes, getting/setting extstates for objects isn't enough. In fact, you want sometimes store extstates for objects who have a certain guid.<br />
-Even further: you want to store them not only within the current project, but globally.<br />
-For that, I added the functions: <a href="US_Api_Functions.html#GetGuidExtState">GetGuidExtState</a>, <a href="US_Api_Functions.html#SetGuidExtState">SetGuidExtState</a></p>
-<blockquote>
-<p><strong><a href="US_Api_Functions.html#SetGuidExtState">SetGuidExtState</a></strong></p>
-</blockquote>
-<pre><code>                integer retval = ultraschall.SetGuidExtState(string guid, string key, string value, integer savelocation, boolean overwrite, boolean persists)
-                </code></pre>
-<blockquote>
-<p>This sets an extstate for a specific guid(which can be obtained by many Reaper-objects). In addition to the guid, you pass the key and value to it.<br />
-The other parameters control where and how to store the extstate. Parameter savelocation decides, whether to store it globally or locally within the current project only. When storing it globally, it can be accessed from outside the project as well.<br />
-Parameter overwrite decides, whether to overwrite an already existing extstate or not.<br />
-Parameter persists controls, whether a global extstate shall be still available after restart of Reaper. It will be ignored, when the extstate is a local-project-one.</p>
-</blockquote>
-<p>Getting such an extstate for guids isn't that difficult at all:</p>
-<blockquote>
-<p><strong><a href="US_Api_Functions.html#GetGuidExtState">GetGuidExtState</a></strong></p>
-</blockquote>
-<pre><code>                integer retval, string value = ultraschall.GetGuidExtState(string guid, string key, integer savelocation)
-                </code></pre>
-<blockquote>
-<p>This gets an extstate associated with a certain guid. Pass to the function the guid and the key to get returned.<br />
-Parameter savelocation decides, whether to read the extstate from the global extstates or the local extstates. That means, you can have two guid-extstates of the same name, with one being global and one being project-local.</p>
-</blockquote>
-
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Background_Scripts_001_Introduction"></a>
 <div style="font-size:100%"><h4><a href="#Background_Scripts_001_Introduction">^</a> <u>Background Scripts: Introduction</u></h4></div><p><p>Some things in Reaper can't be solved easily without having something monitoring in the background. So to include some new features otherwise impossible, I added some background-scripts, that can be easily run using:</p>
 <blockquote>
@@ -2480,7 +2397,7 @@ It is a comma-separated string of the format: [section1],key1=,value,key4=,value
 <p><strong><a href="US_Api_Functions.html#EnumerateValuesByPattern">EnumerateValuesByPattern</a></strong></p>
 </blockquote>
 </blockquote>
-<pre><code>                   string value, string keyname = ultraschall.EnumerateValuesByPattern(pattern, section, id, ini_filename_with_path)</code></pre>
+<pre><code>                   string value, string keyname = ultraschall.EnumerateValuesByPattern(string pattern, string section, string id, string ini_filename_with_path)</code></pre>
 <blockquote>
 <blockquote>
 <p>Just like EnumerateKeysByPattern, but this enumerates through the values within a given section. It will return the value and it's corresponding keyname found.</p>
@@ -2490,11 +2407,11 @@ It is a comma-separated string of the format: [section1],key1=,value,key4=,value
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="ExtStateManagement_004_Ultraschall_Ini"></a>
 <div style="font-size:100%"><h4><a href="#ExtStateManagement_004_Ultraschall_Ini">^</a> <u>ExtState Management: Ultraschall.ini</u></h4></div><p><p>The Ultraschall-Podcasting-Extension itself makes use of it's own configuration-file, called ultraschall.ini, which is located in the resourcesfolder of Reaper.<br />
 This file can be used by you as well, even if it's mainly intended for an installed Ultraschall-installation. The Ultraschall-API has some functions to deal with the ultraschall.ini.</p>
-<p>You need to know, however: sectionnames must contain a leading signature, that is used purely by you, like MaxMiller<em>sectionname.<br />
-All signature variants of Ultraschall</em> or US_ or ULT_ (no matter if upper/lower/camelcase) as well as sections with no leading signature are reserved for us.<br />
+<p>You need to know, however: sectionnames must contain a leading signature, that is used purely by you, like MaxMiller_sectionname.<br />
+All signature variants of Ultraschall_ or US_ or ULT_ (no matter if upper/lower/camelcase) as well as sections with no leading signature are reserved for us.<br />
 That way, you don't risk naming conflicts with Ultraschall's own config-settings.<br />
 This is only for the ultraschall.ini-file, all other ini-files can be used by you the way you want.</p>
-<p>The functions themselves basically work, as the functions described in the chapter <a href="ExtStateManagement_003_IniFiles_Functions">ExtStateManagement<em>003</em>IniFiles_Functions</a>.</p>
+<p>The functions themselves basically work, as the functions described in the chapter <a href="ExtStateManagement_003_IniFiles_Functions">ExtState Management: Inifile-Functions</a>.</p>
 <ul>
 <li><a href="US_Api_Functions.html#GetUSExternalState">GetUSExternalState</a> - gets an external state from the ultraschall.ini</li>
 <li><a href="US_Api_Functions.html#SetUSExternalState">SetUSExternalState</a> - sets an external state to the ultraschall.ini</li>
@@ -2530,6 +2447,8 @@ You can choose, whether to overwrite it, if it already exists and if the state s
 <p>With this one, you can simply get this extstate again. Just pass to it the guid, the key and the savelocation(either global or in the project) and it returns a success-indicator-return value as well as the stored value itself.</p>
 </blockquote>
 <p>With these two functions as a base, I made variants for tracks and items.</p>
+<p>One important thing to mention: these extstates are bound to the project(if they aren't stored globally via parameter savelocation), so when copying an item with extstates into another project, the extstates will not be part of the new project.<br />
+I will look into that problem at some point.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="ExtStateManagement_006_TrackExtStates"></a>
 <div style="font-size:100%"><h4><a href="#ExtStateManagement_006_TrackExtStates">^</a> <u>ExtState Management: Track Extstates</u></h4></div><p><p>Let's store some extstates for tracks. For that, I added the functions: <a href="US_Api_Functions.html#GetTrackExtState">GetTrackExtState</a>, <a href="US_Api_Functions.html#SetTrackExtState">SetTrackExtState</a><br />
@@ -2836,7 +2755,7 @@ Dealing with them can sometimes be a pain in the butt, when using pure Lua. And 
 <p>This function prevents creating an undo-point in non-defer-scripts, which is sometimes desireable.</p>
 </blockquote>
 <blockquote>
-<p>**<a href="US_Api_Functions.html#MakeFunctionUndoable">MakeFunctionUndoable</a></p>
+<p><strong><a href="US_Api_Functions.html#MakeFunctionUndoable">MakeFunctionUndoable</a></strong></p>
 </blockquote>
 <pre><code>                    boolean retval, string current_UndoMessage, retvals_1, ..., retvals_2 
                                             = ultraschall.MakeFunctionUndoable(function Func, string UndoMessage, integer Flag, 
@@ -2962,4 +2881,4 @@ Though, after not having seen the lights of the days for months now, I'm not sur
 <p>I go to sleep now. I think, I deserved it :)</p>
 <p>Meo Mespotine, Leipzig(Germany) 30th of November 2018</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 83 chapters available</td></table><br><hr></div></body></html>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 79 chapters available</td></table><br><hr></div></body></html>

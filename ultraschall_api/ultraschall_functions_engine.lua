@@ -12503,7 +12503,7 @@ function ultraschall.EnumerateValuesByPattern(pattern, section, id, ini_filename
     SWS=2.8.8
     Lua=5.3
   </requires>
-  <functioncall>string value, string keyname = ultraschall.EnumerateValuesByPattern(pattern, section, id, ini_filename_with_path)</functioncall>
+  <functioncall>string value, string keyname = ultraschall.EnumerateValuesByPattern(string pattern, string section, string id, string ini_filename_with_path)</functioncall>
   <description>
     Returns the numberth value(and it's accompanying key) within a section in an ini-file, that fits the pattern, e.g. the third value containing "hawaii" in it.
     
@@ -12644,11 +12644,15 @@ function ultraschall.GetMarkerByScreenCoordinates(xmouseposition, retina)
       end
       local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, xmouseposition-temp,xmouseposition) 
       local ALABAMA=xmouseposition
-      if pos>=Ax and pos<=AAx then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n" end
+      if pos>=Ax and pos<=AAx then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name end
     end
   end
   return retstring--:match("(.-)%c.-%c")), tonumber(retstring:match(".-%c(.-)%c")), retstring:match(".-%c.-%c(.*)")
 end
+
+--AAAA=ultraschall.GetMarkerByScreenCoordinates(reaper.GetMousePosition(), false)
+--reaper.ClearConsole()
+--reaper.ShowConsoleMsg(string.gsub(AAAA,"\n","\n").."A")
 
 --B=ultraschall.GetMarkerByScreenCoordinates(reaper.GetMousePosition(), false)
 
@@ -12740,7 +12744,7 @@ function ultraschall.GetMarkerByTime(position, retina)
       local Aretval,ARetval2=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
       local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp,ARetval2+57) 
       local Bx=AAx-Ax
-      if Bx+pos>=position and pos<=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n" end
+      if Bx+pos>=position and pos<=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name end      
     end
   end
   return retstring
@@ -12748,7 +12752,6 @@ end
 
 --L=reaper.GetPlayPosition()
 --B=ultraschall.GetMarkerByTime(reaper.GetPlayPosition(), false)
---AAAA=GetMarkerByScreenCoordinates(reaper.GetMousePosition(), false)
 --Aretval,ARetval2=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath().."\\reaper.ini")
 --Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57,ARetval2+57+84) 
 
@@ -12853,7 +12856,7 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition, retina)
       end
       local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, xmouseposition-temp,xmouseposition) 
       if pos>=Ax and pos<=AAx then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n" 
-      elseif Ax>=pos and Ax<=rgnend then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n" 
+      elseif Ax>=pos and Ax<=rgnend then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name
       end
     end
   end
@@ -12861,7 +12864,8 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition, retina)
 end
 
 --A=ultraschall.GetRegionByScreenCoordinates(reaper.GetMousePosition(),false)
-
+--reaper.ClearConsole()
+--reaper.ShowConsoleMsg(A)
 function ultraschall.GetRegionByTime(position, retina)
 --returns a string with the marker(s) at given timeline-position. No Regions!
 --string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2"
@@ -12946,14 +12950,15 @@ function ultraschall.GetRegionByTime(position, retina)
       local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp,ARetval2+57) 
       local Bx=AAx-Ax
       if Bx+pos>=position and pos<=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n"
-      elseif pos<=position and rgnend>=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n" 
+      elseif pos<=position and rgnend>=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name
       end
     end
   end
   return retstring
 end
 
---A=ultraschall.GetRegionByTime(reaper.GetPlayPosition(), false)
+--A=ultraschall.GetRegionByTime(73, false)
+--reaper.ShowConsoleMsg(A)
 
 function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition, retina)
 --returns a string with the marker(s) at given screen-x-position. No Regions!
@@ -13033,6 +13038,8 @@ function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition, retina
 end
 
 --A=ultraschall.GetTimesignaturesByScreenCoordinates(reaper.GetMousePosition(),false)
+--reaper.ClearConsole()
+--reaper.ShowConsoleMsg(A.."A")
 
 function ultraschall.GetTimeSignaturesByTime(position, retina)
 --returns a string with the marker(s) at given position. No Regions!
@@ -13112,7 +13119,8 @@ function ultraschall.GetTimeSignaturesByTime(position, retina)
   return retstring
 end
 
---A=ultraschall.GetTimeSignaturesByTime(reaper.GetPlayPosition(),false)
+--A=ultraschall.GetTimeSignaturesByTime(reaper.GetCursorPosition(),false)
+--reaper.ShowConsoleMsg(A.."A")
 --A,AA=GetRegionByTime(16.269,false)
 
 
@@ -24755,7 +24763,7 @@ function ultraschall.SetTracksSelected(trackstring, reset)
   <tags>trackmanagement, tracks, get, selected</tags>
 </US_DocBloc>
 ]]
-  if type(reset)~="boolean" then ultraschall.AddErrorMessage("SetTracksSelected", "reset", "must be boolan", -1) return -1 end
+  if type(reset)~="boolean" then ultraschall.AddErrorMessage("SetTracksSelected", "reset", "must be boolean", -1) return -1 end
   local L,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
   --reaper.MB(trackstring,"",0)
   if trackstring==-1 or trackstring=="" then ultraschall.AddErrorMessage("SetTracksSelected", "trackstring", "must be a valid trackstring", -2) return -1 end
@@ -35325,7 +35333,7 @@ function ultraschall.SetItemExtState(item, key, value, overwrite)
     boolean overwrite - true, overwrite existing extstate; false, don't overwrite existing extstate
   </parameters>
   <retvals>
-    boolan retval - true, if setting extstate was successful; false, if setting extstate was unsuccessful
+    boolean retval - true, if setting extstate was successful; false, if setting extstate was unsuccessful
   </retvals>
   <chapter_context>
     Metadata Management
@@ -35366,7 +35374,7 @@ function ultraschall.GetItemExtState(item, key)
     string key - the key of the extstate
   </parameters>
   <retvals>
-    boolan retval - true, if getting extstate was successful; false, if getting extstate was unsuccessful
+    boolean retval - true, if getting extstate was successful; false, if getting extstate was unsuccessful
     string value - the value of this extstate; nil if not existing
   </retvals>
   <chapter_context>
@@ -35409,7 +35417,7 @@ function ultraschall.SetTrackExtState(track, key, value, overwrite)
     boolean overwrite - true, overwrite existing extstate; false, don't overwrite existing extstate
   </parameters>
   <retvals>
-    boolan retval - true, if setting extstate was successful; false, if setting extstate was unsuccessful
+    boolean retval - true, if setting extstate was successful; false, if setting extstate was unsuccessful
   </retvals>
   <chapter_context>
     Metadata Management
@@ -35450,7 +35458,7 @@ function ultraschall.GetTrackExtState(track, key)
     string key - the key of the extstate
   </parameters>
   <retvals>
-    boolan retval - true, if getting extstate was successful; false, if getting extstate was unsuccessful
+    boolean retval - true, if getting extstate was successful; false, if getting extstate was unsuccessful
     string value - the value of this extstate; nil if not existing
   </retvals>
   <chapter_context>
@@ -35462,7 +35470,7 @@ function ultraschall.GetTrackExtState(track, key)
   <tags>mediaitemmanagement, get, extstate, track, guid, key, value, metadata</tags>
 </US_DocBloc>
 --]]
-    if reaper.ValidatePtr2(0, item, "MediaTrack*")==false then ultraschall.AddErrorMessage("GetTrackExtState","track", "Must be a valid MediaTrack!", -1) return false end
+    if reaper.ValidatePtr2(0, track, "MediaTrack*")==false then ultraschall.AddErrorMessage("GetTrackExtState","track", "Must be a valid MediaTrack!", -1) return false end
     if type(key)~="string" then ultraschall.AddErrorMessage("GetTrackExtState","key", "Must be a string!", -2) return false end
     local guidString = reaper.GetTrackGUID(track)
     local retval, retval2 = ultraschall.GetGuidExtState("MediaTrack-"..guidString, key, 0)
