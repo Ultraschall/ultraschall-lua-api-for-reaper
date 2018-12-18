@@ -50,7 +50,7 @@ function ultraschall.SplitStringAtNULLBytes(splitstring)
   <slug>SplitStringAtNULLBytes</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.77
+    Reaper=5.941
     Lua=5.3
   </requires>
   <functioncall>integer count, array split_strings = ultraschall.SplitStringAtNULLBytes(string splitstring)</functioncall>

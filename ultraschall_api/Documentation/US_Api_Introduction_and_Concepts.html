@@ -39,7 +39,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 -  "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018 - Build: 25377</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.8 - "Mike Oldfield - Taurus II" - 15th of May 2019 - Build: 26068</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -152,21 +152,24 @@ Ultraschall API functions
 <li><p>it's documented with this documentation. :D</p></li>
 </ul>
 <p>Happy coding and let's see, what you can do with it :D</p>
-<p>Meo Mespotine (mespotine.de)</p>
+<p>Meo Mespotine (mespotine.de) (api.ultraschall.fm)</p>
 <p>For more information about Ultraschall itself, see <a href="http://www.ultraschall.fm">ultraschall.fm</a> and if you want to support us, see <a href="http://www.ultraschall.fm/danke">ultraschall.fm/danke</a> for donating to us.</p>
 <p>PS: In this documentation, I assume you have some basic knowledge in Lua and in using Reaper's own API-functions. Explaining both of these is beyond the scope of this doc.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_002_How_to_Use"></a>
 <div style="font-size:100%"><h4><a href="#Introduction_002_How_to_Use">^</a> <u>How to use the Ultraschall API</u></h4></div><p><p>Using the Ultraschall-API is quite easy.</p>
 <p>First make sure, you use the right versions of Reaper and SWS: <a href="https://www.reaper.fm">Reaper 5.95</a>, <a href="https://www.sws-extension.org">SWS 2.9.7</a> and <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">Julian Sader's plugin 0.951.</a> You can download them at <a href="http://www.reaper.fm">reaper.fm</a> and <a href="http://www.sws-extension.org">sws-extension.org</a> respectively. Julian Sader's plugin can be installed using ReaPack or gotten from <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">his own github-site</a></p>
-<p>To install the Ultraschall-API: <br>
-1. Just download the zip-file of the current version from <a href="http://api.ultraschall.fm">api.ultraschall.fm</a>. <br>
-2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu &quot;Options -&gt; Show REAPER resource path in explorer/finder...&quot;.<br />
-The folder UserPlugins should contain the folder ultraschall<em>api and the files ultraschall</em>api<em>readme.txt and ultraschall</em>api.lua after this step. <br>
-3. Now create a new script, by opening the Actions-window (Menu: Actions -&gt; Show action list) and clicking the New-button next to &quot;ReaScript:&quot;, give it a name and hit save.<br />
-<br>
+<p>To install the Ultraschall-API:</p>
+<ol>
+<li>Just download the zip-file of the current version from <a href="http://api.ultraschall.fm">api.ultraschall.fm</a>.<br />
+</li>
+<li>Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu &quot;Options -&gt; Show REAPER resource path in explorer/finder...&quot;.<br />
+The folder UserPlugins should contain the folder ultraschall<em>api and the files ultraschall</em>api<em>readme.txt and ultraschall</em>api.lua after this step.<br />
+</li>
+<li><p>Now create a new script, by opening the Actions-window (Menu: Actions -&gt; Show action list) and clicking the New-button next to &quot;ReaScript:&quot;, give it a name and hit save.<br />
 Include the following line in your script at the beginning:</p>
-<pre><code>        dofile(reaper.GetResourcePath()..&quot;/UserPlugins/ultraschall_api.lua&quot;)</code></pre>
+<pre><code>    dofile(reaper.GetResourcePath()..&quot;/UserPlugins/ultraschall_api.lua&quot;)</code></pre></li>
+</ol>
 <p>Now you can program with the Ultraschall-API. Just add the functions AFTER the dofile-line.</p>
 <ol>
 <li><p>To test, if it's successfully installed, add</p>
@@ -2881,4 +2884,4 @@ Though, after not having seen the lights of the days for months now, I'm not sur
 <p>I go to sleep now. I think, I deserved it :)</p>
 <p>Meo Mespotine, Leipzig(Germany) 30th of November 2018</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.7 - 79 chapters available</td></table><br><hr></div></body></html>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.8 - 79 chapters available</td></table><br><hr></div></body></html>

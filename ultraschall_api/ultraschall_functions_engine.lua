@@ -842,7 +842,7 @@ function ultraschall.GetApiVersion()
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>string version, string date, string beta = ultraschall.GetApiVersion()</functioncall>
+  <functioncall>string version, string date, string beta, number versionnumber, string tagline = ultraschall.GetApiVersion()</functioncall>
   <description>
     returns the version, release-date and if it's a beta-version
   </description>
@@ -851,6 +851,7 @@ function ultraschall.GetApiVersion()
     string date - the release date of this api-version
     string beta - if it's a beta version, this is the beta-version-number
     number versionnumber - a number, that you can use for comparisons like, "if requestedversion>versionnumber then"
+    string tagline - the tagline of the current release
   </retvals>
   <chapter_context>
     API-Helper functions
@@ -860,7 +861,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00 \"John Cage - 4:33\"","30th of July 2018", "beta 2.7", 400.027
+  return "4.00","15th of May 2019", "Beta 2.8", 400.028,  "\"Mike Oldfield - Taurus II\""
 end
 
 
@@ -35712,6 +35713,7 @@ end
 
 function progresscounter(state)
   A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine_beta.lua")
   A=A.."function ultraschall."
   A=A:match("function ultraschall%..*")
 --  reaper.MB(tostring(A:sub(1,400)),"",0)
