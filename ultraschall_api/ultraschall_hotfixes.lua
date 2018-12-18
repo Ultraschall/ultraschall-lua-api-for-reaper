@@ -412,3 +412,34 @@ function ultraschall.GetRegionByTime(position, retina)
   return retstring
 end
 
+function ultraschall.GetApiVersion()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetApiVersion</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string version, string date, string beta, number versionnumber, string tagline = ultraschall.GetApiVersion()</functioncall>
+  <description>
+    returns the version, release-date and if it's a beta-version
+  </description>
+  <retvals>
+    string version - the current Api-version
+    string date - the release date of this api-version
+    string beta - if it's a beta version, this is the beta-version-number
+    number versionnumber - a number, that you can use for comparisons like, "if requestedversion>versionnumber then"
+    string tagline - the tagline of the current release
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>version,versionmanagement</tags>
+</US_DocBloc>
+--]]
+  return "4.00","15th of December 2018", "Beta 2.7", 400.027, "\"Frank Zappa - The Return of the Son of Monster Magnet\""
+end
+
