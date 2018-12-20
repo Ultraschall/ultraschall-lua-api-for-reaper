@@ -4,11 +4,11 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ##ReaScript API as of Reaper 5.962
+            ##ReaScript API as of Reaper 5.965
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
-            ReaScripts can be written in EEL, a specialized language that is also used to write JSFX; Lua, a popular scripting language; or Python, another scripting language. EEL and Lua are embedded within REAPER and require no additional downloads or settings. Python must be downloaded and installed separately, and enabled in REAPER preferences.
+            ReaScripts can be written in EEL2, a specialized language that is also used to write JSFX; Lua, a popular scripting language; or Python, another scripting language. EEL and Lua are embedded within REAPER and require no additional downloads or settings. Python must be downloaded and installed separately, and enabled in REAPER preferences.
 
             A script named "__startup.lua|.eel" will be started automatically by Reaper at startup. You can have both; Reaper will run __startup.eel first, __startup.lua second.
             This __startup-script doesn't need to be registered into the actionlist of Reaper; it's pure existence in the scripts-folder of the resources-folder of Reaper is sufficient for it to be run.
@@ -122,6 +122,8 @@
         <title>2.2 EEL Description</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             ###ReaScript/EEL API
+            
+            For information on the EEL2 language, please see the [EEL2 User Guide](https://www.cockos.com/EEL2/)
 
             ReaScript/EEL scripts can call API functions using functionname().
 
@@ -7726,14 +7728,14 @@
         <functioncall prog_lang="lua">integer retval, optional number divisionIn, optional number swingmodeIn, optional number swingamtIn = reaper.GetSetProjectGrid(ReaProject project, boolean set)</functioncall>
         <functioncall prog_lang="python">(Int retval, ReaProject project, Boolean set, Float divisionInOutOptional, Int swingmodeInOutOptional, Float swingamtInOutOptional) = RPR_GetSetProjectGrid(project, set, divisionInOutOptional, swingmodeInOutOptional, swingamtInOutOptional)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.965
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            Get or set the arrange view grid division. 0.25=quarter note, 1.0/3.0=half note triplet, etc. swingmode can be 1 for swing enabled, swingamt is -1..1. Returns grid configuration flags
+            Get or set the arrange view grid division. 0.25=quarter note, 1.0/3.0=half note triplet, etc. swingmode can be 1 for swing enabled, swingamt is -1..1. swingmode can be 3 for measure-grid. Returns grid configuration flags<br><br>
         </description>
         <retvals>
-             retval - 
+            retval - 
             divisionIn - 
             swingmodeIn - 
             swingamtIn - 
@@ -8650,20 +8652,20 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetTrackMIDILyrics</slug>
         <title>GetTrackMIDILyrics</title>
-        <functioncall prog_lang="cpp">bool GetTrackMIDILyrics(MediaTrack* track, int flag, char* bufWant16384, int* bufWant16384_sz)</functioncall>
-        <functioncall prog_lang="eel">bool GetTrackMIDILyrics(MediaTrack track, int flag, #bufWant16384)</functioncall>
-        <functioncall prog_lang="lua">boolean retval, string bufWant16384 = reaper.GetTrackMIDILyrics(MediaTrack track, integer flag, string bufWant16384)</functioncall>
-        <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int flag, String bufWant16384, Int bufWant16384_sz) = RPR_GetTrackMIDILyrics(track, flag, bufWant16384, bufWant16384_sz)</functioncall>
+        <functioncall prog_lang="cpp">bool GetTrackMIDILyrics(MediaTrack* track, int flag, char* bufWantNeedBig, int* bufWantNeedBig_sz)</functioncall>
+        <functioncall prog_lang="eel">bool GetTrackMIDILyrics(MediaTrack track, int flag, #bufWant)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string bufWant = reaper.GetTrackMIDILyrics(MediaTrack track, integer flag, string bufWant)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, MediaTrack track, Int flag, String bufWantNeedBig, Int bufWantNeedBig_sz) = RPR_GetTrackMIDILyrics(track, flag, bufWantNeedBig, bufWantNeedBig_sz)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.965
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Get all MIDI lyrics on the track. Lyrics will be returned as one string with tabs between each word. flag&amp;1: double tabs at the end of each measure and triple tabs when skipping measures, flag&amp;2: each lyric is preceded by its beat position in the project (example with flag=2: "1.1.2\tLyric for measure 1 beat 2\t.1.1\tLyric for measure 2 beat 1   "). See [SetTrackMIDILyrics](#SetTrackMIDILyrics)
         </description>
         <retvals>
-             retval - 
-            bufWant16384 - 
+            retval - 
+            bufWantNeedBig_sz - 
         </retvals>
         <parameters>
             track - 
@@ -27938,7 +27940,7 @@
             Reaper=5.62
         </requires>
         <description indent="default">
-            Retreives the dimensions of image (representing a filename: index number) into w and h. Sets these values to 0 if an image failed loading (or if the filename index is invalid).
+            Retrieves the dimensions of image (representing a filename: index number) into w and h. Sets these values to 0 if an image failed loading (or if the filename index is invalid).
         </description>
         <parameters>
             image - 
@@ -30320,7 +30322,7 @@
             
             Some multibyte-characters, like home, up, down, left, right, f1 .. f12, pgup, pgdn, ins, del are returned as values above 255, but some other characters, like €,  
             are "real"-multibyte-characters(Unicode, etc).  
-            To retreive them, you need to run gfx.getchar() twice per defer-cycle and return their retvals into two variables:  
+            To retrieve them, you need to run gfx.getchar() twice per defer-cycle and return their retvals into two variables:  
             Example:
             
                         A=gfx.getchar() -- first byte
@@ -35724,6 +35726,32 @@
               2) one file should #define REAPERAPI_IMPLEMENT before including this file.
               3) the plug-in should call REAPERAPI_LoadAPI(rec->GetFunc) from REAPER_PLUGIN_ENTRYPOINT
                  and check the return value for errors (REAPERAPI_LoadAPI will return 0 on success).
+        </description>
+        <retvals>
+            int - 0, if a function exists
+        </retvals>
+        <parameters>
+            *getAPI - 
+            * -
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document>reaper_plugin.h</source_document>
+        <chapter_context>
+            Additional C++ Functions
+            reaper_plugin_functions.h
+        </chapter_context>
+        <tags>cpp, check, function, plugin, api</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
+        <slug>realloc_cmd_ptr</slug>
+        <title>realloc_cmd_ptr</title>
+        <functioncall prog_lang="cpp">bool (*realloc_cmd_ptr)(char** ptr, int* ptr_size, int new_size)</functioncall>
+        <requires>
+            Reaper=5.965
+        </requires>
+        <description indent="default">
+             special use for NeedBig script API functions - reallocates a NeedBig buffer and updates its size, returns false on error
         </description>
         <retvals>
             int - 0, if a function exists
