@@ -53,14 +53,130 @@ ultraschall.StartTime=os.clock()
 ultraschall.ErrorMessage={}
 
 -- HoHoHo
+ultraschall.snowB=os.date("*t")
+
+ultraschall.snowtodaysdate=ultraschall.snowB.day.."."..ultraschall.snowB.month
+
 ultraschall.temp,ultraschall.tempfilename=reaper.get_action_context()
-if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and os.date():match(".....")=="24.11" then
-  oldgfx=gfx.update
+if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and 
+    (ultraschall.snowtodaysdate=="24.12" or 
+     ultraschall.snowtodaysdate=="25.12" or 
+     ultraschall.snowtodaysdate=="26.12") then
+  ultraschall.snowoldgfx=gfx.update
   function gfx.update()
     if GUI.US_snowmain~=nil then GUI.US_snowmain() end
-    oldgfx()
+    ultraschall.snowoldgfx()
   end      
-  dofile(script_path .. "test-snowflakes3.lua")
+--gfx.init()
+
+-- initial values
+ultraschall.snowspeed=1.3       -- the falling speed of the snowflakes
+ultraschall.snowsnowfactor=5000 -- the number of snowflakes
+ultraschall.snowwindfactor=3    -- the amount the wind influences the snow; wind has an effect sideways and on the falling-speed. 
+                                -- Don't set too high(>100), will look ugly otherwise. Rather experimental, than a real wind simulation...
+
+-- let's create some basic shapes to blit as snowflakes for:
+-- close snowflakes
+gfx.setimgdim(200,1,1)
+gfx.dest=200
+gfx.set(0.5,0.5,0.5)
+gfx.rect(0,0,1,1)
+-- medium snowflakes
+gfx.setimgdim(400,1,1)
+gfx.dest=400
+gfx.set(0.3,0.3,0.3)
+gfx.rect(0,0,1,1)
+-- small and far snowflakes
+gfx.setimgdim(401,1,1)
+gfx.dest=401
+gfx.set(0.2,0.2,0.2)
+gfx.rect(0,0,1,1)
+
+-- set framebuffer to the shown one
+gfx.dest=-1
+
+-- Let's create an initial set of snowflakes
+ultraschall.snowSnowflakes={}
+for a=1, ultraschall.snowsnowfactor do
+  -- random x-position
+  -- random y-position
+  -- speed(which I also use as size-factor) and
+  -- another speed-factor(useful? Don't know...)
+  if gfx.w==0 then ultraschall.snowwidth=1000 else ultraschall.snowwidth=gfx.w end
+  if gfx.h==0 then ultraschall.snowheight=500 else ultraschall.snowheight=gfx.h end
+  ultraschall.snowSnowflakes[a]={math.random(1,ultraschall.snowwidth),math.random(-1500,0),math.random()*2,(math.random()/4)*math.random(-1,1)}
+  if ultraschall.snowSnowflakes[a][3]<0.4 then ultraschall.snowSnowflakes[a][3]=ultraschall.snowSnowflakes[a][3]*2 end
+end
+  
+
+-- Let's create a table, that is meant to influence the fall of the snowflakes, as wind would do.
+-- For laziness, I simply choose a sinus-wave to create it
+-- this could be improved much much more...
+  ultraschall.snowwind=-3.6  
+  ultraschall.snowWindtable={}
+  for windcounter=0, ultraschall.snowsnowfactor do
+   ultraschall.snowwind=(ultraschall.snowwind+ultraschall.snowwindfactor*.001)--/(speed*2)
+   if ultraschall.snowwind>3.6 then ultraschall.snowwind=-3.6 end
+   ultraschall.snowWindtable[windcounter]=math.sin(windcounter)-(math.random()/2)*ultraschall.snowwindfactor
+  end
+
+ultraschall.snowwindoffset=1
+
+if GUI==nil then GUI={} end
+function GUI.US_snowmain()
+  -- set sky to gray  
+  gfx.clear=0--reaper.ColorToNative(15,15,15)
+  local RUN=0
+  local RUN_STOP=0
+  
+  for i=1, ultraschall.snowsnowfactor do  
+    -- let's do the calculation of the falling of the snow
+    gfx.x=ultraschall.snowSnowflakes[i][1]
+    gfx.y=ultraschall.snowSnowflakes[i][2]+1
+
+    -- if a snowflake hasn't left the bottom of the window, do
+    if ultraschall.snowSnowflakes[i][2]<gfx.h then
+      local RUN=RUN+1
+      ultraschall.snowwindoffset=ultraschall.snowwindoffset+1
+      if ultraschall.snowwindoffset>ultraschall.snowsnowfactor then ultraschall.snowwindoffset=1 end
+      
+      -- calculate the movement toward the bottom, influenced by speed and wind
+      ultraschall.snowTemp=ultraschall.snowSnowflakes[i][2]+(ultraschall.snowSnowflakes[i][3]*ultraschall.snowspeed)-(ultraschall.snowWindtable[ultraschall.snowwindoffset]/4*ultraschall.snowSnowflakes[i][4])
+      if ultraschall.snowTemp>=ultraschall.snowSnowflakes[i][2] then ultraschall.snowSnowflakes[i][2]=ultraschall.snowTemp end -- prevent backwards flying snow
+      -- calculate the movement toward left/right, influenced by wind
+      ultraschall.snowSnowflakes[i][1]=ultraschall.snowSnowflakes[i][1]+(ultraschall.snowSnowflakes[i][4]+ultraschall.snowWindtable[ultraschall.snowwindoffset]/4*ultraschall.snowSnowflakes[i][4])
+      
+      
+      -- let's blit the snowflakes with their different sizes and colors
+      
+      if ultraschall.snowSnowflakes[i][3]>0.4 then 
+        -- big snowflakes, close and bright
+        gfx.blit(200,1.1*ultraschall.snowSnowflakes[i][3],0)      
+      elseif ultraschall.snowSnowflakes[i][3]<0.3 and ultraschall.snowSnowflakes[i][3]>0.1 then
+        -- medium snowflakes, normal and darker
+        gfx.blit(401,1.1,0)      
+      else
+        -- small snowflakes, dark
+        gfx.blit(400,0.7,0)
+      end
+
+    elseif gfx.h~=0 then
+      local RUN_STOP=RUN_STOP+1 -- just a debug-variable to see, how many are newly created
+
+      -- When Snowflake has left the bottom of the window, create a new one
+      -- this is like the initial creation of snowflakes, but unlike there, we make the y-position 0 here
+      if gfx.w==0 then ultraschall.snowwidth=1000 else ultraschall.snowwidth=gfx.w end
+      if gfx.h==0 then ultraschall.snowheight=3000 else ultraschall.snowheight=gfx.h end
+      ultraschall.snowSnowflakes[i]={math.random(1,ultraschall.snowwidth),0,math.random()*2,(math.random()/2)*math.random(-1,1)}
+    end
+  end
+
+  -- update gfx and start all over again
+--  gfx.update()
+--  if gfx.getchar()~=-1 then reaper.defer(GUI.US_snowmain) end
+end
+
+GUI.US_snowmain()
   if GUI.US_snowmain~=nil then GUI.US_snowmain() end
 end
 
@@ -28310,6 +28426,7 @@ function ultraschall.GetTrackHWOut(tracknumber,idx)
   if tracknumber==0 then Track=reaper.GetMasterTrack(0) end
   local A,TrackStateChunk=ultraschall.GetTrackStateChunk(Track,"",true)
   local TrackStateChunkArray={}
+  local retstring
   local count=1
   while TrackStateChunk:match("HWOUT")=="HWOUT" do
     if count==idx then retstring=TrackStateChunk:match("(HWOUT.-)%c") end
@@ -28327,7 +28444,7 @@ function ultraschall.GetTrackHWOut(tracknumber,idx)
            tonumber(retstring:match(" .- .- .- .- .- .- (.-) ")),
            tonumber(retstring:match(" .- .- .- .- .- .- .- (.-):U ")),
            tonumber(retstring:match(" .- .- .- .- .- .- .- .- (.-) "))
-  else return -1
+  else ultraschall.AddErrorMessage("GetTrackHWOut", "tracknumber", "no HWOuts available", -4) return -1
   end
 end
 
@@ -28364,7 +28481,7 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber,idx)
     integer mono_stereo - Mono(1), Stereo(0)
     integer phase - Phase of this send on(1) or off(0)
     integer chan_src - Audio-Channel Source
-    - -1 - None
+    -                                        -1 - None
     -                                        0 - Stereo Source 1/2
     -                                        1 - Stereo Source 2/3
     -                                        2 - Stereo Source 3/4
@@ -28375,8 +28492,8 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber,idx)
     -                                        0 - Stereo 1/2
     -                                        1 - Stereo 2/3
     -                                        2 - Stereo 3/4
-    - ...
-    - 1024 - Mono Channel 1
+    -                                        ...
+    -                                        1024 - Mono Channel 1
     -                                        1025 - Mono Channel 2
     number unknown - unknown, default is -1
     integer midichanflag -0 - All Midi Tracks
@@ -28384,9 +28501,8 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber,idx)
     -                                        32 - send to Midi Channel 1
     -                                        64 - send to MIDI Channel 2
     -                                        96 - send to MIDI Channel 3
-    - ...
+    -                                        ...
     -                                        512 - send to MIDI Channel 16
-    
     -                                        4194304 - send to MIDI-Bus B1
     -                                        send to MIDI-Bus B1 + send to MIDI Channel nr = MIDIBus B1 1/nr:
     -                                        16384 - BusB1
@@ -28394,7 +28510,7 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber,idx)
     -                                        32768 - BusB2
     -                                        BusB2+1 to 16 - BusB2-Channel 1 to 16
     -                                        49152 - BusB3
-    - ...
+    -                                        ...
     -                                        BusB3+1 to 16 - BusB3-Channel 1 to 16
     -                                        262144 - BusB16
     -                                        BusB16+1 to 16 - BusB16-Channel 1 to 16
@@ -28451,7 +28567,8 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber,idx)
   end
 end
 
---A,B,C,D,E,F,G,H,I=ultraschall.GetTrackAUXSendReceives(1,1)
+--A,B,C,D,E,F,G,H,I=ultraschall.GetTrackAUXSendReceives(0,1)
+
 
 function ultraschall.CountTrackHWOuts(tracknumber)
 --[[
@@ -28571,7 +28688,7 @@ function ultraschall.AddTrackHWOut(tracknumber, a, b, c, d, e, f, g, h, i, undo)
     integer mute - mute, 1-on, 0-off, as set in the Destination "Controls for Track"-dialogue
     integer phase - Phase, 1-on, 0-off, as set in the Destination "Controls for Track"-dialogue
     integer source - source, as set in the Destination "Controls for Track"-dialogue
-    -      -1 - None
+    -                                    -1 - None
     -                                     0 - Stereo Source 1/2
     -                                     4 - Stereo Source 5/6
     -                                    12 - New Channels On Sending Track Stereo Source Channel 13/14
@@ -28676,7 +28793,7 @@ function ultraschall.AddTrackAUXSendReceives(tracknumber, a, b, c, d, e, f, g, h
     integer mono_stereo - Mono(1), Stereo(0)
     integer phase - Phase of this send on(1) or off(0)
     integer chan_src - Audio-Channel Source
-    - -1 - None
+    -                                       -1 - None
     -                                        0 - Stereo Source 1/2
     -                                        1 - Stereo Source 2/3
     -                                        2 - Stereo Source 3/4
@@ -28687,8 +28804,8 @@ function ultraschall.AddTrackAUXSendReceives(tracknumber, a, b, c, d, e, f, g, h
     -                                        0 - Stereo 1/2
     -                                        1 - Stereo 2/3
     -                                        2 - Stereo 3/4
-    - ...
-    - 1024 - Mono Channel 1
+    -                                        ...
+    -                                        1024 - Mono Channel 1
     -                                        1025 - Mono Channel 2
     number unknown - unknown, default is -1
     integer midichanflag -0 - All Midi Tracks
@@ -28696,9 +28813,8 @@ function ultraschall.AddTrackAUXSendReceives(tracknumber, a, b, c, d, e, f, g, h
     -                                        32 - send to Midi Channel 1
     -                                        64 - send to MIDI Channel 2
     -                                        96 - send to MIDI Channel 3
-    - ...
-    -                                        512 - send to MIDI Channel 16
-    
+    -                                        ...
+    -                                        512 - send to MIDI Channel 16    
     -                                        4194304 - send to MIDI-Bus B1
     -                                        send to MIDI-Bus B1 + send to MIDI Channel nr = MIDIBus B1 1/nr:
     -                                        16384 - BusB1
@@ -28706,7 +28822,7 @@ function ultraschall.AddTrackAUXSendReceives(tracknumber, a, b, c, d, e, f, g, h
     -                                        32768 - BusB2
     -                                        BusB2+1 to 16 - BusB2-Channel 1 to 16
     -                                        49152 - BusB3
-    - ...
+    -                                        ...
     -                                        BusB3+1 to 16 - BusB3-Channel 1 to 16
     -                                        262144 - BusB16
     -                                        BusB16+1 to 16 - BusB16-Channel 1 to 16
@@ -28841,7 +28957,7 @@ function ultraschall.DeleteTrackHWOut(tracknumber,idx,undo)
   return reaper.SetTrackStateChunk(Track, finalstring, undo)
 end
 
---ultraschall.DeleteTrackHWOut(1,1,false)
+--L=ultraschall.DeleteTrackHWOut(0,1,false)
 
 function ultraschall.DeleteTrackAUXSendReceives(tracknumber,idx,undo)
 --[[
@@ -28934,7 +29050,7 @@ function ultraschall.SetTrackHWOut(tracknumber, idx, a, b, c, d, e, f, g, h, i, 
     integer mute - mute, 1-on, 0-off, as set in the Destination "Controls for Track"-dialogue
     integer phase - Phase, 1-on, 0-off, as set in the Destination "Controls for Track"-dialogue
     integer source - source, as set in the Destination "Controls for Track"-dialogue
-    -      -1 - None
+    -                                    -1 - None
     -                                     0 - Stereo Source 1/2
     -                                     4 - Stereo Source 5/6
     -                                    12 - New Channels On Sending Track Stereo Source Channel 13/14
@@ -29029,7 +29145,7 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, a, b, c, d, e, f,
   <slug>SetTrackAUXSendReceives</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.95
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetTrackAUXSendReceives(integer tracknumber, integer idx, integer recv_tracknumber, integer post_pre_fader, number volume, number pan, integer mute, integer mono_stereo, integer phase, integer chan_src, integer snd_chan, number unknown, integer midichanflag, integer automation, boolean undo)</functioncall>
@@ -29052,7 +29168,7 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, a, b, c, d, e, f,
     integer mono_stereo - Mono(1), Stereo(0)
     integer phase - Phase of this send on(1) or off(0)
     integer chan_src - Audio-Channel Source
-    - -1 - None
+    -                                        -1 - None
     -                                        0 - Stereo Source 1/2
     -                                        1 - Stereo Source 2/3
     -                                        2 - Stereo Source 3/4
@@ -29063,8 +29179,8 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, a, b, c, d, e, f,
     -                                        0 - Stereo 1/2
     -                                        1 - Stereo 2/3
     -                                        2 - Stereo 3/4
-    - ...
-    - 1024 - Mono Channel 1
+    -                                        ...
+    -                                        1024 - Mono Channel 1
     -                                        1025 - Mono Channel 2
     number unknown - unknown, default is -1
     integer midichanflag -0 - All Midi Tracks
@@ -29072,9 +29188,8 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, a, b, c, d, e, f,
     -                                        32 - send to Midi Channel 1
     -                                        64 - send to MIDI Channel 2
     -                                        96 - send to MIDI Channel 3
-    - ...
+    -                                        ...
     -                                        512 - send to MIDI Channel 16
-    
     -                                        4194304 - send to MIDI-Bus B1
     -                                        send to MIDI-Bus B1 + send to MIDI Channel nr = MIDIBus B1 1/nr:
     -                                        16384 - BusB1
@@ -29082,7 +29197,7 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, a, b, c, d, e, f,
     -                                        32768 - BusB2
     -                                        BusB2+1 to 16 - BusB2-Channel 1 to 16
     -                                        49152 - BusB3
-    - ...
+    -                                        ...
     -                                        BusB3+1 to 16 - BusB3-Channel 1 to 16
     -                                        262144 - BusB16
     -                                        BusB16+1 to 16 - BusB16-Channel 1 to 16
@@ -38441,10 +38556,10 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
   <slug>RenderProject_RenderCFG</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.77
+    Reaper=5.963
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg)</functioncall>
+  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg)</functioncall>
   <description>
     Renders a project, using a specific render-cfg-string.
     To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
@@ -38454,7 +38569,7 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
   </description>
   <retvals>
     integer retval - -1, in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
-    integer count - the number of rendered files
+    integer renderfilecount - the number of rendered files
     array MediaItemStateChunkArray - the MediaItemStateChunks of all rendered files, with the one in entry 1 being the rendered master-track(when rendering stems)
     array Filearray - the filenames of the rendered files, including their paths. The filename in entry 1 is the one of the mastered track(when rendering stems)
   </retvals>
@@ -39257,10 +39372,10 @@ function ultraschall.RenderProjectRegions_RenderCFG(projectfilename_with_path, r
   <slug>RenderProjectRegions_RenderCFG</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.77
+    Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.RenderProjectRegions_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg)</functioncall>
+  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProjectRegions_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg)</functioncall>
   <description>
     Renders a region of a project, using a specific render-cfg-string.
     To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
@@ -39270,7 +39385,7 @@ function ultraschall.RenderProjectRegions_RenderCFG(projectfilename_with_path, r
   </description>
   <retvals>
     integer retval - -1, in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
-    integer count - the number of rendered files
+    integer renderfilecount - the number of rendered files
     array MediaItemStateChunkArray - the MediaItemStateChunks of all rendered files, with the one in entry 1 being the rendered master-track(when rendering stems)
     array Filearray - the filenames of the rendered files, including their paths. The filename in entry 1 is the one of the mastered track(when rendering stems)
   </retvals>
@@ -45557,4 +45672,7 @@ end
 --L,L1,L2,L3,L4=ultraschall.RenderProjectRegions_RenderCFG(nil, "c:\\Reaper-Internal-Docs.mp3", 1, false, false, true, true,A)
 --L=reaper.IsProjectDirty(0)
 
+--outputchannel, post_pre_fader, volume, pan, mute, phase, source, unknown, automationmode = ultraschall.GetTrackHWOut(0, 1)
+
 ultraschall.ShowLastErrorMessage()
+

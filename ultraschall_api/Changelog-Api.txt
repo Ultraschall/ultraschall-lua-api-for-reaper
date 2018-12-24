@@ -327,7 +327,12 @@
   - CloseReaConsole - closes ReaConsole-window
   - DeleteErrorMessage - deletes a specific error-message from the error-messaging-system
   - Docs: Error-Messaging-System - added docchapters to Introductions/Concepts-page
-  - GFX_BlitBifferImage - blits the framebuffer into the window and resizes it, if needed, using the correct aspect ratio; preliminary support
+  - GFX_BlitBufferImage - blits the framebuffer into the window and resizes it, if needed, using the correct aspect ratio; preliminary support
+  - Docs: Trackstate Management: Introduction - added chapter to Introduction/Concepts-page
+  - Routing: Introduction - added chapter to Introduction/Concepts-page
+  - Routing: Send and Receives - added chapter to Introduction/Concepts-page
+  - Routing: Hardware Outs - added chapter to Introduction/Concepts-page
+
     
   <TODO>
       TODO!!  - write final documentation for public-beta
@@ -335,14 +340,9 @@
       TODO!!   - 1 - bla bla umwandeln in 1, bla bla
       
     For 4.00beta2.8:
-      TODO!!  - using the option "Add rendered files to new tracks in project"-checkbox, I can easily find out, what has been rendered. Just create a MediaItemStateChunkArray from that, before closing the project.
-                These new items will be included into new tracks, so I just need to check, which tracks are new and us GetAllMediaItemsBetween() and voila
-                AWESOME!
-      TODO!! Additions:
+      TODO!! 
             - DeleteErrorMessage - deletes a specific error-message from the error-messaging-system
             - Docs: Error-Messaging-System - added docchapters to Introductions/Concepts-page
-
-            Changes:
             - ReadErrorMessage - improved error-message, errornumber now checks, if being an integer
             - GetAllLockedTracks - improved checking for validity of parameters
             - GetAllSelectedTracks - improved checking for validity of parameters
@@ -429,6 +429,12 @@
                 <retvals>
                     -
                 </retvals> 
+                also has an issue, when an empty line occurs, between numerous - It ends interpretation at that point.
+                like that:
+                   -
+                   
+                   -
+                   
       TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
       TODO!!  - totype(value, string type), converts a value to type and returns it, if impossible, returns nil; includes string, boolean, integer, float, hex, oct, base64, etc
       TODO!!  - ArrangeViewSnapshots - use reaper.JS_Window_SetScrollPos(HWND, "SB_VERT", value) to set and JS_Window_GetScrollInfo from JS new plugin to get/store vertscrollpos

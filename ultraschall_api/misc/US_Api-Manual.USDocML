@@ -675,7 +675,7 @@
                        render_cfg_string = ultraschall.CreateRenderCFG_MP3CBR(11, 2)
                        
                        -- Pass this Render-string to the rendering-function
-                       retval = ultraschall.RenderProject_RenderCFG(nil, "c:\\exportfile.mp3", 0, -1, false, false, false, render_cfg_string)
+                       ultraschall.RenderProject_RenderCFG(nil, "c:\\exportfile.mp3", 0, -1, false, false, false, render_cfg_string)
                
                One downside, though: when you want to render the currently opened project, it will be opened a second time for the rendering.  
                So if the current project has many effect-plugins and/or uses much memory, this means, the rendering of the current project using the UltraschallAPI-functions needs twice the ressources of your project!
@@ -743,6 +743,7 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             The rendering-functions let you render a project, either a stored rpp-project-file or the currently opened one(only when it has been saved!).  
             They provide you with a wide range of functionality, so the rendering process should be quite close to Reaper's "official"-own-process using the render-dialog.  
+            They also return the filenames of the rendered files, as well as MediaItemStateChunks of all rendered files, so you can easily import them into your project.  
             
             There are currently two different render-functions available:  
             
@@ -774,7 +775,15 @@
                                                the chapter "Rendering: About Renderstrings"
                                                if you omit it or set it to nil, it will use the format-settings already set in the projectfile
             
-            With that, you should be able to successfully render your project.
+            It also returns some interesting return-values:
+            
+                        retval - 0, if rendering was successful; -1, in case of an error; -2, if the project hasn't been saved yet
+                        renderfilecount - the number of rendered files. Usually 1, but can be higher, when rendering stems as well
+                        MediaItemStateChunkArray - an array with MediaItemStateChunks of the rendered projects, ready to include into a project of your choice
+                                                   the first entry is for the Master-render-file
+                        Filearray - an array with filenames-with-path of all rendered files, with the first entry being the one of the master-track-rendered-file
+            
+            With that, you should be able to successfully render your project and do some neat stuff afterwards.
             
             For more enhanced customization of Rendering, see [Rendering: Change more render-settings](#Rendering_004_Change_more_render_settings) for more details.
         </description>
@@ -818,7 +827,8 @@
             
             to get the projectfilename\_with\_path of the current project as returnvalue. Use projectfilename\_with\_path and go through steps 1 through 4.
             
-            The functions in step 2) are just a small selection of the functions to alter project-files, as provided by the Ultraschall-API. Browse through the functions in the "Project-Files"-section of the index of the Ultraschall-API-Functions-Reference for many more of them.
+            The functions in step 2) are just a small selection of the functions to alter project-files, as provided by the Ultraschall-API. Browse through the functions in the "Project-Files"-section of the index of the Ultraschall-API-Functions-Reference for many more of them.  
+            However, changing some of the stuff might cause issues with the rendering-functions provided with this API.
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -2876,14 +2886,15 @@
             >This returns you the last error-message without opening a messagebox. It also returns attributes associated with the errormessage.
             >Returnvalue retval returns, if an errormessage exists(true) or not(false).
             >The other returnvalues are 
-            >>errcode, which contains the errorcode of the errormessage. This is unique and always associated with the same error, so you can check for the errorcode directly, rather than the errormessage.  
-            >>functionname, which contains the name of the function, in which the error occured  
-            >>parmname, which contains the name of the parameter, which caused the trouble. It is "", if the problem is unrelated to a parameter  
-            >>errormessage, which is the actual errormessage  
-            >>lastreadtime, the time, at which the errormessage was read from the error-messaging-system the last time. That way you can see, which errormessage you already read  
-            >>err\_creation\_date, the date, at which the error was created  
-            >>err\_creation\_timestamp, the time, at which the error was created  
-            >>errorcounter, the indexnumber of the errormessage within the error-messaging-system.
+            
+            >- errcode, which contains the errorcode of the errormessage. This is unique and always associated with the same error, so you can check for the errorcode directly, rather than the errormessage.  
+            >- functionname, which contains the name of the function, in which the error occured  
+            >- parmname, which contains the name of the parameter, which caused the trouble. It is "", if the problem is unrelated to a parameter  
+            >- errormessage, which is the actual errormessage  
+            >- lastreadtime, the time, at which the errormessage was read from the error-messaging-system the last time. That way you can see, which errormessage you already read  
+            >- err\_creation\_date, the date, at which the error was created  
+            >- err\_creation\_timestamp, the time, at which the error was created  
+            >- errorcounter, the indexnumber of the errormessage within the error-messaging-system.
             
             >**[GetLastErrorMessage2](usdocml://GetLastErrorMessage2)**
             
@@ -2967,7 +2978,7 @@
                                     boolean retval = ultraschall.ToggleIDE_Errormessages(optional boolean togglevalue)
                                     
             >This toggles, whether to display error-messages at the bottom of the ReaScript-IDE-window/Reaper's error-window or if you prefer using Ultraschall-API's own functions for error-handling.  
-            >Opitonally, you can set it by setting togglevalue to either true(show errormessages at the bottom of the IDE) or false(use the Ultraschall-API error-management-behavior).
+            >Optionally, you can set it by setting togglevalue to either true(show errormessages at the bottom of the IDE) or false(use the Ultraschall-API error-management-behavior).
         </description>
         <target_document>ReaperApiConcepts</target_document>
         <source_document></source_document>
@@ -2976,8 +2987,240 @@
             Error Messaging System
         </chapter_context>
         <previous_chapter>Error_Messaging_System_004_Deleting_Error_Messages</previous_chapter>
-        <next_chapter>ExtState_Management_001_Introduction</next_chapter>
+        <next_chapter>Trackstate_Management_001_Introduction</next_chapter>
         <tags>error messaging system, toggle, ide, error message</tags>
-    </US_DocBloc>        
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Trackstate_Management_001_Introduction</slug>
+        <title>Trackstate Management: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Many things in regards of customizations have also to do with influencing states of MediaTracks. So I added tons of stuff for that too.  
+            I also thought, when I'm at it, I change some of the confusing behavior of Reaper's own API to something more viable.  
+            For instance, when passing a tracknumber to a function, the first track will always be 1, the second always be 2, etc. The master-track, if applicable, will always be 0.
+            That way, you can always be sure, which track in a function is which track.
+            
+            Another thing is working with [trackstrings](#Datatypes_002_trackstring), which allow you to easily pass over a number of tracks at once.  
+            They are basically a string with the tracknumbers wished, separated by commas.
+            Example:  
+            
+                                    trackstring_of_track1_to_3 = "1,2,3"
+                                    
+            Many Ultraschall-API-functions support trackstrings and save you from the pain of having to loop through all tracks you want to pass and influence.  
+            There are also many functions, who create you trackstrings, like for locked tracks, selected tracks, all tracks, etc.  
+            
+            I talked about Trackstates earlier. For that I added full access to all(!) TrackStates available, even those, who are only available through TrackStateChunks. Access means, getting and setting them. Read more on this subject in the chapter [Get/Set States for Project, Tracks and Items](#GetSetStates_Project_Track_Item_Env_001_Introduction).  
+            
+            Some other things you can do now easily are:
+            
+            - [ApplyActionToTrack](usdocml://ApplyActionToTrack) - applies an action to one or more MedaTracks  
+            - [InsertTrackAtIndex](usdocml://InsertTrackAtIndex) - which allows one or more MediaTracks at a given track-position, more easily than Reaper's own inserttrack-function  
+            - [MoveTracks](usdocml://MoveTracks) - move one or more MediaTracks to a new position, with optionally making it a folder  
+            - [GetTrackLength](usdocml://GetTrackLength) - returns the length of a MediaTrack; similar to Reaper's GetProjectLength but for one track only  
+                
+            and many more related to working with TrackStateChunks.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            TrackStates
+        </chapter_context>
+        <previous_chapter>Error_Messaging_System_005_TogglingIDEErrorMessages</previous_chapter>
+        <next_chapter>Routing_001_Introduction</next_chapter>
+        <tags>trackstates, introduction, trackstring</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Routing_001_Introduction</slug>
+        <title>Routing: Introduction</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            In the past, I had numerous situations, where I wanted to influence my routing-settings programmatically. But every time I started, I stumbled and shuddered.
+            Not because it is impossible with Reaper's own API, but because it's so complicated, irritating, confusing and so far away from the way the routing is managed with the 
+            user-interface of Reaper, where you can see easily all individual sends/receives.  
+            This problem is applies to the whole management of HardwareOuts as well, which is also painful to program.  
+            So I desired some functions that keep programming the routing simple and down to it's basic components while retaining the flexibility of the full routing.  
+            
+            All these functions, HWOut as well as Routing(Send/Receive) are based on a simple concept, as seen in the user-interface of routing-settings:  
+            
+            - adding a new HWOut/Routing-setting to a track  
+            - getting the states of an existing HWOut/Routing-setting of a track  
+            - setting new states to an already existing HWOut/Routing-setting of a track  
+            - deleting an existing HWOut/Routing-setting from a track  
+            - counting all HWOuts/routings in a track  
+            
+            Let's start with the routing.
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Routing
+        </chapter_context>
+        <previous_chapter>Trackstate_Management_001_Introduction</previous_chapter>
+        <next_chapter>Routing_002_Send_Receive</next_chapter>
+        <tags>routing, introduction</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Routing_002_Send_Receive</slug>
+        <title>Routing: Send and Receives</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Before we start, some basics, if you're not familiar with routing.  
+            
+            Routing is a way to direct the output of one channel/track/fx to another channel/track/fx.  
+            In our case of track-routing, that means, one track sends a signal and another track receives it. If you look into the routing-settings or routing-matrix of Reaper, you can exactly see that: one track sends a signal which can be received by one or many tracks.  
+            The most common of such routings is: Track on sends a signal, and the master-channel receives it to output it.  
+            This allows you to build complex audio-settings and configurations, where one output-signal can be send to a reverb-effect, while at the same time being send to a flanger; in parallel, so the reverbed signal isn't flanged, vice versa.  
+            
+            One more thing: To make send/receive work, you need to understand, that you have to set it in the track, that receives the signal(means, to the track who listens to the sending track)! That means, you apply the following functions to the MediaTrack that receives the send-signal.  
+            
+            To do the Send/Receive-stuff, I added the following functions: [AddTrackAUXSendReceives](usdocml://AddTrackAUXSendReceives), [GetTrackAUXSendReceives](usdocml://GetTrackAUXSendReceives), [SetTrackAUXSendReceives](usdocml://SetTrackAUXSendReceives), [DeleteTrackAUXSendReceives](usdocml://DeleteTrackAUXSendReceives), [CountTrackAUXSendReceives](usdocml://CountTrackAUXSendReceives)  
+            Let's create a new send/receive-setting.  
+            
+            >**[AddTrackAUXSendReceives](usdocml://AddTrackAUXSendReceives)**
+            
+                                   boolean retval = ultraschall.AddTrackAUXSendReceives(integer tracknumber, integer recv_tracknumber, integer post_pre_fader, 
+                                                                                        number volume, number pan, integer mute, integer mono_stereo, integer phase, 
+                                                                                        integer chan_src, integer snd_chan, number unknown, integer midichanflag, 
+                                                                                        integer automation, boolean undo)
+            
+            >This adds a receive to a specific track. To tell the function, from which track the received signal comes from, you need to set the parameter recv\_tracknumber to the tracknumber of the sending track.  
+            >The other parameters are simply all other settings for this send/receive, like 
+            
+            >- post\_pre\_fader - shall the signal be post, pre fader or even pre-fx
+            >- volume - the volume of the received signal
+            >- pan - the panning of the received signal
+            >- mute - shall it be muted or not
+            >- mono\_stereo - shall the signal be mono or stereo
+            >- phase - the phase of the received signal
+            >- chan\_src - the source-channel to receive from. That is the sending-track's-channel!
+            >- snd\_chan - the track's own channel to pass the received signal to. This is in the receiving track's channels!
+            >- midichanflag - manages the whole MIDI-receiving settings, like to receive from which MIDI-source-channel and to send to which of the track's own MIDI-channels. Includes also the MIDI-On-switching as well as no channels at all.  
+            >- automation - the automation-mode of the receive
+            
+            Setting a receive-setting works basically the same:
+            
+            >**[SetTrackAUXSendReceives](usdocml://SetTrackAUXSendReceives)**
+            
+                                    boolean retval = ultraschall.SetTrackAUXSendReceives(integer tracknumber, integer idx, integer recv_tracknumber, 
+                                                                                         integer post_pre_fader, number volume, number pan, integer mute, 
+                                                                                         integer mono_stereo, integer phase, integer chan_src, integer snd_chan, 
+                                                                                         number unknown, integer midichanflag, integer automation, boolean undo)
+            
+            >This works the same as AddTrackAUXSendReceives, but changes an already existing setting.
+            
+            Setting is one thing, but what if you want to know the settings of a receive?
+            
+            >**[GetTrackAUXSendReceives](usdocml://GetTrackAUXSendReceives)**
+            
+                                    integer recv_tracknumber, integer post_pre_fader, number volume, 
+                                    number pan, integer mute, integer mono_stereo, integer phase, integer chan_src, 
+                                    integer snd_chan, number unknown, integer midichanflag, integer automation 
+                                                                        = ultraschall.GetTrackAUXSendReceives(integer tracknumber, integer idx)
+            
+            >This receives all the settings of a receive of a track. The same rules for the former functions (AddTrackAUXSendReceives and SetTrackAUXSendReceives) apply also here.
+            
+            And when you want to delete a receive, you can use the following function:
+            
+            >**[DeleteTrackAUXSendReceives](usdocml://DeleteTrackAUXSendReceives)**
+            
+                                    boolean retval = ultraschall.DeleteTrackAUXSendReceives(integer tracknumber, integer idx, boolean undo)
+                                    
+            >This deletes a receive-setting from a track. Just pass to it the tracknumber, which receives and the idx of the receive-setting. To know, which setting to delete, you can use GetTrackAUXSendReceives.  
+            
+            If you want to know, how many receives a track has, you can use:
+            
+            >**[CountTrackAUXSendReceives](usdocml://CountTrackAUXSendReceives)**
+            
+                                    integer count_SendReceives = ultraschall.CountTrackAUXSendReceives(integer tracknumber)
+                                    
+            >This returns the number of received tracks a the track tracknumber has.
+            
+            Another thing: Routing-settings of the master-track aren't possible that way. You need to use [GetTrackMainSendState](usdocml://GetTrackMainSendState) and [SetTrackMainSendState](usdocml://SetTrackMainSendState) to route the signal of a track to the master-channel. Unlike the former functions, MainSend must be set in the sending track!  
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Routing
+        </chapter_context>
+        <previous_chapter>Trackstate_Management_001_Introduction</previous_chapter>
+        <next_chapter>Routing_003_HWOuts</next_chapter>
+        <tags>routing, send, receive, count, get, set, delete, master, track</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Routing_003_HWOuts</slug>
+        <title>Routing: Hardware Outs</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Send and Receive is one thing, but if you want to hear anything, you need to send the audiosignal to actual audiohardware. To do that, you can set HardwareOuts(HWOuts) to tracks, as well as the MasterTrack.  
+            For that, I included the functions: [AddTrackHWOut](usdocml://AddTrackHWOut), [SetTrackHWOut](usdocml://SetTrackHWOut), [GetTrackHWOut](usdocml://GetTrackHWOut), [DeleteTrackHWOut](usdocml://DeleteTrackHWOut), [CountTrackHWOuts](usdocml://CountTrackHWOuts)
+            
+            >**[AddTrackHWOut](usdocml://AddTrackHWOut)**
+            
+                                    boolean retval = ultraschall.AddTrackHWOut(integer tracknumber, integer outputchannel, integer post_pre_fader, 
+                                                                               number volume, number pan, integer mute, integer phase, integer source, 
+                                                                               number unknown, integer automationmode, boolean undo)
+                                                                               
+            >This adds a new HWOut to a track. The tracknumber is either 0 for the master track or 1 and higher for track 1 or higher.  
+            >The other options are to some extend familiar to the [AUXSendReceive-functions](#Routing_002_Send_Receive):
+            >
+            >- outputchannel - the outputchannel, either single tracks or stereo-tracks
+            >- post\_pre\_fader - shall the signal be post, pre fader or even pre-fx
+            >- volume - the volume of the HWOut
+            >- pan - the panning of the HWOut
+            >- mute - shall it be muted or not
+            >- phase - the phase of the HWOut
+            >- source - the channel(s) to output to the outputchannels
+            >- automationmode - the automation of the HWOut
+            
+            Setting an already existing HWOut can be done using the function:
+            
+            >**[SetTrackHWOut](usdocml://SetTrackHWOut)**
+            
+                                    boolean retval = ultraschall.SetTrackHWOut(integer tracknumber, integer idx, integer outputchannel, 
+                                                                               integer post_pre_fader, number volume, number pan, integer mute, 
+                                                                               integer phase, integer source, number unknown, integer automationmode, 
+                                                                               boolean undo)
+            
+            >This sets the settings of an already existing HWOut. The rest is the same, as the parameters for AddTrackHWOut.  
+            
+            To set HWOuts, you probably want to know, what the old values are of a HWOut. For that, use the function:
+            
+            >**[GetTrackHWOut](usdocml://GetTrackHWOut)**
+            
+                                    integer outputchannel, integer post_pre_fader, number volume, number pan, 
+                                    integer mute, integer phase, integer source, number unknown, integer automationmode 
+                                                                                = ultraschall.GetTrackHWOut(integer tracknumber, integer idx)
+                                                                                
+            >This returns the settings of a HWOut. The tracknumbers are the same, with 0 for the master-track; 1 and higher for track 1 and higher.
+            >The idx is the index of the HWOut-setting of the track.
+            
+            To delete it, use:
+            
+            >**[DeleteTrackHWOut](usdocml://DeleteTrackHWOut)**
+            
+                                    boolean retval = ultraschall.DeleteTrackHWOut(integer tracknumber, integer idx, boolean undo)
+            
+            >This deletes a HWOut-setting from a track.
+            
+            To get the number of HWOuts of a certain track, use:
+            
+            >**[CountTrackHWOuts](usdocml://CountTrackHWOuts)**
+            
+                                    integer count_HWOuts = ultraschall.CountTrackHWOuts(integer tracknumber)
+            
+        </description>
+        <target_document>ReaperApiConcepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Routing
+        </chapter_context>
+        <previous_chapter>Routing_002_Send_Receive</previous_chapter>
+        <next_chapter>Clipboard_Management_001_Introduction</next_chapter>
+        <tags>routing, hwout, count, get, set, delete, master, track</tags>
+    </US_DocBloc>
 </USDocML>
 >**[](usdocml://)**

@@ -1,28 +1,15 @@
-Trackmanagement:
-    Introduction
-    Trackstrings
-    TrackStates
-    Routing HWOut/Send/Receive
-    RunCommand for Tracks:
-
-Marker:
+- Marker:
     Markertypes(PodRangeRegion, Chapter, Edit, normal)
     Add, Set, Enumerate, Delete
     Export Import
     Move
     Helpers: Renumerate, etc
-
-ExtState-Management:
+- ExtState-Management:
     extstate-files
     itemextstates
     trackextstates
-
-Data Manipulation:
-
-Clipboard-Management:
-    
-KB-Ini-Management:
-
-Helper functions:
+- Data Manipulation:
+- Clipboard-Management:
+- Helper functions:
     Lua-helper-functions
     UndoManagement:  
