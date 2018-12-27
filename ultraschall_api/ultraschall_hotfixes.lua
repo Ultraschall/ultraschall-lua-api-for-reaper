@@ -443,3 +443,40 @@ function ultraschall.GetApiVersion()
   return "4.00","15th of December 2018", "Beta 2.7", 400.027, "\"Frank Zappa - The Return of the Son of Monster Magnet\""
 end
 
+function ultraschall.ConvertColor(r,g,b)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertColor</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.52
+    Lua=5.3
+  </requires>
+  <functioncall>integer colorvalue, boolean retval = ultraschall.ConvertColor(integer r, integer g, integer b)</functioncall>
+  <description>
+    converts r, g, b-values to native-system-color. Works like reaper's ColorToNative, but doesn't need |0x1000000 added.
+    
+    returns color-value 0, and retval=false in case of an error
+  </description>
+  <retvals>
+    integer colorvalue - the native-system-color; 0 to 33554431
+  </retvals>
+  <parameters>
+    integer r - the red colorvalue
+    integer g - the green colorvalue
+    integer b - the blue colorvalue
+  </parameters>
+  <chapter_context>
+    Color Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, color, native, convert, red, gree, blue</tags>
+</US_DocBloc>
+]]
+    if math.type(r)~="integer" then ultraschall.AddErrorMessage("ConvertColor","r", "only integer allowed", -1) return 0, false end
+    if math.type(g)~="integer" then ultraschall.AddErrorMessage("ConvertColor","g", "only integer allowed", -2) return 0, false end
+    if math.type(b)~="integer" then ultraschall.AddErrorMessage("ConvertColor","b", "only integer allowed", -3) return 0, false end
+    if ultraschall.IsOS_Mac()==true then r,b=b,r end
+    return reaper.ColorToNative(r,g,b)|0x1000000, true
+end
