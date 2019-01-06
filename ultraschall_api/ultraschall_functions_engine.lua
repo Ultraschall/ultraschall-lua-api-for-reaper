@@ -833,37 +833,6 @@ end
 </US_DocBloc>
 --]]
 
-function ultraschall.GetApiVersion()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetApiVersion</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>string version, string date, string beta, number versionnumber, string tagline = ultraschall.GetApiVersion()</functioncall>
-  <description>
-    returns the version, release-date and if it's a beta-version
-  </description>
-  <retvals>
-    string version - the current Api-version
-    string date - the release date of this api-version
-    string beta - if it's a beta version, this is the beta-version-number
-    number versionnumber - a number, that you can use for comparisons like, "if requestedversion>versionnumber then"
-    string tagline - the tagline of the current release
-  </retvals>
-  <chapter_context>
-    API-Helper functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>version,versionmanagement</tags>
-</US_DocBloc>
---]]
-  return "4.00","15th of May 2019", "Beta 2.8", 400.028,  "\"Mike Oldfield - Taurus II\""
-end
-
 
 function ultraschall.IsValidTrackStateChunk(statechunk)
 --[[
@@ -1637,54 +1606,6 @@ function ultraschall.ApiFunctionTest()
 end
 
 
-function ultraschall.GetPath(str,sep)
--- return the path of a filename-string
--- -1 if it doesn't work
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetPath</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>string path, string filename = ultraschall.GetPath(string str, string sep)</functioncall>
-  <description>
-    returns the path of a filename-string
-    
-    returns "", "" in case of error 
-  </description>
-  <retvals>
-    string path  - the path as a string
-    string filename - the filename, without the path
-  </retvals>
-  <parameters>
-    string str - the path with filename you want to process
-    string sep - a separator, with which the function knows, how to separate filename from path
-  </parameters>
-  <chapter_context>
-    File Management
-    Helper functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>filemanagement,path,separator</tags>
-</US_DocBloc>
---]]
-
-  -- check parameters
-  if type(str)~="string" then ultraschall.AddErrorMessage("GetPath","str", "only a string allowed", -1) return "", "" end
-  if type(sep)~="string" then ultraschall.AddErrorMessage("GetPath","sep", "only a string allowed", -2) return "", "" end
-  
-  -- do the patternmatching
-  local result=str:match("(.*"..sep..")")
-  local file=str:match(".*"..sep.."(.*)")
-  if result==nil then ultraschall.AddErrorMessage("GetPath","", "separator not found", -3) return "", "" end
-  if file==nil then file="" end
-  return result, file
-end
-
---B1,B2=ultraschall.GetPath("c:\\nillimul\\test", ultraschall.Separator)
 
 
 
@@ -35661,7 +35582,7 @@ function ultraschall.MB(msg,title,mbtype)
   </retvals>
   <chapter_context>
     User Interface
-    Miscellaneous
+    Dialogs
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -44897,49 +44818,6 @@ end
 
 --A,B,C=ultraschall.IsMuteAtPosition_TrackObject(reaper.GetTrack(0,1), 1)
 
-function ultraschall.CloseReaConsole()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CloseReaConsole</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.95
-    JS=0.951
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = ultraschall.CloseReaConsole()</functioncall>
-  <description>
-    Closes the ReaConsole-window, if opened.
-    
-    Note for Mac-users: does not work currently on MacOS.
-    
-    Returns false in case of an error
-  </description>
-  <retvals>
-    boolean retval - true, if there is a mute-point; false, if there isn't one
-  </retvals>
-  <chapter_context>
-    User Interface
-    Screen and Windowmanagement
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>window, reaconsole, close</tags>
-</US_DocBloc>
-]]
-  reaper.JS_Window_ListFind("ReaScript console output", true, "ultraschall", "console_window_hwnd")
-
-  local A=reaper.GetExtState("ultraschall", "console_window_hwnd")
-  local count = ultraschall.CountCharacterInString(A, ",")
-  if count>1 then ultraschall.AddErrorMessage("CloseReaConsole", "", "Multiple windows are open, that are named \"ReaScript console output\". Can't find the right one, sorry.", -1) return false end
-  if A:match("(.-),")==nil then ultraschall.AddErrorMessage("CloseReaConsole", "", "ReaConsole-window not opened", -2) return false end
-  local B=reaper.JS_Window_HandleFromAddress(A:match("(.-),"))
-  reaper.JS_Window_Destroy(B)
-  return true
-end
-
---reaper.ShowConsoleMsg("Tudelu")
---LL,LL=ultraschall.CloseReaConsole()
 
 ultraschall.ShowLastErrorMessage()
 
@@ -46100,7 +45978,7 @@ function ultraschall.WinterlySnowflakes(toggle, falling_speed, number_snowflakes
     returns -1 in case of error
   </description>
   <retvals>
-    integer retval - returns -1 in case of an error; 1, in case of success
+    integer retval - returns -1 in case of a'JS_Window_ListFind' n error; 1, in case of success
   </retvals>
   <parameters>
     boolean toggle - true, toggles falling snow on; false, toggles falling snow off

@@ -6,6 +6,9 @@ ConversionToolMD2HTML="c:\\Program Files (x86)\\Pandoc\\pandoc.exe -f markdown_s
 Infilename=ultraschall.Api_Path.."/misc/US_Api-DOC.USDocML"
 Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Concepts_DOC.html"
 
+retval, scriptfilename=reaper.get_action_context()
+_temp,scriptfilename=ultraschall.GetPath(scriptfilename)
+
 --Infilename=ultraschall.Api_Path.."/misc/US_Api-Manual.USDocML"
 --Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Documentation2.html"
 
@@ -512,7 +515,7 @@ end
 function contentindex()
   -- let's prepare all data-structures
   reaper.ClearConsole()
-  reaper.ShowConsoleMsg("Create Index\n")
+  reaper.ShowConsoleMsg(scriptfilename..": Create Index\n")
   HeaderList={}
   local A,B=ultraschall.GetAllChapterContexts(C)
   local count=1

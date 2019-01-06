@@ -31,9 +31,15 @@
 -- 4. have fun using the API. Test it with ultraschall.ApiTest()
 
 if reaper.CF_GetClipboardBig==nil then reaper.MB("Sorry, SWS 2.9.7 or higher must be installed to use the API. \nGo to sws-extension.org to get it.","SWS missing",0) return end
-if reaper.JS_ReaScriptAPI_Version==nil then reaper.MB("Sorry, JS-extension-plugin 0.951 or higher must be installed to use the API. \nGo to https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/ to get it.","JS-Extension plugin missing",0) return end
+if reaper.JS_ReaScriptAPI_Version==nil then reaper.MB("Sorry, JS-extension-plugin 0.962 or higher must be installed to use the API. \nGo to https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/ to get it.","JS-Extension plugin missing",0) return end
 
 if type(ultraschall)~="table" then ultraschall={} end
+
+-- Beta-Functions On
+ultraschall.US_BetaFunctions="ON"
+
+
+
 ultraschall.temp1,ultraschall.temp=reaper.get_action_context()
 ultraschall.temp=string.gsub(ultraschall.temp,"\\","/")
 ultraschall.temp1=reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua"
@@ -176,6 +182,9 @@ if ultraschall.US_Doc_Engine~="OFF" then ultraschall.US_Doc_Engine = dofile(scri
 if ultraschall.US_Tag_Engine~="OFF" then ultraschall.US_Tag_Engine = dofile(script_path .. "ultraschall_tag_engine.lua") end
 if ultraschall.US_Network_Engine~="OFF" then ultraschall.US_Network_Engine = dofile(script_path .. "ultraschall_network_engine.lua") end
 
+-- In case of necessary hotfixes, if the file ultraschall_hotfixes.lua exists, the functions in it will overwrite previously existing ones.
+if reaper.file_exists(script_path.."ultraschall_hotfixes.lua") then ultraschall.Hotfix=dofile(script_path .. "ultraschall_hotfixes.lua") end
+
 -- if BETA-functions are available and usage of beta-functions is set to ON, include them. 
 -- Functions, that are in both, the "normal" parts of the framework as well as in the beta-part, will use the beta-version,
 -- if betafunctions are set to ON
@@ -191,8 +200,6 @@ if ultraschall.US_BetaFunctions=="ON" then
   if reaper.file_exists(script_path.."ultraschall_network_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_network_engine_beta.lua") end
 end
 
--- In case of necessary hotfixes, if the file ultraschall_hotfixes.lua exists, the functions in it will overwrite previously existing ones.
-if reaper.file_exists(script_path.."ultraschall_hotfixes.lua") then ultraschall.Hotfix=dofile(script_path .. "ultraschall_hotfixes.lua") end
 
 function ultraschall.ApiTest()
     -- show "Api Part-Engine"-messages, when calling ultraschall.ApiTest()

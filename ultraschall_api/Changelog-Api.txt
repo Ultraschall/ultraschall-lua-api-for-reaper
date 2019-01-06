@@ -33,6 +33,10 @@
   - NewUltraschallConceptsDocConverter_GFX.lua - added
   - NewUltraschallConceptsDocConverter_GUI.lua - added
   - NewUltraschallConceptsDocConverter_VID.lua - added
+  - IsValidHWND - checks, if a HWND is a valid one
+  - Main_OnCommandByFilename - runs a command by its filename instead of the ActionCommandID/command-id
+  - MIDI_OnCommandByFilename - runs a command in the MIDI-Editor context by its filename instead of the ActionCommandID/command-id
+  - BrowseForOpenFiles - utilizes JS_Dialog_BrowseForOpenFiles-function, but returns the files and paths in a more comfortable way
 
   
 #### Changes from 4.00beta2.7 to 4.00beta2.8
@@ -47,10 +51,19 @@
   - Docgenerator - reworked the docengine-creator for more fluffy working of it
   - Changelog - fixed Markdown-formatting-issues
   - Introduction/Concepts: Datatypes: Checking Datatypes - fixed Markdown-issues  
+  - requires now version 0.962 of Julian Sader's plugin
+  - GetPath - when sep is nil, it returns now the path until the last useful separator, either \\ or /
+  - MB - moved to User Interface -> Dialogs in the docs
+  - hotfixes are now loaded before beta-functions
+  - CloseReaConsole - updated to behavior of version 0.962 of the JS-plugin
 
   
   <TODO>
     For 4.00beta2.8:
+      TODO!! ultraschall.SortTableByCertainTableEntry - sorts a table by a certain entry in the table
+                                                      - like table[4][2][1]
+                                                      probably impossible, cause, how to pass [2][1] as parameter?
+      TODO!! Reaper-Apidocs: OscLocalMessageToHost doesn't show title in generated doc
       TODO!! Functionshook in Render-functions.
                 before the render project using last render settings-action is triggered, it should be possible to run a function that "prepares" the project for rendering
       TODO!! Rendering "pre-trail"-management, where a to be rendered project gets adds some silence in the beginning of the project, so possible "CPU needs to run up to fully calculate the rendering" will happen first.

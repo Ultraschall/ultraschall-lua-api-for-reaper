@@ -71,6 +71,10 @@ Ultraschall API Changelog
 <li>NewUltraschallConceptsDocConverter_GFX.lua - added</li>
 <li>NewUltraschallConceptsDocConverter_GUI.lua - added</li>
 <li>NewUltraschallConceptsDocConverter_VID.lua - added</li>
+<li>IsValidHWND - checks, if a HWND is a valid one</li>
+<li>Main_OnCommandByFilename - runs a command by its filename instead of the ActionCommandID/command-id</li>
+<li>MIDI_OnCommandByFilename - runs a command in the MIDI-Editor context by its filename instead of the ActionCommandID/command-id</li>
+<li>BrowseForOpenFiles - utilizes JS_Dialog_BrowseForOpenFiles-function, but returns the files and paths in a more comfortable way</li>
 </ul>
 <h4 id="changes-from-4.00beta2.7-to-4.00beta2.8">Changes from 4.00beta2.7 to 4.00beta2.8</h4>
 <ul>
@@ -83,7 +87,13 @@ Ultraschall API Changelog
 <li>docs use now GetApiVersion for displaying version-numbering</li>
 <li>Docgenerator - reworked the docengine-creator for more fluffy working of it</li>
 <li>Changelog - fixed Markdown-formatting-issues</li>
-<li>Introduction/Concepts: Datatypes: Checking Datatypes - fixed Markdown-issues</li>
+<li>Introduction/Concepts: Datatypes: Checking Datatypes - fixed Markdown-issues<br />
+</li>
+<li>requires now version 0.962 of Julian Sader’s plugin</li>
+<li>GetPath - when sep is nil, it returns now the path until the last useful separator, either \ or /</li>
+<li>MB - moved to User Interface -&gt; Dialogs in the docs</li>
+<li>hotfixes are now loaded before beta-functions</li>
+<li>CloseReaConsole - updated to behavior of version 0.962 of the JS-plugin</li>
 </ul>
 <h3 id="beta-2.7---frank-zappa---the-return-of-the-son-of-monster-magnet---15th-of-december-2018">4.00 Beta 2.7: - “Frank Zappa - The Return of the Son of Monster Magnet” - 15th of December 2018</h3>
 <p>Has now 700 functions, with about 250 new ones!</p>

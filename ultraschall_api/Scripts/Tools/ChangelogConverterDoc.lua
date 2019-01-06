@@ -1,4 +1,9 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+--reaper.ShowConsoleMsg("huigl")
+--ultraschall.CloseReaConsole()
+
+--if l==nil then return end
+
 timer=reaper.time_precise()
 Tempfile=ultraschall.Api_Path.."temp/"
 ChangeLogFile="Changelog-Api.txt"
@@ -116,7 +121,7 @@ os.remove(Tempfile..ChangeLogFile)
 reaper.SetExtState("ultraschall", "doc", "", false)
 if reaper.MB("Create Ultraschall-Docs ?", "Reaper-Docs", 4)==6 then pp=1 end
 if reaper.MB("Create Reaper-Docs as well?", "Reaper-Docs", 4)==6 then p=1 end
-if p~=1 and pp~=1 then return end
+if p~=1 and pp~=1 then ultraschall.CloseReaConsole() return end
  -- introduction-concepts
 A=0
 
@@ -199,3 +204,5 @@ function main()
 end
 
 main()
+
+--    ultraschall.CloseReaConsole()

@@ -6,6 +6,9 @@ Infilename=ultraschall.Api_Path.."/ultraschall_functions_engine.lua"
 Infilename2=ultraschall.Api_Path.."/ultraschall_functions_engine_beta.lua"
 Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Functions.html"
 
+retval, scriptfilename=reaper.get_action_context()
+_temp,scriptfilename=ultraschall.GetPath(scriptfilename)
+
 --Infilename=ultraschall.Api_Path.."/misc/US_Api-Manual.USDocML"
 --Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Documentation2.html"
 
@@ -522,7 +525,7 @@ end
 function contentindex()
   FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..beta.." - "..Tagline.." - "..date.." - Build: "..build.."</div><h3>Introduction and Concepts</h3><table style=\"font-size:10pt; width:100%;\" >"
   reaper.ClearConsole()
-  reaper.ShowConsoleMsg("Create Index\n")
+  reaper.ShowConsoleMsg(scriptfilename..": Create Index\n")
   HeaderList={}
   count=1
   count2=0
@@ -530,8 +533,10 @@ function contentindex()
   -- get the chapter-contexts
   -- every entry in HeaderList is "chaptercontext1, chaptercontext2,"
   while C[count]~=nil do
-    A, AA, AAA = ultraschall.ParseChapterContext(C[count][2])
     
+    A, AA, AAA = ultraschall.ParseChapterContext(C[count][2])
+      reaper.ClearConsole()
+      reaper.ShowConsoleMsg("Create Index: "..AAA)
       temp=AAA.."\n"
       for i=1, count2 do
         if HeaderList[i]==temp then found=true end
@@ -544,7 +549,7 @@ function contentindex()
     
     count=count+1
   end
-  
+
   table.sort(HeaderList)
   
   -- add to the chapter-contexts the accompanying slugs, using newlines
@@ -553,6 +558,8 @@ function contentindex()
   while C[count]~=nil do    
     A1, AA1, AAA1 = ultraschall.ParseChapterContext(C[count][2])
     Slug=C[count][1]
+    reaper.ClearConsole()
+    reaper.ShowConsoleMsg("Create Index: "..AAA)
     temp=AAA1.."\n"
        
     for i=1, count2 do
@@ -572,6 +579,8 @@ function contentindex()
     chapter=HeaderList[i]:match("(.-\n)")
     slugs=HeaderList[i]:match("\n(.*)\n")
     A2, AA2, AAA2 = ultraschall.SplitStringAtLineFeedToArray(slugs)
+    reaper.ClearConsole()
+    reaper.ShowConsoleMsg("Create Index: "..AAA)
     table.sort(AA2)
     slugs=""
     for i=1, A2 do
@@ -595,8 +604,9 @@ function contentindex()
     if i>1 and Second:match("%>(.-)%<")==HeaderList[i-1]:match("(.-),") then Second="" end
     if Third==nil then Third="" else Third=Third.."\n" end
     if i>1 and Third:match("%>(.-)%<")==HeaderList[i-1]:match("(.-),") then Third="" end
-    
     linebreaker=1
+    reaper.ClearConsole()
+    reaper.ShowConsoleMsg("Create Index: "..tostring(Slugs[i]))
     for a=1, Counts do
       if linebreaker==1 then slugs=slugs.."<tr>" end
       if linebreaker==5 then slugs=slugs.."</tr>" linebreaker=1 end
@@ -704,6 +714,10 @@ function writefile()
 end
 
 function entries()
+if sortentries~=true then 
+--  table.sort(C[)
+  sortentries=true
+end
 for lolo=1, 60 do
 -- Slug as HTML-Anchor
   FunctionList=FunctionList.."<hr><a id=\""..C[index][1].."\"></a>"

@@ -11,6 +11,9 @@ Outfile=ultraschall.Api_Path.."/Documentation/US_Api_GUI.html"
 
 func_done_count=progresscounter(false)-1
 
+retval, scriptfilename=reaper.get_action_context()
+_temp,scriptfilename=ultraschall.GetPath(scriptfilename)
+
 --if L==nil then return end
 
 local FunctionList2=""
@@ -522,7 +525,7 @@ end
 function contentindex()
   FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..beta.." - "..Tagline.." - "..date.." - Build: "..build.."</div><h3>Introduction and Concepts</h3><table style=\"font-size:10pt; width:100%;\" >"
   reaper.ClearConsole()
-  reaper.ShowConsoleMsg("Create Index\n")
+  reaper.ShowConsoleMsg(scriptfilename..": Create Index\n")
   HeaderList={}
   count=1
   count2=0
