@@ -37,6 +37,7 @@
   - Main_OnCommandByFilename - runs a command by its filename instead of the ActionCommandID/command-id
   - MIDI_OnCommandByFilename - runs a command in the MIDI-Editor context by its filename instead of the ActionCommandID/command-id
   - BrowseForOpenFiles - utilizes JS_Dialog_BrowseForOpenFiles-function, but returns the files and paths in a more comfortable way
+  - Base64_Encoder - encodes a string into a Base64-encoded string
 
   
 #### Changes from 4.00beta2.7 to 4.00beta2.8
@@ -56,6 +57,9 @@
   - MB - moved to User Interface -> Dialogs in the docs
   - hotfixes are now loaded before beta-functions
   - CloseReaConsole - updated to behavior of version 0.962 of the JS-plugin
+  - ultraschall.MB - converts now all passed data into string, no matter what type it is
+  - ultraschall_api.lua - checks now, if it is run within the beta-engine-parts of this API and prevents including it if necessary.  
+                          This prevents duplicate execution of functions, when coding within the beta-functions-engine-scripts.
 
   
   <TODO>

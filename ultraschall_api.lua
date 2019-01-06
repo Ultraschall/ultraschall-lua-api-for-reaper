@@ -35,6 +35,9 @@ if reaper.JS_ReaScriptAPI_Version==nil then reaper.MB("Sorry, JS-extension-plugi
 
 if type(ultraschall)~="table" then ultraschall={} end
 
+ultraschall.temp, ultraschall.Script_Context=reaper.get_action_context()
+
+
 -- Beta-Functions On
 ultraschall.US_BetaFunctions="ON"
 
@@ -189,15 +192,15 @@ if reaper.file_exists(script_path.."ultraschall_hotfixes.lua") then ultraschall.
 -- Functions, that are in both, the "normal" parts of the framework as well as in the beta-part, will use the beta-version,
 -- if betafunctions are set to ON
 if ultraschall.US_BetaFunctions=="ON" then
-  if reaper.file_exists(script_path.."ultraschall_functions_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_functions_engine_beta.lua") end
-  if reaper.file_exists(script_path.."ultraschall_datastructures_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_datastructures_engine_beta.lua") end
-  if reaper.file_exists(script_path.."ultraschall_gui_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_gui_engine_beta.lua") end
-  if reaper.file_exists(script_path.."ultraschall_gfx_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_gfx_engine_beta.lua") end
-  if reaper.file_exists(script_path.."ultraschall_sound_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_sound_engine_beta.lua") end
-  if reaper.file_exists(script_path.."ultraschall_video_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_video_engine_beta.lua") end
-  if reaper.file_exists(script_path.."ultraschall_doc_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_doc_engine_beta.lua") end
-  if reaper.file_exists(script_path.."ultraschall_tag_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_tag_engine_beta.lua") end
-  if reaper.file_exists(script_path.."ultraschall_network_engine_beta.lua")==true then ultraschall.BETA=dofile(script_path .. "ultraschall_network_engine_beta.lua") end
+  if reaper.file_exists(script_path.."ultraschall_functions_engine_beta.lua")==true and ultraschall.Script_Context:match("ultraschall_functions_engine_beta")==nil then ultraschall.BETA=dofile(script_path .. "ultraschall_functions_engine_beta.lua") end
+  if reaper.file_exists(script_path.."ultraschall_datastructures_engine_beta.lua")==true and ultraschall.Script_Context:match("ultraschall_datastructures_engine_beta")==nil then ultraschall.BETA=dofile(script_path .. "ultraschall_datastructures_engine_beta.lua") end
+  if reaper.file_exists(script_path.."ultraschall_gui_engine_beta.lua")==true and ultraschall.Script_Context:match("ultraschall_gui_engine_beta")==nil then ultraschall.BETA=dofile(script_path .. "ultraschall_gui_engine_beta.lua") end
+  if reaper.file_exists(script_path.."ultraschall_gfx_engine_beta.lua")==true and ultraschall.Script_Context:match("ultraschall_gfx_engine_beta")==nil then ultraschall.BETA=dofile(script_path .. "ultraschall_gfx_engine_beta.lua") end
+  if reaper.file_exists(script_path.."ultraschall_sound_engine_beta.lua")==true and ultraschall.Script_Context:match("ultraschall_sound_engine_beta")==nil then ultraschall.BETA=dofile(script_path .. "ultraschall_sound_engine_beta.lua") end
+  if reaper.file_exists(script_path.."ultraschall_video_engine_beta.lua")==true and ultraschall.Script_Context:match("ultraschall_video_engine_beta")==nil then ultraschall.BETA=dofile(script_path .. "ultraschall_video_engine_beta.lua") end
+  if reaper.file_exists(script_path.."ultraschall_doc_engine_beta.lua")==true and ultraschall.Script_Context:match("ultraschall_doc_engine_beta")==nil then ultraschall.BETA=dofile(script_path .. "ultraschall_doc_engine_beta.lua") end
+  if reaper.file_exists(script_path.."ultraschall_tag_engine_beta.lua")==true and ultraschall.Script_Context:match("ultraschall_tag_engine_beta")==nil then ultraschall.BETA=dofile(script_path .. "ultraschall_tag_engine_beta.lua") end
+  if reaper.file_exists(script_path.."ultraschall_network_engine_beta.lua")==true and ultraschall.Script_Context:match("ultraschall_network_engine_beta")==nil then ultraschall.BETA=dofile(script_path .. "ultraschall_network_engine_beta.lua") end
 end
 
 

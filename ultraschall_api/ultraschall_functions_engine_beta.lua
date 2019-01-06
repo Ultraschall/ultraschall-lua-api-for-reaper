@@ -193,7 +193,8 @@ function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND)
   <slug>MIDI_OnCommandByFilename</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.95
+    Reaper=5.965
+    JS=0.962
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.MIDI_OnCommandByFilename(string filename, optional HWND Midi_EditorHWND)</functioncall>
@@ -252,7 +253,8 @@ function ultraschall.IsValidHWND(HWND)
   <slug>IsValidHWND</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.95
+    Reaper=5.965
+    JS=0.962
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.IsValidHWND(HWND hwnd)</functioncall>
@@ -348,7 +350,7 @@ function ultraschall.BrowseForOpenFiles(windowTitle, initialFolder, initialFile,
   <slug>BrowseForOpenFiles</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.95
+    Reaper=5.965
     JS=0.962
     Lua=5.3
   </requires>
@@ -411,7 +413,7 @@ function ultraschall.CloseReaConsole()
   <slug>CloseReaConsole</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.95
+    Reaper=5.965
     JS=0.962
     Lua=5.3
   </requires>
@@ -477,5 +479,178 @@ function ultraschall.GetApiVersion()
 --]]
   return "4.00","15th of May 2019", "Beta 2.8", 400.028,  "\"Mike Oldfield - Taurus II\""
 end
+
+function ultraschall.Base64_Encoder(source_string, base64_type, remove_newlines, remove_tabs)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Base64_Encoder</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>string encoded_string = ultraschall.Base64_Encoder(string source_string, optional integer base64_type, optional integer remove_newlines, optional integer remove_tabs)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Converts a string into a Base64-Encoded string. 
+    Currently, only standard Base64-encoding is supported.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string encoded_string - the encoded string
+  </retvals>
+  <parameters>
+    string source_string - the string that you want to convert into Base64
+    optional integer base64_type - the Base64-decoding-style
+                                 - nil or 0, for standard default Base64-encoding
+    optional integer remove_newlines - 1, removes \n-newlines(including \r-carriage return) from the string
+                                     - 2, replaces \n-newlines(including \r-carriage return) from the string with a single space
+    optional integer remove_tabs     - 1, removes \t-tabs from the string
+                                     - 2, replaces \t-tabs from the string with a single space
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, encode, base64, string</tags>
+</US_DocBloc>
+]]
+  -- Not to myself:
+  -- When you do the decoder, you need to take care, that the bitorder must be changed first, before creating the final-decoded characters
+  -- that means: reverse the process of the "tear apart the source-string into bits"-code-passage
+  
+  -- check parameters and prepare variables
+  if type(source_string)~="string" then ultraschall.AddErrorMessage("Base64_Encoder", "source_string", "must be a string", -1) return nil end
+  if remove_newlines~=nil and math.type(remove_newlines)~="integer" then ultraschall.AddErrorMessage("Base64_Encoder", "remove_newlines", "must be an integer", -2) return nil end
+  if remove_tabs~=nil and math.type(remove_tabs)~="integer" then ultraschall.AddErrorMessage("Base64_Encoder", "remove_tabs", "must be an integer", -3) return nil end
+  if base64_type~=nil and math.type(base64_type)~="integer" then ultraschall.AddErrorMessage("Base64_Encoder", "base64_type", "must be an integer", -4) return nil end
+  
+  local tempstring={}
+  local a=1
+  local temp
+  
+  -- this is probably the future space for more base64-encoding-schemes
+  local base64_string="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    
+  -- if source_string is multiline, get rid of \r and replace \t and \n with a single whitespace
+  if remove_newlines==1 then
+    source_string=string.gsub(source_string, "\n", "")
+    source_string=string.gsub(source_string, "\r", "")
+  elseif remove_newlines==2 then
+    source_string=string.gsub(source_string, "\n", " ")
+    source_string=string.gsub(source_string, "\r", "")  
+  end
+
+  if remove_tabs==1 then
+    source_string=string.gsub(source_string, "\t", "")
+  elseif remove_tabs==2 then 
+    source_string=string.gsub(source_string, "\t", " ")
+  end
+  
+  
+  -- tear apart the source-string into bits
+  -- bitorder of bytes will be reversed for the later parts of the conversion!
+  for i=1, source_string:len() do
+    temp=string.byte(source_string:sub(i,i))
+    temp=temp
+    if temp&1==0 then tempstring[a+7]=0 else tempstring[a+7]=1 end
+    if temp&2==0 then tempstring[a+6]=0 else tempstring[a+6]=1 end
+    if temp&4==0 then tempstring[a+5]=0 else tempstring[a+5]=1 end
+    if temp&8==0 then tempstring[a+4]=0 else tempstring[a+4]=1 end
+    if temp&16==0 then tempstring[a+3]=0 else tempstring[a+3]=1 end
+    if temp&32==0 then tempstring[a+2]=0 else tempstring[a+2]=1 end
+    if temp&64==0 then tempstring[a+1]=0 else tempstring[a+1]=1 end
+    if temp&128==0 then tempstring[a]=0 else tempstring[a]=1 end
+    a=a+8
+  end
+  
+  -- now do the encoding
+  local encoded_string=""
+  local temp2=0
+  
+  -- take six bits and make a single integer-value off of it
+  -- after that, use this integer to know, which place in the base64_string must
+  -- be read and included into the final string "encoded_string"
+  for i=0, a-1, 6 do
+    temp2=0
+    if tempstring[i+1]==1 then temp2=temp2+32 end
+    if tempstring[i+2]==1 then temp2=temp2+16 end
+    if tempstring[i+3]==1 then temp2=temp2+8 end
+    if tempstring[i+4]==1 then temp2=temp2+4 end
+    if tempstring[i+5]==1 then temp2=temp2+2 end
+    if tempstring[i+6]==1 then temp2=temp2+1 end
+    encoded_string=encoded_string..base64_string:sub(temp2+1,temp2+1)
+  end
+
+  -- if the number of characters in the source_string isn't exactly divideable 
+  -- by 3, add = to fill up missing bytes
+  if source_string:len()%3==1 then encoded_string=encoded_string.."=="
+  elseif source_string:len()%3==2 then encoded_string=encoded_string.."="
+  end
+  
+  return encoded_string
+end
+
+
+--A=ultraschall.Base64_Encoder("Man is", 9, 9, 9)
+
+function ultraschall.MB(msg,title,mbtype)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MB</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.77
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.MB(string msg, optional string title, optional integer type)</functioncall>
+  <description>
+    Shows Messagebox with user-clickable buttons. Works like reaper.MB() but unlike reaper.MB, this function accepts omitting some parameters for quicker use.
+    
+    Returns -1 in case of an error
+  </description>
+  <parameters>
+    string msg - the message, that shall be shown in messagebox
+    optional string title - the title of the messagebox
+    optional integer type - which buttons shall be shown in the messagebox
+                            - 0, OK
+                            - 1, OK CANCEL
+                            - 2, ABORT RETRY IGNORE
+                            - 3, YES NO CANCEL
+                            - 4, YES NO
+                            - 5, RETRY CANCEL
+                            - nil, defaults to OK
+  </parameters>
+  <retvals>
+    integer - the button pressed by the user
+                           - -1, error while executing this function
+                           - 1, OK
+                           - 2, CANCEL
+                           - 3, ABORT
+                           - 4, RETRY
+                           - 5, IGNORE
+                           - 6, YES
+                           - 7, NO
+  </retvals>
+  <chapter_context>
+    User Interface
+    Dialogs
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, user, interface, input, dialog, messagebox</tags>
+</US_DocBloc>
+--]]
+--  if type(msg)~="string" then ultraschall.AddErrorMessage("MB","msg", "Must be a string!", -1) return -1 end
+  msg=tostring(msg)
+  if type(title)~="string" then title="" end
+  if math.type(mbtype)~="integer" then mbtype=0 end
+  if mbtype<0 or mbtype>5 then ultraschall.AddErrorMessage("MB","mbtype", "Must be between 0 and 5!", -2) return -1 end
+  reaper.MB(msg, title, mbtype)
+end
+--ultraschall.MB(reaper.GetTrack(0,0))
+
 
 ultraschall.ShowLastErrorMessage()
