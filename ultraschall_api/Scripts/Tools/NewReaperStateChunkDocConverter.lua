@@ -790,7 +790,7 @@ for lolo=1, 60 do
     b=b+1
     if b>=120 then 
       reaper.ClearConsole() 
-      reaper.ShowConsoleMsg("Creating ConfigVar-Docs\n")
+      reaper.ShowConsoleMsg("Creating StateChunk-Docs\n")
       reaper.ShowConsoleMsg((math.floor(100/Ccount*index)+1).."% : ")
       for iii=1, math.floor(progressbar/Ccount*index) do reaper.ShowConsoleMsg("#") end
       for iii=math.floor(progressbar/Ccount), math.floor(progressbar/Ccount*(Ccount-index))-1 do reaper.ShowConsoleMsg("~") end
@@ -806,7 +806,7 @@ for lolo=1, 60 do
     end  
     if index>=Ccount then break end
 end
-    if index<Ccount then reaper.defer(entries) else writefile() end
+    if index<Ccount then reaper.defer(entries) else writefile() reaper.SetExtState("ultraschall", "doc", reaper.time_precise(), false) end
 end
 
 --header()
