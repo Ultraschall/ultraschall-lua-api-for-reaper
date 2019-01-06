@@ -596,28 +596,28 @@
 
                 Ultraschall-API-specific:
                 
-                   - [IsValidTrackString](usdocml://IsValidTrackString) - checks, if a string is a valid [trackstring](#Datatypes_002_trackstring)  
-                   - [IsValidMediaItemArray](usdocml://IsValidMediaItemArray) - checks, if a table is a valid [MediaItemArray](#Datatypes_003_MediaItemArray)  
-                   - [IsValidMediaItemStateChunkArray](usdocml://IsValidMediaItemStateChunkArray) - checks, if a table is a valid [MediaItemStateChunkArray](#Datatypes_004_MediaItemStateChunkArray)  
-                   - [IsValidEnvelopePointObject](usdocml://IsValidEnvelopePointObject) - checks, if a table is a valid [EnvelopePointObject](#Datatypes_005_EnvelopePointObject)  
-                   - [IsValidEnvelopePointArray](usdocml://IsValidEnvelopePointArray) - checks, if a table is a valid [EnvelopePointArray](#Datatypes_006_EnvelopePointArray)
-                   - [IsValidArrangeviewSnapshot](usdocml://IsValidArrangeviewSnapshot) - checks, if an extstate is a valid ArrangeviewSnapshot
+                 - [IsValidTrackString](usdocml://IsValidTrackString) - checks, if a string is a valid [trackstring](#Datatypes_002_trackstring)  
+                 - [IsValidMediaItemArray](usdocml://IsValidMediaItemArray) - checks, if a table is a valid [MediaItemArray](#Datatypes_003_MediaItemArray)  
+                 - [IsValidMediaItemStateChunkArray](usdocml://IsValidMediaItemStateChunkArray) - checks, if a table is a valid [MediaItemStateChunkArray](#Datatypes_004_MediaItemStateChunkArray)  
+                 - [IsValidEnvelopePointObject](usdocml://IsValidEnvelopePointObject) - checks, if a table is a valid [EnvelopePointObject](#Datatypes_005_EnvelopePointObject)  
+                 - [IsValidEnvelopePointArray](usdocml://IsValidEnvelopePointArray) - checks, if a table is a valid [EnvelopePointArray](#Datatypes_006_EnvelopePointArray)
+                 - [IsValidArrangeviewSnapshot](usdocml://IsValidArrangeviewSnapshot) - checks, if an extstate is a valid ArrangeviewSnapshot
                     
                 Other Reaper-datatypes:
                 
-                   - [IsValidReaProject](usdocml://IsValidReaProject) - checks, if an object is a valid ReaProject
-                   - [IsValidProjectStateChunk](usdocml://IsValidProjectStateChunk) - checks, if a string is a valid ProjectStateChunk
-                   - [IsValidTrackStateChunk](usdocml://IsValidTrackStateChunk) - checks, if a string is a valid TrackStateChunk
-                   - [IsValidMediaItemStateChunk](usdocml://IsValidMediaItemStateChunk) - checks, if a string is a valid MediaItemStateChunk
-                   - [IsValidEnvStateChunk](usdocml://IsValidEnvStateChunk) - checks, if a string is a valid EnvelopeStateChunk
+                 - [IsValidReaProject](usdocml://IsValidReaProject) - checks, if an object is a valid ReaProject
+                 - [IsValidProjectStateChunk](usdocml://IsValidProjectStateChunk) - checks, if a string is a valid ProjectStateChunk
+                 - [IsValidTrackStateChunk](usdocml://IsValidTrackStateChunk) - checks, if a string is a valid TrackStateChunk
+                 - [IsValidMediaItemStateChunk](usdocml://IsValidMediaItemStateChunk) - checks, if a string is a valid MediaItemStateChunk
+                 - [IsValidEnvStateChunk](usdocml://IsValidEnvStateChunk) - checks, if a string is a valid EnvelopeStateChunk
                     
                 They will be part of ultraschall.type() someday.
                 
             3. other types of data  
                 These aren't datatypes, but you may want to check them for validity as well  
                 
-                   - [IsValidGuid](usdocml://IsValidGuid) - checks, whether a string is a valid GUID  
-                   - [IsValidMatchingPattern](usdocml://IsValidMatchingPattern) - checks, whether a string is a valid matching pattern for Lua's pattern-matching  
+                 - [IsValidGuid](usdocml://IsValidGuid) - checks, whether a string is a valid GUID  
+                 - [IsValidMatchingPattern](usdocml://IsValidMatchingPattern) - checks, whether a string is a valid matching pattern for Lua's pattern-matching  
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>

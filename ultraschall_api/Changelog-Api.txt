@@ -1,14 +1,42 @@
-##Ultraschall Framework - Changelog
 
-###4.00 Beta 2.8: - "Mike Oldfield - Taurus II/Five Miles Out" - 15th of May 2019
+## Ultraschall Framework - Changelog
 
-####New features in 4.00beta2.8
+### 4.00 Beta 2.8: - "Mike Oldfield - Taurus II/Five Miles Out" - 15th of May 2019
+
+#### New features in 4.00beta2.8
+
   - SplitStringAtNULLBytes - splits a string at NULL-bytes ( \0 )
   - new background-script - ultraschall_track_old_playstate.lua - stores old playstate into extstate ultraschall->last_playstate
   - GetLastPlayState - returns the last playstate before the current one
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
+  - US_Api_AUD.html - added
+  - US_Api_Concepts_AUD.html - added
+  - US_Api_Concepts_DOC.html - added
+  - US_Api_Concepts_GFX.html - added
+  - US_Api_Concepts_GUI.html - added
+  - US_Api_Concepts_VID.html - added
+  - US_Api_DOC.html - added
+  - US_Api_GFX.html - added
+  - US_Api_GUI.html - added
+  - US_Api_VID.html - added
+  - US_Api-AUD.USDocML - added
+  - US_Api-DOC.USDocML - added
+  - US_Api-GFX.USDocML - added
+  - US_Api-GUI.USDocML - added
+  - US_Api-VID.USDocML - added
+  - NewUltraschallDoc_VID_Converter.lua - added
+  - NewUltraschallDoc_GUI_Converter.lua - added
+  - NewUltraschallDoc_DOC_Converter.lua - added
+  - NewUltraschallDoc_AUD_Converter.lua - added
+  - NewUltraschallConceptsDocConverter_AUD.lua - added
+  - NewUltraschallConceptsDocConverter_DOC.lua - added
+  - NewUltraschallConceptsDocConverter_GFX.lua - added
+  - NewUltraschallConceptsDocConverter_GUI.lua - added
+  - NewUltraschallConceptsDocConverter_VID.lua - added
+
   
-####Changes from 4.00beta2.7 to 4.00beta2.8
+#### Changes from 4.00beta2.7 to 4.00beta2.8
+
   - GetMarkerByScreenCoordinates - returned useless newlines -> fixed now
   - GetMarkerByTime - returned useless newlines -> fixed now
   - GetRegionByScreenCoordinates - returned useless newlines -> fixed now
@@ -16,7 +44,11 @@
   - GetApiVersion - updated versionsnumbering
   - docs generate and include now beta-functions as well
   - docs use now GetApiVersion for displaying version-numbering
+  - Docgenerator - reworked the docengine-creator for more fluffy working of it
+  - Changelog - fixed Markdown-formatting-issues
+  - Introduction/Concepts: Datatypes: Checking Datatypes - fixed Markdown-issues  
 
+  
   <TODO>
     For 4.00beta2.8:
       TODO!! Functionshook in Render-functions.
@@ -237,11 +269,12 @@
                       MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex   
    </TODO>
 
-###4.00 Beta 2.7: - "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018
+   
+### 4.00 Beta 2.7: - "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018
 
 Has now 700 functions, with about 250 new ones!
 
-####New features in 4.00beta2.7
+#### New features in 4.00beta2.7
   - SetEnvelopeHeight - set the height and compactible state of an envelope-lane/envelopestatechunk
   - GetTrackStateChunk_Tracknumber - get a TrackStateChunk without the hassle of creating a trackobject first  
   - SetTrackStateChunk_Tracknumber - set a TrackStateChunk without the hassle of creating a trackobject first
@@ -615,10 +648,11 @@ Has now 700 functions, with about 250 new ones!
   - GetSetConfigAudioPrShift - get/sets value for configvar audioprshift
   - GetSetConfigAudioCloseStop - get/sets value for configvar audioclosestop
   - GetSetConfigAudioThreadPr - get/sets value for configvar audiothreadpr
-  - GetSetConfigAudioCloseTrackWnds - get/sets value for configvar audioclosetrackwnds
-  - WinterlySnowflakes - replaces gfx.update with a version, that displays falling snowflakes everytime gfx.update is run
+  - GetSetConfigAudioCloseTrackWnds - get/sets value for configvar audioclosetrackwnds  
+  - WinterlySnowflakes - replaces gfx.update with a version, that displays falling snowflakes everytime gfx.update is run  
 
-####Changes from 4.00beta2.6 to 4.00beta2.7
+#### Changes from 4.00beta2.6 to 4.00beta2.7
+
   - Tons of bugfixes. I mean, tons as in metric tons ;)
   - GetTrackRecCFG - added documentation, that was still missing -> fixed now; added missing return-value
   - GetLastErrorMessage2 - had wrong functionname, corrected documentation
@@ -1001,7 +1035,9 @@ Has now 700 functions, with about 250 new ones!
   - Msg - removed, was useless
   
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
-####New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:
+
+#### New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:
+
   - CreateAllTracksTrackString - creates a trackstring with all tracks in the current project
   - new datastructure "EnvelopePointObjects" and "EnvelopePointArrays"(for EnvelopePointObjects) for easier massworking with envelopepoints
   - CreateEnvelopePointObject - creates an EnvelopePointObject
@@ -1034,7 +1070,8 @@ Has now 700 functions, with about 250 new ones!
   - StartTime - a new api-variable that contains the starting time of the current instance of the api, which probably means, your script, that
     embeds the framework
   
-####Changes from 4.00beta2.5 to 4.00beta2.6
+#### Changes from 4.00beta2.5 to 4.00beta2.6
+
   - corrections in the documentation
   - GetClosestNextMarker - couldn't find last marker and showed a time, even if no marker was found -> fixed now; 
       markers that are at time_position are now seen as a previous marker
@@ -1111,7 +1148,9 @@ Has now 700 functions, with about 250 new ones!
    
 
 ### 4.00 Beta 2.5: - "Musique non stop - Technopop - Kraftwerk" - 10th of September 2017
-####New features in 4.00beta2.5
+
+#### New features in 4.00beta2.5
+
   - Import Markers/Regions from RPP-Projectfiles
   - Selection/Deselection of items, as well as getting functions for getting selected items
   - functions for checking MediaItemArray and MediaItemStateChunkArrays for validity
@@ -1136,7 +1175,8 @@ Has now 700 functions, with about 250 new ones!
       when errors occur during execution of functions. Currently only some functions return error messages; will change over time.
   - tons of other helper-functions in many areas
  
-####Changes from 4.00beta2.1 to 4.00beta2.5
+#### Changes from 4.00beta2.1 to 4.00beta2.5
+
   - minor corrections in documentation
   - RenderProjectToAIFF - new parameters for start and endposition of the renderrange. Nil as projectfilename renders the currently opened project.
   - RenderProjectToFLAC - new parameters for start and endposition of the renderrange. Nil as projectfilename renders the currently opened project.
@@ -1220,13 +1260,15 @@ Has now 700 functions, with about 250 new ones!
    
    
 ### 4.00 Beta2.1: - "Ich und der Rock - Renft" - 30th of August
-####New features in 4.00beta2.1
+#### New features in 4.00beta2.1
+
   - mostly bugfixes
   - ultraschall.Separator - contains the proper separator for the system it runs on. If you want to do file-operation, 
                 you should use this instead of \\ or /, to make your script Mac and Windows compliant.
   - ultraschall.Script_Path - contains the path to the scripts-folder of Reaper
   
-####Changes from 4.00beta2 to 4.00beta2.1 
+#### Changes from 4.00beta2 to 4.00beta2.1 
+
   - changed the lines, you need to include into your script. refer "3. How to use the API in your LUA-Script" in the doc-file.
   - some functions didn't work on Mac, due it's use of / instead of \ as directory-separator. Has been fixed now.
   - moved all ultraschall-related variables into the ultraschall-table.
@@ -1252,7 +1294,8 @@ Has now 700 functions, with about 250 new ones!
  
    
 ### 4.00 Beta2: - "Shock The Monkey - Peter Gabriel" - 20th August 2017
-####New Features in 4.00beta2 - about 190 new functions with:
+#### New Features in 4.00beta2 - about 190 new functions with:
+
   - Configuration: Import/Export from/to reaper-kb.ini-files
   - Configuration: New Management-functions for Configuration-files that follow standard ini-files
   - Clipboard: Clipboard Functions, get and put (thanks to fernsehmuell for the mac-side)
@@ -1270,7 +1313,8 @@ Has now 700 functions, with about 250 new ones!
       Will be extended to be a fully equipped automatic-documentation-system for Ultraschall
   - Tons of other functions in all areas.
       
-####Changes from 4.00beta1 to 4.00beta2
+#### Changes from 4.00beta1 to 4.00beta2
+
   - Marker/Regions-functions - they used to ignore regions which led to wrong markers/regions -> fixed
   - ultraschall.WriteValueToFile - default write-mode changed to binary-file behavior(doesn't add useless newlines anymore)
                     non binary-mode can be chosen by a new parameter "binarymode" set to false, if it's   
@@ -1282,7 +1326,8 @@ Has now 700 functions, with about 250 new ones!
  
  
 ### 4.00 beta1: - "Tomorrow Never Knows - The Beatles" - 10th of July 2017
-####New Features in 4.00beta1 - about 140 new functions with:
+#### New Features in 4.00beta1 - about 140 new functions with:
+
   - Markers: extensive marker-management, with markers for chapter, edit, dummy, normal and podrange-regions
   - Configuration: functions for an Ultraschall.ini. Ultraschall needs it's own config-file, at last ;)
   - CoughButtons: CoughButton-management for setting, toggling, getting envelope-points in the mute-envelope-lane

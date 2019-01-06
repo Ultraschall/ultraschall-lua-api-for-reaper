@@ -55,7 +55,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 - "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018 - Build: 26135</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.7 - "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018 - Build: 26146</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -467,23 +467,34 @@ Due some API-restrictions, SWS-specific datatypes are not (yet) supported.  </co
 <li><p>Ultraschall-API specific or other Reaper-datatypes<br />
 To check for Ultraschall-API specific or other Reaper-datatypes, you can use the following functions:</p>
 <p>Ultraschall-API-specific:</p>
-<pre><code>- [IsValidTrackString](US_Api_Functions.html#IsValidTrackString) - checks, if a string is a valid [trackstring](#Datatypes_002_trackstring)  
-- [IsValidMediaItemArray](US_Api_Functions.html#IsValidMediaItemArray) - checks, if a table is a valid [MediaItemArray](#Datatypes_003_MediaItemArray)  
-- [IsValidMediaItemStateChunkArray](US_Api_Functions.html#IsValidMediaItemStateChunkArray) - checks, if a table is a valid [MediaItemStateChunkArray](#Datatypes_004_MediaItemStateChunkArray)  
-- [IsValidEnvelopePointObject](US_Api_Functions.html#IsValidEnvelopePointObject) - checks, if a table is a valid [EnvelopePointObject](#Datatypes_005_EnvelopePointObject)  
-- [IsValidEnvelopePointArray](US_Api_Functions.html#IsValidEnvelopePointArray) - checks, if a table is a valid [EnvelopePointArray](#Datatypes_006_EnvelopePointArray)
-- [IsValidArrangeviewSnapshot](US_Api_Functions.html#IsValidArrangeviewSnapshot) - checks, if an extstate is a valid ArrangeviewSnapshot</code></pre>
+<ul>
+<li><a href="US_Api_Functions.html#IsValidTrackString">IsValidTrackString</a> - checks, if a string is a valid <a href="#Datatypes_002_trackstring">trackstring</a><br />
+</li>
+<li><a href="US_Api_Functions.html#IsValidMediaItemArray">IsValidMediaItemArray</a> - checks, if a table is a valid <a href="#Datatypes_003_MediaItemArray">MediaItemArray</a><br />
+</li>
+<li><a href="US_Api_Functions.html#IsValidMediaItemStateChunkArray">IsValidMediaItemStateChunkArray</a> - checks, if a table is a valid <a href="#Datatypes_004_MediaItemStateChunkArray">MediaItemStateChunkArray</a><br />
+</li>
+<li><a href="US_Api_Functions.html#IsValidEnvelopePointObject">IsValidEnvelopePointObject</a> - checks, if a table is a valid <a href="#Datatypes_005_EnvelopePointObject">EnvelopePointObject</a><br />
+</li>
+<li><a href="US_Api_Functions.html#IsValidEnvelopePointArray">IsValidEnvelopePointArray</a> - checks, if a table is a valid <a href="#Datatypes_006_EnvelopePointArray">EnvelopePointArray</a></li>
+<li><a href="US_Api_Functions.html#IsValidArrangeviewSnapshot">IsValidArrangeviewSnapshot</a> - checks, if an extstate is a valid ArrangeviewSnapshot</li>
+</ul>
 <p>Other Reaper-datatypes:</p>
-<pre><code>- [IsValidReaProject](US_Api_Functions.html#IsValidReaProject) - checks, if an object is a valid ReaProject
-- [IsValidProjectStateChunk](US_Api_Functions.html#IsValidProjectStateChunk) - checks, if a string is a valid ProjectStateChunk
-- [IsValidTrackStateChunk](US_Api_Functions.html#IsValidTrackStateChunk) - checks, if a string is a valid TrackStateChunk
-- [IsValidMediaItemStateChunk](US_Api_Functions.html#IsValidMediaItemStateChunk) - checks, if a string is a valid MediaItemStateChunk
-- [IsValidEnvStateChunk](US_Api_Functions.html#IsValidEnvStateChunk) - checks, if a string is a valid EnvelopeStateChunk</code></pre>
+<ul>
+<li><a href="US_Api_Functions.html#IsValidReaProject">IsValidReaProject</a> - checks, if an object is a valid ReaProject</li>
+<li><a href="US_Api_Functions.html#IsValidProjectStateChunk">IsValidProjectStateChunk</a> - checks, if a string is a valid ProjectStateChunk</li>
+<li><a href="US_Api_Functions.html#IsValidTrackStateChunk">IsValidTrackStateChunk</a> - checks, if a string is a valid TrackStateChunk</li>
+<li><a href="US_Api_Functions.html#IsValidMediaItemStateChunk">IsValidMediaItemStateChunk</a> - checks, if a string is a valid MediaItemStateChunk</li>
+<li><a href="US_Api_Functions.html#IsValidEnvStateChunk">IsValidEnvStateChunk</a> - checks, if a string is a valid EnvelopeStateChunk</li>
+</ul>
 <p>They will be part of ultraschall.type() someday.</p></li>
 <li><p>other types of data<br />
 These aren't datatypes, but you may want to check them for validity as well</p>
-<pre><code>- [IsValidGuid](US_Api_Functions.html#IsValidGuid) - checks, whether a string is a valid GUID  
-- [IsValidMatchingPattern](US_Api_Functions.html#IsValidMatchingPattern) - checks, whether a string is a valid matching pattern for Lua&#39;s pattern-matching  </code></pre></li>
+<ul>
+<li><a href="US_Api_Functions.html#IsValidGuid">IsValidGuid</a> - checks, whether a string is a valid GUID<br />
+</li>
+<li><a href="US_Api_Functions.html#IsValidMatchingPattern">IsValidMatchingPattern</a> - checks, whether a string is a valid matching pattern for Lua's pattern-matching</li>
+</ul></li>
 </ol>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="API_Variables_001_Introduction"></a>

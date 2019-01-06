@@ -114,7 +114,9 @@ os.remove(Tempfile..ChangeLogFile)
 
 --]]
 reaper.SetExtState("ultraschall", "doc", "", false)
+if reaper.MB("Create Ultraschall-Docs ?", "Reaper-Docs", 4)==6 then pp=1 end
 if reaper.MB("Create Reaper-Docs as well?", "Reaper-Docs", 4)==6 then p=1 end
+if p~=1 and pp~=1 then return end
  -- introduction-concepts
 A=0
 
@@ -132,12 +134,14 @@ Docfiles[10]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Too
 Docfiles[11]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/NewUltraschallDoc_GUI_Converter.lua"
 Docfiles[12]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/NewUltraschallDoc_VID_Converter.lua"
 Docfiles[13]="tudelu"
+if pp~=1 then Len=#Docfiles Docfiles={} else Len=0 end
+
 if p==1 then
-  Docfiles[13]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/NewReaperStateChunkDocConverter.lua"
-  Docfiles[14]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/ConfigDocConverter.lua"
-  Docfiles[15]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/NewReaScriptConverter.lua"
+  Docfiles[13-Len]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/NewReaperStateChunkDocConverter.lua"
+  Docfiles[14-Len]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/ConfigDocConverter.lua"
+  Docfiles[15-Len]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/NewReaScriptConverter.lua"
 end
-Docfiles[16]="tudelu"
+Docfiles[16-Len]="tudelu"
 
 Timer=reaper.time_precise()
 reaper.SetExtState("ultraschall", "doc", Timer, false)
