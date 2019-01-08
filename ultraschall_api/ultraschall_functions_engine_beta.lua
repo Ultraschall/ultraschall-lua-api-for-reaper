@@ -576,7 +576,7 @@ function ultraschall.Base64_Encoder(source_string, base64_type, remove_newlines,
   -- take six bits and make a single integer-value off of it
   -- after that, use this integer to know, which place in the base64_string must
   -- be read and included into the final string "encoded_string"
-  for i=0, a-1, 6 do
+  for i=0, a-2, 6 do
     temp2=0
     if tempstring[i+1]==1 then temp2=temp2+32 end
     if tempstring[i+2]==1 then temp2=temp2+16 end
@@ -587,10 +587,10 @@ function ultraschall.Base64_Encoder(source_string, base64_type, remove_newlines,
     encoded_string=encoded_string..base64_string:sub(temp2+1,temp2+1)
   end
 
-  -- if the number of characters in the source_string isn't exactly divideable 
+  -- if the number of characters in the encoded_string isn't exactly divideable 
   -- by 3, add = to fill up missing bytes
-  if source_string:len()%3==1 then encoded_string=encoded_string.."=="
-  elseif source_string:len()%3==2 then encoded_string=encoded_string.."="
+  if encoded_string:len()%3==1 then encoded_string=encoded_string.."=="
+  elseif encoded_string:len()%3==2 then encoded_string=encoded_string.."="
   end
   
   return encoded_string
@@ -598,6 +598,87 @@ end
 
 
 --A=ultraschall.Base64_Encoder("Man is", 9, 9, 9)
+
+function ultraschall.Base64_Decoder(source_string, base64_type)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Base64_Decoder</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>string decoded_string = ultraschall.Base64_Decoder(string source_string, optional integer base64_type)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Converts a Base64-encoded string into a normal string. 
+    Currently, only standard Base64-encoding is supported.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string decoded_string - the decoded string
+  </retvals>
+  <parameters>
+    string source_string - the Base64-encoded string
+    optional integer base64_type - the Base64-decoding-style
+                                 - nil or 0, for standard default Base64-encoding
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, decode, base64, string</tags>
+</US_DocBloc>
+]]
+  if type(source_string)~="string" then ultraschall.AddErrorMessage("Base64_Decoder", "source_string", "must be a string", -1) return nil end
+  if base64_type~=nil and math.type(base64_type)~="integer" then ultraschall.AddErrorMessage("Base64_Decoder", "base64_type", "must be an integer", -2) return nil end
+  
+  -- this is probably the place for other types of base64-decoding-stuff  
+  local base64_string="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+  
+  
+  -- remove =
+  source_string=string.gsub(source_string,"=","")
+
+  local L=source_string:match("[^"..base64_string.."]")
+  if L~=nil then ultraschall.AddErrorMessage("Base64_Decoder", "source_string", "no valid Base64-string: invalid characters", -3) return nil end
+  
+  -- split the string into bits
+  local bitarray={}
+  local count=1
+  local temp
+  for i=1, source_string:len() do
+    temp=base64_string:match(source_string:sub(i,i).."()")-2
+    if temp&32~=0 then bitarray[count]=1 else bitarray[count]=0 end
+    if temp&16~=0 then bitarray[count+1]=1 else bitarray[count+1]=0 end
+    if temp&8~=0 then bitarray[count+2]=1 else bitarray[count+2]=0 end
+    if temp&4~=0 then bitarray[count+3]=1 else bitarray[count+3]=0 end
+    if temp&2~=0 then bitarray[count+4]=1 else bitarray[count+4]=0 end
+    if temp&1~=0 then bitarray[count+5]=1 else bitarray[count+5]=0 end
+    count=count+6
+  end
+  
+  -- combine the bits into the original bytes and put them into decoded_string
+  local decoded_string=""
+  local temp2=0
+  for i=0, count-1, 8 do
+    temp2=0
+    if bitarray[i+1]==1 then temp2=temp2+128 end
+    if bitarray[i+2]==1 then temp2=temp2+64 end
+    if bitarray[i+3]==1 then temp2=temp2+32 end
+    if bitarray[i+4]==1 then temp2=temp2+16 end
+    if bitarray[i+5]==1 then temp2=temp2+8 end
+    if bitarray[i+6]==1 then temp2=temp2+4 end
+    if bitarray[i+7]==1 then temp2=temp2+2 end
+    if bitarray[i+8]==1 then temp2=temp2+1 end
+    decoded_string=decoded_string..string.char(temp2)
+  end
+  return decoded_string
+end
+
+--O=ultraschall.Base64_Decoder("VHV0YXNzc0z=")
 
 function ultraschall.MB(msg,title,mbtype)
 --[[
@@ -1283,5 +1364,39 @@ function ultraschall.SetProject_RenderPattern(projectfilename_with_path, render_
   end  
 end
 
+function ultraschall.Base64_Decoder(source_string, escape_some_characters)
+  local base64_string="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+  source_string=string.gsub(source_string,"=","")
+  
+  local bitarray={}
+  local count=1
+  for i=1, source_string:len() do
+    --reaper.MB(source_string:sub(i,i),base64_string:match("()"..source_string:sub(i,i)),0)
+    temp=base64_string:match(source_string:sub(i,i).."()")-2
+    if temp&32~=0 then bitarray[count]=1 else bitarray[count]=0 end
+    if temp&16~=0 then bitarray[count+1]=1 else bitarray[count+1]=0 end
+    if temp&8~=0 then bitarray[count+2]=1 else bitarray[count+2]=0 end
+    if temp&4~=0 then bitarray[count+3]=1 else bitarray[count+3]=0 end
+    if temp&2~=0 then bitarray[count+4]=1 else bitarray[count+4]=0 end
+    if temp&1~=0 then bitarray[count+5]=1 else bitarray[count+5]=0 end
+    count=count+6
+  end
+  
+  local decoded_string=""
+  local temp2=0
+  for i=0, count-1, 8 do
+    temp2=0
+    if bitarray[i+1]==1 then temp2=temp2+128 end
+    if bitarray[i+2]==1 then temp2=temp2+64 end
+    if bitarray[i+3]==1 then temp2=temp2+32 end
+    if bitarray[i+4]==1 then temp2=temp2+16 end
+    if bitarray[i+5]==1 then temp2=temp2+8 end
+    if bitarray[i+6]==1 then temp2=temp2+4 end
+    if bitarray[i+7]==1 then temp2=temp2+2 end
+    if bitarray[i+8]==1 then temp2=temp2+1 end
+    decoded_string=decoded_string..string.char(temp2)
+  end
+  return decoded_string
+end
 
 ultraschall.ShowLastErrorMessage()

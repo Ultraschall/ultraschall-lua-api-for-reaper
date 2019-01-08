@@ -40,6 +40,7 @@
   - Base64_Encoder - encodes a string into a Base64-encoded string
   - CreateTemporaryFileOfProjectfile - creates a valid temporary-copy of an rpp-projectfile; use nil for the currently opened one(must be saved first)
   - ultraschall.hotfixdate - holds the release-date of the currently installed hotfix, returned by GetApiVersion now
+  - Base64_Decoder - decodes a Base64-encoded string
   
 #### Changes from 4.00beta2.7 to 4.00beta2.8
 
@@ -71,6 +72,7 @@
   
   <TODO>
     For 4.00beta2.8:
+      TODO!! docs: exchange api.ultraschall.fm/Downloads.html with the correct URL
       TODO!! ultraschall.SortTableByCertainTableEntry - sorts a table by a certain entry in the table
                                                       - like table[4][2][1]
                                                       probably impossible, cause, how to pass [2][1] as parameter?
