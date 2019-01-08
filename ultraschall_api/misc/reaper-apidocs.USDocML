@@ -12707,7 +12707,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            See [PCM_Source_CreateFromFileEx">PCM_Source_CreateFromFileEx).
+            See [PCM_Source_CreateFromFileEx](PCM_Source_CreateFromFileEx).
         </description>
         <retvals>
             PCM_source - 

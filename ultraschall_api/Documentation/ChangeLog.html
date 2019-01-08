@@ -76,6 +76,8 @@ Ultraschall API Changelog
 <li>MIDI_OnCommandByFilename - runs a command in the MIDI-Editor context by its filename instead of the ActionCommandID/command-id</li>
 <li>BrowseForOpenFiles - utilizes JS_Dialog_BrowseForOpenFiles-function, but returns the files and paths in a more comfortable way</li>
 <li>Base64_Encoder - encodes a string into a Base64-encoded string</li>
+<li>CreateTemporaryFileOfProjectfile - creates a valid temporary-copy of an rpp-projectfile; use nil for the currently opened one(must be saved first)</li>
+<li>ultraschall.hotfixdate - holds the release-date of the currently installed hotfix, returned by GetApiVersion now</li>
 </ul>
 <h4 id="changes-from-4.00beta2.7-to-4.00beta2.8">Changes from 4.00beta2.7 to 4.00beta2.8</h4>
 <ul>
@@ -83,7 +85,7 @@ Ultraschall API Changelog
 <li>GetMarkerByTime - returned useless newlines -&gt; fixed now</li>
 <li>GetRegionByScreenCoordinates - returned useless newlines -&gt; fixed now</li>
 <li>GetRegionByTime - returned useless newlines -&gt; fixed now</li>
-<li>GetApiVersion - updated versionsnumbering</li>
+<li>GetApiVersion - updated versionsnumbering; returns now the release-date of the currently installed hotfixes</li>
 <li>docs generate and include now beta-functions as well</li>
 <li>docs use now GetApiVersion for displaying version-numbering</li>
 <li>Docgenerator - reworked the docengine-creator for more fluffy working of it</li>
@@ -98,6 +100,12 @@ Ultraschall API Changelog
 <li>ultraschall.MB - converts now all passed data into string, no matter what type it is</li>
 <li>ultraschall_api.lua - checks now, if it is run within the beta-engine-parts of this API and prevents including it if necessary.<br />
 This prevents duplicate execution of functions, when coding within the beta-functions-engine-scripts.</li>
+<li>RenderProject_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project didn’t return correct filecount if rendering was cancelled, leading to possible error-message -&gt; fixed</li>
+<li>RenderProjectRegions_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project</li>
+<li>GetMediafileAttributes - added info into the docs about rpp-projects, which will create a proxy file, when getting the mediafile-attributes</li>
+<li>CreateValidTempFile - added info about the path of the created tempfile/tempfilename</li>
+<li>GetProject_Length - fixed issue with projectfiles smaller than 1000 bytes, which couldn’t be parsed</li>
+<li>SetProject_RenderPattern - didn’t save render-patterns with spaces in them properly</li>
 </ul>
 <h3 id="beta-2.7---frank-zappa---the-return-of-the-son-of-monster-magnet---15th-of-december-2018">4.00 Beta 2.7: - “Frank Zappa - The Return of the Son of Monster Magnet” - 15th of December 2018</h3>
 <p>Has now 700 functions, with about 250 new ones!</p>
