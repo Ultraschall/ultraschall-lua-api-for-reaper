@@ -1364,39 +1364,84 @@ function ultraschall.SetProject_RenderPattern(projectfilename_with_path, render_
   end  
 end
 
-function ultraschall.Base64_Decoder(source_string, escape_some_characters)
-  local base64_string="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-  source_string=string.gsub(source_string,"=","")
+function ultraschall.GetProjectStateChunk(Project)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProjectStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string ProjectStateChunk = ultraschall.GetProjectStateChunk(ReaProject project)</functioncall>
+  <description>
+    Gets a ProjectStateChunk of a ReaProject-object.
+    
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    ReaProject project - the ReaProject, whose ProjectStateChunk you want; nil, for the currently opened project
+  </parameters>
+  <retvals>
+    string ProjectStateChunk - the ProjectStateChunk of the a specific ReaProject-object; nil, in case of an error
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, get, projectstatechunk</tags>
+</US_DocBloc>
+]]  
+  if Project~=nil and ultraschall.IsValidReaProject(Project)==false then ultraschall.AddErrorMessage("GetProjectStateChunk", "Project", "must be a valid ReaProject", -1) return nil end
+  local currentproject=reaper.EnumProjects(-1,"")
+  if Project~=nil then
+    reaper.PreventUIRefresh(1)
+    reaper.SelectProjectInstance(Project)
+  end
+  local Path=reaper.GetResourcePath().."\\QueuedRenders\\"
+  local ProjectStateChunk=""
+  local filecount, files = ultraschall.GetAllFilesnamesInPath(Path)
   
-  local bitarray={}
-  local count=1
-  for i=1, source_string:len() do
-    --reaper.MB(source_string:sub(i,i),base64_string:match("()"..source_string:sub(i,i)),0)
-    temp=base64_string:match(source_string:sub(i,i).."()")-2
-    if temp&32~=0 then bitarray[count]=1 else bitarray[count]=0 end
-    if temp&16~=0 then bitarray[count+1]=1 else bitarray[count+1]=0 end
-    if temp&8~=0 then bitarray[count+2]=1 else bitarray[count+2]=0 end
-    if temp&4~=0 then bitarray[count+3]=1 else bitarray[count+3]=0 end
-    if temp&2~=0 then bitarray[count+4]=1 else bitarray[count+4]=0 end
-    if temp&1~=0 then bitarray[count+5]=1 else bitarray[count+5]=0 end
-    count=count+6
+  for i=1, filecount do
+    local filepath,filename=ultraschall.GetPath(files[i])
+    os.rename(files[i], filepath.."US"..filename)
   end
   
-  local decoded_string=""
-  local temp2=0
-  for i=0, count-1, 8 do
-    temp2=0
-    if bitarray[i+1]==1 then temp2=temp2+128 end
-    if bitarray[i+2]==1 then temp2=temp2+64 end
-    if bitarray[i+3]==1 then temp2=temp2+32 end
-    if bitarray[i+4]==1 then temp2=temp2+16 end
-    if bitarray[i+5]==1 then temp2=temp2+8 end
-    if bitarray[i+6]==1 then temp2=temp2+4 end
-    if bitarray[i+7]==1 then temp2=temp2+2 end
-    if bitarray[i+8]==1 then temp2=temp2+1 end
-    decoded_string=decoded_string..string.char(temp2)
+
+  reaper.Main_OnCommand(41823,0)
+
+  local filecount2, files2 = ultraschall.GetAllFilesnamesInPath(Path)  
+  if files2[1]==nil then files2[1]="" end
+  while reaper.file_exists(files2[1])==false do
+    filecount2, files2 = ultraschall.GetAllFilesnamesInPath(Path)
+    if files2[1]==nil then files2[1]="" end
   end
-  return decoded_string
+  
+  
+  for i=1, filecount2 do
+    if files2[i]:match(Path.."qrender")~=nil then 
+      ProjectStateChunk=ultraschall.ReadFullFile(files2[i]) 
+      os.remove(files2[i]) break 
+    end
+  end
+  
+  for i=1, filecount do
+    local filepath,filename=ultraschall.GetPath(files[i])
+    os.rename(filepath.."US"..filename, files[i])
+  end
+
+  if Project~=nil then
+    reaper.PreventUIRefresh(-1)
+    reaper.SelectProjectInstance(currentproject)
+  end  
+  ProjectStateChunk=string.gsub(ProjectStateChunk,"  QUEUED_RENDER_OUTFILE.-\n","")
+  ProjectStateChunk=string.gsub(ProjectStateChunk,"  QUEUED_RENDER_ORIGINAL_FILENAME.-\n","")
+  return ProjectStateChunk
 end
+
+--A=ultraschall.GetProjectStateChunk()
+
 
 ultraschall.ShowLastErrorMessage()

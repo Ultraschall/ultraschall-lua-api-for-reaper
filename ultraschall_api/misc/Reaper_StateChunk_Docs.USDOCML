@@ -18,6 +18,49 @@
     <source_document></source_document>
     <tags></tags>
   </US_DocBloc>
+
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>QUEUED_RENDER_OUTFILE</slug>
+    <functioncall>QUEUED_RENDER_OUTFILE string renderfilename_with_path_for_queue  integer unknown  string guid</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        Only in Render-queued-projects!
+        
+        stores the output-filename with path for the render-queue. If omitted while project is in Resourcefolder/QueuedRenders, the renderfilename will be created like a regular projectfile using RENDER_FILE and RENDER_PATTERN
+        
+        There can be more than one (i.e. with rendering stems). According to the settings in [RENDER_STEMS](#RENDER_STEMS), the first entry may refer to the render-targetfile of the master-track.
+    </description>
+    <parameters>
+      string renderfilename_with_path_for_queue - the render-outputfilename, which will be created when the queued project is rendered
+      integer unknown - unknown
+      string guid - a guid associated with this queue
+    </parameters>
+    <chapter_context>
+      ProjectStateChunk
+    </chapter_context>
+    <target_document>Reaper_StateChunk_Docs</target_document>
+    <source_document></source_document>
+    <tags></tags>
+  </US_DocBloc>
+  
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>QUEUED_RENDER_ORIGINAL_FILENAME</slug>
+    <functioncall>QUEUED_RENDER_ORIGINAL_FILENAME string projectfilename_with_path</functioncall>
+    <description>
+        Only in Render-queued-projects!
+        
+        stores the original filename of the queued-project with path.
+        Omitted for projects, that are not saved yet but already in the render-queue.
+    </description>
+    <parameters>
+      string projectfilename_with_path - the original projectfilename including it's path
+    </parameters>
+    <chapter_context>
+      ProjectStateChunk
+    </chapter_context>
+    <target_document>Reaper_StateChunk_Docs</target_document>
+    <source_document></source_document>
+    <tags></tags>
+  </US_DocBloc>
   
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>RENDER_CFG</slug>

@@ -41,6 +41,8 @@
   - CreateTemporaryFileOfProjectfile - creates a valid temporary-copy of an rpp-projectfile; use nil for the currently opened one(must be saved first)
   - ultraschall.hotfixdate - holds the release-date of the currently installed hotfix, returned by GetApiVersion now
   - Base64_Decoder - decodes a Base64-encoded string
+  - GetProjectStateChunk - gets a ProjectStateChunk from an opened ReaProject
+  
   
 #### Changes from 4.00beta2.7 to 4.00beta2.8
 
@@ -72,6 +74,55 @@
   
   <TODO>
     For 4.00beta2.8:
+      TODO!! GetProjectStateChunk - replace all absolute paths, that refer to the recording-path RECORD_PATH
+                                    with their relative counterparts.
+                                    That means: if I find Projectfilepath/Recordingpath in the ProjectStateChunk, exchange it with Recordingpath/
+      TODO!! RenderProject_RenderCfg - new implementation, that exploits the render-queue, rather the reopening of a project
+                                       should work with opened projects, but still unknown, how to add unopened projects properly and how to find out the rendered files afterwards...
+                                       maybe that way: RENDER_FILE contains the path, where the file is stored in, either with or without the actual filename(the latter when using RENDER_PATTERNS).
+                                       I just need to take a "file_in_path_snapshot" before and after the rendering, get rid of the files that are there before AND after and what's left if the newly rendered file(s).
+                                       Could this work? Try it.
+                                       
+                                       Other notes for that follow now:
+                                       
+            Renderpattern:
+                    der Renderpath kommt in RENDER_FILE rein, wenn dieser nicht gesetzt ist, wird das Verzeichnis genommen, in der das rpp liegt
+
+                    Wenn man RENDER_PATTERN nutzt und gleichzeitig einen "Dateinamen" bei RENDER_FILE einträgt, so wird ein Unterverzeichnis angelegt, in das reingerendert wird.
+                    Sprich: Ich muss vorher noch checken, ob der Renderpath ein gültiger ist
+
+
+                    Pfad zu relativen Dateien:
+                          RECORD_PATH "Recordingss" ""
+                          
+                          ist der Record-Path, der im Projektverzeichnis liegt.
+                          Sprich: Pfad/Projektdatei.rpp wird zu Pfad/Record_Path
+                          
+                          Zu klären ist noch, wie das mit dem secondary-record-path geht...
+                          
+                          Reaper selbst macht beim speichern aus relativen Pfaden absolute Pfade, wenn es nötig ist, außer beim
+                          erstellen von queue-renderfiles, wo sämtliche Pfade absolutiert werden.
+                          Sprich: alle Pfad/Record_Path-Angaben kann ich in relativ ändern, um das ursprüngliche ProjectStateChunk zu bekommen
+
+
+                    RenderQueue:
+                    QUEUED_RENDER_OUTFILE "C:\Users\meo\Documents\REAPER Media\untitled.flac" 0 {EB98934F-A3C1-403D-AC70-7F07975740C1}
+
+                    QUEUED_RENDER_OUTFILE renderfilename_with_path_for_queue  integer unknown string guid
+
+                    stores the output-filename with path for the render-queue. If omitted while project is in QueuedRenders, the renderfilename will be created like a regular projectfile
+
+
+                    QUEUED_RENDER_ORIGINAL_FILENAME string projectfilename
+
+                    stores the original filename of the project
+      
+                    The queue-filename MUST have the following namingpattern: qrender_123456_123456_projectname.RPP, 
+                                      where the first number is a datestamp yymmdd and the second a timestamp hhmmss.
+                                      the projectname is optional BUT the _ before it is mandatory. Otherwise, Reaper 
+                                      stops rendering with an error!
+      
+      
       TODO!! docs: exchange api.ultraschall.fm/Downloads.html with the correct URL
       TODO!! ultraschall.SortTableByCertainTableEntry - sorts a table by a certain entry in the table
                                                       - like table[4][2][1]

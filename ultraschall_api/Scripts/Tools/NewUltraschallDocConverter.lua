@@ -523,7 +523,18 @@ function header()
 end
 
 function contentindex()
-  FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..beta.." - "..Tagline.." - "..date.." - Build: "..build.."</div><h3>Introduction and Concepts</h3><table style=\"font-size:10pt; width:100%;\" >"
+  FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..beta.." - "..Tagline.." - "..date.." - Build: "..build..[[</div><h3>The Functions Reference</h3>
+      To add the API to your script, just add<p>
+      
+      <pre><code>
+        dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+      </pre></code>
+  
+      as first line into your script.<p>
+      
+      For more details, read the docs in the <a href="US_Api_Introduction_and_Concepts">Introduction and Concepts</a>-area of this page.
+  <table style=\"font-size:10pt; width:100%;\" >
+  ]]
   reaper.ClearConsole()
   reaper.ShowConsoleMsg(scriptfilename..": Create Index\n")
   HeaderList={}
