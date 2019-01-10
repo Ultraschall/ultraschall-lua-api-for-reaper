@@ -1364,6 +1364,111 @@ function ultraschall.SetProject_RenderPattern(projectfilename_with_path, render_
   end  
 end
 
+function ultraschall.InsertMediaItemFromFile(filename, track, position, endposition, editcursorpos, offset)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>InsertMediaItemFromFile</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    SWS=2.8.8
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval, MediaItem item, number endposition, integer numchannels, integer Samplerate, string Filetype, number editcursorposition, MediaTrack track = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, integer editcursorpos, optional number offset)</functioncall>
+  <description>
+    Inserts the mediafile filename into the project at position in track
+    When giving an rpp-projectfile, it will be rendered by Reaper and inserted as subproject!
+    
+    Due API-limitations, it creates two undo-points: one for inserting the MediaItem and one for changing the length(when endposition isn't -1).    
+    
+    Returns -1 in case of failure
+  </description>
+  <parameters>
+    string filename - the path+filename of the mediafile to be inserted into the project
+    integer track - the track, in which the file shall be inserted
+                  -  0, insert the file into a newly inserted track after the last track
+                  - -1, insert the file into a newly inserted track before the first track
+    number position - the position of the newly inserted item
+    number endposition - the length of the newly created mediaitem; -1, use the length of the sourcefile
+    integer editcursorpos - the position of the editcursor after insertion of the mediafile
+          - 0 - the old editcursorposition
+          - 1 - the position, at which the item was inserted
+          - 2 - the end of the newly inserted item
+    optional number offset - an offset, to delay the insertion of the item, to overcome possible "too late"-starting of playback of item during recording
+  </parameters>
+  <retvals>
+    integer retval - 0, if insertion worked; -1, if it failed
+    MediaItem item - the newly created MediaItem
+    number endposition - the endposition of the newly created MediaItem in seconds
+    integer numchannels - the number of channels of the mediafile
+    integer Samplerate - the samplerate of the mediafile in hertz
+    string Filetype - the type of the mediafile, like MP3, WAV, MIDI, FLAC, etc
+    number editcursorposition - the (new) editcursorposition
+    MediaTrack track - returns the MediaTrack, in which the item is included
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Insert
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>markermanagement, insert, mediaitem, position, mediafile, track</tags>
+</US_DocBloc>
+--]]
+
+  -- check parameters
+  if reaper.file_exists(filename)==false then ultraschall.AddErrorMessage("InsertMediaItemFromFile", "filename", "file does not exist", -1) return -1 end
+  if math.type(track)~="integer" then ultraschall.AddErrorMessage("InsertMediaItemFromFile","track", "must be an integer", -2) return -1 end
+  if type(position)~="number" then ultraschall.AddErrorMessage("InsertMediaItemFromFile","position", "must be a number", -3) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("InsertMediaItemFromFile","endposition", "must be a number", -4) return -1 end
+  if endposition<-1 then ultraschall.AddErrorMessage("InsertMediaItemFromFile","endposition", "must be bigger/equal 0; or -1 for sourcefilelength", -5) return -1 end
+  if math.type(editcursorpos)~="integer" then ultraschall.AddErrorMessage("InsertMediaItemFromFile", "editcursorpos", "must be an integer between 0 and 2", -6) return -1 end
+  if track<-1 or track>reaper.CountTracks(0) then ultraschall.AddErrorMessage("InsertMediaItemFromFile","track", "no such track available", -7) return -1 end  
+  if offset~=nil and type(offset)~="number" then ultraschall.AddErrorMessage("InsertMediaItemFromFile","offset", "must be either nil or a number", -8) return -1 end  
+  if offset==nil then offset=0 end
+    
+  -- where to insert and where to have the editcursor after insert
+  local editcursor, mode
+  if editcursorpos==0 then editcursor=reaper.GetCursorPosition()
+  elseif editcursorpos==1 then editcursor=position
+  elseif editcursorpos==2 then editcursor=position+ultraschall.GetMediafileAttributes(filename)
+  else ultraschall.AddErrorMessage("InsertMediaItemFromFile","editcursorpos", "must be an integer between 0 and 2", -6) return -1
+  end
+  
+  -- insert file
+  local Length, Numchannels, Samplerate, Filetype = ultraschall.GetMediafileAttributes(filename) -- mediaattributes, like length
+  local startTime, endTime = reaper.BR_GetArrangeView(0) -- get current arrange-view-range
+  local mode=0
+  if track>=0 and track<reaper.CountTracks(0) then
+    mode=0
+  elseif track==0 then
+    mode=0
+    track=reaper.CountTracks(0)
+  elseif track==-1 then
+    mode=0
+    track=1
+    reaper.InsertTrackAtIndex(0,false)
+  end
+  local SelectedTracks=ultraschall.CreateTrackString_SelectedTracks() -- get old track-selection
+  ultraschall.SetTracksSelected(tostring(track), true) -- set track selected, where we want to insert the item
+  reaper.SetEditCurPos(position+offset, false, false) -- change editcursorposition to where we want to insert the item
+  local CountMediaItems=reaper.CountMediaItems(0) -- the number of items available; the new one will be number of items + 1
+  local LLL=ultraschall.GetAllMediaItemGUIDs()
+  if LLL[1]==nil then LLL[1]="tudelu" end
+  local integer=reaper.InsertMedia(filename, mode)  -- insert item with file
+  local LLL2=ultraschall.GetAllMediaItemGUIDs()
+  local A,B=ultraschall.CompareArrays(LLL, LLL2)
+  local item=reaper.BR_GetMediaItemByGUID(0, A[1])
+  if endposition~=-1 then reaper.SetMediaItemInfo_Value(item, "D_LENGTH", endposition) end
+  
+  reaper.SetEditCurPos(editcursor, false, false)  -- set editcursor to new position
+  reaper.BR_SetArrangeView(0, startTime, endTime) -- reset to old arrange-view-range
+  if SelectedTracks~="" then ultraschall.SetTracksSelected(SelectedTracks, true) end -- reset old trackselection
+  return 0, item, Length, Numchannels, Samplerate, Filetype, editcursor, reaper.GetMediaItem_Track(item)
+end
+
+--A,B,C,D,E,F,G,H,I,J=ultraschall.InsertMediaItemFromFile(ultraschall.Api_Path.."/misc/silence.flac", 0, 0, -1, 0)
+
 function ultraschall.GetProjectStateChunk(Project)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1396,22 +1501,33 @@ function ultraschall.GetProjectStateChunk(Project)
 ]]  
   if Project~=nil and ultraschall.IsValidReaProject(Project)==false then ultraschall.AddErrorMessage("GetProjectStateChunk", "Project", "must be a valid ReaProject", -1) return nil end
   local currentproject=reaper.EnumProjects(-1,"")
+  reaper.PreventUIRefresh(1)
   if Project~=nil then
-    reaper.PreventUIRefresh(1)
     reaper.SelectProjectInstance(Project)
   end
   local Path=reaper.GetResourcePath().."\\QueuedRenders\\"
   local ProjectStateChunk=""
   local filecount, files = ultraschall.GetAllFilesnamesInPath(Path)
+  local retval, item, endposition, numchannels, Samplerate, Filetype, editcursorposition, track, temp
+  if reaper.GetProjectLength(0)==0 then 
+    temp=true
+    retval, item, endposition, numchannels, Samplerate, Filetype, editcursorposition, track = ultraschall.InsertMediaItemFromFile(ultraschall.Api_Path.."/misc/silence.flac", 0, 0, -1, 0)
+  end
   
   for i=1, filecount do
     local filepath,filename=ultraschall.GetPath(files[i])
     os.rename(files[i], filepath.."US"..filename)
   end
   
-
+  local start, endit = reaper.GetSet_LoopTimeRange(false, false, -10, -10, false)
+  if start==0 and endit==0 then reaper.GetSet_LoopTimeRange(true, false, 0, 1, false) end
   reaper.Main_OnCommand(41823,0)
 
+  if temp==true then
+    retval, sc=reaper.GetTrackStateChunk(track, "", false)
+    reaper.DeleteTrack(track)
+  end
+  
   local filecount2, files2 = ultraschall.GetAllFilesnamesInPath(Path)  
   if files2[1]==nil then files2[1]="" end
   while reaper.file_exists(files2[1])==false do
@@ -1433,15 +1549,321 @@ function ultraschall.GetProjectStateChunk(Project)
   end
 
   if Project~=nil then
-    reaper.PreventUIRefresh(-1)
     reaper.SelectProjectInstance(currentproject)
-  end  
+  end    
+  reaper.PreventUIRefresh(-1)
   ProjectStateChunk=string.gsub(ProjectStateChunk,"  QUEUED_RENDER_OUTFILE.-\n","")
   ProjectStateChunk=string.gsub(ProjectStateChunk,"  QUEUED_RENDER_ORIGINAL_FILENAME.-\n","")
+  if temp==true then
+    ProjectStateChunk=string.gsub(ProjectStateChunk, "<TRACK.-NAME silence.-%c%s%s>", "")
+  end
+  if start==0 and endit==0 then retval = ultraschall.SetProject_Selection(nil, 0, 0, 0, 0, ProjectStatechunk) end
   return ProjectStateChunk
 end
 
 --A=ultraschall.GetProjectStateChunk()
+--reaper.MB(A:sub(-3500,-1),"",0)
+--reaper.CF_SetClipboard(A)
 
+
+--ultraschall.RenderProject_RenderCFG(nil, nil, 1, 10, false, false, false, nil)
+
+function ultraschall.GetProject_RenderFilename(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_RenderFilename</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string render_filename = ultraschall.GetProject_RenderFilename(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    Returns the render-filename from an RPP-Projectfile or a ProjectStateChunk. If it contains only a path or nothing, you should check the Render_Pattern using <a href="#GetProject_RenderPattern">GetProject_RenderPattern</a>, as a render-pattern influences the rendering-filename as well.
+    
+    It's the entry RENDER_FILE
+    
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    string projectfilename_with_path - filename with path for the rpp-projectfile; nil, if you want to use parameter ProjectStateChunk
+    optional string ProjectStateChunk - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil
+  </parameters>
+  <retvals>
+    string render_filename - the filename for rendering, check also <a href="#GetProject_RenderPattern">GetProject_RenderPattern</a>
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, get, recording, path, render filename, filename, render</tags>
+</US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderFilename","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_RenderFilename","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_RenderFilename","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_RenderFilename", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
+  end
+  -- get the value and return it
+  local temp=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_FILE%s(.-)%c.-<RENDER_CFG")
+  if temp:sub(1,1)=="\"" then temp=temp:sub(2,-1) end
+  if temp:sub(-1,-1)=="\"" then temp=temp:sub(1,-2) end
+  return temp
+end
+
+function ultraschall.WriteValueToFile(filename_with_path, value, binarymode, append)
+  -- Writes value to filename_with_path
+  -- Keep in mind, that you need to escape \ by writing \\, or it will not work
+  -- binarymode
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>WriteValueToFile</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.WriteValueToFile(string filename_with_path, string value, optional boolean binarymode, optional boolean append)</functioncall>
+  <description>
+    Writes value to filename_with_path. Will replace any previous content of the file if append is set to false. Returns -1 in case of failure, 1 in case of success.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval  - -1 in case of failure, 1 in case of success
+  </retvals>
+  <parameters>
+    string filename_with_path - the filename with it's path
+    string value - the value to export, can be a long string that includes newlines and stuff. nil is not allowed!
+    boolean binarymode - true or nil, it will store the value as binary-file; false, will store it as textstring
+    boolean append - true, add the value to the end of the file; false or nil, write value to file and erase all previous data in the file
+  </parameters>
+  <chapter_context>
+    File Management
+    Write Files
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>filemanagement,export,write,file,textfile,binary</tags>
+</US_DocBloc>
+--]]
+  -- check parameters
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("WriteValueToFile","filename_with_path", "invalid filename", -1) return -1 end
+  --if type(value)~="string" then ultraschall.AddErrorMessage("WriteValueToFile","value", "must be string; convert with tostring(value), if necessary.", -2) return -1 end
+  value=tostring(value)
+  
+  -- prepare variables
+  local binary, appendix, file
+  if binarymode==nil or binarymode==true then binary="b" else binary="" end
+  if append==nil or append==false then appendix="w" else appendix="a" end
+  
+  -- write file
+  file=io.open(filename_with_path,appendix..binary)
+  if file==nil then ultraschall.AddErrorMessage("WriteValueToFile","filename_with_path", "can't create file", -3) return -1 end
+  file:write(value)
+  file:close()
+  return 1
+end
+
+function ultraschall.WriteValueToFile_Insert(filename_with_path, linenumber, value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>WriteValueToFile_Insert</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.WriteValueToFile_Insert(string filename_with_path, integer linenumber, string value)</functioncall>
+  <description>
+    Inserts value into a file at linenumber. All lines, up to linenumber-1 come before value, all lines at linenumber to the end of the file will come after value.
+    Will return -1, if no such line exists.
+    
+    Note: non-binary-files only!
+  </description>
+  <parameters>
+    string filename_with_path - filename to write the value to
+    integer linenumber - the linenumber, at where to insert the value into the file
+    string value - the value to be inserted into the file
+  </parameters>
+  <retvals>
+    integer retval - 1, in case of success, -1 in case of error
+  </retvals>
+  <chapter_context>
+    File Management
+    Write Files
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>filemanagement,export,write,file,textfile,insert</tags>
+</US_DocBloc>
+]]
+  if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_Insert","filename_with_path", "nil not allowed as filename", -1) return -1 end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_Insert","filename_with_path", "file does not exist", -2) return -1 end
+  --if value==nil then ultraschall.AddErrorMessage("WriteValueToFile_Insert","value", "nil not allowed", -3) return -1 end
+  value=tostring(value)
+  if tonumber(linenumber)==nil then ultraschall.AddErrorMessage("WriteValueToFile_Insert","linenumber", "invalid linenumber", -4) return -1 end
+  local numberoflines=ultraschall.CountLinesInFile(filename_with_path)
+  if tonumber(linenumber)<1 or tonumber(linenumber)>numberoflines then ultraschall.AddErrorMessage("WriteValueToFile_Insert","linenumber", "linenumber must be between 1 and "..numberoflines.." for this file", -5) return -1 end
+  local contents, correctnumberoflines = ultraschall.ReadLinerangeFromFile(filename_with_path, 1, linenumber-1) 
+  local contents2, correctnumberoflines = ultraschall.ReadLinerangeFromFile(filename_with_path, linenumber, numberoflines)
+  return ultraschall.WriteValueToFile(filename_with_path, contents..value..contents2, false, false)
+end
+
+
+function ultraschall.WriteValueToFile_Replace(filename_with_path, startlinenumber, endlinenumber, value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>WriteValueToFile_Replace</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.WriteValueToFile_Replace(string filename_with_path, integer startlinenumber, integer endlinenumber, string value)</functioncall>
+  <description>
+    Replaces the linenumbers startlinenumber to endlinenumber in a file with value. All lines, up to startlinenumber-1 come before value, all lines at endlinenumber+1 to the end of the file will come after value.
+    Will return -1, if no such lines exists.
+    
+    Note: non-binary-files only!
+  </description>
+  <parameters>
+    string filename_with_path - filename to write the value to
+    integer startlinenumber - the first linenumber, to be replaced with value in the file
+    integer endlinenumber - the last linenumber, to be replaced with value in the file
+    string value - the value to be inserted into the file
+  </parameters>
+  <retvals>
+    integer retval - 1, in case of success, -1 in case of error
+  </retvals>
+  <chapter_context>
+    File Management
+    Write Files
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>filemanagement,export,write,file,textfile,replace</tags>
+</US_DocBloc>
+]]
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("WriteValueToFile_Replace","filename_with_path", "must be a string", -1) return -1 end
+  if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_Replace","filename_with_path", "nil not allowed as filename", -0) return -1 end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_Replace","filename_with_path", "file does not exist", -2) return -1 end
+--  if value==nil then ultraschall.AddErrorMessage("WriteValueToFile_Replace","value", "nil not allowed", -3) return -1 end
+  value=tostring(value)
+  if tonumber(startlinenumber)==nil then ultraschall.AddErrorMessage("WriteValueToFile_Replace","startlinenumber", "invalid linenumber", -4) return -1 end
+  if tonumber(endlinenumber)==nil then ultraschall.AddErrorMessage("WriteValueToFile_Replace","endlinenumber", "invalid linenumber", -5) return -1 end
+  local numberoflines=ultraschall.CountLinesInFile(filename_with_path)
+  if tonumber(startlinenumber)<1 or tonumber(startlinenumber)>numberoflines then ultraschall.AddErrorMessage("WriteValueToFile_Replace","startlinenumber", "linenumber must be between 1 and "..numberoflines.." for this file", -6) return -1 end
+  if tonumber(endlinenumber)<tonumber(startlinenumber) or tonumber(endlinenumber)>numberoflines then ultraschall.AddErrorMessage("WriteValueToFile_Replace","endlinenumber", "linenumber must be bigger than "..startlinenumber.." for startlinenumber and max "..numberoflines.." for this file", -7) return -1 end
+  local contents, correctnumberoflines = ultraschall.ReadLinerangeFromFile(filename_with_path, 1, startlinenumber-1) 
+  local contents2, correctnumberoflines = ultraschall.ReadLinerangeFromFile(filename_with_path, endlinenumber+1, numberoflines)
+  return ultraschall.WriteValueToFile(filename_with_path, contents..value..contents2, false, false)
+end
+
+function ultraschall.WriteValueToFile_InsertBinary(filename_with_path, byteposition, value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>WriteValueToFile_InsertBinary</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.WriteValueToFile_InsertBinary(string filename_with_path, integer byteposition, string value)</functioncall>
+  <description>
+    Inserts value into a file at byteposition. All bytes, up to byteposition-1 come before value, all bytes at byteposition to the end of the file will come after value.
+    Will return -1, if no such line exists.
+    
+    Note: good for binary files
+  </description>
+  <parameters>
+    string filename_with_path - filename to write the value to
+    integer byteposition - the byteposition, at where to insert the value into the file
+    string value - the value to be inserted into the file
+  </parameters>
+  <retvals>
+    integer retval - 1, in case of success, -1 in case of error
+  </retvals>
+  <chapter_context>
+    File Management
+    Write Files
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>filemanagement,export,write,file,textfile,insert,binary</tags>
+</US_DocBloc>
+]]
+  if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","filename_with_path", "nil not allowed as filename", -1) return -1 end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","filename_with_path", "file does not exist", -2) return -1 end
+  --if value==nil then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","value", "nil not allowed", -3) return -1 end
+  value=tostring(value)
+  if tonumber(byteposition)==nil then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","byteposition", "invalid value. Only integer allowed", -4) return -1 end
+  local filelength=ultraschall.GetLengthOfFile(filename_with_path)
+  if tonumber(byteposition)<0 or tonumber(byteposition)>filelength then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","byteposition", "must be inbetween 0 and "..filelength.." for this file", -5) return -1 end
+  if byteposition==0 then byteposition=1 end
+  local correctnumberofbytes, contents=ultraschall.ReadBinaryFile_Offset(filename_with_path, 0, byteposition-1)
+  local correctnumberofbytes2, contents2=ultraschall.ReadBinaryFile_Offset(filename_with_path, byteposition, -1)
+  return ultraschall.WriteValueToFile(filename_with_path, contents..value..contents2, true, false)
+end
+
+function ultraschall.WriteValueToFile_ReplaceBinary(filename_with_path, startbyteposition, endbyteposition, value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>WriteValueToFile_ReplaceBinary</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.WriteValueToFile_ReplaceBinary(string filename_with_path, integer startbyteposition, integer endbyteposition, string value)</functioncall>
+  <description>
+    Replaces content in the file from startbyteposition to endbyteposition-1 with value. All bytes, up to startbyteposition-1 come before value, all bytes from (and including)endbyteposition to the end of the file will come after value.
+    Will return -1, if no such line exists.
+    
+    Note: good for binary files
+  </description>
+  <parameters>
+    string filename_with_path - filename to write the value to
+    integer startbyteposition - the first byte in the file to be replaced, starting with 1, if you want to replace at the beginning of the file. Everything before startposition will be kept.
+    integer endbyteposition - the first byte after the replacement. Everything from endbyteposition to the end of the file will be kept.
+    string value - the value to be inserted into the file
+  </parameters>
+  <retvals>
+    integer retval - 1, in case of success, -1 in case of error
+  </retvals>
+  <chapter_context>
+    File Management
+    Write Files
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>filemanagement,export,write,file,textfile,replace,binary</tags>
+</US_DocBloc>
+]]
+  if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","filename_with_path", "nil not allowed as filename", -1) return -1 end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","filename_with_path", "file does not exist", -2) return -1 end
+  --if value==nil then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","value", "nil not allowed", -3) return -1 end
+  value=tostring(value)
+  if tonumber(startbyteposition)==nil then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","startbyteposition", "invalid value. Only integer allowed", -4) return -1 end
+  if tonumber(endbyteposition)==nil then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","endbyteposition", "invalid value. Only integer allowed", -5) return -1 end
+  
+  local filelength=ultraschall.GetLengthOfFile(filename_with_path)
+  if tonumber(startbyteposition)<0 or tonumber(startbyteposition)>filelength then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","startbyteposition", "must be inbetween 0 and "..filelength.." for this file", -6) return -1 end
+  if tonumber(endbyteposition)<tonumber(startbyteposition) or tonumber(endbyteposition)>filelength then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","endbyteposition", "must be inbetween "..startbyteposition.." and "..filelength.." for this file", -7) return -1 end
+
+  if startbyteposition==0 then startbyteposition=1 end
+  correctnumberofbytes, contents=ultraschall.ReadBinaryFile_Offset(filename_with_path, 0, startbyteposition-1)
+  local correctnumberofbytes2, contents2=ultraschall.ReadBinaryFile_Offset(filename_with_path, endbyteposition-1, -1)
+  return ultraschall.WriteValueToFile(filename_with_path, contents..value..contents2, true, false)
+end
 
 ultraschall.ShowLastErrorMessage()
+
+
+

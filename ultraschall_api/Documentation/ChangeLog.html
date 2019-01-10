@@ -108,6 +108,13 @@ This prevents duplicate execution of functions, when coding within the beta-func
 <li>CreateValidTempFile - added info about the path of the created tempfile/tempfilename</li>
 <li>GetProject_Length - fixed issue with projectfiles smaller than 1000 bytes, which couldn’t be parsed</li>
 <li>SetProject_RenderPattern - didn’t save render-patterns with spaces in them properly</li>
+<li>InsertMediaItemFromFile - added MediaTrack and the new editcursorposition as retvals; the latter used to be third retval without being documented as such -&gt; moved to the end of the retvals sorry for that inconvenience</li>
+<li>GetProject_RenderFilename - sometimes returned one " at the end -&gt; fixed</li>
+<li>WriteValueToFile - converts now the parameter value to a string, regardless of it’s original datatype</li>
+<li>WriteValueToFile_Insert - converts now the parameter value to a string, regardless of it’s original datatype</li>
+<li>WriteValueToFile_Replace - converts now the parameter value to a string, regardless of it’s original datatype</li>
+<li>WriteValueToFile_InsertBinary - converts now the parameter value to a string, regardless of it’s original datatype</li>
+<li>WriteValueToFile_ReplaceBinary - converts now the parameter value to a string, regardless of it’s original datatype</li>
 </ul>
 <h3 id="beta-2.7---frank-zappa---the-return-of-the-son-of-monster-magnet---15th-of-december-2018">4.00 Beta 2.7: - “Frank Zappa - The Return of the Son of Monster Magnet” - 15th of December 2018</h3>
 <p>Has now 700 functions, with about 250 new ones!</p>

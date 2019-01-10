@@ -71,12 +71,23 @@
   - CreateValidTempFile - added info about the path of the created tempfile/tempfilename
   - GetProject_Length - fixed issue with projectfiles smaller than 1000 bytes, which couldn't be parsed
   - SetProject_RenderPattern - didn't save render-patterns with spaces in them properly
-  
-  <TODO>
+  - InsertMediaItemFromFile - added MediaTrack and the new editcursorposition as retvals; the latter used to be third retval without being documented as such -> moved to the end of the retvals
+                              sorry for that inconvenience
+  - GetProject_RenderFilename - sometimes returned one " at the end -> fixed
+  - WriteValueToFile - converts now the parameter value to a string, regardless of it's original datatype
+  - WriteValueToFile_Insert - converts now the parameter value to a string, regardless of it's original datatype
+  - WriteValueToFile_Replace - converts now the parameter value to a string, regardless of it's original datatype
+  - WriteValueToFile_InsertBinary - converts now the parameter value to a string, regardless of it's original datatype
+  - WriteValueToFile_ReplaceBinary - converts now the parameter value to a string, regardless of it's original datatype
+
+   <TODO>
     For 4.00beta2.8:
       TODO!! GetProjectStateChunk - replace all absolute paths, that refer to the recording-path RECORD_PATH
                                     with their relative counterparts.
                                     That means: if I find Projectfilepath/Recordingpath in the ProjectStateChunk, exchange it with Recordingpath/
+                                    You should also check, during Reaper rendering the render-queue and I add a new render-file to the queue, if Reaper tries to render that new file as well or if it ignores it. This could be a potential troublemaker.
+                                            Answer: No, Reaper ignores added 
+                                    !!In other news: update the version in the docs to 5.965, plz
       TODO!! RenderProject_RenderCfg - new implementation, that exploits the render-queue, rather the reopening of a project
                                        should work with opened projects, but still unknown, how to add unopened projects properly and how to find out the rendered files afterwards...
                                        maybe that way: RENDER_FILE contains the path, where the file is stored in, either with or without the actual filename(the latter when using RENDER_PATTERNS).
