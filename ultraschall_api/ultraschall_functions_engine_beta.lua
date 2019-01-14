@@ -1863,6 +1863,373 @@ function ultraschall.WriteValueToFile_ReplaceBinary(filename_with_path, startbyt
   return ultraschall.WriteValueToFile(filename_with_path, contents..value..contents2, true, false)
 end
 
+function ultraschall.StateChunkLayouter(statechunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>StateChunkLayouter</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>string layouted_statechunk = ultraschall.StateChunkLayouter(string statechunk)</functioncall>
+  <description>
+    Layouts StateChunks as returned by <a href="Reaper_Api_Documentation.html#GetTrackStateChunk">GetTrackStateChunk</a> or <a href="Reaper_Api_Documentation.html#GetItemStateChunk">GetItemStateChunk</a> into a format that resembles the formatting-rules of an rpp-file.
+    This is very helpful, when parsing such a statechunk, as you can now use the number of spaces used for intendation as help parsing.
+    Usually, every new element, that starts with &lt; will be followed by none or more lines, that have two spaces added in the beginning.
+    Example of a MediaItemStateChunk(I use . to display the needed spaces in the beginning of each line):
+    <pre><code>
+    &lt;ITEM
+    ..POSITION 6.96537864205337
+    ..SNAPOFFS 0
+    ..LENGTH 1745.2745
+    ..LOOP 0
+    ..ALLTAKES 0
+    ..FADEIN 1 0.01 0 1 0 0
+    ..FADEOUT 1 0.01 0 1 0 0
+    ..MUTE 0
+    ..SEL 1
+    ..IGUID {020E6372-97E6-4066-9010-B044F67F2772}
+    ..IID 1
+    ..NAME myaudio.flac
+    ..VOLPAN 1 0 1 -1
+    ..SOFFS 0
+    ..PLAYRATE 1 1 0 -1 0 0.0025
+    ..CHANMODE 0
+    ..GUID {79F087CE-49E8-4212-91F5-8487FBCF10B1}
+    ..&lt;SOURCE FLAC
+    ....FILE "C:\Users\meo\Desktop\X_Karo_Lynn-Interview.flac"
+    ..&gt;
+    &gt;
+    </code></pre>
+    
+    This function will not check, if you've passed a valid statechunk!
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string statechunk - a statechunk, that you want to layout properly
+  </parameters>
+  <retvals>
+    string layouted_statechunk - the statechunk, that is now layouted to the rules of rpp-projectfiles
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, layout, statechunk</tags>
+</US_DocBloc>
+]]
+
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("StateChunkLayouter","statechunk", "must be a string", -1) return nil end  
+  local num_tabs=0
+  local newsc=""
+  for k in string.gmatch(statechunk, "(.-\n)") do
+    if k:sub(1,1)==">" then num_tabs=num_tabs-1 end
+    for i=0, num_tabs-1 do
+      newsc=newsc.."  "
+    end
+    if k:sub(1,1)=="<" then num_tabs=num_tabs+1 end
+    newsc=newsc..k
+  end
+  return newsc
+end
+
+
+function ultraschall.CountUltraschallEffectPlugins(track)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CountUltraschallEffectPlugins</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer num_studiolink, table studiolink_bypass_state, integer num_studiolink_onair, table studiolink_onair_bypass_state, integer num_soundboard, table soundboard_bypass_state, integer num_usdynamics, table usdynamics_bypass_state = ultraschall.CountUltraschallEffectPlugins(integer track)</functioncall>
+  <description>
+    Counts the number of loaded StudioLink-plugins, StudioLink_OnAir-plugins, Ultraschall-Soundboards and Ultraschall_Dynamics-instances in this track.
+    It also returns the bypass/offline-states of each plugin as a table, of the following format:    
+      <pre><code>
+        bypass_state_table[plugin_index][1]=bypass state; 1, plugin-instance is bypassed; 0, plugin-instance is normal
+        bypass_state_table[plugin_index][2]=offline state; 1, plugin-instance is offline; 0, plugin-instance is online
+        bypass_state_table[plugin_index][3]=unknown state(needs documentation first); 0, default setting
+      </code></pre>
+    Probably only helpful, if you've installed these plugins or using Ultraschall.
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    integer track - the tracknumber, whose plugin-counts/bypass-states you want to get; 0, Master Track; 1 and higher, Track 1 an higher
+  </parameters>
+  <retvals>
+    integer num_studiolink - the number of loaded StudioLink-plugins in this track
+    table studiolink_bypass_state - the bypass-states of StudioLink in this track
+    integer num_studiolink_onair - the number of loaded StudioLink_OnAir-plugins in this track
+    table studiolink_onair_bypass_state - the bypass-states of StudioLink_OnAir in this track
+    integer num_soundboard - the number of loaded Ultraschall Soundboard-plugins in this track
+    table soundboard_bypass_state - the bypass-states of the Ultraschall Soundboard in this track
+    integer num_usdynamics - the number of loaded Ultraschall_Dynamics-plugins in this track
+    table usdynamics_bypass_state - the bypass-states of Ultraschall_Dynamics in this track
+  </retvals>
+  <chapter_context>
+    FX/Plugin Management
+    Ultraschall-related
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx_pluginmanagement, count, get, studiolink, studiolinkonair, soundboard, ultraschall_dynamics, bypass-state, offline-state</tags>
+</US_DocBloc>
+]]
+  local MediaTrack
+  if math.type(track)~="integer" then ultraschall.AddErrorMessage("CountUltraschallEffectPlugins", "track", "must be an integer", -1) return -1 end
+  if track==0 then MediaTrack=reaper.GetMasterTrack(0) else MediaTrack=reaper.GetTrack(0, track-1) end
+  if MediaTrack==nil then ultraschall.AddErrorMessage("CountUltraschallEffectPlugins", "track", "no such track", -2) return -1 end
+  local num_sl=0
+  local sl_byp={}
+  local num_slonair=0
+  local slonair_byp={}
+  local num_soundboard=0
+  local soundboard_byp={}
+  local num_usdynamics=0
+  local usdynamics_byp={}
+  local lastbypassline=""
+
+  local A,B=reaper.GetTrackStateChunk(MediaTrack,"",false)
+  
+  for k in string.gmatch(B,"(.-\n)") do
+    if k:match("<.-StudioLinkOnAir ")~=nil then 
+      num_slonair=num_slonair+1 
+      slonair_byp[num_slonair]={lastbypassline:match(" (%d) (%d) (%d)")} 
+      slonair_byp[num_slonair][1]=tonumber(slonair_byp[num_slonair][1]) 
+      slonair_byp[num_slonair][2]=tonumber(slonair_byp[num_slonair][2]) 
+      slonair_byp[num_slonair][3]=tonumber(slonair_byp[num_slonair][3]) 
+    elseif k:match("<.-StudioLink ")~=nil then 
+      num_sl=num_sl+1 
+      sl_byp[num_sl]={lastbypassline:match(" (%d) (%d) (%d)")} 
+      sl_byp[num_sl][1]=tonumber(sl_byp[num_sl][1]) 
+      sl_byp[num_sl][2]=tonumber(sl_byp[num_sl][2]) 
+      sl_byp[num_sl][3]=tonumber(sl_byp[num_sl][3])
+    elseif k:match("<.-Soundboard %(Ultraschall%)")~=nil then 
+      num_soundboard=num_soundboard+1
+      soundboard_byp[num_soundboard]={lastbypassline:match(" (%d) (%d) (%d)")} 
+      soundboard_byp[num_soundboard][1]=tonumber(soundboard_byp[num_soundboard][1]) 
+      soundboard_byp[num_soundboard][2]=tonumber(soundboard_byp[num_soundboard][2]) 
+      soundboard_byp[num_soundboard][3]=tonumber(soundboard_byp[num_soundboard][3]) 
+    elseif k:match("<.-Ultraschall_Dynamics")~=nil then 
+      num_usdynamics=num_usdynamics+1 
+      usdynamics_byp[num_usdynamics]={lastbypassline:match(" (%d) (%d) (%d)")} 
+      usdynamics_byp[num_usdynamics][1]=tonumber(usdynamics_byp[num_usdynamics][1]) 
+      usdynamics_byp[num_usdynamics][2]=tonumber(usdynamics_byp[num_usdynamics][2]) 
+      usdynamics_byp[num_usdynamics][3]=tonumber(usdynamics_byp[num_usdynamics][3]) 
+    elseif k:match("BYPASS %d %d %d%c")~=nil then lastbypassline=k
+    end
+  end
+  return num_sl, sl_byp, num_slonair, slonair_byp, num_soundboard, soundboard_byp, num_usdynamics, usdynamics_byp
+end
+
+function print(...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>print</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>print(parameter_1 to parameter_n)</functioncall>
+  <description>
+    replaces Lua's own print-function. Converts all parametes given into string using tostring() and displays them as a MessageBox, separated by two spaces.
+  </description>
+  <parameters>
+    parameter_1 to parameter_n - the parameters, that you want to have printed out
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helperfunctions, print, messagebox</tags>
+</US_DocBloc>
+]]
+
+  local string=""
+  local count=1
+  local temp={...}
+  while temp[count]~=nil do
+    string=string.."  "..tostring(temp[count])
+    count=count+1
+  end
+  reaper.MB(string:sub(3,-1),"Print",0)
+end
+
+--print("Hula","Hoop",reaper.GetTrack(0,0))
+--print("tudel")
+
+function print2(...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>print2</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>print2(parameter_1 to parameter_n)<functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    like the [print](#print)-replacement-function, but outputs the parameters to the ReaScript-console instead. 
+    
+    Converts all parametes given into string using tostring() and displays them in the ReaScript-console, separated by two spaces, ending with a newline.
+  </description>
+  <parameters>
+    parameter_1 to parameter_n - the parameters, that you want to have printed out
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helperfunctions, print, console</tags>
+</US_DocBloc>
+]]
+
+  local string=""
+  local count=1
+  local temp={...}
+  while temp[count]~=nil do
+    string=string.."  "..tostring(temp[count])
+    count=count+1
+  end
+  reaper.ShowConsoleMsg(string:sub(3,-1).."\n","Print",0)
+end
+
+--print2("Hula","Hoop",reaper.GetTrack(0,0))
+--print("tudel")
+
+
+function ultraschall.GetTopmostHWND(hwnd)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTopmostHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.962
+    Lua=5.3
+  </requires>
+  <functioncall>HWND topmost_hwnd, integer number_of_parent_hwnd, table all_parent_hwnds = ultraschall.GetTopmostHWND(HWND hwnd)</functioncall>
+  <description>
+    returns the topmost-parent hwnd of a hwnd, as sometimes, hwnds are children of a higher hwnd. It also returns the number of parent hwnds available and a list of all parent hwnds for this hwnd.
+    
+    A hwnd is a window-handler, which contains all attributes of a certain window.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    HWND hwnd - the HWND, whose topmost parent-HWND you want to have
+  </parameters>
+  <retvals>
+    HWND hwnd - the top-most parent hwnd available
+    integer number_of_parent_hwnd - the number of parent hwnds, that are above the parameter hwnd
+    table all_parent_hwnds - all available parent hwnds, above the parameter hwnd, including the topmost-hwnd
+  </retvals>
+  <chapter_context>
+    User Interface
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, hwnd, topmost, parent hwnd, get, count</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidHWND(hwnd)==false then ultraschall.AddErrorMessage("GetTopmostHWND", "hwnd", "not a valid hwnd", -1) return nil end
+  local count=1
+  local other_hwnds={}
+  while reaper.JS_Window_GetParent(hwnd)~=nil do  
+     hwnd=reaper.JS_Window_GetParent(hwnd)
+     other_hwnds[count]=hwnd
+     count=count+1
+  end
+  return hwnd, count-1, other_hwnds
+end
+
+--A,B,C,D=ultraschall.GetTopmostHWND(reaper.JS_Window_GetFocus())
+
+--reaper.MB(tostring(A).."\n"..tostring(B).."\n"..reaper.JS_Window_GetTitle(C[1])..                                                reaper.JS_Window_GetTitle(C[2]).."\n","",0)
+--                                              ..reaper.JS_Window_GetTitle(C[3]),"",0)
+
+
+function ultraschall.GetReaperWindowAttributes()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetReaperWindowAttributes</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.962
+    Lua=5.3
+  </requires>
+  <functioncall>integer left, integer top, integer right, integer bottom, boolean active, boolean visible, string title, integer number_of_childhwnds, table childhwnds = ultraschall.GetReaperWindowAttributes()</functioncall>
+  <description>
+    returns many attributes of the Reaper Main-window, like position, size, active, visibility, childwindows
+    
+    A hwnd is a window-handler, which contains all attributes of a certain window.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    HWND hwnd - the HWND, whose topmost parent-HWND you want to have
+  </parameters>
+  <retvals>
+    integer left - the left position of the Reaper-window in pixels
+    integer top - the top position of the Reaper-window in pixels
+    integer right - the right position of the Reaper-window in pixels
+    integer bottom - the bottom position of the Reaper-window in pixels
+    boolean active - true, if the window is active(any child-hwnd of the Reaper-window has focus currently); false, if not
+    boolean visible - true, Reaper-window is visible; false, Reaper-window is not visible
+    string title - the current title of the Reaper-window
+    integer number_of_childhwnds - the number of available child-hwnds that the Reaper-window currently has
+    table childhwnds - a table with all child-hwnds in the following format:
+                     -      childhwnds[index][1]=hwnd
+                     -      childhwnds[index][2]=title
+  </retvals>
+  <chapter_context>
+    User Interface
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, hwnd, reaper, main window, position, active, visible, child-hwnds</tags>
+</US_DocBloc>
+]]
+  local hwnd=reaper.GetMainHwnd()
+  local title = reaper.JS_Window_GetTitle(hwnd)
+  local visible=reaper.JS_Window_IsVisible(hwnd)
+  local num_child_windows, child_window_list = reaper.JS_Window_ListAllChild(hwnd)
+  local childwindows={}
+  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(child_window_list)
+  for i=1, count do
+    childwindows[i]={}
+    childwindows[i][1]=reaper.JS_Window_HandleFromAddress(individual_values[i])
+    childwindows[i][2]=reaper.JS_Window_GetTitle(childwindows[i][1])
+  end
+  
+  local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
+
+  local hwnd_temp=ultraschall.GetTopmostHWND(reaper.JS_Window_GetFocus())
+  if hwnd_temp==hwnd then active=true else active=false end
+  
+  return left, top, right, bottom, active, visible, title, count, childwindows
+end
+
+
+
+--retval, number position, number pageSize, number min, number max, number trackPos = reaper.JS_Window_GetScrollInfo(identifier windowHWND, string scrollbar)
+
+--A,B,C,D,E,F,G,H,I,J=ultraschall.GetReaperWindowAttributes()
+--reaper.MB(tostring(A).." "..tostring(B).." "..tostring(C).." "..tostring(D).." "..tostring(E).." "..tostring(F).." "..tostring(G).." "..tostring(H).." "..tostring(I),"",0)
+
 ultraschall.ShowLastErrorMessage()
 
 

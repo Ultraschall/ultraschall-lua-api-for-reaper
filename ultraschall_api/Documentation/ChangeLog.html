@@ -80,6 +80,12 @@ Ultraschall API Changelog
 <li>ultraschall.hotfixdate - holds the release-date of the currently installed hotfix, returned by GetApiVersion now</li>
 <li>Base64_Decoder - decodes a Base64-encoded string</li>
 <li>GetProjectStateChunk - gets a ProjectStateChunk from an opened ReaProject</li>
+<li>StateChunkLayouter - layouts statechunks according the layouting rules of rpp-projectfiles; makes parsing them much easier</li>
+<li>CountUltraschallEffectPlugins - counts number of instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and Ultraschall_Dynamics-plugins in a track. Also returns a table with all bypass/offline-states</li>
+<li>GetReaperWindowAttributes - returns several attributes of the Reaper-window, like size/position, active-state, childwindows, etc</li>
+<li>GetTopmostHWND - returns the topmost hwnd(window-handler) of a child-hwnd; returns also all the parent-hwnds</li>
+<li>print - replacement for Lua’s own print-function, which is quite useless in Reaper; displays the printed parameters as a messagebox</li>
+<li>print2 - like print, but displays the parameters in the ReaScript-console instead</li>
 </ul>
 <h4 id="changes-from-4.00beta2.7-to-4.00beta2.8">Changes from 4.00beta2.7 to 4.00beta2.8</h4>
 <ul>

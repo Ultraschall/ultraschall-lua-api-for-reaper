@@ -40717,11 +40717,11 @@ function ultraschall.GetDuplicatesFromArrays(array1, array2)
   return dupcount, duplicates, orgcount1, originals1, orgcount2, originals2
 end
 
-function main()
-  filecount2, files2 = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
-  A, A1, B, B1, C, C1 = ultraschall.GetDuplicatesFromArrays(files, files2)
-  reaper.defer(main)
-end
+--function main()
+--  filecount2, files2 = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
+--  A, A1, B, B1, C, C1 = ultraschall.GetDuplicatesFromArrays(files, files2)
+--  reaper.defer(main)
+--end
 
 
 --filecount, files = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")

@@ -42,7 +42,12 @@
   - ultraschall.hotfixdate - holds the release-date of the currently installed hotfix, returned by GetApiVersion now
   - Base64_Decoder - decodes a Base64-encoded string
   - GetProjectStateChunk - gets a ProjectStateChunk from an opened ReaProject
-  
+  - StateChunkLayouter - layouts statechunks according the layouting rules of rpp-projectfiles; makes parsing them much easier
+  - CountUltraschallEffectPlugins - counts number of instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and Ultraschall_Dynamics-plugins in a track. Also returns a table with all bypass/offline-states
+  - GetReaperWindowAttributes - returns several attributes of the Reaper-window, like size/position, active-state, childwindows, etc
+  - GetTopmostHWND - returns the topmost hwnd(window-handler) of a child-hwnd; returns also all the parent-hwnds
+  - print - replacement for Lua's own print-function, which is quite useless in Reaper; displays the printed parameters as a messagebox
+  - print2 - like print, but displays the parameters in the ReaScript-console instead
   
 #### Changes from 4.00beta2.7 to 4.00beta2.8
 
@@ -82,6 +87,7 @@
 
    <TODO>
     For 4.00beta2.8:
+      TODO!! issues with docgeneration of the docs for print2, its functioncall isn't shown/parsed
       TODO!! GetProjectStateChunk - replace all absolute paths, that refer to the recording-path RECORD_PATH
                                     with their relative counterparts.
                                     That means: if I find Projectfilepath/Recordingpath in the ProjectStateChunk, exchange it with Recordingpath/
