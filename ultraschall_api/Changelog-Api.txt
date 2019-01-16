@@ -50,6 +50,7 @@
   - print2 - like print, but displays the parameters in the ReaScript-console instead
   - ConvertIntegerToBits - converts an integer-value into its individual bitvalues
   - ReverseEndianess_Byte - changes endianess of a byte-value
+  - GFX_Init - opens a new gfx-window. Like gfx.init, but this returns its HWND-windowhandler-object as well
   
 #### Changes from 4.00beta2.7 to 4.00beta2.8
 
@@ -90,13 +91,17 @@
 
    <TODO>
     For 4.00beta2.8:
-      TODO!! issues with docgeneration of the docs for print2, its functioncall isn't shown/parsed
+      TODO!! issues with docgeneration of the docs for toboolean, print, print2, their functionnames aren't bold
       TODO!! GetProjectStateChunk - replace all absolute paths, that refer to the recording-path RECORD_PATH
                                     with their relative counterparts.
                                     That means: if I find Projectfilepath/Recordingpath in the ProjectStateChunk, exchange it with Recordingpath/
                                     You should also check, during Reaper rendering the render-queue and I add a new render-file to the queue, if Reaper tries to render that new file as well or if it ignores it. This could be a potential troublemaker.
                                             Answer: No, Reaper ignores added 
+                                  - adds the inserted MediaItem into ProjectBay, when deleting the silence-track
+                                    please prevent that(deleting it before deleting track helps)
+                                  - might have an issue with deleting the only track available, maybe use a guid as track-name to identify, whether to delete it or not
                                     !!In other news: update the version in the docs to 5.965, plz
+                                    
       TODO!! RenderProject_RenderCfg - new implementation, that exploits the render-queue, rather the reopening of a project
                                        should work with opened projects, but still unknown, how to add unopened projects properly and how to find out the rendered files afterwards...
                                        maybe that way: RENDER_FILE contains the path, where the file is stored in, either with or without the actual filename(the latter when using RENDER_PATTERNS).

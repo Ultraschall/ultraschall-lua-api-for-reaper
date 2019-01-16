@@ -518,6 +518,52 @@ function Editormain()
   if KeyCode~=-1 then reaper.defer(Editormain) end
 end
 
+function ultraschall.GFX_Init(...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GFX_Init</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval, HWND hwnd = ultraschall.GFX_Init(string "name", optional integer width, optional integer height, optional integer dockstate, optional integer xpos, optional integer ypos)</functioncall>
+  <description>
+    Opens a new graphics window and returns its HWND-windowhandler object.
+  </description>
+  <parameters>
+    string "name"  -  the name of the window, which will be shown in the title of the window
+    optional integer width  -  the width of the window; minmum is 50
+    optional integer height  -  the height of the window; minimum is 16
+    optional integer dockstate  -  &1=0, undocked; &1=1, docked
+    optional integer xpos  -  x-position of the window in pixels; minimum is -80
+    optional integer ypos  -  y-position of the window in pixels; minimum is -15
+  </parameters>
+  <retvals>
+    number retval  -  1.0, if window is opened
+    HWND hwnd - the window-handler of the newly created window; can be used with JS_Window_xxx-functions of the JS-extension-plugin
+  </retvals>
+  <chapter_context>
+    Window Handling
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>gfx, functions, gfx, init, window, create, hwnd</tags>
+</US_DocBloc>
+]]
+  local parms={...}
+  local temp=parms[1]
+  if temp==nil or type(temp)~="string" then temp="" end
+  if parms[1]=="" or parms[1]==nil then parms[1]="\t \t  \t\t \t  \t   \t \t  \t\t \t  \t  \t \t  \t\t \t  \t   \t \t  \t\t \t  \t     \t \t  \t\t \t  \t" 
+  elseif type(parms[1])~="string" then parms[1]="\t \t  \t\t \t  \t   \t \t  \t\t \t  \t  \t \t  \t\t \t  \t   \t \t  \t\t \t  \t     \t \t  \t\t \t  \t" 
+  else parms[1]=parms[1].."\t \t  \t\t \t  \t   \t \t  \t\t \t  \t  \t \t  \t\t \t  \t   \t \t  \t\t \t  \t     \t \t  \t\t \t  \t" 
+  end
+  local retval=gfx.init(table.unpack(parms))
+  local HWND=reaper.JS_Window_Find(temp.."\t \t  \t\t \t  \t   \t \t  \t\t \t  \t  \t \t  \t\t \t  \t   \t \t  \t\t \t  \t     \t \t  \t\t \t  \t", true)
+  if HWND~=nil then reaper.JS_Window_SetTitle(HWND, temp) end
+  return retval, HWND
+end
+
 --[[
 -- Let's initialize some stuff
   gfx.init("TRET",720,420)    -- open a window

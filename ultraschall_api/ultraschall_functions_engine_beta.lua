@@ -2076,7 +2076,7 @@ function print2(...)
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>print2(parameter_1 to parameter_n)<functioncall>
+  <functioncall>print2(parameter_1 to parameter_n)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     like the [print](#print)-replacement-function, but outputs the parameters to the ReaScript-console instead. 
     
