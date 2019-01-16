@@ -48,6 +48,8 @@
   - GetTopmostHWND - returns the topmost hwnd(window-handler) of a child-hwnd; returns also all the parent-hwnds
   - print - replacement for Lua's own print-function, which is quite useless in Reaper; displays the printed parameters as a messagebox
   - print2 - like print, but displays the parameters in the ReaScript-console instead
+  - ConvertIntegerToBits - converts an integer-value into its individual bitvalues
+  - ReverseEndianess_Byte - changes endianess of a byte-value
   
 #### Changes from 4.00beta2.7 to 4.00beta2.8
 
@@ -84,6 +86,7 @@
   - WriteValueToFile_Replace - converts now the parameter value to a string, regardless of it's original datatype
   - WriteValueToFile_InsertBinary - converts now the parameter value to a string, regardless of it's original datatype
   - WriteValueToFile_ReplaceBinary - converts now the parameter value to a string, regardless of it's original datatype
+  - WinterlySnowflakes - preparation of the snowflakes produced wrong default-values of gfx.x, gfx.y, gfx.r, gfx.g, gfx.g -> fixed
 
    <TODO>
     For 4.00beta2.8:

@@ -1923,7 +1923,7 @@ function ultraschall.StateChunkLayouter(statechunk)
 </US_DocBloc>
 ]]
 
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("StateChunkLayouter","statechunk", "must be a string", -1) return nil end  
+  if type(statechunk)~="string" then ultraschall.AddErrorMessage("StateChunkLayouter","statechunk", "must be a string", -1) return nil end  
   local num_tabs=0
   local newsc=""
   for k in string.gmatch(statechunk, "(.-\n)") do
@@ -2229,6 +2229,94 @@ end
 
 --A,B,C,D,E,F,G,H,I,J=ultraschall.GetReaperWindowAttributes()
 --reaper.MB(tostring(A).." "..tostring(B).." "..tostring(C).." "..tostring(D).." "..tostring(E).." "..tostring(F).." "..tostring(G).." "..tostring(H).." "..tostring(I),"",0)
+
+function ultraschall.ConvertIntegerToBits(integer)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertIntegerToBits</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>string bitvals_csv, table bitvalues = ultraschall.ConvertIntegerToBits(integer integer)</functioncall>
+  <description>
+    converts an integer-value(up to 32 bits) into it's individual bits and returns it as comma-separated csv-string as well as a table with 32 entries.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    integer integer - the integer-number to separated into it's individual bits
+  </parameters>
+  <retvals>
+    string bitvals_csv - a comma-separated csv-string of all bitvalues, with bit 1 coming first and bit 32 coming last
+    table bitvalues - a 32-entry table, where each entry contains the bit-value of integer; first entry for bit 1, 32th entry for bit 32
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, integer, bit, bitfield</tags>
+</US_DocBloc>
+]]
+  if math.type(integer)~="integer" then ultraschall.AddErrorMessage("ConvertIntegerToBits", "integer", "must be an integer-value up to 32 bits", -1) return nil end
+  local bitarray={}
+  local bitstring=""
+  for i=0, 31 do
+    O=i
+    if integer&2^i==0 then bitarray[i+1]=0 else bitarray[i+1]=1 end
+    bitstring=bitstring..bitarray[i+1]..","
+  end
+  return bitstring:sub(1,-1), bitarray
+end
+
+function ultraschall.ReverseEndianess_Byte(byte)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ReverseEndianess_Byte</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer newbyte = ultraschall.ReverseEndianess_Byte(integer byte)</functioncall>
+  <description>
+    reverses the endianess of a byte and returns this as value.
+    The parameter byte must be between 0 and 255!
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    integer byte - the integer whose endianess you want to reverse
+  </parameters>
+  <retvals>
+    integer newbyte - the endianess-reversed byte
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, integer, endianess</tags>
+</US_DocBloc>
+]]
+  if math.type(byte)~="integer" then ultraschall.AddErrorMessage("ReverseEndianess_Byte", "byte", "must be an integer", -1) return end
+  if byte<0 or byte>255 then ultraschall.AddErrorMessage("ReverseEndianess_Byte", "byte", "must be between 0 and 255", -2) return end
+  
+  local newbyte=0
+  if byte&1~=0 then newbyte=newbyte+128 end
+  if byte&2~=0 then newbyte=newbyte+64 end
+  if byte&4~=0 then newbyte=newbyte+32 end
+  if byte&8~=0 then newbyte=newbyte+16 end
+  if byte&16~=0 then newbyte=newbyte+8 end
+  if byte&32~=0 then newbyte=newbyte+4 end
+  if byte&64~=0 then newbyte=newbyte+2 end
+  if byte&128~=0 then newbyte=newbyte+1 end
+  return newbyte
+end
 
 ultraschall.ShowLastErrorMessage()
 

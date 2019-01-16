@@ -28118,9 +28118,9 @@
             Measures the drawing dimensions of a character with the current font (as set by [gfx.setfont](#lua_gfx.setfont)). Returns width and height of character.
         </description>
         <parameters>
-            character - 
-            w - 
-            h - 
+            character - a character, whose dimensions you want to know
+            w - the width of this character
+            h - the height if this character
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -30929,16 +30929,30 @@
                 - idx=1..16 for a configurable font
             optional string "fontface" - the name of the font, like "arial"
             optional integer sz - the size of the font (8-100)
-            optional integer flags - flags, how to render the text; values are repeating every 256 numbers
+            optional integer flags - flags, how to render the text; up to 4 flags can be passed at the same time
                   - a multibyte character, which can include 'i' for italics, 'u' for underline, or 'b' for bold. 
                   - These flags may or may not be supported depending on the font and OS. 
-                  - 66 and 98, Bold (B), (b)
-                  - 73 and 105, italic (I), (i)
-                  - 79 and 111, white outline (O), (o)
-                  - 82 and 114, reduced(halfbright) (R), (r)
-                  - 83 and 115, sharpen (S), (s)
-                  - 85 and 117, underline (U), (u)
-                  - 86 and 118, inVerse (V), (v)
+                  -   66 and 98, Bold (B), (b)
+                  -   73 and 105, italic (I), (i)
+                  -   79 and 111, white outline (O), (o)
+                  -   82 and 114, blurred (R), (r)
+                  -   83 and 115, sharpen (S), (s)
+                  -   85 and 117, underline (U), (u)
+                  -   86 and 118, inVerse (V), (v)
+                  - 
+                  - To create such a multibyte-character, assume this flag-value as a 32-bit-value.
+                  - The first 8 bits are the first flag, the next 8 bits are the second flag, 
+                  - the next 8 bits are the third flag and the last 8 bits are the second flag.
+                  - The flagvalue(each dot is a bit): .... ....   .... ....   .... ....   .... ....
+                  - If you want to set it to Bold(B) and Italic(I), you use the ASCII-Codes of both(66 and 73 respectively),
+                  - take them apart into bits and set them in this 32-bitfield.
+                  - The first 8 bits will be set by the bits of ASCII-value 66(B), the second 8 bits will be set by the bits of ASCII-Value 73(I).
+                  - The resulting flagvalue is: 0100 0010   1001 0010   0000 0000   0000 0000
+                  - which is a binary representation of the integer value 18754, which combines 66 and 73 in it.
+
+                  
+                  
+                  
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>

@@ -45,7 +45,7 @@
 -- If you have new functions to contribute, you can use this file as well. Keep in mind, that I will probably change them to work
 -- with the error-messaging-system as well as adding information for the API-documentation.
 
-ultraschall.hotfixdate="10_Jan_2019"
+ultraschall.hotfixdate="16_Jan_2019"
 
 function ultraschall.GetMarkerByScreenCoordinates(xmouseposition, retina)
 --returns a string with the marker(s) in the timeline at given 
@@ -1620,3 +1620,9 @@ function ultraschall.WriteValueToFile_ReplaceBinary(filename_with_path, startbyt
   local correctnumberofbytes2, contents2=ultraschall.ReadBinaryFile_Offset(filename_with_path, endbyteposition-1, -1)
   return ultraschall.WriteValueToFile(filename_with_path, contents..value..contents2, true, false)
 end
+
+gfx.x=0
+gfx.y=0
+gfx.r=1
+gfx.g=1
+gfx.b=1

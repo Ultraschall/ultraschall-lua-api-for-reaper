@@ -94,6 +94,7 @@ gfx.dest=401
 gfx.set(0.2,0.2,0.2)
 gfx.rect(0,0,1,1)
 
+
 -- set framebuffer to the shown one
 gfx.dest=-1
 
@@ -182,6 +183,11 @@ ultraschall.US_snowmain()
   if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
 --end
 
+gfx.x=0
+gfx.y=0
+gfx.r=1
+gfx.g=1
+gfx.b=1
 --back2business
 if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
     -- user_folder = buf --"C:\\Users\\[username]" -- need to be test
@@ -214,6 +220,7 @@ end
 --A=reaper.GetTrack(0,0)
 --L,M,N=ultraschall.GetTrackStateChunk(A,"", false, false)
 --T=M:len()
+
 
 function ultraschall.CountCharacterInString(checkstring, character)
 --[[
@@ -43222,7 +43229,7 @@ function ultraschall.CombineBytesToInteger(bitoffset, ...)
   return math.floor(c)
 end
 
---L=ultraschall.CombineBytesToInteger(0,255,255,255,255)
+--L=ultraschall.CombineBytesToInteger(1,255)
 
 function ultraschall.SplitIntegerIntoBytes(integervalue)
 --[[
