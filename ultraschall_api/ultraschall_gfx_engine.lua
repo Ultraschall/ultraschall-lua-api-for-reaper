@@ -1,7 +1,7 @@
 --[[
 ################################################################################
 # 
-# Copyright (c) 2014-2018 Ultraschall (http://ultraschall.fm)
+# Copyright (c) 2014-2019 Ultraschall (http://ultraschall.fm)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -47,8 +47,10 @@ if type(ultraschall)~="table" then
   reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", string2, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")  
   ultraschall={} 
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-  gfx.init()
+  ultraschall.GFX_Init()
 end
+
+if ultraschall.GFX_WindowHWND==nil then ultraschall.GFX_WindowHWND="Please, use ultraschall.GFX_Init() for window-creation, not gfx.init(!), to retrieve the HWND of the gfx-window." end
 
 function ultraschall.GFX_DrawThickRoundRect(x,y,w,h,thickness)
 --[[
@@ -518,6 +520,7 @@ function Editormain()
   if KeyCode~=-1 then reaper.defer(Editormain) end
 end
 
+
 function ultraschall.GFX_Init(...)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -525,6 +528,7 @@ function ultraschall.GFX_Init(...)
   <requires>
     Ultraschall=4.00
     Reaper=5.95
+    JS=0.962
     Lua=5.3
   </requires>
   <functioncall>integer retval, HWND hwnd = ultraschall.GFX_Init(string "name", optional integer width, optional integer height, optional integer dockstate, optional integer xpos, optional integer ypos)</functioncall>
@@ -532,12 +536,12 @@ function ultraschall.GFX_Init(...)
     Opens a new graphics window and returns its HWND-windowhandler object.
   </description>
   <parameters>
-    string "name"  -  the name of the window, which will be shown in the title of the window
-    optional integer width  -  the width of the window; minmum is 50
-    optional integer height  -  the height of the window; minimum is 16
-    optional integer dockstate  -  &1=0, undocked; &1=1, docked
-    optional integer xpos  -  x-position of the window in pixels; minimum is -80
-    optional integer ypos  -  y-position of the window in pixels; minimum is -15
+    string "name" - the name of the window, which will be shown in the title of the window
+    optional integer width -  the width of the window; minmum is 50
+    optional integer height -  the height of the window; minimum is 16
+    optional integer dockstate - &1=0, undocked; &1=1, docked
+    optional integer xpos - x-position of the window in pixels; minimum is -80
+    optional integer ypos - y-position of the window in pixels; minimum is -15
   </parameters>
   <retvals>
     number retval  -  1.0, if window is opened
@@ -553,17 +557,70 @@ function ultraschall.GFX_Init(...)
 ]]
   local parms={...}
   local temp=parms[1]
-  if temp==nil or type(temp)~="string" then temp="" end
-  if parms[1]=="" or parms[1]==nil then parms[1]="\t \t  \t\t \t  \t   \t \t  \t\t \t  \t  \t \t  \t\t \t  \t   \t \t  \t\t \t  \t     \t \t  \t\t \t  \t" 
-  elseif type(parms[1])~="string" then parms[1]="\t \t  \t\t \t  \t   \t \t  \t\t \t  \t  \t \t  \t\t \t  \t   \t \t  \t\t \t  \t     \t \t  \t\t \t  \t" 
-  else parms[1]=parms[1].."\t \t  \t\t \t  \t   \t \t  \t\t \t  \t  \t \t  \t\t \t  \t   \t \t  \t\t \t  \t     \t \t  \t\t \t  \t" 
+
+  -- check, if the given windowtitle is a valid one, 
+  -- if that's not the case, use "" as name
+  if temp==nil or type(temp)~="string" then temp="" end  
+  if type(parms[1])~="string" then parms[1]="" 
   end
+  
+  -- check for a window-name not being used yet, which is 
+  -- windowtitleX, where X is a number
+  local freeslot=0
+  for i=0, 65555 do
+    if reaper.JS_Window_Find(parms[1]..i, true)==nil then freeslot=i break end
+  end
+  -- use that found, unused windowtitle as temporary windowtitle
+  parms[1]=parms[1]..freeslot
+  
+  -- open window  
   local retval=gfx.init(table.unpack(parms))
-  local HWND=reaper.JS_Window_Find(temp.."\t \t  \t\t \t  \t   \t \t  \t\t \t  \t  \t \t  \t\t \t  \t   \t \t  \t\t \t  \t     \t \t  \t\t \t  \t", true)
+  
+  -- find the window with the temporary windowtitle and get its HWND
+  local HWND=reaper.JS_Window_Find(parms[1], true)
+  
+  -- rename it to the original title
   if HWND~=nil then reaper.JS_Window_SetTitle(HWND, temp) end
+  ultraschall.GFX_WindowHWND=HWND
   return retval, HWND
 end
 
+
+function ultraschall.GFX_GetWindowHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GFX_GetWindowHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GFX_GetWindowHWND()</functioncall>
+  <description>
+    Returns the HWND of the currently opened gfx-window. You need to use [ultraschall.GFX_Init()](#GFX_Init), otherwise 
+    it will contain the message "Please, use ultraschall.GFX_Init() for window-creation, not gfx.init(!), to retrieve the HWND of the gfx-window."
+  </description>
+  <retvals>
+     HWND hwnd - the window-handler of the opened gfx-window; will contain a helpermessage, if you didn't use [ultraschall.GFX_Init()](#GFX_Init) for window creation.
+  </retvals>
+  <chapter_context>
+    Window Handling
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>gfx, functions, gfx, init, window, get, hwnd</tags>
+</US_DocBloc>
+]]
+  return ultraschall.GFX_WindowHWND
+end
+
+--O=ultraschall.GFX_GetWindowHWND()
+
+--A1,B1=reaper.JS_Window_Find("Tudel", true)
+--A,B=ultraschall.GFX_Init("Hula")
+--gfx.init("Tudelu")
+--C,D=reaper.JS_Window_Find("Tudels", true)
+--O2=ultraschall.GFX_GetWindowHWND()
 --[[
 -- Let's initialize some stuff
   gfx.init("TRET",720,420)    -- open a window

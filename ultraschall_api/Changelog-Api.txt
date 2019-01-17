@@ -51,6 +51,7 @@
   - ConvertIntegerToBits - converts an integer-value into its individual bitvalues
   - ReverseEndianess_Byte - changes endianess of a byte-value
   - GFX_Init - opens a new gfx-window. Like gfx.init, but this returns its HWND-windowhandler-object as well
+  - GFX_GetWindowHWND - gets the HWND of a opened gfx-window, opened with ultraschall.GFX_Init
   
 #### Changes from 4.00beta2.7 to 4.00beta2.8
 
