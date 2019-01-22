@@ -5,6 +5,9 @@ ConversionToolMD2HTML="c:\\Program Files (x86)\\Pandoc\\pandoc.exe -f markdown -
 Infilename=ultraschall.Api_Path.."/misc/Reaper_StateChunk_Docs.USDOCML"
 Outfile=ultraschall.Api_Path.."/Documentation/Reaper_StateChunk_Docs.html"
 
+retval, scriptfilename=reaper.get_action_context()
+_temp,scriptfilename=ultraschall.GetPath(scriptfilename)
+
 --Infilename=ultraschall.Api_Path.."/misc/US_Api-Manual.USDocML"
 --Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Documentation2.html"
 
@@ -504,7 +507,7 @@ end
 function contentindex()
   FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..beta.." \"John Cage - 4\'33\" - "..date.." - Build: "..build.."</div><h3>The Functions Reference</h3>To add the API to your script, just add<pre><code>           dofile(reaper.GetResourcePath()..\"/UserPlugins/ultraschall_api.lua\")</code></pre>as first line into your script.<br><br>For more details, read the docs in the <a href=\"US_Api_Introduction_and_Concepts.html\">Introduction and Concepts</a>-area of this page.<br><br><table style=\"font-size:10pt; width:100%;\" >"
   reaper.ClearConsole()
-  reaper.ShowConsoleMsg("Create Index\n")
+  reaper.ShowConsoleMsg(scriptfilename..": Create Index\n")
   HeaderList={}
   count=1
   count2=0
@@ -790,7 +793,7 @@ for lolo=1, 60 do
     b=b+1
     if b>=120 then 
       reaper.ClearConsole() 
-      reaper.ShowConsoleMsg("Creating ConfigVar-Docs\n")
+      reaper.ShowConsoleMsg("Creating StateChunk-Docs\n")
       reaper.ShowConsoleMsg((math.floor(100/Ccount*index)+1).."% : ")
       for iii=1, math.floor(progressbar/Ccount*index) do reaper.ShowConsoleMsg("#") end
       for iii=math.floor(progressbar/Ccount), math.floor(progressbar/Ccount*(Ccount-index))-1 do reaper.ShowConsoleMsg("~") end
@@ -806,7 +809,7 @@ for lolo=1, 60 do
     end  
     if index>=Ccount then break end
 end
-    if index<Ccount then reaper.defer(entries) else writefile() end
+    if index<Ccount then reaper.defer(entries) else writefile() reaper.SetExtState("ultraschall", "doc", reaper.time_precise(), false) end
 end
 
 --header()

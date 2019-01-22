@@ -8,13 +8,11 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 item=reaper.GetSelectedMediaItem(0,0)
 if item==nil then return end
 name = ultraschall.GetItemName(item)
-if name==nil then name="" end
 
 -- get the extstates stored with this MediaItem
 storedextstates=""
 for i=1, 5 do
   temp, temp2 = ultraschall.GetItemExtState(item, tostring(i))
-  if temp2==nil then temp2="" end
   storedextstates=storedextstates..tostring(temp2)..","
 end
 

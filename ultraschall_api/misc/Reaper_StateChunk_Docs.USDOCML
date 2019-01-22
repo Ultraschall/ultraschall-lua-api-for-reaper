@@ -18,6 +18,49 @@
     <source_document></source_document>
     <tags></tags>
   </US_DocBloc>
+
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>QUEUED_RENDER_OUTFILE</slug>
+    <functioncall>QUEUED_RENDER_OUTFILE string renderfilename_with_path_for_queue  integer unknown  string guid</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        Only in Render-queued-projects!
+        
+        stores the output-filename with path for the render-queue. If omitted while project is in Resourcefolder/QueuedRenders, the renderfilename will be created like a regular projectfile using RENDER_FILE and RENDER_PATTERN
+        
+        There can be more than one (i.e. with rendering stems). According to the settings in [RENDER_STEMS](#RENDER_STEMS), the first entry may refer to the render-targetfile of the master-track.
+    </description>
+    <parameters>
+      string renderfilename_with_path_for_queue - the render-outputfilename, which will be created when the queued project is rendered
+      integer unknown - unknown
+      string guid - a guid associated with this queue
+    </parameters>
+    <chapter_context>
+      ProjectStateChunk
+    </chapter_context>
+    <target_document>Reaper_StateChunk_Docs</target_document>
+    <source_document></source_document>
+    <tags></tags>
+  </US_DocBloc>
+  
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>QUEUED_RENDER_ORIGINAL_FILENAME</slug>
+    <functioncall>QUEUED_RENDER_ORIGINAL_FILENAME string projectfilename_with_path</functioncall>
+    <description>
+        Only in Render-queued-projects!
+        
+        stores the original filename of the queued-project with path.
+        Omitted for projects, that are not saved yet but already in the render-queue.
+    </description>
+    <parameters>
+      string projectfilename_with_path - the original projectfilename including it's path
+    </parameters>
+    <chapter_context>
+      ProjectStateChunk
+    </chapter_context>
+    <target_document>Reaper_StateChunk_Docs</target_document>
+    <source_document></source_document>
+    <tags></tags>
+  </US_DocBloc>
   
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>RENDER_CFG</slug>
@@ -3231,6 +3274,8 @@
     
     The GroupState_as_Flags-bitfield is a hint, if a certain flag is set in any of the groups. So, if you want to know, if VCA Master is set in any group, check if flag &1048576 (2^20) is set to 1048576.
 
+    This entry is only for Groups 1(2^0) to 32(2^31). To get/set Groups 33 to 64, use <a href="#GROUP_FLAGS_HIGH">GROUP_FLAGS_HIGH</a> instead!
+    
     </description>
     <parameters>
       integer GroupState_as_Flags - returns a flagvalue with 23 bits, that tells you, which grouping-flag is set in at least one of the 32 groups available.
@@ -3304,7 +3349,7 @@
     
     The GroupState_as_Flags-bitfield is a hint, if a certain flag is set in any of the groups. So, if you want to know, if VCA Master is set in any group, check if flag &1048576 (2^20) is set to 1048576.
     
-    This function will work only for Groups 33(2^0) to 64(2^31). To get Groups 1 to 32, use <a href="#GetTrackGroupFlagsState">GetTrackGroupFlagsState</a> instead!
+    This entry is only for Groups 33(2^0) to 64(2^31). To get/set Groups 1 to 32, use <a href="#GROUP_FLAGS">GROUP_FLAGS</a> instead!
     
     </description>
     <parameters>

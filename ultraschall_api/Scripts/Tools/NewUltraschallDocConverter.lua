@@ -3,7 +3,11 @@ Tempfile=ultraschall.Api_Path.."/temp/temporary"
 ConversionToolMD2HTML="c:\\Program Files (x86)\\Pandoc\\pandoc.exe -f markdown -t html "..ultraschall.Api_Path.."/temp/temporary.md -o "..ultraschall.Api_Path.."/temp/temporary.html"
 
 Infilename=ultraschall.Api_Path.."/ultraschall_functions_engine.lua"
+Infilename2=ultraschall.Api_Path.."/ultraschall_functions_engine_beta.lua"
 Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Functions.html"
+
+retval, scriptfilename=reaper.get_action_context()
+_temp,scriptfilename=ultraschall.GetPath(scriptfilename)
 
 --Infilename=ultraschall.Api_Path.."/misc/US_Api-Manual.USDocML"
 --Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Documentation2.html"
@@ -15,8 +19,8 @@ func_done_count=progresscounter(false)-1
 local FunctionList2=""
 
 temp, build=reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", ultraschall.Api_Path.."/IniFiles/ultraschall_api.ini")
-beta="Beta 2.7 - "
-date="15th of December 2018"
+
+version,date,beta,D,Tagline,F,G=ultraschall.GetApiVersion()
 
 function ultraschall.SplitUSDocBlocs(String)
   local Table={}
@@ -179,6 +183,7 @@ function ultraschall.ParseParameters(String)
       Params[counter][1]=temppar:match("^%t*%s*(.*)")
       Params[counter][2]=tempdesc
     else
+      --reaper.ShowConsoleMsg(String.."\n")
       Params[counter][2]=Params[counter][2].."\n"..tempdesc
     end
   end
@@ -418,6 +423,8 @@ end
 
 local String=ultraschall.ReadFullFile(Infilename, false)
 
+String=String.."\n"..ultraschall.ReadFullFile(Infilename2, false)
+
 Ccount, C=ultraschall.SplitUSDocBlocs(String)
 
 --A,B=ultraschall.GetAllChapterContexts(C)
@@ -464,20 +471,36 @@ Ultraschall API functions
            <a href="ChangeLog.html"><img style="position:absolute; left:81.3%; width:6.9%;" src="gfx/Changelog_Un.png" alt="Changelog of documentation"></a>
            <a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/Impressum_Un.png" alt="Impressum and Contact"></a>
            <div style="padding-top:2.5%">
-           <table border="0" style="color:#aaaaaa; width:45%;">
+           <table border="0" style="color:#aaaaaa; width:100%;">
                 <tr>
-                    <td style="width:30%;">
-                        <a href="http://www.ultraschall.fm"><img style="width:118%;" src="gfx/US-header.png" alt="Ultraschall-logo"></a>
+                    <td style="width:10%;">
+                        <a href="http://www.ultraschall.fm"><img style="width:120%;" src="gfx/US-header.png" alt="Ultraschall-logo"></a>
                     </td>
-                    <td width="4%;"><u>Functions Engine</u></td>
+                    <td width="1%;"><u>Functions Engine</u></td>
+                    <td width="1%;"><u>GFX Engine</u></td>
+                    <td width="1%;"><u>GUI Engine</u></td>
+                    <td width="1%;"><u>Video Engine</u></td>
+                    <td width="1%;"><u>Audio Engine</u></td>
+                    <td width="1%;"><u>Doc Engine</u></td>
+                    <td width="1%;">&nbsp;<u></u></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Introduction_and_Concepts.html" style="color:#BBBBBB; text-decoration: none;">&nbsp;&nbsp;&nbsp;Introduction/Concepts&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Introduction_and_Concepts.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;Introduction/Concepts</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_GFX.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_GUI.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_VID.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_AUD.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_DOC.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td style="background-color:#777777; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Functions.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions Reference&nbsp;</a></td>
+                    <td style="background-color:#777777; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Functions.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_GFX.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_GUI.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_VID.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_AUD.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_DOC.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
                 </tr>
                 <tr><td></td><tr>
                 </table>
@@ -501,9 +524,20 @@ function header()
 end
 
 function contentindex()
-  FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..beta.." \"Frank Zappa - The Return of the Son of Monster Magnet\" - "..date.." - Build: "..build.."</div><h3>The Functions Reference</h3>To add the API to your script, just add<pre><code>           dofile(reaper.GetResourcePath()..\"/UserPlugins/ultraschall_api.lua\")</code></pre>as first line into your script.<br><br>For more details, read the docs in the <a href=\"US_Api_Introduction_and_Concepts.html\">Introduction and Concepts</a>-area of this page.<br><br><table style=\"font-size:10pt; width:100%;\" >"
+  FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..beta.." - "..Tagline.." - "..date.." - Build: "..build..[[</div><h3>The Functions Reference</h3>
+      To add the API to your script, just add<p>
+      
+      <pre><code>
+        dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+      </pre></code>
+  
+      as first line into your script.<p>
+      
+      For more details, read the docs in the <a href="US_Api_Introduction_and_Concepts">Introduction and Concepts</a>-area of this page.
+  <table style=\"font-size:10pt; width:100%;\" >
+  ]]
   reaper.ClearConsole()
-  reaper.ShowConsoleMsg("Create Index\n")
+  reaper.ShowConsoleMsg(scriptfilename..": Create Index\n")
   HeaderList={}
   count=1
   count2=0
@@ -511,8 +545,10 @@ function contentindex()
   -- get the chapter-contexts
   -- every entry in HeaderList is "chaptercontext1, chaptercontext2,"
   while C[count]~=nil do
-    A, AA, AAA = ultraschall.ParseChapterContext(C[count][2])
     
+    A, AA, AAA = ultraschall.ParseChapterContext(C[count][2])
+      reaper.ClearConsole()
+      reaper.ShowConsoleMsg("Create Index: "..AAA)
       temp=AAA.."\n"
       for i=1, count2 do
         if HeaderList[i]==temp then found=true end
@@ -525,7 +561,7 @@ function contentindex()
     
     count=count+1
   end
-  
+
   table.sort(HeaderList)
   
   -- add to the chapter-contexts the accompanying slugs, using newlines
@@ -534,6 +570,8 @@ function contentindex()
   while C[count]~=nil do    
     A1, AA1, AAA1 = ultraschall.ParseChapterContext(C[count][2])
     Slug=C[count][1]
+    reaper.ClearConsole()
+    reaper.ShowConsoleMsg("Create Index: "..AAA)
     temp=AAA1.."\n"
        
     for i=1, count2 do
@@ -553,6 +591,8 @@ function contentindex()
     chapter=HeaderList[i]:match("(.-\n)")
     slugs=HeaderList[i]:match("\n(.*)\n")
     A2, AA2, AAA2 = ultraschall.SplitStringAtLineFeedToArray(slugs)
+    reaper.ClearConsole()
+    reaper.ShowConsoleMsg("Create Index: "..AAA)
     table.sort(AA2)
     slugs=""
     for i=1, A2 do
@@ -576,8 +616,9 @@ function contentindex()
     if i>1 and Second:match("%>(.-)%<")==HeaderList[i-1]:match("(.-),") then Second="" end
     if Third==nil then Third="" else Third=Third.."\n" end
     if i>1 and Third:match("%>(.-)%<")==HeaderList[i-1]:match("(.-),") then Third="" end
-    
     linebreaker=1
+    reaper.ClearConsole()
+    reaper.ShowConsoleMsg("Create Index: "..tostring(Slugs[i]))
     for a=1, Counts do
       if linebreaker==1 then slugs=slugs.."<tr>" end
       if linebreaker==5 then slugs=slugs.."</tr>" linebreaker=1 end
@@ -662,7 +703,7 @@ function contentindex2()
 end
 
 function writefile()
-      FunctionList=FunctionList.."<br><hr><table width=\"100%\"><td style=\"position:absolute; right:0;\">Automatically generated by Ultraschall-API 4.00 "..beta..func_done_count.." functions and "..Ccount-func_done_count.." Api-variables available</td></table><br><hr></div></body></html>"
+      FunctionList=FunctionList.."<br><hr><table width=\"100%\"><td style=\"position:absolute; right:0;\">Automatically generated by Ultraschall-API "..version.." "..beta.." - "..func_done_count.." functions and "..Ccount-func_done_count.." Api-variables available</td></table><br><hr></div></body></html>"
       reaper.ShowConsoleMsg("\nSave File\n")
       
   --    FunctionArray[FunctionArrayCounter]=FunctionList
@@ -685,6 +726,10 @@ function writefile()
 end
 
 function entries()
+if sortentries~=true then 
+--  table.sort(C[)
+  sortentries=true
+end
 for lolo=1, 60 do
 -- Slug as HTML-Anchor
   FunctionList=FunctionList.."<hr><a id=\""..C[index][1].."\"></a>"
@@ -709,7 +754,7 @@ for lolo=1, 60 do
   for i=1, A do
     B[i][1]=ultraschall.ColorateDatatypes(B[i][1])
     temp=B[i][1]:match("(ultraschall.-%()")
-    
+    if temp==nil then temp=B[i][1] end
     if temp~=nil then B[i][1]=string.gsub(B[i][1],temp:sub(1,-2).."%(","<b>"..temp.."</b>") lua=B[i][1] end
     if B[i][2]=="cpp" then cpp="<div class=\"c_func\"><span class='all_view'>C: </span><code>"..B[i][1]:sub(1,-2).."<b>)</b></code><br><br></div>" end
     if B[i][2]=="eel" then eel="<div class=\"e_func\"><span class='all_view'>EEL: </span><code>"..B[i][1]:sub(1,-2).."<b>)</b></code><br><br></div>" end
@@ -805,7 +850,7 @@ for lolo=1, 60 do
     end  
     if index>=Ccount then break end
 end
-    if index<Ccount then reaper.defer(entries) else writefile() end
+    if index<Ccount then reaper.defer(entries) else writefile() reaper.SetExtState("ultraschall", "doc", reaper.time_precise(), false) end
 end
 
 --header()

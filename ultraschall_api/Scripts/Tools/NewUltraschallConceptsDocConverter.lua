@@ -1,4 +1,5 @@
 --reaper.MB("Still Work To Do With This Here!","",0)
+is_new_value, filename_with_path, sectionID, cmdID, mode, resolution, val = reaper.get_action_context()
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 Tempfile=ultraschall.Api_Path.."/temp/temporary"
 ConversionToolMD2HTML="c:\\Program Files (x86)\\Pandoc\\pandoc.exe -f markdown_strict -t html "..ultraschall.Api_Path.."/temp/temporary.md -o "..ultraschall.Api_Path.."/temp/temporary.html"
@@ -6,14 +7,19 @@ ConversionToolMD2HTML="c:\\Program Files (x86)\\Pandoc\\pandoc.exe -f markdown_s
 Infilename=ultraschall.Api_Path.."/misc/US_Api-Manual.USDocML"
 Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Introduction_and_Concepts.html"
 
+retval, scriptfilename=reaper.get_action_context()
+_temp,scriptfilename=ultraschall.GetPath(scriptfilename)
+
 --Infilename=ultraschall.Api_Path.."/misc/US_Api-Manual.USDocML"
 --Outfile=ultraschall.Api_Path.."/Documentation/US_Api_Documentation2.html"
 
 local FunctionList2=""
 
 temp, build=reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", ultraschall.Api_Path.."/IniFiles/ultraschall_api.ini")
-beta="Beta 2.7 - "
-date="15th of December 2018"
+
+version,date,beta,D,Tagline,F,G=ultraschall.GetApiVersion()
+
+--if LLLLLL2==nil then return end
 
 function ultraschall.SplitUSDocBlocs(String)
   local Table={}
@@ -109,6 +115,7 @@ function ultraschall.ParseDescription(String)
 -- Still missing: what if a line has no - at the beginning? (Leave it that way, probably.)
     newdesc=string.gsub(description, "\n%s*%t*-", "\n")
   end
+--  reaper.ShowConsoleMsg(newdesc)
   return newdesc, markup_type, markup_version, lang, prog_lang
 end
 
@@ -454,20 +461,36 @@ Ultraschall API functions
            <a href="ChangeLog.html"><img style="position:absolute; left:81.3%; width:6.9%;" src="gfx/Changelog_Un.png" alt="Changelog of documentation"></a>
            <a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/Impressum_Un.png" alt="Impressum and Contact"></a>
            <div style="padding-top:2.5%">
-           <table border="0" style="color:#aaaaaa; width:45%;">
+           <table border="0" style="color:#aaaaaa; width:100%;">
                 <tr>
-                    <td style="width:30%;">
-                        <a href="http://www.ultraschall.fm"><img style="width:118%;" src="gfx/US-header.png" alt="Ultraschall-logo"></a>
+                    <td style="width:10%;">
+                        <a href="http://www.ultraschall.fm"><img style="width:120%;" src="gfx/US-header.png" alt="Ultraschall-logo"></a>
                     </td>
-                    <td width="4%;"><u>Functions Engine</u></td>
+                    <td width="1%;"><u>Functions Engine</u></td>
+                    <td width="1%;"><u>GFX Engine</u></td>
+                    <td width="1%;"><u>GUI Engine</u></td>
+                    <td width="1%;"><u>Video Engine</u></td>
+                    <td width="1%;"><u>Audio Engine</u></td>
+                    <td width="1%;"><u>Doc Engine</u></td>
+                    <td width="1%;">&nbsp;<u></u></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td style="background-color:#777777; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Introduction_and_Concepts.html" style="color:#BBBBBB; text-decoration: none;">&nbsp;&nbsp;&nbsp;Introduction/Concepts&nbsp;</a></td>
+                    <td style="background-color:#777777; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Introduction_and_Concepts.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;Introduction/Concepts</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_GFX.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_GUI.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_VID.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_AUD.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Concepts_DOC.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Concepts</a></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Functions.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions Reference&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_Functions.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_GFX.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_GUI.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_VID.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_AUD.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="US_Api_DOC.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Functions&nbsp;</a></td>
                 </tr>
                 <tr><td></td><tr>
                 </table>
@@ -493,7 +516,7 @@ end
 function contentindex()
   -- let's prepare all data-structures
   reaper.ClearConsole()
-  reaper.ShowConsoleMsg("Create Index\n")
+  reaper.ShowConsoleMsg(scriptfilename..": Create Index\n")
   HeaderList={}
   local A,B=ultraschall.GetAllChapterContexts(C)
   local count=1
@@ -525,7 +548,7 @@ function contentindex()
   
   -- now we create the actual index
   count=1
-  FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..beta.." \"Frank Zappa - The Return of the Son of Monster Magnet\" - "..date.." - Build: "..build.."</div><h3>Introduction and Concepts</h3><table style=\"font-size:10pt; width:100%;\" >"
+  FunctionList=FunctionList.."<br><br><img src=\"gfx/us.png\"><div style=\"padding-left:0%;\"><br>"..beta.." - "..Tagline.." - "..date.." - Build: "..build.."</div><h3>Introduction and Concepts</h3><table style=\"font-size:10pt; width:100%;\" >"
   while B[count]~=nil do
     count2=1
     local tud=1
@@ -607,7 +630,7 @@ for lolo=1, 1 do
 --  reaper.MB(tostring(C[index][2]:match("<chapter_context>(.-API%-Documentation.-)</chapter_context>")),C[index][1],0)
 --  if C[index][2]:match("<chapter_context>.-API%-Documentation.-</chapter_context>")==nil then --FunctionList=FunctionList.."<table style=\"width:100%;\"><tr><td><u>Description:</u></td></tr>" end
 --  FunctionList=FunctionList.."<tr><td style=\"vertical-align:top;\">"..newdesc.."</td></tr></table>"
-  FunctionList=FunctionList..newdesc
+  FunctionList=FunctionList..tostring(newdesc)
 --  if C[index][2]:match("<chapter_context>.-API%-Documentation.-</chapter_context>")==nil then FunctionList=FunctionList.."</divl>" end  
   
 -- Parameters
@@ -670,7 +693,7 @@ for lolo=1, 1 do
       b=b+1
     end
   elseif kuddel==nil then
-    FunctionList=FunctionList.."<br><hr><table width=\"100%\"><td style=\"position:absolute; right:0;\">Automatically generated by Ultraschall-API 4.00 "..beta..Ccount.." chapters available</td></table><br><hr></div></body></html>"
+    FunctionList=FunctionList.."<br><hr><table width=\"100%\"><td style=\"position:absolute; right:0;\">Automatically generated by Ultraschall-API "..version.." "..beta.." - "..Ccount.." chapters available</td></table><br><hr></div></body></html>"
     reaper.ShowConsoleMsg("\nSave File\n")
     
 --    FunctionArray[FunctionArrayCounter]=FunctionList
@@ -681,7 +704,7 @@ for lolo=1, 1 do
  --   end
     
     KLONGEL=ultraschall.WriteValueToFile(Outfile, FunctionList2..FunctionList)
-    reaper.SetExtState("ultraschall", "doc", "intro-concepts-engine", false)
+    reaper.SetExtState("ultraschall", "doc", reaper.time_precise(), false)
     if KLONGEL==-1 then ultraschall.ShowLastErrorMessage() end
 
     reaper.ShowConsoleMsg("Done\n")

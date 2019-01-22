@@ -45,13 +45,13 @@
                 
                    Happy coding and let's see, what you can do with it :D
                     
-                   Meo Mespotine (mespotine.de) (api.ultraschall.fm)
+                   Meo Mespotine (mespotine.de) (ultraschall.fm/api)
                 
                 For more information about Ultraschall itself, see [ultraschall.fm](http://www.ultraschall.fm) and if you want to support us, see [ultraschall.fm/danke](http://www.ultraschall.fm/danke) for donating to us.
                 
                 PS: In this documentation, I assume you have some basic knowledge in Lua and in using Reaper's own API-functions. Explaining both of these is beyond the scope of this doc.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Introduction
@@ -74,9 +74,9 @@
             
             To install the Ultraschall-API:
             
-            1. Just download the zip-file of the current version from [api.ultraschall.fm](http://api.ultraschall.fm).  
+            1. Just download the zip-file of the current version from [ultraschall.fm/api](http://ultraschall.fm/api).  
             2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -> Show REAPER resource path in explorer/finder...".    
-               The folder UserPlugins should contain the folder ultraschall_api and the files ultraschall_api_readme.txt and ultraschall_api.lua after this step.  
+               The folder UserPlugins should contain the folder ultraschall\_api and the files ultraschall\_api\_readme.txt and ultraschall\_api.lua after this step.  
             3. Now create a new script, by opening the Actions-window (Menu: Actions -> Show action list) and clicking the New-button next to "ReaScript:", give it a name and hit save.  
                Include the following line in your script at the beginning:   
                
@@ -105,7 +105,7 @@
             
             Oh, before I forget: The ultraschall_api-folder holds a folder "Scripts_Examples" in which you can find some demos and example-scripts using this API.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Introduction
@@ -123,7 +123,7 @@
             So I added two ways to deal with that.
             
             1. Hotfixes  
-                   Hotfixes are available at [api.ultraschall.fm](http://api.ultraschall.fm). They provide fixes for functions and bugs that came across after a release, but no new functions.  
+                   Hotfixes are available at [ultraschall.fm/api](http://ultraschall.fm/api). They provide fixes for functions and bugs that came across after a release, but no new functions.  
                    Just download the ultraschall\_hotfixes.lua and put it into UserPlugins/ultraschall\_api-folder.  
                    The chance is high, that there is already an ultraschall\_hotfixes.lua-file in the folder. You can safely overwrite it.  
                    Voila, you have added the most recent bugfixes.  
@@ -135,7 +135,7 @@
                    Check again from time to time to get the latest hotfixes.
                 
              2. Beta-functions and features
-                Beta-functions are functions intended for a future release of the Ultraschall-API. If you want to test them, just download the latest Beta-Pack from [api.ultraschall.fm](http://api.ultraschall.fm).  
+                Beta-functions are functions intended for a future release of the Ultraschall-API. If you want to test them, just download the latest Beta-Pack from [ultraschall.fm/api](http://ultraschall.fm/api).  
                 Extract the files in the Beta-pack to UserPlugins of the Resources-folder of your Reaper-installation. Voila, the beta-functions are installed.  
                  
                 To use them, you need to explicitly turn them on in your script, using the following lines:
@@ -149,7 +149,7 @@
                  
                 Be aware, they are in beta-stage. They will probably change, disappear or be exchanged with better functions. Beta-functions are only for testing purposes, not for productive coding!
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Introduction
@@ -183,7 +183,7 @@
 
             PS: If you know how to implement impossible things or do things better than the current implementation, you are welcome to donate your improved codes. :)
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Introduction
@@ -232,7 +232,7 @@
             MakeCopyOfTable-function adapted from Tyler Neylon's (twitter.com/tylerneylon) function, found at [Stack Overflow](https://stackoverflow.com/questions/640642/how-do-you-copy-a-lua-table-by-value/26367080#26367080)
             Thanks to him for allowing me to use it :)
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Introduction
@@ -293,7 +293,7 @@
                     
             These Ultraschall-API-specific datatypes are described in more detail in the following chapters.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Datatypes
@@ -330,7 +330,7 @@
                     [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween), [GetAllMediaItemsInTimeSelection](usdocml://GetAllMediaItemsInTimeSelection), [DeleteMediaItems_Position](usdocml://DeleteMediaItems_Position), [IsItemInTrack3](usdocml://IsItemInTrack3), and more
 
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Datatypes
@@ -375,7 +375,7 @@
             - Some of the functions who make use of MediaItemArray are:  
                     [DeleteMediaItemsFromArray](usdocml://DeleteMediaItemsFromArray), [DeselectMediaItems_MediaItemArray](usdocml://DeselectMediaItems_MediaItemArray), [GetAllLockedItemsFromMediaItemArray](usdocml://GetAllLockedItemsFromMediaItemArray), [InsertMediaItemArray](usdocml://InsertMediaItemArray), and more
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Datatypes
@@ -427,7 +427,7 @@
             - Some of the functions who make use of MediaItemStateChunkArrays are:  
                     [GetMediaItemStateChunkArrayLength](usdocml://GetMediaItemStateChunkArrayLength), [InsertMediaItemStateChunkArray](usdocml://InsertMediaItemStateChunkArray), [RippleInsert_MediaItemStateChunks](usdocml://RippleInsert_MediaItemStateChunks), [GetAllMediaItemsFromTrackStateChunk](usdocml://GetAllMediaItemsFromTrackStateChunk) and more
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Datatypes
@@ -477,7 +477,7 @@
             - Some of the functions who make use of EnvelopePointObjects are: 
                     [AddEnvelopePoints_EnvelopePointObject](usdocml://AddEnvelopePoints_EnvelopePointObject), [SetEnvelopePoints_EnvelopePointObject](usdocml://SetEnvelopePoints_EnvelopePointObject), [DeleteEnvelopePoints_EnvelopePointObject](usdocml://DeleteEnvelopePoints_EnvelopePointObject) and more
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Datatypes
@@ -518,7 +518,7 @@
             - Some of the functions who make use of EnvelopePointArrays are: 
                     [AddEnvelopePoints_EnvelopePointArray](usdocml://AddEnvelopePoints_EnvelopePointArray), [SetEnvelopePoints_EnvelopePointArray](usdocml://SetEnvelopePoints_EnvelopePointArray), [DeleteEnvelopePoints_EnvelopePointArray](usdocml://DeleteEnvelopePoints_EnvelopePointArray) and more
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Datatypes
@@ -557,7 +557,7 @@
             - Some of the functions who make use of ColorTables are: 
                     [ApplyColorTableToTrackColors](usdocml://ApplyColorTableToTrackColors)            
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Datatypes
@@ -596,30 +596,30 @@
 
                 Ultraschall-API-specific:
                 
-                   - [IsValidTrackString](usdocml://IsValidTrackString) - checks, if a string is a valid [trackstring](#Datatypes_002_trackstring)  
-                   - [IsValidMediaItemArray](usdocml://IsValidMediaItemArray) - checks, if a table is a valid [MediaItemArray](#Datatypes_003_MediaItemArray)  
-                   - [IsValidMediaItemStateChunkArray](usdocml://IsValidMediaItemStateChunkArray) - checks, if a table is a valid [MediaItemStateChunkArray](#Datatypes_004_MediaItemStateChunkArray)  
-                   - [IsValidEnvelopePointObject](usdocml://IsValidEnvelopePointObject) - checks, if a table is a valid [EnvelopePointObject](#Datatypes_005_EnvelopePointObject)  
-                   - [IsValidEnvelopePointArray](usdocml://IsValidEnvelopePointArray) - checks, if a table is a valid [EnvelopePointArray](#Datatypes_006_EnvelopePointArray)
-                   - [IsValidArrangeviewSnapshot](usdocml://IsValidArrangeviewSnapshot) - checks, if an extstate is a valid ArrangeviewSnapshot
+                 - [IsValidTrackString](usdocml://IsValidTrackString) - checks, if a string is a valid [trackstring](#Datatypes_002_trackstring)  
+                 - [IsValidMediaItemArray](usdocml://IsValidMediaItemArray) - checks, if a table is a valid [MediaItemArray](#Datatypes_003_MediaItemArray)  
+                 - [IsValidMediaItemStateChunkArray](usdocml://IsValidMediaItemStateChunkArray) - checks, if a table is a valid [MediaItemStateChunkArray](#Datatypes_004_MediaItemStateChunkArray)  
+                 - [IsValidEnvelopePointObject](usdocml://IsValidEnvelopePointObject) - checks, if a table is a valid [EnvelopePointObject](#Datatypes_005_EnvelopePointObject)  
+                 - [IsValidEnvelopePointArray](usdocml://IsValidEnvelopePointArray) - checks, if a table is a valid [EnvelopePointArray](#Datatypes_006_EnvelopePointArray)
+                 - [IsValidArrangeviewSnapshot](usdocml://IsValidArrangeviewSnapshot) - checks, if an extstate is a valid ArrangeviewSnapshot
                     
                 Other Reaper-datatypes:
                 
-                   - [IsValidReaProject](usdocml://IsValidReaProject) - checks, if an object is a valid ReaProject
-                   - [IsValidProjectStateChunk](usdocml://IsValidProjectStateChunk) - checks, if a string is a valid ProjectStateChunk
-                   - [IsValidTrackStateChunk](usdocml://IsValidTrackStateChunk) - checks, if a string is a valid TrackStateChunk
-                   - [IsValidMediaItemStateChunk](usdocml://IsValidMediaItemStateChunk) - checks, if a string is a valid MediaItemStateChunk
-                   - [IsValidEnvStateChunk](usdocml://IsValidEnvStateChunk) - checks, if a string is a valid EnvelopeStateChunk
+                 - [IsValidReaProject](usdocml://IsValidReaProject) - checks, if an object is a valid ReaProject
+                 - [IsValidProjectStateChunk](usdocml://IsValidProjectStateChunk) - checks, if a string is a valid ProjectStateChunk
+                 - [IsValidTrackStateChunk](usdocml://IsValidTrackStateChunk) - checks, if a string is a valid TrackStateChunk
+                 - [IsValidMediaItemStateChunk](usdocml://IsValidMediaItemStateChunk) - checks, if a string is a valid MediaItemStateChunk
+                 - [IsValidEnvStateChunk](usdocml://IsValidEnvStateChunk) - checks, if a string is a valid EnvelopeStateChunk
                     
                 They will be part of ultraschall.type() someday.
                 
             3. other types of data  
                 These aren't datatypes, but you may want to check them for validity as well  
                 
-                   - [IsValidGuid](usdocml://IsValidGuid) - checks, whether a string is a valid GUID  
-                   - [IsValidMatchingPattern](usdocml://IsValidMatchingPattern) - checks, whether a string is a valid matching pattern for Lua's pattern-matching  
+                 - [IsValidGuid](usdocml://IsValidGuid) - checks, whether a string is a valid GUID  
+                 - [IsValidMatchingPattern](usdocml://IsValidMatchingPattern) - checks, whether a string is a valid matching pattern for Lua's pattern-matching  
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Datatypes
@@ -650,7 +650,7 @@
             
             You could change them as well, but that would be pointless.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             API-Variables
@@ -692,7 +692,7 @@
                
                Read the accompanying documentation-entries for [CreateRenderCFG_MP3CBR](usdocml://CreateRenderCFG_MP3CBR) and [RenderProject_RenderCFG](usdocml://RenderProject_RenderCFG) for more details and/or the following chapters.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Rendering
@@ -736,7 +736,7 @@
                      [CreateRenderCFG_MP3VBR](usdocml://CreateRenderCFG_MP3VBR), [CreateRenderCFG_OGG](usdocml://CreateRenderCFG_OGG), [CreateRenderCFG_Opus](usdocml://CreateRenderCFG_Opus), [CreateRenderCFG_Opus2](usdocml://CreateRenderCFG_Opus2), [CreateRenderCFG_WAV](usdocml://CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](usdocml://CreateRenderCFG_WAVPACK),  
                      [CreateRenderCFG_WebMVideo](usdocml://CreateRenderCFG_WebMVideo)            
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Rendering
@@ -796,7 +796,7 @@
             
             For more enhanced customization of Rendering, see [Rendering: Change more render-settings](#Rendering_004_Change_more_render_settings) for more details.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Rendering
@@ -839,7 +839,7 @@
             The functions in step 2) are just a small selection of the functions to alter project-files, as provided by the Ultraschall-API. Browse through the functions in the "Project-Files"-section of the index of the Ultraschall-API-Functions-Reference for many more of them.  
             However, changing some of the stuff might cause issues with the rendering-functions provided with this API.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Rendering
@@ -864,7 +864,7 @@
             
             Due limitations with Reaper's own API, storing the vertical-scroll-position of the arrangeview isn't possible yet. This will change as soon as the limitation is raised from Reaper's own API.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Arrangeview Snapshots
@@ -895,7 +895,7 @@
             
             To delete a certain slot, just use [DeleteArrangeviewSnapshot](usdocml://DeleteArrangeviewSnapshot).
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Arrangeview Snapshots
@@ -929,7 +929,7 @@
                          
             This should give you full control in what to restore from an Arrangeview-Snapshot and what to ignore.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Arrangeview Snapshots
@@ -952,7 +952,7 @@
             
             This should give you more control about programming faster and quicker navigation-capabilities.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Navigation
@@ -981,7 +981,7 @@
                - Both:
                   - [SetPlayAndEditCursor_WhenPlaying](usdocml://SetPlayAndEditCursor_WhenPlaying) - sets play and editcursor to position during playback
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Navigation
@@ -1028,7 +1028,7 @@
             The function [GetClosestGoToPoints](usdocml://GetClosestGoToPoints) is the combination of all of these functions, which let's you decide fully, which edges/positions you want to check for.   
             It will also check, if the next/previous closest edge is the beginning or the end of the project.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Navigation
@@ -1062,7 +1062,7 @@
             
             This functions only centers the given position/cursor-position to the arrangeview. It keeps the zoom-factor intact.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Navigation
@@ -1097,7 +1097,7 @@
             which means, it sets if a certain autoscrolling behavior is turned on or not.  
             If you have your own custom actions toggling these actions, you probably shouldn't use this function. Otherwise it probably messes up your workflows.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Navigation
@@ -1149,7 +1149,7 @@
             StateChunks can be gotten using reaper.GetTrackStateChunk(), reaper.SetTrackStateChunk(), reaper.GetItemStateChunk(), reaper.SetItemStateChunk(), reaper.GetEnvelopeStateChunk(), reaper.SetEnvelopeStateChunk().  
             To get ProjectStateChunks, you need to read the rpp-file, as currently there's no Get/SetProjectStateChunk-function in Reaper's own API.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Get/Set Project/Track/MediaItem-States
@@ -1175,7 +1175,7 @@
             
             Let's begin with getting items by time(range) and tracks.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             MediaItems
@@ -1237,7 +1237,7 @@
                - [GetSelectedMediaItemsAtPosition](usdocml://GetSelectedMediaItemsAtPosition) - gets all selected MediaItems in given tracks from a time-position
                - [GetSelectedMediaItemsBetween](usdocml://GetSelectedMediaItemsBetween) - gets all selected MediaITems in given tracks between start- and endposition
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             MediaItems
@@ -1278,7 +1278,7 @@
             
             >This function returns, if splitting was successful and the newly "created"-right-hand-split-items as an MediaItemAray. Only the right-hand-split-MediaItem of MediaItems, that could be split, will be returned. If a MediaItem could not be split(position outside MediaItemstart and MediaItemEnd), there will be no returned MediaItem for it then.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             MediaItems
@@ -1341,7 +1341,7 @@
 
             With all these functions, deleting MediaItems is now comfortable to do.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             MediaItems
@@ -1435,7 +1435,7 @@
              
              This should give you many additional use-cases into your hands.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             MediaItems
@@ -1569,7 +1569,7 @@
                - [SelectMediaItems_MediaItemArray](usdocml://SelectMediaItems_MediaItemArray) - sets MediaItems in MediaItemArray to selected  
                - [DeselectMediaItems_MediaItemArray](usdocml://DeselectMediaItems_MediaItemArray) - sets MediaItems in MediaItemArray deselected  
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             MediaItems
@@ -1644,7 +1644,7 @@
            >This is a special function, focusing on inserting image-files into the project. You can set the track, position, length of the image-MediaItem and, if it shall be looped.  
            >If you don't loop it(looped=false), the MediaItem will have the length anyway, but the image will be shown only for 1 second in the VideoProcessor-window.  
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             MediaItems
@@ -1744,7 +1744,7 @@
               - [GetItemSpectralConfig](usdocml://GetItemSpectralConfig) - to get the current resolution(FFT-size) of the SpectralEdit of the MediaItem  
               - [CountItemSpectralEdits](usdocml://CountItemSpectralEdits) - to count the number of currently existing SpectralEdit-instances in a MediaItem  
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             MediaItems
@@ -1838,7 +1838,7 @@
             >This function is especially helpful, when mass manipulating StateChunks and wanting to mass-apply the changed ones back.  
             >Easy to do now.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             MediaItems
@@ -1863,7 +1863,7 @@
             
             Let's start with reading files.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             File Management
@@ -1957,7 +1957,7 @@
             
             These functions should fulfill most of your daily file-read-usecases.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             File Management
@@ -2016,7 +2016,7 @@
             
             This should make saving files easier than having to code it completely yourself by hand.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             File Management
@@ -2073,7 +2073,7 @@
             
             > After that, the function returns an array with all files, that are of the filetype you gave to parameter filetype.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             File Management
@@ -2101,7 +2101,7 @@
             - [GetReaperWorkDir](usdocml://GetReaperWorkDir) - returns the current workdir of Reaper, where files(without a path) will be created in
             - [SetReaperWorkDir](usdocml://SetReaperWorkDir) - sets the current workdir of Reaper, where files(without a path) will be created in(needs Reaper-restart)
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             File Management
@@ -2129,7 +2129,7 @@
             - [IsValidProjectStateChunk](usdocml://IsValidProjectStateChunk) - checks, whether a string is a valid ProjectStateChunk(i.e. you read an rpp-roject into a variable, you can check this)
             - [IsValidReaProject](usdocml://IsValidReaProject) - checks, whether an object is a valid ReaProject-object
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Project Management
@@ -2169,7 +2169,7 @@
             
             That way, you can for instance work with newly created projects, to automatically add things to projects, that can't be added using TemplateProjects.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         <chapter_context>
             Project Management
@@ -2215,7 +2215,7 @@
             
             So I thought, why not adding functions, that make that stuff easier?
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2295,7 +2295,7 @@
                
             With that, you can convert color-values into all color-values you ever want to have.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2369,7 +2369,7 @@
             >By that, it will desaturate or saturate.  
             
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2392,7 +2392,7 @@
             
             Over time, I intend to add functions to these colortables as well, so adding, removing, altering and changing colors in the colortable(like brightness, saturation and such) is possible more easily.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2436,7 +2436,7 @@
             >Simply pass a table to check for and it will return, whether it is a valid ColorTable(true) or nor(false)
             
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2471,7 +2471,7 @@
             >This applies a ColorTable to MediaItems and works basically as the ApplyColorTableToTrackColors-function above, with the exception, that you pass MediaItems as MediaItemArray.  
             >The rest is the same, pass to the function a ColorTable and in the parameter Spread, how to spread/cycle the colors over the MediaItems.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2498,9 +2498,10 @@
             Without having the background-scripts started, some functions will always produce error-codes.  
             Features that use these background-scripts are:
             
-            >**[GetLastCursorPosition](usdocml://GetLastCursorPosition)** - gets the last editcursor-position before the current one. Helpful for left-click-triggered scripts, who change the editcursorposition due the mouseclick
+            >**[GetLastCursorPosition](usdocml://GetLastCursorPosition)** - gets the last editcursor-position before the current one. Helpful for left-click-triggered scripts, who change the editcursorposition due the mouseclick  
+            >**[GetLastPlayState](usdocml://GetLastPlayState)** - gets the last playstate before the current one. Helpful for monitoring "event-based"-statechanges
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2524,7 +2525,7 @@
             
             Let's go into more detail.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2557,7 +2558,7 @@
                                     
             >This works the same as ToggleMute, but accepts a MediaTrack instead of a tracknumber. The rest is the same, position for the position of the new mutepoint and state for mute(0) or unmute(1).
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2619,7 +2620,7 @@
              
             With that, you should get a good overview over the mute-points in your project.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2652,7 +2653,7 @@
                                     
             >Works exactly like DeleteMuteState, but expects a MediaTrack-object instead of a tracknumber.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2678,7 +2679,7 @@
             
             Let's go into more details on that.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2732,7 +2733,7 @@
             
             Now, we've created a new error-message, which is now kept by the Ultraschall-API-instance locally within your script.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2800,7 +2801,7 @@
              - [GetErrorMessage_Funcname](usdocml://GetErrorMessage_Funcname) - gets an errormessage a specific function provided, can be indexed  
              - [GetLastErrorMessage_Funcname](usdocml://GetLastErrorMessage_Funcname) - gets the last errormessage a specific function provided  
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2838,7 +2839,7 @@
             
             And that's all you need to know about deleting errormessages.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2863,7 +2864,7 @@
             >This toggles, whether to display error-messages at the bottom of the ReaScript-IDE-window/Reaper's error-window or if you prefer using Ultraschall-API's own functions for error-handling.  
             >Optionally, you can set it by setting togglevalue to either true(show errormessages at the bottom of the IDE) or false(use the Ultraschall-API error-management-behavior).
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2903,7 +2904,7 @@
                 
             and many more related to working with TrackStateChunks.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -2934,7 +2935,7 @@
             
             Let's start with the routing.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3022,7 +3023,7 @@
             
             Another thing: Routing-settings of the master-track aren't possible that way. You need to use [GetTrackMainSendState](usdocml://GetTrackMainSendState) and [SetTrackMainSendState](usdocml://SetTrackMainSendState) to route the signal of a track to the master-channel. Unlike the former functions, MainSend must be set in the sending track!  
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3095,7 +3096,7 @@
                                     integer count_HWOuts = ultraschall.CountTrackHWOuts(integer tracknumber)
             
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3124,7 +3125,7 @@
             
             Let's go into more detail on these concepts.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3167,7 +3168,7 @@
             Changing Reaper's config-files needs a restart of Reaper for the changes to take effect.  
             Some of the configuration-settings can be set also at runtime, but need another approach, which you can find on the Reaper-Internals-page for [Configuration Variables](Reaper_Config_Variables.html)
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3279,7 +3280,7 @@
               
               >>Just like EnumerateKeysByPattern, but this enumerates through the values within a given section. It will return the value and it's corresponding keyname found.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3312,7 +3313,7 @@
              - [EnumerateUSExternalState_sec](usdocml://EnumerateUSExternalState_sec) - enumerates the sections of the ultraschall.ini
 
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3358,7 +3359,7 @@
             One important thing to mention: these extstates are bound to the project(if they aren't stored globally via parameter savelocation), so when copying an item with extstates into another project, the extstates will not be part of the new project.  
             I will look into that problem at some point.  
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3389,7 +3390,7 @@
             >This returns a stored trackextstate. Just pass to it a MediaTrack-object and the key, whose value you want.
             >It will return if getting the value was successful or not with return-value retval, as well as the value with value.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3421,7 +3422,7 @@
             >This returns a stored itemextstate. Just pass to it a MediaItem-object and the key, whose value you want.
             >It will return if getting the value was successful or not with return-value retval, as well as the value with value.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3453,7 +3454,7 @@
             
             These kind of markers get the most attention, though regular marker/region/tempo-time signature marker-management is part of this API as well.  
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3553,7 +3554,7 @@
             The other marker-types follow the same lead, so if you understood it for this marker, you understood it for all others as well.  
             One limitation though, you can't (yet) export/import regions into/from an exportfile.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3600,7 +3601,7 @@
 
             So, with this, most of your wishes in regards of marker-management should be fulfilled.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3621,7 +3622,7 @@
             
             In this chapter, I want you to introduce you to some of these things.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3670,7 +3671,7 @@
             >a MediaItem into a project using it's StateChunk.  
             >How does GetMediaItemsFromClipboard work? It inserts the Items from the clipboard at the end of the project, gets them, using [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween) and deletes them again.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3724,7 +3725,7 @@
             - [ReturnTableAsIndividualValues](usdocml://ReturnTableAsIndividualValues) - returns the 64 first entries of an integer-indexed table as return-values  
             - [ReverseTable](usdocml://ReverseTable) - reversed the entries of a table  
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3758,7 +3759,7 @@
             >The other parameters are all the parameters the function Func needs to run. Just write them in the order you would do, if you would run the function Func directly.  
             >It will return a boolean(true for success), the current undo-message and alle the return-values returned by function Func.
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3836,7 +3837,7 @@
             
             and more and more and more....
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
@@ -3881,7 +3882,7 @@
             
             Meo Mespotine, Leipzig(Germany) 30th of November 2018
         </description>
-        <target_document>ReaperApiConcepts</target_document>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
         </chapter_context>
         <chapter_context>
