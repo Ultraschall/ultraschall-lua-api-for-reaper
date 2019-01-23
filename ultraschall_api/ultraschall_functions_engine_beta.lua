@@ -2530,5 +2530,207 @@ end
 
 --A,B,C,D,E=ultraschall.IsReaperRendering()
 
+function ultraschall.GetAllRecursiveFilesAndSubdirectories(path)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllRecursiveFilesAndSubdirectories</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer found_dirs, array dirs_array, integer found_files, array files_array = ultraschall.GetAllRecursiveFilesAndSubdirectories(string path)</functioncall>
+  <description>
+    Returns all subdirectories and files within a given path.
+    
+    Might take some time with many folders/files.
+    
+    
+    Returns -1 in case of an error.
+  </description>
+  <parameters>
+    string path - the path from where to retrieve the files and subdirectories
+  </parameters>
+  <retvals>
+    integer found_dirs - the number of directories found; -1, in case of an error
+    array dirs_array - the full path to the found directories as an array
+    integer found_files - the number of files found
+    array files_array - the full path to the found files as an array
+  </retvals>
+  <chapter_context>
+    File Management
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>file management, get, all, files, directories, folder, subfolder, subdirectories, path, recursive</tags>
+</US_DocBloc>
+]]
+  if type(path)~="string" then ultraschall.AddErrorMessage("GetAllRecursiveFilesAndSubdirectories", "path", "must be a string", -1) return -1 end
+  if ultraschall.DirectoryExists2(path)==false then ultraschall.AddErrorMessage("GetAllRecursiveFilesAndSubdirectories", "path", "path is not a valid path", -2) return -1 end
+  local Dirs={}
+  local dirscount=1
+  local dirsmaxcount=2
+  
+  Dirs[1]=path
+  
+  local Files={}
+  local filescount=0
+  
+  while dirscount<dirsmaxcount do  
+    local path=Dirs[dirscount]
+    local temp=""
+    local subdir=0
+    while temp~=nil do
+      temp=reaper.EnumerateSubdirectories(Dirs[dirscount],subdir)
+      if temp~=nil then
+        Dirs[dirsmaxcount]=path.."/"..temp
+        dirsmaxcount=dirsmaxcount+1
+      end
+      subdir=subdir+1
+    end
+    dirscount=dirscount+1
+  end
+  
+  local dircounter=1
+  for i=1, dirsmaxcount do
+    local counter=0
+    while Dirs[dircounter]~=nil and reaper.EnumerateFiles(Dirs[dircounter],counter)~=nil do
+      filescount=filescount+1
+      Files[filescount]=Dirs[dircounter].."/"..reaper.EnumerateFiles(Dirs[dircounter],counter)
+      counter=counter+1
+    end
+    dircounter=dircounter+1
+  end
+  
+  return dirsmaxcount-1, Dirs, filescount, Files
+end
+
+--A,B,C,D=ultraschall.GetAllRecursiveFilesAndSubdirectories("L:\\")
+
+function ultraschall.RippleCut_Regions(startposition, endposition)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RippleCut_Regions</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean were_regions_altered, integer number_of_altered_regions, array altered_regions  = ultraschall.RippleCut_Regions(number startposition, number endposition)</functioncall>
+  <description>
+    Ripplecuts regions, where applicable.
+    It cuts all (parts of) regions between startposition and endposition and moves remaining parts plus all regions after endposition by endposition-startposition toward projectstart.
+    
+    Returns false in case of an error.
+  </description>
+  <parameters>
+    number startposition - the startposition from where regions shall be cut from
+    number endposition - the endposition to which regions shall be cut from; all regions/parts of regions after that will be moved toward projectstart
+  </parameters>
+  <retvals>
+    boolean were_regions_altered - true, if regions were cut/altered; false, if not
+    integer number_of_altered_regions - the number of regions that were altered/cut/moved
+    array altered_regions - the regions that were altered:
+                          -   altered_regions_array[index_of_region][0] - old startposition
+                          -   altered_regions_array[index_of_region][1] - old endposition
+                          -   altered_regions_array[index_of_region][2] - name
+                          -   altered_regions_array[index_of_region][3] - old indexnumber of the region within all markers in the project
+                          -   altered_regions_array[index_of_region][4] - the shown index-number
+                          -   altered_regions_array[index_of_region][5] - the color of the region
+                          -   altered_regions_array[index_of_region][6] - the change that was applied to this region
+                          -   altered_regions_array[index_of_region][7] - the new startposition
+                          -   altered_regions_array[index_of_region][8] - the new endposition
+  </retvals>
+  <chapter_context>
+    Markers
+    General Markers and Regions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>marker management, ripple, cut, regions</tags>
+</US_DocBloc>
+]]
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("RippleCut_Regions", "startposition", "must be a number", -1) return false end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("RippleCut_Regions", "endposition", "must be a number", -2) return false end
+  local dif=endposition-startposition
+  
+  -- get all regions, that are candidates for a ripplecut
+  local number_of_all_regions, allregionsarray = ultraschall.GetAllRegionsBetween(startposition, reaper.GetProjectLength(0), true)  
+  if number_of_all_regions==0 then ultraschall.AddErrorMessage("RippleCut_Regions", "", "no regions found within start and endit", -3) return false, regioncount, regionfound end
+  
+  -- make startposition and endposition with less precision, or we can't check, if startposition=pos
+  -- Reaper seems to work with greater precision for floats than shown
+  local start = ultraschall.LimitFractionOfFloat(startposition, 10, true)
+  local endit = ultraschall.LimitFractionOfFloat(endposition, 10, true)
+  
+  -- some more preparation for variables, including localizing them
+  local pos, rgnend, name, retval, markrgnindexnumber, color  
+  local regionfound={}
+  
+  -- here comes the magic
+  for i=number_of_all_regions, 1, -1 do
+    -- get regionattributes from the allregionsarray we got before
+     pos=allregionsarray[i][0]
+     rgnend=allregionsarray[i][1]
+     name=allregionsarray[i][2]
+     retval=allregionsarray[i][3]
+     markrgnindexnumber=allregionsarray[i][4]
+     color = allregionsarray[i][5]
+    -- make pos and rgnend with less precision, or we can't check, if startposition=pos
+    -- Reaper seems to work with greater precision for floats than shown
+    local pos1 = ultraschall.LimitFractionOfFloat(pos, 10, true)
+    local rgnend1 = ultraschall.LimitFractionOfFloat(rgnend, 10, true)
+
+    regionfound[i]={}
+    regionfound[i][0]=allregionsarray[i][0]
+    regionfound[i][1]=allregionsarray[i][1]
+    regionfound[i][2]=allregionsarray[i][2]
+    regionfound[i][3]=allregionsarray[i][3]
+    regionfound[i][4]=allregionsarray[i][4]
+    regionfound[i][5]=allregionsarray[i][5]
+
+    -- let's do the checking and manipulation. We also create an array with all entries manipulated
+    -- and in which way manipulated
+    if pos1>=start and rgnend1<=endit then
+      -- if region is fully within start and endit, cut it completely
+      regionfound[i][6]="CUT COMPLETELY"
+      reaper.DeleteProjectMarker(0, markrgnindexnumber, true)
+    elseif pos1<start and rgnend1<=endit and rgnend1>start then
+      -- if regionend is within start and endit, move the end to start
+      regionfound[i][6]="CUT AT THE END"
+      regionfound[i][7]=pos
+      regionfound[i][8]=start
+      reaper.SetProjectMarker4(proj, markrgnindexnumber, true, pos, start, name, color, 0)
+    elseif pos1>=start and pos1<=endit and rgnend1>endit then
+      -- if regionstart is within start and endit, shorten the region and move it by difference of start and endit
+      --    toward projectstart
+      regionfound[i][6]="CUT AT THE BEGINNING"
+      regionfound[i][7]=endit-dif
+      regionfound[i][8]=rgnend-dif
+      reaper.SetProjectMarker4(proj, markrgnindexnumber, true, endit-dif, rgnend-dif, name, color, 0)
+    elseif pos1>=endit and rgnend1>=endit then 
+      -- if region is after endit, just move the region by difference of start and endit toward projectstart
+      regionfound[i][6]="MOVED TOWARD PROJECTSTART"
+      regionfound[i][7]=pos-dif
+      regionfound[i][8]=rgnend-dif
+      reaper.SetProjectMarker4(proj, markrgnindexnumber, true, pos-dif, rgnend-dif, name, color, 0)
+    elseif start>=pos1 and endit<=rgnend then
+      -- if start and endit is fully within a region, cut at the end of the region the difference of start and endit
+      regionfound[i][6]="CUT IN THE MIDDLE"
+      regionfound[i][7]=pos
+      regionfound[i][8]=rgnend-dif
+      reaper.SetProjectMarker4(proj, markrgnindexnumber, true, pos, rgnend-dif, name, color, 0)
+    end
+  end
+  -- sort the table of found regions
+  return true, regioncount, regionfound
+end
+
+--  A,B=reaper.GetSet_LoopTimeRange(false,true,0,0,false)
+--  C,D,E=ultraschall.RippleCut_Regions(A, B)
+
+--  number_of_all_regions, allregionsarray = ultraschall.GetAllRegionsBetween(A,B, true)
+
 ultraschall.ShowLastErrorMessage()
 

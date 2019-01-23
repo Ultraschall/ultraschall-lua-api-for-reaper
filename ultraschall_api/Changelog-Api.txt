@@ -56,6 +56,8 @@
   - GetAllReaScriptIDEWindows - returns the HWNDs of all opened ReaperIDE-windows
   - GetReaScriptConsoleWindow - returns the HWND of the ReaScript-console, if open at all.
   - IsReaperRendering - returns, if Reaper is currently rendering a file
+  - GetAllRecursiveFilesAndSubdirectories - returns all subdirectories with all their files with full path of a directory
+  - RippleCut_Regions - ripple-cuts all regions between startposition and endposition and moves all regions after endposition toward projectstart by difference between startposition and endposition
   
 #### Changes from 4.00beta2.7 to 4.00beta2.75
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -93,6 +95,7 @@
   - WriteValueToFile_InsertBinary - converts now the parameter value to a string, regardless of it's original datatype
   - WriteValueToFile_ReplaceBinary - converts now the parameter value to a string, regardless of it's original datatype
   - WinterlySnowflakes - preparation of the snowflakes produced wrong default-values of gfx.x, gfx.y, gfx.r, gfx.g, gfx.g -> fixed
+  - GetAllRegionsBetween - didn't return regions, that began before startposition and ended after endposition -> fixed
 
    <TODO>
     API 4.00beta2.75
@@ -109,7 +112,6 @@
             JS_Window_FindEx
             JS_Window_OnCommand
       TODO!! Event-System, as defined on the Congress
-      TODO!! RippleCutRegions - doesn't cut Regions in a way, Ripple Cuts needs
       TODO!! create renderstring - MP3 has new options as of Reaper 5.965(Do not allow joint stereo, Write ReplayGain tag)
       TODO!! issues with docgeneration of the docs for toboolean, print, print2, their functionnames aren't bold
       TODO!! GetProjectStateChunk - replace all absolute paths, that refer to the recording-path RECORD_PATH

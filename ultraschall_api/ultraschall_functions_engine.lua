@@ -22153,8 +22153,10 @@ function ultraschall.GetAllRegionsBetween(startposition, endposition, partial)
       end
         
     elseif partial==true then
-      if (B[i][0]<startposition or B[i][0]>endposition)
-        and (B[i][1]<startposition or B[i][1]>endposition) then
+      if (B[i][0]>=startposition and B[i][0]<=endposition)
+      or (B[i][1]>=startposition and B[i][1]<=endposition)
+      or (B[i][0]<=startposition and B[i][1]>=endposition) then
+      else
           table.remove(B,i)
           A=A-1
       end

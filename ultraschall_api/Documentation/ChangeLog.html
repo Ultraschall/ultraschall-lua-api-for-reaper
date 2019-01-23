@@ -94,6 +94,8 @@ Ultraschall API Changelog
 <li>GetAllReaScriptIDEWindows - returns the HWNDs of all opened ReaperIDE-windows</li>
 <li>GetReaScriptConsoleWindow - returns the HWND of the ReaScript-console, if open at all.</li>
 <li>IsReaperRendering - returns, if Reaper is currently rendering a file</li>
+<li>GetAllRecursiveFilesAndSubdirectories - returns all subdirectories with all their files with full path of a directory</li>
+<li>RippleCut_Regions - ripple-cuts all regions between startposition and endposition and moves all regions after endposition toward projectstart by difference between startposition and endposition</li>
 </ul>
 <h4 id="changes-from-4.00beta2.7-to-4.00beta2.75">Changes from 4.00beta2.7 to 4.00beta2.75</h4>
 <ul>
@@ -131,6 +133,7 @@ This prevents duplicate execution of functions, when coding within the beta-func
 <li>WriteValueToFile_InsertBinary - converts now the parameter value to a string, regardless of it’s original datatype</li>
 <li>WriteValueToFile_ReplaceBinary - converts now the parameter value to a string, regardless of it’s original datatype</li>
 <li>WinterlySnowflakes - preparation of the snowflakes produced wrong default-values of gfx.x, gfx.y, gfx.r, gfx.g, gfx.g -&gt; fixed</li>
+<li>GetAllRegionsBetween - didn’t return regions, that began before startposition and ended after endposition -&gt; fixed</li>
 </ul>
 <h3 id="beta-2.7---frank-zappa---the-return-of-the-son-of-monster-magnet---15th-of-december-2018">4.00 Beta 2.7: - “Frank Zappa - The Return of the Son of Monster Magnet” - 15th of December 2018</h3>
 <p>Has now 700 functions, with about 250 new ones!</p>

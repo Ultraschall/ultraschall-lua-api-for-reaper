@@ -45,7 +45,7 @@
 -- If you have new functions to contribute, you can use this file as well. Keep in mind, that I will probably change them to work
 -- with the error-messaging-system as well as adding information for the API-documentation.
 
-ultraschall.hotfixdate="16_Jan_2019"
+ultraschall.hotfixdate="29_Jan_2019"
 
 function ultraschall.GetMarkerByScreenCoordinates(xmouseposition, retina)
 --returns a string with the marker(s) in the timeline at given 
@@ -1626,3 +1626,77 @@ gfx.y=0
 gfx.r=1
 gfx.g=1
 gfx.b=1
+
+
+function ultraschall.GetAllRegionsBetween(startposition, endposition, partial)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllRegionsBetween</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer number_of_all_regions, array allregionsarray = ultraschall.GetAllRegionsBetween(number startposition, number endposition, boolean partial)</functioncall>
+  <description>
+    To get all Regions in the project(normal, edit, chapter), regardless of their category between start- and endposition.
+    Set partial to true, if you want to get regions as well, that are only partially between start- and endposition
+    Doesn't return markers!
+    
+    returns the number of markers and an array with each marker in the format:
+    
+        regionarray[index][0] - position
+        regionarray[index][1] - endposition
+        regionarray[index][2] - name
+        regionarray[index][3] - indexnumber of the region within all markers in the project
+        regionarray[index][4] - the shown index-number
+        regionarray[index][5] - the color of the region
+        
+  </description>
+  <retvals>
+    integer number_of_allregions - the number of regions returned
+    array regionsarray - an array, that holds all regions(not markers!) of the project
+  </retvals>
+  <parameters>
+    number startposition - the earliest position a returned region may have
+    number endposition - the latest position a returned region may have
+    boolean retval - true, to get regions that are partially within start and endposition as well; false, only regions completely within start/endposition.
+  </parameters>
+  <chapter_context>
+    Markers
+    General Markers and Regions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>markermanagement, region, get, get all</tags>
+</US_DocBloc>
+--]]
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("GetAllRegionsBetween","startposition", "Must be a number!", -1) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("GetAllRegionsBetween","endposition", "Must be a number!", -2) return -1 end
+  if endposition<startposition then ultraschall.AddErrorMessage("GetAllRegionsBetween","endposition", "Must be bigger than startposition!", -3) return -1 end
+  if startposition<0 then ultraschall.AddErrorMessage("GetAllRegionsBetween","startposition", "Must be bigger or equal 0!", -4) return -1 end
+  if type(partial)~="boolean" then ultraschall.AddErrorMessage("GetAllRegionsBetween","partial", "Must be boolean!", -4) return -1 end
+
+  local A,B=ultraschall.GetAllRegions()
+  for i=A, 1, -1 do
+    if partial==false then
+      if (B[i][0]<startposition or B[i][0]>endposition)
+        or (B[i][1]<startposition or B[i][1]>endposition) then
+          table.remove(B,i)
+          A=A-1
+      end
+        
+    elseif partial==true then
+      if (B[i][0]>=startposition and B[i][0]<=endposition)
+      or (B[i][1]>=startposition and B[i][1]<=endposition)
+      or (B[i][0]<=startposition and B[i][1]>=endposition) then
+      else
+          table.remove(B,i)
+          A=A-1
+      end
+    end
+  end
+  return A,B
+end
+
+--A,B=ultraschall.GetAllRegionsBetween(360, 810, false)
