@@ -271,11 +271,11 @@ function ultraschall.IsValidHWND(HWND)
   </parameters>
   <chapter_context>
     User Interface
-    Assistance functions
+    Window Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, hwnd, is valid, check</tags>
+  <tags>window, hwnd, is valid, check</tags>
 </US_DocBloc>
 ]]
   if pcall(reaper.JS_Window_GetTitle, HWND, "")==false then ultraschall.AddErrorMessage("IsValidHWND", "HWND", "Not a valid HWND.", -1) return false end
@@ -370,7 +370,13 @@ function ultraschall.BrowseForOpenFiles(windowTitle, initialFolder, initialFile,
     string windowTitle - the title shown in the filechooser-dialog
     string initialFolder - the initial-folder opened in the filechooser-dialog
     string initialFile - the initial-file selected in the filechooser-dialog, good for giving default filenames
-    string extensionList - a list of the extensions shown
+    string extensionList - a list of extensions that can be selected in the selection-list.
+                         - the list has the following structure(separate the entries with a \0): 
+                         -       "description of type1\0type1\0description of type 2\0type2\0"
+                         - the description of type can be anything that describes the type(s), 
+                         - to define one type, write: *.ext 
+                         - to define multiple types, write: *.ext;*.ext2;*.ext3
+                         - the extensionList must end with a \0
     boolean allowMultiple - true, allows selection of multiple files; false, only allows selection of single files
   </parameters>
   <chapter_context>
@@ -430,7 +436,7 @@ function ultraschall.CloseReaConsole()
   </retvals>
   <chapter_context>
     User Interface
-    Screen and Windowmanagement
+    Window Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -2136,11 +2142,11 @@ function ultraschall.GetTopmostHWND(hwnd)
   </retvals>
   <chapter_context>
     User Interface
-    Assistance functions
+    Window Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, hwnd, topmost, parent hwnd, get, count</tags>
+  <tags>window, hwnd, topmost, parent hwnd, get, count</tags>
 </US_DocBloc>
 ]]
   if ultraschall.IsValidHWND(hwnd)==false then ultraschall.AddErrorMessage("GetTopmostHWND", "hwnd", "not a valid hwnd", -1) return nil end
@@ -2196,11 +2202,11 @@ function ultraschall.GetReaperWindowAttributes()
   </retvals>
   <chapter_context>
     User Interface
-    Assistance functions
+    Window Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, hwnd, reaper, main window, position, active, visible, child-hwnds</tags>
+  <tags>window, hwnd, reaper, main window, position, active, visible, child-hwnds</tags>
 </US_DocBloc>
 ]]
   local hwnd=reaper.GetMainHwnd()
@@ -2318,7 +2324,211 @@ function ultraschall.ReverseEndianess_Byte(byte)
   return newbyte
 end
 
+
+function ultraschall.Windows_Find(title, exact)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Windows_Find</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_hwnds, array hwnd_array, array hwnd_adresses = ultraschall.Windows_Find(string title, boolean strict)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns all Reaper-window-HWND-handler, with a given title. Can be further used with the JS_Window_functions of the JS-function-plugin.
+    
+    Doesn't return IDE-windows! Use [GetAllReaScriptIDEWindows](#GetAllReaScriptIDEWindows) to get them.
+  </description>
+  <parameters>
+    integer count_hwnds - the number of windows found
+    array hwnd_array - the hwnd-handler of all found windows
+    array hwnd_adresses - the adresses of all found windows
+  </parameters>
+  <retvals>
+    string title - the title the window has
+    boolean strict - true, if the title must be exactly as given by parameter title; false, only parts of a windowtitle must match parameter title
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>window, find, hwnd, windows, reaper</tags>
+</US_DocBloc>
+]]
+  if type(title)~="string" then ultraschall.AddErrorMessage("Windows_Find", "title", "must be a string", -1) return -1 end
+  if type(exact)~="boolean" then ultraschall.AddErrorMessage("Windows_Find", "exact", "must be a boolean", -2) return -1 end
+  local retval, list = reaper.JS_Window_ListFind(title, exact)
+  local list=list..","
+  local hwnd_list={}
+  local hwnd_list2={}
+  local count=0
+  for i=1, retval do
+    local temp,offset=list:match("(.-),()")
+    local temphwnd=reaper.JS_Window_HandleFromAddress(temp)
+    parenthwnd=reaper.JS_Window_GetParent(temphwnd)
+    while parenthwnd~=nil do
+      if parenthwnd==reaper.GetMainHwnd() then
+        count=count+1
+        hwnd_list[count]=temphwnd
+        hwnd_list2[count]=temp
+      end    
+      parenthwnd=reaper.JS_Window_GetParent(parenthwnd)
+    end
+    if Tudelu~=nil then
+    end
+    list=list:sub(offset,-1)
+  end
+  return count, hwnd_list, hwnd_list2
+end
+
+--A,B,C=ultraschall.Windows_Find("Reaper", false)
+
+--gfx.init(" - ReaScript Development Environment")
+
+function ultraschall.GetAllReaScriptIDEWindows()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllReaScriptIDEWindows</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_ide_hwnds, array ide_hwnd_array, array ide_titles = ultraschall.GetAllReaScriptIDEWindows()</functioncall>
+  <description>
+    Returns the hwnds and all titles of all Reaper-IDE-windows currently opened.
+  </description>
+  <retvals>
+    integer count_ide_hwnds - the number of windows found
+    array ide_hwnd_array - the hwnd-handler of all found windows
+    array ide_titles - the titles of all found windows
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>window, get, hwnd, windows, reaper, ide</tags>
+</US_DocBloc>
+]]
+  local retval, list = reaper.JS_Window_ListFind("ReaScript Development Environment", false)
+  local list=list..","
+  local IDE_Array={}
+  local IDE_Array_Title={}
+  local count=0
+  
+  local temphwnd, retval2, list2, temp
+  
+  for i=1, retval do
+    temphwnd=reaper.JS_Window_HandleFromAddress(list:match("(.-),"))
+    if reaper.JS_Window_GetTitle(temphwnd):match(" - ReaScript Development Environment")~=nil then
+      retval2, list2 = reaper.JS_Window_ListAllChild(temphwnd)
+      list2=list2..","
+      if retval2>0 then    
+        temp={}
+        for i=1, retval-1 do
+          temp[0]=reaper.JS_Window_HandleFromAddress(list2:match("(.-),"))
+          temp[i]=reaper.JS_Window_GetTitle(temp[0])
+          list2=list2:match(",(.*)")
+        end
+        
+        count=count+1
+        IDE_Array[count]=temp[0]
+        IDE_Array_Title[count]=reaper.JS_Window_GetTitle(temphwnd)
+      end
+    end
+    list=list:match(",(.*)")
+  end
+  return count, IDE_Array, IDE_Array_Title
+end
+
+
+--PP,PPP,PPPP=ultraschall.GetAllReaScriptIDEWindows()
+
+function ultraschall.GetReaScriptConsoleWindow()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetReaScriptConsoleWindow</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND reascript_console_hwnd = ultraschall.GetReaScriptConsoleWindow()</functioncall>
+  <description>
+    Returns the hwnd of the ReaScript-Console-window, if opened.
+    
+    returns nil when ReaScript-console isn't opened
+  </description>
+  <retvals>
+    HWND reascript_console_hwnd - the window-handler to the ReaScript-console, if opened
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>window, get, hwnd, windows, reaper, console</tags>
+</US_DocBloc>
+]]
+  local A,A1=ultraschall.Windows_Find("ReaScript console output", true)
+  
+  for i=1, A do
+    local B=reaper.JS_Window_GetParent(A1[i])
+
+    local T0=reaper.JS_Window_GetTitle(A1[i])
+    local retval, List = reaper.JS_Window_ListAllChild(A1[i])
+    if retval>0 then
+      if B==reaper.GetMainHwnd() then return A1[i] end
+    end
+  end
+  return nil
+end
+
+
+function ultraschall.IsReaperRendering()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsReaperRendering</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional number render_position, optional number render_projectlength, optional ReaProject proj = ultraschall.IsReaperRendering()</functioncall>
+  <description>
+    Returns, if Reaper is currently rendering and the rendering position and projectlength of the rendered project
+  </description>
+  <retvals>
+    boolean retval - true, Reaper is rendering; false, Reaper does not render
+    optional number render_position - the current rendering-position of the rendering project
+    optional number render_projectlength - the length of the currently rendering project
+    optional ReaProject proj - the project currently rendering
+  </retvals>
+  <chapter_context>
+    Rendering of Project
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>rendering, get, current, renderstate</tags>
+</US_DocBloc>
+]]
+  local A,B=reaper.EnumProjects(0x40000000,"")
+  if A~=nil then return true, reaper.GetPlayPositionEx(A), reaper.GetProjectLength(A), A
+  else return false 
+  end
+end
+
+--A,B,C,D,E=ultraschall.IsReaperRendering()
+
 ultraschall.ShowLastErrorMessage()
-
-
 

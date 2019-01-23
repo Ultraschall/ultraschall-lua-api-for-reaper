@@ -1,14 +1,13 @@
 
 ## Ultraschall Framework - Changelog
 
-### 4.00 Beta 2.8: - "Mike Oldfield - Taurus II/Five Miles Out" - 15th of May 2019
+### 4.00 Beta 2.75: - "Blue Oyster Cult - Don't fear the Reaper" - 15th of March 2019
 
-#### New features in 4.00beta2.8
+#### New features in 4.00beta2.75
 
   - SplitStringAtNULLBytes - splits a string at NULL-bytes ( \0 )
   - new background-script - ultraschall_track_old_playstate.lua - stores old playstate into extstate ultraschall->last_playstate
   - GetLastPlayState - returns the last playstate before the current one
-  - SetUSExternalState - converts now all passed parameters to string, regardless of their type
   - US_Api_AUD.html - added
   - US_Api_Concepts_AUD.html - added
   - US_Api_Concepts_DOC.html - added
@@ -52,9 +51,14 @@
   - ReverseEndianess_Byte - changes endianess of a byte-value
   - GFX_Init - opens a new gfx-window. Like gfx.init, but this returns its HWND-windowhandler-object as well
   - GFX_GetWindowHWND - gets the HWND of a opened gfx-window, opened with ultraschall.GFX_Init
+  - ReaPack-functions - added ReaPack-functions to Reaper-Internals docs
+  - Windows_Find - finds Reaper-windows by title and returns their HWNDs
+  - GetAllReaScriptIDEWindows - returns the HWNDs of all opened ReaperIDE-windows
+  - GetReaScriptConsoleWindow - returns the HWND of the ReaScript-console, if open at all.
+  - IsReaperRendering - returns, if Reaper is currently rendering a file
   
-#### Changes from 4.00beta2.7 to 4.00beta2.8
-
+#### Changes from 4.00beta2.7 to 4.00beta2.75
+  - SetUSExternalState - converts now all passed parameters to string, regardless of their type
   - GetMarkerByScreenCoordinates - returned useless newlines -> fixed now
   - GetMarkerByTime - returned useless newlines -> fixed now
   - GetRegionByScreenCoordinates - returned useless newlines -> fixed now
@@ -91,7 +95,19 @@
   - WinterlySnowflakes - preparation of the snowflakes produced wrong default-values of gfx.x, gfx.y, gfx.r, gfx.g, gfx.g -> fixed
 
    <TODO>
-    Dor 4.00beta2.75
+    API 4.00beta2.75
+      TODO!! still missing in the Reaper-docs:
+            JS_ListView_GetFocusedItem
+            JS_ListView_GetItem
+            JS_ListView_GetItemCount
+            JS_ListView_GetItemState
+            JS_ListView_GetItemText
+            JS_ListView_GetSelectedCount
+            JS_ListView_ListAllSelItems
+            JS_Localize
+            JS_Window_FindChildByID
+            JS_Window_FindEx
+            JS_Window_OnCommand
       TODO!! Event-System, as defined on the Congress
       TODO!! RippleCutRegions - doesn't cut Regions in a way, Ripple Cuts needs
       TODO!! create renderstring - MP3 has new options as of Reaper 5.965(Do not allow joint stereo, Write ReplayGain tag)

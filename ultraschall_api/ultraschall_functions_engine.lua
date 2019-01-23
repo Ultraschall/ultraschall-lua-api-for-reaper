@@ -39686,7 +39686,7 @@ function ultraschall.GetScreenWidth(want_workarea)
   </parameters>
   <chapter_context>
     User Interface
-    Screen and Windowmanagement
+    Screen Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -39723,7 +39723,7 @@ function ultraschall.GetScreenHeight(want_workarea)
   </parameters>
   <chapter_context>
     User Interface
-    Screen and Windowmanagement
+    Screen Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>

@@ -40,13 +40,12 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2 id="ultraschall-framework---changelog">Ultraschall Framework - Changelog</h2>
-<h3 id="beta-2.8---mike-oldfield---taurus-iifive-miles-out---15th-of-may-2019">4.00 Beta 2.8: - “Mike Oldfield - Taurus II/Five Miles Out” - 15th of May 2019</h3>
-<h4 id="new-features-in-4.00beta2.8">New features in 4.00beta2.8</h4>
+<h3 id="beta-2.75---blue-oyster-cult---dont-fear-the-reaper---15th-of-march-2019">4.00 Beta 2.75: - “Blue Oyster Cult - Don’t fear the Reaper” - 15th of March 2019</h3>
+<h4 id="new-features-in-4.00beta2.75">New features in 4.00beta2.75</h4>
 <ul>
 <li>SplitStringAtNULLBytes - splits a string at NULL-bytes ( \0 )</li>
 <li>new background-script - ultraschall_track_old_playstate.lua - stores old playstate into extstate ultraschall-&gt;last_playstate</li>
 <li>GetLastPlayState - returns the last playstate before the current one</li>
-<li>SetUSExternalState - converts now all passed parameters to string, regardless of their type</li>
 <li>US_Api_AUD.html - added</li>
 <li>US_Api_Concepts_AUD.html - added</li>
 <li>US_Api_Concepts_DOC.html - added</li>
@@ -90,9 +89,15 @@ Ultraschall API Changelog
 <li>ReverseEndianess_Byte - changes endianess of a byte-value</li>
 <li>GFX_Init - opens a new gfx-window. Like gfx.init, but this returns its HWND-windowhandler-object as well</li>
 <li>GFX_GetWindowHWND - gets the HWND of a opened gfx-window, opened with ultraschall.GFX_Init</li>
+<li>ReaPack-functions - added ReaPack-functions to Reaper-Internals docs</li>
+<li>Windows_Find - finds Reaper-windows by title and returns their HWNDs</li>
+<li>GetAllReaScriptIDEWindows - returns the HWNDs of all opened ReaperIDE-windows</li>
+<li>GetReaScriptConsoleWindow - returns the HWND of the ReaScript-console, if open at all.</li>
+<li>IsReaperRendering - returns, if Reaper is currently rendering a file</li>
 </ul>
-<h4 id="changes-from-4.00beta2.7-to-4.00beta2.8">Changes from 4.00beta2.7 to 4.00beta2.8</h4>
+<h4 id="changes-from-4.00beta2.7-to-4.00beta2.75">Changes from 4.00beta2.7 to 4.00beta2.75</h4>
 <ul>
+<li>SetUSExternalState - converts now all passed parameters to string, regardless of their type</li>
 <li>GetMarkerByScreenCoordinates - returned useless newlines -&gt; fixed now</li>
 <li>GetMarkerByTime - returned useless newlines -&gt; fixed now</li>
 <li>GetRegionByScreenCoordinates - returned useless newlines -&gt; fixed now</li>
