@@ -32,7 +32,8 @@
 --      c) comment, what you've changed(this is for me to find out, what you did)
 --      d) add information to the <US_DocBloc>-bloc of the function. So if the information in the
 --         <US_DocBloc> isn't correct anymore after your changes, rewrite it to fit better with your fixes
---      e) add your name into it and a link to something you do(the latter, if you want), so I can credit you and your contribution properly
+--      e) add as an additional comment in the function your name and a link to something you do(the latter, if you want), 
+--         so I can credit you and your contribution properly
 --      f) submit the file as PullRequest via Github: https://github.com/Ultraschall/Ultraschall-Api-for-Reaper.git (preferred !)
 --         or send it via lspmp3@yahoo.de(only if you can't do it otherwise!)
 --

@@ -47,12 +47,12 @@ if type(ultraschall)~="table" then
   reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", string2, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")  
   ultraschall={} 
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-  ultraschall.GFX_Init()
+  Retval, HWND=ultraschall.GFX_Init()
 end
 
 if ultraschall.GFX_WindowHWND==nil then ultraschall.GFX_WindowHWND="Please, use ultraschall.GFX_Init() for window-creation, not gfx.init(!), to retrieve the HWND of the gfx-window." end
 
-function ultraschall.GFX_DrawThickRoundRect(x,y,w,h,thickness)
+function ultraschall.GFX_DrawThickRoundRect(x,y,w,h,thickness, roundness, antialias)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GFX_DrawThickRoundRect</slug>
@@ -61,7 +61,7 @@ function ultraschall.GFX_DrawThickRoundRect(x,y,w,h,thickness)
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.GFX_DrawThickRoundRect(integer x, integer y, integer w, integer h, number thickness)</functioncall>
+  <functioncall>boolean retval = ultraschall.GFX_DrawThickRoundRect(integer x, integer y, integer w, integer h, number thickness, number roundness, boolean antialias)</functioncall>
   <description>
     draws a round-rectangle with a custom thickness.
     
@@ -74,7 +74,9 @@ function ultraschall.GFX_DrawThickRoundRect(x,y,w,h,thickness)
     integer y - the y position of the rectangle
     integer w - the width of the rectangle
     integer h - the height of the rectangle
-    number thickness - the angle of the rectangle's corners
+    number thickness - the thickness of the rectangle's edges
+    number roundness - the angle of the rectangle's corners
+    boolean antialias - true, draw antialiased; false, simply draw aliased
   </parameters>
   <retvals>
     boolean retval - true, drawing was successful; false, drawing wasn't successful
@@ -93,23 +95,25 @@ function ultraschall.GFX_DrawThickRoundRect(x,y,w,h,thickness)
   if ultraschall.type(w)~="number: integer" then ultraschall.AddErrorMessage("GFX_DrawThickRoundRect", "w", "must be an integer", -4) return false end
   if ultraschall.type(h)~="number: integer" then ultraschall.AddErrorMessage("GFX_DrawThickRoundRect", "h", "must be an integer", -5) return false end
   if type(thickness)~="number" then ultraschall.AddErrorMessage("GFX_DrawThickRoundRect", "thickness", "must be a number", -6) return false end
+  if type(roundness)~="number" then ultraschall.AddErrorMessage("GFX_DrawThickRoundRect", "roundness", "must be a number", -12) return false end
   if x<0 then ultraschall.AddErrorMessage("GFX_DrawThickRoundRect", "x", "must be bigger than 0", -7) return false end
   if y<0 then ultraschall.AddErrorMessage("GFX_DrawThickRoundRect", "y", "must be bigger than 0", -8) return false end
   if w<0 then ultraschall.AddErrorMessage("GFX_DrawThickRoundRect", "w", "must be bigger than 0", -9) return false end
   if h<0 then ultraschall.AddErrorMessage("GFX_DrawThickRoundRect", "h", "must be bigger than 0", -10) return false end
   if thickness<0 then ultraschall.AddErrorMessage("GFX_DrawThickRoundRect", "thickness", "must be bigger than 0", -11) return false end
+  if antialias==true then antialias=1 else antialias=0 end
   for i=1, thickness, 0.5 do
-    gfx.roundrect(x+i,y+1+i,w-1-(i*2),h-(i*2),round)
+    gfx.roundrect(x+i,y+1+i,w-1-(i*2),h-(i*2),roundness, antialias)
     if thickness>1 then
-      gfx.roundrect(x+1+i,y+i,w-1-(i*2),h-(i*2),round)
-      gfx.roundrect(x+i,y+i,w+1-(i*2),h-(i*2),round)
-      gfx.roundrect(x+i,y+i,w+1-(i*2),h-1-(i*2),round)
+      gfx.roundrect(x+1+i,y+i,w-1-(i*2),h-(i*2),roundness, antialias)
+      gfx.roundrect(x+i,y+i,w+1-(i*2),h-(i*2),roundness, antialias)
+      gfx.roundrect(x+i,y+i,w+1-(i*2),h-1-(i*2),roundness, antialias)
     end
   end
   return true
 end
-
---A=ultraschall.GFX_DrawThickRoundRect(1,2,30,40,10)
+--gfx.init()
+--A=ultraschall.GFX_DrawThickRoundRect(1,2,300,140,5,40,true)
 
 function ultraschall.GFX_BlitFramebuffer(framebufferidx, showidx)
 --[[
@@ -596,7 +600,7 @@ function ultraschall.GFX_GetWindowHWND()
     Lua=5.3
   </requires>
   <functioncall>HWND hwnd = ultraschall.GFX_GetWindowHWND()</functioncall>
-  <description>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns the HWND of the currently opened gfx-window. You need to use [ultraschall.GFX_Init()](#GFX_Init), otherwise 
     it will contain the message "Please, use ultraschall.GFX_Init() for window-creation, not gfx.init(!), to retrieve the HWND of the gfx-window."
   </description>

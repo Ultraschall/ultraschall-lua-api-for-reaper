@@ -58,6 +58,10 @@
   - IsReaperRendering - returns, if Reaper is currently rendering a file
   - GetAllRecursiveFilesAndSubdirectories - returns all subdirectories with all their files with full path of a directory
   - RippleCut_Regions - ripple-cuts all regions between startposition and endposition and moves all regions after endposition toward projectstart by difference between startposition and endposition
+  - ShowErrorMessagesInReascriptConsole - toggles, if errormessages shall be shown in the ReaConsole immediately, when they happen
+  - GFX_DrawThickRoundRect - draws a round-rectangle with variable thickness
+  - GFX_BlitFramebuffer - blits the content of a framebuffer into the drawing-buffer; will resize, if necessary and retains aspect-ratio
+  
   
 #### Changes from 4.00beta2.7 to 4.00beta2.75
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -96,9 +100,13 @@
   - WriteValueToFile_ReplaceBinary - converts now the parameter value to a string, regardless of it's original datatype
   - WinterlySnowflakes - preparation of the snowflakes produced wrong default-values of gfx.x, gfx.y, gfx.r, gfx.g, gfx.g -> fixed
   - GetAllRegionsBetween - didn't return regions, that began before startposition and ended after endposition -> fixed
-
+  - AddErrorMessage - when set with ShowErrorMessagesInReascriptConsole, it shows now errormessages immediately in the ReaScriptConsole
+  - GetAllFilesnamesInPath renamed to GetAllFilenamesInPath - stupid typo in functionname...sorry for any inconveniences  
+  
    <TODO>
     API 4.00beta2.75
+      TODO!! ultraschall.MakeDir(path) - unbelievable, that this doesn't exist in Lua already...
+                                         needs probably console for that...
       TODO!! still missing in the Reaper-docs:
             JS_ListView_GetFocusedItem
             JS_ListView_GetItem
@@ -116,16 +124,15 @@
       TODO!! issues with docgeneration of the docs for toboolean, print, print2, their functionnames aren't bold
       TODO!! GetProjectStateChunk - replace all absolute paths, that refer to the recording-path RECORD_PATH
                                     with their relative counterparts.
+                                    Use the QUEUED_RENDER_ORIGINAL_FILENAME for that replacing of mediafilenamepaths or the projectpath for an unsaved project
                                     That means: if I find Projectfilepath/Recordingpath in the ProjectStateChunk, exchange it with Recordingpath/
                                     You should also check, during Reaper rendering the render-queue and I add a new render-file to the queue, if Reaper tries to render that new file as well or if it ignores it. This could be a potential troublemaker.
                                             Answer: No, Reaper ignores added 
-                                  - adds the inserted MediaItem into ProjectBay, when deleting the silence-track
-                                    please prevent that(deleting it before deleting track helps)
-                                  - might have an issue with deleting the only track available, maybe use a guid as track-name to identify, whether to delete it or not
-                                    !!In other news: update the version in the docs to 5.965, plz
+
                                   - avoid running this function during rendering; maybe with EnumProjects and the currently rendering project?
+                                        -> ehrmm...what? Because of the render-queue or what?
                                     
-      TODO!! Docs: JS-Plugin-useable functions - should work on Mac now with JS0.963.
+      TODO!! Docs: JS-Plugin-useable functions - should work on Mac now with JS0.963. Check them plz.
       TODO!! RenderProject_RenderCfg - new implementation, that exploits the render-queue, rather the reopening of a project
                                        should work with opened projects, but still unknown, how to add unopened projects properly and how to find out the rendered files afterwards...
                                        maybe that way: RENDER_FILE contains the path, where the file is stored in, either with or without the actual filename(the latter when using RENDER_PATTERNS).

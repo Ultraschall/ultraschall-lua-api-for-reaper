@@ -943,72 +943,6 @@ function ultraschall.GetStringFromClipboard_SWS()
   return clipboardstring
 end
 
-function ultraschall.AddErrorMessage(functionname, parametername, errormessage, errorcode)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>AddErrorMessage</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval, integer errorcount = ultraschall.AddErrorMessage(string functionname, string parametername, string errormessage, integer errorcode)</functioncall>
-  <description>
-    Adds a new errormessage to the Ultraschall-Api-Error-messagesystem. Returns the number of the errormessage.
-    Intended for your own 3rd party-functions for the API, to give the user more feedback about errors than just a cryptic errorcode.
-    
-    returns false in case of failure
-  </description>
-  <parameters>
-    string functionname - the function, where the error happened
-    string parametername - the parameter, that caused the problem
-    string errormessage - a longer description of what cause the problem and a hint to a possible solution
-    integer errorcode - a number, that represents the error-message. Will be -1 by default, if not given.
-  </parameters>
-  <retvals>
-    boolean retval - true, if it worked; false if it didn't
-    integer errorcount - the number of the errormessage within the Ultraschall-Api-Error-messagesystem
-  </retvals>
-  <chapter_context>
-    Developer
-    Error Handling
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>developer, error, add, message</tags>
-</US_DocBloc>
-]]
-  -- check parameters
-  if functionname==nil or errormessage==nil then a=false functionname="ultraschall.AddErrorMessage" errormessage="functionname or errormessage is nil. Must contain valid value instead!" end
-  ultraschall.ErrorCounter=ultraschall.ErrorCounter+1
-  if parametername==nil then parametername="" end
-  if type(errorcode)~="number" then errorcode=-1 end
-  
-  -- let's create the new errormessage
-  local ErrorMessage={}
-  ErrorMessage["funcname"]=functionname
-  ErrorMessage["errmsg"]=errormessage
-  ErrorMessage["readstate"]="unread"
-  ErrorMessage["date"]=os.date()
-  ErrorMessage["time"]=os.time()
-  ErrorMessage["parmname"]=parametername
-  ErrorMessage["errcode"]=errorcode
-  
-  -- add it to the error-message-system
-  ultraschall.ErrorMessage[ultraschall.ErrorCounter]=ErrorMessage
-  
-  -- terminate script with Lua-errormessage
-  if ultraschall.IDEerror==true then error(functionname..":"..errormessage,3) end
-  if a==false then return false
-  else return true, ultraschall.ErrorCounter
-  end
-end
-
---ultraschall.AddErrorMessage("func","parm","desc",2)
---Anumber=reaper.GetHZoomLevel() 
---Item=reaper.GetMediaItem(0,0)
---L=reaper.GetMediaItemInfo_Value(Item, "F_FREEMODE_H")
---Aleft, Atop, Aright, Abot = reaper.EnsureNotCompletelyOffscreen()
 
 function ultraschall.IsValidItemStateChunk(itemstatechunk)
   if type(itemstatechunk)~="string" then ultraschall.AddErrorMessage("IsValidItemStateChunk", "itemstatechunk", "Must be a string.", -1) return false end  
@@ -33150,16 +33084,16 @@ end
 
 --L,LL=ultraschall.CountPathAndFilesInDirectory("c:\\")
 
-function ultraschall.GetAllFilesnamesInPath(path)
+function ultraschall.GetAllFilenamesInPath(path)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetAllFilesnamesInPath</slug>
+  <slug>GetAllFilenamesInPath</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>integer filecount, array files = ultraschall.GetAllFilesnamesInPath(string path)</functioncall>
+  <functioncall>integer filecount, array files = ultraschall.GetAllFilenamesInPath(string path)</functioncall>
   <description>
     returns the number of files and the filenames in path
     
@@ -33183,7 +33117,7 @@ function ultraschall.GetAllFilesnamesInPath(path)
 --]]
 
   -- check parameters
-  if type(path)~="string" then ultraschall.AddErrorMessage("GetAllFilesnamesInPath", "path", "must be a string", -1) return -1 end
+  if type(path)~="string" then ultraschall.AddErrorMessage("GetAllFilenamesInPath", "path", "must be a string", -1) return -1 end
 
   -- prepare variables
   local Files={}
@@ -43782,7 +43716,7 @@ function ultraschall.RunBackgroundHelperFeatures()
   <tags>helper functions, defer scripts, background scripts</tags>
 </US_DocBloc>
 ]]
-  local filecount, files = ultraschall.GetAllFilesnamesInPath(ultraschall.Api_Path.."/Scripts/HelperDeferScripts/")
+  local filecount, files = ultraschall.GetAllFilenamesInPath(ultraschall.Api_Path.."/Scripts/HelperDeferScripts/")
   local filename
   for i=1, filecount do
     filename=files[i]:match(".*/(.*)")

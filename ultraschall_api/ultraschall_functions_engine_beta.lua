@@ -44,6 +44,76 @@ if type(ultraschall)~="table" then
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 end
 
+function ultraschall.AddErrorMessage(functionname, parametername, errormessage, errorcode)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AddErrorMessage</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer errorcount = ultraschall.AddErrorMessage(string functionname, string parametername, string errormessage, integer errorcode)</functioncall>
+  <description>
+    Adds a new errormessage to the Ultraschall-Api-Error-messagesystem. Returns the number of the errormessage.
+    Intended for your own 3rd party-functions for the API, to give the user more feedback about errors than just a cryptic errorcode.
+    
+    returns false in case of failure
+  </description>
+  <parameters>
+    string functionname - the function, where the error happened
+    string parametername - the parameter, that caused the problem
+    string errormessage - a longer description of what cause the problem and a hint to a possible solution
+    integer errorcode - a number, that represents the error-message. Will be -1 by default, if not given.
+  </parameters>
+  <retvals>
+    boolean retval - true, if it worked; false if it didn't
+    integer errorcount - the number of the errormessage within the Ultraschall-Api-Error-messagesystem
+  </retvals>
+  <chapter_context>
+    Developer
+    Error Handling
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>developer, error, add, message</tags>
+</US_DocBloc>
+]]
+  -- check parameters
+  if functionname==nil or errormessage==nil then a=false functionname="ultraschall.AddErrorMessage" errormessage="functionname or errormessage is nil. Must contain valid value instead!" end
+  ultraschall.ErrorCounter=ultraschall.ErrorCounter+1
+  if parametername==nil then parametername="" end
+  if type(errorcode)~="number" then errorcode=-1 end
+  
+  -- let's create the new errormessage
+  local ErrorMessage={}
+  ErrorMessage["funcname"]=functionname
+  ErrorMessage["errmsg"]=errormessage
+  ErrorMessage["readstate"]="unread"
+  ErrorMessage["date"]=os.date()
+  ErrorMessage["time"]=os.time()
+  ErrorMessage["parmname"]=parametername
+  ErrorMessage["errcode"]=errorcode
+  
+  -- add it to the error-message-system
+  ultraschall.ErrorMessage[ultraschall.ErrorCounter]=ErrorMessage
+  
+  if ultraschall.ShowErrorInReaScriptConsole==true then print("Function: "..functionname.."\n   Parameter: "..parametername.."\n   Error: "..errorcode.." - \""..errormessage.."\"\n   Errortime: "..ErrorMessage["date"].."\n") end
+  
+  -- terminate script with Lua-errormessage
+  if ultraschall.IDEerror==true then error(functionname..":"..errormessage,3) end
+  if a==false then return false
+  else return true, ultraschall.ErrorCounter
+  end
+end
+
+
+--ultraschall.ShowErrorMessagesInReascriptConsole(true)
+
+--ultraschall.WriteValueToFile()
+
+--ultraschall.AddErrorMessage("func","parm","desc",2)
+
 function ultraschall.SplitStringAtNULLBytes(splitstring)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1377,7 +1447,7 @@ function ultraschall.InsertMediaItemFromFile(filename, track, position, endposit
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
+    SWS=2.9.7
     Lua=5.3
   </requires>
   <functioncall>integer retval, MediaItem item, number endposition, integer numchannels, integer Samplerate, string Filetype, number editcursorposition, MediaTrack track = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, integer editcursorpos, optional number offset)</functioncall>
@@ -1481,7 +1551,8 @@ function ultraschall.GetProjectStateChunk(Project)
   <slug>GetProjectStateChunk</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.965
+    SWS=2.9.7
     Lua=5.3
   </requires>
   <functioncall>string ProjectStateChunk = ultraschall.GetProjectStateChunk(ReaProject project)</functioncall>
@@ -1507,32 +1578,69 @@ function ultraschall.GetProjectStateChunk(Project)
 ]]  
   if Project~=nil and ultraschall.IsValidReaProject(Project)==false then ultraschall.AddErrorMessage("GetProjectStateChunk", "Project", "must be a valid ReaProject", -1) return nil end
   local currentproject=reaper.EnumProjects(-1,"")
-  reaper.PreventUIRefresh(1)
+  reaper.PreventUIRefresh(2)
   if Project~=nil then
     reaper.SelectProjectInstance(Project)
   end
-  local Path=reaper.GetResourcePath().."\\QueuedRenders\\"
   local ProjectStateChunk=""
-  local filecount, files = ultraschall.GetAllFilesnamesInPath(Path)
-  local retval, item, endposition, numchannels, Samplerate, Filetype, editcursorposition, track, temp
+  local sc, retval, item, endposition, numchannels, Samplerate, Filetype, editcursorposition, track, temp, files2, filecount2
+  
+  -- get all filenames in render-queue
+  local Path=reaper.GetResourcePath().."\\QueuedRenders\\"
+  local filecount, files = ultraschall.GetAllFilenamesInPath(Path)
+  
+  -- workaround, when another project in the render-queue renders into the same renderfile, as the current project
+  -- add to configvar "renderclosewhendone" a 16, if needed
+  -- will be reset to it's old value later, if necessary
+  local renderstate=reaper.SNM_GetIntConfigVar("renderclosewhendone", -1)
+  if renderstate&16==0 then reaper.SNM_SetIntConfigVar("renderclosewhendone", renderstate+16) end
+
+  -- if project is empty, insert a temporary track with an item into it, or Reaper complains
   if reaper.GetProjectLength(0)==0 then 
     temp=true
     retval, item, endposition, numchannels, Samplerate, Filetype, editcursorposition, track = ultraschall.InsertMediaItemFromFile(ultraschall.Api_Path.."/misc/silence.flac", 0, 0, -1, 0)
   end
   
-  for i=1, filecount do
-    local filepath,filename=ultraschall.GetPath(files[i])
-    os.rename(files[i], filepath.."US"..filename)
+  -- put project into the render-queue
+  reaper.Main_OnCommand(41823,0)
+
+  -- get the new render-queue-file from which we want to get the ProjectStateChunk
+  -- load it and remove it immediately
+  filecount2=filecount  
+  while filecount2==filecount do
+    -- Lua is faster than the Action for adding the project into the render-queue, so we need to 
+    -- wait a little, until we can proceed
+    filecount2, files2 = ultraschall.GetAllFilenamesInPath(Path)
   end
+  local duplicate_count, duplicate_array, 
+  originalscount_array1, originals_array1, 
+  originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(files, files2)
+  ProjectStateChunk=ultraschall.ReadFullFile(originals_array2[1])
+  os.remove(originals_array2[1])
+
+  -- delete temporary MediaItem and MediaTrack from the project again
+  if temp==true then
+    retval, sc=reaper.GetTrackStateChunk(track, "", false)
+    ultraschall.DeleteMediaItem(item) -- first the MediaItem, or it will be put into the ProjectBay
+    reaper.DeleteTrack(track) -- then delete the MediaItem
+    reaper.Undo_DoUndo2(0)
+  end
+  
+  reaper.SNM_SetIntConfigVar("renderclosewhendone", renderstate)
+  reaper.PreventUIRefresh(-2)
+    
+  
+--  for i=1, filecount do
+--    local filepath,filename=ultraschall.GetPath(files[i])
+--    os.rename(files[i], filepath.."US"..filename)
+--  end
+--[[  
+  if L==nil then return end
   
   local start, endit = reaper.GetSet_LoopTimeRange(false, false, -10, -10, false)
   if start==0 and endit==0 then reaper.GetSet_LoopTimeRange(true, false, 0, 1, false) end
   reaper.Main_OnCommand(41823,0)
 
-  if temp==true then
-    retval, sc=reaper.GetTrackStateChunk(track, "", false)
-    reaper.DeleteTrack(track)
-  end
   
   local filecount2, files2 = ultraschall.GetAllFilesnamesInPath(Path)  
   if files2[1]==nil then files2[1]="" end
@@ -1553,10 +1661,11 @@ function ultraschall.GetProjectStateChunk(Project)
     local filepath,filename=ultraschall.GetPath(files[i])
     os.rename(filepath.."US"..filename, files[i])
   end
-
+  --]]
   if Project~=nil then
     reaper.SelectProjectInstance(currentproject)
   end    
+  
   reaper.PreventUIRefresh(-1)
   ProjectStateChunk=string.gsub(ProjectStateChunk,"  QUEUED_RENDER_OUTFILE.-\n","")
   ProjectStateChunk=string.gsub(ProjectStateChunk,"  QUEUED_RENDER_ORIGINAL_FILENAME.-\n","")
@@ -2035,16 +2144,16 @@ function ultraschall.CountUltraschallEffectPlugins(track)
   return num_sl, sl_byp, num_slonair, slonair_byp, num_soundboard, soundboard_byp, num_usdynamics, usdynamics_byp
 end
 
-function print(...)
+function print2(...)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>print</slug>
+  <slug>print2</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>print(parameter_1 to parameter_n)</functioncall>
+  <functioncall>print2(parameter_1 to parameter_n)</functioncall>
   <description>
     replaces Lua's own print-function. Converts all parametes given into string using tostring() and displays them as a MessageBox, separated by two spaces.
   </description>
@@ -2073,16 +2182,16 @@ end
 --print("Hula","Hoop",reaper.GetTrack(0,0))
 --print("tudel")
 
-function print2(...)
+function print(...)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>print2</slug>
+  <slug>print</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>print2(parameter_1 to parameter_n)</functioncall>
+  <functioncall>print(parameter_1 to parameter_n)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     like the [print](#print)-replacement-function, but outputs the parameters to the ReaScript-console instead. 
     
@@ -2503,7 +2612,7 @@ function ultraschall.IsReaperRendering()
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, optional number render_position, optional number render_projectlength, optional ReaProject proj = ultraschall.IsReaperRendering()</functioncall>
+  <functioncall>boolean retval, optional number render_position, optional number render_projectlength, optional ReaProject proj, optional boolean queue_render = ultraschall.IsReaperRendering()</functioncall>
   <description>
     Returns, if Reaper is currently rendering and the rendering position and projectlength of the rendered project
   </description>
@@ -2512,6 +2621,7 @@ function ultraschall.IsReaperRendering()
     optional number render_position - the current rendering-position of the rendering project
     optional number render_projectlength - the length of the currently rendering project
     optional ReaProject proj - the project currently rendering
+    optional boolean queue_render - true, if a project from the queued-folder is currently being rendered; false, if not; a hint if queued-rendering is currently active
   </retvals>
   <chapter_context>
     Rendering of Project
@@ -2519,16 +2629,22 @@ function ultraschall.IsReaperRendering()
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>rendering, get, current, renderstate</tags>
+  <tags>rendering, get, current, renderstate, queued</tags>
 </US_DocBloc>
 ]]
-  local A,B=reaper.EnumProjects(0x40000000,"")
-  if A~=nil then return true, reaper.GetPlayPositionEx(A), reaper.GetProjectLength(A), A
+  local A,B=reaper.EnumProjects(0x40000000,"")  
+  if A~=nil then 
+    if B:match("^"..reaper.GetResourcePath()..ultraschall.Separator.."QueuedRenders"..ultraschall.Separator.."qrender_%d%d%d%d%d%d_%d%d%d%d%d%d")~=nil then queue=true else queue=false end
+    return true, reaper.GetPlayPositionEx(A), reaper.GetProjectLength(A), A, queue
   else return false 
   end
 end
 
---A,B,C,D,E=ultraschall.IsReaperRendering()
+--function main()
+--  C,C1,C2,D,E=ultraschall.IsReaperRendering()
+--  reaper.defer(main)
+--end
+--main()
 
 function ultraschall.GetAllRecursiveFilesAndSubdirectories(path)
 --[[
@@ -2731,6 +2847,37 @@ end
 --  C,D,E=ultraschall.RippleCut_Regions(A, B)
 
 --  number_of_all_regions, allregionsarray = ultraschall.GetAllRegionsBetween(A,B, true)
+
+function ultraschall.ShowErrorMessagesInReascriptConsole(setting)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>ShowErrorMessagesInReascriptConsole</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.ShowErrorMessagesInReascriptConsole(boolean state)</functioncall>
+    <description>
+      Sets, if errormessages shall be shown in the ReaScript-Console immediately, when they happen.
+      
+      Will show functionname, parametername, errorcode plus errormessage and the time the error has happened.
+    </description>
+    <parameters>
+      boolean state - true, show error-messages in the ReaScript-Console when they happen; false, don't show errormessages
+    </parameters>
+    <chapter_context>
+      Developer
+      Error Handling
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>developer, error, show, message, reascript, console</tags>
+  </US_DocBloc>
+  ]]
+  if setting==true then ultraschall.ShowErrorInReaScriptConsole=true else ultraschall.ShowErrorInReaScriptConsole=false end
+end
+
 
 ultraschall.ShowLastErrorMessage()
 
