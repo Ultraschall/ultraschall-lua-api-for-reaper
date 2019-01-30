@@ -45,8 +45,8 @@
   - CountUltraschallEffectPlugins - counts number of instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and Ultraschall_Dynamics-plugins in a track. Also returns a table with all bypass/offline-states
   - GetReaperWindowAttributes - returns several attributes of the Reaper-window, like size/position, active-state, childwindows, etc
   - GetTopmostHWND - returns the topmost hwnd(window-handler) of a child-hwnd; returns also all the parent-hwnds
-  - print - replacement for Lua's own print-function, which is quite useless in Reaper; displays the printed parameters as a messagebox
-  - print2 - like print, but displays the parameters in the ReaScript-console instead
+  - print - replacement for Lua's own print-function, which is quite useless in Reaper; displays the printed parameters in the ReaScript-console
+  - print2 - like print, but displays the parameters as a messagebox instead
   - ConvertIntegerToBits - converts an integer-value into its individual bitvalues
   - ReverseEndianess_Byte - changes endianess of a byte-value
   - GFX_Init - opens a new gfx-window. Like gfx.init, but this returns its HWND-windowhandler-object as well
@@ -61,7 +61,8 @@
   - ShowErrorMessagesInReascriptConsole - toggles, if errormessages shall be shown in the ReaConsole immediately, when they happen
   - GFX_DrawThickRoundRect - draws a round-rectangle with variable thickness
   - GFX_BlitFramebuffer - blits the content of a framebuffer into the drawing-buffer; will resize, if necessary and retains aspect-ratio
-  
+  - ConvertIntegerIntoString - converts the individual bytes of an integer into a string
+  - GetProject_RenderOutputPath - returns the output-directories for rendered files from a projectfile
   
 #### Changes from 4.00beta2.7 to 4.00beta2.75
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -75,16 +76,16 @@
   - Docgenerator - reworked the docengine-creator for more fluffy working of it
   - Changelog - fixed Markdown-formatting-issues
   - Introduction/Concepts: Datatypes: Checking Datatypes - fixed Markdown-issues  
-  - requires now version 0.962 of Julian Sader's plugin
+  - requires now version 0.963 of Julian Sader's plugin
   - GetPath - when sep is nil, it returns now the path until the last useful separator, either \\ or /
   - MB - moved to User Interface -> Dialogs in the docs
   - hotfixes are now loaded before beta-functions
-  - CloseReaConsole - updated to behavior of version 0.962 of the JS-plugin
+  - CloseReaConsole - updated to behavior of version 0.963 of the JS-plugin
   - ultraschall.MB - converts now all passed data into string, no matter what type it is
   - ultraschall_api.lua - checks now, if it is run within the beta-engine-parts of this API and prevents including it if necessary.  
                           This prevents duplicate execution of functions, when coding within the beta-functions-engine-scripts.
   - RenderProject_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project
-                              didn't return correct filecount if rendering was cancelled, leading to possible error-message -> fixed
+                              didn't return correct filecount if rendering was canceled, leading to possible error-message -> fixed
   - RenderProjectRegions_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project
   - GetMediafileAttributes - added info into the docs about rpp-projects, which will create a proxy file, when getting the mediafile-attributes
   - CreateValidTempFile - added info about the path of the created tempfile/tempfilename
@@ -107,6 +108,7 @@
     API 4.00beta2.75
       TODO!! ultraschall.MakeDir(path) - unbelievable, that this doesn't exist in Lua already...
                                          needs probably console for that...
+      TODO!! Docs: Reaper-Api-docs: Markdown isn't converted in Introduction-chapters and UTF-problem.
       TODO!! still missing in the Reaper-docs:
             JS_ListView_GetFocusedItem
             JS_ListView_GetItem
@@ -177,6 +179,35 @@
                                       where the first number is a datestamp yymmdd and the second a timestamp hhmmss.
                                       the projectname is optional BUT the _ before it is mandatory. Otherwise, Reaper 
                                       stops rendering with an error!
+      
+      More Notes on Queued Rendering:
+            If RENDER_PATTERN is set, RENDER_NAME will be seen as folder.
+            If neither RENDER_NAME, RENDER_PATTERN or QUEUED_RENDER_OUTFILE are set, Reaper will use the folder in
+                QUEUED_RENDER_ORIGINAL_FILENAME as export-folder.
+            If none of them is set, not even QUEUED_RENDER_ORIGINAL_FILENAME, the files will be exported to the QueuedRenders-folder as
+            -001.ext, -002.ext, etc
+            
+      Multiple exported files are always according the numbering filename-001.ext, filename-002.ext, etc, 
+      where filename-001.ext is the one for the master-track, if stem+master-rendering is set.
+      
+      Check in the exportfolder, if there are new files. Needs a new function "GetRenderExportFolderOfProject(string projectname)"
+      which checks, according to the former rules, which exportfolder is used.
+      
+      For QueuedOutput-folders:
+          1) if RENDER_PATTERN does not exist, RENDER_FILE "" or RENDER_FILE does not exist and QUEUED_RENDER_ORIGINAL_FILENAME and QUEUED_RENDER_OUTFILE do no exist:
+                outputfolder is the project-folder
+           
+          2) if RENDER_FILE is set and RENDER_PATTERN does not exist or isn't set, RENDER_FILE is the filename+path
+            2a) if RENDER_FILE has no absolute path, the QUEUED_RENDER_ORIGINAL_FILENAME\RENDER_FILE\ will be export path
+               2ab) if QUEUED_RENDER_ORIGINAL_FILENAME does not exist, QueuedRenders\RENDER_FILE\ will be the exportfolder
+          
+          3) if RENDER_PATTERN is set to anything, RENDER_FILE will be the exportfolder
+            3a) if RENDER_FILE isn't set to anything, the export-folder will be QueuedRenders\
+            3b) if QUEUED_RENDER_ORIGINAL_FILENAME exists it will be the exportfolder
+                3ba) if RENDER_FILE is set to anything, the output will be QUEUED_RENDER_ORIGINAL_FILENAME\RENDER_FILE
+      
+      
+      
       
       
       TODO!! docs: exchange api.ultraschall.fm/Downloads.html with the correct URL

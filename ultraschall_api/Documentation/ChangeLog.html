@@ -83,8 +83,8 @@ Ultraschall API Changelog
 <li>CountUltraschallEffectPlugins - counts number of instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and Ultraschall_Dynamics-plugins in a track. Also returns a table with all bypass/offline-states</li>
 <li>GetReaperWindowAttributes - returns several attributes of the Reaper-window, like size/position, active-state, childwindows, etc</li>
 <li>GetTopmostHWND - returns the topmost hwnd(window-handler) of a child-hwnd; returns also all the parent-hwnds</li>
-<li>print - replacement for Lua’s own print-function, which is quite useless in Reaper; displays the printed parameters as a messagebox</li>
-<li>print2 - like print, but displays the parameters in the ReaScript-console instead</li>
+<li>print - replacement for Lua’s own print-function, which is quite useless in Reaper; displays the printed parameters in the ReaScript-console</li>
+<li>print2 - like print, but displays the parameters as a messagebox instead</li>
 <li>ConvertIntegerToBits - converts an integer-value into its individual bitvalues</li>
 <li>ReverseEndianess_Byte - changes endianess of a byte-value</li>
 <li>GFX_Init - opens a new gfx-window. Like gfx.init, but this returns its HWND-windowhandler-object as well</li>
@@ -99,6 +99,8 @@ Ultraschall API Changelog
 <li>ShowErrorMessagesInReascriptConsole - toggles, if errormessages shall be shown in the ReaConsole immediately, when they happen</li>
 <li>GFX_DrawThickRoundRect - draws a round-rectangle with variable thickness</li>
 <li>GFX_BlitFramebuffer - blits the content of a framebuffer into the drawing-buffer; will resize, if necessary and retains aspect-ratio</li>
+<li>ConvertIntegerIntoString - converts the individual bytes of an integer into a string</li>
+<li>GetProject_RenderOutputPath - returns the output-directories for rendered files from a projectfile</li>
 </ul>
 <h4 id="changes-from-4.00beta2.7-to-4.00beta2.75">Changes from 4.00beta2.7 to 4.00beta2.75</h4>
 <ul>
@@ -114,15 +116,15 @@ Ultraschall API Changelog
 <li>Changelog - fixed Markdown-formatting-issues</li>
 <li>Introduction/Concepts: Datatypes: Checking Datatypes - fixed Markdown-issues<br />
 </li>
-<li>requires now version 0.962 of Julian Sader’s plugin</li>
+<li>requires now version 0.963 of Julian Sader’s plugin</li>
 <li>GetPath - when sep is nil, it returns now the path until the last useful separator, either \ or /</li>
 <li>MB - moved to User Interface -&gt; Dialogs in the docs</li>
 <li>hotfixes are now loaded before beta-functions</li>
-<li>CloseReaConsole - updated to behavior of version 0.962 of the JS-plugin</li>
+<li>CloseReaConsole - updated to behavior of version 0.963 of the JS-plugin</li>
 <li>ultraschall.MB - converts now all passed data into string, no matter what type it is</li>
 <li>ultraschall_api.lua - checks now, if it is run within the beta-engine-parts of this API and prevents including it if necessary.<br />
 This prevents duplicate execution of functions, when coding within the beta-functions-engine-scripts.</li>
-<li>RenderProject_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project didn’t return correct filecount if rendering was cancelled, leading to possible error-message -&gt; fixed</li>
+<li>RenderProject_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project didn’t return correct filecount if rendering was canceled, leading to possible error-message -&gt; fixed</li>
 <li>RenderProjectRegions_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project</li>
 <li>GetMediafileAttributes - added info into the docs about rpp-projects, which will create a proxy file, when getting the mediafile-attributes</li>
 <li>CreateValidTempFile - added info about the path of the created tempfile/tempfilename</li>

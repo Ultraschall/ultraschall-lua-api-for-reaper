@@ -15,6 +15,8 @@ func_done_count=progresscounter(false)
 
 --if L==nil then return end
 
+ultraschall.ShowErrorMessagesInReascriptConsole(true)
+
 local FunctionList2=""
 
 temp, build=reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", ultraschall.Api_Path.."/IniFiles/ultraschall_api.ini")
@@ -725,9 +727,19 @@ for lolo=1, 60 do
   if lua==nil then lua="" end
   if python==nil then python="" end  
   
+  temp1=lua:match("(.-) ")
+  temp2=lua:match(" (.*)")
+
+  if temp1==nil or temp2==nil then
+    EntryCall=lua.."</b>"
+  else
+    EntryCall=temp1.."</b> "..temp2
+  end
   
-  if C[index][2]:match("<chapter_context>.-API%-Documentation.-</chapter_context>")==nil then FunctionList=FunctionList.."<p style=\"padding-left:0.3%;\"><u>Functioncall:</u>" end
-  FunctionList=FunctionList.."<div style=\"padding-left:4%;font-size:100%\">"..lua.."</div><p>"
+--  if EntryCall==nil then EntryCall=lua end
+  
+  if C[index][2]:match("<chapter_context>.-API%-Documentation.-</chapter_context>")==nil then FunctionList=FunctionList.."<p style=\"padding-left:0.3%;\"><u>Functioncall:</u><b>" end
+  FunctionList=FunctionList.."<div style=\"padding-left:4%;font-size:100%\">"..EntryCall.."</div><p>"
   cpp=""
   eel=""
   lua=""

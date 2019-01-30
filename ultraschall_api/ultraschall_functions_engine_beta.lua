@@ -2345,48 +2345,6 @@ end
 --A,B,C,D,E,F,G,H,I,J=ultraschall.GetReaperWindowAttributes()
 --reaper.MB(tostring(A).." "..tostring(B).." "..tostring(C).." "..tostring(D).." "..tostring(E).." "..tostring(F).." "..tostring(G).." "..tostring(H).." "..tostring(I),"",0)
 
-function ultraschall.ConvertIntegerToBits(integer)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ConvertIntegerToBits</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.965
-    Lua=5.3
-  </requires>
-  <functioncall>string bitvals_csv, table bitvalues = ultraschall.ConvertIntegerToBits(integer integer)</functioncall>
-  <description>
-    converts an integer-value(up to 32 bits) into it's individual bits and returns it as comma-separated csv-string as well as a table with 32 entries.
-    
-    returns nil in case of an error
-  </description>
-  <parameters>
-    integer integer - the integer-number to separated into it's individual bits
-  </parameters>
-  <retvals>
-    string bitvals_csv - a comma-separated csv-string of all bitvalues, with bit 1 coming first and bit 32 coming last
-    table bitvalues - a 32-entry table, where each entry contains the bit-value of integer; first entry for bit 1, 32th entry for bit 32
-  </retvals>
-  <chapter_context>
-    API-Helper functions
-    Data Manipulation
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, convert, integer, bit, bitfield</tags>
-</US_DocBloc>
-]]
-  if math.type(integer)~="integer" then ultraschall.AddErrorMessage("ConvertIntegerToBits", "integer", "must be an integer-value up to 32 bits", -1) return nil end
-  local bitarray={}
-  local bitstring=""
-  for i=0, 31 do
-    O=i
-    if integer&2^i==0 then bitarray[i+1]=0 else bitarray[i+1]=1 end
-    bitstring=bitstring..bitarray[i+1]..","
-  end
-  return bitstring:sub(1,-1), bitarray
-end
-
 function ultraschall.ReverseEndianess_Byte(byte)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -2878,6 +2836,188 @@ function ultraschall.ShowErrorMessagesInReascriptConsole(setting)
   if setting==true then ultraschall.ShowErrorInReaScriptConsole=true else ultraschall.ShowErrorInReaScriptConsole=false end
 end
 
+
+function ultraschall.ConvertIntegerIntoString(integervalue)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertIntegerIntoString</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>string converted_value = ultraschall.ConvertIntegerIntoString(integer integervalue)</functioncall>
+  <description>
+    Splits an integer into its individual bytes and converts them into a string-representation.
+    Only 32bit-integers are supported.
+    
+    Returns nil in case of an error.
+  </description>
+  <parameters>
+    integer integervalue - the value to convert from
+  </parameters>
+  <retvals>
+    string converted_value - the string-representation of the integer
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, integer, string</tags>
+</US_DocBloc>
+]]
+  if math.type(integervalue)~="integer" then ultraschall.AddErrorMessage("ConvertIntegerIntoString", "integervalue", "must be an integer", -1) return end
+  local Byte1, Byte2, Byte3, Byte4 = ultraschall.SplitIntegerIntoBytes(integervalue)
+  local String=string.char(Byte1)..string.char(Byte2)..string.char(Byte3)..string.char(Byte4)
+  return String
+end
+
+--A=ultraschall.ConvertIntegerIntoString(65)
+
+function ultraschall.ConvertIntegerToBits(integer)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertIntegerToBits</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>string bitvals_csv, table bitvalues = ultraschall.ConvertIntegerToBits(integer integer)</functioncall>
+  <description>
+    converts an integer-value(up to 64 bits) into it's individual bits and returns it as comma-separated csv-string as well as a table with 64 entries.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    integer integer - the integer-number to separated into it's individual bits
+  </parameters>
+  <retvals>
+    string bitvals_csv - a comma-separated csv-string of all bitvalues, with bit 1 coming first and bit 32 coming last
+    table bitvalues - a 64-entry table, where each entry contains the bit-value of integer; first entry for bit 1, 64th entry for bit 64
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, integer, bit, bitfield</tags>
+</US_DocBloc>
+]]
+  if math.type(integer)~="integer" then ultraschall.AddErrorMessage("ConvertIntegerToBits", "integer", "must be an integer-value up to 32 bits", -1) return nil end
+  local Table={}
+  local bitvals=""
+  for i=1, 64 do
+    Table[i]=integer&1
+    bitvals=bitvals..(integer&1)..","
+    integer=integer>>1
+  end
+  return bitvals:sub(1,-2), Table
+end
+
+function ultraschall.GetProject_RenderOutputPath(projectfilename_with_path)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_RenderOutputPath</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>string render_output_directory = ultraschall.GetProject_RenderOutputPath(string projectfilename_with_path)</functioncall>
+  <description>
+    returns the output-directory for rendered files of a project.
+
+    Doesn't return the correct output-directory for queued-projects!
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string projectfilename_with_path - the projectfilename with path, whose renderoutput-directories you want to know
+  </parameters>
+  <retvals>
+    string render_output_directory - the output-directory for projects
+  </retvals>
+  <chapter_context>
+    Project-Files
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, integer, bit, bitfield</tags>
+</US_DocBloc>
+]]
+  if type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderOutputPath", "projectfilename_with_path", "must be a string", -1) return nil end
+  if reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("GetProject_RenderOutputPath", "projectfilename_with_path", "file does not exist", -2) return nil end
+  local ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path)
+  local QueueRendername=ProjectStateChunk:match("(QUEUED_RENDER_OUTFILE.-)\n")
+  local QueueRenderProjectName=ProjectStateChunk:match("(QUEUED_RENDER_ORIGINAL_FILENAME.-)\n")
+  local OutputRender, RenderPattern, RenderFile
+  
+  if QueueRendername~=nil then
+    QueueRendername=QueueRendername:match(" \"(.-)\" ")
+    QueueRendername=ultraschall.GetPath(QueueRendername)
+  end
+  
+  if QueueRenderProjectName~=nil then
+    QueueRenderProjectName=QueueRenderProjectName:match(" (.*)")
+    QueueRenderProjectName=ultraschall.GetPath(QueueRenderProjectName)
+  end
+
+
+  RenderFile=ProjectStateChunk:match("(RENDER_FILE.-)\n")
+  if RenderFile~=nil then
+    RenderFile=RenderFile:match("RENDER_FILE (.*)")
+    RenderFile=string.gsub(RenderFile,"\"","")
+  end
+  
+  RenderPattern=ProjectStateChunk:match("(RENDER_PATTERN.-)\n")
+  if RenderPattern~=nil then
+    RenderPattern=RenderPattern:match("RENDER_PATTERN (.*)")
+    if RenderPattern~=nil then
+      RenderPattern=string.gsub(RenderPattern,"\"","")
+    end
+  end
+
+  -- get the normal render-output-directory
+  if RenderPattern~=nil and RenderFile~=nil then
+    if ultraschall.DirectoryExists2(RenderFile)==true then
+      OutputRender=RenderFile
+    else
+      OutputRender=ultraschall.GetPath(projectfilename_with_path)..ultraschall.Separator..RenderFile
+    end
+  elseif RenderFile~=nil then
+    OutputRender=ultraschall.GetPath(RenderFile)    
+  else
+    OutputRender=ultraschall.GetPath(projectfilename_with_path)
+  end
+
+
+  -- get the potential RenderQueue-renderoutput-path
+  -- not done yet...todo
+  -- that way, I may be able to add the currently opened projects as well...
+--[[
+  if RenderPattern==nil and (RenderFile==nil or RenderFile=="") and
+     QueueRenderProjectName==nil and QueueRendername==nil then
+    QueueOutputRender=ultraschall.GetPath(projectfilename_with_path)
+  elseif RenderPattern~=nil and RenderFile~=nil then
+    if ultraschall.DirectoryExists2(RenderFile)==true then
+      QueueOutputRender=RenderFile
+    end
+  end
+  --]]
+  
+  OutputRender=string.gsub(OutputRender,"\\\\", "\\")
+  
+  return OutputRender, QueueOutputRender
+end
+
+--A="c:\\Users\\meo\\Desktop\\trss\\20Januar2019\\rec\\rec3.RPP"
+
+--B,C=ultraschall.GetProject_RenderOutputPath()
 
 ultraschall.ShowLastErrorMessage()
 
