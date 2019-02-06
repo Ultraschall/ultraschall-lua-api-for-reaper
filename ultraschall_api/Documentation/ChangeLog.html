@@ -101,6 +101,7 @@ Ultraschall API Changelog
 <li>GFX_BlitFramebuffer - blits the content of a framebuffer into the drawing-buffer; will resize, if necessary and retains aspect-ratio</li>
 <li>ConvertIntegerIntoString - converts the individual bytes of an integer into a string</li>
 <li>GetProject_RenderOutputPath - returns the output-directories for rendered files from a projectfile</li>
+<li>GetSetIntConfigVar - gets/sets a configuration-variable of the type integer-bitfield</li>
 </ul>
 <h4 id="changes-from-4.00beta2.7-to-4.00beta2.75">Changes from 4.00beta2.7 to 4.00beta2.75</h4>
 <ul>
@@ -140,7 +141,9 @@ This prevents duplicate execution of functions, when coding within the beta-func
 <li>WinterlySnowflakes - preparation of the snowflakes produced wrong default-values of gfx.x, gfx.y, gfx.r, gfx.g, gfx.g -&gt; fixed</li>
 <li>GetAllRegionsBetween - didn’t return regions, that began before startposition and ended after endposition -&gt; fixed</li>
 <li>AddErrorMessage - when set with ShowErrorMessagesInReascriptConsole, it shows now errormessages immediately in the ReaScriptConsole</li>
-<li>GetAllFilesnamesInPath renamed to GetAllFilenamesInPath - stupid typo in functionname…sorry for any inconveniences</li>
+<li>GetAllFilesnamesInPath renamed to GetAllFilenamesInPath - stupid typo in functionname…sorry for any inconveniences<br />
+</li>
+<li>MoveMarkersBy - did move regions as well, though I claimed the opposite..oops -&gt; fixed</li>
 </ul>
 <h3 id="beta-2.7---frank-zappa---the-return-of-the-son-of-monster-magnet---15th-of-december-2018">4.00 Beta 2.7: - “Frank Zappa - The Return of the Son of Monster Magnet” - 15th of December 2018</h3>
 <p>Has now 700 functions, with about 250 new ones!</p>

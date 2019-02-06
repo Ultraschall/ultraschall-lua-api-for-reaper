@@ -3104,7 +3104,7 @@
             Reaper=5.62
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Delete a tempo/time signature marker. 
             
             See [CountTempoTimeSigMarkers](#CountTempoTimeSigMarkers), [GetTempoTimeSigMarker](#GetTempoTimeSigMarker), [SetTempoTimeSigMarker](#SetTempoTimeSigMarker), [AddTempoTimeSigMarker](#AddTempoTimeSigMarker).
@@ -12706,8 +12706,8 @@
             Reaper=5.62
             Lua=5.3
         </requires>
-        <description prog_lang="*">
-            See [PCM_Source_CreateFromFileEx](PCM_Source_CreateFromFileEx).
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            See [PCM_Source_CreateFromFileEx](#PCM_Source_CreateFromFileEx).
         </description>
         <retvals>
             PCM_source - 
@@ -30038,9 +30038,11 @@
         </requires>
         <description indent="default">
             Adds code to be called back by REAPER. Used to create persistent ReaScripts that continue to run and respond to input, while the user does other tasks. Identical to runloop().Note that no undo point will be automatically created when the script finishes, unless you create it explicitly.
+            
+            There can be 1024 defer-nodes running at the same time in one script.
         </description>
         <retvals>
-            boolean retval - unknown; usually true
+            boolean retval - true, node could be created; false, you tried to add more than 1024 defer-nodes in the script
         </retvals>
         <parameters>
             function function - the function to be called, when the current defer/runloop-run has ended
@@ -35607,36 +35609,6 @@
         </chapter_context>
         <tags>cpp, get, track, info, flag</tags>
     </US_DocBloc>        
-
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
-        <slug>KBD_OnMainActionEx</slug>
-        <title>KBD_OnMainActionEx</title>
-        <functioncall prog_lang="cpp">int (*KBD_OnMainActionEx)(int cmd, int val, int valhw, int relmode, HWND hwnd, ReaProject* proj)</functioncall>
-        <requires>
-            Reaper=5.62
-        </requires>
-        <description indent="default">
-            val/valhw are used for midi stuff.
-        </description>
-        <retvals>
-            int -
-        </retvals>
-        <parameters>
-            cmd - 
-            val - val=[0..127] and valhw=-1 (midi CC)
-            valhw - valhw >=0 (midi pitch (valhw | val<<7))
-            relmode - relmode absolute (0) or 1/2/3 for relative adjust modes
-            hwnd - 
-            proj -
-        </parameters>
-        <target_document>ReaperApiFunctionsReference</target_document>
-        <source_document>reaper_plugin.h</source_document>
-        <chapter_context>
-            Additional C++ Functions
-            reaper_plugin_functions.h
-        </chapter_context>
-        <tags>cpp, midi, command, value, relmode, main, action</tags>
-    </US_DocBloc>            
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>KBD_OnMainActionEx</slug>
@@ -36025,7 +35997,7 @@
             ReaPack=1.2.2
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Add or modify a repository. Set url to nullptr (or empty string in Lua) to keep the existing URL. Call [ReaPack_ProcessQueue(true)](#ReaPack_ProcessQueue) when done to process the new list and update the GUI.
 
             autoInstall: usually set to 2 (obey user setting).
@@ -36122,7 +36094,7 @@
             ReaPack=1.2.2
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Enumerate the files owned by the given package. Returns false when there is no more data.
 
                 sections: 0=not in action list, &1=main, &2=midi editor, &4=midi inline editor
@@ -36169,7 +36141,7 @@
             ReaPack=1.2.2
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Free resources allocated for the given package entry. Must be used to free PackageEntry-objects created by [ReaPack_GetOwner](#ReaPack_GetOwner).
         </description>
         <retvals>
@@ -36236,7 +36208,7 @@
             ReaPack=1.2.2
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the package entry owning the given file.
             Delete the returned object from memory after use with [ReaPack_FreeEntry](#ReaPack_FreeEntry).
         </description>

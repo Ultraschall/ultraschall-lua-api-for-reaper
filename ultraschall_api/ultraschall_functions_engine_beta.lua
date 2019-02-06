@@ -2947,7 +2947,7 @@ function ultraschall.GetProject_RenderOutputPath(projectfilename_with_path)
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, convert, integer, bit, bitfield</tags>
+  <tags>render management, get, project, render, outputpath</tags>
 </US_DocBloc>
 ]]
   if type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderOutputPath", "projectfilename_with_path", "must be a string", -1) return nil end
@@ -3018,6 +3018,81 @@ end
 --A="c:\\Users\\meo\\Desktop\\trss\\20Januar2019\\rec\\rec3.RPP"
 
 --B,C=ultraschall.GetProject_RenderOutputPath()
+
+function ultraschall.GetSetIntConfigVar(varname, set, ...)  
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetSetIntConfigVar</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      SWS=2.9.7
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval, integer config_var_value = ultraschall.GetSetIntConfigVar(string varname, boolean set, optional boolean bit1, ..., optional boolean bit32)</functioncall>
+    <description>
+      Gets/Sets an integer-bitfield of an integer-configvariable.
+      
+      Pass to it a varname, if it shall be set or gotten from and up to 32 parameters who specify, if that bit shall be set(true) or not(false) or the currently set value shall be used(nil)
+      
+      See <a href="Reaper_Config_Variables.html">Reaper_Config_Variables.html</a> for more details on config-variables in Reaper.
+      
+      returns false in case of an error
+    </description>
+    <parameters>
+      string varname - the name of the config-variable
+      boolean set - true, set this config-var; false, don't set it
+      optional boolean bit1 - true, set this bit; false, don't set this bit; nil, use the currently set value
+      ...                   - true, set this bit; false, don't set this bit; nil, use the currently set value
+      optional boolean bit32 - true, set this bit; false, don't set this bit; nil, use the currently set value
+    </parameters>
+    <retvals>
+      boolean retval - true, getting/setting the config-var was successful; false, it wasn't successful
+      integer config_var_value - the new/current value of the configuration-variable
+    </retvals>
+    <chapter_context>
+      API-Helper functions
+      Data Manipulation
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>helper functions, get, set, configvar, integer, bit, bitfield</tags>
+  </US_DocBloc>
+  ]]
+  
+  -- check parameters
+  local oldval=reaper.SNM_GetIntConfigVar(varname,-99)
+  local oldval2=reaper.SNM_GetIntConfigVar(varname,-98)
+  local parms={...}
+  if type(varname)~="string" then ultraschall.AddErrorMessage("GetSetIntConfigVar", "varname", "must be a string", -1) return false end
+  if oldval~=oldval2 then ultraschall.AddErrorMessage("GetSetIntConfigVar", "varname", "no such config-variable", -2) return false end
+  if type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetIntConfigVar", "set", "must be a boolean", -3) return false end
+  local newval=0
+  
+  -- if setting config-variable is set to true, create that new value
+  -- and set it
+  if set==true then
+    for i=0, 32 do
+      -- if one of the parameters isn't nil or boolean, return with false, leaving the configvar untouched
+      if parms[i]~=nil and parms[i]~=true and parms[i]~=false then ultraschall.AddErrorMessage("GetSetIntConfigVar", "bit"..i, "must be either a boolean or nil(to keep currently set value)", -4) return false end
+    end    
+    
+    for i=32, 1, -1 do
+      -- create the newval
+      -- if parameter is set to nil, use the specifiv bit-value from the original config-var-value
+      newval = newval << 1
+      if parms[i]==true then newval=newval+1
+      elseif parms[i]==nil and oldval&2^i~=0 then newval=newval+1 end
+    end
+    
+    return reaper.SNM_SetIntConfigVar(varname, newval), math.floor(newval)
+  else
+    return true, math.floor(oldval)
+  end
+end
+
+
+--O,O2=ultraschall.GetSetIntConfigVar("mixeruiflag", true, true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true, true,true,true,true,true,true,true,true,true,true)
 
 ultraschall.ShowLastErrorMessage()
 
