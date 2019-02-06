@@ -59,6 +59,9 @@ ultraschall.snowtodaysdate=ultraschall.snowB.day.."."..ultraschall.snowB.month
 ultraschall.snowoldgfx=gfx.update
 
 ultraschall.temp,ultraschall.tempfilename=reaper.get_action_context()
+
+ultraschall.Dump, ultraschall.ScriptFileName=reaper.get_action_context()
+
 if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and 
     (ultraschall.snowtodaysdate=="24.12" or 
      ultraschall.snowtodaysdate=="25.12" or 

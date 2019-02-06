@@ -102,6 +102,9 @@ Ultraschall API Changelog
 <li>ConvertIntegerIntoString - converts the individual bytes of an integer into a string</li>
 <li>GetProject_RenderOutputPath - returns the output-directories for rendered files from a projectfile</li>
 <li>GetSetIntConfigVar - gets/sets a configuration-variable of the type integer-bitfield</li>
+<li>GetScriptIdentifier - returns a unique identifier-string for the current script-instance, that can be used to send command/string to this scriptinstance</li>
+<li>Defer1 to Defer20 - run a customized defer-cycle, in which you can decide, how often it should be run. You can also stop such a defer-cycle from in/outside the script using StopDeferCycle. For that, Defer1 to Defer20 will return an identifier, which can be used to stop this specific defer-cycle. You should only use each DeferXX-cycle once in a script-instance, or the timing will become corrupt!</li>
+<li>StopDeferCycle - stops a Defer1 to Defer20-defer-instance from a script-instance</li>
 </ul>
 <h4 id="changes-from-4.00beta2.7-to-4.00beta2.75">Changes from 4.00beta2.7 to 4.00beta2.75</h4>
 <ul>

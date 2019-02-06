@@ -46,7 +46,7 @@
 -- If you have new functions to contribute, you can use this file as well. Keep in mind, that I will probably change them to work
 -- with the error-messaging-system as well as adding information for the API-documentation.
 
-ultraschall.hotfixdate="29_Jan_2019"
+ultraschall.hotfixdate="6_Feb_2019"
 
 function ultraschall.GetMarkerByScreenCoordinates(xmouseposition, retina)
 --returns a string with the marker(s) in the timeline at given 

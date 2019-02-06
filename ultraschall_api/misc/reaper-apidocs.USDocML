@@ -30016,6 +30016,19 @@
         </requires>
         <description indent="default">
             Adds code to be executed when the script finishes or is ended by the user. Typically used to clean up after the user terminates defer() or runloop() code.
+            
+            You can't defer this atexit-function, when it is run as exit-function, though, when it is run regularily before exiting the script.
+            
+            You can define more than one atexit-function. They will be run in the order they've been registered as atexit-functions.
+            For example:
+            
+                reaper.atexit(exit1)
+                reaper.atexit(exit2)
+                reaper.atexit(exit3)
+                
+            will run exit1, exit2 and then exit3, when exiting the script.
+            
+            You can have up to 1024 atexit-functions set in one script, no matter if its different or the same function.
         </description>
         <parameters>
             function function - the function, with which the script shall finish
@@ -30039,7 +30052,7 @@
         <description indent="default">
             Adds code to be called back by REAPER. Used to create persistent ReaScripts that continue to run and respond to input, while the user does other tasks. Identical to runloop().Note that no undo point will be automatically created when the script finishes, unless you create it explicitly.
             
-            There can be 1024 defer-nodes running at the same time in one script.
+            There can be 1024 defer-nodes running at the same time in one script, no matter if it's different functions or the same one.
         </description>
         <retvals>
             boolean retval - true, node could be created; false, you tried to add more than 1024 defer-nodes in the script

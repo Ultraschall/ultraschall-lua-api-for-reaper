@@ -64,6 +64,11 @@
   - ConvertIntegerIntoString - converts the individual bytes of an integer into a string
   - GetProject_RenderOutputPath - returns the output-directories for rendered files from a projectfile
   - GetSetIntConfigVar - gets/sets a configuration-variable of the type integer-bitfield
+  - GetScriptIdentifier - returns a unique identifier-string for the current script-instance, that can be used to send command/string to this scriptinstance
+  - Defer1 to Defer20 - run a customized defer-cycle, in which you can decide, how often it should be run. You can also stop such a defer-cycle from in/outside the script using StopDeferCycle.
+                        For that, Defer1 to Defer20 will return an identifier, which can be used to stop this specific defer-cycle.
+                        You should only use each DeferXX-cycle once in a script-instance, or the timing will become corrupt!
+  - StopDeferCycle - stops a Defer1 to Defer20-defer-instance from a script-instance
   
 #### Changes from 4.00beta2.7 to 4.00beta2.75
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -108,6 +113,8 @@
   
    <TODO>
     API 4.00beta2.75
+      TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
+             produziert die API Fehler.
       TODO!! GetReaConsoleHWND-window or other HWNDS os Reaper: must be localized by using JS_Localize or it will not find
                                     the window in its localized title-form
              see GetArrangeWnd() from BR_Util.cpp:
@@ -223,6 +230,9 @@
 
                                   - avoid running this function during rendering; maybe with EnumProjects and the currently rendering project?
                                         -> ehrmm...what? Because of the render-queue or what?
+                                        
+                                  - for absolute paths, check, whether a specific Source FILE "bla" is existing. If yes, it is absolute, if not, it is relative and must be exchanged with an absolute one.
+                                  - Reaper does the relative/absolute-management itself. That means, relative paths are always in relation to the rpp-file. If the rpp-file is stored somewhere else, where the FILE "" isn't a subfolder/file anymore, Reaper saves the file with absolute-paths to the MediaFiles.
                                     
       TODO!! Docs: JS-Plugin-useable functions - should work on Mac now with JS0.963. Check them plz.
       TODO!! RenderProject_RenderCfg - new implementation, that exploits the render-queue, rather the reopening of a project
@@ -531,6 +541,12 @@
                - IsValid-check functions for
                     - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
                       MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex   
+    For 4.00Beta 2.9:
+        registering of running scripts into an extstate ultraschall->running_script_instance->
+            All ultraschall-API-using scripts will be registered into running_script_instance automatically.
+            We will also define an atexit-function for unregistering from the running-script-instance-register, as there can be multiple atexit-functions(up to 1024).
+            That way, we can have monitoring of running scripts.
+            Should allow monitoring of Defer1 to Defer10-running-states as well. Maybe they need to be set at the beginning as well? Or is it waste of resources?(probably the latter, we can assume, if it's not set "running", that defer-instance is not used and set to stopped.            
    </TODO>
 
    
