@@ -3009,6 +3009,26 @@
   </US_DocBloc>
   
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SEL</slug>
+    <functioncall>SEL integer selectionstate </functioncall>
+    <description>
+        The SEL is the state, if the track is selected(1) or not(0).
+        
+        Only available in ProjectStateChunks, not in TrackStateChunks retrieved by GetProjectStateChunk-function!
+    </description>
+    <parameters>
+      integer selectionstate  - 1, selected, 0, not selected
+    </parameters>
+    <chapter_context>
+      ProjectStateChunk
+      TrackStateChunk
+    </chapter_context>
+    <target_document>Reaper_StateChunk_docs</target_document>
+    <source_document></source_document>
+    <tags></tags>
+  </US_DocBloc>
+  
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>FREEMODE</slug>
     <functioncall>FREEMODE integer FreeModeState </functioncall>
     <description>

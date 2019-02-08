@@ -28,7 +28,6 @@
 --- ULTRASCHALL - API - FUNCTIONS ---
 -------------------------------------
 
-
 if type(ultraschall)~="table" then 
   -- update buildnumber and add ultraschall as a table, when programming within this file
   local retval, string = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "Functions-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
@@ -42,7 +41,7 @@ if type(ultraschall)~="table" then
   else 
     string2=tonumber(string2)
     string2=string2+1
-  end
+  end 
   reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "Functions-Build", string, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
   reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", string2, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")  
   ultraschall={} 
@@ -223,6 +222,7 @@ end
 --A=reaper.GetTrack(0,0)
 --L,M,N=ultraschall.GetTrackStateChunk(A,"", false, false)
 --T=M:len()
+
 
 
 function ultraschall.CountCharacterInString(checkstring, character)
@@ -1918,7 +1918,6 @@ function ultraschall.SetUSExternalState(section, key, value)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetUSExternalState(string section, string key, string value)</functioncall>
@@ -1951,7 +1950,7 @@ function ultraschall.SetUSExternalState(section, key, value)
   if section:match(".*(%=).*")=="=" then ultraschall.AddErrorMessage("SetUSExternalState","section", "no = allowed in section", -4) return false end
 
   -- set value
-  return reaper.BR_Win32_WritePrivateProfileString(section, key, value, reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")
+  return ultraschall.SetIniFileValue(section, key, value, reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")
 end
 
 --A=ultraschall.SetUSExternalState("tes=10to","cowb[sfijdfd]oy bebop2","Howde[]eho")
@@ -1967,7 +1966,6 @@ function ultraschall.GetUSExternalState(section, key)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>string value = ultraschall.GetUSExternalState(string section, string key)</functioncall>
@@ -1997,7 +1995,7 @@ function ultraschall.GetUSExternalState(section, key)
   if type(key)~="string" then ultraschall.AddErrorMessage("GetUSExternalState","key", "only string allowed", -2) return "" end
  
   -- get value
-  local A, B = reaper.BR_Win32_GetPrivateProfileString(section, key, "", reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")
+  local A, B = ultraschall.GetIniFileValue(section, key, "", reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")
   return B
 end
 
@@ -11674,7 +11672,6 @@ function ultraschall.SetIniFileExternalState(section, key, value, ini_filename_w
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetIniFileExternalState(string section, string key, string value, string ini_filename_with_path)</functioncall>
@@ -11707,7 +11704,7 @@ function ultraschall.SetIniFileExternalState(section, key, value, ini_filename_w
   if section:match(".*%=.*") then ultraschall.AddErrorMessage("SetIniFileExternalState", "section", "= is not allowed in section", -6) return false end
   if key:match(".*%=.*") then ultraschall.AddErrorMessage("SetIniFileExternalState", "key", "= is not allowed in key.", -7) return false end
 
-  return reaper.BR_Win32_WritePrivateProfileString(section, key, value, ini_filename_with_path)
+  return ultraschall.SetIniFileValue(section, key, value, ini_filename_with_path)
 end
 
 --A=ultraschall.SetIniFileExternalState("hulasu","bulaabama","MamulaDoo","c:\\huhududu.ini")
@@ -11721,7 +11718,6 @@ function ultraschall.GetIniFileExternalState(section, key, ini_filename_with_pat
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>string value = ultraschall.GetIniFileExternalState(string section, string key, string ini_filename_with_path)</functioncall>
@@ -11751,7 +11747,7 @@ function ultraschall.GetIniFileExternalState(section, key, ini_filename_with_pat
   if type(ini_filename_with_path)~="string" then ultraschall.AddErrorMessage("GetIniFileExternalState","ini_filename_with_path", "must be a string", -3) return -1 end
   if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("GetIniFileExternalState","ini_filename_with_path", "file does not exist", -4) return -1 end
     
-  local L,LL=reaper.BR_Win32_GetPrivateProfileString(section, key, nil, ini_filename_with_path)
+  local L,LL=ultraschall.GetIniFileValue(section, key, nil, ini_filename_with_path)
   if L==nil then ultraschall.AddErrorMessage("GetIniFileExternalState","key", "does not exist", -5) return -1
   else
   return L,LL
@@ -12485,7 +12481,6 @@ function ultraschall.GetMarkerByTime(position, retina)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>string markers = ultraschall.GetMarkerByTime(number position, boolean retina)</functioncall>
@@ -12556,8 +12551,8 @@ function ultraschall.GetMarkerByTime(position, retina)
       elseif markrgnindexnumber>99 and markrgnindexnumber<1000 then temp=three
       elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=two
       elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=one
-      end
-      local Aretval,ARetval2=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+      end 
+      local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
       local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp,ARetval2+57) 
       local Bx=AAx-Ax
       if Bx+pos>=position and pos<=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name end      
@@ -12695,7 +12690,6 @@ function ultraschall.GetRegionByTime(position, retina)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>string markers = ultraschall.GetRegionByTime(number position, boolean retina)</functioncall>
@@ -12762,7 +12756,7 @@ function ultraschall.GetRegionByTime(position, retina)
       elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=two
       elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=one
       end
-      local Aretval,ARetval2=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+      local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
       local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp,ARetval2+57) 
       local Bx=AAx-Ax
       if Bx+pos>=position and pos<=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n"
@@ -12870,7 +12864,6 @@ function ultraschall.GetTimeSignaturesByTime(position, retina)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>string markers = ultraschall.GetTimeSignaturesByTime(number position, boolean retina)</functioncall>
@@ -12927,7 +12920,7 @@ function ultraschall.GetTimeSignaturesByTime(position, retina)
   for i=0, timeretval-1 do
     local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
     temp=one    
-    local Aretval,ARetval2=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+    local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
     local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp,ARetval2+57) 
     local Bx=AAx-Ax
     if Bx+timepos>=position and timepos<=position then retstring=retstring..i.."\n"..timepos.."\n" end
@@ -18068,7 +18061,7 @@ function ultraschall.GetProject_TrackStateChunk(projectfilename_with_path, idx, 
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>string trackstatechunk = ultraschall.GetProject_TrackStateChunk(string projectfilename_with_path, intger idx, boolean deletetrackid, optional string ProjectStateChunk)</functioncall>
+  <functioncall>string trackstatechunk = ultraschall.GetProject_TrackStateChunk(string projectfilename_with_path, integer idx, boolean deletetrackid, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns an RPPXML-trackstatechunk from an rpp-project-file or a ProjectStateChunk, with tracknumber idx. IDX is 1 for the first track in the project-file, 2 for the second, etc
     Returns -1 in case of error.
@@ -28747,7 +28740,6 @@ function ultraschall.GetReaperWindowPosition_Left()
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>integer leftwindowposition = ultraschall.GetReaperWindowPosition_Left()</functioncall>
@@ -28767,8 +28759,8 @@ function ultraschall.GetReaperWindowPosition_Left()
 </US_DocBloc>
 ]]
 
-  local temp,Technopop=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
-  local temp,ElectricCafe=reaper.BR_Win32_GetPrivateProfileString("REAPER", "dockheight_l", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+  local temp,Technopop=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+  local temp,ElectricCafe=ultraschall.GetIniFileValue("REAPER", "dockheight_l", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
 
   local C,D,E,F,G,H,I,J,K,L=reaper.my_getViewport(1,2,3,4,5,6,7,8, true)
   local A1x,A2x= reaper.GetSet_ArrangeView2(0, false, 0,0)
@@ -28792,7 +28784,6 @@ function ultraschall.GetReaperWindowPosition_Right()
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>integer rightwindowposition = ultraschall.GetReaperWindowPosition_Right()</functioncall>
@@ -28811,7 +28802,7 @@ function ultraschall.GetReaperWindowPosition_Right()
   <tags>reaper, window, right, position, pixels</tags>
 </US_DocBloc>
 ]]
-  local temp,Technopop=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+  local temp,Technopop=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
 
   local C,D,E,F,G,H,I,J,K,L=reaper.my_getViewport(1,2,3,4,5,6,7,8, true)
   local A1x,A2x= reaper.GetSet_ArrangeView2(0, false, 0,0)
@@ -31476,8 +31467,8 @@ function ultraschall.SetReaperWindowToSize(x,y)
 --]]
   if math.type(x)~="integer" then ultraschall.AddErrorMessage("SetReaperWindowToSize","x", "only integer-numbers are allowed", -1) return -1 end
   if math.type(y)~="integer" then ultraschall.AddErrorMessage("SetReaperWindowToSize","y", "only integer-numbers are allowed", -2) return -1 end
-  reaper.BR_Win32_WritePrivateProfileString("Reaper", "setwndsize_x", x, reaper.get_ini_file())
-  reaper.BR_Win32_WritePrivateProfileString("Reaper", "setwndsize_y", y, reaper.get_ini_file())
+  ultraschall.SetIniFileValue("Reaper", "setwndsize_x", x, reaper.get_ini_file())
+  ultraschall.SetIniFileValue("Reaper", "setwndsize_y", y, reaper.get_ini_file())
   ultraschall.RunCommand("_SWS_SETWINDOWSIZE")
 end
 
@@ -38812,8 +38803,8 @@ function ultraschall.SetStartNewFileRecSizeState(start_new_files, offset_file_sw
   if maxrecsize_use2==false then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "start_new_files or offset_file_switches", "Couldn't set new value, contact Ultraschall-Api-developers for this...", -7) return false end
   
   if persist==true then
-    local A=reaper.BR_Win32_WritePrivateProfileString("REAPER", "maxrecsize", tostring(maxrecsize), reaper.get_ini_file())
-    local B=reaper.BR_Win32_WritePrivateProfileString("REAPER", "maxrecsize_use", tostring(maxrecsize_use), reaper.get_ini_file())
+    local A=ultraschall.SetIniFileValue("REAPER", "maxrecsize", tostring(maxrecsize), reaper.get_ini_file())
+    local B=ultraschall.SetIniFileValue("REAPER", "maxrecsize_use", tostring(maxrecsize_use), reaper.get_ini_file())
     if A==false or B==false then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "persist", "Couldn't set changed config to persist. Maybe a problem with accessing reaper.ini.", -8) return false end
   end
   return true    
@@ -38898,7 +38889,7 @@ function ultraschall.SetPlayCursorWidth(play_cursor_width, persist)
   if playcursormode==false then ultraschall.AddErrorMessage("SetPlayCursorWidth", "playcursormode", "Couldn't set playcursormode, contact Ultraschall-Api-developers for this...", -4) return false end
   
   if persist==true then
-    local A=reaper.BR_Win32_WritePrivateProfileString("REAPER", "playcursormode", tostring(play_cursor_width), reaper.get_ini_file())
+    local A=ultraschall.SetIniFileValue("REAPER", "playcursormode", tostring(play_cursor_width), reaper.get_ini_file())
     if A==false then ultraschall.AddErrorMessage("SetPlayCursorWidth", "persist", "Couldn't set changed config to persist. Maybe a problem with accessing reaper.ini.", -5) return false end
   end
   return true    
@@ -40729,7 +40720,6 @@ function ultraschall.GetReaperWorkDir()
   <requires>
     Ultraschall=4.00
     Reaper=5.95
-    SWS=2.9.7
     Lua=5.3
   </requires>
   <functioncall>string current_workdir = ultraschall.GetReaperWorkDir()</functioncall>
@@ -40748,7 +40738,7 @@ function ultraschall.GetReaperWorkDir()
   <tags>filemanagement, get, current workdir of reaper</tags>
 </US_DocBloc>
 ]]
-  local temp, dir = reaper.BR_Win32_GetPrivateProfileString("REAPER", "lastcwd", "", reaper.get_ini_file())
+  local temp, dir = ultraschall.GetIniFileValue("REAPER", "lastcwd", "", reaper.get_ini_file())
   return dir
 end
 
@@ -40814,7 +40804,6 @@ function ultraschall.SetReaperWorkDir(path)
   <requires>
     Ultraschall=4.00
     Reaper=5.95
-    SWS=2.9.7
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetReaperWorkDir(string Path)</functioncall>
@@ -40839,8 +40828,8 @@ function ultraschall.SetReaperWorkDir(path)
 </US_DocBloc>
 ]]
   if ultraschall.type(path)~="string" then ultraschall.AddErrorMessage("SetReaperWorkDir", "path", "must be a string", -1) return false end
-  if ultraschall.DirectoryExists2(path)==false then ultraschall.AddErrorMessage("SetReaperWorkDir", "path", "no such path existing", -2) return false end
-  return reaper.BR_Win32_WritePrivateProfileString("REAPER", "lastcwd", path, reaper.get_ini_file())
+  if ultraschall.DirectoryExists2(path)==false then ultraschall.AddErrorMessage("SetReaperWorkDir", "path", "no such path exists", -2) return false end
+  return ultraschall.SetIniFileValue("REAPER", "lastcwd", path, reaper.get_ini_file())
 end
 
 --A=ultraschall.SetReaperWorkDir("C:\\Tudelu\\Tudelu")
@@ -41721,7 +41710,7 @@ function ultraschall.GetProject_MasterNChans(projectfilename_with_path, ProjectS
   </parameters>
   <retvals>
     integer number_of_channels - the number of output-channels, as set in the "Outputs for the Master Channel -> Track Channels"-dialog
-    intger peak_metering - 2, Multichannel peak metering-setting, as set in the "Master VU settings"-dialog
+    integer peak_metering - 2, Multichannel peak metering-setting, as set in the "Master VU settings"-dialog
   </retvals>
   <chapter_context>
     Project-Files

@@ -69,6 +69,11 @@
                         For that, Defer1 to Defer20 will return an identifier, which can be used to stop this specific defer-cycle.
                         You should only use each DeferXX-cycle once in a script-instance, or the timing will become corrupt!
   - StopDeferCycle - stops a Defer1 to Defer20-defer-instance from a script-instance
+  - ResolveRenderPattern - resolves the renderfilename of a specific render-pattern
+  - GetTrackSelection_TrackStateChunk - gets, if a track in a StateChunk is selected; works only with TrackStateChunks from ProjectStateChunks
+  - SetTrackSelection_TrackStateChunk - sets a track in a StateChunk selected; works only with TrackStateChunks from ProjectStateChunks
+  - GetIniFileValue - gets an ini-value from an ini-file; unlike SWS's own functions for that, this has no problems with Umlauts in the path
+  - SetIniFileValue - sets an ini-value into an ini-file; unlike SWS's own functions for that, this has no problems with Umlauts in the path
   
 #### Changes from 4.00beta2.7 to 4.00beta2.75
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -110,6 +115,20 @@
   - AddErrorMessage - when set with ShowErrorMessagesInReascriptConsole, it shows now errormessages immediately in the ReaScriptConsole
   - GetAllFilesnamesInPath renamed to GetAllFilenamesInPath - stupid typo in functionname...sorry for any inconveniences  
   - MoveMarkersBy - did move regions as well, though I claimed the opposite..oops -> fixed
+  - SetUSExternalState - using now the SetIniFileValue-function for setting the ini-file-value
+  - SetIniFileExternalState - using now the SetIniFileValue-function for setting the ini-file-value
+  - SetReaperWindowToSize - using now the SetIniFileValue-function for setting the ini-file-value
+  - SetStartNewFileRecSizeState - using now the SetIniFileValue-function for setting the ini-file-value
+  - SetPlayCursorWidth - using now the SetIniFileValue-function for setting the ini-file-value
+  - SetReaperWorkDir - using now the SetIniFileValue-function for setting the ini-file-value
+  - GetUSExternalState - using now the SetIniFileValue-function for getting the ini-file-value
+  - GetIniFileExternalState - using now the SetIniFileValue-function for getting the ini-file-value
+  - GetMarkerByTime - using now the SetIniFileValue-function for getting the ini-file-value
+  - GetRegionByTime - using now the SetIniFileValue-function for getting the ini-file-value
+  - GetTimeSignaturesByTime - using now the SetIniFileValue-function for getting the ini-file-value
+  - GetReaperWindowPosition_Left - using now the SetIniFileValue-function for getting the ini-file-value
+  - GetReaperWindowPosition_Right - using now the SetIniFileValue-function for getting the ini-file-value
+  - GetReaperWorkDir - using now the SetIniFileValue-function for getting the ini-file-value
   
    <TODO>
     API 4.00beta2.75
@@ -153,38 +172,6 @@
                         }
                         return s_hwnd;
                     }
-             
-             
-      TODO!! Defer1 to Defer10 - mode 2 is missing
-            current implementation:
-            
-                function ultraschall.Defer1(func, mode, timer_counter)
-                  -- func - the function to defer to after end of time
-                  -- mode - 0, no wait; 1, wait x cycles; 2, wait x seconds
-                  -- timer_counter - either the number of defer-cycles to wait(~30 per second) in mode 1 or the number of seconds in mode 2
-                  --
-                  -- mode 2 doesn't work yet
-                  --
-                  -- if the extstate "ultraschall", ultraschall.ScriptIdentifier..".defer_script1" is set to stop, Defer1 will stop
-                  --   otherwise, it will run on
-                  --
-                  -- please put the variables temp, timer, temp_func and temp_mode(maybe zero?) into table ultraschall.
-                  
-                  if timer_counter~=nil then timer=timer_counter zero=0 end
-                  if func~=nil then temp_func=func end
-                  if mode~=nil then 
-                    temp_mode=mode
-                    if mode>0 then reaper.SetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script1","running", false) end
-                  end
-                  if timer>=1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script1")~="stop" then 
-                    timer=timer-1 
-                    local temp=reaper.defer(ultraschall.Defer1)
-                    if temp==false then return false end
-                  end
-                  if timer==zero then timer=-1 temp=reaper.defer(temp_func) end
-                  if temp==nil then temp=true end
-                  return temp
-                end
       TODO!! SaveProjectAs(ReaProject project, newfilename, relative_sourcefilenames, ProjectStateChunk)
                  params:
                     project - the project to save, either ReaProject or projecttab-nr;
@@ -233,7 +220,9 @@
                                         
                                   - for absolute paths, check, whether a specific Source FILE "bla" is existing. If yes, it is absolute, if not, it is relative and must be exchanged with an absolute one.
                                   - Reaper does the relative/absolute-management itself. That means, relative paths are always in relation to the rpp-file. If the rpp-file is stored somewhere else, where the FILE "" isn't a subfolder/file anymore, Reaper saves the file with absolute-paths to the MediaFiles.
-                                    
+                                  -- TODO: !! Set selection of first track to selected, if not already
+                                  --          remove selection of first track, if necessary, from ProjectStateChunk and the project
+                                  --        workaround for the render-setting "Stems (selected tracks)"
       TODO!! Docs: JS-Plugin-useable functions - should work on Mac now with JS0.963. Check them plz.
       TODO!! RenderProject_RenderCfg - new implementation, that exploits the render-queue, rather the reopening of a project
                                        should work with opened projects, but still unknown, how to add unopened projects properly and how to find out the rendered files afterwards...

@@ -1427,6 +1427,7 @@ function ultraschall.SetProject_RenderPattern(projectfilename_with_path, render_
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderPattern", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
   if render_pattern~=nil and type(render_pattern)~="string" then ultraschall.AddErrorMessage("SetProject_RenderPattern", "render_pattern", "Must be a string", -4) return -1 end
   if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderPattern", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
+  local quots
 
   local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_FILE.-%c)")
   local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-(RENDER_FMT.*)")
@@ -1546,6 +1547,10 @@ end
 --A,B,C,D,E,F,G,H,I,J=ultraschall.InsertMediaItemFromFile(ultraschall.Api_Path.."/misc/silence.flac", 0, 0, -1, 0)
 
 function ultraschall.GetProjectStateChunk(Project)
+-- TODO: !! Set selection of first track to selected, if not already
+--          remove selection of first track, if necessary, from ProjectStateChunk and the project
+--        workaround for the render-setting "Stems (selected tracks)"
+
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProjectStateChunk</slug>
@@ -1600,23 +1605,35 @@ function ultraschall.GetProjectStateChunk(Project)
     temp=true
     retval, item, endposition, numchannels, Samplerate, Filetype, editcursorposition, track = ultraschall.InsertMediaItemFromFile(ultraschall.Api_Path.."/misc/silence.flac", 0, 0, -1, 0)
   end
-  
+ 
   -- put project into the render-queue
   reaper.Main_OnCommand(41823,0)
-
+--  reaper.MB("","",0) 
   -- get the new render-queue-file from which we want to get the ProjectStateChunk
   -- load it and remove it immediately
-  filecount2=filecount  
+  local filecount2, files2 = ultraschall.GetAllFilenamesInPath(Path)
+  
+--  reaper.MB(filecount.." "..tostring(filecount2),"",0)
+  
+  --Buggy, when running this function numerous times after each other
+  -- can't find the right file all the times. But why?
+  local waiter=reaper.time_precise()+2
   while filecount2==filecount do
     -- Lua is faster than the Action for adding the project into the render-queue, so we need to 
     -- wait a little, until we can proceed
     filecount2, files2 = ultraschall.GetAllFilenamesInPath(Path)
+    if filecount2~=filecount then break end
+    if reaper.time_precise()>waiter then reaper.MB(filecount.." "..filecount2,"HUI",0) AA=files BB=files2 ultraschall.AddErrorMessage("GetProjectStateChunk", "", "can't create ProjectStateChunk, probably due weird render-settings(e.g \"Stems (selected tracks)\")", -2) reaper.PreventUIRefresh(-2) return nil end
   end
-  local duplicate_count, duplicate_array, 
+--  if lucki==nil then return end
+  duplicate_count, duplicate_array, 
   originalscount_array1, originals_array1, 
-  originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(files, files2)
-  ProjectStateChunk=ultraschall.ReadFullFile(originals_array2[1])
-  os.remove(originals_array2[1])
+  originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(files, files2) -- maybe this?
+  ProjectStateChunk=ultraschall.ReadFullFile(originals_array2[originalscount_array2])
+--K,KK=  os.remove(originals_array2[originalscount_array2])
+--reaper.MB(originals_array2[1],"",0)
+K,KK=os.rename(originals_array2[originalscount_array2], originals_array2[originalscount_array2].."KK")
+  --Buggy end
 
   -- delete temporary MediaItem and MediaTrack from the project again
   if temp==true then
@@ -1629,57 +1646,35 @@ function ultraschall.GetProjectStateChunk(Project)
   reaper.SNM_SetIntConfigVar("renderclosewhendone", renderstate)
   reaper.PreventUIRefresh(-2)
     
-  
---  for i=1, filecount do
---    local filepath,filename=ultraschall.GetPath(files[i])
---    os.rename(files[i], filepath.."US"..filename)
---  end
---[[  
-  if L==nil then return end
-  
-  local start, endit = reaper.GetSet_LoopTimeRange(false, false, -10, -10, false)
-  if start==0 and endit==0 then reaper.GetSet_LoopTimeRange(true, false, 0, 1, false) end
-  reaper.Main_OnCommand(41823,0)
 
-  
-  local filecount2, files2 = ultraschall.GetAllFilesnamesInPath(Path)  
-  if files2[1]==nil then files2[1]="" end
-  while reaper.file_exists(files2[1])==false do
-    filecount2, files2 = ultraschall.GetAllFilesnamesInPath(Path)
-    if files2[1]==nil then files2[1]="" end
-  end
-  
-  
-  for i=1, filecount2 do
-    if files2[i]:match(Path.."qrender")~=nil then 
-      ProjectStateChunk=ultraschall.ReadFullFile(files2[i]) 
-      os.remove(files2[i]) break 
-    end
-  end
-  
-  for i=1, filecount do
-    local filepath,filename=ultraschall.GetPath(files[i])
-    os.rename(filepath.."US"..filename, files[i])
-  end
-  --]]
   if Project~=nil then
     reaper.SelectProjectInstance(currentproject)
   end    
   
   reaper.PreventUIRefresh(-1)
+  local QRenderFiles=""
+  local QRenderProject=ProjectStateChunk:match("QUEUED_RENDER_ORIGINAL_FILENAME.-\n")
+  for k in string.gmatch(ProjectStateChunk, "(QUEUED_RENDER_OUTFILE.-)\n") do
+    QRenderFiles=QRenderFiles..k.."\n"
+  end
   ProjectStateChunk=string.gsub(ProjectStateChunk,"  QUEUED_RENDER_OUTFILE.-\n","")
   ProjectStateChunk=string.gsub(ProjectStateChunk,"  QUEUED_RENDER_ORIGINAL_FILENAME.-\n","")
+  
   if temp==true then
     ProjectStateChunk=string.gsub(ProjectStateChunk, "<TRACK.-NAME silence.-%c%s%s>", "")
   end
   if start==0 and endit==0 then retval = ultraschall.SetProject_Selection(nil, 0, 0, 0, 0, ProjectStatechunk) end
-  return ProjectStateChunk
+  return ProjectStateChunk, QRenderFiles:sub(1,-2), QRenderProject
 end
 
 --A=ultraschall.GetProjectStateChunk()
 --reaper.MB(A:sub(-3500,-1),"",0)
 --reaper.CF_SetClipboard(A)
 
+--for i=0, 1 do
+--  A=ultraschall.GetProjectStateChunk()
+--  if A==nil then break end
+--end
 
 --ultraschall.RenderProject_RenderCFG(nil, nil, 1, 10, false, false, false, nil)
 
@@ -4867,7 +4862,8 @@ function ultraschall.Defer20(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc20)~="function" then 
+  ]] 
+  if type(func)~="function" and type(ultraschall.deferfunc20)~="function" then 
     ultraschall.AddErrorMessage("Defer20", "func", "must be a function", -1)
     return false 
   end
@@ -4937,7 +4933,293 @@ main()
 
 --P=main()
 
+function ultraschall.ResolveRenderPattern(renderpattern)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ResolveRenderPattern</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>string resolved_renderpattern = ultraschall.ResolveRenderPattern(string render_pattern)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    resolves a render-pattern into its render-filename(without extension).
 
+    returns nil in case of an error    
+  </description>
+  <parameters>
+    string render_pattern - the render-pattern, that you want to resolve into its render-filename
+  </parameters>
+  <retvals>
+    string resolved_renderpattern - the resolved renderpattern, that is used for a render-filename.
+                                  - just add extension and path to it.
+                                  - Stems will be rendered to path/resolved_renderpattern-XXX.ext
+                                  -    where XXX is a number between 001(usually for master-track) and 999
+  </retvals>
+  <chapter_context>
+    Rendering of Project
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>rendermanagement, resolve, renderpattern, filename</tags>
+</US_DocBloc>
+]]
+  if type(renderpattern)~="string" then ultraschall.AddErrorMessage("ResolveRenderPattern", "renderpattern", "must be a string", -1) return nil end
+  if renderpattern=="" then return "" end
+  local TempProject=ultraschall.Api_Path.."misc/tempproject.RPP"
+  local TempFolder=ultraschall.Api_Path.."misc/"
+  TempFolder=string.gsub(TempFolder, "\\", ultraschall.Separator)
+  TempFolder=string.gsub(TempFolder, "/", ultraschall.Separator)
+  
+  ultraschall.SetProject_RenderFilename(TempProject, "")
+  ultraschall.SetProject_RenderPattern(TempProject, renderpattern)
+  ultraschall.SetProject_RenderStems(TempProject, 0)
+  
+  reaper.Main_OnCommand(41929,0)
+  reaper.Main_openProject(TempProject)
+  
+  A,B=ultraschall.GetProjectStateChunk()
+  reaper.Main_SaveProject(0,false)
+  reaper.Main_OnCommand(40860,0)
+  if B==nil then B="" end
+  
+  count, split_string = ultraschall.SplitStringAtLineFeedToArray(B)
+
+  for i=1, count do
+    split_string[i]=split_string[i]:match("\"(.-)\"")
+  end
+  if split_string[1]==nil then split_string[1]="" end
+  return string.gsub(split_string[1], TempFolder, ""):match("(.-)%.")
+end
+
+--for i=1, 10 do
+--  O=ultraschall.ResolveRenderPattern("I would find a way $day")
+--end
+
+function ultraschall.GetTrackSelection_TrackStateChunk(TrackStateChunk)
+-- returns the trackname as a string
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTrackSelection_TrackStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer selection_state = ultraschall.GetTrackSelection_TrackStateChunk(string TrackStateChunk)</functioncall>
+  <description>
+    returns selection of the track.    
+    
+    It's the entry SEL.
+    
+    Works only with statechunks stored in ProjectStateChunks, due API-limitations!
+  </description>
+  <retvals>
+    integer selection_state - 0, track is unselected; 1, track is selected
+  </retvals>
+  <parameters>    
+    string TrackStateChunk - a TrackStateChunk whose selection-state you want to retrieve; works only with TrackStateChunks from ProjectStateChunks!
+  </parameters>
+  <chapter_context>
+    Track Management
+    Get Track States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>trackmanagement, selection, state, get, trackstatechunk</tags>
+</US_DocBloc>
+--]]
+
+  -- check parameters
+  if ultraschall.IsValidTrackStateChunk(TrackStateChunk)==false then ultraschall.AddErrorMessage("GetTrackSelection", "TrackStateChunk", "no valid TrackStateChunk", -1) return nil end
+  
+  -- get selection
+  local Track_Name=str:match(".-SEL (.-)%c.-REC")
+  return tonumber(Track_Name)
+end
+
+--A=ultraschall.GetProjectStateChunk()
+--B=ultraschall.GetProject_TrackStateChunk(nil, 1, false, A)
+
+
+--C=ultraschall.GetTrackSelection(-1,B)
+
+function ultraschall.SetTrackSelection_TrackStateChunk(selection_state, TrackStateChunk)
+-- returns the trackname as a string
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetTrackSelection_TrackStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>string alteredTrackStateChunk = ultraschall.SetTrackSelection_TrackStateChunk(integer selection_state, string TrackStateChunk)</functioncall>
+  <description>
+    set selection of the track in a TrackStateChunk.    
+    
+    It's the entry SEL.
+    
+    Works only with statechunks stored in ProjectStateChunks, due API-limitations!
+  </description>
+  <retvals>
+    string alteredTrackStateChunk - the altered TrackStateChunk with the new selection
+  </retvals>
+  <parameters>    
+    integer selection_state - 0, track is unselected; 1, track is selected
+    string TrackStateChunk - a TrackStateChunk whose selection-state you want to set; works only with TrackStateChunks from ProjectStateChunks!
+  </parameters>
+  <chapter_context>
+    Track Management
+    Get Track States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>trackmanagement, selection, state, get, trackstatechunk</tags>
+</US_DocBloc>
+--]]
+
+  -- check parameters
+  if ultraschall.IsValidTrackStateChunk(TrackStateChunk)==false then ultraschall.AddErrorMessage("GetTrackSelection", "TrackStateChunk", "no valid TrackStateChunk", -1) return nil end
+  if math.type(selection_state)~="integer" then ultraschall.AddErrorMessage("GetTrackSelection", "selection_state", "must be an integer", -2) return nil end
+  if selection_state<0 or selection_state>1 then ultraschall.AddErrorMessage("GetTrackSelection", "selection_state", "must be either 0 or 1", -3) return nil end
+  
+  -- set selection
+  local Start=TrackStateChunk:match(".-FREEMODE.-\n")
+  local End=TrackStateChunk:match("REC.*")
+  return Start.."    SEL "..selection_state.."\n    "..End
+end
+
+--A=ultraschall.GetProjectStateChunk()
+--B=ultraschall.GetProject_TrackStateChunk(nil, 1, false, A)
+
+--C=ultraschall.SetTrackSelection_TrackStateChunk(1, B)
+--print2(C)
+
+function ultraschall.GetIniFileValue(section, key, errval, inifile)
+-- returns the trackname as a string
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetIniFileValue</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer length_of_value, string value = ultraschall.GetIniFileValue(string section, string key, string errval, string inifile)</functioncall>
+  <description>
+    Gets a value from a key of an ini-file
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer length_of_value - the length of the value in bytes
+    string value - the value from the key-value-pair
+  </retvals>
+  <parameters>    
+    string section - the section, in which the key-value-pair is located
+    string key - the key whose value you want
+    string errval - an errorvalue, which will be shown, if key-value-store doesn't exist
+    string inifile - the ini-file, from which you want to retrieve the key-value-store
+  </parameters>
+  <chapter_context>
+    Configuration-Files Management
+    Ini-Files
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>inifilemanagement, get, key, value, section</tags>
+</US_DocBloc>
+--]]
+  if type(inifile)~="string" then ultraschall.AddErrorMessage("GetIniFileValue", "inifile", "must be a string", -1) return -1 end
+  if section==nil then ultraschall.AddErrorMessage("GetIniFileValue", "section", "must be a string", -2) return -1 end
+  if key==nil then ultraschall.AddErrorMessage("GetIniFileValue", "key", "must be a string", -3) return -1 end
+  if key==nil then ultraschall.AddErrorMessage("GetIniFileValue", "errval", "must be a string", -4) return -1 end
+  section=tostring(section)
+  key=tostring(key)
+
+  local A=ultraschall.ReadFullFile(inifile).."["
+  
+  local SectionArea=A:match(section.."%](.-)%[").."\n"
+  local KeyValue=SectionArea:match("\n"..key.."=(.-)\n")
+  if KeyValue==nil then KeyValue=errval end
+  return KeyValue:len(), KeyValue
+end
+
+
+
+--A=ultraschall.GetIniFileValue("section", "key", "LULATSCH", reaper.get_ini_file():match("(.-)REAPER.ini").."ultraschall.ini")
+
+
+function ultraschall.SetIniFileValue(section, key, value, inifile)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetIniFileValue</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SetIniFileValue(string section, string key, string value, string inifile)</functioncall>
+  <description>
+    Sets a value of a key in an ini-file
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - -1, in case of an error; 1, in case of success
+  </retvals>
+  <parameters>    
+    string section - the section, in which the key-value-pair is located
+    string key - the key whose value you want to change
+    string value - the new value for this key-value-pair
+    string inifile - the ini-file, in which you want to set the key-value-store
+  </parameters>
+  <chapter_context>
+    Configuration-Files Management
+    Ini-Files
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>inifilemanagement, set, key, value, section</tags>
+</US_DocBloc>
+--]]
+  if type(inifile)~="string" then ultraschall.AddErrorMessage("SetIniFileValue", "inifile", "must be a string", -1) return -1 end
+  if section==nil then ultraschall.AddErrorMessage("SetIniFileValue", "section", "must be a string", -2) return -1 end
+  if key==nil then ultraschall.AddErrorMessage("SetIniFileValue", "key", "must be a string", -3) return -1 end
+  if value==nil then ultraschall.AddErrorMessage("SetIniFileValue", "value", "must be a string", -4) return -1 end
+  section=tostring(section)
+  key=tostring(key)
+  value=tostring(value)
+  
+  local Start, Middle, Ende, A, Kombi, Offset
+  local A=ultraschall.ReadFullFile(inifile)
+  if A==nil then A="" end
+  if A:match("%["..section.."%]")~=nil then
+    A=A.."\n["
+    Start=A:match("(.*)%["..section)
+    Middle, Offset=A:match("(%["..section.."%].-)()%[")
+    Ende=A:sub(Offset,-2)
+    
+    if Middle:match(key)~=nil then
+      Middle=string.gsub(Middle, key.."=.-\n", key.."="..value.."\n")
+    else
+      Middle=Middle..key.."="..value.."\n\n"
+      Ende="\n"..Ende
+    end
+     
+  else
+    Start=A
+    Middle="\n"
+    Ende="["..section.."]\n"..key.."="..value.."\n"
+  end
+  Kombi=string.gsub(Start..Middle..Ende, "\n\n", "\n")
+  return ultraschall.WriteValueToFile(inifile, Kombi)
+end
+
+--A1=ultraschall.SetIniFileValue(file:match("(.-)REAPER.ini").."lula.ini", "ultrascshall_update", "D", "1")
 
 ultraschall.ShowLastErrorMessage()
 

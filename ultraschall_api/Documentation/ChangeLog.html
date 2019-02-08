@@ -105,6 +105,11 @@ Ultraschall API Changelog
 <li>GetScriptIdentifier - returns a unique identifier-string for the current script-instance, that can be used to send command/string to this scriptinstance</li>
 <li>Defer1 to Defer20 - run a customized defer-cycle, in which you can decide, how often it should be run. You can also stop such a defer-cycle from in/outside the script using StopDeferCycle. For that, Defer1 to Defer20 will return an identifier, which can be used to stop this specific defer-cycle. You should only use each DeferXX-cycle once in a script-instance, or the timing will become corrupt!</li>
 <li>StopDeferCycle - stops a Defer1 to Defer20-defer-instance from a script-instance</li>
+<li>ResolveRenderPattern - resolves the renderfilename of a specific render-pattern</li>
+<li>GetTrackSelection_TrackStateChunk - gets, if a track in a StateChunk is selected; works only with TrackStateChunks from ProjectStateChunks</li>
+<li>SetTrackSelection_TrackStateChunk - sets a track in a StateChunk selected; works only with TrackStateChunks from ProjectStateChunks</li>
+<li>GetIniFileValue - gets an ini-value from an ini-file; unlike SWS’s own functions for that, this has no problems with Umlauts in the path</li>
+<li>SetIniFileValue - sets an ini-value into an ini-file; unlike SWS’s own functions for that, this has no problems with Umlauts in the path</li>
 </ul>
 <h4 id="changes-from-4.00beta2.7-to-4.00beta2.75">Changes from 4.00beta2.7 to 4.00beta2.75</h4>
 <ul>
@@ -147,6 +152,20 @@ This prevents duplicate execution of functions, when coding within the beta-func
 <li>GetAllFilesnamesInPath renamed to GetAllFilenamesInPath - stupid typo in functionname…sorry for any inconveniences<br />
 </li>
 <li>MoveMarkersBy - did move regions as well, though I claimed the opposite..oops -&gt; fixed</li>
+<li>SetUSExternalState - using now the SetIniFileValue-function for setting the ini-file-value</li>
+<li>SetIniFileExternalState - using now the SetIniFileValue-function for setting the ini-file-value</li>
+<li>SetReaperWindowToSize - using now the SetIniFileValue-function for setting the ini-file-value</li>
+<li>SetStartNewFileRecSizeState - using now the SetIniFileValue-function for setting the ini-file-value</li>
+<li>SetPlayCursorWidth - using now the SetIniFileValue-function for setting the ini-file-value</li>
+<li>SetReaperWorkDir - using now the SetIniFileValue-function for setting the ini-file-value</li>
+<li>GetUSExternalState - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>GetIniFileExternalState - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>GetMarkerByTime - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>GetRegionByTime - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>GetTimeSignaturesByTime - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>GetReaperWindowPosition_Left - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>GetReaperWindowPosition_Right - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>GetReaperWorkDir - using now the SetIniFileValue-function for getting the ini-file-value</li>
 </ul>
 <h3 id="beta-2.7---frank-zappa---the-return-of-the-son-of-monster-magnet---15th-of-december-2018">4.00 Beta 2.7: - “Frank Zappa - The Return of the Son of Monster Magnet” - 15th of December 2018</h3>
 <p>Has now 700 functions, with about 250 new ones!</p>
