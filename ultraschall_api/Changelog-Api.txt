@@ -3,8 +3,12 @@
 
 ### 4.00 Beta 2.75: - "Blue Oyster Cult - Don't fear the Reaper" - 15th of March 2019
 
-#### New features in 4.00beta2.75
+    - *Defer-functions*, that allow setting, how often a specific defer-loop shall be executed, every n'th cycle/second. They also
+    allow being terminated from inside and outside the current script.
+    
+    - *ChildScripts*, that allow you to run scripts as multiple script-instances, pass parameters and returnvalues to and from them
 
+#### New features in 4.00beta2.75
   - SplitStringAtNULLBytes - splits a string at NULL-bytes ( \0 )
   - new background-script - ultraschall_track_old_playstate.lua - stores old playstate into extstate ultraschall->last_playstate
   - GetLastPlayState - returns the last playstate before the current one
@@ -33,8 +37,14 @@
   - NewUltraschallConceptsDocConverter_GUI.lua - added
   - NewUltraschallConceptsDocConverter_VID.lua - added
   - IsValidHWND - checks, if a HWND is a valid one
-  - Main_OnCommandByFilename - runs a command by its filename instead of the ActionCommandID/command-id
-  - MIDI_OnCommandByFilename - runs a command in the MIDI-Editor context by its filename instead of the ActionCommandID/command-id
+  - Main_OnCommandByFilename - runs a command by its filename instead of the ActionCommandID/command-id; 
+                                returns a unique script-identifier for the started script-instance, that you can use as
+                                extstate to communicate with that script;
+                                allows passing of parameters to the started script!
+  - MIDI_OnCommandByFilename - runs a command in the MIDI-Editor context by its filename instead of the ActionCommandID/command-id;
+                                returns a unique script-identifier for the started script-instance, that you can use as
+                                extstate to communicate with that script
+                                allows passing of parameters to the started script!
   - BrowseForOpenFiles - utilizes JS_Dialog_BrowseForOpenFiles-function, but returns the files and paths in a more comfortable way
   - Base64_Encoder - encodes a string into a Base64-encoded string
   - CreateTemporaryFileOfProjectfile - creates a valid temporary-copy of an rpp-projectfile; use nil for the currently opened one(must be saved first)
@@ -72,8 +82,14 @@
   - ResolveRenderPattern - resolves the renderfilename of a specific render-pattern
   - GetTrackSelection_TrackStateChunk - gets, if a track in a StateChunk is selected; works only with TrackStateChunks from ProjectStateChunks
   - SetTrackSelection_TrackStateChunk - sets a track in a StateChunk selected; works only with TrackStateChunks from ProjectStateChunks
-  - GetIniFileValue - gets an ini-value from an ini-file; unlike SWS's own functions for that, this has no problems with Umlauts in the path
-  - SetIniFileValue - sets an ini-value into an ini-file; unlike SWS's own functions for that, this has no problems with Umlauts in the path
+  - GetIniFileValue - gets an ini-value from an ini-file; unlike SWS's own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path
+  - SetIniFileValue - sets an ini-value into an ini-file; unlike SWS's own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path
+  - SetLoopState - sets the current loop-state(button)
+  - GetLoopState - gets the current state of loop
+  - SetScriptParameters - sets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename
+  - GetScriptParameters - gets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename
+  - GetScriptReturnvalues - gets returnvalues, that a script-instance with a specific scriptidentifier sent to the current script
+  - SetScriptReturnvalues - sends returnvalues to a script-instance with a specific scriptidentifier
   
 #### Changes from 4.00beta2.7 to 4.00beta2.75
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -192,7 +208,8 @@
       TODO!! convertstringtointegers and convertintegerstostring(rework of ConvertIntegerIntoString)
       TODO!! ultraschall.MakeDir(path) - unbelievable, that this doesn't exist in Lua already...
                                          needs probably console for that...
-      TODO!! Docs: Reaper-Api-docs: Markdown isn't converted in Introduction-chapters and UTF-problem.
+      TODO!! Docs: - Reaper-Api-docs: Markdown isn't converted in Introduction-chapters and UTF-problem.
+                   - plugin_register - markdown-format fucked up with useless italics
       TODO!! still missing in the Reaper-docs:
             JS_ListView_GetFocusedItem
             JS_ListView_GetItem

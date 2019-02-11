@@ -44,6 +44,20 @@ if type(ultraschall)~="table" then
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 end
 
+-- Let's create a unique script-identifier
+ultraschall.dump=ultraschall.tempfilename:match("%-%{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}")
+if ultraschall.dump==nil then 
+  ultraschall.dump, ultraschall.dump2 = ultraschall.tempfilename:match("(.-)(%..*)")
+  if ultraschall.dump2==nil then ultraschall.dump2="" ultraschall.dump=ultraschall.tempfilename end
+  ultraschall.ScriptIdentifier="ScriptIdentifier:"..ultraschall.dump..ultraschall.dump2
+  
+  ultraschall.ScriptIdentifier="ScriptIdentifier:"..ultraschall.dump.."-"..reaper.genGuid("")..ultraschall.dump2
+else  
+  ultraschall.ScriptIdentifier="ScriptIdentifier:"..ultraschall.tempfilename
+end
+  ultraschall.ScriptIdentifier=string.gsub(ultraschall.ScriptIdentifier, "\\", "/")
+  
+
 function ultraschall.AddErrorMessage(functionname, parametername, errormessage, errorcode)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -212,7 +226,8 @@ end
 --ultraschall.RunBackgroundHelperFeatures()
 --A=ultraschall.GetLastPlayState()
 
-function ultraschall.Main_OnCommandByFilename(filename)
+
+function ultraschall.Main_OnCommandByFilename(filename, ...)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Main_OnCommandByFilename</slug>
@@ -221,43 +236,71 @@ function ultraschall.Main_OnCommandByFilename(filename)
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.Main_OnCommandByFilename(string filename)</functioncall>
+  <functioncall>boolean retval, string script_identifier = ultraschall.Main_OnCommandByFilename(string filename, string ...)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Runs a command by a filename. It internally registers the file temporarily as command, runs it and unregisters it again.
     This is especially helpful, when you want to run a command for sure without possible command-id-number-problems.
+    
+    It returns a unique script-identifier for this script, which can be used to communicate with this script-instance.
+    The started script gets its script-identifier using [GetScriptIdentifier](#GetScriptIdentifier).
+    You can use this script-identifier e.g. as extstate.
     
     Returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, if running it was successful; false, if not
+    string script_identifier - a unique script-identifier, which can be used as extstate to communicate with the started scriptinstance
   </retvals>
   <parameters>
-    string filename - the name of the scriptfile to run
+    string filename - the name and of the scriptfile to run
+    ... - parameters that shall be passed over to the script
   </parameters>
   <chapter_context>
     API-Helper functions
+    Child Scripts
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, run command, filename</tags>
+  <tags>helper functions, run command, filename, scriptidentifier, scriptparameters</tags>
 </US_DocBloc>
 ]]
+  -- check parameters
   if type(filename)~="string" then ultraschall.AddErrorMessage("Main_OnCommandByFilename", "filename", "Must be a string.", -1) return false end
   if reaper.file_exists(filename)==false then ultraschall.AddErrorMessage("Main_OnCommandByFilename", "filename", "File does not exist.", -2) return false end
-  
-  local commandid=reaper.AddRemoveReaScript(true, 0, filename, true)
+ 
+  -- create temporary copy of the scriptfile, with a guid in its name
+  local filename2=filename:match("(.*)%.")
+  if filename2==nil then filename2=filename.."-"..reaper.genGuid() else filename2=filename2.."-"..reaper.genGuid()..filename:match("(%..*)") end
+  ultraschall.MakeCopyOfFile(filename, filename2)
+
+  -- register, run and unregister the temporary scriptfile  
+  local commandid=reaper.AddRemoveReaScript(true, 0, filename2, true)
   if commandid==0 then ultraschall.AddErrorMessage("Main_OnCommandByFilename", "filename", "Couldn't register filename. Is it a valid ReaScript?.", -3) return false end
+  ultraschall.SetScriptParameters(string.gsub("ScriptIdentifier:"..filename2, "\\", "/"), ...)
   reaper.Main_OnCommand(commandid, 0)
-  local commandid2=reaper.AddRemoveReaScript(false, 0, filename, true)
-  return true
+  local commandid2=reaper.AddRemoveReaScript(false, 0, filename2, true)
+  
+  -- delete the temporary scriptfile
+  os.remove(filename2)
+  
+  -- return true and the script-identifier of the started script
+  return true, string.gsub("ScriptIdentifier:"..filename2, "\\", "/")
 end
+
+--reaper.MB("Hui: "..tostring(ultraschall.tempfilename:match("%-")),ultraschall.tempfilename:sub(50,-1),0) -- %-%{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}")),"",0)
+--if ultraschall.tempfilename:match("%-%{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}")~=nil then reaper.MB("","zusido",0) else reaper.MB("Oh", "",0) end
+--ultraschall.ScriptIdentifier="HULA"
+
+--reaper.MB(ultraschall.ScriptIdentifier,"",0)
 
 --A=ultraschall.GetReaperScriptPath().."/testscript_that_displays_stuff.lua"
 --A=ultraschall.GetReaperScriptPath().."/us.png"
---ultraschall.Main_OnCommandByFilename(A)
+--B,C=ultraschall.Main_OnCommandByFilename(A)
+--reaper.CF_SetClipboard(C.." "..ultraschall.ScriptIdentifier)
 
 
-function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND)
+
+function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND, ...)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MIDI_OnCommandByFilename</slug>
@@ -267,55 +310,268 @@ function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND)
     JS=0.962
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.MIDI_OnCommandByFilename(string filename, optional HWND Midi_EditorHWND)</functioncall>
+  <functioncall>boolean retval, string script_identifier = ultraschall.MIDI_OnCommandByFilename(string filename, optional HWND Midi_EditorHWND, string ...)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Runs a command by a filename in the MIDI-editor-context. It internally registers the file temporarily as command, runs it and unregisters it again.
     This is especially helpful, when you want to run a command for sure without possible command-id-number-problems.
+    
+    It returns a unique script-identifier for this script, which can be used to communicate with this script-instance.
+    The started script gets its script-identifier using [GetScriptIdentifier](#GetScriptIdentifier).
+    You can use this script-identifier e.g. as extstate.
     
     Returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, if running it was successful; false, if not
+    string script_identifier - a unique script-identifier, which can be used as extstate to communicate with the started scriptinstance
   </retvals>
   <parameters>
     HWND Midi_EditorHWND - the window-handler of the MIDI-editor, in which to run the script; nil, for the last active MIDI-editor
     string filename - the name of the scriptfile to run
+    string ... - parameters, that shall be passed over to the script
   </parameters>
   <chapter_context>
     API-Helper functions
+    Child Scripts
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, run command, filename, midi, midieditor</tags>
+  <tags>helper functions, run command, filename, midi, midieditor, scriptidentifier, scriptparameters</tags>
 </US_DocBloc>
 ]]
+  -- check parameters and MIDI-Editor
   if type(filename)~="string" then ultraschall.AddErrorMessage("MIDI_OnCommandByFilename", "filename", "Must be a string.", -1) return false end
   if reaper.file_exists(filename)==false then ultraschall.AddErrorMessage("MIDI_OnCommandByFilename", "filename", "File does not exist.", -2) return false end
   if MIDIEditor_HWND~=nil then
     if pcall(reaper.JS_Window_GetTitle, MIDIEditor_HWND, "")==false then ultraschall.AddErrorMessage("MIDI_OnCommandByFilename", "MIDIEditor_HWND", "Not a valid HWND.", -3) return false end
-    if reaper.JS_Window_GetTitle(MIDIEditor_HWND, ""):match("MIDI")==nil then ultraschall.AddErrorMessage("MIDI_OnCommandByFilename", "MIDIEditor_HWND", "Not a valid MIDI-Editor-HWND.", -4) return false end
-  end
+    if pcall(reaper.JS_Window_GetTitle(MIDIEditor_HWND, ""):match("MIDI"))==false then ultraschall.AddErrorMessage("MIDI_OnCommandByFilename", "MIDIEditor_HWND", "Not a valid MIDI-Editor-HWND.", -4) return false end
+  end  
+
+  -- create temporary scriptcopy with a guid in its filename
+  local filename2=filename:match("(.*)%.")
+  if filename2==nil then filename2=filename.."-"..reaper.genGuid() else filename2=filename2.."-"..reaper.genGuid()..filename:match("(%..*)") end
+  ultraschall.MakeCopyOfFile(filename, filename2)
   
-  local commandid =reaper.AddRemoveReaScript(true, 32060, filename, true)
-  local commandid2=reaper.AddRemoveReaScript(true, 32061, filename, true)
-  local commandid3=reaper.AddRemoveReaScript(true, 32062, filename, true)
+  -- register and run the temporary-scriptfile
+  local commandid =reaper.AddRemoveReaScript(true, 32060, filename2, true)
+  local commandid2=reaper.AddRemoveReaScript(true, 32061, filename2, true)
+  local commandid3=reaper.AddRemoveReaScript(true, 32062, filename2, true)
   if commandid==0 then ultraschall.AddErrorMessage("MIDI_OnCommandByFilename", "filename", "Couldn't register filename. Is it a valid ReaScript?.", -5) return false end
   if MIDIEditor_HWND==nil then 
+    ultraschall.SetScriptParameters(string.gsub("ScriptIdentifier:"..filename2, "\\", "/"), ...)
     local A2=reaper.MIDIEditor_LastFocused_OnCommand(commandid, true)
     if A2==false then A2=reaper.MIDIEditor_LastFocused_OnCommand(commandid, false) end
-    if A2==false then ultraschall.AddErrorMessage("MIDI_OnCommandByFilename", "MIDIEditor_HWND", "No last focused MIDI-Editor open.", -6) return false end
+    if A2==false then 
+      ultraschall.AddErrorMessage("MIDI_OnCommandByFilename", "MIDIEditor_HWND", "No last focused MIDI-Editor open.", -6) 
+      ultraschall.GetScriptParameters(string.gsub("ScriptIdentifier:"..filename2, "\\", "/"), true)
+      return false 
+    end
   end
   local L=reaper.MIDIEditor_OnCommand(MIDIEditor_HWND, commandid)
-  local commandid_2=reaper.AddRemoveReaScript(false, 32060, filename, true)
-  local commandid_3=reaper.AddRemoveReaScript(false, 32061, filename, true)
-  local commandid_4=reaper.AddRemoveReaScript(false, 32062, filename, true)
-  return true
+  
+  -- unregister the temporary-scriptfile
+  local commandid_2=reaper.AddRemoveReaScript(false, 32060, filename2, true)
+  local commandid_3=reaper.AddRemoveReaScript(false, 32061, filename2, true)
+  local commandid_4=reaper.AddRemoveReaScript(false, 32062, filename2, true)
+  
+  -- delete the temporary scriptfile and return true and the script-identifier for the started script
+  os.remove(filename2)
+  return true, string.gsub("ScriptIdentifier:"..filename2, "\\", "/")
 end
 
 --A=ultraschall.GetReaperScriptPath().."/testscript_that_displays_stuff.lua"
 --AAA=ultraschall.MIDI_OnCommandByFilename(reaper.MIDIEditor_GetActive(), A)
 --AAA=ultraschall.MIDI_OnCommandByFilename(A, reaper.MIDIEditor_GetActive())
---AAA=ultraschall.MIDI_OnCommandByFilename(reaper.GetMainHwnd(), A)
+--reaper.MB("","",0)
+--AAA2,AAA3=ultraschall.MIDI_OnCommandByFilename(A, reaper.MIDIEditor_GetActive())
+--reaper.ShowConsoleMsg(AAA3.." - outside\n")
+
+function ultraschall.GetScriptParameters(script_identifier, remove)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetScriptParameters</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer num_params, array params = ultraschall.GetScriptParameters(string script_identifier, optional boolean remove)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the parameters stored for a specific script_identifier.
+  </description>
+  <retvals>
+    integer num_params - the number of parameters available
+    array params - the values of the parameters as an array
+    string caller_script_identifier - the scriptidentifier of the script, that set the parameters
+  </retvals>
+  <parameters>
+    string script_identifier - the script-identifier, whose parameters you want to retrieve; 
+                             - use nil, to get the parameters stored for the current script
+    optional boolean remove - true, remove the stored parameter-extstates; false, keep them for later retrieval
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Child Scripts
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, get, script, parameters, scriptidentifier</tags>
+</US_DocBloc>
+]]
+  if script_identifier==nil or type(script_identifier)~="string" then script_identifier=ultraschall.ScriptIdentifier end
+  local counter=1
+  local parms={}
+  while reaper.GetExtState(script_identifier, "parm_"..counter)~="" do
+    parms[counter]=reaper.GetExtState(script_identifier, "parm_"..counter)
+    if remove==true then
+      reaper.DeleteExtState(script_identifier, "parm_"..counter, false)
+    end
+    counter=counter+1
+  end
+  local caller_script=reaper.GetExtState(script_identifier, "parm_0")
+  if remove==true then reaper.DeleteExtState(script_identifier, "parm_0", false) end
+  return counter-1, parms, caller_script
+end
+
+
+function ultraschall.SetScriptParameters(script_identifier, ...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetScriptParameters</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string script_identifier = ultraschall.SetScriptParameters(string script_identifier, string ...)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the parameters stored for a specific script_identifier.
+  </description>
+  <retvals>
+    boolean retval - true, storing was successful
+    string script_identifier - the script_identifier, whose parameters have been set
+  </retvals>
+  <parameters>
+    string script_identifier - the script-identifier, whose parameters you want to retrieve; 
+                             - use nil, to set the parameters stored for the current script
+    string ... - the parameters you want to set; there can be more than one, but they must be strings
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Child Scripts
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, get, script, parameters, scriptidentifier</tags>
+</US_DocBloc>
+]]
+  if script_identifier==nil or type(script_identifier)~="string" then script_identifier=ultraschall.ScriptIdentifier end
+  local parms={...}
+  local counter=1
+  reaper.SetExtState(script_identifier, "parm_0", ultraschall.ScriptIdentifier, false)
+  while parms[counter]~=nil do
+    reaper.SetExtState(script_identifier, "parm_"..counter, tostring(parms[counter]), false)
+    counter=counter+1
+  end
+  return true, script_identifier
+end
+
+--C=ultraschall.SetScriptParameters(script_identifier, 1,2,3,4,5,6,5,4,3,2,1)
+
+--A,B=ultraschall.GetScriptParameters(script_identifier, true)
+
+
+function ultraschall.GetScriptReturnvalues(script_identifier, remove)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetScriptReturnvalues</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer num_params, array retvals = ultraschall.GetScriptReturnvalues(string script_identifier, optional boolean remove)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the return-values stored by a specific script_identifier for the current script.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer num_retvals - the number of return-values available
+    array params - the values of the return-values as an array
+    string caller_script_identifier - the scriptidentifier of the script, that set the return-values
+  </retvals>
+  <parameters>
+    string script_identifier - the script-identifier, whose return-values you want to retrieve; 
+    optional boolean remove - true, remove the stored retval-extstates; false, keep them for later retrieval
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Child Scripts
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, get, script, returnvalues, scriptidentifier</tags>
+</US_DocBloc>
+]]
+  if type(script_identifier)~="string" then ultraschall.AddErrorMessage("GetScriptReturnvalues", "must be a string", -1) return -1 end
+  local counter=1
+  local retvals={}
+  while reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter)~="" do
+    retvals[counter]=reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter)
+    if remove==true then
+      reaper.DeleteExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter, false)
+    end
+    counter=counter+1
+  end
+  return counter-1, retvals
+end
+
+
+function ultraschall.SetScriptReturnvalues(script_identifier, ...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetScriptReturnvalues</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string script_identifier = ultraschall.SetScriptReturnvalues(string script_identifier, string ...)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Send return-values back to the script, that has a specific script_identifier.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, storing was successful; false, there was an error
+    string script_identifier - the script_identifier of the script-instance, to where you've send the returnvalues
+  </retvals>
+  <parameters>
+    string script_identifier - the script-identifier of the script-instance, to where you want to send the returnvalues 
+    string ... - the returnvalues you want to set; there can be more than one, but they must be strings
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Child Scripts
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, get, script, returnvalues, scriptidentifier</tags>
+</US_DocBloc>
+]]
+  if type(script_identifier)~="string" then ultraschall.AddErrorMessage("SetScriptReturnvalues", "must be a string", -1) return false end
+  local retvals={...}
+  local counter=1
+  while retvals[counter]~=nil do
+    reaper.SetExtState(script_identifier, ultraschall.ScriptIdentifier.."_retval_"..counter, tostring(retvals[counter]), false)
+    counter=counter+1
+  end
+  return true
+end
+
+--ultraschall.SetScriptReturnvalues("Empfänger", 9,222,3,4,5,6,7,8,9,10)
+--A,B,C,D,E=ultraschall.GetScriptReturnvalues("Empfänger", true)
 
 function ultraschall.IsValidHWND(HWND)
 --[[
@@ -3089,10 +3345,8 @@ end
 
 --O,O2=ultraschall.GetSetIntConfigVar("mixeruiflag", true, true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true, true,true,true,true,true,true,true,true,true,true)
 
+--reaper.CF_SetClipboard(reaper.genGuid())
 
-
-ultraschall.ScriptIdentifier="ScriptIdentifier:"..ultraschall.ScriptFileName.."-"..reaper.genGuid("")
---ultraschall.ScriptIdentifier="HULA"
 
 function ultraschall.GetScriptIdentifier()
   --[[
@@ -5221,5 +5475,192 @@ end
 
 --A1=ultraschall.SetIniFileValue(file:match("(.-)REAPER.ini").."lula.ini", "ultrascshall_update", "D", "1")
 
-ultraschall.ShowLastErrorMessage()
+function ultraschall.GetLoopState()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLoopState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetLoopState()</functioncall>
+  <description>
+    Returns the current loop-state
+  </description>
+  <retvals>
+    integer retval - 0, loop is on; 1, loop is off
+  </retvals>
+  <chapter_context>
+    Navigation
+    Transport
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>transportmanagement, get, loop</tags>
+</US_DocBloc>
+--]]
+  return reaper.GetToggleCommandState(1068)
+end
 
+--A=ultraschall.GetLoopState()
+
+function ultraschall.SetLoopState(state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetLoopState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetLoopState(integer state)</functioncall>
+  <description>
+    Sets the current loop-state
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if setting was successful; false, if setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer state - 0, loop is on; 1, loop is off
+  </parameters>
+  <chapter_context>
+    Navigation
+    Transport
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>transportmanagement, set, loop</tags>
+</US_DocBloc>
+--]]
+  if math.type(state)~="integer" then ultraschall.AddErrorMessage("SetLoopState", "state", "must be an integer", -1) return false end
+  if state~=0 and state~=1 then ultraschall.AddErrorMessage("SetLoopState", "state", "must be 1(on) or 0(off)", -2) return false end
+  if ultraschall.GetLoopState()~=state then
+    reaper.Main_OnCommand(1068, 0)
+  end
+  return true
+end
+
+--A=ultraschall.SetLoopState(0)
+
+
+
+--Event Manager
+function ultraschall.ResetEvent(Event_Section)
+  if Event_Section==nil and Ultraschall_Event_Section~=nil then 
+    Event_Section=Ultraschall_Event_Section 
+  end
+  if type(Event_Section)~="string" then ultraschall.AddErrorMessage("ResetEvent", "Event_Section", "must be a string", -1) return false end
+  local A=reaper.GetExtState(Event_Section, "NumEvents")
+  if A~="" then 
+    for i=1, A do
+      reaper.DeleteExtState(Event_Section, "Event"..i, false)
+    end
+  end
+  reaper.DeleteExtState(Event_Section, "NumEvents", false)
+  reaper.DeleteExtState(Event_Section, "Old", false)
+  reaper.DeleteExtState(Event_Section, "New", false)
+  reaper.DeleteExtState(Event_Section, "ScriptIdentifier", false)
+end
+
+
+function ultraschall.RegisterEvent(Event_Section, Event)
+  if type(Event_Section)~="string" then ultraschall.AddErrorMessage("RegisterEvent", "Event_Section", "must be a string", -1) return false end
+  if type(Event)~="string" then ultraschall.AddErrorMessage("RegisterEvent", "Event", "must be a string", -2) return false end
+  local A=reaper.GetExtState(Event_Section, "NumEvents")
+  if A=="" then A=0 else A=tonumber(A) end
+  reaper.SetExtState(Event_Section, "ScriptIdentifier", ultraschall.ScriptIdentifier, false)
+  reaper.SetExtState(Event_Section, "NumEvents", A+1, false)
+  reaper.SetExtState(Event_Section, "Event"..A+1, Event, false)
+end
+
+function ultraschall.SetEventState(Event_Section, OldEvent, NewEvent)
+  if type(Event_Section)~="string" then ultraschall.AddErrorMessage("RegisterEvent", "Event_Section", "must be a string", -1) return false end
+  OldEvent=tostring(OldEvent)
+  NewEvent=tostring(NewEvent)
+  reaper.SetExtState(Event_Section, "Old", OldEvent, false)
+  reaper.SetExtState(Event_Section, "New", NewEvent, false)
+  reaper.SetExtState(Event_Section, "ScriptIdentifier", ultraschall.ScriptIdentifier, false)
+end
+
+function ultraschall.RegisterEventAction(eventconditions, action)
+  -- eventconditions is an array of the following structure
+  -- eventconditions[idx][1] - oldstate
+  -- eventconditions[idx][2] - newstate
+  -- eventconditions[idx][3] - comparison 
+  --                                fixed events: ! for not and = for equal
+  --                                unfixed events(numbers): < = >
+  -- if all these conditions are met, the eventmanager will run the action, otherwise it does nothing
+end
+
+function ultraschall.GetAllAvailableEvents()
+  return ultraschall.SplitStringAtLineFeedToArray(reaper.GetExtState("ultraschall_event_manager", "allevents"))
+end
+
+--A,B=ultraschall.GetAllAvailableEvents()
+
+function ultraschall.GetAllEventStates()
+  local count, array = ultraschall.SplitStringAtLineFeedToArray(reaper.GetExtState("ultraschall_event_manager", "eventstates"))
+  if array[1]~="" then
+    return reaper.GetExtState("ultraschall_event_manager", "event"), count, array
+  else
+    return "", 0, {}
+  end
+end
+
+--A,B,C=ultraschall.GetAllEventStates()
+
+function ultraschall.SetAlterableEvent(Event)
+  if type(Event)~="string" then ultraschall.AddErrorMessage("SetAlterableEvent", "Event", "must be a string", -1) return end
+  reaper.SetExtState("ultraschall_event_manager", "event", Event, false)
+end
+
+--ultraschall.SetAlterableEvent("LoopState")
+
+function ultraschall.SetEvent(command)
+  if type(command)~="string" then ultraschall.AddErrorMessage("SetEvent", "command", "must be a string", -1) return end
+  reaper.SetExtState("ultraschall_event_manager", "do_command", command, false)
+end
+
+--ultraschall.SetEvent("start")
+
+function ultraschall.UpdateEventList()
+  reaper.SetExtState("ultraschall_event_manager", "do_command", "update", false)
+end
+
+--ultraschall.UpdateEventList()
+
+function ultraschall.GetCurrentEventTransition()
+  local event=reaper.GetExtState("ultraschall_event_manager", "event")
+  return event, reaper.GetExtState(event, "Old"), reaper.GetExtState(event, "New")
+end
+
+--A,B,C=ultraschall.GetCurrentEventTransition()
+
+
+function ultraschall.StartAllEventListeners()
+  reaper.SetExtState("ultraschall_event_manager", "do_command", "startall", false)
+end
+
+--A,B,C=ultraschall.StartAllEventListeners()
+
+function ultraschall.StopAllEventListeners()
+  reaper.SetExtState("ultraschall_event_manager", "do_command", "stopall", false)
+end
+
+--A,B,C=ultraschall.StopAllEventListeners()
+
+function ultraschall.StopEventManager()
+  reaper.SetExtState("ultraschall_event_manager", "do_command", "stop_eventlistener", false)
+end
+
+function ultraschall.StartEventManager()
+  ultraschall.Main_OnCommandByFilename(ultraschall.Api_Path.."/Scripts/ultraschall_EventManager.lua")
+end
+
+--ultraschall.StartEventManager()
+--A,B,C=ultraschall.StartAllEventListeners()
+
+ultraschall.ShowLastErrorMessage()

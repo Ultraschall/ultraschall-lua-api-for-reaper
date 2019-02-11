@@ -41,6 +41,10 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2 id="ultraschall-framework---changelog">Ultraschall Framework - Changelog</h2>
 <h3 id="beta-2.75---blue-oyster-cult---dont-fear-the-reaper---15th-of-march-2019">4.00 Beta 2.75: - “Blue Oyster Cult - Don’t fear the Reaper” - 15th of March 2019</h3>
+<pre><code>- *Defer-functions*, that allow setting, how often a specific defer-loop shall be executed, every n&#39;th cycle/second. They also
+allow being terminated from inside and outside the current script.
+
+- *ChildScripts*, that allow you to run scripts as multiple script-instances, pass parameters and returnvalues to and from them</code></pre>
 <h4 id="new-features-in-4.00beta2.75">New features in 4.00beta2.75</h4>
 <ul>
 <li>SplitStringAtNULLBytes - splits a string at NULL-bytes ( \0 )</li>
@@ -71,8 +75,8 @@ Ultraschall API Changelog
 <li>NewUltraschallConceptsDocConverter_GUI.lua - added</li>
 <li>NewUltraschallConceptsDocConverter_VID.lua - added</li>
 <li>IsValidHWND - checks, if a HWND is a valid one</li>
-<li>Main_OnCommandByFilename - runs a command by its filename instead of the ActionCommandID/command-id</li>
-<li>MIDI_OnCommandByFilename - runs a command in the MIDI-Editor context by its filename instead of the ActionCommandID/command-id</li>
+<li>Main_OnCommandByFilename - runs a command by its filename instead of the ActionCommandID/command-id; returns a unique script-identifier for the started script-instance, that you can use as extstate to communicate with that script; allows passing of parameters to the started script!</li>
+<li>MIDI_OnCommandByFilename - runs a command in the MIDI-Editor context by its filename instead of the ActionCommandID/command-id; returns a unique script-identifier for the started script-instance, that you can use as extstate to communicate with that script allows passing of parameters to the started script!</li>
 <li>BrowseForOpenFiles - utilizes JS_Dialog_BrowseForOpenFiles-function, but returns the files and paths in a more comfortable way</li>
 <li>Base64_Encoder - encodes a string into a Base64-encoded string</li>
 <li>CreateTemporaryFileOfProjectfile - creates a valid temporary-copy of an rpp-projectfile; use nil for the currently opened one(must be saved first)</li>
@@ -108,8 +112,14 @@ Ultraschall API Changelog
 <li>ResolveRenderPattern - resolves the renderfilename of a specific render-pattern</li>
 <li>GetTrackSelection_TrackStateChunk - gets, if a track in a StateChunk is selected; works only with TrackStateChunks from ProjectStateChunks</li>
 <li>SetTrackSelection_TrackStateChunk - sets a track in a StateChunk selected; works only with TrackStateChunks from ProjectStateChunks</li>
-<li>GetIniFileValue - gets an ini-value from an ini-file; unlike SWS’s own functions for that, this has no problems with Umlauts in the path</li>
-<li>SetIniFileValue - sets an ini-value into an ini-file; unlike SWS’s own functions for that, this has no problems with Umlauts in the path</li>
+<li>GetIniFileValue - gets an ini-value from an ini-file; unlike SWS’s own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path</li>
+<li>SetIniFileValue - sets an ini-value into an ini-file; unlike SWS’s own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path</li>
+<li>SetLoopState - sets the current loop-state(button)</li>
+<li>GetLoopState - gets the current state of loop</li>
+<li>SetScriptParameters - sets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename</li>
+<li>GetScriptParameters - gets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename</li>
+<li>GetScriptReturnvalues - gets returnvalues, that a script-instance with a specific scriptidentifier sent to the current script</li>
+<li>SetScriptReturnvalues - sends returnvalues to a script-instance with a specific scriptidentifier</li>
 </ul>
 <h4 id="changes-from-4.00beta2.7-to-4.00beta2.75">Changes from 4.00beta2.7 to 4.00beta2.75</h4>
 <ul>
