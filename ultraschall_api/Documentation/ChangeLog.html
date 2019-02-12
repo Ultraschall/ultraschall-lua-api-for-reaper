@@ -87,7 +87,7 @@ allow being terminated from inside and outside the current script.
 <li>CountUltraschallEffectPlugins - counts number of instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and Ultraschall_Dynamics-plugins in a track. Also returns a table with all bypass/offline-states</li>
 <li>GetReaperWindowAttributes - returns several attributes of the Reaper-window, like size/position, active-state, childwindows, etc</li>
 <li>GetTopmostHWND - returns the topmost hwnd(window-handler) of a child-hwnd; returns also all the parent-hwnds</li>
-<li>print - replacement for Lua’s own print-function, which is quite useless in Reaper; displays the printed parameters in the ReaScript-console</li>
+<li>print - replacement for Lua’s own print-function(which is quite useless in Reaper); displays the printed parameters in the ReaScript-console</li>
 <li>print2 - like print, but displays the parameters as a messagebox instead</li>
 <li>ConvertIntegerToBits - converts an integer-value into its individual bitvalues</li>
 <li>ReverseEndianess_Byte - changes endianess of a byte-value</li>
@@ -121,6 +121,8 @@ allow being terminated from inside and outside the current script.
 <li>GetScriptReturnvalues - gets returnvalues, that a script-instance with a specific scriptidentifier sent to the current script</li>
 <li>SetScriptReturnvalues - sends returnvalues to a script-instance with a specific scriptidentifier</li>
 <li>GetLastLoopState - gets the last loop-state, needs RunBackgroundHelperFeatures to be run first</li>
+<li>GetVerticalScroll - gets the current vertical-scroll-factor of the arrangeview</li>
+<li>SetVerticalScroll - sets a new vertical-scroll-factor of the arrangeview</li>
 </ul>
 <h4 id="changes-from-4.00beta2.7-to-4.00beta2.75">Changes from 4.00beta2.7 to 4.00beta2.75</h4>
 <ul>
@@ -178,6 +180,10 @@ This prevents duplicate execution of functions, when coding within the beta-func
 <li>GetReaperWindowPosition_Right - using now the SetIniFileValue-function for getting the ini-file-value</li>
 <li>GetReaperWorkDir - using now the SetIniFileValue-function for getting the ini-file-value</li>
 <li>RunBackgroundHelperFeatures - allows now switching off the background-scripts</li>
+<li>IsValidArrangeviewSnapshot - checks now vertical-scrollfactor as well</li>
+<li>RestoreArrangeviewSnapshot - restores now vertical-scrollfactor as well</li>
+<li>RetrieveArrangeviewSnapshot - retrieves now vertical-scrollfactor as well</li>
+<li>StoreArrangeviewSnapshot - stores now vertical-scrollfactor as well</li>
 </ul>
 <h3 id="beta-2.7---frank-zappa---the-return-of-the-son-of-monster-magnet---15th-of-december-2018">4.00 Beta 2.7: - “Frank Zappa - The Return of the Son of Monster Magnet” - 15th of December 2018</h3>
 <p>Has now 700 functions, with about 250 new ones!</p>

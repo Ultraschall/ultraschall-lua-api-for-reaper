@@ -5668,6 +5668,80 @@ end
 
 --A=ultraschall.SetLoopState(0)
 
+function ultraschall.GetVerticalScroll()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetVerticalScroll</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.962
+    Lua=5.3
+  </requires>
+  <functioncall>integer vertical_scroll_factor = ultraschall.GetVerticalScroll()</functioncall>
+  <description>
+    Gets the current vertical_scroll_value. The valuerange is dependent on the vertical zoom.
+  </description>
+  <retvals>
+    integer vertical_scroll_factor - the vertical-scroll-factor
+  </retvals>
+  <chapter_context>
+    User Interface
+    Arrangeview Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>arrangeviewmanagement, get, vertical, scroll factor</tags>
+</US_DocBloc>
+--]]
+  local translation = reaper.JS_Localize("trackview", "DLG_102")
+  local retval, position = reaper.JS_Window_GetScrollInfo(reaper.JS_Window_Find(translation, true), "SB_VERT")
+  
+  return position
+end
+
+--A=ultraschall.GetVerticalScroll()
+
+function ultraschall.SetVerticalScroll(scrollposition)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetVerticalScroll</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.962
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetVerticalScroll(integer scrollposition)</functioncall>
+  <description>
+    Sets the vertical-scroll-factor.
+    
+    The possible value-range depends on the vertical-zoom.
+    
+    returns false in case of an error or if scrolling is impossible(e.g. zoomed out fully)
+  </description>
+  <retvals>
+    boolean retval - true, if setting was successful; false, if setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer scrollposition - the vertical scrolling-position
+  </parameters>
+  <chapter_context>
+    User Interface
+    Arrangeview Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>arrangeviewmanagement, set, vertical, scroll factor</tags>
+</US_DocBloc>
+--]]
+  if math.type(position)~="integer" then ultraschall.AddErrorMessage("SetVerticalScroll", "scrollposition", "must be an integer", -1) return false end
+  local translation = reaper.JS_Localize("trackview", "DLG_102")
+  
+  return reaper.JS_Window_SetScrollPos(reaper.JS_Window_Find(translation, true), "SB_VERT", scrollposition)
+end
+
+--A=ultraschall.SetVerticalScroll(2000000)
 
 
 --Event Manager

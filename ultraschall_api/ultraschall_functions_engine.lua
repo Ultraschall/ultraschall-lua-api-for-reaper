@@ -33687,7 +33687,7 @@ end
 --LL=ultraschall.GetVZoom(30)
 --reaper.UpdateArrange()
 
-function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom)
+function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom, vscroll)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>StoreArrangeviewSnapshot</slug>
@@ -33696,9 +33696,9 @@ function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.StoreArrangeviewSnapshot(integer slot, string description, boolean position, boolean vzoom)</functioncall>
+  <functioncall>integer retval = ultraschall.StoreArrangeviewSnapshot(integer slot, string description, boolean position, boolean vzoom, boolean vscroll)</functioncall>
   <description>
-    Stores a new Arrangeview-snapshot, that includes the position, horizontal zoom and vertical zoom.
+    Stores a new Arrangeview-snapshot, that includes the position, horizontal zoom, vertical zoom and vertical scroll.
     
     Returns -1 in case of error.
   </description>
@@ -33707,6 +33707,7 @@ function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom
     string description - a description for this arrangeview-snapshot
     boolean position - true, store start and endposition of the current arrangeview; false, don't store start and endposition of current arrangeview(keep old position in slot, if existing)
     boolean vzoom - true, store current vertical-zoom-factor; false, don't store current vertical-zoom-factor(keep old zoomfactor in slot, if existing)
+    boolean vscroll - true, store current vertical scroll-factor; false, don't store current vertival-scroll-factor
   </parameters>
   <retvals>
     integer retval - -1, in case of error
@@ -33726,6 +33727,7 @@ function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom
   if type(description)~="string" and description~=nil then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","description", "Must be a string(to set description) or nil(to keep old description)", -3) return -1 end
   if type(position)~="boolean" and position~=nil then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","position", "Must be boolean(to set with current start&end-position) or nil(to keep old start&end-position)", -4) return -1 end
   if type(vzoom)~="boolean" and vzoom~=nil then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","vzoom", "Must be boolean(to set with current vertical zoom) or nil(to keep old vertical zoom)", -6) return -1 end
+  if type(vscroll)~="boolean" and vscroll~=nil then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","vscroll", "Must be boolean(to set with current vertical scroll) or nil(to keep old vertical scroll)", -7) return -1 end
   
   -- prepare variables
   local slot=tostring(slot)
@@ -33750,14 +33752,24 @@ function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom
 
   if vzoom==true then 
     reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom", vzoom2)
-  elseif vzoom==nil then
+  elseif vzoom==false then
     reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom", -1)
+  end
+  
+  local translation = reaper.JS_Localize("trackview", "DLG_102")
+  
+  local retval, vscroll2 = reaper.JS_Window_GetScrollInfo(reaper.JS_Window_Find(translation, true), "SB_VERT")
+  
+  if vscroll==true then
+    reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll", vscroll2)
+  elseif vscroll==false then
+    reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll", -1)  
   end
   
   reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom", hzoom)  
 end
 
---ultraschall.StoreArrangeviewSnapshot(1, "LSubisubisu", true, true, true)
+--ultraschall.StoreArrangeviewSnapshot(1, "LSubisubisu", true, true, true, true)
 
 function ultraschall.IsValidArrangeviewSnapshot(slot)
 --[[
@@ -33801,8 +33813,8 @@ function ultraschall.IsValidArrangeviewSnapshot(slot)
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_end")~=0 or
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_description")~=0 or
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom")~=0 or
-     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")~=0 then
-
+     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")~=0 or
+     reaper.GetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll")~="" then
      return true
   else
     return false
@@ -33820,9 +33832,9 @@ function ultraschall.RetrieveArrangeviewSnapshot(slot)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string description, number startposition, number endposition, integer vzoomfactor, number hzoomfactor = ultraschall.RetrieveArrangeviewSnapshot(integer slot)</functioncall>
+  <functioncall>boolean retval, string description, number startposition, number endposition, integer vzoomfactor, number hzoomfactor, number vertical_scroll = ultraschall.RetrieveArrangeviewSnapshot(integer slot)</functioncall>
   <description>
-    Retreives an Arrangeview-snapshot and returns the startposition, endposition and vertical and horizontal zoom-factor.
+    Retrieves an Arrangeview-snapshot and returns the startposition, endposition and vertical and horizontal zoom-factor as well as the number vertical-scroll-factor..
     
     Returns false in case of error.
   </description>
@@ -33836,6 +33848,7 @@ function ultraschall.RetrieveArrangeviewSnapshot(slot)
     number endposition - the endposition of the arrangeview
     integer vzoom - the vertical-zoomfactor(0-40)
     number hzoomfactor - the horizontal zoomfactor
+    number vertical_scroll - the vertical scroll-value
   </retvals>
   <chapter_context>
     User Interface
@@ -33843,7 +33856,7 @@ function ultraschall.RetrieveArrangeviewSnapshot(slot)
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>userinterface, get, arrangeview, snapshot, startposition, endposition, verticalzoom, horizontal zoom</tags>
+  <tags>userinterface, get, arrangeview, snapshot, startposition, endposition, verticalzoom, horizontal zoom, vertical scroll</tags>
 </US_DocBloc>
 --]]
   -- check parameters
@@ -33860,14 +33873,16 @@ function ultraschall.RetrieveArrangeviewSnapshot(slot)
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_end")~=0 or
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_description")~=0 or
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom")~=0 or
-     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")~=0 then
+     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")~=0 or
+     reaper.GetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll")~="" then
      
      _l, start=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_start")
      _l, ende=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_end")
      _l, description=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_description")
      _l, vzoom=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")
      _l, hzoom=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom")
-     return true, description, tonumber(start), tonumber(ende), tonumber(vzoom), tonumber(hzoom)
+     _l, vscroll=reaper.GetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll")
+     return true, description, tonumber(start), tonumber(ende), tonumber(vzoom), tonumber(hzoom), tonumber(vscroll)
   else
     return false
   end
@@ -33875,7 +33890,7 @@ end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.RetrieveArrangeviewSnapshot(1)
 
-function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermode)
+function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermode, verticalscroll)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RestoreArrangeviewSnapshot</slug>
@@ -33885,7 +33900,7 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
     SWS=2.9.7
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string description, number startposition, number endposition, integer vzoomfactor, number hzoomfactor = ultraschall.RestoreArrangeviewSnapshot(integer slot, optional boolean position, optional boolean vzoom, optional integer hcentermode)</functioncall>
+  <functioncall>boolean retval, string description, number startposition, number endposition, integer vzoomfactor, number hzoomfactor, number vertical_scroll_factor = ultraschall.RestoreArrangeviewSnapshot(integer slot, optional boolean position, optional boolean vzoom, optional integer hcentermode, optional boolean verticalscroll)</functioncall>
   <description>
     Sets arrangeview to start/endposition and horizontal and vertical-zoom, as received from Arrangeview-Snapshot-slot. It returns the newly set start/endposition, vertical zoom, horizontal zoom and description of slot.
     
@@ -33903,6 +33918,7 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
                                  -    1, keeps edit-cursor in center of zoom
                                  -    2, keeps center of view in the center during zoom
                                  -    3, keeps in center of zoom, what is beneath the mousecursor
+    optional boolean verticalscroll - true, sets vertical scroll-value as well; false, doesn't set vertical-scroll-value
   </parameters>
   <retvals>
     boolean retval - false, in case of error; true, in case of success
@@ -33911,6 +33927,7 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
     number endposition - the endposition of the arrangeview
     integer vzoom - the vertical-zoomfactor(0-40)
     number hzoomfactor - the horizontal zoomfactor
+    number vertical_scroll_factor - the vertical-scroll-factor
   </retvals>
   <chapter_context>
     User Interface
@@ -33930,9 +33947,10 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
   if vzoom==nil then vzoom=true end
   if position==false and hcentermode~=nil and math.type(hcentermode)~="integer" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","hcentermode", "Must be nil or an integer", -6) return false end
   if hcentermode~=nil and (hcentermode<-1 or hcentermode>3) then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","hcentermode", "Must be nil or between -1 and 3", -7) return false end
-  
+  if verticalscroll~=nil and type(verticalscroll)~="boolean" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","verticalscroll", "Must be nil or a boolean", -8) return false end
+    
   -- prepare variables by retrieving the snapshot-slot-information
-  local bool, description, start, ende, vzoom3, hzoom = ultraschall.RetrieveArrangeviewSnapshot(slot)
+  local bool, description, start, ende, vzoom3, hzoom, vscroll = ultraschall.RetrieveArrangeviewSnapshot(slot)
   local start2,ende2=reaper.GetSet_ArrangeView2(0,false,0,0)
   if start==-1 then start=start2 end
   if ende==-1 then ende=ende2 end
@@ -33951,8 +33969,14 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
   if vzoom3~=-1 and vzoom==true then 
     ultraschall.SetVZoom(vzoom3)
   end  
+  
+  if verticalscroll==true or verticalscroll==nil then
+    local translation = reaper.JS_Localize("trackview", "DLG_102")
+    
+    reaper.JS_Window_SetScrollPos(reaper.JS_Window_Find(translation, true), "SB_VERT", vscroll)
+  end
   reaper.UpdateArrange()
-  return true, description, start, ende, vzoom, hzoom
+  return true, description, start, ende, vzoom, hzoom, vscroll
 end
 
 --ultraschall.StoreArrangeviewSnapshot(3, "LSubisubisu", true, true, true)

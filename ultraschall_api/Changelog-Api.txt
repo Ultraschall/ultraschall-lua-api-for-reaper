@@ -55,7 +55,7 @@
   - CountUltraschallEffectPlugins - counts number of instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and Ultraschall_Dynamics-plugins in a track. Also returns a table with all bypass/offline-states
   - GetReaperWindowAttributes - returns several attributes of the Reaper-window, like size/position, active-state, childwindows, etc
   - GetTopmostHWND - returns the topmost hwnd(window-handler) of a child-hwnd; returns also all the parent-hwnds
-  - print - replacement for Lua's own print-function, which is quite useless in Reaper; displays the printed parameters in the ReaScript-console
+  - print - replacement for Lua's own print-function(which is quite useless in Reaper); displays the printed parameters in the ReaScript-console
   - print2 - like print, but displays the parameters as a messagebox instead
   - ConvertIntegerToBits - converts an integer-value into its individual bitvalues
   - ReverseEndianess_Byte - changes endianess of a byte-value
@@ -91,6 +91,8 @@
   - GetScriptReturnvalues - gets returnvalues, that a script-instance with a specific scriptidentifier sent to the current script
   - SetScriptReturnvalues - sends returnvalues to a script-instance with a specific scriptidentifier
   - GetLastLoopState - gets the last loop-state, needs RunBackgroundHelperFeatures to be run first
+  - GetVerticalScroll - gets the current vertical-scroll-factor of the arrangeview
+  - SetVerticalScroll - sets a new vertical-scroll-factor of the arrangeview
   
 #### Changes from 4.00beta2.7 to 4.00beta2.75
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -147,6 +149,10 @@
   - GetReaperWindowPosition_Right - using now the SetIniFileValue-function for getting the ini-file-value
   - GetReaperWorkDir - using now the SetIniFileValue-function for getting the ini-file-value
   - RunBackgroundHelperFeatures - allows now switching off the background-scripts
+  - IsValidArrangeviewSnapshot - checks now vertical-scrollfactor as well
+  - RestoreArrangeviewSnapshot - restores now vertical-scrollfactor as well
+  - RetrieveArrangeviewSnapshot - retrieves now vertical-scrollfactor as well
+  - StoreArrangeviewSnapshot - stores now vertical-scrollfactor as well
   
    <TODO>
     API 4.00beta2.75
@@ -190,22 +196,7 @@
                         }
                         return s_hwnd;
                     }
-      TODO!! SaveProjectAs(ReaProject project, newfilename, relative_sourcefilenames, ProjectStateChunk)
-                 params:
-                    project - the project to save, either ReaProject or projecttab-nr;
-                              0, the currently opened project
-                              nil, use parameter ProjectStateChunk instead
-                    newfilename - the filename under which to store the Project
-                    relative_sourcefile_position - 0, keep absolute paths
-                                                 - 1, make paths relative
-                                                 - 2, make sourcefile-path+filenames relative to the project-folder(hardest option to code)
-                    ProjectStateChunk - a projectstatechunk to use for the save-operation
-                    
-                 retvals:
-                    retval - true, if saving succeeded
-                    projectfilename - the saved projectfilename+path
-                    sourcefiles - an array with all source/map-filenames[1] and their new filenames in relation of their new position[2]
-                                    can be used to copy/move all the sourcefiles into the projectfolder(needs MakeDir(path) as well!)
+
                  
       TODO!! convertstringtointegers and convertintegerstostring(rework of ConvertIntegerIntoString)
       TODO!! ultraschall.MakeDir(path) - unbelievable, that this doesn't exist in Lua already...
@@ -412,8 +403,6 @@
                    
                    -
 
-                   
-      TODO!!  - totype(value, string type), converts a value to type and returns it, if impossible, returns nil; includes string, boolean, integer, float, hex, oct, base64, etc
       TODO!!  - ArrangeViewSnapshots - use reaper.JS_Window_SetScrollPos(HWND, "SB_VERT", value) to set and JS_Window_GetScrollInfo from JS new plugin to get/store vertscrollpos
       TODO!!  - Get Length of all Items in a track GetLengthOfAllItems_Track()
       TODO!!  - Add options to Normalize-Items-function, as there are numerous different actions for normalizing
@@ -421,6 +410,7 @@
       TODO!!  - Get/SetMarkersFromClipboard-functions
       
     For 4.00beta2.8:
+      TODO!!  - totype(value, string type), converts a value to type and returns it, if impossible, returns nil; includes string, boolean, integer, float, hex, oct, base64, etc
       TODO!! MediaItemArrays should include possible ItemExtStates as well. Need a copy of TrackExtStates as well.
              Importfunctions must allow importing the ItemExtStates as well.
       TODO!!  - SetStateChunk-functions: how to check for ProjectStateChunk/TrackStateChunk/ItemStateChunk/EnvStateChunk, when new parameters are added to the function?
@@ -543,7 +533,23 @@
         TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
                           - not possible, as I can't programmatically change the selected envelope...maybe with SetCursorContext, as this allows focusing a trackenvelope, 
                                   but also sets focus to arrangeview, which is quite brutal
-   </TODO>
+      TODO!! SaveProjectAs(ReaProject project, newfilename, relative_sourcefilenames, ProjectStateChunk)
+                 params:
+                    project - the project to save, either ReaProject or projecttab-nr;
+                              0, the currently opened project
+                              nil, use parameter ProjectStateChunk instead
+                    newfilename - the filename under which to store the Project
+                    relative_sourcefile_position - 0, keep absolute paths
+                                                 - 1, make paths relative
+                                                 - 2, make sourcefile-path+filenames relative to the project-folder(hardest option to code)
+                    ProjectStateChunk - a projectstatechunk to use for the save-operation
+                    
+                 retvals:
+                    retval - true, if saving succeeded
+                    projectfilename - the saved projectfilename+path
+                    sourcefiles - an array with all source/map-filenames[1] and their new filenames in relation of their new position[2]
+                                    can be used to copy/move all the sourcefiles into the projectfolder(needs MakeDir(path) as well!)
+</TODO>
 
    
 ### 4.00 Beta 2.7: - "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018
