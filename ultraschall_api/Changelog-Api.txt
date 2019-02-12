@@ -90,6 +90,7 @@
   - GetScriptParameters - gets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename
   - GetScriptReturnvalues - gets returnvalues, that a script-instance with a specific scriptidentifier sent to the current script
   - SetScriptReturnvalues - sends returnvalues to a script-instance with a specific scriptidentifier
+  - GetLastLoopState - gets the last loop-state, needs RunBackgroundHelperFeatures to be run first
   
 #### Changes from 4.00beta2.7 to 4.00beta2.75
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -145,6 +146,7 @@
   - GetReaperWindowPosition_Left - using now the SetIniFileValue-function for getting the ini-file-value
   - GetReaperWindowPosition_Right - using now the SetIniFileValue-function for getting the ini-file-value
   - GetReaperWorkDir - using now the SetIniFileValue-function for getting the ini-file-value
+  - RunBackgroundHelperFeatures - allows now switching off the background-scripts
   
    <TODO>
     API 4.00beta2.75
@@ -431,7 +433,7 @@
       TODO!! Functionshook in Render-functions.
                 before the render project using last render settings-action is triggered, it should be possible to run a function that "prepares" the project for rendering
                 
-                possible, when using the renderqueue?
+                possible, when using the renderqueue? Nope!
                 
       TODO!! Rendering "pre-trail"-management, where a to be rendered project gets adds some silence in the beginning of the project, so possible "CPU needs to run up to fully calculate the rendering" will happen first.
                 sometimes issue in render-queues
@@ -450,8 +452,6 @@
                     close the projects and return the filename
                     
                 
-
-      TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
       TODO!!  - Envelope-ExtStates
       TODO!!  - import/export Bonus-script-packs-functions(for importing and registering additional bonus scripts)
       TODO!!  - GetLastEnvelopePoint (How to do that with AutomationItems ?)
@@ -470,20 +470,6 @@
               boolean add - true, add the scripts to the actionlist; false, remove them from the action-list
       TODO!!  - create HTML-docs from all files in the functions-department of Ultraschall/3rd-party-functions
       TODO!!  - Show$ContextMenu() - ShowPopupMenu is too complicated to use. Create proper useable functions to address that
-      TODO!!  - Implement the basic-concept for additional-background-script and handshake-extstate-protocol-communication, as needed for
-            network/gui-engine into a concept, useable by others.
-            It will create a script in a specific language, that includes the basic communication-functions, to communicate with the
-            sourcescript(like extstates, using a guid as extname)
-            Should support Lua, Python, Eel-Scripts(though I will only use the Lua-version for the Api)
-      TODO!!  - read/include ID3-Tags/ID3-chapters from files(only the tag itself, not individual entries yet)
-      TODO!!  - integer bufsz = ultraschall.ShowConsoleMsg(string msg, optional integer revoffset) - stores msg into a textbuffer. When revoffset isn't given, it will replace the textbuffer.
-                                                     - revoffset, 0, put msg at the end of textbuffer
-                                                            1, to bufsz, cut of revoffset-bytes from the
-                                                             end of textbuffer and add msg; clear console and display
-                                                             message from textbuffer
-                                                            -1, clear textbuffer, add msg and display message from textbuffer
-                                                     Good for displaying updating-messages to the Console.
-                                                     Hijacks reaper.ClearConsole() to flush textbuffer.(?)
       TODO!!  - GFX: virtual screenbuffers(create/remove/blit)
       TODO!!  - ultraschall.gfx_getkey(integer buffer), allows pipe-ing of UserInput directly into a textbuffer. The textbuffer acts like a invisible textbox, which can be shown using drawstr or something
                                                         must support arrow, bspc, enter, return, copynpaste as well
@@ -499,10 +485,9 @@
       TODO!!  - GetAllTakesFromMediaItem - returns an array with all takes from an item, objects as well as info_values
       TODO!!  - Get/SetProjectBay-functions
       TODO!!  - Envelope-StateChunk-functions
-      TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
-                        - not possible, as I can't programatically change the selected envelope...maybe with SetCursorContext, as this allows focusing a trackenvelope, 
-                                but also sets focus to arrangeview, which is quite brutal
-      TODO!!  - SetProject-functions for
+      TODO!!  - Get/SetProject-functions for
+                    RENDER_QUEUE-stuff
+                    
                   - SetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
                   - SetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk
                   - SetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk
@@ -553,6 +538,11 @@
             We will also define an atexit-function for unregistering from the running-script-instance-register, as there can be multiple atexit-functions(up to 1024).
             That way, we can have monitoring of running scripts.
             Should allow monitoring of Defer1 to Defer10-running-states as well. Maybe they need to be set at the beginning as well? Or is it waste of resources?(probably the latter, we can assume, if it's not set "running", that defer-instance is not used and set to stopped.            
+        
+        TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
+        TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
+                          - not possible, as I can't programmatically change the selected envelope...maybe with SetCursorContext, as this allows focusing a trackenvelope, 
+                                  but also sets focus to arrangeview, which is quite brutal
    </TODO>
 
    

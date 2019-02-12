@@ -1,6 +1,7 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 Tempfile=ultraschall.Api_Path.."/temp/temporary"
-ConversionToolMD2HTML="c:\\Program Files (x86)\\Pandoc\\pandoc.exe -f markdown -t html "..ultraschall.Api_Path.."/temp/temporary.md -o "..ultraschall.Api_Path.."/temp/temporary.html"
+--ConversionToolMD2HTML="c:\\Program Files (x86)\\Pandoc\\pandoc.exe -f markdown -t html "..ultraschall.Api_Path.."/temp/temporary.md -o "..ultraschall.Api_Path.."/temp/temporary.html"
+ConversionToolMD2HTML="chcp 850\n\r \"c:\\Program Files (x86)\\Pandoc\\pandoc.exe\" -f markdown -t html "..ultraschall.Api_Path.."/temp/temporary.md -o "..ultraschall.Api_Path.."/temp/temporary.html"
 
 Infilename=ultraschall.Api_Path.."/ultraschall_functions_engine.lua"
 Infilename2=ultraschall.Api_Path.."/ultraschall_functions_engine_beta.lua"
@@ -93,6 +94,7 @@ function ultraschall.ParseDescription(String)
   local lang=String:match("<description.-prog_lang=\"(.-)\"")
   local indent=String:match("<description.-indent=\"(.-)\"")
   local newdesc=""
+  
   if markup_type==nil then markup_type="plain_text" end
   if markup_version==nil then markup_version="-" end
   if lang==nil then lang="*" end
@@ -167,9 +169,11 @@ end
 --A,B=ultraschall.ParseTags("<tags>a,b ,c ,,,,,,k,                   \n\t  , ,</tags>")
 
 function ultraschall.ParseParameters(String)
-  local MarkupType=String:match("markup_type=\"(.-)\"")
-  local MarkupVers=String:match("markup_version=\"(.-)\"")
   String=String:match("<parameters.->\n*(.*)\n*</parameters>")
+  if String~=nil then
+    local MarkupType=String:match("markup_type=\"(.-)\"")
+    local MarkupVers=String:match("markup_version=\"(.-)\"")
+  end
   local Params={}
   local counter=0
   local Count, Splitarray = ultraschall.CSV2IndividualLinesAsArray(String, "\n")
@@ -189,15 +193,20 @@ function ultraschall.ParseParameters(String)
   end
   if MarkupType==nil then MarkupType="plain_text" end
   if MarkupVers==nil then MarkupVers="-" end
+  
+  --if String:match("extensionList")~=nil then reaper.MB(String,MarkupType,0) end
+  
   return counter, Params, MarkupType, MarkupVers
 end
 
 function ultraschall.ParseRetvals(String)
 --reaper.MB(String,"",0)
-  MarkupType=String:match("markup_type=\"(.-)\"")
-  MarkupVers=String:match("markup_version=\"(.-)\"")
-  ASLUG=String:match("slug>\n*(.-)\n*</slug")
+  --ASLUG=String:match("slug>\n*(.-)\n*</slug")
   String=String:match("<retvals.->\n*(.*)\n*</retvals>")
+  if String~=nil then
+    MarkupType=String:match("markup_type=\"(.-)\"")
+    MarkupVers=String:match("markup_version=\"(.-)\"")
+  end
   Retvals={}
   counter=0
   Count, Splitarray = ultraschall.CSV2IndividualLinesAsArray(String, "\n")
@@ -308,24 +317,31 @@ function ultraschall.ConvertPlainTextToHTML(text)
   return text
 end
 
-A=ultraschall.ConvertPlainTextToHTML(" true, update Ultraschall's internal projecttab-monitoring-list to the current state of all tabs\nfalse, don't update the internal projecttab-monitoring-list, so it will keep the \"old\" project-tab-state as checking-reference")
+--A=ultraschall.ConvertPlainTextToHTML(" true, update Ultraschall's internal projecttab-monitoring-list to the current state of all tabs\nfalse, don't update the internal projecttab-monitoring-list, so it will keep the \"old\" project-tab-state as checking-reference")
 
 --reaper.MB(A,"",0)
 
 --if L==nil then return end
+MDCOUNT=0
 
 function ultraschall.ConvertMarkdownToHTML(text, version)
   text=string.gsub(text, "\r", "")
   text=string.gsub(text, "\n", "<br>\n")
   if text:sub(-4,-1)=="<br>" then text=text:sub(1,-5) end
   ultraschall.WriteValueToFile(Tempfile..".md", text)
-  local L=reaper.ExecProcess(ConversionToolMD2HTML, 0)
+  ultraschall.WriteValueToFile(Tempfile:match("(.*/).*").."Temp.bat", ConversionToolMD2HTML)
+  local L=reaper.ExecProcess(Tempfile:match("(.*/).*").."Temp.bat", 0)
+--  local L=reaper.ExecProcess(ConversionToolMD2HTML, 0)
   L3=text
-  local L2=ultraschall.ReadFullFile(Tempfile..".html")
+  local L2=ultraschall.ReadFullFile(Tempfile..".html", true)
   L3=string.gsub(L2,"<p>","")
   L3=string.gsub(L3,"</p>","")
   L3=string.gsub(L3, "  ", "&nbsp;&nbsp;")
   L3=string.gsub(L3, "\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+  L3=string.gsub(L3, "’", "'")
+  L3=string.gsub(L3, "“", "\"")
+  L3=string.gsub(L3, "”", "\"")
+
   return L3
 end
 
@@ -713,7 +729,7 @@ function writefile()
    --     FunctionList2=FunctionList2..FunctionArray[i]
    --   end
       
-      KLONGEL=ultraschall.WriteValueToFile(Outfile, FunctionList2..FunctionList)
+      KLONGEL=ultraschall.WriteValueToFile(Outfile, FunctionList2..FunctionList, true)
 --      reaper.MB(FunctionList2:sub(-2000,-1),"",0)
       if KLONGEL==-1 then ultraschall.ShowLastErrorMessage() end
   

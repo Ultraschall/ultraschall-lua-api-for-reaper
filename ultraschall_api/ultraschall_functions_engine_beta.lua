@@ -184,6 +184,85 @@ end
 
 --A2,B2=ultraschall.SplitStringAtNULLBytes("splitstrin\0g\0\0\0\0")
 
+function ultraschall.RunBackgroundHelperFeatures(switch_on)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RunBackgroundHelperFeatures</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.RunBackgroundHelperFeatures(boolean switch_on)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Starts background-scripts supplied with the Ultraschall-API, like:  
+
+      - a script for getting the last edit-cursor-position before the current one -> [GetLastCursorPosition()](#GetLastCursorPosition)
+      - a script for getting the last playstate before the current one -> [GetLastPlayState()](#GetLastPlayState)
+      - a script for getting the last loopstate before the current one -> [GetLastLoopState()](#GetLastLoopState)
+  </description>
+  <parameters>
+    boolean switch_on - true, start the background-scripts/start unstarted background-helper-scripts; false, stop all background-helper-scripts
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, defer scripts, background scripts</tags>
+</US_DocBloc>
+]]
+  local filecount, files = ultraschall.GetAllFilenamesInPath(ultraschall.Api_Path.."/Scripts/HelperDeferScripts/")
+  local filename
+  for i=1, filecount do
+    filename=files[i]:match(".*/(.*)")
+    if filename==nil then filename=files[i]:match(".*\\(.*)") end
+    if filename==nil then filename=files[i] end
+    if reaper.GetExtState("Ultraschall", "defer_scripts_"..filename)~="true" and switch_on~=false then
+      local A=reaper.AddRemoveReaScript(true, 0, files[i], false)
+      reaper.Main_OnCommand(A,0)
+      local B=reaper.AddRemoveReaScript(false, 0, files[i], false)
+    end
+    if reaper.GetExtState("Ultraschall", "defer_scripts_"..filename)=="true" and switch_on==false then
+        reaper.SetExtState("Ultraschall", "defer_scripts_"..filename, "false", false)
+    end
+  end
+end
+
+--ultraschall.RunBackgroundHelperFeatures()
+
+function ultraschall.GetLastCursorPosition()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLastCursorPosition</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>number last_editcursor_position, number new_editcursor_position, number statechangetime = ultraschall.GetLastCursorPosition()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the last and current editcursor-position. Needs Ultraschall-API-background-scripts started first, see [RunBackgroundHelperFeatures()](#RunBackgroundHelperFeatures).
+    
+    returns -1, if Ultraschall-API-backgroundscripts weren't started yet.
+  </description>
+  <retvals>
+    number last_editcursor_position - the last cursorposition before the current one; -1, in case of an error
+    number new_editcursor_position - the new cursorposition; -1, in case of an error
+    number statechangetime - the time, when the state has changed the last time
+  </retvals>
+  <chapter_context>
+    Navigation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>navigation, last position, editcursor</tags>
+</US_DocBloc>
+]]
+  if reaper.GetExtState("Ultraschall", "defer_scripts_ultraschall_track_old_cursorposition.lua")~="true" then return -1 end
+  return tonumber(reaper.GetExtState("ultraschall", "editcursor_position_old")), tonumber(reaper.GetExtState("ultraschall", "editcursor_position_new")), tonumber(reaper.GetExtState("ultraschall", "editcursor_position_changetime"))
+end
+
 function ultraschall.GetLastPlayState()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -193,9 +272,9 @@ function ultraschall.GetLastPlayState()
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>number last_play_state = ultraschall.GetLastPlayState()</functioncall>
+  <functioncall>number last_play_state, number new_play_state, number statechangetime = ultraschall.GetLastPlayState()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns the last playstate before the current one. Needs Ultraschall-API-background-scripts started first, see [RunBackgroundHelperFeatures()](#RunBackgroundHelperFeatures).
+    Returns the last and current playstate. Needs Ultraschall-API-background-scripts started first, see [RunBackgroundHelperFeatures()](#RunBackgroundHelperFeatures).
     
     returns -1, if Ultraschall-API-backgroundscripts weren't started yet.
   </description>
@@ -211,6 +290,18 @@ function ultraschall.GetLastPlayState()
                            -    2, paused play 
                            -    5, recording 
                            -    6, paused recording
+    number new_play_state - the new playstate; -1, in case of an error
+                           - Either bitwise: 
+                           -    &1=playing
+                           -    &2=pause
+                           -    &=4 is recording
+                           - or 
+                           -    0, stop 
+                           -    1, play 
+                           -    2, paused play 
+                           -    5, recording 
+                           -    6, paused recording
+     number statechangetime - the time, when the state has changed the last time
   </retvals>
   <chapter_context>
     Navigation
@@ -221,10 +312,42 @@ function ultraschall.GetLastPlayState()
 </US_DocBloc>
 ]]
   if reaper.GetExtState("Ultraschall", "defer_scripts_ultraschall_track_old_playstate.lua")~="true" then return -1 end
-  return tonumber(reaper.GetExtState("ultraschall", "last_playstate"))
+  return reaper.GetExtState("ultraschall", "playstate_old"), reaper.GetExtState("ultraschall", "playstate_new"), tonumber(reaper.GetExtState("ultraschall", "playstate_changetime"))
 end
 --ultraschall.RunBackgroundHelperFeatures()
 --A=ultraschall.GetLastPlayState()
+
+function ultraschall.GetLastLoopState()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLastLoopState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>number last_loop_state, number new_loop_state, number statechangetime = ultraschall.GetLastLoopState()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the last and current loopstate. Needs Ultraschall-API-background-scripts started first, see [RunBackgroundHelperFeatures()](#RunBackgroundHelperFeatures).
+    
+    returns -1, if Ultraschall-API-backgroundscripts weren't started yet.
+  </description>
+  <retvals>
+    number last_loop_state - the last loopstate before the current one; -1, in case of an error
+    number new_loop_state - the current loopstate; -1, in case of an error
+    number statechangetime - the time, when the state has changed the last time
+  </retvals>
+  <chapter_context>
+    Navigation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>navigation, last loopstate, editcursor</tags>
+</US_DocBloc>
+]]
+  if reaper.GetExtState("Ultraschall", "defer_scripts_ultraschall_track_old_loopstate.lua")~="true" then return -1 end
+  return reaper.GetExtState("ultraschall", "loopstate_old"), reaper.GetExtState("ultraschall", "loopstate_new"), tonumber(reaper.GetExtState("ultraschall", "loopstate_changetime"))
+end
 
 
 function ultraschall.Main_OnCommandByFilename(filename, ...)
@@ -3363,7 +3486,7 @@ function ultraschall.GetScriptIdentifier()
       This identifier can be used to communicate with this script. If you start numerous instances of a script, it will create for each instance
       its own script-identifier, so you can be sure, that you communicate with the right instance.
       
-      The identifier is of the format "ScriptIdentifier:scriptfilename-{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}", where the {}-part is a guid.
+      The identifier is of the format "ScriptIdentifier:scriptfilename-{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}.ext", where the {}-part is a guid and ext either .lua .py or .eel
       
       [Defer1](#Defer1) to [Defer20](#Defer20) make use of this to stop a running defer-loop from the outside of a deferred-script.
     </description>

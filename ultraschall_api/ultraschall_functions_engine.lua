@@ -43684,79 +43684,8 @@ end
 
 --B,C,D,E=ultraschall.ConvertColorFromWin(A)
 
-function ultraschall.RunBackgroundHelperFeatures()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>RunBackgroundHelperFeatures</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.95
-    Lua=5.3
-  </requires>
-  <functioncall>ultraschall.RunBackgroundHelperFeatures()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Starts background-scripts supplied with the Ultraschall-API, like:  
 
-      - a script for getting the last edit-cursor-position before the current one -> [GetLastCursorPosition()](#GetLastCursorPosition)
-      - a script for getting the last playstate before the current one -> [GetLastPlayState()](#GetLastPlayState)
-  </description>
-  <chapter_context>
-    API-Helper functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, defer scripts, background scripts</tags>
-</US_DocBloc>
-]]
-  local filecount, files = ultraschall.GetAllFilenamesInPath(ultraschall.Api_Path.."/Scripts/HelperDeferScripts/")
-  local filename
-  for i=1, filecount do
-    filename=files[i]:match(".*/(.*)")
-    if filename==nil then filename=files[i]:match(".*\\(.*)") end
-    if filename==nil then filename=files[i] end
-    if reaper.GetExtState("Ultraschall", "defer_scripts_"..filename)~="true" then
-      local A=reaper.AddRemoveReaScript(true, 0, files[i], false)
-      reaper.Main_OnCommand(A,0)
-      local B=reaper.AddRemoveReaScript(false, 0, files[i], false)
-    end
-  end
-end
 
---ultraschall.RunBackgroundHelperFeatures()
-
-function ultraschall.GetLastCursorPosition()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetLastCursorPosition</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.95
-    Lua=5.3
-  </requires>
-  <functioncall>number last_editcursor_position = ultraschall.GetLastCursorPosition()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns the last editcursor-position before the current one. Needs Ultraschall-API-background-scripts started first, see [RunBackgroundHelperFeatures()](#RunBackgroundHelperFeatures).
-    
-    returns -1, if Ultraschall-API-backgroundscripts weren't started yet.
-  </description>
-  <retvals>
-    number last_editcursor_position - the last cursorposition before the current one; -1, in case of an error
-  </retvals>
-  <chapter_context>
-    Navigation
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>navigation, last position, editcursor</tags>
-</US_DocBloc>
-]]
-  if reaper.GetExtState("Ultraschall", "defer_scripts_ultraschall_track_old_cursorposition.lua")~="true" then return -1 end
-  return tonumber(reaper.GetExtState("ultraschall", "last_editcursor_position"))
-end
-
---A=reaper.GetExtState("ultraschall", "last_editcursor_position")
-
---L=ultraschall.GetLastCursorPosition()
 
 
 function ultraschall.DeleteMuteState(tracknumber, position)

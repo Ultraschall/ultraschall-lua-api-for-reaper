@@ -120,6 +120,7 @@ allow being terminated from inside and outside the current script.
 <li>GetScriptParameters - gets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename</li>
 <li>GetScriptReturnvalues - gets returnvalues, that a script-instance with a specific scriptidentifier sent to the current script</li>
 <li>SetScriptReturnvalues - sends returnvalues to a script-instance with a specific scriptidentifier</li>
+<li>GetLastLoopState - gets the last loop-state, needs RunBackgroundHelperFeatures to be run first</li>
 </ul>
 <h4 id="changes-from-4.00beta2.7-to-4.00beta2.75">Changes from 4.00beta2.7 to 4.00beta2.75</h4>
 <ul>
@@ -176,6 +177,7 @@ This prevents duplicate execution of functions, when coding within the beta-func
 <li>GetReaperWindowPosition_Left - using now the SetIniFileValue-function for getting the ini-file-value</li>
 <li>GetReaperWindowPosition_Right - using now the SetIniFileValue-function for getting the ini-file-value</li>
 <li>GetReaperWorkDir - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>RunBackgroundHelperFeatures - allows now switching off the background-scripts</li>
 </ul>
 <h3 id="beta-2.7---frank-zappa---the-return-of-the-son-of-monster-magnet---15th-of-december-2018">4.00 Beta 2.7: - “Frank Zappa - The Return of the Son of Monster Magnet” - 15th of December 2018</h3>
 <p>Has now 700 functions, with about 250 new ones!</p>
