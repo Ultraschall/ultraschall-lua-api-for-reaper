@@ -272,36 +272,18 @@ function ultraschall.GetLastPlayState()
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>number last_play_state, number new_play_state, number statechangetime = ultraschall.GetLastPlayState()</functioncall>
+  <functioncall>string last_play_state, string new_play_state, number statechangetime = ultraschall.GetLastPlayState()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns the last and current playstate. Needs Ultraschall-API-background-scripts started first, see [RunBackgroundHelperFeatures()](#RunBackgroundHelperFeatures).
+    
+    possible states are STOP, PLAY, PLAYPAUSE, REC, RECPAUSE
     
     returns -1, if Ultraschall-API-backgroundscripts weren't started yet.
   </description>
   <retvals>
-    number last_play_state - the last playstate before the current one; -1, in case of an error
-                           - Either bitwise: 
-                           -    &1=playing
-                           -    &2=pause
-                           -    &=4 is recording
-                           - or 
-                           -    0, stop 
-                           -    1, play 
-                           -    2, paused play 
-                           -    5, recording 
-                           -    6, paused recording
-    number new_play_state - the new playstate; -1, in case of an error
-                           - Either bitwise: 
-                           -    &1=playing
-                           -    &2=pause
-                           -    &=4 is recording
-                           - or 
-                           -    0, stop 
-                           -    1, play 
-                           -    2, paused play 
-                           -    5, recording 
-                           -    6, paused recording
-     number statechangetime - the time, when the state has changed the last time
+    string last_play_state - the last playstate before the current one; -1, in case of an error
+    string new_play_state - the new playstate; -1, in case of an error
+    number statechangetime - the time, when the state has changed the last time
   </retvals>
   <chapter_context>
     Navigation
@@ -326,15 +308,17 @@ function ultraschall.GetLastLoopState()
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>number last_loop_state, number new_loop_state, number statechangetime = ultraschall.GetLastLoopState()</functioncall>
+  <functioncall>string last_loop_state, string new_loop_state, number statechangetime = ultraschall.GetLastLoopState()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns the last and current loopstate. Needs Ultraschall-API-background-scripts started first, see [RunBackgroundHelperFeatures()](#RunBackgroundHelperFeatures).
+    
+    Possible states are LOOPED, UNLOOPED
     
     returns -1, if Ultraschall-API-backgroundscripts weren't started yet.
   </description>
   <retvals>
-    number last_loop_state - the last loopstate before the current one; -1, in case of an error
-    number new_loop_state - the current loopstate; -1, in case of an error
+    string last_loop_state - the last loopstate before the current one; -1, in case of an error
+    string new_loop_state - the current loopstate; -1, in case of an error
     number statechangetime - the time, when the state has changed the last time
   </retvals>
   <chapter_context>
