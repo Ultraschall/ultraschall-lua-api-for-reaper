@@ -3,7 +3,7 @@
       <slug>Introduction</slug>  
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 5.95 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 5.965 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -7206,11 +7206,8 @@
       <slug>projrenderqdelay</slug>  
       <title>projrenderqdelay</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          Delay queued render to allow samples to load-checkbox, as set in the Render to File-dialog  
-          It is an integer  
-          
-           >-30, checkbox - unchecked  
-           >30, checkbox - checked  
+          unknown
+          It is an integer
             
       </description>  
       <chapter_context>  
@@ -8658,9 +8655,11 @@
       <slug>renderqdelay</slug>  
       <title>renderqdelay</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          unknown  
+          Delay queued render to allow samples to load-checkbox, as set in the Render to File-dialog  
           It is an integer  
-           
+          
+           >negative-value, checkbox - unchecked  
+           >positive-value, checkbox - checked  
       </description>  
       <chapter_context>  
          Config Variables  

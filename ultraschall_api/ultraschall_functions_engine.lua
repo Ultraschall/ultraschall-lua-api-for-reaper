@@ -1,7 +1,7 @@
 --[[
 ################################################################################
 # 
-# Copyright (c) 2014-2018 Ultraschall (http://ultraschall.fm)
+# Copyright (c) 2014-2019 Ultraschall (http://ultraschall.fm)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,6 @@
 --- ULTRASCHALL - API - FUNCTIONS ---
 -------------------------------------
 
-
 if type(ultraschall)~="table" then 
   -- update buildnumber and add ultraschall as a table, when programming within this file
   local retval, string = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "Functions-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
@@ -42,7 +41,7 @@ if type(ultraschall)~="table" then
   else 
     string2=tonumber(string2)
     string2=string2+1
-  end
+  end 
   reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "Functions-Build", string, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
   reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", string2, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")  
   ultraschall={} 
@@ -59,6 +58,9 @@ ultraschall.snowtodaysdate=ultraschall.snowB.day.."."..ultraschall.snowB.month
 ultraschall.snowoldgfx=gfx.update
 
 ultraschall.temp,ultraschall.tempfilename=reaper.get_action_context()
+
+ultraschall.Dump, ultraschall.ScriptFileName=reaper.get_action_context()
+
 if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and 
     (ultraschall.snowtodaysdate=="24.12" or 
      ultraschall.snowtodaysdate=="25.12" or 
@@ -93,6 +95,7 @@ gfx.setimgdim(401,1,1)
 gfx.dest=401
 gfx.set(0.2,0.2,0.2)
 gfx.rect(0,0,1,1)
+
 
 -- set framebuffer to the shown one
 gfx.dest=-1
@@ -182,6 +185,11 @@ ultraschall.US_snowmain()
   if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
 --end
 
+gfx.x=0
+gfx.y=0
+gfx.r=1
+gfx.g=1
+gfx.b=1
 --back2business
 if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
     -- user_folder = buf --"C:\\Users\\[username]" -- need to be test
@@ -214,6 +222,8 @@ end
 --A=reaper.GetTrack(0,0)
 --L,M,N=ultraschall.GetTrackStateChunk(A,"", false, false)
 --T=M:len()
+
+
 
 function ultraschall.CountCharacterInString(checkstring, character)
 --[[
@@ -798,7 +808,7 @@ end
   </requires>
   <functioncall>ultraschall.Euro</functioncall>
   <description>
-    Holds the Euro-currency-symbol(â‚¬), which is hard to type in Reaper's own IDE.
+    Holds the Euro-currency-symbol, which is hard to type in Reaper's own IDE.
   </description>
   <chapter_context>
     API-Variables
@@ -832,36 +842,6 @@ end
   <tags>help,api,test, developer</tags>
 </US_DocBloc>
 --]]
-
-function ultraschall.GetApiVersion()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetApiVersion</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>string version, string date, string beta = ultraschall.GetApiVersion()</functioncall>
-  <description>
-    returns the version, release-date and if it's a beta-version
-  </description>
-  <retvals>
-    string version - the current Api-version
-    string date - the release date of this api-version
-    string beta - if it's a beta version, this is the beta-version-number
-    number versionnumber - a number, that you can use for comparisons like, "if requestedversion>versionnumber then"
-  </retvals>
-  <chapter_context>
-    API-Helper functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>version,versionmanagement</tags>
-</US_DocBloc>
---]]
-  return "4.00 \"John Cage - 4:33\"","30th of July 2018", "beta 2.7", 400.027
-end
 
 
 function ultraschall.IsValidTrackStateChunk(statechunk)
@@ -966,72 +946,6 @@ function ultraschall.GetStringFromClipboard_SWS()
   return clipboardstring
 end
 
-function ultraschall.AddErrorMessage(functionname, parametername, errormessage, errorcode)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>AddErrorMessage</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval, integer errorcount = ultraschall.AddErrorMessage(string functionname, string parametername, string errormessage, integer errorcode)</functioncall>
-  <description>
-    Adds a new errormessage to the Ultraschall-Api-Error-messagesystem. Returns the number of the errormessage.
-    Intended for your own 3rd party-functions for the API, to give the user more feedback about errors than just a cryptic errorcode.
-    
-    returns false in case of failure
-  </description>
-  <parameters>
-    string functionname - the function, where the error happened
-    string parametername - the parameter, that caused the problem
-    string errormessage - a longer description of what cause the problem and a hint to a possible solution
-    integer errorcode - a number, that represents the error-message. Will be -1 by default, if not given.
-  </parameters>
-  <retvals>
-    boolean retval - true, if it worked; false if it didn't
-    integer errorcount - the number of the errormessage within the Ultraschall-Api-Error-messagesystem
-  </retvals>
-  <chapter_context>
-    Developer
-    Error Handling
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>developer, error, add, message</tags>
-</US_DocBloc>
-]]
-  -- check parameters
-  if functionname==nil or errormessage==nil then a=false functionname="ultraschall.AddErrorMessage" errormessage="functionname or errormessage is nil. Must contain valid value instead!" end
-  ultraschall.ErrorCounter=ultraschall.ErrorCounter+1
-  if parametername==nil then parametername="" end
-  if type(errorcode)~="number" then errorcode=-1 end
-  
-  -- let's create the new errormessage
-  local ErrorMessage={}
-  ErrorMessage["funcname"]=functionname
-  ErrorMessage["errmsg"]=errormessage
-  ErrorMessage["readstate"]="unread"
-  ErrorMessage["date"]=os.date()
-  ErrorMessage["time"]=os.time()
-  ErrorMessage["parmname"]=parametername
-  ErrorMessage["errcode"]=errorcode
-  
-  -- add it to the error-message-system
-  ultraschall.ErrorMessage[ultraschall.ErrorCounter]=ErrorMessage
-  
-  -- terminate script with Lua-errormessage
-  if ultraschall.IDEerror==true then error(functionname..":"..errormessage,3) end
-  if a==false then return false
-  else return true, ultraschall.ErrorCounter
-  end
-end
-
---ultraschall.AddErrorMessage("func","parm","desc",2)
---Anumber=reaper.GetHZoomLevel() 
---Item=reaper.GetMediaItem(0,0)
---L=reaper.GetMediaItemInfo_Value(Item, "F_FREEMODE_H")
---Aleft, Atop, Aright, Abot = reaper.EnsureNotCompletelyOffscreen()
 
 function ultraschall.IsValidItemStateChunk(itemstatechunk)
   if type(itemstatechunk)~="string" then ultraschall.AddErrorMessage("IsValidItemStateChunk", "itemstatechunk", "Must be a string.", -1) return false end  
@@ -1636,54 +1550,6 @@ function ultraschall.ApiFunctionTest()
 end
 
 
-function ultraschall.GetPath(str,sep)
--- return the path of a filename-string
--- -1 if it doesn't work
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetPath</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>string path, string filename = ultraschall.GetPath(string str, string sep)</functioncall>
-  <description>
-    returns the path of a filename-string
-    
-    returns "", "" in case of error 
-  </description>
-  <retvals>
-    string path  - the path as a string
-    string filename - the filename, without the path
-  </retvals>
-  <parameters>
-    string str - the path with filename you want to process
-    string sep - a separator, with which the function knows, how to separate filename from path
-  </parameters>
-  <chapter_context>
-    File Management
-    Helper functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>filemanagement,path,separator</tags>
-</US_DocBloc>
---]]
-
-  -- check parameters
-  if type(str)~="string" then ultraschall.AddErrorMessage("GetPath","str", "only a string allowed", -1) return "", "" end
-  if type(sep)~="string" then ultraschall.AddErrorMessage("GetPath","sep", "only a string allowed", -2) return "", "" end
-  
-  -- do the patternmatching
-  local result=str:match("(.*"..sep..")")
-  local file=str:match(".*"..sep.."(.*)")
-  if result==nil then ultraschall.AddErrorMessage("GetPath","", "separator not found", -3) return "", "" end
-  if file==nil then file="" end
-  return result, file
-end
-
---B1,B2=ultraschall.GetPath("c:\\nillimul\\test", ultraschall.Separator)
 
 
 
@@ -1973,58 +1839,6 @@ end
 
 
 
-function ultraschall.WriteValueToFile(filename_with_path, value, binarymode, append)
-  -- Writes value to filename_with_path
-  -- Keep in mind, that you need to escape \ by writing \\, or it will not work
-  -- binarymode
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>WriteValueToFile</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval = ultraschall.WriteValueToFile(string filename_with_path, string value, optional boolean binarymode, optional boolean append)</functioncall>
-  <description>
-    Writes value to filename_with_path. Will replace any previous content of the file if append is set to false. Returns -1 in case of failure, 1 in case of success.
-    
-    Keep in mind, that on Windows, you need to escape \ by writing \\ in the filename, or it will not work
-  </description>
-  <retvals>
-    integer retval  - -1 in case of failure, 1 in case of success
-  </retvals>
-  <parameters>
-    string filename_with_path - the filename with it's path
-    string value - the value to export, can be a long string that includes newlines and stuff. nil is not allowed!
-    boolean binarymode - true or nil, it will store the value as binary-file; false, will store it as textstring
-    boolean append - true, add the value to the end of the file; false or nil, write value to file and erase all previous data in the file
-  </parameters>
-  <chapter_context>
-    File Management
-    Write Files
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>filemanagement,export,write,file,textfile,binary</tags>
-</US_DocBloc>
---]]
-  -- check parameters
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("WriteValueToFile","filename_with_path", "invalid filename", -1) return -1 end
-  if type(value)~="string" then ultraschall.AddErrorMessage("WriteValueToFile","value", "must be string; convert with tostring(value), if necessary.", -2) return -1 end
-  
-  -- prepare variables
-  local binary, appendix, file
-  if binarymode==nil or binarymode==true then binary="b" else binary="" end
-  if append==nil or append==false then appendix="w" else appendix="a" end
-  
-  -- write file
-  file=io.open(filename_with_path,appendix..binary)
-  if file==nil then ultraschall.AddErrorMessage("WriteValueToFile","filename_with_path", "can't create file", -3) return -1 end
-  file:write(value)
-  file:close()
-  return 1
-end
 
 --  content="%SystemRoot%\\syswow64\\chcp.com\ntestballon"
 --  stringthing=string.format('%q', content)
@@ -2104,12 +1918,13 @@ function ultraschall.SetUSExternalState(section, key, value)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetUSExternalState(string section, string key, string value)</functioncall>
   <description>
     stores values into ultraschall.ini. Returns true if successful, false if unsuccessful.
+    
+    unlike other Ultraschall-API-functions, this converts the values, that you pass as parameters, into strings, regardless of their type
   </description>
   <retvals>
     boolean retval - true, if successful, false if unsuccessful.
@@ -2129,13 +1944,13 @@ function ultraschall.SetUSExternalState(section, key, value)
 </US_DocBloc>
 --]]
   -- check parameters
-  if type(section)~="string" then ultraschall.AddErrorMessage("SetUSExternalState","section", "only string allowed", -1) return false end
-  if type(key)~="string" then ultraschall.AddErrorMessage("SetUSExternalState","key", "only string allowed", -2) return false end
-  if type(value)~="string" then ultraschall.AddErrorMessage("SetUSExternalState","value", "only string allowed", -3) return false end
+  section=tostring(section)
+  key=tostring(key)
+  value=tostring(value)  
   if section:match(".*(%=).*")=="=" then ultraschall.AddErrorMessage("SetUSExternalState","section", "no = allowed in section", -4) return false end
 
   -- set value
-  return reaper.BR_Win32_WritePrivateProfileString(section, key, value, reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")
+  return ultraschall.SetIniFileValue(section, key, value, reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")
 end
 
 --A=ultraschall.SetUSExternalState("tes=10to","cowb[sfijdfd]oy bebop2","Howde[]eho")
@@ -2151,7 +1966,6 @@ function ultraschall.GetUSExternalState(section, key)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>string value = ultraschall.GetUSExternalState(string section, string key)</functioncall>
@@ -2181,7 +1995,7 @@ function ultraschall.GetUSExternalState(section, key)
   if type(key)~="string" then ultraschall.AddErrorMessage("GetUSExternalState","key", "only string allowed", -2) return "" end
  
   -- get value
-  local A, B = reaper.BR_Win32_GetPrivateProfileString(section, key, "", reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")
+  local A, B = ultraschall.GetIniFileValue(section, key, "", reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")
   return B
 end
 
@@ -2706,7 +2520,7 @@ function ultraschall.GetTrackIPhaseState(tracknumber, str)
     It's the entry IPHASE
   </description>
   <retvals>
-    number IPhase  - state of the phase-button; 0, normal phase; 1, inverted phase(180Â°)
+    number IPhase  - state of the phase-button; 0, normal phase; 1, inverted phase(180°)
   </retvals>
   <parameters>
     integer tracknumber - number of the track, beginning with 1; 0 for master track; -1, if you want to use the parameter TrackStateChunk instead.
@@ -11350,7 +11164,7 @@ function ultraschall.ReadFullFile(filename_with_path, binary)
   <description>
     Return contents of filename_with_path.
     
-    Keep in mind, that on Windows, you need to escape \ by writing \\ in filenames, or it will not work.
+    Returns nil in case of an error.
   </description>
   <retvals>
     string contents - the contents of the whole file.
@@ -11380,6 +11194,7 @@ function ultraschall.ReadFullFile(filename_with_path, binary)
   
   -- read file
   local file=io.open(filename_with_path,"r"..binary)
+  if file==nil then ultraschall.AddErrorMessage("ReadFullFile", "filename_with_path", "could not read file, probably due another application accessing it.", -3) return nil end
   local filecontent=file:read("a")
   
   -- count lines in file, when non binary
@@ -11654,6 +11469,7 @@ function ultraschall.MakeCopyOfFile_Binary(input_filename_with_path, output_file
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
+    if file==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "input_filename_with_path", "could not read file, probably due another application accessing it.", -5) return nil end
     local file=io.open(output_filename_with_path,"wb")
     if file==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "output_filename_with_path", "can't create file", -3) return false end
     file:write(fileread:read("*a"))
@@ -11711,6 +11527,7 @@ function ultraschall.ReadBinaryFileUntilPattern(input_filename_with_path, patter
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
+    if file==nil then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "could not read file, probably due another application accessing it.", -6) return nil end
     temp=fileread:read("*a")
     temp2=temp:match("(.-"..pattern..")")
     if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "pattern not found in file", -4) return false end
@@ -11768,6 +11585,7 @@ function ultraschall.ReadBinaryFileFromPattern(input_filename_with_path, pattern
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
+    if file==nil then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "could not read file, probably due another application accessing it.", -6) return nil end
     temp=fileread:read("*a")
     temp2=temp:match("("..pattern..".*)")
     if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "pattern not found in file", -4) return false end
@@ -11858,7 +11676,6 @@ function ultraschall.SetIniFileExternalState(section, key, value, ini_filename_w
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetIniFileExternalState(string section, string key, string value, string ini_filename_with_path)</functioncall>
@@ -11891,7 +11708,7 @@ function ultraschall.SetIniFileExternalState(section, key, value, ini_filename_w
   if section:match(".*%=.*") then ultraschall.AddErrorMessage("SetIniFileExternalState", "section", "= is not allowed in section", -6) return false end
   if key:match(".*%=.*") then ultraschall.AddErrorMessage("SetIniFileExternalState", "key", "= is not allowed in key.", -7) return false end
 
-  return reaper.BR_Win32_WritePrivateProfileString(section, key, value, ini_filename_with_path)
+  return ultraschall.SetIniFileValue(section, key, value, ini_filename_with_path)
 end
 
 --A=ultraschall.SetIniFileExternalState("hulasu","bulaabama","MamulaDoo","c:\\huhududu.ini")
@@ -11905,7 +11722,6 @@ function ultraschall.GetIniFileExternalState(section, key, ini_filename_with_pat
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>string value = ultraschall.GetIniFileExternalState(string section, string key, string ini_filename_with_path)</functioncall>
@@ -11935,7 +11751,7 @@ function ultraschall.GetIniFileExternalState(section, key, ini_filename_with_pat
   if type(ini_filename_with_path)~="string" then ultraschall.AddErrorMessage("GetIniFileExternalState","ini_filename_with_path", "must be a string", -3) return -1 end
   if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("GetIniFileExternalState","ini_filename_with_path", "file does not exist", -4) return -1 end
     
-  local L,LL=reaper.BR_Win32_GetPrivateProfileString(section, key, nil, ini_filename_with_path)
+  local L,LL=ultraschall.GetIniFileValue(section, key, "", ini_filename_with_path)
   if L==nil then ultraschall.AddErrorMessage("GetIniFileExternalState","key", "does not exist", -5) return -1
   else
   return L,LL
@@ -12644,11 +12460,15 @@ function ultraschall.GetMarkerByScreenCoordinates(xmouseposition, retina)
       end
       local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, xmouseposition-temp,xmouseposition) 
       local ALABAMA=xmouseposition
-      if pos>=Ax and pos<=AAx then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n" end
+      if pos>=Ax and pos<=AAx then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name end
     end
   end
   return retstring--:match("(.-)%c.-%c")), tonumber(retstring:match(".-%c(.-)%c")), retstring:match(".-%c.-%c(.*)")
 end
+
+--AAAA=ultraschall.GetMarkerByScreenCoordinates(reaper.GetMousePosition(), false)
+--reaper.ClearConsole()
+--reaper.ShowConsoleMsg(string.gsub(AAAA,"\n","\n").."A")
 
 --B=ultraschall.GetMarkerByScreenCoordinates(reaper.GetMousePosition(), false)
 
@@ -12665,7 +12485,6 @@ function ultraschall.GetMarkerByTime(position, retina)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>string markers = ultraschall.GetMarkerByTime(number position, boolean retina)</functioncall>
@@ -12736,11 +12555,11 @@ function ultraschall.GetMarkerByTime(position, retina)
       elseif markrgnindexnumber>99 and markrgnindexnumber<1000 then temp=three
       elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=two
       elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=one
-      end
-      local Aretval,ARetval2=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+      end 
+      local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
       local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp,ARetval2+57) 
       local Bx=AAx-Ax
-      if Bx+pos>=position and pos<=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n" end
+      if Bx+pos>=position and pos<=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name end      
     end
   end
   return retstring
@@ -12748,7 +12567,6 @@ end
 
 --L=reaper.GetPlayPosition()
 --B=ultraschall.GetMarkerByTime(reaper.GetPlayPosition(), false)
---AAAA=GetMarkerByScreenCoordinates(reaper.GetMousePosition(), false)
 --Aretval,ARetval2=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath().."\\reaper.ini")
 --Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57,ARetval2+57+84) 
 
@@ -12853,7 +12671,7 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition, retina)
       end
       local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, xmouseposition-temp,xmouseposition) 
       if pos>=Ax and pos<=AAx then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n" 
-      elseif Ax>=pos and Ax<=rgnend then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n" 
+      elseif Ax>=pos and Ax<=rgnend then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name
       end
     end
   end
@@ -12861,7 +12679,8 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition, retina)
 end
 
 --A=ultraschall.GetRegionByScreenCoordinates(reaper.GetMousePosition(),false)
-
+--reaper.ClearConsole()
+--reaper.ShowConsoleMsg(A)
 function ultraschall.GetRegionByTime(position, retina)
 --returns a string with the marker(s) at given timeline-position. No Regions!
 --string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2"
@@ -12875,7 +12694,6 @@ function ultraschall.GetRegionByTime(position, retina)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>string markers = ultraschall.GetRegionByTime(number position, boolean retina)</functioncall>
@@ -12942,18 +12760,19 @@ function ultraschall.GetRegionByTime(position, retina)
       elseif markrgnindexnumber>9 and markrgnindexnumber<100 then temp=two
       elseif markrgnindexnumber>-1 and markrgnindexnumber<10 then temp=one
       end
-      local Aretval,ARetval2=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+      local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
       local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp,ARetval2+57) 
       local Bx=AAx-Ax
       if Bx+pos>=position and pos<=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n"
-      elseif pos<=position and rgnend>=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name.."\n" 
+      elseif pos<=position and rgnend>=position then retstring=retstring..markrgnindexnumber.."\n"..pos.."\n"..name
       end
     end
   end
   return retstring
 end
 
---A=ultraschall.GetRegionByTime(reaper.GetPlayPosition(), false)
+--A=ultraschall.GetRegionByTime(73, false)
+--reaper.ShowConsoleMsg(A)
 
 function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition, retina)
 --returns a string with the marker(s) at given screen-x-position. No Regions!
@@ -13033,6 +12852,8 @@ function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition, retina
 end
 
 --A=ultraschall.GetTimesignaturesByScreenCoordinates(reaper.GetMousePosition(),false)
+--reaper.ClearConsole()
+--reaper.ShowConsoleMsg(A.."A")
 
 function ultraschall.GetTimeSignaturesByTime(position, retina)
 --returns a string with the marker(s) at given position. No Regions!
@@ -13047,7 +12868,6 @@ function ultraschall.GetTimeSignaturesByTime(position, retina)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>string markers = ultraschall.GetTimeSignaturesByTime(number position, boolean retina)</functioncall>
@@ -13104,7 +12924,7 @@ function ultraschall.GetTimeSignaturesByTime(position, retina)
   for i=0, timeretval-1 do
     local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
     temp=one    
-    local Aretval,ARetval2=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+    local Aretval,ARetval2=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
     local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57-temp,ARetval2+57) 
     local Bx=AAx-Ax
     if Bx+timepos>=position and timepos<=position then retstring=retstring..i.."\n"..timepos.."\n" end
@@ -13112,7 +12932,8 @@ function ultraschall.GetTimeSignaturesByTime(position, retina)
   return retstring
 end
 
---A=ultraschall.GetTimeSignaturesByTime(reaper.GetPlayPosition(),false)
+--A=ultraschall.GetTimeSignaturesByTime(reaper.GetCursorPosition(),false)
+--reaper.ShowConsoleMsg(A.."A")
 --A,AA=GetRegionByTime(16.269,false)
 
 
@@ -16344,56 +16165,8 @@ end
 
 --A=ultraschall.GetProject_ApplyFXCFG("c:\\tt.rpp")
 
-function ultraschall.GetProject_RenderFilename(projectfilename_with_path, ProjectStateChunk)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetProject_RenderFilename</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>string render_filename = ultraschall.GetProject_RenderFilename(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
-  <description>
-    Returns the render-filename from an RPP-Projectfile or a ProjectStateChunk. If it contains only a path or nothing, you should check the Render_Pattern using <a href="#GetProject_RenderPattern">GetProject_RenderPattern</a>, as a render-pattern influences the rendering-filename as well.
-    
-    It's the entry RENDER_FILE
-    
-    Returns nil in case of error.
-  </description>
-  <parameters>
-    string projectfilename_with_path - filename with path for the rpp-projectfile; nil, if you want to use parameter ProjectStateChunk
-    optional string ProjectStateChunk - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil
-  </parameters>
-  <retvals>
-    string render_filename - the filename for rendering, check also <a href="#GetProject_RenderPattern">GetProject_RenderPattern</a>
-  </retvals>
-  <chapter_context>
-    Project-Files
-    RPP-Files Get
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, rpp, state, get, recording, path, render filename, filename, render</tags>
-</US_DocBloc>
-]]
-  -- check parameters and prepare variable ProjectStateChunk
-  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderFilename","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
-  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_RenderFilename","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
-  if projectfilename_with_path~=nil then
-    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
-    else ultraschall.AddErrorMessage("GetProject_RenderFilename","projectfilename_with_path", "File does not exist!", -3) return nil
-    end
-    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_RenderFilename", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
-  end
-  -- get the value and return it
-  local temp=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_FILE%s(.-)%c.-<RENDER_CFG")
-  if temp:sub(1,1)=="\"" then temp=temp:sub(2,-1) end
-  if temp:sub(-2,-1)=="\" " then temp=temp:sub(1,-3) end
-  return temp
-end
 
---A=ultraschall.GetProject_RenderFilename("c:\\tt.rpp")
+--A=ultraschall.GetProject_RenderFilename("C:\\Users\\meo\\Desktop\\hulaaa.RPP")
 
 function ultraschall.GetProject_RenderPattern(projectfilename_with_path, ProjectStateChunk)
 --[[
@@ -18292,7 +18065,7 @@ function ultraschall.GetProject_TrackStateChunk(projectfilename_with_path, idx, 
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>string trackstatechunk = ultraschall.GetProject_TrackStateChunk(string projectfilename_with_path, intger idx, boolean deletetrackid, optional string ProjectStateChunk)</functioncall>
+  <functioncall>string trackstatechunk = ultraschall.GetProject_TrackStateChunk(string projectfilename_with_path, integer idx, boolean deletetrackid, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns an RPPXML-trackstatechunk from an rpp-project-file or a ProjectStateChunk, with tracknumber idx. IDX is 1 for the first track in the project-file, 2 for the second, etc
     Returns -1 in case of error.
@@ -20200,100 +19973,6 @@ end
 --A=ultraschall.SetProject_RenderFilename("c:\\tt.rpp", "c:\\testname22.ext")
 --B=ultraschall.GetProject_RenderFilename("c:\\tt.rpp", "c:\\testname.ext")
 
-
-function ultraschall.SetProject_RenderPattern(projectfilename_with_path, render_pattern, ProjectStateChunk)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SetProject_RenderPattern</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval = ultraschall.SetProject_RenderPattern(string projectfilename_with_path, string render_pattern, optional string ProjectStateChunk)</functioncall>
-  <description>
-    Sets the render-filename in an rpp-projectfile or a ProjectStateChunk. Set it to "", if you want to set the render-filename with <a href="#SetProject_RenderFilename">SetProject_RenderFilename</a>.
-    
-    Returns -1 in case of error.
-  </description>
-  <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
-    string render_pattern - the pattern, with which the rendering-filename will be automatically created. Check also <a href="#GetProject_RenderFilename">GetProject_RenderFilename</a>
-    -Capitalizing the first character of the wildcard will capitalize the first letter of the substitution. 
-    -Capitalizing the first two characters of the wildcard will capitalize all letters.
-    -
-    -Directories will be created if necessary. For example if the render target is "$project/track", the directory "$project" will be created.
-    -
-    -$item    media item take name, if the input is a media item
-    -$itemnumber  1 for the first media item on a track, 2 for the second...
-    -$track    track name
-    -$tracknumber  1 for the first track, 2 for the second...
-    -$parenttrack  parent track name
-    -$region    region name
-    -$regionnumber  1 for the first region, 2 for the second...
-    -$namecount  1 for the first item or region of the same name, 2 for the second...
-    -$start    start time of the media item, render region, or time selection
-    -$end    end time of the media item, render region, or time selection
-    -$startbeats  start time in beats of the media item, render region, or time selection
-    -$endbeats  end time in beats of the media item, render region, or time selection
-    -$timelineorder  1 for the first item or region on the timeline, 2 for the second...
-    -$project    project name
-    -$tempo    project tempo at the start of the render region
-    -$timesignature  project time signature at the start of the render region, formatted as 4-4
-    -$filenumber  blank (optionally 1) for the first file rendered, 1 (optionally 2) for the second...
-    -$filenumber[N]  N for the first file rendered, N+1 for the second...
-    -$note    C0 for the first file rendered,C#0 for the second...
-    -$note[X]    X (example: B2) for the first file rendered, X+1 (example: C3) for the second...
-    -$natural    C0 for the first file rendered, D0 for the second...
-    -$natural[X]  X (example: F2) for the first file rendered, X+1 (example: G2) for the second...
-    -$format    render format (example: wav)
-    -$samplerate  sample rate (example: 44100)
-    -$sampleratek  sample rate (example: 44.1)
-    -$year    year
-    -$year2    last 2 digits of the year
-    -$month    month number
-    -$monthname  month name
-    -$day    day of the month
-    -$hour    hour of the day in 24-hour format
-    -$hour12    hour of the day in 12-hour format
-    -$ampm    am if before noon,pm if after noon
-    -$minute    minute of the hour
-    -$second    second of the minute
-    -$user    user name
-    -$computer  computer name
-    -
-    -(this description has been taken from the Render Wildcard Help within the Render-Dialog of Reaper)
-    optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
-  </parameters>
-  <retvals>
-    integer retval - -1 in case of error, 1 in case of success
-  </retvals>
-  <chapter_context>
-    Project-Files
-    RPP-Files Set
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, rpp, state, set, recording, render pattern, filename, render</tags>
-</US_DocBloc>
-]]  
-  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderPattern", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
-  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RenderPattern", "projectfilename_with_path", "File does not exist", -2) return -1 end
-  if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
-  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderPattern", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
-  if render_pattern~=nil and type(render_pattern)~="string" then ultraschall.AddErrorMessage("SetProject_RenderPattern", "render_pattern", "Must be a string", -4) return -1 end
-  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderPattern", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
-
-  local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_FILE.-%c)")
-  local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-(RENDER_FMT.*)")
-  local RenderPattern
-  if render_pattern==nil then RenderPattern="" else RenderPattern="  RENDER_PATTERN "..render_pattern.."\n" end
-  
-  ProjectStateChunk=FileStart..RenderPattern.."  "..FileEnd
-  if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
-  else return 1, ProjectStateChunk
-  end  
-end
 
 --B,C=ultraschall.SetProject_RenderPattern("c:\\tt.rpp", "Tudelu")
 --reaper.MB(C:sub(1,1000),"",0)
@@ -22408,8 +22087,10 @@ function ultraschall.GetAllRegionsBetween(startposition, endposition, partial)
       end
         
     elseif partial==true then
-      if (B[i][0]<startposition or B[i][0]>endposition)
-        and (B[i][1]<startposition or B[i][1]>endposition) then
+      if (B[i][0]>=startposition and B[i][0]<=endposition)
+      or (B[i][1]>=startposition and B[i][1]<=endposition)
+      or (B[i][0]<=startposition and B[i][1]>=endposition) then
+      else
           table.remove(B,i)
           A=A-1
       end
@@ -29063,7 +28744,6 @@ function ultraschall.GetReaperWindowPosition_Left()
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>integer leftwindowposition = ultraschall.GetReaperWindowPosition_Left()</functioncall>
@@ -29083,8 +28763,8 @@ function ultraschall.GetReaperWindowPosition_Left()
 </US_DocBloc>
 ]]
 
-  local temp,Technopop=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
-  local temp,ElectricCafe=reaper.BR_Win32_GetPrivateProfileString("REAPER", "dockheight_l", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+  local temp,Technopop=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+  local temp,ElectricCafe=ultraschall.GetIniFileValue("REAPER", "dockheight_l", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
 
   local C,D,E,F,G,H,I,J,K,L=reaper.my_getViewport(1,2,3,4,5,6,7,8, true)
   local A1x,A2x= reaper.GetSet_ArrangeView2(0, false, 0,0)
@@ -29108,7 +28788,6 @@ function ultraschall.GetReaperWindowPosition_Right()
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>integer rightwindowposition = ultraschall.GetReaperWindowPosition_Right()</functioncall>
@@ -29127,7 +28806,7 @@ function ultraschall.GetReaperWindowPosition_Right()
   <tags>reaper, window, right, position, pixels</tags>
 </US_DocBloc>
 ]]
-  local temp,Technopop=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
+  local temp,Technopop=ultraschall.GetIniFileValue("REAPER", "leftpanewid", "", reaper.GetResourcePath()..ultraschall.Separator.."reaper.ini")
 
   local C,D,E,F,G,H,I,J,K,L=reaper.my_getViewport(1,2,3,4,5,6,7,8, true)
   local A1x,A2x= reaper.GetSet_ArrangeView2(0, false, 0,0)
@@ -30868,98 +30547,6 @@ function ultraschall.CountEnvelopePoints(Tracknumber, EnvelopeName)
 end
 
 
-function ultraschall.WriteValueToFile_Insert(filename_with_path, linenumber, value)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>WriteValueToFile_Insert</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval = ultraschall.WriteValueToFile_Insert(string filename_with_path, integer linenumber, string value)</functioncall>
-  <description>
-    Inserts value into a file at linenumber. All lines, up to linenumber-1 come before value, all lines at linenumber to the end of the file will come after value.
-    Will return -1, if no such line exists.
-    
-    Note: non-binary-files only!
-  </description>
-  <parameters>
-    string filename_with_path - filename to write the value to
-    integer linenumber - the linenumber, at where to insert the value into the file
-    string value - the value to be inserted into the file
-  </parameters>
-  <retvals>
-    integer retval - 1, in case of success, -1 in case of error
-  </retvals>
-  <chapter_context>
-    File Management
-    Write Files
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>filemanagement,export,write,file,textfile,insert</tags>
-</US_DocBloc>
-]]
-  if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_Insert","filename_with_path", "nil not allowed as filename", -1) return -1 end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_Insert","filename_with_path", "file does not exist", -2) return -1 end
-  if value==nil then ultraschall.AddErrorMessage("WriteValueToFile_Insert","value", "nil not allowed", -3) return -1 end
-  if tonumber(linenumber)==nil then ultraschall.AddErrorMessage("WriteValueToFile_Insert","linenumber", "invalid linenumber", -4) return -1 end
-  local numberoflines=ultraschall.CountLinesInFile(filename_with_path)
-  if tonumber(linenumber)<1 or tonumber(linenumber)>numberoflines then ultraschall.AddErrorMessage("WriteValueToFile_Insert","linenumber", "linenumber must be between 1 and "..numberoflines.." for this file", -5) return -1 end
-  local contents, correctnumberoflines = ultraschall.ReadLinerangeFromFile(filename_with_path, 1, linenumber-1) 
-  local contents2, correctnumberoflines = ultraschall.ReadLinerangeFromFile(filename_with_path, linenumber, numberoflines)
-  return ultraschall.WriteValueToFile(filename_with_path, contents..value..contents2, false, false)
-end
-
-
-function ultraschall.WriteValueToFile_Replace(filename_with_path, startlinenumber, endlinenumber, value)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>WriteValueToFile_Replace</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval = ultraschall.WriteValueToFile_Replace(string filename_with_path, integer startlinenumber, integer endlinenumber, string value)</functioncall>
-  <description>
-    Replaces the linenumbers startlinenumber to endlinenumber in a file with value. All lines, up to startlinenumber-1 come before value, all lines at endlinenumber+1 to the end of the file will come after value.
-    Will return -1, if no such lines exists.
-    
-    Note: non-binary-files only!
-  </description>
-  <parameters>
-    string filename_with_path - filename to write the value to
-    integer startlinenumber - the first linenumber, to be replaced with value in the file
-    integer endlinenumber - the last linenumber, to be replaced with value in the file
-    string value - the value to be inserted into the file
-  </parameters>
-  <retvals>
-    integer retval - 1, in case of success, -1 in case of error
-  </retvals>
-  <chapter_context>
-    File Management
-    Write Files
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>filemanagement,export,write,file,textfile,replace</tags>
-</US_DocBloc>
-]]
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("WriteValueToFile_Replace","filename_with_path", "must be a string", -1) return -1 end
-  if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_Replace","filename_with_path", "nil not allowed as filename", -0) return -1 end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_Replace","filename_with_path", "file does not exist", -2) return -1 end
-  if value==nil then ultraschall.AddErrorMessage("WriteValueToFile_Replace","value", "nil not allowed", -3) return -1 end
-  if tonumber(startlinenumber)==nil then ultraschall.AddErrorMessage("WriteValueToFile_Replace","startlinenumber", "invalid linenumber", -4) return -1 end
-  if tonumber(endlinenumber)==nil then ultraschall.AddErrorMessage("WriteValueToFile_Replace","endlinenumber", "invalid linenumber", -5) return -1 end
-  local numberoflines=ultraschall.CountLinesInFile(filename_with_path)
-  if tonumber(startlinenumber)<1 or tonumber(startlinenumber)>numberoflines then ultraschall.AddErrorMessage("WriteValueToFile_Replace","startlinenumber", "linenumber must be between 1 and "..numberoflines.." for this file", -6) return -1 end
-  if tonumber(endlinenumber)<tonumber(startlinenumber) or tonumber(endlinenumber)>numberoflines then ultraschall.AddErrorMessage("WriteValueToFile_Replace","endlinenumber", "linenumber must be bigger than "..startlinenumber.." for startlinenumber and max "..numberoflines.." for this file", -7) return -1 end
-  local contents, correctnumberoflines = ultraschall.ReadLinerangeFromFile(filename_with_path, 1, startlinenumber-1) 
-  local contents2, correctnumberoflines = ultraschall.ReadLinerangeFromFile(filename_with_path, endlinenumber+1, numberoflines)
-  return ultraschall.WriteValueToFile(filename_with_path, contents..value..contents2, false, false)
-end
 
 function ultraschall.GetTrackLength(Tracknumber)
 --[[
@@ -31206,100 +30793,6 @@ function ultraschall.GetLengthOfFile(filename_with_path)
 end
 
 
-function ultraschall.WriteValueToFile_InsertBinary(filename_with_path, byteposition, value)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>WriteValueToFile_InsertBinary</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval = ultraschall.WriteValueToFile_InsertBinary(string filename_with_path, integer byteposition, string value)</functioncall>
-  <description>
-    Inserts value into a file at byteposition. All bytes, up to byteposition-1 come before value, all bytes at byteposition to the end of the file will come after value.
-    Will return -1, if no such line exists.
-    
-    Note: good for binary files
-  </description>
-  <parameters>
-    string filename_with_path - filename to write the value to
-    integer byteposition - the byteposition, at where to insert the value into the file
-    string value - the value to be inserted into the file
-  </parameters>
-  <retvals>
-    integer retval - 1, in case of success, -1 in case of error
-  </retvals>
-  <chapter_context>
-    File Management
-    Write Files
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>filemanagement,export,write,file,textfile,insert,binary</tags>
-</US_DocBloc>
-]]
-  if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","filename_with_path", "nil not allowed as filename", -1) return -1 end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","filename_with_path", "file does not exist", -2) return -1 end
-  if value==nil then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","value", "nil not allowed", -3) return -1 end
-  if tonumber(byteposition)==nil then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","byteposition", "invalid value. Only integer allowed", -4) return -1 end
-  local filelength=ultraschall.GetLengthOfFile(filename_with_path)
-  if tonumber(byteposition)<0 or tonumber(byteposition)>filelength then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","byteposition", "must be inbetween 0 and "..filelength.." for this file", -5) return -1 end
-  if byteposition==0 then byteposition=1 end
-  local correctnumberofbytes, contents=ultraschall.ReadBinaryFile_Offset(filename_with_path, 0, byteposition-1)
-  local correctnumberofbytes2, contents2=ultraschall.ReadBinaryFile_Offset(filename_with_path, byteposition, -1)
-  return ultraschall.WriteValueToFile(filename_with_path, contents..value..contents2, true, false)
-end
-
-function ultraschall.WriteValueToFile_ReplaceBinary(filename_with_path, startbyteposition, endbyteposition, value)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>WriteValueToFile_ReplaceBinary</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval = ultraschall.WriteValueToFile_ReplaceBinary(string filename_with_path, integer startbyteposition, integer endbyteposition, string value)</functioncall>
-  <description>
-    Replaces content in the file from startbyteposition to endbyteposition-1 with value. All bytes, up to startbyteposition-1 come before value, all bytes from (and including)endbyteposition to the end of the file will come after value.
-    Will return -1, if no such line exists.
-    
-    Note: good for binary files
-  </description>
-  <parameters>
-    string filename_with_path - filename to write the value to
-    integer startbyteposition - the first byte in the file to be replaced, starting with 1, if you want to replace at the beginning of the file. Everything before startposition will be kept.
-    integer endbyteposition - the first byte after the replacement. Everything from endbyteposition to the end of the file will be kept.
-    string value - the value to be inserted into the file
-  </parameters>
-  <retvals>
-    integer retval - 1, in case of success, -1 in case of error
-  </retvals>
-  <chapter_context>
-    File Management
-    Write Files
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>filemanagement,export,write,file,textfile,replace,binary</tags>
-</US_DocBloc>
-]]
-  if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","filename_with_path", "nil not allowed as filename", -1) return -1 end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","filename_with_path", "file does not exist", -2) return -1 end
-  if value==nil then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","value", "nil not allowed", -3) return -1 end
-  if tonumber(startbyteposition)==nil then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","startbyteposition", "invalid value. Only integer allowed", -4) return -1 end
-  if tonumber(endbyteposition)==nil then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","endbyteposition", "invalid value. Only integer allowed", -5) return -1 end
-  
-  local filelength=ultraschall.GetLengthOfFile(filename_with_path)
-  if tonumber(startbyteposition)<0 or tonumber(startbyteposition)>filelength then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","startbyteposition", "must be inbetween 0 and "..filelength.." for this file", -6) return -1 end
-  if tonumber(endbyteposition)<tonumber(startbyteposition) or tonumber(endbyteposition)>filelength then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","endbyteposition", "must be inbetween "..startbyteposition.." and "..filelength.." for this file", -7) return -1 end
-
-  if startbyteposition==0 then startbyteposition=1 end
-  correctnumberofbytes, contents=ultraschall.ReadBinaryFile_Offset(filename_with_path, 0, startbyteposition-1)
-  local correctnumberofbytes2, contents2=ultraschall.ReadBinaryFile_Offset(filename_with_path, endbyteposition-1, -1)
-  return ultraschall.WriteValueToFile(filename_with_path, contents..value..contents2, true, false)
-end
 
 
 function ultraschall.SecondsToTimeString_hh_mm_ss_mss(time)
@@ -31978,8 +31471,8 @@ function ultraschall.SetReaperWindowToSize(x,y)
 --]]
   if math.type(x)~="integer" then ultraschall.AddErrorMessage("SetReaperWindowToSize","x", "only integer-numbers are allowed", -1) return -1 end
   if math.type(y)~="integer" then ultraschall.AddErrorMessage("SetReaperWindowToSize","y", "only integer-numbers are allowed", -2) return -1 end
-  reaper.BR_Win32_WritePrivateProfileString("Reaper", "setwndsize_x", x, reaper.get_ini_file())
-  reaper.BR_Win32_WritePrivateProfileString("Reaper", "setwndsize_y", y, reaper.get_ini_file())
+  ultraschall.SetIniFileValue("Reaper", "setwndsize_x", x, reaper.get_ini_file())
+  ultraschall.SetIniFileValue("Reaper", "setwndsize_y", y, reaper.get_ini_file())
   ultraschall.RunCommand("_SWS_SETWINDOWSIZE")
 end
 
@@ -32145,47 +31638,7 @@ end
 
 --A,B,C,D=ultraschall.IsRegionAtPosition(14)
 
-function ultraschall.GetMediafileAttributes(filename)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetMediafileAttributes</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>number length, integer numchannels, integer Samplerate, string Filetype = ultraschall.GetMediafileAttributes(string filename)</functioncall>
-  <description>
-    returns the attributes of a mediafile
-  </description>
-  <parameters>
-    string filename - the file whose attributes you want to have
-  </parameters>
-  <retvals>
-    number length - the length of the mediafile in seconds
-    integer numchannels - the number of channels of the mediafile
-    integer Samplerate - the samplerate of the mediafile in hertz
-    string Filetype - the type of the mediafile, like MP3, WAV, MIDI, FLAC, RPP_PROJECT etc
-  </retvals>
-  <chapter_context>
-    MediaItem Management
-    Assistance functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>markermanagement, get, position, length, num, channels, samplerate, filetype</tags>
-</US_DocBloc>
---]]
-  if type(filename)~="string" then ultraschall.AddErrorMessage("GetMediafileAttributes","filename", "must be a string", -1) return -1 end
-  if reaper.file_exists(filename)==false then ultraschall.AddErrorMessage("GetMediafileAttributes","filename", "file does not exist", -2) return -1 end
-  local PCM_source=reaper.PCM_Source_CreateFromFile(filename)
-  local Length, lengthIsQN = reaper.GetMediaSourceLength(PCM_source)
-  local Numchannels=reaper.GetMediaSourceNumChannels(PCM_source)
-  local Samplerate=reaper.GetMediaSourceSampleRate(PCM_source)
-  local Filetype=reaper.GetMediaSourceType(PCM_source, "")  
-  reaper.PCM_Source_Destroy(PCM_source)
-  return Length, Numchannels, Samplerate, Filetype
-end
+
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetMediafileAttributes("c:\\Derek And The Dominos - Layla.mp3")
 --A,B,C,D,E,F,G,H,I=ultraschall.GetMediafileAttributes("C:\\MarkerProject.RPP")
@@ -32364,106 +31817,6 @@ end
 --C,C2=ultraschall.CompareArrays(a, b)
 
 
-function ultraschall.InsertMediaItemFromFile(filename, track, position, endposition, editcursorpos, offset)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>InsertMediaItemFromFile</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    SWS=2.8.8
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval, MediaItem item, number endposition, integer numchannels, integer Samplerate, string Filetype = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, integer editcursorpos, optional number offset)</functioncall>
-  <description>
-    Inserts the mediafile filename into the project at position in track
-    When giving an rpp-projectfile, it will be rendered by Reaper and inserted as subproject!
-    
-    Due API-limitations, it creates two undo-points: one for inserting the MediaItem and one for changing the length(when endposition isn't -1).    
-    
-    Returns -1 in case of failure
-  </description>
-  <parameters>
-    string filename - the path+filename of the mediafile to be inserted into the project
-    integer track - the track, in which the file shall be inserted
-                  -  0, insert the file into a newly inserted track after the last track
-                  - -1, insert the file into a newly inserted track before the first track
-    number position - the position of the newly inserted item
-    number endposition - the length of the newly created mediaitem; -1, use the length of the sourcefile
-    integer editcursorpos - the position of the editcursor after insertion of the mediafile
-          - 0 - the old editcursorposition
-          - 1 - the position, at which the item was inserted
-          - 2 - the end of the newly inserted item
-    optional number offset - an offset, to delay the insertion of the item, to overcome possible "too late"-starting of playback of item during recording
-  </parameters>
-  <retvals>
-    integer retval - 0, if insertion worked; -1, if it failed
-    MediaItem item - the newly created MediaItem
-    number endposition - the endposition of the newly created MediaItem in seconds
-    integer numchannels - the number of channels of the mediafile
-    integer Samplerate - the samplerate of the mediafile in hertz
-    string Filetype - the type of the mediafile, like MP3, WAV, MIDI, FLAC, etc
-  </retvals>
-  <chapter_context>
-    MediaItem Management
-    Insert
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>markermanagement, insert, mediaitem, position, mediafile, track</tags>
-</US_DocBloc>
---]]
-
-  -- check parameters
-  if reaper.file_exists(filename)==false then ultraschall.AddErrorMessage("InsertMediaItemFromFile", "filename", "file does not exist", -1) return -1 end
-  if math.type(track)~="integer" then ultraschall.AddErrorMessage("InsertMediaItemFromFile","track", "must be an integer", -2) return -1 end
-  if type(position)~="number" then ultraschall.AddErrorMessage("InsertMediaItemFromFile","position", "must be a number", -3) return -1 end
-  if type(endposition)~="number" then ultraschall.AddErrorMessage("InsertMediaItemFromFile","endposition", "must be a number", -4) return -1 end
-  if endposition<-1 then ultraschall.AddErrorMessage("InsertMediaItemFromFile","endposition", "must be bigger/equal 0; or -1 for sourcefilelength", -5) return -1 end
-  if math.type(editcursorpos)~="integer" then ultraschall.AddErrorMessage("InsertMediaItemFromFile", "editcursorpos", "must be an integer between 0 and 2", -6) return -1 end
-  if track<-1 or track>reaper.CountTracks(0) then ultraschall.AddErrorMessage("InsertMediaItemFromFile","track", "no such track available", -7) return -1 end  
-  if offset~=nil and type(offset)~="number" then ultraschall.AddErrorMessage("InsertMediaItemFromFile","offset", "must be either nil or a number", -8) return -1 end  
-  if offset==nil then offset=0 end
-    
-  -- where to insert and where to have the editcursor after insert
-  local editcursor, mode
-  if editcursorpos==0 then editcursor=reaper.GetCursorPosition()
-  elseif editcursorpos==1 then editcursor=position
-  elseif editcursorpos==2 then editcursor=position+ultraschall.GetMediafileAttributes(filename)
-  else ultraschall.AddErrorMessage("InsertMediaItemFromFile","editcursorpos", "must be an integer between 0 and 2", -6) return -1
-  end
-  
-  -- insert file
-  local Length, Numchannels, Samplerate, Filetype = ultraschall.GetMediafileAttributes(filename) -- mediaattributes, like length
-  local startTime, endTime = reaper.BR_GetArrangeView(0) -- get current arrange-view-range
-  local mode=0
-  if track>=0 and track<reaper.CountTracks(0) then
-    mode=0
-  elseif track==0 then
-    mode=0
-    track=reaper.CountTracks(0)
-  elseif track==-1 then
-    mode=0
-    track=1
-    reaper.InsertTrackAtIndex(0,false)
-  end
-  local SelectedTracks=ultraschall.CreateTrackString_SelectedTracks() -- get old track-selection
-  ultraschall.SetTracksSelected(tostring(track), true) -- set track selected, where we want to insert the item
-  reaper.SetEditCurPos(position+offset, false, false) -- change editcursorposition to where we want to insert the item
-  local CountMediaItems=reaper.CountMediaItems(0) -- the number of items available; the new one will be number of items + 1
-  local LLL=ultraschall.GetAllMediaItemGUIDs()
-  if LLL[1]==nil then LLL[1]="tudelu" end
-  local integer=reaper.InsertMedia(filename, mode)  -- insert item with file
-  local LLL2=ultraschall.GetAllMediaItemGUIDs()
-  local A,B=ultraschall.CompareArrays(LLL, LLL2)
-  local item=reaper.BR_GetMediaItemByGUID(0, A[1])
-  if endposition~=-1 then reaper.SetMediaItemInfo_Value(item, "D_LENGTH", endposition) end
-  
-  reaper.SetEditCurPos(editcursor, false, false)  -- set editcursor to new position
-  reaper.BR_SetArrangeView(0, startTime, endTime) -- reset to old arrange-view-range
-  if SelectedTracks~="" then ultraschall.SetTracksSelected(SelectedTracks, true) end -- reset old trackselection
-  return 0, item, editcursor, Length, Numchannels, Samplerate, Filetype
-end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.InsertMediaItemFromFile("c:\\tt2.opus", 2, 10, 30, 0)
 
@@ -33729,16 +33082,16 @@ end
 
 --L,LL=ultraschall.CountPathAndFilesInDirectory("c:\\")
 
-function ultraschall.GetAllFilesnamesInPath(path)
+function ultraschall.GetAllFilenamesInPath(path)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetAllFilesnamesInPath</slug>
+  <slug>GetAllFilenamesInPath</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>integer filecount, array files = ultraschall.GetAllFilesnamesInPath(string path)</functioncall>
+  <functioncall>integer filecount, array files = ultraschall.GetAllFilenamesInPath(string path)</functioncall>
   <description>
     returns the number of files and the filenames in path
     
@@ -33762,7 +33115,7 @@ function ultraschall.GetAllFilesnamesInPath(path)
 --]]
 
   -- check parameters
-  if type(path)~="string" then ultraschall.AddErrorMessage("GetAllFilesnamesInPath", "path", "must be a string", -1) return -1 end
+  if type(path)~="string" then ultraschall.AddErrorMessage("GetAllFilenamesInPath", "path", "must be a string", -1) return -1 end
 
   -- prepare variables
   local Files={}
@@ -34338,7 +33691,7 @@ end
 --LL=ultraschall.GetVZoom(30)
 --reaper.UpdateArrange()
 
-function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom)
+function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom, vscroll)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>StoreArrangeviewSnapshot</slug>
@@ -34347,9 +33700,9 @@ function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.StoreArrangeviewSnapshot(integer slot, string description, boolean position, boolean vzoom)</functioncall>
+  <functioncall>integer retval = ultraschall.StoreArrangeviewSnapshot(integer slot, string description, boolean position, boolean vzoom, boolean vscroll)</functioncall>
   <description>
-    Stores a new Arrangeview-snapshot, that includes the position, horizontal zoom and vertical zoom.
+    Stores a new Arrangeview-snapshot, that includes the position, horizontal zoom, vertical zoom and vertical scroll.
     
     Returns -1 in case of error.
   </description>
@@ -34358,6 +33711,7 @@ function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom
     string description - a description for this arrangeview-snapshot
     boolean position - true, store start and endposition of the current arrangeview; false, don't store start and endposition of current arrangeview(keep old position in slot, if existing)
     boolean vzoom - true, store current vertical-zoom-factor; false, don't store current vertical-zoom-factor(keep old zoomfactor in slot, if existing)
+    boolean vscroll - true, store current vertical scroll-factor; false, don't store current vertival-scroll-factor
   </parameters>
   <retvals>
     integer retval - -1, in case of error
@@ -34377,6 +33731,7 @@ function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom
   if type(description)~="string" and description~=nil then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","description", "Must be a string(to set description) or nil(to keep old description)", -3) return -1 end
   if type(position)~="boolean" and position~=nil then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","position", "Must be boolean(to set with current start&end-position) or nil(to keep old start&end-position)", -4) return -1 end
   if type(vzoom)~="boolean" and vzoom~=nil then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","vzoom", "Must be boolean(to set with current vertical zoom) or nil(to keep old vertical zoom)", -6) return -1 end
+  if type(vscroll)~="boolean" and vscroll~=nil then ultraschall.AddErrorMessage("StoreArrangeviewSnapshot","vscroll", "Must be boolean(to set with current vertical scroll) or nil(to keep old vertical scroll)", -7) return -1 end
   
   -- prepare variables
   local slot=tostring(slot)
@@ -34401,14 +33756,24 @@ function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom
 
   if vzoom==true then 
     reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom", vzoom2)
-  elseif vzoom==nil then
+  elseif vzoom==false then
     reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom", -1)
+  end
+  
+  local translation = reaper.JS_Localize("trackview", "DLG_102")
+  
+  local retval, vscroll2 = reaper.JS_Window_GetScrollInfo(reaper.JS_Window_Find(translation, true), "SB_VERT")
+  
+  if vscroll==true then
+    reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll", vscroll2)
+  elseif vscroll==false then
+    reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll", -1)  
   end
   
   reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom", hzoom)  
 end
 
---ultraschall.StoreArrangeviewSnapshot(1, "LSubisubisu", true, true, true)
+--ultraschall.StoreArrangeviewSnapshot(1, "LSubisubisu", true, true, true, true)
 
 function ultraschall.IsValidArrangeviewSnapshot(slot)
 --[[
@@ -34452,8 +33817,8 @@ function ultraschall.IsValidArrangeviewSnapshot(slot)
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_end")~=0 or
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_description")~=0 or
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom")~=0 or
-     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")~=0 then
-
+     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")~=0 or
+     reaper.GetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll")~="" then
      return true
   else
     return false
@@ -34471,9 +33836,9 @@ function ultraschall.RetrieveArrangeviewSnapshot(slot)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string description, number startposition, number endposition, integer vzoomfactor, number hzoomfactor = ultraschall.RetrieveArrangeviewSnapshot(integer slot)</functioncall>
+  <functioncall>boolean retval, string description, number startposition, number endposition, integer vzoomfactor, number hzoomfactor, number vertical_scroll = ultraschall.RetrieveArrangeviewSnapshot(integer slot)</functioncall>
   <description>
-    Retreives an Arrangeview-snapshot and returns the startposition, endposition and vertical and horizontal zoom-factor.
+    Retrieves an Arrangeview-snapshot and returns the startposition, endposition and vertical and horizontal zoom-factor as well as the number vertical-scroll-factor..
     
     Returns false in case of error.
   </description>
@@ -34487,6 +33852,7 @@ function ultraschall.RetrieveArrangeviewSnapshot(slot)
     number endposition - the endposition of the arrangeview
     integer vzoom - the vertical-zoomfactor(0-40)
     number hzoomfactor - the horizontal zoomfactor
+    number vertical_scroll - the vertical scroll-value
   </retvals>
   <chapter_context>
     User Interface
@@ -34494,7 +33860,7 @@ function ultraschall.RetrieveArrangeviewSnapshot(slot)
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>userinterface, get, arrangeview, snapshot, startposition, endposition, verticalzoom, horizontal zoom</tags>
+  <tags>userinterface, get, arrangeview, snapshot, startposition, endposition, verticalzoom, horizontal zoom, vertical scroll</tags>
 </US_DocBloc>
 --]]
   -- check parameters
@@ -34511,14 +33877,16 @@ function ultraschall.RetrieveArrangeviewSnapshot(slot)
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_end")~=0 or
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_description")~=0 or
      reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom")~=0 or
-     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")~=0 then
+     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")~=0 or
+     reaper.GetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll")~="" then
      
      _l, start=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_start")
      _l, ende=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_end")
      _l, description=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_description")
      _l, vzoom=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")
      _l, hzoom=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom")
-     return true, description, tonumber(start), tonumber(ende), tonumber(vzoom), tonumber(hzoom)
+     _l, vscroll=reaper.GetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll")
+     return true, description, tonumber(start), tonumber(ende), tonumber(vzoom), tonumber(hzoom), tonumber(vscroll)
   else
     return false
   end
@@ -34526,7 +33894,7 @@ end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.RetrieveArrangeviewSnapshot(1)
 
-function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermode)
+function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermode, verticalscroll)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RestoreArrangeviewSnapshot</slug>
@@ -34536,7 +33904,7 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
     SWS=2.9.7
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string description, number startposition, number endposition, integer vzoomfactor, number hzoomfactor = ultraschall.RestoreArrangeviewSnapshot(integer slot, optional boolean position, optional boolean vzoom, optional integer hcentermode)</functioncall>
+  <functioncall>boolean retval, string description, number startposition, number endposition, integer vzoomfactor, number hzoomfactor, number vertical_scroll_factor = ultraschall.RestoreArrangeviewSnapshot(integer slot, optional boolean position, optional boolean vzoom, optional integer hcentermode, optional boolean verticalscroll)</functioncall>
   <description>
     Sets arrangeview to start/endposition and horizontal and vertical-zoom, as received from Arrangeview-Snapshot-slot. It returns the newly set start/endposition, vertical zoom, horizontal zoom and description of slot.
     
@@ -34554,6 +33922,7 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
                                  -    1, keeps edit-cursor in center of zoom
                                  -    2, keeps center of view in the center during zoom
                                  -    3, keeps in center of zoom, what is beneath the mousecursor
+    optional boolean verticalscroll - true, sets vertical scroll-value as well; false, doesn't set vertical-scroll-value
   </parameters>
   <retvals>
     boolean retval - false, in case of error; true, in case of success
@@ -34562,6 +33931,7 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
     number endposition - the endposition of the arrangeview
     integer vzoom - the vertical-zoomfactor(0-40)
     number hzoomfactor - the horizontal zoomfactor
+    number vertical_scroll_factor - the vertical-scroll-factor
   </retvals>
   <chapter_context>
     User Interface
@@ -34581,9 +33951,10 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
   if vzoom==nil then vzoom=true end
   if position==false and hcentermode~=nil and math.type(hcentermode)~="integer" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","hcentermode", "Must be nil or an integer", -6) return false end
   if hcentermode~=nil and (hcentermode<-1 or hcentermode>3) then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","hcentermode", "Must be nil or between -1 and 3", -7) return false end
-  
+  if verticalscroll~=nil and type(verticalscroll)~="boolean" then ultraschall.AddErrorMessage("RestoreArrangeviewSnapshot","verticalscroll", "Must be nil or a boolean", -8) return false end
+    
   -- prepare variables by retrieving the snapshot-slot-information
-  local bool, description, start, ende, vzoom3, hzoom = ultraschall.RetrieveArrangeviewSnapshot(slot)
+  local bool, description, start, ende, vzoom3, hzoom, vscroll = ultraschall.RetrieveArrangeviewSnapshot(slot)
   local start2,ende2=reaper.GetSet_ArrangeView2(0,false,0,0)
   if start==-1 then start=start2 end
   if ende==-1 then ende=ende2 end
@@ -34602,8 +33973,14 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
   if vzoom3~=-1 and vzoom==true then 
     ultraschall.SetVZoom(vzoom3)
   end  
+  
+  if verticalscroll==true or verticalscroll==nil then
+    local translation = reaper.JS_Localize("trackview", "DLG_102")
+    
+    reaper.JS_Window_SetScrollPos(reaper.JS_Window_Find(translation, true), "SB_VERT", vscroll)
+  end
   reaper.UpdateArrange()
-  return true, description, start, ende, vzoom, hzoom
+  return true, description, start, ende, vzoom, hzoom, vscroll
 end
 
 --ultraschall.StoreArrangeviewSnapshot(3, "LSubisubisu", true, true, true)
@@ -35610,62 +34987,6 @@ end
 
 --L=ultraschall.GetIDEFontSize()
 
-function ultraschall.MB(msg,title,mbtype)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>MB</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.77
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval = ultraschall.MB(string msg, optional string title, optional integer type)</functioncall>
-  <description>
-    Shows Messagebox with user-clickable buttons. Works like reaper.MB() but unlike reaper.MB, this function accepts omitting some parameters for quicker use.
-    
-    Returns -1 in case of an error
-  </description>
-  <parameters>
-    string msg - the message, that shall be shown in messagebox
-    optional string title - the title of the messagebox
-    optional integer type - which buttons shall be shown in the messagebox
-                            - 0, OK
-                            - 1, OK CANCEL
-                            - 2, ABORT RETRY IGNORE
-                            - 3, YES NO CANCEL
-                            - 4, YES NO
-                            - 5, RETRY CANCEL
-                            - nil, defaults to OK
-  </parameters>
-  <retvals>
-    integer - the button pressed by the user
-                           - -1, error while executing this function
-                           - 1, OK
-                           - 2, CANCEL
-                           - 3, ABORT
-                           - 4, RETRY
-                           - 5, IGNORE
-                           - 6, YES
-                           - 7, NO
-  </retvals>
-  <chapter_context>
-    User Interface
-    Miscellaneous
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, user, interface, input, dialog, messagebox</tags>
-</US_DocBloc>
---]]
-  if type(msg)~="string" then ultraschall.AddErrorMessage("MB","msg", "Must be a string!", -1) return -1 end
-  if type(title)~="string" then title="" end
-  if math.type(mbtype)~="integer" then mbtype=0 end
-  if mbtype<0 or mbtype>5 then ultraschall.AddErrorMessage("MB","mbtype", "Must be between 0 and 5!", -2) return -1 end
-  reaper.MB(msg, title, mbtype)
-end
-
---L=ultraschall.MB("tutdelu","limmel",1)
-
 
 function progresscounter_old(state)
   local A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine.lua")
@@ -35704,6 +35025,7 @@ end
 
 function progresscounter(state)
   A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine_beta.lua")
   A=A.."function ultraschall."
   A=A:match("function ultraschall%..*")
 --  reaper.MB(tostring(A:sub(1,400)),"",0)
@@ -35756,65 +35078,6 @@ end
 
 
 
-function ultraschall.CreateValidTempFile(filename_with_path, create, suffix, retainextension)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CreateValidTempFile</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>string tempfilename = ultraschall.CreateValidTempFile(string filename_with_path, boolean create, string suffix, boolean retainextension)</functioncall>
-  <description>
-    Tries to determine a valid temporary filename. Will check filename_with_path with an included number between 0 and 16384 to create such a filename.
-    You can also add your own suffix to the filename.
-    
-    The pattern is: filename_with_path$Suffix~$number.ext (when retainextension is set to true!)
-    
-    If you wish, you can also create this temporary-file as an empty file.
-    
-    Returns nil in case of failure.
-  </description>
-  <retvals>
-    string tempfilename - the valid temporary filename found
-  </retvals>
-  <parameters>
-    string filename_with_path - the original filename
-    boolean create - true, if you want to create that temporary file as an empty file; false, just return the filename
-    string suffix - if you want to alter the temporary filename with an additional suffix, use this parameter
-    boolean retainextension - true, keep the extension(if existing) at the end of the tempfile; false, just add the suffix~number at the end.
-  </parameters>
-  <chapter_context>
-    File Management
-    Helper functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>filemanagement, create, temporary, file, filename</tags>
-</US_DocBloc>
-]]
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("CreateValidTempFile","filename_with_path", "Must be a string!", -2) return nil end
-  if type(create)~="boolean" then ultraschall.AddErrorMessage("CreateValidTempFile","create", "Must be boolean!", -3) return nil end
-  if type(suffix)~="string" then ultraschall.AddErrorMessage("CreateValidTempFile","suffix", "Must be a string!", -4) return nil end
-  if type(retainextension)~="boolean" then ultraschall.AddErrorMessage("CreateValidTempFile","retainextension", "Must be boolean!", -5) return nil end
-  local extension, tempfilename, A
-  if retainextension==true then extension=filename_with_path:match(".*(%..*)") end
-  if extension==nil then extension="" end
-  for i=0, 16384 do
-    tempfilename=filename_with_path..suffix.."~"..i..extension
-    if reaper.file_exists(tempfilename)==false then
-      if create==true then 
-        A=ultraschall.WriteValueToFile(tempfilename,"")
-        if A==1 then return tempfilename end
-      elseif create==false then 
-        return tempfilename
-      end
-    end
-  end
-  ultraschall.AddErrorMessage("CreateValidTempFile","filename_with_path", "Couldn't create a valid temp-file!", -1)
-  return nil
-end
 
 
 --LOL=ultraschall.GetProject_Tabs()
@@ -37090,85 +36353,6 @@ end
 --B = ultraschall.GetProject_RenderCFG("c:\\opustest.rpp")
 
 
-function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_with_hash, leadin_silence_tracks, leadin_silence_disc, burncd_image_after_render)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CreateRenderCFG_AudioCD</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.77
-    Lua=5.3
-  </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_AudioCD(integer trackmode, boolean only_markers_starting_with_hash, integer leadin_silence_tracks, integer leadin_silence_disc, boolean burncd_image_after_render)</functioncall>
-  <description>
-    Returns the render-cfg-string for the AudioCD-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
-    
-    You can also check, whether to burn the created cd-image after rendering.
-    
-    Returns nil in case of an error
-  </description>
-  <retvals>
-    string render_cfg_string - the render-cfg-string for the selected AudioCD-image-settings
-  </retvals>
-  <parameters>
-    integer trackmode - Track mode-dropdownlist: 1, Markers define new track; 2, Regions define tracks (other areas ignored); 3, One Track
-    boolean only_markers_starting_with_hash - Only use markers starting with #-checkbox; true, checked; false, unchecked
-    integer leadin_silence_tracks - Lead-in silence for tracks-inputbox, in milliseconds; 0 to 100000 supported by Ultraschall-API
-    integer leadin_silence_disc - Extra lead-in silence for disc-inputbox, in milliseconds; 0 to 100000 supported by Ultraschall-API
-    boolean burncd_image_after_render - Burn CD image after render-checkbox; true, checked; false, unchecked
-  </parameters>
-  <chapter_context>
-    Rendering of Project
-    Creating Renderstrings
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, create, render, outputformat, audiocd, cd, image, burn cd</tags>
-</US_DocBloc>
-]]
-
-  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes-for-AudioCD.ini"
-  if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "Ooops", "external audio-cd-render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
-  if math.type(trackmode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "trackmode", "Must be an integer between 1 and 3!", -2) return nil end
-  if type(only_markers_starting_with_hash)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "only_markers_starting_with_hash", "Must be a boolean!", -3) return nil end
-  if math.type(leadin_silence_tracks)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_tracks", "Must be an integer!", -4) return nil end
-  if math.type(leadin_silence_disc)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_disc", "Must be an integer!", -5) return nil end
-  if type(burncd_image_after_render)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "burncd_image_after_render", "Must be a boolean!", -6) return nil end
-  
-  if trackmode<1 or trackmode>3 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "trackmode", "Must be an integer between 1 and 3!", -7) return nil end
-  if leadin_silence_tracks<0 or leadin_silence_tracks>100000 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_tracks", "Ultraschall-API supports only millisecond-values between 0 to 100000, sorry.", -8) return nil end
-  if leadin_silence_disc<0 or leadin_silence_disc>100000 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_disc", "Ultraschall-API supports only millisecond-values between 0 to 100000, sorry.", -9) return nil end
-
-  
-  if trackmode==1 then trackmode="1"
-  elseif trackmode==2 then trackmode="2"
-  elseif trackmode==3 then trackmode="3"
-  end
-  
-  if only_markers_starting_with_hash==true then only_markers_starting_with_hash="checked" else only_markers_starting_with_hash="unchecked" end
-  
-  if burncd_image_after_render==true then burncd_image_after_render="checked" else burncd_image_after_render="unchecked" end
-  
-  local _temp, renderstring=ultraschall.GetIniFileExternalState("AUDIOCD", "Renderstring", ini_file)
-  local _temp, leadin_silence_disc=ultraschall.GetIniFileExternalState("AUDIOCD", "DISCLEADIN_"..leadin_silence_disc, ini_file)
-  local _temp, leadin_silence_tracks=ultraschall.GetIniFileExternalState("AUDIOCD", "TRACKLEADIN_"..leadin_silence_tracks, ini_file)
-  local _temp, trackmode=ultraschall.GetIniFileExternalState("AUDIOCD", "Trackmode_"..trackmode, ini_file)
-  local _temp, burncd_image_after_render=ultraschall.GetIniFileExternalState("AUDIOCD", "BurnCDImage_"..burncd_image_after_render, ini_file)
-  local _temp, only_markers_starting_with_hash=ultraschall.GetIniFileExternalState("AUDIOCD", "OnlyUseMarkers_"..only_markers_starting_with_hash, ini_file)
-
-  renderstring=string.gsub(renderstring, "%[DISCLEADIN%]", leadin_silence_disc)
-  renderstring=string.gsub(renderstring, "%[TRACKLEADIN%]", leadin_silence_tracks)
-  renderstring=string.gsub(renderstring, "%[BurnCDImage%]", burncd_image_after_render)
-  renderstring=string.gsub(renderstring, "%[Trackmode%]", trackmode)
-  renderstring=string.gsub(renderstring, "%[OnlyUseMarkers%]", only_markers_starting_with_hash)
-
-  return renderstring
-end
-
---A=ultraschall.CreateRenderCFG_AudioCD(1,false,100000,100000,false)
---reaper.CF_SetClipboard(A)
-
---B="IG9zaaCGAQCghgEAAAAAAAAAAAAAAAAA"
 
 
 function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, ABR_KBPS_MIN, ABR_KBPS_MAX)
@@ -37279,49 +36463,6 @@ end
 
 --A=ultraschall.CreateRenderCFG_DDP()
 
-
-function ultraschall.CreateRenderCFG_AIFF(bits)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CreateRenderCFG_AIFF</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.77
-    Lua=5.3
-  </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_AIFF(integer bits)</functioncall>
-  <description>
-    Returns the render-cfg-string for the AIFF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
-    
-    Returns nil in case of an error
-  </description>
-  <retvals>
-    string render_cfg_string - the render-cfg-string for the selected AIFF-settings
-  </retvals>
-  <parameters>
-    integer bits - the bitrate of the aiff-file; 8, 16, 24 and 32 are supported
-  </parameters>
-  <chapter_context>
-    Rendering of Project
-    Creating Renderstrings
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, create, render, outputformat, aiff</tags>
-</US_DocBloc>
-]]
-  if math.type(bits)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AIFF", "bits", "must be an integer", -1) return nil end
-  local renderstring="mZpY..AAA=="
-  if bits==8 then renderstring=string.gsub(renderstring, "%.%.", "Qg")
-  elseif bits==16 then renderstring=string.gsub(renderstring, "%.%.", "RA")
-  elseif bits==24 then renderstring=string.gsub(renderstring, "%.%.", "Rg")
-  elseif bits==32 then renderstring=string.gsub(renderstring, "%.%.", "SA")
-  else ultraschall.AddErrorMessage("CreateRenderCFG_AIFF", "bits", "only 8, 16, 24 and 32 are supported by AIFF", -2) return nil
-  end
-  return renderstring
-end
-
---A=ultraschall.CreateRenderCFG_AIFF(16)
 
 
 function ultraschall.CreateRenderCFG_FLAC(Bitrate, EncSpeed)
@@ -38177,173 +37318,6 @@ end
 --L=ultraschall.DirectoryExists("c:/windows/", "system32")
 --L=ultraschall.DirectoryExists("", "")
 
-function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, startposition, endposition, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>RenderProject_RenderCFG</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.96
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg)</functioncall>
-  <description>
-    Renders a project, using a specific render-cfg-string.
-    To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
-    
-    Returns -1 in case of an error
-    Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).
-  </description>
-  <retvals>
-    integer retval - -1, in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
-    integer renderfilecount - the number of rendered files
-    array MediaItemStateChunkArray - the MediaItemStateChunks of all rendered files, with the one in entry 1 being the rendered master-track(when rendering stems)
-    array Filearray - the filenames of the rendered files, including their paths. The filename in entry 1 is the one of the mastered track(when rendering stems)
-  </retvals>
-  <parameters>
-    string projectfilename_with_path - the project to render; nil, for the currently opened project(needs to be saved first)
-    string renderfilename_with_path - the filename of the output-file. If you give the wrong extension, Reaper will exchange it by the correct one.
-    number startposition - the startposition of the render-area in seconds; 
-                         - -1, to use the startposition set in the projectfile itself; 
-                         - -2, to use the start of the time-selection
-    number endposition - the endposition of the render-area in seconds; 
-                       - 0, to use projectlength of the currently opened and active project(not supported with "external" projectfiles, yet)
-                       - -1, to use the endposition set in the projectfile itself
-                       - -2, to use the end of the time-selection
-    boolean overwrite_without_asking - true, overwrite an existing renderfile; false, don't overwrite an existing renderfile
-    boolean renderclosewhendone - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings
-    boolean filenameincrease - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings
-    optional string rendercfg - the rendercfg-string, that contains all render-settings for an output-format
-                              - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a>
-                              - omit it or set to nil, if you want to use the render-string already set in the project
-  </parameters>
-  <chapter_context>
-    Rendering of Project
-    Rendering any Outputformat
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, render, output, file</tags>
-</US_DocBloc>
-]]
-  local retval
-  local curProj=reaper.EnumProjects(-1,"")
-  if type(startposition)~="number" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition", "Must be a number in seconds.", -1) return -1 end
-  if type(endposition)~="number" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "endposition", "Must be a number in seconds.", -2) return -1 end
-  if startposition>=0 and endposition>0 and endposition<=startposition then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "endposition", "Must be bigger than startposition.", -3) return -1 end
-  if endposition<-2 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "endposition", "Must be bigger than 0 or -1(to retain project-file's endposition).", -4) return -1 end
-  if startposition<-2 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition", "Must be bigger than 0 or -1(to retain project-file's startposition).", -5) return -1 end
-  if projectfilename_with_path==nil and reaper.IsProjectDirty(0)==1 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "renderfilename_with_path", "To render current project, it must be saved first!", -8) return -2 end
-  if endposition==0 and projectfilename_with_path==nil then endposition=reaper.GetProjectLength(0) end
-  if projectfilename_with_path==nil then 
-    -- reaper.Main_SaveProject(0, false)
-    retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
-  end  
-  
-  if type(projectfilename_with_path)~="string" or reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "projectfilename_with_path", "File does not exist.", -6) return -1 end
-  if type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "renderfilename_with_path", "Must be a string.", -7) return -1 end  
-  if rendercfg~=nil and ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "rendercfg", "No valid render_cfg-string.", -9) return -1 end
-  if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "overwrite_without_asking", "Must be boolean", -10) return -1 end
-
-  -- Read Projectfile
-  local FileContent=ultraschall.ReadFullFile(projectfilename_with_path, false)
-  if ultraschall.CheckForValidFileFormats(projectfilename_with_path)~="RPP_PROJECT" then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "projectfilename_with_path", "Must be a valid Reaper-Project", -14) return -1 end
-  local oldrendercfg=ultraschall.GetProject_RenderCFG(nil, FileContent)
-  if rendercfg==nil then rendercfg=oldrendercfg end
-    
-  -- create temporary-project-filename
-  local tempfile = ultraschall.CreateValidTempFile(projectfilename_with_path, true, "ultraschall-temp", true) 
-  
-  -- Write temporary projectfile
-  ultraschall.WriteValueToFile(tempfile, FileContent)
-  
-  -- Add the render-filename to the project
-  ultraschall.SetProject_RenderFilename(tempfile, renderfilename_with_path)
-  ultraschall.SetProject_RenderPattern(tempfile, nil)
-  -- Add render-format-settings as well as adding media to project after rendering
-  ultraschall.SetProject_RenderCFG(tempfile, rendercfg)
-  ultraschall.SetProject_AddMediaToProjectAfterRender(tempfile, 1)
-  
-  -- Add the rendertime to the temporary project-file, when 
-  local bounds, time_start, time_end, tail, tail_length = ultraschall.GetProject_RenderRange(tempfile)
---  if time_end==0 then time_end = ultraschall.GetProject_Length(tempfile) end
-  local timesel1_start, timesel1_end = ultraschall.GetProject_Selection(tempfile)
-  --   if startposition and/or endposition are -1, retain the start/endposition from the project-file
-
-  if startposition==-1 then startposition=time_start end
-  if endposition==-1 or endposition==0 then if time_end==0 then endposition=ultraschall.GetProject_Length(tempfile) else endposition=time_end end end
-  if startposition==-2 then startposition=timesel1_start end
-  if endposition==-2 then endposition=timesel1_end end
-
-  if endposition==0 and startposition==0 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition or endposition in RPP-Project", "Can't render a project of length 0 seconds.", -13) os.remove (tempfile) return -1 end
-  if endposition<=startposition and endposition~=0 then ultraschall.AddErrorMessage("RenderProject_RenderCFG", "startposition or endposition in RPP-Project", "Must be bigger than startposition.", -11) os.remove (tempfile) return -1 end
-  local Bretval = ultraschall.SetProject_RenderRange(tempfile, 0, startposition, endposition, 0, 0)
-  if Bretval==-1 then 
-    os.remove (tempfile) 
-    ultraschall.AddErrorMessage("RenderProject_RenderCFG", "projectfilename_with_path", "Can't set the timerange in the temporary-project "..tempfile, -12)
-    return -1 
-  end
-  
-
-  -- Get currently opened project
-  local _temp, oldprojectname=ultraschall.EnumProjects(0)
-  
-  --Now the magic happens:
-  if overwrite_without_asking==true then os.remove(renderfilename_with_path) end -- delete renderfile, if already existing and overwrite_without_asking==true
-  
-  
-  reaper.Main_OnCommand(40859,0)    -- create new temporary tab
-  reaper.Main_openProject(tempfile) -- load the temporary projectfile
-  
-  -- manage automatically closing of the render-window and filename-increasing
-  local val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
-  local oldval=val
-  if renderclosewhendone==true then 
-    if val&1==0 then val=val+1 end
-    if val==-99 then val=1 end
-  elseif renderclosewhendone==false then 
-    if val&1==1 then val=val-1 end
-    if val==-99 then val=0 end
-  end
-  
-  if filenameincrease==true then 
-    if val&16==0 then val=val+16 end
-    if val==-99 then val=16 end
-  elseif filenameincrease==false then 
-    if val&16==16 then val=val-16 end
-    if val==-99 then val=0 end
-  end
-  reaper.SNM_SetIntConfigVar("renderclosewhendone", val)
-  
-  -- temporarily disable building peak-caches
-  local peakval=reaper.SNM_GetIntConfigVar("peakcachegenmode", -99)
-  reaper.SNM_SetIntConfigVar("peakcachegenmode", 0)
-  
-  local AllTracks=ultraschall.CreateTrackString_AllTracks() -- get number of tracks after rendering and adding of rendered files
-  
-  reaper.Main_OnCommand(41824,0)    -- render using it with the last rendersettings(those, we inserted included)
-  reaper.Main_SaveProject(0, false) -- save it(no use, but otherwise, Reaper would open a Save-Dialog, that we don't want and need)
-  local AllTracks2=ultraschall.CreateTrackString_AllTracks() -- get number of tracks after rendering and adding of rendered files
-  local retval, Trackstring = ultraschall.OnlyTracksInOneTrackstring(AllTracks, AllTracks2) -- only get the newly added tracks as trackstring
-  local count, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(0, reaper.GetProjectLength(0), Trackstring, false) -- get the new MediaItems created after adding the rendered files
-  reaper.Main_OnCommand(40860,0)    -- close the temporary-tab again
-
-  local Filearray={}
-  for i=1, count do
-    Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \"(.-)\"")
-  end
-
-  -- reset old renderclose/overwrite/Peak-cache-settings
-  reaper.SNM_SetIntConfigVar("renderclosewhendone", oldval)
-  reaper.SNM_SetIntConfigVar("peakcachegenmode", peakval)
-
-  --remove the temp-file and we are done.
-  os.remove (tempfile)
-  os.remove (tempfile.."-bak")
-  reaper.SelectProjectInstance(curProj)
-  return 0, count, MediaItemStateChunkArray, Filearray
-end
-
 
 
 --A=ultraschall.CreateRenderCFG_MP3CBR(1, 4, 10)
@@ -38998,80 +37972,6 @@ end
 --A,AA,AAA,AAAA=ultraschall.GetProject_MarkersAndRegions("c:\\Users/Meo/Desktop/Lula/lula.rpp","")
 --A,AA,AAA,AAAA=ultraschall.GetProject_MarkersAndRegions("c:\\rendercode-project-dupl.RPP","")
 --reaper.MB(A,"",0)
-
-function ultraschall.RenderProjectRegions_RenderCFG(projectfilename_with_path, renderfilename_with_path, region, addregionname, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>RenderProjectRegions_RenderCFG</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.96
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProjectRegions_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg)</functioncall>
-  <description>
-    Renders a region of a project, using a specific render-cfg-string.
-    To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
-    
-    Returns -1 in case of an error
-    Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).
-  </description>
-  <retvals>
-    integer retval - -1, in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
-    integer renderfilecount - the number of rendered files
-    array MediaItemStateChunkArray - the MediaItemStateChunks of all rendered files, with the one in entry 1 being the rendered master-track(when rendering stems)
-    array Filearray - the filenames of the rendered files, including their paths. The filename in entry 1 is the one of the mastered track(when rendering stems)
-  </retvals>
-  <parameters>
-    string projectfilename_with_path - the project to render; nil, for the currently opened project(needs to be saved first)
-    string renderfilename_with_path - the filename of the output-file. 
-                                    - Don't add a file-extension, when using addregionname=true!
-                                    - Give a path only, when you want to use only the regionname as render-filename(set addregionname=true !)
-    integer region - the number of the region in the Projectfile to render
-    boolean addregionname - add the name of the region to the renderfilename; only works, when you don't add a file-extension to renderfilename_with_path
-    boolean overwrite_without_asking - true, overwrite an existing renderfile; false, don't overwrite an existing renderfile
-    boolean renderclosewhendone - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings
-    boolean filenameincrease - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings
-    optional string rendercfg - the rendercfg-string, that contains all render-settings for an output-format
-                              - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a>
-                              - omit it or set to nil, if you want to use the render-string already set in the project
-  </parameters>
-  <chapter_context>
-    Rendering of Project
-    Rendering any Outputformat
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, render, output, file</tags>
-</US_DocBloc>
-]]
-  local retval
-  local curProj=reaper.EnumProjects(-1,"")
-  if math.type(region)~="integer" then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "region", "Must be an integer.", -1) return -1 end
-  if projectfilename_with_path==nil and reaper.IsProjectDirty(0)==1 then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "renderfilename_with_path", "To render current project, it must be saved first!", -2) return -2 end
-  if type(projectfilename_with_path)~="string" then 
-    -- reaper.Main_SaveProject(0, false)
-    retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
-  end
-  
-  if reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "projectfilename_with_path", "File does not exist.", -3) return -1 end
-  if type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "renderfilename_with_path", "Must be a string.", -4) return -1 end  
-  if rendercfg~=nil and ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "rendercfg", "No valid render_cfg-string.", -5) return -1 end
-  if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "overwrite_without_asking", "Must be boolean", -6) return -1 end
-
-  local countmarkers, nummarkers, numregions, markertable = ultraschall.GetProject_MarkersAndRegions(projectfilename_with_path)
-  if region>numregions then ultraschall.AddErrorMessage("RenderProjectRegions_RenderCFG", "region", "No such region in the project.", -7) return -1 end
-  local regioncount=0
-  for i=1, countmarkers do
-    if markertable[i][1]==true then 
-      regioncount=regioncount+1
-      if regioncount==region then region=i break end
-    end
-  end
-  if addregionname==true then renderfilename_with_path=renderfilename_with_path..markertable[region][4] end
-
-  return ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfilename_with_path, tonumber(markertable[region][2]), tonumber(markertable[region][3]), overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
-end
 
 --Rendercfg = ultraschall.CreateRenderCFG_FLAC(1,1)
 
@@ -39753,8 +38653,8 @@ function ultraschall.SetStartNewFileRecSizeState(start_new_files, offset_file_sw
   if maxrecsize_use2==false then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "start_new_files or offset_file_switches", "Couldn't set new value, contact Ultraschall-Api-developers for this...", -7) return false end
   
   if persist==true then
-    local A=reaper.BR_Win32_WritePrivateProfileString("REAPER", "maxrecsize", tostring(maxrecsize), reaper.get_ini_file())
-    local B=reaper.BR_Win32_WritePrivateProfileString("REAPER", "maxrecsize_use", tostring(maxrecsize_use), reaper.get_ini_file())
+    local A=ultraschall.SetIniFileValue("REAPER", "maxrecsize", tostring(maxrecsize), reaper.get_ini_file())
+    local B=ultraschall.SetIniFileValue("REAPER", "maxrecsize_use", tostring(maxrecsize_use), reaper.get_ini_file())
     if A==false or B==false then ultraschall.AddErrorMessage("SetStartNewFileRecSizeState", "persist", "Couldn't set changed config to persist. Maybe a problem with accessing reaper.ini.", -8) return false end
   end
   return true    
@@ -39839,7 +38739,7 @@ function ultraschall.SetPlayCursorWidth(play_cursor_width, persist)
   if playcursormode==false then ultraschall.AddErrorMessage("SetPlayCursorWidth", "playcursormode", "Couldn't set playcursormode, contact Ultraschall-Api-developers for this...", -4) return false end
   
   if persist==true then
-    local A=reaper.BR_Win32_WritePrivateProfileString("REAPER", "playcursormode", tostring(play_cursor_width), reaper.get_ini_file())
+    local A=ultraschall.SetIniFileValue("REAPER", "playcursormode", tostring(play_cursor_width), reaper.get_ini_file())
     if A==false then ultraschall.AddErrorMessage("SetPlayCursorWidth", "persist", "Couldn't set changed config to persist. Maybe a problem with accessing reaper.ini.", -5) return false end
   end
   return true    
@@ -40566,7 +39466,7 @@ function ultraschall.GetScreenWidth(want_workarea)
   </parameters>
   <chapter_context>
     User Interface
-    Screen and Windowmanagement
+    Screen Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -40603,7 +39503,7 @@ function ultraschall.GetScreenHeight(want_workarea)
   </parameters>
   <chapter_context>
     User Interface
-    Screen and Windowmanagement
+    Screen Management
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -40701,317 +39601,6 @@ end
 
 
 
-
-function ultraschall.GFX_CreateTextbuffer(inittext, singleline)
-  count, split_string = ultraschall.SplitStringAtLineFeedToArray(inittext)
-  local textbuffer={}
-  if type(inittext)~="string" then inittext="" end
-  textbuffer["text"]={}
-  if count<2 or singleline==true then 
-    inittext=string.gsub(inittext,"\n","")
-    textbuffer["text"][1]=inittext
-    count=1
-  else
-    for i=1, count do
-      textbuffer["text"][i]=split_string[i]
-    end
-  end
---  textbuffer["xoffset"]
-  textbuffer["yoffset"]=count
-  textbuffer["xoffset"]=
-      textbuffer["text"][textbuffer["yoffset"]]:len()
-  textbuffer["maxlines"]=count
-  if singleline==true then textbuffer["singlelinetext"]=true else textbuffer["singlelinetext"]=false end
-  return textbuffer
-end
-
-function ultraschall.GFX_GetKey(textbuffer)
-  local char=gfx.getchar()
-  local alt, cmd, shift, altgr, win, _temp, character, maxlines, xoffs, yoffs, singletext
-  local change=false
-  if gfx.mouse_cap&4==4 and gfx.mouse_cap&16==0 then cmd=true else cmd=false end
-  if gfx.mouse_cap&8==8 then shift=true else shift=false end
-  if gfx.mouse_cap&16==16 and gfx.mouse_cap&4==0 then alt=true else alt=false end
-  if gfx.mouse_cap&32==32 then win=true else win=false end
-  if gfx.mouse_cap&16==16 and gfx.mouse_cap&4==4 then altgr=true else altgr=false end
-
-  -- if textbuffer~=nil, then edit the text in textbuffer
-  if textbuffer~=nil and char>0 then
-    LL=reaper.time_precise()
-    -- prepare variables
-    yoffs=textbuffer["yoffset"]
-    xoffs=textbuffer["xoffset"]
-    maxlines=textbuffer["maxlines"]
-    singletext=textbuffer["singlelinetext"]
-
-    if char==8.0 then -- backspace
-      if xoffs>0 then
-        textstart=textbuffer["text"][yoffs]:sub(1,xoffs-1)
-        textend=textbuffer["text"][yoffs]:sub(xoffs+1,-1)
-        textbuffer["text"][yoffs]=textstart..textend
-        xoffs=xoffs-1
-      elseif xoffs==0 and yoffs>1 then
-        xoffs=textbuffer["text"][yoffs-1]:len()
-        textbuffer["text"][yoffs-1]=textbuffer["text"][yoffs-1]..textbuffer["text"][yoffs]
-        table.remove(textbuffer["text"], yoffs)
-        yoffs=yoffs-1
-        maxlines=maxlines-1
-      end
-      change=true
-    elseif char==6579564.0 then                         -- delete
-      if xoffs<textbuffer["text"][yoffs]:len() then
-        textstart=textbuffer["text"][yoffs]:sub(1,xoffs)
-        textend=textbuffer["text"][yoffs]:sub(xoffs+2,-1)
-        textbuffer["text"][yoffs]=textstart..textend
-      elseif maxlines>1 and yoffs<maxlines then
-        -- When at the end of the line and hitting Del, add next line to current line and remove next line
-        textbuffer["text"][yoffs]=textbuffer["text"][yoffs]..textbuffer["text"][yoffs+1]
-        table.remove(textbuffer["text"], yoffs+1)
-        maxlines=maxlines-1
-      end
-      change=true
-    elseif char==1818584692.0 then    -- left cursor key
-      xoffs=xoffs-1
-      if yoffs>1 and xoffs==-1 then
-        yoffs=yoffs-1
-        xoffs=textbuffer["text"][yoffs]:len()
-      end
-      change=true
-    elseif char==1919379572.0 then    -- right cursor key
-      xoffs=xoffs+1
-      if yoffs<maxlines and xoffs==textbuffer["text"][yoffs]:len()+1 then
-        yoffs=yoffs+1
-        xoffs=0
-      end
-      change=true
-    elseif char==30064.0      then yoffs=yoffs-1 change=true                 -- up cursor key
-    elseif char==1685026670.0 then yoffs=yoffs+1 change=true                 -- down cursor key
-    elseif char==1752132965.0 and cmd==false then xoffs=0 change=true        -- Home
-    elseif char==1752132965.0 and cmd==true then xoffs=0 yoffs=1 change=true -- Cmd+Home: first line first position
-    elseif char==6647396.0 and cmd==false then xoffs=textbuffer["text"][yoffs]:len() change=true -- End
-    elseif char==6647396.0 and cmd==true  then xoffs=textbuffer["text"][maxlines]:len() yoffs=maxlines change=true -- Cmd+End: last line last position
-    elseif char==22.0 then                              -- Insert From Clipboard Ctrl+V / Cmd+V
-      if singletext==true then
-        textstart=textbuffer["text"][yoffs]:sub(1,xoffs)
-        textend=textbuffer["text"][yoffs]:sub(xoffs+1,-1)
-        textinsert=ultraschall.GetStringFromClipboard_SWS()
-        textinsert=string.gsub(textinsert,"\n","")
-        textinsert=string.gsub(textinsert,"\t","    ")
-        textbuffer["text"][yoffs]=textstart..textinsert..textend
-        xoffs=xoffs+textinsert:len()
-      else
-        ACount, Split_string = ultraschall.SplitStringAtLineFeedToArray(ultraschall.GetStringFromClipboard_SWS())
-        TextEnde=textbuffer["text"][yoffs]:sub(xoffs+1,-1)
-        textbuffer["text"][yoffs]=textbuffer["text"][yoffs]:sub(1,xoffs)..Split_string[1]
-        if ACount>1 then
-          for i=2, ACount do
-            yoffs=yoffs+1
-            maxlines=maxlines+1
-            table.insert(textbuffer["text"],yoffs, Split_string[i])
-          end
-        end
-        textbuffer["text"][yoffs]=textbuffer["text"][yoffs]..TextEnde
-        xoffs=textbuffer["text"][yoffs]:len()-TextEnde:len()
-      end
-      change=true
-    elseif char==127 then textbuffer["text"][yoffs]="" xoffs=0 change=true-- DEBUG-CODE Ctrl+BackSp deletes line
-    elseif char==27  then -- Escape-Key
-    elseif char==9   then -- Tab-Key
-      textstart=textbuffer["text"][yoffs]:sub(1,xoffs)
-      textend=textbuffer["text"][yoffs]:sub(xoffs+1,-1)
-      textbuffer["text"][yoffs]=textstart.."    "..textend
-      xoffs=xoffs+4
-      change=true
-    elseif char==128 then 
-      textstart=textbuffer["text"][yoffs]:sub(1,xoffs)
-      textend=textbuffer["text"][yoffs]:sub(xoffs+1,-1)
-      textbuffer["text"][yoffs]=textstart..string.char(128)..textend
-      xoffs=xoffs+1
-      change=true
-    elseif char==13 then -- Enter-Key
-      if singletext~=true then
-        textstart=textbuffer["text"][yoffs]:sub(1,xoffs)
-        textend=textbuffer["text"][yoffs]:sub(xoffs+1,-1)
-        textbuffer["text"][yoffs]=textstart
-        table.insert(textbuffer["text"], yoffs+1, textend)
-        yoffs=yoffs+1
-        maxlines=maxlines+1
-        xoffs=0
-        change=true
-      end
-    elseif char>31 and char<255 then -- add character to textfield
-      textstart=textbuffer["text"][yoffs]:sub(1,xoffs)
-      textend=textbuffer["text"][yoffs]:sub(xoffs+1,-1)
-      textbuffer["text"][yoffs]=textstart..string.char(char)..textend
-      xoffs=xoffs+1
-      change=true
-    end
-    -- store current editingline into textbuffer
-    if yoffs<1 then yoffs=1 end
-    if yoffs>=maxlines then yoffs=maxlines end
-    if xoffs<0 then xoffs=0 end
-    if xoffs>textbuffer["text"][yoffs]:len() then 
-      xoffs=textbuffer["text"][yoffs]:len() 
-    end
-    textbuffer["xoffset"]=xoffs
-    textbuffer["yoffset"]=yoffs
-    textbuffer["maxlines"]=maxlines
-    elseif textbuffer~=nil then 
-      yoffs=textbuffer["yoffset"]
-      xoffs=textbuffer["xoffset"]
-      maxlines=textbuffer["maxlines"]
-      singletext=textbuffer["singlelinetext"]
-    else
-      change=nil
-  end
-  
-  -- returning the found character + charactercode and textbuffer(if the latter exists)
-  if char==13.0 then character="\\n"
-  elseif char==9.0 then character="\\t"
-  elseif char==8.0 then character="\\b"
-  else _temp,character=ultraschall.GetIniFileExternalState("Codes", tostring(char), ultraschall.Api_Path.."/IniFiles/Reaper-Gfx.GetKey_Codes_and_their_associated_character.ini")
-  end
-  return character, char, change, textbuffer, maxlines, yoffs
-end
-
-function ultraschall.GFX_GetTextbuffer_Text(textbuffer, wantcursor, wantlinenumbers, startline, endline)
-  local text=""
-  local linenumbers=""
-  local position=0
-  if startline==nil or startline<1 then startline=1 end
-  if endline==nil or endline>textbuffer["maxlines"] then endline=textbuffer["maxlines"] end
-  for i=startline, endline do
-    if wantlinenumbers==true then
-      linenumbers=i
-    end
-    if textbuffer["yoffset"]==i and wantcursor==true then
-      text=text..linenumbers.." "..textbuffer["text"][i]:sub(1,textbuffer["xoffset"]).."_"..textbuffer["text"][i]:sub(textbuffer["xoffset"]+1,-1).."\n"
-    else
-      text=text..linenumbers.." "..textbuffer["text"][i].."\n"
-    end
-    if textbuffer["yoffset"]>i then
-      position=position+tostring(linenumbers):len()+textbuffer["text"][i]:len()+2
-    elseif textbuffer["yoffset"]==i then
-      position=position+tostring(linenumbers):len()+textbuffer["xoffset"]
-    end
-  end
-  return text, textbuffer["maxlines"], position+1, text:len()
-end
-
-function ultraschall.GFX_GetCharacterFromTextbuffer_MouseCoords(textbuffer, xstartposition, yposition, fontidx)
-
-end
-
-function ultraschall.GFX_SetTextbuffer(textbuffer, yoffset)
-  if textbuffer["maxlines"]<yoffset then yoffset=textbuffer["maxlines"] end
-  textbuffer["yoffset"]=yoffset
-  return textbuffer
-end
-
--- simple editor.
--- Step 1: Create a textbuffer
---        array textbuffer = ultraschall.GFX_CreateTextbuffer(string inittext, boolean singleline)
---
---            parameters:   string inittext    - if you want to set it to a default text, pass some into this parameter. Newlines accepted.
---                          boolean singleline - true, if the textbuffer is a single-line only; false, if the textbuffer is a multiline-textbuffer
---
-
-
--- Step 2: put text into the textbuffer; works only with an opened gfx.init-window and using gfx.update before calling it
---                                       use this function only once per defer-cycle, otherwise it fails to run properly (due Reaper API-problems)
---
---              string Key, integer KeyCode, boolean change, array altered_textbuffer, integer MaxLines, integer CurrentEditingLine  = ultraschall.GFX_GetKey(array textbuffer)
---
---            parameter: array textbuffer          - the textbuffer, whose content you want to change; nil, if you just want the typed key
---            
---            retvals:   string Key                - the key that has been typed
---                       integer KeyCode           - the numerical representation of the typed key
---                       boolean change            - true, text or cursorposition has changed; false, text hasn't been changed
---                       array altered_textbuffer  - the altered textbuffer
---                       integer MaxLines          - the number of lines in the textbuffer
---                       integer CurrentEditingLine - the line, that is currently being edited in the textbuffer
---
-
-
--- Step 3: get the text from the textbuffer to display it or do other things with it
---          string text, integer maxlines, integer current_cursor_pos, integer length_of_text = ultraschall.GFX_GetTextbuffer_Text(array textbuffer, boolean wantcursor, boolean wantlinenumbers, integer startline, integer endline) 
-
---             parameters: array textbuffer        - the textbuffer, whose text we want
---                         boolean wantcursor      - true, show a cursor as _; false, just show the text without a cursor
---                         boolean wantlinenumbers - true, add linenumbers  at the beginning of each line; false, don't add linenumbers
---                         integer firstline       - the firstline to be returned, if omitted, it will be line 1
---                         integer lastline        - the lastline to be returned, if omitted, it will be the last line in the textbuffer
-  
---             retvals:    string text             - the text stored in textbuffer, including newlines and everything
---                         integer maxlines        - the maximum lines in the textbuffer
---                         integer current_cursor_pos - the current position of the cursor in the string text. Can be used to
---                                                      draw an editcursor at the correct position yourself
---                         integer length_of_text  - the length of the text, includes newlines and, if wanted, the linenumbers
-
-
--- Step 4: repeat Steps 2 and 3
---
-
--- See main() for an example of how to work with it
-
-function Editormain()
-  -- The Editor code
-
-  -- Let's get the new key and pass it over to textbuffer "buffer"
-  Key, KeyCode, change, buffer, MaxLines, CurrentEditingLine = ultraschall.GFX_GetKey(buffer)
-  
-  -- now, let's check for some stuff to scroll the text
-  if Key=="F1" then counter=counter-1 end               -- F1 scrolls one line up, leaving cursor at old position
-  if Key=="F2" then counter=counter+1 end               -- F2 scrolls one line down, leaving cursor at old position
-  if Key=="F3" then counter=1 end                       -- F3 scrolls to first line, leaving cursor at old position
-  if Key=="F4" then counter=MaxLines-ShownLines end     -- F4 scrolls to last line, leaving cursor at old position
-  
-  if Key=="PgUp" then counter=counter-10 end            -- PgUp jumps textview ten lines backwards
-  if Key=="PgDn" then counter=counter+10 end            -- PgDn jumps textview ten lines forewards
-  
-  if counter<1 then counter=1 end                       -- jump textview to the first line of the text
-  if counter>MaxLines then counter=MaxLines end         -- jump textview to the last line of the text
-  
-  -- if text has changed, jump "textview" to text cursor
-    -- if editingline is above current view, scroll editline to be first line
-  if change==true and (CurrentEditingLine<counter) then counter=CurrentEditingLine end 
-    -- if editingline is below current view, scroll editline to be last line
-  if change==true and (CurrentEditingLine>counter+ShownLines) then counter=CurrentEditingLine-ShownLines end
-  
-  -- Now let's get the text from the textbuffer. 
-  text, maxlines, current_cursor_pos, length_of_text = ultraschall.GFX_GetTextbuffer_Text(buffer, true, true, counter, counter+ShownLines)
-  
-  -- update textview only, when Text has changed and/or window-size has been changed
-  if (text~=OldText) or gfx.h~=oldh or gfx.w~=oldw then
-    gfx.x=1
-    gfx.y=1
-    gfx.drawstr(text)
-  end
-  
-  -- store old text and old window-positions
-  OldText=text
-  oldh=gfx.h
-  oldw=gfx.w
-  
-  -- update gfx-window and defer the whole stuff
-  gfx.update()
-  if KeyCode~=-1 then reaper.defer(Editormain) end
-end
-
---[[
--- Let's initialize some stuff
-  gfx.init("TRET",720,420)    -- open a window
-  gfx.setfont(1,"arial",15,0) -- set a font
-  counter=1                   -- the currently shown line; used in the view-area of the texteditor
-  ShownLines=20               -- the number of lines to be shown in the textarea
-  SingleLine=false            -- set to true, if you want a single editing line only in textbuffer "buffer"
-
--- Let's create a new textbuffer. You can create multiple ones, if you want
-  buffer=ultraschall.GFX_CreateTextbuffer("Simple Editor - by Meo Mespotine\nsupports characters, Arrow-keys, Home, Cmd+Home, End, Cmd+End, BackSpace, Del, Cmd+V\n\nHave fun with it :D", SingleLine)
-
--- run the main editor-code
-  Editormain()
---]]
 
 
 
@@ -41915,11 +40504,11 @@ function ultraschall.GetDuplicatesFromArrays(array1, array2)
   return dupcount, duplicates, orgcount1, originals1, orgcount2, originals2
 end
 
-function main()
-  filecount2, files2 = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
-  A, A1, B, B1, C, C1 = ultraschall.GetDuplicatesFromArrays(files, files2)
-  reaper.defer(main)
-end
+--function main()
+--  filecount2, files2 = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
+--  A, A1, B, B1, C, C1 = ultraschall.GetDuplicatesFromArrays(files, files2)
+--  reaper.defer(main)
+--end
 
 
 --filecount, files = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
@@ -41981,7 +40570,6 @@ function ultraschall.GetReaperWorkDir()
   <requires>
     Ultraschall=4.00
     Reaper=5.95
-    SWS=2.9.7
     Lua=5.3
   </requires>
   <functioncall>string current_workdir = ultraschall.GetReaperWorkDir()</functioncall>
@@ -42000,7 +40588,7 @@ function ultraschall.GetReaperWorkDir()
   <tags>filemanagement, get, current workdir of reaper</tags>
 </US_DocBloc>
 ]]
-  local temp, dir = reaper.BR_Win32_GetPrivateProfileString("REAPER", "lastcwd", "", reaper.get_ini_file())
+  local temp, dir = ultraschall.GetIniFileValue("REAPER", "lastcwd", "", reaper.get_ini_file())
   return dir
 end
 
@@ -42066,7 +40654,6 @@ function ultraschall.SetReaperWorkDir(path)
   <requires>
     Ultraschall=4.00
     Reaper=5.95
-    SWS=2.9.7
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetReaperWorkDir(string Path)</functioncall>
@@ -42091,8 +40678,8 @@ function ultraschall.SetReaperWorkDir(path)
 </US_DocBloc>
 ]]
   if ultraschall.type(path)~="string" then ultraschall.AddErrorMessage("SetReaperWorkDir", "path", "must be a string", -1) return false end
-  if ultraschall.DirectoryExists2(path)==false then ultraschall.AddErrorMessage("SetReaperWorkDir", "path", "no such path existing", -2) return false end
-  return reaper.BR_Win32_WritePrivateProfileString("REAPER", "lastcwd", path, reaper.get_ini_file())
+  if ultraschall.DirectoryExists2(path)==false then ultraschall.AddErrorMessage("SetReaperWorkDir", "path", "no such path exists", -2) return false end
+  return ultraschall.SetIniFileValue("REAPER", "lastcwd", path, reaper.get_ini_file())
 end
 
 --A=ultraschall.SetReaperWorkDir("C:\\Tudelu\\Tudelu")
@@ -42973,7 +41560,7 @@ function ultraschall.GetProject_MasterNChans(projectfilename_with_path, ProjectS
   </parameters>
   <retvals>
     integer number_of_channels - the number of output-channels, as set in the "Outputs for the Master Channel -> Track Channels"-dialog
-    intger peak_metering - 2, Multichannel peak metering-setting, as set in the "Master VU settings"-dialog
+    integer peak_metering - 2, Multichannel peak metering-setting, as set in the "Master VU settings"-dialog
   </retvals>
   <chapter_context>
     Project-Files
@@ -44354,7 +42941,7 @@ end
 --reaper.MB(A,"",0)
 
 
-ultraschall.Euro="â‚¬"
+ultraschall.Euro="€"
 
 function ultraschall.CombineBytesToInteger(bitoffset, ...)
 --[[
@@ -44420,7 +43007,7 @@ function ultraschall.CombineBytesToInteger(bitoffset, ...)
   return math.floor(c)
 end
 
---L=ultraschall.CombineBytesToInteger(0,255,255,255,255)
+--L=ultraschall.CombineBytesToInteger(1,255)
 
 function ultraschall.SplitIntegerIntoBytes(integervalue)
 --[[
@@ -44947,78 +43534,9 @@ end
 
 --B,C,D,E=ultraschall.ConvertColorFromWin(A)
 
-function ultraschall.RunBackgroundHelperFeatures()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>RunBackgroundHelperFeatures</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.95
-    Lua=5.3
-  </requires>
-  <functioncall>ultraschall.RunBackgroundHelperFeatures()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Starts background-scripts supplied with the Ultraschall-API, like:  
 
-      - a script for getting the last edit-cursor-position before the current one -> [GetLastCursorPosition()](#GetLastCursorPosition)
-  </description>
-  <chapter_context>
-    API-Helper functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, defer scripts, background scripts</tags>
-</US_DocBloc>
-]]
-  local filecount, files = ultraschall.GetAllFilesnamesInPath(ultraschall.Api_Path.."/Scripts/HelperDeferScripts/")
-  local filename
-  for i=1, filecount do
-    filename=files[i]:match(".*/(.*)")
-    if filename==nil then filename=files[i]:match(".*\\(.*)") end
-    if filename==nil then filename=files[i] end
-    if reaper.GetExtState("Ultraschall", "defer_scripts_"..filename)~="true" then
-      local A=reaper.AddRemoveReaScript(true, 0, files[i], false)
-      reaper.Main_OnCommand(A,0)
-      local B=reaper.AddRemoveReaScript(false, 0, files[i], false)
-    end
-  end
-end
 
---ultraschall.RunBackgroundHelperFeatures()
 
-function ultraschall.GetLastCursorPosition()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetLastCursorPosition</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.95
-    Lua=5.3
-  </requires>
-  <functioncall>number last_editcursor_position = ultraschall.GetLastCursorPosition()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns the last editcursor-position before the current one. Needs Ultraschall-API-background-scripts started first, see [RunBackgroundHelperFeatures()](#RunBackgroundHelperFeatures).
-    
-    returns -1, if Ultraschall-API-backgroundscripts weren't started yet.
-  </description>
-  <retvals>
-    number last_editcursor_position - the last cursorposition before the current one; -1, in case of an error
-  </retvals>
-  <chapter_context>
-    Navigation
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>navigation, last position, editcursor</tags>
-</US_DocBloc>
-]]
-  if reaper.GetExtState("Ultraschall", "defer_scripts_ultraschall_track_old_cursorposition.lua")~="true" then return -1 end
-  return tonumber(reaper.GetExtState("ultraschall", "last_editcursor_position"))
-end
-
---A=reaper.GetExtState("ultraschall", "last_editcursor_position")
-
---L=ultraschall.GetLastCursorPosition()
 
 function ultraschall.DeleteMuteState(tracknumber, position)
 --[[
@@ -45194,49 +43712,6 @@ end
 
 --A,B,C=ultraschall.IsMuteAtPosition_TrackObject(reaper.GetTrack(0,1), 1)
 
-function ultraschall.CloseReaConsole()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CloseReaConsole</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.95
-    JS=0.951
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = ultraschall.CloseReaConsole()</functioncall>
-  <description>
-    Closes the ReaConsole-window, if opened.
-    
-    Note for Mac-users: does not work currently on MacOS.
-    
-    Returns false in case of an error
-  </description>
-  <retvals>
-    boolean retval - true, if there is a mute-point; false, if there isn't one
-  </retvals>
-  <chapter_context>
-    User Interface
-    Screen and Windowmanagement
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>window, reaconsole, close</tags>
-</US_DocBloc>
-]]
-  reaper.JS_Window_ListFind("ReaScript console output", true, "ultraschall", "console_window_hwnd")
-
-  local A=reaper.GetExtState("ultraschall", "console_window_hwnd")
-  local count = ultraschall.CountCharacterInString(A, ",")
-  if count>1 then ultraschall.AddErrorMessage("CloseReaConsole", "", "Multiple windows are open, that are named \"ReaScript console output\". Can't find the right one, sorry.", -1) return false end
-  if A:match("(.-),")==nil then ultraschall.AddErrorMessage("CloseReaConsole", "", "ReaConsole-window not opened", -2) return false end
-  local B=reaper.JS_Window_HandleFromAddress(A:match("(.-),"))
-  reaper.JS_Window_Destroy(B)
-  return true
-end
-
---reaper.ShowConsoleMsg("Tudelu")
---LL,LL=ultraschall.CloseReaConsole()
 
 ultraschall.ShowLastErrorMessage()
 
@@ -45433,7 +43908,7 @@ function ultraschall.MoveTimeSigMarkersBy(startposition, endposition, moveby, cu
   </parameters>
   <chapter_context>
     Markers
-    Assistance functions
+    Time Signature Markers
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -45658,6 +44133,8 @@ function ultraschall.MoveRegionsBy(startposition, endposition, moveby, cut_at_bo
   
   for i=start, stop, step do
     local sretval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, i)
+
+    reaper.MB("Pos:"..pos.." - Start:"..startposition.."  End: "..endposition.." "..tostring(isrgn),"",0)
     
     if isrgn==true and (pos>=startposition and pos<=endposition) then
       -- only regions within start and endposition
@@ -45667,21 +44144,29 @@ function ultraschall.MoveRegionsBy(startposition, endposition, moveby, cut_at_bo
           -- when regions would move after endposition, put it into the markerdelete-array
           markerdeleter[count]=markrgnindexnumber
           count=count+1
+          reaper.MB("","0",0)
         elseif pos+moveby<startposition and rgnend+moveby<startposition then
           -- when regions would move before startposition, put it into the markerdelete-array
           markerdeleter[count]=markrgnindexnumber
           count=count+1
+          reaper.MB("","1",0)
         elseif pos+moveby<startposition and rgnend+moveby>=startposition and rgnend+moveby<=endposition then
           -- when start of the region is before startposition and end of the region is within start and endposition,
           -- set start of the region to startposition and only move regionend by moveby
+          reaper.MB("","2",0)
           boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, startposition, rgnend+moveby, name)
+--        elseif rgnend+moveby<endposition and pos+moveby>=startposition and pos+moveby<=endposition then
+          -- when end of the region is BEFORE endposition and start of the region is within start and endposition,
+          -- set end of the region to endposition and only move regionstart(pos) by moveby
         elseif rgnend+moveby>endposition and pos+moveby>=startposition and pos+moveby<=endposition then
           -- when end of the region is after endposition and start of the region is within start and endposition,
           -- set end of the region to endposition and only move regionstart(pos) by moveby
+          reaper.MB("","2",0)
           boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos+moveby, endposition, name)
         else
           -- move the region by moveby
           boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos+moveby, rgnend+moveby, name)
+          reaper.MB("","3",0)
         end
       else
         -- move the region by moveby
@@ -46397,7 +44882,7 @@ function ultraschall.WinterlySnowflakes(toggle, falling_speed, number_snowflakes
     returns -1 in case of error
   </description>
   <retvals>
-    integer retval - returns -1 in case of an error; 1, in case of success
+    integer retval - returns -1 in case of a'JS_Window_ListFind' n error; 1, in case of success
   </retvals>
   <parameters>
     boolean toggle - true, toggles falling snow on; false, toggles falling snow off
