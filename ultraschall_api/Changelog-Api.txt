@@ -93,6 +93,16 @@
   - GetLastLoopState - gets the last loop-state, needs RunBackgroundHelperFeatures to be run first
   - GetVerticalScroll - gets the current vertical-scroll-factor of the arrangeview
   - SetVerticalScroll - sets a new vertical-scroll-factor of the arrangeview
+  - GetUserInputs - gets the user-input. Like Reaper's own GetUserInputs but a different parameter-scheme, that should be easier to handle.
+  - GetScriptReturnvalues_Sender - gets, which child-scripts(and their corresponding ScriptIdentifier) have sent return-values to the current script
+  - GetDeferIdentifier - gets the identifier of a Defer1 to Defer20-cycle of the current script
+  - Docs: Child Scripts: Introduction - added chapter
+  - Docs: Child Scripts: The unique ScriptIdentifier - added chapter
+  - Docs: Child Scripts: Running Childscripts - added chapter
+  - Docs: Child Scripts: Passing Parameters and Returnvalues - added chapter
+  - Docs: DeferScripts: Introduction to Ultraschall's Defer-functions - added chapter
+  - Docs: DeferScripts: Special Defer-loops in the Ultraschall-API - added chapter
+  - Docs: DeferScripts: Stopping Defer-loops from in- and outside of scripts - added chapter
   
 #### Changes from 4.00beta2.7 to 4.00beta2.75
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -153,9 +163,16 @@
   - RestoreArrangeviewSnapshot - restores now vertical-scrollfactor as well
   - RetrieveArrangeviewSnapshot - retrieves now vertical-scrollfactor as well
   - StoreArrangeviewSnapshot - stores now vertical-scrollfactor as well
+  - CreateRenderCFG_AIFF - returned the wrong render-cfg-string due a stupid typo -> fixed
+  - ReadFullFile - added check, if a file is already in use and can't be read
+  - MakeCopyOfFile_Binary - added check, if a file is already in use and can't be read
+  - ReadBinaryFileUntilPattern - added check, if a file is already in use and can't be read
+  - ReadBinaryFileFromPattern - added check, if a file is already in use and can't be read
   
    <TODO>
     API 4.00beta2.75
+      TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables.
+      
       TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
              produziert die API Fehler.
       TODO!! GetReaConsoleHWND-window or other HWNDS os Reaper: must be localized by using JS_Localize or it will not find

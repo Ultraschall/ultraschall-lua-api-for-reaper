@@ -359,8 +359,8 @@ function ultraschall.Main_OnCommandByFilename(filename, ...)
     string script_identifier - a unique script-identifier, which can be used as extstate to communicate with the started scriptinstance
   </retvals>
   <parameters>
-    string filename - the name and of the scriptfile to run
-    ... - parameters that shall be passed over to the script
+    string filename - the name and path of the scriptfile to run
+    string ... - parameters that shall be passed over to the script
   </parameters>
   <chapter_context>
     API-Helper functions
@@ -434,7 +434,7 @@ function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND, ...)
   </retvals>
   <parameters>
     HWND Midi_EditorHWND - the window-handler of the MIDI-editor, in which to run the script; nil, for the last active MIDI-editor
-    string filename - the name of the scriptfile to run
+    string filename - the name plus path of the scriptfile to run
     string ... - parameters, that shall be passed over to the script
   </parameters>
   <chapter_context>
@@ -502,7 +502,7 @@ function ultraschall.GetScriptParameters(script_identifier, remove)
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>integer num_params, array params = ultraschall.GetScriptParameters(string script_identifier, optional boolean remove)</functioncall>
+  <functioncall>integer num_params, array params, string caller_script_identifier = ultraschall.GetScriptParameters(optional string script_identifier, optional boolean remove)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Gets the parameters stored for a specific script_identifier.
   </description>
@@ -512,9 +512,9 @@ function ultraschall.GetScriptParameters(script_identifier, remove)
     string caller_script_identifier - the scriptidentifier of the script, that set the parameters
   </retvals>
   <parameters>
-    string script_identifier - the script-identifier, whose parameters you want to retrieve; 
+    optional string script_identifier - the script-identifier, whose parameters you want to retrieve; 
                              - use nil, to get the parameters stored for the current script
-    optional boolean remove - true, remove the stored parameter-extstates; false, keep them for later retrieval
+    optional boolean remove - true or nil, remove the stored parameter-extstates; false, keep them for later retrieval
   </parameters>
   <chapter_context>
     API-Helper functions
@@ -536,7 +536,7 @@ function ultraschall.GetScriptParameters(script_identifier, remove)
     counter=counter+1
   end
   local caller_script=reaper.GetExtState(script_identifier, "parm_0")
-  if remove==true then reaper.DeleteExtState(script_identifier, "parm_0", false) end
+  if remove==true or remove==nil then reaper.DeleteExtState(script_identifier, "parm_0", false) end
   return counter-1, parms, caller_script
 end
 
@@ -597,7 +597,7 @@ function ultraschall.GetScriptReturnvalues(script_identifier, remove)
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>integer num_params, array retvals = ultraschall.GetScriptReturnvalues(string script_identifier, optional boolean remove)</functioncall>
+  <functioncall>integer num_params, array retvals, string caller_script_identifier = ultraschall.GetScriptReturnvalues(optional string script_identifier, optional boolean remove)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Gets the return-values stored by a specific script_identifier for the current script.
     
@@ -609,8 +609,8 @@ function ultraschall.GetScriptReturnvalues(script_identifier, remove)
     string caller_script_identifier - the scriptidentifier of the script, that set the return-values
   </retvals>
   <parameters>
-    string script_identifier - the script-identifier, whose return-values you want to retrieve; 
-    optional boolean remove - true, remove the stored retval-extstates; false, keep them for later retrieval
+    optional string script_identifier - the script-identifier, whose return-values you want to retrieve; 
+    optional boolean remove - true or nil, remove the stored retval-extstates; false, keep them for later retrieval
   </parameters>
   <chapter_context>
     API-Helper functions
@@ -626,8 +626,13 @@ function ultraschall.GetScriptReturnvalues(script_identifier, remove)
   local retvals={}
   while reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter)~="" do
     retvals[counter]=reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter)
-    if remove==true then
+    if remove==true or remove==nil then
       reaper.DeleteExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter, false)
+      local retval_identifier = reaper.GetExtState(script_identifier, "retval_sender_identifier")
+      retval_identifier = string.gsub(retval_identifier, script_identifier.."\n", "")      
+      if retval_identifier:match(ultraschall.ScriptIdentifier)==nil then
+        reaper.SetExtState(script_identifier, "retval_sender_identifier", retval_identifier, false)
+      end
     end
     counter=counter+1
   end
@@ -644,7 +649,7 @@ function ultraschall.SetScriptReturnvalues(script_identifier, ...)
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string script_identifier = ultraschall.SetScriptReturnvalues(string script_identifier, string ...)</functioncall>
+  <functioncall>boolean retval = ultraschall.SetScriptReturnvalues(string script_identifier, string ...)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Send return-values back to the script, that has a specific script_identifier.
     
@@ -652,7 +657,6 @@ function ultraschall.SetScriptReturnvalues(script_identifier, ...)
   </description>
   <retvals>
     boolean retval - true, storing was successful; false, there was an error
-    string script_identifier - the script_identifier of the script-instance, to where you've send the returnvalues
   </retvals>
   <parameters>
     string script_identifier - the script-identifier of the script-instance, to where you want to send the returnvalues 
@@ -670,6 +674,10 @@ function ultraschall.SetScriptReturnvalues(script_identifier, ...)
   if type(script_identifier)~="string" then ultraschall.AddErrorMessage("SetScriptReturnvalues", "must be a string", -1) return false end
   local retvals={...}
   local counter=1
+  local retval_identifier = reaper.GetExtState(script_identifier, "retval_sender_identifier")
+  if retval_identifier:match(ultraschall.ScriptIdentifier)==nil then
+    reaper.SetExtState(script_identifier, "retval_sender_identifier", retval_identifier..ultraschall.ScriptIdentifier.."\n", false)
+  end
   while retvals[counter]~=nil do
     reaper.SetExtState(script_identifier, ultraschall.ScriptIdentifier.."_retval_"..counter, tostring(retvals[counter]), false)
     counter=counter+1
@@ -679,6 +687,49 @@ end
 
 --ultraschall.SetScriptReturnvalues("Empfänger", 9,222,3,4,5,6,7,8,9,10)
 --A,B,C,D,E=ultraschall.GetScriptReturnvalues("Empfänger", true)
+
+--ultraschall.ScriptIdentifier="HalloWelt5"
+--ultraschall.SetScriptReturnvalues("HalloWelt5", 9,222,3,4,5,6,7,8,9,10)
+
+function ultraschall.GetScriptReturnvalues_Sender()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetScriptReturnvalues_Sender</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer count, array retval_sender = ultraschall.GetScriptReturnvalues_Sender()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Retrieves, which scripts send returnvalues to the current script.
+  </description>
+  <retvals>
+    integer count - the number of scripts, who have left returnvalues for the current script
+    array retval_sender - the ScriptIdentifier of the scripts, who returned values
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Child Scripts
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, get, script, returnvalues, scriptidentifier, child scripts</tags>
+</US_DocBloc>
+]]
+  local val=reaper.GetExtState(ultraschall.ScriptIdentifier, "retval_sender_identifier"):match("(.*)\n")
+  if val==nil then return 0 end
+  local count, array = ultraschall.SplitStringAtLineFeedToArray(val)
+  return count, array
+end
+
+--A,B=ultraschall.GetScriptReturnvalues_Sender()
+
+--C,D,E=ultraschall.GetScriptReturnvalues("HalloWelt5")
+
+--A1,B1=ultraschall.GetScriptReturnvalues_Sender()
+
+
 
 function ultraschall.IsValidHWND(HWND)
 --[[
@@ -3475,7 +3526,7 @@ function ultraschall.GetScriptIdentifier()
       [Defer1](#Defer1) to [Defer20](#Defer20) make use of this to stop a running defer-loop from the outside of a deferred-script.
     </description>
     <retvals>
-      string script_identifier - a unique script-identifier for this scripte-instance, of the format:
+      string script_identifier - a unique script-identifier for this script-instance, of the format:
                                - ScriptIdentifier: scriptfilename-guid
     </retvals>
     <chapter_context>
@@ -3493,6 +3544,49 @@ end
 
 --O=ultraschall.GetScriptIdentifier()
 
+function ultraschall.GetDeferIdentifier(deferinstance)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetDeferIdentifier</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>string defer_identifier = ultraschall.GetDeferIdentifier(integer deferinstance)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns the identifier for a specific ultraschall-defer-function.
+      
+      This can be used to stop this defer-loop from the in- and outside of the script.
+      
+      returns nil in case of an error.
+    </description>
+    <retvals>
+      string defer_identifier - a specific and unique defer-identifier for this script-instance, of the format:
+                               - ScriptIdentifier: scriptfilename-guid.ext.deferXX
+                               - where XX is the defer-function-number. XX is between 1 and 20
+    </retvals>
+    <parameters>
+      integer deferinstance - the defer-instance, whose identifier you want; 1 to 20
+    </parameter>
+    <chapter_context>
+      Defer-Management
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>defermanagement, get, defer_identifier</tags>
+  </US_DocBloc>
+  ]]
+  if math.type(deferinstance)~="integer" then ultraschall.AddErrorMessage("GetDeferIdentifier", "deferinstance", "must be an integer", -1) return nil end
+  if deferinstance<1 or deferinstance>20 then ultraschall.AddErrorMessage("GetDeferIdentifier", "deferinstance", "must be between 1 and 20", -2) return nil end
+  if deferinstance<10 then zero="0" else zero="" end
+  return ultraschall.GetScriptIdentifier()..".defer_script"..zero..deferinstance
+end
+
+--A=ultraschall.GetDeferIdentifier(2)
+
+--reaper.CF_SetClipboard(A)
+
 function ultraschall.Defer1(func, mode, timer_counter)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -3506,7 +3600,7 @@ function ultraschall.Defer1(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
@@ -3516,7 +3610,7 @@ function ultraschall.Defer1(func, mode, timer_counter)
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -3567,9 +3661,9 @@ function ultraschall.Defer1(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc1), ultraschall.ScriptIdentifier..".defer_script01"
   elseif ultraschall.defermode1==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script01")=="running" then
     ultraschall.defertimer1=ultraschall.defertimer1-1
-    if ultraschall.defertimer1>0 then reaper.defer(ultraschall.Defer1) else return reaper.defer(ultraschall.deferfunc1) end
+    if ultraschall.defertimer1>0 then reaper.defer(ultraschall.Defer1) else return reaper.defer(ultraschall.deferfunc1), ultraschall.ScriptIdentifier..".defer_script01" end
   elseif ultraschall.defermode1==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script01")=="running" then
-    if ultraschall.defertimer1>reaper.time_precise() then reaper.defer(ultraschall.Defer1) else return reaper.defer(ultraschall.deferfunc1) end
+    if ultraschall.defertimer1>reaper.time_precise() then reaper.defer(ultraschall.Defer1) else return reaper.defer(ultraschall.deferfunc1), ultraschall.ScriptIdentifier..".defer_script01" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script01")~="running" then
     return true
   else 
@@ -3578,6 +3672,13 @@ function ultraschall.Defer1(func, mode, timer_counter)
   end
   return true, ultraschall.ScriptIdentifier..".defer_script01"
 end
+
+function main()
+
+end
+
+--A,B=ultraschall.Defer1(main,1,1)
+--reaper.CF_SetClipboard(B)
 
 
 function ultraschall.StopDeferCycle(identifier)
@@ -3624,7 +3725,6 @@ end
 
 
 
-
 function ultraschall.Defer2(func, mode, timer_counter)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -3638,17 +3738,17 @@ function ultraschall.Defer2(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -3698,9 +3798,9 @@ function ultraschall.Defer2(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc2), ultraschall.ScriptIdentifier..".defer_script02"
   elseif ultraschall.defermode2==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script02")=="running" then
     ultraschall.defertimer2=ultraschall.defertimer2-1
-    if ultraschall.defertimer2>0 then reaper.defer(ultraschall.Defer2) else return reaper.defer(ultraschall.deferfunc2) end
+    if ultraschall.defertimer2>0 then reaper.defer(ultraschall.Defer2) else return reaper.defer(ultraschall.deferfunc2), ultraschall.ScriptIdentifier..".defer_script02" end
   elseif ultraschall.defermode2==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script02")=="running" then
-    if ultraschall.defertimer2>reaper.time_precise() then reaper.defer(ultraschall.Defer2) else return reaper.defer(ultraschall.deferfunc2) end
+    if ultraschall.defertimer2>reaper.time_precise() then reaper.defer(ultraschall.Defer2) else return reaper.defer(ultraschall.deferfunc2), ultraschall.ScriptIdentifier..".defer_script02" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script02")~="running" then
     return true
   else 
@@ -3724,17 +3824,17 @@ function ultraschall.Defer3(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -3784,9 +3884,9 @@ function ultraschall.Defer3(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc3), ultraschall.ScriptIdentifier..".defer_script03"
   elseif ultraschall.defermode3==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script03")=="running" then
     ultraschall.defertimer3=ultraschall.defertimer3-1
-    if ultraschall.defertimer3>0 then reaper.defer(ultraschall.Defer3) else return reaper.defer(ultraschall.deferfunc3) end
+    if ultraschall.defertimer3>0 then reaper.defer(ultraschall.Defer3) else return reaper.defer(ultraschall.deferfunc3), ultraschall.ScriptIdentifier..".defer_script03" end
   elseif ultraschall.defermode3==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script03")=="running" then
-    if ultraschall.defertimer3>reaper.time_precise() then reaper.defer(ultraschall.Defer3) else return reaper.defer(ultraschall.deferfunc3) end
+    if ultraschall.defertimer3>reaper.time_precise() then reaper.defer(ultraschall.Defer3) else return reaper.defer(ultraschall.deferfunc3), ultraschall.ScriptIdentifier..".defer_script03" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script03")~="running" then
     return true
   else 
@@ -3810,17 +3910,17 @@ function ultraschall.Defer4(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -3870,9 +3970,9 @@ function ultraschall.Defer4(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc4), ultraschall.ScriptIdentifier..".defer_script04"
   elseif ultraschall.defermode4==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script04")=="running" then
     ultraschall.defertimer4=ultraschall.defertimer4-1
-    if ultraschall.defertimer4>0 then reaper.defer(ultraschall.Defer4) else return reaper.defer(ultraschall.deferfunc4) end
+    if ultraschall.defertimer4>0 then reaper.defer(ultraschall.Defer4) else return reaper.defer(ultraschall.deferfunc4), ultraschall.ScriptIdentifier..".defer_script04" end
   elseif ultraschall.defermode4==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script04")=="running" then
-    if ultraschall.defertimer4>reaper.time_precise() then reaper.defer(ultraschall.Defer4) else return reaper.defer(ultraschall.deferfunc4) end
+    if ultraschall.defertimer4>reaper.time_precise() then reaper.defer(ultraschall.Defer4) else return reaper.defer(ultraschall.deferfunc4), ultraschall.ScriptIdentifier..".defer_script04" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script04")~="running" then
     return true
   else 
@@ -3896,17 +3996,17 @@ function ultraschall.Defer5(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -3956,9 +4056,9 @@ function ultraschall.Defer5(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc5), ultraschall.ScriptIdentifier..".defer_script05"
   elseif ultraschall.defermode5==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script05")=="running" then
     ultraschall.defertimer5=ultraschall.defertimer5-1
-    if ultraschall.defertimer5>0 then reaper.defer(ultraschall.Defer5) else return reaper.defer(ultraschall.deferfunc5) end
+    if ultraschall.defertimer5>0 then reaper.defer(ultraschall.Defer5) else return reaper.defer(ultraschall.deferfunc5), ultraschall.ScriptIdentifier..".defer_script05" end
   elseif ultraschall.defermode5==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script05")=="running" then
-    if ultraschall.defertimer5>reaper.time_precise() then reaper.defer(ultraschall.Defer5) else return reaper.defer(ultraschall.deferfunc5) end
+    if ultraschall.defertimer5>reaper.time_precise() then reaper.defer(ultraschall.Defer5) else return reaper.defer(ultraschall.deferfunc5), ultraschall.ScriptIdentifier..".defer_script05" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script05")~="running" then
     return true
   else 
@@ -3982,17 +4082,17 @@ function ultraschall.Defer6(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -4042,9 +4142,9 @@ function ultraschall.Defer6(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc6), ultraschall.ScriptIdentifier..".defer_script06"
   elseif ultraschall.defermode6==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script06")=="running" then
     ultraschall.defertimer6=ultraschall.defertimer6-1
-    if ultraschall.defertimer6>0 then reaper.defer(ultraschall.Defer6) else return reaper.defer(ultraschall.deferfunc6) end
+    if ultraschall.defertimer6>0 then reaper.defer(ultraschall.Defer6) else return reaper.defer(ultraschall.deferfunc6), ultraschall.ScriptIdentifier..".defer_script06" end
   elseif ultraschall.defermode6==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script06")=="running" then
-    if ultraschall.defertimer6>reaper.time_precise() then reaper.defer(ultraschall.Defer6) else return reaper.defer(ultraschall.deferfunc6) end
+    if ultraschall.defertimer6>reaper.time_precise() then reaper.defer(ultraschall.Defer6) else return reaper.defer(ultraschall.deferfunc6), ultraschall.ScriptIdentifier..".defer_script06" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script06")~="running" then
     return true
   else 
@@ -4068,17 +4168,17 @@ function ultraschall.Defer7(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -4128,9 +4228,9 @@ function ultraschall.Defer7(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc7), ultraschall.ScriptIdentifier..".defer_script07"
   elseif ultraschall.defermode7==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script07")=="running" then
     ultraschall.defertimer7=ultraschall.defertimer7-1
-    if ultraschall.defertimer7>0 then reaper.defer(ultraschall.Defer7) else return reaper.defer(ultraschall.deferfunc7) end
+    if ultraschall.defertimer7>0 then reaper.defer(ultraschall.Defer7) else return reaper.defer(ultraschall.deferfunc7), ultraschall.ScriptIdentifier..".defer_script07" end
   elseif ultraschall.defermode7==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script07")=="running" then
-    if ultraschall.defertimer7>reaper.time_precise() then reaper.defer(ultraschall.Defer7) else return reaper.defer(ultraschall.deferfunc7) end
+    if ultraschall.defertimer7>reaper.time_precise() then reaper.defer(ultraschall.Defer7) else return reaper.defer(ultraschall.deferfunc7), ultraschall.ScriptIdentifier..".defer_script07" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script07")~="running" then
     return true
   else 
@@ -4154,17 +4254,17 @@ function ultraschall.Defer8(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -4214,9 +4314,9 @@ function ultraschall.Defer8(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc8), ultraschall.ScriptIdentifier..".defer_script08"
   elseif ultraschall.defermode8==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script08")=="running" then
     ultraschall.defertimer8=ultraschall.defertimer8-1
-    if ultraschall.defertimer8>0 then reaper.defer(ultraschall.Defer8) else return reaper.defer(ultraschall.deferfunc8) end
+    if ultraschall.defertimer8>0 then reaper.defer(ultraschall.Defer8) else return reaper.defer(ultraschall.deferfunc8), ultraschall.ScriptIdentifier..".defer_script08" end
   elseif ultraschall.defermode8==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script08")=="running" then
-    if ultraschall.defertimer8>reaper.time_precise() then reaper.defer(ultraschall.Defer8) else return reaper.defer(ultraschall.deferfunc8) end
+    if ultraschall.defertimer8>reaper.time_precise() then reaper.defer(ultraschall.Defer8) else return reaper.defer(ultraschall.deferfunc8), ultraschall.ScriptIdentifier..".defer_script08" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script08")~="running" then
     return true
   else 
@@ -4240,17 +4340,17 @@ function ultraschall.Defer9(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -4300,9 +4400,9 @@ function ultraschall.Defer9(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc9), ultraschall.ScriptIdentifier..".defer_script09"
   elseif ultraschall.defermode9==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script09")=="running" then
     ultraschall.defertimer9=ultraschall.defertimer9-1
-    if ultraschall.defertimer9>0 then reaper.defer(ultraschall.Defer9) else return reaper.defer(ultraschall.deferfunc9) end
+    if ultraschall.defertimer9>0 then reaper.defer(ultraschall.Defer9) else return reaper.defer(ultraschall.deferfunc9), ultraschall.ScriptIdentifier..".defer_script09" end
   elseif ultraschall.defermode9==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script09")=="running" then
-    if ultraschall.defertimer9>reaper.time_precise() then reaper.defer(ultraschall.Defer9) else return reaper.defer(ultraschall.deferfunc9) end
+    if ultraschall.defertimer9>reaper.time_precise() then reaper.defer(ultraschall.Defer9) else return reaper.defer(ultraschall.deferfunc9), ultraschall.ScriptIdentifier..".defer_script09" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script09")~="running" then
     return true
   else 
@@ -4326,17 +4426,17 @@ function ultraschall.Defer10(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -4386,9 +4486,9 @@ function ultraschall.Defer10(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc10), ultraschall.ScriptIdentifier..".defer_script10"
   elseif ultraschall.defermode10==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script10")=="running" then
     ultraschall.defertimer10=ultraschall.defertimer10-1
-    if ultraschall.defertimer10>0 then reaper.defer(ultraschall.Defer10) else return reaper.defer(ultraschall.deferfunc10) end
+    if ultraschall.defertimer10>0 then reaper.defer(ultraschall.Defer10) else return reaper.defer(ultraschall.deferfunc10), ultraschall.ScriptIdentifier..".defer_script10" end
   elseif ultraschall.defermode10==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script10")=="running" then
-    if ultraschall.defertimer10>reaper.time_precise() then reaper.defer(ultraschall.Defer10) else return reaper.defer(ultraschall.deferfunc10) end
+    if ultraschall.defertimer10>reaper.time_precise() then reaper.defer(ultraschall.Defer10) else return reaper.defer(ultraschall.deferfunc10), ultraschall.ScriptIdentifier..".defer_script10" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script10")~="running" then
     return true
   else 
@@ -4412,17 +4512,17 @@ function ultraschall.Defer11(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -4472,9 +4572,9 @@ function ultraschall.Defer11(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc11), ultraschall.ScriptIdentifier..".defer_script11"
   elseif ultraschall.defermode11==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script11")=="running" then
     ultraschall.defertimer11=ultraschall.defertimer11-1
-    if ultraschall.defertimer11>0 then reaper.defer(ultraschall.Defer11) else return reaper.defer(ultraschall.deferfunc11) end
+    if ultraschall.defertimer11>0 then reaper.defer(ultraschall.Defer11) else return reaper.defer(ultraschall.deferfunc11), ultraschall.ScriptIdentifier..".defer_script11" end
   elseif ultraschall.defermode11==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script11")=="running" then
-    if ultraschall.defertimer11>reaper.time_precise() then reaper.defer(ultraschall.Defer11) else return reaper.defer(ultraschall.deferfunc11) end
+    if ultraschall.defertimer11>reaper.time_precise() then reaper.defer(ultraschall.Defer11) else return reaper.defer(ultraschall.deferfunc11), ultraschall.ScriptIdentifier..".defer_script11" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script11")~="running" then
     return true
   else 
@@ -4498,17 +4598,17 @@ function ultraschall.Defer12(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -4558,9 +4658,9 @@ function ultraschall.Defer12(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc12), ultraschall.ScriptIdentifier..".defer_script12"
   elseif ultraschall.defermode12==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script12")=="running" then
     ultraschall.defertimer12=ultraschall.defertimer12-1
-    if ultraschall.defertimer12>0 then reaper.defer(ultraschall.Defer12) else return reaper.defer(ultraschall.deferfunc12) end
+    if ultraschall.defertimer12>0 then reaper.defer(ultraschall.Defer12) else return reaper.defer(ultraschall.deferfunc12), ultraschall.ScriptIdentifier..".defer_script12" end
   elseif ultraschall.defermode12==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script12")=="running" then
-    if ultraschall.defertimer12>reaper.time_precise() then reaper.defer(ultraschall.Defer12) else return reaper.defer(ultraschall.deferfunc12) end
+    if ultraschall.defertimer12>reaper.time_precise() then reaper.defer(ultraschall.Defer12) else return reaper.defer(ultraschall.deferfunc12), ultraschall.ScriptIdentifier..".defer_script12" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script12")~="running" then
     return true
   else 
@@ -4584,17 +4684,17 @@ function ultraschall.Defer13(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -4644,9 +4744,9 @@ function ultraschall.Defer13(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc13), ultraschall.ScriptIdentifier..".defer_script13"
   elseif ultraschall.defermode13==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script13")=="running" then
     ultraschall.defertimer13=ultraschall.defertimer13-1
-    if ultraschall.defertimer13>0 then reaper.defer(ultraschall.Defer13) else return reaper.defer(ultraschall.deferfunc13) end
+    if ultraschall.defertimer13>0 then reaper.defer(ultraschall.Defer13) else return reaper.defer(ultraschall.deferfunc13), ultraschall.ScriptIdentifier..".defer_script13" end
   elseif ultraschall.defermode13==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script13")=="running" then
-    if ultraschall.defertimer13>reaper.time_precise() then reaper.defer(ultraschall.Defer13) else return reaper.defer(ultraschall.deferfunc13) end
+    if ultraschall.defertimer13>reaper.time_precise() then reaper.defer(ultraschall.Defer13) else return reaper.defer(ultraschall.deferfunc13), ultraschall.ScriptIdentifier..".defer_script13" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script13")~="running" then
     return true
   else 
@@ -4670,17 +4770,17 @@ function ultraschall.Defer14(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -4730,9 +4830,9 @@ function ultraschall.Defer14(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc14), ultraschall.ScriptIdentifier..".defer_script14"
   elseif ultraschall.defermode14==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script14")=="running" then
     ultraschall.defertimer14=ultraschall.defertimer14-1
-    if ultraschall.defertimer14>0 then reaper.defer(ultraschall.Defer14) else return reaper.defer(ultraschall.deferfunc14) end
+    if ultraschall.defertimer14>0 then reaper.defer(ultraschall.Defer14) else return reaper.defer(ultraschall.deferfunc14), ultraschall.ScriptIdentifier..".defer_script14" end
   elseif ultraschall.defermode14==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script14")=="running" then
-    if ultraschall.defertimer14>reaper.time_precise() then reaper.defer(ultraschall.Defer14) else return reaper.defer(ultraschall.deferfunc14) end
+    if ultraschall.defertimer14>reaper.time_precise() then reaper.defer(ultraschall.Defer14) else return reaper.defer(ultraschall.deferfunc14), ultraschall.ScriptIdentifier..".defer_script14" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script14")~="running" then
     return true
   else 
@@ -4756,17 +4856,17 @@ function ultraschall.Defer15(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -4816,9 +4916,9 @@ function ultraschall.Defer15(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc15), ultraschall.ScriptIdentifier..".defer_script15"
   elseif ultraschall.defermode15==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script15")=="running" then
     ultraschall.defertimer15=ultraschall.defertimer15-1
-    if ultraschall.defertimer15>0 then reaper.defer(ultraschall.Defer15) else return reaper.defer(ultraschall.deferfunc15) end
+    if ultraschall.defertimer15>0 then reaper.defer(ultraschall.Defer15) else return reaper.defer(ultraschall.deferfunc15), ultraschall.ScriptIdentifier..".defer_script15" end
   elseif ultraschall.defermode15==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script15")=="running" then
-    if ultraschall.defertimer15>reaper.time_precise() then reaper.defer(ultraschall.Defer15) else return reaper.defer(ultraschall.deferfunc15) end
+    if ultraschall.defertimer15>reaper.time_precise() then reaper.defer(ultraschall.Defer15) else return reaper.defer(ultraschall.deferfunc15), ultraschall.ScriptIdentifier..".defer_script15" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script15")~="running" then
     return true
   else 
@@ -4842,17 +4942,17 @@ function ultraschall.Defer16(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -4902,9 +5002,9 @@ function ultraschall.Defer16(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc16), ultraschall.ScriptIdentifier..".defer_script16"
   elseif ultraschall.defermode16==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script16")=="running" then
     ultraschall.defertimer16=ultraschall.defertimer16-1
-    if ultraschall.defertimer16>0 then reaper.defer(ultraschall.Defer16) else return reaper.defer(ultraschall.deferfunc16) end
+    if ultraschall.defertimer16>0 then reaper.defer(ultraschall.Defer16) else return reaper.defer(ultraschall.deferfunc16), ultraschall.ScriptIdentifier..".defer_script16" end
   elseif ultraschall.defermode16==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script16")=="running" then
-    if ultraschall.defertimer16>reaper.time_precise() then reaper.defer(ultraschall.Defer16) else return reaper.defer(ultraschall.deferfunc16) end
+    if ultraschall.defertimer16>reaper.time_precise() then reaper.defer(ultraschall.Defer16) else return reaper.defer(ultraschall.deferfunc16), ultraschall.ScriptIdentifier..".defer_script16" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script16")~="running" then
     return true
   else 
@@ -4928,17 +5028,17 @@ function ultraschall.Defer17(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -4988,9 +5088,9 @@ function ultraschall.Defer17(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc17), ultraschall.ScriptIdentifier..".defer_script17"
   elseif ultraschall.defermode17==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script17")=="running" then
     ultraschall.defertimer17=ultraschall.defertimer17-1
-    if ultraschall.defertimer17>0 then reaper.defer(ultraschall.Defer17) else return reaper.defer(ultraschall.deferfunc17) end
+    if ultraschall.defertimer17>0 then reaper.defer(ultraschall.Defer17) else return reaper.defer(ultraschall.deferfunc17), ultraschall.ScriptIdentifier..".defer_script17" end
   elseif ultraschall.defermode17==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script17")=="running" then
-    if ultraschall.defertimer17>reaper.time_precise() then reaper.defer(ultraschall.Defer17) else return reaper.defer(ultraschall.deferfunc17) end
+    if ultraschall.defertimer17>reaper.time_precise() then reaper.defer(ultraschall.Defer17) else return reaper.defer(ultraschall.deferfunc17), ultraschall.ScriptIdentifier..".defer_script17" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script17")~="running" then
     return true
   else 
@@ -5014,17 +5114,17 @@ function ultraschall.Defer18(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -5074,9 +5174,9 @@ function ultraschall.Defer18(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc18), ultraschall.ScriptIdentifier..".defer_script18"
   elseif ultraschall.defermode18==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script18")=="running" then
     ultraschall.defertimer18=ultraschall.defertimer18-1
-    if ultraschall.defertimer18>0 then reaper.defer(ultraschall.Defer18) else return reaper.defer(ultraschall.deferfunc18) end
+    if ultraschall.defertimer18>0 then reaper.defer(ultraschall.Defer18) else return reaper.defer(ultraschall.deferfunc18), ultraschall.ScriptIdentifier..".defer_script18" end
   elseif ultraschall.defermode18==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script18")=="running" then
-    if ultraschall.defertimer18>reaper.time_precise() then reaper.defer(ultraschall.Defer18) else return reaper.defer(ultraschall.deferfunc18) end
+    if ultraschall.defertimer18>reaper.time_precise() then reaper.defer(ultraschall.Defer18) else return reaper.defer(ultraschall.deferfunc18), ultraschall.ScriptIdentifier..".defer_script18" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script18")~="running" then
     return true
   else 
@@ -5100,17 +5200,17 @@ function ultraschall.Defer19(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -5160,9 +5260,9 @@ function ultraschall.Defer19(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc19), ultraschall.ScriptIdentifier..".defer_script19"
   elseif ultraschall.defermode19==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script19")=="running" then
     ultraschall.defertimer19=ultraschall.defertimer19-1
-    if ultraschall.defertimer19>0 then reaper.defer(ultraschall.Defer19) else return reaper.defer(ultraschall.deferfunc19) end
+    if ultraschall.defertimer19>0 then reaper.defer(ultraschall.Defer19) else return reaper.defer(ultraschall.deferfunc19), ultraschall.ScriptIdentifier..".defer_script19" end
   elseif ultraschall.defermode19==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script19")=="running" then
-    if ultraschall.defertimer19>reaper.time_precise() then reaper.defer(ultraschall.Defer19) else return reaper.defer(ultraschall.deferfunc19) end
+    if ultraschall.defertimer19>reaper.time_precise() then reaper.defer(ultraschall.Defer19) else return reaper.defer(ultraschall.deferfunc19), ultraschall.ScriptIdentifier..".defer_script19" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script19")~="running" then
     return true
   else 
@@ -5186,17 +5286,17 @@ function ultraschall.Defer20(func, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer_identifier.
+      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
       
       Don't run this twice in your script. It you need more than one such defer-cycle, use 
 
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
+        [Defer1][#Defer1], [Defer2][#Defer2], [Defer3][#Defer3], [Defer4][#Defer4], [Defer5][#Defer5], [Defer6][#Defer6], [Defer7][#Defer7], [Defer8][#Defer8], [Defer9][#Defer9], [Defer10][#Defer10],
+        [Defer11][#Defer11], [Defer12][#Defer12], [Defer13][#Defer13], [Defer14][#Defer14], [Defer15][#Defer15], [Defer16][#Defer16], [Defer17][#Defer17], [Defer18][#Defer18], [Defer19][#Defer19], [Defer20][#Defer20]
 
       where every such defer-instance can be controlled individually, including stopping it.      
       It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
       
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer_identifier
+      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
       
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
       
@@ -5223,8 +5323,7 @@ function ultraschall.Defer20(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]] 
-  if type(func)~="function" and type(ultraschall.deferfunc20)~="function" then 
+  ]]  if type(func)~="function" and type(ultraschall.deferfunc20)~="function" then 
     ultraschall.AddErrorMessage("Defer20", "func", "must be a function", -1)
     return false 
   end
@@ -5247,9 +5346,9 @@ function ultraschall.Defer20(func, mode, timer_counter)
     return reaper.defer(ultraschall.deferfunc20), ultraschall.ScriptIdentifier..".defer_script20"
   elseif ultraschall.defermode20==1 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script20")=="running" then
     ultraschall.defertimer20=ultraschall.defertimer20-1
-    if ultraschall.defertimer20>0 then reaper.defer(ultraschall.Defer20) else return reaper.defer(ultraschall.deferfunc20) end
+    if ultraschall.defertimer20>0 then reaper.defer(ultraschall.Defer20) else return reaper.defer(ultraschall.deferfunc20), ultraschall.ScriptIdentifier..".defer_script20" end
   elseif ultraschall.defermode20==2 and reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script20")=="running" then
-    if ultraschall.defertimer20>reaper.time_precise() then reaper.defer(ultraschall.Defer20) else return reaper.defer(ultraschall.deferfunc20) end
+    if ultraschall.defertimer20>reaper.time_precise() then reaper.defer(ultraschall.Defer20) else return reaper.defer(ultraschall.deferfunc20), ultraschall.ScriptIdentifier..".defer_script20" end
   elseif reaper.GetExtState("ultraschall", ultraschall.ScriptIdentifier..".defer_script20")~="running" then
     return true
   else 
@@ -5258,7 +5357,6 @@ function ultraschall.Defer20(func, mode, timer_counter)
   end
   return true, ultraschall.ScriptIdentifier..".defer_script20"
 end
-
 
 
 
@@ -5497,13 +5595,13 @@ function ultraschall.GetIniFileValue(section, key, errval, inifile)
   if type(inifile)~="string" then ultraschall.AddErrorMessage("GetIniFileValue", "inifile", "must be a string", -1) return -1 end
   if section==nil then ultraschall.AddErrorMessage("GetIniFileValue", "section", "must be a string", -2) return -1 end
   if key==nil then ultraschall.AddErrorMessage("GetIniFileValue", "key", "must be a string", -3) return -1 end
-  if key==nil then ultraschall.AddErrorMessage("GetIniFileValue", "errval", "must be a string", -4) return -1 end
+  if errval==nil then errval="" end
   section=tostring(section)
   key=tostring(key)
 
-  local A=ultraschall.ReadFullFile(inifile).."["
+  local A=ultraschall.ReadFullFile(inifile).."\n["
   
-  local SectionArea=A:match(section.."%](.-)%[").."\n"
+  local SectionArea=A:match(section.."%](.-)\n%[").."\n"
   local KeyValue=SectionArea:match("\n"..key.."=(.-)\n")
   if KeyValue==nil then KeyValue=errval end
   return KeyValue:len(), KeyValue
@@ -5727,6 +5825,117 @@ end
 
 --A=ultraschall.SetVerticalScroll(2000000)
 
+function ultraschall.GetUserInputs(title, caption_names, default_retvals, length)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetUserInputs</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer number_of_inputfields, table returnvalues = ultraschall.GetUserInputs(string title, table caption_names, table default_retvals, integer length)</functioncall>
+  <description>
+    Gets inputs from the user.
+    
+    The captions and the default-returnvalues must be passed as an integer-index table.
+    e.g.
+      caption_names[1]="first caption name"
+      caption_names[2]="second caption name"
+      caption_names[1]="*third caption name, which creates an inputfield for passwords, due the * at the beginning"
+     
+    returns false in case of an error.
+  </description>
+  <retvals>
+    boolean retval - true, the user clicked ok on the userinput-window; false, the user clicked cancel or an error occured
+    integer number_of_inputfields - the number of returned values; nil, in case of an error
+    table returnvalues - the returnvalues input by the user as a table; nil, in case of an error
+  </retvals>
+  <parameters>
+    string title - the title of the inputwindow
+    table caption_names - a table with all inputfield-captions. All non-string-entries will be converted to string-entries. Begin an entry with a * for password-entry-fields.
+    table default_retvals - a table with all default retvals. All non-string-entries will be converted to string-entries.
+    integer length - the extralength of the user-inputfield. With that, you can enhance the length of the inputfields. 1-500
+  </parameters>
+  <chapter_context>
+    User Interface
+    Dialogs
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, dialog, get, user input</tags>
+</US_DocBloc>
+--]]
+  if type(title)~="string" then ultraschall.AddErrorMessage("GetUserInputs", "title", "must be a string", -1) return false end
+  if type(caption_names)~="table" then ultraschall.AddErrorMessage("GetUserInputs", "caption_names", "must be a table", -2) return false end
+  if type(default_retvals)~="table" then ultraschall.AddErrorMessage("GetUserInputs", "default_retvals", "must be a table", -3) return false end
+  if math.type(length)~="integer" then ultraschall.AddErrorMessage("GetUserInputs", "length", "must be an integer", -4) return false end
+  if length>500 or length<1 then ultraschall.AddErrorMessage("GetUserInputs", "length", "must be between 1 and 500", -5) return false end
+  local count = ultraschall.CountEntriesInTable_Main(caption_names)
+  length=(length*2)+18
+  
+  local captions=""
+  local retvals=""
+  
+  for i=1, count do
+    if caption_names[i]==nil then caption_names[i]="" end
+    captions=captions..tostring(caption_names[i])..","
+  end
+  captions=captions:sub(1,-2)
+  captions=captions..",extrawidth="..length
+  
+  for i=1, count do
+    if default_retvals[i]==nil then default_retvals[i]="" end
+    retvals=retvals..tostring(default_retvals[i])..","
+  end
+  retvals=retvals:sub(1,-2)  
+  
+  local retval, retvalcsv = reaper.GetUserInputs(title, count, captions, retvals)
+  if retval==false then return false end
+  return retval, ultraschall.CSV2IndividualLinesAsArray(retvalcsv) 
+end
+
+function ultraschall.CreateRenderCFG_AIFF(bits)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateRenderCFG_AIFF</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.77
+    Lua=5.3
+  </requires>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_AIFF(integer bits)</functioncall>
+  <description>
+    Returns the render-cfg-string for the AIFF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string render_cfg_string - the render-cfg-string for the selected AIFF-settings
+  </retvals>
+  <parameters>
+    integer bits - the bitrate of the aiff-file; 8, 16, 24 and 32 are supported
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Creating Renderstrings
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, create, render, outputformat, aiff</tags>
+</US_DocBloc>
+]]
+  if math.type(bits)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AIFF", "bits", "must be an integer", -1) return nil end
+  local renderstring="ZmZpY..AAA=="
+  if bits==8 then renderstring=string.gsub(renderstring, "%.%.", "Qg")
+  elseif bits==16 then renderstring=string.gsub(renderstring, "%.%.", "RA")
+  elseif bits==24 then renderstring=string.gsub(renderstring, "%.%.", "Rg")
+  elseif bits==32 then renderstring=string.gsub(renderstring, "%.%.", "SA")
+  else ultraschall.AddErrorMessage("CreateRenderCFG_AIFF", "bits", "only 8, 16, 24 and 32 are supported by AIFF", -2) return nil
+  end
+  return renderstring
+end
+
 
 --Event Manager
 function ultraschall.ResetEvent(Event_Section)
@@ -5844,4 +6053,88 @@ end
 --ultraschall.StartEventManager()
 --A,B,C=ultraschall.StartAllEventListeners()
 
+function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_with_hash, leadin_silence_tracks, leadin_silence_disc, burncd_image_after_render)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateRenderCFG_AudioCD</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.77
+    Lua=5.3
+  </requires>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_AudioCD(integer trackmode, boolean only_markers_starting_with_hash, integer leadin_silence_tracks, integer leadin_silence_disc, boolean burncd_image_after_render)</functioncall>
+  <description>
+    Returns the render-cfg-string for the AudioCD-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    
+    You can also check, whether to burn the created cd-image after rendering.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string render_cfg_string - the render-cfg-string for the selected AudioCD-image-settings
+  </retvals>
+  <parameters>
+    integer trackmode - Track mode-dropdownlist: 1, Markers define new track; 2, Regions define tracks (other areas ignored); 3, One Track
+    boolean only_markers_starting_with_hash - Only use markers starting with #-checkbox; true, checked; false, unchecked
+    integer leadin_silence_tracks - Lead-in silence for tracks-inputbox, in milliseconds; 0 to 100000 supported by Ultraschall-API
+    integer leadin_silence_disc - Extra lead-in silence for disc-inputbox, in milliseconds; 0 to 100000 supported by Ultraschall-API
+    boolean burncd_image_after_render - Burn CD image after render-checkbox; true, checked; false, unchecked
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Creating Renderstrings
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, create, render, outputformat, audiocd, cd, image, burn cd</tags>
+</US_DocBloc>
+]]
+
+  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes-for-AudioCD.ini"
+  if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "Ooops", "external audio-cd-render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
+  if math.type(trackmode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "trackmode", "Must be an integer between 1 and 3!", -2) return nil end
+  if type(only_markers_starting_with_hash)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "only_markers_starting_with_hash", "Must be a boolean!", -3) return nil end
+  if math.type(leadin_silence_tracks)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_tracks", "Must be an integer!", -4) return nil end
+  if math.type(leadin_silence_disc)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_disc", "Must be an integer!", -5) return nil end
+  if type(burncd_image_after_render)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "burncd_image_after_render", "Must be a boolean!", -6) return nil end
+  
+  if trackmode<1 or trackmode>3 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "trackmode", "Must be an integer between 1 and 3!", -7) return nil end
+  if leadin_silence_tracks<0 or leadin_silence_tracks>100000 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_tracks", "Ultraschall-API supports only millisecond-values between 0 to 100000, sorry.", -8) return nil end
+  if leadin_silence_disc<0 or leadin_silence_disc>100000 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_disc", "Ultraschall-API supports only millisecond-values between 0 to 100000, sorry.", -9) return nil end
+
+  
+  if trackmode==1 then trackmode="1"
+  elseif trackmode==2 then trackmode="2"
+  elseif trackmode==3 then trackmode="3"
+  end
+  
+  if only_markers_starting_with_hash==true then only_markers_starting_with_hash="checked" else only_markers_starting_with_hash="unchecked" end
+  
+  if burncd_image_after_render==true then burncd_image_after_render="checked" else burncd_image_after_render="unchecked" end
+  
+  local _temp, renderstring=ultraschall.GetIniFileExternalState("AUDIOCD", "Renderstring", ini_file)
+  local _temp, leadin_silence_disc=ultraschall.GetIniFileExternalState("AUDIOCD", "DISCLEADIN_"..leadin_silence_disc, ini_file)
+  local _temp, leadin_silence_tracks=ultraschall.GetIniFileExternalState("AUDIOCD", "TRACKLEADIN_"..leadin_silence_tracks, ini_file)
+  local _temp, trackmode=ultraschall.GetIniFileExternalState("AUDIOCD", "Trackmode_"..trackmode, ini_file)
+  local _temp, burncd_image_after_render=ultraschall.GetIniFileExternalState("AUDIOCD", "BurnCDImage_"..burncd_image_after_render, ini_file)
+  local _temp, only_markers_starting_with_hash=ultraschall.GetIniFileExternalState("AUDIOCD", "OnlyUseMarkers_"..only_markers_starting_with_hash, ini_file)
+
+
+  renderstring=string.gsub(renderstring, "%[DISCLEADIN%]", leadin_silence_disc)
+  renderstring=string.gsub(renderstring, "%[TRACKLEADIN%]", leadin_silence_tracks)
+  renderstring=string.gsub(renderstring, "%[BurnCDImage%]", burncd_image_after_render)
+  renderstring=string.gsub(renderstring, "%[Trackmode%]", trackmode)
+  renderstring=string.gsub(renderstring, "%[OnlyUseMarkers%]", only_markers_starting_with_hash)
+
+  return renderstring
+end
+
+--A=ultraschall.CreateRenderCFG_AudioCD(1,false,100000,100000,false)
+--reaper.CF_SetClipboard(A)
+
+--B="IG9zaaCGAQCghgEAAAAAAAAAAAAAAAAA"
+
 ultraschall.ShowLastErrorMessage()
+
+
+

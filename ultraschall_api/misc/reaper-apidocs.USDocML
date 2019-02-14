@@ -4,14 +4,14 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ##ReaScript API as of Reaper 5.965
+            ## ReaScript API as of Reaper 5.965
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
             ReaScripts can be written in EEL2, a specialized language that is also used to write JSFX; Lua, a popular scripting language; or Python, another scripting language. EEL and Lua are embedded within REAPER and require no additional downloads or settings. Python must be downloaded and installed separately, and enabled in REAPER preferences.
 
-            A script named "__startup.lua|.eel" will be started automatically by Reaper at startup. You can have both; Reaper will run __startup.eel first, __startup.lua second.
-            This __startup-script doesn't need to be registered into the actionlist of Reaper; it's pure existence in the scripts-folder of the resources-folder of Reaper is sufficient for it to be run.
+            A script named "\_\_startup.lua|.eel" will be started automatically by Reaper at startup. You can have both; Reaper will run \_\_startup.eel first, \_\_startup.lua second.
+            This \_\_startup-script doesn't need to be registered into the actionlist of Reaper; it's pure existence in the scripts-folder of the resources-folder of Reaper is sufficient for it to be run.
             
             Learn more about ReaScript: [http://www.cockos.com/reaper/sdk/reascript/reascript.php](http://www.cockos.com/reaper/sdk/reascript/reascript.php).
             
@@ -35,7 +35,7 @@
         <slug>3.Datatypes_used_in_this_document</slug>
         <title>3 Datatypes used in this document</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-                ###Datatypes used in this document
+                ### Datatypes used in this document
                 
                 boolean - accepts only true or false as values
                 optional boolean - a boolean, that can be given, but is not required
@@ -47,10 +47,10 @@
                 optional string - a string, that can be given, but is not required
 
                 AudioAccessor - Audio Accessor object for a track or a media-item
-                BR_Envelope \(BR\) - an envelope-object, created from a track or take-envelope
+                BR\_Envelope \(BR\) - an envelope-object, created from a track or take-envelope
                 HWND - a window
                 IReaperControlSurface - a ControlSurface, e.g. OSC-devices
-                joystick_device - a joystick-device
+                joystick\_device - a joystick-device
                 KbdSectionInfo - Keyboard Section Info, 
                 -        0, Main
                 -        100, Main (alt recording)
@@ -58,17 +58,17 @@
                 -        32061, MIDI Event List Editor
                 -        32062, MIDI Inline Editor
                 -        32063, Media Explorer
-                PCM_source - the audiosource of a MediaItem
+                PCM\_source - the audiosource of a MediaItem
                 ReaProject - a project within Reaper; 0 for current open project\(-tab\); in [EnumProjects](#EnumProjects), it is an object, not a number!
                 RprMidiTake \(FNG\) - ReaperMidiTake as object
                 RprMidiNote \(FNG}) - RprMidiNote as object
                 MediaTrack - a Reaper-Track as object
                 MediaItem - a Reaper-MediaItem like audio,video, Midi, etc as object
-                MediaItem_Take - a take within a MediaItem as object
+                MediaItem\_Take - a take within a MediaItem as object
                 TrackEnvelope - an envelope of a track as object
-                WDL_FastString\(S&M\) - a different kind of a string, made into a Reaper-object
+                WDL\_FastString\(S&M\) - a different kind of a string, made into a Reaper-object
                 
-                deviceHDC - get it using function [JS_GDI_GetWindowDC](#JS_GDI_GetWindowDC)
+                deviceHDC - get it using function [JS\_GDI_GetWindowDC](#JS_GDI_GetWindowDC)
         </description>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document>reaper_plugin.h</source_document>
@@ -82,30 +82,30 @@
         <slug>2.1.cpp_desc</slug>
         <title>2.1 CPP Description</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ###Usage of the Reaper Api in C++
+            ### Usage of the Reaper Api in C++
             Note: the C++ pure virtual interfaces used require the MSVC-compatible C++ ABI on Win32.  Sorry, mingw users.
 
-            Reaper extensions: see [http://www.cockos.com/reaper/sdk/plugin/plugin.php](http://www.cockos.com/reaper/sdk/plugin/plugin.php) and reaper_plugin.h.
-            The API functions in this header can be retrieved using reaper_plugin_info_t.GetFunc() or by using the Action "\[developer\] Write C++ API functions header" directly in Reaper.
+            Reaper extensions: see [http://www.cockos.com/reaper/sdk/plugin/plugin.php](http://www.cockos.com/reaper/sdk/plugin/plugin.php) and reaper\_plugin.h.
+            The API functions in this header can be retrieved using reaper\_plugin\_info\_t.GetFunc() or by using the Action "\[developer\] Write C++ API functions header" directly in Reaper.
 
-            VST plugins: see [http://www.cockos.com/reaper/sdk/vst/vst_ext.php](http://www.cockos.com/reaper/sdk/vst/vst_ext.php)
+            VST plugins: see [http://www.cockos.com/reaper/sdk/vst/vst\_ext.php](http://www.cockos.com/reaper/sdk/vst/vst_ext.php)
             The API functions in this header can be retrieved using audioMasterCallback.
 
             Because the API is dynamic, callers should never assume a function exists.
             Check that a non-NULL function pointer was returned before using it (unless
-            loaded functions are verified using REAPERAPI_LoadAPI(), see note below).
+            loaded functions are verified using REAPERAPI\_LoadAPI(), see note below).
 
             New (4.76+) usage of this file:
-           -  1) most source files should just #include "reaper_plugin_functions.h" as is.
-           -  2) one file should #define REAPERAPI_IMPLEMENT before including this file.
-           -  3) the plug-in should call REAPERAPI_LoadAPI(rec->GetFunc) from REAPER_PLUGIN_ENTRYPOINT
-           -     and check the return value for errors (REAPERAPI_LoadAPI will return 0 on success).
+           -  1) most source files should just #include "reaper\_plugin\_functions.h" as is.
+           -  2) one file should #define REAPERAPI\_IMPLEMENT before including this file.
+           -  3) the plug-in should call REAPERAPI\_LoadAPI(rec->GetFunc) from REAPER\_PLUGIN\_ENTRYPOINT
+           -     and check the return value for errors (REAPERAPI\_LoadAPI will return 0 on success).
 
               By default, all functions listed in this file are loaded. This means that an older version
               of REAPER may not succeed in loading, and also it may bloat your plug-in. If you wish to only load
-              needed functions, #define REAPERAPI_MINIMAL and various #define REAPERAPI_WANT_<functionname> lines
-              before including this file. You must put these definitions where REAPERAPI_IMPLEMENT is defined
-              and you can optionally put them elsewhere (to detect needed REAPERAPI_WANT_xxx lines at compile-
+              needed functions, #define REAPERAPI\_MINIMAL and various #define REAPERAPI\_WANT_<functionname> lines
+              before including this file. You must put these definitions where REAPERAPI\_IMPLEMENT is defined
+              and you can optionally put them elsewhere (to detect needed REAPERAPI\_WANT\_xxx lines at compile-
               time rather than link-time).
 
         </description>
@@ -121,7 +121,7 @@
         <slug>2.2.eel_desc</slug>
         <title>2.2 EEL Description</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ###ReaScript/EEL API
+            ### ReaScript/EEL API
             
             For information on the EEL2 language, please see the [EEL2 User Guide](https://www.cockos.com/EEL2/)
 
@@ -157,35 +157,35 @@
         </slug>
         <title>2.3 Python Description</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ###ReaScript/Python API            
+            ### ReaScript/Python API            
 
             ReaScript/Python requires a recent version of Python installed on this machine. Python is available from multiple sources [as a free download](http://www.python.org/download). After installing Python, REAPER may detect the Python dynamic library automatically. If not, you can enter the path in the ReaScript preferences page, at Options/Preferences/Plug-Ins/ReaScript.
 
-            ReaScript/Python scripts can call API functions using RPR_functionname().
+            ReaScript/Python scripts can call API functions using RPR\_functionname().
 
             All parameters are passed by value, not reference. API functions that cannot return information in the parameter list will return a single value. API functions that can return any information in the parameter list will return a list of values; The first value in the list will be the function return value (unless the function is declared to return void).
 
             Examples:
                 # function returning a single (scalar) value:
-                sec = [RPR_parse_timestr("1:12")](#parse_timestr)
+                sec = [RPR\_parse\_timestr("1:12")](#parse_timestr)
 
                 # function returning information in the first parameter (function returns void):
-                (str) = [RPR_GetProjectPath("", 512)](#GetProjectPath)
+                (str) = [RPR\_GetProjectPath("", 512)](#GetProjectPath)
 
-                # lower volume of track 3 by half (RPR_GetTrackUIVolPan returns Bool):
-                tr = [RPR_GetTrack(0, 2)](#GetTrack)
-                (ok, tr, vol, pan) = [RPR_GetTrackUIVolPan(tr, 0, 0)](#GetTrackUIVolPan)
+                # lower volume of track 3 by half (RPR\_GetTrackUIVolPan returns Bool):
+                tr = [RPR\_GetTrack(0, 2)](#GetTrack)
+                (ok, tr, vol, pan) = [RPR\_GetTrackUIVolPan(tr, 0, 0)](#GetTrackUIVolPan)
                 # this also works, if you only care about one of the returned values:
-                vol = [RPR_GetTrackUIVolPan(tr, 0, 0)[2]](#GetTrackUIVolPan)
-                [RPR_SetMediaTrackInfo_Value(tr, "D_VOL", vol*0.5)](#SetMediaTrackInfo_Value)
+                vol = [RPR\_GetTrackUIVolPan(tr, 0, 0)[2]](#GetTrackUIVolPan)
+                [RPR\_SetMediaTrackInfo\_Value(tr, "D\_VOL", vol*0.5)](#SetMediaTrackInfo_Value)
 
-            You can create and save modules of useful functions that you can import into other ReaScripts. For example, if you create a file called reascript_utility.py that contains the function helpful_function(), you can import that file into any Python ReaScript with the line:
-            import reascript_utility
+            You can create and save modules of useful functions that you can import into other ReaScripts. For example, if you create a file called reascript\_utility.py that contains the function helpful\_function(), you can import that file into any Python ReaScript with the line:
+            import reascript\_utility
             and call the function by using:
-            reascript_utility.helpful_function()
+            reascript\_utility.helpful\_function()
 
             Note that ReaScripts must explicitly import the REAPER python module, even if the script is imported into another ReaScript:
-            from reaper_python import *
+            from reaper\_python import *
         </description>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -199,7 +199,7 @@
         <slug>2.4.lua_desc</slug>
         <title>2.4 Lua Description</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ###ReaScript/Lua API
+            ### ReaScript/Lua API
 
             ReaScript/Lua scripts can call API functions using reaper.functionname().
 
@@ -9337,13 +9337,13 @@
         </description>
         <retvals>
             retval - did the user click OK in the dialog(true) or close/cancel the dialog(false)
-            retvals_csv - the data from each of the input-fields, seperated by a comma ,
+            retvals_csv - the data from each of the input-fields, separated by a comma ,
         </retvals>
         <parameters>
             title - title of the window
             num_inputs - number of input-fields, 1-16.
-            captions_csv - a string with the captions for each input-field, each seperated by a comma. Can be fewer than num_inputs. If a caption begins with *, the inputfield will display * instead of characters(for i.e. passwords).
-            retvals_csv - default-values for each input-field, seperated by a comma.
+            captions_csv - a string with the captions for each input-field, each separated by a comma. Can be fewer than num_inputs. If a caption begins with *, the inputfield will display * instead of characters(for i.e. passwords).
+            retvals_csv - default-values for each input-field, separated by a comma.
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -30513,7 +30513,7 @@
                         A=gfx.getchar() -- first byte
                         B=gfx.getchar() -- second byte
                         
-                        if A==261 and B==128 then reaper.MB("You typed the €-symbol.", "Message", 0) end -- typed character is the Euro-currency-symbol: €
+                        if A==261 and B==128 then reaper.MB("You typed the €-symbol.", "Message", 0) end -- typed character is the Euro-currency-symbol: �
                                                 
         </description>
         <retvals>

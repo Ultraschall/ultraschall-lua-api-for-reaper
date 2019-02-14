@@ -808,7 +808,7 @@ end
   </requires>
   <functioncall>ultraschall.Euro</functioncall>
   <description>
-    Holds the Euro-currency-symbol(â‚¬), which is hard to type in Reaper's own IDE.
+    Holds the Euro-currency-symbol, which is hard to type in Reaper's own IDE.
   </description>
   <chapter_context>
     API-Variables
@@ -2520,7 +2520,7 @@ function ultraschall.GetTrackIPhaseState(tracknumber, str)
     It's the entry IPHASE
   </description>
   <retvals>
-    number IPhase  - state of the phase-button; 0, normal phase; 1, inverted phase(180Â°)
+    number IPhase  - state of the phase-button; 0, normal phase; 1, inverted phase(180°)
   </retvals>
   <parameters>
     integer tracknumber - number of the track, beginning with 1; 0 for master track; -1, if you want to use the parameter TrackStateChunk instead.
@@ -11194,6 +11194,7 @@ function ultraschall.ReadFullFile(filename_with_path, binary)
   
   -- read file
   local file=io.open(filename_with_path,"r"..binary)
+  if file==nil then ultraschall.AddErrorMessage("ReadFullFile", "filename_with_path", "could not read file, probably due another application accessing it.", -3) return nil end
   local filecontent=file:read("a")
   
   -- count lines in file, when non binary
@@ -11468,6 +11469,7 @@ function ultraschall.MakeCopyOfFile_Binary(input_filename_with_path, output_file
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
+    if file==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "input_filename_with_path", "could not read file, probably due another application accessing it.", -5) return nil end
     local file=io.open(output_filename_with_path,"wb")
     if file==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "output_filename_with_path", "can't create file", -3) return false end
     file:write(fileread:read("*a"))
@@ -11525,6 +11527,7 @@ function ultraschall.ReadBinaryFileUntilPattern(input_filename_with_path, patter
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
+    if file==nil then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "could not read file, probably due another application accessing it.", -6) return nil end
     temp=fileread:read("*a")
     temp2=temp:match("(.-"..pattern..")")
     if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "pattern not found in file", -4) return false end
@@ -11582,6 +11585,7 @@ function ultraschall.ReadBinaryFileFromPattern(input_filename_with_path, pattern
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
+    if file==nil then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "could not read file, probably due another application accessing it.", -6) return nil end
     temp=fileread:read("*a")
     temp2=temp:match("("..pattern..".*)")
     if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "pattern not found in file", -4) return false end
@@ -11747,7 +11751,7 @@ function ultraschall.GetIniFileExternalState(section, key, ini_filename_with_pat
   if type(ini_filename_with_path)~="string" then ultraschall.AddErrorMessage("GetIniFileExternalState","ini_filename_with_path", "must be a string", -3) return -1 end
   if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("GetIniFileExternalState","ini_filename_with_path", "file does not exist", -4) return -1 end
     
-  local L,LL=ultraschall.GetIniFileValue(section, key, nil, ini_filename_with_path)
+  local L,LL=ultraschall.GetIniFileValue(section, key, "", ini_filename_with_path)
   if L==nil then ultraschall.AddErrorMessage("GetIniFileExternalState","key", "does not exist", -5) return -1
   else
   return L,LL
@@ -34983,62 +34987,6 @@ end
 
 --L=ultraschall.GetIDEFontSize()
 
-function ultraschall.MB(msg,title,mbtype)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>MB</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.77
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval = ultraschall.MB(string msg, optional string title, optional integer type)</functioncall>
-  <description>
-    Shows Messagebox with user-clickable buttons. Works like reaper.MB() but unlike reaper.MB, this function accepts omitting some parameters for quicker use.
-    
-    Returns -1 in case of an error
-  </description>
-  <parameters>
-    string msg - the message, that shall be shown in messagebox
-    optional string title - the title of the messagebox
-    optional integer type - which buttons shall be shown in the messagebox
-                            - 0, OK
-                            - 1, OK CANCEL
-                            - 2, ABORT RETRY IGNORE
-                            - 3, YES NO CANCEL
-                            - 4, YES NO
-                            - 5, RETRY CANCEL
-                            - nil, defaults to OK
-  </parameters>
-  <retvals>
-    integer - the button pressed by the user
-                           - -1, error while executing this function
-                           - 1, OK
-                           - 2, CANCEL
-                           - 3, ABORT
-                           - 4, RETRY
-                           - 5, IGNORE
-                           - 6, YES
-                           - 7, NO
-  </retvals>
-  <chapter_context>
-    User Interface
-    Dialogs
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, user, interface, input, dialog, messagebox</tags>
-</US_DocBloc>
---]]
-  if type(msg)~="string" then ultraschall.AddErrorMessage("MB","msg", "Must be a string!", -1) return -1 end
-  if type(title)~="string" then title="" end
-  if math.type(mbtype)~="integer" then mbtype=0 end
-  if mbtype<0 or mbtype>5 then ultraschall.AddErrorMessage("MB","mbtype", "Must be between 0 and 5!", -2) return -1 end
-  reaper.MB(msg, title, mbtype)
-end
-
---L=ultraschall.MB("tutdelu","limmel",1)
-
 
 function progresscounter_old(state)
   local A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine.lua")
@@ -36405,85 +36353,6 @@ end
 --B = ultraschall.GetProject_RenderCFG("c:\\opustest.rpp")
 
 
-function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_with_hash, leadin_silence_tracks, leadin_silence_disc, burncd_image_after_render)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CreateRenderCFG_AudioCD</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.77
-    Lua=5.3
-  </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_AudioCD(integer trackmode, boolean only_markers_starting_with_hash, integer leadin_silence_tracks, integer leadin_silence_disc, boolean burncd_image_after_render)</functioncall>
-  <description>
-    Returns the render-cfg-string for the AudioCD-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
-    
-    You can also check, whether to burn the created cd-image after rendering.
-    
-    Returns nil in case of an error
-  </description>
-  <retvals>
-    string render_cfg_string - the render-cfg-string for the selected AudioCD-image-settings
-  </retvals>
-  <parameters>
-    integer trackmode - Track mode-dropdownlist: 1, Markers define new track; 2, Regions define tracks (other areas ignored); 3, One Track
-    boolean only_markers_starting_with_hash - Only use markers starting with #-checkbox; true, checked; false, unchecked
-    integer leadin_silence_tracks - Lead-in silence for tracks-inputbox, in milliseconds; 0 to 100000 supported by Ultraschall-API
-    integer leadin_silence_disc - Extra lead-in silence for disc-inputbox, in milliseconds; 0 to 100000 supported by Ultraschall-API
-    boolean burncd_image_after_render - Burn CD image after render-checkbox; true, checked; false, unchecked
-  </parameters>
-  <chapter_context>
-    Rendering of Project
-    Creating Renderstrings
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, create, render, outputformat, audiocd, cd, image, burn cd</tags>
-</US_DocBloc>
-]]
-
-  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes-for-AudioCD.ini"
-  if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "Ooops", "external audio-cd-render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
-  if math.type(trackmode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "trackmode", "Must be an integer between 1 and 3!", -2) return nil end
-  if type(only_markers_starting_with_hash)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "only_markers_starting_with_hash", "Must be a boolean!", -3) return nil end
-  if math.type(leadin_silence_tracks)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_tracks", "Must be an integer!", -4) return nil end
-  if math.type(leadin_silence_disc)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_disc", "Must be an integer!", -5) return nil end
-  if type(burncd_image_after_render)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "burncd_image_after_render", "Must be a boolean!", -6) return nil end
-  
-  if trackmode<1 or trackmode>3 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "trackmode", "Must be an integer between 1 and 3!", -7) return nil end
-  if leadin_silence_tracks<0 or leadin_silence_tracks>100000 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_tracks", "Ultraschall-API supports only millisecond-values between 0 to 100000, sorry.", -8) return nil end
-  if leadin_silence_disc<0 or leadin_silence_disc>100000 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_disc", "Ultraschall-API supports only millisecond-values between 0 to 100000, sorry.", -9) return nil end
-
-  
-  if trackmode==1 then trackmode="1"
-  elseif trackmode==2 then trackmode="2"
-  elseif trackmode==3 then trackmode="3"
-  end
-  
-  if only_markers_starting_with_hash==true then only_markers_starting_with_hash="checked" else only_markers_starting_with_hash="unchecked" end
-  
-  if burncd_image_after_render==true then burncd_image_after_render="checked" else burncd_image_after_render="unchecked" end
-  
-  local _temp, renderstring=ultraschall.GetIniFileExternalState("AUDIOCD", "Renderstring", ini_file)
-  local _temp, leadin_silence_disc=ultraschall.GetIniFileExternalState("AUDIOCD", "DISCLEADIN_"..leadin_silence_disc, ini_file)
-  local _temp, leadin_silence_tracks=ultraschall.GetIniFileExternalState("AUDIOCD", "TRACKLEADIN_"..leadin_silence_tracks, ini_file)
-  local _temp, trackmode=ultraschall.GetIniFileExternalState("AUDIOCD", "Trackmode_"..trackmode, ini_file)
-  local _temp, burncd_image_after_render=ultraschall.GetIniFileExternalState("AUDIOCD", "BurnCDImage_"..burncd_image_after_render, ini_file)
-  local _temp, only_markers_starting_with_hash=ultraschall.GetIniFileExternalState("AUDIOCD", "OnlyUseMarkers_"..only_markers_starting_with_hash, ini_file)
-
-  renderstring=string.gsub(renderstring, "%[DISCLEADIN%]", leadin_silence_disc)
-  renderstring=string.gsub(renderstring, "%[TRACKLEADIN%]", leadin_silence_tracks)
-  renderstring=string.gsub(renderstring, "%[BurnCDImage%]", burncd_image_after_render)
-  renderstring=string.gsub(renderstring, "%[Trackmode%]", trackmode)
-  renderstring=string.gsub(renderstring, "%[OnlyUseMarkers%]", only_markers_starting_with_hash)
-
-  return renderstring
-end
-
---A=ultraschall.CreateRenderCFG_AudioCD(1,false,100000,100000,false)
---reaper.CF_SetClipboard(A)
-
---B="IG9zaaCGAQCghgEAAAAAAAAAAAAAAAAA"
 
 
 function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, ABR_KBPS_MIN, ABR_KBPS_MAX)
@@ -36594,49 +36463,6 @@ end
 
 --A=ultraschall.CreateRenderCFG_DDP()
 
-
-function ultraschall.CreateRenderCFG_AIFF(bits)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CreateRenderCFG_AIFF</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.77
-    Lua=5.3
-  </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_AIFF(integer bits)</functioncall>
-  <description>
-    Returns the render-cfg-string for the AIFF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
-    
-    Returns nil in case of an error
-  </description>
-  <retvals>
-    string render_cfg_string - the render-cfg-string for the selected AIFF-settings
-  </retvals>
-  <parameters>
-    integer bits - the bitrate of the aiff-file; 8, 16, 24 and 32 are supported
-  </parameters>
-  <chapter_context>
-    Rendering of Project
-    Creating Renderstrings
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, create, render, outputformat, aiff</tags>
-</US_DocBloc>
-]]
-  if math.type(bits)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AIFF", "bits", "must be an integer", -1) return nil end
-  local renderstring="mZpY..AAA=="
-  if bits==8 then renderstring=string.gsub(renderstring, "%.%.", "Qg")
-  elseif bits==16 then renderstring=string.gsub(renderstring, "%.%.", "RA")
-  elseif bits==24 then renderstring=string.gsub(renderstring, "%.%.", "Rg")
-  elseif bits==32 then renderstring=string.gsub(renderstring, "%.%.", "SA")
-  else ultraschall.AddErrorMessage("CreateRenderCFG_AIFF", "bits", "only 8, 16, 24 and 32 are supported by AIFF", -2) return nil
-  end
-  return renderstring
-end
-
---A=ultraschall.CreateRenderCFG_AIFF(16)
 
 
 function ultraschall.CreateRenderCFG_FLAC(Bitrate, EncSpeed)
@@ -43115,7 +42941,7 @@ end
 --reaper.MB(A,"",0)
 
 
-ultraschall.Euro="â‚¬"
+ultraschall.Euro="€"
 
 function ultraschall.CombineBytesToInteger(bitoffset, ...)
 --[[
