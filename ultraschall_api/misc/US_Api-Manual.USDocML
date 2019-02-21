@@ -10,44 +10,44 @@
                 
                 This API was to be used within Ultraschall only, but quickly evolved into a huge 700 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:
                
-                   - [Rendering](#Rendering_001_Introduction) - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want.
+                - [Rendering](#Rendering_001_Introduction) - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want.
                                    Just create a renderstring and pass it over to [RenderProject_RenderCFG](usdocml://RenderProject_RenderCFG) or [RenderProjectRegions_RenderCFG](usdocml://RenderProjectRegions_RenderCFG)
-                   - [Navigation, Follow and Arrangeview-Manipulation](#Navigation_001_Introduction) - get/set cursors, zoom, autoscroll-management, scroll, etc
-                   - [ArrangeView-Snapshots](#Arrangeview_Snapshots_001_Introduction) - you can save, retrieve snapshots of the arrangeview, including position, zoomstates to quickly jump through parts of your project
-                   - [Trackstates](#Trackstate_Management_001_Introduction) - you can access and set all(!) track-states available
-                   - [Mediaitem-states](#GetSetStates_Project_Track_Item_Env_001_Introduction) - you can access and set many mediaitem-states (more will follow)
-                   - [ItemExtStates/TrackExtStates](#ExtStateManagement_005_TrackItemExtStates) - you can save additional metadata easily for specific tracks and items using ItemExtStates and TrackExtStates
-                   - [File access](#FileManagement_001_Introduction) - many helperfunctions for reading, writing, copying files. No more hassle writing it yourself!
-                       e.g [ReadFullFile](usdocml://ReadFullFile), [WriteValueToFile](usdocml://WriteValueToFile), etc
-                   - [Cough-Mute-management](#Cough_Mute_Buttons_001_Introduction) - you can write your own cough-buttons, that set the state of the mute-envelope of a track easily
-                   - [Marker](#MarkersAndRegions_001_Introduction) - extensive set of marker functions, get, set, export, import, enumerate, etc
-                   - [Spectrogram](#Getting_Manipulating_Items_008_Spectral_Edit) - you can program the spectrogram-view
-                   - [Routing](#Routing_001_Introduction) - you can set Sends/Receives and HWOuts more straightforward than with Reaper's own Routing-functions. Includes mastertrack as well.
-                   - [Get MediaItems](#Getting_Manipulating_Items_002_GetMediaItems) - you can get all media-items within a time-range AND within the tracks you prefer; a 2D-approach
-                       e.g. [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween) and [GetMediaItemsAtPosition ](usdocml://GetMediaItemsAtPosition ), etc
-                   - Gaps between items - you can get the gaps between items in a track, using [GetGapsBetweenItems](usdocml://GetGapsBetweenItems)
-                   - [Edit item(s)](#Getting_Manipulating_Items_001_Introduction) - Split, Cut, Copy, Paste, Move, RippleCut, RippleInsert, SectionCut by tracks AND time/start to endposition
-                       e.g. [RippleCut](usdocml://RippleCut), [RippleInsert](RippleInsert), [SectionCut](usdocml://SectionCut), [SplitMediaItems_Position](usdocml://SplitMediaItems_Position), [MoveMediaItemsBefore_By](usdocml://MoveMediaItemsBefore_By), [MoveMediaItemsSectionTo](usdocml://MoveMediaItemsSectionTo) and many more
-                   - [Previewing MediaItems and files](#Getting_Manipulating_Items_009_Miscellaneous) - you can preview MediaItems and files without having to start playback of a project
-                   - KB-Ini-Management - manipulate the reaper-kb.ini-file with custom-settings
-                   - [Checking for Datatypes](#Datatypes_050_CheckingDatatypes) - check all datatypes introduced with Ultraschall-API and all Lua/Reaper-datatypes
-                   - [UndoManagement](#Helper_Functions_004_UndoManagement) - functions for easily making undoing of functions as well as preventing creating an undo-point
-                   - [Run an Action](#Helper_Functions_005_Miscellaneous) for Items/Tracks - apply actions to specific items/tracks
-                   - [Checking for changed projecttabs](#Project_Management_002_Check_Changed_Projecttabs) - check, if projecttabs have been added/removed
-                   - [ExtState-Management](#ExtStateManagement_001_Introduction) - an extensive set of functions for working with extstates as well as ini-files
-                   - [Data Manipulation](#Helper_Functions_003_Data_Manipulation) - manipulate a lot of your data, including bitwise-integers, tables, etc
-                   - [Clipboard-Management](#Helper_Functions_002_ClipboardManagement) - get items from clipboard, put them to clipboard, even multiple ones
-                   - [Error Messaging System](#Error_Messaging_System_001_Introduction) - all functions create useful error-messages that can be shown using, eg: [ShowLastErrorMessage](usdocml://ShowLastErrorMessage), for easier debugging
-                   - [Child-scripts](#ChildScripts_001_Introduction) - start scripts numerous times and be able to pass parameters and returnvalues back and forth; adds uniqe scriptidentifier to do that
-                   - [Defer-function-alternative](#DeferScripts_001_Introduction) - run defer-cycles only every nth cycle/seconds and be able to stop a defer loop from inside and outside of a script instance
-                   - tons of other helper-functions
-                   - my Reaper-Internals Documentation AND
-                
-                   - it's documented with this documentation. :D
-                
-                   Happy coding and let's see, what you can do with it :D
-                    
-                   Meo Mespotine (mespotine.de) (ultraschall.fm/api)
+                - [Navigation, Follow and Arrangeview-Manipulation](#Navigation_001_Introduction) - get/set cursors, zoom, autoscroll-management, scroll, etc
+                - [ArrangeView-Snapshots](#Arrangeview_Snapshots_001_Introduction) - you can save, retrieve snapshots of the arrangeview, including position, zoomstates to quickly jump through parts of your project
+                - [Trackstates](#Trackstate_Management_001_Introduction) - you can access and set all(!) track-states available
+                - [Mediaitem-states](#GetSetStates_Project_Track_Item_Env_001_Introduction) - you can access and set many mediaitem-states (more will follow)
+                - [ItemExtStates/TrackExtStates](#ExtStateManagement_005_TrackItemExtStates) - you can save additional metadata easily for specific tracks and items using ItemExtStates and TrackExtStates
+                - [File access](#FileManagement_001_Introduction) - many helperfunctions for reading, writing, copying files. No more hassle writing it yourself!
+                    e.g [ReadFullFile](usdocml://ReadFullFile), [WriteValueToFile](usdocml://WriteValueToFile), etc
+                - [Cough-Mute-management](#Cough_Mute_Buttons_001_Introduction) - you can write your own cough-buttons, that set the state of the mute-envelope of a track easily
+                - [Marker](#MarkersAndRegions_001_Introduction) - extensive set of marker functions, get, set, export, import, enumerate, etc
+                - [Spectrogram](#Getting_Manipulating_Items_008_Spectral_Edit) - you can program the spectrogram-view
+                - [Routing](#Routing_001_Introduction) - you can set Sends/Receives and HWOuts more straightforward than with Reaper's own Routing-functions. Includes mastertrack as well.
+                - [Get MediaItems](#Getting_Manipulating_Items_002_GetMediaItems) - you can get all media-items within a time-range AND within the tracks you prefer; a 2D-approach
+                    e.g. [GetAllMediaItemsBetween](usdocml://GetAllMediaItemsBetween) and [GetMediaItemsAtPosition ](usdocml://GetMediaItemsAtPosition ), etc
+                - Gaps between items - you can get the gaps between items in a track, using [GetGapsBetweenItems](usdocml://GetGapsBetweenItems)
+                - [Edit item(s)](#Getting_Manipulating_Items_001_Introduction) - Split, Cut, Copy, Paste, Move, RippleCut, RippleInsert, SectionCut by tracks AND time/start to endposition
+                    e.g. [RippleCut](usdocml://RippleCut), [RippleInsert](RippleInsert), [SectionCut](usdocml://SectionCut), [SplitMediaItems_Position](usdocml://SplitMediaItems_Position), [MoveMediaItemsBefore_By](usdocml://MoveMediaItemsBefore_By), [MoveMediaItemsSectionTo](usdocml://MoveMediaItemsSectionTo) and many more
+                - [Previewing MediaItems and files](#Getting_Manipulating_Items_009_Miscellaneous) - you can preview MediaItems and files without having to start playback of a project
+                - KB-Ini-Management - manipulate the reaper-kb.ini-file with custom-settings
+                - [Checking for Datatypes](#Datatypes_050_CheckingDatatypes) - check all datatypes introduced with Ultraschall-API and all Lua/Reaper-datatypes
+                - [UndoManagement](#Helper_Functions_004_UndoManagement) - functions for easily making undoing of functions as well as preventing creating an undo-point
+                - [Run an Action](#Helper_Functions_005_Miscellaneous) for Items/Tracks - apply actions to specific items/tracks
+                - [Checking for changed projecttabs](#Project_Management_002_Check_Changed_Projecttabs) - check, if projecttabs have been added/removed
+                - [ExtState-Management](#ExtStateManagement_001_Introduction) - an extensive set of functions for working with extstates as well as ini-files
+                - [Data Manipulation](#Helper_Functions_003_Data_Manipulation) - manipulate a lot of your data, including bitwise-integers, tables, etc
+                - [Clipboard-Management](#Helper_Functions_002_ClipboardManagement) - get items from clipboard, put them to clipboard, even multiple ones
+                - [Error Messaging System](#Error_Messaging_System_001_Introduction) - all functions create useful error-messages that can be shown using, eg: [ShowLastErrorMessage](usdocml://ShowLastErrorMessage), for easier debugging
+                - [Child-scripts](#ChildScripts_001_Introduction) - start scripts numerous times and be able to pass parameters and returnvalues back and forth; adds uniqe scriptidentifier to do that
+                - [Defer-function-alternative](#DeferScripts_001_Introduction) - run defer-cycles only every nth cycle/seconds and be able to stop a defer loop from inside and outside of a script instance
+                - tons of other helper-functions
+                - my Reaper-Internals Documentation AND
+             
+                - it's documented with this documentation. :D
+             
+                Happy coding and let's see, what you can do with it :D
+                   
+                Meo Mespotine (mespotine.de) (ultraschall.fm/api)
                 
                 For more information about Ultraschall itself, see [ultraschall.fm](http://www.ultraschall.fm) and if you want to support us, see [ultraschall.fm/danke](http://www.ultraschall.fm/danke) for donating to us.
                 
@@ -105,7 +105,7 @@
             
             See the functions-reference for all available functions or read on in this documentation for a collection of concepts introduced by the Ultraschall-API.
             
-            Oh, before I forget: The ultraschall_api-folder holds a folder "Scripts_Examples" in which you can find some demos and example-scripts using this API.
+            Oh, before I forget: The ultraschall\_api-folder holds a folder "Scripts\_Examples" in which you can find some demos and example-scripts using this API.
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
@@ -129,7 +129,7 @@
                    Just download the ultraschall\_hotfixes.lua and put it into UserPlugins/ultraschall\_api-folder.  
                    The chance is high, that there is already an ultraschall\_hotfixes.lua-file in the folder. You can safely overwrite it.  
                    Voila, you have added the most recent bugfixes.  
-                     
+                   
                    To get the bugs back, just delete the ultraschall_hotfixes.lua.
                    
                    All fixes in ultraschall\_hotfixes.lua will be part of the next full version of the Ultraschall-API.
@@ -139,16 +139,16 @@
              2. Beta-functions and features
                 Beta-functions are functions intended for a future release of the Ultraschall-API. If you want to test them, just download the latest Beta-Pack from [ultraschall.fm/api](http://ultraschall.fm/api).  
                 Extract the files in the Beta-pack to UserPlugins of the Resources-folder of your Reaper-installation. Voila, the beta-functions are installed.  
-                 
+                
                 To use them, you need to explicitly turn them on in your script, using the following lines:
-                 
-                 
+                
+                
                          ultraschall.US_BetaFunctions="ON"          -- Only has an effect, if ultraschall-beta-functions exist in Scripts-folder  
                                                                     -- Turn ON, if you want BETA-Api-Functions
-                 
-                 
+                
+                
                 The documentation for beta-versions can be found at [api.ultraschall.fm/Downloads.html](http://api.ultraschall.fm/Downloads.html)
-                 
+                
                 Be aware, they are in beta-stage. They will probably change, disappear or be exchanged with better functions. Beta-functions are only for testing purposes, not for productive coding!
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
@@ -887,8 +887,7 @@
                         slot        - the slot for the snapshot, which must be an integer. The function will overwrite an already existing snapshot. To prevent that,
                                       use ultraschall.IsValidArrangeviewSnapshot() to check, if it's already existing.
                         description - a short description, what the snapshot contains so you know, what to expect from it
-                        position    - set to true to store the startposition and endposition of the arrangeview. Otherwise(false), it will only store the 
-                                      current horizontal zoom-factor
+                        position    - set to true to store the startposition and endposition of the arrangeview. Otherwise(false), it will only store the current horizontal zoom-factor
                         vzoom       - set to true, if you want to store the vertical zoom-factor as well; set to false, if you don't want it to be stored.
                 
             If you want to retrieve the settings of a certain Arrange-View-Snapshot, you can use [RetrieveArrangeviewSnapshot](usdocml://RetrieveArrangeviewSnapshot), which will

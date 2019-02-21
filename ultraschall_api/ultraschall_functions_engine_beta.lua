@@ -44,6 +44,11 @@ if type(ultraschall)~="table" then
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 end
 
+function ultraschall.ApiBetaFunctionsTest()
+    -- tell the api, that the beta-functions are activated
+    ultraschall.functions_beta_works="on"
+end
+
 -- Let's create a unique script-identifier
 ultraschall.dump=ultraschall.tempfilename:match("%-%{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}")
 if ultraschall.dump==nil then 
@@ -897,21 +902,76 @@ end
 
 --A,B,C=reaper.JS_Dialog_BrowseForOpenFiles("Tudelu", "", "", "", false)
 
-function ultraschall.CloseReaConsole()
+function ultraschall.HasHWNDChildWindowNames(HWND, childwindownames)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CloseReaConsole</slug>
+  <slug>HasHWNDChildWindowNames</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.HasHWNDChildWindowNames(HWND hwnd, string childwindownames)</functioncall>
+  <description>
+    Returns, whether the given HWND has childhwnds with a certain name in them. This is good for checking for valid Reaper-windows. 
+    As gfx.init()-windows can have the same as Reaper's original-windows, this function gives you the chance for aditional checks.
+    gfx.init windows don't have child-hwnds and other applications probably have child-hwnds with different names.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retal - true, the HWND has child-hwnds with that name(s); false, it doesn't
+  </retvals>
+  <parameters>
+    HWND hwnd - the HWND, whose child-hwnd-names you want to check
+    string childwindownames - a string with the names of the child-HWNDs the parameter hwnd must have. It is a \0-separated string, means, you put \0 in between the child-Hwnd-names.
+  </parameters>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>window, check, childhwnd, hwnd, windows</tags>
+</US_DocBloc>
+]]
+  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(childwindownames,"\0")
+  local retval, list = reaper.JS_Window_ListAllChild(HWND)
+  local count2, individual_values2 = ultraschall.CSV2IndividualLinesAsArray(list)
+  local Title={}
+  for i=1, count2 do
+    if individual_values2[i]~="" then
+      local tempHwnd=reaper.JS_Window_HandleFromAddress(individual_values2[i])
+      Title[i]=reaper.JS_Window_GetTitle(tempHwnd)
+      for a=1, count do
+        if Title[i]==individual_values[a] then individual_values[a]="found" end
+      end
+    end
+  end
+  for i=1, count do
+    if individual_values[i]~="found" then return false end
+  end
+  return true
+end
+
+--reaper.ShowConsoleMsg("A")
+--A2=reaper.JS_Window_Find("ReaScript console output", true)
+--O2=ultraschall.HasHWNDChildWindowNames(A2, "Clear\0 Close")
+
+function ultraschall.CloseReaScriptConsole()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CloseReaScriptConsole</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.965
     JS=0.962
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.CloseReaConsole()</functioncall>
+  <functioncall>boolean retval = ultraschall.CloseReaScriptConsole()</functioncall>
   <description>
     Closes the ReaConsole-window, if opened.
-    
-    Note for Mac-users: does not work currently on MacOS.
     
     Returns false in case of an error
   </description>
@@ -927,15 +987,23 @@ function ultraschall.CloseReaConsole()
   <tags>window, reaconsole, close</tags>
 </US_DocBloc>
 ]]
-  local retval,Adr=reaper.JS_Window_ListFind("ReaScript console output", true)
+  local translation = reaper.JS_Localize("ReaScript console output", "DLG_437")
+  local retval,Adr=reaper.JS_Window_ListFind(translation, true)
 
-  if retval>1 then ultraschall.AddErrorMessage("CloseReaConsole", "", "Multiple windows are open, that are named \"ReaScript console output\". Can't find the right one, sorry.", -1) return false end
-  if retval==0 then ultraschall.AddErrorMessage("CloseReaConsole", "", "ReaConsole-window not opened", -2) return false end
-  local B=reaper.JS_Window_HandleFromAddress(Adr)
-  reaper.JS_Window_Destroy(B)
-  return true
+--  if retval>1 then ultraschall.AddErrorMessage("CloseReaScriptConsole", "", "Multiple windows are open, that are named \"ReaScript console output\". Can't find the right one, sorry.", -1) return false end
+  if retval==0 then ultraschall.AddErrorMessage("CloseReaScriptConsole", "", "ReaConsole-window not opened", -2) return false end
+  local count2, individual_values2 = ultraschall.CSV2IndividualLinesAsArray(Adr)
+  for i=1, count2 do
+    local B=reaper.JS_Window_HandleFromAddress(individual_values2[i])
+    if ultraschall.HasHWNDChildWindowNames(B, "Clear\0Close")==true then 
+      reaper.JS_Window_Destroy(B) 
+      return true 
+    end
+  end
+  return false
 end
 
+--gfx.init("ReaScript console output")
 --reaper.ShowConsoleMsg("Tudelu")
 --LL,LL=ultraschall.CloseReaConsole()
 
@@ -968,7 +1036,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00","14th of February 2019", "Beta 2.71", 400.0271,  "\"Blue Oyster Cult - Don't fear the Reaper\"", ultraschall.hotfixdate
+  return "4.00","15th of March 2019", "Beta 2.75", 400.0275,  "\"Blue Oyster Cult - Don't fear the Reaper\"", ultraschall.hotfixdate
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
@@ -1960,7 +2028,137 @@ end
 
 --A,B,C,D,E,F,G,H,I,J=ultraschall.InsertMediaItemFromFile(ultraschall.Api_Path.."/misc/silence.flac", 0, 0, -1, 0)
 
+function ultraschall.GetProjectStateChunk(Project)
+-- TODO: !! Set selection of first track to selected, if not already
+--          remove selection of first track, if necessary, from ProjectStateChunk and the project
+--        workaround for the render-setting "Stems (selected tracks)"
 
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProjectStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>string ProjectStateChunk = ultraschall.GetProjectStateChunk(ReaProject project)</functioncall>
+  <description>
+    Gets a ProjectStateChunk of a ReaProject-object.
+    
+    Returns nil in case of error.
+  </description>
+  <parameters>
+    ReaProject project - the ReaProject, whose ProjectStateChunk you want; nil, for the currently opened project
+  </parameters>
+  <retvals>
+    string ProjectStateChunk - the ProjectStateChunk of the a specific ReaProject-object; nil, in case of an error
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, get, projectstatechunk</tags>
+</US_DocBloc>
+]]  
+  if Project~=nil and ultraschall.IsValidReaProject(Project)==false then ultraschall.AddErrorMessage("GetProjectStateChunk", "Project", "must be a valid ReaProject", -1) return nil end
+  local currentproject=reaper.EnumProjects(-1,"")
+  reaper.PreventUIRefresh(2)
+  if Project~=nil then
+    reaper.SelectProjectInstance(Project)
+  end
+  local ProjectStateChunk=""
+  local sc, retval, item, endposition, numchannels, Samplerate, Filetype, editcursorposition, track, temp, files2, filecount2
+  
+  -- get all filenames in render-queue
+  local Path=reaper.GetResourcePath().."\\QueuedRenders\\"
+  local filecount, files = ultraschall.GetAllFilenamesInPath(Path)
+  
+  -- workaround, when another project in the render-queue renders into the same renderfile, as the current project
+  -- add to configvar "renderclosewhendone" a 16, if needed
+  -- will be reset to it's old value later, if necessary
+  local renderstate=reaper.SNM_GetIntConfigVar("renderclosewhendone", -1)
+  if renderstate&16==0 then reaper.SNM_SetIntConfigVar("renderclosewhendone", renderstate+16) end
+
+  -- if project is empty, insert a temporary track with an item into it, or Reaper complains
+  if reaper.GetProjectLength(0)==0 then 
+    temp=true
+    retval, item, endposition, numchannels, Samplerate, Filetype, editcursorposition, track = ultraschall.InsertMediaItemFromFile(ultraschall.Api_Path.."/misc/silence.flac", 0, 0, -1, 0)
+  end
+ 
+  -- put project into the render-queue
+  reaper.Main_OnCommand(41823,0)
+--  reaper.MB("","",0) 
+  -- get the new render-queue-file from which we want to get the ProjectStateChunk
+  -- load it and remove it immediately
+  local filecount2, files2 = ultraschall.GetAllFilenamesInPath(Path)
+  
+--  reaper.MB(filecount.." "..tostring(filecount2),"",0)
+  
+  --Buggy, when running this function numerous times after each other
+  -- can't find the right file all the times. But why?
+  local waiter=reaper.time_precise()+2
+  while filecount2==filecount do
+    -- Lua is faster than the Action for adding the project into the render-queue, so we need to 
+    -- wait a little, until we can proceed
+    filecount2, files2 = ultraschall.GetAllFilenamesInPath(Path)
+    if filecount2~=filecount then break end
+    if reaper.time_precise()>waiter then reaper.MB(filecount.." "..filecount2,"HUI",0) AA=files BB=files2 ultraschall.AddErrorMessage("GetProjectStateChunk", "", "can't create ProjectStateChunk, probably due weird render-settings(e.g \"Stems (selected tracks)\")", -2) reaper.PreventUIRefresh(-2) return nil end
+  end
+--  if lucki==nil then return end
+  duplicate_count, duplicate_array, 
+  originalscount_array1, originals_array1, 
+  originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(files, files2) -- maybe this?
+  ProjectStateChunk=ultraschall.ReadFullFile(originals_array2[originalscount_array2])
+--K,KK=  os.remove(originals_array2[originalscount_array2])
+--reaper.MB(originals_array2[1],"",0)
+K,KK=os.rename(originals_array2[originalscount_array2], originals_array2[originalscount_array2].."KK")
+  --Buggy end
+
+  -- delete temporary MediaItem and MediaTrack from the project again
+  if temp==true then
+    retval, sc=reaper.GetTrackStateChunk(track, "", false)
+    ultraschall.DeleteMediaItem(item) -- first the MediaItem, or it will be put into the ProjectBay
+    reaper.DeleteTrack(track) -- then delete the MediaItem
+    reaper.Undo_DoUndo2(0)
+  end
+  
+  reaper.SNM_SetIntConfigVar("renderclosewhendone", renderstate)
+  reaper.PreventUIRefresh(-2)
+    
+
+  if Project~=nil then
+    reaper.SelectProjectInstance(currentproject)
+  end    
+  
+  reaper.PreventUIRefresh(-1)
+  local QRenderFiles=""
+  local QRenderProject=ProjectStateChunk:match("QUEUED_RENDER_ORIGINAL_FILENAME.-\n")
+  for k in string.gmatch(ProjectStateChunk, "(QUEUED_RENDER_OUTFILE.-)\n") do
+    QRenderFiles=QRenderFiles..k.."\n"
+  end
+  ProjectStateChunk=string.gsub(ProjectStateChunk,"  QUEUED_RENDER_OUTFILE.-\n","")
+  ProjectStateChunk=string.gsub(ProjectStateChunk,"  QUEUED_RENDER_ORIGINAL_FILENAME.-\n","")
+  
+  if temp==true then
+    ProjectStateChunk=string.gsub(ProjectStateChunk, "<TRACK.-NAME silence.-%c%s%s>", "")
+  end
+  if start==0 and endit==0 then retval = ultraschall.SetProject_Selection(nil, 0, 0, 0, 0, ProjectStatechunk) end
+  return ProjectStateChunk, QRenderFiles:sub(1,-2), QRenderProject
+end
+
+--A=ultraschall.GetProjectStateChunk()
+--reaper.MB(A:sub(-3500,-1),"",0)
+--reaper.CF_SetClipboard(A)
+
+--for i=0, 1 do
+--  A=ultraschall.GetProjectStateChunk()
+--  if A==nil then break end
+--end
+
+--ultraschall.RenderProject_RenderCFG(nil, nil, 1, 10, false, false, false, nil)
 
 function ultraschall.GetProject_RenderFilename(projectfilename_with_path, ProjectStateChunk)
 --[[
@@ -2495,6 +2693,7 @@ function print(...)
     string=string.."  "..tostring(temp[count])
     count=count+1
   end
+  if string:sub(-1,-1)=="\n" then string=string:sub(1,-2) end
   reaper.ShowConsoleMsg(string:sub(3,-1).."\n","Print",0)
 end
 
@@ -2763,7 +2962,8 @@ function ultraschall.GetAllReaScriptIDEWindows()
   <tags>window, get, hwnd, windows, reaper, ide</tags>
 </US_DocBloc>
 ]]
-  local retval, list = reaper.JS_Window_ListFind("ReaScript Development Environment", false)
+  local translation = reaper.JS_Localize("ReaScript Development Environment", "DLG_114")
+  local retval, list = reaper.JS_Window_ListFind("", false)
   local list=list..","
   local IDE_Array={}
   local IDE_Array_Title={}
@@ -2778,7 +2978,7 @@ function ultraschall.GetAllReaScriptIDEWindows()
       list2=list2..","
       if retval2>0 then    
         temp={}
-        for i=1, retval-1 do
+        for i=1, retval2-1 do
           temp[0]=reaper.JS_Window_HandleFromAddress(list2:match("(.-),"))
           temp[i]=reaper.JS_Window_GetTitle(temp[0])
           list2=list2:match(",(.*)")
@@ -2825,20 +3025,25 @@ function ultraschall.GetReaScriptConsoleWindow()
   <tags>window, get, hwnd, windows, reaper, console</tags>
 </US_DocBloc>
 ]]
-  local A,A1=ultraschall.Windows_Find("ReaScript console output", true)
+  local translation = reaper.JS_Localize("ReaScript console output", "DLG_437")
+  local retval,Adr=reaper.JS_Window_ListFind(translation, true)
+  local count2  
   
-  for i=1, A do
-    local B=reaper.JS_Window_GetParent(A1[i])
-
-    local T0=reaper.JS_Window_GetTitle(A1[i])
-    local retval, List = reaper.JS_Window_ListAllChild(A1[i])
-    if retval>0 then
-      if B==reaper.GetMainHwnd() then return A1[i] end
-    end
+  if retval==0 then ultraschall.AddErrorMessage("GetReaScriptConsoleWindow", "", "ReaConsole-window not opened", -2) return nil end
+  
+  local count2, individual_values2 = ultraschall.CSV2IndividualLinesAsArray(Adr)
+  
+  for i=1, count2 do
+    local B=reaper.JS_Window_HandleFromAddress(individual_values2[i])
+    if ultraschall.HasHWNDChildWindowNames(B, "Clear\0Close")==true then return B end
   end
+  ultraschall.AddErrorMessage("GetReaScriptConsoleWindow", "", "ReaConsole-window not opened", -2) 
   return nil
 end
 
+--gfx.init("ReaScript console output")
+--reaper.ShowConsoleMsg("rOCK IT")
+--A=ultraschall.GetReaScriptConsoleWindow()
 
 function ultraschall.IsReaperRendering()
 --[[
@@ -5232,6 +5437,104 @@ end
 
 
 
+
+--[[
+
+P2=0
+function main()
+  P2=P2+1
+--  A,B=ultraschall.Defer20(main, 1, 2)
+--  A,B=ultraschall.Defer20(main, 1, 20)
+--  A,B=ultraschall.Defer20(main, 1, 20)
+--  A,B=ultraschall.Defer20(main, 1, 2)
+  --A,B2=ultraschall.Defer2(main, mode, timer_counter)
+--  reaper.CF_SetClipboard(B)
+  if P2==4 then 
+--    P3,P4=ultraschall.StopDeferCycle(B) 
+--    P3,P4=ultraschall.StopDeferCycle(B2)
+  end
+end
+--[[
+function main2()
+  return reaper.defer(main2)
+end
+
+for i=0, 1023 do
+  C=main2()
+end
+
+main()
+
+--]]
+--ultraschall.ShowErrorInReaScriptConsole=true
+
+--P=main()
+
+function ultraschall.ResolveRenderPattern(renderpattern)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ResolveRenderPattern</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>string resolved_renderpattern = ultraschall.ResolveRenderPattern(string render_pattern)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    resolves a render-pattern into its render-filename(without extension).
+
+    returns nil in case of an error    
+  </description>
+  <parameters>
+    string render_pattern - the render-pattern, that you want to resolve into its render-filename
+  </parameters>
+  <retvals>
+    string resolved_renderpattern - the resolved renderpattern, that is used for a render-filename.
+                                  - just add extension and path to it.
+                                  - Stems will be rendered to path/resolved_renderpattern-XXX.ext
+                                  -    where XXX is a number between 001(usually for master-track) and 999
+  </retvals>
+  <chapter_context>
+    Rendering of Project
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>rendermanagement, resolve, renderpattern, filename</tags>
+</US_DocBloc>
+]]
+  if type(renderpattern)~="string" then ultraschall.AddErrorMessage("ResolveRenderPattern", "renderpattern", "must be a string", -1) return nil end
+  if renderpattern=="" then return "" end
+  local TempProject=ultraschall.Api_Path.."misc/tempproject.RPP"
+  local TempFolder=ultraschall.Api_Path.."misc/"
+  TempFolder=string.gsub(TempFolder, "\\", ultraschall.Separator)
+  TempFolder=string.gsub(TempFolder, "/", ultraschall.Separator)
+  
+  ultraschall.SetProject_RenderFilename(TempProject, "")
+  ultraschall.SetProject_RenderPattern(TempProject, renderpattern)
+  ultraschall.SetProject_RenderStems(TempProject, 0)
+  
+  reaper.Main_OnCommand(41929,0)
+  reaper.Main_openProject(TempProject)
+  
+  A,B=ultraschall.GetProjectStateChunk()
+  reaper.Main_SaveProject(0,false)
+  reaper.Main_OnCommand(40860,0)
+  if B==nil then B="" end
+  
+  count, split_string = ultraschall.SplitStringAtLineFeedToArray(B)
+
+  for i=1, count do
+    split_string[i]=split_string[i]:match("\"(.-)\"")
+  end
+  if split_string[1]==nil then split_string[1]="" end
+  return string.gsub(split_string[1], TempFolder, ""):match("(.-)%.")
+end
+
+--for i=1, 10 do
+--  O=ultraschall.ResolveRenderPattern("I would find a way $day")
+--end
+
 function ultraschall.GetTrackSelection_TrackStateChunk(TrackStateChunk)
 -- returns the trackname as a string
 --[[
@@ -5712,6 +6015,123 @@ function ultraschall.CreateRenderCFG_AIFF(bits)
 end
 
 
+
+--Event Manager
+function ultraschall.ResetEvent(Event_Section)
+  if Event_Section==nil and Ultraschall_Event_Section~=nil then 
+    Event_Section=Ultraschall_Event_Section 
+  end
+  if type(Event_Section)~="string" then ultraschall.AddErrorMessage("ResetEvent", "Event_Section", "must be a string", -1) return false end
+  local A=reaper.GetExtState(Event_Section, "NumEvents")
+  if A~="" then 
+    for i=1, A do
+      reaper.DeleteExtState(Event_Section, "Event"..i, false)
+    end
+  end
+  reaper.DeleteExtState(Event_Section, "NumEvents", false)
+  reaper.DeleteExtState(Event_Section, "Old", false)
+  reaper.DeleteExtState(Event_Section, "New", false)
+  reaper.DeleteExtState(Event_Section, "ScriptIdentifier", false)
+end
+
+
+function ultraschall.RegisterEvent(Event_Section, Event)
+  if type(Event_Section)~="string" then ultraschall.AddErrorMessage("RegisterEvent", "Event_Section", "must be a string", -1) return false end
+  if type(Event)~="string" then ultraschall.AddErrorMessage("RegisterEvent", "Event", "must be a string", -2) return false end
+  local A=reaper.GetExtState(Event_Section, "NumEvents")
+  if A=="" then A=0 else A=tonumber(A) end
+  reaper.SetExtState(Event_Section, "ScriptIdentifier", ultraschall.ScriptIdentifier, false)
+  reaper.SetExtState(Event_Section, "NumEvents", A+1, false)
+  reaper.SetExtState(Event_Section, "Event"..A+1, Event, false)
+end
+
+function ultraschall.SetEventState(Event_Section, OldEvent, NewEvent)
+  if type(Event_Section)~="string" then ultraschall.AddErrorMessage("RegisterEvent", "Event_Section", "must be a string", -1) return false end
+  OldEvent=tostring(OldEvent)
+  NewEvent=tostring(NewEvent)
+  reaper.SetExtState(Event_Section, "Old", OldEvent, false)
+  reaper.SetExtState(Event_Section, "New", NewEvent, false)
+  reaper.SetExtState(Event_Section, "ScriptIdentifier", ultraschall.ScriptIdentifier, false)
+end
+
+function ultraschall.RegisterEventAction(eventconditions, action)
+  -- eventconditions is an array of the following structure
+  -- eventconditions[idx][1] - oldstate
+  -- eventconditions[idx][2] - newstate
+  -- eventconditions[idx][3] - comparison 
+  --                                fixed events: ! for not and = for equal
+  --                                unfixed events(numbers): < = >
+  -- if all these conditions are met, the eventmanager will run the action, otherwise it does nothing
+end
+
+function ultraschall.GetAllAvailableEvents()
+  return ultraschall.SplitStringAtLineFeedToArray(reaper.GetExtState("ultraschall_event_manager", "allevents"))
+end
+
+--A,B=ultraschall.GetAllAvailableEvents()
+
+function ultraschall.GetAllEventStates()
+  local count, array = ultraschall.SplitStringAtLineFeedToArray(reaper.GetExtState("ultraschall_event_manager", "eventstates"))
+  if array[1]~="" then
+    return reaper.GetExtState("ultraschall_event_manager", "event"), count, array
+  else
+    return "", 0, {}
+  end
+end
+
+--A,B,C=ultraschall.GetAllEventStates()
+
+function ultraschall.SetAlterableEvent(Event)
+  if type(Event)~="string" then ultraschall.AddErrorMessage("SetAlterableEvent", "Event", "must be a string", -1) return end
+  reaper.SetExtState("ultraschall_event_manager", "event", Event, false)
+end
+
+--ultraschall.SetAlterableEvent("LoopState")
+
+function ultraschall.SetEvent(command)
+  if type(command)~="string" then ultraschall.AddErrorMessage("SetEvent", "command", "must be a string", -1) return end
+  reaper.SetExtState("ultraschall_event_manager", "do_command", command, false)
+end
+
+--ultraschall.SetEvent("start")
+
+function ultraschall.UpdateEventList()
+  reaper.SetExtState("ultraschall_event_manager", "do_command", "update", false)
+end
+
+--ultraschall.UpdateEventList()
+
+function ultraschall.GetCurrentEventTransition()
+  local event=reaper.GetExtState("ultraschall_event_manager", "event")
+  return event, reaper.GetExtState(event, "Old"), reaper.GetExtState(event, "New")
+end
+
+--A,B,C=ultraschall.GetCurrentEventTransition()
+
+
+function ultraschall.StartAllEventListeners()
+  reaper.SetExtState("ultraschall_event_manager", "do_command", "startall", false)
+end
+
+--A,B,C=ultraschall.StartAllEventListeners()
+
+function ultraschall.StopAllEventListeners()
+  reaper.SetExtState("ultraschall_event_manager", "do_command", "stopall", false)
+end
+
+--A,B,C=ultraschall.StopAllEventListeners()
+
+function ultraschall.StopEventManager()
+  reaper.SetExtState("ultraschall_event_manager", "do_command", "stop_eventlistener", false)
+end
+
+function ultraschall.StartEventManager()
+  ultraschall.Main_OnCommandByFilename(ultraschall.Api_Path.."/Scripts/ultraschall_EventManager.lua")
+end
+
+--ultraschall.StartEventManager()
+--A,B,C=ultraschall.StartAllEventListeners()
+
 function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_with_hash, leadin_silence_tracks, leadin_silence_disc, burncd_image_after_render)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -5793,7 +6213,114 @@ end
 
 --B="IG9zaaCGAQCghgEAAAAAAAAAAAAAAAAA"
 
+function ultraschall.ReplacePartOfString(originalstring, insertstring, offset, length)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ReplacePartOfString</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>string replaced_string = ultraschall.ReplacePartOfString(string originalstring, string insertstring, integer offset, optional integer length)</functioncall>
+  <description>
+    replaces a part of a string with a second string
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string replaced_string - the altered string
+  </retvals>
+  <parameters>
+    string originalstring - the originalstring, in which you want to insert the string
+    string insertstring - the string that shall be inserted
+    integer offset - the position, at which to insert the string
+    optional integer length - the length of the part of the originalstring that shall be replaced, counted from offset. 0 or nil for simple insertion.
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, replace, string, offset, length, insert</tags>
+</US_DocBloc>
+]]
+
+  if type(originalstring)~="string" then ultraschall.AddErrorMessage("ReplacePartOfString", "originalstring", "must be a string", -1) return nil end
+  if type(insertstring)~="string" then ultraschall.AddErrorMessage("ReplacePartOfString", "insertstring", "must be a string", -2) return nil end
+  if math.type(offset)~="integer" then ultraschall.AddErrorMessage("ReplacePartOfString", "offset", "must be an integer", -3) return nil end
+  if length==nil then length=0 end
+  if math.type(length)~="integer" then ultraschall.AddErrorMessage("ReplacePartOfString", "length", "must be an integer", -4) return nil end
+  
+  local start=originalstring:sub(1,offset)
+  local endof=originalstring:sub(offset+length+1,-1)
+  
+  return start..insertstring..endof
+end
+
 ultraschall.ShowLastErrorMessage()
 
 
+
+function ultraschall.SearchStringInString(fullstring, searchstring, searchnested)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SearchStringInString</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.77
+    Lua=5.3
+  </requires>
+  <functioncall>integer count, array posarray = ultraschall.SearchStringInString(string fullstring, string searchstring)</functioncall>
+  <description>
+    Searches for the string searchstring in fullstring. 
+    
+    Keep in mind: Umlauts(like Ä,Ö,Ü) may produce multibyte-values, so an Ö counts as 2 bytes. Therefore, the returned offsets might be confusing.
+    
+    returns -1 in case of error, 0 if string wasn't found
+  </description>
+  <parameters>
+    string fullstring - the string to be searched through
+    string searchstring - the string to search for within fullstring
+  </parameters>
+  <retvals>
+    integer count - the number of found occurences of searchstring in fullstring
+    array posarray - an array that contains the positions, where searchstring was found within fullstring
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, search, string</tags>
+</US_DocBloc>
+--]]
+
+  -- check parameters
+  if type(fullstring)~="string" then ultraschall.AddErrorMessage("SearchStringInString", "fullstring", "must be a string", -1) return -1 end
+  if type(searchstring)~="string" then ultraschall.AddErrorMessage("SearchStringInString", "searchstring", "must be a string", -2) return -1 end
+
+  -- prepare variables
+  local count=0
+  local count2=0
+  local posstring={}
+
+  local temp, TEMPO2, temp3
+  
+  while fullstring~=nil do
+    temp,TEMPO2,temp3=fullstring:match(".*()("..searchstring..")()")
+    if temp==nil then break end
+    fullstring=fullstring:sub(1,temp-1)
+    count=count+1
+    posstring[count]=temp-1
+  end
+
+  -- return result
+  table.sort(posstring)
+  return count, posstring
+end
+
+--L2,LL2=ultraschall.SearchStringInString("ABCmABCABCmABC", "Cm")
 

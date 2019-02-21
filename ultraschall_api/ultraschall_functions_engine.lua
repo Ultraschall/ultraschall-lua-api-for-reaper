@@ -1947,6 +1947,7 @@ function ultraschall.SetUSExternalState(section, key, value)
   section=tostring(section)
   key=tostring(key)
   value=tostring(value)  
+  
   if section:match(".*(%=).*")=="=" then ultraschall.AddErrorMessage("SetUSExternalState","section", "no = allowed in section", -4) return false end
 
   -- set value
@@ -11185,7 +11186,7 @@ function ultraschall.ReadFullFile(filename_with_path, binary)
 </US_DocBloc>
 ]]
   -- check parameters
-  if filename_with_path == nil then ultraschall.AddErrorMessage("ReadFullFile", "filename_with_path", "must be a string", -1) return nil end
+  if type(filename_with_path) ~= "string" then ultraschall.AddErrorMessage("ReadFullFile", "filename_with_path", "must be a string", -1) return nil end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadFullFile", "filename_with_path", "file does not exist", -2) return nil end
   
   -- prepare variables
@@ -11261,7 +11262,7 @@ function ultraschall.ReadValueFromFile(filename_with_path, value)
 </US_DocBloc>
 ]]
   -- check parameters
-  if filename_with_path == nil then ultraschall.AddErrorMessage("ReadValueFromFile", "filename_with_path", "must be a string", -1) return nil end
+  if type(filename_with_path) ~= "string" then ultraschall.AddErrorMessage("ReadValueFromFile", "filename_with_path", "must be a string", -1) return nil end
   if value==nil then value="" end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadValueFromFile", "filename_with_path", "file does not exist", -2) return nil end
   if ultraschall.IsValidMatchingPattern(value)==false then ultraschall.AddErrorMessage("ReadValueFromFile", "value", "malformed pattern", -3) return -1 end
@@ -11469,7 +11470,7 @@ function ultraschall.MakeCopyOfFile_Binary(input_filename_with_path, output_file
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
-    if file==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "input_filename_with_path", "could not read file, probably due another application accessing it.", -5) return nil end
+    if fileread==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "input_filename_with_path", "could not read file, probably due another application accessing it.", -5) return nil end
     local file=io.open(output_filename_with_path,"wb")
     if file==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "output_filename_with_path", "can't create file", -3) return false end
     file:write(fileread:read("*a"))
@@ -11527,7 +11528,7 @@ function ultraschall.ReadBinaryFileUntilPattern(input_filename_with_path, patter
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
-    if file==nil then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "could not read file, probably due another application accessing it.", -6) return nil end
+    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "could not read file, probably due another application accessing it.", -6) return nil end
     temp=fileread:read("*a")
     temp2=temp:match("(.-"..pattern..")")
     if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "pattern not found in file", -4) return false end
@@ -11585,7 +11586,7 @@ function ultraschall.ReadBinaryFileFromPattern(input_filename_with_path, pattern
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
-    if file==nil then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "could not read file, probably due another application accessing it.", -6) return nil end
+    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "could not read file, probably due another application accessing it.", -6) return nil end
     temp=fileread:read("*a")
     temp2=temp:match("("..pattern..".*)")
     if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "pattern not found in file", -4) return false end
@@ -24000,9 +24001,9 @@ end
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>ultraschall.Api_Path</functioncall>
+  <functioncall>ultraschall.Api_InstallPath</functioncall>
   <description>
-    Contains the current path to the installation folder of the Ultraschall-Api.
+    Contains the current path to the installation folder of the Ultraschall-Api(usually Resourcesfolder/UserPlugins
   </description>
   <chapter_context>
     API-Variables
@@ -32696,67 +32697,6 @@ function ultraschall.LimitFractionOfFloat(number, length_of_fraction, roundit)
 end
 
 --AA=ultraschall.LimitFractionOfFloat(19999.12345, 4.1, true)
-
-function ultraschall.SearchStringInString(fullstring, searchstring, skipnested)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SearchStringInString</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.77
-    Lua=5.3
-  </requires>
-  <functioncall>integer count, array posarray = ultraschall.SearchStringInString(string fullstring, string searchstring, boolean skipnested)</functioncall>
-  <description>
-    Searches for the string searchstring in fullstring. 
-    Use skipnested==true, to avoid finding a searchstring-position beginning within the last found searchstring, e.g. AAAA will lead to found positions 1 and 3 if searchstring is AA.
-    If skipnested==false, then searchstring starting within a previously found seachstring can be found, e.g. AAAA will lead to found positions 1,2 and 3 if searchstring is AA.
-    
-    returns -1 in case of error, 0 if string wasn't found
-  </description>
-  <parameters>
-    string fullstring - the string to be searched through
-    string searchstring - the string to search for within fullstring
-    boolean skipnested - true, never find a searchstring, that starts within a previously found searchstring; false, find all appearances of searchstring within fullstring, even if it's within a previously found searchstring
-  </parameters>
-  <retvals>
-    integer count - the number of found occurences of searchstring in fullstring
-    array posarray - an array that contains the positions, where searchstring was found within fullstring
-  </retvals>
-  <chapter_context>
-    API-Helper functions
-    Data Manipulation
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, search, string, nested</tags>
-</US_DocBloc>
---]]
-
-  -- check parameters
-  if type(fullstring)~="string" then ultraschall.AddErrorMessage("SearchStringInString", "fullstring", "must be a string", -1) return -1 end
-  if type(searchstring)~="string" then ultraschall.AddErrorMessage("SearchStringInString", "searchstring", "must be a string", -2) return -1 end
-  if type(skipnested)~="boolean" then ultraschall.AddErrorMessage("SearchStringInString", "skipnested", "must be a boolean", -3) return -1 end
-
-  -- prepare variables
-  local count=0
-  local count2=0
-  local posstring={}
-
-  -- search searchstring and the positions of the found patterns, count/add them to count and posstring
-  while fullstring~=nil do
-    temp=fullstring:match("()"..searchstring)
-    if temp~=nil and skipnested==false then fullstring=fullstring:sub(temp+1,-1) count=count+1 count2=count2+temp posstring[count]=count2
-    elseif temp~=nil and skipnested==true then fullstring=fullstring:sub(searchstring:len()+1,-1) count=count+1 count2=count2+temp posstring[count]=count2 
-    else break
-    end
-  end
-  
-  -- return result
-  return count, posstring
-end
-
---L,LL=ultraschall.SearchStringInString("AAAA", "AAl", false)
 
 
 function ultraschall.GetAllEntriesFromTable(table)
@@ -44928,3 +44868,5 @@ main()
 --]]
 
 ultraschall.ShowLastErrorMessage()
+
+

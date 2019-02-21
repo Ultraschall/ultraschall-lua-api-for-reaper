@@ -7,7 +7,7 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 timer=reaper.time_precise()
 Tempfile=ultraschall.Api_Path.."temp/"
 ChangeLogFile="Changelog-Api.txt"
-Pandoc="c:\\Program Files (x86)\\pandoc\\pandoc -f markdown -t html \""..Tempfile..ChangeLogFile.."\" -o \""..ultraschall.Api_Path.."/Documentation/ChangeLog.html\""
+Pandoc="c:\\Program Files (x86)\\pandoc\\pandoc -f markdown_strict -t html \""..Tempfile..ChangeLogFile.."\" -o \""..ultraschall.Api_Path.."/Documentation/ChangeLog.html\""
 
   local retval, string4 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Docs-Introduction", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
   local retval, string3 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Docs-FuncEngine", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
@@ -121,7 +121,7 @@ os.remove(Tempfile..ChangeLogFile)
 reaper.SetExtState("ultraschall", "doc", "", false)
 if reaper.MB("Create Ultraschall-Docs ?", "Reaper-Docs", 4)==6 then pp=1 end
 if reaper.MB("Create Reaper-Docs as well?", "Reaper-Docs", 4)==6 then p=1 end
-if p~=1 and pp~=1 then ultraschall.CloseReaConsole() return end
+if p~=1 and pp~=1 then ultraschall.CloseReaScriptConsole() return end
  -- introduction-concepts
 A=0
 
@@ -199,7 +199,7 @@ function main()
     reaper.MB(Time3, "", 0) 
     os.remove(ultraschall.Api_Path.."/temp/temporary.md")
     os.remove(ultraschall.Api_Path.."/temp/temporary.html")
-    ultraschall.CloseReaConsole()
+    ultraschall.CloseReaScriptConsole()
   end
 end
 

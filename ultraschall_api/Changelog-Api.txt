@@ -1,18 +1,14 @@
 
 ## Ultraschall Framework - Changelog
 
-### 4.00 Beta 2.71(internal release): - "Blue Oyster Cult - Don't fear the Reaper" - 14th of February 2019
+### 4.00 Beta 2.75: - "Blue Oyster Cult - Don't fear the Reaper" - 15th of March 2019
 
-   760 functions with about 60 new ones.
-
-   New Concepts/Features:
-
-   - **Defer-functions**, that allow setting, how often a specific defer-loop shall be executed, every n'th cycle/second. They also
-    allow being terminated from inside and outside the current script.  
+    - *Defer-functions*, that allow setting, how often a specific defer-loop shall be executed, every n'th cycle/second. They also
+    allow being terminated from inside and outside the current script.
     
-   - **ChildScripts**, that allow you to run scripts as multiple script-instances, pass parameters and returnvalues to and from them
+    - *ChildScripts*, that allow you to run scripts as multiple script-instances, pass parameters and returnvalues to and from them
 
-#### New features in 4.00beta2.71
+#### New features in 4.00beta2.75
   - SplitStringAtNULLBytes - splits a string at NULL-bytes ( \0 )
   - new background-script - ultraschall_track_old_playstate.lua - stores old playstate into extstate ultraschall->last_playstate
   - GetLastPlayState - returns the last playstate before the current one
@@ -54,6 +50,7 @@
   - CreateTemporaryFileOfProjectfile - creates a valid temporary-copy of an rpp-projectfile; use nil for the currently opened one(must be saved first)
   - ultraschall.hotfixdate - holds the release-date of the currently installed hotfix, returned by GetApiVersion now
   - Base64_Decoder - decodes a Base64-encoded string
+  - GetProjectStateChunk - gets a ProjectStateChunk from an opened ReaProject
   - StateChunkLayouter - layouts statechunks according the layouting rules of rpp-projectfiles; makes parsing them much easier
   - CountUltraschallEffectPlugins - counts number of instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and Ultraschall_Dynamics-plugins in a track. Also returns a table with all bypass/offline-states
   - GetReaperWindowAttributes - returns several attributes of the Reaper-window, like size/position, active-state, childwindows, etc
@@ -82,6 +79,7 @@
                         For that, Defer1 to Defer20 will return an identifier, which can be used to stop this specific defer-cycle.
                         You should only use each DeferXX-cycle once in a script-instance, or the timing will become corrupt!
   - StopDeferCycle - stops a Defer1 to Defer20-defer-instance from a script-instance
+  - ResolveRenderPattern - resolves the renderfilename of a specific render-pattern
   - GetTrackSelection_TrackStateChunk - gets, if a track in a StateChunk is selected; works only with TrackStateChunks from ProjectStateChunks
   - SetTrackSelection_TrackStateChunk - sets a track in a StateChunk selected; works only with TrackStateChunks from ProjectStateChunks
   - GetIniFileValue - gets an ini-value from an ini-file; unlike SWS's own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path
@@ -106,7 +104,7 @@
   - Docs: DeferScripts: Special Defer-loops in the Ultraschall-API - added chapter
   - Docs: DeferScripts: Stopping Defer-loops from in- and outside of scripts - added chapter
   
-#### Changes from 4.00beta2.7 to 4.00beta2.71
+#### Changes from 4.00beta2.7 to 4.00beta2.75
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
   - GetMarkerByScreenCoordinates - returned useless newlines -> fixed now
   - GetMarkerByTime - returned useless newlines -> fixed now
@@ -170,10 +168,11 @@
   - MakeCopyOfFile_Binary - added check, if a file is already in use and can't be read
   - ReadBinaryFileUntilPattern - added check, if a file is already in use and can't be read
   - ReadBinaryFileFromPattern - added check, if a file is already in use and can't be read
-  - CreateRenderCFG_AudioCD - sometimes produced spaces in the render-string -> fixed
+  - SearchStringInString - renamed parameter skipnested to searchnested, as the old name was confusing
   
    <TODO>
     API 4.00beta2.75
+      TODO!! ReadFullFile - Lua-error, wenn man boolean als filename übergibt(evtl auch bei anderen Fktnen? )
       TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables.
       
       TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
