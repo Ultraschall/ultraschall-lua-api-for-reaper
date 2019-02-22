@@ -107,6 +107,7 @@
   - ReplacePartOfString - replaces a part of a string, beginning from an offset and up to a length; can be used for easy string insertion as well
   - ReaperDocs: added new SWS2.10.1-functions
   - ReaperDocs: added new JS-extension-plugin 0.963 and 0.964-functions
+  - EnumerateMediaItemsInTrack - readded, got lost in somehow, leading to GetTrackLength being useless
   
 #### Changes from 4.00beta2.7 to 4.00beta2.75
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -181,6 +182,62 @@
   - ReaperDocs: fixed tons of MarkDown-layout errors.
   - Ultraschall Docs: functiontitles aren't links anymore, added a clickable symbol at the beginning of the title line of each function now
   - Ultraschall Docs: print, print2 and toboolean as well as all API-variables are now written in bold, as all other functions are
+  - ReadErrorMessage - accepted a string for the integer-parameter errornumber which rendered the function useless -> fixed
+  - ReadErrorMessage - improved error-message, errornumber now checks, if being an integer
+  - GetAllLockedTracks - improved checking for validity of parameters
+  - GetAllSelectedTracks - improved checking for validity of parameters
+  - GetProject_MasterGroupFlagsHighState - improved checking for validity of parameters
+  - GetProject_MasterGroupFlagsState - improved checking for validity of parameters
+  - GetTrackAutoRecArmState - improved checking for validity of parameters
+  - GetTrackAutomodeState - improved checking for validity of parameters
+  - GetTrackBeatState - improved checking for validity of parameters
+  - GetTrackBusCompState - improved checking for validity of parameters
+  - GetTrackBypFXState - improved checking for validity of parameters
+  - GetTrackFreeModeState - improved checking for validity of parameters
+  - GetTrackGroupFlagsState - improved checking for validity of parameters
+  - GetTrackGroupFlags_HighState - improved checking for validity of parameters
+  - GetTrackHeightState - improved checking for validity of parameters
+  - GetTrackID - improved checking for validity of parameters
+  - GetTrackINQState - improved checking for validity of parameters
+  - GetTrackIPhaseState - improved checking for validity of parameters
+  - GetTrackIcon_Filename - improved checking for validity of parameters
+  - GetTrackIsBusState - improved checking for validity of parameters
+  - GetTrackLayoutNames - improved checking for validity of parameters when no layout available made a Lua-error -> fixed now
+  - GetTrackLockState - improved checking for validity of parameters
+  - GetTrackMIDIOutState - improved checking for validity of parameters
+  - GetTrackMainSendState - improved checking for validity of parameters
+  - GetTrackMidiBankProgFn - improved checking for validity of parameters
+  - GetTrackMidiCTL - improved checking for validity of parameters
+  - GetTrackMidiColorMapFn - improved checking for validity of parameters
+  - GetTrackMidiInputChanMap - improved checking for validity of parameters
+  - GetTrackMidiTextStrFn - improved checking for validity of parameters
+  - GetTrackMuteSoloState - improved checking for validity of parameters
+  - GetTrackNChansState - improved checking for validity of parameters
+  - GetTrackName - improved checking for validity of parameters
+  - GetTrackPanMode - improved checking for validity of parameters
+  - GetTrackPeakColorState - improved checking for validity of parameters
+  - GetTrackPerfState - improved checking for validity of parameters
+  - GetTrackRecCFG - improved checking for validity of parameters
+  - GetTrackRecState - improved checking for validity of parameters
+  - GetTrackScore - improved checking for validity of parameters
+  - GetTrackShowInMixState - improved checking for validity of parameters
+  - GetTrackStateChunk_Tracknumber - improved checking for validity of parameters
+  - GetTrackVUState - improved checking for validity of parameters
+  - GetTrackVolPan - improved checking for validity of parameters
+  - GetTrackWidth - improved checking for validity of parameters
+  - JumpForwardBy - improved checking for validity of parameters
+  - JumpBackwardBy - improved checking for validity of parameters
+  - JumpForwardBy_Recording - improved checking for validity of parameters
+  - JumpBackwardBy_Recording - improved checking for validity of parameters
+  - GetNextMuteState - improved checking for validity of parameters
+  - CountMuteEnvelopePoints - improved checking for validity of parameters
+  - IsMarkerEdit - improved checking for validity of parameters
+  - IsMarkerNormal - improved checking for validity of parameters
+  - IsRegionPodrange - improved checking for validity of parameters
+  - IsRegionEditRegion - improved checking for validity of parameters
+  - CountEnvelopePoints - improved checking for validity of parameters
+  - GetTrackLength - improved checking for validity of parameters
+  - GetLengthOfFile - improved checking for validity of parameters
   
 <TODO>
     API 4.00beta2.72
@@ -228,54 +285,11 @@
                         }
                         return s_hwnd;
                     }
+                    
+                    
       TODO!! Code still has countless of useless tonumber-conversions included and other weird old parameter-checks:
-            - DeleteErrorMessage - deletes a specific error-message from the error-messaging-system
-            - Docs: Error-Messaging-System - added docchapters to Introductions/Concepts-page
-            - ReadErrorMessage - improved error-message, errornumber now checks, if being an integer
-            - GetAllLockedTracks - improved checking for validity of parameters
-            - GetAllSelectedTracks - improved checking for validity of parameters
-            - GetProject_MasterGroupFlagsHighState - improved checking for validity of parameters
-            - GetProject_MasterGroupFlagsState - improved checking for validity of parameters
-            - GetTrackAutoRecArmState - improved checking for validity of parameters
-            - GetTrackAutomodeState - improved checking for validity of parameters
-            - GetTrackBeatState - improved checking for validity of parameters
-            - GetTrackBusCompState - improved checking for validity of parameters
-            - GetTrackBypFXState - improved checking for validity of parameters
-            - GetTrackFreeModeState - improved checking for validity of parameters
-            - GetTrackGroupFlagsState - improved checking for validity of parameters
-            - GetTrackGroupFlags_HighState - improved checking for validity of parameters
-            - GetTrackHeightState - improved checking for validity of parameters
-            - GetTrackID - improved checking for validity of parameters
-            - GetTrackINQState - improved checking for validity of parameters
-            - GetTrackIPhaseState - improved checking for validity of parameters
-            - GetTrackIcon_Filename - improved checking for validity of parameters
-            - GetTrackIsBusState - improved checking for validity of parameters
-            - GetTrackLayoutNames - improved checking for validity of parameters
-            - GetTrackLockState - improved checking for validity of parameters
-            - GetTrackMIDIOutState - improved checking for validity of parameters
-            - GetTrackMainSendState - improved checking for validity of parameters
-            - GetTrackMidiBankProgFn - improved checking for validity of parameters
-            - GetTrackMidiCTL - improved checking for validity of parameters
-            - GetTrackMidiColorMapFn - improved checking for validity of parameters
-            - GetTrackMidiInputChanMap - improved checking for validity of parameters
-            - GetTrackMidiTextStrFn - improved checking for validity of parameters
-            - GetTrackMuteSoloState - improved checking for validity of parameters
-            - GetTrackNChansState - improved checking for validity of parameters
-            - GetTrackName - improved checking for validity of parameters
-            - GetTrackPanMode - improved checking for validity of parameters
-            - GetTrackPeakColorState - improved checking for validity of parameters
-            - GetTrackPerfState - improved checking for validity of parameters
-            - GetTrackRecCFG - improved checking for validity of parameters
-            - GetTrackRecState - improved checking for validity of parameters
-            - GetTrackScore - improved checking for validity of parameters
-            - GetTrackShowInMixState - improved checking for validity of parameters
-            - GetTrackStateChunk_Tracknumber - improved checking for validity of parameters
-            - GetTrackVUState	GetTrackVolPan - improved checking for validity of parameters
-            - GetTrackWidth - improved checking for validity of parameters
-            - JumpForwardBy - improved checking for validity of parameters
-            - JumpBackwardBy - improved checking for validity of parameters
-            - JumpForwardBy_Recording - improved checking for validity of parameters
-            - JumpBackwardBy_Recording - improved checking for validity of parameters
+                
+
             - GetNextClosestItemEdge - improved checking for validity of parameters
             - GetPreviousClosestItemEdge - improved checking for validity of parameters
             - GetClosestNextMarker - improved checking for validity of parameters
@@ -284,30 +298,24 @@
             - GetClosestPreviousRegionEdge - improved checking for validity of parameters
             - ToggleMute - improved checking for validity of parameters
             - ToggleMute_TrackObject - improved checking for validity of parameters
-            - GetNextMuteState - improved checking for validity of parameters
+
             - GetPreviousMuteState - improved checking for validity of parameters
             - GetNextMuteState_TrackObject - improved checking for validity of parameters
             - GetPreviousMuteState_TrackObject - improved checking for validity of parameters
-            - CountMuteEnvelopePoints - improved checking for validity of parameters
-            - IsMarkerEdit - improved checking for validity of parameters
-            - IsMarkerNormal - improved checking for validity of parameters
-            - IsRegionPodrange - improved checking for validity of parameters
-            - IsRegionEditRegion - improved checking for validity of parameters
+
             - GetProject_GetMarker - improved checking for validity of parameters
             - GetProject_CountMarkersAndRegions - improved checking for validity of parameters
             - GetProject_GetRegion - improved checking for validity of parameters
             - GetEnvelopePoint - improved checking for validity of parameters
             - GetClosestEnvelopePointIDX_ByTime - improved checking for validity of parameters
             - GetEnvelopePointIDX_Between - improved checking for validity of parameters
-            - CountEnvelopePoints - improved checking for validity of parameters
+                
             - WriteValueToFile_Insert - improved checking for validity of parameters
             - WriteValueToFile_Replace - improved checking for validity of parameters
-            - GetTrackLength - improved checking for validity of parameters
-            - GetLengthOfFile - improved checking for validity of parameters
             - WriteValueToFile_InsertBinary - improved checking for validity of parameters
             - WriteValueToFile_ReplaceBinary - improved checking for validity of parameters
             
-            
+    SetTrack-functions still need that kind of treatment as well.
                  
     API 4.00beta2.75
       TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
@@ -403,9 +411,32 @@
                 3ba) if RENDER_FILE is set to anything, the output will be QUEUED_RENDER_ORIGINAL_FILENAME\RENDER_FILE
 
                                                       
-
-
-            SetTrack-functions still need that kind of treatment.
+                                                      
+      TODO!! Functionshook in Render-functions.
+                before the render project using last render settings-action is triggered, it should be possible to run a function that "prepares" the project for rendering
+                
+                possible, when using the renderqueue? Nope!
+                
+      TODO!! Rendering "pre-trail"-management, where a to be rendered project gets adds some silence in the beginning of the project, so possible "CPU needs to run up to fully calculate the rendering" will happen first.
+                sometimes issue in render-queues
+      TODO!! Multipass-rendering
+                When you want to render out a "wet"-loop, that needs reverb or something, you would need to render this loop three times:
+                        one to start up all reverbs, two for the actual loop and three for the "loop aftermath"
+                After that, you need to edit this rendered file down to the middle part by hand, which is tedious.
+                If there's a rendering-function could do that automatically, it would be cool.
+                    Load the project(if not the current one)
+                    Copy the tracks with the to be looped items/timeselection into an empty project, which must hold all rendering-settings(looped-time-selection probably)
+                    duplicate it so the items are now three times after each other
+                    Render it out and include the rendered file into the current project(maybe as stems?)
+                    edit it down to the original loop
+                    Render that out into a new file
+                    Delete the temp-rendered-files
+                    close the projects and return the filename
+      TODO!!  - RenderProjectRegions_RenderCFG2  and RenderProject_RenderCFG2 - set RenderPattern instead of RenderFilenameWithPath
+      TODO!!  - RenderProjectRegions_RenderCFG3  and RenderProject_RenderCFG3 - set Track(s) to be rendered
+      TODO!!  - Renderfunctions - full featured Video; add GIF, LCF
+      TODO!!  - MP4 on Mac-Rendering
+                                                      
 
       TODO!!  - DeleteItemExtState, DeleteTrackExtState
       TODO!!  - issue with parameters/retvals in USDocML-files: nil-error, when a retval/parameter entry is only 
@@ -433,35 +464,12 @@
                                                       - like table[4][2][1]
                                                       probably impossible, cause, how to pass [2][1] as parameter?
       TODO!! Reaper-Apidocs: use US-functions-docgenerator for layout
-      TODO!! Functionshook in Render-functions.
-                before the render project using last render settings-action is triggered, it should be possible to run a function that "prepares" the project for rendering
-                
-                possible, when using the renderqueue? Nope!
-                
-      TODO!! Rendering "pre-trail"-management, where a to be rendered project gets adds some silence in the beginning of the project, so possible "CPU needs to run up to fully calculate the rendering" will happen first.
-                sometimes issue in render-queues
-      TODO!! Multipass-rendering
-                When you want to render out a "wet"-loop, that needs reverb or something, you would need to render this loop three times:
-                        one to start up all reverbs, two for the actual loop and three for the "loop aftermath"
-                After that, you need to edit this rendered file down to the middle part by hand, which is tedious.
-                If there's a rendering-function could do that automatically, it would be cool.
-                    Load the project(if not the current one)
-                    Copy the tracks with the to be looped items/timeselection into an empty project, which must hold all rendering-settings(looped-time-selection probably)
-                    duplicate it so the items are now three times after each other
-                    Render it out and include the rendered file into the current project(maybe as stems?)
-                    edit it down to the original loop
-                    Render that out into a new file
-                    Delete the temp-rendered-files
-                    close the projects and return the filename
-                    
                 
       TODO!!  - Envelope-ExtStates
       TODO!!  - import/export Bonus-script-packs-functions(for importing and registering additional bonus scripts)
       TODO!!  - GetLastEnvelopePoint (How to do that with AutomationItems ?)
-      TODO!!  - RenderProjectRegions_RenderCFG2  and RenderProject_RenderCFG2 - set RenderPattern instead of RenderFilenameWithPath
-      TODO!!  - RenderProjectRegions_RenderCFG3  and RenderProject_RenderCFG3 - set Track(s) to be rendered
-      TODO!!  - Renderfunctions - full featured Video; add GIF, LCF
-      TODO!!  - MP4 on Mac-Rendering
+
+
       TODO!!  - Add3rdParty-Script-support/functions-support
       TODO!!  - AddUltraschallScripts() AddUltraschall3rdPartyScripts() add all 3rd party-scripts from the 3rd-party-US-folder
             also add scripts to do that, that will be registered into the ActionList together with the ShowUSApiHelp-script as well

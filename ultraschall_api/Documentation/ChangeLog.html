@@ -137,6 +137,7 @@ allow being terminated from inside and outside the current script.
 <li>ReplacePartOfString - replaces a part of a string, beginning from an offset and up to a length; can be used for easy string insertion as well</li>
 <li>ReaperDocs: added new SWS2.10.1-functions</li>
 <li>ReaperDocs: added new JS-extension-plugin 0.963 and 0.964-functions</li>
+<li>EnumerateMediaItemsInTrack - readded, got lost in somehow, leading to GetTrackLength being useless</li>
 </ul>
 <h4>Changes from 4.00beta2.7 to 4.00beta2.75</h4>
 <ul>
@@ -212,6 +213,62 @@ This prevents duplicate execution of functions, when coding within the beta-func
 <li>ReaperDocs: fixed tons of MarkDown-layout errors.</li>
 <li>Ultraschall Docs: functiontitles aren't links anymore, added a clickable symbol at the beginning of the title line of each function now</li>
 <li>Ultraschall Docs: print, print2 and toboolean as well as all API-variables are now written in bold, as all other functions are</li>
+<li>ReadErrorMessage - accepted a string for the integer-parameter errornumber which rendered the function useless -&gt; fixed</li>
+<li>ReadErrorMessage - improved error-message, errornumber now checks, if being an integer</li>
+<li>GetAllLockedTracks - improved checking for validity of parameters</li>
+<li>GetAllSelectedTracks - improved checking for validity of parameters</li>
+<li>GetProject_MasterGroupFlagsHighState - improved checking for validity of parameters</li>
+<li>GetProject_MasterGroupFlagsState - improved checking for validity of parameters</li>
+<li>GetTrackAutoRecArmState - improved checking for validity of parameters</li>
+<li>GetTrackAutomodeState - improved checking for validity of parameters</li>
+<li>GetTrackBeatState - improved checking for validity of parameters</li>
+<li>GetTrackBusCompState - improved checking for validity of parameters</li>
+<li>GetTrackBypFXState - improved checking for validity of parameters</li>
+<li>GetTrackFreeModeState - improved checking for validity of parameters</li>
+<li>GetTrackGroupFlagsState - improved checking for validity of parameters</li>
+<li>GetTrackGroupFlags_HighState - improved checking for validity of parameters</li>
+<li>GetTrackHeightState - improved checking for validity of parameters</li>
+<li>GetTrackID - improved checking for validity of parameters</li>
+<li>GetTrackINQState - improved checking for validity of parameters</li>
+<li>GetTrackIPhaseState - improved checking for validity of parameters</li>
+<li>GetTrackIcon_Filename - improved checking for validity of parameters</li>
+<li>GetTrackIsBusState - improved checking for validity of parameters</li>
+<li>GetTrackLayoutNames - improved checking for validity of parameters when no layout available made a Lua-error -&gt; fixed now</li>
+<li>GetTrackLockState - improved checking for validity of parameters</li>
+<li>GetTrackMIDIOutState - improved checking for validity of parameters</li>
+<li>GetTrackMainSendState - improved checking for validity of parameters</li>
+<li>GetTrackMidiBankProgFn - improved checking for validity of parameters</li>
+<li>GetTrackMidiCTL - improved checking for validity of parameters</li>
+<li>GetTrackMidiColorMapFn - improved checking for validity of parameters</li>
+<li>GetTrackMidiInputChanMap - improved checking for validity of parameters</li>
+<li>GetTrackMidiTextStrFn - improved checking for validity of parameters</li>
+<li>GetTrackMuteSoloState - improved checking for validity of parameters</li>
+<li>GetTrackNChansState - improved checking for validity of parameters</li>
+<li>GetTrackName - improved checking for validity of parameters</li>
+<li>GetTrackPanMode - improved checking for validity of parameters</li>
+<li>GetTrackPeakColorState - improved checking for validity of parameters</li>
+<li>GetTrackPerfState - improved checking for validity of parameters</li>
+<li>GetTrackRecCFG - improved checking for validity of parameters</li>
+<li>GetTrackRecState - improved checking for validity of parameters</li>
+<li>GetTrackScore - improved checking for validity of parameters</li>
+<li>GetTrackShowInMixState - improved checking for validity of parameters</li>
+<li>GetTrackStateChunk_Tracknumber - improved checking for validity of parameters</li>
+<li>GetTrackVUState - improved checking for validity of parameters</li>
+<li>GetTrackVolPan - improved checking for validity of parameters</li>
+<li>GetTrackWidth - improved checking for validity of parameters</li>
+<li>JumpForwardBy - improved checking for validity of parameters</li>
+<li>JumpBackwardBy - improved checking for validity of parameters</li>
+<li>JumpForwardBy_Recording - improved checking for validity of parameters</li>
+<li>JumpBackwardBy_Recording - improved checking for validity of parameters</li>
+<li>GetNextMuteState - improved checking for validity of parameters</li>
+<li>CountMuteEnvelopePoints - improved checking for validity of parameters</li>
+<li>IsMarkerEdit - improved checking for validity of parameters</li>
+<li>IsMarkerNormal - improved checking for validity of parameters</li>
+<li>IsRegionPodrange - improved checking for validity of parameters</li>
+<li>IsRegionEditRegion - improved checking for validity of parameters</li>
+<li>CountEnvelopePoints - improved checking for validity of parameters</li>
+<li>GetTrackLength - improved checking for validity of parameters</li>
+<li>GetLengthOfFile - improved checking for validity of parameters</li>
 </ul>
 <h3>4.00 Beta 2.7: - "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018</h3>
 <p>Has now 700 functions, with about 250 new ones!</p>

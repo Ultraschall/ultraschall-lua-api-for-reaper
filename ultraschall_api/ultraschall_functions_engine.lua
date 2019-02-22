@@ -1048,7 +1048,7 @@ function ultraschall.ReadErrorMessage(errornumber)
 ]]
   -- check parameters
   
-  if math.type(errornumber)~="string" then ultraschall.AddErrorMessage("ReadErrorMessage","errornumber", "not a valid value, must be an integer", -1) return false end
+  if math.type(errornumber)~="integer" then ultraschall.AddErrorMessage("ReadErrorMessage","errornumber", "not a valid value, must be an integer", -1) return false end
   if errornumber<1 or errornumber>ultraschall.ErrorCounter then ultraschall.AddErrorMessage("ReadErrorMessage","errornumber", "no such error-message. Use ultraschall.CountErrorMessages() to find out the number of messages available.", -2) return false end
 
   -- set readstate
@@ -2243,13 +2243,12 @@ function ultraschall.GetTrackName(tracknumber, str)
 --]]
 
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackName", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackName", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackName", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackName", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -2302,12 +2301,11 @@ function ultraschall.GetTrackPeakColorState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameter
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackPeakColorState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackPeakColorState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
     --get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackPeakColorState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackPeakColorState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -2317,14 +2315,10 @@ function ultraschall.GetTrackPeakColorState(tracknumber, str)
   -- get peakcolor-state
   if str==nil or str:match("<TRACK.*>")==nil then ultraschall.AddErrorMessage("GetTrackPeakColorState", "TrackStateChunk", "no valid TrackStateChunk", -3) return nil end
   str=str:match("PEAKCOL(%s.-)%c").." "
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s"))
+  return tonumber(str:match("%s(.-)%s"))
 end
 
---A=ultraschall.GetTrackPeakColorState(1)
+--A=ultraschall.GetTrackPeakColorState(2)
 
 function ultraschall.GetTrackBeatState(tracknumber, str)
 --[[
@@ -2358,13 +2352,12 @@ function ultraschall.GetTrackBeatState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameter
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackBeatState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackBeatState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackBeatState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackBeatState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -2375,11 +2368,7 @@ function ultraschall.GetTrackBeatState(tracknumber, str)
   -- get beatstate
   if str==nil or str:match("<TRACK.*>")==nil then ultraschall.AddErrorMessage("GetTrackBeatState", "TrackStateChunk", "no valid TrackStateChunk", -3) return nil end        
   str=str:match("BEAT(%s.-)%c").." "
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s"))
+  return tonumber(str:match("%s(.-)%s"))
 end
 
 --A=ultraschall.GetTrackBeatState(1)
@@ -2417,13 +2406,12 @@ function ultraschall.GetTrackAutoRecArmState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackAutoRecArmState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackAutoRecArmState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackAutoRecArmState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackAutoRecArmState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -2435,11 +2423,7 @@ function ultraschall.GetTrackAutoRecArmState(tracknumber, str)
   -- get recarm
   str=str:match("AUTO_RECARM(%s.-)%c")
   if str~=nil then str=str.." " else return nil end
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s"))
+  return tonumber(str:match("%s(.-)%s"))
 end
 
 --A=ultraschall.GetTrackAutoRecArmState(1)
@@ -2478,13 +2462,12 @@ function ultraschall.GetTrackMuteSoloState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMuteSoloState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackMuteSoloState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMuteSoloState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMuteSoloState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -2498,9 +2481,7 @@ function ultraschall.GetTrackMuteSoloState(tracknumber, str)
   if str~=nil then str=str.." " else return nil end
   return tonumber(str:match("%s(.-)%s")),
          tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s"))
+         tonumber(str:match("%s.-%s.-%s(.-)%s"))
 end
 
 --A1,A2,A3 = ultraschall.GetTrackMuteSoloState(1)
@@ -2537,13 +2518,12 @@ function ultraschall.GetTrackIPhaseState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackIPhaseState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackIPhaseState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
     
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackIPhaseState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackIPhaseState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -2555,11 +2535,7 @@ function ultraschall.GetTrackIPhaseState(tracknumber, str)
   -- get iphase-state
   str=str:match("IPHASE(%s.-)%c")
   if str~=nil then str=str.." " else return nil end
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s"))
+  return tonumber(str:match("%s(.-)%s"))
 end
 
 --A=ultraschall.GetTrackIPhaseState(1)
@@ -2603,13 +2579,12 @@ function ultraschall.GetTrackIsBusState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackIsBusState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackIsBusState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
 
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackIsBusState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackIsBusState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -2622,10 +2597,7 @@ function ultraschall.GetTrackIsBusState(tracknumber, str)
   str=str:match("ISBUS(%s.-)%c")
   if str~=nil then str=str.." " else return nil end
   return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s"))
+         tonumber(str:match("%s.-%s(.-)%s"))
 end
 
 --A1,A2=ultraschall.GetTrackIsBusState(1)
@@ -2663,13 +2635,12 @@ function ultraschall.GetTrackBusCompState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackBusCompState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackBusCompState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack        
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackBusCompState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackBusCompState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -2682,10 +2653,7 @@ function ultraschall.GetTrackBusCompState(tracknumber, str)
   str=str:match("BUSCOMP(%s.-)%c")
   if str~=nil then str=str.." " else return nil end
   return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s"))
+         tonumber(str:match("%s.-%s(.-)%s"))
 end
 
 --A,A2=ultraschall.GetTrackBusCompState(1)
@@ -2729,13 +2697,12 @@ function ultraschall.GetTrackShowInMixState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackShowInMixState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackShowInMixState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackShowInMixState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackShowInMixState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -2759,7 +2726,7 @@ function ultraschall.GetTrackShowInMixState(tracknumber, str)
          tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
 end  
 
---A1,A2,A3,A4,A5,A6,A7,A8=ultraschall.GetTrackShowInMixState(0)
+--A1,A2,A3,A4,A5,A6,A7,A8=ultraschall.GetTrackShowInMixState(2)
 
 function ultraschall.GetTrackFreeModeState(tracknumber, str)
 --[[
@@ -2793,13 +2760,12 @@ function ultraschall.GetTrackFreeModeState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackFreeModeState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackFreeModeState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackFreeModeState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackFreeModeState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -2812,18 +2778,10 @@ function ultraschall.GetTrackFreeModeState(tracknumber, str)
   str=str:match("FREEMODE(%s.-)%c")
   local L=str
   if str~=nil then str=str.." " else return nil end
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+  return tonumber(str:match("%s(.-)%s"))
 end
 
---A=ultraschall.GetTrackFreeModeState(1)
+--A=ultraschall.GetTrackFreeModeState(2)
 
 function ultraschall.GetTrackRecState(tracknumber, str)
 --[[
@@ -2903,13 +2861,12 @@ function ultraschall.GetTrackRecState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackRecState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackRecState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackRecState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackRecState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -2929,8 +2886,7 @@ function ultraschall.GetTrackRecState(tracknumber, str)
          tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
          
          tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
 end
 
 --A1,A2,A3,A4,A5,A6,A7=ultraschall.GetTrackRecState(1)
@@ -2969,13 +2925,12 @@ function ultraschall.GetTrackVUState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackVUState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackVUState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackVUState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackVUState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -2988,15 +2943,7 @@ function ultraschall.GetTrackVUState(tracknumber, str)
   str=str:match("VU(%s.-)%c")
   -- L=str
   if str~=nil then str=str.." " else return nil end
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+  return tonumber(str:match("%s(.-)%s"))
 end
 
 --A=ultraschall.GetTrackVUState(1)
@@ -3035,13 +2982,12 @@ function ultraschall.GetTrackHeightState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackHeightState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackHeightState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackHeightState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackHeightState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -3056,13 +3002,7 @@ function ultraschall.GetTrackHeightState(tracknumber, str)
   if str~=nil then str=str.." " else return nil end
   return tonumber(str:match("%s(.-)%s")),
          tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+         tonumber(str:match("%s.-%s.-%s(.-)%s"))
 end
   
 --A1,A2, A3, A4=ultraschall.GetTrackHeightState(1)
@@ -3106,13 +3046,12 @@ function ultraschall.GetTrackINQState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackINQState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackINQState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackINQState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackINQState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -3135,7 +3074,7 @@ function ultraschall.GetTrackINQState(tracknumber, str)
          tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
          tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
 end
---A1,A2,A3,A4,A5,A6,A7,A8=ultraschall.GetTrackINQState(1)
+--A1,A2,A3,A4,A5,A6,A7,A8=ultraschall.GetTrackINQState(2)
 
 function ultraschall.GetTrackNChansState(tracknumber, str)
 --[[
@@ -3169,13 +3108,12 @@ function ultraschall.GetTrackNChansState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackNChansState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackNChansState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
     
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackNChansState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackNChansState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -3188,15 +3126,7 @@ function ultraschall.GetTrackNChansState(tracknumber, str)
   str=str:match("(NCHAN%s.-)%c")
   local L=str
   if str~=nil then str=str.." " else return nil end
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+  return tonumber(str:match("%s(.-)%s"))
 end
 
 --A=ultraschall.GetTrackNChansState(1)
@@ -3234,13 +3164,13 @@ function ultraschall.GetTrackBypFXState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackBypFXState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackBypFXState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackBypFXState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackBypFXState", "tracknumber", "no such track", -2) return nil end
+
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -3253,18 +3183,10 @@ function ultraschall.GetTrackBypFXState(tracknumber, str)
   str=str:match("(FX%s.-)%c")
   local L=str
   if str~=nil then str=str.." " else return nil end
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+  return tonumber(str:match("%s(.-)%s"))
 end
 
---A=ultraschall.GetTrackBypFXState(1)
+--A=ultraschall.GetTrackBypFXState(0)
 
 function ultraschall.GetTrackPerfState(tracknumber, str)
 --[[
@@ -3303,13 +3225,12 @@ function ultraschall.GetTrackPerfState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackPerfState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackPerfState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackPerfState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackPerfState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -3322,15 +3243,7 @@ function ultraschall.GetTrackPerfState(tracknumber, str)
   str=str:match("(PERF%s.-)%c")
   local L=str
   if str~=nil then str=str.." " else return nil end
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))  
+  return tonumber(str:match("%s(.-)%s"))
 end
 
 --A=ultraschall.GetTrackPerfState(1)
@@ -3375,13 +3288,12 @@ function ultraschall.GetTrackMIDIOutState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMIDIOutState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackMIDIOutState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
     
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMIDIOutState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMIDIOutState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -3394,16 +3306,7 @@ function ultraschall.GetTrackMIDIOutState(tracknumber, str)
   str=str:match("(MIDIOUT%s.-)%c")
   local L=str
   if str~=nil then str=str.." " else return nil end
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
-end
+  return tonumber(str:match("%s(.-)%s"))end
 
 --A=ultraschall.GetTrackMIDIOutState(1)
 
@@ -3440,13 +3343,12 @@ function ultraschall.GetTrackMainSendState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMainSendState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackMainSendState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMainSendState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMainSendState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -3460,17 +3362,10 @@ function ultraschall.GetTrackMainSendState(tracknumber, str)
   local L=str
   if str~=nil then str=str.." " else return nil end
   return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+         tonumber(str:match("%s.-%s(.-)%s"))
 end
 
---A,AA= ultraschall.GetTrackMainSendState(1)
+--A,AA= ultraschall.GetTrackMainSendState(1.1)
 
 function ultraschall.GetTrackGroupFlagsState(tracknumber, str)
 --[[
@@ -3583,13 +3478,12 @@ function ultraschall.GetTrackGroupFlagsState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackGroupFlagsState", "tracknumber", "no valid tracknumber", -1) return -1 end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackGroupFlagsState", "tracknumber", "must be an integer", -1) return -1 end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackGroupFlagsState", "tracknumber", "no such track", -2) return -1 end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackGroupFlagsState", "tracknumber", "no such track", -2) return -1 end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -3617,6 +3511,8 @@ function ultraschall.GetTrackGroupFlagsState(tracknumber, str)
   
   return retval, Tracktable
 end
+
+--A,B=ultraschall.GetTrackGroupFlagsState(1)
 
 function ultraschall.GetTrackGroupFlags_HighState(tracknumber, str)
 
@@ -3730,13 +3626,12 @@ function ultraschall.GetTrackGroupFlags_HighState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackGroupFlags_HighState", "tracknumber", "no valid tracknumber", -1) return -1 end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackGroupFlags_HighState", "tracknumber", "must be an integer", -1) return -1 end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackGroupFlags_HighState", "tracknumber", "no such track", -2) return -1 end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackGroupFlags_HighState", "tracknumber", "no such track", -2) return -1 end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -3764,6 +3659,8 @@ function ultraschall.GetTrackGroupFlags_HighState(tracknumber, str)
   
   return retval, Tracktable
 end
+
+--A,B=ultraschall.GetTrackGroupFlags_HighState(1.1)
 
 --B=2^22
 --A,A1=ultraschall.GetTrackGroupFlags_HighState(1)
@@ -3805,13 +3702,12 @@ function ultraschall.GetTrackLockState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackLockState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackLockState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackLockState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackLockState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -3824,15 +3720,7 @@ function ultraschall.GetTrackLockState(tracknumber, str)
   str=str:match("(LOCK%s.-)%c")
   local L=str
   if str~=nil then str=str.." " else return nil end
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+  return tonumber(str:match("%s(.-)%s"))
 end
 
 --A=ultraschall.GetTrackLockState(1)
@@ -3872,13 +3760,12 @@ function ultraschall.GetTrackLayoutNames(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackLayoutNames", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackLayoutNames", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackLayoutNames", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackLayoutNames", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -3891,7 +3778,9 @@ function ultraschall.GetTrackLayoutNames(tracknumber, str)
   local Track_LayoutTCP
   local Track_LayoutMCP
   
-  str=str:match("(LAYOUTS%s.-)%c").." "
+  str=str:match("(LAYOUTS%s.-)%c")
+  if str==nil then return "","" end
+  str=str.." "
   local L=str
   if str~=nil then str=str.." " else return nil end
   Track_LayoutTCP, offset1 = str:match("%s\"(.-)\"%s()")
@@ -3902,7 +3791,7 @@ function ultraschall.GetTrackLayoutNames(tracknumber, str)
   return Track_LayoutTCP, Track_LayoutMCP
 end
 
---A,AA=ultraschall.GetTrackLayoutNames(1)
+--A,AA=ultraschall.GetTrackLayoutNames(2)
 
 function ultraschall.GetTrackAutomodeState(tracknumber, str)
 -- returns current state of Automation-Mode
@@ -3938,13 +3827,12 @@ function ultraschall.GetTrackAutomodeState(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackAutomodeState", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackAutomodeState", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackAutomodeState", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackAutomodeState", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -3957,19 +3845,11 @@ function ultraschall.GetTrackAutomodeState(tracknumber, str)
   str=str:match("(AUTOMODE%s.-)%c")
   local L=str
   if str~=nil then str=str.." " else return nil end
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+  return tonumber(str:match("%s(.-)%s"))
 end
 
 
---A=ultraschall.GetTrackAutomodeState(1)
+--A=ultraschall.GetTrackAutomodeState(2)
 
 function ultraschall.GetTrackIcon_Filename(tracknumber, str)
 -- Get the path and filename of the current track-icon
@@ -4004,13 +3884,12 @@ function ultraschall.GetTrackIcon_Filename(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackIcon_Filename", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackIcon_Filename", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackIcon_Filename", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackIcon_Filename", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -4067,13 +3946,12 @@ function ultraschall.GetTrackRecCFG(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackRecCFG", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackRecCFG", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackRecCFG", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackRecCFG", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -4090,7 +3968,7 @@ function ultraschall.GetTrackRecCFG(tracknumber, str)
   return RECCFG, tonumber(RECCFGNR)
 end
 
--- A,B=ultraschall.GetTrackRecCFG(1)
+--A,B=ultraschall.GetTrackRecCFG(1)
 
 function ultraschall.GetTrackMidiInputChanMap(tracknumber, str)
 --returns the Midi Input Channel Map-state or nil, if not existing
@@ -4125,13 +4003,12 @@ function ultraschall.GetTrackMidiInputChanMap(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMidiInputChanMap", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackMidiInputChanMap", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMidiInputChanMap", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMidiInputChanMap", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -4182,13 +4059,12 @@ function ultraschall.GetTrackMidiCTL(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMidiCTL", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackMidiCTL", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMidiCTL", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMidiCTL", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -4202,14 +4078,7 @@ function ultraschall.GetTrackMidiCTL(tracknumber, str)
   local L=str
   if str~=nil then str=str.." " else return nil end
   return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+         tonumber(str:match("%s.-%s(.-)%s"))
 end
 
 --A,A2=ultraschall.GetTrackMidiCTL(1)
@@ -4249,13 +4118,12 @@ function ultraschall.GetTrackWidth(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackWidth", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackWidth", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackWidth", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackWidth", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -4267,16 +4135,9 @@ function ultraschall.GetTrackWidth(tracknumber, str)
   -- get widtch-state
   str=str:match("(WIDTH%s.-)%c")
   local L=str
+  if str==nil then return 1 end
   if str~=nil then str=str.." " else return nil end
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+  return tonumber(str:match("%s(.-)%s"))
 end
 
 --A,A2=ultraschall.GetTrackWidth(1)
@@ -4318,13 +4179,12 @@ function ultraschall.GetTrackPanMode(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackPanMode", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackPanMode", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
 
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackPanMode", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackPanMode", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -4337,15 +4197,7 @@ function ultraschall.GetTrackPanMode(tracknumber, str)
   str=str:match("(PANMODE%s.-)%c")
   local L=str
   if str~=nil then str=str.." " else return nil end
-  return tonumber(str:match("%s(.-)%s")),
-         tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+  return tonumber(str:match("%s(.-)%s"))
 end
 
 --A,A2=ultraschall.GetTrackPanMode(1)
@@ -4382,13 +4234,12 @@ function ultraschall.GetTrackMidiColorMapFn(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMidiColorMapFn", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackMidiColorMapFn", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMidiColorMapFn", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMidiColorMapFn", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -4402,7 +4253,7 @@ function ultraschall.GetTrackMidiColorMapFn(tracknumber, str)
   return Track_MIDICOLORMAPFN
 end
 
---A,A2=ultraschall.GetTrackMidiColorMapFn(nil)
+--A,A2=ultraschall.GetTrackMidiColorMapFn(1)
 
 function ultraschall.GetTrackMidiBankProgFn(tracknumber, str)
 --[[
@@ -4436,13 +4287,12 @@ function ultraschall.GetTrackMidiBankProgFn(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMidiBankProgFn", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackMidiBankProgFn", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMidiBankProgFn", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMidiBankProgFn", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -4456,7 +4306,7 @@ function ultraschall.GetTrackMidiBankProgFn(tracknumber, str)
   return Track_MIDIBANKPROGFN
 end
 
---A,A2=ultraschall.GetTrackMidiColorMapFn(0)
+--A,A2=ultraschall.GetTrackMidiBankProgFn(1)
 
 
 function ultraschall.GetTrackMidiTextStrFn(tracknumber, str)
@@ -4491,13 +4341,12 @@ function ultraschall.GetTrackMidiTextStrFn(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackMidiTextStrFn", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackMidiTextStrFn", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMidiTextStrFn", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMidiTextStrFn", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -4511,7 +4360,7 @@ function ultraschall.GetTrackMidiTextStrFn(tracknumber, str)
   return Track_MIDITEXTSTRFN
 end
 
---A,A2=ultraschall.GetTrackMidiTextStrFn(0)
+--A,A2=ultraschall.GetTrackMidiTextStrFn(1)
 
 function ultraschall.GetTrackID(tracknumber, str)
 --[[
@@ -4545,13 +4394,12 @@ function ultraschall.GetTrackID(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackID", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackID", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackID", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackID", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -4565,7 +4413,7 @@ function ultraschall.GetTrackID(tracknumber, str)
   return Track_TRACKID
 end
 
---A,A2=ultraschall.GetTrackID(0)
+--A,A2=ultraschall.GetTrackID(1.1)
 
 function ultraschall.GetTrackScore(tracknumber, str)
 --returns the Width of the track, or nil if not existing
@@ -4603,13 +4451,12 @@ function ultraschall.GetTrackScore(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackScore", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackScore", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackScore", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackScore", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -4625,15 +4472,10 @@ function ultraschall.GetTrackScore(tracknumber, str)
   return tonumber(str:match("%s(.-)%s")),
          tonumber(str:match("%s.-%s(.-)%s")),
          tonumber(str:match("%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s"))
 end
 
---A,A2,A3,A4=ultraschall.GetTrackScore(0)
+--A,A2,A3,A4=ultraschall.GetTrackScore(1)
 
 function ultraschall.GetTrackVolPan(tracknumber, str)
 --returns the Width of the track, or nil if not existing
@@ -4675,13 +4517,12 @@ function ultraschall.GetTrackVolPan(tracknumber, str)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackVolPan", "tracknumber", "no valid tracknumber", -1) return nil end
-  if tonumber(tracknumber)~=-1 then
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackVolPan", "tracknumber", "must be an integer", -1) return nil end
+  if tracknumber~=-1 then
   
     -- get trackstatechunk
     local retval, MediaTrack
-    if tonumber(tracknumber)<0 or tonumber(tracknumber)>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackVolPan", "tracknumber", "no such track", -2) return nil end
-      tracknumber=tonumber(tracknumber)
+    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackVolPan", "tracknumber", "no such track", -2) return nil end
       if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
       else MediaTrack=reaper.GetTrack(0, tracknumber-1)
       end
@@ -4692,17 +4533,13 @@ function ultraschall.GetTrackVolPan(tracknumber, str)
     
   -- get track-vol-pan-state
   str=str:match("(VOLPAN%s.-)%c")
-  L=str
+
   if str~=nil then str=str.." " else return nil end
   return tonumber(str:match("%s(.-)%s")),
          tonumber(str:match("%s.-%s(.-)%s")),
          tonumber(str:match("%s.-%s.-%s(.-)%s")),
          tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s")),
-         
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
+         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s"))
 end
 
 --L1=reaper.GetTrack(0,0)
@@ -4711,7 +4548,7 @@ end
 --Mst=reaper.GetMasterTrack(0)
 --L2,MstStCh=reaper.GetTrackStateChunk(Mst,"",true)
 
---A,A2,A3,A4,A5=ultraschall.GetTrackVolPan(1)
+--A,A2,A3,A4,A5=ultraschall.GetTrackVolPan(2)
 
 --reaper.MB(MstStCh,"",0)
 
@@ -7670,9 +7507,9 @@ function ultraschall.JumpForwardBy(seconds, seekplay)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(seconds)==nil then ultraschall.AddErrorMessage("JumpForwardBy","seconds", "no nil allowed", -1) return -1 end
+  if type(seconds)~="number" then ultraschall.AddErrorMessage("JumpForwardBy","seconds", "must be a number", -1) return -1 end
   if type(seekplay)~="boolean" then ultraschall.AddErrorMessage("JumpForwardBy","seekplay", "must be boolean", -2) return -1 end
-  seconds=tonumber(seconds)
+
   if seconds<0 then ultraschall.AddErrorMessage("JumpForwardBy","seconds", "must be bigger or equal 0", -3) return -1 end
     
   -- jump forward edit-cursor
@@ -7713,8 +7550,8 @@ function ultraschall.JumpBackwardBy(seconds, seekplay)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(seconds)==nil then ultraschall.AddErrorMessage("JumpBackwardBy","seconds", "no nil allowed", -1) return -1 end
-  seconds=tonumber(seconds)
+  if type(seconds)~="number" then ultraschall.AddErrorMessage("JumpBackwardBy","seconds", "must be a number", -1) return -1 end
+
   if type(seekplay)~="boolean" then ultraschall.AddErrorMessage("JumpBackwardBy","seekplay", "must be boolean", -2) return -1 end
   if seconds<0 then ultraschall.AddErrorMessage("JumpBackwardBy","seconds", "must be bigger or equal 0", -3) return -1 end
   
@@ -7755,8 +7592,8 @@ function ultraschall.JumpForwardBy_Recording(seconds)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(seconds)==nil then ultraschall.AddErrorMessage("JumpForwardBy_Recording","seconds", "no nil allowed", -1) return -1 end
-  seconds=tonumber(seconds)
+  if type(seconds)~="number" then ultraschall.AddErrorMessage("JumpForwardBy_Recording","seconds", "must be a number", -1) return -1 end
+
   if seconds<0 then ultraschall.AddErrorMessage("JumpForwardBy_Recording","seconds", "must be bigger or equal 0", -2) return -1 end
   
   -- stop recording, jump forward and restart recording
@@ -7804,8 +7641,8 @@ function ultraschall.JumpBackwardBy_Recording(seconds)
 </US_DocBloc>
 --]]
   -- check parameters
-  if tonumber(seconds)==nil then ultraschall.AddErrorMessage("JumpBackwardBy_Recording","seconds", "no nil allowed", -1) return -1 end
-  seconds=tonumber(seconds)
+  if type(seconds)~="number" then ultraschall.AddErrorMessage("JumpBackwardBy_Recording","seconds", "must be a number", -1) return -1 end
+  
   if seconds<0 then ultraschall.AddErrorMessage("JumpBackwardBy_Recording","seconds", "must be bigger or equal 0", -2) return -1 end
   
   -- stop recording, jump backward and restart recording
@@ -7824,7 +7661,7 @@ function ultraschall.JumpBackwardBy_Recording(seconds)
   end
 end
 
---A=ultraschall.JumpBackwardBy_Recording(10)
+--A=ultraschall.JumpBackwardBy_Recording(1)
 
 function ultraschall.GetNextClosestItemEdge(tracks, cursor_type, time_position)
 -- returns time and item-object of the next closest item-start or item-end within the chosen tracks, as well as "beg" for begin and "end" for end of the returned item
@@ -8676,8 +8513,9 @@ function ultraschall.GetNextMuteState(track, position)
 --]]
 
   -- check parameters
-  if tonumber(track-1)==nil then ultraschall.AddErrorMessage("GetNextMuteState", "track", "no such track.", -1) return -1 end
-  if tonumber(position)==nil then ultraschall.AddErrorMessage("GetNextMuteState", "position", "no such position.", -2) return -1 end
+  if math.type(track)~="integer" then ultraschall.AddErrorMessage("GetNextMuteState", "track", "must be an integer.", -1) return -1 end
+
+  if type(position)~="number" then ultraschall.AddErrorMessage("GetNextMuteState", "position", "must be a number.", -2) return -1 end
   
   -- prepare variables
   local retval, time, value, shape, tension, selected 
@@ -8695,7 +8533,7 @@ function ultraschall.GetNextMuteState(track, position)
   return Ainteger+1, value, time
 end
 
---A,AA,AAA,AAAA=ultraschall.GetNextMuteState(1,reaper.GetCursorPosition())
+--A,AA,AAA,AAAA=ultraschall.GetNextMuteState(1,1)
 
 function ultraschall.GetPreviousMuteState(track, position)
 -- returns the previous mute-envelope-point, it's value and it's time
@@ -8899,7 +8737,7 @@ function ultraschall.CountMuteEnvelopePoints(track)
 --]]
   -- check parameter
   if math.type(track)~="integer" then ultraschall.AddErrorMessage("CountMuteEnvelopePoints", "track", "must be an integer", -1) return -1 end
-  track=tonumber(track)
+
   if track<1 then ultraschall.AddErrorMessage("CountMuteEnvelopePoints", "track", "track must be 1 and higher", -2) return -1 end
   
   -- get track and mute-envelope
@@ -8912,7 +8750,7 @@ function ultraschall.CountMuteEnvelopePoints(track)
   return reaper.CountEnvelopePoints(TrackEnvelope)
 end
 
---A=ultraschall.CountMuteEnvelopePoints(0)
+--A=ultraschall.CountMuteEnvelopePoints(1)
 
 -------------------------------
 ---- Toggle States&Buttons ----
@@ -12972,7 +12810,7 @@ function ultraschall.IsMarkerEdit(markerid)
 </US_DocBloc>
 ]]
   if math.type(markerid)~="integer" then ultraschall.AddErrorMessage("IsMarkerEdit","markerid", "must be an integer", -1) return nil end
-  markerid=tonumber(markerid)
+
   local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, markerid)
   if retval>0 then
     if isrgn==false then
@@ -12984,7 +12822,7 @@ function ultraschall.IsMarkerEdit(markerid)
   return false
 end
 
---A=ultraschall.IsMarkerEdit(1)
+--A=ultraschall.IsMarkerEdit(1.1)
 
 
 
@@ -13021,7 +12859,7 @@ function ultraschall.IsMarkerNormal(markerid)
 </US_DocBloc>
 ]]
   if math.type(markerid)~="integer" then ultraschall.AddErrorMessage("IsMarkerNormal","markerid", "must be an integer", -1) return nil end
-  markerid=tonumber(markerid)
+
   local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, markerid)
   if retval>0 then
     if isrgn==false then
@@ -13068,7 +12906,7 @@ function ultraschall.IsRegionPodrange(markerid)
 </US_DocBloc>
 ]]
   if math.type(markerid)~="integer" then ultraschall.AddErrorMessage("IsRegionPodrange","markerid", "must be an integer", -1) return nil end
-  markerid=tonumber(markerid)
+  
   local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, markerid)
   if retval>0 then
     if isrgn==true then
@@ -13080,7 +12918,7 @@ function ultraschall.IsRegionPodrange(markerid)
   return false
 end
 
---A=ultraschall.IsRegionPodrange(0)
+--A=ultraschall.IsRegionPodrange(3)
 
 function ultraschall.IsRegionEditRegion(markerid)
 --checks, if a marker is an _Edit:-Region
@@ -13115,7 +12953,7 @@ function ultraschall.IsRegionEditRegion(markerid)
 </US_DocBloc>
 ]]
   if math.type(markerid)~="integer" then ultraschall.AddErrorMessage("IsRegionEditRegion","markerid", "must be an integer", -1) return nil end
-  markerid=tonumber(markerid)
+  
   local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, markerid)
   if retval>0 then
     if isrgn==true then
@@ -13127,7 +12965,7 @@ function ultraschall.IsRegionEditRegion(markerid)
   return false
 end
 
---A=ultraschall.IsRegionEditRegion(6)
+--A=ultraschall.IsRegionEditRegion(1)
 
 ----------------------
 ---- Edit Regions ----
@@ -30531,8 +30369,8 @@ function ultraschall.CountEnvelopePoints(Tracknumber, EnvelopeName)
   <tags>envelopemanagement, envelope, point, envelope point, count</tags>
 </US_DocBloc>
 ]]
-  if tonumber(Tracknumber)==nil then ultraschall.AddErrorMessage("CountEnvelopePoints", "track", "invalid tracknumber", -1) return -1 end
-  local Tracknumber=tonumber(Tracknumber)
+  if math.type(Tracknumber)~="integer" then ultraschall.AddErrorMessage("CountEnvelopePoints", "track", "must be an integer", -1) return -1 end
+  if type(EnvelopeName)~="string" then ultraschall.AddErrorMessage("CountEnvelopePoints", "EnvelopeName", "must be a string", -4) return -1 end
   local MediaTrack
   local EnvelopePointObject={}
   if Tracknumber<0 or Tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("CountEnvelopePoints", "track", "no such track", -2) return -1 end
@@ -30547,6 +30385,66 @@ function ultraschall.CountEnvelopePoints(Tracknumber, EnvelopeName)
   return reaper.CountEnvelopePoints(TrackEnvelope)
 end
 
+--A=ultraschall.CountEnvelopePoints(1, "Mute")
+
+function ultraschall.EnumerateMediaItemsInTrack(tracknumber, idx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTrackLength</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    SWS=2.8.8
+    Lua=5.3
+  </requires>
+  <functioncall>MediaItem item, integer itemcount, array MediaItemArray = ultraschall.EnumerateMediaItemsInTrack(integer tracknumber, integer itemnumber)</functioncall>
+  <description>
+    returns the itemnumberth MediaItemobject in track, the number of items in tracknumber and an array with all MediaItems from this track.
+    returns -1 in case of error
+  </description>
+  <parameters>
+    integer tracknumber - the tracknumber, from where you want to get the item
+    integer itemnumber - the itemnumber within that track. 1 for the first, 2 for the second, etc
+  </parameters>
+  <retvals>
+    MediaItem item - the Mediaitem, as requested by parameter itemnumber
+    integer itemcount - the number of items in that track
+    array MediaItemArray - an array with all MediaItems from this track
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Get MediaItems
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitemmanagement, track, get, item, mediaitem</tags>
+</US_DocBloc>
+]]
+
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("EnumerateMediaItemsInTrack","tracknumber", "must be an integer", -1) return -1 end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("EnumerateMediaItemsInTrack","idx", "must be an integer", -2) return -1 end
+  if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("EnumerateMediaItemsInTrack","tracknumber", "no such tracknumber", -3) return -1 end
+  if idx<0 then ultraschall.AddErrorMessage("EnumerateMediaItemsInTrack","idx", "must be bigger than or equal 0", -4) return -1 end
+  local count=1
+  local MediaTrack=reaper.GetTrack(0,tracknumber-1)
+  local MediaItemArray={}
+  local MediaItem=""
+  local retval, str = ultraschall.GetTrackStateChunk(MediaTrack, "", true)
+  str=str:match("<ITEM.*")
+  
+  if str==nil then ultraschall.AddErrorMessage("EnumerateMediaItemsInTrack","tracknumber", "No item in track", -5) return -1 end 
+  
+  while str:match(".-%cIGUID.-")~= nil do
+    local GUID=str:match(".-%cIGUID ({.-})%c")
+    MediaItemArray[count]=reaper.BR_GetMediaItemByGUID(0, GUID)
+    str=str:match(".-%cIGUID.-%c(.*)")
+    if count==idx then MediaItem=reaper.BR_GetMediaItemByGUID(0, GUID) end
+      count=count+1
+    end
+  return MediaItem, count-1, MediaItemArray
+end
+
+--A,B,C,D,E=ultraschall.EnumerateMediaItemsInTrack(1, 1000)
 
 
 function ultraschall.GetTrackLength(Tracknumber)
@@ -30578,8 +30476,8 @@ function ultraschall.GetTrackLength(Tracknumber)
   <tags>trackmanagement,count,length,items,end</tags>
 </US_DocBloc>
 ]]
-  if tonumber(Tracknumber)==nil then ultraschall.AddErrorMessage("GetTrackLength", "Tracknumber", "invalid tracknumber", -1) return -1 end
-  local Tracknumber=tonumber(Tracknumber)
+  if math.type(Tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackLength", "Tracknumber", "must be an integer", -1) return -1 end
+
   local MediaTrack, MediaItem, num_items, Itemcount, MediaItemArray, POS, LEN
   if Tracknumber<0 or Tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackLength", "Tracknumber", "no such track", -2) return -1 end
   if Tracknumber==0 then 
@@ -30595,6 +30493,7 @@ function ultraschall.GetTrackLength(Tracknumber)
   return POS+LEN
 end
 
+--A=ultraschall.GetTrackLength(1)
 
 function ultraschall.GetMediaItemArrayLength(MediaItemArray)
 --[[
@@ -30793,7 +30692,7 @@ function ultraschall.GetLengthOfFile(filename_with_path)
   return numberofbytes  
 end
 
-
+--A=ultraschall.GetLengthOfFile("hui")
 
 
 function ultraschall.SecondsToTimeString_hh_mm_ss_mss(time)
