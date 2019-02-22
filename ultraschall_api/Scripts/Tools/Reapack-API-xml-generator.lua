@@ -6,7 +6,7 @@ ultraschall.ShowErrorMessagesInReascriptConsole(true)
 
 
 -- set this to the folder, that you want to create a reapack of
-SourceDir="c:\\UsApi\\ultraschall-lua-api-for-reaper-master\\ultraschall-lua-api-for-reaper-master\\"
+SourceDir="c:/Ultraschall-Hackversion_3.2_alpha_Februar2019/UserPlugins/"
 
 
 -- set this to the online-repo of the Ultraschall-API
@@ -14,7 +14,7 @@ SourceDir="c:\\UsApi\\ultraschall-lua-api-for-reaper-master\\ultraschall-lua-api
 Url="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/"
 
 -- set this to the repository-folder of the api on your system
-Target_Dir="c:\\Xampp\\htdocs\\US_Api_test\\"
+Target_Dir="c:\\Ultraschall-Api-Git-Repo\\Ultraschall-Api-for-Reaper\\"
 
 
 
@@ -346,7 +346,10 @@ PS: In this documentation, I assume you have some basic knowledge in Lua and in 
 </index>]]
 
 
+SourceDir=string.gsub(SourceDir, "/", ultraschall.Separator)
 A0="c:\\windows\\system32\\cmd.exe /Q /C xcopy "..SourceDir.."\\ultraschall_api "..Target_Dir.."\\ultraschall_api\\ /T /E /Y"
+
+reaper.CF_SetClipboard(A0)
 A,A1,A2,A3=reaper.ExecProcess(A0, 0)
   
 for i=1, found_files do
@@ -375,3 +378,7 @@ end
 B=ultraschall.WriteValueToFile(Target_Dir.."/ultraschall_api_index-beta_rename_when_installing_it_works.xml", XML_start..XML_file..XML_end)
 
 
+ultraschall.ShowLastErrorMessage()
+
+os.execute("c:\\Ultraschall-Hackversion_3.2_alpha_Februar2019\\UserPlugins\\ultraschall_api\\Scripts\\Tools\\batter.bat")
+reaper.MB("Done", "", 0)
