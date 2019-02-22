@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="28593.00" author="Meo Mespotine">
+      <version name="28595.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -224,6 +224,7 @@
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_cursorposition.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_cursorposition.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_loopstate.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_loopstate.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_playstate.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_playstate.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/batter.bat" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/batter.bat</source>
 	<source file="/ultraschall_api/Scripts/Tools/ChangelogConverterDoc.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/ChangelogConverterDoc.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/CheckApiDocReaScript.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/CheckApiDocReaScript.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/CheckReascriptCPP.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/CheckReascriptCPP.lua</source>

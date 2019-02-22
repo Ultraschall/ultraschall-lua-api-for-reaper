@@ -772,7 +772,7 @@ for lolo=1, 60 do
   if A2~=nil then Temp=Temp.."<img width=\"3%\" src=\"gfx/sws"..A2..".png\" alt=\"SWS version "..A2.."\">" end
   if A4~=nil then Temp=Temp.."<img width=\"3%\" src=\"gfx/JS_"..A4..".png\" alt=\"Julian Sader's plugin version "..A4.."\">" end
   if A3~=nil then Temp=Temp.."<img width=\"3%\" src=\"gfx/lua"..A3..".png\" alt=\"Lua version "..A3.."\">" end
-  if Temp==nil then reaper.MB(ultraschall.ParseTitle(C[index][2]),"",0) end
+  --if Temp==nil then reaper.MB(ultraschall.ParseTitle(C[index][2]),"",0) end
   if A~=nil or A2~=nil or A3~=nil then     
     Insert=""
   else
