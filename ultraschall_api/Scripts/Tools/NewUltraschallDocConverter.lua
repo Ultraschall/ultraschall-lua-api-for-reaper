@@ -764,6 +764,31 @@ for lolo=1, 60 do
   FunctionList=FunctionList.."\n"
 
 -- Requirement-images + Functionname
+
+  A,A2,A3,A4=ultraschall.ParseRequires(C[index][2])
+  
+  Temp=nil
+  if A~=nil then Temp="<img width=\"3%\" src=\"gfx/reaper"..A..".png\" alt=\"Reaper version "..A.."\">" end
+  if A2~=nil then Temp=Temp.."<img width=\"3%\" src=\"gfx/sws"..A2..".png\" alt=\"SWS version "..A2.."\">" end
+  if A4~=nil then Temp=Temp.."<img width=\"3%\" src=\"gfx/JS_"..A4..".png\" alt=\"Julian Sader's plugin version "..A4.."\">" end
+  if A3~=nil then Temp=Temp.."<img width=\"3%\" src=\"gfx/lua"..A3..".png\" alt=\"Lua version "..A3.."\">" end
+  if Temp==nil then reaper.MB(ultraschall.ParseTitle(C[index][2]),"",0) end
+  if A~=nil or A2~=nil or A3~=nil then     
+    Insert=""
+  else
+    Temp=""
+    Insert="" --Insert=" style=\"padding-left:4%;\" "
+  end
+  if Temp==nil then Temp="" end
+  if Insert==nil then Insert="" end
+  
+  FunctionList=FunctionList.."  <a href=\"#"..C[index][1].."\"> ^</a> "
+  ..Temp.." <b "..
+  Insert.." ><u>"..
+  ultraschall.ParseSlug(C[index][2]).."</u></b>"--" <b>"..C[index][1].."</b>"--.." - "..C[index][2]:match("<tags>(.-)</tags>") 
+  
+
+--[[
   A,A2,A3,A4=ultraschall.ParseRequires(C[index][2])
 --  FunctionList=FunctionList..
   if A~=nil then FunctionList=FunctionList.."<img width=\"3%\" src=\"gfx/reaper"..A..".png\" alt=\"Reaper version "..A.."\">" end
@@ -777,17 +802,26 @@ for lolo=1, 60 do
   end
 --  FunctionList=FunctionList
 
+--]]
+
 -- Functioncalls
   A,B=ultraschall.ParseFunctionCall(C[index][2])
+  lua=nil
   for i=1, A do
     B[i][1]=ultraschall.ColorateDatatypes(B[i][1])
     temp=B[i][1]:match("(ultraschall.-%()")
-    if temp==nil then temp=B[i][1] end
+    if temp==nil then 
+      one=B[i][1]:match("(.-)%(")
+      two=B[i][1]:match("%(.*")
+      if one==nil then one=B[i][1] end
+      if two==nil then two="" end
+      lua="<b>"..one.."</b>"..two 
+    end --B[i][1] end
     if temp~=nil then B[i][1]=string.gsub(B[i][1],temp:sub(1,-2).."%(","<b>"..temp.."</b>") lua=B[i][1] end
-    if B[i][2]=="cpp" then cpp="<div class=\"c_func\"><span class='all_view'>C: </span><code>"..B[i][1]:sub(1,-2).."<b>)</b></code><br><br></div>" end
-    if B[i][2]=="eel" then eel="<div class=\"e_func\"><span class='all_view'>EEL: </span><code>"..B[i][1]:sub(1,-2).."<b>)</b></code><br><br></div>" end
-    if B[i][2]=="lua" then lua="<div class=\"l_func\"><span class='all_view'></span><code>"..B[i][1]:sub(1,-2).."<b>)</b></code><br><br></div>" end
-    if B[i][2]=="python" then python="<div class=\"p_func\"><span class='all_view'>Python: </span><code>"..B[i][1]:sub(1,-2).."<b>)</b></code><br><br></div>" end
+--    if B[i][2]=="cpp" then cpp="<div class=\"c_func\"><span class='all_view'>C: </span><code>"..B[i][1]:sub(1,-2).."<b>)</b></code><br><br></div>" end
+--    if B[i][2]=="eel" then eel="<div class=\"e_func\"><span class='all_view'>EEL: </span><code>"..B[i][1]:sub(1,-2).."<b>)</b></code><br><br></div>" end
+    if B[i][2]=="lua" and lua==nil then lua="<div class=\"l_func\"><span class='all_view'></span><code>"..temp.."<b>)</b></code><br><br></div>" end
+--    if B[i][2]=="python" then python="<div class=\"p_func\"><span class='all_view'>Python: </span><code>"..B[i][1]:sub(1,-2).."<b>)</b></code><br><br></div>" end
   end
   if cpp==nil then cpp="" end
   if eel==nil then eel="" end

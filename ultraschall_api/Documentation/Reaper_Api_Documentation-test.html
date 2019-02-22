@@ -1,0 +1,122 @@
+<html><head><title>
+REAPER API functions
+</title>
+<script type="text/javascript">
+function set_class_style(c,s) { 
+  var list = document.getElementsByClassName(c);
+  for (i=0;i<list.length;i++) {
+    list[i].style.display = s; 
+  }
+}
+function set_class_innerHTML(c,s) { 
+  var list = document.getElementsByClassName(c);
+  for (i=0;i<list.length;i++) {
+    list[i].innerHTML = s; 
+  }
+}
+function setdocview(v) {
+  var list = new Array('c_doc', 'c_func', 'c_funcs',
+                       'l_doc', 'l_func', 'l_funcs',
+                       'e_doc', 'e_func', 'e_funcs',
+                       'p_doc', 'p_func', 'p_funcs');
+  var i;
+  set_class_style('all_view', v == '' ? 'inline' : 'none');
+  for (i=0;i<list.length;i++) {
+    set_class_style(list[i], (v == '' || list[i].slice(0,1) == v) ? 'block' : 'none'); 
+  }
+  set_class_innerHTML('aclick', v=='' ? 'all' : "<a href=\"#\" onClick=\"setdocview('')\">all</a>");
+  set_class_innerHTML('cclick', v=='c' ? 'C/C++' : "<a href=\"#c\" onClick=\"setdocview('c')\">C/C++</a>");
+  set_class_innerHTML('eclick', v=='e' ? 'EEL' : "<a href=\"#e\" onClick=\"setdocview('e')\">EEL</a>");
+  set_class_innerHTML('lclick', v=='l' ? 'Lua' : "<a href=\"#l\" onClick=\"setdocview('l')\">Lua</a>");
+  set_class_innerHTML('pclick', v=='p' ? 'Python' : "<a href=\"#p\" onClick=\"setdocview('p')\">Python</a>");
+}
+function onLoad() {
+  if (window.location.hash == '#c') setdocview('c');
+  else if (window.location.hash == '#e') setdocview('e');
+  else if (window.location.hash == '#l') setdocview('l');
+  else if (window.location.hash == '#p') setdocview('p');
+}
+</script>
+</head><body>
+    <div style=" position: absolute; padding-left:4%; ">
+        <div style="background-color:#282828;width:95%; font-family:tahoma; font-size:16;">
+
+
+           <a href="US_Api_Functions.html"><img style="position: absolute; left:4.2%; width:11%;" src="gfx/US_Button_Un.png" alt="Ultraschall Internals Documentation"></a>  
+           <a href="Reaper_Api_Documentation.html"><img style="position: absolute; left:15.2%; width:8.7%;" src="gfx/Reaper_Button.png" alt="Reaper Internals Documentation"></a>
+         <img alt="" style="width:6.9%; position: absolute; left:23.9%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:30.8%;" src="gfx/linedance.png">
+         <img alt="" style="width:6.9%; position: absolute; left:36.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:42.8%;" src="gfx/linedance.png">
+         <img alt="" style="width:6.9%; position: absolute; left:48.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:54.8%;" src="gfx/linedance.png">
+         <img alt="" style="width:6.9%; position: absolute; left:60.8%;" src="gfx/linedance.png"><img alt="" style="width:6.9%; position: absolute; left:66.8%;" src="gfx/linedance.png">
+         <img alt="" style="width:6.9%; position: absolute; left:68.8%;" src="gfx/linedance.png">
+           <a href="Downloads.html"><img style="position:absolute; left:74.4%; width:6.9%;" src="gfx/Downloads_Un.png" alt="Downloads"></a>
+           <a href="ChangeLog.html"><img style="position:absolute; left:81.3%; width:6.9%;" src="gfx/Changelog_Un.png" alt="Changelog of documentation"></a>
+           <a href="Impressum.html"><img style="position:absolute; left:88.2%; width:6.9%;" src="gfx/Impressum_Un.png" alt="Impressum and Contact"></a>
+           <div style="padding-top:2.5%">
+           <table border="0" style="color:#aaaaaa; width:100%;">
+                <tr>
+                    <td style="width:27.2%;">
+                      <a href="http://www.reaper.fm"><img style="width:118%;" src="gfx/Reaper_Internals.png" alt="Reaper internals logo"></a>
+                    </td>
+                    <td style="width:14%;"><u>Documentation</u></td>
+                    <td style="width:12.7%;"><u> </u></td>
+                    <td style="width:12.7%;"><u> </u></td>
+                    <td style="width:12%;"><u> </u></td>
+                    <td style="width:12%;"><u> </u></td>
+                    <td style="width:12%;"><u> </u></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper-Filetype-Descriptions.html" style="color:#BBBBBB; text-decoration: none; white-space:pre;">&nbsp;&nbsp;Filetype Descriptions&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper_Config_Variables.html" style="color:#BBBBBB; text-decoration: none; white-space:pre;">&nbsp;&nbsp;Config Variables&nbsp;</a></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="background-color:#777777; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper_Api_Documentation.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;ReaScript-Api-Docs&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper_API_Video_Documentation.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;&nbsp;Video-Api-Docs&nbsp;</a></td>
+                    <td style="background-color:#555555; color:#BBBBBB; border: 1px solid #333333; border-radius:5%/5%;"><a href="Reaper_API_Web_Documentation.html" style="color:#BBBBBB; text-decoration: none; justify-content: center;">&nbsp;&nbsp;WebRC-Api-Docs&nbsp;</a></td>
+                </tr>
+                <tr><td></td><tr>
+           </table> 
+           </div>
+        </div>
+    </div>
+    <div style="position:absolute; top:17%; padding-left:5%; width:90%;"><p></p>
+<hr><table width="100%"><td>View: [<span class='aclick'>all</span>] [<span class='cclick'><a href="#c" onClick="setdocview('c')">C/C++</a></span>] [<span class='eclick'><a href="#e" onClick="setdocview('e')">EEL</a></span>] [<span class='lclick'><a href="#l" onClick="setdocview('l')">Lua</a></span>] [<span class='pclick'><a href="#p" onClick="setdocview('p')">Python</a></span>]</td><td>&#160;</td><td style="padding-left:20.5%;">Automatically generated by Ultraschall-API 4.00 beta 2.7 - 3 functions available (Reaper, SWS and JS)</td></table><hr><h2><img src="gfx/reaper.png"><br>Reaper Reascript-Api-Documentation 5.965 - "Avoiding the Vantasner Danger Meridian"</h2><h3>The Functions Reference</h3><table style="font-size:10pt;" width="100%"><table style="width:100%;" border="0"><tr><td><br><strong><u>Additional Lua-Functions</u></strong><br><br>
+</td></tr><tr><td style="width:25%; font-size:small;"><a href="#lua_gfx.getchar">lua_gfx.getchar</a></td><td style="width:25%;">&nbsp;</td><td style="width:25%;">&nbsp;</td><td style="width:25%;">&nbsp;</td></tr></table><table style="width:100%;" border="0"><tr><td><br><strong><u>Api-Helper-Functions</u></strong><br><br>
+</td></tr><tr><td style="width:25%; font-size:small;"><a href="#parse_timestr">parse_timestr</a></td><td style="width:25%;">&nbsp;</td><td style="width:25%;">&nbsp;</td><td style="width:25%;">&nbsp;</td></tr></table><table style="width:100%;" border="0"><tr><td><br><strong><u>AudioMidi Devicemanagement</u></strong><br><br>
+</td></tr><tr><td style="width:25%; font-size:small;"><a href="#OscLocalMessageToHost">OscLocalMessageToHost</a></td><td style="width:25%;">&nbsp;</td><td style="width:25%;">&nbsp;</td><td style="width:25%;">&nbsp;</td></tr></table><br><hr><a id="lua_gfx.getchar"></a>
+  <a href="#lua_gfx.getchar"> ^</a> <img width="3%" src="gfx/reaper5.94.png" alt="Reaper version 5.94"><img width="3%" src="gfx/lua5.3.png" alt="Lua version 5.3"> <b  ><u>gfx.getchar</u></b><p><u>Functioncall:</u><div style="padding-left:4%;font-size:104%">
+<b>
+
+<div class="l_func"><span class='all_view'>Lua: </span><code><i style="color:#0000ff;">integer</i> charactercode = gfx.getchar(<i style="color:#0000ff;">optional</i> <i style="color:#0000ff;">integer</i> character)</code><br><br></div>
+</b></div>
+
+<u>Description:</u><br><div style="padding-left:4%;">If char is 0 or omitted, returns a character from the keyboard queue, or 0 if no character is available, or -1 if the graphics window is not open. <br><br>If char is specified and nonzero, that character's status will be checked, and the function will return greater than 0 if it is pressed.<br>Common values are standard ASCII, such as 'a', 'A', '=' and '1', but for many keys multi-byte values are used, <br>including 'home', 'up', 'down', 'left', 'right', 'f1'.. 'f12', 'pgup', 'pgdn', 'ins', and 'del'. <br><br>Modified and special keys can also be returned, including:&nbsp;&nbsp;<br><br>- Ctrl/Cmd+A..Ctrl+Z as 1..26&nbsp;&nbsp;<br>- Ctrl/Cmd+Alt+A..Z as 257..282&nbsp;&nbsp;<br>- Alt+A..Z as 'A'+256..'Z'+256&nbsp;&nbsp;<br>- 27 for ESC&nbsp;&nbsp;<br>- 13 for Enter&nbsp;&nbsp;<br>- ' ' for space&nbsp;&nbsp;<br>-&nbsp;&nbsp; <br>- use 65536 as parameter charactercode to query special flags, returns: &1 (supported in this script), &2=window has focus, &4=window is visible&nbsp;&nbsp;<br><br>Some multibyte-characters, like home, up, down, left, right, f1 .. f12, pgup, pgdn, ins, del are returned as values above 255, but some other characters, like €,&nbsp;&nbsp;<br>are "real"-multibyte-characters, stored as multiple 8-bit-values after each other.<br>To retrieve them, you need to run gfx.getchar() twice per defer-cycle and return their retvals into two variables:&nbsp;&nbsp;<br>Example:<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A=gfx.getchar() -- first byte<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B=gfx.getchar() -- second byte<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if A==261 and B==128 then reaper.MB("You typed the €-symbol.", "Message", 0) end -- typed character is the Euro-currency-symbol: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br></div>
+<table style="border-collapse: separate;border-spacing: 0px 0px;"><tr><td><u>Parameters:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><i style="color:#0000ff;">optional</i> <i style="color:#0000ff;">integer</i> character</i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; "> the character to check for; use 65536 to check window-state(visible, focus)<br>&nbsp;&nbsp;&nbsp;&nbsp;&1 (supported in this script), &2=window has focus, &4=window is visible</td></tr></table>
+<table><tr><td><u>Returnvalues:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><i style="color:#0000ff;">integer</i> charactercode</i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; "> either the charactercode or 0 if nothing is pressed
+ -1, if the gfx.init-window is closed
+ 
+ When the parameter character is given and not 0, charactercode is either 
+ 0, nothing is pressed, or
+ &gt;0, the character you want to check for is pressed.</td></tr></table><br><hr><a id="OscLocalMessageToHost"></a>
+  <a href="#OscLocalMessageToHost"> ^</a> <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><img width="3%" src="gfx/lua5.3.png" alt="Lua version 5.3"> <b  ><u>OscLocalMessageToHost</u></b><p><u>Functioncall:</u><div style="padding-left:4%;font-size:104%">
+<b><div class="c_func"><span class='all_view'>C: </span><code><i style="color:#0000ff;">void</i> OscLocalMessageToHost(<i style="color:#0000ff;">const</i> <i style="color:#0000ff;">char*</i> message, <i style="color:#0000ff;">const</i> <i style="color:#0000ff;">double*</i> valueInOptional)</code><br><br></div>
+<div class="e_func"><span class='all_view'>EEL: </span><code>OscLocalMessageToHost("message", <i style="color:#0000ff;">optional</i> valueIn)</code><br><br></div>
+<div class="l_func"><span class='all_view'>Lua: </span><code>reaper.OscLocalMessageToHost(<i style="color:#0000ff;">string</i> message, <i style="color:#0000ff;">optional</i> <i style="color:#0000ff;">number</i> valueIn)</code><br><br></div>
+<div class="p_func"><span class='all_view'>Python: </span><code>RPR_OscLocalMessageToHost(<i style="color:#0000ff;">String</i> message, <i style="color:#0000ff;">const</i> <i style="color:#0000ff;">double</i> valueInOptional)</code><br><br></div></b></div>
+
+<u>Description:</u><br><div style="padding-left:4%;">Send an OSC message directly to REAPER. The value argument may be NULL. The message will be matched against the default OSC patterns. Only supported if control surface support was enabled when installing REAPER.<br><br></div>
+<table style="border-collapse: separate;border-spacing: 0px 0px;"><tr><td><u>Parameters:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><i style="color:#0000ff;">string</i> message</i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; "> </td></tr></table></table><br><hr><a id="parse_timestr"></a>
+  <a href="#parse_timestr"> ^</a> <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><img width="3%" src="gfx/lua5.3.png" alt="Lua version 5.3"> <b  ><u>parse_timestr</u></b><p><u>Functioncall:</u><div style="padding-left:4%;font-size:104%">
+<b><div class="c_func"><span class='all_view'>C: </span><code><i style="color:#0000ff;">double</i> parse_timestr(<i style="color:#0000ff;">const</i> <i style="color:#0000ff;">char*</i> buf)</code><br><br></div>
+<div class="e_func"><span class='all_view'>EEL: </span><code><i style="color:#0000ff;">double</i> parse_timestr("buf")</code><br><br></div>
+<div class="l_func"><span class='all_view'>Lua: </span><code><i style="color:#0000ff;">number</i> = reaper.parse_timestr(<i style="color:#0000ff;">string</i> buf)</code><br><br></div>
+<div class="p_func"><span class='all_view'>Python: </span><code><i style="color:#0000ff;">Float</i> RPR_parse_timestr(<i style="color:#0000ff;">String</i> buf)</code><br><br></div></b></div>
+
+<u>Description:</u><br><div style="padding-left:4%;">Parse hh:mm:ss.sss time string, return time in seconds (or 0.0 on error). See <a href="#parse_timestr_pos">parse_timestr_pos</a>, <a href="#parse_timestr_len">parse<em>timestr</em>len</a>.<br> <br>
+</div>
+<table style="border-collapse: separate;border-spacing: 0px 0px;"><tr><td><u>Parameters:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>buf</i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; ">the timestring to convert (hh:mm:ss.sss). Each position of the time can be one digit only, means: "1:2:3.4" is valid. Milliseconds can be more than 3 digits. Hours, seconds, minutes with more than two digits will be converted correctly "1:120" will be converted to 180 seconds.
+</td></tr></table>
+<table><tr><td><u>Returnvalues:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><i style="color:#0000ff;">number</i></i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; ">the converted time in seconds
+</td></tr></table><br><br><hr><table width="100%"><td>View: [<span class='aclick'>all</span>] [<span class='cclick'><a href="#c" onClick="setdocview('c')">C/C++</a></span>] [<span class='eclick'><a href="#e" onClick="setdocview('e')">EEL</a></span>] [<span class='lclick'><a href="#l" onClick="setdocview('l')">Lua</a></span>] [<span class='pclick'><a href="#p" onClick="setdocview('p')">Python</a></span>]</td><td>&#160;</td><td style="padding-left:20.5%;">Automatically generated by Ultraschall-API 4.00 beta 2.7 - 3 functions available (Reaper and SWS)</td></table><hr></div></body></html>

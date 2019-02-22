@@ -2632,7 +2632,9 @@ function print2(...)
   </requires>
   <functioncall>print2(parameter_1 to parameter_n)</functioncall>
   <description>
-    replaces Lua's own print-function. Converts all parametes given into string using tostring() and displays them as a MessageBox, separated by two spaces.
+    replaces Lua's own print-function. 
+    
+    Converts all parametes given into string using tostring() and displays them as a MessageBox, separated by two spaces.
   </description>
   <parameters>
     parameter_1 to parameter_n - the parameters, that you want to have printed out
@@ -2670,7 +2672,7 @@ function print(...)
   </requires>
   <functioncall>print(parameter_1 to parameter_n)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    like the [print](#print)-replacement-function, but outputs the parameters to the ReaScript-console instead. 
+    replaces Lua's own print-function, that is quite useless in Reaper.
     
     Converts all parametes given into string using tostring() and displays them in the ReaScript-console, separated by two spaces, ending with a newline.
   </description>
@@ -6276,7 +6278,7 @@ function ultraschall.SearchStringInString(fullstring, searchstring, searchnested
   <description>
     Searches for the string searchstring in fullstring. 
     
-    Keep in mind: Umlauts(like Ä,Ö,Ü) may produce multibyte-values, so an Ö counts as 2 bytes. Therefore, the returned offsets might be confusing.
+    Keep in mind: Umlauts may produce multibyte-values. Therefore, the returned offsets might be confusing.
     
     returns -1 in case of error, 0 if string wasn't found
   </description>

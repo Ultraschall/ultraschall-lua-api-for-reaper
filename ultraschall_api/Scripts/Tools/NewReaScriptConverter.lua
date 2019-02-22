@@ -2,7 +2,8 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 Tempfile=ultraschall.Api_Path.."/temp/temporary"
 ConversionToolMD2HTML="c:\\Program Files (x86)\\Pandoc\\pandoc.exe -f markdown_strict -t html \""..ultraschall.Api_Path.."/temp/temporary.md\" -o \""..ultraschall.Api_Path.."/temp/temporary.html\""
 
-Infilename="c:\\Ultraschall_3_2_alpha2_Hackversion\\UserPlugins\\ultraschall_api\\misc\\reaper-apidocs.USDocML"
+Infilename=ultraschall.Api_Path.."\\misc\\reaper-apidocs.USDocML"
+--Infilename="c:\\test.usdocml"
 Outfile=ultraschall.Api_Path.."/Documentation/Reaper_Api_Documentation.html"
 
   local retval, string3 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Docs-ReaperApi", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
@@ -48,6 +49,9 @@ end
 function ultraschall.ParseTitle(String)
   return String:match("<title>\n*%s*\t*(.-)\n*%s*\t*</title>")
 end
+
+
+--if KLOSS==nil then return end
 
 function ultraschall.ParseFunctionCall(String)
   local FoundFuncArray={}
@@ -400,7 +404,9 @@ function ultraschall.ColorateDatatypes(String)
 end
 
 String=ultraschall.ReadFullFile(Infilename, false)
+ultraschall.ShowLastErrorMessage()
 Ccount, C=ultraschall.SplitUSDocBlocs(String)
+
 --A,B=ultraschall.GetAllChapterContexts(C)
 --A=ultraschall.BubbleSortDocBlocTable_Slug(C)
 --A=ultraschall.ConvertSplitDocBlocTableIndex_Slug(C)
@@ -635,16 +641,24 @@ for inf=0, 0 do
   FunctionList=FunctionList.."\n"
 
 -- Requirement-images + Functionname
-  A,A2,A3,A4=ultraschall.ParseRequires(C[index][2])
 
-  if A~=nil then FunctionList=FunctionList.."<img width=\"3%\" src=\"gfx/reaper"..A..".png\" alt=\"Reaper version "..A.."\">" end
-  if A2~=nil then FunctionList=FunctionList.."<img width=\"3%\" src=\"gfx/sws"..A2..".png\" alt=\"SWS version "..A2.."\">" end
-  if A4~=nil then FunctionList=FunctionList.."<img width=\"3%\" src=\"gfx/JS_"..A4..".png\" alt=\"Julian Sader's plugin version "..A4.."\">" end
-  if A3~=nil then FunctionList=FunctionList.."<img width=\"3%\" src=\"gfx/lua"..A3..".png\" alt=\"Lua version "..A3.."\">" end
-  if A~=nil or A2~=nil or A3~=nil then 
-    FunctionList=FunctionList.." <a href=\"#"..C[index][1].."\"><b>"..ultraschall.ParseTitle(C[index][2]).."</b></a>"--" <b>"..C[index][1].."</b>"--.." - "..C[index][2]:match("<tags>(.-)</tags>") 
+  A,A2,A3,A4=ultraschall.ParseRequires(C[index][2])
+  
+  Temp=nil
+  if A~=nil then Temp="<img width=\"3%\" src=\"gfx/reaper"..A..".png\" alt=\"Reaper version "..A.."\">" end
+  if A2~=nil then Temp=Temp.."<img width=\"3%\" src=\"gfx/sws"..A2..".png\" alt=\"SWS version "..A2.."\">" end
+  if A4~=nil then Temp=Temp.."<img width=\"3%\" src=\"gfx/JS_"..A4..".png\" alt=\"Julian Sader's plugin version "..A4.."\">" end
+  if A3~=nil then Temp=Temp.."<img width=\"3%\" src=\"gfx/lua"..A3..".png\" alt=\"Lua version "..A3.."\">" end
+  if Temp==nil then reaper.MB(ultraschall.ParseTitle(C[index][2]),"",0) end
+  if A~=nil or A2~=nil or A3~=nil then     
+    Insert=""
+  else
+    Temp=""
+    Insert="" --Insert=" style=\"padding-left:4%;\" "
   end
 
+  FunctionList=FunctionList.."  <a href=\"#"..C[index][1].."\"> ^</a> "..Temp.." <b "..Insert.." ><u>"..ultraschall.ParseTitle(C[index][2]).."</u></b>"--" <b>"..C[index][1].."</b>"--.." - "..C[index][2]:match("<tags>(.-)</tags>") 
+  
 -- Functioncalls
   A,B=ultraschall.ParseFunctionCall(C[index][2])
   for i=1, A do

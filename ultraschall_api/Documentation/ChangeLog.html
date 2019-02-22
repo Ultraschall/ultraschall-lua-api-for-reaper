@@ -133,6 +133,10 @@ allow being terminated from inside and outside the current script.
 <li>Docs: DeferScripts: Introduction to Ultraschall's Defer-functions - added chapter</li>
 <li>Docs: DeferScripts: Special Defer-loops in the Ultraschall-API - added chapter</li>
 <li>Docs: DeferScripts: Stopping Defer-loops from in- and outside of scripts - added chapter</li>
+<li>HasHWNDChildWindowNames - allows to check, if a certain HWND has child-hwnds of certain name(s). Good to make probability-checks for the right Reaper-windows-check.</li>
+<li>ReplacePartOfString - replaces a part of a string, beginning from an offset and up to a length; can be used for easy string insertion as well</li>
+<li>ReaperDocs: added new SWS2.10.1-functions</li>
+<li>ReaperDocs: added new JS-extension-plugin 0.963 and 0.964-functions</li>
 </ul>
 <h4>Changes from 4.00beta2.7 to 4.00beta2.75</h4>
 <ul>
@@ -199,7 +203,15 @@ This prevents duplicate execution of functions, when coding within the beta-func
 <li>MakeCopyOfFile_Binary - added check, if a file is already in use and can't be read</li>
 <li>ReadBinaryFileUntilPattern - added check, if a file is already in use and can't be read</li>
 <li>ReadBinaryFileFromPattern - added check, if a file is already in use and can't be read</li>
-<li>SearchStringInString - renamed parameter skipnested to searchnested, as the old name was confusing</li>
+<li>SearchStringInString - dropped nested searchstring-functionality as it was useless; recoded from scratch for more stability</li>
+<li>ReadFullFile - produced Lua-error, when passing a boolean as filename<em>with</em>path -&gt; fixed</li>
+<li>ReadValueFromFile - produced Lua-error, when passing a boolean as filename<em>with</em>path -&gt; fixed</li>
+<li>CloseReaConsole - renamed to CloseReaScriptConsole, as the ReaConsole is something different; added plausability-checks and localization to get the right ReaScript-Console-window</li>
+<li>ReaperDocs: OscLocalMessageToHost - didn't show title -&gt; fixed</li>
+<li>ReaperDocs: Functionnames-titles in the individual entries are not linked anymore, but rather the &gt; at the left side of the title now</li>
+<li>ReaperDocs: fixed tons of MarkDown-layout errors.</li>
+<li>Ultraschall Docs: functiontitles aren't links anymore, added a clickable symbol at the beginning of the title line of each function now</li>
+<li>Ultraschall Docs: print, print2 and toboolean as well as all API-variables are now written in bold, as all other functions are</li>
 </ul>
 <h3>4.00 Beta 2.7: - "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018</h3>
 <p>Has now 700 functions, with about 250 new ones!</p>
