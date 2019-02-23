@@ -695,6 +695,54 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>AudioAccessorStateChanged</slug>
+        <title>AudioAccessorStateChanged</title>
+        <functioncall prog_lang="cpp">bool AudioAccessorStateChanged(AudioAccessor* accessor)</functioncall>
+        <functioncall prog_lang="eel">bool AudioAccessorStateChanged(AudioAccessor accessor)</functioncall>
+        <functioncall prog_lang="lua">boolean reaper.AudioAccessorStateChanged(AudioAccessor accessor)</functioncall>
+        <functioncall prog_lang="python">Boolean RPR_AudioAccessorStateChanged(AudioAccessor accessor)</functioncall>
+        <requires>
+            Reaper=5.97
+            Lua=5.3
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Returns true if the underlying samples (track or media item take) have changed, but does not update the audio accessor, so the user can selectively call [AudioAccessorValidateState](#AudioAccessorValidateState) only when needed. 
+            
+            See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
+        </description>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            AudioMidi Devicemanagement
+        </chapter_context>
+        <tags>audio, accessor, get, statechange</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>AudioAccessorUpdate</slug>
+        <title>AudioAccessorUpdate</title>
+        <functioncall prog_lang="cpp">void AudioAccessorUpdate(AudioAccessor* accessor)</functioncall>
+        <functioncall prog_lang="eel">AudioAccessorUpdate(AudioAccessor accessor)</functioncall>
+        <functioncall prog_lang="lua">reaper.AudioAccessorUpdate(AudioAccessor accessor)</functioncall>
+        <functioncall prog_lang="python">RPR_AudioAccessorUpdate(AudioAccessor accessor)</functioncall>
+        <requires>
+            Reaper=5.97
+            Lua=5.3
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Force the accessor to reload its state from the underlying track or media item take. 
+            
+            See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
+        </description>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            AudioMidi Devicemanagement
+        </chapter_context>
+        <tags>audio, accessor, update, mediatrack, mediaitemtake</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>AudioAccessorValidateState</slug>
         <title>AudioAccessorValidateState</title>
         <functioncall prog_lang="cpp">bool AudioAccessorValidateState(AudioAccessor* accessor)</functioncall>
@@ -1346,11 +1394,13 @@
         <functioncall prog_lang="lua">AudioAccessor = reaper.CreateTakeAudioAccessor(MediaItem_Take take)</functioncall>
         <functioncall prog_lang="python">AudioAccessor RPR_CreateTakeAudioAccessor(MediaItem_Take take)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.97
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Create an audio accessor object for this take. Must only call from the main thread. See [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [GetAudioAccessorHash](#GetAudioAccessorHash), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
+            Create an audio accessor object for this take. Must only call from the main thread. 
+            
+            See [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
         </description>
         <retvals>
             AudioAccessor - the newly created AudioAccessor
@@ -1374,11 +1424,11 @@
         <functioncall prog_lang="lua">AudioAccessor = reaper.CreateTrackAudioAccessor(MediaTrack track)</functioncall>
         <functioncall prog_lang="python">AudioAccessor RPR_CreateTrackAudioAccessor(MediaTrack track)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.97
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Create an audio accessor object for this track. Must only call from the main thread. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [GetAudioAccessorHash](#GetAudioAccessorHash), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
+            Create an audio accessor object for this track. Must only call from the main thread. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
         </description>
         <retvals>
             AudioAccessor - the newly created AudioAccessor for this MediaTrack
@@ -3186,11 +3236,11 @@
         <functioncall prog_lang="lua">reaper.DestroyAudioAccessor(AudioAccessor accessor)</functioncall>
         <functioncall prog_lang="python">RPR_DestroyAudioAccessor(AudioAccessor accessor)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.97
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Destroy an audio accessor. Must only call from the main thread. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [GetAudioAccessorHash](#GetAudioAccessorHash), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples). 
+            Destroy an audio accessor. Must only call from the main thread. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples). 
         </description>
         <parameters>
             AudioAccessor accessor - the AudioAccessor to be destroyed
@@ -4386,11 +4436,11 @@
         <functioncall prog_lang="lua">number = reaper.GetAudioAccessorEndTime(AudioAccessor accessor)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetAudioAccessorEndTime(AudioAccessor accessor)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.97
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the end time of the audio that can be returned from this accessor. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [GetAudioAccessorHash](#GetAudioAccessorHash), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
+            Get the end time of the audio that can be returned from this accessor. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
         </description>
         <retvals>
             number - the length of the AudioAccessor
@@ -4414,11 +4464,13 @@
         <functioncall prog_lang="lua">string hashNeed128 = reaper.GetAudioAccessorHash(AudioAccessor accessor, string hashNeed128)</functioncall>
         <functioncall prog_lang="python">(AudioAccessor accessor, String hashNeed128) = RPR_GetAudioAccessorHash(accessor, hashNeed128)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.97
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Get a short hash string (128 chars or less) that will change only if the underlying samples change. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
+            
+            Deprecated. See [AudioAccessorStateChanged](#AudioAccessorStateChanged) instead.
         </description>
         <retvals>
             string hashNeed128 - 
@@ -4443,11 +4495,11 @@
         <functioncall prog_lang="lua">integer = reaper.GetAudioAccessorSamples(AudioAccessor accessor, integer samplerate, integer numchannels, number starttime_sec, integer numsamplesperchannel, reaper.array samplebuffer)</functioncall>
         <functioncall prog_lang="python">(Int retval, AudioAccessor accessor, Int samplerate, Int numchannels, Float starttime_sec, Int numsamplesperchannel, Float samplebuffer) = RPR_GetAudioAccessorSamples(accessor, samplerate, numchannels, starttime_sec, numsamplesperchannel, samplebuffer)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.97
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get a block of samples from the audio accessor. Samples are extracted immediately pre-FX, and returned interleaved (first sample of first channel, first sample of second channel...). Returns 0 if no audio, 1 if audio, -1 on error. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [GetAudioAccessorHash](#GetAudioAccessorHash), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime).
+            Get a block of samples from the audio accessor. Samples are extracted immediately pre-FX, and returned interleaved (first sample of first channel, first sample of second channel...). Returns 0 if no audio, 1 if audio, -1 on error. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorStartTime](#GetAudioAccessorStartTime), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime).
 
             This function has special handling in Python, and only returns two objects, the API function return value, and the sample buffer. Example usage:
 
@@ -4486,11 +4538,11 @@
         <functioncall prog_lang="lua">number = reaper.GetAudioAccessorStartTime(AudioAccessor accessor)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetAudioAccessorStartTime(AudioAccessor accessor)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.97
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the start time of the audio that can be returned from this accessor. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [GetAudioAccessorHash](#GetAudioAccessorHash), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
+            Get the start time of the audio that can be returned from this accessor. See [CreateTakeAudioAccessor](#CreateTakeAudioAccessor), [CreateTrackAudioAccessor](#CreateTrackAudioAccessor), [DestroyAudioAccessor](#DestroyAudioAccessor), [AudioAccessorStateChanged](#AudioAccessorStateChanged), [GetAudioAccessorEndTime](#GetAudioAccessorEndTime), [GetAudioAccessorSamples](#GetAudioAccessorSamples).
         </description>
         <retvals>
             number - 
@@ -5243,11 +5295,11 @@
         <functioncall prog_lang="lua">number position, PCM_source which_item, number flags = reaper.GetItemEditingTime2()</functioncall>
         <functioncall prog_lang="python">(Float retval, PCM_source* which_itemOut, Int flagsOut) = RPR_GetItemEditingTime2(which_itemOut, flagsOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.97
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            returns time of relevant edit, set which_item to the pcm_source (if applicable), flags (if specified) will be set to 1 for edge resizing, 2 for fade change, 4 for item move
+            returns time of relevant edit, set which_item to the pcm_source (if applicable), flags (if specified) will be set to 1 for edge resizing, 2 for fade change, 4 for item move, 8 for item slip edit (edit cursor time or start of item)
         </description>
         <retvals>
             number position - 
@@ -11872,14 +11924,14 @@
         <functioncall prog_lang="lua">integer = reaper.MIDIEditor_GetSetting_int(HWND midieditor, string setting_desc)</functioncall>
         <functioncall prog_lang="python">Int RPR_MIDIEditor_GetSetting_int(HWND midieditor, String setting_desc)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.97
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Get settings from a MIDI editor. setting_desc can be:
                 snap\_enabled: returns 0 or 1
                 active\_note\_row: returns 0-127
-                last\_clicked\_cc\_lane: returns 0-127=CC, 0x100|(0-31)=14-bit CC, 0x200=velocity, 0x201=pitch, 0x202=program, 0x203=channel pressure, 0x204=bank/program select, 0x205=text, 0x206=sysex, 0x207=off velocity
+                last\_clicked\_cc\_lane: returns 0-127=CC, 0x100|(0-31)=14-bit CC, 0x200=velocity, 0x201=pitch, 0x202=program, 0x203=channel pressure, 0x204=bank/program select, 0x205=text, 0x206=sysex, 0x207=off velocity, 0x208=notation events, 0x210=media item lane
                 default\_note\_vel: returns 0-127
                 default\_note\_chan: returns 0-15
                 default\_note\_len: returns default length in MIDI ticks
@@ -30104,29 +30156,29 @@
         <title>gfx_variables</title>
         <functioncall prog_lang="eel">gfx VARIABLES</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.97
         </requires>
         <description>
             The following global variables are special and will be used by the graphics system:
 
-            * gfx_r, gfx_g, gfx_b, gfx_a - These represent the current red, green, blue, and alpha components used by drawing operations (0.0..1.0). 
-            * gfx_w, gfx_h - These are set to the current width and height of the UI framebuffer, aka windowsize.
-            * gfx_x, gfx_y - These set the "current" graphics position in x,y. You can set these yourselves, and many of the drawing functions update them as well. 
-            * gfx_mode - Set to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx_a to negative and use gfx_mode as additive). Add 2.0 to disable source alpha for gfx_blit(). Add 4.0 to disable filtering for gfx_blit(). 
-            * gfx_clear - If set to a value greater than -1.0, this will result in the framebuffer being cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black). 
-            * gfx_dest - Defaults to -1, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
-            * gfx_texth - Set to the height of a line of text in the current font. Do not modify this variable.
-            * gfx_ext_retina - If set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx_w/gfx_h/etc will be doubled.
-            * mouse_x, mouse_y - mouse_x and mouse_y are set to the coordinates of the mouse relative to the graphics window.
-            * mouse_wheel, mouse_hwheel - mouse wheel (and horizontal wheel) positions. These will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
-            * mouse_cap is a bitfield of mouse and keyboard modifier state.
-                -1: left mouse button
-                -2: right mouse button
-                -4: Control key
-                -8: Shift key
-                -16: Alt key
-                -32: Windows key
-                -64: middle mouse button
+               * gfx_r, gfx_g, gfx_b, gfx_a2 - These represent the current red, green, blue, and alpha components used by drawing operations (0.0..1.0). gfx_a2 is the value written to the alpha channel when writing solid colors (normally ignored but useful when creating transparent images)
+               * gfx_a, gfx_mode - Alpha and blend mode for drawing. Set mode to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx_a to negative and use gfx_mode as additive). Add 2.0 to disable source alpha for gfx_blit(). Add 4.0 to disable filtering for gfx_blit(). 
+               * gfx_w, gfx_h - These are set to the current width and height of the UI framebuffer. 
+               * gfx_x, gfx_y - These set the "current" graphics position in x,y. You can set these yourselves, and many of the drawing functions update them as well. 
+               * gfx_clear - If set to a value greater than -1.0, this will result in the framebuffer being cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black). 
+               * gfx_dest - Defaults to -1, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
+               * gfx_texth - Set to the height of a line of text in the current font. Do not modify this variable.
+               * gfx_ext_retina - If set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx_w/gfx_h/etc will be doubled.
+               * mouse_x, mouse_y - mouse_x and mouse_y are set to the coordinates of the mouse relative to the graphics window.
+               * mouse_wheel, mouse_hwheel - mouse wheel (and horizontal wheel) positions. These will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
+               * mouse_cap is a bitfield of mouse and keyboard modifier state.
+                    1: left mouse button
+                    2: right mouse button
+                    4: Control key
+                    8: Shift key
+                    16: Alt key
+                    32: Windows key
+                    64: middle mouse button
         </description>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -30901,12 +30953,12 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="eel">
         <slug>eel_gfx_set</slug>
         <title>gfx_set</title>
-        <functioncall prog_lang="eel">gfx_set(r[,g,b,a,mode,dest])</functioncall>
+        <functioncall prog_lang="eel">gfx_set(r[,g,b,a2,mode,dest])</functioncall>
         <requires>
             Reaper=5.62
         </requires>
         <description indent="default">
-            Sets gfx_r/gfx_g/gfx_b/gfx_a/gfx_mode, sets gfx_dest if final parameter specified
+            Sets gfx_r/gfx_g/gfx_b/gfx_a2/gfx_mode, sets gfx_dest if final parameter specified
         </description>
         <parameters>
             r - 
@@ -32509,29 +32561,30 @@
         <title>gfx_variables</title>
         <functioncall prog_lang="lua">gfx VARIABLES</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.97
             Lua=5.3
         </requires>
         <description indent="default">
             The following global variables are special and will be used by the graphics system:
-            gfx.r, gfx.g, gfx.b, gfx.a - These represent the current red, green, blue, and alpha components as floats, used by drawing operations (0.0..1.0). 
-            gfx.w, gfx.h - These are set to the current width and height of the UI framebuffer, aka windowsize as integer.
-            gfx.x, gfx.y - These set the "current" graphics position in x,y as integers. You can set these yourselves, and many of the drawing functions update them as well. 
-            gfx.mode - The drawing-mode. It is a float-variable. Set to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx.a to negative and use gfx.mode as additive). Add 2.0 to disable source alpha for gfx.blit(). Add 4.0 to disable filtering for gfx.blit(). 
-            gfx.clear - Clears framebuffer. Integer-variable. If set to a value greater than -1.0, this will result in the framebuffer being cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black). 
-            gfx.dest - The destination-framebuffer. It is an integer-variable. Defaults to -1, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
-            gfx.texth - The height of a line of text in the current font, as integer-variable. Do not modify this variable.
-            gfx.ext_retina - Highresolution-variable. It is an integer. If set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx.w/gfx.h/etc will be doubled.
-            gfx.mouse_x, gfx.mouse_y - gfx.mouse_x and gfx.mouse_y are set to the coordinates of the mouse relative to the graphics window, as integer-variables.
-            gfx.mouse_wheel, gfx.mouse_hwheel - mouse wheel (and horizontal wheel) positions as integer variable. These will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
-            gfx.mouse_cap is a bitfield of mouse and keyboard modifier state. It is an integer-variable.
-            1: left mouse button
-            2: right mouse button
-            4: Control key
-            8: Shift key
-            16: Alt key
-            32: Windows key
-            64: middle mouse button
+            
+            * gfx.r, gfx.g, gfx.b, gfx.a2 - These represent the current red, green, blue, and alpha components used by drawing operations (0.0..1.0). gfx.a2 is the value written to the alpha channel when writing solid colors (normally ignored but useful when creating transparent images)
+            * gfx.a, gfx.mode - Alpha and blend mode for drawing. Set mode to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx.a to negative and use gfx.mode as additive). Add 2.0 to disable source alpha for gfx.blit(). Add 4.0 to disable filtering for gfx.blit(). 
+            * gfx.w, gfx.h - These are set to the current width and height of the UI framebuffer. 
+            * gfx.x, gfx.y - These set the "current" graphics position in x,y. You can set these yourselves, and many of the drawing functions update them as well. 
+            * gfx.clear - If set to a value greater than -1.0, this will result in the framebuffer being cleared to that color. the color for this one is packed RGB (0..255), i.e. red+green*256+blue*65536. The default is 0 (black). 
+            * gfx.dest - Defaults to -1, set to 0..1024-1 to have drawing operations go to an offscreen buffer (or loaded image).
+            * gfx.texth - Set to the height of a line of text in the current font. Do not modify this variable.
+            * gfx.ext_retina - If set to 1.0 on initialization, will be updated to 2.0 if high resolution display is supported, and if so gfx.w/gfx.h/etc will be doubled.
+            * gfx.mouse_x, gfx.mouse_y - gfx.mouse_x and gfx.mouse_y are set to the coordinates of the mouse relative to the graphics window.
+            * gfx.mouse_wheel, gfx.mouse_hwheel - mouse wheel (and horizontal wheel) positions. These will change typically by 120 or a multiple thereof, the caller should clear the state to 0 after reading it.
+            * gfx.mouse_cap is a bitfield of mouse and keyboard modifier state.
+                1: left mouse button
+                2: right mouse button
+                4: Control key
+                8: Shift key
+                16: Alt key
+                32: Windows key
+                64: middle mouse button
         </description>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -33446,15 +33499,15 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.set</slug>
         <title>gfx.set</title>
-        <functioncall prog_lang="lua">integer retval = gfx.set(number r, optional number g, optional number b, optional number a, optional integer mode, optional integer dest)</functioncall>
+        <functioncall prog_lang="lua">integer retval = gfx.set(number r, optional number g, optional number b, optional number a2, optional integer mode, optional integer dest)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.97
             Lua=5.3
         </requires>
         <description indent="default">
             Sets color, drawing mode and optionally the drawing-image-source-destination.
             If sets the corresponding gfx-variables.
-            Sets gfx.r/gfx.g/gfx.b/gfx.a/gfx.mode sets gfx.dest if final parameter specified
+            Sets gfx.r/gfx.g/gfx.b/gfx.a2/gfx.mode sets gfx.dest if final parameter specified
         </description>
         <retvals>
             integer retval - unknown
@@ -33463,7 +33516,7 @@
             number r - the red-value; 0 to 1; if only parameter r is given, it's value will be used for g, b as well
             optional number g - the green-value; 0 to 1
             optional number b - the blue-value; 0 to 1
-            optional number a - the alpha-value; 0 to 1
+            optional number a2 - the alpha-value; 0 to 1
             optional integer mode - the drawing-mode; 
                                  -  Set to 0 for default options. Add 1.0 for additive blend mode (if you wish to do subtractive, set gfx.a to negative and use gfx.mode as additive). 
                                  -  Add 2.0 to disable source alpha for gfx.blit(). 
@@ -33710,6 +33763,84 @@
         <tags></tags>
     </US_DocBloc>
 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
+        <slug>lua_gmem_attach</slug>
+        <title>gmem_attach</title>
+        <functioncall prog_lang="lua">reaper.gmem_attach(string sharedMemoryName)</functioncall>
+        <requires>
+            Reaper=5.97
+            Lua=5.3
+        </requires>
+        <description indent="default">
+            Causes gmem_read()/gmem_write() to read EEL2/JSFX/Video shared memory segment named by parameter. Set to empty string to detach.
+            
+            Must be called, before you can use a specific gmem-variable-index with gmem_write!
+        </description>
+        <parameters>
+            string sharedMemoryName - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Additional Lua-Functions
+        </chapter_context>
+        <tags>lua, shared memory, video processor, eel2, jsfx</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
+        <slug>lua_gmem_read</slug>
+        <title>gmem_read</title>
+        <functioncall prog_lang="lua">number retval = reaper.gmem_read(integer index)</functioncall>
+        <requires>
+            Reaper=5.97
+            Lua=5.3
+        </requires>
+        <description indent="default">
+            Read (number) value from shared memory attached-to by gmem_attach(). index can be \[0..1&lt;&lt;25).
+            
+            returns nil if not available
+        </description>
+        <retvals>
+            number retval - the stored number-value stored in gmem-variable with index
+        </retvals>
+        <parameters>
+            integer index - the index of the memory-variable to read from
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Additional Lua-Functions
+        </chapter_context>
+        <tags>lua, shared memory, read, video processor, eel2, jsfx</tags>
+    </US_DocBloc>
+    
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
+        <slug>lua_gmem_write</slug>
+        <title>gmem_write</title>
+        <functioncall prog_lang="lua">reaper.gmem_write(integer index, number value)</functioncall>
+        <requires>
+            Reaper=5.97
+            Lua=5.3
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Write (number) value to shared memory attached-to by gmem_attach(). index can be \[0..1&lt;&lt;25).
+            
+            Before you can write into a currently unused variable with index "index", you must call [gmem\_attach](#lua_gmem_attach) first!
+        </description>
+        <parameters>
+            integer index - the index of the memory-variable to write to
+            number value - a number, either integer or float
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Additional Lua-Functions
+        </chapter_context>
+        <tags>lua, shared memory, write, video processor, eel2, jsfx</tags>
+    </US_DocBloc>
+    
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.update</slug>
         <title>gfx.update</title>
@@ -38601,6 +38732,13 @@
             string pkg - the package-name of this package
             string desc - the description of this package
             number type - the type of this package
+                        -  1, script
+                        -  2, extension
+                        -  3, effect
+                        -  4, data
+                        -  5, theme
+                        -  6, langpack
+                        -  7, webinterface
             string ver - the currently installed version of this package
             string author - the author of this package
             boolean pinned - the pinned-status of this package

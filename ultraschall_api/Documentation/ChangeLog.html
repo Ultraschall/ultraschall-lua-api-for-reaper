@@ -48,27 +48,27 @@ allow being terminated from inside and outside the current script.
 <h4>New features in 4.00beta2.75</h4>
 <ul>
 <li>SplitStringAtNULLBytes - splits a string at NULL-bytes ( \0 )</li>
-<li>new background-script - ultraschall<em>track</em>old<em>playstate.lua - stores old playstate into extstate ultraschall-&gt;last</em>playstate</li>
+<li>new background-script - ultraschall_track_old_playstate.lua - stores old playstate into extstate ultraschall-&gt;last_playstate</li>
 <li>GetLastPlayState - returns the last playstate before the current one</li>
-<li>US<em>Api</em>AUD.html - added</li>
-<li>US<em>Api</em>Concepts_AUD.html - added</li>
-<li>US<em>Api</em>Concepts_DOC.html - added</li>
-<li>US<em>Api</em>Concepts_GFX.html - added</li>
-<li>US<em>Api</em>Concepts_GUI.html - added</li>
-<li>US<em>Api</em>Concepts_VID.html - added</li>
-<li>US<em>Api</em>DOC.html - added</li>
-<li>US<em>Api</em>GFX.html - added</li>
-<li>US<em>Api</em>GUI.html - added</li>
-<li>US<em>Api</em>VID.html - added</li>
+<li>US_Api_AUD.html - added</li>
+<li>US_Api_Concepts_AUD.html - added</li>
+<li>US_Api_Concepts_DOC.html - added</li>
+<li>US_Api_Concepts_GFX.html - added</li>
+<li>US_Api_Concepts_GUI.html - added</li>
+<li>US_Api_Concepts_VID.html - added</li>
+<li>US_Api_DOC.html - added</li>
+<li>US_Api_GFX.html - added</li>
+<li>US_Api_GUI.html - added</li>
+<li>US_Api_VID.html - added</li>
 <li>US_Api-AUD.USDocML - added</li>
 <li>US_Api-DOC.USDocML - added</li>
 <li>US_Api-GFX.USDocML - added</li>
 <li>US_Api-GUI.USDocML - added</li>
 <li>US_Api-VID.USDocML - added</li>
-<li>NewUltraschallDoc<em>VID</em>Converter.lua - added</li>
-<li>NewUltraschallDoc<em>GUI</em>Converter.lua - added</li>
-<li>NewUltraschallDoc<em>DOC</em>Converter.lua - added</li>
-<li>NewUltraschallDoc<em>AUD</em>Converter.lua - added</li>
+<li>NewUltraschallDoc_VID_Converter.lua - added</li>
+<li>NewUltraschallDoc_GUI_Converter.lua - added</li>
+<li>NewUltraschallDoc_DOC_Converter.lua - added</li>
+<li>NewUltraschallDoc_AUD_Converter.lua - added</li>
 <li>NewUltraschallConceptsDocConverter_AUD.lua - added</li>
 <li>NewUltraschallConceptsDocConverter_DOC.lua - added</li>
 <li>NewUltraschallConceptsDocConverter_GFX.lua - added</li>
@@ -77,7 +77,7 @@ allow being terminated from inside and outside the current script.
 <li>IsValidHWND - checks, if a HWND is a valid one</li>
 <li>Main_OnCommandByFilename - runs a command by its filename instead of the ActionCommandID/command-id; returns a unique script-identifier for the started script-instance, that you can use as extstate to communicate with that script; allows passing of parameters to the started script!</li>
 <li>MIDI_OnCommandByFilename - runs a command in the MIDI-Editor context by its filename instead of the ActionCommandID/command-id; returns a unique script-identifier for the started script-instance, that you can use as extstate to communicate with that script allows passing of parameters to the started script!</li>
-<li>BrowseForOpenFiles - utilizes JS<em>Dialog</em>BrowseForOpenFiles-function, but returns the files and paths in a more comfortable way</li>
+<li>BrowseForOpenFiles - utilizes JS_Dialog_BrowseForOpenFiles-function, but returns the files and paths in a more comfortable way</li>
 <li>Base64_Encoder - encodes a string into a Base64-encoded string</li>
 <li>CreateTemporaryFileOfProjectfile - creates a valid temporary-copy of an rpp-projectfile; use nil for the currently opened one(must be saved first)</li>
 <li>ultraschall.hotfixdate - holds the release-date of the currently installed hotfix, returned by GetApiVersion now</li>
@@ -92,7 +92,7 @@ allow being terminated from inside and outside the current script.
 <li>ConvertIntegerToBits - converts an integer-value into its individual bitvalues</li>
 <li>ReverseEndianess_Byte - changes endianess of a byte-value</li>
 <li>GFX_Init - opens a new gfx-window. Like gfx.init, but this returns its HWND-windowhandler-object as well</li>
-<li>GFX<em>GetWindowHWND - gets the HWND of a opened gfx-window, opened with ultraschall.GFX</em>Init</li>
+<li>GFX_GetWindowHWND - gets the HWND of a opened gfx-window, opened with ultraschall.GFX_Init</li>
 <li>ReaPack-functions - added ReaPack-functions to Reaper-Internals docs</li>
 <li>Windows_Find - finds Reaper-windows by title and returns their HWNDs</li>
 <li>GetAllReaScriptIDEWindows - returns the HWNDs of all opened ReaperIDE-windows</li>
@@ -116,8 +116,8 @@ allow being terminated from inside and outside the current script.
 <li>SetIniFileValue - sets an ini-value into an ini-file; unlike SWS's own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path</li>
 <li>SetLoopState - sets the current loop-state(button)</li>
 <li>GetLoopState - gets the current state of loop</li>
-<li>SetScriptParameters - sets parameters for a child-script, as started by Main<em>OnCommandByFilename and MIDI</em>OnCommandByFilename</li>
-<li>GetScriptParameters - gets parameters for a child-script, as started by Main<em>OnCommandByFilename and MIDI</em>OnCommandByFilename</li>
+<li>SetScriptParameters - sets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename</li>
+<li>GetScriptParameters - gets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename</li>
 <li>GetScriptReturnvalues - gets returnvalues, that a script-instance with a specific scriptidentifier sent to the current script</li>
 <li>SetScriptReturnvalues - sends returnvalues to a script-instance with a specific scriptidentifier</li>
 <li>GetLastLoopState - gets the last loop-state, needs RunBackgroundHelperFeatures to be run first</li>
@@ -161,8 +161,8 @@ allow being terminated from inside and outside the current script.
 <li>ultraschall.MB - converts now all passed data into string, no matter what type it is</li>
 <li>ultraschall_api.lua - checks now, if it is run within the beta-engine-parts of this API and prevents including it if necessary.<br />
 This prevents duplicate execution of functions, when coding within the beta-functions-engine-scripts.</li>
-<li>RenderProject<em>RenderCFG - if you use nil as renderfilename</em>with_path, it will render as renderfilename using the filename/renderpattern already set in the project didn't return correct filecount if rendering was canceled, leading to possible error-message -&gt; fixed</li>
-<li>RenderProjectRegions<em>RenderCFG - if you use nil as renderfilename</em>with_path, it will render as renderfilename using the filename/renderpattern already set in the project</li>
+<li>RenderProject_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project didn't return correct filecount if rendering was canceled, leading to possible error-message -&gt; fixed</li>
+<li>RenderProjectRegions_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project</li>
 <li>GetMediafileAttributes - added info into the docs about rpp-projects, which will create a proxy file, when getting the mediafile-attributes</li>
 <li>CreateValidTempFile - added info about the path of the created tempfile/tempfilename</li>
 <li>GetProject_Length - fixed issue with projectfiles smaller than 1000 bytes, which couldn't be parsed</li>
@@ -205,12 +205,15 @@ This prevents duplicate execution of functions, when coding within the beta-func
 <li>ReadBinaryFileUntilPattern - added check, if a file is already in use and can't be read</li>
 <li>ReadBinaryFileFromPattern - added check, if a file is already in use and can't be read</li>
 <li>SearchStringInString - dropped nested searchstring-functionality as it was useless; recoded from scratch for more stability</li>
-<li>ReadFullFile - produced Lua-error, when passing a boolean as filename<em>with</em>path -&gt; fixed</li>
-<li>ReadValueFromFile - produced Lua-error, when passing a boolean as filename<em>with</em>path -&gt; fixed</li>
+<li>ReadFullFile - produced Lua-error, when passing a boolean as filename_with_path -&gt; fixed</li>
+<li>ReadValueFromFile - produced Lua-error, when passing a boolean as filename_with_path -&gt; fixed</li>
 <li>CloseReaConsole - renamed to CloseReaScriptConsole, as the ReaConsole is something different; added plausability-checks and localization to get the right ReaScript-Console-window</li>
 <li>ReaperDocs: OscLocalMessageToHost - didn't show title -&gt; fixed</li>
 <li>ReaperDocs: Functionnames-titles in the individual entries are not linked anymore, but rather the &gt; at the left side of the title now</li>
 <li>ReaperDocs: fixed tons of MarkDown-layout errors.</li>
+<li>ReaperDocs: updated to 5.97</li>
+<li>ReaperDocs: SWS - updated to 2.10.1</li>
+<li>ReaperDocs: JS-extension - updated to 0.964</li>
 <li>Ultraschall Docs: functiontitles aren't links anymore, added a clickable symbol at the beginning of the title line of each function now</li>
 <li>Ultraschall Docs: print, print2 and toboolean as well as all API-variables are now written in bold, as all other functions are</li>
 <li>ReadErrorMessage - accepted a string for the integer-parameter errornumber which rendered the function useless -&gt; fixed</li>

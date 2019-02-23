@@ -10,69 +10,69 @@
 
 #### New features in 4.00beta2.75
   - SplitStringAtNULLBytes - splits a string at NULL-bytes ( \0 )
-  - new background-script - ultraschall_track_old_playstate.lua - stores old playstate into extstate ultraschall->last_playstate
+  - new background-script - ultraschall\_track\_old\_playstate.lua - stores old playstate into extstate ultraschall->last\_playstate
   - GetLastPlayState - returns the last playstate before the current one
-  - US_Api_AUD.html - added
-  - US_Api_Concepts_AUD.html - added
-  - US_Api_Concepts_DOC.html - added
-  - US_Api_Concepts_GFX.html - added
-  - US_Api_Concepts_GUI.html - added
-  - US_Api_Concepts_VID.html - added
-  - US_Api_DOC.html - added
-  - US_Api_GFX.html - added
-  - US_Api_GUI.html - added
-  - US_Api_VID.html - added
-  - US_Api-AUD.USDocML - added
-  - US_Api-DOC.USDocML - added
-  - US_Api-GFX.USDocML - added
-  - US_Api-GUI.USDocML - added
-  - US_Api-VID.USDocML - added
-  - NewUltraschallDoc_VID_Converter.lua - added
-  - NewUltraschallDoc_GUI_Converter.lua - added
-  - NewUltraschallDoc_DOC_Converter.lua - added
-  - NewUltraschallDoc_AUD_Converter.lua - added
-  - NewUltraschallConceptsDocConverter_AUD.lua - added
-  - NewUltraschallConceptsDocConverter_DOC.lua - added
-  - NewUltraschallConceptsDocConverter_GFX.lua - added
-  - NewUltraschallConceptsDocConverter_GUI.lua - added
-  - NewUltraschallConceptsDocConverter_VID.lua - added
+  - US\_Api\_AUD.html - added
+  - US\_Api\_Concepts\_AUD.html - added
+  - US\_Api\_Concepts\_DOC.html - added
+  - US\_Api\_Concepts\_GFX.html - added
+  - US\_Api\_Concepts\_GUI.html - added
+  - US\_Api\_Concepts\_VID.html - added
+  - US\_Api\_DOC.html - added
+  - US\_Api\_GFX.html - added
+  - US\_Api\_GUI.html - added
+  - US\_Api\_VID.html - added
+  - US\_Api-AUD.USDocML - added
+  - US\_Api-DOC.USDocML - added
+  - US\_Api-GFX.USDocML - added
+  - US\_Api-GUI.USDocML - added
+  - US\_Api-VID.USDocML - added
+  - NewUltraschallDoc\_VID\_Converter.lua - added
+  - NewUltraschallDoc\_GUI\_Converter.lua - added
+  - NewUltraschallDoc\_DOC\_Converter.lua - added
+  - NewUltraschallDoc\_AUD\_Converter.lua - added
+  - NewUltraschallConceptsDocConverter\_AUD.lua - added
+  - NewUltraschallConceptsDocConverter\_DOC.lua - added
+  - NewUltraschallConceptsDocConverter\_GFX.lua - added
+  - NewUltraschallConceptsDocConverter\_GUI.lua - added
+  - NewUltraschallConceptsDocConverter\_VID.lua - added
   - IsValidHWND - checks, if a HWND is a valid one
-  - Main_OnCommandByFilename - runs a command by its filename instead of the ActionCommandID/command-id; 
+  - Main\_OnCommandByFilename - runs a command by its filename instead of the ActionCommandID/command-id; 
                                 returns a unique script-identifier for the started script-instance, that you can use as
                                 extstate to communicate with that script;
                                 allows passing of parameters to the started script!
-  - MIDI_OnCommandByFilename - runs a command in the MIDI-Editor context by its filename instead of the ActionCommandID/command-id;
+  - MIDI\_OnCommandByFilename - runs a command in the MIDI-Editor context by its filename instead of the ActionCommandID/command-id;
                                 returns a unique script-identifier for the started script-instance, that you can use as
                                 extstate to communicate with that script
                                 allows passing of parameters to the started script!
-  - BrowseForOpenFiles - utilizes JS_Dialog_BrowseForOpenFiles-function, but returns the files and paths in a more comfortable way
-  - Base64_Encoder - encodes a string into a Base64-encoded string
+  - BrowseForOpenFiles - utilizes JS\_Dialog\_BrowseForOpenFiles-function, but returns the files and paths in a more comfortable way
+  - Base64\_Encoder - encodes a string into a Base64-encoded string
   - CreateTemporaryFileOfProjectfile - creates a valid temporary-copy of an rpp-projectfile; use nil for the currently opened one(must be saved first)
   - ultraschall.hotfixdate - holds the release-date of the currently installed hotfix, returned by GetApiVersion now
-  - Base64_Decoder - decodes a Base64-encoded string
+  - Base64\_Decoder - decodes a Base64-encoded string
   - GetProjectStateChunk - gets a ProjectStateChunk from an opened ReaProject
   - StateChunkLayouter - layouts statechunks according the layouting rules of rpp-projectfiles; makes parsing them much easier
-  - CountUltraschallEffectPlugins - counts number of instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and Ultraschall_Dynamics-plugins in a track. Also returns a table with all bypass/offline-states
+  - CountUltraschallEffectPlugins - counts number of instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and Ultraschall\_Dynamics-plugins in a track. Also returns a table with all bypass/offline-states
   - GetReaperWindowAttributes - returns several attributes of the Reaper-window, like size/position, active-state, childwindows, etc
   - GetTopmostHWND - returns the topmost hwnd(window-handler) of a child-hwnd; returns also all the parent-hwnds
   - print - replacement for Lua's own print-function(which is quite useless in Reaper); displays the printed parameters in the ReaScript-console
   - print2 - like print, but displays the parameters as a messagebox instead
   - ConvertIntegerToBits - converts an integer-value into its individual bitvalues
-  - ReverseEndianess_Byte - changes endianess of a byte-value
-  - GFX_Init - opens a new gfx-window. Like gfx.init, but this returns its HWND-windowhandler-object as well
-  - GFX_GetWindowHWND - gets the HWND of a opened gfx-window, opened with ultraschall.GFX_Init
+  - ReverseEndianess\_Byte - changes endianess of a byte-value
+  - GFX\_Init - opens a new gfx-window. Like gfx.init, but this returns its HWND-windowhandler-object as well
+  - GFX\_GetWindowHWND - gets the HWND of a opened gfx-window, opened with ultraschall.GFX\_Init
   - ReaPack-functions - added ReaPack-functions to Reaper-Internals docs
-  - Windows_Find - finds Reaper-windows by title and returns their HWNDs
+  - Windows\_Find - finds Reaper-windows by title and returns their HWNDs
   - GetAllReaScriptIDEWindows - returns the HWNDs of all opened ReaperIDE-windows
   - GetReaScriptConsoleWindow - returns the HWND of the ReaScript-console, if open at all.
   - IsReaperRendering - returns, if Reaper is currently rendering a file
   - GetAllRecursiveFilesAndSubdirectories - returns all subdirectories with all their files with full path of a directory
-  - RippleCut_Regions - ripple-cuts all regions between startposition and endposition and moves all regions after endposition toward projectstart by difference between startposition and endposition
+  - RippleCut\_Regions - ripple-cuts all regions between startposition and endposition and moves all regions after endposition toward projectstart by difference between startposition and endposition
   - ShowErrorMessagesInReascriptConsole - toggles, if errormessages shall be shown in the ReaConsole immediately, when they happen
-  - GFX_DrawThickRoundRect - draws a round-rectangle with variable thickness
-  - GFX_BlitFramebuffer - blits the content of a framebuffer into the drawing-buffer; will resize, if necessary and retains aspect-ratio
+  - GFX\_DrawThickRoundRect - draws a round-rectangle with variable thickness
+  - GFX\_BlitFramebuffer - blits the content of a framebuffer into the drawing-buffer; will resize, if necessary and retains aspect-ratio
   - ConvertIntegerIntoString - converts the individual bytes of an integer into a string
-  - GetProject_RenderOutputPath - returns the output-directories for rendered files from a projectfile
+  - GetProject\_RenderOutputPath - returns the output-directories for rendered files from a projectfile
   - GetSetIntConfigVar - gets/sets a configuration-variable of the type integer-bitfield
   - GetScriptIdentifier - returns a unique identifier-string for the current script-instance, that can be used to send command/string to this scriptinstance
   - Defer1 to Defer20 - run a customized defer-cycle, in which you can decide, how often it should be run. You can also stop such a defer-cycle from in/outside the script using StopDeferCycle.
@@ -80,21 +80,21 @@
                         You should only use each DeferXX-cycle once in a script-instance, or the timing will become corrupt!
   - StopDeferCycle - stops a Defer1 to Defer20-defer-instance from a script-instance
   - ResolveRenderPattern - resolves the renderfilename of a specific render-pattern
-  - GetTrackSelection_TrackStateChunk - gets, if a track in a StateChunk is selected; works only with TrackStateChunks from ProjectStateChunks
-  - SetTrackSelection_TrackStateChunk - sets a track in a StateChunk selected; works only with TrackStateChunks from ProjectStateChunks
+  - GetTrackSelection\_TrackStateChunk - gets, if a track in a StateChunk is selected; works only with TrackStateChunks from ProjectStateChunks
+  - SetTrackSelection\_TrackStateChunk - sets a track in a StateChunk selected; works only with TrackStateChunks from ProjectStateChunks
   - GetIniFileValue - gets an ini-value from an ini-file; unlike SWS's own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path
   - SetIniFileValue - sets an ini-value into an ini-file; unlike SWS's own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path
   - SetLoopState - sets the current loop-state(button)
   - GetLoopState - gets the current state of loop
-  - SetScriptParameters - sets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename
-  - GetScriptParameters - gets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename
+  - SetScriptParameters - sets parameters for a child-script, as started by Main\_OnCommandByFilename and MIDI\_OnCommandByFilename
+  - GetScriptParameters - gets parameters for a child-script, as started by Main\_OnCommandByFilename and MIDI\_OnCommandByFilename
   - GetScriptReturnvalues - gets returnvalues, that a script-instance with a specific scriptidentifier sent to the current script
   - SetScriptReturnvalues - sends returnvalues to a script-instance with a specific scriptidentifier
   - GetLastLoopState - gets the last loop-state, needs RunBackgroundHelperFeatures to be run first
   - GetVerticalScroll - gets the current vertical-scroll-factor of the arrangeview
   - SetVerticalScroll - sets a new vertical-scroll-factor of the arrangeview
   - GetUserInputs - gets the user-input. Like Reaper's own GetUserInputs but a different parameter-scheme, that should be easier to handle.
-  - GetScriptReturnvalues_Sender - gets, which child-scripts(and their corresponding ScriptIdentifier) have sent return-values to the current script
+  - GetScriptReturnvalues\_Sender - gets, which child-scripts(and their corresponding ScriptIdentifier) have sent return-values to the current script
   - GetDeferIdentifier - gets the identifier of a Defer1 to Defer20-cycle of the current script
   - Docs: Child Scripts: Introduction - added chapter
   - Docs: Child Scripts: The unique ScriptIdentifier - added chapter
@@ -127,23 +127,23 @@
   - hotfixes are now loaded before beta-functions
   - CloseReaConsole - updated to behavior of version 0.963 of the JS-plugin
   - ultraschall.MB - converts now all passed data into string, no matter what type it is
-  - ultraschall_api.lua - checks now, if it is run within the beta-engine-parts of this API and prevents including it if necessary.  
+  - ultraschall\_api.lua - checks now, if it is run within the beta-engine-parts of this API and prevents including it if necessary.  
                           This prevents duplicate execution of functions, when coding within the beta-functions-engine-scripts.
-  - RenderProject_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project
+  - RenderProject\_RenderCFG - if you use nil as renderfilename\_with\_path, it will render as renderfilename using the filename/renderpattern already set in the project
                               didn't return correct filecount if rendering was canceled, leading to possible error-message -> fixed
-  - RenderProjectRegions_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project
+  - RenderProjectRegions\_RenderCFG - if you use nil as renderfilename\_with\_path, it will render as renderfilename using the filename/renderpattern already set in the project
   - GetMediafileAttributes - added info into the docs about rpp-projects, which will create a proxy file, when getting the mediafile-attributes
   - CreateValidTempFile - added info about the path of the created tempfile/tempfilename
-  - GetProject_Length - fixed issue with projectfiles smaller than 1000 bytes, which couldn't be parsed
-  - SetProject_RenderPattern - didn't save render-patterns with spaces in them properly
+  - GetProject\_Length - fixed issue with projectfiles smaller than 1000 bytes, which couldn't be parsed
+  - SetProject\_RenderPattern - didn't save render-patterns with spaces in them properly
   - InsertMediaItemFromFile - added MediaTrack and the new editcursorposition as retvals; the latter used to be third retval without being documented as such -> moved to the end of the retvals
                               sorry for that inconvenience
-  - GetProject_RenderFilename - sometimes returned one " at the end -> fixed
+  - GetProject\_RenderFilename - sometimes returned one " at the end -> fixed
   - WriteValueToFile - converts now the parameter value to a string, regardless of it's original datatype
-  - WriteValueToFile_Insert - converts now the parameter value to a string, regardless of it's original datatype
-  - WriteValueToFile_Replace - converts now the parameter value to a string, regardless of it's original datatype
-  - WriteValueToFile_InsertBinary - converts now the parameter value to a string, regardless of it's original datatype
-  - WriteValueToFile_ReplaceBinary - converts now the parameter value to a string, regardless of it's original datatype
+  - WriteValueToFile\_Insert - converts now the parameter value to a string, regardless of it's original datatype
+  - WriteValueToFile\_Replace - converts now the parameter value to a string, regardless of it's original datatype
+  - WriteValueToFile\_InsertBinary - converts now the parameter value to a string, regardless of it's original datatype
+  - WriteValueToFile\_ReplaceBinary - converts now the parameter value to a string, regardless of it's original datatype
   - WinterlySnowflakes - preparation of the snowflakes produced wrong default-values of gfx.x, gfx.y, gfx.r, gfx.g, gfx.g -> fixed
   - GetAllRegionsBetween - didn't return regions, that began before startposition and ended after endposition -> fixed
   - AddErrorMessage - when set with ShowErrorMessagesInReascriptConsole, it shows now errormessages immediately in the ReaScriptConsole
@@ -160,34 +160,37 @@
   - GetMarkerByTime - using now the SetIniFileValue-function for getting the ini-file-value
   - GetRegionByTime - using now the SetIniFileValue-function for getting the ini-file-value
   - GetTimeSignaturesByTime - using now the SetIniFileValue-function for getting the ini-file-value
-  - GetReaperWindowPosition_Left - using now the SetIniFileValue-function for getting the ini-file-value
-  - GetReaperWindowPosition_Right - using now the SetIniFileValue-function for getting the ini-file-value
+  - GetReaperWindowPosition\_Left - using now the SetIniFileValue-function for getting the ini-file-value
+  - GetReaperWindowPosition\_Right - using now the SetIniFileValue-function for getting the ini-file-value
   - GetReaperWorkDir - using now the SetIniFileValue-function for getting the ini-file-value
   - RunBackgroundHelperFeatures - allows now switching off the background-scripts
   - IsValidArrangeviewSnapshot - checks now vertical-scrollfactor as well
   - RestoreArrangeviewSnapshot - restores now vertical-scrollfactor as well
   - RetrieveArrangeviewSnapshot - retrieves now vertical-scrollfactor as well
   - StoreArrangeviewSnapshot - stores now vertical-scrollfactor as well
-  - CreateRenderCFG_AIFF - returned the wrong render-cfg-string due a stupid typo -> fixed
+  - CreateRenderCFG\_AIFF - returned the wrong render-cfg-string due a stupid typo -> fixed
   - ReadFullFile - added check, if a file is already in use and can't be read
-  - MakeCopyOfFile_Binary - added check, if a file is already in use and can't be read
+  - MakeCopyOfFile\_Binary - added check, if a file is already in use and can't be read
   - ReadBinaryFileUntilPattern - added check, if a file is already in use and can't be read
   - ReadBinaryFileFromPattern - added check, if a file is already in use and can't be read
   - SearchStringInString - dropped nested searchstring-functionality as it was useless; recoded from scratch for more stability
-  - ReadFullFile - produced Lua-error, when passing a boolean as filename_with_path -> fixed
-  - ReadValueFromFile - produced Lua-error, when passing a boolean as filename_with_path -> fixed
+  - ReadFullFile - produced Lua-error, when passing a boolean as filename\_with\_path -> fixed
+  - ReadValueFromFile - produced Lua-error, when passing a boolean as filename\_with\_path -> fixed
   - CloseReaConsole - renamed to CloseReaScriptConsole, as the ReaConsole is something different; added plausability-checks and localization to get the right ReaScript-Console-window
   - ReaperDocs: OscLocalMessageToHost - didn't show title -> fixed
   - ReaperDocs: Functionnames-titles in the individual entries are not linked anymore, but rather the > at the left side of the title now
   - ReaperDocs: fixed tons of MarkDown-layout errors.
+  - ReaperDocs: updated to 5.97
+  - ReaperDocs: SWS - updated to 2.10.1
+  - ReaperDocs: JS-extension - updated to 0.964
   - Ultraschall Docs: functiontitles aren't links anymore, added a clickable symbol at the beginning of the title line of each function now
   - Ultraschall Docs: print, print2 and toboolean as well as all API-variables are now written in bold, as all other functions are
   - ReadErrorMessage - accepted a string for the integer-parameter errornumber which rendered the function useless -> fixed
   - ReadErrorMessage - improved error-message, errornumber now checks, if being an integer
   - GetAllLockedTracks - improved checking for validity of parameters
   - GetAllSelectedTracks - improved checking for validity of parameters
-  - GetProject_MasterGroupFlagsHighState - improved checking for validity of parameters
-  - GetProject_MasterGroupFlagsState - improved checking for validity of parameters
+  - GetProject\_MasterGroupFlagsHighState - improved checking for validity of parameters
+  - GetProject\_MasterGroupFlagsState - improved checking for validity of parameters
   - GetTrackAutoRecArmState - improved checking for validity of parameters
   - GetTrackAutomodeState - improved checking for validity of parameters
   - GetTrackBeatState - improved checking for validity of parameters
@@ -195,12 +198,12 @@
   - GetTrackBypFXState - improved checking for validity of parameters
   - GetTrackFreeModeState - improved checking for validity of parameters
   - GetTrackGroupFlagsState - improved checking for validity of parameters
-  - GetTrackGroupFlags_HighState - improved checking for validity of parameters
+  - GetTrackGroupFlags\_HighState - improved checking for validity of parameters
   - GetTrackHeightState - improved checking for validity of parameters
   - GetTrackID - improved checking for validity of parameters
   - GetTrackINQState - improved checking for validity of parameters
   - GetTrackIPhaseState - improved checking for validity of parameters
-  - GetTrackIcon_Filename - improved checking for validity of parameters
+  - GetTrackIcon\_Filename - improved checking for validity of parameters
   - GetTrackIsBusState - improved checking for validity of parameters
   - GetTrackLayoutNames - improved checking for validity of parameters when no layout available made a Lua-error -> fixed now
   - GetTrackLockState - improved checking for validity of parameters
@@ -221,14 +224,14 @@
   - GetTrackRecState - improved checking for validity of parameters
   - GetTrackScore - improved checking for validity of parameters
   - GetTrackShowInMixState - improved checking for validity of parameters
-  - GetTrackStateChunk_Tracknumber - improved checking for validity of parameters
+  - GetTrackStateChunk\_Tracknumber - improved checking for validity of parameters
   - GetTrackVUState - improved checking for validity of parameters
   - GetTrackVolPan - improved checking for validity of parameters
   - GetTrackWidth - improved checking for validity of parameters
   - JumpForwardBy - improved checking for validity of parameters
   - JumpBackwardBy - improved checking for validity of parameters
-  - JumpForwardBy_Recording - improved checking for validity of parameters
-  - JumpBackwardBy_Recording - improved checking for validity of parameters
+  - JumpForwardBy\_Recording - improved checking for validity of parameters
+  - JumpBackwardBy\_Recording - improved checking for validity of parameters
   - GetNextMuteState - improved checking for validity of parameters
   - CountMuteEnvelopePoints - improved checking for validity of parameters
   - IsMarkerEdit - improved checking for validity of parameters
@@ -244,8 +247,8 @@
       TODO!! finish up ReaPack installation of the Ultraschall-API
       TODO!! docs: exchange api.ultraschall.fm/Downloads.html with the correct URL
       TODO!! ShowErrorMessagesInReascriptConsole - document in the concepts-page; is it possible to display the linenumber of the functioncall as well?
-      TODO!! still missing in the Reaper-docs:
-      TODO!! update docs to Reaper 5.97 and ReaPack(the latter if necessary) and the new VideoProcessorDocs
+      TODO!! minor fixes in ConfigVardocs, as mentioned in the reaper-forum
+      TODO!! update docs the new VideoProcessorDocs
       TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
       TODO!! Docs: JS-Plugin-useable functions - should work on Mac now with JS0.963. Check them plz.
       
