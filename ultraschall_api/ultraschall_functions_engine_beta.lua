@@ -1036,7 +1036,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00","15th of March 2019", "Beta 2.75", 400.0275,  "\"Blue Oyster Cult - Don't fear the Reaper\"", ultraschall.hotfixdate
+  return "4.00","1st of March 2019", "Beta 2.72", 400.0272,  "\"Blue Oyster Cult - Don't fear the Reaper\"", ultraschall.hotfixdate
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
@@ -2884,7 +2884,7 @@ function ultraschall.Windows_Find(title, exact)
   </requires>
   <functioncall>integer count_hwnds, array hwnd_array, array hwnd_adresses = ultraschall.Windows_Find(string title, boolean strict)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns all Reaper-window-HWND-handler, with a given title. Can be further used with the JS_Window_functions of the JS-function-plugin.
+    Returns all Reaper-window-HWND-handler, with a given title. Can be further used with the JS\_Window\_functions of the JS-function-plugin.
     
     Doesn't return IDE-windows! Use [GetAllReaScriptIDEWindows](#GetAllReaScriptIDEWindows) to get them.
   </description>
@@ -6261,7 +6261,6 @@ function ultraschall.ReplacePartOfString(originalstring, insertstring, offset, l
   return start..insertstring..endof
 end
 
-ultraschall.ShowLastErrorMessage()
 
 
 
@@ -6326,3 +6325,204 @@ end
 
 --L2,LL2=ultraschall.SearchStringInString("ABCmABCABCmABC", "Cm")
 
+function ultraschall.GetRenderToFileHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRenderToFileHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetRenderToFileHWND()</functioncall>
+  <description>
+    returns the HWND of the Render to File-dialog, if the window is opened.
+    
+    returns nil if Render to File-dialog is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the Render to File-dialog
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, render to file, hwnd</tags>
+</US_DocBloc>
+--]]
+
+  local translation=reaper.JS_Localize("Render to File", "DLG_506")
+  local open_render_queue_tr=reaper.JS_Localize("Open render queue...", "DLG_506")
+  local save_changes_and_close_tr=reaper.JS_Localize("Save changes and close", "DLG_506")
+  local render_tr=reaper.JS_Localize("Render...", "DLG_506")
+  local wildcards_tr=reaper.JS_Localize("Wildcards", "DLG_506")
+  
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            open_render_queue_tr.."\0"..
+                                            save_changes_and_close_tr.."\0"..
+                                            render_tr.."\0"..
+                                            wildcards_tr)==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end
+
+--AAAA=ultraschall.GetRenderToFileHWND()
+
+--AAA=ultraschall.GetRenderToFileHWND()
+
+function ultraschall.GetActionsHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetActionsHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetActionsHWND()</functioncall>
+  <description>
+    returns the HWND of the Actions-dialog, if the window is opened.
+    
+    returns nil if the Actions-dialog is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the Actions-dialog
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, hwnd, actions</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("Actions", "common")
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if reaper.JS_Window_GetClassName(hwnd_array[i], "")=="#32770" then 
+        local retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(hwnd_array[i])
+        return hwnd_array[i], left, top, right, bottom
+      end
+    end
+  end
+  return nil
+end
+
+--AAA=ultraschall.GetActionsHWND()
+
+function ultraschall.GetVideoHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetVideoHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetVideoHWND()</functioncall>
+  <description>
+    returns the HWND of the Video window, if the window is opened.
+    
+    returns nil if the Video Window is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the Video Window
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, hwnd, video</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("Video Window", "common")
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if reaper.JS_Window_GetClassName(hwnd_array[i], "")=="REAPERVideoMainwnd" then 
+        local retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(hwnd_array[i])
+        return hwnd_array[i], left, top, right, bottom
+      end
+    end
+  end
+  return nil
+end
+
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GFX_Init</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    JS=0.962
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval, HWND hwnd = ultraschall.GFX_Init(string "name", optional integer width, optional integer height, optional integer dockstate, optional integer xpos, optional integer ypos)</functioncall>
+  <description>
+    Opens a new graphics window and returns its HWND-windowhandler object.
+  </description>
+  <parameters>
+    string "name" - the name of the window, which will be shown in the title of the window
+    optional integer width -  the width of the window; minmum is 50
+    optional integer height -  the height of the window; minimum is 16
+    optional integer dockstate - &1=0, undocked; &1=1, docked
+    optional integer xpos - x-position of the window in pixels; minimum is -80
+    optional integer ypos - y-position of the window in pixels; minimum is -15
+  </parameters>
+  <retvals>
+    number retval  -  1.0, if window is opened
+    HWND hwnd - the window-handler of the newly created window; can be used with JS_Window_xxx-functions of the JS-extension-plugin
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>gfx, functions, gfx, init, window, create, hwnd</tags>
+</US_DocBloc>
+]]
+
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GFX_GetWindowHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GFX_GetWindowHWND()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the HWND of the currently opened gfx-window. You need to use [ultraschall.GFX_Init()](#GFX_Init), otherwise 
+    it will contain the message "Please, use ultraschall.GFX_Init() for window-creation, not gfx.init(!), to retrieve the HWND of the gfx-window."
+  </description>
+  <retvals>
+     HWND hwnd - the window-handler of the opened gfx-window; will contain a helpermessage, if you didn't use [ultraschall.GFX_Init()](#GFX_Init) for window creation.
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>gfx, functions, gfx, init, window, get, hwnd</tags>
+</US_DocBloc>
+]]
+
+ultraschall.ShowLastErrorMessage()

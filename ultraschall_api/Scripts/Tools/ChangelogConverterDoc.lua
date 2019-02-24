@@ -142,12 +142,12 @@ Docfiles[13]="tudelu"
 if pp~=1 then Len=#Docfiles Docfiles={} else Len=0 end
 
 if p==1 then
-  Docfiles[14-Len]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/NewReaperStateChunkDocConverter.lua"
-  Docfiles[15-Len]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/ConfigDocConverter.lua"
-  Docfiles[16-Len]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/Reaper-VideoProcessor-Doc-Converter.lua"
-  Docfiles[17-Len]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/NewReaScriptConverter.lua"
+  Docfiles[13-Len]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/NewReaperStateChunkDocConverter.lua"
+  Docfiles[14-Len]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/ConfigDocConverter.lua"
+  Docfiles[15-Len]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/Reaper-VideoProcessor-Doc-Converter.lua"
+  Docfiles[16-Len]=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/NewReaScriptConverter.lua"
+  Docfiles[17-Len]="tudelu"
 end
-Docfiles[18-Len]="tudelu"
 
 Timer=reaper.time_precise()
 reaper.SetExtState("ultraschall", "doc", Timer, false)

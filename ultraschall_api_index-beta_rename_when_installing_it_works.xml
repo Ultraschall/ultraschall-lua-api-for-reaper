@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="28626.00" author="Meo Mespotine">
+      <version name="28652.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -161,8 +161,6 @@
 	<source file="/ultraschall_api/temp/Temp.bat" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/temp/Temp.bat</source>
 	<source file="/ultraschall_api/temp/temporary - Kopie.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/temp/temporary - Kopie.html</source>
 	<source file="/ultraschall_api/temp/temporary - Kopie.md" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/temp/temporary - Kopie.md</source>
-	<source file="/ultraschall_api/temp/temporary.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/temp/temporary.html</source>
-	<source file="/ultraschall_api/temp/temporary.md" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/temp/temporary.md</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt</source>
 	<source file="/ultraschall_api/Documentation/gfx/Changelog.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Changelog.png</source>
@@ -301,14 +299,20 @@
 <changelog><![CDATA[
 Ultraschall Framework - Changelog
 
-4.00 Beta 2.75: - “Blue Oyster Cult - Don’t fear the Reaper” - 15th of March 2019
+4.00 Beta 2.72: - “Blue Oyster Cult - Don’t fear the Reaper” - 1st of March 2019
 
     - *Defer-functions*, that allow setting, how often a specific defer-loop shall be executed, every n'th cycle/second. They also
     allow being terminated from inside and outside the current script.
 
     - *ChildScripts*, that allow you to run scripts as multiple script-instances, pass parameters and returnvalues to and from them
 
-New features in 4.00beta2.75
+    - *Get HWNDS*, get numerous HWNDs, including the one of your gfx.init-window
+
+    - *print and print2*, replaces the unuseable print-function from Lua
+
+    - *Reaper-Internals Docs* - updated to Reaper 5.97, SWS 2.10.1, JS-Extension 0.964 and ReaPack.
+
+New features in 4.00beta2.72
 
 -   SplitStringAtNULLBytes - splits a string at NULL-bytes ( \0 )
 -   new background-script - ultraschall_track_old_playstate.lua - stores
@@ -477,8 +481,16 @@ New features in 4.00beta2.75
     to GetTrackLength being useless
 -   ReaperDocs: added new Video-Processor-Api-functions, as of Reaper
     5.97
+-   GetRenderToFileHWND - returns the HWND of the Render to File-dialog
+-   GetActionsHWND - returns the HWND of the Actions-dialog
+-   GetVideoHWND - returns the HWND of the Video Window
+-   VID_VideoUIStateCoords2Pixels - converts the coordinates, returned
+    by the video-processor-function ui_get_state into pixels
+-   VID_Pixels2VideoUIStateCoords - converts back the coordinates from
+    pixels into the coordinates returned by the video-processor-function
+    ui_get_state
 
-Changes from 4.00beta2.7 to 4.00beta2.75
+Changes from 4.00beta2.7 to 4.00beta2.72
 
 -   SetUSExternalState - converts now all passed parameters to string,
     regardless of their type
