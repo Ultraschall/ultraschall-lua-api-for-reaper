@@ -1771,9 +1771,9 @@ function ultraschall.RGB2Grayscale(red,green,blue)
   if math.type(green)~="integer" then ultraschall.AddErrorMessage("RGB2Grayscale","green".."only integer is allowed", -2) return nil end
   if math.type(blue)~="integer" then ultraschall.AddErrorMessage("RGB2Grayscale","blue".."only integer is allowed", -3) return nil end
 
-  if tonumber(red)==nil or tonumber(red)<0 or tonumber(red)>255 then ultraschall.AddErrorMessage("RGB2Grayscale","red", "must be between 0 and 255", -4) return -1 end
-  if tonumber(green)==nil or tonumber(green)<0 or tonumber(green)>255 then ultraschall.AddErrorMessage("RGB2Grayscale","green", "must be between 0 and 255", -5) return -1 end
-  if tonumber(blue)==nil or tonumber(blue)<0 or tonumber(blue)>255 then ultraschall.AddErrorMessage("RGB2Grayscale","blue", "must be between 0 and 255", -6) return -1 end
+  if red<0 or red>255 then ultraschall.AddErrorMessage("RGB2Grayscale","red", "must be between 0 and 255", -4) return -1 end
+  if green<0 or green>255 then ultraschall.AddErrorMessage("RGB2Grayscale","green", "must be between 0 and 255", -5) return -1 end
+  if blue<0 or blue>255 then ultraschall.AddErrorMessage("RGB2Grayscale","blue", "must be between 0 and 255", -6) return -1 end
 
   -- do the legend of the grayscale and return it's resulting colorvalue
   local gray=red+green+blue
