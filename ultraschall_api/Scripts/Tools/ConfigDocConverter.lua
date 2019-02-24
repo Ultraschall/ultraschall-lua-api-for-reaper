@@ -537,7 +537,7 @@ function header()
 end
 
 function contentindex()
-  FunctionList=FunctionList.."<br><h3>The Configuration-Variables</h3>Configuration-variables hold many settings of Reaper, may it be from Preferences, Dialogs or Menus and Context-Menus.<br>Many of them can be read from and even set.<br>Some of them are integers, some numbers and some are integer-bitfields. In rare instances, it can be a string.<br><br>Read the <a href=\"#Introduction\">Introduction to Config Variables</a> to get an idea how it works and how to work with them.<table style=\"font-size:10pt; width:100%;\" >"
+  FunctionList=FunctionList.."<h2>The Configuration-Variables</h2>Configuration-variables hold many settings of Reaper, may it be from Preferences, Dialogs or Menus and Context-Menus.<br>Many of them can be read from and even set.<br>Some of them are integers, some numbers and some are integer-bitfields. In rare instances, it can be a string.<br><br>Read the <a href=\"#Introduction\">Introduction to Config Variables</a> to get an idea how it works and how to work with them.<table style=\"font-size:10pt; width:100%;\" >"
   reaper.ClearConsole()
   reaper.ShowConsoleMsg("Create Index\n")
   HeaderList={}

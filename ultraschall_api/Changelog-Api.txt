@@ -108,6 +108,7 @@
   - ReaperDocs: added new SWS2.10.1-functions
   - ReaperDocs: added new JS-extension-plugin 0.963 and 0.964-functions
   - EnumerateMediaItemsInTrack - readded, got lost in somehow, leading to GetTrackLength being useless
+  - ReaperDocs: added new Video-Processor-Api-functions, as of Reaper 5.97
   
 #### Changes from 4.00beta2.7 to 4.00beta2.75
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -248,7 +249,6 @@
       TODO!! docs: exchange api.ultraschall.fm/Downloads.html with the correct URL
       TODO!! ShowErrorMessagesInReascriptConsole - document in the concepts-page; is it possible to display the linenumber of the functioncall as well?
       TODO!! minor fixes in ConfigVardocs, as mentioned in the reaper-forum
-      TODO!! update docs the new VideoProcessorDocs
       TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
       TODO!! Docs: JS-Plugin-useable functions - should work on Mac now with JS0.963. Check them plz.
       

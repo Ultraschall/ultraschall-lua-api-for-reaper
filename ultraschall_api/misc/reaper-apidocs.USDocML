@@ -33777,7 +33777,7 @@
             Must be called, before you can use a specific gmem-variable-index with gmem_write!
         </description>
         <parameters>
-            string sharedMemoryName - 
+            string sharedMemoryName - the name of the shared memory
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
