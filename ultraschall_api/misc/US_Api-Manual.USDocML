@@ -1628,7 +1628,8 @@
            >**[InsertMediaItemFromFile](usdocml://InsertMediaItemFromFile)**
            
                             integer retval, MediaItem item, number endposition, integer numchannels, integer Samplerate, string Filetype
-                               = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, integer editcursorpos, optional number offset)
+                               = ultraschall.InsertMediaItemFromFile(string filename, integer track, number position, number endposition, 
+                                                                     integer editcursorpos, optional number offset)
                                
            >This function allows you to insert a file as a new MediaItem into your project, including the tracknumber, position, endposition(if wanted), the editcursorposition and the offset, if wanted.  
            >Example:
@@ -2865,6 +2866,7 @@
                                     
             >This toggles, whether to display error-messages at the bottom of the ReaScript-IDE-window/Reaper's error-window or if you prefer using Ultraschall-API's own functions for error-handling.  
             >Optionally, you can set it by setting togglevalue to either true(show errormessages at the bottom of the IDE) or false(use the Ultraschall-API error-management-behavior).
+
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
@@ -2873,8 +2875,34 @@
             Error Messaging System
         </chapter_context>
         <previous_chapter>Error_Messaging_System_004_Deleting_Error_Messages</previous_chapter>
-        <next_chapter>Trackstate_Management_001_Introduction</next_chapter>
+        <next_chapter>Error_Messaging_System_006_TogglingIDEErrorMessages</next_chapter>
         <tags>error messaging system, toggle, ide, error message</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>Error_Messaging_System_006_Helpers</slug>
+        <title>Error Messaging System: Other helpers for Error-Messaging-system</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            For other use-cases, I'm adding other error-messaging-system-features as well. If you need more, feel free to ask me.  
+            
+            >**[ShowErrorMessagesInReascriptConsole](usdocml://ShowErrorMessagesInReascriptConsole)**
+            
+                                    ultraschall.ShowErrorMessagesInReascriptConsole(boolean state)
+                                    
+            >This toggles, whether error-messages shall be shown in the ReaScript-console, WHEN THEY HAPPEN.  
+            >That way you can immediately see, which functions complained and how often. This is more detailed, than 
+            >[ShowLastErrorMessage()](usdocml://ShowLastErrorMessage), which only shows the last error that has happened.
+
+        </description>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Error Messaging System
+        </chapter_context>
+        <previous_chapter>Error_Messaging_System_005_TogglingIDEErrorMessages</previous_chapter>
+        <next_chapter>Trackstate_Management_001_Introduction</next_chapter>
+        <tags>error messaging system, helpers, error message</tags>
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">

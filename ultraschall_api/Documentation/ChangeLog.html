@@ -150,6 +150,9 @@ allow being terminated from inside and outside the current script.
 <li>GetVideoHWND - returns the HWND of the Video Window</li>
 <li>VID<em>VideoUIStateCoords2Pixels - converts the coordinates, returned by the video-processor-function ui</em>get_state into pixels</li>
 <li>VID<em>Pixels2VideoUIStateCoords - converts back the coordinates from pixels into the coordinates returned by the video-processor-function ui</em>get_state</li>
+<li>GetArrangeViewHWND - gets the hwnd of the tracklist-part of the arrangeview</li>
+<li>GetTimelineHWND - gets the hwnd of the timeline-part of the arrangeview</li>
+<li>Docs: Concepts: Error Messaging System: Other helpers for Error-Messaging-system - added chapter</li>
 </ul>
 <h4>Changes from 4.00beta2.7 to 4.00beta2.72</h4>
 <ul>
@@ -284,6 +287,60 @@ This prevents duplicate execution of functions, when coding within the beta-func
 <li>CountEnvelopePoints - improved checking for validity of parameters</li>
 <li>GetTrackLength - improved checking for validity of parameters</li>
 <li>GetLengthOfFile - improved checking for validity of parameters</li>
+<li>RGB2Grayscale - improved checking for validity of parameters</li>
+<li>GetNextClosestItemEdge - improved checking for validity of parameters</li>
+<li>GetPreviousClosestItemEdge - improved checking for validity of parameters</li>
+<li>GetClosestNextMarker - improved checking for validity of parameters</li>
+<li>GetClosestNextRegionEdge - improved checking for validity of parameters</li>
+<li>ToggleMute - improved checking for validity of parameters</li>
+<li>ToggleMute_TrackObject - improved checking for validity of parameters</li>
+<li>GetPreviousMuteState - improved checking for validity of parameters</li>
+<li>GetProject_GetMarker - could produce a Lua-error, when filename was nil -&gt; fixed</li>
+<li>GetProject_GetRegion - could produce a Lua-error, when filename was nil -&gt; fixed</li>
+<li>GetEnvelopePoint - improved checking for validity of parameters</li>
+<li>GetClosestEnvelopePointIDX_ByTime - improved checking for validity of parameters</li>
+<li>GetEnvelopePointIDX_Between - improved checking for validity of parameters</li>
+<li>SetEnvelopeHeight - improved checking for validity of parameters</li>
+<li>StoreArrangeviewSnapshot - improved checking for validity of parameters</li>
+<li>IsValidArrangeviewSnapshot - improved checking for validity of parameters</li>
+<li>RetrieveArrangeviewSnapshot - improved checking for validity of parameters</li>
+<li>RestoreArrangeviewSnapshot - improved checking for validity of parameters</li>
+<li>SetTrackGroupFlagsState - improved checking for validity of parameters</li>
+<li>SetTrackGroupFlags_HighState - improved checking for validity of parameters</li>
+<li>SetTrackName - improved checking for validity of parameters</li>
+<li>SetTrackPeakColorState - improved checking for validity of parameters</li>
+<li>SetTrackBeatState - improved checking for validity of parameters</li>
+<li>SetTrackAutoRecArmState - improved checking for validity of parameters</li>
+<li>SetTrackMuteSoloState - improved checking for validity of parameters</li>
+<li>SetTrackIPhaseState - improved checking for validity of parameters</li>
+<li>SetTrackIsBusState - improved checking for validity of parameters</li>
+<li>SetTrackBusCompState - improved checking for validity of parameters</li>
+<li>SetTrackShowInMixState - improved checking for validity of parameters</li>
+<li>SetTrackFreeModeState - improved checking for validity of parameters</li>
+<li>SetTrackRecState - improved checking for validity of parameters</li>
+<li>SetTrackVUState - improved checking for validity of parameters</li>
+<li>SetTrackHeightState - improved checking for validity of parameters</li>
+<li>SetTrackINQState - improved checking for validity of parameters</li>
+<li>SetTrackNChansState - improved checking for validity of parameters</li>
+<li>SetTrackBypFXState - improved checking for validity of parameters</li>
+<li>SetTrackPerfState - improved checking for validity of parameters</li>
+<li>SetTrackMIDIOutState - improved checking for validity of parameters</li>
+<li>SetTrackMainSendState - improved checking for validity of parameters</li>
+<li>SetTrackLockState - improved checking for validity of parameters</li>
+<li>SetTrackLayoutNames - improved checking for validity of parameters</li>
+<li>SetTrackAutomodeState - improved checking for validity of parameters</li>
+<li>SetTrackIcon_Filename - improved checking for validity of parameters; didn't add trackicon, when no image was set already -&gt; fixed; when Iconfilename<em>with</em>path=nil, removes trackicon now</li>
+<li>SetTrackMidiInputChanMap - improved checking for validity of parameters; didn't set MidiInputChanMap -&gt; fixed; removes now MidiInputChanMap, when InputChanMap=nil</li>
+<li>SetTrackMidiCTL - improved checking for validity of parameters</li>
+<li>SetTrackID - improved checking for validity of parameters</li>
+<li>SetTrackMidiColorMapFn - improved checking for validity of parameters, setting filename to "" removes the MidiColorMap, now</li>
+<li>SetTrackMidiBankProgFn - improved checking for validity of parameters</li>
+<li>SetTrackMidiTextStrFn - improved checking for validity of parameters</li>
+<li>SetTrackPanMode - improved checking for validity of parameters</li>
+<li>SetTrackWidth - improved checking for validity of parameters</li>
+<li>SetTrackScore - improved checking for validity of parameters</li>
+<li>SetTrackVolPan - improved checking for validity of parameters</li>
+<li>SetTrackRecCFG - improved checking for validity of parameters</li>
 </ul>
 <h3>4.00 Beta 2.7: - "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018</h3>
 <p>Has now 700 functions, with about 250 new ones!</p>

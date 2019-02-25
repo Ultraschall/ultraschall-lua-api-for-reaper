@@ -121,6 +121,9 @@
   - GetVideoHWND - returns the HWND of the Video Window
   - VID_VideoUIStateCoords2Pixels - converts the coordinates, returned by the video-processor-function ui_get_state into pixels
   - VID_Pixels2VideoUIStateCoords - converts back the coordinates from pixels into the coordinates returned by the video-processor-function ui_get_state 
+  - GetArrangeViewHWND - gets the hwnd of the tracklist-part of the arrangeview
+  - GetTimelineHWND - gets the hwnd of the timeline-part of the arrangeview
+  - Docs: Concepts: Error Messaging System: Other helpers for Error-Messaging-system - added chapter
   
 #### Changes from 4.00beta2.7 to 4.00beta2.72
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -254,85 +257,72 @@
   - CountEnvelopePoints - improved checking for validity of parameters
   - GetTrackLength - improved checking for validity of parameters
   - GetLengthOfFile - improved checking for validity of parameters
+  - RGB2Grayscale - improved checking for validity of parameters
+  - GetNextClosestItemEdge - improved checking for validity of parameters
+  - GetPreviousClosestItemEdge - improved checking for validity of parameters
+  - GetClosestNextMarker - improved checking for validity of parameters
+  - GetClosestNextRegionEdge - improved checking for validity of parameters
+  - ToggleMute - improved checking for validity of parameters
+  - ToggleMute_TrackObject - improved checking for validity of parameters
+  - GetPreviousMuteState - improved checking for validity of parameters
+  - GetProject_GetMarker - could produce a Lua-error, when filename was nil -> fixed
+  - GetProject_GetRegion - could produce a Lua-error, when filename was nil -> fixed
+  - GetEnvelopePoint - improved checking for validity of parameters
+  - GetClosestEnvelopePointIDX_ByTime - improved checking for validity of parameters
+  - GetEnvelopePointIDX_Between - improved checking for validity of parameters
+  - SetEnvelopeHeight - improved checking for validity of parameters
+  - StoreArrangeviewSnapshot - improved checking for validity of parameters
+  - IsValidArrangeviewSnapshot - improved checking for validity of parameters
+  - RetrieveArrangeviewSnapshot - improved checking for validity of parameters
+  - RestoreArrangeviewSnapshot - improved checking for validity of parameters
+  - SetTrackGroupFlagsState - improved checking for validity of parameters
+  - SetTrackGroupFlags_HighState - improved checking for validity of parameters
+  - SetTrackName - improved checking for validity of parameters
+  - SetTrackPeakColorState - improved checking for validity of parameters
+  - SetTrackBeatState - improved checking for validity of parameters
+  - SetTrackAutoRecArmState - improved checking for validity of parameters
+  - SetTrackMuteSoloState - improved checking for validity of parameters
+  - SetTrackIPhaseState - improved checking for validity of parameters
+  - SetTrackIsBusState - improved checking for validity of parameters
+  - SetTrackBusCompState - improved checking for validity of parameters
+  - SetTrackShowInMixState - improved checking for validity of parameters
+  - SetTrackFreeModeState - improved checking for validity of parameters
+  - SetTrackRecState - improved checking for validity of parameters
+  - SetTrackVUState - improved checking for validity of parameters
+  - SetTrackHeightState - improved checking for validity of parameters
+  - SetTrackINQState - improved checking for validity of parameters
+  - SetTrackNChansState - improved checking for validity of parameters
+  - SetTrackBypFXState - improved checking for validity of parameters
+  - SetTrackPerfState - improved checking for validity of parameters
+  - SetTrackMIDIOutState - improved checking for validity of parameters
+  - SetTrackMainSendState - improved checking for validity of parameters
+  - SetTrackLockState - improved checking for validity of parameters
+  - SetTrackLayoutNames - improved checking for validity of parameters
+  - SetTrackAutomodeState - improved checking for validity of parameters
+  - SetTrackIcon\_Filename - improved checking for validity of parameters; didn't add trackicon, when no image was set already -> fixed; when Iconfilename_with_path=nil, removes trackicon now
+  - SetTrackMidiInputChanMap - improved checking for validity of parameters; didn't set MidiInputChanMap -> fixed; removes now MidiInputChanMap, when InputChanMap=nil
+  - SetTrackMidiCTL - improved checking for validity of parameters
+  - SetTrackID - improved checking for validity of parameters
+  - SetTrackMidiColorMapFn - improved checking for validity of parameters, setting filename to "" removes the MidiColorMap, now
+  - SetTrackMidiBankProgFn - improved checking for validity of parameters
+  - SetTrackMidiTextStrFn - improved checking for validity of parameters
+  - SetTrackPanMode - improved checking for validity of parameters
+  - SetTrackWidth - improved checking for validity of parameters
+  - SetTrackScore - improved checking for validity of parameters
+  - SetTrackVolPan - improved checking for validity of parameters
+  - SetTrackRecCFG - improved checking for validity of parameters
   
 <TODO>
     API 4.00beta2.72
       TODO!! finish up ReaPack installation of the Ultraschall-API
+      TODO!! docs: installation via ReaPack including install-link
       TODO!! docs: exchange api.ultraschall.fm/Downloads.html with the correct URL
-      TODO!! ShowErrorMessagesInReascriptConsole - document in the concepts-page; is it possible to display the linenumber of the functioncall as well?
       TODO!! minor fixes in ConfigVardocs, as mentioned in the reaper-forum
-      TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
       TODO!! Docs: JS-Plugin-useable functions - should work on Mac now with JS0.963. Check them plz.
       
-      TODO!! see GetArrangeWnd() from BR_Util.cpp:
-                    HWND GetArrangeWnd ()
-                    {
-                        static HWND s_hwnd = NULL; /* More efficient and Justin says it's safe: http://askjf.com/index.php?q=2653s */
-
-                        if (!s_hwnd)
-                        {
-                            #ifdef _WIN32
-                                if (IsLocalized())
-                                {
-                                    char preparedName[2048];
-                                    PrepareLocalizedString(__localizeFunc("trackview", "DLG_102", 0), preparedName, sizeof(preparedName));
-
-                                    HWND wnd = SearchChildren(preparedName, g_hwndParent);
-                                    while (wnd)
-                                    {
-                                        char buf[256];
-                                        GetClassName(wnd, buf, sizeof(buf));
-                                        if (!strcmp(buf, "REAPERTrackListWindow"))
-                                        {
-                                            s_hwnd = wnd;
-                                            break;
-                                        }
-                                        wnd = SearchChildren(preparedName, g_hwndParent, wnd);
-                                    }
-                                }
-                                else
-                                {
-                                    s_hwnd = FindWindowEx(g_hwndParent, 0, "REAPERTrackListWindow", __localizeFunc("trackview", "DLG_102", 0));
-                                }
-                            #else
-                                return GetWindow(g_hwndParent, GW_CHILD);
-                            #endif
-                        }
-                        return s_hwnd;
-                    }
-                    
-                    
-      TODO!! Code still has countless of useless tonumber-conversions included and other weird old parameter-checks:
-                
-
-            - GetNextClosestItemEdge - improved checking for validity of parameters
-            - GetPreviousClosestItemEdge - improved checking for validity of parameters
-            - GetClosestNextMarker - improved checking for validity of parameters
-            - GetClosestPreviousMarker - improved checking for validity of parameters
-            - GetClosestNextRegionEdge - improved checking for validity of parameters
-            - GetClosestPreviousRegionEdge - improved checking for validity of parameters
-            - ToggleMute - improved checking for validity of parameters
-            - ToggleMute_TrackObject - improved checking for validity of parameters
-
-            - GetPreviousMuteState - improved checking for validity of parameters
-            - GetNextMuteState_TrackObject - improved checking for validity of parameters
-            - GetPreviousMuteState_TrackObject - improved checking for validity of parameters
-
-            - GetProject_GetMarker - improved checking for validity of parameters
-            - GetProject_CountMarkersAndRegions - improved checking for validity of parameters
-            - GetProject_GetRegion - improved checking for validity of parameters
-            - GetEnvelopePoint - improved checking for validity of parameters
-            - GetClosestEnvelopePointIDX_ByTime - improved checking for validity of parameters
-            - GetEnvelopePointIDX_Between - improved checking for validity of parameters
-                
-            - WriteValueToFile_Insert - improved checking for validity of parameters
-            - WriteValueToFile_Replace - improved checking for validity of parameters
-            - WriteValueToFile_InsertBinary - improved checking for validity of parameters
-            - WriteValueToFile_ReplaceBinary - improved checking for validity of parameters
-            
-    SetTrack-functions still need that kind of treatment as well.
-                 
     API 4.00beta2.75
+      TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
+      TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
       TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
              produziert die API Fehler.            
       TODO!! Event-System, as defined on the Congress

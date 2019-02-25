@@ -6350,7 +6350,7 @@ function ultraschall.GetRenderToFileHWND()
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, window, render to file, hwnd</tags>
+  <tags>user interface, window, render to file, hwnd, get</tags>
 </US_DocBloc>
 --]]
 
@@ -6403,7 +6403,7 @@ function ultraschall.GetActionsHWND()
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, window, hwnd, actions</tags>
+  <tags>user interface, window, hwnd, actions, get</tags>
 </US_DocBloc>
 --]]
   local translation=reaper.JS_Localize("Actions", "common")
@@ -6447,7 +6447,7 @@ function ultraschall.GetVideoHWND()
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, window, hwnd, video</tags>
+  <tags>user interface, window, hwnd, video, get</tags>
 </US_DocBloc>
 --]]
   local translation=reaper.JS_Localize("Video Window", "common")
@@ -6524,5 +6524,91 @@ end
   <tags>gfx, functions, gfx, init, window, get, hwnd</tags>
 </US_DocBloc>
 ]]
+
+
+function ultraschall.GetArrangeViewHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetArrangeViewHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetArrangeViewHWND()</functioncall>
+  <description>
+    returns the HWND of the tracklist-part of the Arrange-View
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the arrangeview
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, hwnd, get, arrangeview, tracklist</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("trackview", "DLG_102")
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if reaper.JS_Window_GetClassName(hwnd_array[i], "")=="REAPERTrackListWindow" then 
+        local retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(hwnd_array[i])
+        return hwnd_array[i], left, top, right, bottom
+      end
+    end
+  end
+  return nil
+end
+
+--AAA=ultraschall.GetArrangeViewHWND()
+
+--gfx.init("timeline")
+
+function ultraschall.GetTimelineHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTimelineHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetTimelineHWND()</functioncall>
+  <description>
+    returns the HWND of the timeline-part of the ArrangeView
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the timeline
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, get, hwnd, timeline, arrangeview</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("timeline", "DLG_102")
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if reaper.JS_Window_GetClassName(hwnd_array[i], "")=="REAPERTimeDisplay" then 
+        local retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(hwnd_array[i])
+        return hwnd_array[i], left, top, right, bottom
+      end
+    end
+  end
+  return nil
+end
+
 
 ultraschall.ShowLastErrorMessage()
