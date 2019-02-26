@@ -5862,17 +5862,32 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
   <tags>user interface, get, hwnd, arrangeview, timeline, trackview</tags>
 </US_DocBloc>
 --]]
-  if ultraschall.ARHWND==nil then
-    local HWND=reaper.GetMainHwnd()
+  -- fantastic arrangeview- and timeline-hwnds and where to find them...
+  -- by "J.K."Mespotine ;)
+
+  -- preparation of variables
+  local ARHWND, TLHWND, temphwnd
+  
+  -- if we haven't stored the adress of the arrangeviewhwnd yet, let's go find them.
+  if reaper.GetExtState("ultraschall", "arrangehwnd")=="" then
+    -- prepare some values we need
     local Start,Stop = reaper.BR_GetArrangeView(0)
     local Projectlength=reaper.GetProjectLength()
+
+    -- get mainhwnd of Reaper and all of it's childhwnds
+    local HWND=reaper.GetMainHwnd()    
+    local retval, list = reaper.JS_Window_ListAllChild(HWND)    
     
-    local retval, list = reaper.JS_Window_ListAllChild(HWND)
+    --Now, the magic happens
     
-    local ARHWND, TLHWND, temphwnd
     
+    -- [ Getting Arrangeview HWND] --
+    
+    -- split the hwnd-adresses into individual adresses
     local Count, Individual_values = ultraschall.CSV2IndividualLinesAsArray(list)
     
+    
+    -- get current scroll-state of all hwnds
     local ScrollState={}
     for i=1, Count do
       ScrollState[i]={}
@@ -5882,8 +5897,10 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
       retval, ScrollState[i]["left"], ScrollState[i]["top"], ScrollState[i]["right"], ScrollState[i]["bottom"] = reaper.JS_Window_GetRect(temphwnd)
     end
     
+    -- alter scrollstate
     reaper.BR_SetArrangeView(0,Start+100000,Stop+100000)
     
+    -- check scrollstate of all hwnds for the one, whose scrollstate changed, as this is the arrange-view-hwnd
     for i=1, Count do
       temphwnd=reaper.JS_Window_HandleFromAddress(Individual_values[i])
       local retval, position, pageSize, min, max, trackPos = reaper.JS_Window_GetScrollInfo(temphwnd,"h")
@@ -5902,17 +5919,25 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
         break
       end
     end
-    
+
+    -- in the unlikely case that I can't find a hwnd, return this error-message    
     if ARHWND==nil then ultraschall.AddErrorMessage("GetHWND_ArrangeViewAndTimeLine", "", 
           [[Couldn't find Arrangeview for some reason. Please report this to me as a bug and what you did to make this error happen!
   
   Please include in the bugreport your OS, the Reaper-version and the following information:
   ]]..Projectlength..", "..Start..", "..Stop..", "..reaper.GetHZoomLevel(), -1) return nil end
     
+    -- reset arrangeview-scrolling to it's original state
     reaper.BR_SetArrangeView(0,Start,Stop)
     
+
+    -- [ Getting Timeline HWND] --
+    
+    -- let's get the dimensions of the arrangeview-hwnd, as top, left and right-positions can be used
+    -- to determine bottom, left, right of the timeline-hwnd
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(ARHWND)
     
+    -- check all hwnds to find the one, that has right=right, left=left, bottom_timeline=top_arrangeview
     for i=1, Count do
       local temphwnd=reaper.JS_Window_HandleFromAddress(Individual_values[i])
       if ScrollState[i]["left"]==left and ScrollState[i]["right"]==right and ScrollState[i]["bottom"]==top then
@@ -5920,13 +5945,26 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
         break
       end
     end
+    
+    -- store the adresses of the found HWNDs of Arrangeview and Timeline into an extstate for further use, to prevent useless
+    -- scroll-state-altering of the Arrangeview(which could cause stuck Arrangeviews, when done permanently)
+    reaper.SetExtState("ultraschall", "arrangehwnd", reaper.JS_Window_AddressFromHandle(ARHWND), false)
+    reaper.SetExtState("ultraschall", "timelinehwnd", reaper.JS_Window_AddressFromHandle(TLHWND), false)
     ultraschall.ARHWND=ARHWND
     ultraschall.TLHWND=TLHWND
+  else
+    -- if the extstate already has stored the arrangeview-hwnd-address, just convert the one for arrangeview and timeline
+    -- it into their handles and return them
+    ARHWND=reaper.JS_Window_HandleFromAddress(reaper.GetExtState("ultraschall", "arrangehwnd"))
+    TLHWND=reaper.JS_Window_HandleFromAddress(reaper.GetExtState("ultraschall", "timelinehwnd"))
   end  
-  return ultraschall.ARHWND, ultraschall.TLHWND
+  return ARHWND, TLHWND
 end
 
+--    reaper.SetExtState("ultraschall", "arrangehwnd", "", false)
+
 --A,B=ultraschall.GetHWND_ArrangeViewAndTimeLine()
+--C,D=reaper.JS_Window_GetTitle(B)
 --P=reaper.GetHZoomLevel()
 --C=reaper.JS_Window_FromPoint(reaper.GetMousePosition())
 
