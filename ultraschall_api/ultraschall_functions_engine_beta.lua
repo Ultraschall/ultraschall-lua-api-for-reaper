@@ -6588,8 +6588,8 @@ end
   <slug>GFX_Init</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.95
-    JS=0.962
+    Reaper=5.965
+    JS=0.964
     Lua=5.3
   </requires>
   <functioncall>integer retval, HWND hwnd = ultraschall.GFX_Init(string "name", optional integer width, optional integer height, optional integer dockstate, optional integer xpos, optional integer ypos)</functioncall>
@@ -6623,7 +6623,8 @@ end
   <slug>GFX_GetWindowHWND</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.95
+    Reaper=5.965
+    JS=0.964
     Lua=5.3
   </requires>
   <functioncall>HWND hwnd = ultraschall.GFX_GetWindowHWND()</functioncall>
@@ -6631,8 +6632,8 @@ end
     Returns the HWND of the currently opened gfx-window. You need to use [ultraschall.GFX_Init()](#GFX_Init), otherwise 
     it will contain the message "Please, use ultraschall.GFX_Init() for window-creation, not gfx.init(!), to retrieve the HWND of the gfx-window."
   </description>
-  <retvals>
-     HWND hwnd - the window-handler of the opened gfx-window; will contain a helpermessage, if you didn't use [ultraschall.GFX_Init()](#GFX_Init) for window creation.
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+     HWND hwnd - the window-handler of the opened gfx-window; will contain a helpermessage, if you didn't use ultraschall.GFX_Init() for window creation.
   </retvals>
   <chapter_context>
     User Interface

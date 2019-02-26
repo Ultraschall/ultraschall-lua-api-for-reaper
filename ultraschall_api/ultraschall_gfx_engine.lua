@@ -531,8 +531,8 @@ function ultraschall.GFX_Init(...)
   <slug>GFX_Init</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.95
-    JS=0.962
+    Reaper=5.965
+    JS=0.964
     Lua=5.3
   </requires>
   <functioncall>integer retval, HWND hwnd = ultraschall.GFX_Init(string "name", optional integer width, optional integer height, optional integer dockstate, optional integer xpos, optional integer ypos)</functioncall>
@@ -603,7 +603,8 @@ function ultraschall.GFX_GetWindowHWND()
   <slug>GFX_GetWindowHWND</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.95
+    Reaper=5.965
+    JS_0.964
     Lua=5.3
   </requires>
   <functioncall>HWND hwnd = ultraschall.GFX_GetWindowHWND()</functioncall>

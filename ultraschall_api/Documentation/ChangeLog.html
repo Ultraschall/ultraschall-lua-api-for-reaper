@@ -41,16 +41,15 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.00 Beta 2.72: - "Blue Oyster Cult - Don't fear the Reaper" - 1st of March 2019</h3>
-<pre><code>- *Defer-functions*, that allow setting, how often a specific defer-loop shall be executed, every n&#39;th cycle/second. They also
-allow being terminated from inside and outside the current script.
-
-- *ChildScripts*, that allow you to run scripts as multiple script-instances, pass parameters and returnvalues to and from them
-
-- *Get HWNDS*, get numerous HWNDs, including the one of your gfx.init-window
-
-- *print and print2*, replaces the unuseable print-function from Lua
-
-- *Reaper-Internals Docs* - updated to Reaper 5.97, SWS 2.10.1, JS-Extension 0.964 and ReaPack.</code></pre>
+<ul>
+<li><p><strong>Defer-functions</strong>, that allow setting, how often a specific defer-loop shall be executed, every n'th cycle/second. They also allow being terminated from inside and outside the current script.</p></li>
+<li><p><strong>ChildScripts</strong>, that allow you to run scripts as multiple script-instances, pass parameters and returnvalues to and from them</p></li>
+<li><p><strong>Get HWNDS</strong>, get numerous HWNDs, including the one of your gfx.init-window, ArrangeView, Timeline, Render to File-dialog, Actions-dialog, etc</p></li>
+<li><p><strong>print and print2</strong>, replaces the unuseable print-function from Lua</p></li>
+<li><p><strong>new backgroundscripts</strong>, who monitor statechanges of playstate, editcursorposition and loop-button</p></li>
+<li><p><strong>Reaper-Internals Docs</strong>, updated to Reaper 5.97, SWS 2.10.1, JS-Extension 0.964 and ReaPack.</p></li>
+<li><p>many, many, many, many bugfixes</p></li>
+</ul>
 <h4>New features in 4.00beta2.72</h4>
 <ul>
 <li>SplitStringAtNULLBytes - splits a string at NULL-bytes ( \0 )</li>
@@ -148,10 +147,11 @@ allow being terminated from inside and outside the current script.
 <li>GetRenderToFileHWND - returns the HWND of the Render to File-dialog</li>
 <li>GetActionsHWND - returns the HWND of the Actions-dialog</li>
 <li>GetVideoHWND - returns the HWND of the Video Window</li>
-<li>VID<em>VideoUIStateCoords2Pixels - converts the coordinates, returned by the video-processor-function ui</em>get_state into pixels</li>
-<li>VID<em>Pixels2VideoUIStateCoords - converts back the coordinates from pixels into the coordinates returned by the video-processor-function ui</em>get_state</li>
+<li>VID_VideoUIStateCoords2Pixels - converts the coordinates, returned by the video-processor-function ui_get_state into pixels</li>
+<li>VID_Pixels2VideoUIStateCoords - converts back the coordinates from pixels into the coordinates returned by the video-processor-function ui_get_state</li>
 <li>Docs: Concepts: Error Messaging System: Other helpers for Error-Messaging-system - added chapter</li>
 <li>GetHWND_ArrangeViewAndTimeLine - returns the HWND-window-handler for the tracklist- and timeline-area of the arrangeview</li>
+<li>A_Simple_EventManager_with_Backgroundhelpers_and_Defer01.lua - a simple demo-eventmanager, that employs the background-helper-scripts and the Defer01-function</li>
 </ul>
 <h4>Changes from 4.00beta2.7 to 4.00beta2.72</h4>
 <ul>

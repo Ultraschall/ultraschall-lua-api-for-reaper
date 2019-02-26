@@ -26,7 +26,7 @@ draft 23th February 2019 - Meo Mespotine
         3. 
         
     Code
-    ` - backticks start and end code; inline and not inline-code are treated the same
+    ` - backticks start and end code; inline and not-inline-code are treated the same
         Für Einrückung muss der erste Backtick eingerückt sein und das erste Element in seiner Zeile sein.
         Alle nachfolgenden Zeilen richten sich nach der Ausrichtung des Backticks.
         

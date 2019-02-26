@@ -3,16 +3,20 @@
 
 ### 4.00 Beta 2.72: - "Blue Oyster Cult - Don't fear the Reaper" - 1st of March 2019
 
-    - *Defer-functions*, that allow setting, how often a specific defer-loop shall be executed, every n'th cycle/second. They also
-    allow being terminated from inside and outside the current script.
+   - **Defer-functions**, that allow setting, how often a specific defer-loop shall be executed, every n'th cycle/second. They also
+   allow being terminated from inside and outside the current script.
     
-    - *ChildScripts*, that allow you to run scripts as multiple script-instances, pass parameters and returnvalues to and from them
+   - **ChildScripts**, that allow you to run scripts as multiple script-instances, pass parameters and returnvalues to and from them
+   
+   - **Get HWNDS**, get numerous HWNDs, including the one of your gfx.init-window, ArrangeView, Timeline, Render to File-dialog, Actions-dialog, etc
     
-    - *Get HWNDS*, get numerous HWNDs, including the one of your gfx.init-window
+   - **print and print2**, replaces the unuseable print-function from Lua
     
-    - *print and print2*, replaces the unuseable print-function from Lua
+   - **new backgroundscripts**, who monitor statechanges of playstate, editcursorposition and loop-button
     
-    - *Reaper-Internals Docs* - updated to Reaper 5.97, SWS 2.10.1, JS-Extension 0.964 and ReaPack.
+   - **Reaper-Internals Docs**, updated to Reaper 5.97, SWS 2.10.1, JS-Extension 0.964 and ReaPack.
+   
+   - many, many, many, many bugfixes
     
 
 #### New features in 4.00beta2.72
@@ -119,10 +123,11 @@
   - GetRenderToFileHWND - returns the HWND of the Render to File-dialog
   - GetActionsHWND - returns the HWND of the Actions-dialog
   - GetVideoHWND - returns the HWND of the Video Window
-  - VID_VideoUIStateCoords2Pixels - converts the coordinates, returned by the video-processor-function ui_get_state into pixels
-  - VID_Pixels2VideoUIStateCoords - converts back the coordinates from pixels into the coordinates returned by the video-processor-function ui_get_state 
+  - VID\_VideoUIStateCoords2Pixels - converts the coordinates, returned by the video-processor-function ui\_get\_state into pixels
+  - VID\_Pixels2VideoUIStateCoords - converts back the coordinates from pixels into the coordinates returned by the video-processor-function ui\_get\_state 
   - Docs: Concepts: Error Messaging System: Other helpers for Error-Messaging-system - added chapter
   - GetHWND_ArrangeViewAndTimeLine - returns the HWND-window-handler for the tracklist- and timeline-area of the arrangeview
+  - A\_Simple\_EventManager\_with\_Backgroundhelpers\_and\_Defer01.lua - a simple demo-eventmanager, that employs the background-helper-scripts and the Defer01-function
   
 #### Changes from 4.00beta2.7 to 4.00beta2.72
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -319,6 +324,8 @@
       TODO!! minor fixes in ConfigVardocs, as mentioned in the reaper-forum
       
     API 4.00beta2.75
+      TODO!! Doccreation: - wrong number of functions in any other docspage than functions-engine
+                          - retvals(maybe parameters as well?) don't convert MD2HTML in functions-engine-docconverter
       TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
       TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
       TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
