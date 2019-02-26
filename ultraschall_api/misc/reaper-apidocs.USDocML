@@ -20467,7 +20467,7 @@
         <functioncall prog_lang="python">(void retval, Boolean inlineEditorOut, Int noteRowOut, Int ccLaneOut, Int ccLaneValOut, Int ccLaneIdOut) = BR_GetMouseCursorContext_MIDI(inlineEditorOut, noteRowOut, ccLaneOut, ccLaneValOut, ccLaneIdOut)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -20840,7 +20840,7 @@
         <functioncall prog_lang="python">Boolean BR_MIDI_CCLaneRemove(void midiEditor, Int laneId)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -20870,7 +20870,7 @@
         <functioncall prog_lang="python">Boolean BR_MIDI_CCLaneReplace(void midiEditor, Int laneId, Int newCC)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -21695,7 +21695,7 @@
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Boolean analyzeTruePeak, Float lufsIntegratedOut, Float rangeOut, Float truePeakOut, Float truePeakPosOut, Float shortTermMaxOut, Float momentaryMaxOut, Float shortTermMaxPosOut, Float momentaryMaxPosOut) = NF_AnalyzeTakeLoudness2(take, analyzeTruePeak, lufsIntegratedOut, rangeOut, truePeakOut, truePeakPosOut, shortTermMaxOut, momentaryMaxOut, shortTermMaxPosOut, momentaryMaxPosOut)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -21733,7 +21733,7 @@
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take take, Float lufsIntegratedOut) = NF_AnalyzeTakeLoudness_IntegratedOnly(take, lufsIntegratedOut)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -22322,7 +22322,7 @@
         <functioncall prog_lang="python">Boolean SNM_MoveOrRemoveTrackFX(MediaTrack tr, Int fxId, Int what)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27438,7 +27438,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_CB_FindString(void comboBoxHwnd, Int startId, String string)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27472,7 +27472,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_CB_FindStringExact(void comboBoxHwnd, Int startId, String string)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27506,7 +27506,7 @@
         <functioncall prog_lang="python">(void hwnd, Int xIn, Int yIn, Int xOut, Int yOut) = BR_Win32_ClientToScreen(hwnd, xIn, yIn, xOut, yOut)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27541,7 +27541,7 @@
         <functioncall prog_lang="python">void  BR_Win32_FindWindowEx(String hwndParent, String hwndChildAfter, String className, String windowName, Boolean searchClass, Boolean searchName)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -27578,7 +27578,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_GET_X_LPARAM(Int lParam)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27610,7 +27610,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_GET_Y_LPARAM(Int lParam)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27642,7 +27642,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_GetConstant(String constantName)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27683,7 +27683,7 @@
         <functioncall prog_lang="python">(Boolean retval, Int xOut, Int yOut) = BR_Win32_GetCursorPos(xOut, yOut)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27713,7 +27713,7 @@
         <functioncall prog_lang="python">void  BR_Win32_GetFocus()</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27742,7 +27742,7 @@
         <functioncall prog_lang="python">void  BR_Win32_GetForegroundWindow()</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27771,7 +27771,7 @@
         <functioncall prog_lang="python">void  BR_Win32_GetMainHwnd()</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -27800,7 +27800,7 @@
         <functioncall prog_lang="python">(void retval, Boolean isDockedOut) = BR_Win32_GetMixerHwnd(isDockedOut)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27830,7 +27830,7 @@
         <functioncall prog_lang="python">(Boolean workingAreaOnly, Int leftIn, Int topIn, Int rightIn, Int bottomIn, Int leftOut, Int topOut, Int rightOut, Int bottomOut) = BR_Win32_GetMonitorRectFromRect(workingAreaOnly, leftIn, topIn, rightIn, bottomIn, leftOut, topOut, rightOut, bottomOut)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27869,7 +27869,7 @@
         <functioncall prog_lang="python">void  BR_Win32_GetParent(void hwnd)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27901,7 +27901,7 @@
         <functioncall prog_lang="python">void  BR_Win32_GetWindow(void hwnd, Int cmd)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27934,7 +27934,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_GetWindowLong(void hwnd, Int index)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -27967,7 +27967,7 @@
         <functioncall prog_lang="python">(Boolean retval, void hwnd, Int leftOut, Int topOut, Int rightOut, Int bottomOut) = BR_Win32_GetWindowRect(hwnd, leftOut, topOut, rightOut, bottomOut)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28003,7 +28003,7 @@
         <functioncall prog_lang="python">(Int retval, void hwnd, String textOut, Int textOut_sz) = BR_Win32_GetWindowText(hwnd, textOut, textOut_sz)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28036,7 +28036,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_HIBYTE(Int value)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28067,7 +28067,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_HIWORD(Int value)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28098,7 +28098,7 @@
         <functioncall prog_lang="python">(void hwnd, String stringOut, Int stringOut_sz) = BR_Win32_HwndToString(hwnd, stringOut, stringOut_sz)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -28130,7 +28130,7 @@
         <functioncall prog_lang="python">Boolean  BR_Win32_IsWindow(void hwnd)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28162,7 +28162,7 @@
         <functioncall prog_lang="python">Boolean  BR_Win32_IsWindowVisible(void hwnd)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28194,7 +28194,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_LOBYTE(Int value)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28226,7 +28226,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_LOWORD(Int value)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28257,7 +28257,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_MAKELONG(Int low, Int high)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28289,7 +28289,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_MAKELPARAM(Int low, Int high)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28321,7 +28321,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_MAKELRESULT(Int low, Int high)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28353,7 +28353,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_MAKEWORD(Int low, Int high)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28385,7 +28385,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_MAKEWPARAM(Int low, Int high)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28417,7 +28417,7 @@
         <functioncall prog_lang="python">void  BR_Win32_MIDIEditor_GetActive()</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -28446,7 +28446,7 @@
         <functioncall prog_lang="python">(void hwnd, Int xIn, Int yIn, Int xOut, Int yOut) = BR_Win32_ScreenToClient(hwnd, xIn, yIn, xOut, yOut)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28481,7 +28481,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_SendMessage(void hwnd, Int msg, Int lParam, Int wParam)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28516,7 +28516,7 @@
         <functioncall prog_lang="python">void  BR_Win32_SetFocus(void hwnd)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28548,7 +28548,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_SetForegroundWindow(void hwnd)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28580,7 +28580,7 @@
         <functioncall prog_lang="python">Int  BR_Win32_SetWindowLong(void hwnd, Int index, Int newLong)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28614,7 +28614,7 @@
         <functioncall prog_lang="python">Boolean  BR_Win32_SetWindowPos(void hwnd, String hwndInsertAfter, Int x, Int y, Int width, Int height, Int flags)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -28653,7 +28653,7 @@
         <functioncall prog_lang="python">Boolean  BR_Win32_ShowWindow(void hwnd, Int cmdShow)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28686,7 +28686,7 @@
         <functioncall prog_lang="python">void  BR_Win32_StringToHwnd(String string)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -28718,7 +28718,7 @@
         <functioncall prog_lang="python">void  BR_Win32_WindowFromPoint(Int x, Int y)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28751,7 +28751,7 @@
         <functioncall prog_lang="python">(Int retval, PCM_source src, Int index, Float timeOut, Float endTimeOut, Boolean isRegionOut, String nameOut, Int nameOut_sz) = CF_EnumMediaSourceCues(src, index, timeOut, endTimeOut, isRegionOut, nameOut, nameOut_sz)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28787,7 +28787,7 @@
         <functioncall prog_lang="python">Int  CF_EnumSelectedFX(FxChain hwnd, Int index)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28819,7 +28819,7 @@
         <functioncall prog_lang="python">(Int retval, Int section, Int index, String name, Int name_sz) = CF_EnumerateActions(section, index, name, name_sz)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28854,7 +28854,7 @@
         <functioncall prog_lang="python">Boolean  CF_ExportMediaSource(PCM_source src, String fn)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28886,7 +28886,7 @@
         <functioncall prog_lang="python">String  CF_GetCommandText(Int section, Int command)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -28918,7 +28918,7 @@
         <functioncall prog_lang="python">FxChain  CF_GetFocusedFXChain()</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28946,7 +28946,7 @@
         <functioncall prog_lang="python">Int  CF_GetMediaSourceBitDepth(PCM_source src)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -28977,7 +28977,7 @@
         <functioncall prog_lang="python">(Boolean retval, PCM_source src, String name, String out, Int out_sz) = CF_GetMediaSourceMetadata(src, name, out, out_sz)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -29011,7 +29011,7 @@
         <functioncall prog_lang="python">Boolean  CF_GetMediaSourceOnline(PCM_source src)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -29042,7 +29042,7 @@
         <functioncall prog_lang="python">(Boolean retval, PCM_source src, String fn, Int fn_sz) = CF_GetMediaSourceRPP(src, fn, fn_sz)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -29075,7 +29075,7 @@
         <functioncall prog_lang="python">(String buf, Int buf_sz) = CF_GetSWSVersion(buf, buf_sz)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -29105,7 +29105,7 @@
         <functioncall prog_lang="python">FxChain  CF_GetTakeFXChain(MediaItem_Take take)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -29136,7 +29136,7 @@
         <functioncall prog_lang="python">FxChain  CF_GetTrackFXChain(MediaTrack track)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -29167,7 +29167,7 @@
         <functioncall prog_lang="python">Boolean  CF_LocateInExplorer(String file)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -29198,7 +29198,7 @@
         <functioncall prog_lang="python">CF_SetMediaSourceOnline(PCM_source src, Boolean set)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -29227,7 +29227,7 @@
         <functioncall prog_lang="python">Boolean  CF_ShellExecute(String file)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -29258,7 +29258,7 @@
         <functioncall prog_lang="python">Boolean  NF_AnalyzeMediaItemPeakAndRMS(MediaItem item, Float windowSize, void reaper.array_peaks, void reaper.array_peakpositions, void reaper.array_RMSs, void reaper.array_RMSpositions)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -29299,7 +29299,7 @@
         <functioncall prog_lang="python">(Float retval, MediaItem item, Float maxPeakPosOut) = NF_GetMediaItemMaxPeakAndMaxPeakPos(item, maxPeakPosOut)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -29331,7 +29331,7 @@
         <functioncall prog_lang="python">String  NF_GetSWSMarkerRegionSub(Int markerRegionIdx)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -29364,7 +29364,7 @@
         <functioncall prog_lang="python">String  NF_GetSWSTrackNotes(MediaTrack track)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -29394,7 +29394,7 @@
         <functioncall prog_lang="python">Boolean  NF_SetSWSMarkerRegionSub(String markerRegionSub, Int markerRegionIdx)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -29428,7 +29428,7 @@
         <functioncall prog_lang="python">NF_SetSWSTrackNotes(MediaTrack track, String str)</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -29456,7 +29456,7 @@
         <functioncall prog_lang="python">NF_UpdateSWSMarkerRegionSubWindow()</functioncall>
         <requires>
             Reaper=5.965
-            SWS=2.10.1
+            SWS=2.10.0.1
             Lua=5.3
         </requires>
         <description prog_lang="*">
