@@ -327,7 +327,6 @@
       TODO!! docs: exchange api.ultraschall.fm/Downloads.html with the correct URL
                 https://mespotin.uber.space/Ultraschall/Downloads.html
       TODO!! minor fixes in ConfigVardocs, as mentioned in the reaper-forum
-      TODO!! docs - sws 2.10.0 is not parsed, probably due middle number beind two chars
       TODO!! GetSetCustom Regions/Markers - vanilla-chief-features
       
     API 4.00beta2.75
