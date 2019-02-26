@@ -24746,7 +24746,7 @@
            
             * The list is formatted as a comma-separated (and terminated) string of hexadecimal values.
            
-            * Each value is an address that can be converted to a HWND by the function Window_HandleFromAddress.
+            * Each value is an address that can be converted to a HWND by the function JS_Window_HandleFromAddress.
 
         </description>
         <retvals>
@@ -26391,7 +26391,7 @@
             Returns:
             * retval: The number of windows found; negative if an error occurred.
             * list: A comma-separated string of hexadecimal values.
-            Each value is an address that can be converted to a HWND by the function Window_HandleFromAddress.
+            Each value is an address that can be converted to a HWND by the function JS_Window_HandleFromAddress.
         </description>
         <retvals>
             integer retval - 
@@ -26425,7 +26425,7 @@
 
             Returns:
             * retval: The number of windows found; negative if an error occurred.
-            * list: A comma-separated string of hexadecimal values. Each value is an address that can be converted to a HWND by the function Window_HandleFromAddress.
+            * list: A comma-separated string of hexadecimal values. Each value is an address that can be converted to a HWND by the function JS_Window_HandleFromAddress.
         </description>
         <retvals>
            integer retval - 
@@ -26456,7 +26456,7 @@
 
             Returns:
             * retval: The number of windows found; negative if an error occurred.
-            * list: A comma-separated string of hexadecimal values. Each value is an address that can be converted to a HWND by the function Window_HandleFromAddress.
+            * list: A comma-separated string of hexadecimal values. Each value is an address that can be converted to a HWND by the function JS_Window_HandleFromAddress.
 
             Parameters:
             * exact: Match entire title exactly, or match substring of title.

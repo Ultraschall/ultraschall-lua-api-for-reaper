@@ -47,7 +47,7 @@ if type(ultraschall)~="table" then
   reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", string2, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")  
   ultraschall={} 
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-  Retval, HWND=ultraschall.GFX_Init()
+  local Retval, HWND=ultraschall.GFX_Init()
 end
 
 if ultraschall.GFX_WindowHWND==nil then ultraschall.GFX_WindowHWND="Please, use ultraschall.GFX_Init() for window-creation, not gfx.init(!), to retrieve the HWND of the gfx-window." end
@@ -559,35 +559,42 @@ function ultraschall.GFX_Init(...)
   <tags>gfx, functions, gfx, init, window, create, hwnd</tags>
 </US_DocBloc>
 ]]
-  local parms={...}
-  local temp=parms[1]
-
-  -- check, if the given windowtitle is a valid one, 
-  -- if that's not the case, use "" as name
-  if temp==nil or type(temp)~="string" then temp="" end  
-  if type(parms[1])~="string" then parms[1]="" 
+  local A=gfx.getchar(65536)
+  local HWND, retval
+  if A&4==0 then
+    local parms={...}
+    local temp=parms[1]
+  
+    -- check, if the given windowtitle is a valid one, 
+    -- if that's not the case, use "" as name
+    if temp==nil or type(temp)~="string" then temp="" end  
+    if type(parms[1])~="string" then parms[1]="" 
+    end
+    
+    -- check for a window-name not being used yet, which is 
+    -- windowtitleX, where X is a number
+    local freeslot=0
+    for i=0, 65555 do
+      if reaper.JS_Window_Find(parms[1]..i, true)==nil then freeslot=i break end
+    end
+    -- use that found, unused windowtitle as temporary windowtitle
+    parms[1]=parms[1]..freeslot
+    
+    -- open window  
+    retval=gfx.init(table.unpack(parms))
+    
+    -- find the window with the temporary windowtitle and get its HWND
+    HWND=reaper.JS_Window_Find(parms[1], true)
+    
+    -- rename it to the original title
+    if HWND~=nil then reaper.JS_Window_SetTitle(HWND, temp) end
+    ultraschall.GFX_WindowHWND=HWND
+  else 
+    retval=0.0
   end
-  
-  -- check for a window-name not being used yet, which is 
-  -- windowtitleX, where X is a number
-  local freeslot=0
-  for i=0, 65555 do
-    if reaper.JS_Window_Find(parms[1]..i, true)==nil then freeslot=i break end
-  end
-  -- use that found, unused windowtitle as temporary windowtitle
-  parms[1]=parms[1]..freeslot
-  
-  -- open window  
-  local retval=gfx.init(table.unpack(parms))
-  
-  -- find the window with the temporary windowtitle and get its HWND
-  local HWND=reaper.JS_Window_Find(parms[1], true)
-  
-  -- rename it to the original title
-  if HWND~=nil then reaper.JS_Window_SetTitle(HWND, temp) end
-  ultraschall.GFX_WindowHWND=HWND
-  return retval, HWND
+  return retval, ultraschall.GFX_WindowHWND
 end
+
 
 
 function ultraschall.GFX_GetWindowHWND()

@@ -24,6 +24,8 @@
 ################################################################################
 ]] 
 
+
+
 if type(ultraschall)~="table" then 
   -- update buildnumber and add ultraschall as a table, when programming within this file
   local retval, string = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "Functions-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
@@ -2982,13 +2984,13 @@ function ultraschall.GetAllReaScriptIDEWindows()
         temp={}
         for i=1, retval2-1 do
           temp[0]=reaper.JS_Window_HandleFromAddress(list2:match("(.-),"))
-          temp[i]=reaper.JS_Window_GetTitle(temp[0])
+          --temp[i]=reaper.JS_Window_GetTitle(temp[0])
           list2=list2:match(",(.*)")
         end
         
         count=count+1
-        IDE_Array[count]=temp[0]
-        IDE_Array_Title[count]=reaper.JS_Window_GetTitle(temphwnd)
+        IDE_Array[count]=reaper.JS_Window_GetParent(temp[0])
+        IDE_Array_Title[count]=reaper.JS_Window_GetTitle(IDE_Array[count])
       end
     end
     list=list:match(",(.*)")
@@ -5830,6 +5832,107 @@ end
 
 --A=ultraschall.SetLoopState(0)
 
+function ultraschall.GetHWND_ArrangeViewAndTimeLine()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetHWND_ArrangeViewAndTimeLine</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.964
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>HWND arrange_view, HWND timeline = ultraschall.GetHWND_ArrangeViewAndTimeLine()</functioncall>
+  <description>
+    Returns the HWND-windowhandler for the tracklist- and timeline-area in the arrange-view 
+    
+    returns nil in case of an error. Please report such an error, which means, that you should use ultraschall.ShowLastErrorMessage() to show that error and report the information requested(fruitful bugreports lead to a handwritten postcard as reward :) )
+  </description>
+  <retvals>
+    HWND arrange_view - the HWND-window-handler for the tracklist-area of the arrangeview
+    HWND timeline - the HWND-window-handler for the timeline/markerarea of the arrangeview
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, get, hwnd, arrangeview, timeline, trackview</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.ARHWND==nil then
+    local HWND=reaper.GetMainHwnd()
+    local Start,Stop = reaper.BR_GetArrangeView(0)
+    local Projectlength=reaper.GetProjectLength()
+    
+    local retval, list = reaper.JS_Window_ListAllChild(HWND)
+    
+    local ARHWND, TLHWND, temphwnd
+    
+    local Count, Individual_values = ultraschall.CSV2IndividualLinesAsArray(list)
+    
+    local ScrollState={}
+    for i=1, Count do
+      ScrollState[i]={}
+      local temphwnd=reaper.JS_Window_HandleFromAddress(Individual_values[i])
+    
+      ScrollState[i]["retval"], ScrollState[i]["position"], ScrollState[i]["pageSize"], ScrollState[i]["min"], ScrollState[i]["max"], ScrollState[i]["trackPos"] = reaper.JS_Window_GetScrollInfo(temphwnd,"h")
+      retval, ScrollState[i]["left"], ScrollState[i]["top"], ScrollState[i]["right"], ScrollState[i]["bottom"] = reaper.JS_Window_GetRect(temphwnd)
+    end
+    
+    reaper.BR_SetArrangeView(0,Start+100000,Stop+100000)
+    
+    for i=1, Count do
+      temphwnd=reaper.JS_Window_HandleFromAddress(Individual_values[i])
+      local retval, position, pageSize, min, max, trackPos = reaper.JS_Window_GetScrollInfo(temphwnd,"h")
+      if position~=ScrollState[i]["position"] or 
+         pageSize~=ScrollState[i]["pageSize"] or
+         min~=ScrollState[i]["min"] or
+         max~=ScrollState[i]["max"] or
+         trackPos~=ScrollState[i]["trackPos"] then
+        ARHWND=temphwnd 
+        --[[print2(reaper.JS_Window_GetTitle(temphwnd), position, ScrollState[i]["position"], 
+                                                    pageSize, ScrollState[i]["pageSize"],
+                                                    min, ScrollState[i]["min"],
+                                                    max, ScrollState[i]["max"],
+                                                    trackPos, ScrollState[i]["trackPos"]
+                                                    )--]]
+        break
+      end
+    end
+    
+    if ARHWND==nil then ultraschall.AddErrorMessage("GetHWND_ArrangeViewAndTimeLine", "", 
+          [[Couldn't find Arrangeview for some reason. Please report this to me as a bug and what you did to make this error happen!
+  
+  Please include in the bugreport your OS, the Reaper-version and the following information:
+  ]]..Projectlength..", "..Start..", "..Stop..", "..reaper.GetHZoomLevel(), -1) return nil end
+    
+    reaper.BR_SetArrangeView(0,Start,Stop)
+    
+    local retval, left, top, right, bottom = reaper.JS_Window_GetRect(ARHWND)
+    
+    for i=1, Count do
+      local temphwnd=reaper.JS_Window_HandleFromAddress(Individual_values[i])
+      if ScrollState[i]["left"]==left and ScrollState[i]["right"]==right and ScrollState[i]["bottom"]==top then
+        TLHWND=temphwnd 
+        break
+      end
+    end
+    ultraschall.ARHWND=ARHWND
+    ultraschall.TLHWND=TLHWND
+  end  
+  return ultraschall.ARHWND, ultraschall.TLHWND
+end
+
+--A,B=ultraschall.GetHWND_ArrangeViewAndTimeLine()
+--P=reaper.GetHZoomLevel()
+--C=reaper.JS_Window_FromPoint(reaper.GetMousePosition())
+
+--ultraschall.ShowLastErrorMessage()
+
+
 function ultraschall.GetVerticalScroll()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -5856,8 +5959,7 @@ function ultraschall.GetVerticalScroll()
   <tags>arrangeviewmanagement, get, vertical, scroll factor</tags>
 </US_DocBloc>
 --]]
-  local translation = reaper.JS_Localize("trackview", "DLG_102")
-  local retval, position = reaper.JS_Window_GetScrollInfo(reaper.JS_Window_Find(translation, true), "SB_VERT")
+  local retval, position = reaper.JS_Window_GetScrollInfo(ultraschall.GetHWND_ArrangeViewAndTimeLine(), "SB_VERT")
   
   return position
 end
@@ -5898,9 +6000,8 @@ function ultraschall.SetVerticalScroll(scrollposition)
 </US_DocBloc>
 --]]
   if math.type(position)~="integer" then ultraschall.AddErrorMessage("SetVerticalScroll", "scrollposition", "must be an integer", -1) return false end
-  local translation = reaper.JS_Localize("trackview", "DLG_102")
   
-  return reaper.JS_Window_SetScrollPos(reaper.JS_Window_Find(translation, true), "SB_VERT", scrollposition)
+  return reaper.JS_Window_SetScrollPos(ultraschall.GetHWND_ArrangeViewAndTimeLine(), "SB_VERT", scrollposition)
 end
 
 --A=ultraschall.SetVerticalScroll(2000000)
@@ -6407,14 +6508,20 @@ function ultraschall.GetActionsHWND()
 </US_DocBloc>
 --]]
   local translation=reaper.JS_Localize("Actions", "common")
+  local find_shortcut=reaper.JS_Localize("Find shortcut...", "DLG_274")
+  local add=reaper.JS_Localize("Add...", "DLG_274")
+  local new=reaper.JS_Localize("New...", "DLG_274")
+  local run_close=reaper.JS_Localize("Run/close", "actiondialog")
+  
   local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
   if count_hwnds==0 then return nil
   else
     for i=count_hwnds, 1, -1 do
-      if reaper.JS_Window_GetClassName(hwnd_array[i], "")=="#32770" then 
-        local retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(hwnd_array[i])
-        return hwnd_array[i], left, top, right, bottom
-      end
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            find_shortcut.."\0"..
+                                            add.."\0"..
+                                            new.."\0"..
+                                            run_close)==true then return hwnd_array[i] end
     end
   end
   return nil
@@ -6436,6 +6543,9 @@ function ultraschall.GetVideoHWND()
   <description>
     returns the HWND of the Video window, if the window is opened.
     
+    due API-limitations on Mac and Linux: if more than one window called "Video Window" is opened, it will return -1
+    I hope to find a workaround for that problem at some point...
+    
     returns nil if the Video Window is closed
   </description>
   <retvals>
@@ -6453,16 +6563,25 @@ function ultraschall.GetVideoHWND()
   local translation=reaper.JS_Localize("Video Window", "common")
   local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
   if count_hwnds==0 then return nil
-  else
+  elseif reaper.GetOS():match("Win")~=nil then
     for i=count_hwnds, 1, -1 do
       if reaper.JS_Window_GetClassName(hwnd_array[i], "")=="REAPERVideoMainwnd" then 
         local retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(hwnd_array[i])
         return hwnd_array[i], left, top, right, bottom
       end
     end
+  else 
+    if count_hwnds==1 then
+      return hwnd_array[1]
+    else
+      ultraschall.AddErrorMessage("GetVideoHWND", "", "more than one window called Video Window opened. Can't determine the right one...sorry", -1)
+      return -1
+    end
   end
   return nil
 end
+--gfx.init(reaper.JS_Localize("Video Window", "common"))
+--A=ultraschall.GetVideoHWND()
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -6525,90 +6644,6 @@ end
 </US_DocBloc>
 ]]
 
-
-function ultraschall.GetArrangeViewHWND()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetArrangeViewHWND</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.965
-    JS=0.963
-    Lua=5.3
-  </requires>
-  <functioncall>HWND hwnd = ultraschall.GetArrangeViewHWND()</functioncall>
-  <description>
-    returns the HWND of the tracklist-part of the Arrange-View
-  </description>
-  <retvals>
-    HWND hwnd - the window-handler of the arrangeview
-  </retvals>
-  <chapter_context>
-    User Interface
-    Window Management
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, window, hwnd, get, arrangeview, tracklist</tags>
-</US_DocBloc>
---]]
-  local translation=reaper.JS_Localize("trackview", "DLG_102")
-  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
-  if count_hwnds==0 then return nil
-  else
-    for i=count_hwnds, 1, -1 do
-      if reaper.JS_Window_GetClassName(hwnd_array[i], "")=="REAPERTrackListWindow" then 
-        local retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(hwnd_array[i])
-        return hwnd_array[i], left, top, right, bottom
-      end
-    end
-  end
-  return nil
-end
-
---AAA=ultraschall.GetArrangeViewHWND()
-
---gfx.init("timeline")
-
-function ultraschall.GetTimelineHWND()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetTimelineHWND</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.965
-    JS=0.963
-    Lua=5.3
-  </requires>
-  <functioncall>HWND hwnd = ultraschall.GetTimelineHWND()</functioncall>
-  <description>
-    returns the HWND of the timeline-part of the ArrangeView
-  </description>
-  <retvals>
-    HWND hwnd - the window-handler of the timeline
-  </retvals>
-  <chapter_context>
-    User Interface
-    Window Management
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, window, get, hwnd, timeline, arrangeview</tags>
-</US_DocBloc>
---]]
-  local translation=reaper.JS_Localize("timeline", "DLG_102")
-  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
-  if count_hwnds==0 then return nil
-  else
-    for i=count_hwnds, 1, -1 do
-      if reaper.JS_Window_GetClassName(hwnd_array[i], "")=="REAPERTimeDisplay" then 
-        local retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(hwnd_array[i])
-        return hwnd_array[i], left, top, right, bottom
-      end
-    end
-  end
-  return nil
-end
 
 
 ultraschall.ShowLastErrorMessage()

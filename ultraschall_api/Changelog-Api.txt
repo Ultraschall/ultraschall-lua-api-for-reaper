@@ -121,9 +121,8 @@
   - GetVideoHWND - returns the HWND of the Video Window
   - VID_VideoUIStateCoords2Pixels - converts the coordinates, returned by the video-processor-function ui_get_state into pixels
   - VID_Pixels2VideoUIStateCoords - converts back the coordinates from pixels into the coordinates returned by the video-processor-function ui_get_state 
-  - GetArrangeViewHWND - gets the hwnd of the tracklist-part of the arrangeview
-  - GetTimelineHWND - gets the hwnd of the timeline-part of the arrangeview
   - Docs: Concepts: Error Messaging System: Other helpers for Error-Messaging-system - added chapter
+  - GetHWND_ArrangeViewAndTimeLine - returns the HWND-window-handler for the tracklist- and timeline-area of the arrangeview
   
 #### Changes from 4.00beta2.7 to 4.00beta2.72
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -318,7 +317,6 @@
       TODO!! docs: installation via ReaPack including install-link
       TODO!! docs: exchange api.ultraschall.fm/Downloads.html with the correct URL
       TODO!! minor fixes in ConfigVardocs, as mentioned in the reaper-forum
-      TODO!! Docs: JS-Plugin-useable functions - should work on Mac now with JS0.963. Check them plz.
       
     API 4.00beta2.75
       TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)

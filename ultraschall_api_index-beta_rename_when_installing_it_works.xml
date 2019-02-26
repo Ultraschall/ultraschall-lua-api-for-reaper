@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="29304.00" author="Meo Mespotine">
+      <version name="29345.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -161,6 +161,8 @@
 	<source file="/ultraschall_api/temp/Temp.bat" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/temp/Temp.bat</source>
 	<source file="/ultraschall_api/temp/temporary - Kopie.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/temp/temporary - Kopie.html</source>
 	<source file="/ultraschall_api/temp/temporary - Kopie.md" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/temp/temporary - Kopie.md</source>
+	<source file="/ultraschall_api/temp/temporary.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/temp/temporary.html</source>
+	<source file="/ultraschall_api/temp/temporary.md" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/temp/temporary.md</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/3rd_party_for_everyone/Scripts/placeholder.txt</source>
 	<source file="/ultraschall_api/Documentation/gfx/Changelog.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Changelog.png</source>
@@ -173,6 +175,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.951.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.951.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.962.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.962.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.963.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.963.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/JS_0.964.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.964.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0_951.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0_951.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_2_8_8.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_2_8_8.pfi</source>
@@ -490,12 +493,10 @@ New features in 4.00beta2.72
 -   VID_Pixels2VideoUIStateCoords - converts back the coordinates from
     pixels into the coordinates returned by the video-processor-function
     ui_get_state
--   GetArrangeViewHWND - gets the hwnd of the tracklist-part of the
-    arrangeview
--   GetTimelineHWND - gets the hwnd of the timeline-part of the
-    arrangeview
 -   Docs: Concepts: Error Messaging System: Other helpers for
     Error-Messaging-system - added chapter
+-   GetHWND_ArrangeViewAndTimeLine - returns the HWND-window-handler for
+    the tracklist- and timeline-area of the arrangeview
 
 Changes from 4.00beta2.7 to 4.00beta2.72
 
