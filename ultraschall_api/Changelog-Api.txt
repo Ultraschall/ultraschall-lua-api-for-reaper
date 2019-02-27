@@ -3,7 +3,7 @@
 
 ### 4.00 Beta 2.72: - "Blue Oyster Cult - Don't fear the Reaper" - 1st of March 2019
 
-   Has now 783 functions, with 83 new ones
+   Has now 780 functions, with 80 new ones
     
    Among them new features, like:
 
@@ -68,7 +68,6 @@
   - CreateTemporaryFileOfProjectfile - creates a valid temporary-copy of an rpp-projectfile; use nil for the currently opened one(must be saved first)
   - ultraschall.hotfixdate - holds the release-date of the currently installed hotfix, returned by GetApiVersion now
   - Base64\_Decoder - decodes a Base64-encoded string
-  - GetProjectStateChunk - gets a ProjectStateChunk from an opened ReaProject
   - StateChunkLayouter - layouts statechunks according the layouting rules of rpp-projectfiles; makes parsing them much easier
   - CountUltraschallEffectPlugins - counts number of instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and Ultraschall\_Dynamics-plugins in a track. Also returns a table with all bypass/offline-states
   - GetReaperWindowAttributes - returns several attributes of the Reaper-window, like size/position, active-state, childwindows, etc
@@ -97,7 +96,6 @@
                         For that, Defer1 to Defer20 will return an identifier, which can be used to stop this specific defer-cycle.
                         You should only use each DeferXX-cycle once in a script-instance, or the timing will become corrupt!
   - StopDeferCycle - stops a Defer1 to Defer20-defer-instance from a script-instance
-  - ResolveRenderPattern - resolves the renderfilename of a specific render-pattern
   - GetTrackSelection\_TrackStateChunk - gets, if a track in a StateChunk is selected; works only with TrackStateChunks from ProjectStateChunks
   - SetTrackSelection\_TrackStateChunk - sets a track in a StateChunk selected; works only with TrackStateChunks from ProjectStateChunks
   - GetIniFileValue - gets an ini-value from an ini-file; unlike SWS's own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path
@@ -342,7 +340,7 @@
 <TODO>
     API 4.00beta2.72
       TODO!! finish up ReaPack installation of the Ultraschall-API
-      TODO!! move finished beta-functions to non beta functions_engine
+      TODO!! Docs: Custom Regions and Markers
       
     API 4.00beta2.75
       TODO!! Doccreation: - wrong number of functions in any other docspage than functions-engine
