@@ -55,7 +55,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.72 - "Blue Oyster Cult - Don't fear the Reaper" - 1st of March 2019 - Build: 29774</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.72 - "Blue Oyster Cult - Don't fear the Reaper" - 1st of March 2019 - Build: 29779</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -129,7 +129,8 @@ Ultraschall API functions
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Marker Management</b></td></tr><tr><td><a href="#MarkersAndRegions_001_Introduction">Markers and Regions: Introduction</a></td>
 <td><a href="#MarkersAndRegions_002_General_How_To">Markers and Regions: General How To</a></td>
 <td><a href="#MarkersAndRegions_003_Helpers_and_Manipulation">Markers and Regions: Helpers and Manipulation</a></td>
-</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Child Scripts</b></td></tr><tr><td><a href="#ChildScripts_001_Introduction">Child Scripts: Introduction</a></td>
+<td><a href="#MarkersAndRegions_004_Custom_Markers_and_Regions">Markers and Regions: Custom-Markers and Custom-Regions</a></td>
+</tr><tr></tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Child Scripts</b></td></tr><tr><td><a href="#ChildScripts_001_Introduction">Child Scripts: Introduction</a></td>
 <td><a href="#ChildScripts_002_The_Unique_Scriptidentifier">Child Scripts: The unique ScriptIdentifier</a></td>
 <td><a href="#ChildScripts_003_RunChildScripts">Child Scripts: Running Childscripts</a></td>
 <td><a href="#ChildScripts_004_PassingParametersAndReturnvalues">Child Scripts: Passing Parameters and Returnvalues</a></td>
@@ -673,7 +674,8 @@ They can be retrieved and the arrange-view can be set to these settings. That wa
 <pre><code>        slot        - the slot for the snapshot, which must be an integer. The function will overwrite an already existing snapshot. To prevent that,
                       use ultraschall.IsValidArrangeviewSnapshot() to check, if it&#39;s already existing.
         description - a short description, what the snapshot contains so you know, what to expect from it
-        position    - set to true to store the startposition and endposition of the arrangeview. Otherwise(false), it will only store the current horizontal zoom-factor
+        position    - set to true to store the startposition and endposition of the arrangeview. Otherwise(false), 
+                      it will only store the current horizontal zoom-factor
         vzoom       - set to true, if you want to store the vertical zoom-factor as well; set to false, if you don&#39;t want it to be stored.</code></pre>
 <p>If you want to retrieve the settings of a certain Arrange-View-Snapshot, you can use <a href="US_Api_Functions.html#RetrieveArrangeviewSnapshot">RetrieveArrangeviewSnapshot</a>, which will return all settings from an Arrangeview-snapshot. The return-values of RetrieveArrangeviewSnapshot basically work the same as the parameters of StoreArrangeviewSnapshot.</p>
 <p>If you want to check, whether a slot is already used, you can use <a href="US_Api_Functions.html#IsValidArrangeviewSnapshot">IsValidArrangeviewSnapshot</a>, which will return true in that case and false, if the slot is unused.</p>
@@ -2640,7 +2642,9 @@ ItemExtStates are stored as ProjectExtState within the projectfile. These functi
 </li>
 <li>_time-markers - they hold a date and time of the format "_time: dd.mm.yyyy hh:mm:ss"<br />
 </li>
-<li>Podrange-regions - intended to signal, where a podcast starts and where it ends. So if you didn't start the podcast at position 0 in the project and want to save the chapters into your mp3-audiofile, they risk to be offset by the amount of time between projectstart and the actual start of the podcast. So using a PodRangeRegion, the proper start- and endtimes for rendering as well as chaptermarker export can be set by the user.</li>
+<li>Podrange-regions - intended to signal, where a podcast starts and where it ends. So if you didn't start the podcast at position 0 in the project and want to save the chapters into your mp3-audiofile, they risk to be offset by the amount of time between projectstart and the actual start of the podcast. So using a PodRangeRegion, the proper start- and endtimes for rendering as well as chaptermarker export can be set by the user.<br />
+</li>
+<li>custom-markers and custom-regions, where you can define yourself, what to include betweem _ and :, like "_foobar: markertext"</li>
 </ul>
 <p>These kind of markers get the most attention, though regular marker/region/tempo-time signature marker-management is part of this API as well.</p>
 
@@ -2775,8 +2779,68 @@ One limitation though, you can't (yet) export/import regions into/from an export
 <li><a href="US_Api_Functions.html#GetMarkerByName_Pattern">GetMarkerByName_Pattern</a> - returns markers by their title but using the title as a pattern</li>
 <li><a href="US_Api_Functions.html#ImportMarkersFromFile">ImportMarkersFromFile</a> - imports markers from an exported file as normal markers</li>
 <li><a href="US_Api_Functions.html#SetMarkerByIndex">SetMarkerByIndex</a> - allows you to set markers and regions on their own, without having to deal with differentiating between them</li>
+<li><a href="US_Api_Functions.html#GetNextFreeRegionIndex">GetNextFreeRegionIndex</a> - gets the next free region-shown-indexnumber So, with this, most of your wishes in regards of marker-management should be fulfilled.</li>
 </ul>
-<p>So, with this, most of your wishes in regards of marker-management should be fulfilled.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="MarkersAndRegions_004_Custom_Markers_and_Regions"></a>
+<div style="font-size:100%"><h4><a href="#MarkersAndRegions_004_Custom_Markers_and_Regions">^</a> <u>Markers and Regions: Custom-Markers and Custom-Regions</u></h4></div><p><p>Even if I already included many markertypes, sometimes this isn't enough. In fact, you might want to have other markertypes beside _Edit: or _PodRange:<br />
+For that, I added custom-markers and custom-regions.</p>
+<p>A custom-marker/custom-region is like a normal marker/region, but their name start with a certain signature. You may have seen it from edit-markers already.</p>
+<pre><code>        _Edit:</code></pre>
+<p>Which is basically a custom-marker of the type Edit. Such a signature starts with an underscore _ and ends with a : Custom-markers and custom-regions work like the same, but you can insert your own custom-marker-name into it.<br />
+For example, if you want to have a custom-marker-type called foobar, it would look like:</p>
+<pre><code>        _foobar:</code></pre>
+<p>Now, doing that manually is very inconvenient to do, so I made a bunch of functions, who do that for you. All you need to do is to declare the name of the custom-marker/region and pass that over to the function and it does the rest.</p>
+<p>Let's take the example above with foobar and use ultraschall-functions for adding such a marker.</p>
+<pre><code>        retval = ultraschall.AddCustomMarker(&quot;foobar&quot;, 20, &quot;I am the text of this marker&quot;, 1, 0)
+    </code></pre>
+<p>This would produce a custom-marker at position 20. And it's markertext would look like:</p>
+<pre><code>        _foobar: I am the text of this marker
+    </code></pre>
+<p>To set this to another text, you could use the following function. As this is our only foobar-custom-marker, we use 0 as it's index:</p>
+<pre><code>        retval = ultraschall.SetCustomMarker(&quot;foobar&quot;, 0, 20, &quot;I am the new text, pinky!&quot;, 1, 0)
+    </code></pre>
+<p>This results in a custom-marker name:</p>
+<pre><code>        _foobar: I am the new text, pinky!
+    </code></pre>
+<p>Now here's the thing: you can add other foobar-markers as well, can set them, enumerate them, count them, just as a regular marker.<br />
+The only difference being, that with custom-markers, you tell the functions, which name a certain custom-marker-type shall have, like foobar in our example.<br />
+Now you can work, manipulate, and work with all foobar-custom-markers, without having to deal with other ones.</p>
+<p>The only thing you need to take care of: when deleting numerous custom-markers, you should start with the last one toward the first, as otherwise you will delete markers you wanted to keep.</p>
+<p>The things I said about custom-markers are also valid for custom-regions. They work like custom-markers, with the custom-marker-name as starting signature in their name. The only difference from markers: it is regions.</p>
+<p>The following functions I added to the Ultraschall-API for:</p>
+<p><strong>Markers:</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#AddCustomMarker">AddCustomMarker</a> - adds a custom-marker of a certain name<br />
+</li>
+<li><a href="US_Api_Functions.html#SetCustomMarker">SetCustomMarker</a> - sets a custom-marker of a certain name<br />
+</li>
+<li><a href="US_Api_Functions.html#GetAllCustomMarkers">GetAllCustomMarkers</a> - gets all custom-markers of a certain name, as table<br />
+</li>
+<li><a href="US_Api_Functions.html#EnumerateCustomMarkers">EnumerateCustomMarkers</a> - enumerates a custom-marker of a certain name<br />
+</li>
+<li><a href="US_Api_Functions.html#DeleteCustomMarkers">DeleteCustomMarkers</a> - deletes a custom-marker of a certain name<br />
+</li>
+<li><a href="US_Api_Functions.html#CountAllCustomMarkers">CountAllCustomMarkers</a> - counts all custom-markers of a certain name<br />
+</li>
+<li><a href="US_Api_Functions.html#IsMarkerValidCustomMarker">IsMarkerValidCustomMarker</a> - checks a marker, if it's a valid custom-marker</li>
+</ul>
+<p><strong>Regions:</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#AddCustomRegion">AddCustomRegion</a> - adds a custom-region of a certain name<br />
+</li>
+<li><a href="US_Api_Functions.html#SetCustomRegion">SetCustomRegion</a> - sets a custom-region of a certain name<br />
+</li>
+<li><a href="US_Api_Functions.html#GetAllCustomRegions">GetAllCustomRegions</a> - gets all custom-regions of a certain name, as table<br />
+</li>
+<li><a href="US_Api_Functions.html#EnumerateCustomRegions">EnumerateCustomRegions</a> - enumerates a custom-region of a certain name<br />
+</li>
+<li><a href="US_Api_Functions.html#DeleteCustomRegions">DeleteCustomRegions</a> - deletes a custom-region of a certain name<br />
+</li>
+<li><a href="US_Api_Functions.html#CountAllCustomRegions">CountAllCustomRegions</a> - counts all custom-regions of a certain name<br />
+</li>
+<li><a href="US_Api_Functions.html#IsRegionValidCustomRegion">IsRegionValidCustomRegion</a> - checks a marker, if it's a valid custom-region</li>
+</ul>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="ChildScripts_001_Introduction"></a>
 <div style="font-size:100%"><h4><a href="#ChildScripts_001_Introduction">^</a> <u>Child Scripts: Introduction</u></h4></div><p><p>One of the cool features in Reaper is the possibility to run scripts at your mouse- or keyclick. One of the biggest drawbacks though, is that you can't individualise the scripts, or better: you can pass parameters to scripts to tell them, how to behave.<br />
@@ -3308,4 +3372,4 @@ Though, after not having seen the lights of the days for months now, I'm not sur
 <p>I go to sleep now. I think, I deserved it :)</p>
 <p>Meo Mespotine, Leipzig(Germany) 30th of November 2018</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.72 - 87 chapters available</td></table><br><hr></div></body></html>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.72 - 88 chapters available</td></table><br><hr></div></body></html>

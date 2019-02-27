@@ -41,7 +41,7 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.00 Beta 2.72: - "Blue Oyster Cult - Don't fear the Reaper" - 1st of March 2019</h3>
-<p>Has now 783 functions, with 83 new ones</p>
+<p>Has now 780 functions, with 80 new ones</p>
 <p>Among them new features, like:</p>
 <ul>
 <li><p><strong>Defer-functions</strong>, that allow setting, how often a specific defer-loop shall be executed, every n'th cycle/second. They also allow being terminated from inside and outside the current script.</p></li>
@@ -91,7 +91,6 @@ Have multiple markertypes with custom-markers and custom-regions with this featu
 <li>CreateTemporaryFileOfProjectfile - creates a valid temporary-copy of an rpp-projectfile; use nil for the currently opened one(must be saved first)</li>
 <li>ultraschall.hotfixdate - holds the release-date of the currently installed hotfix, returned by GetApiVersion now</li>
 <li>Base64_Decoder - decodes a Base64-encoded string</li>
-<li>GetProjectStateChunk - gets a ProjectStateChunk from an opened ReaProject</li>
 <li>StateChunkLayouter - layouts statechunks according the layouting rules of rpp-projectfiles; makes parsing them much easier</li>
 <li>CountUltraschallEffectPlugins - counts number of instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and Ultraschall_Dynamics-plugins in a track. Also returns a table with all bypass/offline-states</li>
 <li>GetReaperWindowAttributes - returns several attributes of the Reaper-window, like size/position, active-state, childwindows, etc</li>
@@ -118,7 +117,6 @@ Have multiple markertypes with custom-markers and custom-regions with this featu
 <li>GetScriptIdentifier - returns a unique identifier-string for the current script-instance, that can be used to send command/string to this scriptinstance</li>
 <li>Defer1 to Defer20 - run a customized defer-cycle, in which you can decide, how often it should be run. You can also stop such a defer-cycle from in/outside the script using StopDeferCycle. For that, Defer1 to Defer20 will return an identifier, which can be used to stop this specific defer-cycle. You should only use each DeferXX-cycle once in a script-instance, or the timing will become corrupt!</li>
 <li>StopDeferCycle - stops a Defer1 to Defer20-defer-instance from a script-instance</li>
-<li>ResolveRenderPattern - resolves the renderfilename of a specific render-pattern</li>
 <li>GetTrackSelection_TrackStateChunk - gets, if a track in a StateChunk is selected; works only with TrackStateChunks from ProjectStateChunks</li>
 <li>SetTrackSelection_TrackStateChunk - sets a track in a StateChunk selected; works only with TrackStateChunks from ProjectStateChunks</li>
 <li>GetIniFileValue - gets an ini-value from an ini-file; unlike SWS's own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path</li>
@@ -172,6 +170,7 @@ Have multiple markertypes with custom-markers and custom-regions with this featu
 <li>GetNextFreeRegionIndex - gets the next free region-shown-indexnumber</li>
 <li>IsMarkerValidCustomMarker - checks a marker, if it's a valid custom-marker</li>
 <li>IsRegionValidCustomRegion - checks a marker, if it's a valid custom-region</li>
+<li>Docs: Concepts: Markers and Regions: Custom-Markers and Custom-Regions</li>
 </ul>
 <h4>Changes from 4.00beta2.7 to 4.00beta2.72</h4>
 <ul>

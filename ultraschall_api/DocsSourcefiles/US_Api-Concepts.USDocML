@@ -924,7 +924,8 @@
                         slot        - the slot for the snapshot, which must be an integer. The function will overwrite an already existing snapshot. To prevent that,
                                       use ultraschall.IsValidArrangeviewSnapshot() to check, if it's already existing.
                         description - a short description, what the snapshot contains so you know, what to expect from it
-                        position    - set to true to store the startposition and endposition of the arrangeview. Otherwise(false), it will only store the current horizontal zoom-factor
+                        position    - set to true to store the startposition and endposition of the arrangeview. Otherwise(false), 
+                                      it will only store the current horizontal zoom-factor
                         vzoom       - set to true, if you want to store the vertical zoom-factor as well; set to false, if you don't want it to be stored.
                 
             If you want to retrieve the settings of a certain Arrange-View-Snapshot, you can use [RetrieveArrangeviewSnapshot](usdocml://RetrieveArrangeviewSnapshot), which will
@@ -3576,6 +3577,7 @@
             - Podrange-regions - intended to signal, where a podcast starts and where it ends. So if you didn't start the podcast at position 0 in the project and want to save the chapters 
               into your mp3-audiofile, they risk to be offset by the amount of time between projectstart and the actual start of the podcast. So using a PodRangeRegion, the proper start- 
               and endtimes for rendering as well as chaptermarker export can be set by the user.  
+            - custom-markers and custom-regions, where you can define yourself, what to include betweem \_ and :, like "\_foobar: markertext"
             
             These kind of markers get the most attention, though regular marker/region/tempo-time signature marker-management is part of this API as well.  
         </description>
@@ -3723,7 +3725,7 @@
             - [GetMarkerByName_Pattern](usdocml://GetMarkerByName_Pattern) - returns markers by their title but using the title as a pattern
             - [ImportMarkersFromFile](usdocml://ImportMarkersFromFile) - imports markers from an exported file as normal markers
             - [SetMarkerByIndex](usdocml://SetMarkerByIndex) - allows you to set markers and regions on their own, without having to deal with differentiating between them
-
+            - [GetNextFreeRegionIndex](usdocml://GetNextFreeRegionIndex) - gets the next free region-shown-indexnumber
             So, with this, most of your wishes in regards of marker-management should be fulfilled.
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
@@ -3733,10 +3735,91 @@
             Marker Management
         </chapter_context>
         <previous_chapter>MarkersAndRegions_002_General_How_To</previous_chapter>
-        <next_chapter>ChildScripts_001_Introduction</next_chapter>
+        <next_chapter>MarkersAndRegions_004_Custom_Markers_and_Regions</next_chapter>
         <tags>markermanagement, manipulate, move, get marker by time, renumerate, get marker by screen coordinate, is marker at position</tags>
     </US_DocBloc>
 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MarkersAndRegions_004_Custom_Markers_and_Regions</slug>
+        <title>Markers and Regions: Custom-Markers and Custom-Regions</title>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Even if I already included many markertypes, sometimes this isn't enough. In fact, you might want to have other markertypes beside \_Edit: or \_PodRange:  
+            For that, I added custom-markers and custom-regions.
+            
+            A custom-marker/custom-region is like a normal marker/region, but their name start with a certain signature. You may have seen it from edit-markers already.  
+            
+                        _Edit:
+                
+            Which is basically a custom-marker of the type Edit. Such a signature starts with an underscore \_ and ends with a :
+            Custom-markers and custom-regions work like the same, but you can insert your own custom-marker-name into it.  
+            For example, if you want to have a custom-marker-type called foobar, it would look like:
+            
+                        _foobar:
+                
+            Now, doing that manually is very inconvenient to do, so I made a bunch of functions, who do that for you. All you need to do is to declare the name of 
+            the custom-marker/region and pass that over to the function and it does the rest.
+            
+            Let's take the example above with foobar and use ultraschall-functions for adding such a marker.
+            
+                        retval = ultraschall.AddCustomMarker("foobar", 20, "I am the text of this marker", 1, 0)
+                    
+            This would produce a custom-marker at position 20. And it's markertext would look like:
+            
+                        _foobar: I am the text of this marker
+                    
+            To set this to another text, you could use the following function. As this is our only foobar-custom-marker, we use 0 as it's index:
+            
+                        retval = ultraschall.SetCustomMarker("foobar", 0, 20, "I am the new text, pinky!", 1, 0)
+                    
+            This results in a custom-marker name:
+            
+                        _foobar: I am the new text, pinky!
+                    
+            Now here's the thing: you can add other foobar-markers as well, can set them, enumerate them, count them, just as a regular marker.  
+            The only difference being, that with custom-markers, you tell the functions, which name a certain custom-marker-type shall have, 
+            like foobar in our example.  
+            Now you can work, manipulate, and work with all foobar-custom-markers, without having to deal with other ones.  
+            
+            The only thing you need to take care of: when deleting numerous custom-markers, you should start with the last one toward the first, 
+            as otherwise you will delete markers you wanted to keep.
+            
+            The things I said about custom-markers are also valid for custom-regions. They work like custom-markers, with the custom-marker-name 
+            as starting signature in their name. The only difference from markers: it is regions.
+            
+            The following functions I added to the Ultraschall-API for:
+            
+            **Markers:**  
+            
+              - [AddCustomMarker](usdocml://AddCustomMarker) - adds a custom-marker of a certain name  
+              - [SetCustomMarker](usdocml://SetCustomMarker) - sets a custom-marker of a certain name  
+              - [GetAllCustomMarkers](usdocml://GetAllCustomMarkers) - gets all custom-markers of a certain name, as table  
+              - [EnumerateCustomMarkers](usdocml://EnumerateCustomMarkers) - enumerates a custom-marker of a certain name  
+              - [DeleteCustomMarkers](usdocml://DeleteCustomMarkers) - deletes a custom-marker of a certain name  
+              - [CountAllCustomMarkers](usdocml://CountAllCustomMarkers) - counts all custom-markers of a certain name  
+              - [IsMarkerValidCustomMarker](usdocml://IsMarkerValidCustomMarker) - checks a marker, if it's a valid custom-marker  
+            
+            **Regions:**  
+            
+              - [AddCustomRegion](usdocml://AddCustomRegion) - adds a custom-region of a certain name  
+              - [SetCustomRegion](usdocml://SetCustomRegion) - sets a custom-region of a certain name  
+              - [GetAllCustomRegions](usdocml://GetAllCustomRegions) - gets all custom-regions of a certain name, as table  
+              - [EnumerateCustomRegions](usdocml://EnumerateCustomRegions) - enumerates a custom-region of a certain name  
+              - [DeleteCustomRegions](usdocml://DeleteCustomRegions) - deletes a custom-region of a certain name  
+              - [CountAllCustomRegions](usdocml://CountAllCustomRegions) - counts all custom-regions of a certain name  
+              - [IsRegionValidCustomRegion](usdocml://IsRegionValidCustomRegion) - checks a marker, if it's a valid custom-region  
+              
+        </description>
+        <target_document>US_Api_Introduction_and_Concepts</target_document>
+        <source_document></source_document>
+        </chapter_context>
+        <chapter_context>
+            Marker Management
+        </chapter_context>
+        <previous_chapter>MarkersAndRegions_003_Helpers_and_Manipulation</previous_chapter>
+        <next_chapter>ChildScripts_001_Introduction</next_chapter>
+        <tags>markermanagement, custom-markers, custom-regions, get, set, enumerate, delete, count, isvalid, check</tags>
+    </US_DocBloc>
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>ChildScripts_001_Introduction</slug>
         <title>Child Scripts: Introduction</title>

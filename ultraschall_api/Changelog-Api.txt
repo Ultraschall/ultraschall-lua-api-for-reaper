@@ -149,6 +149,7 @@
   - GetNextFreeRegionIndex - gets the next free region-shown-indexnumber
   - IsMarkerValidCustomMarker - checks a marker, if it's a valid custom-marker
   - IsRegionValidCustomRegion - checks a marker, if it's a valid custom-region
+  - Docs: Concepts: Markers and Regions: Custom-Markers and Custom-Regions
   
 #### Changes from 4.00beta2.7 to 4.00beta2.72
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -340,7 +341,6 @@
 <TODO>
     API 4.00beta2.72
       TODO!! finish up ReaPack installation of the Ultraschall-API
-      TODO!! Docs: Custom Regions and Markers
       
     API 4.00beta2.75
       TODO!! Doccreation: - wrong number of functions in any other docspage than functions-engine
