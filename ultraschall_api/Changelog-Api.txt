@@ -7,14 +7,14 @@
     
    Among them new features, like:
    
-   - *ReaPack installable*, it can be installed using ReaPack now, using [https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api_index.xml](https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api_index.xml)
+   - **ReaPack installable**, it can be installed using ReaPack now, using [https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall\_api\_index.xml](https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api_index.xml) - [Request by X-Raym](https://forum.cockos.com/showpost.php?p=2070423&postcount=62)
    
    - **Defer-functions**, that allow setting, how often a specific defer-loop shall be executed, every n'th cycle/second. They also
    allow being terminated from inside and outside the current script.
     
-   - **ChildScripts**, that allow you to run scripts as multiple script-instances, pass parameters and returnvalues to and from them
+   - **ChildScripts**, that allow you to run scripts as multiple script-instances, pass parameters and returnvalues to and from them - [Request by lokasenna](https://forum.cockos.com/showpost.php?p=2000862&postcount=1)
    
-   - **Get HWNDS**, get numerous HWNDs, including the one of your gfx.init-window, ArrangeView, Timeline, Render to File-dialog, Actions-dialog, etc
+   - **Get HWNDS**, get numerous HWNDs, including the one of your gfx.init-window, ArrangeView, Timeline, Render to File-dialog, Actions-dialog, etc - [Request by Sexan](https://forum.cockos.com/showpost.php?p=2099145&postcount=255)
     
    - **print and print2**, replaces the unuseable print-function from Lua
     

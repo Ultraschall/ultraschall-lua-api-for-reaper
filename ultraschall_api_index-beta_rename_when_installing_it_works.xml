@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="29780.00" author="Meo Mespotine">
+      <version name="29783.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -310,19 +310,21 @@ Has now 780 functions, with 80 new ones
 
 Among them new features, like:
 
--   _ReaPack installable_, it can be installed using ReaPack now, using
-    https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api_index.xml
+-   REAPACK INSTALLABLE, it can be installed using ReaPack now, using
+    https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api_index.xml -
+    Request by X-Raym
 
 -   DEFER-FUNCTIONS, that allow setting, how often a specific defer-loop
     shall be executed, every n’th cycle/second. They also allow being
     terminated from inside and outside the current script.
 
 -   CHILDSCRIPTS, that allow you to run scripts as multiple
-    script-instances, pass parameters and returnvalues to and from them
+    script-instances, pass parameters and returnvalues to and from
+    them - Request by lokasenna
 
 -   GET HWNDS, get numerous HWNDs, including the one of your
     gfx.init-window, ArrangeView, Timeline, Render to File-dialog,
-    Actions-dialog, etc
+    Actions-dialog, etc - Request by Sexan
 
 -   PRINT AND PRINT2, replaces the unuseable print-function from Lua
 
