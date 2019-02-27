@@ -8,7 +8,6 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 track=reaper.GetSelectedTrack(0,0)
 if track==nil then return end
 retval, name = reaper.GetTrackName(track,"")
-if name==nil then name="" end
 
 -- get the extstates stored with this MediaTrack
 storedextstates=""
