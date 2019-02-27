@@ -39,7 +39,7 @@ ultraschall.temp, ultraschall.Script_Context=reaper.get_action_context()
 
 
 -- Beta-Functions On
-ultraschall.US_BetaFunctions="ON"
+--ultraschall.US_BetaFunctions="ON"
 
 
 
