@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="29783.00" author="Meo Mespotine">
+      <version name="29784.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -334,7 +334,7 @@ Among them new features, like:
 -   CUSTOM MARKERS AND REGIONS, that follow the scheme
     "_custommarkername: text", that can be easily managed.
     Have multiple markertypes with custom-markers and custom-regions
-    with this feature.
+    with this feature. - request by VanillaChief
 
 -   REAPER-INTERNALS DOCS, updated to Reaper 5.971(including the new
     Video Processor-docs), SWS 2.10.0.1, JS-Extension 0.971 and ReaPack.

@@ -21,7 +21,7 @@
    - **new backgroundscripts**, who monitor statechanges of playstate, editcursorposition and loop-button
    
    - **Custom Markers and Regions**, that follow the scheme "_custommarkername: text", that can be easily managed.  
-                                     Have multiple markertypes with custom-markers and custom-regions with this feature.
+                                     Have multiple markertypes with custom-markers and custom-regions with this feature. - request by VanillaChief
     
    - **Reaper-Internals Docs**, updated to Reaper 5.971(including the new Video Processor-docs), SWS 2.10.0.1, JS-Extension 0.971 and ReaPack.
    
