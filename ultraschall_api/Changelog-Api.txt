@@ -6,7 +6,9 @@
    Has now 780 functions, with 80 new ones
     
    Among them new features, like:
-
+   
+   - *ReaPack installable*, it can be installed using ReaPack now, using [https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api_index.xml](https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api_index.xml)
+   
    - **Defer-functions**, that allow setting, how often a specific defer-loop shall be executed, every n'th cycle/second. They also
    allow being terminated from inside and outside the current script.
     
@@ -21,7 +23,7 @@
    - **Custom Markers and Regions**, that follow the scheme "_custommarkername: text", that can be easily managed.  
                                      Have multiple markertypes with custom-markers and custom-regions with this feature.
     
-   - **Reaper-Internals Docs**, updated to Reaper 5.971, SWS 2.10.0.1, JS-Extension 0.971 and ReaPack.
+   - **Reaper-Internals Docs**, updated to Reaper 5.971(including the new Video Processor-docs), SWS 2.10.0.1, JS-Extension 0.971 and ReaPack.
    
    - many, many, many, many bugfixes
     
