@@ -3,6 +3,10 @@
 
 ### 4.00 Beta 2.72: - "Blue Oyster Cult - Don't fear the Reaper" - 1st of March 2019
 
+   Has now 783 functions, with 83 new ones
+    
+   Among them new features, like:
+
    - **Defer-functions**, that allow setting, how often a specific defer-loop shall be executed, every n'th cycle/second. They also
    allow being terminated from inside and outside the current script.
     
@@ -13,8 +17,11 @@
    - **print and print2**, replaces the unuseable print-function from Lua
     
    - **new backgroundscripts**, who monitor statechanges of playstate, editcursorposition and loop-button
+   
+   - **Custom Markers and Regions**, that follow the scheme "_custommarkername: text", that can be easily managed.  
+                                     Have multiple markertypes with custom-markers and custom-regions with this feature.
     
-   - **Reaper-Internals Docs**, updated to Reaper 5.97, SWS 2.10.1, JS-Extension 0.964 and ReaPack.
+   - **Reaper-Internals Docs**, updated to Reaper 5.971, SWS 2.10.0.1, JS-Extension 0.971 and ReaPack.
    
    - many, many, many, many bugfixes
     
@@ -116,10 +123,10 @@
   - Docs: DeferScripts: Stopping Defer-loops from in- and outside of scripts - added chapter
   - HasHWNDChildWindowNames - allows to check, if a certain HWND has child-hwnds of certain name(s). Good to make probability-checks for the right Reaper-windows-check.
   - ReplacePartOfString - replaces a part of a string, beginning from an offset and up to a length; can be used for easy string insertion as well
-  - ReaperDocs: added new SWS2.10.1-functions
-  - ReaperDocs: added new JS-extension-plugin 0.963 and 0.964-functions
-  - EnumerateMediaItemsInTrack - readded, got lost in somehow, leading to GetTrackLength being useless
-  - ReaperDocs: added new Video-Processor-Api-functions, as of Reaper 5.97
+  - ReaperDocs: added new SWS2.10.0.1-functions
+  - ReaperDocs: updated new JS-extension-plugin-functions, up to 0.971
+  - EnumerateMediaItemsInTrack - readded, got lost in earlier versions somehow, leading to GetTrackLength being useless
+  - ReaperDocs: added new Video-Processor-Api-functions, as of Reaper 5.971
   - GetRenderToFileHWND - returns the HWND of the Render to File-dialog
   - GetActionsHWND - returns the HWND of the Actions-dialog
   - GetVideoHWND - returns the HWND of the Video Window
@@ -129,6 +136,21 @@
   - GetHWND_ArrangeViewAndTimeLine - returns the HWND-window-handler for the tracklist- and timeline-area of the arrangeview
   - A\_Simple\_EventManager\_with\_Backgroundhelpers\_and\_Defer01.lua - a simple demo-eventmanager, that employs the background-helper-scripts and the Defer01-function
   - Docs: Concepts: Installation - added instructions on how to install the Ultraschall-API using ReaPack-package-manager[https://reapack.com/](https://reapack.com/)
+  - GetAllCustomMarkers - gets all custom-markers of a certain name, as table
+  - GetAllCustomRegions - gets all custom-regions of a certain name, as table
+  - CountAllCustomMarkers - counts all custom-markers of a certain name
+  - CountAllCustomRegions - counts all custom-regions of a certain name
+  - EnumerateCustomMarkers - enumerates a custom-marker of a certain name
+  - EnumerateCustomRegions - enumerates a custom-region of a certain name
+  - DeleteCustomMarkers - deletes a custom-marker of a certain name
+  - DeleteCustomRegions - deletes a custom-region of a certain name
+  - AddCustomMarker - adds a custom-marker of a certain name
+  - AddCustomRegion - adds a custom-region of a certain name
+  - SetCustomMarker - sets a custom-marker of a certain name
+  - SetCustomRegion - sets a custom-region of a certain name
+  - GetNextFreeRegionIndex - gets the next free region-shown-indexnumber
+  - IsMarkerValidCustomMarker - checks a marker, if it's a valid custom-marker
+  - IsRegionValidCustomRegion - checks a marker, if it's a valid custom-region
   
 #### Changes from 4.00beta2.7 to 4.00beta2.72
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -320,15 +342,7 @@
 <TODO>
     API 4.00beta2.72
       TODO!! finish up ReaPack installation of the Ultraschall-API
-      TODO!! docs: installation via ReaPack including install-link
-                https://reapack.com/
-                https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api_index.xml
-                https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/
-                
-      TODO!! docs: exchange api.ultraschall.fm/Downloads.html with the correct URL
-                https://mespotin.uber.space/Ultraschall/Downloads.html
-
-      TODO!! GetSetCustom Regions/Markers - vanilla-chief-features
+      TODO!! move finished beta-functions to non beta functions_engine
       
     API 4.00beta2.75
       TODO!! Doccreation: - wrong number of functions in any other docspage than functions-engine

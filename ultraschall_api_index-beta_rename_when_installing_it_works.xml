@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="29431.00" author="Meo Mespotine">
+      <version name="29764.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -39,6 +39,7 @@
 	<source file="/ultraschall_api/DocsSourcefiles/US_Api-Concepts_GUI.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/DocsSourcefiles/US_Api-Concepts_GUI.USDocML</source>
 	<source file="/ultraschall_api/DocsSourcefiles/US_Api-Concepts_VID.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/DocsSourcefiles/US_Api-Concepts_VID.USDocML</source>
 	<source file="/ultraschall_api/Documentation/ChangeLog.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/ChangeLog.html</source>
+	<source file="/ultraschall_api/Documentation/Downloads.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/Downloads.html</source>
 	<source file="/ultraschall_api/Documentation/Impressum.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/Impressum.html</source>
 	<source file="/ultraschall_api/Documentation/index.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/index.html</source>
 	<source file="/ultraschall_api/Documentation/Reaper-Filetype-Descriptions.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/Reaper-Filetype-Descriptions.html</source>
@@ -304,6 +305,10 @@ Ultraschall Framework - Changelog
 
 4.00 Beta 2.72: - “Blue Oyster Cult - Don’t fear the Reaper” - 1st of March 2019
 
+Has now 783 functions, with 83 new ones
+
+Among them new features, like:
+
 -   DEFER-FUNCTIONS, that allow setting, how often a specific defer-loop
     shall be executed, every n’th cycle/second. They also allow being
     terminated from inside and outside the current script.
@@ -320,8 +325,13 @@ Ultraschall Framework - Changelog
 -   NEW BACKGROUNDSCRIPTS, who monitor statechanges of playstate,
     editcursorposition and loop-button
 
--   REAPER-INTERNALS DOCS, updated to Reaper 5.97, SWS 2.10.1,
-    JS-Extension 0.964 and ReaPack.
+-   CUSTOM MARKERS AND REGIONS, that follow the scheme
+    "_custommarkername: text", that can be easily managed.
+    Have multiple markertypes with custom-markers and custom-regions
+    with this feature.
+
+-   REAPER-INTERNALS DOCS, updated to Reaper 5.971, SWS 2.10.0.1,
+    JS-Extension 0.971 and ReaPack.
 
 -   many, many, many, many bugfixes
 
@@ -488,12 +498,12 @@ New features in 4.00beta2.72
 -   ReplacePartOfString - replaces a part of a string, beginning from an
     offset and up to a length; can be used for easy string insertion as
     well
--   ReaperDocs: added new SWS2.10.1-functions
--   ReaperDocs: added new JS-extension-plugin 0.963 and 0.964-functions
--   EnumerateMediaItemsInTrack - readded, got lost in somehow, leading
-    to GetTrackLength being useless
+-   ReaperDocs: added new SWS2.10.0.1-functions
+-   ReaperDocs: updated new JS-extension-plugin-functions, up to 0.971
+-   EnumerateMediaItemsInTrack - readded, got lost in earlier versions
+    somehow, leading to GetTrackLength being useless
 -   ReaperDocs: added new Video-Processor-Api-functions, as of Reaper
-    5.97
+    5.971
 -   GetRenderToFileHWND - returns the HWND of the Render to File-dialog
 -   GetActionsHWND - returns the HWND of the Actions-dialog
 -   GetVideoHWND - returns the HWND of the Video Window
@@ -512,6 +522,27 @@ New features in 4.00beta2.72
 -   Docs: Concepts: Installation - added instructions on how to install
     the Ultraschall-API using
     ReaPack-package-managerhttps://reapack.com/
+-   GetAllCustomMarkers - gets all custom-markers of a certain name, as
+    table
+-   GetAllCustomRegions - gets all custom-regions of a certain name, as
+    table
+-   CountAllCustomMarkers - counts all custom-markers of a certain name
+-   CountAllCustomRegions - counts all custom-regions of a certain name
+-   EnumerateCustomMarkers - enumerates a custom-marker of a certain
+    name
+-   EnumerateCustomRegions - enumerates a custom-region of a certain
+    name
+-   DeleteCustomMarkers - deletes a custom-marker of a certain name
+-   DeleteCustomRegions - deletes a custom-region of a certain name
+-   AddCustomMarker - adds a custom-marker of a certain name
+-   AddCustomRegion - adds a custom-region of a certain name
+-   SetCustomMarker - sets a custom-marker of a certain name
+-   SetCustomRegion - sets a custom-region of a certain name
+-   GetNextFreeRegionIndex - gets the next free region-shown-indexnumber
+-   IsMarkerValidCustomMarker - checks a marker, if it’s a valid
+    custom-marker
+-   IsRegionValidCustomRegion - checks a marker, if it’s a valid
+    custom-region
 
 Changes from 4.00beta2.7 to 4.00beta2.72
 

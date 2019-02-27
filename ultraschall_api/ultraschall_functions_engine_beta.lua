@@ -6683,6 +6683,977 @@ end
 </US_DocBloc>
 ]]
 
+function ultraschall.GetAllCustomMarkers(custom_marker_name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllCustomMarkers</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer count, table marker_array = ultraschall.GetAllCustomMarkers(string custom_marker_name)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will return all custom-markers with a certain name.
+    
+    A custom-marker has the naming-scheme 
+        
+        \_customname: text for this marker
+        
+    You just need to pass customname to this function, leaving out the preceding \_ and the trailing :
+    Exception: if the custom-marker has the name
+      
+       \_\_customname:: test for this marker
+        
+    Example:
+    
+    The custom-marker *VanillaChief* has the custom\_marker\_name *VanillaChief* and will be shown as *\_VanillaChief: text* in the project.
+    So you pass VanillaChief to this function to get all \_VanillaChief:-markers.
+    
+    Will not check custom-regions, use [GetAllCustomRegions](#GetAllCustomRegions) instead.
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"
+                              - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    integer count - the number of found markers; -1, in case of an error
+    table marker_array - an array with all found custom-markers. It follows the scheme:
+                       -
+                       -    marker_array[index]["index"] - index of the marker, in timeline-order, with 0 for the first in the project
+                       -    marker_array[index]["pos"]   - position of the marker in seconds
+                       -    marker_array[index]["name"]  - name of the marker, excluding the custom-marker-name
+                       -    marker_array[index]["shown_number"]  - the number of the marker, that is displayed in the timeline
+                       -    marker_array[index]["color"]  - color-value of the marker
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, get, all, custom markers, color, name, position, shown_number, index</tags>
+</US_DocBloc>
+]]
+  if type(custom_marker_name)~="string" then ultraschall.AddErrorMessage("GetAllCustomMarkers", "custom_marker_name", "must be a string", -1) return -1 end
+  if ultraschall.IsValidMatchingPattern(custom_marker_name)==false then ultraschall.AddErrorMessage("GetAllCustomMarkers", "custom_marker_name", "not a valid matching-pattern", -2) return -1 end
+  local count=0
+  local MarkerArray={}
 
+  for i=0, reaper.CountProjectMarkers(0)-1 do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
+    if isrgn==false and name:match("^_"..custom_marker_name..":")~=nil then 
+      count=count+1 
+      MarkerArray[count]={}
+      MarkerArray[count]["index"]=i
+      MarkerArray[count]["pos"]=pos
+      MarkerArray[count]["name"]=name:match(".-:%s-(.*)")
+      MarkerArray[count]["shown_number"]=markrgnindexnumber
+      MarkerArray[count]["color"]=color
+    end
+  end
+  return count, MarkerArray
+end
+
+--A,B,C = ultraschall.GetAllCustomMarkers("Whiskey")
+
+
+function ultraschall.GetAllCustomRegions(custom_region_name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllCustomRegions</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer count, table marker_array = ultraschall.GetAllCustomRegions(string custom_region_name)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will return all custom-regions with a certain name.
+    
+    A custom-region has the naming-scheme 
+        
+        \_customname: text for this region
+        
+    You just need to pass customname to this function, leaving out the preceding \_ and the trailing :
+    Exception: if the custom-region has the name
+      
+        \_\_customname:: test for this region
+        
+    Example:
+    
+    The custom-region *VanillaChief* has the custom\_region\_name *VanillaChief* and will be shown as *\_VanillaChief: text* in the project.
+    So you pass VanillaChief to this function to get all \_VanillaChief:-regions.
+    
+    Will not check custom-markers, use [GetAllCustomMarkers](#GetAllCustomMarkers) instead.
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    string custom_region_name - the name of the custom-region. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-region is called "__CustomRegion::"
+                              - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    integer count - the number of found regions; -1, in case of an error
+    table region_array - an array with all found custom-markers. It follows the scheme:
+                       -
+                       -    region_array[index]["index"] - index of the region, in timeline-order, with 0 for the first in the project
+                       -    region_array[index]["pos"]   - position of the region in seconds
+                       -    region_array[index]["regionend"] - the endposition of the region in seconds
+                       -    region_array[index]["name"]  - name of the region, excluding the custom-region-name
+                       -    region_array[index]["shown_number"]  - the number of the region, that is displayed in the timeline
+                       -    region_array[index]["color"]  - color-value of the region
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, get, all, custom regions, color, name, position, shown_number, index</tags>
+</US_DocBloc>
+]]
+  if type(custom_region_name)~="string" then ultraschall.AddErrorMessage("GetAllCustomRegions", "custom_region_name", "must be a string", -1) return -1 end
+  if ultraschall.IsValidMatchingPattern(custom_region_name)==false then ultraschall.AddErrorMessage("GetAllCustomRegions", "custom_region_name", "not a valid matching-pattern", -2) return -1 end
+  local count=0
+  local MarkerArray={}
+
+  for i=0, reaper.CountProjectMarkers(0)-1 do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
+    if isrgn==true and name:match("^_"..custom_region_name..":")~=nil then 
+      count=count+1 
+      MarkerArray[count]={}
+      MarkerArray[count]["index"]=i
+      MarkerArray[count]["pos"]=pos
+      MarkerArray[count]["regionend"]=rgnend
+      MarkerArray[count]["name"]=name:match(".-:%s*(.*)")
+      MarkerArray[count]["shown_number"]=markrgnindexnumber
+      MarkerArray[count]["color"]=color
+    end
+  end
+  return count, MarkerArray
+end
+
+--A,B,C=ultraschall.GetAllCustomRegions("Whiskey")
+
+function ultraschall.CountAllCustomMarkers(custom_marker_name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CountAllCustomMarkers</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer count = ultraschall.CountAllCustomMarkers(string custom_marker_name)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will count all custom-markers with a certain name.
+    
+    A custom-marker has the naming-scheme 
+        
+        \_customname: text for this marker
+        
+    You just need to pass customname to this function, leaving out the preceding \_ and the trailing :
+    Exception: if the custom-marker has the name
+      
+       \_\_customname:: test for this marker
+        
+    Example:
+    
+    The custom-marker *VanillaChief* has the custom\_marker\_name *VanillaChief* and will be shown as *\_VanillaChief: text* in the project.
+    So you pass VanillaChief to this function to get all \_VanillaChief:-markers.
+    
+    Will not count custom-regions, use [CountAllCustomRegions](#CountAllCustomRegions) instead.
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"
+                              - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    integer count - the number of found markers; -1, in case of an error
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, count, all, custom markers</tags>
+</US_DocBloc>
+]]
+  if type(custom_marker_name)~="string" then ultraschall.AddErrorMessage("GetAllCustomMarkers", "custom_marker_name", "must be a string", -1) return -1 end
+  if ultraschall.IsValidMatchingPattern(custom_marker_name)==false then ultraschall.AddErrorMessage("GetAllCustomMarkers", "custom_marker_name", "not a valid matching-pattern", -2) return -1 end
+  local count=0
+
+  for i=0, reaper.CountProjectMarkers(0)-1 do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
+    if isrgn==false and name:match("^_"..custom_marker_name..":")~=nil then 
+      count=count+1 
+    end
+  end
+  return count
+end
+
+--A,B,C = ultraschall.CountAllCustomMarkers("Whiskey")
+
+
+function ultraschall.CountAllCustomRegions(custom_region_name)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CountAllCustomRegions</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer count = ultraschall.CountAllCustomRegions(string custom_region_name)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will count all custom-regions with a certain name.
+    
+    A custom-region has the naming-scheme 
+        
+        \_customname: text for this region
+        
+    You just need to pass customname to this function, leaving out the preceding \_ and the trailing :
+    Exception: if the custom-region has the name
+      
+        \_\_customname:: test for this region
+        
+    Example:
+    
+    The custom-region *VanillaChief* has the custom\_region\_name *VanillaChief* and will be shown as *\_VanillaChief: text* in the project.
+    So you pass VanillaChief to this function to get all \_VanillaChief:-regions.
+    
+    Will not count custom-markers, use [CountAllCustomMarkers](#CountAllCustomMarkers) instead.
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    string custom_region_name - the name of the custom-region. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-region is called "__CustomRegion::"
+                              - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    integer count - the number of found regions; -1, in case of an error
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, count, all, custom regions</tags>
+</US_DocBloc>
+]]
+  if type(custom_region_name)~="string" then ultraschall.AddErrorMessage("CountAllCustomRegions", "custom_region_name", "must be a string", -1) return -1 end
+  if ultraschall.IsValidMatchingPattern(custom_region_name)==false then ultraschall.AddErrorMessage("CountAllCustomRegions", "custom_region_name", "not a valid matching-pattern", -2) return -1 end
+  local count=0
+
+  for i=0, reaper.CountProjectMarkers(0)-1 do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
+    if isrgn==true and name:match("^_"..custom_region_name..":")~=nil then 
+      count=count+1 
+    end
+  end
+  return count
+end
+
+--B,C=ultraschall.CountAllCustomRegions(true)
+
+
+function ultraschall.EnumerateCustomMarkers(custom_marker_name, idx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EnumerateCustomMarkers</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer marker_index, number pos, string name, integer shown_number, integer color = ultraschall.EnumerateCustomMarkers(string custom_marker_name, integer idx)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will return a specific custom-marker with a certain name.
+    
+    A custom-marker has the naming-scheme 
+        
+        \_customname: text for this marker
+        
+    You just need to pass customname to this function, leaving out the preceding \_ and the trailing :
+    Exception: if the custom-marker has the name
+      
+       \_\_customname:: test for this marker
+        
+    Example:
+    
+    The custom-marker *VanillaChief* has the custom\_marker\_name *VanillaChief* and will be shown as *\_VanillaChief: text* in the project.
+    So you pass VanillaChief to this function to get all \_VanillaChief:-markers.
+    
+    Will not enumerate custom-regions, use [EnumerateCustomRegions](#EnumerateCustomRegions) instead.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"
+                              - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+    integer idx - the index of the marker within all same-named custom-markers; 0, for the first custom-marker
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    boolean retval - true, if the custom-marker exists; false, if not or an error occurred
+    integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 2 for the second, etc
+    number pos - the position of the marker in seconds
+    string name - the name of the marker, exluding the custom-marker-name
+    integer shown_number - the markernumber, that is displayed in the timeline of the arrangeview
+    integer color - the color of the marker
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, enumerate, custom markers, color, name, position, shown_number, index</tags>
+</US_DocBloc>
+]]
+  if type(custom_marker_name)~="string" then ultraschall.AddErrorMessage("EnumerateCustomMarkers", "custom_marker_name", "must be a string", -1) return false end
+  if ultraschall.IsValidMatchingPattern(custom_marker_name)==false then ultraschall.AddErrorMessage("EnumerateCustomMarkers", "custom_marker_name", "not a valid matching-pattern", -2) return false end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("EnumerateCustomMarkers", "idx", "must be an integer", -3) return false end
+  local count=0
+
+  for i=0, reaper.CountProjectMarkers(0)-1 do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
+    if isrgn==false and name:match("^_"..custom_marker_name..":")~=nil then 
+      count=count+1 
+      if idx==count-1 then return true, i, pos, name:match(".-:%s*(.*)"), markrgnindexnumber, color end
+    end
+  end
+  return false
+end
+
+--A,B,C,D,E,F,G = ultraschall.EnumerateCustomMarkers("Whiskey",-3)
+
+
+function ultraschall.EnumerateCustomRegions(custom_region_name, idx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EnumerateCustomRegions</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer marker_index, number pos, number regionend, string name, integer shown_number, integer color = ultraschall.EnumerateCustomRegions(string custom_marker_name, integer idx)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will return a specific custom-region with a certain name.
+    
+    A custom-region has the naming-scheme 
+        
+        \_customname: text for this region
+        
+    You just need to pass customname to this function, leaving out the preceding \_ and the trailing :
+    Exception: if the custom-region has the name
+      
+        \_\_customname:: test for this region
+        
+    Example:
+    
+    The custom-region *VanillaChief* has the custom\_region\_name *VanillaChief* and will be shown as *\_VanillaChief: text* in the project.
+    So you pass VanillaChief to this function to get all \_VanillaChief:-regions.
+    
+    Will not enumerate custom-markers, use [EnumerateCustomMarkers](#EnumerateCustomMarkers) instead.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    string custom_region_name - the name of the custom-region. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-region is called "__CustomRegion::"
+                              - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+    integer idx - the index of the region within all same-named custom-regions; 0, for the first custom-region
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    boolean retval - true, if the custom-region exists; false, if not or an error occurred
+    integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 2 for the second, etc
+    number pos - the position of the region in seconds
+    number rgnend - the end of the region in seconds
+    string name - the name of the region, exluding the custom-region-name
+    integer shown_number - the regionnumber, that is displayed in the timeline of the arrangeview
+    integer color - the color of the region
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, enumerate, custom regions, color, name, position, shown_number, index</tags>
+</US_DocBloc>
+]]
+  if type(custom_region_name)~="string" then ultraschall.AddErrorMessage("EnumerateCustomRegions", "custom_region_name", "must be a string", -1) return false end
+  if ultraschall.IsValidMatchingPattern(custom_region_name)==false then ultraschall.AddErrorMessage("EnumerateCustomRegions", "custom_region_name", "not a valid matching-pattern", -2) return false end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("EnumerateCustomRegions", "idx", "must be an integer", -3) return false end
+  local count=0
+
+  for i=0, reaper.CountProjectMarkers(0)-1 do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
+    if isrgn==true and name:match("^_"..custom_region_name..":")~=nil then 
+      count=count+1 
+      if idx==count-1 then return true, i, pos, rgnend, name:match(".-:%s*(.*)"), markrgnindexnumber, color end
+    end
+  end
+  return false
+end
+
+--A,B,C,D,E,F,G = ultraschall.EnumerateCustomRegions("Whiskey",4)
+
+function ultraschall.DeleteCustomMarkers(custom_marker_name, idx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteCustomMarkers</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer marker_index, number pos, string name, integer shown_number, integer color = ultraschall.DeleteCustomMarkers(string custom_marker_name, integer idx)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will delete a specific custom-marker with a certain name.
+    
+    A custom-marker has the naming-scheme 
+        
+        \_customname: text for this marker
+        
+    You just need to pass customname to this function, leaving out the preceding \_ and the trailing :
+    Exception: if the custom-marker has the name
+      
+       \_\_customname:: test for this marker
+        
+    Example:
+    
+    The custom-marker *VanillaChief* has the custom\_marker\_name *VanillaChief* and will be shown as *\_VanillaChief: text* in the project.
+    So you pass VanillaChief to this function to get all \_VanillaChief:-markers.
+    
+    Will not delete custom-regions, use [DeleteCustomRegions](#DeleteCustomRegions) instead.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"
+                              - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+    integer idx - the index of the marker within all same-named custom-markers; 0, for the first custom-marker
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    boolean retval - true, if the custom-marker exists; false, if not or an error occurred
+    integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 2 for the second, etc
+    number pos - the position of the marker in seconds
+    string name - the name of the marker, exluding the custom-marker-name
+    integer shown_number - the markernumber, that is displayed in the timeline of the arrangeview
+    integer color - the color of the marker
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, delete, custom markers, color, name, position, shown_number, index</tags>
+</US_DocBloc>
+]]
+  if type(custom_marker_name)~="string" then ultraschall.AddErrorMessage("DeleteCustomMarkers", "custom_marker_name", "must be a string", -1) return false end
+  if ultraschall.IsValidMatchingPattern(custom_marker_name)==false then ultraschall.AddErrorMessage("DeleteCustomMarkers", "custom_marker_name", "not a valid matching-pattern", -2) return false end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteCustomMarkers", "idx", "must be an integer", -3) return false end
+  local count=0
+
+  for i=0, reaper.CountProjectMarkers(0)-1 do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
+    if isrgn==false and name:match("^_"..custom_marker_name..":")~=nil then 
+      count=count+1 
+      if idx==count-1 then 
+        reaper.DeleteProjectMarkerByIndex(0, i) 
+        return true, i, pos, name:match(".-:%s*(.*)"), markrgnindexnumber, color 
+      end
+    end
+  end
+  return false
+end
+
+--A,B,C,D,E,F,G = ultraschall.DeleteCustomMarkers("Whiskey",2)
+
+
+function ultraschall.DeleteCustomRegions(custom_region_name, idx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteCustomRegions</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer marker_index, number pos, number regionend, string name, integer shown_number, integer color = ultraschall.DeleteCustomRegions(string custom_marker_name, integer idx)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Deletes a specific custom-region with a certain name.
+    
+    A custom-region has the naming-scheme 
+        
+        \_customname: text for this region
+        
+    You just need to pass customname to this function, leaving out the preceding \_ and the trailing :
+    Exception: if the custom-region has the name
+      
+        \_\_customname:: test for this region
+        
+    Example:
+    
+    The custom-region *VanillaChief* has the custom\_region\_name *VanillaChief* and will be shown as *\_VanillaChief: text* in the project.
+    So you pass VanillaChief to this function to get all \_VanillaChief:-regions.
+    
+    Will not delete custom-markers, use [DeleteCustomMarkers](#DeleteCustomMarkers) instead.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    string custom_region_name - the name of the custom-region. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-region is called "__CustomRegion::"
+                              - Lua-pattern-matching-expressions are allowed. This parameter is NOT case-sensitive.
+    integer idx - the index of the region within all same-named custom-regions; 0, for the first custom-region
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    boolean retval - true, if the custom-region exists; false, if not or an error occurred
+    integer marker_index - the index of the marker within all markers and regions, as positioned in the project, with 0 for the first, 2 for the second, etc
+    number pos - the position of the region in seconds
+    number rgnend - the end of the region in seconds
+    string name - the name of the region, exluding the custom-region-name
+    integer shown_number - the regionnumber, that is displayed in the timeline of the arrangeview
+    integer color - the color of the region
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, delete, custom regions, color, name, position, shown_number, index</tags>
+</US_DocBloc>
+]]
+  if type(custom_region_name)~="string" then ultraschall.AddErrorMessage("DeleteCustomRegions", "custom_region_name", "must be a string", -1) return false end
+  if ultraschall.IsValidMatchingPattern(custom_region_name)==false then ultraschall.AddErrorMessage("DeleteCustomRegions", "custom_region_name", "not a valid matching-pattern", -2) return false end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteCustomRegions", "idx", "must be an integer", -3) return false end
+  local count=0
+
+  for i=0, reaper.CountProjectMarkers(0)-1 do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
+    if isrgn==true and name:match("^_"..custom_region_name..":")~=nil then 
+      count=count+1 
+      if idx==count-1 then 
+        reaper.DeleteProjectMarkerByIndex(0, i) 
+        return true, i, pos, rgnend, name:match(".-:%s*(.*)"), markrgnindexnumber, color 
+      end
+    end
+  end
+  return false
+end
+
+--A,B,C,D,E,F,G = ultraschall.DeleteCustomRegions("Whiskey",3)
+
+function ultraschall.AddCustomMarker(custom_marker_name, pos, name, shown_number, color)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AddCustomMarker</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.AddCustomMarker(string custom_marker_name, number pos, string name, integer shown_number, integer color)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will add new custom-marker with a certain name.
+    
+    A custom-marker has the naming-scheme 
+        
+        \_customname: text for this marker
+        
+    You just need to pass customname to this function, leaving out the preceding \_ and the trailing :
+    Exception: if the custom-marker has the name
+      
+       \_\_customname:: test for this marker
+        
+    Example:
+    
+    The custom-marker *VanillaChief* has the custom\_marker\_name *VanillaChief* and will be shown as *\_VanillaChief: text* in the project.
+    So you pass VanillaChief to this function to get all \_VanillaChief:-markers.
+    
+    Will not add custom-regions, use [AddCustomRegion](#AddCustomRegion) instead.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"
+    number pos - the position of the marker in seconds
+    string name - the name of the marker, exluding the custom-marker-name
+    integer shown_number - the markernumber, that is displayed in the timeline of the arrangeview
+    integer color - the color of the marker
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    boolean retval - true, if adding the custom-marker was successful; false, if not or an error occurred
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, add, custom markers, color, name, position, shown_number, index</tags>
+</US_DocBloc>
+]]
+  -- ToDo: return the index of the newly added marker, if that is useful
+  if type(custom_marker_name)~="string" then ultraschall.AddErrorMessage("AddCustomMarker", "custom_marker_name", "must be a string", -1) return false end
+  if type(pos)~="number" then ultraschall.AddErrorMessage("AddCustomMarker", "pos", "must be a number", -2) return false end
+  if type(name)~="string" then ultraschall.AddErrorMessage("AddCustomMarker", "name", "must be a string", -3) return false end
+  if math.type(shown_number)~="integer" then ultraschall.AddErrorMessage("AddCustomMarker", "shown_number", "must be an integer", -4) return false end
+  if math.type(color)~="integer" then ultraschall.AddErrorMessage("AddCustomMarker", "color", "must be an integer; 0, for default color", -5) return false end  
+  
+  reaper.AddProjectMarker2(0, false, pos, 0, "_"..custom_marker_name..": "..name, shown_number, color)
+  return true
+end
+--A,B,C=ultraschall.AddCustomMarker("vanillachief", 1, "Hulahoop", 987, 9865)
+
+
+function ultraschall.AddCustomRegion(custom_region_name, pos, regionend, name, shown_number, color)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AddCustomRegion</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer shown_number = ultraschall.AddCustomRegion(string custom_region_name, number pos, number regionend, string name, integer shown_number, integer color)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will add new custom-region with a certain name.
+    
+    A custom-region has the naming-scheme 
+        
+        \_customname: text for this region
+        
+    You just need to pass customname to this function, leaving out the preceding \_ and the trailing :
+    Exception: if the custom-region has the name
+      
+        \_\_customname:: test for this region
+        
+    Example:
+    
+    The custom-region *VanillaChief* has the custom\_region\_name *VanillaChief* and will be shown as *\_VanillaChief: text* in the project.
+    So you pass VanillaChief to this function to get all \_VanillaChief:-regions.
+    
+    Will not add custom-markers, use [AddCustomMarker](#AddCustomMarker) instead.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    string custom_marker_name - the name of the custom-region. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-region is called "__CustomRegion::"
+    number pos - the position of the region in seconds
+    number regionend - the endposition of the region in seconds
+    string name - the name of the region, exluding the custom-region-name
+    integer shown_number - the regionnumber, that is displayed in the timeline of the arrangeview
+    integer color - the color of the marker
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    boolean retval - true, if adding the custom-region was successful; false, if not or an error occurred
+    integer shown_number - if the desired shown_number is already used by another region, this will hold the alternative number for the new custom-region
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, add, custom region, color, name, position, shown_number, index</tags>
+</US_DocBloc>
+]]
+  -- ToDo: return the index of the newly added marker, if that is useful
+  if type(custom_region_name)~="string" then ultraschall.AddErrorMessage("AddCustomRegion", "custom_region_name", "must be a string", -1) return false end
+  if type(pos)~="number" then ultraschall.AddErrorMessage("AddCustomRegion", "pos", "must be a number", -2) return false end
+  if type(length)~="number" then ultraschall.AddErrorMessage("AddCustomRegion", "length", "must be a number", -6) return false end
+  if type(name)~="string" then ultraschall.AddErrorMessage("AddCustomRegion", "name", "must be a string", -3) return false end
+  if math.type(shown_number)~="integer" then ultraschall.AddErrorMessage("AddCustomRegion", "shown_number", "must be an integer", -4) return false end
+  if math.type(color)~="integer" then ultraschall.AddErrorMessage("AddCustomRegion", "color", "must be an integer; 0, for default color", -5) return false end  
+  
+  local shown_number=reaper.AddProjectMarker2(0, true, pos, length, "_"..custom_region_name..": "..name, shown_number, color)
+  return true, shown_number
+end
+
+--A,B,C=ultraschall.AddCustomRegion("vanillachief", 105, 150, "Hulahoop", 987, 9865)
+
+
+function ultraschall.SetCustomMarker(custom_marker_name, idx, pos, name, shown_number, color)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetCustomMarker</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetCustomMarker(string custom_marker_name, integer idx, number pos, string name, integer shown_number, integer color)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will set attributes of an already existing custom-marker with a certain name.
+    
+    A custom-marker has the naming-scheme 
+        
+        \_customname: text for this marker
+        
+    You just need to pass customname to this function, leaving out the preceding \_ and the trailing :
+    Exception: if the custom-marker has the name
+      
+       \_\_customname:: test for this marker
+        
+    Example:
+    
+    The custom-marker *VanillaChief* has the custom\_marker\_name *VanillaChief* and will be shown as *\_VanillaChief: text* in the project.
+    So you pass VanillaChief to this function to get all \_VanillaChief:-markers.
+    
+    Will not set custom-regions, use [SetCustomRegion](#SetCustomRegion) instead.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"
+    integer idx - the index-number of the custom-marker within all custom-markers
+    number pos - the position of the marker in seconds
+    string name - the name of the marker, exluding the custom-marker-name
+    integer shown_number - the markernumber, that is displayed in the timeline of the arrangeview
+    integer color - the color of the marker
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    boolean retval - true, if setting the new attributes of the custom-marker was successful; false, if not or an error occurred
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, set, custom markers, color, name, position, shown_number, index</tags>
+</US_DocBloc>
+]]
+  if type(custom_marker_name)~="string" then ultraschall.AddErrorMessage("SetCustomMarker", "custom_marker_name", "must be a string", -1) return false end
+  if type(pos)~="number" then ultraschall.AddErrorMessage("SetCustomMarker", "pos", "must be a number", -2) return false end
+  if type(name)~="string" then ultraschall.AddErrorMessage("SetCustomMarker", "name", "must be a string", -3) return false end
+  if math.type(shown_number)~="integer" then ultraschall.AddErrorMessage("SetCustomMarker", "shown_number", "must be an integer", -4) return false end
+  if math.type(color)~="integer" then ultraschall.AddErrorMessage("SetCustomMarker", "color", "must be an integer; 0, for default color", -5) return false end  
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("SetCustomMarker", "idx", "must be an integer", -6) return false end
+  
+  local retval, markerindex = ultraschall.EnumerateCustomMarkers(custom_marker_name, idx)
+  
+  if retval==false then ultraschall.AddErrorMessage("SetCustomMarker", "idx", "no such custom-marker", -7) return false end
+  
+  return reaper.SetProjectMarkerByIndex2(0, markerindex, false, pos, 0, shown_number, "_"..custom_marker_name..": "..name, color, 0)
+end
+
+--A,B,C=ultraschall.SetCustomMarker("vanillachief", -3, 30, "Hulahoop9", 48787, 12)
+
+
+function ultraschall.SetCustomRegion(custom_region_name, idx, pos, regionend, name, shown_number, color)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AddCustomRegion</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer shown_number = ultraschall.AddCustomRegion(string custom_region_name, number pos, string name, integer shown_number, integer color)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Will add new custom-region with a certain name.
+    
+    A custom-region has the naming-scheme 
+        
+        \_customname: text for this region
+        
+    You just need to pass customname to this function, leaving out the preceding \_ and the trailing :
+    Exception: if the custom-region has the name
+      
+        \_\_customname:: test for this region
+        
+    Example:
+    
+    The custom-region *VanillaChief* has the custom\_region\_name *VanillaChief* and will be shown as *\_VanillaChief: text* in the project.
+    So you pass VanillaChief to this function to get all \_VanillaChief:-regions.
+    
+    Will not add custom-markers, use [AddCustomMarker](#AddCustomMarker) instead.
+    
+    returns false in case of an error, like the desired shown_number is already taken by another region
+  </description>
+  <parameters>
+    string custom_marker_name - the name of the custom-region. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-region is called "__CustomRegion::"
+    number pos - the position of the region in seconds
+    string name - the name of the region, exluding the custom-region-name
+    integer shown_number - the regionnumber, that is displayed in the timeline of the arrangeview
+    integer color - the color of the marker
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    boolean retval - true, if adding the region was successful; false, if not or an error occurred
+    integer shown_number - if the desired shown_number is already used by another region, this will hold the alternative number for the new custom-region
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, set, custom region, color, name, position, shown_number, index</tags>
+</US_DocBloc>
+]]
+  if type(custom_region_name)~="string" then ultraschall.AddErrorMessage("SetCustomRegion", "custom_region_name", "must be a string", -1) return false end
+  if type(pos)~="number" then ultraschall.AddErrorMessage("SetCustomRegion", "pos", "must be a number", -2) return false end
+  if type(regionend)~="number" then ultraschall.AddErrorMessage("SetCustomRegion", "regionend", "must be a number", -7) return false end
+  if type(name)~="string" then ultraschall.AddErrorMessage("SetCustomRegion", "name", "must be a string", -3) return false end
+  if math.type(shown_number)~="integer" then ultraschall.AddErrorMessage("SetCustomRegion", "shown_number", "must be an integer", -4) return false end
+  if math.type(color)~="integer" then ultraschall.AddErrorMessage("SetCustomRegion", "color", "must be an integer; 0, for default color", -5) return false end  
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("SetCustomRegion", "idx", "must be an integer", -6) return false end
+  
+  local retval, markerindex = ultraschall.EnumerateCustomRegions(custom_region_name, idx)
+  
+  if retval==false then ultraschall.AddErrorMessage("SetCustomRegion", "idx", "no such custom-region", -7) return false end
+  
+  return reaper.SetProjectMarkerByIndex2(0, markerindex, true, pos, regionend, shown_number, "_"..custom_region_name..": "..name, color, 0)
+end
+--A,B,C=ultraschall.SetCustomRegion("vanillachief", 0, 10, 20, "HudelDudel", 2, 0)
+
+
+function ultraschall.GetNextFreeRegionIndex()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetNextFreeRegionIndex</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer free_shown_number = ultraschall.GetNextFreeRegionIndex()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns the next unused region-index-number, beginning with 0.
+  </description>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    integer free_shown_number - the next free/unused region-index-number
+  </retvals>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, get, free, region, index</tags>
+</US_DocBloc>
+]]
+  local count=0
+  local numbertable={}
+  for i=0, reaper.CountProjectMarkers(0)-1 do
+    local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, i)
+    if isrgn==true then 
+      count=count+1
+      numbertable[count]=markrgnindexnumber
+    end
+  end
+  
+  table.sort(numbertable)
+  
+  for i=1, count do
+    if numbertable[i]~=i-1 then return i-1 end
+  end
+  return count
+end
+
+--A=ultraschall.GetNextFreeRegionIndex()
+
+function ultraschall.IsMarkerValidCustomMarker(custom_marker_name, markeridx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsMarkerValidCustomMarker</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsMarkerValidCustomMarker(string custom_marker_name, integer markeridx)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns true, if the marker with id markeridx is a valid custom-marker of the type custom_marker_name
+    
+    markeridx is the index of all markers and regions!
+    
+    returns false in case of an error
+  </description>
+  <paramters>
+    string custom_marker_name - the custom-marker-name to check against; can also be a Lua-pattern-matching-expression
+    integer markeridx - the index of the marker to check; this is the index of all markers and regions!
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    boolean retval - true, marker is a valid custom-marker of type custom_marker_name; false, it is not or an error occurred
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, isvalid, custom-marker</tags>
+</US_DocBloc>
+]]
+  if type(custom_marker_name)~="string" then ultraschall.AddErrorMessage("IsMarkerValidCustomMarker", "custom_marker_name", "must be a string", -1) return false end
+  if ultraschall.IsValidMatchingPattern(custom_marker_name)==false then ultraschall.AddErrorMessage("IsMarkerValidCustomMarker", "custom_marker_name", "not a valid matching-pattern", -2) return false end
+  if math.type(markeridx)~="integer" then ultraschall.AddErrorMessage("IsMarkerValidCustomMarker", "markeridx", "must be an integer", -3) return false end
+  local A,B=ultraschall.GetAllCustomMarkers(custom_marker_name)
+  for i=1, A do
+    if B[i]["index"]==markeridx then return true end
+  end
+  return false
+end
+
+--C=ultraschall.IsMarkerValidCustomMarker("(.*)",0)
+
+
+function ultraschall.IsRegionValidCustomRegion(custom_region_name, markeridx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsRegionValidCustomRegion</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsRegionValidCustomRegion(string custom_region_name, integer markeridx)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns true, if the marker with id markeridx is a valid custom-region of the type custom_region_name
+    
+    markeridx is the index of all markers and regions!
+    
+    returns false in case of an error
+  </description>
+  <paramters>
+    string custom_region_name - the custom-reion-name to check against; can also be a Lua-pattern-matching-expression
+    integer markeridx - the index of the marker to check; this is the index of all markers and regions!
+  </parameters>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
+    boolean retval - true, marker is a valid custom-region of type custom_region_name; false, it is not or an error occurred
+  </retvals>
+  <chapter_context>
+    Markers
+    Custom Markers
+  </chapter_context>
+  <target_document>USApiGfxReference</target_document>
+  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <tags>marker management, isvalid, custom-region</tags>
+</US_DocBloc>
+]]
+  if type(custom_region_name)~="string" then ultraschall.AddErrorMessage("IsRegionValidCustomRegion", "custom_region_name", "must be a string", -1) return false end
+  if ultraschall.IsValidMatchingPattern(custom_region_name)==false then ultraschall.AddErrorMessage("IsRegionValidCustomRegion", "custom_region_name", "not a valid matching-pattern", -2) return false end
+  if math.type(markeridx)~="integer" then ultraschall.AddErrorMessage("IsRegionValidCustomRegion", "markeridx", "must be an integer", -3) return false end
+  local A,B=ultraschall.GetAllCustomRegions(custom_region_name)
+  for i=1, A do
+    if B[i]["index"]==markeridx then return true end
+  end
+  return false
+end
+
+--C=ultraschall.IsRegionValidCustomRegion("vanillachief", 1)
 
 ultraschall.ShowLastErrorMessage()
