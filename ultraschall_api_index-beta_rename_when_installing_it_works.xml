@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="29428.00" author="Meo Mespotine">
+      <version name="29431.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -509,6 +509,9 @@ New features in 4.00beta2.72
 -   A_Simple_EventManager_with_Backgroundhelpers_and_Defer01.lua - a
     simple demo-eventmanager, that employs the background-helper-scripts
     and the Defer01-function
+-   Docs: Concepts: Installation - added instructions on how to install
+    the Ultraschall-API using
+    ReaPack-package-managerhttps://reapack.com/
 
 Changes from 4.00beta2.7 to 4.00beta2.72
 

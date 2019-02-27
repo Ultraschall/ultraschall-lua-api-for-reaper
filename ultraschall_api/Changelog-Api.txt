@@ -128,6 +128,7 @@
   - Docs: Concepts: Error Messaging System: Other helpers for Error-Messaging-system - added chapter
   - GetHWND_ArrangeViewAndTimeLine - returns the HWND-window-handler for the tracklist- and timeline-area of the arrangeview
   - A\_Simple\_EventManager\_with\_Backgroundhelpers\_and\_Defer01.lua - a simple demo-eventmanager, that employs the background-helper-scripts and the Defer01-function
+  - Docs: Concepts: Installation - added instructions on how to install the Ultraschall-API using ReaPack-package-manager[https://reapack.com/](https://reapack.com/)
   
 #### Changes from 4.00beta2.7 to 4.00beta2.72
   - SetUSExternalState - converts now all passed parameters to string, regardless of their type
@@ -326,7 +327,7 @@
                 
       TODO!! docs: exchange api.ultraschall.fm/Downloads.html with the correct URL
                 https://mespotin.uber.space/Ultraschall/Downloads.html
-      TODO!! minor fixes in ConfigVardocs, as mentioned in the reaper-forum
+
       TODO!! GetSetCustom Regions/Markers - vanilla-chief-features
       
     API 4.00beta2.75

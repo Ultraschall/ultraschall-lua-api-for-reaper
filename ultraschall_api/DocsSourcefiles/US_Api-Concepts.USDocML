@@ -70,23 +70,60 @@
             Using the Ultraschall-API is quite easy.
             
             First make sure, you use the right versions of Reaper and SWS:
-               [Reaper 5.95](https://www.reaper.fm), [SWS 2.9.7](https://www.sws-extension.org) and [Julian Sader's plugin 0.963.](https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/)
+               [Reaper 5.965](https://www.reaper.fm), [SWS 2.9.7](https://www.sws-extension.org) and [Julian Sader's plugin 0.963.](https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/)
             You can download them at [reaper.fm](http://www.reaper.fm) and [sws-extension.org](http://www.sws-extension.org) respectively.
             Julian Sader's plugin can be installed using ReaPack or gotten from [his own github-site](https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/)
             
-            To install the Ultraschall-API:
+            To install the Ultraschall-API, just follow the following steps:
             
-            1. Just download the zip-file of the current version from [ultraschall.fm/api](http://ultraschall.fm/api).  
+            **Installation via ReaPack**:
+            
+            The easiest way is to install the Ultraschall-API using ReaPack. ReaPack is a package-manager for extensions and helper-stuff for Reaper, which allows you to easily install and update content done by the Reaper community.
+            Many Scripts, Themes, JSFX-FX, etc are available through that.
+            
+            1. Install ReaPack. Get it from [https://reapack.com/](https://reapack.com/). There's also a real good [User guide](https://reapack.com/user-guide) for it available, that explains, how to do it.  
+               Copy the downloaded dll(Windows), dylib(Mac) or so(Linux)-file into the UserPlugins-folder in the Resources-folder of Reaper. 
+               You can find the correct Resources-path in the Reaper-menu "Options -> Show REAPER resource path in explorer/finder...".    
+            2. (Re-)Start Reaper  
+            3. Go into the Menu Extensions -> ReaPack -> manage Repositories  
+            4. Click on Import/export...-button and choose Import repositories  
+            5. Paste into the dialog the following link  
+                    
+                    https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api_index.xml
+               
+               and hit OK.  
+            6. Doubleclick on the Ultraschall-API-entry. A dialog will pop up with a description of the Ultraschall-API  
+            7. Hit the Install/update Ultraschall-API-button and select Install all packages in this repository  
+            8. ReaPack will ask you, if you want to install new packages/updates the next time you synchronize ReaPack.  
+               Hit Yes.  
+            9. ReaPack installs the Ultraschall-API. If no error appears, it will tell you to restart Reaper, as a new extension has been installed  
+            10. Restart Reaper.  
+            
+            To update the Ultraschall-API in the future, choose in the menu Extensions -> ReaPack -> Synchronize packages. If an update is available, it will install it automatically.  
+            For more information on ReaPack and it's usage, refer [User guide](https://reapack.com/user-guide).
+            
+            **Manual Installation**:
+            
+            If you can't or don't want to install ReaPack, you can also install it manually.
+            
+            1. Just download the zip-file of the current version from [https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api4.00_beta2.72.zip](https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api4.00_beta2.72.zip).  
             2. Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -> Show REAPER resource path in explorer/finder...".    
                The folder UserPlugins should contain the folder ultraschall\_api and the files ultraschall\_api\_readme.txt and ultraschall\_api.lua after this step.  
-            3. Now create a new script, by opening the Actions-window (Menu: Actions -> Show action list) and clicking the New-button next to "ReaScript:", give it a name and hit save.  
+            3. Restart Reaper.
+            
+            
+            ** Check Installation **
+            
+            After installation, you might want to check, whether installing the Ultraschall-API was successful.
+            
+            1. Create a new script, by opening the Actions-window (Menu: Actions -> Show action list) and clicking the New-button next to "ReaScript:", give it a name and hit save.  
                Include the following line in your script at the beginning:   
                
                         dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
                
             Now you can program with the Ultraschall-API. Just add the functions AFTER the dofile-line.
             
-            4. To test, if it's successfully installed, add 
+            2. To test, if it's successfully installed, add 
                 
                         ultraschall.ApiTest()
                 
@@ -2494,15 +2531,73 @@
             
             >**[RunBackgroundHelperFeatures](usdocml://RunBackgroundHelperFeatures)**
             
-                                ultraschall.RunBackgroundHelperFeatures()
+                                ultraschall.RunBackgroundHelperFeatures(true)
                                 
             >This starts the background-scripts, that provide additional features.
+            >To stop them again, set the parameter to false.
             
             Without having the background-scripts started, some functions will always produce error-codes.  
             Features that use these background-scripts are:
             
             >**[GetLastCursorPosition](usdocml://GetLastCursorPosition)** - gets the last editcursor-position before the current one. Helpful for left-click-triggered scripts, who change the editcursorposition due the mouseclick  
             >**[GetLastPlayState](usdocml://GetLastPlayState)** - gets the last playstate before the current one. Helpful for monitoring "event-based"-statechanges
+            >**[GetLastLoopState](usdocml://GetLastLoopState)** - gets the last loopstate before the current one. Helpful for monitoring "event-based"-statechanges
+            
+            With this, you can create event-managers, reacting to e.g. playstate-changes.
+            
+            Such a script could look like this:
+            
+                    -- Ultraschall-API demoscript by Meo Mespotine 26.02.2019
+                    -- 
+                    -- a simple event-manager, that employs background-helper-scripts for listening for statechanges and
+                    -- the Defer-functions in Ultraschall-API 4.00 beta 2.72, who allow you to control, how often the deferred code
+                    -- shall be executed (every x seconds/every x defer-cycles).
+
+                    dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+
+                    -- the following code will stop the Background-listener-scripts when script is exited
+                    function exit()
+                      ultraschall.RunBackgroundHelperFeatures(false)
+                    end
+
+                    reaper.atexit(exit)
+
+
+                    -- start background-listener scripts
+                    ultraschall.RunBackgroundHelperFeatures(true)
+
+                    function main()
+                      -- get the last/current playstates
+                      last_play_state, new_play_state, statechangetime = ultraschall.GetLastPlayState()
+                      
+                      -- if the state has been changed in general since last time calling GetLastPlayState:
+                      if statechangetime~=oldstatechangetime then
+                        -- show the old and new playstate in the console
+                        print("Old Playstate: "..last_play_state.." - New Playstate: "..new_play_state)
+                        
+                        -- if the state has changed from REC or RECPAUSE to STOP then
+                        if (last_play_state=="RECPAUSE" or last_play_state=="REC") and new_play_state=="STOP" then
+                          -- show a messagebox that displays that recording has stopped
+                          print2("Recording or Rec+Pause has stopped!")
+                        end
+                      end  
+                      
+                      -- store the current statechangetime as the old one for comparison in the next defer-cycle
+                      oldstatechangetime=statechangetime
+                      
+                      -- run the function main in mode 2(every x seconds) every 1 second
+                      -- Defer1(functionname, mode(0, normaldefer; 1, every x cycles; 2, every x seconds), 
+                      -- counter(number of seconds or cycles))
+                      ultraschall.Defer1(main,2,1)
+                    end
+
+                    -- run the fun
+                    main()
+                    
+            This script displays into the ReaScript-console the message "Recording or Rec+Pause has stopped!" everytime recording and/or recording+pause changes to STOP
+            It also displays playstate-changes in general, when they happen, into the ReaScript-console.
+            
+            Refer [DeferScripts: Introduction to Ultraschall's Defer-functions](#DeferScripts_001_Introduction) for more information on the Defer1-function used in this demo-script.
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
