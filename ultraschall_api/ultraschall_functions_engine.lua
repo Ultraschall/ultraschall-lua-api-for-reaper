@@ -211,6 +211,25 @@ if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
   ultraschall.Api_InstallPath=reaper.GetResourcePath().."/UserPlugins/"
 --]]  
 
+
+-- Let's create a unique script-identifier
+ultraschall.dump=ultraschall.tempfilename:match("%-%{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}")
+
+--reaper.MB(tostring(ultraschall.dump),"",0)
+if ultraschall.dump==nil then 
+  ultraschall.dump, ultraschall.dump2 = ultraschall.tempfilename:sub(1,-5), ultraschall.tempfilename:sub(-4,-1)
+  if ultraschall.dump2==nil then ultraschall.dump2="" ultraschall.dump=ultraschall.tempfilename end
+  ultraschall.ScriptIdentifier="ScriptIdentifier:"..ultraschall.dump..ultraschall.dump2
+  
+  ultraschall.ScriptIdentifier="ScriptIdentifier:"..ultraschall.dump.."-"..reaper.genGuid("")..ultraschall.dump2
+else  
+  ultraschall.ScriptIdentifier="ScriptIdentifier:"..ultraschall.tempfilename
+end
+  ultraschall.ScriptIdentifier=string.gsub(ultraschall.ScriptIdentifier, "\\", "/")
+
+--reaper.MB(tostring(ultraschall.ScriptIdentifier),"",0)
+
+
 function ultraschall.GetEnvelopeStateChunk(TrackEnvelope, str, isundo, usesws)
   return reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
 end
@@ -371,6 +390,66 @@ end
 --A=reaper.GetTrack(0,0)
 --L,M,N=ultraschall.GetTrackStateChunk(A,"", false, false)
 --T=M:len()
+
+
+function ultraschall.SplitStringAtLineFeedToArray(unsplitstring)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SplitStringAtLineFeedToArray</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer count, array split_string = ultraschall.SplitStringAtLineFeedToArray(string unsplitstring)</functioncall>
+  <description>
+    Splits the string unsplitstring at linefeed/tabs/control characters and puts each of these splitpieces into an array, each splitpiece one array-entry.
+    The linefeeds will not(!) be returned in the array's entries.
+    Returns the number of entries in the array, as well as the array itself
+    If there are no controlcharacters or linefeeds in the string, the array will have only one entry with unsplitstring in it.
+    returns -1 in case of failure
+  </description>
+  <parameters>
+    string unsplitstring - the string, that shall be split at LineFeed/Tabs/Control Characters. Nil is not allowed.
+  </parameters>
+  <retvals>
+    integer count - number of entries in the split_string-array
+    array split_string - an array with all the individual "postsplit"-pieces of the string
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>string, split, linefeed, tabs, control characters, array</tags>
+</US_DocBloc>
+]]
+  local array={}
+  local i=1
+  if unsplitstring==nil then ultraschall.AddErrorMessage("SplitStringAtLineFeedToArray", "unsplitstring", "nil is not allowed as value", -1) return -1 end
+  local astring=unsplitstring
+  local pos
+  astring=string.gsub (unsplitstring, "\r\n", "\n")
+  astring=string.gsub (astring, "\n\r", "\n")
+  astring=string.gsub (astring, "\r", "\n")
+  astring=astring.."\n"
+  while astring:match("%c") do
+    array[i],pos=astring:match("(.-)\n()")
+--    reaper.MB(array[i], tostring(pos),0)
+    if sub~=nil then break end 
+    astring=astring:sub(pos,-1)
+    i=i+1
+  end
+  if astring~="" and astring~=nil then array[i]=astring
+  else i=i-1
+  end
+  return i,array
+end
+
+--L,LL=ultraschall.SplitStringAtLineFeedToArray("9,9,9,9\r\nooll\n\n\n\n")
+--reaper.MB(LL[1].."O.."..LL[2],"",0)
+
 
 
 
@@ -27720,7 +27799,7 @@ function ultraschall.GetTrackHWOut(tracknumber,idx)
   <retvals>
     integer outputchannel - outputchannel, with 1024+x the individual hw-outputchannels, 0,2,4,etc stereo output channels
     integer post_pre_fader - 0-post-fader(post pan), 1-preFX, 3-pre-fader(Post-FX), as set in the Destination "Controls for Track"-dialogue
-    number volume - volume, as set in the Destination "Controls for Track"-dialogue 
+    number volume - volume, as set in the Destination "Controls for Track"-dialogue; see [MKVOL2DB](#MKVOL2DB) to convert it into a dB-value
     number pan - pan, as set in the Destination "Controls for Track"-dialogue
     integer mute - mute, 1-on, 0-off, as set in the Destination "Controls for Track"-dialogue
     integer phase - Phase, 1-on, 0-off, as set in the Destination "Controls for Track"-dialogue
@@ -27813,7 +27892,7 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber,idx)
   <retvals>
     integer recv_tracknumber - Tracknumber, from where to receive the audio from
     integer post_pre_fader - 0-PostFader, 1-PreFX, 3-Pre-Fader
-    number volume - Volume
+    number volume - Volume; see [MKVOL2DB](#MKVOL2DB) to convert it into a dB-value
     number pan - pan, as set in the Destination "Controls for Track"-dialogue; negative=left, positive=right, 0=center
     integer mute - Mute this send(1) or not(0)
     integer mono_stereo - Mono(1), Stereo(0)
@@ -27880,6 +27959,7 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber,idx)
   
   local Track=reaper.GetTrack(0,tracknumber-1)
   if Track==nil then return -1 end
+  local retstring
   local A,TrackStateChunk=ultraschall.GetTrackStateChunk(Track,"",true)
   local TrackStateChunkArray={}
   local count=1
@@ -27989,7 +28069,7 @@ function ultraschall.CountTrackAUXSendReceives(tracknumber)
   if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("CountTrackAUXSendReceives", "tracknumber", "no such track", -2) return -1 end
   
   local Track=reaper.GetTrack(0,tracknumber-1)
-  if Track==nil then return -1 end
+  if Track==nil then ultraschall.AddErrorMessage("CountTrackAUXSendReceives", "tracknumber", "no such track", -3) return -1 end
   local A,TrackStateChunk=ultraschall.GetTrackStateChunk(Track,"",true)
   local TrackStateChunkArray={}
   local count=1
@@ -28000,6 +28080,8 @@ function ultraschall.CountTrackAUXSendReceives(tracknumber)
   end
   return count-1, TrackStateChunkArray
 end
+
+--A=ultraschall.CountTrackAUXSendReceives(0)
 
 function ultraschall.AddTrackHWOut(tracknumber, a, b, c, d, e, f, g, h, i, undo)
 --[[
@@ -28021,7 +28103,7 @@ function ultraschall.AddTrackHWOut(tracknumber, a, b, c, d, e, f, g, h, i, undo)
     integer tracknumber - the number of the track, whose HWOut you want. 0 for Master Track
     integer outputchannel - outputchannel, with 1024+x the individual hw-outputchannels, 0,2,4,etc stereo output channels
     integer post_pre_fader - 0-post-fader(post pan), 1-preFX, 3-pre-fader(Post-FX), as set in the Destination "Controls for Track"-dialogue
-    number volume - volume, as set in the Destination "Controls for Track"-dialogue 
+    number volume - volume, as set in the Destination "Controls for Track"-dialogue; see [DB2MKVOL](#DB2MKVOL) to convert from a dB-value
     number pan - pan, as set in the Destination "Controls for Track"-dialogue
     integer mute - mute, 1-on, 0-off, as set in the Destination "Controls for Track"-dialogue
     integer phase - Phase, 1-on, 0-off, as set in the Destination "Controls for Track"-dialogue
@@ -28125,7 +28207,7 @@ function ultraschall.AddTrackAUXSendReceives(tracknumber, a, b, c, d, e, f, g, h
     integer tracknumber - the number of the track, whose Send/Receive you want
     integer recv_tracknumber - Tracknumber, from where to receive the audio from
     integer post_pre_fader - 0-PostFader, 1-PreFX, 3-Pre-Fader
-    number volume - Volume
+    number volume - Volume, see [DB2MKVOL](#DB2MKVOL) to convert from a dB-value
     number pan - pan, as set in the Destination "Controls for Track"-dialogue; negative=left, positive=right, 0=center
     integer mute - Mute this send(1) or not(0)
     integer mono_stereo - Mono(1), Stereo(0)
@@ -28228,7 +28310,7 @@ function ultraschall.AddTrackAUXSendReceives(tracknumber, a, b, c, d, e, f, g, h
   for i=1,B do
     finalstring=finalstring..C[i]
   end
-  finalstring=finalstring.."AUXRECV "..a.." "..b.." "..c.." "..d.." "..e.." "..f.." "..g.." "..h.." "..i.." "..j..":U "..k.." "..l.."\n"..Ending
+  finalstring=finalstring.."AUXRECV "..(a-1).." "..b.." "..c.." "..d.." "..e.." "..f.." "..g.." "..h.." "..i.." "..j..":U "..k.." "..l.."\n"..Ending
   return reaper.SetTrackStateChunk(Track, finalstring, undo)
 end
 
@@ -28240,7 +28322,7 @@ function ultraschall.DeleteTrackHWOut(tracknumber,idx,undo)
   <slug>DeleteTrackHWOut</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.965
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.DeleteTrackHWOut(integer tracknumber, integer idx, boolean undo)</functioncall>
@@ -28250,7 +28332,7 @@ function ultraschall.DeleteTrackHWOut(tracknumber,idx,undo)
   </description>
   <parameters>
     integer tracknumber - the number of the track, whose HWOUTs you want to delete. 0 for Master Track.
-    integer idx - the number of the HWOut-setting, that you want to delete
+    integer idx - the number of the HWOut-setting, that you want to delete; -1, to delete all HWOuts from this track
     boolean undo - shall this be set to undo(true) or not(false)
   </parameters>
   <retvals>
@@ -28273,25 +28355,25 @@ function ultraschall.DeleteTrackHWOut(tracknumber,idx,undo)
   local Track=reaper.GetTrack(0,tracknumber-1)
   if tracknumber==0 then Track=reaper.GetMasterTrack(0) end
   local A,TrackStateChunk=ultraschall.GetTrackStateChunk(Track,"",true)
+  if idx==-1 then return reaper.SetTrackStateChunk(Track, string.gsub(TrackStateChunk, "HWOUT.-\n", ""), undo) end
   local B,C=ultraschall.CountTrackHWOuts(tracknumber)
   local finalstring=""  
   local Begin
   local Ending
-
-  if B<=0 then Begin=TrackStateChunk:match("(.-MAINSEND.-%c)")
-  else Begin=TrackStateChunk:match("(.-)HWOUT.-%c")
-  end
-  if B<=0 then Ending=TrackStateChunk:match(".*MAINSEND.-%c(.*)")
-  else Ending=TrackStateChunk:match(".*HWOUT.-%c(.*)")
-  end
   
-  finalstring=Begin
-  for i=1,B do
-    if idx~=i then 
-      finalstring=finalstring..C[i] 
+  local count, split_string = ultraschall.SplitStringAtLineFeedToArray(TrackStateChunk)
+  local count2=0
+  for i=1, count do
+    if split_string[i]:match("HWOUT")==nil then
+      finalstring=finalstring..split_string[i].."\n"
+    else
+      count2=count2+1
+      if count2~=idx then 
+        finalstring=finalstring..split_string[i].."\n"
+      end
     end
   end
-  finalstring=finalstring..Ending
+  
   return reaper.SetTrackStateChunk(Track, finalstring, undo)
 end
 
@@ -28303,7 +28385,7 @@ function ultraschall.DeleteTrackAUXSendReceives(tracknumber,idx,undo)
   <slug>DeleteTrackAUXSendReceives</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.965
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.DeleteTrackAUXSendReceives(integer tracknumber, integer idx, boolean undo)</functioncall>
@@ -28313,7 +28395,7 @@ function ultraschall.DeleteTrackAUXSendReceives(tracknumber,idx,undo)
   </description>
   <parameters>
     integer tracknumber - the number of the track, whose Send/Receive you want
-    integer idx - the number of the send/receive-setting, that you want to delete
+    integer idx - the number of the send/receive-setting, that you want to delete; -1, deletes all AuxReceives on this track
     boolean undo - shall this be set to undo(true) or not(false)
   </parameters>
   <retvals>
@@ -28336,11 +28418,12 @@ function ultraschall.DeleteTrackAUXSendReceives(tracknumber,idx,undo)
   local Track=reaper.GetTrack(0,tracknumber-1)
   if tracknumber==0 then Track=reaper.GetMasterTrack(0) end  
   local A,TrackStateChunk=ultraschall.GetTrackStateChunk(Track,"",true)
+  if idx==-1 then return reaper.SetTrackStateChunk(Track, string.gsub(TrackStateChunk, "AUXRECV.-\n", ""), undo) end
   local B,C=ultraschall.CountTrackAUXSendReceives(tracknumber)
   local finalstring=""  
   local Begin
-  local Ending
-
+  local Ending  
+  
   if B<=0 then Begin=TrackStateChunk:match("(.-PERF.-%c)")
   else Begin=TrackStateChunk:match("(.-)AUXRECV.-%c")
   end
@@ -28358,7 +28441,7 @@ function ultraschall.DeleteTrackAUXSendReceives(tracknumber,idx,undo)
   return reaper.SetTrackStateChunk(Track, finalstring, undo)
 end
 
---L=ultraschall.DeleteTrackAUXSendReceives(1,1,false)
+--L=ultraschall.DeleteTrackAUXSendReceives(1,-1,false)
 
 
 function ultraschall.SetTrackHWOut(tracknumber, idx, a, b, c, d, e, f, g, h, i, undo)
@@ -28383,7 +28466,7 @@ function ultraschall.SetTrackHWOut(tracknumber, idx, a, b, c, d, e, f, g, h, i, 
     integer idx - the number of the HWOut-setting, you want to change
     integer outputchannel - outputchannel, with 1024+x the individual hw-outputchannels, 0,2,4,etc stereo output channels
     integer post_pre_fader - 0-post-fader(post pan), 1-preFX, 3-pre-fader(Post-FX), as set in the Destination "Controls for Track"-dialogue
-    number volume - volume, as set in the Destination "Controls for Track"-dialogue 
+    number volume - volume, as set in the Destination "Controls for Track"-dialogue; see [DB2MKVOL](#DB2MKVOL) to convert from a dB-value
     number pan - pan, as set in the Destination "Controls for Track"-dialogue
     integer mute - mute, 1-on, 0-off, as set in the Destination "Controls for Track"-dialogue
     integer phase - Phase, 1-on, 0-off, as set in the Destination "Controls for Track"-dialogue
@@ -28500,7 +28583,7 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, a, b, c, d, e, f,
     integer idx - the send/receive-setting, you want to set
     integer recv_tracknumber - Tracknumber, from where to receive the audio from
     integer post_pre_fader - 0-PostFader, 1-PreFX, 3-Pre-Fader
-    number volume - Volume
+    number volume - Volume; see [DB2MKVOL](#DB2MKVOL) to convert from a dB-value
     number pan - pan, as set in the Destination "Controls for Track"-dialogue; negative=left, positive=right, 0=center
     integer mute - Mute this send(1) or not(0)
     integer mono_stereo - Mono(1), Stereo(0)
@@ -28616,7 +28699,7 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, a, b, c, d, e, f,
       if k==nil then k=k1 end
       if l==nil then l=l1 end
       
-      finalstring=finalstring.."AUXRECV "..a.." "..b.." "..c.." "..d.." "..e.." "..f.." "..g.." "..h.." "..i.." "..j..":U "..k.." "..l.."\n"
+      finalstring=finalstring.."AUXRECV "..(a-1).." "..b.." "..c.." "..d.." "..e.." "..f.." "..g.." "..h.." "..i.." "..j..":U "..k.." "..l.."\n"
     end
   end
   finalstring=finalstring..Ending
@@ -28786,66 +28869,6 @@ function ultraschall.ConvertClient2ScreenXCoordinate_ReaperWindow(Xclientcoordin
 end
 
 --L2,L3=ultraschall.ConvertClient2ScreenXCoordinate_ReaperWindow(reaper.GetMousePosition())
-
-
-function ultraschall.SplitStringAtLineFeedToArray(unsplitstring)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SplitStringAtLineFeedToArray</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>integer count, array split_string = ultraschall.SplitStringAtLineFeedToArray(string unsplitstring)</functioncall>
-  <description>
-    Splits the string unsplitstring at linefeed/tabs/control characters and puts each of these splitpieces into an array, each splitpiece one array-entry.
-    The linefeeds will not(!) be returned in the array's entries.
-    Returns the number of entries in the array, as well as the array itself
-    If there are no controlcharacters or linefeeds in the string, the array will have only one entry with unsplitstring in it.
-    returns -1 in case of failure
-  </description>
-  <parameters>
-    string unsplitstring - the string, that shall be split at LineFeed/Tabs/Control Characters. Nil is not allowed.
-  </parameters>
-  <retvals>
-    integer count - number of entries in the split_string-array
-    array split_string - an array with all the individual "postsplit"-pieces of the string
-  </retvals>
-  <chapter_context>
-    API-Helper functions
-    Data Manipulation
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>string, split, linefeed, tabs, control characters, array</tags>
-</US_DocBloc>
-]]
-  local array={}
-  local i=1
-  if unsplitstring==nil then ultraschall.AddErrorMessage("SplitStringAtLineFeedToArray", "unsplitstring", "nil is not allowed as value", -1) return -1 end
-  local astring=unsplitstring
-  local pos
-  astring=string.gsub (unsplitstring, "\r\n", "\n")
-  astring=string.gsub (astring, "\n\r", "\n")
-  astring=string.gsub (astring, "\r", "\n")
-  astring=astring.."\n"
-  while astring:match("%c") do
-    array[i],pos=astring:match("(.-)\n()")
---    reaper.MB(array[i], tostring(pos),0)
-    if sub~=nil then break end 
-    astring=astring:sub(pos,-1)
-    i=i+1
-  end
-  if astring~="" and astring~=nil then array[i]=astring
-  else i=i-1
-  end
-  return i,array
-end
-
---L,LL=ultraschall.SplitStringAtLineFeedToArray("9,9,9,9\r\nooll\n\n\n\n")
---reaper.MB(LL[1].."O.."..LL[2],"",0)
-
 
 function ultraschall.GetProject_CountMarkersAndRegions(projectfilenamewithpath)
 --[[
@@ -44978,11 +45001,19 @@ function ultraschall.Main_OnCommandByFilename(filename, ...)
   -- check parameters
   if type(filename)~="string" then ultraschall.AddErrorMessage("Main_OnCommandByFilename", "filename", "Must be a string.", -1) return false end
   if reaper.file_exists(filename)==false then ultraschall.AddErrorMessage("Main_OnCommandByFilename", "filename", "File does not exist.", -2) return false end
- 
-  -- create temporary copy of the scriptfile, with a guid in its name
-  local filename2=filename:match("(.*)%.")
-  if filename2==nil then filename2=filename.."-"..reaper.genGuid() else filename2=filename2.."-"..reaper.genGuid()..filename:match("(%..*)") end
-  ultraschall.MakeCopyOfFile(filename, filename2)
+  
+  -- create temporary copy of the scriptfile, with a guid in its name  
+  local filename2
+  if filename:sub(-4,-1)==".lua" then filename2=filename:sub(1,-5).."-"..reaper.genGuid()..".lua"
+  elseif filename:sub(-4,-1)==".eel" then filename2=filename:sub(1,-5).."-"..reaper.genGuid()..".eel" 
+  elseif filename2==nil and filename:sub(-3,-1)==".py" then filename2=filename:sub(1,-5).."-"..reaper.genGuid()..".py" end
+
+  if filename2==filename then ultraschall.AddErrorMessage("Main_OnCommandByFilename", "filename", "No valid script, must be either Lua, Python or EEL-script and end with such an extension.", -4) return false end
+
+--reaper.MB(filename2,"",0)
+
+  local OO=ultraschall.MakeCopyOfFile(filename, filename2)
+  if OO==false then ultraschall.AddErrorMessage("Main_OnCommandByFilename", "filename", "Couldn't create a temporary copy of the script.", -4) return false end
 
   -- register, run and unregister the temporary scriptfile  
   local commandid=reaper.AddRemoveReaScript(true, 0, filename2, true)
@@ -45004,10 +45035,6 @@ end
 
 --reaper.MB(ultraschall.ScriptIdentifier,"",0)
 
---A=ultraschall.GetReaperScriptPath().."/testscript_that_displays_stuff.lua"
---A=ultraschall.GetReaperScriptPath().."/us.png"
---B,C=ultraschall.Main_OnCommandByFilename(A)
---reaper.CF_SetClipboard(C.." "..ultraschall.ScriptIdentifier)
 
 
 
@@ -45059,9 +45086,15 @@ function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND, ...)
   end  
 
   -- create temporary scriptcopy with a guid in its filename
-  local filename2=filename:match("(.*)%.")
-  if filename2==nil then filename2=filename.."-"..reaper.genGuid() else filename2=filename2.."-"..reaper.genGuid()..filename:match("(%..*)") end
-  ultraschall.MakeCopyOfFile(filename, filename2)
+  local filename2
+  if filename:sub(-4,-1)==".lua" then filename2=filename:sub(1,-5).."-"..reaper.genGuid()..".lua"
+  elseif filename:sub(-4,-1)==".eel" then filename2=filename:sub(1,-5).."-"..reaper.genGuid()..".eel" 
+  elseif filename2==nil and filename:sub(-3,-1)==".py" then filename2=filename:sub(1,-5).."-"..reaper.genGuid()..".py" end
+
+  if filename2==filename then ultraschall.AddErrorMessage("MIDI_OnCommandByFilename", "filename", "No valid script, must be either Lua, Python or EEL-script and end with such an extension.", -4) return false end
+
+  local OO=ultraschall.MakeCopyOfFile(filename, filename2)
+  if OO==false then ultraschall.AddErrorMessage("MIDI_OnCommandByFilename", "filename", "Couldn't create a temporary copy of the script.", -4) return false end
   
   -- register and run the temporary-scriptfile
   local commandid =reaper.AddRemoveReaScript(true, 32060, filename2, true)
@@ -45130,6 +45163,8 @@ function ultraschall.GetScriptParameters(script_identifier, remove)
 </US_DocBloc>
 ]]
   if script_identifier==nil or type(script_identifier)~="string" then script_identifier=ultraschall.ScriptIdentifier end
+  
+  
   local counter=1
   local parms={}
   while reaper.GetExtState(script_identifier, "parm_"..counter)~="" do
@@ -45177,9 +45212,12 @@ function ultraschall.SetScriptParameters(script_identifier, ...)
 </US_DocBloc>
 ]]
   if script_identifier==nil or type(script_identifier)~="string" then script_identifier=ultraschall.ScriptIdentifier end
+  
+  
   local parms={...}
   local counter=1
   reaper.SetExtState(script_identifier, "parm_0", ultraschall.ScriptIdentifier, false)
+--  print2("LOL"..reaper.GetExtState(script_identifier, "parm_0"))
   while parms[counter]~=nil do
     reaper.SetExtState(script_identifier, "parm_"..counter, tostring(parms[counter]), false)
     counter=counter+1
@@ -45635,7 +45673,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00","1st of March 2019", "Beta 2.72", 400.0272,  "\"Blue Oyster Cult - Don't fear the Reaper\"", ultraschall.hotfixdate
+  return "4.00","8th of March 2019", "Beta 2.73", 400.0273,  "\"Radiohead - Blow Out \"", ultraschall.hotfixdate
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
@@ -51724,9 +51762,858 @@ end
 --C=ultraschall.IsRegionValidCustomRegion("vanillachief", 1)
 
 
+function ultraschall.ClearRoutingMatrix(ClearHWOuts, ClearAuxRecvs, ClearTrackMasterSends, ClearMasterTrack, undo)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ClearRoutingMatrix</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ClearRoutingMatrix(boolean ClearHWOuts, boolean ClearAuxRecvs, boolean ClearTrackMasterSends, boolean ClearMasterTrack, boolean undo)</functioncall>
+  <description>
+    Clears all routing-matrix-settings or optionally part of them
+  </description>
+  <retvals>
+    boolean retval - true, clearing was successful; false, clearing was unsuccessful
+  </retvals>
+  <parameters>
+    boolean ClearHWOuts - nil or true, clear all HWOuts; false, keep the HWOuts intact
+    boolean ClearAuxRecvs - nil or true, clear all Send/Receive-settings; false, keep the Send/Receive-settings intact
+    boolean ClearTrackMasterSends - nil or true, clear all send to master-checkboxes; false, keep them intact
+    boolean ClearMasterTrack - nil or true, include the Mastertrack as well; false, don't include it
+    boolean undo - true, set undo point; false or nil, don't set undo point
+  </parameters>
+  <chapter_context>
+    Track Management
+    Hardware Out
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>routing, trackmanagement, routing matrix, clear, tracksend, mainsend, receive, send, hwout, mastertrack</tags>
+</US_DocBloc>
+--]]
+  if ClearHWOuts~=nil and type(ClearHWOuts)~="boolean" then ultraschall.AddErrorMessage("ClearRoutingMatrix", "ClearHWOuts", "must be either nil or boolean", -1) return false end
+  if ClearAuxRecvs~=nil and type(ClearAuxRecvs)~="boolean" then ultraschall.AddErrorMessage("ClearRoutingMatrix", "ClearAuxRecvs", "must be either nil or boolean", -2) return false end
+  if ClearTrackMasterSends~=nil and type(ClearTrackMasterSends)~="boolean" then ultraschall.AddErrorMessage("ClearRoutingMatrix", "ClearTrackMasterSends", "must be either nil or boolean", -3) return false end
+  if ClearMasterTrack~=nil and type(ClearMasterTrack)~="boolean" then ultraschall.AddErrorMessage("ClearRoutingMatrix", "ClearMasterTrack", "must be either nil or boolean", -4) return false end
+  if undo~=nil and type(undo)~="boolean" then ultraschall.AddErrorMessage("ClearRoutingMatrix", "undo", "must be either nil or boolean", -5) return false end
+  if undo==nil then undo=false end
+  if ClearMasterTrack==false then minimumTrack=1 else minimumTrack=0 end
+  
+  for i=minimumTrack, reaper.CountTracks(0) do
+    if ClearHWOuts~=false then ultraschall.DeleteTrackHWOut(i,-1,undo) end
+    if ClearAuxRecvs~=false then ultraschall.DeleteTrackAUXSendReceives(i,-1,undo) end
+    if ClearTrackMasterSends~=false then 
+      local MainSendOn, ParentChannels = ultraschall.GetTrackMainSendState(i)
+      ultraschall.SetTrackMainSendState(i, 0, ParentChannels)
+    end
+  end
+  return true
+end
 
-ultraschall.ShowLastErrorMessage()
+--A=ultraschall.ClearRoutingMatrix(nil,nil,nil,nil,nil)
+
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ClearRoutingMatrix</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ClearRoutingMatrix(boolean ClearHWOuts, boolean ClearAuxRecvs, boolean ClearTrackMasterSends, boolean ClearMasterTrack, boolean undo)</functioncall>
+  <description>
+    Clears all routing-matrix-settings or optionally part of them
+  </description>
+  <retvals>
+    boolean retval - true, clearing was successful; false, clearing was unsuccessful
+  </retvals>
+  <parameters>
+    boolean ClearHWOuts - nil or true, clear all HWOuts; false, keep the HWOuts intact
+    boolean ClearAuxRecvs - nil or true, clear all Send/Receive-settings; false, keep the Send/Receive-settings intact
+    boolean ClearTrackMasterSends - nil or true, clear all send to master-checkboxes; false, keep them intact
+    boolean ClearMasterTrack - nil or true, include the Mastertrack as well; false, don't include it
+    boolean undo - true, set undo point; false or nil, don't set undo point
+  </parameters>
+  <chapter_context>
+    Track Management
+    Send/Receive-Routing
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>routing, trackmanagement, routing matrix, clear, tracksend, mainsend, receive, send, hwout, mastertrack</tags>
+</US_DocBloc>
+--]]
+
+
+function print3(...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>print3</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>print(parameter_1 to parameter_n)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    like [print](#print), but puts the parameters into the clipboard.
+    
+    Converts all parametes given into string using tostring() and puts them into the clipboard, with each parameter separated by two spaces.
+    Unlike print and print2, this does NOT end with a newline!
+  </description>
+  <parameters>
+    parameter_1 to parameter_n - the parameters, that you want to have put into the clipboard
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helperfunctions, print, clipboard</tags>
+</US_DocBloc>
+]]
+  local Table={...}
+  local Stringer=""
+  local count=1
+  while Table[count]~=nil do
+    Stringer=Stringer..tostring(Table[count]).." "
+    count=count+1
+  end
+  reaper.CF_SetClipboard(Stringer:sub(1,-2))
+end
+
+--print3()
+
+
+function ultraschall.MKVOL2DB(mkvol_value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MKVOL2DB</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>number db_value = ultraschall.MKVOL2DB(number mkvol_value)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Converts an MKVOL-value into a dB-value.
+    
+    MKVOL-values are used by the routing-functions for HWOut/AUXSendReceive, specifically for their volume-value.
+    
+    These can't be converted using Reaper's own DB2SLIDER or SLIDER2DB, so this function should help you.
+    
+    This function is an adapted one from the function provided in Plugins/reaper\_www\_root/main.js
+    
+    See [DB2MKVOL](#DB2MKVOL) to convert a dB-value into it's MKVOL-representation
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    number db_value - the dB-value, converted from the MKVOL-value; minimum -144dB
+  </retvals>
+  <parameters>
+    number mkvol_value - the mkvol_value, that you want to convert into dB
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, mkvol, db</tags>
+</US_DocBloc>
+--]]
+  if type(mkvol_value)~="number" then ultraschall.AddErrorMessage("MKVOL2DB", "mkvol_value", "must be a number" ,-1) return nil end
+  if mkvol_value < 0.00000002980232 then return -44 end
+  mkvol_value = math.log(mkvol_value)*8.68588963806
+  return mkvol_value
+end
+
+
+function ultraschall.DB2MKVOL(db_value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DB2MKVOL</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>number mkvol_value = ultraschall.DB2MKVOL(number db_value)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Converts an dB-value into a MKVOL-value.
+    
+    MKVOL-values are used by the routing-functions for HWOut/AUXSendReceive, specifically for their volume-value.
+    
+    These can't be converted using Reaper's own DB2SLIDER or SLIDER2DB, so this function should help you.
+    
+    See [MKVOL2DB](#MKVOL2DB) to convert a MKVOL-value into it's dB-representation
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    number mkvol_value - the mkvol-value, converted from the dB-value
+  </retvals>
+  <parameters>
+    number db_value - the dB-value, that you want to convert into the MKVOL-value; minimum is -144dB
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, mkvol, db</tags>
+</US_DocBloc>
+--]]
+  if type(db_value)~="number" then ultraschall.AddErrorMessage("DB2MKVOL", "db_value", "must be a number" ,-1) return nil end
+  return math.exp(db_value/8.68588963806)
+end
+
+
+
 
 runcommand=ultraschall.RunCommand
 
 --CC=ultraschall.ToggleMute_TrackObject(Track,1,1)
+
+
+--A=ultraschall.GetReaperScriptPath().."/test-api.lua"
+--A=ultraschall.GetReaperScriptPath().."/us.png"
+--B,C=ultraschall.Main_OnCommandByFilename(A)
+--reaper.CF_SetClipboard(C.." "..ultraschall.ScriptIdentifier)
+
+
+function ultraschall.GetRenderQueueHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRenderQueueHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetRenderQueueHWND()</functioncall>
+  <description>
+    returns the HWND of the Render-Queue-dialog, if the window is opened.
+    
+    returns nil if the Render-Queue-dialog is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the Render-Queue-dialog
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, hwnd, render queue, get</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("Queued Renders", "DLG_427")
+  local find_shortcut=reaper.JS_Localize("Render selected", "DLG_427")
+  local add=reaper.JS_Localize("Remove selected", "DLG_427")
+  local new=reaper.JS_Localize("Render all", "DLG_427")
+  local run_close=reaper.JS_Localize("Close", "DLG_427")
+  
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            find_shortcut.."\0"..
+                                            add.."\0"..
+                                            new.."\0"..
+                                            run_close)==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end
+
+--A=ultraschall.GetRenderQueueHWND()
+
+
+function ultraschall.GetProjectSettingsHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProjectSettingsHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetProjectSettingsHWND()</functioncall>
+  <description>
+    returns the HWND of the Project Settings-dialog, if the window is opened.
+    
+    returns nil if the Project-Settings-dialog is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the Project Settings-dialog
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, hwnd, project settings, get</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("Project Settings", "common")
+  local find_shortcut=reaper.JS_Localize("Save as default project settings", "DLG_127")
+  local add=reaper.JS_Localize("Pages", "DLG_127")
+  local new=reaper.JS_Localize("OK", "DLG_127")
+  local run_close=reaper.JS_Localize("Cancel", "DLG_127")
+  
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            find_shortcut.."\0"..
+                                            add.."\0"..
+                                            new.."\0"..
+                                            run_close)==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end
+
+--A=ultraschall.GetProjectSettingsHWND()
+--B=reaper.JS_Window_GetTitle(A)
+
+
+function ultraschall.GetPreferencesHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetPreferencesHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetPreferencesHWND()</functioncall>
+  <description>
+    returns the HWND of the Preferences-dialog, if the window is opened.
+    
+    returns nil if the Preferences-dialog is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the Preferences-dialog
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, hwnd, preferences, get</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("REAPER Preferences", "DLG_128")
+  local find_shortcut=reaper.JS_Localize("Tree1", "DLG_128")
+  local add=reaper.JS_Localize("Find", "DLG_128")
+  local new=reaper.JS_Localize("Apply", "DLG_128")
+  local run_close=reaper.JS_Localize("Cancel", "DLG_128")
+  
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            find_shortcut.."\0"..
+                                            add.."\0"..
+                                            new.."\0"..
+                                            run_close)==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end
+
+--A=ultraschall.GetPreferencesHWND()
+--B=reaper.JS_Window_GetTitle(A)
+
+
+function ultraschall.GetSaveLiveOutputToDiskHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSaveLiveOutputToDiskHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetSaveLiveOutputToDiskHWND()</functioncall>
+  <description>
+    returns the HWND of the "Save live output to disk(bounce)"-dialog, if the window is opened.
+    
+    returns nil if the "Save live output to disk(bounce)"-dialog is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the "Save live output to disk(bounce)"-dialog
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, hwnd, bounce, save live output to disk, get</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("Save live output to disk (bounce)", "DLG_242")
+  local find_shortcut=reaper.JS_Localize("Save output only while playing or recording", "DLG_242")
+  local add=reaper.JS_Localize("Stop saving output on first stop", "DLG_242")
+  local new=reaper.JS_Localize("Don't save when below", "DLG_242")
+  local run_close=reaper.JS_Localize("Browse...", "DLG_242")
+  
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            find_shortcut.."\0"..
+                                            add.."\0"..
+                                            new.."\0"..
+                                            run_close)==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end
+
+--A=ultraschall.GetSaveLiveOutputToDiskHWND()
+--B=reaper.JS_Window_GetTitle(A)
+
+function ultraschall.GetConsolidateTracksHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetConsolidateTracksHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetConsolidateTracksHWND()</functioncall>
+  <description>
+    returns the HWND of the Consolidate Tracks-dialog, if the window is opened.
+    
+    returns nil if the Consolidate Tracks-dialog is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the Consolidate Tracks-dialog
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, hwnd, bounce, consolidate tracks, get</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("Consolidate Tracks", "DLG_171")
+  local find_shortcut=reaper.JS_Localize("Consolidation Settings", "DLG_171")
+  local add=reaper.JS_Localize("Ignore silence shorter than", "DLG_171")
+  local new=reaper.JS_Localize("seconds (can cause multiple files per track)", "DLG_171")
+  local run_close=reaper.JS_Localize("(if required)", "DLG_171")
+  
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            find_shortcut.."\0"..
+                                            add.."\0"..
+                                            new.."\0"..
+                                            run_close)==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end
+
+--A=ultraschall.GetConsolidateTracksHWND()
+--B=reaper.JS_Window_GetTitle(A)
+
+function ultraschall.GetExportProjectMIDIHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetExportProjectMIDIHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetExportProjectMIDIHWND()</functioncall>
+  <description>
+    returns the HWND of the "Export Project MIDI"-dialog, if the window is opened.
+    
+    returns nil if the "Export Project MIDI"-dialog is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the "Export Project MIDI"-dialog
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, hwnd, bounce, export project midi, get</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("Export Project MIDI", "DLG_285")
+  local find_shortcut=reaper.JS_Localize("Consolidate time:", "DLG_285")
+  local add=reaper.JS_Localize("Time selection only", "DLG_285")
+  local new=reaper.JS_Localize("Embed SMPTE offset", "DLG_285")
+  local run_close=reaper.JS_Localize("Embed project tempo/time signature changes", "DLG_285")
+  
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            find_shortcut.."\0"..
+                                            add.."\0"..
+                                            new.."\0"..
+                                            run_close)==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end
+
+--A=ultraschall.GetExportProjectMIDIHWND()
+--B=reaper.JS_Window_GetTitle(A)
+
+
+function ultraschall.GetProjectDirectoryCleanupHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProjectDirectoryCleanupHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetProjectDirectoryCleanupHWND()</functioncall>
+  <description>
+    returns the HWND of the "Project Directory Cleanup"-dialog, if the window is opened.
+    
+    returns nil if the "Project Directory Cleanup"-dialog is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the "Project Directory Cleanup"-dialog
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, hwnd, bounce, project directory cleanup, get</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("Project Directory Cleanup", "common")
+  local find_shortcut=reaper.JS_Localize("Send files to recycle bin (safer)", "DLG_159")
+  local add=reaper.JS_Localize("Explore", "DLG_159")
+  local new=reaper.JS_Localize("Remove selected files", "DLG_159")
+  local run_close=reaper.JS_Localize("CAUTION: files listed here are not used by the current project, but may be used in some other project.", "DLG_159")
+  
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            find_shortcut.."\0"
+                                            ..add.."\0"
+                                            ..new.."\0"
+                                            ..run_close
+                                            )==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end
+
+--A=ultraschall.GetProjectDirectoryCleanupHWND()
+--A=reaper.JS_Window_Find("Project Directory Cleanup1", true)
+--B=reaper.JS_Window_GetTitle(A)
+
+function ultraschall.GetBatchFileItemConverterHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetBatchFileItemConverterHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetBatchFileItemConverterHWND()</functioncall>
+  <description>
+    returns the HWND of the "Batch File/Item Converter"-dialog, if the window is opened.
+    
+    returns nil if the "Batch File/Item Converter"-dialog is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the "Batch File/Item Converter"-dialog
+  </retvals>
+  <chapter_context>
+    User Interface
+    Window Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, hwnd, bounce, batch file item converter, get</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("Batch File/Item Converter", "DLG_444")
+  local find_shortcut=reaper.JS_Localize("Use source file directory", "DLG_444")
+  local add=reaper.JS_Localize("Open...", "DLG_444")
+  local new=reaper.JS_Localize("Convert all", "DLG_444")
+  local run_close=reaper.JS_Localize("Output format:", "DLG_444")
+  
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            find_shortcut.."\0"
+                                            ..add.."\0"
+                                            ..new.."\0"
+                                            ..run_close
+                                            )==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end
+
+--A=ultraschall.GetBatchFileItemConverterHWND()
+--B=reaper.JS_Window_GetTitle(A)
+
+
+function ultraschall.GetAllHWOuts()
+  -- returned table is of structure:
+  --    table[tracknumber]["HWOut_count"]                 - the number of HWOuts of tracknumber, beginning with 1
+  --    table[tracknumber][HWOutIndex]["outputchannel"]   - the number of outputchannels of this HWOutIndex of tracknumber
+  --    table[tracknumber][HWOutIndex]["post_pre_fader"]  - the setting of post-pre-fader of this HWOutIndex of tracknumber
+  --    table[tracknumber][HWOutIndex]["volume"]          - the volume of this HWOutIndex of tracknumber
+  --    table[tracknumber][HWOutIndex]["pan"]             - the panning of this HWOutIndex of tracknumber
+  --    table[tracknumber][HWOutIndex]["mute"]            - the mute-setting of this HWOutIndex of tracknumber
+  --    table[tracknumber][HWOutIndex]["phase"]           - the phase-setting of this HWOutIndex of tracknumber
+  --    table[tracknumber][HWOutIndex]["source"]          - the source/input of this HWOutIndex of tracknumber
+  --    table[tracknumber][HWOutIndex]["unknown"]         - unknown, leave it -1
+  --    table[tracknumber][HWOutIndex]["automationmode"]  - the automation-mode of this HWOutIndex of tracknumber
+  --
+  -- tracknumber 0 is the Master-Track
+
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllHWOuts</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>table AllHWOuts = ultraschall.GetAllHWOuts()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns a table with all HWOut-settings of all tracks, including master-track(track index: 0)
+    
+    returned table is of structure:
+      table[tracknumber]["HWOut_count"]                 - the number of HWOuts of tracknumber, beginning with 1
+      table[tracknumber][HWOutIndex]["outputchannel"]   - the number of outputchannels of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["post\_pre_fader"]  - the setting of post-pre-fader of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["volume"]          - the volume of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["pan"]             - the panning of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["mute"]            - the mute-setting of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["phase"]           - the phase-setting of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["source"]          - the source/input of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["unknown"]         - unknown, leave it -1
+      table[tracknumber][HWOutIndex]["automationmode"]  - the automation-mode of this HWOutIndex of tracknumber    
+      
+      See [GetTrackHWOut](#GetTrackHWOut) for more details on the individual settings, stored in the entries.
+  </description>
+  <retvals>
+    table AllHWOuts - a table with all HWOuts of the current project.
+  </retvals>
+  <chapter_context>
+    Track Management
+    Hardware Out
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>trackmanagement, track, get, all, hwouts, hardware outputs, routing</tags>
+</US_DocBloc>
+]]
+
+  local HWOuts={}
+
+  for i=0, reaper.CountTracks() do
+    HWOuts[i]={}
+    local count_HWOuts = ultraschall.CountTrackHWOuts(i)
+    HWOuts[i]["HWOut_count"]=count_HWOuts
+    for a=1, count_HWOuts do
+      HWOuts[i][a]={}
+      HWOuts[i][a]["outputchannel"],
+      HWOuts[i][a]["post_pre_fader"],
+      HWOuts[i][a]["volume"], 
+      HWOuts[i][a]["pan"], 
+      HWOuts[i][a]["mute"], 
+      HWOuts[i][a]["phase"], 
+      HWOuts[i][a]["source"], 
+      HWOuts[i][a]["unknown"], 
+      HWOuts[i][a]["automationmode"] = ultraschall.GetTrackHWOut(i, a)
+    end
+  end
+  return HWOuts
+end
+
+--A=ultraschall.GetAllHWOuts()
+
+
+function ultraschall.GetAllAUXSendReceive()
+  -- returned table is of structure:
+  --    table[tracknumber]["AUXSendReceives_count"]                   - the number of AUXSendReceives of tracknumber, beginning with 1
+  --    table[tracknumber][AUXSendReceivesIndex]["recv_tracknumber"]  - the track, from which to receive audio in this AUXSendReceivesIndex of tracknumber
+  --    table[tracknumber][AUXSendReceivesIndex]["post_pre_fader"]    - the setting of post-pre-fader of this AUXSendReceivesIndex of tracknumber
+  --    table[tracknumber][AUXSendReceivesIndex]["volume"]            - the volume of this AUXSendReceivesIndex of tracknumber
+  --    table[tracknumber][AUXSendReceivesIndex]["pan"]               - the panning of this AUXSendReceivesIndex of tracknumber
+  --    table[tracknumber][AUXSendReceivesIndex]["mute"]              - the mute-setting of this AUXSendReceivesIndex  of tracknumber
+  --    table[tracknumber][AUXSendReceivesIndex]["mono_stereo"]       - the mono/stereo-button-setting of this AUXSendReceivesIndex  of tracknumber
+  --    table[tracknumber][AUXSendReceivesIndex]["phase"]             - the phase-setting of this AUXSendReceivesIndex  of tracknumber
+  --    table[tracknumber][AUXSendReceivesIndex]["chan_src"]          - the audiochannel-source of this AUXSendReceivesIndex of tracknumber
+  --    table[tracknumber][AUXSendReceivesIndex]["snd_src"]           - the send-to-channel-target of this AUXSendReceivesIndex of tracknumber
+  --    table[tracknumber][AUXSendReceivesIndex]["unknown"]           - unknown, leave it -1
+  --    table[tracknumber][AUXSendReceivesIndex]["midichanflag"]      - the Midi-channel of this AUXSendReceivesIndex of tracknumber, leave it 0
+  --    table[tracknumber][AUXSendReceivesIndex]["automation"]        - the automation-mode of this AUXSendReceivesIndex  of tracknumber
+
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllAUXSendReceive</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>table AllAUXSendReceives = ultraschall.GetAllAUXSendReceive()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns a table with all AUX-SendReceive-settings of all tracks, excluding master-track
+    
+    returned table is of structure:
+      table[tracknumber]["AUXSendReceives_count"]                   - the number of AUXSendReceives of tracknumber, beginning with 1
+      table[tracknumber][AUXSendReceivesIndex]["recv\_tracknumber"]  - the track, from which to receive audio in this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["post\_pre_fader"]    - the setting of post-pre-fader of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["volume"]            - the volume of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["pan"]               - the panning of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["mute"]              - the mute-setting of this AUXSendReceivesIndex  of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["mono\_stereo"]       - the mono/stereo-button-setting of this AUXSendReceivesIndex  of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["phase"]             - the phase-setting of this AUXSendReceivesIndex  of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["chan\_src"]          - the audiochannel-source of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["snd\_src"]           - the send-to-channel-target of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["unknown"]           - unknown, leave it -1
+      table[tracknumber][AUXSendReceivesIndex]["midichanflag"]      - the Midi-channel of this AUXSendReceivesIndex of tracknumber, leave it 0
+      table[tracknumber][AUXSendReceivesIndex]["automation"]        - the automation-mode of this AUXSendReceivesIndex  of tracknumber
+      
+      See [GetTrackAUXSendReceives](#GetTrackAUXSendReceives) for more details on the individual settings, stored in the entries.
+  </description>
+  <retvals>
+    table AllAUXSendReceives - a table with all SendReceive-entries of the current project.
+  </retvals>
+  <chapter_context>
+    Track Management
+    Send/Receive-Routing
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>trackmanagement, track, get, all, send, receive, aux, routing</tags>
+</US_DocBloc>
+]]
+
+  local AUXSendReceives={}
+
+  for i=1, reaper.CountTracks() do
+    AUXSendReceives[i]={}
+    local count_AUXSendReceives = ultraschall.CountTrackAUXSendReceives(i)
+    AUXSendReceives[i]["AUXSendReceives_count"]=count_AUXSendReceives
+    for a=1, count_AUXSendReceives do
+      AUXSendReceives[i][a]={}
+      AUXSendReceives[i][a]["recv_tracknumber"],
+      AUXSendReceives[i][a]["post_pre_fader"],
+      AUXSendReceives[i][a]["volume"], 
+      AUXSendReceives[i][a]["pan"], 
+      AUXSendReceives[i][a]["mute"], 
+      AUXSendReceives[i][a]["mono_stereo"], 
+      AUXSendReceives[i][a]["phase"], 
+      AUXSendReceives[i][a]["chan_src"], 
+      AUXSendReceives[i][a]["snd_src"], 
+      AUXSendReceives[i][a]["unknown"], 
+      AUXSendReceives[i][a]["midichanflag"], 
+      AUXSendReceives[i][a]["automation"] = ultraschall.GetTrackAUXSendReceives(i, a)
+    end
+  end
+  return AUXSendReceives
+end
+
+--A=ultraschall.GetAllAUXSendReceive()
+
+function ultraschall.GetAllMainSendStates()
+  -- returns table, of the structure:
+  -- Table[tracknumber]["MainSend"]      - Send to Master on(1) or off(1)
+  -- Table[tracknumber]["ParentChannels"] - the parent channels of this track
+
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllMainSendStates</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>table AllMainSends = ultraschall.GetAllMainSendStates()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns a table with all MainSend-settings of all tracks, excluding master-track.
+    
+    The MainSend-settings are the settings, if a certain track sends it's signal to the Master Track
+    
+    returned table is of structure:
+      Table[tracknumber]["MainSend"]       - Send to Master on(1) or off(1)
+      Table[tracknumber]["ParentChannels"] - the parent channels of this track
+      
+      See [GetTrackMainSendState](#GetTrackMainSendState) for more details on the individual settings, stored in the entries.
+  </description>
+  <retvals>
+    table AllMainSends - a table with all AllMainSends-entries of the current project.
+  </retvals>
+  <chapter_context>
+    Track Management
+    Send/Receive-Routing
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>trackmanagement, track, get, all, send, main send, master send, routing</tags>
+</US_DocBloc>
+]]
+  
+  local MainSend={}
+  for i=1, reaper.CountTracks() do
+    MainSend[i]={}
+    MainSend[i]["MainSendOn"], MainSend[i]["ParentChannels"] = ultraschall.GetTrackMainSendState(i)
+  end
+  return MainSend
+end
+
+--A,B=ultraschall.GetAllMainSendStates()
+
+
+ultraschall.ShowLastErrorMessage()
