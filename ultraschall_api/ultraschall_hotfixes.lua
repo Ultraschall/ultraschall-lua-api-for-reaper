@@ -107,11 +107,13 @@ function ultraschall.Main_OnCommandByFilename(filename, ...)
   
   -- create temporary copy of the scriptfile, with a guid in its name  
   local filename2
-  if filename:sub(-4,-1)==".lua" then filename2=filename:sub(1,-5)..reaper.genGuid()..".lua"
-  elseif filename:sub(-4,-1)==".eel" then filename2=filename:sub(1,-5)..reaper.genGuid()..".eel" 
-  elseif filename2==nil and filename:sub(-3,-1)==".py" then filename2=filename:sub(1,-5)..reaper.genGuid()..".py" end
+  if filename:sub(-4,-1)==".lua" then filename2=filename:sub(1,-5).."-"..reaper.genGuid()..".lua"
+  elseif filename:sub(-4,-1)==".eel" then filename2=filename:sub(1,-5).."-"..reaper.genGuid()..".eel" 
+  elseif filename2==nil and filename:sub(-3,-1)==".py" then filename2=filename:sub(1,-5).."-"..reaper.genGuid()..".py" end
 
   if filename2==filename then ultraschall.AddErrorMessage("Main_OnCommandByFilename", "filename", "No valid script, must be either Lua, Python or EEL-script and end with such an extension.", -4) return false end
+
+--reaper.MB(filename2,"",0)
 
   local OO=ultraschall.MakeCopyOfFile(filename, filename2)
   if OO==false then ultraschall.AddErrorMessage("Main_OnCommandByFilename", "filename", "Couldn't create a temporary copy of the script.", -4) return false end
@@ -188,9 +190,9 @@ function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND, ...)
 
   -- create temporary scriptcopy with a guid in its filename
   local filename2
-  if filename:sub(-4,-1)==".lua" then filename2=filename:sub(1,-5)..reaper.genGuid()..".lua"
-  elseif filename:sub(-4,-1)==".eel" then filename2=filename:sub(1,-5)..reaper.genGuid()..".eel" 
-  elseif filename2==nil and filename:sub(-3,-1)==".py" then filename2=filename:sub(1,-5)..reaper.genGuid()..".py" end
+  if filename:sub(-4,-1)==".lua" then filename2=filename:sub(1,-5).."-"..reaper.genGuid()..".lua"
+  elseif filename:sub(-4,-1)==".eel" then filename2=filename:sub(1,-5).."-"..reaper.genGuid()..".eel" 
+  elseif filename2==nil and filename:sub(-3,-1)==".py" then filename2=filename:sub(1,-5).."-"..reaper.genGuid()..".py" end
 
   if filename2==filename then ultraschall.AddErrorMessage("MIDI_OnCommandByFilename", "filename", "No valid script, must be either Lua, Python or EEL-script and end with such an extension.", -4) return false end
 
@@ -223,10 +225,3 @@ function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND, ...)
   os.remove(filename2)
   return true, string.gsub("ScriptIdentifier:"..filename2, "\\", "/")
 end
-
---A=ultraschall.GetReaperScriptPath().."/testscript_that_displays_stuff.lua"
---AAA=ultraschall.MIDI_OnCommandByFilename(reaper.MIDIEditor_GetActive(), A)
---AAA=ultraschall.MIDI_OnCommandByFilename(A, reaper.MIDIEditor_GetActive())
---reaper.MB("","",0)
---AAA2,AAA3=ultraschall.MIDI_OnCommandByFilename(A, reaper.MIDIEditor_GetActive())
---reaper.ShowConsoleMsg(AAA3.." - outside\n")
