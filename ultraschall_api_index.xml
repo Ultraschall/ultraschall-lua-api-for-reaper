@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="29784.01" author="Meo Mespotine">
+      <version name="30475.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -28,6 +28,7 @@
 	<source file="/ultraschall_api/ultraschall_tag_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/ultraschall_tag_engine_beta.lua</source>
 	<source file="/ultraschall_api/ultraschall_video_engine.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/ultraschall_video_engine.lua</source>
 	<source file="/ultraschall_api/ultraschall_video_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/ultraschall_video_engine_beta.lua</source>
+	<source file="/ultraschall_api/unused_ultraschall_functions_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/unused_ultraschall_functions_engine_beta.lua</source>
 	<source file="/ultraschall_api/DocsSourcefiles/reaper-apidocs.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/DocsSourcefiles/reaper-apidocs.USDocML</source>
 	<source file="/ultraschall_api/DocsSourcefiles/reaper-config_var.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/DocsSourcefiles/reaper-config_var.USDocML</source>
 	<source file="/ultraschall_api/DocsSourcefiles/reaper-videoprocessor-docs.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/DocsSourcefiles/reaper-videoprocessor-docs.USDocML</source>
@@ -142,6 +143,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.961.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.961.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.965.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.965.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.97.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.97.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper5.972.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.972.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi</source>
@@ -298,6 +300,92 @@
 	<source file="/ultraschall_api/misc/US_Notification_Sound/Recordings/peaks/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/US_Notification_Sound/Recordings/peaks/placeholder.txt</source>
 <changelog><![CDATA[
 Ultraschall Framework - Changelog
+
+4.00 Beta 2.73: - “Radiohead - Bangers’n’Mash” - 9th of March 2019
+
+Has now 800 functions, with 20 new ones
+
+-   NEW HWNDS to get, like Render Queue, Preferences, Project Settings
+    and more
+
+-   ROUTING-CONVENIENCE FEATURES to work better with Routing-stuff.
+    Includes now MKVOL from/to DB-converter for that!
+
+-   PRINT3 outputs it’s parameters to the Clipboard.
+
+New features in 4.00beta2.73
+
+-   print3 - like print and print2, but puts the parameters into the
+    clipboard instead
+-   ClearRoutingMatrix - clears the routing-matrix, either completely or
+    just parts of it(Send/Receive, HWOuts, MasterSends) including or
+    excluding the Master-Track
+-   DB2MKVOL - converts a dB-value into its MKVOL-representation, which
+    can be used by routing-functions for the volume
+-   MKVOL2DB - converts a MKVOL-value(as used by volume in
+    routing-settings) into its dB-representation
+-   GetRenderQueueHWND - gets the HWND of the Render-Queue-window, if
+    opened
+-   GetProjectSettingsHWND - gets the HWND of the Project
+    Settings-window, if opened
+-   GetSaveLiveOutputToDiskHWND - gets the HWND of the Save Live Output
+    To Disk-window, if opened
+-   GetConsolidateTracksHWND - gets the HWND of the Consolidate
+    Tracks-window, if opened
+-   GetExportProjectMIDIHWND - gets the HWND of the Export Project
+    MIDI-window, if opened
+-   GetProjectDirectoryCleanupHWND - gets the HWND of the Project
+    Directory Cleanup-window, if opened
+-   GetBatchFileItemConverterHWND - gets the HWND of the Batch File/Item
+    Converter-window, if opened
+-   GetAllHWOuts - returns a table with all HWOut-settings of all tracks
+    of the current project
+-   GetAllAUXSendReceive - returns a table with all
+    Send/Receive-settings of all tracks of the current project
+-   GetAllMainSendStates - returns a table with all MainSend(Master
+    Send)-settings of all tracks of the current project
+-   ApplyAllHWOuts - applies a table, as returned by GetAllHWOuts to all
+    tracks. That way, you can easily alter HWOuts of multiple tracks in
+    that table, before passing it to ApplyAllHWOuts
+-   ApplyAllAUXSendReceives - applies a table, as returned by
+    GetAllAUXSendReceive to all tracks. That way, you can easily alter
+    AUXSendReceives of multiple tracks in that table, before passing it
+    to ApplyAllAUXSendReceives
+-   ApplyAllMainSendStates - applies a table, as returned by
+    GetAllMainSendStates to all tracks. That way, you can easily alter
+    MainSend(Master-Send)-states of multiple tracks in that table,
+    before passing it to ApplyAllMainSendStates
+-   GetSetConfigAutoMute - gets/sets the automute-config-variable
+-   GetSetConfigAutoMuteFlags - gets/sets the
+    automuteflags-config-variable
+-   GetSetConfigAutoSaveInt - gets/sets the autosaveint-config-variable
+-   GetSetConfigAutoSaveMode - gets/sets the
+    autosavemode-config-variable
+
+Changes from 4.00beta2.72 to 4.00beta2.73
+
+-   Ultraschall.ScriptIdentifier - fixed bugs with
+    Scriptidentifier-creation
+-   Main_OnCommandByFilename - fixed bug with Scriptidentifier-creation
+-   MIDI_OnCommandByFilename - fixed bug with Scriptidentifier-creation
+-   DeleteTrackAUXSendReceives - allows now to delete all
+    AuxSendReceives of a track at once, when idx=-1
+-   Reaper-Api-docs: fixed further layout-problems with Markdown in some
+    descriptions I really, really, really, really, really, really,
+    really need to write my own MarkDown-dialect. It makes me nuts,
+    having to deal with Markdown’s ambiguities…
+-   CountTrackAUXSendReceives - when track isn’t found, it returns now
+    an error-message
+-   GetTrackAUXSendReceives - had internal variable exposed -> fixed now
+-   DeleteTrackHWOut - allows now to delete all HWOuts of a track at
+    once, when idx=-1
+-   SetTrackHWOut - fixed bug with an incorrect idx-numbering
+-   SetTrackAUXSendReceives - fixed bug with an incorrect idx-numbering
+-   Reaper Api docs: Video Processor: corrected YET ANOTHER
+    Markdown-f….p in the example code of chapter Coding Introduction
+-   GetIniFileValue - improved code
+-   SetIniFileValue - fixed bug that caused inifiles to explode in size
+-   Reaper-Docs: updated to Reaper 5.972
 
 4.00 Beta 2.72: - “Blue Oyster Cult - Don’t fear the Reaper” - 1st of March 2019
 
@@ -2732,7 +2820,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 700+ Lua-functions library for Reaper.}
+a 800+ Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
