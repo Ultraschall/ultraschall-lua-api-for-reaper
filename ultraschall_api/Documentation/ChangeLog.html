@@ -40,12 +40,12 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.00 Beta 2.73: - "Radiohead - Blow Out" - 8th of March 2019</h3>
-<p>Has now 794 functions, with 14 new ones</p>
+<h3>4.00 Beta 2.73: - "Radiohead - Bangers'n'Mash" - 9th of March 2019</h3>
+<p>Has now 800 functions, with 20 new ones</p>
 <ul>
 <li><p><strong>New HWNDs</strong> to get, like Render Queue, Preferences, Project Settings and more</p></li>
-<li><p><strong>Routing-Convenience Features</strong> to work better with Routing-stuff. Includes nos MKVOL from/to DB-converter for that!</p></li>
-<li><p>** print3 ** outputs it's parameters to the Clipboard.</p></li>
+<li><p><strong>Routing-Convenience Features</strong> to work better with Routing-stuff. Includes now MKVOL from/to DB-converter for that!</p></li>
+<li><p><strong>print3</strong> outputs it's parameters to the Clipboard.</p></li>
 </ul>
 <h4>New features in 4.00beta2.73</h4>
 <ul>
@@ -63,6 +63,13 @@ Ultraschall API Changelog
 <li>GetAllHWOuts - returns a table with all HWOut-settings of all tracks of the current project</li>
 <li>GetAllAUXSendReceive - returns a table with all Send/Receive-settings of all tracks of the current project</li>
 <li>GetAllMainSendStates - returns a table with all MainSend(Master Send)-settings of all tracks of the current project</li>
+<li>ApplyAllHWOuts - applies a table, as returned by GetAllHWOuts to all tracks. That way, you can easily alter HWOuts of multiple tracks in that table, before passing it to ApplyAllHWOuts</li>
+<li>ApplyAllAUXSendReceives - applies a table, as returned by GetAllAUXSendReceive to all tracks. That way, you can easily alter AUXSendReceives of multiple tracks in that table, before passing it to ApplyAllAUXSendReceives</li>
+<li>ApplyAllMainSendStates - applies a table, as returned by GetAllMainSendStates to all tracks. That way, you can easily alter MainSend(Master-Send)-states of multiple tracks in that table, before passing it to ApplyAllMainSendStates</li>
+<li>GetSetConfigAutoMute - gets/sets the automute-config-variable</li>
+<li>GetSetConfigAutoMuteFlags - gets/sets the automuteflags-config-variable</li>
+<li>GetSetConfigAutoSaveInt - gets/sets the autosaveint-config-variable</li>
+<li>GetSetConfigAutoSaveMode - gets/sets the autosavemode-config-variable</li>
 </ul>
 <h4>Changes from 4.00beta2.72 to 4.00beta2.73</h4>
 <ul>
@@ -77,6 +84,9 @@ Ultraschall API Changelog
 <li>SetTrackHWOut - fixed bug with an incorrect idx-numbering</li>
 <li>SetTrackAUXSendReceives - fixed bug with an incorrect idx-numbering</li>
 <li>Reaper Api docs: Video Processor: corrected YET ANOTHER Markdown-f....p in the example code of chapter Coding Introduction</li>
+<li>GetIniFileValue - improved code</li>
+<li>SetIniFileValue - fixed bug that caused inifiles to explode in size</li>
+<li>Reaper-Docs: updated to Reaper 5.972</li>
 </ul>
 <h3>4.00 Beta 2.72: - "Blue Oyster Cult - Don't fear the Reaper" - 1st of March 2019</h3>
 <p>Has now 780 functions, with 80 new ones</p>

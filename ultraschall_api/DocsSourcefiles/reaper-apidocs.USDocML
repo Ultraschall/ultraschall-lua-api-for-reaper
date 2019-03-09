@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ## ReaScript API as of Reaper 5.971
+            ## ReaScript API as of Reaper 5.972
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -4319,6 +4319,38 @@
         <tags>helperfunctions, guid, generate, create</tags>
     </US_DocBloc>
 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>get_config_var_string</slug>
+        <title>get_config_var_string</title>
+        <functioncall prog_lang="cpp">bool get_config_var_string(const char* name, char* bufOut, int bufOut_sz)</functioncall>
+        <functioncall prog_lang="eel">bool get_config_var_string("name", #buf)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string buf = reaper.get_config_var_string(string name)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, String name, String bufOut, Int bufOut_sz) = RPR_get_config_var_string(name, bufOut, bufOut_sz)</functioncall>
+        <requires>
+            Reaper=5.972
+            Lua=5.3
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            gets ini configuration variable value as string
+            
+            see the [configuration-variable documentation](Reaper_Config_Variables.html) for more details
+        </description>
+        <retvals>
+            boolean retval - true, the configuration-variable is a valid string variable
+            string buf - the current value of the configuration-variable
+        </retvals>
+        <parameters>
+            string name - the config-var, whose value you want
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Api-Helper-Functions
+        </chapter_context>
+        <tags>helperfunctions, configuration variable, configvar, string, get</tags>
+    </US_DocBloc>
+
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>get_ini_file</slug>
         <title>get_ini_file</title>
@@ -16402,6 +16434,94 @@
         <tags>midimanagement, take, item, check</tags>
     </US_DocBloc>
 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ThemeLayout_GetParameter</slug>
+        <title>ThemeLayout_GetParameter</title>
+        <functioncall prog_lang="cpp">const char* ThemeLayout_GetParameter(int wp, const char** descOutOptional, int* valueOutOptional, int* defValueOutOptional, int* minValueOutOptional, int* maxValueOutOptional)</functioncall>
+        <functioncall prog_lang="eel">bool ThemeLayout_GetParameter(#retval, int wp, optional #desc, optional int &value, optional int &defValue, optional int &minValue, optional int &maxValue)</functioncall>
+        <functioncall prog_lang="lua">string retval, optional string desc, optional number value, optional number defValue, optional number minValue, optional number maxValue = reaper.ThemeLayout_GetParameter(integer wp)</functioncall>
+        <functioncall prog_lang="python">(String retval, Int wp, String descOutOptional, Int valueOutOptional, Int defValueOutOptional, Int minValueOutOptional, Int maxValueOutOptional) = RPR_ThemeLayout_GetParameter(wp, descOutOptional, valueOutOptional, defValueOutOptional, minValueOutOptional, maxValueOutOptional)</functioncall>
+        <requires>
+            Reaper=5.972
+            Lua=5.3
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            returns theme layout parameter. return value is cfg-name, or nil/empty if out of range.
+        </description>
+        <retvals>
+            string retval - 
+            optional string desc - 
+            optional number value - 
+            optional number defValue - 
+            optional number minValue - 
+            optional number maxValue - 
+        </retvals>
+        <parameters>
+            integer wp - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Theme management
+        </chapter_context>
+        <tags>theme management, get, layout, theme, parameter</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ThemeLayout_RefreshAll</slug>
+        <title>ThemeLayout_RefreshAll</title>
+        <functioncall prog_lang="cpp">void ThemeLayout_RefreshAll()</functioncall>
+        <functioncall prog_lang="eel">ThemeLayout_RefreshAll()</functioncall>
+        <functioncall prog_lang="lua">reaper.ThemeLayout_RefreshAll()</functioncall>
+        <functioncall prog_lang="python">RPR_ThemeLayout_RefreshAll()</functioncall>
+        <requires>
+            Reaper=5.972
+            Lua=5.3
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Refreshes all layouts
+        </description>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Theme management
+        </chapter_context>
+        <tags>theme management, refresh, layout, theme</tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>ThemeLayout_SetParameter</slug>
+        <title>ThemeLayout_SetParameter</title>
+        <functioncall prog_lang="cpp">bool ThemeLayout_SetParameter(int wp, int value, bool persist)</functioncall>
+        <functioncall prog_lang="eel">bool ThemeLayout_SetParameter(int wp, int value, bool persist)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.ThemeLayout_SetParameter(integer wp, integer value, boolean persist)</functioncall>
+        <functioncall prog_lang="python">Boolean RPR_ThemeLayout_SetParameter(Int wp, Int value, Boolean persist)</functioncall>
+        <requires>
+            Reaper=5.972
+            Lua=5.3
+        </requires>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            sets theme layout parameter to value. persist=true in order to have change loaded on next theme load. 
+            
+            note that the caller should update layouts via ??? to make changes visible.
+        </description>
+        <retvals>
+            boolean retval - 
+        </retvals>
+        <parameters>
+            integer wp - 
+            integer value - 
+            boolean persist - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Theme management
+        </chapter_context>
+        <tags>theme management, set, layout, theme, parameter</tags>
+    </US_DocBloc>
+    
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>time_precise</slug>
         <title>time_precise</title>

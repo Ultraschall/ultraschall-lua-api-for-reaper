@@ -1,15 +1,15 @@
 
 ## Ultraschall Framework - Changelog
 
-### 4.00 Beta 2.73: - "Radiohead - Blow Out" - 8th of March 2019
+### 4.00 Beta 2.73: - "Radiohead - Bangers'n'Mash" - 9th of March 2019
 
-   Has now 794 functions, with 14 new ones
+   Has now 800 functions, with 20 new ones
 
    - **New HWNDs** to get, like Render Queue, Preferences, Project Settings and more
    
-   - **Routing-Convenience Features** to work better with Routing-stuff. Includes nos MKVOL from/to DB-converter for that!
+   - **Routing-Convenience Features** to work better with Routing-stuff. Includes now MKVOL from/to DB-converter for that!
    
-   - ** print3 ** outputs it's parameters to the Clipboard.
+   - **print3** outputs it's parameters to the Clipboard.
 
 #### New features in 4.00beta2.73
   - print3 - like print and print2, but puts the parameters into the clipboard instead
@@ -26,6 +26,13 @@
   - GetAllHWOuts - returns a table with all HWOut-settings of all tracks of the current project
   - GetAllAUXSendReceive - returns a table with all Send/Receive-settings of all tracks of the current project
   - GetAllMainSendStates - returns a table with all MainSend(Master Send)-settings of all tracks of the current project
+  - ApplyAllHWOuts - applies a table, as returned by GetAllHWOuts to all tracks. That way, you can easily alter HWOuts of multiple tracks in that table, before passing it to ApplyAllHWOuts
+  - ApplyAllAUXSendReceives - applies a table, as returned by GetAllAUXSendReceive to all tracks. That way, you can easily alter AUXSendReceives of multiple tracks in that table, before passing it to ApplyAllAUXSendReceives
+  - ApplyAllMainSendStates - applies a table, as returned by GetAllMainSendStates to all tracks. That way, you can easily alter MainSend(Master-Send)-states of multiple tracks in that table, before passing it to ApplyAllMainSendStates
+  - GetSetConfigAutoMute - gets/sets the automute-config-variable
+  - GetSetConfigAutoMuteFlags - gets/sets the automuteflags-config-variable
+  - GetSetConfigAutoSaveInt - gets/sets the autosaveint-config-variable
+  - GetSetConfigAutoSaveMode - gets/sets the autosavemode-config-variable
 
 #### Changes from 4.00beta2.72 to 4.00beta2.73
   - Ultraschall.ScriptIdentifier - fixed bugs with Scriptidentifier-creation
@@ -41,6 +48,9 @@
   - SetTrackHWOut - fixed bug with an incorrect idx-numbering
   - SetTrackAUXSendReceives - fixed bug with an incorrect idx-numbering
   - Reaper Api docs: Video Processor: corrected YET ANOTHER Markdown-f....p in the example code of chapter Coding Introduction
+  - GetIniFileValue - improved code
+  - SetIniFileValue - fixed bug that caused inifiles to explode in size
+  - Reaper-Docs: updated to Reaper 5.972
   
 
 ### 4.00 Beta 2.72: - "Blue Oyster Cult - Don't fear the Reaper" - 1st of March 2019

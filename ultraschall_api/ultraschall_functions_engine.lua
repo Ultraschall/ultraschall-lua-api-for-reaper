@@ -27969,7 +27969,19 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber,idx)
     TrackStateChunk=TrackStateChunk:match("AUXRECV.-%c(.*)")
     count=count+1
   end
-  if retstring~=nil then return tonumber(retstring:match(" (.-) ")),
+  
+--  print3("Retstring", retstring)
+  if retstring~=nil then 
+    count, individual_values = ultraschall.CSV2IndividualLinesAsArray(retstring, " ")
+--    print2(count)
+    individual_values[11]=individual_values[11]:match("(.-):")
+    for i=1, count-1 do
+      individual_values[i]=tonumber(individual_values[i])
+    end
+    table.remove(individual_values, 14)
+    table.remove(individual_values, 1)
+    return table.unpack(individual_values)
+  --[[return tonumber(retstring:match(" (.-) ")),
                                 tonumber(retstring:match(" .- (.-) ")),
                                 tonumber(retstring:match(" .- .- (.-) ")),
                                 tonumber(retstring:match(" .- .- .- (.-) ")),
@@ -27980,7 +27992,7 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber,idx)
                                 tonumber(retstring:match(" .- .- .- .- .- .- .- .- (.-) ")),
                                 tonumber(retstring:match(" .- .- .- .- .- .- .- .- .- (.-):U ")),
                                 tonumber(retstring:match(" .- .- .- .- .- .- .- .- .- .- (.-) ")),
-                                tonumber(retstring:match(" .- .- .- .- .- .- .- .- .- .- .- (.-) "))
+                                tonumber(retstring:match(" .- .- .- .- .- .- .- .- .- .- .- (.-) "))--]]
   else return -1
   end
 end
@@ -28678,7 +28690,9 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, a, b, c, d, e, f,
   if B<=0 then Ending=TrackStateChunk:match(".*PERF.-%c(.*)")
   else Ending=TrackStateChunk:match(".*AUXRECV.-%c(.*)")
   end
-    
+  
+--  print2("Ivorher:",i)
+  
   finalstring=Begin
   for i=1,B do
     if idx~=i then 
@@ -28698,11 +28712,14 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, a, b, c, d, e, f,
       if j==nil then j=j1 end
       if k==nil then k=k1 end
       if l==nil then l=l1 end
+     
+--  print2("Inachher:",i)
       
-      finalstring=finalstring.."AUXRECV "..(a-1).." "..b.." "..c.." "..d.." "..e.." "..f.." "..g.." "..h.." "..i.." "..j..":U "..k.." "..l.."\n"
+      finalstring=finalstring.."AUXRECV "..(a).." "..b.." "..c.." "..d.." "..e.." "..f.." "..g.." "..h.." "..i.." "..j..":U "..k.." "..l.." ''\n"
     end
   end
   finalstring=finalstring..Ending
+--  reaper.MB(finalstring,"",0)
   return reaper.SetTrackStateChunk(Track, finalstring, undo)
 end
 
@@ -34954,7 +34971,7 @@ function progresscounter(state)
 --  reaper.MB(tostring(A:sub(1,400)),"",0)
   i=0
   done=15
-  todo=-16
+  todo=-17
   todostring=""
   funclist=""
   donestring=""
@@ -44689,6 +44706,71 @@ end
 --A=ultraschall.GetSetConfigAudioCloseTrackWnds(true, 1, true)
 
 
+
+function ultraschall.GetSetConfigAutoMute(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAutoMute</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAutoMute(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Gets/Sets the value of "Automute-dropdownlist in the section Mute"-settings, as set in Preferences -> Mute/Solo 
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "automute", as well as the reaper.ini-entry "REAPER -> automute"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value
+                   - 0, No automatic muting  
+                   - 1, Automatically mute master track  
+                   - 2, Automatically mute any track  
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value
+                    - 0, No automatic muting  
+                    - 1, Automatically mute master track  
+                    - 2, Automatically mute any track  
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Mute/Solo
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, automute, mute, solo</tags>
+</US_DocBloc>
+--]]
+  local config_var="automute"
+  local retval
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAutoMute", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAutoMute", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAutoMute", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>2 then ultraschall.AddErrorMessage("GetSetConfigAutoMute", "setting", "must be between 0 and 2", -4) return -1 end
+  if set==false then 
+    return reaper.SNM_GetIntConfigVar(config_var, -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar(config_var, setting)
+    if temp==false then return -1 else if persist==true then 
+      retval = ultraschall.SetIniFileExternalState("REAPER", config_var, tostring(setting), reaper.get_ini_file()) 
+    end 
+    return setting 
+  end
+  end
+end
+
+
+
+
+
 function ultraschall.tempgfxupdate_snowflakes()
     if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
     ultraschall.snowoldgfx()
@@ -45673,7 +45755,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00","8th of March 2019", "Beta 2.73", 400.0273,  "\"Radiohead - Blow Out \"", ultraschall.hotfixdate
+  return "4.00","9th of March 2019", "Beta 2.73", 400.0273,  "\"Radiohead - Bangers'n'Mash \"", ultraschall.hotfixdate
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
@@ -49903,17 +49985,20 @@ function ultraschall.GetIniFileValue(section, key, errval, inifile)
   section=tostring(section)
   key=tostring(key)
 
+  --[[
   local A=ultraschall.ReadFullFile(inifile).."\n["
   
   local SectionArea=A:match(section.."%](.-)\n%[").."\n"
   local KeyValue=SectionArea:match("\n"..key.."=(.-)\n")
   if KeyValue==nil then KeyValue=errval end
   return KeyValue:len(), KeyValue
+  --]]
+  return reaper.BR_Win32_GetPrivateProfileString(section, key, errval, inifile)
 end
 
 
 
---A=ultraschall.GetIniFileValue("section", "key", "LULATSCH", reaper.get_ini_file():match("(.-)REAPER.ini").."ultraschall.ini")
+--AAA,BBB=ultraschall.GetIniFileValue("REAPER", "automute", "LULATSCH", reaper.get_ini_file())
 
 
 function ultraschall.SetIniFileValue(section, key, value, inifile)
@@ -49923,6 +50008,7 @@ function ultraschall.SetIniFileValue(section, key, value, inifile)
   <requires>
     Ultraschall=4.00
     Reaper=5.965
+    SWS=2.10.0.1
     Lua=5.3
   </requires>
   <functioncall>integer retval = ultraschall.SetIniFileValue(string section, string key, string value, string inifile)</functioncall>
@@ -49956,7 +50042,7 @@ function ultraschall.SetIniFileValue(section, key, value, inifile)
   section=tostring(section)
   key=tostring(key)
   value=tostring(value)
-  
+  --[[
   local Start, Middle, Ende, A, Kombi, Offset
   local A=ultraschall.ReadFullFile(inifile)
   if A==nil then A="" end
@@ -49980,6 +50066,8 @@ function ultraschall.SetIniFileValue(section, key, value, inifile)
   end
   Kombi=string.gsub(Start..Middle..Ende, "\n\n", "\n")
   return ultraschall.WriteValueToFile(inifile, Kombi)
+  --]]
+  return reaper.BR_Win32_WritePrivateProfileString(section, key, value, inifile)
 end
 
 --A1=ultraschall.SetIniFileValue(file:match("(.-)REAPER.ini").."lula.ini", "ultrascshall_update", "D", "1")
@@ -52426,14 +52514,16 @@ function ultraschall.GetAllHWOuts()
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>table AllHWOuts = ultraschall.GetAllHWOuts()</functioncall>
+  <functioncall>table AllHWOuts, integer number_of_tracks = ultraschall.GetAllHWOuts()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     returns a table with all HWOut-settings of all tracks, including master-track(track index: 0)
     
     returned table is of structure:
+      table["HWOuts"]=true                              - signals, this is a HWOuts-table; don't change that!
+      table["number\_of_tracks"]                         - the number of tracks in this table, from track 0(master) to track n
       table[tracknumber]["HWOut_count"]                 - the number of HWOuts of tracknumber, beginning with 1
       table[tracknumber][HWOutIndex]["outputchannel"]   - the number of outputchannels of this HWOutIndex of tracknumber
-      table[tracknumber][HWOutIndex]["post\_pre_fader"]  - the setting of post-pre-fader of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["post\_pre_fader"] - the setting of post-pre-fader of this HWOutIndex of tracknumber
       table[tracknumber][HWOutIndex]["volume"]          - the volume of this HWOutIndex of tracknumber
       table[tracknumber][HWOutIndex]["pan"]             - the panning of this HWOutIndex of tracknumber
       table[tracknumber][HWOutIndex]["mute"]            - the mute-setting of this HWOutIndex of tracknumber
@@ -52446,6 +52536,7 @@ function ultraschall.GetAllHWOuts()
   </description>
   <retvals>
     table AllHWOuts - a table with all HWOuts of the current project.
+    integer number_of_tracks - the number of tracks in the AllMainSends-table
   </retvals>
   <chapter_context>
     Track Management
@@ -52458,6 +52549,8 @@ function ultraschall.GetAllHWOuts()
 ]]
 
   local HWOuts={}
+  HWOuts["number_of_tracks"]=reaper.CountTracks()
+  HWOuts["HWOuts"]=true
 
   for i=0, reaper.CountTracks() do
     HWOuts[i]={}
@@ -52476,13 +52569,88 @@ function ultraschall.GetAllHWOuts()
       HWOuts[i][a]["automationmode"] = ultraschall.GetTrackHWOut(i, a)
     end
   end
-  return HWOuts
+  return HWOuts, reaper.CountTracks()
 end
 
---A=ultraschall.GetAllHWOuts()
+function ultraschall.ApplyAllHWOuts(AllHWOuts)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ApplyAllHWOuts</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ApplyAllHWOuts(table AllHWOuts)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    takes a table, as returned by [GetAllHWOuts](#GetAllHWOuts) with all HWOut-settings of all tracks and applies it to all tracks.
+    
+    expected table is of structure:
+      
+      table["HWOuts"]=true                              - signals, this is a HWOuts-table; don't change that!
+      table["number\_of_tracks"]                         - the number of tracks in this table, from track 0(master) to track n
+      table[tracknumber]["HWOut_count"]                 - the number of HWOuts of tracknumber, beginning with 1
+      table[tracknumber][HWOutIndex]["outputchannel"]   - the number of outputchannels of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["post\_pre_fader"] - the setting of post-pre-fader of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["volume"]          - the volume of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["pan"]             - the panning of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["mute"]            - the mute-setting of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["phase"]           - the phase-setting of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["source"]          - the source/input of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["unknown"]         - unknown, leave it -1
+      table[tracknumber][HWOutIndex]["automationmode"]  - the automation-mode of this HWOutIndex of tracknumber    
+          
+      See [GetTrackHWOut](#GetTrackHWOut) for more details on the individual settings, stored in the entries.
+  </description>
+  <parameters>
+    table AllHWOuts - a table with all AllHWOut-entries of the current project
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was successful; false, it was unsuccessful
+  </retvals>
+  <chapter_context>
+    Track Management
+    Hardware Out
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>trackmanagement, track, set, all, hwout, routing</tags>
+</US_DocBloc>
+]]
+  if type(AllHWOuts)~="table" then ultraschall.AddErrorMessage("ApplyAllHWOuts", "AllHWOuts", "Must be a table.", -1) return false end
+  if AllHWOuts["number_of_tracks"]==nil or AllHWOuts["HWOuts"]~=true then ultraschall.AddErrorMessage("ApplyAllHWOuts", "AllHWOuts", "Must be a valid AllAUXSendReceives, as returned by GetAllAUXSendReceive. Get it from there, alter that and pass it into here.", -2) return false end 
+  for i=0, AllHWOuts["number_of_tracks"] do
+    for a=1, AllHWOuts[i]["HWOut_count"] do
+      ultraschall.SetTrackHWOut(i, a, 
+           AllHWOuts[i][a]["outputchannel"],
+           AllHWOuts[i][a]["post_pre_fader"],
+           AllHWOuts[i][a]["volume"], 
+           AllHWOuts[i][a]["pan"], 
+           AllHWOuts[i][a]["mute"], 
+           AllHWOuts[i][a]["phase"], 
+           AllHWOuts[i][a]["source"], 
+           AllHWOuts[i][a]["unknown"], 
+           AllHWOuts[i][a]["automationmode"],
+           false)--]]
+
+      end
+  end
+  return true
+end
+--[[
+A1,B=ultraschall.GetAllHWOuts()
+for i=0, B do
+  for a=1, A1[i]["HWOut_count"] do
+--    A1[i][a]["volume"]=1
+  end
+end
+C=ultraschall.ApplyAllHWOuts(A1)
+--]]
+--A,B,C,D,E,F,G,H,I=ultraschall.GetTrackHWOut(0,1)
+--ultraschall.SetTrackHWOut(0,1,A-1024,B,C,D,E,F,G,H,I,false)
 
 
-function ultraschall.GetAllAUXSendReceive()
+function ultraschall.GetAllAUXSendReceives()
   -- returned table is of structure:
   --    table[tracknumber]["AUXSendReceives_count"]                   - the number of AUXSendReceives of tracknumber, beginning with 1
   --    table[tracknumber][AUXSendReceivesIndex]["recv_tracknumber"]  - the track, from which to receive audio in this AUXSendReceivesIndex of tracknumber
@@ -52500,27 +52668,29 @@ function ultraschall.GetAllAUXSendReceive()
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetAllAUXSendReceive</slug>
+  <slug>GetAllAUXSendReceives</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>table AllAUXSendReceives = ultraschall.GetAllAUXSendReceive()</functioncall>
+  <functioncall>table AllAUXSendReceives, integer number_of_tracks = ultraschall.GetAllAUXSendReceives()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     returns a table with all AUX-SendReceive-settings of all tracks, excluding master-track
     
     returned table is of structure:
+      table["AllAUXSendReceive"]=true                               - signals, this is an AllAUXSendReceive-table. Don't alter!
+      table["number\_of_tracks"]                                     - the number of tracks in this table, from track 1 to track n
       table[tracknumber]["AUXSendReceives_count"]                   - the number of AUXSendReceives of tracknumber, beginning with 1
-      table[tracknumber][AUXSendReceivesIndex]["recv\_tracknumber"]  - the track, from which to receive audio in this AUXSendReceivesIndex of tracknumber
-      table[tracknumber][AUXSendReceivesIndex]["post\_pre_fader"]    - the setting of post-pre-fader of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["recv\_tracknumber"] - the track, from which to receive audio in this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["post\_pre_fader"]   - the setting of post-pre-fader of this AUXSendReceivesIndex of tracknumber
       table[tracknumber][AUXSendReceivesIndex]["volume"]            - the volume of this AUXSendReceivesIndex of tracknumber
       table[tracknumber][AUXSendReceivesIndex]["pan"]               - the panning of this AUXSendReceivesIndex of tracknumber
       table[tracknumber][AUXSendReceivesIndex]["mute"]              - the mute-setting of this AUXSendReceivesIndex  of tracknumber
-      table[tracknumber][AUXSendReceivesIndex]["mono\_stereo"]       - the mono/stereo-button-setting of this AUXSendReceivesIndex  of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["mono\_stereo"]      - the mono/stereo-button-setting of this AUXSendReceivesIndex  of tracknumber
       table[tracknumber][AUXSendReceivesIndex]["phase"]             - the phase-setting of this AUXSendReceivesIndex  of tracknumber
-      table[tracknumber][AUXSendReceivesIndex]["chan\_src"]          - the audiochannel-source of this AUXSendReceivesIndex of tracknumber
-      table[tracknumber][AUXSendReceivesIndex]["snd\_src"]           - the send-to-channel-target of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["chan\_src"]         - the audiochannel-source of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["snd\_src"]          - the send-to-channel-target of this AUXSendReceivesIndex of tracknumber
       table[tracknumber][AUXSendReceivesIndex]["unknown"]           - unknown, leave it -1
       table[tracknumber][AUXSendReceivesIndex]["midichanflag"]      - the Midi-channel of this AUXSendReceivesIndex of tracknumber, leave it 0
       table[tracknumber][AUXSendReceivesIndex]["automation"]        - the automation-mode of this AUXSendReceivesIndex  of tracknumber
@@ -52529,6 +52699,7 @@ function ultraschall.GetAllAUXSendReceive()
   </description>
   <retvals>
     table AllAUXSendReceives - a table with all SendReceive-entries of the current project.
+    integer number_of_tracks - the number of tracks in the AllMainSends-table
   </retvals>
   <chapter_context>
     Track Management
@@ -52541,7 +52712,9 @@ function ultraschall.GetAllAUXSendReceive()
 ]]
 
   local AUXSendReceives={}
-
+  AUXSendReceives["number_of_tracks"]=reaper.CountTracks()
+  AUXSendReceives["AllAUXSendReceive"]=true 
+  
   for i=1, reaper.CountTracks() do
     AUXSendReceives[i]={}
     local count_AUXSendReceives = ultraschall.CountTrackAUXSendReceives(i)
@@ -52562,10 +52735,96 @@ function ultraschall.GetAllAUXSendReceive()
       AUXSendReceives[i][a]["automation"] = ultraschall.GetTrackAUXSendReceives(i, a)
     end
   end
-  return AUXSendReceives
+  return AUXSendReceives, reaper.CountTracks()
 end
 
---A=ultraschall.GetAllAUXSendReceive()
+
+function ultraschall.ApplyAllAUXSendReceives(AllAUXSendReceives)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ApplyAllAUXSendReceives</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ApplyAllAUXSendReceives(table AllAUXSendReceives)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    takes a table, as returned by [GetAllAUXSendReceive](#GetAllAUXSendReceive) with all AUXSendReceive-settings of all tracks and applies it to all tracks.
+    
+    expected table is of structure:
+      table["AllAUXSendReceive"]=true                               - signals, this is an AllAUXSendReceive-table. Don't alter!
+      table["number\_of_tracks"]                                     - the number of tracks in this table, from track 1 to track n
+      table[tracknumber]["AUXSendReceives_count"]                   - the number of AUXSendReceives of tracknumber, beginning with 1
+      table[tracknumber][AUXSendReceivesIndex]["recv\_tracknumber"] - the track, from which to receive audio in this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["post\_pre_fader"]   - the setting of post-pre-fader of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["volume"]            - the volume of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["pan"]               - the panning of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["mute"]              - the mute-setting of this AUXSendReceivesIndex  of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["mono\_stereo"]      - the mono/stereo-button-setting of this AUXSendReceivesIndex  of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["phase"]             - the phase-setting of this AUXSendReceivesIndex  of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["chan\_src"]         - the audiochannel-source of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["snd\_src"]          - the send-to-channel-target of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["unknown"]           - unknown, leave it -1
+      table[tracknumber][AUXSendReceivesIndex]["midichanflag"]      - the Midi-channel of this AUXSendReceivesIndex of tracknumber, leave it 0
+      table[tracknumber][AUXSendReceivesIndex]["automation"]        - the automation-mode of this AUXSendReceivesIndex  of tracknumber
+      
+      See [GetTrackAUXSendReceives](#GetTrackAUXSendReceives) for more details on the individual settings, stored in the entries.
+  </description>
+  <parameters>
+    table AllAUXSendReceives - a table with all AllAUXSendReceive-entries of the current project
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was successful; false, it was unsuccessful
+  </retvals>
+  <chapter_context>
+    Track Management
+    Send/Receive-Routing
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>trackmanagement, track, set, all, send, receive, aux, routing</tags>
+</US_DocBloc>
+]]
+  if type(AllAUXSendReceives)~="table" then ultraschall.AddErrorMessage("GetAllAUXSendReceives", "AllAUXSendReceives", "Must be a table.", -1) return false end
+  if AllAUXSendReceives["number_of_tracks"]==nil or AllAUXSendReceives["AllAUXSendReceive"]~=true then ultraschall.AddErrorMessage("GetAllAUXSendReceives", "AllAUXSendReceives", "Must be a valid AllAUXSendReceives, as returned by GetAllAUXSendReceive. Get it from there, alter that and pass it into here.", -2) return false end 
+  for i=1, AllAUXSendReceives["number_of_tracks"] do
+    for a=1, AllAUXSendReceives[i]["AUXSendReceives_count"] do
+      ultraschall.SetTrackAUXSendReceives(i, a, 
+           AllAUXSendReceives[i][a]["recv_tracknumber"],
+           AllAUXSendReceives[i][a]["post_pre_fader"],
+           AllAUXSendReceives[i][a]["volume"], 
+           AllAUXSendReceives[i][a]["pan"], 
+           AllAUXSendReceives[i][a]["mute"], 
+           AllAUXSendReceives[i][a]["mono_stereo"], 
+           AllAUXSendReceives[i][a]["phase"], 
+           AllAUXSendReceives[i][a]["chan_src"], 
+           AllAUXSendReceives[i][a]["snd_src"], 
+           AllAUXSendReceives[i][a]["unknown"], 
+           AllAUXSendReceives[i][a]["midichanflag"], 
+           AllAUXSendReceives[i][a]["automation"],
+           false)--]]
+           --print2(i,a)
+      end
+  end
+  return true
+end
+
+--[[
+A1,B=ultraschall.GetAllAUXSendReceives()
+
+for i=1, B do
+  for a=1, A1[i]["AUXSendReceives_count"] do
+--    A1[i][a]["volume"]=1
+  end
+end
+
+A0=ultraschall.ApplyAllAUXSendReceives(A1)
+--]]
+--C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15 = ultraschall.GetTrackAUXSendReceives(1,1)
+--ultraschall.SetTrackAUXSendReceives(1,1,C1, C2-1, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12,false)
+
+--ultraschall.AddTrackHWOut(1,2,1,10,1024,1024,1024,1024,1024,1024,false,1,1,false)
 
 function ultraschall.GetAllMainSendStates()
   -- returns table, of the structure:
@@ -52580,13 +52839,14 @@ function ultraschall.GetAllMainSendStates()
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>table AllMainSends = ultraschall.GetAllMainSendStates()</functioncall>
+  <functioncall>table AllMainSends, integer number_of_tracks  = ultraschall.GetAllMainSendStates()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     returns a table with all MainSend-settings of all tracks, excluding master-track.
     
     The MainSend-settings are the settings, if a certain track sends it's signal to the Master Track
     
     returned table is of structure:
+      Table["number\_of_tracks"]            - The number of tracks in this table, from track 1 to track n
       Table[tracknumber]["MainSend"]       - Send to Master on(1) or off(1)
       Table[tracknumber]["ParentChannels"] - the parent channels of this track
       
@@ -52594,6 +52854,7 @@ function ultraschall.GetAllMainSendStates()
   </description>
   <retvals>
     table AllMainSends - a table with all AllMainSends-entries of the current project.
+    integer number_of_tracks - the number of tracks in the AllMainSends-table
   </retvals>
   <chapter_context>
     Track Management
@@ -52606,14 +52867,255 @@ function ultraschall.GetAllMainSendStates()
 ]]
   
   local MainSend={}
+  MainSend["number_of_tracks"]=reaper.CountTracks()
   for i=1, reaper.CountTracks() do
     MainSend[i]={}
     MainSend[i]["MainSendOn"], MainSend[i]["ParentChannels"] = ultraschall.GetTrackMainSendState(i)
   end
-  return MainSend
+  return MainSend, reaper.CountTracks()
 end
 
 --A,B=ultraschall.GetAllMainSendStates()
 
+function ultraschall.ApplyAllMainSendStates(AllMainSendsTable)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ApplyAllMainSendStates</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ApplyAllMainSendStates(table AllMainSendsTable)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    takes a table, as returned by [GetAllMainSendStates](#GetAllMainSendStates) with all MainSend-settings of all tracks and applies it to all tracks.
+    
+    The MainSend-settings are the settings, if a certain track sends it's signal to the Master Track
+    
+    expected table is of structure:
+      Table["number\_of_tracks"]            - The number of tracks in this table, from track 1 to track n
+      Table[tracknumber]["MainSend"]       - Send to Master on(1) or off(1)
+      Table[tracknumber]["ParentChannels"] - the parent channels of this track
+      
+      See [GetTrackMainSendState](#GetTrackMainSendState) for more details on the individual settings, stored in the entries.
+  </description>
+  <parameters>
+    table AllMainSends - a table with all AllMainSends-entries of the current project
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was successful; false, it was unsuccessful
+  </retvals>
+  <chapter_context>
+    Track Management
+    Send/Receive-Routing
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>trackmanagement, track, set, all, send, main send, master send, routing</tags>
+</US_DocBloc>
+]]
+  if type(AllMainSendsTable)~="table" then ultraschall.AddErrorMessage("ApplyAllMainSendStates", "AllMainSendsTable", "Must be a table.", -1) return false end
+  if AllMainSendsTable["number_of_tracks"]==nil or AllMainSendsTable[1]["MainSendOn"]==nil then ultraschall.AddErrorMessage("ApplyAllMainSendStates", "AllMainSendsTable", "Must be a valid AllMainSendsTable, as returned by GetAllMainSendStates. Get it from there, alter that and pass it into here.", -2) return false end 
+  for i=1, AllMainSendsTable["number_of_tracks"] do
+    ultraschall.SetTrackMainSendState(i, AllMainSendsTable[i]["MainSendOn"], AllMainSendsTable[i]["ParentChannels"])
+  end
+  return true
+end
+--[[
+
+A,B=ultraschall.GetAllMainSendStates()
+for i=1, B do
+  A[i]["MainSendOn"]=1
+end
+
+A0=ultraschall.ApplyAllMainSendStates(A)
+--]]
+
+
+--A=ultraschall.GetSetConfigAutoMute(true, 0, true)
+
+--B=ultraschall.SetIniFileExternalState("REAPER", "automute", tostring(1), reaper.get_ini_file())
+
+
+function ultraschall.GetSetConfigAutoMuteFlags(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAutoMuteFlags</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAutoMuteFlags(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Sets the "Reset on playback start"-checkbox in section Mute-settings, as set in Preferences -> Mute/Solo  
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "automuteflags", as well as the reaper.ini-entry "REAPER -> automuteflags"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value
+                   - 0, Reset on playback start(on) - checked  
+                   - 1, Reset on playback start(off) - unchecked  
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value
+                    - 0, Reset on playback start(on) - checked  
+                    - 1, Reset on playback start(off) - unchecked  
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Mute/Solo
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, automute, flags, mute, solo</tags>
+</US_DocBloc>
+--]]
+  local config_var="automuteflags"
+  local retval
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAutoMuteFlags", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAutoMuteFlags", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAutoMuteFlags", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>1 then ultraschall.AddErrorMessage("GetSetConfigAutoMuteFlags", "setting", "must be between 0 and 1", -4) return -1 end
+  if set==false then 
+    return reaper.SNM_GetIntConfigVar(config_var, -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar(config_var, setting)
+    if temp==false then return -1 else if persist==true then 
+      retval = ultraschall.SetIniFileExternalState("REAPER", config_var, tostring(setting), reaper.get_ini_file()) 
+    end 
+    return setting 
+  end
+  end
+end
+
+--A=ultraschall.GetSetConfigAutoMuteFlags(true, 0, true)
+
+
+function ultraschall.GetSetConfigAutoSaveInt(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAutoSaveInt</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAutoSaveInt(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Sets the "Every x minutes"-inputbox from the Project saving-section, as set in Preferences -> Project. 
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "autosaveint", as well as the reaper.ini-entry "REAPER -> autosaveint"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value
+                   - 0 to 2147483647; in seconds; higher values become negative
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value
+                    - 0 to 2147483647 in seconds
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Project
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, autosave, project</tags>
+</US_DocBloc>
+--]]
+  local config_var="autosaveint"
+  local retval
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAutoSaveInt", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAutoSaveInt", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAutoSaveInt", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>2147483647 then ultraschall.AddErrorMessage("GetSetConfigAutoSaveInt", "setting", "must be between 0 and 2147483647", -4) return -1 end
+  if set==false then 
+    return reaper.SNM_GetIntConfigVar(config_var, -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar(config_var, setting)
+    if temp==false then return -1 else if persist==true then 
+      retval = ultraschall.SetIniFileExternalState("REAPER", config_var, tostring(setting), reaper.get_ini_file()) 
+    end 
+    return setting 
+  end
+  end
+end
+
+--A=ultraschall.GetSetConfigAutoSaveInt(true, 100, true)
+
+function ultraschall.GetSetConfigAutoSaveMode(set, setting, persist)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSetConfigAutoSaveMode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetSetConfigAutoSaveMode(boolean set, integer setting, boolean persist)</functioncall>
+  <description>
+    Sets the "Every x minutes"-dropdownlist from the Project saving-section, as set in Preferences -> Project. 
+    To keep the setting after restart of Reaper, set persist=true
+    
+    This alters the configuration-variable "autosavemode", as well as the reaper.ini-entry "REAPER -> autosavemode"
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - the current/new setting-value
+                   - 0, when not recording  
+                   - 1, when stopped  
+                   - 2, any time  
+  </retvals>
+  <parameters>
+    boolean set - true, set a new value; false, return the current value
+    integer setting - the current/new setting-value
+                    - 0, when not recording  
+                    - 1, when stopped  
+                    - 2, any time  
+    boolean persist - true, this setting will be kept after restart of Reaper; false, setting will be lost after exiting Reaper
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Preferences: Project
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationsettings, get, set, persist, autosave, mode, project</tags>
+</US_DocBloc>
+--]]
+  local config_var="autosavemode"
+  local retval
+  if ultraschall.type(set)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAutoSaveMode", "set", "must be a boolean", -1) return -1 end
+  if persist~=nil and ultraschall.type(persist)~="boolean" then ultraschall.AddErrorMessage("GetSetConfigAutoSaveMode", "persist", "must be a boolean", -2) return -1 end
+  if setting~=nil and ultraschall.type(setting)~="number: integer" then ultraschall.AddErrorMessage("GetSetConfigAutoSaveMode", "setting", "must be an integer", -3) return -1 end
+  if setting<0 or setting>2 then ultraschall.AddErrorMessage("GetSetConfigAutoSaveMode", "setting", "must be between 0 and 2", -4) return -1 end
+  if set==false then 
+    return reaper.SNM_GetIntConfigVar(config_var, -33)
+  else 
+    local temp=reaper.SNM_SetIntConfigVar(config_var, setting)
+    if temp==false then return -1 else if persist==true then 
+      retval = ultraschall.SetIniFileExternalState("REAPER", config_var, tostring(setting), reaper.get_ini_file()) 
+    end 
+    return setting 
+  end
+  end
+end
+
+--A=ultraschall.GetSetConfigAutoSaveMode(true, 2, true)
 
 ultraschall.ShowLastErrorMessage()
