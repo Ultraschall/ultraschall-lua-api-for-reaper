@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="30755.00" author="Meo Mespotine">
+      <version name="30804.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -306,6 +306,14 @@ Ultraschall Framework - Changelog
 
 New features in 4.00beta2.74
 
+-   ChildScripts: GetScriptIdentifier_Description - gets the description
+    of your script
+-   ChildScripts: SetScriptIdentifier_Description - sets a description
+    for your script
+-   ChildScripts: GetScriptIdentifier_Title - gets the title of your
+    script
+-   ChildScripts: SetScriptIdentifier_Title - sets the title of your
+    script
 -   GFX: GFX_GetMouseCap - checks and returns mouse-clicks, including
     doubleclick, dragging, mousewheel-states, etc. Much more handy than
     gfx.mouse_cap.
@@ -313,19 +321,16 @@ New features in 4.00beta2.74
     a string, 8 to 32 bit integers can be converted
 -   Helpers: ConvertStringToIntegers - converts a string into multiple
     integers; you can set the size of the integer
+-   Helpers: print_update - prints its values to the ReaScript console,
+    but clears the console before displaying. Good for progressbars and
+    displaying a few statuses without constantly scrolling.
+-   Routing: AreAUXSendReceivesTablesEqual - compares two
+    AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and
+    GetAllAUXSendReceives2
 -   Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as
     returned by GetAllHWOuts and GetAllHWOuts2
 -   Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables,
     as returned by GetAllMainSendStates and GetAllMainSendStates2
--   Routing: AreAUXSendReceivesTablesEqual - compares two
-    AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and
-    GetAllAUXSendReceives2
--   Ultraschall: IsTrackSoundboard - returns, if a track is a valid
-    Ultraschall-Soundboard-track
--   Ultraschall: IsTrackStudioLink - returns, if a track is a valid
-    StudioLink-track
--   Ultraschall: IsTrackStudioLinkOnAir - returns, if a track is a valid
-    StudioLinkOnAir-track
 -   Ultraschall: GetTypeOfTrack - returns the type of a track, either
     StudioLink/StudioLinkOnAir or SoundBoard
 -   Ultraschall: GetAllAUXSendReceives2 - like GetAllAUXSendReceives,
@@ -334,13 +339,21 @@ New features in 4.00beta2.74
     track as well
 -   Ultraschall: GetAllMainSendStates2 - like GetAllMainSendStates, but
     returns type of track as well
+-   Ultraschall: IsTrackSoundboard - returns, if a track is a valid
+    Ultraschall-Soundboard-track
+-   Ultraschall: IsTrackStudioLink - returns, if a track is a valid
+    StudioLink-track
+-   Ultraschall: IsTrackStudioLinkOnAir - returns, if a track is a valid
+    StudioLinkOnAir-track
 
 Changes from Beta 2.73 to Beta 2.74
 
--   HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the
-    function not to find the RenderToFile-window
+-   Docs: GetScriptIdentifier - moved in the index to Api-Helper
+    functions -> Child Scripts, where it belongs to
 -   Docs: relayouted changelog for beta 2.72 upwards, the featurelist
     should be better readable, now
+-   HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the
+    function not to find the RenderToFile-window
 -   Ultraschall: CountUltraschallEffectPlugins - removed, as it was
     useless
 -   Ultraschall: pause_follow_one_cycle - moved to Ultraschall Specific
@@ -375,6 +388,8 @@ New features in 4.00beta2.73
     volume
 -   Helper: MKVOL2DB - converts a MKVOL-value(as used by volume in
     routing-settings) into its dB-representation
+-   Helper: print3 - like print and print2, but puts the parameters into
+    the clipboard instead
 -   HWND: GetRenderQueueHWND - gets the HWND of the Render-Queue-window,
     if opened
 -   HWND: GetProjectSettingsHWND - gets the HWND of the Project
@@ -389,8 +404,6 @@ New features in 4.00beta2.73
     Directory Cleanup-window, if opened
 -   HWND: GetBatchFileItemConverterHWND - gets the HWND of the Batch
     File/Item Converter-window, if opened
--   print3 - like print and print2, but puts the parameters into the
-    clipboard instead
 -   Routing: ClearRoutingMatrix - clears the routing-matrix, either
     completely or just parts of it(Send/Receive, HWOuts, MasterSends)
     including or excluding the Master-Track
@@ -499,230 +512,219 @@ New features in 4.00beta2.72
     script-identifier for the started script-instance, that you can use
     as extstate to communicate with that script; allows passing of
     parameters to the started script!
-    -   ChildScripts: MIDI_OnCommandByFilename - runs a command in the
-        MIDI-Editor context by its filename instead of the
-        ActionCommandID/command-id; returns a unique script-identifier
-        for the started script-instance, that you can use as extstate to
-        communicate with that script allows passing of parameters to the
-        started script!
-    -   Child-Scripts: SetScriptParameters - sets parameters for a
-        child-script, as started by Main_OnCommandByFilename and
-        MIDI_OnCommandByFilename
-    -   Child-Scripts: GetScriptParameters - gets parameters for a
-        child-script, as started by Main_OnCommandByFilename and
-        MIDI_OnCommandByFilename
-    -   Child-Scripts: GetScriptReturnvalues - gets returnvalues, that a
-        script-instance with a specific scriptidentifier sent to the
-        current script
-    -   Child-Scripts: SetScriptReturnvalues - sends returnvalues to a
-        script-instance with a specific scriptidentifier
-    -   Child-Scripts: GetScriptReturnvalues_Sender - gets, which
-        child-scripts(and their corresponding ScriptIdentifier) have
-        sent return-values to the current script
-    -   Config: GetSetIntConfigVar - gets/sets a configuration-variable
-        of the type integer-bitfield
-    -   Config: GetIniFileValue - gets an ini-value from an ini-file;
-        unlike SWS’s own functions for that(2.9.7 and earlier), this has
-        no problems with Umlauts in the path
-    -   Config: SetIniFileValue - sets an ini-value into an ini-file;
-        unlike SWS’s own functions for that(2.9.7 and earlier), this has
-        no problems with Umlauts in the path
-    -   Docs: US_Api_AUD.html - added
-    -   Docs: US_Api_Concepts_AUD.html - added
-    -   Docs: US_Api_Concepts_DOC.html - added
-    -   Docs: US_Api_Concepts_GFX.html - added
-    -   Docs: US_Api_Concepts_GUI.html - added
-    -   Docs: US_Api_Concepts_VID.html - added
-    -   Docs: US_Api_DOC.html - added
-    -   Docs: US_Api_GFX.html - added
-    -   Docs: US_Api_GUI.html - added
-    -   Docs: US_Api_VID.html - added
-    -   Docs: US_Api-AUD.USDocML - added
-    -   Docs: US_Api-DOC.USDocML - added
-    -   Docs: US_Api-GFX.USDocML - added
-    -   Docs: US_Api-GUI.USDocML - added
-    -   Docs: US_Api-VID.USDocML - added
-    -   Docs: NewUltraschallDoc_VID_Converter.lua - added
-    -   Docs: NewUltraschallDoc_GUI_Converter.lua - added
-    -   Docs: NewUltraschallDoc_DOC_Converter.lua - added
-    -   Docs: NewUltraschallDoc_AUD_Converter.lua - added
-    -   Docs: NewUltraschallConceptsDocConverter_AUD.lua - added
-    -   Docs: NewUltraschallConceptsDocConverter_DOC.lua - added
-    -   Docs: NewUltraschallConceptsDocConverter_GFX.lua - added
-    -   Docs: NewUltraschallConceptsDocConverter_GUI.lua - added
-    -   Docs: NewUltraschallConceptsDocConverter_VID.lua - added
-    -   Docs: Child Scripts: Introduction - added chapter
-    -   Docs: Child Scripts: The unique ScriptIdentifier - added chapter
-    -   Docs: Child Scripts: Running Childscripts - added chapter
-    -   Docs: Child Scripts: Passing Parameters and Returnvalues - added
-        chapter
-    -   Docs: DeferScripts: Introduction to Ultraschall’s
-        Defer-functions - added chapter
-    -   Docs: DeferScripts: Special Defer-loops in the Ultraschall-API -
-        added chapter
-    -   Docs: DeferScripts: Stopping Defer-loops from in- and outside of
-        scripts - added chapter
-    -   Docs: Concepts: Error Messaging System: Other helpers for
-        Error-Messaging-system - added chapter
-    -   Docs: Concepts: Installation - added instructions on how to
-        install the Ultraschall-API using
-        ReaPack-package-managerhttps://reapack.com/
-    -   Docs: Concepts: Markers and Regions: Custom-Markers and
-        Custom-Regions
-    -   ReaperDocs: added new SWS2.10.0.1-functions
-    -   ReaperDocs: updated new JS-extension-plugin-functions, up to
-        0.971
-    -   ReaperDocs: added new Video-Processor-Api-functions, as of
-        Reaper 5.971
-    -   ReaPack: ReaPack-functions - added ReaPack-functions to
-        Reaper-Internals docs
-    -   Defer: GetDeferIdentifier - gets the identifier of a Defer1 to
-        Defer20-cycle of the current script
-    -   Defer: Defer1 to Defer20 - run a customized defer-cycle, in
-        which you can decide, how often it should be run. You can also
-        stop such a defer-cycle from in/outside the script using
-        StopDeferCycle. For that, Defer1 to Defer20 will return an
-        identifier, which can be used to stop this specific defer-cycle.
-        You should only use each DeferXX-cycle once in a
-        script-instance, or the timing will become corrupt!
-    -   Defer: StopDeferCycle - stops a Defer1 to Defer20-defer-instance
-        from a script-instance
-    -   Dialogs: GetUserInputs - gets the user-input. Like Reaper’s own
-        GetUserInputs but a different parameter-scheme, that should be
-        easier to handle.
-    -   Dialogs: BrowseForOpenFiles - utilizes
-        JS_Dialog_BrowseForOpenFiles-function, but returns the files and
-        paths in a more comfortable way
-    -   Editing: RippleCut_Regions - ripple-cuts all regions between
-        startposition and endposition and moves all regions after
-        endposition toward projectstart by difference between
-        startposition and endposition
-    -   ErrorMessages: ShowErrorMessagesInReascriptConsole - toggles, if
-        errormessages shall be shown in the ReaConsole immediately, when
-        they happen
-    -   ExampleScript:
-        A_Simple_EventManager_with_Backgroundhelpers_and_Defer01.lua - a
-        simple demo-eventmanager, that employs the
-        background-helper-scripts and the Defer01-function
-    -   FileIO: GetAllRecursiveFilesAndSubdirectories - returns all
-        subdirectories with all their files with full path of a
-        directory
-    -   GFX: GFX_DrawThickRoundRect - draws a round-rectangle with
-        variable thickness
-    -   GFX: GFX_BlitFramebuffer - blits the content of a framebuffer
-        into the drawing-buffer; will resize, if necessary and retains
-        aspect-ratio
-    -   Helpers: SplitStringAtNULLBytes - splits a string at NULL-bytes
-        ( \0 )
-    -   Helpers: Base64_Encoder - encodes a string into a Base64-encoded
-        string
-    -   Helpers: CreateTemporaryFileOfProjectfile - creates a valid
-        temporary-copy of an rpp-projectfile; use nil for the currently
-        opened one(must be saved first)
-    -   Helpers: Base64_Decoder - decodes a Base64-encoded string
-    -   Helpers: StateChunkLayouter - layouts statechunks according the
-        layouting rules of rpp-projectfiles; makes parsing them much
-        easier
-    -   Helpers: print - replacement for Lua’s own print-function(which
-        is quite useless in Reaper); displays the printed parameters in
-        the ReaScript-console
-    -   Helpers: print2 - like print, but displays the parameters as a
-        messagebox instead
-    -   Helpers: ConvertIntegerToBits - converts an integer-value into
-        its individual bitvalues
-    -   Helpers: ReverseEndianess_Byte - changes endianess of a
-        byte-value
-    -   Helpers: ConvertIntegerIntoString - converts the individual
-        bytes of an integer into a string
-    -   Helpers: ReplacePartOfString - replaces a part of a string,
-        beginning from an offset and up to a length; can be used for
-        easy string insertion as well
-    -   HWND: IsValidHWND - checks, if a HWND is a valid one
-    -   HWND: GFX_Init - opens a new gfx-window. Like gfx.init, but this
-        returns its HWND-windowhandler-object as well
-    -   HWND: GFX_GetWindowHWND - gets the HWND of a opened gfx-window,
-        opened with ultraschall.GFX_Init
-    -   HWND: GetReaperWindowAttributes - returns several attributes of
-        the Reaper-window, like size/position, active-state,
-        childwindows, etc
-    -   HWND: GetTopmostHWND - returns the topmost hwnd(window-handler)
-        of a child-hwnd; returns also all the parent-hwnds
-    -   HWND: Windows_Find - finds Reaper-windows by title and returns
-        their HWNDs
-    -   HWND: GetAllReaScriptIDEWindows - returns the HWNDs of all
-        opened ReaperIDE-windows
-    -   HWND: GetReaScriptConsoleWindow - returns the HWND of the
-        ReaScript-console, if open at all.
-    -   HWND: HasHWNDChildWindowNames - allows to check, if a certain
-        HWND has child-hwnds of certain name(s). Good to make
-        probability-checks for the right Reaper-windows-check.
-    -   HWND: GetRenderToFileHWND - returns the HWND of the Render to
-        File-dialog
-    -   HWND: GetActionsHWND - returns the HWND of the Actions-dialog
-    -   HWND: GetVideoHWND - returns the HWND of the Video Window
-    -   HWND: GetHWND_ArrangeViewAndTimeLine - returns the
-        HWND-window-handler for the tracklist- and timeline-area of the
-        arrangeview
-    -   Markers: GetAllCustomMarkers - gets all custom-markers of a
-        certain name, as table
-    -   Markers: GetAllCustomRegions - gets all custom-regions of a
-        certain name, as table
-    -   Markers: CountAllCustomMarkers - counts all custom-markers of a
-        certain name
-    -   Markers: CountAllCustomRegions - counts all custom-regions of a
-        certain name
-    -   Markers: EnumerateCustomMarkers - enumerates a custom-marker of
-        a certain name
-    -   Markers: EnumerateCustomRegions - enumerates a custom-region of
-        a certain name
-    -   Markers: DeleteCustomMarkers - deletes a custom-marker of a
-        certain name
-    -   Markers: DeleteCustomRegions - deletes a custom-region of a
-        certain name
-    -   Markers: AddCustomMarker - adds a custom-marker of a certain
-        name
-    -   Markers: AddCustomRegion - adds a custom-region of a certain
-        name
-    -   Markers: SetCustomMarker - sets a custom-marker of a certain
-        name
-    -   Markers: SetCustomRegion - sets a custom-region of a certain
-        name
-    -   Markers: GetNextFreeRegionIndex - gets the next free
-        region-shown-indexnumber
-    -   Markers: IsMarkerValidCustomMarker - checks a marker, if it’s a
-        valid custom-marker
-    -   Markers: IsRegionValidCustomRegion - checks a marker, if it’s a
-        valid custom-region
-    -   MediaItems: EnumerateMediaItemsInTrack - readded, got lost in
-        earlier versions somehow, leading to GetTrackLength being
-        useless
-    -   Render: IsReaperRendering - returns, if Reaper is currently
-        rendering a file
-    -   Render: GetProject_RenderOutputPath - returns the
-        output-directories for rendered files from a projectfile
-    -   Script-Identifier: GetScriptIdentifier - returns a unique
-        identifier-string for the current script-instance, that can be
-        used to send command/string to this scriptinstance
-    -   Trackstates: GetTrackSelection_TrackStateChunk - gets, if a
-        track in a StateChunk is selected; works only with
-        TrackStateChunks from ProjectStateChunks
-    -   Trackstates: SetTrackSelection_TrackStateChunk - sets a track in
-        a StateChunk selected; works only with TrackStateChunks from
-        ProjectStateChunks
-    -   Transport: SetLoopState - sets the current loop-state(button)
-    -   Transport: GetLoopState - gets the current state of loop
-    -   Transport: GetLastLoopState - gets the last loop-state, needs
-        RunBackgroundHelperFeatures to be run first
-    -   Ultraschall: CountUltraschallEffectPlugins - counts number of
-        instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard
-        and Ultraschall_Dynamics-plugins in a track. Also returns a
-        table with all bypass/offline-states
-    -   Video: VID_VideoUIStateCoords2Pixels - converts the coordinates,
-        returned by the video-processor-function ui_get_state into
-        pixels
-    -   Video: VID_Pixels2VideoUIStateCoords - converts back the
-        coordinates from pixels into the coordinates returned by the
-        video-processor-function ui_get_state
+-   ChildScripts: MIDI_OnCommandByFilename - runs a command in the
+    MIDI-Editor context by its filename instead of the
+    ActionCommandID/command-id; returns a unique script-identifier for
+    the started script-instance, that you can use as extstate to
+    communicate with that script allows passing of parameters to the
+    started script!
+-   Child-Scripts: SetScriptParameters - sets parameters for a
+    child-script, as started by Main_OnCommandByFilename and
+    MIDI_OnCommandByFilename
+-   Child-Scripts: GetScriptParameters - gets parameters for a
+    child-script, as started by Main_OnCommandByFilename and
+    MIDI_OnCommandByFilename
+-   Child-Scripts: GetScriptReturnvalues - gets returnvalues, that a
+    script-instance with a specific scriptidentifier sent to the current
+    script
+-   Child-Scripts: SetScriptReturnvalues - sends returnvalues to a
+    script-instance with a specific scriptidentifier
+-   Child-Scripts: GetScriptReturnvalues_Sender - gets, which
+    child-scripts(and their corresponding ScriptIdentifier) have sent
+    return-values to the current script
+-   Config: GetSetIntConfigVar - gets/sets a configuration-variable of
+    the type integer-bitfield
+-   Config: GetIniFileValue - gets an ini-value from an ini-file; unlike
+    SWS’s own functions for that(2.9.7 and earlier), this has no
+    problems with Umlauts in the path
+-   Config: SetIniFileValue - sets an ini-value into an ini-file; unlike
+    SWS’s own functions for that(2.9.7 and earlier), this has no
+    problems with Umlauts in the path
+-   Docs: US_Api_AUD.html - added
+-   Docs: US_Api_Concepts_AUD.html - added
+-   Docs: US_Api_Concepts_DOC.html - added
+-   Docs: US_Api_Concepts_GFX.html - added
+-   Docs: US_Api_Concepts_GUI.html - added
+-   Docs: US_Api_Concepts_VID.html - added
+-   Docs: US_Api_DOC.html - added
+-   Docs: US_Api_GFX.html - added
+-   Docs: US_Api_GUI.html - added
+-   Docs: US_Api_VID.html - added
+-   Docs: US_Api-AUD.USDocML - added
+-   Docs: US_Api-DOC.USDocML - added
+-   Docs: US_Api-GFX.USDocML - added
+-   Docs: US_Api-GUI.USDocML - added
+-   Docs: US_Api-VID.USDocML - added
+-   Docs: NewUltraschallDoc_VID_Converter.lua - added
+-   Docs: NewUltraschallDoc_GUI_Converter.lua - added
+-   Docs: NewUltraschallDoc_DOC_Converter.lua - added
+-   Docs: NewUltraschallDoc_AUD_Converter.lua - added
+-   Docs: NewUltraschallConceptsDocConverter_AUD.lua - added
+-   Docs: NewUltraschallConceptsDocConverter_DOC.lua - added
+-   Docs: NewUltraschallConceptsDocConverter_GFX.lua - added
+-   Docs: NewUltraschallConceptsDocConverter_GUI.lua - added
+-   Docs: NewUltraschallConceptsDocConverter_VID.lua - added
+-   Docs: Child Scripts: Introduction - added chapter
+-   Docs: Child Scripts: The unique ScriptIdentifier - added chapter
+-   Docs: Child Scripts: Running Childscripts - added chapter
+-   Docs: Child Scripts: Passing Parameters and Returnvalues - added
+    chapter
+-   Docs: DeferScripts: Introduction to Ultraschall’s Defer-functions -
+    added chapter
+-   Docs: DeferScripts: Special Defer-loops in the Ultraschall-API -
+    added chapter
+-   Docs: DeferScripts: Stopping Defer-loops from in- and outside of
+    scripts - added chapter
+-   Docs: Concepts: Error Messaging System: Other helpers for
+    Error-Messaging-system - added chapter
+-   Docs: Concepts: Installation - added instructions on how to install
+    the Ultraschall-API using
+    ReaPack-package-managerhttps://reapack.com/
+-   Docs: Concepts: Markers and Regions: Custom-Markers and
+    Custom-Regions
+-   ReaperDocs: added new SWS2.10.0.1-functions
+-   ReaperDocs: updated new JS-extension-plugin-functions, up to 0.971
+-   ReaperDocs: added new Video-Processor-Api-functions, as of Reaper
+    5.971
+-   ReaPack: ReaPack-functions - added ReaPack-functions to
+    Reaper-Internals docs
+-   Defer: GetDeferIdentifier - gets the identifier of a Defer1 to
+    Defer20-cycle of the current script
+-   Defer: Defer1 to Defer20 - run a customized defer-cycle, in which
+    you can decide, how often it should be run. You can also stop such a
+    defer-cycle from in/outside the script using StopDeferCycle. For
+    that, Defer1 to Defer20 will return an identifier, which can be used
+    to stop this specific defer-cycle. You should only use each
+    DeferXX-cycle once in a script-instance, or the timing will become
+    corrupt!
+-   Defer: StopDeferCycle - stops a Defer1 to Defer20-defer-instance
+    from a script-instance
+-   Dialogs: GetUserInputs - gets the user-input. Like Reaper’s own
+    GetUserInputs but a different parameter-scheme, that should be
+    easier to handle.
+-   Dialogs: BrowseForOpenFiles - utilizes
+    JS_Dialog_BrowseForOpenFiles-function, but returns the files and
+    paths in a more comfortable way
+-   Editing: RippleCut_Regions - ripple-cuts all regions between
+    startposition and endposition and moves all regions after
+    endposition toward projectstart by difference between startposition
+    and endposition
+-   ErrorMessages: ShowErrorMessagesInReascriptConsole - toggles, if
+    errormessages shall be shown in the ReaConsole immediately, when
+    they happen
+-   ExampleScript:
+    A_Simple_EventManager_with_Backgroundhelpers_and_Defer01.lua - a
+    simple demo-eventmanager, that employs the background-helper-scripts
+    and the Defer01-function
+-   FileIO: GetAllRecursiveFilesAndSubdirectories - returns all
+    subdirectories with all their files with full path of a directory
+-   GFX: GFX_DrawThickRoundRect - draws a round-rectangle with variable
+    thickness
+-   GFX: GFX_BlitFramebuffer - blits the content of a framebuffer into
+    the drawing-buffer; will resize, if necessary and retains
+    aspect-ratio
+-   Helpers: SplitStringAtNULLBytes - splits a string at NULL-bytes ( \0
+    )
+-   Helpers: Base64_Encoder - encodes a string into a Base64-encoded
+    string
+-   Helpers: CreateTemporaryFileOfProjectfile - creates a valid
+    temporary-copy of an rpp-projectfile; use nil for the currently
+    opened one(must be saved first)
+-   Helpers: Base64_Decoder - decodes a Base64-encoded string
+-   Helpers: StateChunkLayouter - layouts statechunks according the
+    layouting rules of rpp-projectfiles; makes parsing them much easier
+-   Helpers: print - replacement for Lua’s own print-function(which is
+    quite useless in Reaper); displays the printed parameters in the
+    ReaScript-console
+-   Helpers: print2 - like print, but displays the parameters as a
+    messagebox instead
+-   Helpers: ConvertIntegerToBits - converts an integer-value into its
+    individual bitvalues
+-   Helpers: ReverseEndianess_Byte - changes endianess of a byte-value
+-   Helpers: ConvertIntegerIntoString - converts the individual bytes of
+    an integer into a string
+-   Helpers: ReplacePartOfString - replaces a part of a string,
+    beginning from an offset and up to a length; can be used for easy
+    string insertion as well
+-   HWND: IsValidHWND - checks, if a HWND is a valid one
+-   HWND: GFX_Init - opens a new gfx-window. Like gfx.init, but this
+    returns its HWND-windowhandler-object as well
+-   HWND: GFX_GetWindowHWND - gets the HWND of a opened gfx-window,
+    opened with ultraschall.GFX_Init
+-   HWND: GetReaperWindowAttributes - returns several attributes of the
+    Reaper-window, like size/position, active-state, childwindows, etc
+-   HWND: GetTopmostHWND - returns the topmost hwnd(window-handler) of a
+    child-hwnd; returns also all the parent-hwnds
+-   HWND: Windows_Find - finds Reaper-windows by title and returns their
+    HWNDs
+-   HWND: GetAllReaScriptIDEWindows - returns the HWNDs of all opened
+    ReaperIDE-windows
+-   HWND: GetReaScriptConsoleWindow - returns the HWND of the
+    ReaScript-console, if open at all.
+-   HWND: HasHWNDChildWindowNames - allows to check, if a certain HWND
+    has child-hwnds of certain name(s). Good to make probability-checks
+    for the right Reaper-windows-check.
+-   HWND: GetRenderToFileHWND - returns the HWND of the Render to
+    File-dialog
+-   HWND: GetActionsHWND - returns the HWND of the Actions-dialog
+-   HWND: GetVideoHWND - returns the HWND of the Video Window
+-   HWND: GetHWND_ArrangeViewAndTimeLine - returns the
+    HWND-window-handler for the tracklist- and timeline-area of the
+    arrangeview
+-   Markers: GetAllCustomMarkers - gets all custom-markers of a certain
+    name, as table
+-   Markers: GetAllCustomRegions - gets all custom-regions of a certain
+    name, as table
+-   Markers: CountAllCustomMarkers - counts all custom-markers of a
+    certain name
+-   Markers: CountAllCustomRegions - counts all custom-regions of a
+    certain name
+-   Markers: EnumerateCustomMarkers - enumerates a custom-marker of a
+    certain name
+-   Markers: EnumerateCustomRegions - enumerates a custom-region of a
+    certain name
+-   Markers: DeleteCustomMarkers - deletes a custom-marker of a certain
+    name
+-   Markers: DeleteCustomRegions - deletes a custom-region of a certain
+    name
+-   Markers: AddCustomMarker - adds a custom-marker of a certain name
+-   Markers: AddCustomRegion - adds a custom-region of a certain name
+-   Markers: SetCustomMarker - sets a custom-marker of a certain name
+-   Markers: SetCustomRegion - sets a custom-region of a certain name
+-   Markers: GetNextFreeRegionIndex - gets the next free
+    region-shown-indexnumber
+-   Markers: IsMarkerValidCustomMarker - checks a marker, if it’s a
+    valid custom-marker
+-   Markers: IsRegionValidCustomRegion - checks a marker, if it’s a
+    valid custom-region
+-   MediaItems: EnumerateMediaItemsInTrack - readded, got lost in
+    earlier versions somehow, leading to GetTrackLength being useless
+-   Render: IsReaperRendering - returns, if Reaper is currently
+    rendering a file
+-   Render: GetProject_RenderOutputPath - returns the output-directories
+    for rendered files from a projectfile
+-   Script-Identifier: GetScriptIdentifier - returns a unique
+    identifier-string for the current script-instance, that can be used
+    to send command/string to this scriptinstance
+-   Trackstates: GetTrackSelection_TrackStateChunk - gets, if a track in
+    a StateChunk is selected; works only with TrackStateChunks from
+    ProjectStateChunks
+-   Trackstates: SetTrackSelection_TrackStateChunk - sets a track in a
+    StateChunk selected; works only with TrackStateChunks from
+    ProjectStateChunks
+-   Transport: SetLoopState - sets the current loop-state(button)
+-   Transport: GetLoopState - gets the current state of loop
+-   Transport: GetLastLoopState - gets the last loop-state, needs
+    RunBackgroundHelperFeatures to be run first
+-   Ultraschall: CountUltraschallEffectPlugins - counts number of
+    instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and
+    Ultraschall_Dynamics-plugins in a track. Also returns a table with
+    all bypass/offline-states
+-   Video: VID_VideoUIStateCoords2Pixels - converts the coordinates,
+    returned by the video-processor-function ui_get_state into pixels
+-   Video: VID_Pixels2VideoUIStateCoords - converts back the coordinates
+    from pixels into the coordinates returned by the
+    video-processor-function ui_get_state
 
 Changes from 4.00beta2.7 to 4.00beta2.72
 
@@ -2038,28 +2040,28 @@ Changes from 4.00beta2.6 to 4.00beta2.7
 -   CountNormalMarkers - added support for planned chapter marker
 -   EnumerateNormalMarkers - support for planned chapter marker added;
     added missing info in the docs
--   EnumerateEditMarkers - expected "_Edit:" as name of edit-marker,
-    instead of "_Edit" -> fixed
+-   EnumerateEditMarkers - expected “_Edit:” as name of edit-marker,
+    instead of “_Edit” -> fixed
 -   SetNormalMarker - added support for planned chapter marker; expected
-    "_Edit:" as name of edit-marker, instead of "_Edit" -> fixed
--   SetEditMarker - expected "_Edit:" as name of edit-marker, instead of
-    "_Edit" -> fixed
+    “_Edit:” as name of edit-marker, instead of “_Edit” -> fixed
+-   SetEditMarker - expected “_Edit:” as name of edit-marker, instead of
+    “_Edit” -> fixed
 -   DeleteNormalMarker - added support for planned chapter marker;
     deleted in some situations non-normal-markers -> fixed
--   DeleteEditMarker - expected "_Edit:" as name of edit-marker, instead
-    of "_Edit" -> fixed
--   IsMarkerEdit - expected "_Edit:" as name of edit-marker, instead of
-    "_Edit" -> fixed
+-   DeleteEditMarker - expected “_Edit:” as name of edit-marker, instead
+    of “_Edit” -> fixed
+-   IsMarkerEdit - expected “_Edit:” as name of edit-marker, instead of
+    “_Edit” -> fixed
 -   IsMarkerNormal - added support for planned chapter marker; expected
-    "_Edit:" as name of edit-marker, instead of "_Edit" -> fixed
--   IsRegionEditRegion - expected "_Edit:" as name of edit-region,
-    instead of "_Edit" -> fixed
--   SetEditRegion - expected "_Edit:" as name of edit-region, instead of
-    "_Edit" -> fixed
--   DeleteEditRegion - expected "_Edit:" as name of edit-region, instead
-    of "_Edit" -> fixed
--   EnumerateEditRegion - expected "_Edit:" as name of edit-region,
-    instead of "_Edit" -> fixed
+    “_Edit:” as name of edit-marker, instead of “_Edit” -> fixed
+-   IsRegionEditRegion - expected “_Edit:” as name of edit-region,
+    instead of “_Edit” -> fixed
+-   SetEditRegion - expected “_Edit:” as name of edit-region, instead of
+    “_Edit” -> fixed
+-   DeleteEditRegion - expected “_Edit:” as name of edit-region, instead
+    of “_Edit” -> fixed
+-   EnumerateEditRegion - expected “_Edit:” as name of edit-region,
+    instead of “_Edit” -> fixed
 -   GetAllNormalMarkers - added index-number and shown-number to the
     array; completed docs
 -   GetAllMarkers - added index-number, shown-number and color to the

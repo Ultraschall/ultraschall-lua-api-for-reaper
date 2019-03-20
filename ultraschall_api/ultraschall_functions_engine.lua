@@ -212,7 +212,7 @@ if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
 --]]  
 
 
--- Let's create a unique script-identifier
+-- Let's create a unique script-identifier for childscripts
 ultraschall.dump=ultraschall.tempfilename:match("%-%{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}")
 
 --reaper.MB(tostring(ultraschall.dump),"",0)
@@ -225,7 +225,10 @@ if ultraschall.dump==nil then
 else  
   ultraschall.ScriptIdentifier="ScriptIdentifier:"..ultraschall.tempfilename
 end
-  ultraschall.ScriptIdentifier=string.gsub(ultraschall.ScriptIdentifier, "\\", "/")
+ultraschall.ScriptIdentifier=string.gsub(ultraschall.ScriptIdentifier, "\\", "/")
+
+ultraschall.ScriptIdentifier_Description=""
+ultraschall.ScriptIdentifier_Title=ultraschall.tempfilename:match(".*"..ultraschall.Separator..("(.*)"))
 
 --reaper.MB(tostring(ultraschall.ScriptIdentifier),"",0)
 
@@ -48021,7 +48024,7 @@ function ultraschall.GetScriptIdentifier()
     </retvals>
     <chapter_context>
       API-Helper functions
-      Data Manipulation
+      Child Scripts
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
     <source_document>ultraschall_functions_engine.lua</source_document>
@@ -53826,4 +53829,196 @@ end
 --print3(B[1])
 
 --C=ultraschall.CombineBytesToInteger(0,101)
+
+function print_update(...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>print_update</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>print_update(parameter_1 to parameter_n)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    replaces Lua's own print-function, that is quite useless in Reaper.
+    
+    Converts all parametes given into string using tostring() and displays them in the ReaScript-console, separated by two spaces, ending with a newline.
+    
+    This is like [print](#print), but clears console everytime before displaying the values. Good for status-display, that shall not scroll.
+  </description>
+  <parameters>
+    parameter_1 to parameter_n - the parameters, that you want to have printed out
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helperfunctions, print, clear, update, console</tags>
+</US_DocBloc>
+]]
+
+  reaper.ClearConsole()
+  print(...)
+end
+
+function ultraschall.SetScriptIdentifier_Description(description)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SetScriptIdentifier_Description</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>integer retval = ultraschall.SetScriptIdentifier_Description(string description)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      The Ultraschall-API gives any script, that uses the API, a unique identifier generated when the script is run.
+      This identifier can be used to communicate with this script. If you start numerous instances of a script, it will create for each instance
+      its own script-identifier, so you can be sure, that you communicate with the right instance.
+      
+      With this function, you can set its description, that is less cryptic than the ScriptIdentifier itself.
+      
+      You can get it using [GetScriptIdentifier_Description](#GetScriptIdentifier_Description).
+      
+      returns -1 in case of an error
+    </description>
+    <retvals>
+      integer retval - -1 in case of an error
+    </retvals>
+    <parameters>
+      string description - the new description of your script
+    </parameters>
+    <chapter_context>
+      API-Helper functions
+      Child Scripts
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>helper functions, set, script_identifier, description</tags>
+  </US_DocBloc>
+  ]]
+  if type(description)~="string" then ultraschall.AddErrorMessage("SetScriptIdentifier_Description", "description", "must be a string", -1) return -1 end
+  ultraschall.ScriptIdentifier_Description=description
+end
+
+function ultraschall.GetScriptIdentifier_Description()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetScriptIdentifier_Description</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>string script_identifier_description = ultraschall.GetScriptIdentifier_Description()</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      The Ultraschall-API gives any script, that uses the API, a unique identifier generated when the script is run.
+      This identifier can be used to communicate with this script. If you start numerous instances of a script, it will create for each instance
+      its own script-identifier, so you can be sure, that you communicate with the right instance.
+      
+      With this function, you can get its description, that is less cryptic than the ScriptIdentifier itself.
+      
+      You can set it using [SetScriptIdentifier_Description](#SetScriptIdentifier_Description).
+    </description>
+    <retvals>
+      string script_identifier_description - the description of your script
+    </retvals>
+    <chapter_context>
+      API-Helper functions
+      Child Scripts
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>helper functions, get, script_identifier, description</tags>
+  </US_DocBloc>
+  ]]
+  return ultraschall.ScriptIdentifier_Description
+end
+
+function ultraschall.SetScriptIdentifier_Title(title)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SetScriptIdentifier_Title</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>integer retval = ultraschall.SetScriptIdentifier_Title(string title)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      The Ultraschall-API gives any script, that uses the API, a unique identifier generated when the script is run.
+      This identifier can be used to communicate with this script. If you start numerous instances of a script, it will create for each instance
+      its own script-identifier, so you can be sure, that you communicate with the right instance.
+      
+      With this function, you can set its title, that is less cryptic than the ScriptIdentifier itself.
+      No \n-newlines, \r-carriag returns or \0-nullbytes are allowed and will be removed
+      
+      You can get it using [GetScriptIdentifier_Title](#GetScriptIdentifier_Title).
+      
+      returns -1 in case of an error
+    </description>
+    <retvals>
+      integer retval - -1 in case of an error
+    </retvals>
+    <parameters>
+      string title - the new title of your script
+    </parameters>
+    <chapter_context>
+      API-Helper functions
+      Child Scripts
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>helper functions, set, script_identifier, title</tags>
+  </US_DocBloc>
+  ]]
+  if type(title)~="string" then ultraschall.AddErrorMessage("SetScriptIdentifier_Title", "title", "must be a string", -1) return -1 end
+  title=string.gsub(title, "\0", "")
+  title=string.gsub(title, "\n", "")
+  title=string.gsub(title, "\r", "")
+  
+  ultraschall.ScriptIdentifier_Title=title
+end
+
+function ultraschall.GetScriptIdentifier_Title()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetScriptIdentifier_Title</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>string script_identifier_title = ultraschall.GetScriptIdentifier_Title()</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      The Ultraschall-API gives any script, that uses the API, a unique identifier generated when the script is run.
+      This identifier can be used to communicate with this script. If you start numerous instances of a script, it will create for each instance
+      its own script-identifier, so you can be sure, that you communicate with the right instance.
+      
+      With this function, you can get its description, that is less cryptic than the ScriptIdentifier itself.
+      
+      Default is the script's filename.
+      
+      You can set it using [SetScriptIdentifier_Title](#SetScriptIdentifier_Title).
+    </description>
+    <retvals>
+      string script_identifier_title - the title of your script; default is the filename of the script
+    </retvals>
+    <chapter_context>
+      API-Helper functions
+      Child Scripts
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>helper functions, get, script_identifier, title</tags>
+  </US_DocBloc>
+  ]]
+  return ultraschall.ScriptIdentifier_Title
+end
+
+--ultraschall.SetScriptIdentifier_Title("1\n2\r3\0 4")
+--print_update(ultraschall.GetScriptIdentifier_Title())
+
 ultraschall.ShowLastErrorMessage()
