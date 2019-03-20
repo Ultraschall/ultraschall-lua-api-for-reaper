@@ -274,12 +274,14 @@
 #### New features in 4.00beta2.74
   - ChildScripts: GetScriptIdentifier_Description - gets the description of your script
   - ChildScripts: SetScriptIdentifier_Description - sets a description for your script
-  - ChildScripts: GetScriptIdentifier_Title - gets the title of your script
+  - ChildScripts: GetScriptIdentifier_Title - gets the title of your script; default is the filename
   - ChildScripts: SetScriptIdentifier_Title - sets the title of your script
   - GFX: GFX\_GetMouseCap - checks and returns mouse-clicks, including doubleclick, dragging, mousewheel-states, etc. Much more handy than gfx.mouse_cap.
   - Helpers: ConvertIntegerIntoString2 - converts multiple integers into a string, 8 to 32 bit integers can be converted
   - Helpers: ConvertStringToIntegers - converts a string into multiple integers; you can set the size of the integer
   - Helpers: print\_update - prints its values to the ReaScript console, but clears the console before displaying. Good for progressbars and displaying a few statuses without constantly scrolling.
+  - Helpers: PrintProgressBar - prints a simple progressbar into the ReaScript-console; you should call ResetProgressBar before starting a new progressbar
+  - Helpers: ResetProgressBar - resets progressbar-settings, so you can start a new progressbar
   - Routing: AreAUXSendReceivesTablesEqual - compares two AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and GetAllAUXSendReceives2
   - Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2
   - Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables, as returned by GetAllMainSendStates and GetAllMainSendStates2

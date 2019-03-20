@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="30804.00" author="Meo Mespotine">
+      <version name="30844.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -311,7 +311,7 @@ New features in 4.00beta2.74
 -   ChildScripts: SetScriptIdentifier_Description - sets a description
     for your script
 -   ChildScripts: GetScriptIdentifier_Title - gets the title of your
-    script
+    script; default is the filename
 -   ChildScripts: SetScriptIdentifier_Title - sets the title of your
     script
 -   GFX: GFX_GetMouseCap - checks and returns mouse-clicks, including
@@ -324,6 +324,11 @@ New features in 4.00beta2.74
 -   Helpers: print_update - prints its values to the ReaScript console,
     but clears the console before displaying. Good for progressbars and
     displaying a few statuses without constantly scrolling.
+-   Helpers: PrintProgressBar - prints a simple progressbar into the
+    ReaScript-console; you should call ResetProgressBar before starting
+    a new progressbar
+-   Helpers: ResetProgressBar - resets progressbar-settings, so you can
+    start a new progressbar
 -   Routing: AreAUXSendReceivesTablesEqual - compares two
     AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and
     GetAllAUXSendReceives2

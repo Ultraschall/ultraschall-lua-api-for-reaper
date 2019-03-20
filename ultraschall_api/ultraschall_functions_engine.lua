@@ -54021,4 +54021,125 @@ end
 --ultraschall.SetScriptIdentifier_Title("1\n2\r3\0 4")
 --print_update(ultraschall.GetScriptIdentifier_Title())
 
+function ultraschall.ResetProgressBar()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>ResetProgressBar</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.ResetProgressBar()</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Resets the initial-values of the progressbar. Should be called, if you want to start a new progressbar after you filled up the former one, or you may have update-issues.
+    </description>
+    <chapter_context>
+      API-Helper functions
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>helper functions, reset, progressbar</tags>
+  </US_DocBloc>
+  ]]
+    ultraschall.progressbar_lastupdate=-1
+    ultraschall.lasttoptext=nil
+    ultraschall.progressbar_lastbottomtext=nil
+end
+
+function ultraschall.PrintProgressBar(length, maximumvalue, currentvalue, percentage, offset, toptext, bottomtext)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetScriptIdentifier_Title</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.GetScriptIdentifier_Title(integer length, integer maximumvalue, integer currentvalue, boolean percentage, integer offset, optional string toptext, optional string bottomtext)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Displays a simple progressbar into the ReaScript console.
+      Will clear the console before displaying the next updated progressbar.
+      Will update it only, if the current-value of last time this function got called is different from the current one or toptext or bottomtext changed.
+      
+      If you need to show a new progressbar, after the former got to 100%, it is wise to call [ResetProgressBar](#ResetProgressBar), or it might not update the first time you call this function.
+      
+      Returns false in case of an error
+    </description>
+    <retvals>
+      boolean retval - true, displaying was successful; false, displaying wasn't successful
+    </retvals>
+    <parameters>
+      integer length - the length of the progressbar in characters. Minimum is 10.
+      integer maximumvalue - the maximum integer-value, to which to count; minimum 1
+      integer currentvalue - the current integer-value, at which we are with counting, minimum 0
+      boolean percentage - true, show percentage in progressbar; false, show only progressbar
+      integer offset - an offset to be added before the progressbar, so you can indent it
+      optional string toptext - an optional string, that shall be displayed above the progressbar
+      optional string bottomtext - an optional string, that shall be displayed below the progressbar
+    </parameters>
+    <chapter_context>
+      API-Helper functions
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>helper functions, progressbar, show, display, percentage</tags>
+  </US_DocBloc>
+  ]]
+  if math.type(length)~="integer" then ultraschall.AddErrorMessage("PrintProgressBar", "length", "must be an integer", -1) return false end
+  if length<10 then ultraschall.AddErrorMessage("PrintProgressBar", "length", "must be 10 at least", -2) return false end
+  if math.type(maximumvalue)~="integer" then ultraschall.AddErrorMessage("PrintProgressBar", "maximumvalue", "must be an integer", -3) return false end
+  if maximumvalue<1 then ultraschall.AddErrorMessage("PrintProgressBar", "maximumvalue", "must be 1 at least", -11) return false end
+  if math.type(currentvalue)~="integer" then ultraschall.AddErrorMessage("PrintProgressBar", "currentvalue", "must be an integer", -4) return false end
+  if currentvalue<0 then ultraschall.AddErrorMessage("PrintProgressBar", "currentvalue", "must be 0 at least", -11) return false end
+  if currentvalue>maximumvalue then ultraschall.AddErrorMessage("PrintProgressBar", "currentvalue", "must be smaller or equal than maximumvalue", -5) return false end
+  if type(percentage)~="boolean" then ultraschall.AddErrorMessage("PrintProgressBar", "percentage", "must be a boolean", -6) return false end  
+  if math.type(offset)~="integer" then ultraschall.AddErrorMessage("PrintProgressBar", "offset", "must be an integer", -7) return false end  
+  if offset<0 then ultraschall.AddErrorMessage("PrintProgressBar", "offset", "must be 0 or bigger", -8) return false end
+  if toptext~=nil and type(toptext)~="string" then ultraschall.AddErrorMessage("PrintProgressBar", "toptext", "must be a string", -9) return false end  
+  if bottomtext~=nil and type(bottomtext)~="string" then ultraschall.AddErrorMessage("PrintProgressBar", "bottomtext", "must be a string", -10) return false end  
+
+  if ultraschall.progressbar_lastupdate~=math.ceil(currentvalue) or 
+    ultraschall.lasttoptext~=progressbar_toptext or
+    ultraschall.progressbar_lastbottomtext~=bottomtext then
+    reaper.ClearConsole()
+    String_progress=""
+    String_unprogress=""
+    String_offset=""
+    for i=1, length do
+      String_progress=String_progress.."+"
+      String_unprogress=String_unprogress.."_"
+    end
+    for i=1, offset do
+      String_offset=String_offset.." "
+    end
+    status=math.ceil((length/maximumvalue)*currentvalue)
+    
+    ProgressString=String_progress:sub(0,status)..String_unprogress:sub(status+1,-1)
+    if percentage==true then
+      Percentage=tostring(math.ceil((100/maximumvalue)*currentvalue)).." %"
+      if Percentage:len()==4 then Percentage=" "..Percentage end
+      if Percentage:len()==3 then Percentage="  "..Percentage end
+      if math.ceil((100/maximumvalue)*currentvalue)<100 then
+        ProgressString=String_offset..ProgressString:sub(1,math.ceil(ProgressString:len()/2-3))..Percentage..ProgressString:sub(math.ceil(ProgressString:len()/2+3),-1)
+      else
+        ProgressString=String_progress:sub(0,status)
+        ProgressString=String_offset..ProgressString:sub(1,math.ceil(ProgressString:len()/2-3))..Percentage..ProgressString:sub(math.ceil(ProgressString:len()/2+2),-1)
+      end
+    end
+    if toptext~=nil then ProgressString=toptext.."\n"..ProgressString end
+    if bottomtext~=nil then ProgressString=ProgressString.."\n"..bottomtext end
+    print(ProgressString)
+    ultraschall.progressbar_lastupdate=math.ceil(currentvalue)
+    ultraschall.lasttoptext=toptext
+    ultraschall.progressbar_lastbottomtext=bottomtext
+  else
+    ultraschall.progressbar_lastupdate=math.ceil(currentvalue)
+    ultraschall.lasttoptext=toptext
+    ultraschall.progressbar_lastbottomtext=bottomtext
+  end
+  return true
+end
+
+
 ultraschall.ShowLastErrorMessage()
