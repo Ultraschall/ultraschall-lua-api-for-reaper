@@ -47837,7 +47837,7 @@ end
 
 function ultraschall.ConvertIntegerIntoString(integervalue)
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+</US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ConvertIntegerIntoString</slug>
   <requires>
     Ultraschall=4.00
@@ -47865,7 +47865,7 @@ function ultraschall.ConvertIntegerIntoString(integervalue)
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, convert, integer, string</tags>
 </US_DocBloc>
-]]
+--]]
   if math.type(integervalue)~="integer" then ultraschall.AddErrorMessage("ConvertIntegerIntoString", "integervalue", "must be an integer", -1) return end
   local Byte1, Byte2, Byte3, Byte4 = ultraschall.SplitIntegerIntoBytes(integervalue)
   local String=string.char(Byte1)..string.char(Byte2)..string.char(Byte3)..string.char(Byte4)
@@ -47873,6 +47873,7 @@ function ultraschall.ConvertIntegerIntoString(integervalue)
 end
 
 --A=ultraschall.ConvertIntegerIntoString(65)
+--]]
 
 function ultraschall.ConvertIntegerToBits(integer)
 --[[
@@ -53677,4 +53678,152 @@ end
 --A=ultraschall.AreAUXSendReceivesTablesEqual(AllAUXSendReceives, AllAUXSendReceives2)
  
 
+function ultraschall.ConvertIntegerIntoString2(Size, ...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertIntegerIntoString2</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>string converted_value = ultraschall.ConvertIntegerIntoString2(integer Size, integer integervalue_1, ..., integer integervalue_n)</functioncall>
+  <description>
+    Splits numerous integers into its individual bytes and converts them into a string-representation.
+    Maximum 32bit-integers are supported.
+    
+    Returns nil in case of an error.
+  </description>
+  <parameters>
+    integer Size - the maximum size of the integer to convert, 1(8 bit) to 4(32 bit)
+    integer integervalue_1 - the first integer value to convert from
+    ... - 
+    integer integervalue_n - the last integer value to convert from
+  </parameters>
+  <retvals>
+    string converted_value - the string-representation of the integer
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, integer, string</tags>
+</US_DocBloc>
+]]
+  if math.type(Size)~="integer" then ultraschall.AddErrorMessage("ConvertIntegerIntoString2", "Size", "must be an integer", -1) return -1 end
+  if Size<1 or Size>4 then ultraschall.AddErrorMessage("ConvertIntegerIntoString2", "Size", "must be between 1(for 8 bit) and 4(for 32 bit)", -2) return -1 end
+  local Table={...}
+  local String=""
+  local count=1
+  while Table[count]~=nil do
+    if math.type(Table[count])~="integer" then ultraschall.AddErrorMessage("ConvertIntegerIntoString2", "parameter "..count, "must be an integer", -3) return end
+    if Table[count]>2^32 then ultraschall.AddErrorMessage("ConvertIntegerIntoString2", "parameter "..count, "must be between 0 and 2^32", -4) return end
+    local Byte1, Byte2, Byte3, Byte4 = ultraschall.SplitIntegerIntoBytes(Table[count])
+    String=String..string.char(Byte1)
+    if Size>1 then String=String..string.char(Byte2) end
+    if Size>2 then String=String..string.char(Byte3) end
+    if Size>3 then String=String..string.char(Byte4) end
+    count=count+1
+  end
+  return String
+end
+
+--A=ultraschall.ConvertIntegerIntoString(3, 1752132965,65)
+--B=A:len()
+
+function ultraschall.ConvertStringToIntegers(String, Size)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertStringToIntegers</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer num_integers, array individual_integers = ultraschall.ConvertStringToIntegers(string String, integer Size)</functioncall>
+  <description>
+    Converts a string into its integer-representation. Allows you to set the size of the integers between 1 Byte and 8 Bytes(64 bits).
+    
+    Returns -1 in case of an error.
+  </description>
+  <parameters>
+    string String - the string to convert into its integer representation
+    integer Size - the size of the integers. 1 for 8 bits, 2 for 16 bits, ..., 8 for 64 bits
+  </parameters>
+  <retvals>
+    integer num_integers - the number of integers converted from this string
+    array individual_integers - the individual integers, as converted from the original string
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, string, integer, size</tags>
+</US_DocBloc>
+]]
+  if type(String)~="string" then ultraschall.AddErrorMessage("ConvertStringToIntegers", "String", "must be a string", -1) return -1 end
+  if math.type(Size)~="integer" then ultraschall.AddErrorMessage("ConvertStringToIntegers", "Size", "must be an integer", -2) return -1 end
+  if Size<1 or Size>8 then ultraschall.AddErrorMessage("ConvertStringToIntegers", "Size", "must be between 1(for 8 bit) and 8(for 64 bit)", -3) return -1 end
+  local Table={}
+  for i=1, String:len(), Size do
+    if Size==1 then 
+      Table[i]=string.byte(String:sub(i,i))
+    elseif Size==2 then
+      Table[i]=ultraschall.CombineBytesToInteger(0,string.byte(String:sub(i,i)), 
+                                                 string.byte(String:sub(i+1,i+1)))
+    elseif Size==3 then
+      Table[i]=ultraschall.CombineBytesToInteger(0,string.byte(String:sub(i,i)), 
+                                                 string.byte(String:sub(i+1,i+1)),
+                                                 string.byte(String:sub(i+2,i+2)))
+    elseif Size==4 then
+      Table[i]=ultraschall.CombineBytesToInteger(0,string.byte(String:sub(i,i)), 
+                                                 string.byte(String:sub(i+1,i+1)),
+                                                 string.byte(String:sub(i+2,i+2)),
+                                                 string.byte(String:sub(i+3,i+3)))
+    elseif Size==5 then
+      Table[i]=ultraschall.CombineBytesToInteger(0,string.byte(String:sub(i,i)), 
+                                                 string.byte(String:sub(i+1,i+1)),
+                                                 string.byte(String:sub(i+2,i+2)),
+                                                 string.byte(String:sub(i+3,i+3)),
+                                                 string.byte(String:sub(i+4,i+4)))
+    elseif Size==6 then
+      Table[i]=ultraschall.CombineBytesToInteger(0,string.byte(String:sub(i,i)), 
+                                                 string.byte(String:sub(i+1,i+1)),
+                                                 string.byte(String:sub(i+2,i+2)),
+                                                 string.byte(String:sub(i+3,i+3)),
+                                                 string.byte(String:sub(i+4,i+4)),
+                                                 string.byte(String:sub(i+5,i+5)))
+    elseif Size==7 then
+      Table[i]=ultraschall.CombineBytesToInteger(0,string.byte(String:sub(i,i)), 
+                                                 string.byte(String:sub(i+1,i+1)),
+                                                 string.byte(String:sub(i+2,i+2)),
+                                                 string.byte(String:sub(i+3,i+3)),
+                                                 string.byte(String:sub(i+4,i+4)),
+                                                 string.byte(String:sub(i+5,i+5)),
+                                                 string.byte(String:sub(i+6,i+6))
+                                                 )
+    elseif Size==8 then
+      Table[i]=ultraschall.CombineBytesToInteger(0,string.byte(String:sub(i,i)), 
+                                                 string.byte(String:sub(i+1,i+1)),
+                                                 string.byte(String:sub(i+2,i+2)),
+                                                 string.byte(String:sub(i+3,i+3)),
+                                                 string.byte(String:sub(i+4,i+4)),
+                                                 string.byte(String:sub(i+5,i+5)),
+                                                 string.byte(String:sub(i+6,i+6)),
+                                                 string.byte(String:sub(i+7,i+7)))
+
+    end
+  end
+  
+  return String:len(), Table
+end
+
+--A,B=ultraschall.ConvertStringToIntegers("Haleluja",7)
+--print3(B[1])
+
+--C=ultraschall.CombineBytesToInteger(0,101)
 ultraschall.ShowLastErrorMessage()

@@ -44,6 +44,11 @@ Ultraschall API Changelog
 <h4>New features in 4.00beta2.74</h4>
 <ul>
 <li>GFX: GFX_GetMouseCap - checks and returns mouse-clicks, including doubleclick, dragging, mousewheel-states, etc. Much more handy than gfx.mouse_cap.</li>
+<li>Helpers: ConvertIntegerIntoString2 - converts multiple integers into a string, 8 to 32 bit integers can be converted</li>
+<li>Helpers: ConvertStringToIntegers - converts a string into multiple integers; you can set the size of the integer</li>
+<li>Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2</li>
+<li>Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables, as returned by GetAllMainSendStates and GetAllMainSendStates2</li>
+<li>Routing: AreAUXSendReceivesTablesEqual - compares two AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and GetAllAUXSendReceives2</li>
 <li>Ultraschall: IsTrackSoundboard - returns, if a track is a valid Ultraschall-Soundboard-track</li>
 <li>Ultraschall: IsTrackStudioLink - returns, if a track is a valid StudioLink-track</li>
 <li>Ultraschall: IsTrackStudioLinkOnAir - returns, if a track is a valid StudioLinkOnAir-track</li>
@@ -51,13 +56,11 @@ Ultraschall API Changelog
 <li>Ultraschall: GetAllAUXSendReceives2 - like GetAllAUXSendReceives, but returns type of track as well</li>
 <li>Ultraschall: GetAllHWOuts2 - like GetAllHWOuts, but returns type of track as well</li>
 <li>Ultraschall: GetAllMainSendStates2 - like GetAllMainSendStates, but returns type of track as well</li>
-<li>Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2</li>
-<li>Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables, as returned by GetAllMainSendStates and GetAllMainSendStates2</li>
-<li>Routing: AreAUXSendReceivesTablesEqual - compares two AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and GetAllAUXSendReceives2</li>
 </ul>
 <h4>Changes from Beta 2.73 to Beta 2.74</h4>
 <ul>
 <li>HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window</li>
+<li>Docs: relayouted changelog for beta 2.72 upwards, the featurelist should be better readable, now</li>
 <li>Ultraschall: CountUltraschallEffectPlugins - removed, as it was useless</li>
 <li>Ultraschall: pause_follow_one_cycle - moved to Ultraschall Specific in the index of the docs</li>
 </ul>
@@ -71,44 +74,44 @@ Ultraschall API Changelog
 </ul>
 <h4>New features in 4.00beta2.73</h4>
 <ul>
+<li>Config: GetSetConfigAutoMute - gets/sets the automute-config-variable</li>
+<li>Config: GetSetConfigAutoMuteFlags - gets/sets the automuteflags-config-variable</li>
+<li>Config: GetSetConfigAutoSaveInt - gets/sets the autosaveint-config-variable</li>
+<li>Config: GetSetConfigAutoSaveMode - gets/sets the autosavemode-config-variable</li>
+<li>Helper: DB2MKVOL - converts a dB-value into its MKVOL-representation, which can be used by routing-functions for the volume</li>
+<li>Helper: MKVOL2DB - converts a MKVOL-value(as used by volume in routing-settings) into its dB-representation</li>
+<li>HWND: GetRenderQueueHWND - gets the HWND of the Render-Queue-window, if opened</li>
+<li>HWND: GetProjectSettingsHWND - gets the HWND of the Project Settings-window, if opened</li>
+<li>HWND: GetSaveLiveOutputToDiskHWND - gets the HWND of the Save Live Output To Disk-window, if opened</li>
+<li>HWND: GetConsolidateTracksHWND - gets the HWND of the Consolidate Tracks-window, if opened</li>
+<li>HWND: GetExportProjectMIDIHWND - gets the HWND of the Export Project MIDI-window, if opened</li>
+<li>HWND: GetProjectDirectoryCleanupHWND - gets the HWND of the Project Directory Cleanup-window, if opened</li>
+<li>HWND: GetBatchFileItemConverterHWND - gets the HWND of the Batch File/Item Converter-window, if opened</li>
 <li>print3 - like print and print2, but puts the parameters into the clipboard instead</li>
-<li>ClearRoutingMatrix - clears the routing-matrix, either completely or just parts of it(Send/Receive, HWOuts, MasterSends) including or excluding the Master-Track</li>
-<li>DB2MKVOL - converts a dB-value into its MKVOL-representation, which can be used by routing-functions for the volume</li>
-<li>MKVOL2DB - converts a MKVOL-value(as used by volume in routing-settings) into its dB-representation</li>
-<li>GetRenderQueueHWND - gets the HWND of the Render-Queue-window, if opened</li>
-<li>GetProjectSettingsHWND - gets the HWND of the Project Settings-window, if opened</li>
-<li>GetSaveLiveOutputToDiskHWND - gets the HWND of the Save Live Output To Disk-window, if opened</li>
-<li>GetConsolidateTracksHWND - gets the HWND of the Consolidate Tracks-window, if opened</li>
-<li>GetExportProjectMIDIHWND - gets the HWND of the Export Project MIDI-window, if opened</li>
-<li>GetProjectDirectoryCleanupHWND - gets the HWND of the Project Directory Cleanup-window, if opened</li>
-<li>GetBatchFileItemConverterHWND - gets the HWND of the Batch File/Item Converter-window, if opened</li>
-<li>GetAllHWOuts - returns a table with all HWOut-settings of all tracks of the current project</li>
-<li>GetAllAUXSendReceive - returns a table with all Send/Receive-settings of all tracks of the current project</li>
-<li>GetAllMainSendStates - returns a table with all MainSend(Master Send)-settings of all tracks of the current project</li>
-<li>ApplyAllHWOuts - applies a table, as returned by GetAllHWOuts to all tracks. That way, you can easily alter HWOuts of multiple tracks in that table, before passing it to ApplyAllHWOuts</li>
-<li>ApplyAllAUXSendReceives - applies a table, as returned by GetAllAUXSendReceive to all tracks. That way, you can easily alter AUXSendReceives of multiple tracks in that table, before passing it to ApplyAllAUXSendReceives</li>
-<li>ApplyAllMainSendStates - applies a table, as returned by GetAllMainSendStates to all tracks. That way, you can easily alter MainSend(Master-Send)-states of multiple tracks in that table, before passing it to ApplyAllMainSendStates</li>
-<li>GetSetConfigAutoMute - gets/sets the automute-config-variable</li>
-<li>GetSetConfigAutoMuteFlags - gets/sets the automuteflags-config-variable</li>
-<li>GetSetConfigAutoSaveInt - gets/sets the autosaveint-config-variable</li>
-<li>GetSetConfigAutoSaveMode - gets/sets the autosavemode-config-variable</li>
+<li>Routing: ClearRoutingMatrix - clears the routing-matrix, either completely or just parts of it(Send/Receive, HWOuts, MasterSends) including or excluding the Master-Track</li>
+<li>Routing: GetAllHWOuts - returns a table with all HWOut-settings of all tracks of the current project</li>
+<li>Routing: GetAllAUXSendReceive - returns a table with all Send/Receive-settings of all tracks of the current project</li>
+<li>Routing: GetAllMainSendStates - returns a table with all MainSend(Master Send)-settings of all tracks of the current project</li>
+<li>Routing: ApplyAllHWOuts - applies a table, as returned by GetAllHWOuts to all tracks. That way, you can easily alter HWOuts of multiple tracks in that table, before passing it to ApplyAllHWOuts</li>
+<li>Routing: ApplyAllAUXSendReceives - applies a table, as returned by GetAllAUXSendReceive to all tracks. That way, you can easily alter AUXSendReceives of multiple tracks in that table, before passing it to ApplyAllAUXSendReceives</li>
+<li>Routing: ApplyAllMainSendStates - applies a table, as returned by GetAllMainSendStates to all tracks. That way, you can easily alter MainSend(Master-Send)-states of multiple tracks in that table, before passing it to ApplyAllMainSendStates</li>
 </ul>
 <h4>Changes from 4.00beta2.72 to 4.00beta2.73</h4>
 <ul>
-<li>Ultraschall.ScriptIdentifier - fixed bugs with Scriptidentifier-creation</li>
-<li>Main_OnCommandByFilename - fixed bug with Scriptidentifier-creation</li>
-<li>MIDI_OnCommandByFilename - fixed bug with Scriptidentifier-creation</li>
-<li>DeleteTrackAUXSendReceives - allows now to delete all AuxSendReceives of a track at once, when idx=-1</li>
-<li>Reaper-Api-docs: fixed further layout-problems with Markdown in some descriptions I really, really, really, really, really, really, really need to write my own MarkDown-dialect. It makes me nuts, having to deal with Markdown's ambiguities...</li>
-<li>CountTrackAUXSendReceives - when track isn't found, it returns now an error-message</li>
-<li>GetTrackAUXSendReceives - had internal variable exposed -&gt; fixed now</li>
-<li>DeleteTrackHWOut - allows now to delete all HWOuts of a track at once, when idx=-1</li>
-<li>SetTrackHWOut - fixed bug with an incorrect idx-numbering</li>
-<li>SetTrackAUXSendReceives - fixed bug with an incorrect idx-numbering</li>
-<li>Reaper Api docs: Video Processor: corrected YET ANOTHER Markdown-f....p in the example code of chapter Coding Introduction</li>
-<li>GetIniFileValue - improved code</li>
-<li>SetIniFileValue - fixed bug that caused inifiles to explode in size</li>
-<li>Reaper-Docs: updated to Reaper 5.972</li>
+<li>ChildScripts: Main_OnCommandByFilename - fixed bug with Scriptidentifier-creation</li>
+<li>ChildScripts:MIDI_OnCommandByFilename - fixed bug with Scriptidentifier-creation</li>
+<li>Config: GetIniFileValue - improved code</li>
+<li>Config: SetIniFileValue - fixed bug that caused inifiles to explode in size</li>
+<li>Docs: Reaper Api docs: Video Processor: corrected YET ANOTHER Markdown-f....p in the example code of chapter Coding Introduction</li>
+<li>Docs: Reaper-Docs: updated to Reaper 5.972</li>
+<li>Docs: Reaper-Api-docs: fixed further layout-problems with Markdown in some descriptions I really, really, really, really, really, really, really need to write my own MarkDown-dialect. It makes me nuts, having to deal with Markdown's ambiguities...</li>
+<li>Routing: DeleteTrackAUXSendReceives - allows now to delete all AuxSendReceives of a track at once, when idx=-1</li>
+<li>Routing: CountTrackAUXSendReceives - when track isn't found, it returns now an error-message</li>
+<li>Routing: GetTrackAUXSendReceives - had internal variable exposed -&gt; fixed now</li>
+<li>Routing: DeleteTrackHWOut - allows now to delete all HWOuts of a track at once, when idx=-1</li>
+<li>Routing: SetTrackHWOut - fixed bug with an incorrect idx-numbering</li>
+<li>Routing: SetTrackAUXSendReceives - fixed bug with an incorrect idx-numbering</li>
+<li>Script-Identifier: Ultraschall.ScriptIdentifier - fixed bugs with Scriptidentifier-creation</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.72: - "Blue Oyster Cult - Don't fear the Reaper" - 1st of March 2019</h3>
@@ -128,83 +131,46 @@ Have multiple markertypes with custom-markers and custom-regions with this featu
 </ul>
 <h4>New features in 4.00beta2.72</h4>
 <ul>
-<li>SplitStringAtNULLBytes - splits a string at NULL-bytes ( \0 )</li>
-<li>new background-script - ultraschall_track_old_playstate.lua - stores old playstate into extstate ultraschall-&gt;last_playstate</li>
-<li>GetLastPlayState - returns the last playstate before the current one</li>
-<li>US_Api_AUD.html - added</li>
-<li>US_Api_Concepts_AUD.html - added</li>
-<li>US_Api_Concepts_DOC.html - added</li>
-<li>US_Api_Concepts_GFX.html - added</li>
-<li>US_Api_Concepts_GUI.html - added</li>
-<li>US_Api_Concepts_VID.html - added</li>
-<li>US_Api_DOC.html - added</li>
-<li>US_Api_GFX.html - added</li>
-<li>US_Api_GUI.html - added</li>
-<li>US_Api_VID.html - added</li>
-<li>US_Api-AUD.USDocML - added</li>
-<li>US_Api-DOC.USDocML - added</li>
-<li>US_Api-GFX.USDocML - added</li>
-<li>US_Api-GUI.USDocML - added</li>
-<li>US_Api-VID.USDocML - added</li>
-<li>NewUltraschallDoc_VID_Converter.lua - added</li>
-<li>NewUltraschallDoc_GUI_Converter.lua - added</li>
-<li>NewUltraschallDoc_DOC_Converter.lua - added</li>
-<li>NewUltraschallDoc_AUD_Converter.lua - added</li>
-<li>NewUltraschallConceptsDocConverter_AUD.lua - added</li>
-<li>NewUltraschallConceptsDocConverter_DOC.lua - added</li>
-<li>NewUltraschallConceptsDocConverter_GFX.lua - added</li>
-<li>NewUltraschallConceptsDocConverter_GUI.lua - added</li>
-<li>NewUltraschallConceptsDocConverter_VID.lua - added</li>
-<li>IsValidHWND - checks, if a HWND is a valid one</li>
-<li>Main_OnCommandByFilename - runs a command by its filename instead of the ActionCommandID/command-id; returns a unique script-identifier for the started script-instance, that you can use as extstate to communicate with that script; allows passing of parameters to the started script!</li>
-<li>MIDI_OnCommandByFilename - runs a command in the MIDI-Editor context by its filename instead of the ActionCommandID/command-id; returns a unique script-identifier for the started script-instance, that you can use as extstate to communicate with that script allows passing of parameters to the started script!</li>
-<li>BrowseForOpenFiles - utilizes JS_Dialog_BrowseForOpenFiles-function, but returns the files and paths in a more comfortable way</li>
-<li>Base64_Encoder - encodes a string into a Base64-encoded string</li>
-<li>CreateTemporaryFileOfProjectfile - creates a valid temporary-copy of an rpp-projectfile; use nil for the currently opened one(must be saved first)</li>
-<li>ultraschall.hotfixdate - holds the release-date of the currently installed hotfix, returned by GetApiVersion now</li>
-<li>Base64_Decoder - decodes a Base64-encoded string</li>
-<li>StateChunkLayouter - layouts statechunks according the layouting rules of rpp-projectfiles; makes parsing them much easier</li>
-<li>CountUltraschallEffectPlugins - counts number of instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and Ultraschall_Dynamics-plugins in a track. Also returns a table with all bypass/offline-states</li>
-<li>GetReaperWindowAttributes - returns several attributes of the Reaper-window, like size/position, active-state, childwindows, etc</li>
-<li>GetTopmostHWND - returns the topmost hwnd(window-handler) of a child-hwnd; returns also all the parent-hwnds</li>
-<li>print - replacement for Lua's own print-function(which is quite useless in Reaper); displays the printed parameters in the ReaScript-console</li>
-<li>print2 - like print, but displays the parameters as a messagebox instead</li>
-<li>ConvertIntegerToBits - converts an integer-value into its individual bitvalues</li>
-<li>ReverseEndianess_Byte - changes endianess of a byte-value</li>
-<li>GFX_Init - opens a new gfx-window. Like gfx.init, but this returns its HWND-windowhandler-object as well</li>
-<li>GFX_GetWindowHWND - gets the HWND of a opened gfx-window, opened with ultraschall.GFX_Init</li>
-<li>ReaPack-functions - added ReaPack-functions to Reaper-Internals docs</li>
-<li>Windows_Find - finds Reaper-windows by title and returns their HWNDs</li>
-<li>GetAllReaScriptIDEWindows - returns the HWNDs of all opened ReaperIDE-windows</li>
-<li>GetReaScriptConsoleWindow - returns the HWND of the ReaScript-console, if open at all.</li>
-<li>IsReaperRendering - returns, if Reaper is currently rendering a file</li>
-<li>GetAllRecursiveFilesAndSubdirectories - returns all subdirectories with all their files with full path of a directory</li>
-<li>RippleCut_Regions - ripple-cuts all regions between startposition and endposition and moves all regions after endposition toward projectstart by difference between startposition and endposition</li>
-<li>ShowErrorMessagesInReascriptConsole - toggles, if errormessages shall be shown in the ReaConsole immediately, when they happen</li>
-<li>GFX_DrawThickRoundRect - draws a round-rectangle with variable thickness</li>
-<li>GFX_BlitFramebuffer - blits the content of a framebuffer into the drawing-buffer; will resize, if necessary and retains aspect-ratio</li>
-<li>ConvertIntegerIntoString - converts the individual bytes of an integer into a string</li>
-<li>GetProject_RenderOutputPath - returns the output-directories for rendered files from a projectfile</li>
-<li>GetSetIntConfigVar - gets/sets a configuration-variable of the type integer-bitfield</li>
-<li>GetScriptIdentifier - returns a unique identifier-string for the current script-instance, that can be used to send command/string to this scriptinstance</li>
-<li>Defer1 to Defer20 - run a customized defer-cycle, in which you can decide, how often it should be run. You can also stop such a defer-cycle from in/outside the script using StopDeferCycle. For that, Defer1 to Defer20 will return an identifier, which can be used to stop this specific defer-cycle. You should only use each DeferXX-cycle once in a script-instance, or the timing will become corrupt!</li>
-<li>StopDeferCycle - stops a Defer1 to Defer20-defer-instance from a script-instance</li>
-<li>GetTrackSelection_TrackStateChunk - gets, if a track in a StateChunk is selected; works only with TrackStateChunks from ProjectStateChunks</li>
-<li>SetTrackSelection_TrackStateChunk - sets a track in a StateChunk selected; works only with TrackStateChunks from ProjectStateChunks</li>
-<li>GetIniFileValue - gets an ini-value from an ini-file; unlike SWS's own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path</li>
-<li>SetIniFileValue - sets an ini-value into an ini-file; unlike SWS's own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path</li>
-<li>SetLoopState - sets the current loop-state(button)</li>
-<li>GetLoopState - gets the current state of loop</li>
-<li>SetScriptParameters - sets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename</li>
-<li>GetScriptParameters - gets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename</li>
-<li>GetScriptReturnvalues - gets returnvalues, that a script-instance with a specific scriptidentifier sent to the current script</li>
-<li>SetScriptReturnvalues - sends returnvalues to a script-instance with a specific scriptidentifier</li>
-<li>GetLastLoopState - gets the last loop-state, needs RunBackgroundHelperFeatures to be run first</li>
-<li>GetVerticalScroll - gets the current vertical-scroll-factor of the arrangeview</li>
-<li>SetVerticalScroll - sets a new vertical-scroll-factor of the arrangeview</li>
-<li>GetUserInputs - gets the user-input. Like Reaper's own GetUserInputs but a different parameter-scheme, that should be easier to handle.</li>
-<li>GetScriptReturnvalues_Sender - gets, which child-scripts(and their corresponding ScriptIdentifier) have sent return-values to the current script</li>
-<li>GetDeferIdentifier - gets the identifier of a Defer1 to Defer20-cycle of the current script</li>
+<li>API: ultraschall.hotfixdate - holds the release-date of the currently installed hotfix, returned by GetApiVersion now</li>
+<li>ArrangeView: GetVerticalScroll - gets the current vertical-scroll-factor of the arrangeview</li>
+<li>ArrangeView: SetVerticalScroll - sets a new vertical-scroll-factor of the arrangeview</li>
+<li>BackgroundScripts: new background-script - ultraschall_track_old_playstate.lua - stores old playstate into extstate ultraschall-&gt;last_playstate</li>
+<li>BackgroundScripts: GetLastPlayState - returns the last playstate before the current one</li>
+<li>ChildScripts: Main_OnCommandByFilename - runs a command by its filename instead of the ActionCommandID/command-id; returns a unique script-identifier for the started script-instance, that you can use as extstate to communicate with that script; allows passing of parameters to the started script!
+<ul>
+<li>ChildScripts: MIDI_OnCommandByFilename - runs a command in the MIDI-Editor context by its filename instead of the ActionCommandID/command-id; returns a unique script-identifier for the started script-instance, that you can use as extstate to communicate with that script allows passing of parameters to the started script!</li>
+<li>Child-Scripts: SetScriptParameters - sets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename</li>
+<li>Child-Scripts: GetScriptParameters - gets parameters for a child-script, as started by Main_OnCommandByFilename and MIDI_OnCommandByFilename</li>
+<li>Child-Scripts: GetScriptReturnvalues - gets returnvalues, that a script-instance with a specific scriptidentifier sent to the current script</li>
+<li>Child-Scripts: SetScriptReturnvalues - sends returnvalues to a script-instance with a specific scriptidentifier</li>
+<li>Child-Scripts: GetScriptReturnvalues_Sender - gets, which child-scripts(and their corresponding ScriptIdentifier) have sent return-values to the current script</li>
+<li>Config: GetSetIntConfigVar - gets/sets a configuration-variable of the type integer-bitfield</li>
+<li>Config: GetIniFileValue - gets an ini-value from an ini-file; unlike SWS's own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path</li>
+<li>Config: SetIniFileValue - sets an ini-value into an ini-file; unlike SWS's own functions for that(2.9.7 and earlier), this has no problems with Umlauts in the path</li>
+<li>Docs: US_Api_AUD.html - added</li>
+<li>Docs: US_Api_Concepts_AUD.html - added</li>
+<li>Docs: US_Api_Concepts_DOC.html - added</li>
+<li>Docs: US_Api_Concepts_GFX.html - added</li>
+<li>Docs: US_Api_Concepts_GUI.html - added</li>
+<li>Docs: US_Api_Concepts_VID.html - added</li>
+<li>Docs: US_Api_DOC.html - added</li>
+<li>Docs: US_Api_GFX.html - added</li>
+<li>Docs: US_Api_GUI.html - added</li>
+<li>Docs: US_Api_VID.html - added</li>
+<li>Docs: US_Api-AUD.USDocML - added</li>
+<li>Docs: US_Api-DOC.USDocML - added</li>
+<li>Docs: US_Api-GFX.USDocML - added</li>
+<li>Docs: US_Api-GUI.USDocML - added</li>
+<li>Docs: US_Api-VID.USDocML - added</li>
+<li>Docs: NewUltraschallDoc_VID_Converter.lua - added</li>
+<li>Docs: NewUltraschallDoc_GUI_Converter.lua - added</li>
+<li>Docs: NewUltraschallDoc_DOC_Converter.lua - added</li>
+<li>Docs: NewUltraschallDoc_AUD_Converter.lua - added</li>
+<li>Docs: NewUltraschallConceptsDocConverter_AUD.lua - added</li>
+<li>Docs: NewUltraschallConceptsDocConverter_DOC.lua - added</li>
+<li>Docs: NewUltraschallConceptsDocConverter_GFX.lua - added</li>
+<li>Docs: NewUltraschallConceptsDocConverter_GUI.lua - added</li>
+<li>Docs: NewUltraschallConceptsDocConverter_VID.lua - added</li>
 <li>Docs: Child Scripts: Introduction - added chapter</li>
 <li>Docs: Child Scripts: The unique ScriptIdentifier - added chapter</li>
 <li>Docs: Child Scripts: Running Childscripts - added chapter</li>
@@ -212,225 +178,265 @@ Have multiple markertypes with custom-markers and custom-regions with this featu
 <li>Docs: DeferScripts: Introduction to Ultraschall's Defer-functions - added chapter</li>
 <li>Docs: DeferScripts: Special Defer-loops in the Ultraschall-API - added chapter</li>
 <li>Docs: DeferScripts: Stopping Defer-loops from in- and outside of scripts - added chapter</li>
-<li>HasHWNDChildWindowNames - allows to check, if a certain HWND has child-hwnds of certain name(s). Good to make probability-checks for the right Reaper-windows-check.</li>
-<li>ReplacePartOfString - replaces a part of a string, beginning from an offset and up to a length; can be used for easy string insertion as well</li>
+<li>Docs: Concepts: Error Messaging System: Other helpers for Error-Messaging-system - added chapter</li>
+<li>Docs: Concepts: Installation - added instructions on how to install the Ultraschall-API using ReaPack-package-manager<a href="https://reapack.com/">https://reapack.com/</a></li>
+<li>Docs: Concepts: Markers and Regions: Custom-Markers and Custom-Regions</li>
 <li>ReaperDocs: added new SWS2.10.0.1-functions</li>
 <li>ReaperDocs: updated new JS-extension-plugin-functions, up to 0.971</li>
-<li>EnumerateMediaItemsInTrack - readded, got lost in earlier versions somehow, leading to GetTrackLength being useless</li>
 <li>ReaperDocs: added new Video-Processor-Api-functions, as of Reaper 5.971</li>
-<li>GetRenderToFileHWND - returns the HWND of the Render to File-dialog</li>
-<li>GetActionsHWND - returns the HWND of the Actions-dialog</li>
-<li>GetVideoHWND - returns the HWND of the Video Window</li>
-<li>VID_VideoUIStateCoords2Pixels - converts the coordinates, returned by the video-processor-function ui_get_state into pixels</li>
-<li>VID_Pixels2VideoUIStateCoords - converts back the coordinates from pixels into the coordinates returned by the video-processor-function ui_get_state</li>
-<li>Docs: Concepts: Error Messaging System: Other helpers for Error-Messaging-system - added chapter</li>
-<li>GetHWND_ArrangeViewAndTimeLine - returns the HWND-window-handler for the tracklist- and timeline-area of the arrangeview</li>
-<li>A_Simple_EventManager_with_Backgroundhelpers_and_Defer01.lua - a simple demo-eventmanager, that employs the background-helper-scripts and the Defer01-function</li>
-<li>Docs: Concepts: Installation - added instructions on how to install the Ultraschall-API using ReaPack-package-manager<a href="https://reapack.com/">https://reapack.com/</a></li>
-<li>GetAllCustomMarkers - gets all custom-markers of a certain name, as table</li>
-<li>GetAllCustomRegions - gets all custom-regions of a certain name, as table</li>
-<li>CountAllCustomMarkers - counts all custom-markers of a certain name</li>
-<li>CountAllCustomRegions - counts all custom-regions of a certain name</li>
-<li>EnumerateCustomMarkers - enumerates a custom-marker of a certain name</li>
-<li>EnumerateCustomRegions - enumerates a custom-region of a certain name</li>
-<li>DeleteCustomMarkers - deletes a custom-marker of a certain name</li>
-<li>DeleteCustomRegions - deletes a custom-region of a certain name</li>
-<li>AddCustomMarker - adds a custom-marker of a certain name</li>
-<li>AddCustomRegion - adds a custom-region of a certain name</li>
-<li>SetCustomMarker - sets a custom-marker of a certain name</li>
-<li>SetCustomRegion - sets a custom-region of a certain name</li>
-<li>GetNextFreeRegionIndex - gets the next free region-shown-indexnumber</li>
-<li>IsMarkerValidCustomMarker - checks a marker, if it's a valid custom-marker</li>
-<li>IsRegionValidCustomRegion - checks a marker, if it's a valid custom-region</li>
-<li>Docs: Concepts: Markers and Regions: Custom-Markers and Custom-Regions</li>
+<li>ReaPack: ReaPack-functions - added ReaPack-functions to Reaper-Internals docs</li>
+<li>Defer: GetDeferIdentifier - gets the identifier of a Defer1 to Defer20-cycle of the current script</li>
+<li>Defer: Defer1 to Defer20 - run a customized defer-cycle, in which you can decide, how often it should be run. You can also stop such a defer-cycle from in/outside the script using StopDeferCycle. For that, Defer1 to Defer20 will return an identifier, which can be used to stop this specific defer-cycle. You should only use each DeferXX-cycle once in a script-instance, or the timing will become corrupt!</li>
+<li>Defer: StopDeferCycle - stops a Defer1 to Defer20-defer-instance from a script-instance</li>
+<li>Dialogs: GetUserInputs - gets the user-input. Like Reaper's own GetUserInputs but a different parameter-scheme, that should be easier to handle.</li>
+<li>Dialogs: BrowseForOpenFiles - utilizes JS_Dialog_BrowseForOpenFiles-function, but returns the files and paths in a more comfortable way</li>
+<li>Editing: RippleCut_Regions - ripple-cuts all regions between startposition and endposition and moves all regions after endposition toward projectstart by difference between startposition and endposition</li>
+<li>ErrorMessages: ShowErrorMessagesInReascriptConsole - toggles, if errormessages shall be shown in the ReaConsole immediately, when they happen</li>
+<li>ExampleScript: A_Simple_EventManager_with_Backgroundhelpers_and_Defer01.lua - a simple demo-eventmanager, that employs the background-helper-scripts and the Defer01-function</li>
+<li>FileIO: GetAllRecursiveFilesAndSubdirectories - returns all subdirectories with all their files with full path of a directory</li>
+<li>GFX: GFX_DrawThickRoundRect - draws a round-rectangle with variable thickness</li>
+<li>GFX: GFX_BlitFramebuffer - blits the content of a framebuffer into the drawing-buffer; will resize, if necessary and retains aspect-ratio</li>
+<li>Helpers: SplitStringAtNULLBytes - splits a string at NULL-bytes ( \0 )</li>
+<li>Helpers: Base64_Encoder - encodes a string into a Base64-encoded string</li>
+<li>Helpers: CreateTemporaryFileOfProjectfile - creates a valid temporary-copy of an rpp-projectfile; use nil for the currently opened one(must be saved first)</li>
+<li>Helpers: Base64_Decoder - decodes a Base64-encoded string</li>
+<li>Helpers: StateChunkLayouter - layouts statechunks according the layouting rules of rpp-projectfiles; makes parsing them much easier</li>
+<li>Helpers: print - replacement for Lua's own print-function(which is quite useless in Reaper); displays the printed parameters in the ReaScript-console</li>
+<li>Helpers: print2 - like print, but displays the parameters as a messagebox instead</li>
+<li>Helpers: ConvertIntegerToBits - converts an integer-value into its individual bitvalues</li>
+<li>Helpers: ReverseEndianess_Byte - changes endianess of a byte-value</li>
+<li>Helpers: ConvertIntegerIntoString - converts the individual bytes of an integer into a string<br />
+</li>
+<li>Helpers: ReplacePartOfString - replaces a part of a string, beginning from an offset and up to a length; can be used for easy string insertion as well</li>
+<li>HWND: IsValidHWND - checks, if a HWND is a valid one</li>
+<li>HWND: GFX_Init - opens a new gfx-window. Like gfx.init, but this returns its HWND-windowhandler-object as well</li>
+<li>HWND: GFX_GetWindowHWND - gets the HWND of a opened gfx-window, opened with ultraschall.GFX_Init</li>
+<li>HWND: GetReaperWindowAttributes - returns several attributes of the Reaper-window, like size/position, active-state, childwindows, etc</li>
+<li>HWND: GetTopmostHWND - returns the topmost hwnd(window-handler) of a child-hwnd; returns also all the parent-hwnds</li>
+<li>HWND: Windows_Find - finds Reaper-windows by title and returns their HWNDs</li>
+<li>HWND: GetAllReaScriptIDEWindows - returns the HWNDs of all opened ReaperIDE-windows</li>
+<li>HWND: GetReaScriptConsoleWindow - returns the HWND of the ReaScript-console, if open at all.</li>
+<li>HWND: HasHWNDChildWindowNames - allows to check, if a certain HWND has child-hwnds of certain name(s). Good to make probability-checks for the right Reaper-windows-check.</li>
+<li>HWND: GetRenderToFileHWND - returns the HWND of the Render to File-dialog</li>
+<li>HWND: GetActionsHWND - returns the HWND of the Actions-dialog</li>
+<li>HWND: GetVideoHWND - returns the HWND of the Video Window</li>
+<li>HWND: GetHWND_ArrangeViewAndTimeLine - returns the HWND-window-handler for the tracklist- and timeline-area of the arrangeview<br />
+</li>
+<li>Markers: GetAllCustomMarkers - gets all custom-markers of a certain name, as table</li>
+<li>Markers: GetAllCustomRegions - gets all custom-regions of a certain name, as table</li>
+<li>Markers: CountAllCustomMarkers - counts all custom-markers of a certain name</li>
+<li>Markers: CountAllCustomRegions - counts all custom-regions of a certain name</li>
+<li>Markers: EnumerateCustomMarkers - enumerates a custom-marker of a certain name</li>
+<li>Markers: EnumerateCustomRegions - enumerates a custom-region of a certain name</li>
+<li>Markers: DeleteCustomMarkers - deletes a custom-marker of a certain name</li>
+<li>Markers: DeleteCustomRegions - deletes a custom-region of a certain name</li>
+<li>Markers: AddCustomMarker - adds a custom-marker of a certain name</li>
+<li>Markers: AddCustomRegion - adds a custom-region of a certain name</li>
+<li>Markers: SetCustomMarker - sets a custom-marker of a certain name</li>
+<li>Markers: SetCustomRegion - sets a custom-region of a certain name</li>
+<li>Markers: GetNextFreeRegionIndex - gets the next free region-shown-indexnumber</li>
+<li>Markers: IsMarkerValidCustomMarker - checks a marker, if it's a valid custom-marker</li>
+<li>Markers: IsRegionValidCustomRegion - checks a marker, if it's a valid custom-region</li>
+<li>MediaItems: EnumerateMediaItemsInTrack - readded, got lost in earlier versions somehow, leading to GetTrackLength being useless</li>
+<li>Render: IsReaperRendering - returns, if Reaper is currently rendering a file</li>
+<li>Render: GetProject_RenderOutputPath - returns the output-directories for rendered files from a projectfile</li>
+<li>Script-Identifier: GetScriptIdentifier - returns a unique identifier-string for the current script-instance, that can be used to send command/string to this scriptinstance</li>
+<li>Trackstates: GetTrackSelection_TrackStateChunk - gets, if a track in a StateChunk is selected; works only with TrackStateChunks from ProjectStateChunks</li>
+<li>Trackstates: SetTrackSelection_TrackStateChunk - sets a track in a StateChunk selected; works only with TrackStateChunks from ProjectStateChunks</li>
+<li>Transport: SetLoopState - sets the current loop-state(button)</li>
+<li>Transport: GetLoopState - gets the current state of loop</li>
+<li>Transport: GetLastLoopState - gets the last loop-state, needs RunBackgroundHelperFeatures to be run first</li>
+<li>Ultraschall: CountUltraschallEffectPlugins - counts number of instances of StudioLink, StudioLinkOnAir, Ultraschall-Soundboard and Ultraschall_Dynamics-plugins in a track. Also returns a table with all bypass/offline-states</li>
+<li>Video: VID_VideoUIStateCoords2Pixels - converts the coordinates, returned by the video-processor-function ui_get_state into pixels</li>
+<li>Video: VID_Pixels2VideoUIStateCoords - converts back the coordinates from pixels into the coordinates returned by the video-processor-function ui_get_state</li>
+</ul></li>
 </ul>
 <h4>Changes from 4.00beta2.7 to 4.00beta2.72</h4>
 <ul>
-<li>SetUSExternalState - converts now all passed parameters to string, regardless of their type</li>
-<li>GetMarkerByScreenCoordinates - returned useless newlines -&gt; fixed now</li>
-<li>GetMarkerByTime - returned useless newlines -&gt; fixed now</li>
-<li>GetRegionByScreenCoordinates - returned useless newlines -&gt; fixed now</li>
-<li>GetRegionByTime - returned useless newlines -&gt; fixed now</li>
-<li>GetApiVersion - updated versionsnumbering; returns now the release-date of the currently installed hotfixes</li>
-<li>docs generate and include now beta-functions as well</li>
-<li>docs use now GetApiVersion for displaying version-numbering</li>
-<li>Docgenerator - reworked the docengine-creator for more fluffy working of it</li>
-<li>Changelog - fixed Markdown-formatting-issues</li>
-<li>Introduction/Concepts: Datatypes: Checking Datatypes - fixed Markdown-issues<br />
+<li>Api: GetApiVersion - updated versionsnumbering; returns now the release-date of the currently installed hotfixes</li>
+<li>Api: hotfixes are now loaded before beta-functions</li>
+<li>Api: requires now version 0.963 of Julian Sader's plugin</li>
+<li>Api: ultraschall_api.lua - checks now, if it is run within the beta-engine-parts of this API and prevents including it if necessary. This prevents duplicate execution of functions, when coding within the beta-functions-engine-scripts.</li>
+<li>ArrangeView: IsValidArrangeviewSnapshot - checks now vertical-scrollfactor as well</li>
+<li>ArrangeView: IsValidArrangeviewSnapshot - improved checking for validity of parameters</li>
+<li>ArrangeView: RestoreArrangeviewSnapshot - improved checking for validity of parameters</li>
+<li>ArrangeView: RestoreArrangeviewSnapshot - restores now vertical-scrollfactor as well</li>
+<li>ArrangeView: RetrieveArrangeviewSnapshot - improved checking for validity of parameters</li>
+<li>ArrangeView: RetrieveArrangeviewSnapshot - retrieves now vertical-scrollfactor as well</li>
+<li>ArrangeView: StoreArrangeviewSnapshot - improved checking for validity of parameters</li>
+<li>ArrangeView: StoreArrangeviewSnapshot - stores now vertical-scrollfactor as well</li>
+<li>Colors: RGB2Grayscale - improved checking for validity of parameters</li>
+<li>Config: GetIniFileExternalState - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>Config: GetReaperWorkDir - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>Config: GetUSExternalState - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>Config: SetIniFileExternalState - using now the SetIniFileValue-function for setting the ini-file-value</li>
+<li>Config: SetPlayCursorWidth - using now the SetIniFileValue-function for setting the ini-file-value</li>
+<li>Config: SetReaperWorkDir - using now the SetIniFileValue-function for setting the ini-file-value</li>
+<li>Config: SetStartNewFileRecSizeState - using now the SetIniFileValue-function for setting the ini-file-value</li>
+<li>Config: SetUSExternalState - converts now all passed parameters to string, regardless of their type</li>
+<li>Config: SetUSExternalState - using now the SetIniFileValue-function for setting the ini-file-value</li>
+<li>Dialogs: CloseReaConsole - renamed to CloseReaScriptConsole, as the ReaConsole is something different; added plausability-checks and localization to get the right ReaScript-Console-window</li>
+<li>Dialogs: ultraschall.MB - converts now all passed data into string, no matter what type it is</li>
+<li>Docs: Changelog - fixed Markdown-formatting-issues</li>
+<li>Docs: Docgenerator - reworked the docengine-creator for more fluffy working of it</li>
+<li>Docs: docs generate and include now beta-functions as well</li>
+<li>Docs: docs use now GetApiVersion for displaying version-numbering</li>
+<li>Docs: Introduction/Concepts: Datatypes: Checking Datatypes - fixed Markdown-issues<br />
 </li>
-<li>requires now version 0.963 of Julian Sader's plugin</li>
-<li>GetPath - when sep is nil, it returns now the path until the last useful separator, either \ or /</li>
-<li>MB - moved to User Interface -&gt; Dialogs in the docs</li>
-<li>hotfixes are now loaded before beta-functions</li>
-<li>CloseReaConsole - updated to behavior of version 0.963 of the JS-plugin</li>
-<li>ultraschall.MB - converts now all passed data into string, no matter what type it is</li>
-<li>ultraschall_api.lua - checks now, if it is run within the beta-engine-parts of this API and prevents including it if necessary.<br />
-This prevents duplicate execution of functions, when coding within the beta-functions-engine-scripts.</li>
-<li>RenderProject_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project didn't return correct filecount if rendering was canceled, leading to possible error-message -&gt; fixed</li>
-<li>RenderProjectRegions_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project</li>
-<li>GetMediafileAttributes - added info into the docs about rpp-projects, which will create a proxy file, when getting the mediafile-attributes</li>
-<li>CreateValidTempFile - added info about the path of the created tempfile/tempfilename</li>
-<li>GetProject_Length - fixed issue with projectfiles smaller than 1000 bytes, which couldn't be parsed</li>
-<li>SetProject_RenderPattern - didn't save render-patterns with spaces in them properly</li>
-<li>InsertMediaItemFromFile - added MediaTrack and the new editcursorposition as retvals; the latter used to be third retval without being documented as such -&gt; moved to the end of the retvals sorry for that inconvenience</li>
-<li>GetProject_RenderFilename - sometimes returned one " at the end -&gt; fixed</li>
-<li>WriteValueToFile - converts now the parameter value to a string, regardless of it's original datatype</li>
-<li>WriteValueToFile_Insert - converts now the parameter value to a string, regardless of it's original datatype</li>
-<li>WriteValueToFile_Replace - converts now the parameter value to a string, regardless of it's original datatype</li>
-<li>WriteValueToFile_InsertBinary - converts now the parameter value to a string, regardless of it's original datatype</li>
-<li>WriteValueToFile_ReplaceBinary - converts now the parameter value to a string, regardless of it's original datatype</li>
-<li>WinterlySnowflakes - preparation of the snowflakes produced wrong default-values of gfx.x, gfx.y, gfx.r, gfx.g, gfx.g -&gt; fixed</li>
-<li>GetAllRegionsBetween - didn't return regions, that began before startposition and ended after endposition -&gt; fixed</li>
-<li>AddErrorMessage - when set with ShowErrorMessagesInReascriptConsole, it shows now errormessages immediately in the ReaScriptConsole</li>
-<li>GetAllFilesnamesInPath renamed to GetAllFilenamesInPath - stupid typo in functionname...sorry for any inconveniences<br />
+<li>Docs: MB - moved to User Interface -&gt; Dialogs in the docs</li>
+<li>Envelopes: CountEnvelopePoints - improved checking for validity of parameters</li>
+<li>Envelopes: CountMuteEnvelopePoints - improved checking for validity of parameters</li>
+<li>Envelopes: GetClosestEnvelopePointIDX_ByTime - improved checking for validity of parameters</li>
+<li>Envelopes: GetEnvelopePoint - improved checking for validity of parameters</li>
+<li>Envelopes: GetEnvelopePointIDX_Between - improved checking for validity of parameters</li>
+<li>Envelopes: SetEnvelopeHeight - improved checking for validity of parameters</li>
+<li>ErrorMessages: AddErrorMessage - when set with ShowErrorMessagesInReascriptConsole, it shows now errormessages immediately in the ReaScriptConsole</li>
+<li>ErrorMessages: ReadErrorMessage - accepted a string for the integer-parameter errornumber which rendered the function useless -&gt; fixed</li>
+<li>ErrorMessages: ReadErrorMessage - improved error-message, errornumber now checks, if being an integer</li>
+<li>FileIO: CreateValidTempFile - added info about the path of the created tempfile/tempfilename</li>
+<li>FileIO: GetAllFilesnamesInPath renamed to GetAllFilenamesInPath - stupid typo in functionname...sorry for any inconveniences<br />
 </li>
-<li>MoveMarkersBy - did move regions as well, though I claimed the opposite..oops -&gt; fixed</li>
-<li>SetUSExternalState - using now the SetIniFileValue-function for setting the ini-file-value</li>
-<li>SetIniFileExternalState - using now the SetIniFileValue-function for setting the ini-file-value</li>
-<li>SetReaperWindowToSize - using now the SetIniFileValue-function for setting the ini-file-value</li>
-<li>SetStartNewFileRecSizeState - using now the SetIniFileValue-function for setting the ini-file-value</li>
-<li>SetPlayCursorWidth - using now the SetIniFileValue-function for setting the ini-file-value</li>
-<li>SetReaperWorkDir - using now the SetIniFileValue-function for setting the ini-file-value</li>
-<li>GetUSExternalState - using now the SetIniFileValue-function for getting the ini-file-value</li>
-<li>GetIniFileExternalState - using now the SetIniFileValue-function for getting the ini-file-value</li>
-<li>GetMarkerByTime - using now the SetIniFileValue-function for getting the ini-file-value</li>
-<li>GetRegionByTime - using now the SetIniFileValue-function for getting the ini-file-value</li>
-<li>GetTimeSignaturesByTime - using now the SetIniFileValue-function for getting the ini-file-value</li>
-<li>GetReaperWindowPosition_Left - using now the SetIniFileValue-function for getting the ini-file-value</li>
-<li>GetReaperWindowPosition_Right - using now the SetIniFileValue-function for getting the ini-file-value</li>
-<li>GetReaperWorkDir - using now the SetIniFileValue-function for getting the ini-file-value</li>
-<li>RunBackgroundHelperFeatures - allows now switching off the background-scripts</li>
-<li>IsValidArrangeviewSnapshot - checks now vertical-scrollfactor as well</li>
-<li>RestoreArrangeviewSnapshot - restores now vertical-scrollfactor as well</li>
-<li>RetrieveArrangeviewSnapshot - retrieves now vertical-scrollfactor as well</li>
-<li>StoreArrangeviewSnapshot - stores now vertical-scrollfactor as well</li>
-<li>CreateRenderCFG_AIFF - returned the wrong render-cfg-string due a stupid typo -&gt; fixed</li>
-<li>ReadFullFile - added check, if a file is already in use and can't be read</li>
-<li>MakeCopyOfFile_Binary - added check, if a file is already in use and can't be read</li>
-<li>ReadBinaryFileUntilPattern - added check, if a file is already in use and can't be read</li>
-<li>ReadBinaryFileFromPattern - added check, if a file is already in use and can't be read</li>
-<li>SearchStringInString - dropped nested searchstring-functionality as it was useless; recoded from scratch for more stability</li>
-<li>ReadFullFile - produced Lua-error, when passing a boolean as filename_with_path -&gt; fixed</li>
-<li>ReadValueFromFile - produced Lua-error, when passing a boolean as filename_with_path -&gt; fixed</li>
-<li>CloseReaConsole - renamed to CloseReaScriptConsole, as the ReaConsole is something different; added plausability-checks and localization to get the right ReaScript-Console-window</li>
-<li>ReaperDocs: OscLocalMessageToHost - didn't show title -&gt; fixed</li>
-<li>ReaperDocs: Functionnames-titles in the individual entries are not linked anymore, but rather the &gt; at the left side of the title now</li>
+<li>FileIO: GetLengthOfFile - improved checking for validity of parameters</li>
+<li>FileIO: MakeCopyOfFile_Binary - added check, if a file is already in use and can't be read</li>
+<li>FileIO: ReadBinaryFileFromPattern - added check, if a file is already in use and can't be read</li>
+<li>FileIO: ReadBinaryFileUntilPattern - added check, if a file is already in use and can't be read</li>
+<li>FileIO: ReadFullFile - added check, if a file is already in use and can't be read</li>
+<li>FileIO: ReadFullFile - produced Lua-error, when passing a boolean as filename_with_path -&gt; fixed</li>
+<li>FileIO: ReadValueFromFile - produced Lua-error, when passing a boolean as filename_with_path -&gt; fixed</li>
+<li>FileIO: WriteValueToFile - converts now the parameter value to a string, regardless of it's original datatype</li>
+<li>FileIO: WriteValueToFile_Insert - converts now the parameter value to a string, regardless of it's original datatype</li>
+<li>FileIO: WriteValueToFile_InsertBinary - converts now the parameter value to a string, regardless of it's original datatype</li>
+<li>FileIO: WriteValueToFile_Replace - converts now the parameter value to a string, regardless of it's original datatype</li>
+<li>FileIO: WriteValueToFile_ReplaceBinary - converts now the parameter value to a string, regardless of it's original datatype</li>
+<li>Fun: WinterlySnowflakes - preparation of the snowflakes produced wrong default-values of gfx.x, gfx.y, gfx.r, gfx.g, gfx.g -&gt; fixed</li>
+<li>Helpers: CloseReaConsole - updated to behavior of version 0.963 of the JS-plugin</li>
+<li>Helpers: GetPath - when sep is nil, it returns now the path until the last useful separator, either \ or /</li>
+<li>Helpers: RunBackgroundHelperFeatures - allows now switching off the background-scripts</li>
+<li>Helpers: SearchStringInString - dropped nested searchstring-functionality as it was useless; recoded from scratch for more stability</li>
+<li>Markers: GetAllRegionsBetween - didn't return regions, that began before startposition and ended after endposition -&gt; fixed</li>
+<li>Markers: GetClosestNextMarker - improved checking for validity of parameters</li>
+<li>Markers: GetClosestNextRegionEdge - improved checking for validity of parameters</li>
+<li>Markers: GetMarkerByScreenCoordinates - returned useless newlines -&gt; fixed now</li>
+<li>Markers: GetMarkerByTime - returned useless newlines -&gt; fixed now</li>
+<li>Markers: GetMarkerByTime - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>Markers: GetRegionByScreenCoordinates - returned useless newlines -&gt; fixed now</li>
+<li>Markers: GetRegionByTime - returned useless newlines -&gt; fixed now</li>
+<li>Markers: GetRegionByTime - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>Markers: GetTimeSignaturesByTime - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>Markers: IsMarkerEdit - improved checking for validity of parameters</li>
+<li>Markers: IsMarkerNormal - improved checking for validity of parameters</li>
+<li>Markers: IsRegionEditRegion - improved checking for validity of parameters</li>
+<li>Markers: IsRegionPodrange - improved checking for validity of parameters</li>
+<li>Markers: MoveMarkersBy - did move regions as well, though I claimed the opposite..oops -&gt; fixed</li>
+<li>MediaItem: GetMediafileAttributes - added info into the docs about rpp-projects, which will create a proxy file, when getting the mediafile-attributes</li>
+<li>MediaItem: InsertMediaItemFromFile - added MediaTrack and the new editcursorposition as retvals; the latter used to be third retval without being documented as such -&gt; moved to the end of the retvals sorry for that inconvenience</li>
+<li>MediaItems: GetNextClosestItemEdge - improved checking for validity of parameters</li>
+<li>MediaItems: GetPreviousClosestItemEdge - improved checking for validity of parameters</li>
+<li>MuteButtons: GetNextMuteState - improved checking for validity of parameters</li>
+<li>MuteButtons: GetPreviousMuteState - improved checking for validity of parameters</li>
+<li>MuteButtons: ToggleMute - improved checking for validity of parameters</li>
+<li>MuteButtons: ToggleMute_TrackObject - improved checking for validity of parameters</li>
+<li>Navigation: JumpBackwardBy - improved checking for validity of parameters</li>
+<li>Navigation: JumpBackwardBy_Recording - improved checking for validity of parameters</li>
+<li>Navigation: JumpForwardBy - improved checking for validity of parameters</li>
+<li>Navigation: JumpForwardBy_Recording - improved checking for validity of parameters</li>
+<li>ProjectManagement: GetAllLockedTracks - improved checking for validity of parameters</li>
+<li>ProjectManagement: GetAllSelectedTracks - improved checking for validity of parameters</li>
+<li>ProjectManagement: GetProject_GetMarker - could produce a Lua-error, when filename was nil -&gt; fixed</li>
+<li>ProjectManagement: GetProject_GetRegion - could produce a Lua-error, when filename was nil -&gt; fixed</li>
+<li>ProjectManagement: GetProject_Length - fixed issue with projectfiles smaller than 1000 bytes, which couldn't be parsed</li>
+<li>ProjectManagement: GetProject_MasterGroupFlagsHighState - improved checking for validity of parameters</li>
+<li>ProjectManagement: GetProject_MasterGroupFlagsState - improved checking for validity of parameters</li>
+<li>ProjectManagement: SetProject_RenderPattern - didn't save render-patterns with spaces in them properly</li>
 <li>ReaperDocs: fixed tons of MarkDown-layout errors.</li>
-<li>ReaperDocs: updated to 5.97</li>
-<li>ReaperDocs: SWS - updated to 2.10.1</li>
+<li>ReaperDocs: Functionnames-titles in the individual entries are not linked anymore, but rather the &gt; at the left side of the title now</li>
 <li>ReaperDocs: JS-extension - updated to 0.964</li>
+<li>ReaperDocs: OscLocalMessageToHost - didn't show title -&gt; fixed</li>
+<li>ReaperDocs: SWS - updated to 2.10.1</li>
+<li>ReaperDocs: updated to 5.97</li>
+<li>Render: CreateRenderCFG_AIFF - returned the wrong render-cfg-string due a stupid typo -&gt; fixed</li>
+<li>Render: GetProject_RenderFilename - sometimes returned one " at the end -&gt; fixed</li>
+<li>Render: RenderProject_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project didn't return correct filecount if rendering was canceled, leading to possible error-message -&gt; fixed</li>
+<li>Render: RenderProjectRegions_RenderCFG - if you use nil as renderfilename_with_path, it will render as renderfilename using the filename/renderpattern already set in the project</li>
+<li>TrackStates: GetTrackAutomodeState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackAutoRecArmState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackBeatState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackBusCompState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackBypFXState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackFreeModeState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackGroupFlags_HighState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackGroupFlagsState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackHeightState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackIcon_Filename - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackID - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackINQState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackIPhaseState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackIsBusState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackLayoutNames - improved checking for validity of parameters when no layout available made a Lua-error -&gt; fixed now</li>
+<li>TrackStates: GetTrackLength - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackLockState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackMainSendState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackMidiBankProgFn - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackMidiColorMapFn - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackMidiCTL - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackMidiInputChanMap - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackMIDIOutState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackMidiTextStrFn - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackMuteSoloState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackName - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackNChansState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackPanMode - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackPeakColorState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackPerfState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackRecCFG - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackRecState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackScore - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackShowInMixState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackStateChunk_Tracknumber - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackVolPan - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackVUState - improved checking for validity of parameters</li>
+<li>TrackStates: GetTrackWidth - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackAutomodeState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackAutoRecArmState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackBeatState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackBusCompState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackBypFXState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackFreeModeState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackGroupFlags_HighState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackGroupFlagsState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackHeightState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackIcon_Filename - improved checking for validity of parameters; didn't add trackicon, when no image was set already -&gt; fixed; when Iconfilename<em>with</em>path=nil, removes trackicon now</li>
+<li>TrackStates: SetTrackID - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackINQState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackIPhaseState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackIsBusState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackLayoutNames - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackLockState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackMainSendState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackMidiBankProgFn - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackMidiColorMapFn - improved checking for validity of parameters, setting filename to "" removes the MidiColorMap, now</li>
+<li>TrackStates: SetTrackMidiCTL - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackMidiInputChanMap - improved checking for validity of parameters; didn't set MidiInputChanMap -&gt; fixed; removes now MidiInputChanMap, when InputChanMap=nil</li>
+<li>TrackStates: SetTrackMIDIOutState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackMidiTextStrFn - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackMuteSoloState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackName - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackNChansState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackPanMode - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackPeakColorState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackPerfState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackRecCFG - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackRecState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackScore - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackShowInMixState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackVolPan - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackVUState - improved checking for validity of parameters</li>
+<li>TrackStates: SetTrackWidth - improved checking for validity of parameters</li>
 <li>Ultraschall Docs: functiontitles aren't links anymore, added a clickable symbol at the beginning of the title line of each function now</li>
 <li>Ultraschall Docs: print, print2 and toboolean as well as all API-variables are now written in bold, as all other functions are</li>
-<li>ReadErrorMessage - accepted a string for the integer-parameter errornumber which rendered the function useless -&gt; fixed</li>
-<li>ReadErrorMessage - improved error-message, errornumber now checks, if being an integer</li>
-<li>GetAllLockedTracks - improved checking for validity of parameters</li>
-<li>GetAllSelectedTracks - improved checking for validity of parameters</li>
-<li>GetProject_MasterGroupFlagsHighState - improved checking for validity of parameters</li>
-<li>GetProject_MasterGroupFlagsState - improved checking for validity of parameters</li>
-<li>GetTrackAutoRecArmState - improved checking for validity of parameters</li>
-<li>GetTrackAutomodeState - improved checking for validity of parameters</li>
-<li>GetTrackBeatState - improved checking for validity of parameters</li>
-<li>GetTrackBusCompState - improved checking for validity of parameters</li>
-<li>GetTrackBypFXState - improved checking for validity of parameters</li>
-<li>GetTrackFreeModeState - improved checking for validity of parameters</li>
-<li>GetTrackGroupFlagsState - improved checking for validity of parameters</li>
-<li>GetTrackGroupFlags_HighState - improved checking for validity of parameters</li>
-<li>GetTrackHeightState - improved checking for validity of parameters</li>
-<li>GetTrackID - improved checking for validity of parameters</li>
-<li>GetTrackINQState - improved checking for validity of parameters</li>
-<li>GetTrackIPhaseState - improved checking for validity of parameters</li>
-<li>GetTrackIcon_Filename - improved checking for validity of parameters</li>
-<li>GetTrackIsBusState - improved checking for validity of parameters</li>
-<li>GetTrackLayoutNames - improved checking for validity of parameters when no layout available made a Lua-error -&gt; fixed now</li>
-<li>GetTrackLockState - improved checking for validity of parameters</li>
-<li>GetTrackMIDIOutState - improved checking for validity of parameters</li>
-<li>GetTrackMainSendState - improved checking for validity of parameters</li>
-<li>GetTrackMidiBankProgFn - improved checking for validity of parameters</li>
-<li>GetTrackMidiCTL - improved checking for validity of parameters</li>
-<li>GetTrackMidiColorMapFn - improved checking for validity of parameters</li>
-<li>GetTrackMidiInputChanMap - improved checking for validity of parameters</li>
-<li>GetTrackMidiTextStrFn - improved checking for validity of parameters</li>
-<li>GetTrackMuteSoloState - improved checking for validity of parameters</li>
-<li>GetTrackNChansState - improved checking for validity of parameters</li>
-<li>GetTrackName - improved checking for validity of parameters</li>
-<li>GetTrackPanMode - improved checking for validity of parameters</li>
-<li>GetTrackPeakColorState - improved checking for validity of parameters</li>
-<li>GetTrackPerfState - improved checking for validity of parameters</li>
-<li>GetTrackRecCFG - improved checking for validity of parameters</li>
-<li>GetTrackRecState - improved checking for validity of parameters</li>
-<li>GetTrackScore - improved checking for validity of parameters</li>
-<li>GetTrackShowInMixState - improved checking for validity of parameters</li>
-<li>GetTrackStateChunk_Tracknumber - improved checking for validity of parameters</li>
-<li>GetTrackVUState - improved checking for validity of parameters</li>
-<li>GetTrackVolPan - improved checking for validity of parameters</li>
-<li>GetTrackWidth - improved checking for validity of parameters</li>
-<li>JumpForwardBy - improved checking for validity of parameters</li>
-<li>JumpBackwardBy - improved checking for validity of parameters</li>
-<li>JumpForwardBy_Recording - improved checking for validity of parameters</li>
-<li>JumpBackwardBy_Recording - improved checking for validity of parameters</li>
-<li>GetNextMuteState - improved checking for validity of parameters</li>
-<li>CountMuteEnvelopePoints - improved checking for validity of parameters</li>
-<li>IsMarkerEdit - improved checking for validity of parameters</li>
-<li>IsMarkerNormal - improved checking for validity of parameters</li>
-<li>IsRegionPodrange - improved checking for validity of parameters</li>
-<li>IsRegionEditRegion - improved checking for validity of parameters</li>
-<li>CountEnvelopePoints - improved checking for validity of parameters</li>
-<li>GetTrackLength - improved checking for validity of parameters</li>
-<li>GetLengthOfFile - improved checking for validity of parameters</li>
-<li>RGB2Grayscale - improved checking for validity of parameters</li>
-<li>GetNextClosestItemEdge - improved checking for validity of parameters</li>
-<li>GetPreviousClosestItemEdge - improved checking for validity of parameters</li>
-<li>GetClosestNextMarker - improved checking for validity of parameters</li>
-<li>GetClosestNextRegionEdge - improved checking for validity of parameters</li>
-<li>ToggleMute - improved checking for validity of parameters</li>
-<li>ToggleMute_TrackObject - improved checking for validity of parameters</li>
-<li>GetPreviousMuteState - improved checking for validity of parameters</li>
-<li>GetProject_GetMarker - could produce a Lua-error, when filename was nil -&gt; fixed</li>
-<li>GetProject_GetRegion - could produce a Lua-error, when filename was nil -&gt; fixed</li>
-<li>GetEnvelopePoint - improved checking for validity of parameters</li>
-<li>GetClosestEnvelopePointIDX_ByTime - improved checking for validity of parameters</li>
-<li>GetEnvelopePointIDX_Between - improved checking for validity of parameters</li>
-<li>SetEnvelopeHeight - improved checking for validity of parameters</li>
-<li>StoreArrangeviewSnapshot - improved checking for validity of parameters</li>
-<li>IsValidArrangeviewSnapshot - improved checking for validity of parameters</li>
-<li>RetrieveArrangeviewSnapshot - improved checking for validity of parameters</li>
-<li>RestoreArrangeviewSnapshot - improved checking for validity of parameters</li>
-<li>SetTrackGroupFlagsState - improved checking for validity of parameters</li>
-<li>SetTrackGroupFlags_HighState - improved checking for validity of parameters</li>
-<li>SetTrackName - improved checking for validity of parameters</li>
-<li>SetTrackPeakColorState - improved checking for validity of parameters</li>
-<li>SetTrackBeatState - improved checking for validity of parameters</li>
-<li>SetTrackAutoRecArmState - improved checking for validity of parameters</li>
-<li>SetTrackMuteSoloState - improved checking for validity of parameters</li>
-<li>SetTrackIPhaseState - improved checking for validity of parameters</li>
-<li>SetTrackIsBusState - improved checking for validity of parameters</li>
-<li>SetTrackBusCompState - improved checking for validity of parameters</li>
-<li>SetTrackShowInMixState - improved checking for validity of parameters</li>
-<li>SetTrackFreeModeState - improved checking for validity of parameters</li>
-<li>SetTrackRecState - improved checking for validity of parameters</li>
-<li>SetTrackVUState - improved checking for validity of parameters</li>
-<li>SetTrackHeightState - improved checking for validity of parameters</li>
-<li>SetTrackINQState - improved checking for validity of parameters</li>
-<li>SetTrackNChansState - improved checking for validity of parameters</li>
-<li>SetTrackBypFXState - improved checking for validity of parameters</li>
-<li>SetTrackPerfState - improved checking for validity of parameters</li>
-<li>SetTrackMIDIOutState - improved checking for validity of parameters</li>
-<li>SetTrackMainSendState - improved checking for validity of parameters</li>
-<li>SetTrackLockState - improved checking for validity of parameters</li>
-<li>SetTrackLayoutNames - improved checking for validity of parameters</li>
-<li>SetTrackAutomodeState - improved checking for validity of parameters</li>
-<li>SetTrackIcon_Filename - improved checking for validity of parameters; didn't add trackicon, when no image was set already -&gt; fixed; when Iconfilename<em>with</em>path=nil, removes trackicon now</li>
-<li>SetTrackMidiInputChanMap - improved checking for validity of parameters; didn't set MidiInputChanMap -&gt; fixed; removes now MidiInputChanMap, when InputChanMap=nil</li>
-<li>SetTrackMidiCTL - improved checking for validity of parameters</li>
-<li>SetTrackID - improved checking for validity of parameters</li>
-<li>SetTrackMidiColorMapFn - improved checking for validity of parameters, setting filename to "" removes the MidiColorMap, now</li>
-<li>SetTrackMidiBankProgFn - improved checking for validity of parameters</li>
-<li>SetTrackMidiTextStrFn - improved checking for validity of parameters</li>
-<li>SetTrackPanMode - improved checking for validity of parameters</li>
-<li>SetTrackWidth - improved checking for validity of parameters</li>
-<li>SetTrackScore - improved checking for validity of parameters</li>
-<li>SetTrackVolPan - improved checking for validity of parameters</li>
-<li>SetTrackRecCFG - improved checking for validity of parameters</li>
+<li>Windows: GetReaperWindowPosition_Left - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>Windows: GetReaperWindowPosition_Right - using now the SetIniFileValue-function for getting the ini-file-value</li>
+<li>Windows: SetReaperWindowToSize - using now the SetIniFileValue-function for setting the ini-file-value</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.7: - "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018</h3>
