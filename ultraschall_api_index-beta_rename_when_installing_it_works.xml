@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="30844.00" author="Meo Mespotine">
+      <version name="30856.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -101,6 +101,7 @@
 	<source file="/ultraschall_api/Scripts_Examples/ShowItemExtState.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/ShowItemExtState.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/ShowMediaItems_In_Timeselection_and_SelectedTracks.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/ShowMediaItems_In_Timeselection_and_SelectedTracks.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/ShowTrackExtState.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/ShowTrackExtState.lua</source>
+	<source file="/ultraschall_api/Scripts_Examples/SimpleDrawingTool.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/SimpleDrawingTool.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/TrackAndItem_ColorCycler.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/TrackAndItem_ColorCycler.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/ultraschall_Soundboard.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/ultraschall_Soundboard.lua</source>
 	<source file="/ultraschall_api/temp/Temp.bat" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/temp/Temp.bat</source>
@@ -270,6 +271,7 @@
 	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/RippleCut_Selected_Tracks.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/RippleCut_Selected_Tracks.gif</source>
 	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Shorten_MediaItems_In_Selection_Example.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Shorten_MediaItems_In_Selection_Example.gif</source>
 	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ShowMediaItems_In_Timeselection_and_SelectedTracks.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ShowMediaItems_In_Timeselection_and_SelectedTracks.gif</source>
+	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/SimpleDrawingTool.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/SimpleDrawingTool.gif</source>
 	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/TrackExtState.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/TrackExtState.gif</source>
 	<source file="/ultraschall_api/misc/Recordings/peaks/01-tempproject.flac.reapeaks" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/Recordings/peaks/01-tempproject.flac.reapeaks</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/Recordings/01-US_Notification_Sound.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/US_Notification_Sound/Recordings/01-US_Notification_Sound.flac</source>
@@ -314,6 +316,10 @@ New features in 4.00beta2.74
     script; default is the filename
 -   ChildScripts: SetScriptIdentifier_Title - sets the title of your
     script
+-   ExampleScript: SimpleDrawingTool.lua - a simple drawing-tool demo,
+    that demonstrates GFX_GetMouseCap
+-   ExampleScript: SimpleDrawingTool.gif - a demo-gif of the
+    SimpleDrawingTool.lua
 -   GFX: GFX_GetMouseCap - checks and returns mouse-clicks, including
     doubleclick, dragging, mousewheel-states, etc. Much more handy than
     gfx.mouse_cap.

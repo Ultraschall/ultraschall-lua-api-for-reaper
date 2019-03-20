@@ -698,6 +698,7 @@ function ultraschall.GFX_GetMouseCap(doubleclick_wait, drag_wait)
   <tags>gfx, functions, mouse, mouse cap, leftclick, rightclick, doubleclick, drag, wheel, mousewheel, horizontal mousewheel</tags>
 </US_DocBloc>
 ]]
+HUI=reaper.time_precise()
   -- prepare variables
   if ultraschall.mouse_last_mousecap==nil then
     -- if mouse-function hasn't been used yet, initialize variables
@@ -719,8 +720,8 @@ function ultraschall.GFX_GetMouseCap(doubleclick_wait, drag_wait)
   
   -- if mousewheels have been changed, store the new values and reset the gfx-variables
   if ultraschall.mouse_last_hwheel~=gfx.mouse_hwheel or ultraschall.mouse_last_wheel~=gfx.mouse_wheel then
-    ultraschall.mouse_last_hwheel=gfx.mouse_hwheel
-    ultraschall.mouse_last_wheel=gfx.mouse_wheel
+    ultraschall.mouse_last_hwheel=math.floor(gfx.mouse_hwheel)
+    ultraschall.mouse_last_wheel=math.floor(gfx.mouse_wheel)
     gfx.mouse_hwheel=0
     gfx.mouse_wheel=0
   end
@@ -756,7 +757,7 @@ function ultraschall.GFX_GetMouseCap(doubleclick_wait, drag_wait)
           ultraschall.mouse_dblclick=2
           ultraschall.mouse_dblclick_counter=doubleclick_wait
           ultraschall.mouse_clickblock=true
-          return "CLK", "DBLCLK", gfx.mouse_cap, ultraschall.mouse_lastx, ultraschall.mouse_lasty
+          return "CLK", "DBLCLK", gfx.mouse_cap, ultraschall.mouse_lastx, ultraschall.mouse_lasty, ultraschall.mouse_lastx, ultraschall.mouse_lasty, ultraschall.mouse_last_wheel, ultraschall.mouse_last_hwheel
         elseif ultraschall.mouse_dblclick_counter==doubleclick_wait then
           -- when doubleclick-timer is full, reset mouse_dblclick to 0, so the next mouseclick is 
           -- recognized as normal mouseclick
