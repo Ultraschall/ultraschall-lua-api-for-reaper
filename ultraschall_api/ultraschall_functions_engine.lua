@@ -39481,12 +39481,12 @@ function ultraschall.pause_follow_one_cycle()
     This function is only relevant, if you want to develop scripts that work perfectly within the Ultraschall.fm-extension.
   </description>
   <chapter_context>
-    User Interface
-    Arrangeview Management
+    Ultraschall Specific
+    Followmode
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>userinterface, follow, off, followmode, turn off one cycle</tags>
+  <tags>ultraschall, userinterface, follow, off, followmode, turn off one cycle</tags>
 </US_DocBloc>
 --]]
   local follow_actionnumber = reaper.NamedCommandLookup("_Ultraschall_Toggle_Follow")
@@ -45755,7 +45755,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00","9th of March 2019", "Beta 2.73", 400.0273,  "\"Radiohead - Bangers'n'Mash \"", ultraschall.hotfixdate
+  return "4.00","15th of April 2019", "Beta 2.74", 400.0274,  "\"Radiohead - Four Minute Warning\"", ultraschall.hotfixdate
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
@@ -47116,10 +47116,10 @@ function ultraschall.StateChunkLayouter(statechunk)
   return newsc
 end
 
-
+--[[
 function ultraschall.CountUltraschallEffectPlugins(track)
 --[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+</US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountUltraschallEffectPlugins</slug>
   <requires>
     Ultraschall=4.00
@@ -47159,8 +47159,9 @@ function ultraschall.CountUltraschallEffectPlugins(track)
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>fx_pluginmanagement, count, get, studiolink, studiolinkonair, soundboard, ultraschall_dynamics, bypass-state, offline-state</tags>
-</US_DocBloc>
+<//US_DocBloc>
 ]]
+--[[
   local MediaTrack
   if math.type(track)~="integer" then ultraschall.AddErrorMessage("CountUltraschallEffectPlugins", "track", "must be an integer", -1) return -1 end
   if track==0 then MediaTrack=reaper.GetMasterTrack(0) else MediaTrack=reaper.GetTrack(0, track-1) end
@@ -47178,6 +47179,7 @@ function ultraschall.CountUltraschallEffectPlugins(track)
   local A,B=reaper.GetTrackStateChunk(MediaTrack,"",false)
   
   for k in string.gmatch(B,"(.-\n)") do
+--    print2(k)
     if k:match("<.-StudioLinkOnAir ")~=nil then 
       num_slonair=num_slonair+1 
       slonair_byp[num_slonair]={lastbypassline:match(" (%d) (%d) (%d)")} 
@@ -47190,7 +47192,8 @@ function ultraschall.CountUltraschallEffectPlugins(track)
       sl_byp[num_sl][1]=tonumber(sl_byp[num_sl][1]) 
       sl_byp[num_sl][2]=tonumber(sl_byp[num_sl][2]) 
       sl_byp[num_sl][3]=tonumber(sl_byp[num_sl][3])
-    elseif k:match("<.-Soundboard %(Ultraschall%)")~=nil then 
+    elseif k:match("<.-Soundboard %(Ultraschall%)")~=nil or k:match("<.-Ultraschall: Soundboard")~=nil then 
+    print2(k)
       num_soundboard=num_soundboard+1
       soundboard_byp[num_soundboard]={lastbypassline:match(" (%d) (%d) (%d)")} 
       soundboard_byp[num_soundboard][1]=tonumber(soundboard_byp[num_soundboard][1]) 
@@ -47207,6 +47210,9 @@ function ultraschall.CountUltraschallEffectPlugins(track)
   end
   return num_sl, sl_byp, num_slonair, slonair_byp, num_soundboard, soundboard_byp, num_usdynamics, usdynamics_byp
 end
+
+--A,B,C,D,E,F,G,H=ultraschall.CountUltraschallEffectPlugins(3)
+--]]
 
 
 function ultraschall.GetTopmostHWND(hwnd)
@@ -50699,7 +50705,7 @@ function ultraschall.GetRenderToFileHWND()
       if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
                                             open_render_queue_tr.."\0"..
                                             save_changes_and_close_tr.."\0"..
-                                            render_tr.."\0"..
+--                                            render_tr.."\0".. -- includes number of to be rendered files, so you can't use this
                                             wildcards_tr)==true then return hwnd_array[i] end
     end
   end
@@ -52713,7 +52719,7 @@ function ultraschall.GetAllAUXSendReceives()
 
   local AUXSendReceives={}
   AUXSendReceives["number_of_tracks"]=reaper.CountTracks()
-  AUXSendReceives["AllAUXSendReceive"]=true 
+  AUXSendReceives["AllAUXSendReceives"]=true 
   
   for i=1, reaper.CountTracks() do
     AUXSendReceives[i]={}
@@ -52732,12 +52738,13 @@ function ultraschall.GetAllAUXSendReceives()
       AUXSendReceives[i][a]["snd_src"], 
       AUXSendReceives[i][a]["unknown"], 
       AUXSendReceives[i][a]["midichanflag"], 
-      AUXSendReceives[i][a]["automation"] = ultraschall.GetTrackAUXSendReceives(i, a)
+      AUXSendReceives[i][a]["automation"] = ultraschall.GetTrackAUXSendReceives(i, a)      
     end
   end
   return AUXSendReceives, reaper.CountTracks()
 end
 
+--A,B,C=ultraschall.GetAllAUXSendReceives()
 
 function ultraschall.ApplyAllAUXSendReceives(AllAUXSendReceives)
 --[[
@@ -52868,6 +52875,7 @@ function ultraschall.GetAllMainSendStates()
   
   local MainSend={}
   MainSend["number_of_tracks"]=reaper.CountTracks()
+  MainSend["MainSend"]=true
   for i=1, reaper.CountTracks() do
     MainSend[i]={}
     MainSend[i]["MainSendOn"], MainSend[i]["ParentChannels"] = ultraschall.GetTrackMainSendState(i)
@@ -53117,5 +53125,556 @@ function ultraschall.GetSetConfigAutoSaveMode(set, setting, persist)
 end
 
 --A=ultraschall.GetSetConfigAutoSaveMode(true, 2, true)
+
+
+function ultraschall.IsTrackSoundboard(tracknumber)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsTrackSoundboard</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsTrackSoundboard(integer tracknumber)</functioncall>
+  <description>
+    Returns, if this track is a soundboard-track, means, contains an Ultraschall-Soundboard-plugin.
+    
+    Only relevant in Ultraschall-installations
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, it is an Ultraschall-Soundboard-track; false, it is not
+  </retvals>
+  <parameters>
+    integer tracknumber - the tracknumber to check for; 0, for master-track; 1, for track 1; n for track n
+  </parameters>
+  <chapter_context>
+    Ultraschall Specific
+    Track Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>ultraschall, isvalid, soundboard, track</tags>
+</US_DocBloc>
+--]]
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("IsTrackSoundboard", "tracknumber", "must be an integer", -1) return false end
+  if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("IsTrackSoundboard", "tracknumber", "no such track; must be between 1 and "..reaper.CountTracks(0).." for the current project. 0, for master-track.", -2) return false end
+  if tracknumber==0 then track=reaper.GetMasterTrack(0) else track=reaper.GetTrack(0,tracknumber-1) end
+  if track~=nil then
+    local count=0
+    while reaper.TrackFX_GetFXName(track, count, "")~="" do
+      local retval, buf = reaper.TrackFX_GetFXName(track, count, "")
+      if buf=="AUi: Ultraschall: Soundboard" then return true, count end -- Mac-check
+      if buf=="VSTi: Soundboard (Ultraschall)" then return true, count end -- Windows-check
+      if buf=="" then return false end
+      count=count+1
+    end
+  end
+  return false
+end
+
+--A=ultraschall.IsTrackSoundboard(33)
+
+function ultraschall.IsTrackStudioLink(tracknumber)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsTrackStudioLink</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsTrackStudioLink(integer tracknumber)</functioncall>
+  <description>
+    Returns, if this track is a StudioLink-track, means, contains a StudioLink-Plugin
+    
+    Only relevant in Ultraschall-installations
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, it is a StudioLink-track; false, it is not
+  </retvals>
+  <parameters>
+    integer tracknumber - the tracknumber to check for; 0, for master-track; 1, for track 1; n for track n
+  </parameters>
+  <chapter_context>
+    Ultraschall Specific
+    Track Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>ultraschall, isvalid, studiolink, track</tags>
+</US_DocBloc>
+--]]
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("IsTrackStudioLink", "tracknumber", "must be an integer", -1) return false end
+  if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("IsTrackStudioLink", "tracknumber", "no such track; must be between 1 and "..reaper.CountTracks(0).." for the current project. 0, for master-track.", -2) return false end
+  if tracknumber==0 then track=reaper.GetMasterTrack(0) else track=reaper.GetTrack(0,tracknumber-1) end
+  if track~=nil then
+    local count=0
+    while reaper.TrackFX_GetFXName(track, count, "")~="" do
+      local retval, buf = reaper.TrackFX_GetFXName(track, count, "")
+      if buf=="AU: ITSR: StudioLink" then return true, count end -- Mac-check
+      if buf=="VST: StudioLink (IT-Service Sebastian Reimers)" then return true, count end -- Windows-check
+      if buf=="" then return false end
+      count=count+1
+    end
+  end
+  return false
+end
+
+--A=ultraschall.IsTrackStudioLink(3)
+
+
+function ultraschall.IsTrackStudioLinkOnAir(tracknumber)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsTrackStudioLinkOnAir</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsTrackStudioLinkOnAir(integer tracknumber)</functioncall>
+  <description>
+    Returns, if this track is a StudioLinkOnAir-track, means, contains a StudioLinkOnAir-Plugin
+    
+    Only relevant in Ultraschall-installations
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, it is a StudioLinkOnAir-track; false, it is not
+  </retvals>
+  <parameters>
+    integer tracknumber - the tracknumber to check for; 0, for master-track; 1, for track 1; n for track n
+  </parameters>
+  <chapter_context>
+    Ultraschall Specific
+    Track Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>ultraschall, isvalid, studiolinkonair, track</tags>
+</US_DocBloc>
+--]]
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("IsTrackStudioLinkOnAir", "tracknumber", "must be an integer", -1) return false end
+  if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("IsTrackStudioLinkOnAir", "tracknumber", "no such track; must be between 1 and "..reaper.CountTracks(0).." for the current project. 0, for master-track.", -2) return false end
+  if tracknumber==0 then track=reaper.GetMasterTrack(0) else track=reaper.GetTrack(0,tracknumber-1) end
+  if track~=nil then
+    local count=0
+    while reaper.TrackFX_GetFXName(track, count, "")~="" do
+      local retval, buf = reaper.TrackFX_GetFXName(track, count, "")
+      if buf=="ITSR: StudioLinkOnAir" then return true, count end -- Mac-check
+      if buf=="VST: StudioLinkOnAir (IT-Service Sebastian Reimers)" then return true, count end -- Windows-check
+      if buf=="" then return false end
+      count=count+1
+    end
+  end
+  return false
+end
+
+
+function ultraschall.GetTypeOfTrack(tracknumber)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTypeOfTrack</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>string type, boolean multiple = ultraschall.GetTypeOfTrack(integer tracknumber)</functioncall>
+  <description>
+    Returns the tracktype of a specific track. Will return the type of the first valid SoundBoard, StudioLink, StudioLinkOnAir-plugin in the track-fx-chain.
+    If there are multiple valid plugins and therefore types, the second retval multiple will be set to true, else to false.
+    
+    Only relevant in Ultraschall-installations
+    
+    returns "", false in case of an error
+  </description>
+  <retvals>
+    string type - Either "StudioLink", "StudioLinkOnAir", "SoundBoard" or "Other". "", in case of an error
+    boolean multiple - true, the track has other valid plugins as well; false, it is a "pure typed" track
+  </retvals>
+  <parameters>
+    integer tracknumber - the tracknumber to check for; 0, for master-track; 1, for track 1; n for track n
+  </parameters>
+  <chapter_context>
+    Ultraschall Specific
+    Track Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>ultraschall, get, type, soundboard, studiolink, studiolinkonair, track</tags>
+</US_DocBloc>
+--]]
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("IsTrackStudioLinkOnAir", "tracknumber", "must be an integer", -1) return "", false end
+  if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("IsTrackStudioLinkOnAir", "tracknumber", "no such track; must be between 1 and "..reaper.CountTracks(0).." for the current project. 0, for master-track.", -2) return "", false end
+  if tracknumber==0 then track=reaper.GetMasterTrack(0) else track=reaper.GetTrack(0,tracknumber-1) end
+  local A,A1=ultraschall.IsTrackStudioLink(tracknumber)
+  local B,B1=ultraschall.IsTrackStudioLinkOnAir(tracknumber)
+  local C,C1=ultraschall.IsTrackSoundboard(tracknumber)
+  
+  -- hacky, find a better way
+  if A1==nil then A1=99999999999 end 
+  if B1==nil then B1=99999999999 end
+  if C1==nil then C1=99999999999 end
+  
+  if A==true and B==false and C==false then return "StudioLink", false
+  elseif A==false and B==true and C==false then return "StudioLinkOnAir", false
+  elseif A==false and B==false and C==true then return "SoundBoard", false
+  elseif A==true and B==true and C==false then 
+    if A1<B1 then return "StudioLink", true else return "StudioLinkOnAir", true end
+  elseif A==false and B==true and C==true then 
+    if B1<C1 then return "StudioLinkOnAir", true else return "SoundBoard", true end
+  elseif A==true and B==false and C==true then 
+    if A1<C1 then return "StudioLink", true else return "SoundBoard", true end
+  elseif A==true and B==true and C==true then
+    if A1<B1 and A1<C1 then return "StudioLink", true
+    elseif B1<A1 and B1<C1 then return "StudioLinkOnAir", true
+    elseif C1<A1 and C1<B1 then return "SoundBoard", true
+    end
+  else
+    return "Other", false
+  end
+end
+
+
+--DABBA,DBABBA=ultraschall.GetTypeOfTrack(1)
+
+function ultraschall.GetAllAUXSendReceives2()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllAUXSendReceives2</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>table AllAUXSendReceives, integer number_of_tracks = ultraschall.GetAllAUXSendReceives2()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns a table with all AUX-SendReceive-settings of all tracks, excluding master-track
+    
+    like [GetAllAUXSendReceives](#GetAllAUXSendReceives), but returns the type of a track as well
+    
+    returned table is of structure:
+      table["AllAUXSendReceive"]=true                               - signals, this is an AllAUXSendReceive-table. Don't alter!
+      table["number\_of_tracks"]                                     - the number of tracks in this table, from track 1 to track n
+      table[tracknumber]["type"]                                    - type of the track, SoundBoard, StudioLink, StudioLinkOnAir or Other
+      table[tracknumber]["AUXSendReceives_count"]                   - the number of AUXSendReceives of tracknumber, beginning with 1
+      table[tracknumber][AUXSendReceivesIndex]["recv\_tracknumber"] - the track, from which to receive audio in this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["post\_pre_fader"]   - the setting of post-pre-fader of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["volume"]            - the volume of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["pan"]               - the panning of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["mute"]              - the mute-setting of this AUXSendReceivesIndex  of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["mono\_stereo"]      - the mono/stereo-button-setting of this AUXSendReceivesIndex  of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["phase"]             - the phase-setting of this AUXSendReceivesIndex  of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["chan\_src"]         - the audiochannel-source of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["snd\_src"]          - the send-to-channel-target of this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["unknown"]           - unknown, leave it -1
+      table[tracknumber][AUXSendReceivesIndex]["midichanflag"]      - the Midi-channel of this AUXSendReceivesIndex of tracknumber, leave it 0
+      table[tracknumber][AUXSendReceivesIndex]["automation"]        - the automation-mode of this AUXSendReceivesIndex  of tracknumber
+      
+      See [GetTrackAUXSendReceives](#GetTrackAUXSendReceives) for more details on the individual settings, stored in the entries.
+  </description>
+  <retvals>
+    table AllAUXSendReceives - a table with all SendReceive-entries of the current project.
+    integer number_of_tracks - the number of tracks in the AllMainSends-table
+  </retvals>
+  <chapter_context>
+    Ultraschall Specific
+    Routing
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>routing, trackmanagement, track, get, all, send, receive, aux, routing</tags>
+</US_DocBloc>
+]]
+
+  local AllAUXSendReceives, number_of_tracks = ultraschall.GetAllAUXSendReceives()
+  for i=1, number_of_tracks do
+    AllAUXSendReceives[i]["type"]=ultraschall.GetTypeOfTrack(i)
+  end
+  return AllAUXSendReceives, number_of_tracks
+end
+
+--A,B=ultraschall.GetAllAUXSendReceives2()
+
+function ultraschall.GetAllHWOuts2()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllHWOuts2</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>table AllHWOuts, integer number_of_tracks = ultraschall.GetAllHWOuts2()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns a table with all HWOut-settings of all tracks, including master-track(track index: 0)
+    
+    like [GetAllHWOuts](#GetAllHWOuts) but includes the type of a track as well
+    
+    returned table is of structure:
+      table["HWOuts"]=true                              - signals, this is a HWOuts-table; don't change that!
+      table["number\_of_tracks"]                         - the number of tracks in this table, from track 0(master) to track n
+      table[tracknumber]["type"]                        - type of the track, SoundBoard, StudioLink, StudioLinkOnAir or Other
+      table[tracknumber]["HWOut_count"]                 - the number of HWOuts of tracknumber, beginning with 1
+      table[tracknumber][HWOutIndex]["outputchannel"]   - the number of outputchannels of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["post\_pre_fader"] - the setting of post-pre-fader of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["volume"]          - the volume of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["pan"]             - the panning of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["mute"]            - the mute-setting of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["phase"]           - the phase-setting of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["source"]          - the source/input of this HWOutIndex of tracknumber
+      table[tracknumber][HWOutIndex]["unknown"]         - unknown, leave it -1
+      table[tracknumber][HWOutIndex]["automationmode"]  - the automation-mode of this HWOutIndex of tracknumber    
+      
+      See [GetTrackHWOut](#GetTrackHWOut) for more details on the individual settings, stored in the entries.
+  </description>
+  <retvals>
+    table AllHWOuts - a table with all HWOuts of the current project.
+    integer number_of_tracks - the number of tracks in the AllMainSends-table
+  </retvals>
+  <chapter_context>
+    Ultraschall Specific
+    Routing
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>ultraschall, trackmanagement, track, get, all, hwouts, hardware outputs, routing</tags>
+</US_DocBloc>
+]]
+
+  local AllHWOuts, number_of_tracks = ultraschall.GetAllHWOuts()
+  for i=0, number_of_tracks do
+    AllHWOuts[i]["type"]=ultraschall.GetTypeOfTrack(i)
+  end
+  return AllHWOuts, number_of_tracks
+end
+
+--A=ultraschall.GetAllHWOuts2()
+
+function ultraschall.GetAllMainSendStates2()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllMainSendStates2</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>table AllMainSends, integer number_of_tracks  = ultraschall.GetAllMainSendStates2()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns a table with all MainSend-settings of all tracks, excluding master-track.
+    
+    like [GetAllMainSendStates](#GetAllMainSendStates), but includes the type of the track as well.
+    
+    The MainSend-settings are the settings, if a certain track sends it's signal to the Master Track
+    
+    returned table is of structure:
+      Table["number\_of_tracks"]            - The number of tracks in this table, from track 1 to track n
+      Table[tracknumber]["type"]           - type of the track, SoundBoard, StudioLink, StudioLinkOnAir or Other
+      Table[tracknumber]["MainSend"]       - Send to Master on(1) or off(1)
+      Table[tracknumber]["ParentChannels"] - the parent channels of this track
+      
+      See [GetTrackMainSendState](#GetTrackMainSendState) for more details on the individual settings, stored in the entries.
+  </description>
+  <retvals>
+    table AllMainSends - a table with all AllMainSends-entries of the current project.
+    integer number_of_tracks - the number of tracks in the AllMainSends-table
+  </retvals>
+  <chapter_context>
+    Ultraschall Specific
+    Routing
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>ultraschall, trackmanagement, track, get, all, send, main send, master send, routing</tags>
+</US_DocBloc>
+]]
+
+  local AllMainSends, number_of_tracks = ultraschall.GetAllMainSendStates()
+  for i=1, number_of_tracks do
+    AllMainSends[i]["type"]=ultraschall.GetTypeOfTrack(i)
+  end
+  return AllMainSends, number_of_tracks
+end
+
+--A=ultraschall.GetAllHWOuts2()
+
+--A,B=ultraschall.GetAllMainSendStates2()
+
+function ultraschall.AreHWOutsTablesEqual(Table1, Table2)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AreHWOutsTablesEqual</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval  = ultraschall.AreHWOutsTablesEqual(table AllHWOuts, table AllHWOuts2)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Compares two HWOuts-tables, as returned by [GetAllHWOuts](#GetAllHWOuts) or [GetAllHWOuts2](#GetAllHWOuts)
+  </description>
+  <retvals>
+    boolean retval - true, if the two tables are equal HWOuts; false, if not
+  </retvals>
+  <parameters>
+    table AllHWOuts - a table with all HWOut-settings of all tracks
+    table AllHWOuts2 - a table with all HWOut-settings of all tracks, that you want to compare to AllHWOuts
+  </parameters>
+  <chapter_context>
+    Track Management
+    Hardware Out
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>trackmanagement, compare, equal, hwouttable</tags>
+</US_DocBloc>
+]]
+  if type(Table1)~="table" then return false end
+  if type(Table2)~="table" then return false end
+  if Table1["HWOuts"]~=true or Table2["HWOuts"]~=true then return false end
+  if Table1["HWOuts"]~=Table2["HWOuts"] then return false end
+  if Table1["number_of_tracks"]~=Table2["number_of_tracks"] then return false end
+  for i=0, Table1["number_of_tracks"] do
+    if Table1[i]["HWOut_count"]~=Table2[i]["HWOut_count"] then return false end
+    if Table1[i]["type"]~=nil and Table2[i]["type"]~=nil and Table1[i]["type"]~=Table2[i]["type"] then return false end
+    for a=1, Table1[i]["HWOut_count"] do
+      if Table1[i][a]["automationmode"]~=Table2[i][a]["automationmode"] then return false end
+      if Table1[i][a]["mute"]~=Table2[i][a]["mute"] then return false end
+      if Table1[i][a]["outputchannel"]~=Table2[i][a]["outputchannel"] then return false end
+      if Table1[i][a]["pan"]~=Table2[i][a]["pan"] then return false end
+      if Table1[i][a]["phase"]~=Table2[i][a]["phase"] then return false end
+      if Table1[i][a]["post_pre_fader"]~=Table2[i][a]["post_pre_fader"] then return false end
+      if Table1[i][a]["source"]~=Table2[i][a]["source"] then return false end
+      if Table1[i][a]["unknown"]~=Table2[i][a]["unknown"] then return false end
+      if Table1[i][a]["volume"]~=Table2[i][a]["volume"] then return false end
+    end
+  end
+  return true
+end
+
+--AllHWOuts2[0]["type"]=3
+--AAAA=ultraschall.AreHWOutsTablesEqual(AllHWOuts, AllHWOuts2)
+
+
+
+--AllMainSends, number_of_tracks = ultraschall.GetAllMainSendStates2() 
+--AllMainSends2, number_of_tracks = ultraschall.GetAllMainSendStates2() 
+
+function ultraschall.AreMainSendsTablesEqual(Table1, Table2)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AreMainSendsTablesEqual</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval  = ultraschall.AreMainSendsTablesEqual(table AllMainSends, table AllMainSends2)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Compares two AllMainSends-tables, as returned by [GetAllMainSendStates](#GetAllMainSendStates) or [GetAllMainSendStates2](#GetAllMainSendStates2)
+  </description>
+  <retvals>
+    boolean retval - true, if the two tables are equal AllMainSends; false, if not
+  </retvals>
+  <parameters>
+    table AllMainSends - a table with all AllMainSends-settings of all tracks
+    table AllMainSends2 - a table with all AllMainSends-settings of all tracks, that you want to compare to AllMainSends
+  </parameters>
+  <chapter_context>
+    Track Management
+    Send/Receive-Routing
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>trackmanagement, compare, equal, allmainsendstable</tags>
+</US_DocBloc>
+]]
+  if type(Table1)~="table" then return false end
+  if type(Table2)~="table" then return false end
+  if Table1["MainSend"]~=true or Table2["MainSend"]~=true then return false end
+  if Table1["MainSend"]~=Table2["MainSend"] then return false end
+  if Table1["number_of_tracks"]~=Table2["number_of_tracks"] then return false end
+  for i=1, Table1["number_of_tracks"] do
+    if Table1[i]["type"]~=nil and Table2[i]["type"]~=nil and Table1[i]["type"]~=Table2[i]["type"] then return false end
+    if Table1[i]["MainSendOn"]~=Table2[i]["MainSendOn"] then return false end
+    if Table1[i]["ParentChannels"]~=Table2[i]["ParentChannels"] then return false end
+  end
+  return true
+end
+
+--AllMainSends["MainSend"]=0
+--AA=ultraschall.AreMainSendsTablesEqual(AllMainSends, AllMainSends2)
+
+
+
+--AllAUXSendReceives, number_of_tracks = ultraschall.GetAllAUXSendReceives2()
+--AllAUXSendReceives2, number_of_tracks = ultraschall.GetAllAUXSendReceives2()
+
+function ultraschall.AreAUXSendReceivesTablesEqual(Table1, Table2)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AreAUXSendReceivesTablesEqual</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval  = ultraschall.AreAUXSendReceivesTablesEqual(table AllAUXSendReceives, table AllAUXSendReceives2)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Compares two AllAUXSendReceives-tables, as returned by [GetAllAUXSendReceives](#GetAllAUXSendReceives) or [GetAllAUXSendReceives2](#GetAllAUXSendReceives2)
+  </description>
+  <retvals>
+    boolean retval - true, if the two tables are equal AllMainSends; false, if not
+  </retvals>
+  <parameters>
+    table AllAUXSendReceives - a table with all AllAUXSendReceives-settings of all tracks
+    table AllAUXSendReceives2 - a table with all AllAUXSendReceives-settings of all tracks, that you want to compare to AllAUXSendReceives
+  </parameters>
+  <chapter_context>
+    Track Management
+    Send/Receive-Routing
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>trackmanagement, compare, equal, allauxsendreceivestables</tags>
+</US_DocBloc>
+]]
+  if type(Table1)~="table" then return false end
+  if type(Table2)~="table" then return false end
+  if Table1["AllAUXSendReceives"]~=true or Table2["AllAUXSendReceives"]~=true then return false end
+  if Table1["AllAUXSendReceives"]~=Table2["AllAUXSendReceives"] then return false end
+  if Table1["number_of_tracks"]~=Table2["number_of_tracks"] then return false end
+  for i=1, Table1["number_of_tracks"] do
+    if Table1[i]["AUXSendReceives_count"]~=Table2[i]["AUXSendReceives_count"] then return false end
+    if Table1[i]["type"]~=nil and Table2[i]["type"]~=nil and Table1[i]["type"]~=Table2[i]["type"] then return false end
+    for a=1, Table1[i]["AUXSendReceives_count"] do
+      if Table1[i][a]["automation"]~=Table2[i][a]["automation"] then return false end
+      if Table1[i][a]["chan_src"]~=Table2[i][a]["chan_src"] then return false end
+      if Table1[i][a]["midichanflag"]~=Table2[i][a]["midichanflag"] then return false end
+      if Table1[i][a]["mono_stereo"]~=Table2[i][a]["mono_stereo"] then return false end
+      if Table1[i][a]["mute"]~=Table2[i][a]["mute"] then return false end
+      if Table1[i][a]["pan"]~=Table2[i][a]["pan"] then return false end
+      if Table1[i][a]["phase"]~=Table2[i][a]["phase"] then return false end
+      if Table1[i][a]["post_pre_fader"]~=Table2[i][a]["post_pre_fader"] then return false end
+      if Table1[i][a]["recv_tracknumber"]~=Table2[i][a]["recv_tracknumber"] then return false end
+      if Table1[i][a]["snd_src"]~=Table2[i][a]["snd_src"] then return false end
+      if Table1[i][a]["unknown"]~=Table2[i][a]["unknown"] then return false end
+      if Table1[i][a]["volume"]~=Table2[i][a]["volume"] then return false end
+    end
+  end
+  return true
+end
+
+--AllAUXSendReceives["AllAUXSendReceives"]=1
+--A=ultraschall.AreAUXSendReceivesTablesEqual(AllAUXSendReceives, AllAUXSendReceives2)
+ 
 
 ultraschall.ShowLastErrorMessage()

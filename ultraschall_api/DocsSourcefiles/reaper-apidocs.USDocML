@@ -26768,7 +26768,7 @@
         <title>JS_Window_OnCommand(JS)</title>
         <functioncall prog_lang="cpp">bool JS_Window_OnCommand(void* windowHWND, int commandID)</functioncall>
         <functioncall prog_lang="eel">bool extension_api("JS_Window_OnCommand", void* windowHWND, int commandID)</functioncall>
-        <functioncall prog_lang="lua">boolean retval =r eaper.JS_Window_OnCommand(identifier windowHWND, integer commandID)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.JS_Window_OnCommand(identifier windowHWND, integer commandID)</functioncall>
         <functioncall prog_lang="python">Boolean JS_Window_OnCommand(void windowHWND, Int commandID)</functioncall>
         <requires>
             Reaper=5.965
@@ -26776,9 +26776,9 @@
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Sends a "WM_COMMAND" message to the specified window, which simulates a user selecting a command in the window menu.
+            Sends a "WM\_COMMAND" message to the specified window, which simulates a user selecting a command in the window menu.
 
-            This function is similar to Main_OnCommand and MIDIEditor_OnCommand, but can send commands to any window that has a menu.
+            This function is similar to Main\_OnCommand and MIDIEditor\_OnCommand, but can send commands to any window that has a menu.
 
             In the case of windows that are listed among the Action list's contexts (such as the Media Explorer), the commandIDs of the actions in the Actions list may be used.
         </description>

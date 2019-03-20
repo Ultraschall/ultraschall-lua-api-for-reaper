@@ -1,6 +1,28 @@
 
 ## Ultraschall Framework - Changelog
 
+### 4.00 Beta 2.74: - "Radiohead - Four Minute Warning" - 15th of April 2019
+
+#### New features in 4.00beta2.74
+  - GFX: GFX\_GetMouseCap - checks and returns mouse-clicks, including doubleclick, dragging, mousewheel-states, etc. Much more handy than gfx.mouse_cap.
+  - Ultraschall: IsTrackSoundboard - returns, if a track is a valid Ultraschall-Soundboard-track
+  - Ultraschall: IsTrackStudioLink - returns, if a track is a valid StudioLink-track
+  - Ultraschall: IsTrackStudioLinkOnAir - returns, if a track is a valid StudioLinkOnAir-track
+  - Ultraschall: GetTypeOfTrack - returns the type of a track, either StudioLink/StudioLinkOnAir or SoundBoard
+  - Ultraschall: GetAllAUXSendReceives2 - like GetAllAUXSendReceives, but returns type of track as well
+  - Ultraschall: GetAllHWOuts2 - like GetAllHWOuts, but returns type of track as well
+  - Ultraschall: GetAllMainSendStates2 - like GetAllMainSendStates, but returns type of track as well
+  - Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2
+  - Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables, as returned by GetAllMainSendStates and GetAllMainSendStates2
+  - Routing: AreAUXSendReceivesTablesEqual - compares two AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and GetAllAUXSendReceives2
+  
+#### Changes from Beta 2.73 to Beta 2.74
+  - HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window
+  - Ultraschall: CountUltraschallEffectPlugins - removed, as it was useless
+  - Ultraschall: pause\_follow\_one_cycle - moved to Ultraschall Specific in the index of the docs
+
+  ---
+  
 ### 4.00 Beta 2.73: - "Radiohead - Bangers'n'Mash" - 9th of March 2019
 
    Has now 800 functions, with 20 new ones
@@ -51,8 +73,9 @@
   - GetIniFileValue - improved code
   - SetIniFileValue - fixed bug that caused inifiles to explode in size
   - Reaper-Docs: updated to Reaper 5.972
-  
 
+  ---
+  
 ### 4.00 Beta 2.72: - "Blue Oyster Cult - Don't fear the Reaper" - 1st of March 2019
 
    Has now 780 functions, with 80 new ones
@@ -652,6 +675,8 @@
                     sourcefiles - an array with all source/map-filenames[1] and their new filenames in relation of their new position[2]
                                     can be used to copy/move all the sourcefiles into the projectfolder(needs MakeDir(path) as well!)
 </TODO>
+   
+   ---
    
 ### 4.00 Beta 2.7: - "Frank Zappa - The Return of the Son of Monster Magnet" - 15th of December 2018
 
@@ -1417,6 +1442,8 @@ Has now 700 functions, with about 250 new ones!
   - SetID3TagsForCurrentProject_PodcastTags - removed, due being useless in Ultraschall 4.0
   - Msg - removed, was useless
   
+  ---
+  
 ### 4.00 Beta 2.6: - "Is that all there is? - Peggy Lee" - 19th of October 2017
 
 #### New features in 4.00beta2.6 - has now 450 functions, with about 30 new ones:
@@ -1529,6 +1556,7 @@ Has now 700 functions, with about 250 new ones!
   - SetTrackShowInMixState  - tracknumbers start now with 1 for track 1, instead of 0
   - SetTrackVUState  - tracknumbers start now with 1 for track 1, instead of 0
    
+   ---
 
 ### 4.00 Beta 2.5: - "Musique non stop - Technopop - Kraftwerk" - 10th of September 2017
 
@@ -1641,6 +1669,7 @@ Has now 700 functions, with about 250 new ones!
   - GetMediaItemsAtPosition - returns now an array with the MediaItemStateChunks as well
   - RemoveDuplicateTracksInTrackstring - produced Lua-error, when giving nil as parameter -> fixed
    
+   ---
    
 ### 4.00 Beta2.1: - "Ich und der Rock - Renft" - 30th of August
 #### New features in 4.00beta2.1
@@ -1675,6 +1704,7 @@ Has now 700 functions, with about 250 new ones!
   - InsertMediaItem_MediaItem - improved return values
   - InsertMediaItem_MediaItemStateChunk - improved return values
  
+ ---
    
 ### 4.00 Beta2: - "Shock The Monkey - Peter Gabriel" - 20th August 2017
 #### New Features in 4.00beta2 - about 190 new functions with:
@@ -1707,6 +1737,8 @@ Has now 700 functions, with about 250 new ones!
   - NumberRangeAsCsvOfNumbers - renamed to CreateTrackNumbersString
   - Structure - reworked API-structure
  
+ 
+ ---
  
 ### 4.00 beta1: - "Tomorrow Never Knows - The Beatles" - 10th of July 2017
 #### New Features in 4.00beta1 - about 140 new functions with:
