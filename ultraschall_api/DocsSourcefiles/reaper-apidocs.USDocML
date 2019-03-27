@@ -24995,6 +24995,8 @@
            Parameters:
            
             * flags, state: The parameter and the return value both use the same format as gfx.mouse_cap. I.e., to get the states of the left mouse button and the ctrl key, use flags = 0b00000101.
+            
+            use -1 as flags to retrieve the states of all mouse-buttons and modifier
 
         </description>
         <retvals>
@@ -26439,7 +26441,7 @@
            
            Parameters:
            
-            * scrollbar: "v" (or "SB_VERT", or "VERT") for vertical scroll, "h" (or "SB_HORZ" or "HORZ") for horizontal.
+            * scrollbar: "v" (or "SB\_VERT", or "VERT") for vertical scroll, "h" (or "SB\_HORZ" or "HORZ") for horizontal.
            
            
            

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="30856.00" author="Meo Mespotine">
+      <version name="31022.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -327,6 +327,8 @@ New features in 4.00beta2.74
     a string, 8 to 32 bit integers can be converted
 -   Helpers: ConvertStringToIntegers - converts a string into multiple
     integers; you can set the size of the integer
+-   Helpers: print - prints its values to the ReaScript-console,
+    separating the displayed parameters with newlines now
 -   Helpers: print_update - prints its values to the ReaScript console,
     but clears the console before displaying. Good for progressbars and
     displaying a few statuses without constantly scrolling.
@@ -342,6 +344,9 @@ New features in 4.00beta2.74
     returned by GetAllHWOuts and GetAllHWOuts2
 -   Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables,
     as returned by GetAllMainSendStates and GetAllMainSendStates2
+-   UserInterface: SetVerticalRelativeScroll - like SetVerticalScroll
+    but sets the arrange-vertical-scroll, relative to it’s current
+    vscroll-position
 -   Ultraschall: GetTypeOfTrack - returns the type of a track, either
     StudioLink/StudioLinkOnAir or SoundBoard
 -   Ultraschall: GetAllAUXSendReceives2 - like GetAllAUXSendReceives,
@@ -361,10 +366,26 @@ Changes from Beta 2.73 to Beta 2.74
 
 -   Docs: GetScriptIdentifier - moved in the index to Api-Helper
     functions -> Child Scripts, where it belongs to
+-   Docs: ReaperApidocs: added info about JS_Mouse_GetState and fixed
+    Markdown-issues with JS_Window_GetScrollInfo and
+    JS_Window_SetScrollPos
+-   Docs: Reaper-ConfigVars: added new settings in video_colorspace from
+    Reaper 5.972 and pre-release onlys to labelitems2,
+    pooledenvtranstime and video_defimglen
 -   Docs: relayouted changelog for beta 2.72 upwards, the featurelist
     should be better readable, now
+-   Docs: SetVerticalZoom - added info into description about how to do
+    relative-vertical-zoom
+-   Helpers: print - renamed to print_alt, print itself now separates
+    the parameters with newlines(not two spaces), now
 -   HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the
     function not to find the RenderToFile-window
+-   UserInterface: SetVerticalScroll - last minute changes prevented the
+    parameter from being passed to the function -> fixed
+-   UserInterface: GetVZoom - renamed to GetVerticalZoom for better
+    readability, sorry for any inconvenience
+-   UserInterface: SetVZoom - renamed to SetVerticalZoom for better
+    readability, sorry for any inconvenience
 -   Ultraschall: CountUltraschallEffectPlugins - removed, as it was
     useless
 -   Ultraschall: pause_follow_one_cycle - moved to Ultraschall Specific

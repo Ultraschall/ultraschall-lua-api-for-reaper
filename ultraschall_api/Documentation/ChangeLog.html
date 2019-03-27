@@ -52,12 +52,14 @@ Ultraschall API Changelog
 <li>GFX: GFX_GetMouseCap - checks and returns mouse-clicks, including doubleclick, dragging, mousewheel-states, etc. Much more handy than gfx.mouse_cap.</li>
 <li>Helpers: ConvertIntegerIntoString2 - converts multiple integers into a string, 8 to 32 bit integers can be converted</li>
 <li>Helpers: ConvertStringToIntegers - converts a string into multiple integers; you can set the size of the integer</li>
+<li>Helpers: print - prints its values to the ReaScript-console, separating the displayed parameters with newlines now</li>
 <li>Helpers: print_update - prints its values to the ReaScript console, but clears the console before displaying. Good for progressbars and displaying a few statuses without constantly scrolling.</li>
 <li>Helpers: PrintProgressBar - prints a simple progressbar into the ReaScript-console; you should call ResetProgressBar before starting a new progressbar</li>
 <li>Helpers: ResetProgressBar - resets progressbar-settings, so you can start a new progressbar</li>
 <li>Routing: AreAUXSendReceivesTablesEqual - compares two AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and GetAllAUXSendReceives2</li>
 <li>Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2</li>
 <li>Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables, as returned by GetAllMainSendStates and GetAllMainSendStates2</li>
+<li>UserInterface: SetVerticalRelativeScroll - like SetVerticalScroll but sets the arrange-vertical-scroll, relative to it's current vscroll-position</li>
 <li>Ultraschall: GetTypeOfTrack - returns the type of a track, either StudioLink/StudioLinkOnAir or SoundBoard</li>
 <li>Ultraschall: GetAllAUXSendReceives2 - like GetAllAUXSendReceives, but returns type of track as well</li>
 <li>Ultraschall: GetAllHWOuts2 - like GetAllHWOuts, but returns type of track as well</li>
@@ -69,8 +71,15 @@ Ultraschall API Changelog
 <h4>Changes from Beta 2.73 to Beta 2.74</h4>
 <ul>
 <li>Docs: GetScriptIdentifier - moved in the index to Api-Helper functions -&gt; Child Scripts, where it belongs to</li>
+<li>Docs: ReaperApidocs: added info about JS<em>Mouse</em>GetState and fixed Markdown-issues with JS<em>Window</em>GetScrollInfo and JS<em>Window</em>SetScrollPos</li>
+<li>Docs: Reaper-ConfigVars: added new settings in video<em>colorspace from Reaper 5.972 and pre-release onlys to labelitems2, pooledenvtranstime and video</em>defimglen</li>
 <li>Docs: relayouted changelog for beta 2.72 upwards, the featurelist should be better readable, now</li>
+<li>Docs: SetVerticalZoom - added info into description about how to do relative-vertical-zoom</li>
+<li>Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces), now</li>
 <li>HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window</li>
+<li>UserInterface: SetVerticalScroll - last minute changes prevented the parameter from being passed to the function -&gt; fixed</li>
+<li>UserInterface: GetVZoom - renamed to GetVerticalZoom for better readability, sorry for any inconvenience</li>
+<li>UserInterface: SetVZoom - renamed to SetVerticalZoom for better readability, sorry for any inconvenience</li>
 <li>Ultraschall: CountUltraschallEffectPlugins - removed, as it was useless</li>
 <li>Ultraschall: pause_follow_one_cycle - moved to Ultraschall Specific in the index of the docs</li>
 </ul>

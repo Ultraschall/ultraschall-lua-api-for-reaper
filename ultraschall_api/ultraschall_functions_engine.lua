@@ -280,20 +280,20 @@ end
 --print("Hula","Hoop",reaper.GetTrack(0,0))
 --print("tudel")
 
-function print(...)
+function print_alt(...)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>print</slug>
+  <slug>print_alt</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>print(parameter_1 to parameter_n)</functioncall>
+  <functioncall>print_alt(parameter_1 to parameter_n)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     replaces Lua's own print-function, that is quite useless in Reaper.
     
-    Converts all parametes given into string using tostring() and displays them in the ReaScript-console, separated by two spaces, ending with a newline.
+    like [print](#print), but separates the entries by a two spaced, not a newline
   </description>
   <parameters>
     parameter_1 to parameter_n - the parameters, that you want to have printed out
@@ -321,6 +321,45 @@ end
 --print2("Hula","Hoop",reaper.GetTrack(0,0))
 --print("tudel")
 
+function print(...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>print</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>print(parameter_1 to parameter_n)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    replaces Lua's own print-function, that is quite useless in Reaper.
+    
+    Converts all parametes given into string using tostring() and displays them in the ReaScript-console, separated by a newline and ending with a newline.
+  </description>
+  <parameters>
+    parameter_1 to parameter_n - the parameters, that you want to have printed out
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helperfunctions, print, console</tags>
+</US_DocBloc>
+]]
+
+  local string=""
+  local count=1
+  local temp={...}
+  while temp[count]~=nil do
+    string=string.."\n"..tostring(temp[count])
+    count=count+1
+  end
+  if string:sub(-1,-1)=="\n" then string=string:sub(1,-2) end
+  reaper.ShowConsoleMsg(string:sub(2,-1).."\n","Print",0)
+end
+
+--print_alt(9,1,2)
 
 function ultraschall.AddErrorMessage(functionname, parametername, errormessage, errorcode)
 --[[
@@ -33546,17 +33585,17 @@ end
 --L,LL=ultraschall.GetGuidExtState("TRACK_"..reaper.GetTrackGUID(reaper.GetTrack(0,0)),"Hulas", 1, true, true)
 --ultraschall.ShowLastErrorMessage()
 
-function ultraschall.GetVZoom()
+function ultraschall.GetVerticalZoom()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetVZoom</slug>
+  <slug>GetVerticalZoom</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.40
     SWS=2.9.7
     Lua=5.3
   </requires>
-  <functioncall>integer vertical_zoom_factor = ultraschall.GetVZoom()</functioncall>
+  <functioncall>integer vertical_zoom_factor = ultraschall.GetVerticalZoom()</functioncall>
   <description>
     Returns the vertical-zoom-factor.
     
@@ -33581,25 +33620,27 @@ function ultraschall.GetVZoom()
   if vzoom==checkvzoom then 
     return vzoom
   else
-    ultraschall.AddErrorMessage("GetVZoom", "", "Unknown error while retrieving vertical zoom-level. Please contact the developers of the Ultraschall-Api!", -1) return -1
+    ultraschall.AddErrorMessage("GetVerticalZoom", "", "Unknown error while retrieving vertical zoom-level. Please contact the developers of the Ultraschall-Api!", -1) return -1
   end
 end
 
---L=ultraschall.GetVZoom()
+--L=ultraschall.GetVerticalZoom()
 
-function ultraschall.SetVZoom(vertical_zoom_factor)
+function ultraschall.SetVerticalZoom(vertical_zoom_factor)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SetVZoom</slug>
+  <slug>SetVerticalZoom</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.40
     SWS=2.9.7
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetVZoom(integer vertical_zoom_factor)</functioncall>
-  <description>
+  <functioncall>integer retval = ultraschall.SetVerticalZoom(integer vertical_zoom_factor)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets the vertical zoom factor.
+
+    To set it relative to the current vertical-zoom-value, use Reaper's own API-function [CSurf_OnZoom](Reaper_Api_Documentation.html#CSurf_OnZoom)
     
     Returns -1 in case of error.
   </description>
@@ -33619,8 +33660,8 @@ function ultraschall.SetVZoom(vertical_zoom_factor)
 </US_DocBloc>
 --]]
   -- check parameters
-  if math.type(vertical_zoom_factor)~="integer" then ultraschall.AddErrorMessage("SetVZoom","vertical_zoom_factor", "Must be an integer", -1) return -1 end
-  if vertical_zoom_factor<0 or vertical_zoom_factor>40 then ultraschall.AddErrorMessage("SetVZoom","vertical_zoom_factor", "Must be between 0 and 40", -2) return -1 end
+  if math.type(vertical_zoom_factor)~="integer" then ultraschall.AddErrorMessage("SetVerticalZoom","vertical_zoom_factor", "Must be an integer", -1) return -1 end
+  if vertical_zoom_factor<0 or vertical_zoom_factor>40 then ultraschall.AddErrorMessage("SetVerticalZoom","vertical_zoom_factor", "Must be between 0 and 40", -2) return -1 end
 
   -- prepare variables
   local OldVzoom=reaper.SNM_GetIntConfigVar("vzoom2",-20)
@@ -33630,9 +33671,11 @@ function ultraschall.SetVZoom(vertical_zoom_factor)
   reaper.CSurf_OnZoom(0, DiffVZoom)
 end
 
---L=ultraschall.SetVZoom(0)
---LL=ultraschall.GetVZoom(30)
+--L=ultraschall.SetVerticalZoom(0)
+--LL=ultraschall.GetVerticalZoom(30)
 --reaper.UpdateArrange()
+
+
 
 function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom, vscroll)
 --[[
@@ -33679,7 +33722,7 @@ function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom
   -- prepare variables
   local slot=tostring(slot)
   local start,ende=reaper.GetSet_ArrangeView2(0,false,0,0)
-  local vzoom2=ultraschall.GetVZoom()
+  local vzoom2=ultraschall.GetVerticalZoom()
   local hzoom=reaper.GetHZoomLevel()
 
   -- store start/end-position, verticalzoom and description; position and vzoom only, if parameters position and vzoom are set to true
@@ -33914,7 +33957,7 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
   
   
   if vzoom3~=-1 and vzoom==true then 
-    ultraschall.SetVZoom(vzoom3)
+    ultraschall.SetVerticalZoom(vzoom3)
   end  
   
   if verticalscroll==true or verticalscroll==nil then
@@ -33929,10 +33972,10 @@ end
 --ultraschall.StoreArrangeviewSnapshot(3, "LSubisubisu", true, true, true)
 
 --A,B,C,D,E,F=ultraschall.RestoreArrangeviewSnapshot(1,false, true, 1)
---ultraschall.SetVZoom(40)
+--ultraschall.SetVerticalZoom(40)
 
 
---ultraschall.SetVZoom(29.1)
+--ultraschall.SetVerticalZoom(29.1)
 
 function ultraschall.SetBitfield(integer_bitfield, set_to, ...)
 --[[
@@ -50336,7 +50379,7 @@ function ultraschall.SetVerticalScroll(scrollposition)
   </requires>
   <functioncall>boolean retval = ultraschall.SetVerticalScroll(integer scrollposition)</functioncall>
   <description>
-    Sets the vertical-scroll-factor.
+    Sets the absolute vertical-scroll-factor.
     
     The possible value-range depends on the vertical-zoom.
     
@@ -50357,12 +50400,54 @@ function ultraschall.SetVerticalScroll(scrollposition)
   <tags>arrangeviewmanagement, set, vertical, scroll factor</tags>
 </US_DocBloc>
 --]]
-  if math.type(position)~="integer" then ultraschall.AddErrorMessage("SetVerticalScroll", "scrollposition", "must be an integer", -1) return false end
+  if math.type(scrollposition)~="integer" then ultraschall.AddErrorMessage("SetVerticalScroll", "scrollposition", "must be an integer", -1) return false end
   
   return reaper.JS_Window_SetScrollPos(ultraschall.GetHWND_ArrangeViewAndTimeLine(), "SB_VERT", scrollposition)
 end
 
---A=ultraschall.SetVerticalScroll(2000000)
+--A=ultraschall.SetVerticalScroll(100)
+
+function ultraschall.SetVerticalRelativeScroll(relative_scrollposition)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetVerticalRelativeScroll</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.962
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetVerticalRelativeScroll(integer relative_scrollposition)</functioncall>
+  <description>
+    Sets the vertical-scroll-factor, relative to it's current position.
+    
+    The possible value-range depends on the vertical-zoom.
+    
+    returns false in case of an error or if scrolling is impossible(e.g. zoomed out fully)
+  </description>
+  <retvals>
+    boolean retval - true, if setting was successful; false, if setting was unsuccessful
+  </retvals>
+  <parameters>
+    integer scrollposition - the vertical scrolling-position
+  </parameters>
+  <chapter_context>
+    User Interface
+    Arrangeview Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>arrangeviewmanagement, set, relative, vertical, scroll factor</tags>
+</US_DocBloc>
+--]]
+  if math.type(relative_scrollposition)~="integer" then ultraschall.AddErrorMessage("SetVerticalRelativeScroll", "relative_scrollposition", "must be an integer", -1) return false end
+  
+  local A=ultraschall.GetVerticalScroll()
+  
+  return reaper.JS_Window_SetScrollPos(ultraschall.GetHWND_ArrangeViewAndTimeLine(), "SB_VERT", A+relative_scrollposition)
+end
+
+--ultraschall.SetVerticalRelativeScroll(1)
 
 function ultraschall.GetUserInputs(title, caption_names, default_retvals, length)
 --[[
@@ -53863,6 +53948,8 @@ function print_update(...)
   print(...)
 end
 
+
+
 function ultraschall.SetScriptIdentifier_Description(description)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -54140,6 +54227,17 @@ function ultraschall.PrintProgressBar(length, maximumvalue, currentvalue, percen
   end
   return true
 end
+
+--A=ultraschall.GetVerticalZoom()
+--B=ultraschall.SetVerticalZoom(30)
+--B=ultraschall.SetVerticalRelativeZoom(-40)
+--C=ultraschall.GetVerticalZoom()
+--C=GetVerticalZoom()
+--ultraschall.SetVerticalRelativeScroll(1)
+--ultraschall.SetVerticalRelativeScroll(-1)
+--reaper.UpdateArrange()
+--reaper.UpdateTimeline()
+
 
 
 ultraschall.ShowLastErrorMessage()
