@@ -270,7 +270,7 @@
 
 ## Ultraschall Framework - Changelog
 
-### 4.00 Beta 2.74: - "Radiohead - Four Minute Warning" - 15th of April 2019
+### 4.00 Beta 2.74: - "Blondie - Call Me" - 15th of April 2019
 
 #### New features in 4.00beta2.74
   - ChildScripts: GetScriptIdentifier_Description - gets the description of your script
@@ -301,6 +301,7 @@
   
 #### Changes from Beta 2.73 to Beta 2.74
   - Docs: GetScriptIdentifier - moved in the index to Api-Helper functions -> Child Scripts, where it belongs to
+  - Docs: GetScriptReturnvalues - corrected docs and cleared them up a little
   - Docs: ReaperApidocs: added info about JS_Mouse_GetState and fixed Markdown-issues with JS_Window_GetScrollInfo and JS_Window_SetScrollPos
   - Docs: Reaper-ConfigVars: added new settings in video_colorspace from Reaper 5.972 and pre-release onlys to labelitems2, pooledenvtranstime and video_defimglen
   - Docs: relayouted changelog for beta 2.72 upwards, the featurelist should be better readable, now

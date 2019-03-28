@@ -57,81 +57,82 @@ ultraschall.StartTime=os.clock()
 ultraschall.ErrorMessage={}
 
 -- HoHoHo
-ultraschall.snowB=os.date("*t")
-
-ultraschall.snowtodaysdate=ultraschall.snowB.day.."."..ultraschall.snowB.month
-ultraschall.snowoldgfx=gfx.update
-
-ultraschall.temp,ultraschall.tempfilename=reaper.get_action_context()
-
-ultraschall.Dump, ultraschall.ScriptFileName=reaper.get_action_context()
-
-if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and 
-    (ultraschall.snowtodaysdate=="24.12" or 
-     ultraschall.snowtodaysdate=="25.12" or 
-     ultraschall.snowtodaysdate=="26.12") then
-  ultraschall.snowoldgfx=gfx.update
-  function gfx.update()
-    if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
-    ultraschall.snowoldgfx()
-  end      
-end
---gfx.init()
-
--- initial values
-ultraschall.snowspeed=1.3       -- the falling speed of the snowflakes
-ultraschall.snowsnowfactor=5000 -- the number of snowflakes
-ultraschall.snowwindfactor=3    -- the amount the wind influences the snow; wind has an effect sideways and on the falling-speed. 
-                                -- Don't set too high(>100), will look ugly otherwise. Rather experimental, than a real wind simulation...
-
--- let's create some basic shapes to blit as snowflakes for:
--- close snowflakes
-gfx.setimgdim(200,1,1)
-gfx.dest=200
-gfx.set(0.5,0.5,0.5)
-gfx.rect(0,0,1,1)
--- medium snowflakes
-gfx.setimgdim(400,1,1)
-gfx.dest=400
-gfx.set(0.3,0.3,0.3)
-gfx.rect(0,0,1,1)
--- small and far snowflakes
-gfx.setimgdim(401,1,1)
-gfx.dest=401
-gfx.set(0.2,0.2,0.2)
-gfx.rect(0,0,1,1)
-
-
--- set framebuffer to the shown one
-gfx.dest=-1
-
--- Let's create an initial set of snowflakes
-ultraschall.snowSnowflakes={}
-for a=1, ultraschall.snowsnowfactor do
-  -- random x-position
-  -- random y-position
-  -- speed(which I also use as size-factor) and
-  -- another speed-factor(useful? Don't know...)
-  if gfx.w==0 then ultraschall.snowwidth=1000 else ultraschall.snowwidth=gfx.w end
-  if gfx.h==0 then ultraschall.snowheight=500 else ultraschall.snowheight=gfx.h end
-  ultraschall.snowSnowflakes[a]={math.random(1,ultraschall.snowwidth),math.random(-1500,0),math.random()*2,(math.random()/4)*math.random(-1,1)}
-  if ultraschall.snowSnowflakes[a][3]<0.4 then ultraschall.snowSnowflakes[a][3]=ultraschall.snowSnowflakes[a][3]*2 end
-end
+function ultraschall.OperationHoHoHo()
+  ultraschall.snowB=os.date("*t")
   
-
--- Let's create a table, that is meant to influence the fall of the snowflakes, as wind would do.
--- For laziness, I simply choose a sinus-wave to create it
--- this could be improved much much more...
-  ultraschall.snowwind=-3.6  
-  ultraschall.snowWindtable={}
-  for windcounter=0, ultraschall.snowsnowfactor do
-   ultraschall.snowwind=(ultraschall.snowwind+ultraschall.snowwindfactor*.001)--/(speed*2)
-   if ultraschall.snowwind>3.6 then ultraschall.snowwind=-3.6 end
-   ultraschall.snowWindtable[windcounter]=math.sin(windcounter)-(math.random()/2)*ultraschall.snowwindfactor
+  ultraschall.snowtodaysdate=ultraschall.snowB.day.."."..ultraschall.snowB.month
+  ultraschall.snowoldgfx=gfx.update
+  
+  ultraschall.temp,ultraschall.tempfilename=reaper.get_action_context()
+  
+  ultraschall.Dump, ultraschall.ScriptFileName=reaper.get_action_context()
+  
+  if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and 
+      (ultraschall.snowtodaysdate=="24.12" or 
+       ultraschall.snowtodaysdate=="25.12" or 
+       ultraschall.snowtodaysdate=="26.12") then
+    ultraschall.snowoldgfx=gfx.update
+    function gfx.update()
+      if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
+      ultraschall.snowoldgfx()
+    end      
   end
-
-ultraschall.snowwindoffset=1
-
+  --gfx.init()
+  
+  -- initial values
+  ultraschall.snowspeed=1.3       -- the falling speed of the snowflakes
+  ultraschall.snowsnowfactor=5000 -- the number of snowflakes
+  ultraschall.snowwindfactor=3    -- the amount the wind influences the snow; wind has an effect sideways and on the falling-speed. 
+                                  -- Don't set too high(>100), will look ugly otherwise. Rather experimental, than a real wind simulation...
+  
+  -- let's create some basic shapes to blit as snowflakes for:
+  -- close snowflakes
+  gfx.setimgdim(200,1,1)
+  gfx.dest=200
+  gfx.set(0.5,0.5,0.5)
+  gfx.rect(0,0,1,1)
+  -- medium snowflakes
+  gfx.setimgdim(400,1,1)
+  gfx.dest=400
+  gfx.set(0.3,0.3,0.3)
+  gfx.rect(0,0,1,1)
+  -- small and far snowflakes
+  gfx.setimgdim(401,1,1)
+  gfx.dest=401
+  gfx.set(0.2,0.2,0.2)
+  gfx.rect(0,0,1,1)
+  
+  
+  -- set framebuffer to the shown one
+  gfx.dest=-1
+  
+  -- Let's create an initial set of snowflakes
+  ultraschall.snowSnowflakes={}
+  for a=1, ultraschall.snowsnowfactor do
+    -- random x-position
+    -- random y-position
+    -- speed(which I also use as size-factor) and
+    -- another speed-factor(useful? Don't know...)
+    if gfx.w==0 then ultraschall.snowwidth=1000 else ultraschall.snowwidth=gfx.w end
+    if gfx.h==0 then ultraschall.snowheight=500 else ultraschall.snowheight=gfx.h end
+    ultraschall.snowSnowflakes[a]={math.random(1,ultraschall.snowwidth),math.random(-1500,0),math.random()*2,(math.random()/4)*math.random(-1,1)}
+    if ultraschall.snowSnowflakes[a][3]<0.4 then ultraschall.snowSnowflakes[a][3]=ultraschall.snowSnowflakes[a][3]*2 end
+  end
+    
+  
+  -- Let's create a table, that is meant to influence the fall of the snowflakes, as wind would do.
+  -- For laziness, I simply choose a sinus-wave to create it
+  -- this could be improved much much more...
+    ultraschall.snowwind=-3.6  
+    ultraschall.snowWindtable={}
+    for windcounter=0, ultraschall.snowsnowfactor do
+     ultraschall.snowwind=(ultraschall.snowwind+ultraschall.snowwindfactor*.001)--/(speed*2)
+     if ultraschall.snowwind>3.6 then ultraschall.snowwind=-3.6 end
+     ultraschall.snowWindtable[windcounter]=math.sin(windcounter)-(math.random()/2)*ultraschall.snowwindfactor
+    end
+  
+  ultraschall.snowwindoffset=1
+end
 --if GUI==nil then GUI={} end
 function ultraschall.US_snowmain()
   -- set sky to gray  
@@ -186,6 +187,7 @@ function ultraschall.US_snowmain()
 --  if gfx.getchar()~=-1 then reaper.defer(ultraschall.US_snowmain) end
 end
 
+ultraschall.OperationHoHoHo()
 ultraschall.US_snowmain()
   if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
 --end
@@ -239,6 +241,24 @@ end
 
 --A=reaper.GetTrackEnvelope(reaper.GetTrack(0,1),0)
 --B,C,D=ultraschall.GetEnvelopeStateChunk(A, "", true, true)
+
+function ultraschall.IntToDouble(integer)
+  for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini") do
+    if c:match(integer)~=nil then return c:match("(.-)=") end
+  end
+end
+
+--A=ultraschall.IntToDouble(1153139098)
+
+function ultraschall.DoubleToInt(float)
+  float=tostring(float)
+  if (float:match("%.(.*)")):len()==1 then 
+    float=float.."0" end
+  retval, string = reaper.BR_Win32_GetPrivateProfileString("FloatsInt", float, "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini")
+  return string
+end
+
+--B=ultraschall.DoubleToInt(1500.00)
 
 function print2(...)
 --[[
@@ -45138,6 +45158,7 @@ function ultraschall.Main_OnCommandByFilename(filename, ...)
 
   if filename2==filename then ultraschall.AddErrorMessage("Main_OnCommandByFilename", "filename", "No valid script, must be either Lua, Python or EEL-script and end with such an extension.", -4) return false end
 
+
 --reaper.MB(filename2,"",0)
 
   local OO=ultraschall.MakeCopyOfFile(filename, filename2)
@@ -45147,6 +45168,8 @@ function ultraschall.Main_OnCommandByFilename(filename, ...)
   local commandid=reaper.AddRemoveReaScript(true, 0, filename2, true)
   if commandid==0 then ultraschall.AddErrorMessage("Main_OnCommandByFilename", "filename", "Couldn't register filename. Is it a valid ReaScript?.", -3) return false end
   ultraschall.SetScriptParameters(string.gsub("ScriptIdentifier:"..filename2, "\\", "/"), ...)
+--  ultraschall.SetScriptParameters("Hula",...)
+
   reaper.Main_OnCommand(commandid, 0)
   local commandid2=reaper.AddRemoveReaScript(false, 0, filename2, true)
   
@@ -45303,6 +45326,7 @@ function ultraschall.GetScriptParameters(script_identifier, remove)
     counter=counter+1
   end
   local caller_script=reaper.GetExtState(script_identifier, "parm_0")
+  
   if remove==true or remove==nil then reaper.DeleteExtState(script_identifier, "parm_0", false) end
   return counter-1, parms, caller_script
 end
@@ -45345,7 +45369,7 @@ function ultraschall.SetScriptParameters(script_identifier, ...)
   local parms={...}
   local counter=1
   reaper.SetExtState(script_identifier, "parm_0", ultraschall.ScriptIdentifier, false)
---  print2("LOL"..reaper.GetExtState(script_identifier, "parm_0"))
+
   while parms[counter]~=nil do
     reaper.SetExtState(script_identifier, "parm_"..counter, tostring(parms[counter]), false)
     counter=counter+1
@@ -45367,19 +45391,20 @@ function ultraschall.GetScriptReturnvalues(script_identifier, remove)
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>integer num_params, array retvals, string caller_script_identifier = ultraschall.GetScriptReturnvalues(optional string script_identifier, optional boolean remove)</functioncall>
+  <functioncall>integer num_params, array retvals = ultraschall.GetScriptReturnvalues(sender_script_identifier, optional boolean remove)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Gets the return-values stored by a specific script_identifier for the current script.
+    Gets the return-values which a specific sender_script_identifier sent to the current script.
+    
+    If you have started numerous child-scripts and want to know, which child-script sent you return-values, see [GetScriptReturnvalues_Sender](#GetScriptReturnvalues_Sender)
     
     returns -1 in case of an error
   </description>
   <retvals>
     integer num_retvals - the number of return-values available
     array params - the values of the return-values as an array
-    string caller_script_identifier - the scriptidentifier of the script, that set the return-values
   </retvals>
   <parameters>
-    optional string script_identifier - the script-identifier, whose return-values you want to retrieve; 
+    optional string sender_script_identifier - the script-identifier, that sent the return-values to your script
     optional boolean remove - true or nil, remove the stored retval-extstates; false, keep them for later retrieval
   </parameters>
   <chapter_context>
@@ -45391,10 +45416,12 @@ function ultraschall.GetScriptReturnvalues(script_identifier, remove)
   <tags>helper functions, get, script, returnvalues, scriptidentifier</tags>
 </US_DocBloc>
 ]]
-  if type(script_identifier)~="string" then ultraschall.AddErrorMessage("GetScriptReturnvalues", "must be a string", -1) return -1 end
+  if type(script_identifier)~="string" then ultraschall.AddErrorMessage("GetScriptReturnvalues", "script_identifier", "must be a string", -1) return -1 end
   local counter=1
   local retvals={}
+
   while reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter)~="" do
+    --print(reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter))
     retvals[counter]=reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter)
     if remove==true or remove==nil then
       reaper.DeleteExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter, false)
@@ -45406,6 +45433,7 @@ function ultraschall.GetScriptReturnvalues(script_identifier, remove)
     end
     counter=counter+1
   end
+  
   return counter-1, retvals
 end
 
@@ -45442,12 +45470,14 @@ function ultraschall.SetScriptReturnvalues(script_identifier, ...)
 </US_DocBloc>
 ]]
   if type(script_identifier)~="string" then ultraschall.AddErrorMessage("SetScriptReturnvalues", "must be a string", -1) return false end
+
   local retvals={...}
   local counter=1
   local retval_identifier = reaper.GetExtState(script_identifier, "retval_sender_identifier")
   if retval_identifier:match(ultraschall.ScriptIdentifier)==nil then
     reaper.SetExtState(script_identifier, "retval_sender_identifier", retval_identifier..ultraschall.ScriptIdentifier.."\n", false)
   end
+  
   while retvals[counter]~=nil do
     reaper.SetExtState(script_identifier, ultraschall.ScriptIdentifier.."_retval_"..counter, tostring(retvals[counter]), false)
     counter=counter+1
@@ -45472,7 +45502,7 @@ function ultraschall.GetScriptReturnvalues_Sender()
   </requires>
   <functioncall>integer count, array retval_sender = ultraschall.GetScriptReturnvalues_Sender()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Retrieves, which scripts send returnvalues to the current script.
+    Retrieves, which scripts sent returnvalues to the current script.
   </description>
   <retvals>
     integer count - the number of scripts, who have left returnvalues for the current script
@@ -45801,7 +45831,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00","15th of April 2019", "Beta 2.74", 400.0274,  "\"Radiohead - Four Minute Warning\"", ultraschall.hotfixdate
+  return "4.00","15th of April 2019", "Beta 2.74", 400.0274,  "\"Blondie - Call Me\"", ultraschall.hotfixdate
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()

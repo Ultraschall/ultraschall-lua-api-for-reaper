@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="31022.00" author="Meo Mespotine">
+      <version name="31067.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -61,6 +61,7 @@
 	<source file="/ultraschall_api/Documentation/US_Api_GUI.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/US_Api_GUI.html</source>
 	<source file="/ultraschall_api/Documentation/US_Api_Introduction_and_Concepts.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/US_Api_Introduction_and_Concepts.html</source>
 	<source file="/ultraschall_api/Documentation/US_Api_VID.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/US_Api_VID.html</source>
+	<source file="/ultraschall_api/IniFiles/double_to_int.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/double_to_int.ini</source>
 	<source file="/ultraschall_api/IniFiles/Euro.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/Euro.txt</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-ActionList_v5_96.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/Reaper-ActionList_v5_96.ini</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-factory-default-KEY-Codes_for_reaper-kb_ini.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/Reaper-factory-default-KEY-Codes_for_reaper-kb_ini.ini</source>
@@ -304,7 +305,7 @@
 <changelog><![CDATA[
 Ultraschall Framework - Changelog
 
-4.00 Beta 2.74: - “Radiohead - Four Minute Warning” - 15th of April 2019
+4.00 Beta 2.74: - “Blondie - Call Me” - 15th of April 2019
 
 New features in 4.00beta2.74
 
@@ -366,6 +367,8 @@ Changes from Beta 2.73 to Beta 2.74
 
 -   Docs: GetScriptIdentifier - moved in the index to Api-Helper
     functions -> Child Scripts, where it belongs to
+-   Docs: GetScriptReturnvalues - corrected docs and cleared them up a
+    little
 -   Docs: ReaperApidocs: added info about JS_Mouse_GetState and fixed
     Markdown-issues with JS_Window_GetScrollInfo and
     JS_Window_SetScrollPos
