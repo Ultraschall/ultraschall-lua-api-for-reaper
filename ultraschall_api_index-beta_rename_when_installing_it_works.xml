@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="31067.00" author="Meo Mespotine">
+      <version name="31072.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -383,6 +383,8 @@ Changes from Beta 2.73 to Beta 2.74
     the parameters with newlines(not two spaces), now
 -   HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the
     function not to find the RenderToFile-window
+-   Routing: GetAllMainSendStates - fixed error in docs
+-   Routing: ApplyAllMainSendStates - fixed error in docs
 -   UserInterface: SetVerticalScroll - last minute changes prevented the
     parameter from being passed to the function -> fixed
 -   UserInterface: GetVZoom - renamed to GetVerticalZoom for better

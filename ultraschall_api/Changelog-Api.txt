@@ -308,6 +308,8 @@
   - Docs: SetVerticalZoom - added info into description about how to do relative-vertical-zoom
   - Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces), now
   - HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window
+  - Routing: GetAllMainSendStates - fixed error in docs
+  - Routing: ApplyAllMainSendStates - fixed error in docs
   - UserInterface: SetVerticalScroll - last minute changes prevented the parameter from being passed to the function -> fixed
   - UserInterface: GetVZoom - renamed to GetVerticalZoom for better readability, sorry for any inconvenience
   - UserInterface: SetVZoom - renamed to SetVerticalZoom for better readability, sorry for any inconvenience

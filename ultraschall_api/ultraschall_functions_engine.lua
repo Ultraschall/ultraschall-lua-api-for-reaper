@@ -65,6 +65,9 @@ function ultraschall.OperationHoHoHo()
   
   ultraschall.temp,ultraschall.tempfilename=reaper.get_action_context()
   
+  ultraschall.tempfilename=string.gsub(ultraschall.tempfilename,"\n","")
+  ultraschall.tempfilename=string.gsub(ultraschall.tempfilename,"\r","")
+  
   ultraschall.Dump, ultraschall.ScriptFileName=reaper.get_action_context()
   
   if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and 
@@ -52973,7 +52976,7 @@ function ultraschall.GetAllMainSendStates()
     
     returned table is of structure:
       Table["number\_of_tracks"]            - The number of tracks in this table, from track 1 to track n
-      Table[tracknumber]["MainSend"]       - Send to Master on(1) or off(1)
+      Table[tracknumber]["MainSendOn"]     - Send to Master on(1) or off(1)
       Table[tracknumber]["ParentChannels"] - the parent channels of this track
       
       See [GetTrackMainSendState](#GetTrackMainSendState) for more details on the individual settings, stored in the entries.
@@ -53021,7 +53024,7 @@ function ultraschall.ApplyAllMainSendStates(AllMainSendsTable)
     
     expected table is of structure:
       Table["number\_of_tracks"]            - The number of tracks in this table, from track 1 to track n
-      Table[tracknumber]["MainSend"]       - Send to Master on(1) or off(1)
+      Table[tracknumber]["MainSendOn"]     - Send to Master on(1) or off(1)
       Table[tracknumber]["ParentChannels"] - the parent channels of this track
       
       See [GetTrackMainSendState](#GetTrackMainSendState) for more details on the individual settings, stored in the entries.
