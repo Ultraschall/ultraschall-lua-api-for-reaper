@@ -12586,7 +12586,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Parse hh:mm:ss.sss time string, return time in seconds (or 0.0 on error). See [parse_timestr_pos](#parse_timestr_pos), [parse_timestr_len](#parse_timestr_len).
+            Parse hh:mm:ss.sss time string, return time in seconds (or 0.0 on error). See [parse\_timestr_pos](#parse_timestr_pos), [parse\_timestr_len](#parse_timestr_len).
         </description>
         <retvals>
             number - the converted time in seconds

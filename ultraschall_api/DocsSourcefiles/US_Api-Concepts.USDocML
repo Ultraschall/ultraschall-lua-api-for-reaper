@@ -3454,6 +3454,8 @@
         <slug>ExtStateManagement_005_TrackItemExtStates</slug>
         <title>ExtState Management: Track and Item-Extstates</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        **Note: This is deprecated, as Reaper will have the same feature in better in a future version!**
+        
             Another concept, I introduce with the Ultraschall-API are Track and Item-Extstates.
             
             To store them, I make use of the fact, that tracks and items have their own guids. I use these guids as basis for the section-name, while the key and value can be freely chosen by you.  
@@ -3500,6 +3502,8 @@
         <slug>ExtStateManagement_006_TrackExtStates</slug>
         <title>ExtState Management: Track Extstates</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            **Note: This is deprecated, as Reaper will have the same feature in better in a future version!**
+            
             Let's store some extstates for tracks. For that, I added the functions: [GetTrackExtState](usdocml://GetTrackExtState), [SetTrackExtState](usdocml://SetTrackExtState)  
             TrackExtStates are stored as ProjectExtState within the projectfile.
             
@@ -3531,6 +3535,8 @@
         <slug>ExtStateManagement_007_ItemExtStates</slug>
         <title>ExtState Management: Item Extstates</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
+        **Note: This is deprecated, as Reaper will have the same feature in better in a future version!**
+        
             Let's store some extstates for items. For that, I added the functions: [GetItemExtState](usdocml://GetItemExtState), [SetItemExtState](usdocml://SetItemExtState)  
             ItemExtStates are stored as ProjectExtState within the projectfile.
             These functions work basically like the ones for TrackExtStates

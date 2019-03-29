@@ -55,7 +55,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.74 - "Blondie - Call Me" - 15th of April 2019 - Build: 31070</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.74 - "Blondie - Call Me" - 15th of April 2019 - Build: 31122</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -2560,36 +2560,41 @@ This is only for the ultraschall.ini-file, all other ini-files can be used by yo
 </ul>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="ExtStateManagement_005_TrackItemExtStates"></a>
-<div style="font-size:100%"><h4><a href="#ExtStateManagement_005_TrackItemExtStates">^</a> <u>ExtState Management: Track and Item-Extstates</u></h4></div><p><p>Another concept, I introduce with the Ultraschall-API are Track and Item-Extstates.</p>
-<p>To store them, I make use of the fact, that tracks and items have their own guids. I use these guids as basis for the section-name, while the key and value can be freely chosen by you.<br />
-A valid guid is a string that follows the following pattern {........-....-....-....-............} where . is a hexadecimal value(0-F) These extstates are stored as ProjectExtStates, that means: when you save the project, these extstates will be saved with it.</p>
-<p>To make this possible in general, I included two functions: <a href="US_Api_Functions.html#GetGuidExtState">GetGuidExtState</a>, <a href="US_Api_Functions.html#SetGuidExtState">SetGuidExtState</a><br />
-Let's go into more detail:</p>
-<blockquote>
-<p><strong><a href="US_Api_Functions.html#SetGuidExtState">SetGuidExtState</a></strong></p>
-</blockquote>
-<pre><code>                  integer retval = ultraschall.SetGuidExtState(string guid, string key, string value, integer savelocation, boolean overwrite, boolean persists)</code></pre>
-<blockquote>
-<p>This sets an extstate using a guid. So if you have an object, that provides a guid, use that one. You can add additional characters before or after the guid, but it must contain a valid guid.<br />
-After that, set the key and the value.<br />
-With this function, you can also choose, whether to store the extstate as a global extstate that can be used from everywhere in Reaper or only within the current project.<br />
-You can choose, whether to overwrite it, if it already exists and if the state shall persist after existing Reaper(only when storing it as a global extstate).</p>
-</blockquote>
-<p>To get such a stored state, just use:</p>
-<blockquote>
-<p><strong><a href="US_Api_Functions.html#GetGuidExtState">GetGuidExtState</a></strong></p>
-</blockquote>
-<pre><code>                  integer retval, string value = ultraschall.GetGuidExtState(string guid, string key, integer savelocation)
-                  </code></pre>
-<blockquote>
-<p>With this one, you can simply get this extstate again. Just pass to it the guid, the key and the savelocation(either global or in the project) and it returns a success-indicator-return value as well as the stored value itself.</p>
-</blockquote>
-<p>With these two functions as a base, I made variants for tracks and items.</p>
-<p>One important thing to mention: these extstates are bound to the project(if they aren't stored globally via parameter savelocation), so when copying an item with extstates into another project, the extstates will not be part of the new project.<br />
-I will look into that problem at some point.</p>
+<div style="font-size:100%"><h4><a href="#ExtStateManagement_005_TrackItemExtStates">^</a> <u>ExtState Management: Track and Item-Extstates</u></h4></div><p><p><strong>Note: This is deprecated, as Reaper will have the same feature in better in a future version!</strong></p>
+<pre><code>Another concept, I introduce with the Ultraschall-API are Track and Item-Extstates.
+
+To store them, I make use of the fact, that tracks and items have their own guids. I use these guids as basis for the section-name, while the key and value can be freely chosen by you.  
+A valid guid is a string that follows the following pattern {........-....-....-....-............} where . is a hexadecimal value(0-F)
+These extstates are stored as ProjectExtStates, that means: when you save the project, these extstates will be saved with it.  
+
+To make this possible in general, I included two functions: [GetGuidExtState](US_Api_Functions.html#GetGuidExtState), [SetGuidExtState](US_Api_Functions.html#SetGuidExtState)  
+Let&#39;s go into more detail:
+
+&gt;**[SetGuidExtState](US_Api_Functions.html#SetGuidExtState)**
+
+                      integer retval = ultraschall.SetGuidExtState(string guid, string key, string value, integer savelocation, boolean overwrite, boolean persists)
+
+&gt;This sets an extstate using a guid. So if you have an object, that provides a guid, use that one. You can add additional characters before or after the guid, but it must contain a valid guid.  
+&gt;After that, set the key and the value.  
+&gt;With this function, you can also choose, whether to store the extstate as a global extstate that can be used from everywhere in Reaper or only within the current project.  
+&gt;You can choose, whether to overwrite it, if it already exists and if the state shall persist after existing Reaper(only when storing it as a global extstate).
+
+To get such a stored state, just use:
+
+&gt;**[GetGuidExtState](US_Api_Functions.html#GetGuidExtState)**
+
+                      integer retval, string value = ultraschall.GetGuidExtState(string guid, string key, integer savelocation)
+                      
+&gt;With this one, you can simply get this extstate again. Just pass to it the guid, the key and the savelocation(either global or in the project) and it returns a success-indicator-return value as well as the stored value itself.
+
+With these two functions as a base, I made variants for tracks and items.
+
+One important thing to mention: these extstates are bound to the project(if they aren&#39;t stored globally via parameter savelocation), so when copying an item with extstates into another project, the extstates will not be part of the new project.  
+I will look into that problem at some point.  </code></pre>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="ExtStateManagement_006_TrackExtStates"></a>
-<div style="font-size:100%"><h4><a href="#ExtStateManagement_006_TrackExtStates">^</a> <u>ExtState Management: Track Extstates</u></h4></div><p><p>Let's store some extstates for tracks. For that, I added the functions: <a href="US_Api_Functions.html#GetTrackExtState">GetTrackExtState</a>, <a href="US_Api_Functions.html#SetTrackExtState">SetTrackExtState</a><br />
+<div style="font-size:100%"><h4><a href="#ExtStateManagement_006_TrackExtStates">^</a> <u>ExtState Management: Track Extstates</u></h4></div><p><p><strong>Note: This is deprecated, as Reaper will have the same feature in better in a future version!</strong></p>
+<p>Let's store some extstates for tracks. For that, I added the functions: <a href="US_Api_Functions.html#GetTrackExtState">GetTrackExtState</a>, <a href="US_Api_Functions.html#SetTrackExtState">SetTrackExtState</a><br />
 TrackExtStates are stored as ProjectExtState within the projectfile.</p>
 <blockquote>
 <p><strong><a href="US_Api_Functions.html#SetTrackExtState">SetTrackExtState</a></strong></p>
@@ -2608,23 +2613,23 @@ TrackExtStates are stored as ProjectExtState within the projectfile.</p>
 </blockquote>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="ExtStateManagement_007_ItemExtStates"></a>
-<div style="font-size:100%"><h4><a href="#ExtStateManagement_007_ItemExtStates">^</a> <u>ExtState Management: Item Extstates</u></h4></div><p><p>Let's store some extstates for items. For that, I added the functions: <a href="US_Api_Functions.html#GetItemExtState">GetItemExtState</a>, <a href="US_Api_Functions.html#SetItemExtState">SetItemExtState</a><br />
-ItemExtStates are stored as ProjectExtState within the projectfile. These functions work basically like the ones for TrackExtStates</p>
-<blockquote>
-<p><strong><a href="US_Api_Functions.html#SetItemExtState">SetItemExtState</a></strong></p>
-</blockquote>
-<pre><code>                  boolean retval = ultraschall.SetItemExtState(MediaItem item, string key, string value, boolean overwrite)
-                  </code></pre>
-<blockquote>
-<p>This sets an extstate to a certain MediaItem. Just pass to it a MediaItem-object, a key and the value to store. You can also decide, whether you want to overwrite an already existing itemextstate.</p>
-</blockquote>
-<blockquote>
-<p><strong><a href="US_Api_Functions.html#GetItemExtState">GetItemExtState</a></strong></p>
-</blockquote>
-<pre><code>                  boolean retval, string value = ultraschall.GetItemExtState(MediaItem item, string key)</code></pre>
-<blockquote>
-<p>This returns a stored itemextstate. Just pass to it a MediaItem-object and the key, whose value you want. It will return if getting the value was successful or not with return-value retval, as well as the value with value.</p>
-</blockquote>
+<div style="font-size:100%"><h4><a href="#ExtStateManagement_007_ItemExtStates">^</a> <u>ExtState Management: Item Extstates</u></h4></div><p><p><strong>Note: This is deprecated, as Reaper will have the same feature in better in a future version!</strong></p>
+<pre><code>Let&#39;s store some extstates for items. For that, I added the functions: [GetItemExtState](US_Api_Functions.html#GetItemExtState), [SetItemExtState](US_Api_Functions.html#SetItemExtState)  
+ItemExtStates are stored as ProjectExtState within the projectfile.
+These functions work basically like the ones for TrackExtStates
+
+&gt;**[SetItemExtState](US_Api_Functions.html#SetItemExtState)**
+
+                      boolean retval = ultraschall.SetItemExtState(MediaItem item, string key, string value, boolean overwrite)
+                      
+&gt;This sets an extstate to a certain MediaItem. Just pass to it a MediaItem-object, a key and the value to store. You can also decide, whether you want to overwrite an already existing itemextstate.
+                      
+&gt;**[GetItemExtState](US_Api_Functions.html#GetItemExtState)**
+
+                      boolean retval, string value = ultraschall.GetItemExtState(MediaItem item, string key)
+
+&gt;This returns a stored itemextstate. Just pass to it a MediaItem-object and the key, whose value you want.
+&gt;It will return if getting the value was successful or not with return-value retval, as well as the value with value.</code></pre>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="MarkersAndRegions_001_Introduction"></a>
 <div style="font-size:100%"><h4><a href="#MarkersAndRegions_001_Introduction">^</a> <u>Markers and Regions: Introduction</u></h4></div><p><p>In the Ultraschall-extension, we make heavy use of markers and regions for all kinds of things. So, to simplify programming for markers, I added a number of functions to deal with them.</p>

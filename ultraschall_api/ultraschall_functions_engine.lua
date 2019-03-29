@@ -13,7 +13,7 @@
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
 # 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESprogressbarS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -609,7 +609,7 @@ function ultraschall.GetTrackStateChunk_Tracknumber(tracknumber)
     Reaper=5.92
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string trackstatechunk, boolean overflow = ultraschall.GetTrackStateChunk_Tracknumber(integer tracknumber)</functioncall>
+  <functioncall>boolean retval, string trackstatechunk = ultraschall.GetTrackStateChunk_Tracknumber(integer tracknumber)</functioncall>
   <description>
     returns the trackstatechunk for track tracknumber
     
@@ -34700,6 +34700,8 @@ function ultraschall.SetItemExtState(item, key, value, overwrite)
   </requires>
   <functioncall>boolean retval = ultraschall.SetItemExtState(MediaItem item, string key, string value, boolean overwrite)</functioncall>
   <description>
+    **Note: This is deprecated, as Reaper will have the same feature in better in a future version!**
+    
     Sets a new extstate for a MediaItem.
     
     Returns false in case of an error
@@ -34743,6 +34745,8 @@ function ultraschall.GetItemExtState(item, key)
   </requires>
   <functioncall>boolean retval, string value = ultraschall.GetItemExtState(MediaItem item, string key)</functioncall>
   <description>
+    **Note: This is deprecated, as Reaper will have the same feature in better in a future version!**
+  
     Sets a new extstate for a MediaItem.
     
     Returns false in case of an error
@@ -34784,6 +34788,8 @@ function ultraschall.SetTrackExtState(track, key, value, overwrite)
   </requires>
   <functioncall>boolean retval = ultraschall.SetTrackExtState(MediaTrack track, string key, string value, boolean overwrite)</functioncall>
   <description>
+   **Note: This is deprecated, as Reaper will have the same feature in better in a future version!**
+   
     Sets a new extstate for a MediaTrack.
     
     Returns false in case of an error
@@ -34827,6 +34833,8 @@ function ultraschall.GetTrackExtState(track, key)
   </requires>
   <functioncall>boolean retval, string value = ultraschall.GetTrackExtState(MediaTrack track, string key)</functioncall>
   <description>
+    **Note: This is deprecated, as Reaper will have the same feature in better in a future version!**
+  
     Sets a new extstate for a MediaTrack.
     
     Returns false in case of an error
@@ -54165,18 +54173,20 @@ function ultraschall.ResetProgressBar()
     ultraschall.progressbar_lastupdate=-1
     ultraschall.lasttoptext=nil
     ultraschall.progressbar_lastbottomtext=nil
+    ultraschall.progressbar_starttime=nil
+    ultraschall.cur_time=nil
 end
 
-function ultraschall.PrintProgressBar(length, maximumvalue, currentvalue, percentage, offset, toptext, bottomtext)
+function ultraschall.PrintProgressBar(length, maximumvalue, currentvalue, percentage, offset, toptext, bottomtext, remaining_time)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>GetScriptIdentifier_Title</slug>
+    <slug>PrintProgressBar</slug>
     <requires>
       Ultraschall=4.00
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>boolean retval = ultraschall.GetScriptIdentifier_Title(integer length, integer maximumvalue, integer currentvalue, boolean percentage, integer offset, optional string toptext, optional string bottomtext)</functioncall>
+    <functioncall>boolean retval = ultraschall.PrintProgressBar(integer length, integer maximumvalue, integer currentvalue, boolean percentage, integer offset, optional string toptext, optional string bottomtext)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Displays a simple progressbar into the ReaScript console.
       Will clear the console before displaying the next updated progressbar.
@@ -54218,7 +54228,25 @@ function ultraschall.PrintProgressBar(length, maximumvalue, currentvalue, percen
   if offset<0 then ultraschall.AddErrorMessage("PrintProgressBar", "offset", "must be 0 or bigger", -8) return false end
   if toptext~=nil and type(toptext)~="string" then ultraschall.AddErrorMessage("PrintProgressBar", "toptext", "must be a string", -9) return false end  
   if bottomtext~=nil and type(bottomtext)~="string" then ultraschall.AddErrorMessage("PrintProgressBar", "bottomtext", "must be a string", -10) return false end  
+  if remaining_time~=nil and type(remaining_time)~="string" then ultraschall.AddErrorMessage("PrintProgressBar", "remaining_time", "must be a string", -11) return false end  
 
+  local ProgressString, status, String_offset, String_progress, String_unprogress, Percentage
+    -- remaining time-calculator
+  if remaining_time~=nil then
+    if ultraschall.progressbar_starttime==nil then
+      ultraschall.progressbar_starttime=reaper.time_precise()
+    end
+    if ultraschall.progressbar_startcurvalue==nil then
+      ultraschall.progressbar_startcurvalue=currentvalue
+    end
+    ultraschall.progressbar_cur_time=reaper.time_precise()
+    
+    local temptime=ultraschall.progressbar_cur_time-ultraschall.progressbar_starttime
+    local tempmaxtime=(temptime/(currentvalue))*maximumvalue
+    local tempremainingtime=tempmaxtime-temptime
+    tempremainingtime=reaper.format_timestr(tempremainingtime, ""):match("(.-)%.")
+    remaining_time=remaining_time..tempremainingtime
+  end  
   if ultraschall.progressbar_lastupdate~=math.ceil(currentvalue) or 
     ultraschall.lasttoptext~=progressbar_toptext or
     ultraschall.progressbar_lastbottomtext~=bottomtext then
@@ -54232,6 +54260,9 @@ function ultraschall.PrintProgressBar(length, maximumvalue, currentvalue, percen
     end
     for i=1, offset do
       String_offset=String_offset.." "
+      if remaining_time~=nil then
+        remaining_time=" "..remaining_time
+      end
     end
     status=math.ceil((length/maximumvalue)*currentvalue)
     
@@ -54247,6 +54278,7 @@ function ultraschall.PrintProgressBar(length, maximumvalue, currentvalue, percen
         ProgressString=String_offset..ProgressString:sub(1,math.ceil(ProgressString:len()/2-3))..Percentage..ProgressString:sub(math.ceil(ProgressString:len()/2+2),-1)
       end
     end
+    if remaining_time~=nil then ProgressString=ProgressString.."\n"..remaining_time end
     if toptext~=nil then ProgressString=toptext.."\n"..ProgressString end
     if bottomtext~=nil then ProgressString=ProgressString.."\n"..bottomtext end
     print(ProgressString)
@@ -54260,6 +54292,8 @@ function ultraschall.PrintProgressBar(length, maximumvalue, currentvalue, percen
   end
   return true
 end
+
+--ultraschall.PrintProgressBar(100, 100, 3, true, 19, "Hula", "Hoop", "HUi:")
 
 --A=ultraschall.GetVerticalZoom()
 --B=ultraschall.SetVerticalZoom(30)

@@ -4435,7 +4435,7 @@ Note: the C++ pure virtual interfaces used require the MSVC-compatible C++ ABI o
 <div class="l_func"><span class='all_view'>Lua: </span><code><i style="color:#0000ff;">number</i> = reaper.parse_timestr(<i style="color:#0000ff;">string</i> buf)</code><br><br></div>
 <div class="p_func"><span class='all_view'>Python: </span><code><i style="color:#0000ff;">Float</i> RPR_parse_timestr(<i style="color:#0000ff;">String</i> buf)</code><br><br></div></b></div>
 
-<u>Description:</u><br><div style="padding-left:4%;">Parse hh:mm:ss.sss time string, return time in seconds (or 0.0 on error). See <a href="#parse_timestr_pos">parse<em>timestr</em>pos</a>, <a href="#parse_timestr_len">parse<em>timestr</em>len</a>.<br> <br>
+<u>Description:</u><br><div style="padding-left:4%;">Parse hh:mm:ss.sss time string, return time in seconds (or 0.0 on error). See <a href="#parse_timestr_pos">parse_timestr_pos</a>, <a href="#parse_timestr_len">parse_timestr_len</a>.<br> <br>
 </div>
 <table style="border-collapse: separate;border-spacing: 0px 0px;"><tr><td><u>Parameters:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>buf</i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; ">the timestring to convert (hh:mm:ss.sss). Each position of the time can be one digit only, means: "1:2:3.4" is valid. Milliseconds can be more than 3 digits. Hours, seconds, minutes with more than two digits will be converted correctly "1:120" will be converted to 180 seconds.
 </td></tr></table>
