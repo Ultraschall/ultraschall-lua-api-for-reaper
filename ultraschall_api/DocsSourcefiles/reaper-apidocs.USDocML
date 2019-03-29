@@ -8933,7 +8933,7 @@
         </retvals>
         <parameters>
             tr - the MediaTrack, whose number of sends/receives/hardware outputs you want to know
-            category - &gt;0 for receives; 0=sends; &gt;0 for hardware outputs
+            category - &lt;0 for receives; 0=sends; &gt;0 for hardware outputs
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -9047,7 +9047,7 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Get send/receive/hardware output numerical-value attributes.
-            category is &gt;0 for receives, 0=sends, &gt;0 for hardware outputs
+            category is &lt;0 for receives, 0=sends, &gt;0 for hardware outputs
             parameter names:
             
                 B\_MUTE : returns bool \*
@@ -14876,7 +14876,7 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Set send/receive/hardware output numerical-value attributes, return true on success.
-            category is &gt;0 for receives, 0=sends, &gt;0 for hardware outputs
+            category is &lt;0 for receives, 0=sends, &gt;0 for hardware outputs
             parameter names:
 
                 B\_MUTE : returns bool \*
@@ -14923,7 +14923,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            send_idx&gt;0 for receives, &gt;=0 for hw ouputs, &gt;=nb_of_hw_ouputs for sends. isend=1 for end of edit, -1 for an instant edit (such as reset), 0 for normal tweak.
+            send_idx&lt;0 for receives, &gt;=0 for hw ouputs, &gt;=nb_of_hw_ouputs for sends. isend=1 for end of edit, -1 for an instant edit (such as reset), 0 for normal tweak.
         </description>
         <retvals>
             boolean - 
@@ -14954,7 +14954,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            send_idx&gt;0 for receives, &gt;=0 for hw ouputs, &gt;=nb_of_hw_ouputs for sends. isend=1 for end of edit, -1 for an instant edit (such as reset), 0 for normal tweak.
+            send_idx&lt;0 for receives, &gt;=0 for hw ouputs, &gt;=nb_of_hw_ouputs for sends. isend=1 for end of edit, -1 for an instant edit (such as reset), 0 for normal tweak.
         </description>
         <retvals>
             boolean - 
@@ -17040,7 +17040,7 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            send_idx&gt;0 for receives, &gt;=0 for hw ouputs, &gt;=nb_of_hw_ouputs for sends.
+            send_idx&lt;0 for receives, &gt;=0 for hw ouputs, &gt;=nb_of_hw_ouputs for sends.
         </description>
         <retvals>
             boolean - 
@@ -20320,7 +20320,7 @@
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Get track envelope for send/receive/hardware output.
 
-            category is &gt;0 for receives, 0=sends, &gt;0 for hardware outputs
+            category is &lt;0 for receives, 0=sends, &gt;0 for hardware outputs
             sendidx is zero-based (see [GetTrackNumSends](#GetTrackNumSends) to count track sends/receives/hardware outputs)
             envelopeType determines which envelope is returned (0=volume, 1=pan, 2=mute)
 
@@ -20358,11 +20358,11 @@
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Get source or destination media track for send/receive.
 
-            category is &gt;0 for receives, 0=sends
+            category is &lt;0 for receives, 0=sends
             sendidx is zero-based (see [GetTrackNumSends](#GetTrackNumSends) to count track sends/receives)
             trackType determines which track is returned (0=source track, 1=destination track)
 
-            Note: To get or set other send attributes, see [BR_GetSetTrackSendInfo](#BR_GetSetTrackSendInfo) and [BR_GetMediaTrackSendInfo_Envelope](#BR_GetMediaTrackSendInfo_Envelope).
+            Note: To get or set other send attributes, see [BR\_GetSetTrackSendInfo](#BR_GetSetTrackSendInfo) and [BR\_GetMediaTrackSendInfo_Envelope](#BR_GetMediaTrackSendInfo_Envelope).
         </description>
         <retvals>
             MediaTrack - 
@@ -20794,7 +20794,7 @@
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             \[BR\] Get or set send attributes.
 
-            category is &gt;0 for receives, 0=sends, &gt;0 for hardware outputs
+            category is &lt;0 for receives, 0=sends, &gt;0 for hardware outputs
             sendidx is zero-based (see [GetTrackNumSends](#GetTrackNumSends) to count track sends/receives/hardware outputs)
             To set attribute, pass setNewValue as true
 

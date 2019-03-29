@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="31122.00" author="Meo Mespotine">
+      <version name="31224.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -372,6 +372,8 @@ New features in 4.00beta2.74
 
 Changes from Beta 2.73 to Beta 2.74
 
+-   Docs: Functions reference - added pan-law info to the descriptions
+    for many routing-functions
 -   Docs: GetScriptIdentifier - moved in the index to Api-Helper
     functions -> Child Scripts, where it belongs to
 -   Docs: GetScriptReturnvalues - corrected docs and cleared them up a
@@ -398,10 +400,18 @@ Changes from Beta 2.73 to Beta 2.74
     the parameters with newlines(not two spaces), now
 -   HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the
     function not to find the RenderToFile-window
--   Routing: GetAllMainSendStates - fixed error in docs
 -   Routing: ApplyAllMainSendStates - fixed error in docs
+-   Routing: CountTrackHWOuts - allows now TrackStateChunks as well
+-   Routing: CountTrackAUXSendReceives - allows now TrackStateChunks as
+    well
+-   Routing: GetAllMainSendStates - fixed error in docs
+-   Routing: GetTrackMainSendState - sped up execution when not working
+    with TrackStateChunks
+-   Routing: SetTrackMainSendState - sped up execution when not working
+    with TrackStateChunks; returns changed TrackStateChunk now only,
+    when working with TrackStateChunks
 -   StateChunks: GetTrackStateChunk_Tracknumber - forgot to remove
-    retval overflow from docs ->
+    retval overflow from docs -> fixed
 -   UserInterface: SetVerticalScroll - last minute changes prevented the
     parameter from being passed to the function -> fixed
 -   UserInterface: GetVZoom - renamed to GetVerticalZoom for better

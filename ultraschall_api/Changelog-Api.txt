@@ -3,6 +3,55 @@
     API 4.00beta2.74
       TODO!! PrintProgressBar - return the finished progressbar-string, allow optionally to show in ReaConsole
       TODO!! Hardware Out-functions, Send/Receive-Routing-functions - add statechunk-parameter to speed up adding/getting stuff
+                -- GetAUX-function's speedup can be done using native Reaper-API-functions:
+                      -- This must be returned by GetTrackAUXSendReceives, when no TrackStateChunk is used
+                      -- sendidx is 0 based, but in the Ultraschall-API 1 based!
+                          reaper.GetMediaTrackInfo_Value(reaper.BR_GetMediaTrackSendInfo_Track(tr, -1, sendidx-1, 0), "IP_TRACKNUMBER")-1, -- D1
+                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_SENDMODE"), -- D2
+                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "D_VOL"),  -- D3
+                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "D_PAN"),  -- D4
+                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "B_MUTE"), -- D5
+                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "B_MONO"), -- D6
+                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "B_PHASE"),-- D7
+                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_SRCCHAN"), -- D8
+                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_DSTCHAN"), -- D9
+                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "D_PANLAW"), -- D10
+                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_MIDIFLAGS"), -- D11
+                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_AUTOMODE") -- D12  
+                  
+                  -- SetAUX-functions can only be done via TrackStateChunks, as otherwise changing the source-track is impossible
+                    or: if source-track shall be changed, so the following:
+                        
+                       -- get old settings
+                        reaper.GetTrackSendInfo_Value() to get the current settings
+                       -- remove old tracksend
+                        boolean = reaper.RemoveTrackSend(MediaTrack tr, integer category, integer sendidx)
+                       
+                       -- create new tracksend and set the old settings to it
+                       -- creating it allows setting a new track.
+                        integer = reaper.CreateTrackSend(reaper.GetTrack(0,0), reaper.GetTrack(0,1))
+                        boolean = reaper.SetTrackSendInfo_Value(MediaTrack tr, integer category, integer sendidx, string parmname, number newvalue)
+                            to create a new tracksend and apply the old settings to the new one
+                        and
+                        
+                        This would change the order of the routings probably...
+                        No, the order in the TrackStateChunk stays the same. :D
+
+                  
+                  -- How easy Get/SetHWout is possible using Reaper's own functions needs more research.
+                    -- This must be returned by GetTrackHWOut, when no TrackStateChunk is used
+                    -- sendidx is 0 based, but in the Ultraschall-API 1 based!
+                    -- probably can be used for setting as well, as no source-track is needed in here
+                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_DSTCHAN"), -- D2
+                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_SENDMODE"), -- D2
+                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "D_VOL"),  -- D3
+                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "D_PAN"),  -- D4
+                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "B_MUTE"), -- D5
+                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "B_PHASE"),-- D6
+                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_SRCCHAN"), -- D7
+                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "D_PANLAW"), -- D8
+                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_AUTOMODE") -- D9
+                  
       TODO!! winterlysnowflakes - should be initialized only, when WinterlySnowflakes is started the first time; otherwise makes calling API more laggy than useful
       TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
       TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
@@ -16,6 +65,15 @@
       TODO!!  - MoveTakeInTakeOrderInMediaitem, which allows changing the order of takes within an item
       TODO!! Statechunk-Docs, when Reaper 5.974 or later  is released:   + Item notes: optionally display image notes in full height mode
                                                                          new Item/AI-items/Track/Take-extstates from pre-releases
+                                                                         AUXRECV is missing in the statechunk-docs, maybe other routing-stuff as well?
+                                                                                    funfact - -1:U entry is pan_law, go into a routing-setting and rightclick the pan-slider of a receive to get this dialog
+                                                                         AUXRECV_WITHOUT_PANLAW_BOOST - if existing after a AUXRECV, pan_law has the Gain compensation (boost pans)-checkbox set
+                                                                                                        go into a routing-setting and rightclick the pan-slider of a receive to get this dialog
+      TODO!! GetTrackPanLaw_Boost(tracknumber, sendidx, setstate)
+                    setstate=true -> don't insert it
+                    setstate=false -> insert it AFTER the AUXRECV with idx "sendidx"
+                    
+                    only possible using TrackStateChunks, so no speedup possible
       
     API 4.00beta2.75
       TODO!! Doccreation: - wrong number of functions in any other docspage than functions-engine
@@ -303,6 +361,7 @@
   
   
 #### Changes from Beta 2.73 to Beta 2.74
+  - Docs: Functions reference - added pan-law info to the descriptions for many routing-functions
   - Docs: GetScriptIdentifier - moved in the index to Api-Helper functions -> Child Scripts, where it belongs to
   - Docs: GetScriptReturnvalues - corrected docs and cleared them up a little
   - Docs: ReaperApidocs: added info about JS_Mouse_GetState and fixed Markdown-issues with JS_Window_GetScrollInfo and JS_Window_SetScrollPos
@@ -315,9 +374,13 @@
   - ExtStates: SetItemExtState - deprecated, as Reaper will have that feature in a future version in better
   - Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces), now
   - HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window
-  - Routing: GetAllMainSendStates - fixed error in docs
   - Routing: ApplyAllMainSendStates - fixed error in docs
-  - StateChunks: GetTrackStateChunk_Tracknumber - forgot to remove retval overflow from docs ->
+  - Routing: CountTrackHWOuts - allows now TrackStateChunks as well
+  - Routing: CountTrackAUXSendReceives - allows now TrackStateChunks as well
+  - Routing: GetAllMainSendStates - fixed error in docs
+  - Routing: GetTrackMainSendState - sped up execution when not working with TrackStateChunks
+  - Routing: SetTrackMainSendState - sped up execution when not working with TrackStateChunks; returns changed TrackStateChunk now only, when working with TrackStateChunks
+  - StateChunks: GetTrackStateChunk_Tracknumber - forgot to remove retval overflow from docs -> fixed
   - UserInterface: SetVerticalScroll - last minute changes prevented the parameter from being passed to the function -> fixed
   - UserInterface: GetVZoom - renamed to GetVerticalZoom for better readability, sorry for any inconvenience
   - UserInterface: SetVZoom - renamed to SetVerticalZoom for better readability, sorry for any inconvenience
