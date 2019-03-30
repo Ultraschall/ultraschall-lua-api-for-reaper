@@ -88,6 +88,8 @@ Ultraschall API Changelog
 <li>Routing: ApplyAllMainSendStates - fixed error in docs</li>
 <li>Routing: CountTrackHWOuts - allows now TrackStateChunks as well</li>
 <li>Routing: CountTrackAUXSendReceives - allows now TrackStateChunks as well</li>
+<li>Routing: DeleteTrackAUXSendReceives - sped up; supports now deleting from TrackStateChunks as well</li>
+<li>Routing: DeleteTrackHWOut - sped up; supports now deleting from TrackStateChunks as well</li>
 <li>Routing: GetAllMainSendStates - fixed error in docs</li>
 <li>Routing: GetTrackMainSendState - sped up execution when not working with TrackStateChunks</li>
 <li>Routing: SetTrackMainSendState - sped up execution when not working with TrackStateChunks; returns changed TrackStateChunk now only, when working with TrackStateChunks</li>
@@ -138,14 +140,14 @@ Ultraschall API Changelog
 <li>Config: SetIniFileValue - fixed bug that caused inifiles to explode in size</li>
 <li>Docs: Reaper Api docs: Video Processor: corrected YET ANOTHER Markdown-f....p in the example code of chapter Coding Introduction</li>
 <li>Docs: Reaper-Docs: updated to Reaper 5.972</li>
-<li>Docs: Reaper-Api-docs: fixed further layout-problems with Markdown in some descriptions I really, really, really, really, really, really, really need to write my own MarkDown-dialect. It makes me nuts, having to deal with Markdown's ambiguities...</li>
-<li>Routing: DeleteTrackAUXSendReceives - allows now to delete all AuxSendReceives of a track at once, when idx=-1</li>
+<li><p>Docs: Reaper-Api-docs: fixed further layout-problems with Markdown in some descriptions I really, really, really, really, really, really, really need to write my own MarkDown-dialect. It makes me nuts, having to deal with Markdown's ambiguities...</p></li>
 <li>Routing: CountTrackAUXSendReceives - when track isn't found, it returns now an error-message</li>
-<li>Routing: GetTrackAUXSendReceives - had internal variable exposed -&gt; fixed now</li>
+<li>Routing: DeleteTrackAUXSendReceives - allows now to delete all AuxSendReceives of a track at once, when idx=-1</li>
 <li>Routing: DeleteTrackHWOut - allows now to delete all HWOuts of a track at once, when idx=-1</li>
+<li>Routing: GetTrackAUXSendReceives - had internal variable exposed -&gt; fixed now</li>
 <li>Routing: SetTrackHWOut - fixed bug with an incorrect idx-numbering</li>
 <li>Routing: SetTrackAUXSendReceives - fixed bug with an incorrect idx-numbering</li>
-<li>Script-Identifier: Ultraschall.ScriptIdentifier - fixed bugs with Scriptidentifier-creation</li>
+<li><p>Script-Identifier: Ultraschall.ScriptIdentifier - fixed bugs with Scriptidentifier-creation</p></li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.72: - "Blue Oyster Cult - Don't fear the Reaper" - 1st of March 2019</h3>

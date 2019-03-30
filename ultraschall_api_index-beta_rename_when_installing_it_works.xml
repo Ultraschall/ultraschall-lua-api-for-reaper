@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="31224.00" author="Meo Mespotine">
+      <version name="31359.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -404,6 +404,10 @@ Changes from Beta 2.73 to Beta 2.74
 -   Routing: CountTrackHWOuts - allows now TrackStateChunks as well
 -   Routing: CountTrackAUXSendReceives - allows now TrackStateChunks as
     well
+-   Routing: DeleteTrackAUXSendReceives - sped up; supports now deleting
+    from TrackStateChunks as well
+-   Routing: DeleteTrackHWOut - sped up; supports now deleting from
+    TrackStateChunks as well
 -   Routing: GetAllMainSendStates - fixed error in docs
 -   Routing: GetTrackMainSendState - sped up execution when not working
     with TrackStateChunks
@@ -505,14 +509,15 @@ Changes from 4.00beta2.72 to 4.00beta2.73
     in some descriptions I really, really, really, really, really,
     really, really need to write my own MarkDown-dialect. It makes me
     nuts, having to deal with Markdown’s ambiguities…
--   Routing: DeleteTrackAUXSendReceives - allows now to delete all
-    AuxSendReceives of a track at once, when idx=-1
+
 -   Routing: CountTrackAUXSendReceives - when track isn’t found, it
     returns now an error-message
--   Routing: GetTrackAUXSendReceives - had internal variable exposed ->
-    fixed now
+-   Routing: DeleteTrackAUXSendReceives - allows now to delete all
+    AuxSendReceives of a track at once, when idx=-1
 -   Routing: DeleteTrackHWOut - allows now to delete all HWOuts of a
     track at once, when idx=-1
+-   Routing: GetTrackAUXSendReceives - had internal variable exposed ->
+    fixed now
 -   Routing: SetTrackHWOut - fixed bug with an incorrect idx-numbering
 -   Routing: SetTrackAUXSendReceives - fixed bug with an incorrect
     idx-numbering

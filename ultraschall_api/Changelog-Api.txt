@@ -52,6 +52,24 @@
                           reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "D_PANLAW"), -- D8
                           reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_AUTOMODE") -- D9
                   
+                  
+                  To be done-functions for optimization:
+                      unoptimiert:
+                            AddTrackHWOut
+                            GetTrackHWOut
+                            SetTrackHWOut
+                            
+                            AddTrackAUXSendReceives
+                            GetTrackAUXSendReceives
+                            SetTrackAUXSendReceives
+                            
+                            ApplyAllHWOuts
+                            ApplyAllAUXSendReceives
+                            
+                    all others: check, if they already support TrackStateChunks, especially the delete functions
+                    
+                    Update Concepts-page with these new information-bits for the TrackStateChunk-management.
+                            
       TODO!! winterlysnowflakes - should be initialized only, when WinterlySnowflakes is started the first time; otherwise makes calling API more laggy than useful
       TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
       TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
@@ -377,6 +395,8 @@
   - Routing: ApplyAllMainSendStates - fixed error in docs
   - Routing: CountTrackHWOuts - allows now TrackStateChunks as well
   - Routing: CountTrackAUXSendReceives - allows now TrackStateChunks as well
+  - Routing: DeleteTrackAUXSendReceives - sped up; supports now deleting from TrackStateChunks as well
+  - Routing: DeleteTrackHWOut - sped up; supports now deleting from TrackStateChunks as well
   - Routing: GetAllMainSendStates - fixed error in docs
   - Routing: GetTrackMainSendState - sped up execution when not working with TrackStateChunks
   - Routing: SetTrackMainSendState - sped up execution when not working with TrackStateChunks; returns changed TrackStateChunk now only, when working with TrackStateChunks
@@ -435,10 +455,11 @@
   - Docs: Reaper-Api-docs: fixed further layout-problems with Markdown in some descriptions
                      I really, really, really, really, really, really, really need to write my own MarkDown-dialect.
                      It makes me nuts, having to deal with Markdown's ambiguities...
-  - Routing: DeleteTrackAUXSendReceives - allows now to delete all AuxSendReceives of a track at once, when idx=-1
+
   - Routing: CountTrackAUXSendReceives - when track isn't found, it returns now an error-message
-  - Routing: GetTrackAUXSendReceives - had internal variable exposed -> fixed now
+  - Routing: DeleteTrackAUXSendReceives - allows now to delete all AuxSendReceives of a track at once, when idx=-1
   - Routing: DeleteTrackHWOut - allows now to delete all HWOuts of a track at once, when idx=-1
+  - Routing: GetTrackAUXSendReceives - had internal variable exposed -> fixed now
   - Routing: SetTrackHWOut - fixed bug with an incorrect idx-numbering
   - Routing: SetTrackAUXSendReceives - fixed bug with an incorrect idx-numbering
   - Script-Identifier: Ultraschall.ScriptIdentifier - fixed bugs with Scriptidentifier-creation

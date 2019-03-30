@@ -28149,7 +28149,7 @@ function ultraschall.CountTrackAUXSendReceives(tracknumber, TrackStateChunk)
     returns -1 in case of failure
   </description>
   <parameters>
-    integer tracknumber - the number of the track, whose Send/Receive you want
+    integer tracknumber - the number of the track, whose Send/Receive you want; -1, if you want to pass a TrackStateChunk instead
     optional string TrackStateChunk - the TrackStateChunk, whose hwouts you want to count; only when tracknumber=-1
   </parameters>
   <retvals>
@@ -28435,7 +28435,7 @@ end
 
 --ultraschall.AddTrackAUXSendReceives(1,1,1,1,1,1,1,1,1,1,1,1,1,false)
 
-function ultraschall.DeleteTrackHWOut(tracknumber,idx,undo)
+function ultraschall.DeleteTrackHWOut(tracknumber, idx, undo, TrackStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteTrackHWOut</slug>
@@ -28444,15 +28444,16 @@ function ultraschall.DeleteTrackHWOut(tracknumber,idx,undo)
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.DeleteTrackHWOut(integer tracknumber, integer idx, boolean undo)</functioncall>
+  <functioncall>boolean retval = ultraschall.DeleteTrackHWOut(integer tracknumber, integer idx, boolean undo, optional string TrackStateChunk)</functioncall>
   <description>
     Deletes the idxth HWOut-Setting of tracknumber.
     returns false in case of failure
   </description>
   <parameters>
-    integer tracknumber - the number of the track, whose HWOUTs you want to delete. 0 for Master Track.
+    integer tracknumber - the number of the track, whose HWOUTs you want to delete. 0 for Master Track. -1, if you want to use the parameter TrackStateChunk instead
     integer idx - the number of the HWOut-setting, that you want to delete; -1, to delete all HWOuts from this track
     boolean undo - shall this be set to undo(true) or not(false)
+    optional string TrackStateChunk - the TrackStateChunk, from which you want to delete HWOut-entries
   </parameters>
   <retvals>
     boolean retval - true if it worked, false if it didn't.
@@ -28467,15 +28468,20 @@ function ultraschall.DeleteTrackHWOut(tracknumber,idx,undo)
 </US_DocBloc>
 ]]
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("DeleteTrackHWOut", "tracknumber", "must be an integer", -1) return false end
-  if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("DeleteTrackHWOut", "tracknumber", "no such track", -2) return false end
+  if tracknumber<-1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("DeleteTrackHWOut", "tracknumber", "no such track", -2) return false end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteTrackHWOut", "idx", "must be an integer", -3) return false end
   if type(undo)~="boolean" then ultraschall.AddErrorMessage("DeleteTrackHWOut", "undo", "must be a boolean", -4) return false end
-
-  local Track=reaper.GetTrack(0,tracknumber-1)
-  if tracknumber==0 then Track=reaper.GetMasterTrack(0) end
-  local A,TrackStateChunk=ultraschall.GetTrackStateChunk(Track,"",true)
-  if idx==-1 then return reaper.SetTrackStateChunk(Track, string.gsub(TrackStateChunk, "HWOUT.-\n", ""), undo) end
-  local B,C=ultraschall.CountTrackHWOuts(tracknumber)
+  local Track, A
+  if tracknumber>-1 then
+    Track=reaper.GetTrack(0,tracknumber-1)
+    if tracknumber==0 then Track=reaper.GetMasterTrack(0) end
+    A,TrackStateChunk=ultraschall.GetTrackStateChunk(Track,"",true)
+    if idx==-1 then return reaper.SetTrackStateChunk(Track, string.gsub(TrackStateChunk, "HWOUT.-\n", ""), undo) end
+  elseif ultraschall.IsValidTrackStateChunk(TrackStateChunk)==false then ultraschall.AddErrorMessage("DeleteTrackHWOut", "TrackStateChunk", "must be a valid TrackStateChunk", -5) return false
+  else
+    if idx==-1 then return true, string.gsub(TrackStateChunk, "HWOUT.-\n", "") end
+  end  
+  local B,C=ultraschall.CountTrackHWOuts(-1, TrackStateChunk)
   local finalstring=""  
   local Begin
   local Ending
@@ -28493,12 +28499,23 @@ function ultraschall.DeleteTrackHWOut(tracknumber,idx,undo)
     end
   end
   
-  return reaper.SetTrackStateChunk(Track, finalstring, undo)
+  if tracknumber>-1 then 
+    return reaper.SetTrackStateChunk(Track, finalstring, undo)
+  else
+    return true, finalstring
+  end
 end
 
---L=ultraschall.DeleteTrackHWOut(0,1,false)
+--A1,B1=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
+--reaper.MB(B1:sub(1,1500),"",0)
 
-function ultraschall.DeleteTrackAUXSendReceives(tracknumber,idx,undo)
+--L1,LL1=ultraschall.DeleteTrackAUXSendReceives(-1,1,false, B1)
+--L1, LL1=ultraschall.DeleteTrackHWOut(0,-1,false,B1)
+--ultraschall.ShowLastErrorMessage()
+--reaper.MB(LL1:sub(1,1500),"",0)
+
+
+function ultraschall.DeleteTrackAUXSendReceives(tracknumber,idx,undo, TrackStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteTrackAUXSendReceives</slug>
@@ -28507,15 +28524,16 @@ function ultraschall.DeleteTrackAUXSendReceives(tracknumber,idx,undo)
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.DeleteTrackAUXSendReceives(integer tracknumber, integer idx, boolean undo)</functioncall>
+  <functioncall>boolean retval = ultraschall.DeleteTrackAUXSendReceives(integer tracknumber, integer idx, boolean undo, optional string TrackStateChunk)</functioncall>
   <description>
     Deletes the idxth Send/Receive-Setting of tracknumber.
     returns false in case of failure
   </description>
   <parameters>
-    integer tracknumber - the number of the track, whose Send/Receive you want
+    integer tracknumber - the number of the track, whose Send/Receive you want; -1, if you want to use the parameter TrackStateChunk
     integer idx - the number of the send/receive-setting, that you want to delete; -1, deletes all AuxReceives on this track
     boolean undo - shall this be set to undo(true) or not(false)
+    optional string TrackStateChunk - a TrackStateChunk, from which you want to delete Send/Receive-entries; only available, when tracknumber=-1
   </parameters>
   <retvals>
     boolean retval - true if it worked, false if it didn't.
@@ -28530,15 +28548,20 @@ function ultraschall.DeleteTrackAUXSendReceives(tracknumber,idx,undo)
 </US_DocBloc>
 ]]
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("DeleteTrackAUXSendReceives", "tracknumber", "must be an integer", -1) return false end
-  if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("DeleteTrackAUXSendReceives", "tracknumber", "no such track", -2) return false end
+  if tracknumber<-1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("DeleteTrackAUXSendReceives", "tracknumber", "no such track", -2) return false end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteTrackAUXSendReceives", "idx", "must be an integer", -3) return false end
   if type(undo)~="boolean" then ultraschall.AddErrorMessage("DeleteTrackAUXSendReceives", "undo", "must be a boolean", -4) return false end
-  
-  local Track=reaper.GetTrack(0,tracknumber-1)
-  if tracknumber==0 then Track=reaper.GetMasterTrack(0) end  
-  local A,TrackStateChunk=ultraschall.GetTrackStateChunk(Track,"",true)
-  if idx==-1 then return reaper.SetTrackStateChunk(Track, string.gsub(TrackStateChunk, "AUXRECV.-\n", ""), undo) end
-  local B,C=ultraschall.CountTrackAUXSendReceives(tracknumber)
+  local Track, A
+  if tracknumber>-1 then
+    Track=reaper.GetTrack(0,tracknumber-1)
+    if tracknumber==0 then Track=reaper.GetMasterTrack(0) end  
+    if idx==-1 then return reaper.SetTrackStateChunk(Track, string.gsub(TrackStateChunk, "AUXRECV.-\n", ""), undo) end
+    A,TrackStateChunk=ultraschall.GetTrackStateChunk(Track,"",true)
+  elseif ultraschall.IsValidTrackStateChunk(TrackStateChunk)==false then ultraschall.AddErrorMessage("DeleteTrackAUXSendReceives", "TrackStateChunk", "must be a valid TrackStateChunk", -5) return false
+  else
+    if idx==-1 then return true, string.gsub(TrackStateChunk, "AUXRECV.-\n", "") end
+  end
+  local B,C=ultraschall.CountTrackAUXSendReceives(-1, TrackStateChunk)
   local finalstring=""  
   local Begin
   local Ending  
@@ -28557,11 +28580,18 @@ function ultraschall.DeleteTrackAUXSendReceives(tracknumber,idx,undo)
     end
   end
   finalstring=finalstring..Ending
-  return reaper.SetTrackStateChunk(Track, finalstring, undo)
+  if tracknumber~=-1 then
+    return reaper.SetTrackStateChunk(Track, finalstring, undo)
+  else
+    return true, finalstring
+  end
 end
 
---L=ultraschall.DeleteTrackAUXSendReceives(1,-1,false)
+--A1,B1=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
+--reaper.MB(B1:sub(1,1000),"",0)
 
+--L1,LL1=ultraschall.DeleteTrackAUXSendReceives(-1,1,false, B1)
+--reaper.MB(LL1:sub(1,1000),"",0)
 
 function ultraschall.SetTrackHWOut(tracknumber, idx, a, b, c, d, e, f, g, h, i, undo)
 --[[
@@ -52068,9 +52098,15 @@ function ultraschall.ClearRoutingMatrix(ClearHWOuts, ClearAuxRecvs, ClearTrackMa
   if undo==nil then undo=false end
   if ClearMasterTrack==false then minimumTrack=1 else minimumTrack=0 end
   
+  local track, A
   for i=minimumTrack, reaper.CountTracks(0) do
-    if ClearHWOuts~=false then ultraschall.DeleteTrackHWOut(i,-1,undo) end
-    if ClearAuxRecvs~=false then ultraschall.DeleteTrackAUXSendReceives(i,-1,undo) end
+    if i==0 then track=reaper.GetMasterTrack(0) else track=reaper.GetTrack(0,i-1) end
+    if ClearHWOuts~=false then 
+      ultraschall.DeleteTrackHWOut(i,-1,undo) 
+    end
+    if ClearAuxRecvs~=false then 
+      ultraschall.DeleteTrackAUXSendReceives(i,-1,undo) 
+    end
     if ClearTrackMasterSends~=false then 
       local MainSendOn, ParentChannels = ultraschall.GetTrackMainSendState(i)
       ultraschall.SetTrackMainSendState(i, 0, ParentChannels)
@@ -52080,6 +52116,7 @@ function ultraschall.ClearRoutingMatrix(ClearHWOuts, ClearAuxRecvs, ClearTrackMa
 end
 
 --A=ultraschall.ClearRoutingMatrix(nil,nil,nil,nil,nil)
+--O=ultraschall.ClearRoutingMatrix(false, true, false, true, false)
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -53087,7 +53124,7 @@ function ultraschall.ApplyAllMainSendStates(AllMainSendsTable)
   </retvals>
   <chapter_context>
     Track Management
-    Send/Receive-Routing
+    Send/Receive
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
