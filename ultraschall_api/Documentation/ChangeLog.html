@@ -87,6 +87,7 @@ Ultraschall API Changelog
 <li>HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window</li>
 <li>Routing: ApplyAllMainSendStates - fixed error in docs</li>
 <li>Routing: AddTrackHWOut - rewritten, is much faster now and supports now adding to trackstatechunks as well</li>
+<li>Routing: AddTrackAUXSendReceives - rewritten, is much faster now and supports now adding to trackstatechunks as well</li>
 <li>Routing: CountTrackHWOuts - allows now TrackStateChunks as well</li>
 <li>Routing: CountTrackAUXSendReceives - allows now TrackStateChunks as well</li>
 <li>Routing: DeleteTrackAUXSendReceives - sped up; supports now deleting from TrackStateChunks as well</li>
@@ -94,6 +95,7 @@ Ultraschall API Changelog
 <li>Routing: GetAllMainSendStates - fixed error in docs</li>
 <li>Routing: GetTrackMainSendState - sped up execution when not working with TrackStateChunks</li>
 <li>Routing: SetTrackMainSendState - sped up execution when not working with TrackStateChunks; returns changed TrackStateChunk now only, when working with TrackStateChunks</li>
+<li>Routing: SetTrackHWOut - sped up execution; supports now TrackStateChunks as well, when tracknumber=-1</li>
 <li>StateChunks: GetTrackStateChunk_Tracknumber - forgot to remove retval overflow from docs -&gt; fixed</li>
 <li>UserInterface: SetVerticalScroll - last minute changes prevented the parameter from being passed to the function -&gt; fixed</li>
 <li>UserInterface: GetVZoom - renamed to GetVerticalZoom for better readability, sorry for any inconvenience</li>
