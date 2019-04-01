@@ -393,6 +393,7 @@
   - Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces), now
   - HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window
   - Routing: ApplyAllMainSendStates - fixed error in docs
+  - Routing: AddTrackHWOut - rewritten, is much faster now and supports now adding to trackstatechunks as well
   - Routing: CountTrackHWOuts - allows now TrackStateChunks as well
   - Routing: CountTrackAUXSendReceives - allows now TrackStateChunks as well
   - Routing: DeleteTrackAUXSendReceives - sped up; supports now deleting from TrackStateChunks as well
