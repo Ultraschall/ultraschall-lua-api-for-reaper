@@ -2,75 +2,12 @@
       
     API 4.00beta2.74
       TODO!! PrintProgressBar - return the finished progressbar-string, allow optionally to show in ReaConsole
-      TODO!! Hardware Out-functions, Send/Receive-Routing-functions - add statechunk-parameter to speed up adding/getting stuff
-                -- GetAUX-function's speedup can be done using native Reaper-API-functions:
-                      -- This must be returned by GetTrackAUXSendReceives, when no TrackStateChunk is used
-                      -- sendidx is 0 based, but in the Ultraschall-API 1 based!
-                          reaper.GetMediaTrackInfo_Value(reaper.BR_GetMediaTrackSendInfo_Track(tr, -1, sendidx-1, 0), "IP_TRACKNUMBER")-1, -- D1
-                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_SENDMODE"), -- D2
-                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "D_VOL"),  -- D3
-                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "D_PAN"),  -- D4
-                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "B_MUTE"), -- D5
-                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "B_MONO"), -- D6
-                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "B_PHASE"),-- D7
-                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_SRCCHAN"), -- D8
-                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_DSTCHAN"), -- D9
-                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "D_PANLAW"), -- D10
-                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_MIDIFLAGS"), -- D11
-                          reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_AUTOMODE") -- D12  
-                  
-                  -- SetAUX-functions can only be done via TrackStateChunks, as otherwise changing the source-track is impossible
-                    or: if source-track shall be changed, so the following:
-                        
-                       -- get old settings
-                        reaper.GetTrackSendInfo_Value() to get the current settings
-                       -- remove old tracksend
-                        boolean = reaper.RemoveTrackSend(MediaTrack tr, integer category, integer sendidx)
-                       
-                       -- create new tracksend and set the old settings to it
-                       -- creating it allows setting a new track.
-                        integer = reaper.CreateTrackSend(reaper.GetTrack(0,0), reaper.GetTrack(0,1))
-                        boolean = reaper.SetTrackSendInfo_Value(MediaTrack tr, integer category, integer sendidx, string parmname, number newvalue)
-                            to create a new tracksend and apply the old settings to the new one
-                        and
-                        
-                        This would change the order of the routings probably...
-                        No, the order in the TrackStateChunk stays the same. :D
-
-                  
-                  -- How easy Get/SetHWout is possible using Reaper's own functions needs more research.
-                    -- This must be returned by GetTrackHWOut, when no TrackStateChunk is used
-                    -- sendidx is 0 based, but in the Ultraschall-API 1 based!
-                    -- probably can be used for setting as well, as no source-track is needed in here
-                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_DSTCHAN"), -- D2
-                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_SENDMODE"), -- D2
-                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "D_VOL"),  -- D3
-                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "D_PAN"),  -- D4
-                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "B_MUTE"), -- D5
-                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "B_PHASE"),-- D6
-                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_SRCCHAN"), -- D7
-                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "D_PANLAW"), -- D8
-                          reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_AUTOMODE") -- D9
-                  
-                  
-                  To be done-functions for optimization:
-                      unoptimiert:
-                            AddTrackHWOut
-                            GetTrackHWOut
-                            SetTrackHWOut
-                            
-                            AddTrackAUXSendReceives
-                            GetTrackAUXSendReceives
-                            SetTrackAUXSendReceives
-                            
-                            ApplyAllHWOuts
-                            ApplyAllAUXSendReceives
-                            
-                    all others: check, if they already support TrackStateChunks, especially the delete functions
-                    
+      TODO!! Hardware Out-functions, Send/Receive-Routing-functions 
                     Update Concepts-page with these new information-bits for the TrackStateChunk-management.
                             
       TODO!! winterlysnowflakes - should be initialized only, when WinterlySnowflakes is started the first time; otherwise makes calling API more laggy than useful
+    
+    API 4.00beta2.75
       TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
       TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
       TODO!!  - Get Length of all Items in a track GetLengthOfAllItems_Track()
@@ -92,8 +29,6 @@
                     setstate=false -> insert it AFTER the AUXRECV with idx "sendidx"
                     
                     only possible using TrackStateChunks, so no speedup possible
-      
-    API 4.00beta2.75
       TODO!! Doccreation: - wrong number of functions in any other docspage than functions-engine
                           - retvals(maybe parameters as well?) don't convert MD2HTML in functions-engine-docconverter      
 
@@ -354,11 +289,11 @@
   - ChildScripts: SetScriptIdentifier_Description - sets a description for your script
   - ChildScripts: GetScriptIdentifier_Title - gets the title of your script; default is the filename
   - ChildScripts: SetScriptIdentifier_Title - sets the title of your script
-  - ExampleScript: ProgressBar_Example.lua - shows a simple progressbar in the ReaScript-console, that iterates over all filenames in ResourcePath/Effects
-  - ExampleScript: ProgressBar_Example.gif - a demo-gif of ProgressBar_Example.lua
+  - ExampleScript: ProgressBar\_Example.lua - shows a simple progressbar in the ReaScript-console, that iterates over all filenames in ResourcePath/Effects
+  - ExampleScript: ProgressBar\_Example.gif - a demo-gif of ProgressBar\_Example.lua
   - ExampleScript: SimpleDrawingTool.lua - a simple drawing-tool demo, that demonstrates GFX_GetMouseCap
   - ExampleScript: SimpleDrawingTool.gif - a demo-gif of SimpleDrawingTool.lua
-  - GFX: GFX\_GetMouseCap - checks and returns mouse-clicks, including doubleclick, dragging, mousewheel-states, etc. Much more handy than gfx.mouse_cap.
+  - GFX: GFX\_GetMouseCap - checks and returns mouse-clicks in Lua-gfx-windows, including doubleclick, dragging, mousewheel-states, etc. Much more handy than gfx.mouse_cap.
   - Helpers: ConvertIntegerIntoString2 - converts multiple integers into a string, 8 to 32 bit integers can be converted
   - Helpers: ConvertStringToIntegers - converts a string into multiple integers; you can set the size of the integer
   - Helpers: print - prints its values to the ReaScript-console, separating the displayed parameters with newlines now
@@ -382,8 +317,8 @@
   - Docs: Functions reference - added pan-law info to the descriptions for many routing-functions
   - Docs: GetScriptIdentifier - moved in the index to Api-Helper functions -> Child Scripts, where it belongs to
   - Docs: GetScriptReturnvalues - corrected docs and cleared them up a little
-  - Docs: ReaperApidocs: added info about JS_Mouse_GetState and fixed Markdown-issues with JS_Window_GetScrollInfo and JS_Window_SetScrollPos
-  - Docs: Reaper-ConfigVars: added new settings in video_colorspace from Reaper 5.972 and pre-release onlys to labelitems2, pooledenvtranstime and video_defimglen
+  - Docs: ReaperApidocs: added info about JS_Mouse_GetState and fixed Markdown-issues with JS_Window\_GetScrollInfo and JS_Window\_SetScrollPos
+  - Docs: Reaper-ConfigVars: added new settings in video\_colorspace from Reaper 5.972 and pre-release onlys to labelitems2, pooledenvtranstime and video\_defimglen
   - Docs: relayouted changelog for beta 2.72 upwards, the featurelist should be better readable, now
   - Docs: SetVerticalZoom - added info into description about how to do relative-vertical-zoom
   - ExtStates: GetTrackExtState - deprecated, as Reaper will have that feature in a future version in better

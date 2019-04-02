@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="31869.00" author="Meo Mespotine">
+      <version name="31870.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -328,9 +328,9 @@ New features in 4.00beta2.74
     that demonstrates GFX_GetMouseCap
 -   ExampleScript: SimpleDrawingTool.gif - a demo-gif of
     SimpleDrawingTool.lua
--   GFX: GFX_GetMouseCap - checks and returns mouse-clicks, including
-    doubleclick, dragging, mousewheel-states, etc. Much more handy than
-    gfx.mouse_cap.
+-   GFX: GFX_GetMouseCap - checks and returns mouse-clicks in
+    Lua-gfx-windows, including doubleclick, dragging, mousewheel-states,
+    etc. Much more handy than gfx.mouse_cap.
 -   Helpers: ConvertIntegerIntoString2 - converts multiple integers into
     a string, 8 to 32 bit integers can be converted
 -   Helpers: ConvertStringToIntegers - converts a string into multiple
