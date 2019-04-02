@@ -83,20 +83,22 @@ Ultraschall API Changelog
 <li>ExtStates: SetTrackExtState - deprecated, as Reaper will have that feature in a future version in better</li>
 <li>ExtStates: GetItemExtState - deprecated, as Reaper will have that feature in a future version in better</li>
 <li>ExtStates: SetItemExtState - deprecated, as Reaper will have that feature in a future version in better</li>
-<li>Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces), now</li>
+<li>Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces)</li>
 <li>HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window</li>
 <li>Routing: ApplyAllMainSendStates - fixed error in docs</li>
-<li>Routing: AddTrackHWOut - rewritten, is much faster now and supports now adding to trackstatechunks as well</li>
-<li>Routing: AddTrackAUXSendReceives - rewritten, is much faster now and supports now adding to trackstatechunks as well</li>
+<li>Routing: AddTrackHWOut - rewritten, is much faster now and supports now adding to trackstatechunks as well; removed useless parameter undo</li>
+<li>Routing: AddTrackAUXSendReceives - rewritten, is much faster now and supports now adding to trackstatechunks as well; removed useless parameter undo</li>
 <li>Routing: CountTrackHWOuts - allows now TrackStateChunks as well</li>
 <li>Routing: CountTrackAUXSendReceives - allows now TrackStateChunks as well</li>
-<li>Routing: DeleteTrackAUXSendReceives - sped up; supports now deleting from TrackStateChunks as well</li>
-<li>Routing: DeleteTrackHWOut - sped up; supports now deleting from TrackStateChunks as well</li>
-<li>Routing: GetAllMainSendStates - fixed error in docs</li>
+<li>Routing: DeleteTrackAUXSendReceives - sped up; supports now deleting from TrackStateChunks as well; removed useless parameter undo</li>
+<li>Routing: DeleteTrackHWOut - sped up; supports now deleting from TrackstateChunks as well when tracknumber=-1; removed useless parameter undo</li>
+<li>Routing: GetTrackAUXSendReceives - sped up; supports now getting from TrackstateChunks as well when tracknumber=-1</li>
+<li>Routing: GetTrackHWOut - sped up; supports now getting from TrackstateChunks as well when tracknumber=-1</li>
 <li>Routing: GetTrackMainSendState - sped up execution when not working with TrackStateChunks</li>
 <li>Routing: SetTrackMainSendState - sped up execution when not working with TrackStateChunks; returns changed TrackStateChunk now only, when working with TrackStateChunks</li>
-<li>Routing: SetTrackHWOut - sped up execution; supports now TrackStateChunks as well, when tracknumber=-1</li>
-<li>StateChunks: GetTrackStateChunk_Tracknumber - forgot to remove retval overflow from docs -&gt; fixed</li>
+<li>Routing: SetTrackAUXSendReceives - sped up execution; supports now TrackStateChunks as well, when tracknumber=-1; removed useless parameter undo</li>
+<li>Routing: SetTrackHWOut - sped up execution; supports now TrackStateChunks as well, when tracknumber=-1; removed parameter undo, as it useless, now</li>
+<li>StateChunks: GetTrackStateChunk_Tracknumber - forgot to remove retval "overflow" from docs -&gt; fixed</li>
 <li>UserInterface: SetVerticalScroll - last minute changes prevented the parameter from being passed to the function -&gt; fixed</li>
 <li>UserInterface: GetVZoom - renamed to GetVerticalZoom for better readability, sorry for any inconvenience</li>
 <li>UserInterface: SetVZoom - renamed to SetVerticalZoom for better readability, sorry for any inconvenience</li>

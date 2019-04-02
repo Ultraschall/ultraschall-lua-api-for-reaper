@@ -390,20 +390,22 @@
   - ExtStates: SetTrackExtState - deprecated, as Reaper will have that feature in a future version in better
   - ExtStates: GetItemExtState - deprecated, as Reaper will have that feature in a future version in better
   - ExtStates: SetItemExtState - deprecated, as Reaper will have that feature in a future version in better
-  - Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces), now
+  - Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces)
   - HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window
   - Routing: ApplyAllMainSendStates - fixed error in docs
-  - Routing: AddTrackHWOut - rewritten, is much faster now and supports now adding to trackstatechunks as well
-  - Routing: AddTrackAUXSendReceives - rewritten, is much faster now and supports now adding to trackstatechunks as well
+  - Routing: AddTrackHWOut - rewritten, is much faster now and supports now adding to trackstatechunks as well; removed useless parameter undo
+  - Routing: AddTrackAUXSendReceives - rewritten, is much faster now and supports now adding to trackstatechunks as well; removed useless parameter undo
   - Routing: CountTrackHWOuts - allows now TrackStateChunks as well
   - Routing: CountTrackAUXSendReceives - allows now TrackStateChunks as well
-  - Routing: DeleteTrackAUXSendReceives - sped up; supports now deleting from TrackStateChunks as well
-  - Routing: DeleteTrackHWOut - sped up; supports now deleting from TrackStateChunks as well
-  - Routing: GetAllMainSendStates - fixed error in docs
+  - Routing: DeleteTrackAUXSendReceives - sped up; supports now deleting from TrackStateChunks as well; removed useless parameter undo
+  - Routing: DeleteTrackHWOut - sped up; supports now deleting from TrackstateChunks as well when tracknumber=-1; removed useless parameter undo
+  - Routing: GetTrackAUXSendReceives - sped up; supports now getting from TrackstateChunks as well when tracknumber=-1
+  - Routing: GetTrackHWOut - sped up; supports now getting from TrackstateChunks as well when tracknumber=-1
   - Routing: GetTrackMainSendState - sped up execution when not working with TrackStateChunks
   - Routing: SetTrackMainSendState - sped up execution when not working with TrackStateChunks; returns changed TrackStateChunk now only, when working with TrackStateChunks
-  - Routing: SetTrackHWOut - sped up execution; supports now TrackStateChunks as well, when tracknumber=-1
-  - StateChunks: GetTrackStateChunk_Tracknumber - forgot to remove retval overflow from docs -> fixed
+  - Routing: SetTrackAUXSendReceives - sped up execution; supports now TrackStateChunks as well, when tracknumber=-1; removed useless parameter undo
+  - Routing: SetTrackHWOut - sped up execution; supports now TrackStateChunks as well, when tracknumber=-1; removed parameter undo, as it useless, now
+  - StateChunks: GetTrackStateChunk_Tracknumber - forgot to remove retval "overflow" from docs -> fixed
   - UserInterface: SetVerticalScroll - last minute changes prevented the parameter from being passed to the function -> fixed
   - UserInterface: GetVZoom - renamed to GetVerticalZoom for better readability, sorry for any inconvenience
   - UserInterface: SetVZoom - renamed to SetVerticalZoom for better readability, sorry for any inconvenience
