@@ -84,7 +84,10 @@ Ultraschall API Changelog
 <li>ExtStates: GetItemExtState - deprecated, as Reaper will have that feature in a future version in better</li>
 <li>ExtStates: SetItemExtState - deprecated, as Reaper will have that feature in a future version in better</li>
 <li>Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces)</li>
+<li>Helpers: SetTrackStateChunk_Tracknumber - undo parameter wasn't used properly -&gt; fixed now</li>
 <li>HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window</li>
+<li>Routing: ApplyAllHWOuts - sped up code by magnitudes</li>
+<li>Routing: ApplyAllAUXSendReceives - sped up code by magnitudes</li>
 <li>Routing: ApplyAllMainSendStates - fixed error in docs</li>
 <li>Routing: AddTrackHWOut - rewritten, is much faster now and supports now adding to trackstatechunks as well; removed useless parameter undo</li>
 <li>Routing: AddTrackAUXSendReceives - rewritten, is much faster now and supports now adding to trackstatechunks as well; removed useless parameter undo</li>

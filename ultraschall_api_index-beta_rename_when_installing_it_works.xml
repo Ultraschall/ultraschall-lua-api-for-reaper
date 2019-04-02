@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="31813.00" author="Meo Mespotine">
+      <version name="31869.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -398,8 +398,12 @@ Changes from Beta 2.73 to Beta 2.74
     feature in a future version in better
 -   Helpers: print - renamed to print_alt, print itself now separates
     the parameters with newlines(not two spaces)
+-   Helpers: SetTrackStateChunk_Tracknumber - undo parameter wasn’t used
+    properly -> fixed now
 -   HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the
     function not to find the RenderToFile-window
+-   Routing: ApplyAllHWOuts - sped up code by magnitudes
+-   Routing: ApplyAllAUXSendReceives - sped up code by magnitudes
 -   Routing: ApplyAllMainSendStates - fixed error in docs
 -   Routing: AddTrackHWOut - rewritten, is much faster now and supports
     now adding to trackstatechunks as well; removed useless parameter

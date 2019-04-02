@@ -27923,15 +27923,15 @@ function ultraschall.GetTrackHWOut(tracknumber, idx, TrackStateChunk)
     
     if reaper.GetTrackNumSends(tr, 1)<idx then ultraschall.AddErrorMessage("GetTrackHWOut", "idx", "no such index available", -5) return -1 end
     local sendidx=idx
-    return reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_DSTCHAN"), -- D2
-           reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_SENDMODE"), -- D2
+    return math.tointeger(reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_DSTCHAN")), -- D1
+           math.tointeger(reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_SENDMODE")), -- D2
            reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "D_VOL"),  -- D3
            reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "D_PAN"),  -- D4
-           reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "B_MUTE"), -- D5
-           reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "B_PHASE"),-- D6
-           reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_SRCCHAN"), -- D7
+           math.tointeger(reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "B_MUTE")), -- D5
+           math.tointeger(reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "B_PHASE")),-- D6
+           math.tointeger(reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_SRCCHAN")), -- D7
            reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "D_PANLAW"), -- D8
-           reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_AUTOMODE") -- D9
+           math.tointeger(reaper.GetTrackSendInfo_Value(tr, 1, sendidx-1, "I_AUTOMODE")) -- D9
   end
   
   if ultraschall.IsValidTrackStateChunk(TrackStateChunk)==false then ultraschall.AddErrorMessage("GetTrackHWOut", "TrackStateChunk", "must be a valid TrackStateChunk", -6) return -1 end
@@ -27953,7 +27953,7 @@ function ultraschall.GetTrackHWOut(tracknumber, idx, TrackStateChunk)
 end
 
 --L,LL = reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
---A,B,C,D,E,F,G,H,I=ultraschall.GetTrackHWOut(-1, 2, LL)
+--A,B,C,D,E,F,G,H,I=ultraschall.GetTrackHWOut(1, 2, LL)
 
 function ultraschall.GetTrackAUXSendReceives(tracknumber, idx, TrackStateChunk)
 --[[
@@ -28041,28 +28041,28 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber, idx, TrackStateChunk)
   <tags>trackmanagement, track, get, send, receive, phase, source, mute, pan, volume, post, pre, fader, channel, automation, midi, trackstatechunk, pan-law</tags>
 </US_DocBloc>
 ]]
---AUXRECV %d %d %.14f %.14f %d %d %d %d %d %.14f:U %d %d '%s'
+
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackAUXSendReceives", "tracknumber", "must be an integer", -1) return -1 end
   if tracknumber~=-1 and (tracknumber<1 or tracknumber>reaper.CountTracks(0)) then ultraschall.AddErrorMessage("GetTrackAUXSendReceives", "tracknumber", "no such track", -2) return -1 end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetTrackAUXSendReceives", "idx", "must be an integer", -3) return -1 end
   if idx<1 then ultraschall.AddErrorMessage("GetTrackAUXSendReceives", "idx", "no such index available", -4) return -1 end
-  
+
   if tracknumber~=-1 then 
     local tr=reaper.GetTrack(0,tracknumber-1)
     if reaper.GetTrackNumSends(tr, -1)<idx then ultraschall.AddErrorMessage("GetTrackAUXSendReceives", "idx", "no such index available", -5) return -1 end
     local sendidx=idx
-    return reaper.GetMediaTrackInfo_Value(reaper.BR_GetMediaTrackSendInfo_Track(tr, -1, sendidx-1, 0), "IP_TRACKNUMBER")-1, -- D1
-           reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_SENDMODE"), -- D2
+    return math.tointeger(reaper.GetMediaTrackInfo_Value(reaper.BR_GetMediaTrackSendInfo_Track(tr, -1, sendidx-1, 0), "IP_TRACKNUMBER")-1), -- D1
+           math.tointeger(reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_SENDMODE")), -- D2
            reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "D_VOL"),  -- D3
            reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "D_PAN"),  -- D4
-           reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "B_MUTE"), -- D5
-           reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "B_MONO"), -- D6
-           reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "B_PHASE"),-- D7
-           reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_SRCCHAN"), -- D8
-           reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_DSTCHAN"), -- D9
+           math.tointeger(reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "B_MUTE")), -- D5
+           math.tointeger(reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "B_MONO")), -- D6
+           math.tointeger(reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "B_PHASE")),-- D7
+           math.tointeger(reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_SRCCHAN")), -- D8
+           math.tointeger(reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_DSTCHAN")), -- D9
            reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "D_PANLAW"), -- D10
-           reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_MIDIFLAGS"), -- D11
-           reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_AUTOMODE") -- D12  
+           math.tointeger(reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_MIDIFLAGS")), -- D11
+           math.tointeger(reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_AUTOMODE")) -- D12  
   end
   if ultraschall.IsValidTrackStateChunk(TrackStateChunk)==false then ultraschall.AddErrorMessage("GetTrackAUXSendReceives", "TrackStateChunk", "must be a valid TrackStateChunk", -6) return -1 end
   if ultraschall.CountTrackAUXSendReceives(-1, TrackStateChunk)<idx then ultraschall.AddErrorMessage("GetTrackAUXSendReceives", "idx", "no such entry", -7) return -1 end
@@ -28083,8 +28083,6 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber, idx, TrackStateChunk)
   end
 end
 
---L,LL=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",0)
---A,B,C,D,E,F,G,H,I,J,K,L,M,N=ultraschall.GetTrackAUXSendReceives(-1,2, LL)
 
 function ultraschall.CountTrackHWOuts(tracknumber, TrackStateChunk)
 --[[
@@ -31229,7 +31227,7 @@ function ultraschall.SetTrackStateChunk_Tracknumber(tracknumber, trackstatechunk
   if tracknumber==0 then Track=reaper.GetMasterTrack(0)
   else Track=reaper.GetTrack(0,tracknumber-1)
   end
-  A=reaper.SetTrackStateChunk(Track, trackstatechunk, boolean)
+  A=reaper.SetTrackStateChunk(Track, trackstatechunk, undo)
   return A
 end
 
@@ -52852,36 +52850,40 @@ function ultraschall.ApplyAllHWOuts(AllHWOuts)
 ]]
   if type(AllHWOuts)~="table" then ultraschall.AddErrorMessage("ApplyAllHWOuts", "AllHWOuts", "Must be a table.", -1) return false end
   if AllHWOuts["number_of_tracks"]==nil or AllHWOuts["HWOuts"]~=true then ultraschall.AddErrorMessage("ApplyAllHWOuts", "AllHWOuts", "Must be a valid AllAUXSendReceives, as returned by GetAllAUXSendReceive. Get it from there, alter that and pass it into here.", -2) return false end 
-  for i=0, AllHWOuts["number_of_tracks"] do
-    for a=1, AllHWOuts[i]["HWOut_count"] do
-      ultraschall.SetTrackHWOut(i, a, 
-           AllHWOuts[i][a]["outputchannel"],
-           AllHWOuts[i][a]["post_pre_fader"],
-           AllHWOuts[i][a]["volume"], 
-           AllHWOuts[i][a]["pan"], 
-           AllHWOuts[i][a]["mute"], 
-           AllHWOuts[i][a]["phase"], 
-           AllHWOuts[i][a]["source"], 
-           AllHWOuts[i][a]["pan_law"], 
-           AllHWOuts[i][a]["automationmode"],
-           false)--]]
+  local trackstatechunk, retval
 
+  for i=0, AllHWOuts["number_of_tracks"] do
+    retval, trackstatechunk = ultraschall.GetTrackStateChunk_Tracknumber(i)
+    for a=1, AllHWOuts[i]["HWOut_count"] do
+      retval, trackstatechunk = ultraschall.SetTrackHWOut(-1, a, 
+                                   AllHWOuts[i][a]["outputchannel"],
+                                   AllHWOuts[i][a]["post_pre_fader"],
+                                   AllHWOuts[i][a]["volume"], 
+                                   AllHWOuts[i][a]["pan"], 
+                                   AllHWOuts[i][a]["mute"], 
+                                   AllHWOuts[i][a]["phase"], 
+                                   AllHWOuts[i][a]["source"], 
+                                   AllHWOuts[i][a]["pan_law"], 
+                                   AllHWOuts[i][a]["automationmode"],
+                                   trackstatechunk)
       end
+      ultraschall.SetTrackStateChunk_Tracknumber(i, trackstatechunk, false)
   end
   return true
 end
+
 --[[
 A1,B=ultraschall.GetAllHWOuts()
 for i=0, B do
   for a=1, A1[i]["HWOut_count"] do
---    A1[i][a]["volume"]=1
+    A1[i][a]["volume"]=1
   end
 end
 C=ultraschall.ApplyAllHWOuts(A1)
---]]
+
 --A,B,C,D,E,F,G,H,I=ultraschall.GetTrackHWOut(0,1)
 --ultraschall.SetTrackHWOut(0,1,A-1024,B,C,D,E,F,G,H,I,false)
-
+--]]
 
 function ultraschall.GetAllAUXSendReceives()
   -- returned table is of structure:
@@ -53021,10 +53023,15 @@ function ultraschall.ApplyAllAUXSendReceives(AllAUXSendReceives)
 </US_DocBloc>
 ]]
   if type(AllAUXSendReceives)~="table" then ultraschall.AddErrorMessage("GetAllAUXSendReceives", "AllAUXSendReceives", "Must be a table.", -1) return false end
-  if AllAUXSendReceives["number_of_tracks"]==nil or AllAUXSendReceives["AllAUXSendReceive"]~=true then ultraschall.AddErrorMessage("GetAllAUXSendReceives", "AllAUXSendReceives", "Must be a valid AllAUXSendReceives, as returned by GetAllAUXSendReceive. Get it from there, alter that and pass it into here.", -2) return false end 
+  if AllAUXSendReceives["number_of_tracks"]==nil or AllAUXSendReceives["AllAUXSendReceives"]~=true then ultraschall.AddErrorMessage("GetAllAUXSendReceives", "AllAUXSendReceives", "Must be a valid AllAUXSendReceives, as returned by GetAllAUXSendReceive. Get it from there, alter that and pass it into here.", -2) return false end 
+
+  local trackstatechunk, retval
+  
   for i=1, AllAUXSendReceives["number_of_tracks"] do
+    retval, trackstatechunk = ultraschall.GetTrackStateChunk_Tracknumber(i)
+    
     for a=1, AllAUXSendReceives[i]["AUXSendReceives_count"] do
-      ultraschall.SetTrackAUXSendReceives(i, a, 
+      retval, trackstatechunk=ultraschall.SetTrackAUXSendReceives(-1, a, 
            AllAUXSendReceives[i][a]["recv_tracknumber"],
            AllAUXSendReceives[i][a]["post_pre_fader"],
            AllAUXSendReceives[i][a]["volume"], 
@@ -53037,9 +53044,10 @@ function ultraschall.ApplyAllAUXSendReceives(AllAUXSendReceives)
            AllAUXSendReceives[i][a]["pan_law"], 
            AllAUXSendReceives[i][a]["midichanflag"], 
            AllAUXSendReceives[i][a]["automation"],
-           false)--]]
+           trackstatechunk)--]]
            --print2(i,a)
       end
+      ultraschall.SetTrackStateChunk_Tracknumber(i, trackstatechunk, false)
   end
   return true
 end
@@ -53049,7 +53057,7 @@ A1,B=ultraschall.GetAllAUXSendReceives()
 
 for i=1, B do
   for a=1, A1[i]["AUXSendReceives_count"] do
---    A1[i][a]["volume"]=1
+    A1[i][a]["volume"]=0
   end
 end
 
@@ -54403,4 +54411,6 @@ end
 --reaper.UpdateTimeline()
 
 
+--L,LL=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",0)
+--A,B,C,D,E,F,G,H,I,J,K,L,M,N=ultraschall.GetTrackAUXSendReceives(-1,2, LL)
 ultraschall.ShowLastErrorMessage()

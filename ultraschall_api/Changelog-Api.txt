@@ -391,7 +391,10 @@
   - ExtStates: GetItemExtState - deprecated, as Reaper will have that feature in a future version in better
   - ExtStates: SetItemExtState - deprecated, as Reaper will have that feature in a future version in better
   - Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces)
+  - Helpers: SetTrackStateChunk_Tracknumber - undo parameter wasn't used properly -> fixed now
   - HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window
+  - Routing: ApplyAllHWOuts - sped up code by magnitudes
+  - Routing: ApplyAllAUXSendReceives - sped up code by magnitudes
   - Routing: ApplyAllMainSendStates - fixed error in docs
   - Routing: AddTrackHWOut - rewritten, is much faster now and supports now adding to trackstatechunks as well; removed useless parameter undo
   - Routing: AddTrackAUXSendReceives - rewritten, is much faster now and supports now adding to trackstatechunks as well; removed useless parameter undo
