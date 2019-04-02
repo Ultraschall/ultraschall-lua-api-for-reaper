@@ -54410,7 +54410,79 @@ end
 --reaper.UpdateArrange()
 --reaper.UpdateTimeline()
 
+function ultraschall.SetReaScriptConsole_FontStyle(style)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SetReaScriptConsole_FontStyle</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.SetReaScriptConsole_FontStyle(integer style)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      If the ReaScript-console is opened, you can change the font-style of it.
+      You can choose between 17 different styles, with 8 being the only one with fixed character length
+      
+      If you close and reopen the Console, you need to set the font-style again!
+      
+      You can only have one style active in the console!
+      
+      Returns false in case of an error
+    </description>
+    <retvals>
+      boolean retval - true, displaying was successful; false, displaying wasn't successful
+                      - 1, fixed character length; standard-console
+                      - 2, fixed character length; alt.console
+                      - 3, alt.console
+                      - 4, small
+                      - 5, fixed character length; thin console
+                      - 6, normal small font
+                      - 7, normal font
+                      - 8, smaller
+                      - 9, small
+                      - 10, small and bold
+                      - 11, small alternative
+                      - 12, underlined fixed character length
+                      - 13, fixed character length
+                      - 14, very small font
+                      - 15, symbols and icons
+    </retvals>
+    <parameters>
+      integer length - the font-style used. There are 17 different ones.
+    </parameters>
+    <chapter_context>
+      User Interface
+      Miscellaneous
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>user interface, reascript, console, font, styls</tags>
+  </US_DocBloc>
+  ]]
+  if math.type(style)~="integer" then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be an integer", -1) return false end
+  if style>15 or style<1 then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be between 1 and 17", -2) return false end
+  local reascript_console_hwnd = ultraschall.GetReaScriptConsoleWindow()
+  if reascript_console_hwnd==nil then return false end
+  local styles={32,33,34,35,36,37,39,218,219,220,226,3043,3044,3115,3155}
+  local Textfield=reaper.JS_Window_FindChildByID(reascript_console_hwnd, 1177)
+  reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)
+  return true
+end
 
+--ultraschall.SetReaScriptConsole_FontStyle(9)
+--reaper.ShowConsoleMsg("Tudelu\n2678932\n!!!---...\n__?+*#*\n")
+
+--[[
+  local reascript_console_hwnd = ultraschall.GetReaScriptConsoleWindow()
+  local Textfield=reaper.JS_Window_FindChildByID(reascript_console_hwnd, 1177)
+  
+i=90
+for i=4000, 8196 do
+  reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", i,0,0,0)
+  reaper.ShowConsoleMsg(i.."\n")
+end
+--]]
 --L,LL=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",0)
 --A,B,C,D,E,F,G,H,I,J,K,L,M,N=ultraschall.GetTrackAUXSendReceives(-1,2, LL)
 ultraschall.ShowLastErrorMessage()
