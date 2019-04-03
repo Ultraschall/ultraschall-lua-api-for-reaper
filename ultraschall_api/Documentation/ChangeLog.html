@@ -61,6 +61,8 @@ Ultraschall API Changelog
 <li>Routing: AreAUXSendReceivesTablesEqual - compares two AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and GetAllAUXSendReceives2</li>
 <li>Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2</li>
 <li>Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables, as returned by GetAllMainSendStates and GetAllMainSendStates2</li>
+<li>TrackManagement: GetTracknumberByGuid - gets a tracknumber and MediaTrack-object by guid</li>
+<li>UserInterface: SetReaScriptConsole_FontStyle - sets the font-style of the ReaScript console. There are 15 available.</li>
 <li>UserInterface: SetVerticalRelativeScroll - like SetVerticalScroll but sets the arrange-vertical-scroll, relative to it's current vscroll-position</li>
 <li>Ultraschall: GetTypeOfTrack - returns the type of a track, either StudioLink/StudioLinkOnAir or SoundBoard</li>
 <li>Ultraschall: GetAllAUXSendReceives2 - like GetAllAUXSendReceives, but returns type of track as well</li>
@@ -86,15 +88,18 @@ Ultraschall API Changelog
 <li>Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces)</li>
 <li>Helpers: SetTrackStateChunk_Tracknumber - undo parameter wasn't used properly -&gt; fixed now</li>
 <li>HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window</li>
-<li>Routing: ApplyAllHWOuts - sped up code by magnitudes</li>
-<li>Routing: ApplyAllAUXSendReceives - sped up code by magnitudes</li>
-<li>Routing: ApplyAllMainSendStates - fixed error in docs</li>
+<li>Routing: ApplyAllHWOuts - sped up code by magnitudes; allows now setting the HWOut-table by guid; that way, you can apply stored hwouts correctly, even if trackorder changes</li>
+<li>Routing: ApplyAllAUXSendReceives - sped up code by magnitudes; allows now setting the HWOut-table by guid; that way, you can apply stored routings correctly, even if trackorder changes</li>
+<li>Routing: ApplyAllMainSendStates - fixed error in docs; allows now setting the HWOut-table by guid; that way, you can apply different MainSends correctly, even if trackorder changes</li>
 <li>Routing: AddTrackHWOut - rewritten, is much faster now and supports now adding to trackstatechunks as well; removed useless parameter undo</li>
 <li>Routing: AddTrackAUXSendReceives - rewritten, is much faster now and supports now adding to trackstatechunks as well; removed useless parameter undo</li>
 <li>Routing: CountTrackHWOuts - allows now TrackStateChunks as well</li>
 <li>Routing: CountTrackAUXSendReceives - allows now TrackStateChunks as well</li>
 <li>Routing: DeleteTrackAUXSendReceives - sped up; supports now deleting from TrackStateChunks as well; removed useless parameter undo</li>
 <li>Routing: DeleteTrackHWOut - sped up; supports now deleting from TrackstateChunks as well when tracknumber=-1; removed useless parameter undo</li>
+<li>Routing: GetAllHWOuts - sped up; stores now the guids of the track and the receive tracks as well; allows you to keep right tracks and receive-tracks, even if trackorder changes</li>
+<li>Routing: GetAllAUXSendReceives - sped up; stores now the guid of the tracks as well; allows you to keep right track, even if trackorder changes</li>
+<li>Routing: GetAllMainSendStates - sped up; stores now the guid of the tracks as well; allows you to keep right track, even if trackorder changes</li>
 <li>Routing: GetTrackAUXSendReceives - sped up; supports now getting from TrackstateChunks as well when tracknumber=-1</li>
 <li>Routing: GetTrackHWOut - sped up; supports now getting from TrackstateChunks as well when tracknumber=-1</li>
 <li>Routing: GetTrackMainSendState - sped up execution when not working with TrackStateChunks</li>

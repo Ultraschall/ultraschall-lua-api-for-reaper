@@ -303,6 +303,8 @@
   - Routing: AreAUXSendReceivesTablesEqual - compares two AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and GetAllAUXSendReceives2
   - Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2
   - Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables, as returned by GetAllMainSendStates and GetAllMainSendStates2
+  - TrackManagement: GetTracknumberByGuid - gets a tracknumber and MediaTrack-object by guid
+  - UserInterface: SetReaScriptConsole_FontStyle - sets the font-style of the ReaScript console. There are 15 available.
   - UserInterface: SetVerticalRelativeScroll - like SetVerticalScroll but sets the arrange-vertical-scroll, relative to it's current vscroll-position
   - Ultraschall: GetTypeOfTrack - returns the type of a track, either StudioLink/StudioLinkOnAir or SoundBoard
   - Ultraschall: GetAllAUXSendReceives2 - like GetAllAUXSendReceives, but returns type of track as well
@@ -328,15 +330,18 @@
   - Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces)
   - Helpers: SetTrackStateChunk_Tracknumber - undo parameter wasn't used properly -> fixed now
   - HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window
-  - Routing: ApplyAllHWOuts - sped up code by magnitudes
-  - Routing: ApplyAllAUXSendReceives - sped up code by magnitudes
-  - Routing: ApplyAllMainSendStates - fixed error in docs
+  - Routing: ApplyAllHWOuts - sped up code by magnitudes; allows now setting the HWOut-table by guid; that way, you can apply stored hwouts correctly, even if trackorder changes
+  - Routing: ApplyAllAUXSendReceives - sped up code by magnitudes; allows now setting the HWOut-table by guid; that way, you can apply stored routings correctly, even if trackorder changes
+  - Routing: ApplyAllMainSendStates - fixed error in docs; allows now setting the HWOut-table by guid; that way, you can apply different MainSends correctly, even if trackorder changes
   - Routing: AddTrackHWOut - rewritten, is much faster now and supports now adding to trackstatechunks as well; removed useless parameter undo
   - Routing: AddTrackAUXSendReceives - rewritten, is much faster now and supports now adding to trackstatechunks as well; removed useless parameter undo
   - Routing: CountTrackHWOuts - allows now TrackStateChunks as well
   - Routing: CountTrackAUXSendReceives - allows now TrackStateChunks as well
   - Routing: DeleteTrackAUXSendReceives - sped up; supports now deleting from TrackStateChunks as well; removed useless parameter undo
   - Routing: DeleteTrackHWOut - sped up; supports now deleting from TrackstateChunks as well when tracknumber=-1; removed useless parameter undo
+  - Routing: GetAllHWOuts - sped up; stores now the guids of the track and the receive tracks as well; allows you to keep right tracks and receive-tracks, even if trackorder changes
+  - Routing: GetAllAUXSendReceives - sped up; stores now the guid of the tracks as well; allows you to keep right track, even if trackorder changes
+  - Routing: GetAllMainSendStates - sped up; stores now the guid of the tracks as well; allows you to keep right track, even if trackorder changes
   - Routing: GetTrackAUXSendReceives - sped up; supports now getting from TrackstateChunks as well when tracknumber=-1
   - Routing: GetTrackHWOut - sped up; supports now getting from TrackstateChunks as well when tracknumber=-1
   - Routing: GetTrackMainSendState - sped up execution when not working with TrackStateChunks

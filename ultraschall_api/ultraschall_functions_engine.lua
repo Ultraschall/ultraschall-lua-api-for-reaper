@@ -28692,7 +28692,7 @@ function ultraschall.SetTrackHWOut(tracknumber, idx, outputchannel, post_pre_fad
   if math.type(automationmode)~="integer" then ultraschall.AddErrorMessage("SetTrackHWOut", "automationmode", "must be an integer", -11) return false end
   
   if tracknumber~=-1 then
-    local tr    
+    local tr
     if tracknumber==0 then tr=reaper.GetMasterTrack(0)
     else tr=reaper.GetTrack(0,tracknumber-1) end
     if idx>reaper.GetTrackNumSends(tr, 1) then ultraschall.AddErrorMessage("SetTrackHWOut", "idx", "no such index", -15) return false end
@@ -28839,7 +28839,7 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, recv_tracknumber,
   if math.type(midichanflag)~="integer" then ultraschall.AddErrorMessage("SetTrackAUXSendReceives", "midichanflag", "must be an integer", -13) return false end
   if math.type(automation)~="integer" then ultraschall.AddErrorMessage("SetTrackAUXSendReceives", "automation", "must be an integer", -14) return false end
   
-  local tr, temp
+  local tr, temp, Track
   if tracknumber~=-1 then
     if tracknumber==0 then tr=reaper.GetMasterTrack(0)
     else tr=reaper.GetTrack(0,tracknumber-1) end
@@ -31219,6 +31219,7 @@ function ultraschall.SetTrackStateChunk_Tracknumber(tracknumber, trackstatechunk
 ]]
 
   tracknumber=tonumber(tracknumber)
+  local Track
   if type(trackstatechunk)~="string" then ultraschall.AddErrorMessage("SetTrackStateChunk_Tracknumber","trackstatechunk", "not a valid trackstatechunk", -1) return false end
   if undo==nil then undo=true end
   if type(undo)~="boolean" then ultraschall.AddErrorMessage("SetTrackStateChunk_Tracknumber","undo", "only true or false are allowed", -2) return false end
@@ -52722,6 +52723,58 @@ end
 --B=reaper.JS_Window_GetTitle(A)
 
 
+function ultraschall.GetTracknumberByGuid(guid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTracknumberByGuid</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>integer tracknumber, MediaTrack tr = ultraschall.GetTracknumberByGuid(string guid)</functioncall>
+  <description>
+    returns the tracknumber and track of a guid. The track must be in the currently active project!
+    
+    Supports the returned guids by reaper.BR_GetMediaTrackGUID and reaper.GetTrackGUID.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer tracknumber - the number of the track; 0, for master track; 1, for track 1; 2, for track 2, etc. -1, in case of an error
+    MediaTrack tr - the MediaTrack-object of the requested track; nil, if no track is found
+  </retvals>
+  <parameters>
+    string gui - the guid of the track, that you want to request
+  </parameters>
+  <chapter_context>
+    Track Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>track management, get, track, guid, tracknumber</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.IsValidGuid(guid, true)==false then ultraschall.AddErrorMessage("GetTracknumberByGuid", "guid", "no valid guid", -1) return -1 end
+  if reaper.GetTrackGUID(reaper.GetMasterTrack(0))==guid then return 0, reaper.GetMasterTrack(0) end
+  if guid=="{00000000-0000-0000-0000-000000000000}" then 
+    return 0, reaper.GetMasterTrack(0)
+  else 
+    local MediaTrack = reaper.BR_GetMediaTrackByGUID(0, guid)
+    if MediaTrack==nil then ultraschall.AddErrorMessage("GetTracknumberByGuid", "guid", "no track with that guid available", -2) return -1 end
+    return math.floor(reaper.GetMediaTrackInfo_Value(MediaTrack, "IP_TRACKNUMBER") ), MediaTrack 
+  end
+end
+
+--A = reaper.BR_GetMediaTrackGUID(reaper.GetMasterTrack(0))
+--GUID = reaper.GetTrackGUID(reaper.GetTrack(0,2))
+
+--A,B=ultraschall.GetTracknumberByGuid(GUID)
+
+--A=ultraschall.GetTracknumberByGuid("{00000000-0000-0000-0000-000000000000}")
+
 function ultraschall.GetAllHWOuts()
   -- returned table is of structure:
   --    table[tracknumber]["HWOut_count"]                 - the number of HWOuts of tracknumber, beginning with 1
@@ -52742,7 +52795,7 @@ function ultraschall.GetAllHWOuts()
   <slug>GetAllHWOuts</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.965
     Lua=5.3
   </requires>
   <functioncall>table AllHWOuts, integer number_of_tracks = ultraschall.GetAllHWOuts()</functioncall>
@@ -52753,6 +52806,7 @@ function ultraschall.GetAllHWOuts()
       table["HWOuts"]=true                              - signals, this is a HWOuts-table; don't change that!
       table["number\_of_tracks"]                         - the number of tracks in this table, from track 0(master) to track n
       table[tracknumber]["HWOut_count"]                 - the number of HWOuts of tracknumber, beginning with 1
+      table[tracknumber]["TrackID"]                     - the unique id of the track as guid; can be used to get the MediaTrack using reaper.BR_GetMediaTrackByGUID(0, guid)
       table[tracknumber][HWOutIndex]["outputchannel"]   - the number of outputchannels of this HWOutIndex of tracknumber
       table[tracknumber][HWOutIndex]["post\_pre_fader"] - the setting of post-pre-fader of this HWOutIndex of tracknumber
       table[tracknumber][HWOutIndex]["volume"]          - the volume of this HWOutIndex of tracknumber
@@ -52787,6 +52841,11 @@ function ultraschall.GetAllHWOuts()
     HWOuts[i]={}
     local count_HWOuts = ultraschall.CountTrackHWOuts(i)
     HWOuts[i]["HWOut_count"]=count_HWOuts
+    if i>0 then 
+      HWOuts[i]["TrackID"]=reaper.BR_GetMediaTrackGUID(reaper.GetTrack(0,i-1))
+    else
+      HWOuts[i]["TrackID"]=reaper.BR_GetMediaTrackGUID(reaper.GetMasterTrack(0))
+    end
     for a=1, count_HWOuts do
       HWOuts[i][a]={}
       HWOuts[i][a]["outputchannel"],
@@ -52803,24 +52862,33 @@ function ultraschall.GetAllHWOuts()
   return HWOuts, reaper.CountTracks()
 end
 
-function ultraschall.ApplyAllHWOuts(AllHWOuts)
+--A=ultraschall.GetAllHWOuts()
+
+function ultraschall.ApplyAllHWOuts(AllHWOuts, option)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyAllHWOuts</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.ApplyAllHWOuts(table AllHWOuts)</functioncall>
+  <functioncall>boolean retval = ultraschall.ApplyAllHWOuts(table AllHWOuts, optional integer option)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    takes a table, as returned by [GetAllHWOuts](#GetAllHWOuts) with all HWOut-settings of all tracks and applies it to all tracks.
+    Takes a table, as returned by [GetAllHWOuts](#GetAllHWOuts) with all HWOut-settings of all tracks and applies it to all tracks.
+
+    When you set option to 2, the individual entries will be applied to the tracks, that have the guids stored in table
+    table[tracknumber]["TrackID"], otherwise, this function will apply it to track0 to trackn, which is the same as table["number\_of_tracks"].
+    That way, you can create RoutingSnapshots, that will stay in the right tracks, even if they are ordered differently or when tracks have been added/deleted.
+
+    This influences the MasterTrack as well!
     
     expected table is of structure:
       
       table["HWOuts"]=true                              - signals, this is a HWOuts-table; don't change that!
       table["number\_of_tracks"]                         - the number of tracks in this table, from track 0(master) to track n
       table[tracknumber]["HWOut_count"]                 - the number of HWOuts of tracknumber, beginning with 1
+      table[tracknumber]["TrackID"]                     - the unique id of the track as guid; can be used to get the MediaTrack using reaper.BR_GetMediaTrackByGUID(0, guid)
       table[tracknumber][HWOutIndex]["outputchannel"]   - the number of outputchannels of this HWOutIndex of tracknumber
       table[tracknumber][HWOutIndex]["post\_pre_fader"] - the setting of post-pre-fader of this HWOutIndex of tracknumber
       table[tracknumber][HWOutIndex]["volume"]          - the volume of this HWOutIndex of tracknumber
@@ -52835,6 +52903,7 @@ function ultraschall.ApplyAllHWOuts(AllHWOuts)
   </description>
   <parameters>
     table AllHWOuts - a table with all AllHWOut-entries of the current project
+    optional integer option - nil or 1, HWOuts will be applied to Track 0(MasterTrack) to table["number_of_tracks"]; 2, HWOuts will be applied to the tracks with the guid TrackID
   </parameters>
   <retvals>
     boolean retval - true, setting was successful; false, it was unsuccessful
@@ -52850,10 +52919,10 @@ function ultraschall.ApplyAllHWOuts(AllHWOuts)
 ]]
   if type(AllHWOuts)~="table" then ultraschall.AddErrorMessage("ApplyAllHWOuts", "AllHWOuts", "Must be a table.", -1) return false end
   if AllHWOuts["number_of_tracks"]==nil or AllHWOuts["HWOuts"]~=true then ultraschall.AddErrorMessage("ApplyAllHWOuts", "AllHWOuts", "Must be a valid AllAUXSendReceives, as returned by GetAllAUXSendReceive. Get it from there, alter that and pass it into here.", -2) return false end 
-  local trackstatechunk, retval
-
+  local trackstatechunk, retval, aa
   for i=0, AllHWOuts["number_of_tracks"] do
-    retval, trackstatechunk = ultraschall.GetTrackStateChunk_Tracknumber(i)
+    if option==2 then aa=ultraschall.GetTracknumberByGuid(AllHWOuts[i]["TrackID"]) else aa=i end
+    retval, trackstatechunk = ultraschall.GetTrackStateChunk_Tracknumber(aa)
     for a=1, AllHWOuts[i]["HWOut_count"] do
       retval, trackstatechunk = ultraschall.SetTrackHWOut(-1, a, 
                                    AllHWOuts[i][a]["outputchannel"],
@@ -52867,7 +52936,9 @@ function ultraschall.ApplyAllHWOuts(AllHWOuts)
                                    AllHWOuts[i][a]["automationmode"],
                                    trackstatechunk)
       end
-      ultraschall.SetTrackStateChunk_Tracknumber(i, trackstatechunk, false)
+    
+      ultraschall.SetTrackStateChunk_Tracknumber(aa, trackstatechunk, false)
+--      reaper.MB(tostring(trackstatechunk),"",0)
   end
   return true
 end
@@ -52879,7 +52950,9 @@ for i=0, B do
     A1[i][a]["volume"]=1
   end
 end
-C=ultraschall.ApplyAllHWOuts(A1)
+
+--ultraschall.InsertTrackAtIndex(2,5,false)
+--C=ultraschall.ApplyAllHWOuts(A1,1)
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetTrackHWOut(0,1)
 --ultraschall.SetTrackHWOut(0,1,A-1024,B,C,D,E,F,G,H,I,false)
@@ -52906,7 +52979,7 @@ function ultraschall.GetAllAUXSendReceives()
   <slug>GetAllAUXSendReceives</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.965
     Lua=5.3
   </requires>
   <functioncall>table AllAUXSendReceives, integer number_of_tracks = ultraschall.GetAllAUXSendReceives()</functioncall>
@@ -52917,7 +52990,9 @@ function ultraschall.GetAllAUXSendReceives()
       table["AllAUXSendReceive"]=true                               - signals, this is an AllAUXSendReceive-table. Don't alter!
       table["number\_of_tracks"]                                     - the number of tracks in this table, from track 1 to track n
       table[tracknumber]["AUXSendReceives_count"]                   - the number of AUXSendReceives of tracknumber, beginning with 1
+      table[tracknumber]["TrackID"]                                 - the unique id of the track as guid; can be used to get the MediaTrack using reaper.BR_GetMediaTrackByGUID(0, guid)
       table[tracknumber][AUXSendReceivesIndex]["recv\_tracknumber"] - the track, from which to receive audio in this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["recv\_track\_guid"] - the guid of the receive-track; with that, you can be sure to get the right receive-track, even if trackorder changes
       table[tracknumber][AUXSendReceivesIndex]["post\_pre_fader"]   - the setting of post-pre-fader of this AUXSendReceivesIndex of tracknumber
       table[tracknumber][AUXSendReceivesIndex]["volume"]            - the volume of this AUXSendReceivesIndex of tracknumber
       table[tracknumber][AUXSendReceivesIndex]["pan"]               - the panning of this AUXSendReceivesIndex of tracknumber
@@ -52954,6 +53029,8 @@ function ultraschall.GetAllAUXSendReceives()
     AUXSendReceives[i]={}
     local count_AUXSendReceives = ultraschall.CountTrackAUXSendReceives(i)
     AUXSendReceives[i]["AUXSendReceives_count"]=count_AUXSendReceives
+    AUXSendReceives[i]["TrackID"]=reaper.GetTrackGUID(reaper.GetTrack(0,i-1))
+
     for a=1, count_AUXSendReceives do
       AUXSendReceives[i][a]={}
       AUXSendReceives[i][a]["recv_tracknumber"],
@@ -52967,7 +53044,9 @@ function ultraschall.GetAllAUXSendReceives()
       AUXSendReceives[i][a]["snd_src"], 
       AUXSendReceives[i][a]["pan_law"], 
       AUXSendReceives[i][a]["midichanflag"], 
-      AUXSendReceives[i][a]["automation"] = ultraschall.GetTrackAUXSendReceives(i, a)      
+      AUXSendReceives[i][a]["automation"] = ultraschall.GetTrackAUXSendReceives(i, a)     
+      AUXSendReceives[i][a]["recv_track_guid"]=reaper.GetTrackGUID(reaper.GetTrack(0,AUXSendReceives[i][a]["recv_tracknumber"]))
+      --]]
     end
   end
   return AUXSendReceives, reaper.CountTracks()
@@ -52975,7 +53054,7 @@ end
 
 --A,B,C=ultraschall.GetAllAUXSendReceives()
 
-function ultraschall.ApplyAllAUXSendReceives(AllAUXSendReceives)
+function ultraschall.ApplyAllAUXSendReceives(AllAUXSendReceives, option)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyAllAUXSendReceives</slug>
@@ -52984,15 +53063,22 @@ function ultraschall.ApplyAllAUXSendReceives(AllAUXSendReceives)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.ApplyAllAUXSendReceives(table AllAUXSendReceives)</functioncall>
+  <functioncall>boolean retval = ultraschall.ApplyAllAUXSendReceives(table AllAUXSendReceives, optional integer option)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     takes a table, as returned by [GetAllAUXSendReceive](#GetAllAUXSendReceive) with all AUXSendReceive-settings of all tracks and applies it to all tracks.
+
+    When you set option to 2, the individual entries will be applied to the tracks, that have the guids stored in table
+    table[tracknumber]["TrackID"], otherwise, this function will apply it to track1 to trackn, which is the same as table["number\_of_tracks"].
+    That way, you can create RoutingSnapshots, that will stay in the right tracks, even if they are ordered differently or when tracks have been added/deleted.
+
     
     expected table is of structure:
       table["AllAUXSendReceive"]=true                               - signals, this is an AllAUXSendReceive-table. Don't alter!
       table["number\_of_tracks"]                                     - the number of tracks in this table, from track 1 to track n
       table[tracknumber]["AUXSendReceives_count"]                   - the number of AUXSendReceives of tracknumber, beginning with 1
+      table[tracknumber]["TrackID"]                                 - the unique id of the track as guid; can be used to get the MediaTrack using reaper.BR_GetMediaTrackByGUID(0, guid)
       table[tracknumber][AUXSendReceivesIndex]["recv\_tracknumber"] - the track, from which to receive audio in this AUXSendReceivesIndex of tracknumber
+      table[tracknumber][AUXSendReceivesIndex]["recv\_track\_guid"] - the guid of the receive-track; with that, you can be sure to get the right receive-track, even if trackorder changes
       table[tracknumber][AUXSendReceivesIndex]["post\_pre_fader"]   - the setting of post-pre-fader of this AUXSendReceivesIndex of tracknumber
       table[tracknumber][AUXSendReceivesIndex]["volume"]            - the volume of this AUXSendReceivesIndex of tracknumber
       table[tracknumber][AUXSendReceivesIndex]["pan"]               - the panning of this AUXSendReceivesIndex of tracknumber
@@ -53009,6 +53095,7 @@ function ultraschall.ApplyAllAUXSendReceives(AllAUXSendReceives)
   </description>
   <parameters>
     table AllAUXSendReceives - a table with all AllAUXSendReceive-entries of the current project
+    optional integer option - nil or 1, AUXRecvs will be applied to Track 1 to table["number_of_tracks"]; 2, AUXRecvs will be applied to the tracks with the guid TrackID
   </parameters>
   <retvals>
     boolean retval - true, setting was successful; false, it was unsuccessful
@@ -53025,43 +53112,73 @@ function ultraschall.ApplyAllAUXSendReceives(AllAUXSendReceives)
   if type(AllAUXSendReceives)~="table" then ultraschall.AddErrorMessage("GetAllAUXSendReceives", "AllAUXSendReceives", "Must be a table.", -1) return false end
   if AllAUXSendReceives["number_of_tracks"]==nil or AllAUXSendReceives["AllAUXSendReceives"]~=true then ultraschall.AddErrorMessage("GetAllAUXSendReceives", "AllAUXSendReceives", "Must be a valid AllAUXSendReceives, as returned by GetAllAUXSendReceive. Get it from there, alter that and pass it into here.", -2) return false end 
 
-  local trackstatechunk, retval
+  local trackstatechunk, retval, b
   
   for i=1, AllAUXSendReceives["number_of_tracks"] do
-    retval, trackstatechunk = ultraschall.GetTrackStateChunk_Tracknumber(i)
+    if option~=2 then b=i
+    else b=ultraschall.GetTracknumberByGuid(AllAUXSendReceives[i]["TrackID"]) 
+    end
+    retval, trackstatechunk = ultraschall.GetTrackStateChunk_Tracknumber(b)
+--    print_alt(b,i, ultraschall.IsValidTrackStateChunk(trackstatechunk),"\n")
     
     for a=1, AllAUXSendReceives[i]["AUXSendReceives_count"] do
-      retval, trackstatechunk=ultraschall.SetTrackAUXSendReceives(-1, a, 
-           AllAUXSendReceives[i][a]["recv_tracknumber"],
-           AllAUXSendReceives[i][a]["post_pre_fader"],
-           AllAUXSendReceives[i][a]["volume"], 
-           AllAUXSendReceives[i][a]["pan"], 
-           AllAUXSendReceives[i][a]["mute"], 
-           AllAUXSendReceives[i][a]["mono_stereo"], 
-           AllAUXSendReceives[i][a]["phase"], 
-           AllAUXSendReceives[i][a]["chan_src"], 
-           AllAUXSendReceives[i][a]["snd_src"], 
-           AllAUXSendReceives[i][a]["pan_law"], 
-           AllAUXSendReceives[i][a]["midichanflag"], 
-           AllAUXSendReceives[i][a]["automation"],
-           trackstatechunk)--]]
-           --print2(i,a)
+      if option~=2 then
+        retval, trackstatechunk=ultraschall.SetTrackAUXSendReceives(-1, a, 
+             AllAUXSendReceives[i][a]["recv_tracknumber"],
+             AllAUXSendReceives[i][a]["post_pre_fader"],
+             AllAUXSendReceives[i][a]["volume"], 
+             AllAUXSendReceives[i][a]["pan"], 
+             AllAUXSendReceives[i][a]["mute"], 
+             AllAUXSendReceives[i][a]["mono_stereo"], 
+             AllAUXSendReceives[i][a]["phase"], 
+             AllAUXSendReceives[i][a]["chan_src"], 
+             AllAUXSendReceives[i][a]["snd_src"], 
+             AllAUXSendReceives[i][a]["pan_law"], 
+             AllAUXSendReceives[i][a]["midichanflag"], 
+             AllAUXSendReceives[i][a]["automation"],
+             trackstatechunk)--]]
+      else
+           retval, trackstatechunk=ultraschall.SetTrackAUXSendReceives(-1, a, 
+                ultraschall.GetTracknumberByGuid(AllAUXSendReceives[i][a]["recv_track_guid"])-1,
+                AllAUXSendReceives[i][a]["post_pre_fader"],
+                AllAUXSendReceives[i][a]["volume"], 
+                AllAUXSendReceives[i][a]["pan"], 
+                AllAUXSendReceives[i][a]["mute"], 
+                AllAUXSendReceives[i][a]["mono_stereo"], 
+                AllAUXSendReceives[i][a]["phase"], 
+                AllAUXSendReceives[i][a]["chan_src"], 
+                AllAUXSendReceives[i][a]["snd_src"], 
+                AllAUXSendReceives[i][a]["pan_law"], 
+                AllAUXSendReceives[i][a]["midichanflag"], 
+                AllAUXSendReceives[i][a]["automation"],
+                trackstatechunk)--]]
       end
-      ultraschall.SetTrackStateChunk_Tracknumber(i, trackstatechunk, false)
+    end
+      ultraschall.SetTrackStateChunk_Tracknumber(b, trackstatechunk, false)
+      --print(P)
   end
   return true
 end
+
+
 
 --[[
 A1,B=ultraschall.GetAllAUXSendReceives()
 
 for i=1, B do
   for a=1, A1[i]["AUXSendReceives_count"] do
-    A1[i][a]["volume"]=0
+    A1[i][a]["volume"]=1
   end
 end
 
-A0=ultraschall.ApplyAllAUXSendReceives(A1)
+-- wenn man track am Anfang des Projekts einfügt, gehen AUXREcvs verloren
+-- muss das so?
+--mespotine
+--ultraschall.InsertTrackAtIndex(0,1,false)
+--ultraschall.InsertTrackAtIndex(3,1,false)
+--ultraschall.InsertTrackAtIndex(6,1,false)
+
+A0=ultraschall.ApplyAllAUXSendReceives(A1,2)
 --]]
 --C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15 = ultraschall.GetTrackAUXSendReceives(1,1)
 --ultraschall.SetTrackAUXSendReceives(1,1,C1, C2-1, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12,false)
@@ -53078,7 +53195,8 @@ function ultraschall.GetAllMainSendStates()
   <slug>GetAllMainSendStates</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.965
+    SWS=2.9.7
     Lua=5.3
   </requires>
   <functioncall>table AllMainSends, integer number_of_tracks  = ultraschall.GetAllMainSendStates()</functioncall>
@@ -53089,6 +53207,7 @@ function ultraschall.GetAllMainSendStates()
     
     returned table is of structure:
       Table["number\_of_tracks"]            - The number of tracks in this table, from track 1 to track n
+      table[tracknumber]["TrackID"]        - the unique id of the track as guid; can be used to get the MediaTrack using reaper.BR_GetMediaTrackByGUID(0, guid)
       Table[tracknumber]["MainSendOn"]     - Send to Master on(1) or off(1)
       Table[tracknumber]["ParentChannels"] - the parent channels of this track
       
@@ -53113,6 +53232,7 @@ function ultraschall.GetAllMainSendStates()
   MainSend["MainSend"]=true
   for i=1, reaper.CountTracks() do
     MainSend[i]={}
+    MainSend[i]["TrackID"]=reaper.BR_GetMediaTrackGUID(reaper.GetTrack(0,i-1))
     MainSend[i]["MainSendOn"], MainSend[i]["ParentChannels"] = ultraschall.GetTrackMainSendState(i)
   end
   return MainSend, reaper.CountTracks()
@@ -53120,23 +53240,30 @@ end
 
 --A,B=ultraschall.GetAllMainSendStates()
 
-function ultraschall.ApplyAllMainSendStates(AllMainSendsTable)
+function ultraschall.ApplyAllMainSendStates(AllMainSendsTable, option)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyAllMainSendStates</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.ApplyAllMainSendStates(table AllMainSendsTable)</functioncall>
+  <functioncall>boolean retval = ultraschall.ApplyAllMainSendStates(table AllMainSendsTable, optional integer option)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     takes a table, as returned by [GetAllMainSendStates](#GetAllMainSendStates) with all MainSend-settings of all tracks and applies it to all tracks.
     
-    The MainSend-settings are the settings, if a certain track sends it's signal to the Master Track
+    The MainSend-settings are the settings, if a certain track sends it's signal to the Master Track.
+    
+    When you set option to 2, the individual entries will be applied to the tracks, that have the guids stored in table
+    table[tracknumber]["TrackID"], otherwise, this function will apply it to track0 to trackn, which is the same as table["number\_of_tracks"].
+    That way, you can create RoutingSnapshots, that will stay in the right tracks, even if they are ordered differently or when tracks have been added/deleted.
+    
+    This influences the MasterTrack as well!
     
     expected table is of structure:
       Table["number\_of_tracks"]            - The number of tracks in this table, from track 1 to track n
+      table[tracknumber]["TrackID"]        - the unique id of the track as guid; can be used to get the MediaTrack using reaper.BR_GetMediaTrackByGUID(0, guid)
       Table[tracknumber]["MainSendOn"]     - Send to Master on(1) or off(1)
       Table[tracknumber]["ParentChannels"] - the parent channels of this track
       
@@ -53144,6 +53271,7 @@ function ultraschall.ApplyAllMainSendStates(AllMainSendsTable)
   </description>
   <parameters>
     table AllMainSends - a table with all AllMainSends-entries of the current project
+    optional integer option - nil or 1, MainSend-settings will be applied to Track 1 to table["number_of_tracks"]; 2, MasterSends will be applied to the tracks with the guid stored in table[tracknumber]["TrackID"].
   </parameters>
   <retvals>
     boolean retval - true, setting was successful; false, it was unsuccessful
@@ -53159,19 +53287,25 @@ function ultraschall.ApplyAllMainSendStates(AllMainSendsTable)
 ]]
   if type(AllMainSendsTable)~="table" then ultraschall.AddErrorMessage("ApplyAllMainSendStates", "AllMainSendsTable", "Must be a table.", -1) return false end
   if AllMainSendsTable["number_of_tracks"]==nil or AllMainSendsTable[1]["MainSendOn"]==nil then ultraschall.AddErrorMessage("ApplyAllMainSendStates", "AllMainSendsTable", "Must be a valid AllMainSendsTable, as returned by GetAllMainSendStates. Get it from there, alter that and pass it into here.", -2) return false end 
+  local a
   for i=1, AllMainSendsTable["number_of_tracks"] do
-    ultraschall.SetTrackMainSendState(i, AllMainSendsTable[i]["MainSendOn"], AllMainSendsTable[i]["ParentChannels"])
+    if option~=2 then a=i
+    else a=ultraschall.GetTracknumberByGuid(AllMainSendsTable[i]["TrackID"]) 
+    end
+    ultraschall.SetTrackMainSendState(a, AllMainSendsTable[i]["MainSendOn"], AllMainSendsTable[i]["ParentChannels"])
   end
   return true
 end
---[[
 
+--[[
 A,B=ultraschall.GetAllMainSendStates()
+ultraschall.InsertTrackAtIndex(0, 1, true)
 for i=1, B do
-  A[i]["MainSendOn"]=1
+  A[i]["MainSendOn"]=0
 end
 
-A0=ultraschall.ApplyAllMainSendStates(A)
+--ultraschall.ShowErrorMessagesInReascriptConsole(true)
+--A0=ultraschall.ApplyAllMainSendStates(A,2)
 --]]
 
 
@@ -53739,22 +53873,23 @@ function ultraschall.GetAllMainSendStates2()
   return AllMainSends, number_of_tracks
 end
 
---A=ultraschall.GetAllHWOuts2()
 
 --A,B=ultraschall.GetAllMainSendStates2()
 
-function ultraschall.AreHWOutsTablesEqual(Table1, Table2)
+function ultraschall.AreHWOutsTablesEqual(Table1, Table2, option)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AreHWOutsTablesEqual</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>boolean retval  = ultraschall.AreHWOutsTablesEqual(table AllHWOuts, table AllHWOuts2)</functioncall>
+  <functioncall>boolean retval  = ultraschall.AreHWOutsTablesEqual(table AllHWOuts, table AllHWOuts2, optional integer option)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Compares two HWOuts-tables, as returned by [GetAllHWOuts](#GetAllHWOuts) or [GetAllHWOuts2](#GetAllHWOuts)
+
+    if option=2 then it will also compare, if the stored track-guids are the equal. Otherwise, it will only check the individual settings, even if the guids are different between the two tables.
   </description>
   <retvals>
     boolean retval - true, if the two tables are equal HWOuts; false, if not
@@ -53762,6 +53897,7 @@ function ultraschall.AreHWOutsTablesEqual(Table1, Table2)
   <parameters>
     table AllHWOuts - a table with all HWOut-settings of all tracks
     table AllHWOuts2 - a table with all HWOut-settings of all tracks, that you want to compare to AllHWOuts
+    optional integer option - nil or 1, to compare everything, except the stored TrackGuids; 2, include comparing the stored TrackGuids as well
   </parameters>
   <chapter_context>
     Track Management
@@ -53781,6 +53917,7 @@ function ultraschall.AreHWOutsTablesEqual(Table1, Table2)
     if Table1[i]["HWOut_count"]~=Table2[i]["HWOut_count"] then return false end
     if Table1[i]["type"]~=nil and Table2[i]["type"]~=nil and Table1[i]["type"]~=Table2[i]["type"] then return false end
     for a=1, Table1[i]["HWOut_count"] do
+      if option==2 and Table1[i]["TrackID"]~=Table2[i]["TrackID"] then return false end
       if Table1[i][a]["automationmode"]~=Table2[i][a]["automationmode"] then return false end
       if Table1[i][a]["mute"]~=Table2[i][a]["mute"] then return false end
       if Table1[i][a]["outputchannel"]~=Table2[i][a]["outputchannel"] then return false end
@@ -53795,26 +53932,30 @@ function ultraschall.AreHWOutsTablesEqual(Table1, Table2)
   return true
 end
 
---AllHWOuts2[0]["type"]=3
---AAAA=ultraschall.AreHWOutsTablesEqual(AllHWOuts, AllHWOuts2)
+--AllHWOuts=ultraschall.GetAllHWOuts2()
+--AllHWOuts2=ultraschall.GetAllHWOuts2()
+--AllHWOuts[0]["TrackID"]=3
+--AAAA=ultraschall.AreHWOutsTablesEqual(AllHWOuts, AllHWOuts2, 1)
 
 
 
 --AllMainSends, number_of_tracks = ultraschall.GetAllMainSendStates2() 
 --AllMainSends2, number_of_tracks = ultraschall.GetAllMainSendStates2() 
 
-function ultraschall.AreMainSendsTablesEqual(Table1, Table2)
+function ultraschall.AreMainSendsTablesEqual(Table1, Table2, option)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AreMainSendsTablesEqual</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>boolean retval  = ultraschall.AreMainSendsTablesEqual(table AllMainSends, table AllMainSends2)</functioncall>
+  <functioncall>boolean retval  = ultraschall.AreMainSendsTablesEqual(table AllMainSends, table AllMainSends2, optional integer option)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Compares two AllMainSends-tables, as returned by [GetAllMainSendStates](#GetAllMainSendStates) or [GetAllMainSendStates2](#GetAllMainSendStates2)
+
+    if option=2 then it will also compare, if the stored track-guids are the equal. Otherwise, it will only check the individual settings, even if the guids are different between the two tables.
   </description>
   <retvals>
     boolean retval - true, if the two tables are equal AllMainSends; false, if not
@@ -53822,6 +53963,7 @@ function ultraschall.AreMainSendsTablesEqual(Table1, Table2)
   <parameters>
     table AllMainSends - a table with all AllMainSends-settings of all tracks
     table AllMainSends2 - a table with all AllMainSends-settings of all tracks, that you want to compare to AllMainSends
+    optional integer option - nil or 1, to compare everything, except the stored TrackGuids; 2, include comparing the stored TrackGuids as well
   </parameters>
   <chapter_context>
     Track Management
@@ -53838,6 +53980,7 @@ function ultraschall.AreMainSendsTablesEqual(Table1, Table2)
   if Table1["MainSend"]~=Table2["MainSend"] then return false end
   if Table1["number_of_tracks"]~=Table2["number_of_tracks"] then return false end
   for i=1, Table1["number_of_tracks"] do
+    if option==2 and Table1[i]["TrackID"]~=Table2[i]["TrackID"] then return false end
     if Table1[i]["type"]~=nil and Table2[i]["type"]~=nil and Table1[i]["type"]~=Table2[i]["type"] then return false end
     if Table1[i]["MainSendOn"]~=Table2[i]["MainSendOn"] then return false end
     if Table1[i]["ParentChannels"]~=Table2[i]["ParentChannels"] then return false end
@@ -53845,26 +53988,29 @@ function ultraschall.AreMainSendsTablesEqual(Table1, Table2)
   return true
 end
 
---AllMainSends["MainSend"]=0
---AA=ultraschall.AreMainSendsTablesEqual(AllMainSends, AllMainSends2)
+--AllMainSends[1]["TrackID"]=0
+
+--AA=ultraschall.AreMainSendsTablesEqual(AllMainSends, AllMainSends2,2)
 
 
 
 --AllAUXSendReceives, number_of_tracks = ultraschall.GetAllAUXSendReceives2()
 --AllAUXSendReceives2, number_of_tracks = ultraschall.GetAllAUXSendReceives2()
 
-function ultraschall.AreAUXSendReceivesTablesEqual(Table1, Table2)
+function ultraschall.AreAUXSendReceivesTablesEqual(Table1, Table2, option)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AreAUXSendReceivesTablesEqual</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>boolean retval  = ultraschall.AreAUXSendReceivesTablesEqual(table AllAUXSendReceives, table AllAUXSendReceives2)</functioncall>
+  <functioncall>boolean retval  = ultraschall.AreAUXSendReceivesTablesEqual(table AllAUXSendReceives, table AllAUXSendReceives2, optional integer option)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Compares two AllAUXSendReceives-tables, as returned by [GetAllAUXSendReceives](#GetAllAUXSendReceives) or [GetAllAUXSendReceives2](#GetAllAUXSendReceives2)
+    
+    if option=2 then it will also compare, if the stored track-guids are the equal. Otherwise, it will only check the individual settings, even if the guids are different between the two tables.
   </description>
   <retvals>
     boolean retval - true, if the two tables are equal AllMainSends; false, if not
@@ -53872,6 +54018,7 @@ function ultraschall.AreAUXSendReceivesTablesEqual(Table1, Table2)
   <parameters>
     table AllAUXSendReceives - a table with all AllAUXSendReceives-settings of all tracks
     table AllAUXSendReceives2 - a table with all AllAUXSendReceives-settings of all tracks, that you want to compare to AllAUXSendReceives
+    optional integer option - nil or 1, to compare everything, except the stored TrackGuids; 2, include comparing the stored TrackGuids as well
   </parameters>
   <chapter_context>
     Track Management
@@ -53889,6 +54036,7 @@ function ultraschall.AreAUXSendReceivesTablesEqual(Table1, Table2)
   if Table1["number_of_tracks"]~=Table2["number_of_tracks"] then return false end
   for i=1, Table1["number_of_tracks"] do
     if Table1[i]["AUXSendReceives_count"]~=Table2[i]["AUXSendReceives_count"] then return false end
+    if option==2 and Table1[i]["TrackID"]~=Table2[i]["TrackID"] then return false end
     if Table1[i]["type"]~=nil and Table2[i]["type"]~=nil and Table1[i]["type"]~=Table2[i]["type"] then return false end
     for a=1, Table1[i]["AUXSendReceives_count"] do
       if Table1[i][a]["automation"]~=Table2[i][a]["automation"] then return false end
@@ -53900,6 +54048,7 @@ function ultraschall.AreAUXSendReceivesTablesEqual(Table1, Table2)
       if Table1[i][a]["phase"]~=Table2[i][a]["phase"] then return false end
       if Table1[i][a]["post_pre_fader"]~=Table2[i][a]["post_pre_fader"] then return false end
       if Table1[i][a]["recv_tracknumber"]~=Table2[i][a]["recv_tracknumber"] then return false end
+      if option==2 and Table1[i][a]["recv_track_guid"]~=Table2[i][a]["recv_track_guid"] then return false end
       if Table1[i][a]["snd_src"]~=Table2[i][a]["snd_src"] then return false end
       if Table1[i][a]["pan_law"]~=Table2[i][a]["pan_law"] then return false end
       if Table1[i][a]["volume"]~=Table2[i][a]["volume"] then return false end
@@ -53908,8 +54057,10 @@ function ultraschall.AreAUXSendReceivesTablesEqual(Table1, Table2)
   return true
 end
 
---AllAUXSendReceives["AllAUXSendReceives"]=1
---A=ultraschall.AreAUXSendReceivesTablesEqual(AllAUXSendReceives, AllAUXSendReceives2)
+--AllAUXSendReceives, number_of_tracks = ultraschall.GetAllAUXSendReceives2()
+--AllAUXSendReceives2, number_of_tracks = ultraschall.GetAllAUXSendReceives2()
+--AllAUXSendReceives[1]["TrackID"]=1
+--A=ultraschall.AreAUXSendReceivesTablesEqual(AllAUXSendReceives, AllAUXSendReceives2, 1)
  
 
 function ultraschall.ConvertIntegerIntoString2(Size, ...)
@@ -54422,7 +54573,7 @@ function ultraschall.SetReaScriptConsole_FontStyle(style)
     <functioncall>boolean retval = ultraschall.SetReaScriptConsole_FontStyle(integer style)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       If the ReaScript-console is opened, you can change the font-style of it.
-      You can choose between 17 different styles, with 8 being the only one with fixed character length
+      You can choose between 19 different styles, with 3 being of fixed character length. It will change the next time you output text to the ReaScriptConsole.
       
       If you close and reopen the Console, you need to set the font-style again!
       
@@ -54432,24 +54583,30 @@ function ultraschall.SetReaScriptConsole_FontStyle(style)
     </description>
     <retvals>
       boolean retval - true, displaying was successful; false, displaying wasn't successful
-                      - 1, fixed character length; standard-console
-                      - 2, fixed character length; alt.console
-                      - 3, alt.console
-                      - 4, small
-                      - 5, fixed character length; thin console
-                      - 6, normal small font
-                      - 7, normal font
-                      - 8, smaller
-                      - 9, small
-                      - 10, small and bold
-                      - 11, small alternative
-                      - 12, underlined fixed character length
-                      - 13, fixed character length
-                      - 14, very small font
-                      - 15, symbols and icons
     </retvals>
     <parameters>
-      integer length - the font-style used. There are 17 different ones.
+      integer length - the font-style used. There are 19 different ones.
+                      - fixed-character-length:
+                      -     1,  fixed, console
+                      -     2,  fixed, console alt
+                      -     3,  thin, fixed
+                      - 
+                      - normal from large to small:
+                      -     4-8
+                      -     
+                      - bold from largest to smallest:
+                      -     9-14
+                      - 
+                      - thin:
+                      -     15, thin
+                      - 
+                      - underlined:
+                      -     16, underlined, thin
+                      -     17, underlined
+                      -     18, underlined
+                      - 
+                      - symbol:
+                      -     19, symbol
     </parameters>
     <chapter_context>
       User Interface
@@ -54457,32 +54614,31 @@ function ultraschall.SetReaScriptConsole_FontStyle(style)
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
     <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>user interface, reascript, console, font, styls</tags>
+    <tags>user interface, reascript, console, font, style</tags>
   </US_DocBloc>
   ]]
   if math.type(style)~="integer" then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be an integer", -1) return false end
-  if style>15 or style<1 then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be between 1 and 17", -2) return false end
+  if style>19 or style<1 then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be between 1 and 17", -2) return false end
   local reascript_console_hwnd = ultraschall.GetReaScriptConsoleWindow()
   if reascript_console_hwnd==nil then return false end
-  local styles={32,33,34,35,36,37,39,218,219,220,226,3043,3044,3115,3155}
+  local styles={32,33,36,31,214,37,218,1606,4373,3297,220,3492,3733,3594,35,1890,2878,3265,4392}
   local Textfield=reaper.JS_Window_FindChildByID(reascript_console_hwnd, 1177)
   reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)
   return true
 end
+--reaper.ClearConsole()
+--ultraschall.SetReaScriptConsole_FontStyle(1)
+--reaper.ShowConsoleMsg("ABCDEFGhijklmnop\n123456789.-,!\"§$%&/()=\n----------\nOOOOOOOOOO")
 
---ultraschall.SetReaScriptConsole_FontStyle(9)
---reaper.ShowConsoleMsg("Tudelu\n2678932\n!!!---...\n__?+*#*\n")
 
---[[
+function ultraschall.GetConsoleText()
   local reascript_console_hwnd = ultraschall.GetReaScriptConsoleWindow()
+  if reascript_console_hwnd==nil then return "" end
   local Textfield=reaper.JS_Window_FindChildByID(reascript_console_hwnd, 1177)
-  
-i=90
-for i=4000, 8196 do
-  reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", i,0,0,0)
-  reaper.ShowConsoleMsg(i.."\n")
+
+  return reaper.JS_Window_GetTitle(Textfield)
 end
---]]
---L,LL=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",0)
---A,B,C,D,E,F,G,H,I,J,K,L,M,N=ultraschall.GetTrackAUXSendReceives(-1,2, LL)
+
+
+
 ultraschall.ShowLastErrorMessage()
