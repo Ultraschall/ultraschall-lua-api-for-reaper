@@ -54433,7 +54433,7 @@ function ultraschall.ResetProgressBar()
     ultraschall.cur_time=nil
 end
 
-function ultraschall.PrintProgressBar(length, maximumvalue, currentvalue, percentage, offset, toptext, bottomtext, remaining_time)
+function ultraschall.PrintProgressBar(show, length, maximumvalue, currentvalue, percentage, offset, toptext, bottomtext, remaining_time)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>PrintProgressBar</slug>
@@ -54442,20 +54442,26 @@ function ultraschall.PrintProgressBar(length, maximumvalue, currentvalue, percen
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>boolean retval = ultraschall.PrintProgressBar(integer length, integer maximumvalue, integer currentvalue, boolean percentage, integer offset, optional string toptext, optional string bottomtext)</functioncall>
+    <functioncall>boolean retval = ultraschall.PrintProgressBar(boolean show, integer length, integer maximumvalue, integer currentvalue, boolean percentage, integer offset, optional string toptext, optional string bottomtext)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      Displays a simple progressbar into the ReaScript console.
-      Will clear the console before displaying the next updated progressbar.
+      Calculate a simple progressbar, which can be optionally displayed in the ReaScript console; Will clear the console before displaying the next updated progressbar.
+
       Will update it only, if the current-value of last time this function got called is different from the current one or toptext or bottomtext changed.
       
-      If you need to show a new progressbar, after the former got to 100%, it is wise to call [ResetProgressBar](#ResetProgressBar), or it might not update the first time you call this function.
+      You can also use the returnvalues to draw your own progressbar, e.g. in a gfx.init-window
+
+      If you need to calculate a new progressbar, after the former got to 100%, it is wise to call [ResetProgressBar](#ResetProgressBar), or it might not update the first time you call this function.
       
       Returns false in case of an error
     </description>
     <retvals>
       boolean retval - true, displaying was successful; false, displaying wasn't successful
+      string ProgressString - the progressbar including its full statuses and layout
+      integer percentage - the progression of the progressbar in percent
+      integer progress_position - the current progress-position, relative to length and maximumvalue
     </retvals>
     <parameters>
+      boolean show - true, show progressbar in the ReaScript-console; false, don't show it there
       integer length - the length of the progressbar in characters. Minimum is 10.
       integer maximumvalue - the maximum integer-value, to which to count; minimum 1
       integer currentvalue - the current integer-value, at which we are with counting, minimum 0
@@ -54469,9 +54475,10 @@ function ultraschall.PrintProgressBar(length, maximumvalue, currentvalue, percen
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
     <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>helper functions, progressbar, show, display, percentage</tags>
+    <tags>helper functions, calculate, progressbar, show, display, percentage</tags>
   </US_DocBloc>
   ]]
+  if type(show)~="boolean" then ultraschall.AddErrorMessage("PrintProgressBar", "show", "must be a boolean", -12) return false end
   if math.type(length)~="integer" then ultraschall.AddErrorMessage("PrintProgressBar", "length", "must be an integer", -1) return false end
   if length<10 then ultraschall.AddErrorMessage("PrintProgressBar", "length", "must be 10 at least", -2) return false end
   if math.type(maximumvalue)~="integer" then ultraschall.AddErrorMessage("PrintProgressBar", "maximumvalue", "must be an integer", -3) return false end
@@ -54537,7 +54544,9 @@ function ultraschall.PrintProgressBar(length, maximumvalue, currentvalue, percen
     if remaining_time~=nil then ProgressString=ProgressString.."\n"..remaining_time end
     if toptext~=nil then ProgressString=toptext.."\n"..ProgressString end
     if bottomtext~=nil then ProgressString=ProgressString.."\n"..bottomtext end
-    print(ProgressString)
+    if show==true then
+      print(ProgressString)
+    end
     ultraschall.progressbar_lastupdate=math.ceil(currentvalue)
     ultraschall.lasttoptext=toptext
     ultraschall.progressbar_lastbottomtext=bottomtext
@@ -54546,10 +54555,10 @@ function ultraschall.PrintProgressBar(length, maximumvalue, currentvalue, percen
     ultraschall.lasttoptext=toptext
     ultraschall.progressbar_lastbottomtext=bottomtext
   end
-  return true
+  return true, ProgressString, tonumber(Percentage:sub(1,-2)), status
 end
 
---ultraschall.PrintProgressBar(100, 100, 3, true, 19, "Hula", "Hoop", "HUi:")
+--A,B,C,D,E,F=ultraschall.PrintProgressBar(true, 20, 50, 6, true, 19, "Hula", "Hoop", "HUi:")
 
 --A=ultraschall.GetVerticalZoom()
 --B=ultraschall.SetVerticalZoom(30)
@@ -54631,14 +54640,102 @@ end
 --reaper.ShowConsoleMsg("ABCDEFGhijklmnop\n123456789.-,!\"§$%&/()=\n----------\nOOOOOOOOOO")
 
 
-function ultraschall.GetConsoleText()
-  local reascript_console_hwnd = ultraschall.GetReaScriptConsoleWindow()
-  if reascript_console_hwnd==nil then return "" end
-  local Textfield=reaper.JS_Window_FindChildByID(reascript_console_hwnd, 1177)
-
-  return reaper.JS_Window_GetTitle(Textfield)
+function ultraschall.GetHWInputs_Aliasnames()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetHWInputs_Aliasnames</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      SWS=2.9.7
+      Lua=5.3
+    </requires>
+    <functioncall>integer number_of_aliases, table aliases = ultraschall.GetHWInputs_Aliasnames()</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the aliasnames and their associated channels of the currently selected audio-device.
+      
+      The returned table is of the format
+        table[index][1] - the name of the alias
+        table[index][2] - the hardware-input-channel, associated to this aliasname
+    </description>
+    <retvals>
+      integer number_of_aliases - the number of aliases available
+      table aliases - a table, that contains all alias-names and their associated Hardware-Input-channels
+    </retvals>
+    <chapter_context>
+      Audio Management
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>audiomanagement, get, alias, names, input, channels</tags>
+  </US_DocBloc>
+  ]]
+  local retval, Bdesc = reaper.GetAudioDeviceInfo("IDENT_IN", "")
+  
+  local Reaper_ini=reaper.get_ini_file()
+  local retval, nums = reaper.BR_Win32_GetPrivateProfileString("alias_in_"..string.gsub(Bdesc," ","_"), "map_size", "Tudelu", Reaper_ini)
+  
+  local Table={}
+  for i=0, nums-1 do  
+--    retval, Table[i+1] = reaper.BR_Win32_GetPrivateProfileString("alias_in_"..string.gsub(Bdesc," ","_"), "name"..i, "Tudelu", Reaper_ini)
+    Table[i+1]={}
+    retval, Table[i+1][1] = reaper.BR_Win32_GetPrivateProfileString("alias_in_"..string.gsub(Bdesc," ","_"), "name"..i, "Tudelu", Reaper_ini)
+    retval, Table[i+1][2] = reaper.BR_Win32_GetPrivateProfileString("alias_in_"..string.gsub(Bdesc," ","_"), "ch"..i, "Tudelu", Reaper_ini)
+  end
+  
+  return tonumber(nums), Table
 end
 
+--A,B=ultraschall.GetHWInputs_Aliasnames()
+
+function ultraschall.GetHWOutputs_Aliasnames()
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetHWOutputs_Aliasnames</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      SWS=2.9.7
+      Lua=5.3
+    </requires>
+    <functioncall>integer number_of_aliases, table aliases = ultraschall.GetHWOutputs_Aliasnames()</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the aliasnames and their associated channels of the currently selected audio-device.
+      
+      The returned table is of the format
+        table[index][1] - the name of the alias
+        table[index][2] - the hardware-output-channel, associated to this aliasname
+    </description>
+    <retvals>
+      integer number_of_aliases - the number of aliases available
+      table aliases - a table, that contains all alias-names and their associated Hardware-Output-channels
+    </retvals>
+    <chapter_context>
+      Audio Management
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>audiomanagement, get, alias, names, output, channels</tags>
+  </US_DocBloc>
+  ]]
+  
+  
+  local retval, Bdesc = reaper.GetAudioDeviceInfo("IDENT_OUT", "")
+  
+  local Reaper_ini=reaper.get_ini_file()
+  local retval, nums = reaper.BR_Win32_GetPrivateProfileString("alias_out_"..string.gsub(Bdesc," ","_"), "map_size", "Tudelu", Reaper_ini)
+  
+  local Table={}
+  for i=0, nums-1 do  
+    Table[i+1]={}
+    retval, Table[i+1][1] = reaper.BR_Win32_GetPrivateProfileString("alias_out_"..string.gsub(Bdesc," ","_"), "name"..i, "Tudelu", Reaper_ini)
+    retval, Table[i+1][2] = reaper.BR_Win32_GetPrivateProfileString("alias_out_"..string.gsub(Bdesc," ","_"), "ch"..i, "Tudelu", Reaper_ini)
+  end
+  
+  return tonumber(nums), Table
+end
+
+--A,B=ultraschall.GetHWOutputs_Aliasnames()
 
 
 ultraschall.ShowLastErrorMessage()

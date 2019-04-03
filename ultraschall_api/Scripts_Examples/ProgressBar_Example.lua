@@ -24,7 +24,7 @@ function main()
   --    toptext    : "Simple progressbar demo...", shown above the progressbar
   --    bottomtext : the currently shown filename, shown below the progressbar
   --    remaining_time: show "remaining time until completetion: x:xx"
-  AA=ultraschall.PrintProgressBar(100, found_files, i, true, 10, 
+  AA=ultraschall.PrintProgressBar(true, 100, found_files, i, true, 10, 
                     "Simple progressbar demo, that shows all files in ressource-path/Effects.\n\nShowing the file "..i.."/"..found_files..":\n", 
                     "\n"..files_array[i], "remaining time until completion: ")
   i=i+1

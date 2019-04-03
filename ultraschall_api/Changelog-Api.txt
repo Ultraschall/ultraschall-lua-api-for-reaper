@@ -1,7 +1,6 @@
 <TODO>
       
     API 4.00beta2.74
-      TODO!! PrintProgressBar - return the finished progressbar-string, allow optionally to show in ReaConsole
       TODO!! Hardware Out-functions, Send/Receive-Routing-functions 
                     Update Concepts-page with these new information-bits for the TrackStateChunk-management.
                             
@@ -285,6 +284,8 @@
 ### 4.00 Beta 2.74: - "Blondie - Call Me" - 15th of April 2019
 
 #### New features in 4.00beta2.74
+  - AudioManagement: GetHWInputs_Aliasnames - returns the input-alias-names and their associated hardware-input-channels
+  - AudioManagement: GetHWOutputs_Aliasnames - returns the output-alias-names and their associated hardware-output-channels 
   - ChildScripts: GetScriptIdentifier_Description - gets the description of your script
   - ChildScripts: SetScriptIdentifier_Description - sets a description for your script
   - ChildScripts: GetScriptIdentifier_Title - gets the title of your script; default is the filename
