@@ -27868,7 +27868,7 @@ function ultraschall.GetTrackHWOut(tracknumber, idx, TrackStateChunk)
     
     returns -1 in case of failure
   </description>
-  <parameters>
+  <parameters markup_type="markdown" markup_version="1.0.1" indent="default">
     integer tracknumber - the number of the track, whose HWOut you want, 0 for Master Track
     integer idx - the id-number of the HWOut, beginning with 1 for the first HWOut-Settings
     optional string TrackStateChunk - a TrackStateChunk, whose HWOUT-entries you want to get
@@ -27973,7 +27973,7 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber, idx, TrackStateChunk)
     
     returns -1 in case of failure
   </description>
-  <parameters>
+  <parameters markup_type="markdown" markup_version="1.0.1" indent="default">
     integer tracknumber - the number of the track, whose Send/Receive you want
     integer idx - the id-number of the Send/Receive, beginning with 1 for the first Send/Receive-Settings
     optional string TrackStateChunk - a TrackStateChunk, whose AUXRECV-entries you want to get
@@ -28217,7 +28217,7 @@ function ultraschall.AddTrackHWOut(tracknumber, outputchannel, post_pre_fader, v
     
     returns false in case of failure
   </description>
-  <parameters>
+  <parameters markup_type="markdown" markup_version="1.0.1" indent="default">
     integer tracknumber - the number of the track, whose HWOut you want. 0 for Master Track; -1, use parameter TrackStateChunk instead
     integer outputchannel - outputchannel, with 1024+x the individual hw-outputchannels, 0,2,4,etc stereo output channels
     integer post_pre_fader - 0-post-fader(post pan), 1-preFX, 3-pre-fader(Post-FX), as set in the Destination "Controls for Track"-dialogue
@@ -28327,8 +28327,8 @@ function ultraschall.AddTrackAUXSendReceives(tracknumber, recv_tracknumber, post
     Due to the complexity of send/receive-settings, this function does not check, whether the parameters are plausible. So check twice, whether the added sends/receives appear, as they might not appear!
     returns false in case of failure
   </description>
-  <parameters>
-    integer tracknumber - the number of the track, whose Send/Receive you want
+  <parameters markup_type="markdown" markup_version="1.0.1" indent="default">
+    integer tracknumber - the number of the track, whose Send/Receive you want; -1, if you want to use the parameter TrackStateChunk
     integer recv_tracknumber - Tracknumber, from where to receive the audio from
     integer post_pre_fader - 0-PostFader, 1-PreFX, 3-Pre-Fader
     number volume - Volume, see [DB2MKVOL](#DB2MKVOL) to convert from a dB-value
@@ -28632,7 +28632,7 @@ function ultraschall.SetTrackHWOut(tracknumber, idx, outputchannel, post_pre_fad
     
     returns false in case of failure
   </description>
-  <parameters>
+  <parameters markup_type="markdown" markup_version="1.0.1" indent="default">
     integer tracknumber - the number of the track, whose HWOut you want. 0 for Master Track
     integer idx - the number of the HWOut-setting, you want to change
     integer outputchannel - outputchannel, with 1024+x the individual hw-outputchannels, 0,2,4,etc stereo output channels
@@ -28752,7 +28752,7 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, recv_tracknumber,
     Due to the complexity of send/receive-settings, this function does not check, whether the parameters are plausible. So check twice, whether the change sends/receives still appear, as they might disappear with faulty settings!
     returns false in case of failure
   </description>
-  <parameters>
+  <parameters markup_type="markdown" markup_version="1.0.1" indent="default">
     integer tracknumber - the number of the track, whose Send/Receive you want
     integer idx - the send/receive-setting, you want to set
     integer recv_tracknumber - Tracknumber, from where to receive the audio from
@@ -53294,7 +53294,7 @@ function ultraschall.ApplyAllMainSendStates(AllMainSendsTable, option)
   </retvals>
   <chapter_context>
     Track Management
-    Send/Receive
+    Send/Receive-Routing
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -53312,16 +53312,17 @@ function ultraschall.ApplyAllMainSendStates(AllMainSendsTable, option)
   end
   return true
 end
-
 --[[
+
 A,B=ultraschall.GetAllMainSendStates()
-ultraschall.InsertTrackAtIndex(0, 1, true)
+--ultraschall.InsertTrackAtIndex(0, 1, true)
+O=reaper.DeleteTrack(reaper.GetTrack(0,0))
 for i=1, B do
-  A[i]["MainSendOn"]=0
+  A[i]["MainSendOn"]=1
 end
 
 --ultraschall.ShowErrorMessagesInReascriptConsole(true)
---A0=ultraschall.ApplyAllMainSendStates(A,2)
+A0=ultraschall.ApplyAllMainSendStates(A,2)
 --]]
 
 

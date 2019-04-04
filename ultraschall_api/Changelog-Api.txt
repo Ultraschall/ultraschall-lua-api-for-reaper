@@ -286,13 +286,13 @@
 #### New features in 4.00beta2.74
   - AudioManagement: GetHWInputs_Aliasnames - returns the input-alias-names and their associated hardware-input-channels
   - AudioManagement: GetHWOutputs_Aliasnames - returns the output-alias-names and their associated hardware-output-channels 
-  - ChildScripts: GetScriptIdentifier_Description - gets the description of your script
-  - ChildScripts: SetScriptIdentifier_Description - sets a description for your script
-  - ChildScripts: GetScriptIdentifier_Title - gets the title of your script; default is the filename
-  - ChildScripts: SetScriptIdentifier_Title - sets the title of your script
-  - ExampleScript: Helpers_ProgressBar_Example.lua - shows a simple progressbar in the ReaScript-console, that iterates over all filenames in ResourcePath/Effects
-  - ExampleScript: Helpers_ProgressBar_Example.gif - a demo-gif of ProgressBar\_Example.lua
-  - ExampleScript: GFX_SimpleDrawingTool.lua - a simple drawing-tool demo, that demonstrates GFX_GetMouseCap()
+  - ChildScripts: GetScriptIdentifier\_Description - gets the description of your script
+  - ChildScripts: SetScriptIdentifier\_Description - sets a description for your script
+  - ChildScripts: GetScriptIdentifier\_Title - gets the title of your script; default is the filename
+  - ChildScripts: SetScriptIdentifier\_Title - sets the title of your script
+  - ExampleScript: Helpers\_ProgressBar\_Example.lua - shows a simple progressbar in the ReaScript-console, that iterates over all filenames in ResourcePath/Effects
+  - ExampleScript: Helpers\_ProgressBar\_Example.gif - a demo-gif of ProgressBar\_Example.lua
+  - ExampleScript: GFX\_SimpleDrawingTool.lua - a simple drawing-tool demo, that demonstrates GFX\_GetMouseCap()
   - ExampleScript: GFX_SimpleDrawingTool.gif - a demo-gif of SimpleDrawingTool.lua
   - GFX: GFX\_GetMouseCap - checks and returns mouse-clicks in Lua-gfx-windows, including doubleclick, dragging, mousewheel-states, etc. Much more handy than gfx.mouse_cap.
   - Helpers: ConvertIntegerIntoString2 - converts multiple integers into a string, 8 to 32 bit integers can be converted
@@ -301,7 +301,7 @@
   - Helpers: print\_update - prints its values to the ReaScript console, but clears the console before displaying. Good for progressbars and displaying a few statuses without constantly scrolling.
   - Helpers: PrintProgressBar - prints a simple progressbar into the ReaScript-console; you should call ResetProgressBar before starting a new progressbar
   - Helpers: ResetProgressBar - resets progressbar-settings, so you can start a new progressbar
-  - MediaItems: CopyMediaItemToDestinationTrack - copies a MediaItem to a destinationtrack at position. Thanks to nikolalkc for allowing me to adapt his function [p=2111252](https://forum.cockos.com/showpost.php?p=2111252&postcount=5)
+  - MediaItems: CopyMediaItemToDestinationTrack - copies a MediaItem to a destinationtrack at position. Thanks to [nikolalkc](https://forum.cockos.com/showpost.php?p=2111252&postcount=5) for allowing me to adapt his function
   - Routing: AreAUXSendReceivesTablesEqual - compares two AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and GetAllAUXSendReceives2
   - Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2
   - Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables, as returned by GetAllMainSendStates and GetAllMainSendStates2
@@ -323,7 +323,7 @@
   - Docs: GetScriptIdentifier - moved in the index to Api-Helper functions -> Child Scripts, where it belongs to
   - Docs: GetScriptReturnvalues - corrected docs and cleared them up a little
   - Docs: ReaperApidocs and ConfigVar-docs: updated to Reaper 5.974 and JS-extension 0.980
-  - Docs: ReaperApidocs: added info about JS_Mouse_GetState and fixed Markdown-issues with JS_Window\_GetScrollInfo and JS_Window\_SetScrollPos
+  - Docs: ReaperApidocs: added info about JS\_Mouse\_GetState and fixed Markdown-issues with JS\_Window\_GetScrollInfo and JS\_Window\_SetScrollPos
   - Docs: Reaper-ConfigVars: added new settings in video\_colorspace from Reaper 5.972 and pre-release onlys to labelitems2, pooledenvtranstime and video\_defimglen
   - Docs: relayouted changelog for beta 2.72 upwards, the featurelist should be better readable, now
   - Docs: SetVerticalZoom - added info into description about how to do relative-vertical-zoom
