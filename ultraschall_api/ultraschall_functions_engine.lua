@@ -45934,7 +45934,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00","15th of April 2019", "Beta 2.74", 400.0274,  "\"Blondie - Call Me\"", ultraschall.hotfixdate
+  return "4.00","10th of April 2019", "Beta 2.74", 400.0274,  "\"Blondie - Call Me\"", ultraschall.hotfixdate
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()

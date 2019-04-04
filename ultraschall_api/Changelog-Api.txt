@@ -281,9 +281,25 @@
 
 ## Ultraschall Framework - Changelog
 
-### 4.00 Beta 2.74: - "Blondie - Call Me" - 15th of April 2019
+### 4.00 Beta 2.74: - "Blondie - Call Me" - 10th of April 2019
 
-#### New features in 4.00beta2.74
+   Has now 821 functions, with 21 new ones
+
+   - **Routing** - sped up the routing-functions by magnitudes, who also allow now using TrackStateChunks which can be faster than Reaper's own API-functions
+   
+   - **ReaScript console** - you can now set the font-style of the text in the ReaScript-console, including fixed-length-fonts
+
+   - **GFX\_GetMouseCap** - this allows you to get mouse-states in gfx-windows, including doubleclick and drag. Much easier than to code it yourself using gfx.mouse_cap.
+
+   - **Progressbar** - you can code now your own progressbar, including optionally showing it in the ReaScript-console
+   
+   - **Vertical Scroll** - works now like a charm
+   
+   - **improved Changelog** - will be much more readable for this and future releases
+   
+   - Bugfixes and many more.
+   
+   #### New features in 4.00beta2.74
   - AudioManagement: GetHWInputs_Aliasnames - returns the input-alias-names and their associated hardware-input-channels
   - AudioManagement: GetHWOutputs_Aliasnames - returns the output-alias-names and their associated hardware-output-channels 
   - ChildScripts: GetScriptIdentifier\_Description - gets the description of your script

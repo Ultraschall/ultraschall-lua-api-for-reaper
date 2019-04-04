@@ -3756,7 +3756,7 @@
                                   integer marker_number = ultraschall.AddEditMarker(number position, integer shown_number, string edittitle)
                                   
             >This adds a new edit-marker. Give it a position, the shown number and an edittitle, which should hint at the reason of having to edit later.  
-            >The title will be shown in the marker as "_edit: Title". You can change it manually in Reaper, but should retain "_edit: ", as this signals the  
+            >The title will be shown in the marker as "\_edit: Title". You can change it manually in Reaper, but should retain "\_edit: ", as this signals the  
             >Ultraschall-API, if this is an edit-marker. The editmarker also is red (255 0 0).  
             >It will return the marker-number, which is the index of all markers in the project, means: markers and regions.  
             
