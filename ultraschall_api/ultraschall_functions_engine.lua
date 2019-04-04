@@ -38227,7 +38227,7 @@ function ultraschall.type(object)
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>string type_of_object = ultraschall.type(identifier object)</functioncall>
+  <functioncall>string type_of_object, optional boolean isnumber = ultraschall.type(identifier object)</functioncall>
   <description>
     Returns the type of the object.
     Supported types are Lua's own datatypes as well as Reaper's own datatypes.
@@ -38239,6 +38239,7 @@ function ultraschall.type(object)
                           - nil, number: integer, number: float, boolean, string, function, table, thread, userdata, 
                           - ReaProject, MediaItem, MediaItem_Take, MediaTrack, TrackEnvelope, AudioAccessor, joystick_device, PCM_source
                           - userdata will be shown, if object isn't of any known type
+    optional boolean isnumber - true, if object is a number(either integer or number)
   </retvals>
   <parameters>
     identifier object - the object, whose type you want to know
@@ -38252,8 +38253,8 @@ function ultraschall.type(object)
 </US_DocBloc>
 ]]
   if     object==nil then return "nil"
-  elseif math.type(object)=="integer" then return "number: integer"
-  elseif math.type(object)=="float" then return "number: float"
+  elseif math.type(object)=="integer" then return "number: integer", true
+  elseif math.type(object)=="float" then return "number: float", true
   elseif type(object)=="boolean" then return "boolean"
   elseif type(object)=="string" then return "string"
   elseif type(object)=="function" then return "function"
@@ -45119,6 +45120,8 @@ function ultraschall.GetLastCursorPosition()
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns the last and current editcursor-position. Needs Ultraschall-API-background-scripts started first, see [RunBackgroundHelperFeatures()](#RunBackgroundHelperFeatures).
     
+    Has an issue, when editcursor-position was changed using a modifier, like alt+click or shift+click! Because of that, you should use this only in defer-scripts.
+    
     returns -1, if Ultraschall-API-backgroundscripts weren't started yet.
   </description>
   <retvals>
@@ -50579,7 +50582,7 @@ end
 
 --ultraschall.SetVerticalRelativeScroll(1)
 
-function ultraschall.GetUserInputs(title, caption_names, default_retvals, length)
+function ultraschall.GetUserInputs(title, caption_names, default_retvals, values_length)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetUserInputs</slug>
@@ -50588,7 +50591,7 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, length
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer number_of_inputfields, table returnvalues = ultraschall.GetUserInputs(string title, table caption_names, table default_retvals, integer length)</functioncall>
+  <functioncall>boolean retval, integer number_of_inputfields, table returnvalues = ultraschall.GetUserInputs(string title, table caption_names, table default_retvals, optional integer values_length)</functioncall>
   <description>
     Gets inputs from the user.
     
@@ -50608,8 +50611,13 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, length
   <parameters>
     string title - the title of the inputwindow
     table caption_names - a table with all inputfield-captions. All non-string-entries will be converted to string-entries. Begin an entry with a * for password-entry-fields.
+                        - This dialog only allows limited caption-field-length, about 19-30 characters, depending on the size of the used characters.
     table default_retvals - a table with all default retvals. All non-string-entries will be converted to string-entries.
-    integer length - the extralength of the user-inputfield. With that, you can enhance the length of the inputfields. 1-500
+    optional integer values_length - the extralength of the values-inputfield. With that, you can enhance the length of the inputfields. 
+                            - 1-500; 
+                            - nil, for default length 10
+                            - -1, for autlength, where the function adjusts the length of the UserInputs-dialog according to the length of the longest default-value-string
+                            -     keep in mind, that the font used in this dialog isn't of fixed length, so some characters are smaller than others, which could lead to longer entryfields than needed, with this option set
   </parameters>
   <chapter_context>
     User Interface
@@ -50623,31 +50631,39 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, length
   if type(title)~="string" then ultraschall.AddErrorMessage("GetUserInputs", "title", "must be a string", -1) return false end
   if type(caption_names)~="table" then ultraschall.AddErrorMessage("GetUserInputs", "caption_names", "must be a table", -2) return false end
   if type(default_retvals)~="table" then ultraschall.AddErrorMessage("GetUserInputs", "default_retvals", "must be a table", -3) return false end
-  if math.type(length)~="integer" then ultraschall.AddErrorMessage("GetUserInputs", "length", "must be an integer", -4) return false end
-  if length>500 or length<1 then ultraschall.AddErrorMessage("GetUserInputs", "length", "must be between 1 and 500", -5) return false end
+  if values_length~=nil and math.type(values_length)~="integer" then ultraschall.AddErrorMessage("GetUserInputs", "values_length", "must be an integer", -4) return false end
+  if values_length==nil then values_length=10 end
+  if (values_length>500 or values_length<1) and values_length~=-1 then ultraschall.AddErrorMessage("GetUserInputs", "values_length", "must be between 1 and 500, or -1 for autolength", -5) return false end
+  if values_length==-1 then values_length=1 autolength=true end
   local count = ultraschall.CountEntriesInTable_Main(caption_names)
-  length=(length*2)+18
-  
+  values_length=(values_length*2)+18
+    
   local captions=""
-  local retvals=""
-  
-  for i=1, count do
-    if caption_names[i]==nil then caption_names[i]="" end
-    captions=captions..tostring(caption_names[i])..","
-  end
-  captions=captions:sub(1,-2)
-  captions=captions..",extrawidth="..length
+  local retvals=""  
   
   for i=1, count do
     if default_retvals[i]==nil then default_retvals[i]="" end
     retvals=retvals..tostring(default_retvals[i])..","
+    if autolength==true and values_length<tostring(default_retvals[i]):len() then values_length=(tostring(default_retvals[i]):len()*6.6)+18 end
   end
   retvals=retvals:sub(1,-2)  
   
+  for i=1, count do
+    if caption_names[i]==nil then caption_names[i]="" end
+    captions=captions..tostring(caption_names[i])..","
+    --if autolength==true and length<tostring(caption_names[i]):len()+length then length=(tostring(caption_names[i]):len()*16.6)+18+length end
+  end
+  captions=captions:sub(1,-2)
+  captions=captions..",extrawidth="..values_length
+  
+  --print2(captions)
+  
   local retval, retvalcsv = reaper.GetUserInputs(title, count, captions, retvals)
   if retval==false then return false end
-  return retval, ultraschall.CSV2IndividualLinesAsArray(retvalcsv) 
+  return retval, ultraschall.CSV2IndividualLinesAsArray(retvalcsv)
 end
+
+--ultraschall.GetUserInputs("I got you", {"ShalalalaOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOHAH"}, {"HHHAAAAHHHHHHHHHHHHHHHHHHHHHHHHAHHHHHHHA"}, -1)
 
 function ultraschall.CreateRenderCFG_AIFF(bits)
 --[[
@@ -54718,8 +54734,6 @@ function ultraschall.GetHWOutputs_Aliasnames()
     <tags>audiomanagement, get, alias, names, output, channels</tags>
   </US_DocBloc>
   ]]
-  
-  
   local retval, Bdesc = reaper.GetAudioDeviceInfo("IDENT_OUT", "")
   
   local Reaper_ini=reaper.get_ini_file()
@@ -54737,5 +54751,60 @@ end
 
 --A,B=ultraschall.GetHWOutputs_Aliasnames()
 
+
+function ultraschall.CopyMediaItemToDestinationTrack(MediaItem, MediaTrack_destination, position)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>CopyMediaItemToDestinationTrack</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>MediaItem newMediaItem, MediaItemStateChunk statechunk = ultraschall.CopyMediaItemToDestinationTrack(MediaItem MediaItem, MediaTrack MediaTrack_destination, number position)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Copies MediaItem to MediaTrack_destination at position.
+      
+      Returns nil in case of an error
+    </description>
+    <retvals>
+      MediaItem newMediaItem - the newly created MediaItem; nil, if no item could be created
+      MediaItemStateChunk statechunk - the statechunk of the newly created MediaItem
+    </retvals>
+    <parameters>
+      MediaItem MediaItem - the MediaItem, that you want to create a copy from
+      MediaTrack MediaTrack_destination - the track, into which you want to copy the MediaItem
+      number position - the position of the copy of the MediaItem; negative, to keep the position of the source-MediaItem
+    </parameters>
+    <chapter_context>
+      MediaItem Management
+      Assistance functions
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>mediaitem management, copy, mediaitem, track, mediatrack, position</tags>
+  </US_DocBloc>
+  ]]
+  if ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("CopyMediaItemToDestinationTrack", "MediaItem", "must be a valid MediaItem", -1) return end
+  if ultraschall.type(MediaTrack_destination)~="MediaTrack" then ultraschall.AddErrorMessage("CopyMediaItemToDestinationTrack", "MediaTrack_destination", "must be a valid MediaTrack-object", -2) return end
+  if type(position)~="number" then ultraschall.AddErrorMessage("CopyMediaItemToDestinationTrack", "position", "must be a number", -3) return end
+--  if position<0 then ultraschall.AddErrorMessage("CopyMediaItemToDestinationTrack", "position", "must be bigger than 0", -4) return end
+  
+  local original_position =  reaper.GetMediaItemInfo_Value( MediaItem, "D_POSITION" )
+  reaper.SetMediaItemInfo_Value( MediaItem, "D_POSITION" , position )
+  local retval, chunk = reaper.GetItemStateChunk(MediaItem, "", false)
+  
+  local temp_item = reaper.CreateNewMIDIItemInProj(MediaTrack_destination, 3, 0.1, false )
+  if ultraschall.type(temp_item)~="MediaItem" then ultraschall.AddErrorMessage("CopyMediaItemToDestinationTrack", "", "could not create the new copy of the MediaItem", -5) return end
+  reaper.SetMediaItemInfo_Value(MediaItem, "D_POSITION" , original_position)
+  
+  chunk=string.gsub(chunk, "\nIGUID.-\n", "\nIGUID "..reaper.genGuid().."\n")
+  chunk=string.gsub(chunk, "\nGUID.-\n", "\nGUID "..reaper.genGuid().."\n")
+  reaper.SetItemStateChunk(temp_item, chunk, false)
+  return temp_item, chunk
+end
+
+
+--ultraschall.CopyMediaItemToDestinationTrack(reaper.GetMediaItem(0,0), reaper.GetTrack(0,2), -10)
 
 ultraschall.ShowLastErrorMessage()

@@ -3,7 +3,7 @@
       <slug>Introduction</slug>  
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 5.973 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 5.974 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -6371,7 +6371,6 @@
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
           Default edge transition time for new automation items ms(max 200)-inputbox, as set in Preferences -> Automation -> Automation items
           It is a double
-          Only available in pre-releases, yet.
           
             0 to 200(though higher values can be set)
            
@@ -11057,7 +11056,6 @@
       <title>video_defimglen</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
           Still image thumbnail display mode -> Default length(ms)-inputbox, as set in the Video-section of Preferences -> Video/REX/Misc  
-          Only in pre-releases, yet
           It is an integer.  
           
            >-2147483647 to 2147483647  

@@ -49,10 +49,10 @@ Ultraschall API Changelog
 <li>ChildScripts: SetScriptIdentifier_Description - sets a description for your script</li>
 <li>ChildScripts: GetScriptIdentifier_Title - gets the title of your script; default is the filename</li>
 <li>ChildScripts: SetScriptIdentifier_Title - sets the title of your script</li>
-<li>ExampleScript: ProgressBar_Example.lua - shows a simple progressbar in the ReaScript-console, that iterates over all filenames in ResourcePath/Effects</li>
-<li>ExampleScript: ProgressBar_Example.gif - a demo-gif of ProgressBar_Example.lua</li>
-<li>ExampleScript: SimpleDrawingTool.lua - a simple drawing-tool demo, that demonstrates GFX_GetMouseCap</li>
-<li>ExampleScript: SimpleDrawingTool.gif - a demo-gif of SimpleDrawingTool.lua</li>
+<li>ExampleScript: Helpers<em>ProgressBar</em>Example.lua - shows a simple progressbar in the ReaScript-console, that iterates over all filenames in ResourcePath/Effects</li>
+<li>ExampleScript: Helpers<em>ProgressBar</em>Example.gif - a demo-gif of ProgressBar_Example.lua</li>
+<li>ExampleScript: GFX<em>SimpleDrawingTool.lua - a simple drawing-tool demo, that demonstrates GFX</em>GetMouseCap()</li>
+<li>ExampleScript: GFX_SimpleDrawingTool.gif - a demo-gif of SimpleDrawingTool.lua</li>
 <li>GFX: GFX_GetMouseCap - checks and returns mouse-clicks in Lua-gfx-windows, including doubleclick, dragging, mousewheel-states, etc. Much more handy than gfx.mouse_cap.</li>
 <li>Helpers: ConvertIntegerIntoString2 - converts multiple integers into a string, 8 to 32 bit integers can be converted</li>
 <li>Helpers: ConvertStringToIntegers - converts a string into multiple integers; you can set the size of the integer</li>
@@ -60,11 +60,12 @@ Ultraschall API Changelog
 <li>Helpers: print_update - prints its values to the ReaScript console, but clears the console before displaying. Good for progressbars and displaying a few statuses without constantly scrolling.</li>
 <li>Helpers: PrintProgressBar - prints a simple progressbar into the ReaScript-console; you should call ResetProgressBar before starting a new progressbar</li>
 <li>Helpers: ResetProgressBar - resets progressbar-settings, so you can start a new progressbar</li>
+<li>MediaItems: CopyMediaItemToDestinationTrack - copies a MediaItem to a destinationtrack at position. Thanks to nikolalkc for allowing me to adapt his function <a href="https://forum.cockos.com/showpost.php?p=2111252&amp;postcount=5">p=2111252</a></li>
 <li>Routing: AreAUXSendReceivesTablesEqual - compares two AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and GetAllAUXSendReceives2</li>
 <li>Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2</li>
 <li>Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables, as returned by GetAllMainSendStates and GetAllMainSendStates2</li>
 <li>TrackManagement: GetTracknumberByGuid - gets a tracknumber and MediaTrack-object by guid</li>
-<li>UserInterface: SetReaScriptConsole_FontStyle - sets the font-style of the ReaScript console. There are 15 available.</li>
+<li>UserInterface: SetReaScriptConsole_FontStyle - sets the font-style of the ReaScript console. There are 19 available.</li>
 <li>UserInterface: SetVerticalRelativeScroll - like SetVerticalScroll but sets the arrange-vertical-scroll, relative to it's current vscroll-position</li>
 <li>Ultraschall: GetTypeOfTrack - returns the type of a track, either StudioLink/StudioLinkOnAir or SoundBoard</li>
 <li>Ultraschall: GetAllAUXSendReceives2 - like GetAllAUXSendReceives, but returns type of track as well</li>
@@ -77,12 +78,15 @@ Ultraschall API Changelog
 <h4>Changes from Beta 2.73 to Beta 2.74</h4>
 <ul>
 <li>Docs: Functions reference - added pan-law info to the descriptions for many routing-functions</li>
+<li>Docs: GetLastCursorPosition - added info about limitations in Reaper</li>
 <li>Docs: GetScriptIdentifier - moved in the index to Api-Helper functions -&gt; Child Scripts, where it belongs to</li>
 <li>Docs: GetScriptReturnvalues - corrected docs and cleared them up a little</li>
+<li>Docs: ReaperApidocs and ConfigVar-docs: updated to Reaper 5.974 and JS-extension 0.980</li>
 <li>Docs: ReaperApidocs: added info about JS<em>Mouse</em>GetState and fixed Markdown-issues with JS<em>Window_GetScrollInfo and JS</em>Window_SetScrollPos</li>
 <li>Docs: Reaper-ConfigVars: added new settings in video_colorspace from Reaper 5.972 and pre-release onlys to labelitems2, pooledenvtranstime and video_defimglen</li>
 <li>Docs: relayouted changelog for beta 2.72 upwards, the featurelist should be better readable, now</li>
 <li>Docs: SetVerticalZoom - added info into description about how to do relative-vertical-zoom</li>
+<li>ExampleScript: renamed the scripts and demogifs, so the names reflect more, of what category the scripts are; removed Track/Item-extstate scripts, as this feature is deprecated</li>
 <li>ExtStates: GetTrackExtState - deprecated, as Reaper will have that feature in a future version in better</li>
 <li>ExtStates: SetTrackExtState - deprecated, as Reaper will have that feature in a future version in better</li>
 <li>ExtStates: GetItemExtState - deprecated, as Reaper will have that feature in a future version in better</li>
@@ -109,9 +113,10 @@ Ultraschall API Changelog
 <li>Routing: SetTrackAUXSendReceives - sped up execution; supports now TrackStateChunks as well, when tracknumber=-1; removed useless parameter undo</li>
 <li>Routing: SetTrackHWOut - sped up execution; supports now TrackStateChunks as well, when tracknumber=-1; removed parameter undo, as it useless, now</li>
 <li>StateChunks: GetTrackStateChunk_Tracknumber - forgot to remove retval "overflow" from docs -&gt; fixed</li>
-<li>UserInterface: SetVerticalScroll - last minute changes prevented the parameter from being passed to the function -&gt; fixed</li>
+<li>UserInterface: GetUserInputs - parameter length renamed to values_length and is now optional; nil for default length 10; -1 for autolength; requested by <a href="https://forum.cockos.com/showpost.php?p=2116685&amp;postcount=141">woodslanding</a></li>
 <li>UserInterface: GetVZoom - renamed to GetVerticalZoom for better readability, sorry for any inconvenience</li>
 <li>UserInterface: SetVZoom - renamed to SetVerticalZoom for better readability, sorry for any inconvenience</li>
+<li>UserInterface: SetVerticalScroll - last minute changes prevented the parameter from being passed to the function -&gt; fixed</li>
 <li>Ultraschall: CountUltraschallEffectPlugins - removed, as it was useless</li>
 <li>Ultraschall: pause_follow_one_cycle - moved to Ultraschall Specific in the index of the docs</li>
 </ul>

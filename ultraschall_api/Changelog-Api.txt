@@ -290,10 +290,10 @@
   - ChildScripts: SetScriptIdentifier_Description - sets a description for your script
   - ChildScripts: GetScriptIdentifier_Title - gets the title of your script; default is the filename
   - ChildScripts: SetScriptIdentifier_Title - sets the title of your script
-  - ExampleScript: ProgressBar\_Example.lua - shows a simple progressbar in the ReaScript-console, that iterates over all filenames in ResourcePath/Effects
-  - ExampleScript: ProgressBar\_Example.gif - a demo-gif of ProgressBar\_Example.lua
-  - ExampleScript: SimpleDrawingTool.lua - a simple drawing-tool demo, that demonstrates GFX_GetMouseCap
-  - ExampleScript: SimpleDrawingTool.gif - a demo-gif of SimpleDrawingTool.lua
+  - ExampleScript: Helpers_ProgressBar_Example.lua - shows a simple progressbar in the ReaScript-console, that iterates over all filenames in ResourcePath/Effects
+  - ExampleScript: Helpers_ProgressBar_Example.gif - a demo-gif of ProgressBar\_Example.lua
+  - ExampleScript: GFX_SimpleDrawingTool.lua - a simple drawing-tool demo, that demonstrates GFX_GetMouseCap()
+  - ExampleScript: GFX_SimpleDrawingTool.gif - a demo-gif of SimpleDrawingTool.lua
   - GFX: GFX\_GetMouseCap - checks and returns mouse-clicks in Lua-gfx-windows, including doubleclick, dragging, mousewheel-states, etc. Much more handy than gfx.mouse_cap.
   - Helpers: ConvertIntegerIntoString2 - converts multiple integers into a string, 8 to 32 bit integers can be converted
   - Helpers: ConvertStringToIntegers - converts a string into multiple integers; you can set the size of the integer
@@ -301,11 +301,12 @@
   - Helpers: print\_update - prints its values to the ReaScript console, but clears the console before displaying. Good for progressbars and displaying a few statuses without constantly scrolling.
   - Helpers: PrintProgressBar - prints a simple progressbar into the ReaScript-console; you should call ResetProgressBar before starting a new progressbar
   - Helpers: ResetProgressBar - resets progressbar-settings, so you can start a new progressbar
+  - MediaItems: CopyMediaItemToDestinationTrack - copies a MediaItem to a destinationtrack at position. Thanks to nikolalkc for allowing me to adapt his function [p=2111252](https://forum.cockos.com/showpost.php?p=2111252&postcount=5)
   - Routing: AreAUXSendReceivesTablesEqual - compares two AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and GetAllAUXSendReceives2
   - Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2
   - Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables, as returned by GetAllMainSendStates and GetAllMainSendStates2
   - TrackManagement: GetTracknumberByGuid - gets a tracknumber and MediaTrack-object by guid
-  - UserInterface: SetReaScriptConsole_FontStyle - sets the font-style of the ReaScript console. There are 15 available.
+  - UserInterface: SetReaScriptConsole_FontStyle - sets the font-style of the ReaScript console. There are 19 available.
   - UserInterface: SetVerticalRelativeScroll - like SetVerticalScroll but sets the arrange-vertical-scroll, relative to it's current vscroll-position
   - Ultraschall: GetTypeOfTrack - returns the type of a track, either StudioLink/StudioLinkOnAir or SoundBoard
   - Ultraschall: GetAllAUXSendReceives2 - like GetAllAUXSendReceives, but returns type of track as well
@@ -318,12 +319,15 @@
   
 #### Changes from Beta 2.73 to Beta 2.74
   - Docs: Functions reference - added pan-law info to the descriptions for many routing-functions
+  - Docs: GetLastCursorPosition - added info about limitations in Reaper
   - Docs: GetScriptIdentifier - moved in the index to Api-Helper functions -> Child Scripts, where it belongs to
   - Docs: GetScriptReturnvalues - corrected docs and cleared them up a little
+  - Docs: ReaperApidocs and ConfigVar-docs: updated to Reaper 5.974 and JS-extension 0.980
   - Docs: ReaperApidocs: added info about JS_Mouse_GetState and fixed Markdown-issues with JS_Window\_GetScrollInfo and JS_Window\_SetScrollPos
   - Docs: Reaper-ConfigVars: added new settings in video\_colorspace from Reaper 5.972 and pre-release onlys to labelitems2, pooledenvtranstime and video\_defimglen
   - Docs: relayouted changelog for beta 2.72 upwards, the featurelist should be better readable, now
   - Docs: SetVerticalZoom - added info into description about how to do relative-vertical-zoom
+  - ExampleScript: renamed the scripts and demogifs, so the names reflect more, of what category the scripts are; removed Track/Item-extstate scripts, as this feature is deprecated
   - ExtStates: GetTrackExtState - deprecated, as Reaper will have that feature in a future version in better
   - ExtStates: SetTrackExtState - deprecated, as Reaper will have that feature in a future version in better
   - ExtStates: GetItemExtState - deprecated, as Reaper will have that feature in a future version in better
@@ -350,9 +354,10 @@
   - Routing: SetTrackAUXSendReceives - sped up execution; supports now TrackStateChunks as well, when tracknumber=-1; removed useless parameter undo
   - Routing: SetTrackHWOut - sped up execution; supports now TrackStateChunks as well, when tracknumber=-1; removed parameter undo, as it useless, now
   - StateChunks: GetTrackStateChunk_Tracknumber - forgot to remove retval "overflow" from docs -> fixed
-  - UserInterface: SetVerticalScroll - last minute changes prevented the parameter from being passed to the function -> fixed
+  - UserInterface: GetUserInputs - parameter length renamed to values_length and is now optional; nil for default length 10; -1 for autolength; requested by [woodslanding](https://forum.cockos.com/showpost.php?p=2116685&postcount=141)
   - UserInterface: GetVZoom - renamed to GetVerticalZoom for better readability, sorry for any inconvenience
   - UserInterface: SetVZoom - renamed to SetVerticalZoom for better readability, sorry for any inconvenience
+  - UserInterface: SetVerticalScroll - last minute changes prevented the parameter from being passed to the function -> fixed
   - Ultraschall: CountUltraschallEffectPlugins - removed, as it was useless
   - Ultraschall: pause\_follow\_one_cycle - moved to Ultraschall Specific in the index of the docs
   

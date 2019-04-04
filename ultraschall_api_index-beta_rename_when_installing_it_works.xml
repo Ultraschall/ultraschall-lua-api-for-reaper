@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="32964.00" author="Meo Mespotine">
+      <version name="33059.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -89,22 +89,18 @@
 	<source file="/ultraschall_api/Scripts/ultraschall_Help_Ultraschall_Api_Introduction_and_Concepts.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/ultraschall_Help_Ultraschall_Api_Introduction_and_Concepts.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/ArrangeView_Snapshots_Example.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/ArrangeView_Snapshots_Example.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/A_Simple_EventManager_with_Backgroundhelpers_and_Defer01.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/A_Simple_EventManager_with_Backgroundhelpers_and_Defer01.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/Changed_Project_Tab_Example.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/Changed_Project_Tab_Example.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/Color_Example.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/Color_Example.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/DisplayMarkersRegions_underneath_Mouse.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/DisplayMarkersRegions_underneath_Mouse.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/ProgressBar_Example.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/ProgressBar_Example.lua</source>
+	<source file="/ultraschall_api/Scripts_Examples/Colors_ColorTables_ColorCycler.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/Colors_ColorTables_ColorCycler.lua</source>
+	<source file="/ultraschall_api/Scripts_Examples/Colors_Example.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/Colors_Example.lua</source>
+	<source file="/ultraschall_api/Scripts_Examples/GFX_SimpleDrawingTool.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/GFX_SimpleDrawingTool.lua</source>
+	<source file="/ultraschall_api/Scripts_Examples/Helpers_ProgressBar_Example.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/Helpers_ProgressBar_Example.lua</source>
+	<source file="/ultraschall_api/Scripts_Examples/Markers_DisplayMarkersRegions_underneath_Mouse.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/Markers_DisplayMarkersRegions_underneath_Mouse.lua</source>
+	<source file="/ultraschall_api/Scripts_Examples/MediaItems_RippleCut_Selected_Tracks.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/MediaItems_RippleCut_Selected_Tracks.lua</source>
+	<source file="/ultraschall_api/Scripts_Examples/MediaItems_Shorten_MediaItems_In_Selection_Example.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/MediaItems_Shorten_MediaItems_In_Selection_Example.lua</source>
+	<source file="/ultraschall_api/Scripts_Examples/MediaItems_ShowMediaItems_In_Timeselection_and_SelectedTracks.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/MediaItems_ShowMediaItems_In_Timeselection_and_SelectedTracks.lua</source>
+	<source file="/ultraschall_api/Scripts_Examples/Projects_Changed_Project_Tab_Example.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/Projects_Changed_Project_Tab_Example.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/Render_Current_Project.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/Render_Current_Project.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/Render_Project.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/Render_Project.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/Render_Region_of_current_Project.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/Render_Region_of_current_Project.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/RippleCut_Selected_Tracks.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/RippleCut_Selected_Tracks.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/SetItemExtStateSet.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/SetItemExtStateSet.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/SetTrackExtState.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/SetTrackExtState.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/Shorten_MediaItems_In_Selection_Example.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/Shorten_MediaItems_In_Selection_Example.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/ShowItemExtState.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/ShowItemExtState.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/ShowMediaItems_In_Timeselection_and_SelectedTracks.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/ShowMediaItems_In_Timeselection_and_SelectedTracks.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/ShowTrackExtState.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/ShowTrackExtState.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/SimpleDrawingTool.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/SimpleDrawingTool.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/TrackAndItem_ColorCycler.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/TrackAndItem_ColorCycler.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/ultraschall_Soundboard.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/ultraschall_Soundboard.lua</source>
 	<source file="/ultraschall_api/temp/Temp.bat" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/temp/Temp.bat</source>
 	<source file="/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/3rd_party_for_everyone/Functions/placeholder.txt</source>
@@ -121,6 +117,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.963.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.963.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.964.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.964.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.971.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.971.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/JS_0.980.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.980.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0_951.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0_951.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png</source>
@@ -148,6 +145,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.965.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.965.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.97.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.97.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.972.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.972.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper5.974.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.974.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi</source>
@@ -262,20 +260,19 @@
 	<source file="/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NamePatternMute_template.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NamePatternMute_template.lua</source>
 	<source file="/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NamePatternUnMute_template.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NamePatternUnMute_template.lua</source>
 	<source file="/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NameUnMute_template.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NameUnMute_template.lua</source>
-	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ArrangeView_Snapshots_Example.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ArrangeView_Snapshots_Example.gif</source>
-	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Changed_Project_Tab_Example.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Changed_Project_Tab_Example.gif</source>
-	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ColorTables_ColorCycler.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ColorTables_ColorCycler.gif</source>
-	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Color_Example.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Color_Example.gif</source>
-	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/DisplayMarkersRegions_underneath_Mouse.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/DisplayMarkersRegions_underneath_Mouse.gif</source>
-	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ItemExtState.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ItemExtState.gif</source>
-	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ProgressBar_Example.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ProgressBar_Example.gif</source>
+	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ArrangeViews_Snapshots_Example.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ArrangeViews_Snapshots_Example.gif</source>
+	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Colors_ColorTables_ColorCycler.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Colors_ColorTables_ColorCycler.gif</source>
+	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Colors_Color_Example.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Colors_Color_Example.gif</source>
+	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/GFX_SimpleDrawingTool.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/GFX_SimpleDrawingTool.gif</source>
+	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Helpers_ProgressBar_Example.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Helpers_ProgressBar_Example.gif</source>
+	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Markers_DisplayMarkersRegions_underneath_Mouse.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Markers_DisplayMarkersRegions_underneath_Mouse.gif</source>
+	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/MediaItems_RippleCut_Selected_Tracks.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/MediaItems_RippleCut_Selected_Tracks.gif</source>
+	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/MediaItems_Shorten_MediaItems_In_Selection_Example.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/MediaItems_Shorten_MediaItems_In_Selection_Example.gif</source>
+	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/MediaItems_ShowMediaItems_In_Timeselection_and_SelectedTracks.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/MediaItems_ShowMediaItems_In_Timeselection_and_SelectedTracks.gif</source>
+	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Projects_Changed_Project_Tab_Example.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Projects_Changed_Project_Tab_Example.gif</source>
 	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Render_Current_Project.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Render_Current_Project.gif</source>
 	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Render_Project.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Render_Project.gif</source>
-	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/RippleCut_Selected_Tracks.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/RippleCut_Selected_Tracks.gif</source>
-	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Shorten_MediaItems_In_Selection_Example.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Shorten_MediaItems_In_Selection_Example.gif</source>
-	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ShowMediaItems_In_Timeselection_and_SelectedTracks.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/ShowMediaItems_In_Timeselection_and_SelectedTracks.gif</source>
-	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/SimpleDrawingTool.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/SimpleDrawingTool.gif</source>
-	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/TrackExtState.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/TrackExtState.gif</source>
+	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/UserInterface_ProgressBar-Example.gif" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/UserInterface_ProgressBar-Example.gif</source>
 	<source file="/ultraschall_api/misc/Recordings/peaks/01-tempproject.flac.reapeaks" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/Recordings/peaks/01-tempproject.flac.reapeaks</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/Recordings/01-US_Notification_Sound.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/US_Notification_Sound/Recordings/01-US_Notification_Sound.flac</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ConfigVarDocConverter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ConfigVarDocConverter.lua</source>
@@ -323,14 +320,14 @@ New features in 4.00beta2.74
     script; default is the filename
 -   ChildScripts: SetScriptIdentifier_Title - sets the title of your
     script
--   ExampleScript: ProgressBar_Example.lua - shows a simple progressbar
-    in the ReaScript-console, that iterates over all filenames in
-    ResourcePath/Effects
--   ExampleScript: ProgressBar_Example.gif - a demo-gif of
+-   ExampleScript: Helpers_ProgressBar_Example.lua - shows a simple
+    progressbar in the ReaScript-console, that iterates over all
+    filenames in ResourcePath/Effects
+-   ExampleScript: Helpers_ProgressBar_Example.gif - a demo-gif of
     ProgressBar_Example.lua
--   ExampleScript: SimpleDrawingTool.lua - a simple drawing-tool demo,
-    that demonstrates GFX_GetMouseCap
--   ExampleScript: SimpleDrawingTool.gif - a demo-gif of
+-   ExampleScript: GFX_SimpleDrawingTool.lua - a simple drawing-tool
+    demo, that demonstrates GFX_GetMouseCap()
+-   ExampleScript: GFX_SimpleDrawingTool.gif - a demo-gif of
     SimpleDrawingTool.lua
 -   GFX: GFX_GetMouseCap - checks and returns mouse-clicks in
     Lua-gfx-windows, including doubleclick, dragging, mousewheel-states,
@@ -349,6 +346,9 @@ New features in 4.00beta2.74
     a new progressbar
 -   Helpers: ResetProgressBar - resets progressbar-settings, so you can
     start a new progressbar
+-   MediaItems: CopyMediaItemToDestinationTrack - copies a MediaItem to
+    a destinationtrack at position. Thanks to nikolalkc for allowing me
+    to adapt his function p=2111252
 -   Routing: AreAUXSendReceivesTablesEqual - compares two
     AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and
     GetAllAUXSendReceives2
@@ -359,7 +359,7 @@ New features in 4.00beta2.74
 -   TrackManagement: GetTracknumberByGuid - gets a tracknumber and
     MediaTrack-object by guid
 -   UserInterface: SetReaScriptConsole_FontStyle - sets the font-style
-    of the ReaScript console. There are 15 available.
+    of the ReaScript console. There are 19 available.
 -   UserInterface: SetVerticalRelativeScroll - like SetVerticalScroll
     but sets the arrange-vertical-scroll, relative to it’s current
     vscroll-position
@@ -382,10 +382,13 @@ Changes from Beta 2.73 to Beta 2.74
 
 -   Docs: Functions reference - added pan-law info to the descriptions
     for many routing-functions
+-   Docs: GetLastCursorPosition - added info about limitations in Reaper
 -   Docs: GetScriptIdentifier - moved in the index to Api-Helper
     functions -> Child Scripts, where it belongs to
 -   Docs: GetScriptReturnvalues - corrected docs and cleared them up a
     little
+-   Docs: ReaperApidocs and ConfigVar-docs: updated to Reaper 5.974 and
+    JS-extension 0.980
 -   Docs: ReaperApidocs: added info about JS_Mouse_GetState and fixed
     Markdown-issues with JS_Window_GetScrollInfo and
     JS_Window_SetScrollPos
@@ -396,6 +399,9 @@ Changes from Beta 2.73 to Beta 2.74
     should be better readable, now
 -   Docs: SetVerticalZoom - added info into description about how to do
     relative-vertical-zoom
+-   ExampleScript: renamed the scripts and demogifs, so the names
+    reflect more, of what category the scripts are; removed
+    Track/Item-extstate scripts, as this feature is deprecated
 -   ExtStates: GetTrackExtState - deprecated, as Reaper will have that
     feature in a future version in better
 -   ExtStates: SetTrackExtState - deprecated, as Reaper will have that
@@ -459,12 +465,15 @@ Changes from Beta 2.73 to Beta 2.74
     undo, as it useless, now
 -   StateChunks: GetTrackStateChunk_Tracknumber - forgot to remove
     retval “overflow” from docs -> fixed
--   UserInterface: SetVerticalScroll - last minute changes prevented the
-    parameter from being passed to the function -> fixed
+-   UserInterface: GetUserInputs - parameter length renamed to
+    values_length and is now optional; nil for default length 10; -1 for
+    autolength; requested by woodslanding
 -   UserInterface: GetVZoom - renamed to GetVerticalZoom for better
     readability, sorry for any inconvenience
 -   UserInterface: SetVZoom - renamed to SetVerticalZoom for better
     readability, sorry for any inconvenience
+-   UserInterface: SetVerticalScroll - last minute changes prevented the
+    parameter from being passed to the function -> fixed
 -   Ultraschall: CountUltraschallEffectPlugins - removed, as it was
     useless
 -   Ultraschall: pause_follow_one_cycle - moved to Ultraschall Specific
