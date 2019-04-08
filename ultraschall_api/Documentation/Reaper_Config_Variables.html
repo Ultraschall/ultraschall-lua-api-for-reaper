@@ -150,7 +150,7 @@ Render to File-dialogs are completely documented, as well as all variables toggl
 </blockquote>
 <p>the following variables are available in pre-releases of Reaper only</p>
 <blockquote>
-<p><a href="#bouncecfg">bouncecfg</a>, <a href="#defstretchmode">defstretchmode</a>, <a href="#wiring_options">wiring_options</a>, <a href="#uiscale">uiscale</a>, <a href="#video_defimglen">video_defimglen</a>, <a href="#pooledenvtranstime">pooledenvtranstime</a></p>
+<p><a href="#bouncecfg">bouncecfg</a>, <a href="#defstretchmode">defstretchmode</a>, <a href="#wiring_options">wiring_options</a></p>
 </blockquote>
 </td></tr></table></divl><hr><a id="__numcpu"></a>
 &nbsp;<a href="#__numcpu"><b>__numcpu</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>The number of CPUs available in your system.<br />
@@ -501,8 +501,7 @@ It is an integer-bitfield</p>
 <a href="#deffadelen">deffadelen</a>, <a href="#defsplitxfadelen">defsplitxfadelen</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER, but not, when changed through the Options-menu!</p>
 </td></tr></table></divl><hr><a id="bouncecfg"></a>
-&nbsp;<a href="#bouncecfg"><b>bouncecfg</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>only available in pre-releases of Reaper, yet<br />
-unknown, but seems to be for storing bounce-settings<br />
+&nbsp;<a href="#bouncecfg"><b>bouncecfg</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>unknown, but seems to be for storing bounce-settings<br />
 it is an integer</p>
 </td></tr></table></divl><hr><a id="bigwndframes"></a>
 &nbsp;<a href="#bigwndframes"><b>bigwndframes</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>Use large (non-tool) window frames for windows-checkbox, as set in Preferences -&gt; General -&gt; Advanced UI/system tweaks-button<br />
@@ -1854,8 +1853,7 @@ It is a double-float</p>
 <a href="#deffadelen">deffadelen</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </td></tr></table></divl><hr><a id="defstretchmode"></a>
-&nbsp;<a href="#defstretchmode"><b>defstretchmode</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>only available in pre-releases of Reaper, yet<br />
-unknown<br />
+&nbsp;<a href="#defstretchmode"><b>defstretchmode</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>unknown<br />
 It is an integer</p>
 </td></tr></table></divl><hr><a id="deftrackrecflags"></a>
 &nbsp;<a href="#deftrackrecflags"><b>deftrackrecflags</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>The Record arm-checkbox and Record config-dropdownlist from the section Tracks, as set in Preferences -&gt; Track/Send Defaults<br />
@@ -3090,7 +3088,9 @@ It is an integer-bitfield</p>
 <p>&amp;32=0, Except when the media item height is less than the label height(off) - unchecked<br />
 &amp;32=1, Except when the media item height is less than the label height(on) - checked</p>
 </blockquote>
-<p>Only available in pre-releases: &gt;64 128 256 &gt;&gt;0 0 0, Center/tile image (default in earlier Reaper-versions) &gt;&gt;0 1 0, No thumbnail &gt;&gt;1 0 0, Full height &gt;&gt;0 0 1, Stretch image for more image-settings, see <a href="#video_defimglen">video_defimglen</a></p>
+<blockquote>
+<p>&amp;64 &amp;128 &amp;256 -&gt; Preferences -&gt; Video/REX/Misc -&gt; still image thumbnail display mode &gt;0 0 0, Center/tile image (default in earlier Reaper-versions) &gt;0 1 0, No thumbnail &gt;1 0 0, Full height &gt;0 0 1, Stretch image for more image-settings, see <a href="#video_defimglen">video_defimglen</a></p>
+</blockquote>
 <p>For other settings set in Preferences -&gt; Media, see <a href="#itemlabel_minheight">itemlabel_minheight</a>, <a href="#peaksedges">peaksedges</a>, <a href="#itemicons">itemicons</a>, <a href="#itemicons_minheight">itemicons_minheight</a>, <a href="#itemvolmode">itemvolmode</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </td></tr></table></divl><hr><a id="lastthemefn5"></a>
@@ -6921,8 +6921,7 @@ It is an integer</p>
 1, unknown</p>
 </blockquote>
 </td></tr></table></divl><hr><a id="uiscale"></a>
-&nbsp;<a href="#uiscale"><b>uiscale</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>only available in pre-releases of Reaper, yet<br />
-Seems to be the ui-scale-setting, as set in Preferences -&gt; General -&gt; Advanced UI/system tweaks-button, but isn’t updated when the option is changed, unlike it’s reaper.ini-entry.<br />
+&nbsp;<a href="#uiscale"><b>uiscale</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>Seems to be the ui-scale-setting, as set in Preferences -&gt; General -&gt; Advanced UI/system tweaks-button, but isn’t updated when the option is changed, unlike it’s reaper.ini-entry.<br />
 It is an integer</p>
 </td></tr></table></divl><hr><a id="undomask"></a>
 &nbsp;<a href="#undomask"><b>undomask</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>The “Include Selection” in the “Undo settings”-section, as set in Preferences -&gt; General<br />

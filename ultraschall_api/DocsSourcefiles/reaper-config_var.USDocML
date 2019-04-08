@@ -84,7 +84,7 @@
   
          the following variables are available in pre-releases of Reaper only  
          
-           >[bouncecfg](#bouncecfg), [defstretchmode](#defstretchmode), [wiring_options](#wiring_options), [uiscale](#uiscale), [video_defimglen](#video_defimglen), [pooledenvtranstime](#pooledenvtranstime)
+           >[bouncecfg](#bouncecfg), [defstretchmode](#defstretchmode), [wiring_options](#wiring_options)
       </description>  
       <chapter_context>  
          An Introduction  
@@ -797,7 +797,6 @@
       <slug>bouncecfg</slug>  
       <title>bouncecfg</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          only available in pre-releases of Reaper, yet  
           unknown, but seems to be for storing bounce-settings  
           it is an integer  
             
@@ -2255,7 +2254,6 @@
       <slug>defstretchmode</slug>  
       <title>defstretchmode</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          only available in pre-releases of Reaper, yet  
           unknown  
           It is an integer  
             
@@ -4240,8 +4238,7 @@
            >&32=0, Except when the media item height is less than the label height(off) - unchecked  
            >&32=1, Except when the media item height is less than the label height(on) - checked  
            
-           Only available in pre-releases:
-           >64 128 256
+           >&64 &128 &256 -> Preferences -> Video/REX/Misc -> still image thumbnail display mode
            >>0 0 0, Center/tile image (default in earlier Reaper-versions)
            >>0 1 0, No thumbnail
            >>1 0 0, Full height
@@ -10720,7 +10717,6 @@
       <slug>uiscale</slug>  
       <title>uiscale</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          only available in pre-releases of Reaper, yet  
           Seems to be the ui-scale-setting, as set in Preferences -> General -> Advanced UI/system tweaks-button, but isn't updated when the option is changed, unlike it's reaper.ini-entry.  
           It is an integer  
            

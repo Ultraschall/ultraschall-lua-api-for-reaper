@@ -7,6 +7,78 @@
       TODO!! winterlysnowflakes - should be initialized only, when WinterlySnowflakes is started the first time; otherwise makes calling API more laggy than useful
     
     API 4.00beta2.75
+TODO!! buggy function, crashes Reaper on Mac for some reason...try to fix it
+        the line "reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)" seems to be the problem due WM_SETFONT
+
+function ultraschall.SetReaScriptConsole_FontStyle(style)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SetReaScriptConsole_FontStyle</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.SetReaScriptConsole_FontStyle(integer style)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      If the ReaScript-console is opened, you can change the font-style of it.
+      You can choose between 19 different styles, with 3 being of fixed character length. It will change the next time you output text to the ReaScriptConsole.
+      
+      If you close and reopen the Console, you need to set the font-style again!
+      
+      You can only have one style active in the console!
+      
+      Returns false in case of an error
+    </description>
+    <retvals>
+      boolean retval - true, displaying was successful; false, displaying wasn't successful
+    </retvals>
+    <parameters>
+      integer length - the font-style used. There are 19 different ones.
+                      - fixed-character-length:
+                      -     1,  fixed, console
+                      -     2,  fixed, console alt
+                      -     3,  thin, fixed
+                      - 
+                      - normal from large to small:
+                      -     4-8
+                      -     
+                      - bold from largest to smallest:
+                      -     9-14
+                      - 
+                      - thin:
+                      -     15, thin
+                      - 
+                      - underlined:
+                      -     16, underlined, thin
+                      -     17, underlined
+                      -     18, underlined
+                      - 
+                      - symbol:
+                      -     19, symbol
+    </parameters>
+    <chapter_context>
+      User Interface
+      Miscellaneous
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>user interface, reascript, console, font, style</tags>
+  </US_DocBloc>
+  ]]
+  if math.type(style)~="integer" then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be an integer", -1) return false end
+  if style>19 or style<1 then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be between 1 and 17", -2) return false end
+  local reascript_console_hwnd = ultraschall.GetReaScriptConsoleWindow()
+  if reascript_console_hwnd==nil then return false end
+  local styles={32,33,36,31,214,37,218,1606,4373,3297,220,3492,3733,3594,35,1890,2878,3265,4392}
+  local Textfield=reaper.JS_Window_FindChildByID(reascript_console_hwnd, 1177)
+  reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)
+  return true
+end
+--reaper.ClearConsole()
+--ultraschall.SetReaScriptConsole_FontStyle(1)
+--reaper.ShowConsoleMsg("ABCDEFGhijklmnop\n123456789.-,!\"§$%&/()=\n----------\nOOOOOOOOOO")
+
       TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
       TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
       TODO!!  - Get Length of all Items in a track GetLengthOfAllItems_Track()
@@ -283,11 +355,9 @@
 
 ### 4.00 Beta 2.74: - "Blondie - Call Me" - 10th of April 2019
 
-   Has now 821 functions, with 21 new ones
+   Has now 820 functions, with 20 new ones
 
    - **Routing** - sped up the routing-functions by magnitudes, who also allow now using TrackStateChunks which can be faster than Reaper's own API-functions
-   
-   - **ReaScript console** - you can now set the font-style of the text in the ReaScript-console, including fixed-length-fonts
 
    - **GFX\_GetMouseCap** - this allows you to get mouse-states in gfx-windows, including doubleclick and drag. Much easier than to code it yourself using gfx.mouse_cap.
 
@@ -322,7 +392,6 @@
   - Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2
   - Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables, as returned by GetAllMainSendStates and GetAllMainSendStates2
   - TrackManagement: GetTracknumberByGuid - gets a tracknumber and MediaTrack-object by guid
-  - UserInterface: SetReaScriptConsole_FontStyle - sets the font-style of the ReaScript console. There are 19 available.
   - UserInterface: SetVerticalRelativeScroll - like SetVerticalScroll but sets the arrange-vertical-scroll, relative to it's current vscroll-position
   - Ultraschall: GetTypeOfTrack - returns the type of a track, either StudioLink/StudioLinkOnAir or SoundBoard
   - Ultraschall: GetAllAUXSendReceives2 - like GetAllAUXSendReceives, but returns type of track as well

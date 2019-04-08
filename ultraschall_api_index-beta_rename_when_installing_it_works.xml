@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="33096.00" author="Meo Mespotine">
+      <version name="33184.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -310,14 +310,11 @@ Ultraschall Framework - Changelog
 
 4.00 Beta 2.74: - “Blondie - Call Me” - 10th of April 2019
 
-Has now 821 functions, with 21 new ones
+Has now 820 functions, with 20 new ones
 
 -   ROUTING - sped up the routing-functions by magnitudes, who also
     allow now using TrackStateChunks which can be faster than Reaper’s
     own API-functions
-
--   REASCRIPT CONSOLE - you can now set the font-style of the text in
-    the ReaScript-console, including fixed-length-fonts
 
 -   GFX_GETMOUSECAP - this allows you to get mouse-states in
     gfx-windows, including doubleclick and drag. Much easier than to
@@ -373,19 +370,17 @@ AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2 -
 Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables, as
 returned by GetAllMainSendStates and GetAllMainSendStates2 -
 TrackManagement: GetTracknumberByGuid - gets a tracknumber and
-MediaTrack-object by guid - UserInterface: SetReaScriptConsole_FontStyle
-- sets the font-style of the ReaScript console. There are 19 available.
-- UserInterface: SetVerticalRelativeScroll - like SetVerticalScroll but
-sets the arrange-vertical-scroll, relative to it’s current
-vscroll-position - Ultraschall: GetTypeOfTrack - returns the type of a
-track, either StudioLink/StudioLinkOnAir or SoundBoard - Ultraschall:
-GetAllAUXSendReceives2 - like GetAllAUXSendReceives, but returns type of
-track as well - Ultraschall: GetAllHWOuts2 - like GetAllHWOuts, but
-returns type of track as well - Ultraschall: GetAllMainSendStates2 -
-like GetAllMainSendStates, but returns type of track as well -
-Ultraschall: IsTrackSoundboard - returns, if a track is a valid
-Ultraschall-Soundboard-track - Ultraschall: IsTrackStudioLink - returns,
-if a track is a valid StudioLink-track - Ultraschall:
+MediaTrack-object by guid - UserInterface: SetVerticalRelativeScroll -
+like SetVerticalScroll but sets the arrange-vertical-scroll, relative to
+it’s current vscroll-position - Ultraschall: GetTypeOfTrack - returns
+the type of a track, either StudioLink/StudioLinkOnAir or SoundBoard -
+Ultraschall: GetAllAUXSendReceives2 - like GetAllAUXSendReceives, but
+returns type of track as well - Ultraschall: GetAllHWOuts2 - like
+GetAllHWOuts, but returns type of track as well - Ultraschall:
+GetAllMainSendStates2 - like GetAllMainSendStates, but returns type of
+track as well - Ultraschall: IsTrackSoundboard - returns, if a track is
+a valid Ultraschall-Soundboard-track - Ultraschall: IsTrackStudioLink -
+returns, if a track is a valid StudioLink-track - Ultraschall:
 IsTrackStudioLinkOnAir - returns, if a track is a valid
 StudioLinkOnAir-track
 

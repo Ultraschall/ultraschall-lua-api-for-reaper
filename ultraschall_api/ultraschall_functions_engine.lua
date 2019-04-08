@@ -28871,7 +28871,9 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, recv_tracknumber,
 end
 
 --A,AA=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
---B,BB=ultraschall.SetTrackAUXSendReceives(-1,0,2,2,1,1,1,1,1,1,1,1,1,1,true,AA)
+--A,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12=ultraschall.GetTrackAUXSendReceives(1,1)
+
+--B,BB=ultraschall.SetTrackAUXSendReceives(1,1,1,2,1,1,1,1,1,1,1,1,1,1,true,AA)
 --ultraschall.SetTrackAUXSendReceives(1,1,1,2,3,4,5,6,7,8,9,10,11,12,true)
 --reaper.SetTrackStateChunk(reaper.GetTrack(0,1),BB,false)
 
@@ -54587,9 +54589,10 @@ end
 --reaper.UpdateArrange()
 --reaper.UpdateTimeline()
 
+--[[
 function ultraschall.SetReaScriptConsole_FontStyle(style)
   --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <\US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>SetReaScriptConsole_FontStyle</slug>
     <requires>
       Ultraschall=4.00
@@ -54641,21 +54644,24 @@ function ultraschall.SetReaScriptConsole_FontStyle(style)
     <target_document>US_Api_Documentation</target_document>
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>user interface, reascript, console, font, style</tags>
-  </US_DocBloc>
+  <\/US_DocBloc>
   ]]
+--[[
   if math.type(style)~="integer" then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be an integer", -1) return false end
-  if style>19 or style<1 then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be between 1 and 17", -2) return false end
+  if style>19 or style<1 then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be between 1 and 19", -2) return false end
   local reascript_console_hwnd = ultraschall.GetReaScriptConsoleWindow()
   if reascript_console_hwnd==nil then return false end
   local styles={32,33,36,31,214,37,218,1606,4373,3297,220,3492,3733,3594,35,1890,2878,3265,4392}
   local Textfield=reaper.JS_Window_FindChildByID(reascript_console_hwnd, 1177)
-  reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)
+  reaper.ShowConsoleMsg(" ")
+  reaper.JS_WindowMessage_Post(Textfield, "WM_SETFONT", styles[style] ,0,0,0)
   return true
 end
+--]]
 --reaper.ClearConsole()
---ultraschall.SetReaScriptConsole_FontStyle(1)
+--ultraschall.SetReaScriptConsole_FontStyle(10)
 --reaper.ShowConsoleMsg("ABCDEFGhijklmnop\n123456789.-,!\"§$%&/()=\n----------\nOOOOOOOOOO")
-
+--print("Hula")
 
 function ultraschall.GetHWInputs_Aliasnames()
   --[[
