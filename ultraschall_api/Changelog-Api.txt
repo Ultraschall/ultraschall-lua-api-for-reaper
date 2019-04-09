@@ -353,9 +353,9 @@ end
 
 ## Ultraschall Framework - Changelog
 
-### 4.00 Beta 2.74: - "Blondie - Call Me" - 10th of April 2019
+### 4.00 Beta 2.74: - "Talking Heads - Once in a Lifetime" - 10th of April 2019
 
-   Has now 820 functions, with 20 new ones
+   Has now 822 functions, with 22 new ones
 
    - **Routing** - sped up the routing-functions by magnitudes, who also allow now using TrackStateChunks which can be faster than Reaper's own API-functions
 
@@ -364,6 +364,8 @@ end
    - **ultraschall.GetUserInputs** - like reaper.GetUserInputs BUT you can safely type commas into its inputfields!
 
    - **Progressbar** - you can code now your own progressbar, including optionally showing it in the ReaScript-console
+   
+   - **Move Child-HWND relative within their Parent-HWND** - if you don't want to deal with screen-positions when moving around gui-elements, use GetChildSizeWithinParentHWND and MoveChildWithinParentHWND
    
    - **Vertical Scroll** - works now like a charm
    
@@ -389,6 +391,8 @@ end
   - Helpers: print\_update - prints its values to the ReaScript console, but clears the console before displaying. Good for progressbars and displaying a few statuses without constantly scrolling.
   - Helpers: PrintProgressBar - prints a simple progressbar into the ReaScript-console; you should call ResetProgressBar before starting a new progressbar
   - Helpers: ResetProgressBar - resets progressbar-settings, so you can start a new progressbar
+  - HWND: GetChildSizeWithinParentHWND - gets dimensions of a childhwnd relative to the position of a parenthwnd
+  - HWND: MoveChildWithinParentHWND - moves a childhwnd relative or absolute within its parenthwnd
   - MediaItems: CopyMediaItemToDestinationTrack - copies a MediaItem to a destinationtrack at position. Thanks to [nikolalkc](https://forum.cockos.com/showpost.php?p=2111252&postcount=5) for allowing me to adapt his function
   - Routing: AreAUXSendReceivesTablesEqual - compares two AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and GetAllAUXSendReceives2
   - Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2
@@ -422,6 +426,7 @@ end
   - Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces)
   - Helpers: SetTrackStateChunk_Tracknumber - undo parameter wasn't used properly -> fixed now
   - HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window
+  - HWND: IsValidHWND - shouldn't crash anymore on Mac, when passing a non-existing HWND.
   - Routing: ApplyAllHWOuts - sped up code by magnitudes; allows now setting the HWOut-table by guid; that way, you can apply stored hwouts correctly, even if trackorder changes
   - Routing: ApplyAllAUXSendReceives - sped up code by magnitudes; allows now setting the HWOut-table by guid; that way, you can apply stored routings correctly, even if trackorder changes
   - Routing: ApplyAllMainSendStates - fixed error in docs; allows now setting the HWOut-table by guid; that way, you can apply different MainSends correctly, even if trackorder changes

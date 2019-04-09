@@ -45667,6 +45667,7 @@ function ultraschall.IsValidHWND(HWND)
   <tags>window, hwnd, is valid, check</tags>
 </US_DocBloc>
 ]]
+  if reaper.ValidatePtr(HWND, "HWND*")==false then ultraschall.AddErrorMessage("IsValidHWND", "HWND", "Not a valid HWND.", -2) return false end
   if pcall(reaper.JS_Window_GetTitle, HWND, "")==false then ultraschall.AddErrorMessage("IsValidHWND", "HWND", "Not a valid HWND.", -1) return false end
   return true
 end
@@ -45936,7 +45937,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00","10th of April 2019", "Beta 2.74", 400.0274,  "\"Blondie - Call Me\"", ultraschall.hotfixdate
+  return "4.00","10th of April 2019", "Beta 2.74", 400.0274,  "\"Talking Heads - Once in a Lifetime\"", ultraschall.hotfixdate
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
@@ -54844,5 +54845,133 @@ end
 
 
 --ultraschall.CopyMediaItemToDestinationTrack(reaper.GetMediaItem(0,0), reaper.GetTrack(0,2), -10)
+
+function ultraschall.MoveChildWithinParentHWND(parenthwnd, childhwnd, relative, left, top, width, height)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>MoveChildWithinParentHWND</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      JS=0.972
+      Lua=5.3
+    </requires>
+    <functioncall>integer newxpos, integer newypos, integer newrightpos, integer newbottompos, integer newrelativeleft, integer newrelativetop, integer newwidth, integer newheight = ultraschall.MoveChildWithinParentHWND(hwnd parenthwnd, hwnd childhwnd, boolean relative, integer left, integer top, integer width, integer height)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Moves a childhwnd within the coordinates of its parenthwnd.
+      Good for moving gui-elements around without having to deal with screen-coordinates.
+      
+      You can decide, whether the new position shall be relative to its old position or absolute within the parenthwnd-position.
+      
+      The parent-hwnd must not be necessarily the parenthwnd of the childhwnd, so you can move the childhwnd relative to other hwnds as well, but
+      keep in mind, that the childhwnd is only seeable within the boundaries of it's own parenthwnd!
+      
+      Returns nil in case of an error
+    </description>
+    <retvals>
+      integer newxpos - the new x-position on the screen in pixels
+      integer newypos - the new y-position on the screen in pixels
+      integer newrightpos - the new right-position on the screen in pixels
+      integer newbottompos - the new bottom-position on the screen in pixels
+      integer newrelativex - the new x-position of the childhwnd, relative to it's position within the parenthwnd
+      integer newrelativey - the new y-position of the childhwnd, relative to it's position within the parenthwnd
+      integer newwidth - the new width of the childhwnd in pixels
+      integer newheight - the new height of the childhwnd in pixels
+    </retvals>
+    <parameters>
+      hwnd parenthwnd - the parenthwnd of the childhwnd, within whose dimensions you want to move the childhwnd
+      hwnd childhwnd - the childhwnd, that you want to move
+      boolean relative - true, new position will be relative to the old position; false, new position will be absolute within the boundaries of the parenthwnd
+      integer left - the new x-position of the childhwnd in pixels
+      integer top - the new y-position of the childhwnd in pixels
+      integer width - the new width of the childhwnd in pixels; when relative=true then 0 keeps the old width; when relative=false then 0 is width of 0 pixels
+      integer height - the new height of the childhwnd in pixels; when relative=true then 0 keeps the old height; when relative=false then 0 is height of 0 pixels
+    </parameters>
+    <chapter_context>
+      User Interface
+      Window Management
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>user interface, move, childhwnd, hwnd, parenthwnd, relative, absolute, top, left, bottom, right, width, height</tags>
+  </US_DocBloc>
+  ]]
+  if ultraschall.IsValidHWND(parenthwnd)==false then ultraschall.AddErrorMessage("MoveChildWithinParentHWND", "parenthwnd", "not a valid HWND", -1) return nil end
+  if ultraschall.IsValidHWND(childhwnd)==false then ultraschall.AddErrorMessage("MoveChildWithinParentHWND", "childhwnd", "not a valid HWND", -2) return nil end
+  if type(relative)~="boolean" then ultraschall.AddErrorMessage("MoveChildWithinParentHWND", "relative", "must be a boolean", -3) return nil end
+  if math.type(left)~="integer" then ultraschall.AddErrorMessage("MoveChildWithinParentHWND", "left", "must be an integer", -4) return nil end
+  if math.type(top)~="integer" then ultraschall.AddErrorMessage("MoveChildWithinParentHWND", "top", "must be an integer", -5) return nil end
+  if math.type(width)~="integer" then ultraschall.AddErrorMessage("MoveChildWithinParentHWND", "width", "must be an integer", -6) return nil end
+  if math.type(height)~="integer" then ultraschall.AddErrorMessage("MoveChildWithinParentHWND", "height", "must be an integer", -7) return nil end
+
+  
+  local a,b,c,d,e=reaper.JS_Window_GetClientRect(childhwnd)
+  local a,bpar,cpar,dpar,epar=reaper.JS_Window_GetClientRect(parenthwnd)
+  
+  local newleft, newtop, newwidth, newheight, a1,b1,c1,d1,e1
+  
+  if relative==true then
+    newleft=b-bpar
+    newtop=c-cpar
+    newwidth=d-b
+    newheight=e-c
+  else
+    newleft=1
+    newtop=1
+    newwidth=0--d-b
+    newheight=0--e-c
+  end
+
+  reaper.JS_Window_SetPosition(childhwnd,newleft+left,newtop+top,newwidth+width,newheight+height)
+  a1,b1,c1,d1,e1=reaper.JS_Window_GetClientRect(childhwnd)
+
+  return b1,c1,d1,e1, b1-bpar, c1-cpar, d1-b1, e1-c1
+end
+
+--A,B,C,D,E,F,G,H=ultraschall.MoveChildWithinParentHWND(reaper.GetMainHwnd(), reaper.JS_Window_FindChildByID(reaper.GetMainHwnd(), 1005), true, 2, 1, 1, 0)
+
+function ultraschall.GetChildSizeWithinParentHWND(parenthwnd, childhwnd)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetChildSizeWithinParentHWND</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      JS=0.972
+      Lua=5.3
+    </requires>
+    <functioncall>integer xpos, integer ypos, integer width, integer height = ultraschall.GetChildSizeWithinParentHWND(hwnd parenthwnd, hwnd childhwnd)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the position, height and width of a childhwnd, relative to the position of parenthwnd
+      
+      Returns nil in case of an error
+    </description>
+    <retvals>
+      integer xpos - the x-position of the childhwnd relative to the position of the parenthwnd in pixels
+      integer ypos - the y-position of the childhwnd relative to the position of the parenthwnd in pixels
+      integer width - the width of the childhwnd in pixels
+      integer height - the height of the childhwnd in pixels
+    </retvals>
+    <parameters>
+      hwnd parenthwnd - the parenthwnd of the childhwnd, whose position will be the base for position-calculation of the childhwnd
+      hwnd childhwnd - the childhwnd, whose dimensions you want to get, relative to the position of the parenthwnd
+    </parameters>
+    <chapter_context>
+      User Interface
+      Window Management
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>user interface, get, childhwnd, hwnd, parenthwnd, relative, top, left, width, height</tags>
+  </US_DocBloc>
+  ]]
+  if ultraschall.IsValidHWND(parenthwnd)==false then ultraschall.AddErrorMessage("GetChildSizeWithinParentHWND", "parenthwnd", "not a valid HWND", -1) return nil end
+  if ultraschall.IsValidHWND(childhwnd)==false then ultraschall.AddErrorMessage("GetChildSizeWithinParentHWND", "childhwnd", "not a valid HWND", -2) return nil end
+  local a,b,c,d,e=reaper.JS_Window_GetClientRect(childhwnd)
+  local a,bpar,cpar,dpar,epar=reaper.JS_Window_GetClientRect(parenthwnd)
+  return b-bpar, c-cpar, d-b, e-c
+end
+
+--A,B,C,D,E=ultraschall.GetChildSizeWithinParentHWND(reaper.GetMainHwnd(), reaper.GetMainHwnd())
 
 ultraschall.ShowLastErrorMessage()

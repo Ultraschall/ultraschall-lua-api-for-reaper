@@ -40,13 +40,14 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.00 Beta 2.74: - "Blondie - Call Me" - 10th of April 2019</h3>
-<p>Has now 820 functions, with 20 new ones</p>
+<h3>4.00 Beta 2.74: - "Talking Heads - Once in a Lifetime" - 10th of April 2019</h3>
+<p>Has now 822 functions, with 22 new ones</p>
 <ul>
 <li><p><strong>Routing</strong> - sped up the routing-functions by magnitudes, who also allow now using TrackStateChunks which can be faster than Reaper's own API-functions</p></li>
 <li><p><strong>GFX_GetMouseCap</strong> - this allows you to get mouse-states in gfx-windows, including doubleclick and drag. Much easier than to code it yourself using gfx.mouse_cap.</p></li>
 <li><p><strong>ultraschall.GetUserInputs</strong> - like reaper.GetUserInputs BUT you can safely type commas into its inputfields!</p></li>
 <li><p><strong>Progressbar</strong> - you can code now your own progressbar, including optionally showing it in the ReaScript-console</p></li>
+<li><p><strong>Move Child-HWND relative within their Parent-HWND</strong> - if you don't want to deal with screen-positions when moving around gui-elements, use GetChildSizeWithinParentHWND and MoveChildWithinParentHWND</p></li>
 <li><p><strong>Vertical Scroll</strong> - works now like a charm</p></li>
 <li><p><strong>Improved Changelog</strong> - will be much more readable for this and future releases</p></li>
 <li><p>Bugfixes and many more.</p></li>
@@ -70,6 +71,8 @@ Ultraschall API Changelog
 <li>Helpers: print_update - prints its values to the ReaScript console, but clears the console before displaying. Good for progressbars and displaying a few statuses without constantly scrolling.</li>
 <li>Helpers: PrintProgressBar - prints a simple progressbar into the ReaScript-console; you should call ResetProgressBar before starting a new progressbar</li>
 <li>Helpers: ResetProgressBar - resets progressbar-settings, so you can start a new progressbar</li>
+<li>HWND: GetChildSizeWithinParentHWND - gets dimensions of a childhwnd relative to the position of a parenthwnd</li>
+<li>HWND: MoveChildWithinParentHWND - moves a childhwnd relative or absolute within its parenthwnd</li>
 <li>MediaItems: CopyMediaItemToDestinationTrack - copies a MediaItem to a destinationtrack at position. Thanks to <a href="https://forum.cockos.com/showpost.php?p=2111252&amp;postcount=5">nikolalkc</a> for allowing me to adapt his function</li>
 <li>Routing: AreAUXSendReceivesTablesEqual - compares two AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and GetAllAUXSendReceives2</li>
 <li>Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2</li>
@@ -103,6 +106,7 @@ Ultraschall API Changelog
 <li>Helpers: print - renamed to print_alt, print itself now separates the parameters with newlines(not two spaces)</li>
 <li>Helpers: SetTrackStateChunk_Tracknumber - undo parameter wasn't used properly -&gt; fixed now</li>
 <li>HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the function not to find the RenderToFile-window</li>
+<li>HWND: IsValidHWND - shouldn't crash anymore on Mac, when passing a non-existing HWND.</li>
 <li>Routing: ApplyAllHWOuts - sped up code by magnitudes; allows now setting the HWOut-table by guid; that way, you can apply stored hwouts correctly, even if trackorder changes</li>
 <li>Routing: ApplyAllAUXSendReceives - sped up code by magnitudes; allows now setting the HWOut-table by guid; that way, you can apply stored routings correctly, even if trackorder changes</li>
 <li>Routing: ApplyAllMainSendStates - fixed error in docs; allows now setting the HWOut-table by guid; that way, you can apply different MainSends correctly, even if trackorder changes</li>

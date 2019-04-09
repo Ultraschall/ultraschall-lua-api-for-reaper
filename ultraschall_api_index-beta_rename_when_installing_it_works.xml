@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="33234.00" author="Meo Mespotine">
+      <version name="33434.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -309,9 +309,9 @@
 <changelog><![CDATA[
 Ultraschall Framework - Changelog
 
-4.00 Beta 2.74: - “Blondie - Call Me” - 10th of April 2019
+4.00 Beta 2.74: - “Talking Heads - Once in a Lifetime” - 10th of April 2019
 
-Has now 820 functions, with 20 new ones
+Has now 822 functions, with 22 new ones
 
 -   ROUTING - sped up the routing-functions by magnitudes, who also
     allow now using TrackStateChunks which can be faster than Reaper’s
@@ -326,6 +326,10 @@ Has now 820 functions, with 20 new ones
 
 -   PROGRESSBAR - you can code now your own progressbar, including
     optionally showing it in the ReaScript-console
+
+-   MOVE CHILD-HWND RELATIVE WITHIN THEIR PARENT-HWND - if you don’t
+    want to deal with screen-positions when moving around gui-elements,
+    use GetChildSizeWithinParentHWND and MoveChildWithinParentHWND
 
 -   VERTICAL SCROLL - works now like a charm
 
@@ -374,6 +378,10 @@ New features in 4.00beta2.74
     a new progressbar
 -   Helpers: ResetProgressBar - resets progressbar-settings, so you can
     start a new progressbar
+-   HWND: GetChildSizeWithinParentHWND - gets dimensions of a childhwnd
+    relative to the position of a parenthwnd
+-   HWND: MoveChildWithinParentHWND - moves a childhwnd relative or
+    absolute within its parenthwnd
 -   MediaItems: CopyMediaItemToDestinationTrack - copies a MediaItem to
     a destinationtrack at position. Thanks to nikolalkc for allowing me
     to adapt his function
@@ -442,6 +450,8 @@ Changes from Beta 2.73 to Beta 2.74
     properly -> fixed now
 -   HWND: GetRenderToFileHWND - fixed bug, that sometimes caused the
     function not to find the RenderToFile-window
+-   HWND: IsValidHWND - shouldn’t crash anymore on Mac, when passing a
+    non-existing HWND.
 -   Routing: ApplyAllHWOuts - sped up code by magnitudes; allows now
     setting the HWOut-table by guid; that way, you can apply stored
     hwouts correctly, even if trackorder changes
