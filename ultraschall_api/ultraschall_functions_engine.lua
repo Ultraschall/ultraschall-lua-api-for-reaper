@@ -13,7 +13,7 @@
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
 # 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESprogressbarS OR
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -24046,7 +24046,7 @@ end
   </requires>
   <functioncall>ultraschall.Api_InstallPath</functioncall>
   <description>
-    Contains the current path to the installation folder of the Ultraschall-Api(usually Resourcesfolder/UserPlugins
+    Contains the current path to the installation folder of the Ultraschall-Api(usually Resourcesfolder/UserPlugins)
   </description>
   <chapter_context>
     API-Variables
@@ -50614,7 +50614,9 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
     string title - the title of the inputwindow
     table caption_names - a table with all inputfield-captions. All non-string-entries will be converted to string-entries. Begin an entry with a * for password-entry-fields.
                         - This dialog only allows limited caption-field-length, about 19-30 characters, depending on the size of the used characters.
+                        - no commas allowed!
     table default_retvals - a table with all default retvals. All non-string-entries will be converted to string-entries.
+                          - no commas allowed!
     optional integer values_length - the extralength of the values-inputfield. With that, you can enhance the length of the inputfields. 
                             - 1-500; 
                             - nil, for default length 10
@@ -50630,6 +50632,8 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
   <tags>userinterface, dialog, get, user input</tags>
 </US_DocBloc>
 --]]
+  local count33, autolength
+
   if type(title)~="string" then ultraschall.AddErrorMessage("GetUserInputs", "title", "must be a string", -1) return false end
   if type(caption_names)~="table" then ultraschall.AddErrorMessage("GetUserInputs", "caption_names", "must be a table", -2) return false end
   if type(default_retvals)~="table" then ultraschall.AddErrorMessage("GetUserInputs", "default_retvals", "must be a table", -3) return false end
@@ -50638,12 +50642,14 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
   if (values_length>500 or values_length<1) and values_length~=-1 then ultraschall.AddErrorMessage("GetUserInputs", "values_length", "must be between 1 and 500, or -1 for autolength", -5) return false end
   if values_length==-1 then values_length=1 autolength=true end
   local count = ultraschall.CountEntriesInTable_Main(caption_names)
+  local count2 = ultraschall.CountEntriesInTable_Main(default_retvals)
+  if count2>count then count33=count2 else count33=count end
   values_length=(values_length*2)+18
     
   local captions=""
   local retvals=""  
   
-  for i=1, count do
+  for i=1, count2 do
     if default_retvals[i]==nil then default_retvals[i]="" end
     retvals=retvals..tostring(default_retvals[i])..","
     if autolength==true and values_length<tostring(default_retvals[i]):len() then values_length=(tostring(default_retvals[i]):len()*6.6)+18 end
@@ -50656,16 +50662,29 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
     --if autolength==true and length<tostring(caption_names[i]):len()+length then length=(tostring(caption_names[i]):len()*16.6)+18+length end
   end
   captions=captions:sub(1,-2)
+  if count<count2 then
+    for i=count, count2 do
+      captions=captions..","
+    end
+  end
   captions=captions..",extrawidth="..values_length
   
   --print2(captions)
-  
-  local retval, retvalcsv = reaper.GetUserInputs(title, count, captions, retvals)
-  if retval==false then return false end
-  return retval, ultraschall.CSV2IndividualLinesAsArray(retvalcsv)
+  local temptitle="Tudelu"..reaper.genGuid()
+  ultraschall.Main_OnCommandByFilename(ultraschall.Api_Path.."/Scripts/GetUserInputValues_Helper_Script.lua", temptitle, title)
+
+  local retval, retvalcsv = reaper.GetUserInputs(temptitle, count33, captions, retvals)
+  if retval==false then reaper.DeleteExtState(ultraschall.ScriptIdentifier, "values", false) return false end
+  local Values=reaper.GetExtState(ultraschall.ScriptIdentifier, "values")
+  reaper.DeleteExtState(ultraschall.ScriptIdentifier, "values", false)
+  local count2,Values=ultraschall.CSV2IndividualLinesAsArray(Values ,"\n")
+  for i=count+1, 17 do
+    Values[i]=nil
+  end
+  return retval, count33, Values
 end
 
---ultraschall.GetUserInputs("I got you", {"ShalalalaOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOHAH"}, {"HHHAAAAHHHHHHHHHHHHHHHHHHHHHHHHAHHHHHHHA"}, -1)
+--A,B,C,D=ultraschall.GetUserInputs("I got you", {"ShalalalaOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOHAH"}, {"HHHAAAAHHHHHHHHHHHHHHHHHHHHHHHHAHHHHHHHA"}, -1)
 
 function ultraschall.CreateRenderCFG_AIFF(bits)
 --[[
@@ -54662,6 +54681,18 @@ end
 --ultraschall.SetReaScriptConsole_FontStyle(10)
 --reaper.ShowConsoleMsg("ABCDEFGhijklmnop\n123456789.-,!\"§$%&/()=\n----------\nOOOOOOOOOO")
 --print("Hula")
+
+--A=ultraschall.GetRenderToFileHWND()
+--    B=reaper.JS_WindowMessage_Send(A, "WM_CREATE", 666,666,0,0)
+--[[
+for i=0, 100000 do 
+  Textfield=reaper.JS_Window_FindChildByID(A, i)
+  if Textfield~=nil then 
+--    B=reaper.JS_WindowMessage_Send(Textfield, "WM_DESTROY", i,i,0,0)
+--    reaper.JS_Window_Destroy(Textfield)
+  end
+end
+--]]
 
 function ultraschall.GetHWInputs_Aliasnames()
   --[[

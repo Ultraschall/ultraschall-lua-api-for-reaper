@@ -360,16 +360,18 @@ end
    - **Routing** - sped up the routing-functions by magnitudes, who also allow now using TrackStateChunks which can be faster than Reaper's own API-functions
 
    - **GFX\_GetMouseCap** - this allows you to get mouse-states in gfx-windows, including doubleclick and drag. Much easier than to code it yourself using gfx.mouse_cap.
+   
+   - **ultraschall.GetUserInputs** - like reaper.GetUserInputs BUT you can safely type commas into its inputfields!
 
    - **Progressbar** - you can code now your own progressbar, including optionally showing it in the ReaScript-console
    
    - **Vertical Scroll** - works now like a charm
    
-   - **improved Changelog** - will be much more readable for this and future releases
+   - **Improved Changelog** - will be much more readable for this and future releases
    
    - Bugfixes and many more.
    
-   #### New features in 4.00beta2.74
+#### New features in 4.00beta2.74
   - AudioManagement: GetHWInputs_Aliasnames - returns the input-alias-names and their associated hardware-input-channels
   - AudioManagement: GetHWOutputs_Aliasnames - returns the output-alias-names and their associated hardware-output-channels 
   - ChildScripts: GetScriptIdentifier\_Description - gets the description of your script
@@ -439,7 +441,7 @@ end
   - Routing: SetTrackAUXSendReceives - sped up execution; supports now TrackStateChunks as well, when tracknumber=-1; removed useless parameter undo
   - Routing: SetTrackHWOut - sped up execution; supports now TrackStateChunks as well, when tracknumber=-1; removed parameter undo, as it useless, now
   - StateChunks: GetTrackStateChunk_Tracknumber - forgot to remove retval "overflow" from docs -> fixed
-  - UserInterface: GetUserInputs - parameter length renamed to values_length and is now optional; nil for default length 10; -1 for autolength; requested by [woodslanding](https://forum.cockos.com/showpost.php?p=2116685&postcount=141)
+  - UserInterface: GetUserInputs - you can now enter commas into inputfields; parameter length renamed to values_length and is now optional; nil for default length 10; -1 for autolength; requested by [woodslanding](https://forum.cockos.com/showpost.php?p=2116685&postcount=141)
   - UserInterface: GetVZoom - renamed to GetVerticalZoom for better readability, sorry for any inconvenience
   - UserInterface: SetVZoom - renamed to SetVerticalZoom for better readability, sorry for any inconvenience
   - UserInterface: SetVerticalScroll - last minute changes prevented the parameter from being passed to the function -> fixed

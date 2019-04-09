@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="33184.00" author="Meo Mespotine">
+      <version name="33234.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -81,6 +81,7 @@
 	<source file="/ultraschall_api/misc/tempproject.RPP-bak" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/tempproject.RPP-bak</source>
 	<source file="/ultraschall_api/misc/USDocML-Specs1_0_version2.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/USDocML-Specs1_0_version2.txt</source>
 	<source file="/ultraschall_api/misc/USDocML-Specs1_0_version3.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/USDocML-Specs1_0_version3.txt</source>
+	<source file="/ultraschall_api/Scripts/GetUserInputValues_Helper_Script.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/GetUserInputValues_Helper_Script.lua</source>
 	<source file="/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_TracknamePatterns.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_TracknamePatterns.lua</source>
 	<source file="/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_Tracknames.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_Tracknames.lua</source>
 	<source file="/ultraschall_api/Scripts/ultraschall_EventManager.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/ultraschall_EventManager.lua</source>
@@ -320,6 +321,9 @@ Has now 820 functions, with 20 new ones
     gfx-windows, including doubleclick and drag. Much easier than to
     code it yourself using gfx.mouse_cap.
 
+-   ULTRASCHALL.GETUSERINPUTS - like reaper.GetUserInputs BUT you can
+    safely type commas into its inputfields!
+
 -   PROGRESSBAR - you can code now your own progressbar, including
     optionally showing it in the ReaScript-console
 
@@ -330,59 +334,75 @@ Has now 820 functions, with 20 new ones
 
 -   Bugfixes and many more.
 
-#### New features in 4.00beta2.74 - AudioManagement:
-GetHWInputs_Aliasnames - returns the input-alias-names and their
-associated hardware-input-channels - AudioManagement:
-GetHWOutputs_Aliasnames - returns the output-alias-names and their
-associated hardware-output-channels - ChildScripts:
-GetScriptIdentifier_Description - gets the description of your script -
-ChildScripts: SetScriptIdentifier_Description - sets a description for
-your script - ChildScripts: GetScriptIdentifier_Title - gets the title
-of your script; default is the filename - ChildScripts:
-SetScriptIdentifier_Title - sets the title of your script -
-ExampleScript: Helpers_ProgressBar_Example.lua - shows a simple
-progressbar in the ReaScript-console, that iterates over all filenames
-in ResourcePath/Effects - ExampleScript: Helpers_ProgressBar_Example.gif
-- a demo-gif of ProgressBar_Example.lua - ExampleScript:
-GFX_SimpleDrawingTool.lua - a simple drawing-tool demo, that
-demonstrates GFX_GetMouseCap() - ExampleScript:
-GFX_SimpleDrawingTool.gif - a demo-gif of SimpleDrawingTool.lua - GFX:
-GFX_GetMouseCap - checks and returns mouse-clicks in Lua-gfx-windows,
-including doubleclick, dragging, mousewheel-states, etc. Much more handy
-than gfx.mouse_cap. - Helpers: ConvertIntegerIntoString2 - converts
-multiple integers into a string, 8 to 32 bit integers can be converted -
-Helpers: ConvertStringToIntegers - converts a string into multiple
-integers; you can set the size of the integer - Helpers: print - prints
-its values to the ReaScript-console, separating the displayed parameters
-with newlines now - Helpers: print_update - prints its values to the
-ReaScript console, but clears the console before displaying. Good for
-progressbars and displaying a few statuses without constantly scrolling.
-- Helpers: PrintProgressBar - prints a simple progressbar into the
-ReaScript-console; you should call ResetProgressBar before starting a
-new progressbar - Helpers: ResetProgressBar - resets
-progressbar-settings, so you can start a new progressbar - MediaItems:
-CopyMediaItemToDestinationTrack - copies a MediaItem to a
-destinationtrack at position. Thanks to nikolalkc for allowing me to
-adapt his function - Routing: AreAUXSendReceivesTablesEqual - compares
-two AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and
-GetAllAUXSendReceives2 - Routing: AreHWOutsTablesEqual - compares two
-AllHWOuts-tables, as returned by GetAllHWOuts and GetAllHWOuts2 -
-Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables, as
-returned by GetAllMainSendStates and GetAllMainSendStates2 -
-TrackManagement: GetTracknumberByGuid - gets a tracknumber and
-MediaTrack-object by guid - UserInterface: SetVerticalRelativeScroll -
-like SetVerticalScroll but sets the arrange-vertical-scroll, relative to
-it’s current vscroll-position - Ultraschall: GetTypeOfTrack - returns
-the type of a track, either StudioLink/StudioLinkOnAir or SoundBoard -
-Ultraschall: GetAllAUXSendReceives2 - like GetAllAUXSendReceives, but
-returns type of track as well - Ultraschall: GetAllHWOuts2 - like
-GetAllHWOuts, but returns type of track as well - Ultraschall:
-GetAllMainSendStates2 - like GetAllMainSendStates, but returns type of
-track as well - Ultraschall: IsTrackSoundboard - returns, if a track is
-a valid Ultraschall-Soundboard-track - Ultraschall: IsTrackStudioLink -
-returns, if a track is a valid StudioLink-track - Ultraschall:
-IsTrackStudioLinkOnAir - returns, if a track is a valid
-StudioLinkOnAir-track
+New features in 4.00beta2.74
+
+-   AudioManagement: GetHWInputs_Aliasnames - returns the
+    input-alias-names and their associated hardware-input-channels
+-   AudioManagement: GetHWOutputs_Aliasnames - returns the
+    output-alias-names and their associated hardware-output-channels
+-   ChildScripts: GetScriptIdentifier_Description - gets the description
+    of your script
+-   ChildScripts: SetScriptIdentifier_Description - sets a description
+    for your script
+-   ChildScripts: GetScriptIdentifier_Title - gets the title of your
+    script; default is the filename
+-   ChildScripts: SetScriptIdentifier_Title - sets the title of your
+    script
+-   ExampleScript: Helpers_ProgressBar_Example.lua - shows a simple
+    progressbar in the ReaScript-console, that iterates over all
+    filenames in ResourcePath/Effects
+-   ExampleScript: Helpers_ProgressBar_Example.gif - a demo-gif of
+    ProgressBar_Example.lua
+-   ExampleScript: GFX_SimpleDrawingTool.lua - a simple drawing-tool
+    demo, that demonstrates GFX_GetMouseCap()
+-   ExampleScript: GFX_SimpleDrawingTool.gif - a demo-gif of
+    SimpleDrawingTool.lua
+-   GFX: GFX_GetMouseCap - checks and returns mouse-clicks in
+    Lua-gfx-windows, including doubleclick, dragging, mousewheel-states,
+    etc. Much more handy than gfx.mouse_cap.
+-   Helpers: ConvertIntegerIntoString2 - converts multiple integers into
+    a string, 8 to 32 bit integers can be converted
+-   Helpers: ConvertStringToIntegers - converts a string into multiple
+    integers; you can set the size of the integer
+-   Helpers: print - prints its values to the ReaScript-console,
+    separating the displayed parameters with newlines now
+-   Helpers: print_update - prints its values to the ReaScript console,
+    but clears the console before displaying. Good for progressbars and
+    displaying a few statuses without constantly scrolling.
+-   Helpers: PrintProgressBar - prints a simple progressbar into the
+    ReaScript-console; you should call ResetProgressBar before starting
+    a new progressbar
+-   Helpers: ResetProgressBar - resets progressbar-settings, so you can
+    start a new progressbar
+-   MediaItems: CopyMediaItemToDestinationTrack - copies a MediaItem to
+    a destinationtrack at position. Thanks to nikolalkc for allowing me
+    to adapt his function
+-   Routing: AreAUXSendReceivesTablesEqual - compares two
+    AllAUXSendReceives-tables, as returned by GetAllAUXSendReceives and
+    GetAllAUXSendReceives2
+-   Routing: AreHWOutsTablesEqual - compares two AllHWOuts-tables, as
+    returned by GetAllHWOuts and GetAllHWOuts2
+-   Routing: AreMainSendsTablesEqual - compares two AllMainSends-tables,
+    as returned by GetAllMainSendStates and GetAllMainSendStates2
+-   TrackManagement: GetTracknumberByGuid - gets a tracknumber and
+    MediaTrack-object by guid
+-   UserInterface: SetVerticalRelativeScroll - like SetVerticalScroll
+    but sets the arrange-vertical-scroll, relative to it’s current
+    vscroll-position
+-   Ultraschall: GetTypeOfTrack - returns the type of a track, either
+    StudioLink/StudioLinkOnAir or SoundBoard
+-   Ultraschall: GetAllAUXSendReceives2 - like GetAllAUXSendReceives,
+    but returns type of track as well
+-   Ultraschall: GetAllHWOuts2 - like GetAllHWOuts, but returns type of
+    track as well
+-   Ultraschall: GetAllMainSendStates2 - like GetAllMainSendStates, but
+    returns type of track as well
+-   Ultraschall: IsTrackSoundboard - returns, if a track is a valid
+    Ultraschall-Soundboard-track
+-   Ultraschall: IsTrackStudioLink - returns, if a track is a valid
+    StudioLink-track
+-   Ultraschall: IsTrackStudioLinkOnAir - returns, if a track is a valid
+    StudioLinkOnAir-track
 
 Changes from Beta 2.73 to Beta 2.74
 
@@ -471,9 +491,10 @@ Changes from Beta 2.73 to Beta 2.74
     undo, as it useless, now
 -   StateChunks: GetTrackStateChunk_Tracknumber - forgot to remove
     retval “overflow” from docs -> fixed
--   UserInterface: GetUserInputs - parameter length renamed to
-    values_length and is now optional; nil for default length 10; -1 for
-    autolength; requested by woodslanding
+-   UserInterface: GetUserInputs - you can now enter commas into
+    inputfields; parameter length renamed to values_length and is now
+    optional; nil for default length 10; -1 for autolength; requested by
+    woodslanding
 -   UserInterface: GetVZoom - renamed to GetVerticalZoom for better
     readability, sorry for any inconvenience
 -   UserInterface: SetVZoom - renamed to SetVerticalZoom for better
