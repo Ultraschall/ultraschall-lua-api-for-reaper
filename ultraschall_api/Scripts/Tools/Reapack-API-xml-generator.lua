@@ -1,13 +1,19 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 ultraschall.ShowErrorMessagesInReascriptConsole(true)
 
+
 --!!TODO
 -- script has issues with urls, that contain spaces and other characters in them, that aren't url-suitable.
 
 
 -- set this to the folder, that you want to create a reapack of
-SourceDir="c:/Ultraschall-Hackversion_3.2_alpha_Februar2019/UserPlugins/"
+SourceDir=reaper.GetResourcePath().."/UserPlugins/"--"c:/Ultraschall-Hackversion_3.2_alpha_Februar2019/UserPlugins/"
 
+-- remove all temp-files
+found_dirs, dirs_array, found_files, files_array = ultraschall.GetAllRecursiveFilesAndSubdirectories(SourceDir.."/ultraschall_api/temp/")
+for i=1, found_files do
+  os.remove(files_array[i])
+end
 
 -- set this to the online-repo of the Ultraschall-API
 --Url="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API4.00-beta2.71/"
@@ -21,14 +27,25 @@ Target_Dir="c:\\Ultraschall-Api-Git-Repo\\Ultraschall-Api-for-Reaper\\"
 found_dirs, dirs_array, found_files, files_array = ultraschall.GetAllRecursiveFilesAndSubdirectories(SourceDir.."/ultraschall_api")
 
 
---found_files=found_files+2
---files_array[found_files-1]=ultraschall.Api_InstallPath.."/ultraschall_api.lua"
---files_array[found_files]=ultraschall.Api_InstallPath.."/ultraschall_api_readme.txt"
-
 L=ultraschall.MakeCopyOfFile_Binary(SourceDir.."/ultraschall_api.lua", Target_Dir.."/ultraschall_api.lua")
 L=ultraschall.MakeCopyOfFile_Binary(SourceDir.."/ultraschall_api_readme.txt", Target_Dir.."/ultraschall_api_readme.txt")
 
 C,C1,C2,C3,C4,C5,C6,C7=ultraschall.GetApiVersion()
+
+C2vers=string.gsub(C2," ","")
+C2vers=C2vers:lower()
+
+Batter=[[
+cd ]]..SourceDir..[[
+
+del c:\Ultraschall-Api-Git-Repo\Ultraschall-Api-for-Reaper\ultraschall_api4.00_]]..C2vers..[[.zip
+zip.exe c:\Ultraschall-Api-Git-Repo\Ultraschall-Api-for-Reaper\ultraschall_api4.00_]]..C2vers..[[.zip *.lua *.txt ultraschall_api -r
+]]
+
+
+ultraschall.WriteValueToFile(SourceDir.."/ultraschall_api/Scripts/Tools/batter.bat", Batter)
+--if l==nil then return end
+
 --Version=(tonumber(C)*100)+(tonumber(C2:match(" (.*)"))/10).."04"
 retval, Version = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", SourceDir.."/ultraschall_api/IniFiles/ultraschall_api.ini")
 --Version=Version+1
@@ -95,7 +112,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 700 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 800+ function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -380,5 +397,6 @@ B=ultraschall.WriteValueToFile(Target_Dir.."/ultraschall_api_index-beta_rename_w
 
 ultraschall.ShowLastErrorMessage()
 
-os.execute("c:\\Ultraschall-Hackversion_3.2_alpha_Februar2019\\UserPlugins\\ultraschall_api\\Scripts\\Tools\\batter.bat")
+--os.execute("c:\\Ultraschall-Hackversion_3.2_alpha_Februar2019\\UserPlugins\\ultraschall_api\\Scripts\\Tools\\batter.bat")
+os.execute(SourceDir.."/ultraschall_api/Scripts/Tools/batter.bat")
 reaper.MB("Done", "", 0)

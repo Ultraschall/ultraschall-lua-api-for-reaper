@@ -45939,7 +45939,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00","10th of April 2019", "Beta 2.74", 400.0274,  "\"Talking Heads - Once in a Lifetime\"", ultraschall.hotfixdate
+  return "4.00","15th of May 2019", "Beta 2.75", 400.0275,  "\"Rudolf the rednose Re(i)nde(e)r\"", ultraschall.hotfixdate
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
