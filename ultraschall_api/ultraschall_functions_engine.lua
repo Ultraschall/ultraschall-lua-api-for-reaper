@@ -50344,7 +50344,7 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
     SWS=2.9.7
     Lua=5.3
   </requires>
-  <functioncall>HWND arrange_view, HWND timeline = ultraschall.GetHWND_ArrangeViewAndTimeLine()</functioncall>
+  <functioncall>HWND arrange_view, HWND timeline, HWND TrackControlPanel = ultraschall.GetHWND_ArrangeViewAndTimeLine()</functioncall>
   <description>
     Returns the HWND-windowhandler for the tracklist- and timeline-area in the arrange-view 
     
@@ -50353,6 +50353,7 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
   <retvals>
     HWND arrange_view - the HWND-window-handler for the tracklist-area of the arrangeview
     HWND timeline - the HWND-window-handler for the timeline/markerarea of the arrangeview
+    HWND TrackControlPanel - the HWND-window-handler for the track-control-panel(TCP)
   </retvals>
   <chapter_context>
     User Interface
@@ -50360,14 +50361,14 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, get, hwnd, arrangeview, timeline, trackview</tags>
+  <tags>user interface, get, hwnd, arrangeview, timeline, trackview, tcp, track control panel</tags>
 </US_DocBloc>
 --]]
   -- fantastic arrangeview- and timeline-hwnds and where to find them...
   -- by "J.K."Mespotine ;)
 
   -- preparation of variables
-  local ARHWND, TLHWND, temphwnd
+  local ARHWND, TLHWND, temphwnd, TCPHWND, TCPHWND2
   
   -- if we haven't stored the adress of the arrangeviewhwnd yet, let's go find them.
   if reaper.GetExtState("ultraschall", "arrangehwnd")=="" then
@@ -50436,9 +50437,9 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
     
     -- let's get the dimensions of the arrangeview-hwnd, as top, left and right-positions can be used
     -- to determine bottom, left, right of the timeline-hwnd
-    local retval, left, top, right, bottom = reaper.JS_Window_GetRect(ARHWND)
+     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(ARHWND)
     
-    -- check all hwnds to find the one, that has right=right, left=left, bottom_timeline=top_arrangeview
+    -- TimeLine: check all hwnds to find the one, that has right=right, left=left, bottom_timeline=top_arrangeview
     for i=1, Count do
       local temphwnd=reaper.JS_Window_HandleFromAddress(Individual_values[i])
       if ScrollState[i]["left"]==left and ScrollState[i]["right"]==right and ScrollState[i]["bottom"]==top then
@@ -50447,24 +50448,43 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
       end
     end
     
+    -- TCP: check all hwnds to find the one, that has right<left, top=top, bottom_timeline=top_arrangeview
+    for i=1, Count do
+      local temphwnd=reaper.JS_Window_HandleFromAddress(Individual_values[i])
+      if ScrollState[i]["right"]<=left 
+          and ScrollState[i]["top"]==top 
+          and ScrollState[i]["bottom"]==bottom-18
+          then
+        if TCPHWND==nil then 
+          TCPHWND=temphwnd 
+        else 
+          TCPHWND2=temphwnd
+          if reaper.JS_Window_GetParent(TCPHWND2)==TCPHWND then TCPHWND=TCPHWND2 end
+        end
+      end
+    end
+    
     -- store the adresses of the found HWNDs of Arrangeview and Timeline into an extstate for further use, to prevent useless
     -- scroll-state-altering of the Arrangeview(which could cause stuck Arrangeviews, when done permanently)
     reaper.SetExtState("ultraschall", "arrangehwnd", reaper.JS_Window_AddressFromHandle(ARHWND), false)
     reaper.SetExtState("ultraschall", "timelinehwnd", reaper.JS_Window_AddressFromHandle(TLHWND), false)
+    reaper.SetExtState("ultraschall", "tcphwnd", reaper.JS_Window_AddressFromHandle(TCPHWND), false)
     ultraschall.ARHWND=ARHWND
     ultraschall.TLHWND=TLHWND
+    ultraschall.TLHWND=TCPHWND
   else
     -- if the extstate already has stored the arrangeview-hwnd-address, just convert the one for arrangeview and timeline
     -- it into their handles and return them
     ARHWND=reaper.JS_Window_HandleFromAddress(reaper.GetExtState("ultraschall", "arrangehwnd"))
     TLHWND=reaper.JS_Window_HandleFromAddress(reaper.GetExtState("ultraschall", "timelinehwnd"))
+    TCPHWND=reaper.JS_Window_HandleFromAddress(reaper.GetExtState("ultraschall", "tcphwnd"))
   end  
-  return ARHWND, TLHWND
+  return ARHWND, TLHWND, TCPHWND
 end
 
 --    reaper.SetExtState("ultraschall", "arrangehwnd", "", false)
 
---A,B=ultraschall.GetHWND_ArrangeViewAndTimeLine()
+--A,B,C=ultraschall.GetHWND_ArrangeViewAndTimeLine()
 --C,D=reaper.JS_Window_GetTitle(B)
 --P=reaper.GetHZoomLevel()
 --C=reaper.JS_Window_FromPoint(reaper.GetMousePosition())
@@ -50708,7 +50728,7 @@ function ultraschall.CreateRenderCFG_AIFF(bits)
     string render_cfg_string - the render-cfg-string for the selected AIFF-settings
   </retvals>
   <parameters>
-    integer bits - the bitrate of the aiff-file; 8, 16, 24 and 32 are supported
+    integer bits - the bitdepth of the aiff-file; 8, 16, 24 and 32 are supported
   </parameters>
   <chapter_context>
     Rendering of Project
@@ -54981,6 +55001,227 @@ function ultraschall.GetChildSizeWithinParentHWND(parenthwnd, childhwnd)
 end
 
 --A,B,C,D,E=ultraschall.GetChildSizeWithinParentHWND(reaper.GetMainHwnd(), reaper.GetMainHwnd())
+
+
+function ultraschall.GetRenderCFG_Settings_FLAC(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_FLAC</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer encoding_depth, integer compression = ultraschall.GetRenderCFG_Settings_FLAC(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for flac.
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer encoding_depth - the encoding-depth of the flac in bits(16 to 24)
+      integer compression - the data-compression speed from fastest and worst efficiency(0) to slowest but best efficiency(8); default is 5
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the flac-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, flac, encoding depth, compression</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_FLAC", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="calf" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_FLAC", "rendercfg", "not a render-cfg-string of the format flac", -2) return -1 end
+
+  return string.byte(Decoded_string:sub(5,5)), string.byte(Decoded_string:sub(9))
+end
+
+
+--D,D2=ultraschall.GetRenderCFG_Settings_FLAC(B)
+
+
+function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_AIFF</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer bitdepth = ultraschall.GetRenderCFG_Settings_AIFF(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for aiff.
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer bitdepth - the bitdepth of the AIFF-file(8, 16, 24, 32)
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the aiff-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, aiff, bitdepth</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AIFF", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="ffia" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AIFF", "rendercfg", "not a render-cfg-string of the format flac", -2) return -1 end
+  return string.byte(Decoded_string:sub(5,5))
+end
+
+--C=ultraschall.GetRenderCFG_Settings_AIFF(B)
+
+
+function ultraschall.GetRenderCFG_Settings_AudioCD(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_AudioCD</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer trackmode, boolean use_markers_hashes, integer leadin_silence_tracks, integer leadin_silence_disc, boolean burn_cd_after_render = ultraschall.GetRenderCFG_Settings_AudioCD(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for AudioCD.
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer trackmode - the trackmode
+                        -   0, Markers define new tracks
+                        -   1, Regions define tracks (other areas ignored)
+                        -   2, One track
+      boolean use_markers_hashes - Only use markers starting with #-checkbox; only available when trackmode=0, otherwise it will be ignored
+                                 -  true, checkbox is checked; false, checkbox is unchecked
+      integer leadin_silence_tracks - the leadin-silence for tracks in milliseconds(0 to 2147483647)
+      integer leadin_silence_disc - the leadin-silence for discs in milliseconds(0 to 2147483647)
+      boolean burn_cd_after_render - burn cd image after render-checkbox
+                                   -    true, checkbox is checked; false, checkbox is unchecked
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the audiocd-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, audiocd, leadin silence, tracks, burn cd, image, markers as hashes</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AudioCD", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string, LeadInSilenceDisc, LeadInSilenceTrack, num_integers, BurnImage, TrackMode, UseMarkers
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~=" osi" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AudioCD", "rendercfg", "not a render-cfg-string of the format flac", -2) return -1 end
+  LeadInSilenceDisc=Decoded_string:sub(5,8)
+  LeadInSilenceTrack=Decoded_string:sub(9,12)
+  num_integers, LeadInSilenceDisc = ultraschall.ConvertStringToIntegers(LeadInSilenceDisc, 4)
+  num_integers, LeadInSilenceTrack = ultraschall.ConvertStringToIntegers(LeadInSilenceTrack, 4)
+  BurnImage=string.byte(Decoded_string:sub(13,13))
+  TrackMode=string.byte(Decoded_string:sub(17,17))
+  UseMarkers=string.byte(Decoded_string:sub(21,21))
+  if BurnImage==1 then BurnImage=true else BurnImage=false end
+  if UseMarkers==1 then UseMarkers=true else UseMarkers=false end
+  return TrackMode, UseMarkers, LeadInSilenceTrack[1], LeadInSilenceDisc[1], BurnImage
+end
+
+--C,D,E,F,G=ultraschall.GetRenderCFG_Settings_AudioCD(B)
+
+function ultraschall.GetRenderCFG_Settings_MP3(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_MP3</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer Mode, integer enc_quality, integer vbr_quality, integer abr_bitrate, integer cbr_bitrate, boolean no_joint_stereo, boolean write_replay_gain = ultraschall.GetRenderCFG_Settings_MP3(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for MP3.
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer Mode - the encoding-mode
+                   - 32, Target quality(VBR)
+                   - 1056, Target bitrate (ABR)
+                   - 65280, Constant bitrate (CBR)
+                   - 65344, Maximum bitrate/quality
+      integer enc_quality - the encoding-quality
+                          -   0, Maximum(slow)
+                          -   2, Better(recommended)
+                          -   3, Normal
+                          -   5, Fast encode
+                          -   7, Faster encode
+                          -   9, Fastest encode
+      integer vbr_quality - target-quality for VBR; 0(best 100%) to 9(worst 10%); 4, when Mode is set to  ABR, CBR or Maximum bitrate/quality
+      integer abr_bitrate - the average bitrate for ABR in kbps
+                          - 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320
+      integer cbr_bitrate - the bitrate for CBR in kbps
+                          - 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320
+      boolean no_joint_stereo - the do not allow joint stereo-checkbox
+                              - true, checkbox is checked; false, checkbox is unchecked
+      boolean write_replay_gain - the write ReplayGain tag-checkbox
+                                - true, checkbox is checked; false, checkbox is unchecked
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the audiocd-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, mp3, vbr, cbr, tbr, max quality</tags>
+  </US_DocBloc>
+  ]]
+  -- Mode:
+  --  32 - Target quality(VBR)
+  --  1056 - Target bitrate (ABR)
+  --  65280 - Constant bitrate (CBR)
+  --  65344 - Maximum bitrate/quality
+  --
+  -- VBR_Quality:
+  --  4 - for ABR, CBR, max quality
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string, Mode, Mode2, Mode3, JointStereo, WriteReplayGain, EncodingQuality
+  local VBR_Quality, ABR_Bitrate, num_integers, CBR_Bitrate
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="l3pm" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3", "rendercfg", "not a render-cfg-string of the format flac", -2) return -1 end
+  Mode=string.byte(Decoded_string:sub(5,5))
+  Mode2=string.byte(Decoded_string:sub(17,17))
+  Mode3=ultraschall.CombineBytesToInteger(0, Mode, Mode2)
+  JointStereo=string.byte(Decoded_string:sub(9,9))
+  if JointStereo==0 then JointStereo=false else JointStereo=true end
+  WriteReplayGain=string.byte(Decoded_string:sub(11,11))
+  if WriteReplayGain==0 then WriteReplayGain=false else WriteReplayGain=true end
+  EncodingQuality=string.byte(Decoded_string:sub(13,13))
+  VBR_Quality=string.byte(Decoded_string:sub(21,21))
+  CBR_Bitrate=Decoded_string:sub(25,26)
+  num_integers, CBR_Bitrate = ultraschall.ConvertStringToIntegers(CBR_Bitrate, 2)
+  ABR_Bitrate=Decoded_string:sub(29,30)
+  num_integers, ABR_Bitrate = ultraschall.ConvertStringToIntegers(ABR_Bitrate, 2)
+  return Mode3, EncodingQuality, VBR_Quality, ABR_Bitrate[1], CBR_Bitrate[1], JointStereo, WriteReplayGain
+end
+
+--C,D,E,F,G,H,I=ultraschall.GetRenderCFG_Settings_MP3(B)
+
 
 ultraschall.ShowLastErrorMessage()
 

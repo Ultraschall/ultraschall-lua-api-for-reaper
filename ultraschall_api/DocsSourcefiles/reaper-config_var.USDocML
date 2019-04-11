@@ -3436,9 +3436,10 @@
       <slug>g_config_project</slug>  
       <title>g_config_project</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          It is some kind of a counter/id for a project-tab. Will be triggered, when switching between tabs.  
+          It is a string of the filename with path of the project, though only accessible as integer, and therefore the first characters.
           It is an integer  
-            
+          
+          Don't access it as double, or Reaper might crash!
       </description>  
       <chapter_context>  
          Config Variables  

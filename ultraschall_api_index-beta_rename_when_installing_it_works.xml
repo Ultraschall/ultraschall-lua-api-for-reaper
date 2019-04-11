@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="33438.00" author="Meo Mespotine">
+      <version name="33605.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -308,6 +308,30 @@
 	<source file="/ultraschall_api/misc/US_Notification_Sound/Recordings/peaks/placeholder.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/US_Notification_Sound/Recordings/peaks/placeholder.txt</source>
 <changelog><![CDATA[
 Ultraschall Framework - Changelog
+
+4.00 Beta 2.75: - “Rudolf the rednose Re(i)nde(e)r” - 15th of May 2019
+
+!RENDERMANIA!
+
+New features in 4.00beta2.75
+
+-   Render: GetRenderCFG_Settings_AIFF - gets the settings of a
+    AIFF-rendercfg-string
+-   Render: GetRenderCFG_Settings_AudioCD - gets the settings of a
+    AudioCD-rendercfg-string
+-   Render: GetRenderCFG_Settings_FLAC - gets the settings of a
+    flac-rendercfg-string
+-   Render: GetRenderCFG_Settings_MP3 - gets the settings of a
+    mp3-rendercfg-string
+
+Changes from Beta 2.74 to Beta 2.75
+
+-   Docs: Reaper ConfigVars - added better description for
+    g_config_project
+-   HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the
+    TCP as well
+
+------------------------------------------------------------------------
 
 4.00 Beta 2.74: - “Talking Heads - Once in a Lifetime” - 10th of April 2019
 

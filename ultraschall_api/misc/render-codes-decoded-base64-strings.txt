@@ -202,8 +202,8 @@ MP3:
     22: unused - value 0
     23: unused - value 0
     24: unused - value 0
-    25: Bitrate CBR: - all other modes: default value is 64
-    26: Bitrate CBR: - all other modes: default value is 64
+    25: Bitrate CBR: - bitrate for CBR
+    26: Bitrate CBR: - bitrate for CBR 
             320, 320 kbps
             256, 256 kbps
             224, 224 kbps

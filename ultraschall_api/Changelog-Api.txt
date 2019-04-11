@@ -355,9 +355,25 @@ end
 </TODO>
 
 
-
 ## Ultraschall Framework - Changelog
 
+### 4.00 Beta 2.75: - "Rudolf the rednose Re(i)nde(e)r" - 15th of May 2019
+
+  **!RenderMania!**
+
+#### New features in 4.00beta2.75
+  - Render: GetRenderCFG\_Settings\_AIFF - gets the settings of a AIFF-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_AudioCD - gets the settings of a AudioCD-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_FLAC - gets the settings of a flac-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_MP3 - gets the settings of a mp3-rendercfg-string
+
+#### Changes from Beta 2.74 to Beta 2.75
+  - Docs: Reaper ConfigVars - added better description for g\_config\_project
+  - HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well
+  
+  
+  ---
+  
 ### 4.00 Beta 2.74: - "Talking Heads - Once in a Lifetime" - 10th of April 2019
 
    Has now 822 functions, with 22 new ones
