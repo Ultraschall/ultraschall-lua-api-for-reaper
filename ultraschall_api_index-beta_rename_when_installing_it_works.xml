@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="33605.00" author="Meo Mespotine">
+      <version name="33779.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -62,6 +62,7 @@
 	<source file="/ultraschall_api/Documentation/US_Api_Introduction_and_Concepts.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/US_Api_Introduction_and_Concepts.html</source>
 	<source file="/ultraschall_api/Documentation/US_Api_VID.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/US_Api_VID.html</source>
 	<source file="/ultraschall_api/IniFiles/double_to_int.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/double_to_int.ini</source>
+	<source file="/ultraschall_api/IniFiles/double_to_int_24bit.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/double_to_int_24bit.ini</source>
 	<source file="/ultraschall_api/IniFiles/Euro.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/Euro.txt</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-ActionList_v5_96.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/Reaper-ActionList_v5_96.ini</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-factory-default-KEY-Codes_for_reaper-kb_ini.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/Reaper-factory-default-KEY-Codes_for_reaper-kb_ini.ini</source>
@@ -147,6 +148,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.97.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.97.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.972.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.972.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.974.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.974.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper5.975.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.975.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi</source>
@@ -315,14 +317,22 @@ Ultraschall Framework - Changelog
 
 New features in 4.00beta2.75
 
--   Render: GetRenderCFG_Settings_AIFF - gets the settings of a
+-   Render: GetRenderCFG_Settings_AIFF - gets the settings of an
     AIFF-rendercfg-string
--   Render: GetRenderCFG_Settings_AudioCD - gets the settings of a
+-   Render: GetRenderCFG_Settings_AudioCD - gets the settings of an
     AudioCD-rendercfg-string
 -   Render: GetRenderCFG_Settings_FLAC - gets the settings of a
     flac-rendercfg-string
+-   Render: GetRenderCFG_Settings_GIF - gets the settings of a
+    gif-rendercfg-string
+-   Render: GetRenderCFG_Settings_LCF - gets the settings of a
+    lcf-rendercfg-string
 -   Render: GetRenderCFG_Settings_MP3 - gets the settings of a
     mp3-rendercfg-string
+-   Render: GetRenderCFG_Settings_OGG - gets the settings of a
+    ogg-rendercfg-string
+-   Render: GetRenderCFG_Settings_OPUS - gets the settings of a
+    opus-rendercfg-string
 
 Changes from Beta 2.74 to Beta 2.75
 

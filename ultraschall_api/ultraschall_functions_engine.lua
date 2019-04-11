@@ -245,23 +245,35 @@ end
 --A=reaper.GetTrackEnvelope(reaper.GetTrack(0,1),0)
 --B,C,D=ultraschall.GetEnvelopeStateChunk(A, "", true, true)
 
-function ultraschall.IntToDouble(integer)
-  for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini") do
-    if c:match(integer)~=nil then return c:match("(.-)=") end
+function ultraschall.IntToDouble(integer, selector)
+  if selector==nil then
+    for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini") do
+      if c:match(integer)~=nil then return tonumber(c:match("(.-)=")) end
+    end
+  else
+    for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int_24bit.ini") do
+      if c:match(integer)~=nil then return tonumber(c:match("(.-)=")) end
+    end  
   end
 end
 
---A=ultraschall.IntToDouble(1153139098)
+--A=ultraschall.IntToDouble(4595772,1)
 
-function ultraschall.DoubleToInt(float)
+function ultraschall.DoubleToInt(float, selector)
   float=tostring(float)
-  if (float:match("%.(.*)")):len()==1 then 
-    float=float.."0" end
-  retval, string = reaper.BR_Win32_GetPrivateProfileString("FloatsInt", float, "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini")
-  return string
+  local String, retval
+  if selector == nil then 
+    if (float:match("%.(.*)")):len()==1 then 
+      float=float.."0" 
+    end
+    retval, String = reaper.BR_Win32_GetPrivateProfileString("FloatsInt", float, "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini")
+  else
+    retval, String = reaper.BR_Win32_GetPrivateProfileString("OpusFloatsInt", float, "-1", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int_24bit.ini")
+  end
+  return tonumber(String)
 end
 
---B=ultraschall.DoubleToInt(1500.00)
+--B=ultraschall.DoubleToInt(10256,1)
 
 function print2(...)
 --[[
@@ -55077,7 +55089,7 @@ function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
   ]]
   if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AIFF", "rendercfg", "must be a string", -1) return -1 end
   local Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="ffia" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AIFF", "rendercfg", "not a render-cfg-string of the format flac", -2) return -1 end
+  if Decoded_string:sub(1,4)~="ffia" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AIFF", "rendercfg", "not a render-cfg-string of the format aiff", -2) return -1 end
   return string.byte(Decoded_string:sub(5,5))
 end
 
@@ -55126,7 +55138,7 @@ function ultraschall.GetRenderCFG_Settings_AudioCD(rendercfg)
   if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AudioCD", "rendercfg", "must be a string", -1) return -1 end
   local Decoded_string, LeadInSilenceDisc, LeadInSilenceTrack, num_integers, BurnImage, TrackMode, UseMarkers
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~=" osi" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AudioCD", "rendercfg", "not a render-cfg-string of the format flac", -2) return -1 end
+  if Decoded_string:sub(1,4)~=" osi" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AudioCD", "rendercfg", "not a render-cfg-string of the format audio cd", -2) return -1 end
   LeadInSilenceDisc=Decoded_string:sub(5,8)
   LeadInSilenceTrack=Decoded_string:sub(9,12)
   num_integers, LeadInSilenceDisc = ultraschall.ConvertStringToIntegers(LeadInSilenceDisc, 4)
@@ -55203,7 +55215,7 @@ function ultraschall.GetRenderCFG_Settings_MP3(rendercfg)
   local Decoded_string, Mode, Mode2, Mode3, JointStereo, WriteReplayGain, EncodingQuality
   local VBR_Quality, ABR_Bitrate, num_integers, CBR_Bitrate
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
-  if Decoded_string:sub(1,4)~="l3pm" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3", "rendercfg", "not a render-cfg-string of the format flac", -2) return -1 end
+  if Decoded_string:sub(1,4)~="l3pm" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3", "rendercfg", "not a render-cfg-string of the format mp3", -2) return -1 end
   Mode=string.byte(Decoded_string:sub(5,5))
   Mode2=string.byte(Decoded_string:sub(17,17))
   Mode3=ultraschall.CombineBytesToInteger(0, Mode, Mode2)
@@ -55222,6 +55234,219 @@ end
 
 --C,D,E,F,G,H,I=ultraschall.GetRenderCFG_Settings_MP3(B)
 
+
+function ultraschall.GetRenderCFG_Settings_OGG(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_OGG</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer Mode, integer VBR_quality, integer CBR_KBPS, integer ABR_KBPS, integer ABR_KBPS_MIN, integer ABR_KBPS_MAX = ultraschall.GetRenderCFG_Settings_OGG(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for OGG.
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer Mode - the mode for the ogg-file; 0, VBR; 1, CBR; 2, ABR 
+      integer VBR_quality - the quality for VBR-mode; a floating-value between 0 and 1
+      integer CBR_KBPS - the bitrate for CBR-mode; 0 to 4294967295 
+      integer ABR_KBPS - the bitrate for ABR-mode; 0 to 4294967295
+      integer ABR_KBPS_MIN - the minimum bitrate for ABR-mode; 0 to 4294967295
+      integer ABR_KBPS_MAX - the maximum bitrate for ABR-mode; 0 to 4294967295
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the ogg-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, ogg, vbr, cbr, tbr, max quality</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_OGG", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local num_integers, Mode, VBR_quality, CBR_Bitrate, ABR_Bitrate, ABRmin_Bitrate, ABRmax_Bitrate
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="vggo" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_OGG", "rendercfg", "not a render-cfg-string of the format ogg", -2) return -1 end
+  num_integers, VBR_quality = ultraschall.ConvertStringToIntegers(Decoded_string:sub(5,8), 4)
+  VBR_quality = ultraschall.IntToDouble(VBR_quality[1])
+  Mode=string.byte(Decoded_string:sub(9,9))
+  num_integers, CBR_Bitrate = ultraschall.ConvertStringToIntegers(Decoded_string:sub(10,13), 4)
+  num_integers, ABR_Bitrate = ultraschall.ConvertStringToIntegers(Decoded_string:sub(14,17), 4)
+  num_integers, ABRmin_Bitrate = ultraschall.ConvertStringToIntegers(Decoded_string:sub(18,21), 4)
+  num_integers, ABRmax_Bitrate = ultraschall.ConvertStringToIntegers(Decoded_string:sub(22,25), 4)
+  
+  return Mode, VBR_quality, CBR_Bitrate[1], ABR_Bitrate[1], ABRmin_Bitrate[1], ABRmax_Bitrate[1]
+end
+
+
+function ultraschall.GetRenderCFG_Settings_OPUS(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_OPUS</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer Mode, integer Bitrate, integer Complexity, boolean channel_audio, boolean per_channel = ultraschall.GetRenderCFG_Settings_OPUS(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for Opus.
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer Mode - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR 
+      integer Bitrate - the kbps of the opus-file; between 1 and 256 
+      integer Complexity - the complexity-setting between 0(lowest quality) and 10(highest quality, slow encoding) 
+      boolean channel_audio - true, Encode 3-8 channel audio as 2.1-7.1(LFE) -> checked; false, DON'T Encode 3-8 channel audio as 2.1-7.1(LFE) -> unchecked
+      boolean per_channel - true, kbps per channel (6-256); false, kbps combined for all channels 
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the opus-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, opus, vbr, cbr, cvbr</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_OPUS", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local num_integers, Mode, Bitrate, Complexity, Encode1, Encode2, Combine, Encode
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="SggO" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_OPUS", "rendercfg", "not a render-cfg-string of the format opus", -2) return -1 end
+  num_integers, Bitrate = ultraschall.ConvertStringToIntegers(Decoded_string:sub(6,8), 3)
+  Bitrate = ultraschall.IntToDouble((Bitrate[1]),1)-1
+  Mode=string.byte(Decoded_string:sub(9,9))
+  Complexity=string.byte(Decoded_string:sub(10,10))
+  Encode=string.byte(Decoded_string:sub(14,14))
+  if Encode&1==1 then Encode1=true else Encode1=false end
+  if Encode&2==2 then Combine=false else Combine=true end
+
+  return Mode, Bitrate, Complexity, Encode1, Combine
+end
+
+
+function ultraschall.GetRenderCFG_Settings_GIF(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_GIF</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer Width, integer Height, number MaxFramerate, boolean PreserveAspectRatio, integer IgnoreLowBits, boolean Transparency = ultraschall.GetRenderCFG_Settings_GIF(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for Gif.
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer Width - the width of the gif in pixels; 1 to 2147483647 pixels
+      integer Height - the height of the gif in pixels; 1 to 2147483647 pixels
+      number MaxFramerate - the maximum framerate of the gif
+      boolean PreserveAspectRatio - Preserve aspect ratio (black bars, if necessary)-checkbox; true, checked; false, unchecked
+      integer IgnoreLowBits - Ignore changed in low bits of color (0-7, 0 = full quality)-inputbox
+      boolean Transparency - Encode transparency (bad for normal video, good for some things possibly)-checkbox; true, checked; false, unchecked
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the gif-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, gif, width, height, framerate, transparency, aspect ratio</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_GIF", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local num_integers, Width, Height, MaxFramerate, PreserveAspectRatio, Transparency, IgnoreLowBits
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~=" FIG" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_GIF", "rendercfg", "not a render-cfg-string of the format gif", -2) return -1 end
+  num_integers, Width = ultraschall.ConvertStringToIntegers(Decoded_string:sub(5,8), 4)
+  num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(9,12), 4)
+  num_integers, MaxFramerate = ultraschall.ConvertStringToIntegers(Decoded_string:sub(13,16), 4)
+  MaxFramerate=ultraschall.IntToDouble(MaxFramerate[1])
+  PreserveAspectRatio=string.byte(Decoded_string:sub(17,17))
+  if PreserveAspectRatio==0 then PreserveAspectRatio=false else PreserveAspectRatio=true end
+  IgnoreLowBits=string.byte(Decoded_string:sub(18,18))
+  Transparency=(math.floor(IgnoreLowBits/2)~=IgnoreLowBits/2)
+  
+  IgnoreLowBits=math.floor(IgnoreLowBits/2)
+  
+  return Width[1], Height[1], MaxFramerate, PreserveAspectRatio, IgnoreLowBits, Transparency
+end
+
+
+function ultraschall.GetRenderCFG_Settings_LCF(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_LCF</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer Width, integer Height, number MaxFramerate, boolean PreserveAspectRatio, string TweakSettings = ultraschall.GetRenderCFG_Settings_LCF(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for LCF.
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer Width - the width of the gif in pixels; 1 to 2147483647 pixels
+      integer Height - the height of the gif in pixels; 1 to 2147483647 pixels
+      number MaxFramerate - the maximum framerate of the gif
+      boolean PreserveAspectRatio - Preserve aspect ratio (black bars, if necessary)-checkbox; true, checked; false, unchecked
+      string TweakSettings - the tweak-settings for LCF, default is "t20 x128 y16"
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the lcf-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, lcf, width, height, framerate, aspect ratio, tweak settings</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_LCF", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local num_integers, Width, Height, MaxFramerate, PreserveAspectRatio, TweakSettings
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~=" FCL" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_LCF", "rendercfg", "not a render-cfg-string of the format lcf", -2) return -1 end
+  num_integers, Width = ultraschall.ConvertStringToIntegers(Decoded_string:sub(5,8), 4)
+  num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(9,12), 4)
+  num_integers, MaxFramerate = ultraschall.ConvertStringToIntegers(Decoded_string:sub(13,16), 4)
+  MaxFramerate=ultraschall.IntToDouble(MaxFramerate[1])
+  PreserveAspectRatio=string.byte(Decoded_string:sub(17,17))
+  if PreserveAspectRatio==0 then PreserveAspectRatio=false else PreserveAspectRatio=true end
+
+  for i=18, 82 do
+    if string.byte(Decoded_string:sub(i,i))~=0 then TweakSettings=Decoded_string:sub(18,82) end
+  end
+  if TweakSettings==nil then TweakSettings="t20 x128 y16" end
+  
+  
+  return Width[1], Height[1], MaxFramerate, PreserveAspectRatio, TweakSettings
+end
 
 ultraschall.ShowLastErrorMessage()
 

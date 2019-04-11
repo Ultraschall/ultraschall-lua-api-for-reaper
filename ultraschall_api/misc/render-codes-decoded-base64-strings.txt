@@ -606,7 +606,8 @@ Video (LCF):
     17: Preserve aspect ratio (black bars if necessary)-checkbox
             0, checkbox unchecked
             1, checkbox checked
-    18 to 82: - the contents of the LCF options tweak-entryfield as a human-readable string of 64 bytes
+    18: unused
+    19 to 82: - the contents of the LCF options tweak-entryfield as a human-readable string of 64 bytes
                 usually contains "t20 x128 y16" by default
     
     

@@ -362,14 +362,19 @@ end
   **!RenderMania!**
 
 #### New features in 4.00beta2.75
-  - Render: GetRenderCFG\_Settings\_AIFF - gets the settings of a AIFF-rendercfg-string
-  - Render: GetRenderCFG\_Settings\_AudioCD - gets the settings of a AudioCD-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_AIFF - gets the settings of an AIFF-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_AudioCD - gets the settings of an AudioCD-rendercfg-string
   - Render: GetRenderCFG\_Settings\_FLAC - gets the settings of a flac-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_GIF - gets the settings of a gif-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_LCF - gets the settings of a lcf-rendercfg-string
   - Render: GetRenderCFG\_Settings\_MP3 - gets the settings of a mp3-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_OGG - gets the settings of a ogg-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_OPUS - gets the settings of a opus-rendercfg-string
 
 #### Changes from Beta 2.74 to Beta 2.75
   - Docs: Reaper ConfigVars - added better description for g\_config\_project
   - HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well
+
   
   
   ---
