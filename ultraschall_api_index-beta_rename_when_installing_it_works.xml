@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="33779.00" author="Meo Mespotine">
+      <version name="33927.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -318,21 +318,35 @@ Ultraschall Framework - Changelog
 New features in 4.00beta2.75
 
 -   Render: GetRenderCFG_Settings_AIFF - gets the settings of an
-    AIFF-rendercfg-string
+    audio-AIFF-rendercfg-string
 -   Render: GetRenderCFG_Settings_AudioCD - gets the settings of an
-    AudioCD-rendercfg-string
--   Render: GetRenderCFG_Settings_FLAC - gets the settings of a
-    flac-rendercfg-string
+    audio-AudioCD-rendercfg-string
+-   Render: GetRenderCFG_Settings_AVI - gets the settings of an
+    video-avi-rendercfg-string
+-   Render: GetRenderCFG_Settings_DDP - returns, if a renderstring is a
+    valid DDP-renderstring
+-   Render: GetRenderCFG_Settings_FLAC - gets the settings of an
+    audio-flac-rendercfg-string
 -   Render: GetRenderCFG_Settings_GIF - gets the settings of a
-    gif-rendercfg-string
+    video-gif-rendercfg-string
 -   Render: GetRenderCFG_Settings_LCF - gets the settings of a
-    lcf-rendercfg-string
--   Render: GetRenderCFG_Settings_MP3 - gets the settings of a
-    mp3-rendercfg-string
--   Render: GetRenderCFG_Settings_OGG - gets the settings of a
-    ogg-rendercfg-string
--   Render: GetRenderCFG_Settings_OPUS - gets the settings of a
-    opus-rendercfg-string
+    video-lcf-rendercfg-string
+-   Render: GetRenderCFG_Settings_MKV - gets the settings of a
+    video-mkv-rendercfg-string
+-   Render: GetRenderCFG_Settings_MP3 - gets the settings of an
+    audio-mp3-rendercfg-string
+-   Render: GetRenderCFG_Settings_OGG - gets the settings of an
+    audio-ogg-rendercfg-string
+-   Render: GetRenderCFG_Settings_OPUS - gets the settings of an
+    audio-opus-rendercfg-string
+-   Render: GetRenderCFG_Settings_QTMOVMP4 - gets the settings of an
+    audio-opus-rendercfg-string
+-   Render: GetRenderCFG_Settings_WAV - gets the settings of an
+    audio-wav-rendercfg-string
+-   Render: GetRenderCFG_Settings_WAVPACK - gets the settings of an
+    audio-wavpack-rendercfg-string
+-   Render: GetRenderCFG_Settings_WEBM - gets the settings of a
+    video-webm-rendercfg-string
 
 Changes from Beta 2.74 to Beta 2.75
 
@@ -340,6 +354,8 @@ Changes from Beta 2.74 to Beta 2.75
     g_config_project
 -   HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the
     TCP as well
+-   Render: GetOutputFormat_RenderCfg - moved to docs-index Rendering of
+    Project -> Analyzing Renderstrings
 
 ------------------------------------------------------------------------
 

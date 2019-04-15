@@ -36282,8 +36282,8 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring)
     string Renderstring - the render-cfg-string from a rpp-projectfile or the reaper-render.ini
   </parameters>
   <chapter_context>
-    Project-Files
-    Helper functions
+    Rendering of Project
+    Analyzing Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -55027,6 +55027,8 @@ function ultraschall.GetRenderCFG_Settings_FLAC(rendercfg)
     <functioncall>integer encoding_depth, integer compression = ultraschall.GetRenderCFG_Settings_FLAC(string rendercfg)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for flac.
+
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55069,6 +55071,8 @@ function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
     <functioncall>integer bitdepth = ultraschall.GetRenderCFG_Settings_AIFF(string rendercfg)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for aiff.
+
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55108,6 +55112,8 @@ function ultraschall.GetRenderCFG_Settings_AudioCD(rendercfg)
     <functioncall>integer trackmode, boolean use_markers_hashes, integer leadin_silence_tracks, integer leadin_silence_disc, boolean burn_cd_after_render = ultraschall.GetRenderCFG_Settings_AudioCD(string rendercfg)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for AudioCD.
+
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55165,6 +55171,8 @@ function ultraschall.GetRenderCFG_Settings_MP3(rendercfg)
     <functioncall>integer Mode, integer enc_quality, integer vbr_quality, integer abr_bitrate, integer cbr_bitrate, boolean no_joint_stereo, boolean write_replay_gain = ultraschall.GetRenderCFG_Settings_MP3(string rendercfg)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for MP3.
+
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55247,6 +55255,8 @@ function ultraschall.GetRenderCFG_Settings_OGG(rendercfg)
     <functioncall>integer Mode, integer VBR_quality, integer CBR_KBPS, integer ABR_KBPS, integer ABR_KBPS_MIN, integer ABR_KBPS_MAX = ultraschall.GetRenderCFG_Settings_OGG(string rendercfg)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for OGG.
+
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55299,6 +55309,8 @@ function ultraschall.GetRenderCFG_Settings_OPUS(rendercfg)
     <functioncall>integer Mode, integer Bitrate, integer Complexity, boolean channel_audio, boolean per_channel = ultraschall.GetRenderCFG_Settings_OPUS(string rendercfg)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for Opus.
+
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55350,6 +55362,8 @@ function ultraschall.GetRenderCFG_Settings_GIF(rendercfg)
     <functioncall>integer Width, integer Height, number MaxFramerate, boolean PreserveAspectRatio, integer IgnoreLowBits, boolean Transparency = ultraschall.GetRenderCFG_Settings_GIF(string rendercfg)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for Gif.
+
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55405,6 +55419,8 @@ function ultraschall.GetRenderCFG_Settings_LCF(rendercfg)
     <functioncall>integer Width, integer Height, number MaxFramerate, boolean PreserveAspectRatio, string TweakSettings = ultraschall.GetRenderCFG_Settings_LCF(string rendercfg)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for LCF.
+
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55446,6 +55462,442 @@ function ultraschall.GetRenderCFG_Settings_LCF(rendercfg)
   
   
   return Width[1], Height[1], MaxFramerate, PreserveAspectRatio, TweakSettings
+end
+
+
+function ultraschall.GetRenderCFG_Settings_WAV(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_WAV</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer BitDepth, integer LargeFiles, integer BWFChunk, integer IncludeMarkers, boolean EmbedProjectTempo = ultraschall.GetRenderCFG_Settings_WAV(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for WAV.
+      
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer BitDepth - the bitdepth of the WAV-file
+                       -   0, 8 Bit PCM
+                       -   1, 16 Bit PCM
+                       -   2, 24 Bit PCM
+                       -   3, 32 Bit FP
+                       -   4, 64 Bit FP
+                       -   5, 4 Bit IMA ADPCM
+                       -   6, 2 Bit cADPCM 
+      integer LargeFiles - how shall Reaper treat large WAV-files
+                         -   0, Auto WAV/Wave64
+                         -   1, Auto Wav/RF64
+                         -   2, Force WAV
+                         -   3, Force Wave64
+                         -   4, Force RF64 
+      integer BWFChunk - The "Write BWF ('bext') chunk" and "Include project filename in BWF data" - checkboxes
+                       -   0, unchecked - unchecked
+                       -   1, checked - unchecked
+                       -   2, unchecked - checked
+                       -   3, checked - checked 
+      integer IncludeMarkers -  The include markerlist-dropdownlist
+                             -   0, Do not include markers and regions
+                             -   1, Markers + regions
+                             -   2, Markers + regions starting with #
+                             -   3, Markers only
+                             -   4, Markers starting with # only
+                             -   5, Regions only
+                             -   6, Regions starting with # only 
+      boolean EmbedProjectTempo - Embed project tempo (use with care)-checkbox; true, checked; false, unchecked 
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the wav-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, wav</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WAV", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local IncludeMarkers, IncludeMarkers_temp, Bitdepth, LargeFiles, BWFChunk, EmbedProjectTempo
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="evaw" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WAV", "rendercfg", "not a render-cfg-string of the format wav", -2) return -1 end
+  Bitdepth=string.byte(Decoded_string:sub(5,5))
+  IncludeMarkers_temp={string.byte(Decoded_string:sub(6,6))&8,
+                       string.byte(Decoded_string:sub(6,6))&16,
+                       string.byte(Decoded_string:sub(6,6))&64,
+                       string.byte(Decoded_string:sub(6,6))&128}
+  IncludeMarkers=0
+  if IncludeMarkers_temp[1]~=0 then IncludeMarkers=IncludeMarkers+1 end
+  if IncludeMarkers_temp[2]~=0 then IncludeMarkers=IncludeMarkers+1 end
+  if IncludeMarkers_temp[3]~=0 then IncludeMarkers=IncludeMarkers+2 end
+  if IncludeMarkers_temp[4]~=0 then IncludeMarkers=IncludeMarkers+4 end
+  
+  LargeFiles=string.byte(Decoded_string:sub(7,7))
+  if string.byte(Decoded_string:sub(6,6))&2~=0 and LargeFiles==0 then LargeFiles=2 
+  elseif LargeFiles>1 then LargeFiles=LargeFiles+1
+  end
+  
+  BWFChunk=0
+  if string.byte(Decoded_string:sub(6,6))&1==0 then BWFChunk=BWFChunk+1 end
+  if string.byte(Decoded_string:sub(6,6))&4~=0 then BWFChunk=BWFChunk+2 end
+  
+  EmbedProjectTempo=string.byte(Decoded_string:sub(6,6))&32~=0
+  
+  return Bitdepth, LargeFiles, BWFChunk, IncludeMarkers, EmbedProjectTempo
+end
+
+
+function ultraschall.GetRenderCFG_Settings_WAVPACK(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_WAVPACK</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer Mode, integer Bitdepth, integer Writemarkers, boolean WriteBWFChunk, boolean IncludeFilenameBWF = ultraschall.GetRenderCFG_Settings_WAVPACK(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for WAVPACK.
+      
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer Mode - 0, Normal; 1, Fast; 2, High; 3, Very High(slowest) 
+      integer Bitdepth -   the bitdepth of the WAVPACK-file
+                       -      0(16Bit)
+                       -      1(24Bit)
+                       -      2(32Bit integer)
+                       -      3(32Bit floating point)
+                       -      4(23/24 Bit)
+                       -      5(22/24 Bit)
+                       -      6(21/24 Bit)
+                       -      7(20/24 Bit)
+                       -      8(19/24 Bit)
+                       -      9(18/24 Bit)
+                       -      10(17/24 Bit)
+                       -      11(32 bit floating point -144dB floor)
+                       -      12(32 bit floating point -120dB floor)
+                       -      13(32 bit floating point -96dB floor) 
+      integer Writemarkers - Write markers as cues-checkboxes
+                           -   0, nothing checked
+                           -   1, Write markers as cues->checked
+                           -   2, Write markers as cues and Only write markers starting with #->checked 
+      boolean WriteBWFChunk - the Write BWF chunk-checkbox; true, checked; false, unchecked 
+      boolean IncludeFilenameBWF - the include project filename in BWF data-checkbox; true, checked; false, unchecked 
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the wavpack-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, wavpack</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WAVPACK", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local Mode, Bitdepth, WriteMarkers, WriteBWFChunk, IncludeProjectFilenameInBWFData
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="kpvw" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WAVPACK", "rendercfg", "not a render-cfg-string of the format wavpack", -2) return -1 end
+  Mode=string.byte(Decoded_string:sub(5,5))
+  if Mode>1 then Mode=Mode-1 end
+  Bitdepth=string.byte(Decoded_string:sub(9,9))
+  WriteMarkers=string.byte(Decoded_string:sub(13,13))
+  if WriteMarkers==2 then WriteMarkers=1 
+  elseif WriteMarkers==1 then WriteMarkers=2
+  end
+  
+  WriteBWFChunk=string.byte(Decoded_string:sub(17,17))&1~=0
+  IncludeProjectFilenameInBWFData=string.byte(Decoded_string:sub(17,17))&2~=0
+
+  return Mode, Bitdepth, WriteMarkers, WriteBWFChunk, IncludeProjectFilenameInBWFData
+end
+
+
+function ultraschall.GetRenderCFG_Settings_WEBM(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_WEBM</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer VIDKBPS, integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_WEBM(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for WEBM_Video.
+      
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer VIDKBPS -  the video-bitrate of the video in kbps
+      integer AUDKBPS -  the audio-bitrate of the video in kbps
+      integer WIDTH  - the width of the video in pixels
+      integer HEIGHT -  the height of the video in pixels
+      integer FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
+      boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the webm-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, webm, video</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WEBM", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local num_integers, VidKBPS, AudKBPS, Width, Height, FPS, AspectRatio
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="PMFF" or string.byte(Decoded_string:sub(5,5))~=6 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_WEBM", "rendercfg", "not a render-cfg-string of the format webm-video", -2) return -1 end
+  num_integers, VidKBPS = ultraschall.ConvertStringToIntegers(Decoded_string:sub(13,16), 4)
+  num_integers, AudKBPS = ultraschall.ConvertStringToIntegers(Decoded_string:sub(21,24), 4)
+  num_integers, Width  = ultraschall.ConvertStringToIntegers(Decoded_string:sub(25,28), 4)
+  num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(29,32), 4)
+  num_integers, FPS    = ultraschall.ConvertStringToIntegers(Decoded_string:sub(33,36), 4)
+  FPS=ultraschall.IntToDouble(FPS[1])
+  AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
+  
+  return VidKBPS, AudKBPS, Width, Height, FPS, AspectRatio
+end
+
+
+
+function ultraschall.GetRenderCFG_Settings_MKV(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_MKV</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer VIDEO_CODEC, integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_MKV(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for MKV-Video.
+      
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer VIDEO_CODEC - the used VideoCodec for the MKV-video
+                          - 0, FFV1 (lossless)
+                          - 1, Hufyuv (lossless)
+                          - 2, MJPEG
+      integer MJPEG_quality - the MJPEG-quality of the MKV-video, if VIDEO_CODEC=2
+      integer AUDIO_CODEC - the audio-codec of the MKV-video
+                          - 0, 16 bit PCM
+                          - 1, 24 bit PCM
+                          - 2, 32 bit FP
+      integer WIDTH  - the width of the video in pixels
+      integer HEIGHT - the height of the video in pixels
+      integer FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
+      boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the mkv-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, mkv, video</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MKV", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local num_integers, VideoCodec, MJPEG_quality, AudioCodec, Width, Height, FPS, AspectRatio
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="PMFF" or string.byte(Decoded_string:sub(5,5))~=4 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MKV", "rendercfg", "not a render-cfg-string of the format mkv-video", -2) return -1 end
+  VideoCodec=string.byte(Decoded_string:sub(9,9))-2
+  num_integers, MJPEG_quality= ultraschall.ConvertStringToIntegers(Decoded_string:sub(41,44), 4)
+  AudioCodec=string.byte(Decoded_string:sub(17,17))-2
+  num_integers, Width  = ultraschall.ConvertStringToIntegers(Decoded_string:sub(25,28), 4)
+  num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(29,32), 4)
+  num_integers, FPS    = ultraschall.ConvertStringToIntegers(Decoded_string:sub(33,36), 4)
+  FPS=ultraschall.IntToDouble(FPS[1])
+  AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
+  
+  return VideoCodec, MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio
+end
+
+
+function ultraschall.GetRenderCFG_Settings_AVI(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_AVI</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer VIDEO_CODEC, integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_AVI(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for AVI_Video.
+      
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer VIDEO_CODEC - the used VideoCodec for the AVI-video
+                          - 0, DV
+                          - 1, MJPEG
+                          - 2, FFV1 (lossless)
+                          - 3, Hufyuv (lossless)
+      integer MJPEG_quality - the MJPEG-quality of the AVI-video, if VIDEO_CODEC=1
+      integer AUDIO_CODEC - the audio-codec of the avi-video
+                          - 0, 16 bit PCM
+                          - 1, 24 bit PCM
+                          - 2, 32 bit FP
+      integer WIDTH  - the width of the video in pixels
+      integer HEIGHT - the height of the video in pixels
+      integer FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
+      boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the avi-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, avi, video</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AVI", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local num_integers, VideoCodec, MJPEG_quality, AudioCodec, Width, Height, FPS, AspectRatio
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="PMFF" or string.byte(Decoded_string:sub(5,5))~=0 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AVI", "rendercfg", "not a render-cfg-string of the format avi-video", -2) return -1 end
+  VideoCodec=string.byte(Decoded_string:sub(9,9))-2
+  num_integers, MJPEG_quality= ultraschall.ConvertStringToIntegers(Decoded_string:sub(41,44), 4)
+  AudioCodec=string.byte(Decoded_string:sub(17,17))-3
+  num_integers, Width  = ultraschall.ConvertStringToIntegers(Decoded_string:sub(25,28), 4)
+  num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(29,32), 4)
+  num_integers, FPS    = ultraschall.ConvertStringToIntegers(Decoded_string:sub(33,36), 4)
+  FPS=ultraschall.IntToDouble(FPS[1])
+  AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
+  
+  return VideoCodec, MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio
+end
+
+
+function ultraschall.GetRenderCFG_Settings_QTMOVMP4(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_QTMOVMP4</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_QTMOVMP4(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for QT/MOV/MP4-video.
+      
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer MJPEG_quality - the MJPEG-quality of the video
+      integer AUDIO_CODEC - the audio-codec of the video
+                          - 0, 16 bit PCM
+                          - 1, 24 bit PCM
+                          - 2, 32 bit FP
+      integer WIDTH  - the width of the video in pixels
+      integer HEIGHT - the height of the video in pixels
+      integer FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
+      boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the qt/mov/mp4-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, mov, qt, mp4, video</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_QTMOVMP4", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local num_integers, VideoCodec, MJPEG_quality, AudioCodec, Width, Height, FPS, AspectRatio
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="PMFF" or string.byte(Decoded_string:sub(5,5))~=3 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_QTMOVMP4", "rendercfg", "not a render-cfg-string of the format qt/move/mp4-video", -2) return -1 end
+  num_integers, MJPEG_quality= ultraschall.ConvertStringToIntegers(Decoded_string:sub(41,44), 4)
+  AudioCodec=string.byte(Decoded_string:sub(17,17))-2
+  num_integers, Width  = ultraschall.ConvertStringToIntegers(Decoded_string:sub(25,28), 4)
+  num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(29,32), 4)
+  num_integers, FPS    = ultraschall.ConvertStringToIntegers(Decoded_string:sub(33,36), 4)
+  FPS=ultraschall.IntToDouble(FPS[1])
+  AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
+  
+  return MJPEG_quality[1], AudioCodec, Width[1], Height[1], FPS, AspectRatio
+end
+
+
+function ultraschall.GetRenderCFG_Settings_DDP(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_DDP</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.GetRenderCFG_Settings_DDP(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns, if a renderstring is a valid DDP-render-string
+      
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      boolean retval - true, if renderstring is of the format DDP; false, if not
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the DDP-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, ddp</tags>
+  </US_DocBloc>
+  ]]
+  if rendercfg=="IHBkZA==" then return true else return false end
 end
 
 ultraschall.ShowLastErrorMessage()
