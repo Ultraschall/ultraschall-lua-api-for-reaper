@@ -1,13 +1,9 @@
 <TODO>
     
     API 4.00beta2.75
-TODO!!
->Render to File-dialog -> FLAC
-    1002  FLAC encoding depth-dropdownlist  -   ComboBox
-    1003  Data compression-dropdownlist     -   ComboBox
-    65535  FLAC encoding depth:             -   Static
-    
-    is missing a static-text for "compression"
+TODO!! CreateRenderCFG_WebM, CreateRenderCFG_AVI, CreateRenderCFG_MKV, CreateRenderCFG_QTMOVMP4
+       CreateRenderCFG_MP3-all of them miss options and need to be recreated
+       CreateRenderCFG_GIF, CreateRenderCFG_LCF, All of Mac-MP4-Get/Create-functions
     
 TODO!! don't include folder temp in creation of the reapack-index
 TODO!! Downloads.html -> autogenerate to automatically include the correct zip-file-downloadlink
@@ -382,7 +378,12 @@ end
 #### Changes from Beta 2.74 to Beta 2.75
   - Docs: Reaper ConfigVars - added better description for g\_config\_project
   - HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well
+  - Render: CreateRenderCFG\_AudioCD - improved and lifted limitations for leadin-silence-values
+  - Render: CreateRenderCFG\_OGG - reimplemented, should be more stable now; lifted limitations with bitrates
+  - Render: CreateRenderCFG\_Opus - reimplemented, should be more stable now and supports now all options
+  - Render: CreateRenderCFG\_Opus2 - deprecated, use CreateRenderCFG_Opus instead  
   - Render: GetOutputFormat\_RenderCfg - moved to docs-index Rendering of Project -> Analyzing Renderstrings
+    
   
   
   ---

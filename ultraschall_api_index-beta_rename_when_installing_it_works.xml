@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="33927.00" author="Meo Mespotine">
+      <version name="34104.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -354,6 +354,14 @@ Changes from Beta 2.74 to Beta 2.75
     g_config_project
 -   HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the
     TCP as well
+-   Render: CreateRenderCFG_AudioCD - improved and lifted limitations
+    for leadin-silence-values
+-   Render: CreateRenderCFG_OGG - reimplemented, should be more stable
+    now; lifted limitations with bitrates
+-   Render: CreateRenderCFG_Opus - reimplemented, should be more stable
+    now and supports now all options
+-   Render: CreateRenderCFG_Opus2 - deprecated, use CreateRenderCFG_Opus
+    instead
 -   Render: GetOutputFormat_RenderCfg - moved to docs-index Rendering of
     Project -> Analyzing Renderstrings
 

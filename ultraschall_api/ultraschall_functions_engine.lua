@@ -36340,18 +36340,18 @@ end
 --B=ultraschall.GetOutputFormat_RenderString(A)
 
 
-function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity)
+function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity, channel_audio, per_channel)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_Opus</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.77
+    Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_Opus(integer Mode, integer Kbps, integer Complexity)</functioncall>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_Opus(integer Mode, integer Kbps, integer Complexity, optional boolean channel_audio, optional boolean per_channel)</functioncall>
   <description>
-    Returns the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    Creates the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
     Returns nil in case of an error
   </description>
@@ -36360,8 +36360,10 @@ function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity)
   </retvals>
   <parameters>
     integer Mode - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR
-    integer Kbps - the kbps of the opus-file; Ultraschall-Api supports between 1 and 256
+    integer Kbps - the kbps of the opus-file; Ultraschall-Api supports between 1 and 10256 
     integer Complexity - the complexity-setting between 0(lowest quality) and 10(highest quality, slow encoding)
+    boolean channel_audio - true, Encode 3-8 channel audio as 2.1-7.1(LFE); false, DON'T Encode 3-8 channel audio as 2.1-7.1(LFE) 
+    boolean per_channel - true, kbps per channel (6-256); false, kbps combined for all channels 
   </parameters>
   <chapter_context>
     Rendering of Project
@@ -36372,72 +36374,30 @@ function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity)
   <tags>projectfiles, create, render, outputformat, opus</tags>
 </US_DocBloc>
 ]]
-
-  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
+  local ini_file=ultraschall.Api_Path.."IniFiles/double_to_int_24bit.ini"
   if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Ooops", "external render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
   if math.type(Kbps)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Must be an integer!", -2) return nil end
   if math.type(Mode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Mode", "Must be an integer!", -3) return nil end
   if math.type(Complexity)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Complexity", "Must be an integer!", -4) return nil end
-  if Kbps<1 or Kbps>256 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Ultraschall-API supports only kbps-values between 1 to 256, sorry.", -5) return nil end
+  if Kbps<1 or Kbps>10256 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Kbps", "Must be bigger than 0 and smaller than 10256!", -5) return nil end
   if Mode<0 or Mode>2 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Mode", "must be between 0 and 2", -6) return nil end
   if Complexity<0 or Complexity>10 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus", "Complexity", "must be between 0 and 10", -7) return nil end
+  local Mode, Bitrate, EncodeChannelAudio, RenderString
+  Mode=0
+  Bitrate = ultraschall.ConvertIntegerIntoString2(3, ultraschall.DoubleToInt(Kbps+1,1))
+  EncodeChannelAudio=0
+  if channel_audio==true then EncodeChannelAudio=EncodeChannelAudio+1 end
+  if per_channel==true then EncodeChannelAudio=EncodeChannelAudio+2 end
   
-  if Mode==0 then Mode="VBR"
-  elseif Mode==1 then Mode="CVBR"
-  elseif Mode==2 then Mode="HARDCBR"
-  end
-  local _temp, renderstring=ultraschall.GetIniFileExternalState("OPUS", "Renderstring", ini_file)  
-  local _temp, renderkbps=ultraschall.GetIniFileExternalState("OPUS", "KBPS_"..Kbps, ini_file)
-  local _temp, rendermode=ultraschall.GetIniFileExternalState("OPUS", "MODE_"..Mode, ini_file)
-  local _temp, rendercomplexity=ultraschall.GetIniFileExternalState("OPUS", "Complexity_"..Complexity, ini_file)
-
-  renderstring=string.gsub(renderstring, "%[KBPS%]", renderkbps)
-  renderstring=string.gsub(renderstring, "%[MODE%]", rendermode)
-  renderstring=string.gsub(renderstring, "%[Complexity%]", rendercomplexity)
-  return renderstring
+  RenderString="SggO\0"..Bitrate..string.char(Mode)..string.char(Complexity).."\0\0\0"..string.char(EncodeChannelAudio).."\0\0\0\0"
+  
+  return ultraschall.Base64_Encoder(RenderString)
 end
-
---A=ultraschall.CreateRenderCFG_Opus(0, 24, 5)
 
 
 function ultraschall.CreateRenderCFG_Opus2(Mode, Kbps, Complexity, channel_audio, per_channel)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CreateRenderCFG_Opus2</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.95
-    Lua=5.3
-  </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_Opus2(integer Mode, integer Kbps, integer Complexity, boolean channel_audio, boolean per_channel)</functioncall>
-  <description>
-    Returns the render-cfg-string for the Opus-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
-    
-    Only for Reaper-versions 5.95 and higher. For render-strings compatible with earlier versions of Reaper, use <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>. If you use CreateRenderCFG_Opus2-created render string, you will loose the multichannel-settings when saving the project in an earlier version of Reaper.
-    
-    Returns nil in case of an error
-  </description>
-  <retvals>
-    string render_cfg_string - the render-cfg-string for the selected Opus-settings
-  </retvals>
-  <parameters>
-    integer Mode - the Mode for the Opus-file; 0, VBR; 1, CVBR; 2, HARDCBR
-    integer Kbps - the kbps of the opus-file; Ultraschall-Api supports between 1 and 256
-    integer Complexity - the complexity-setting between 0(lowest quality) and 10(highest quality, slow encoding)
-    boolean channel_audio - true, Encode 3-8 channel audio as 2.1-7.1(LFE); false, DON'T Encode 3-8 channel audio as 2.1-7.1(LFE)
-    boolean per_channel - true, kbps per channel (6-256); false, kbps combined for all channels
-  </parameters>
-  <chapter_context>
-    Rendering of Project
-    Creating Renderstrings
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, create, render, outputformat, opus, multichannel</tags>
-</US_DocBloc>
-]]
-
-  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
+  return ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity, channel_audio, per_channel)
+--[[  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
   local encode
   if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Ooops", "external render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
   if math.type(Kbps)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Kbps", "Must be an integer!", -2) return nil end
@@ -36469,6 +36429,7 @@ function ultraschall.CreateRenderCFG_Opus2(Mode, Kbps, Complexity, channel_audio
   renderstring=string.gsub(renderstring, "%[Encode%]", encode)
   renderstring=string.gsub(renderstring, "%[Complexity%]", rendercomplexity)
   return renderstring
+  --]]
 end
 
 --A=ultraschall.CreateRenderCFG_Opus2(0, 1, 0, false, false)
@@ -36515,43 +36476,36 @@ function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, 
 ]]
 
 --(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, ABR_KBPS_MIN, ABR_KBPS_MAX)
-  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
+  local ini_file=ultraschall.Api_Path.."IniFiles/double_to_int.ini"
   if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "Ooops", "external render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
   if math.type(Mode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "Kbps", "Must be an integer!", -2) return nil end
-  if math.type(VBR_Quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "VBR_Quality", "Must be a float!", -3) return nil end
+  if type(VBR_Quality)~="number" then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "VBR_Quality", "Must be a float!", -3) return nil end
   if math.type(CBR_KBPS)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "CBR_KBPS", "Must be an integer!", -4) return nil end
   if math.type(ABR_KBPS)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS", "Must be an integer!", -5) return nil end
   if math.type(ABR_KBPS_MIN)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS_MIN", "Must be an integer!", -6) return nil end
   if math.type(ABR_KBPS_MAX)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS_MAX", "Must be an integer!", -7) return nil end
   if Mode<0 or Mode>2 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "Mode", "must be between 0 and 2", -8) return nil end
   if VBR_Quality<0 or VBR_Quality>1.0 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "VBR_Quality", "must be a float-value between 0 and 1", -9) return nil end
-  if CBR_KBPS<0 or CBR_KBPS>2048 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "CBR_KBPS", "must be between 0 and 2048", -10) return nil end  
-  if ABR_KBPS<0 or ABR_KBPS>2048 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS", "must be between 0 and 2048", -11) return nil end  
-  if ABR_KBPS_MIN<0 or ABR_KBPS_MIN>2048 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS_MIN", "must be between 0 and 2048", -12) return nil end  
-  if ABR_KBPS_MAX<0 or ABR_KBPS_MAX>2048 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS_MAX", "must be between 0 and 2048", -13) return nil end  
-
-  if Mode==0 then Mode="VBR"
-  elseif Mode==1 then Mode="CBR"
-  elseif Mode==2 then Mode="ABR"
-  end
-
-  local _temp, renderstring, rendermode, rendervbrquality, rendercbrkbps, renderabrkbps, renderabrkbps_min, renderabrkbps_max
-  _temp, renderstring=ultraschall.GetIniFileExternalState("OGG", "Renderstring", ini_file)  
-  _temp, rendermode=ultraschall.GetIniFileExternalState("OGG", "MODE_"..Mode, ini_file)
-  _temp, rendervbrquality=ultraschall.GetIniFileExternalState("OGG", "VBR_quality_"..VBR_Quality+0.0, ini_file)
-  _temp, rendercbrkbps=ultraschall.GetIniFileExternalState("OGG", "CBR_KBPS_"..CBR_KBPS, ini_file)
-  _temp, renderabrkbps=ultraschall.GetIniFileExternalState("OGG", "ABR_KBPS_"..ABR_KBPS, ini_file)
-  _temp, renderabrkbps_min=ultraschall.GetIniFileExternalState("OGG", "ABR_KBPS_MIN_"..ABR_KBPS_MIN, ini_file)
-  _temp, renderabrkbps_max=ultraschall.GetIniFileExternalState("OGG", "ABR_KBPS_MAX_"..ABR_KBPS_MAX, ini_file)
-
-  renderstring=string.gsub(renderstring, "%[MODE%]", rendermode)
-  renderstring=string.gsub(renderstring, "%[VBR_quality%]", rendervbrquality)
-  renderstring=string.gsub(renderstring, "%[CBR_KBPS%]", rendercbrkbps)
-  renderstring=string.gsub(renderstring, "%[ABR_KBPS%]", renderabrkbps)
-  renderstring=string.gsub(renderstring, "%[ABR_KBPS_MIN%]", renderabrkbps_min)
-  renderstring=string.gsub(renderstring, "%[ABR_KBPS_MAX%]", renderabrkbps_max)
-
-  return renderstring
+  if CBR_KBPS<0 or CBR_KBPS>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "CBR_KBPS", "must be between 0 and 2048", -10) return nil end  
+  if ABR_KBPS<0 or ABR_KBPS>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS", "must be between 0 and 2048", -11) return nil end  
+  if ABR_KBPS_MIN<0 or ABR_KBPS_MIN>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS_MIN", "must be between 0 and 2048", -12) return nil end  
+  if ABR_KBPS_MAX<0 or ABR_KBPS_MAX>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_OGG", "ABR_KBPS_MAX", "must be between 0 and 2048", -13) return nil end  
+  
+  local RenderString
+  VBR_Quality=VBR_Quality+0.0
+  VBR_Quality = ultraschall.ConvertIntegerIntoString2(4, ultraschall.DoubleToInt(VBR_Quality))
+  CBR_KBPS = ultraschall.ConvertIntegerIntoString2(4, CBR_KBPS)
+  ABR_KBPS = ultraschall.ConvertIntegerIntoString2(4, ABR_KBPS)
+  ABR_KBPS_MIN = ultraschall.ConvertIntegerIntoString2(4, ABR_KBPS_MIN)
+  ABR_KBPS_MAX = ultraschall.ConvertIntegerIntoString2(4, ABR_KBPS_MAX)
+  
+  local EncodeChannelAudio=0
+  if channel_audio==true then EncodeChannelAudio=EncodeChannelAudio+1 end
+  if per_channel==true then EncodeChannelAudio=EncodeChannelAudio+2 end
+  
+  RenderString="vggo"..VBR_Quality..string.char(Mode)..CBR_KBPS..ABR_KBPS..ABR_KBPS_MIN..ABR_KBPS_MAX.."\0"
+  
+  return ultraschall.Base64_Encoder(RenderString)
 end
 --A=ultraschall.CreateRenderCFG_OGG(1,1,3,4,5,600)
 
@@ -50786,8 +50740,8 @@ function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_wi
   <parameters>
     integer trackmode - Track mode-dropdownlist: 1, Markers define new track; 2, Regions define tracks (other areas ignored); 3, One Track
     boolean only_markers_starting_with_hash - Only use markers starting with #-checkbox; true, checked; false, unchecked
-    integer leadin_silence_tracks - Lead-in silence for tracks-inputbox, in milliseconds; 0 to 100000 supported by Ultraschall-API
-    integer leadin_silence_disc - Extra lead-in silence for disc-inputbox, in milliseconds; 0 to 100000 supported by Ultraschall-API
+    integer leadin_silence_tracks - Lead-in silence for tracks-inputbox, in milliseconds
+    integer leadin_silence_disc - Extra lead-in silence for disc-inputbox, in milliseconds
     boolean burncd_image_after_render - Burn CD image after render-checkbox; true, checked; false, unchecked
   </parameters>
   <chapter_context>
@@ -50799,9 +50753,6 @@ function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_wi
   <tags>projectfiles, create, render, outputformat, audiocd, cd, image, burn cd</tags>
 </US_DocBloc>
 ]]
-
-  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes-for-AudioCD.ini"
-  if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "Ooops", "external audio-cd-render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
   if math.type(trackmode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "trackmode", "Must be an integer between 1 and 3!", -2) return nil end
   if type(only_markers_starting_with_hash)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "only_markers_starting_with_hash", "Must be a boolean!", -3) return nil end
   if math.type(leadin_silence_tracks)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_tracks", "Must be an integer!", -4) return nil end
@@ -50809,34 +50760,17 @@ function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_wi
   if type(burncd_image_after_render)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "burncd_image_after_render", "Must be a boolean!", -6) return nil end
   
   if trackmode<1 or trackmode>3 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "trackmode", "Must be an integer between 1 and 3!", -7) return nil end
-  if leadin_silence_tracks<0 or leadin_silence_tracks>100000 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_tracks", "Ultraschall-API supports only millisecond-values between 0 to 100000, sorry.", -8) return nil end
-  if leadin_silence_disc<0 or leadin_silence_disc>100000 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_disc", "Ultraschall-API supports only millisecond-values between 0 to 100000, sorry.", -9) return nil end
+  if leadin_silence_tracks<0 or leadin_silence_tracks>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_tracks", "Must be bigger or equal 0.", -8) return nil end
+  if leadin_silence_disc<0 or leadin_silence_disc>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_AudioCD", "leadin_silence_disc", "Must be bigger or equal 0", -9) return nil end
 
+  leadin_silence_tracks = ultraschall.ConvertIntegerIntoString2(4, leadin_silence_tracks)
+  leadin_silence_disc = ultraschall.ConvertIntegerIntoString2(4, leadin_silence_disc)
+  if burncd_image_after_render==true then burncd_image_after_render=1 else burncd_image_after_render=0 end
+  if only_markers_starting_with_hash==true then only_markers_starting_with_hash=1 else only_markers_starting_with_hash=0 end
   
-  if trackmode==1 then trackmode="1"
-  elseif trackmode==2 then trackmode="2"
-  elseif trackmode==3 then trackmode="3"
-  end
+  local RenderString=" osi"..leadin_silence_disc..leadin_silence_tracks..string.char(burncd_image_after_render).."\0\0\0"..string.char(trackmode-1).."\0\0\0"..string.char(only_markers_starting_with_hash).."\0\0\0\0"
   
-  if only_markers_starting_with_hash==true then only_markers_starting_with_hash="checked" else only_markers_starting_with_hash="unchecked" end
-  
-  if burncd_image_after_render==true then burncd_image_after_render="checked" else burncd_image_after_render="unchecked" end
-  
-  local _temp, renderstring=ultraschall.GetIniFileExternalState("AUDIOCD", "Renderstring", ini_file)
-  local _temp, leadin_silence_disc=ultraschall.GetIniFileExternalState("AUDIOCD", "DISCLEADIN_"..leadin_silence_disc, ini_file)
-  local _temp, leadin_silence_tracks=ultraschall.GetIniFileExternalState("AUDIOCD", "TRACKLEADIN_"..leadin_silence_tracks, ini_file)
-  local _temp, trackmode=ultraschall.GetIniFileExternalState("AUDIOCD", "Trackmode_"..trackmode, ini_file)
-  local _temp, burncd_image_after_render=ultraschall.GetIniFileExternalState("AUDIOCD", "BurnCDImage_"..burncd_image_after_render, ini_file)
-  local _temp, only_markers_starting_with_hash=ultraschall.GetIniFileExternalState("AUDIOCD", "OnlyUseMarkers_"..only_markers_starting_with_hash, ini_file)
-
-
-  renderstring=string.gsub(renderstring, "%[DISCLEADIN%]", leadin_silence_disc)
-  renderstring=string.gsub(renderstring, "%[TRACKLEADIN%]", leadin_silence_tracks)
-  renderstring=string.gsub(renderstring, "%[BurnCDImage%]", burncd_image_after_render)
-  renderstring=string.gsub(renderstring, "%[Trackmode%]", trackmode)
-  renderstring=string.gsub(renderstring, "%[OnlyUseMarkers%]", only_markers_starting_with_hash)
-
-  return renderstring
+  return ultraschall.Base64_Encoder(RenderString)
 end
 
 --A=ultraschall.CreateRenderCFG_AudioCD(1,false,100000,100000,false)
@@ -55028,7 +54962,7 @@ function ultraschall.GetRenderCFG_Settings_FLAC(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for flac.
 
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55072,7 +55006,7 @@ function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for aiff.
 
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55113,7 +55047,7 @@ function ultraschall.GetRenderCFG_Settings_AudioCD(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for AudioCD.
 
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55172,7 +55106,7 @@ function ultraschall.GetRenderCFG_Settings_MP3(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for MP3.
 
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55256,7 +55190,7 @@ function ultraschall.GetRenderCFG_Settings_OGG(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for OGG.
 
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55310,7 +55244,7 @@ function ultraschall.GetRenderCFG_Settings_OPUS(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for Opus.
 
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55363,7 +55297,7 @@ function ultraschall.GetRenderCFG_Settings_GIF(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for Gif.
 
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55420,7 +55354,7 @@ function ultraschall.GetRenderCFG_Settings_LCF(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for LCF.
 
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55478,7 +55412,7 @@ function ultraschall.GetRenderCFG_Settings_WAV(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for WAV.
       
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55568,7 +55502,7 @@ function ultraschall.GetRenderCFG_Settings_WAVPACK(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for WAVPACK.
       
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55641,7 +55575,7 @@ function ultraschall.GetRenderCFG_Settings_WEBM(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for WEBM_Video.
       
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55696,7 +55630,7 @@ function ultraschall.GetRenderCFG_Settings_MKV(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for MKV-Video.
       
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55758,7 +55692,7 @@ function ultraschall.GetRenderCFG_Settings_AVI(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for AVI_Video.
       
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55821,7 +55755,7 @@ function ultraschall.GetRenderCFG_Settings_QTMOVMP4(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for QT/MOV/MP4-video.
       
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55878,7 +55812,7 @@ function ultraschall.GetRenderCFG_Settings_DDP(rendercfg)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns, if a renderstring is a valid DDP-render-string
       
-      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55899,6 +55833,16 @@ function ultraschall.GetRenderCFG_Settings_DDP(rendercfg)
   ]]
   if rendercfg=="IHBkZA==" then return true else return false end
 end
+
+
+--A=ultraschall.CreateRenderCFG_AudioCD(1,false,2,30082,true)
+
+--A=ultraschall.CreateRenderCFG_Opus(0, 1, 10, true, false)
+
+--V=ultraschall.CreateRenderCFG_Opus2(0, 1, 10, true, false)
+--A=ultraschall.CreateRenderCFG_OGG(2,0.05,2,1,9,602)
+
+--A2,B=reaper.GetSetProjectInfo_String(0, "RENDER_FORMAT", A, true)
 
 ultraschall.ShowLastErrorMessage()
 
