@@ -585,6 +585,7 @@ Video(GIF):
     18: Ignore changed in low bits of color (0-7, 0 = full quality)-inputbox AND 
         Encode transparency (bad for normal video, good for some things possibly)-checkbox
             This value must be twice the value entered in the input-box!
+                0 -> 0 (!)
                 1 -> 2
                 5 -> 10
                 7 -> 14
@@ -614,7 +615,7 @@ Video (LCF):
             0, checkbox unchecked
             1, checkbox checked
     18: unused
-    19 to 82: - the contents of the LCF options tweak-entryfield as a human-readable string of 64 bytes
+    19 to 82: - the contents of the LCF options tweak-entryfield as a human-readable string of 63 bytes
                 usually contains "t20 x128 y16" by default
     
     

@@ -260,6 +260,7 @@ end
 --A=ultraschall.IntToDouble(4595772,1)
 
 function ultraschall.DoubleToInt(float, selector)
+  float=float+0.0
   float=tostring(float)
   local String, retval
   if selector == nil then 
@@ -37341,6 +37342,8 @@ end
 --retval, count, retMediaItemStateChunkArray = ultraschall.IsValidMediaItemStateChunkArray(MediaItemStateChunkArray)
 
 
+
+
 function ultraschall.DirectoryExists(path, directory)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -45901,7 +45904,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00","15th of May 2019", "Beta 2.75", 400.0275,  "\"Rudolf the rednose Re(i)nde(e)r\"", ultraschall.hotfixdate
+  return "4.00","15th of May 2019", "Beta 2.75", 400.0275,  "\"Nick Cave & the Bad Seeds - Babe, I'm on fire\"", ultraschall.hotfixdate
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
@@ -56104,6 +56107,129 @@ end
 --A=ultraschall.CreateRenderCFG_OGG(2,0.05,2,1,9,602)
 
 --A2,B=reaper.GetSetProjectInfo_String(0, "RENDER_FORMAT", A, true)
+
+
+function ultraschall.CreateRenderCFG_GIF(Width, Height, MaxFPS, AspectRatio, IgnoreLowBits, EncodeTransparency)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateRenderCFG_GIF</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_GIF(integer Width, integer Height, number MaxFPS, boolean AspectRatio, integer IgnoreLowBits, boolean EncodeTransparency)</functioncall>
+  <description>
+    Creates the render-cfg-string for the GIF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string render_cfg_string - the render-cfg-string for the selected GIF-settings
+  </retvals>
+  <parameters>
+    integer Width - the width of the gif in pixels; 1 to 2147483647
+    integer Height - the height of the gif in pixels; 1 to 2147483647 
+    number MaxFPS - the maximum framerate of the gif in fps; 0.01 to 2000.01 supported by the Ultraschall API
+    boolean AspectRatio - Preserve aspect ratio-checkbox; true, checked; false, unchecked
+    integer IgnoreLowBits - Ignore changes in low bits of color-inputbox, 0-7
+    boolean EncodeTransparency - Encode transparency-checkbox; true, checked; false, unchecked
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Creating Renderstrings
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, create, render, outputformat, gif</tags>
+</US_DocBloc>
+]]
+  if math.type(Width)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_GIF", "Width", "Must be an integer.", -1) return nil end
+  if math.type(Height)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_GIF", "Height", "Must be an integer.", -2) return nil end
+  if type(MaxFPS)~="number" then ultraschall.AddErrorMessage("CreateRenderCFG_GIF", "MaxFPS", "Must be a number.", -3) return nil end
+  if type(AspectRatio)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_GIF", "AspectRatio", "Must be a boolean.", -4) return nil end
+  if math.type(IgnoreLowBits)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_GIF", "IgnoreLowBits", "Must be an integer.", -5) return nil end
+  if type(EncodeTransparency)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_GIF", "EncodeTransparency", "Must be a boolean.", -6) return nil end
+
+  if Width<1 or Width>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_GIF", "Width", "Must be an integer.", -7) return nil end
+  if Height<1 or Height>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_GIF", "Height", "Must be an integer.", -8) return nil end 
+  if MaxFPS<0.01 or MaxFPS>2000.00 then ultraschall.AddErrorMessage("CreateRenderCFG_GIF", "MaxFPS", "Must be between 0.01 and 2000.00(maximum supported by Ultraschall API).", -9) return nil end
+  if IgnoreLowBits<0 or IgnoreLowBits>7 then ultraschall.AddErrorMessage("CreateRenderCFG_GIF", "IgnoreLowBits", "Must be between 0 and 7.", -10) return nil end
+  
+  Width=ultraschall.ConvertIntegerIntoString2(4, Width)
+  Height=ultraschall.ConvertIntegerIntoString2(4, Height)
+  MaxFPS = ultraschall.LimitFractionOfFloat(MaxFPS, 2, true)
+  MaxFPS = ultraschall.ConvertIntegerIntoString2(4,ultraschall.DoubleToInt(MaxFPS))
+  
+  if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
+  IgnoreLowBits=IgnoreLowBits*2
+  if EncodeTransparency==true then IgnoreLowBits=IgnoreLowBits+1 end
+  
+  return ultraschall.Base64_Encoder(" FIG"..Width..Height..MaxFPS..AspectRatio..string.char(IgnoreLowBits).."\0")
+end
+
+--A=ultraschall.CreateRenderCFG_GIF(640, 360, 30.00, false, 0, false)
+
+function ultraschall.CreateRenderCFG_LCF(Width, Height, MaxFPS, AspectRatio, LCFoptionstweak)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateRenderCFG_LCF</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_LCF(integer Width, integer Height, number MaxFPS, boolean AspectRatio, optional string LCFoptionstweak)</functioncall>
+  <description>
+    Creates the render-cfg-string for the LCF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string render_cfg_string - the render-cfg-string for the selected LCF-settings
+  </retvals>
+  <parameters>
+    integer Width - the width of the lcf in pixels; 1 to 2147483647
+    integer Height - the height of the lcf in pixels; 1 to 2147483647 
+    number MaxFPS - the maximum framerate of the lcf in fps; 0.01 to 2000.01 supported by the Ultraschall API
+    boolean AspectRatio - Preserve aspect ratio-checkbox; true, checked; false, unchecked
+    optional string LCFoptionstweak - a 64bytes string, which can hold tweak-settings for lcf; default is "t20 x128 y16"; this function does not check for these options to be valid!
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Creating Renderstrings
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, create, render, outputformat, lcf</tags>
+</US_DocBloc>
+]]
+  if math.type(Width)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_LCF", "Width", "Must be an integer.", -1) return nil end
+  if math.type(Height)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_LCF", "Height", "Must be an integer.", -2) return nil end
+  if type(MaxFPS)~="number" then ultraschall.AddErrorMessage("CreateRenderCFG_LCF", "MaxFPS", "Must be a number.", -3) return nil end
+  if type(AspectRatio)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_LCF", "AspectRatio", "Must be a boolean.", -4) return nil end
+  if LCFoptionstweak~=nil and type(LCFoptionstweak)~="string" then ultraschall.AddErrorMessage("CreateRenderCFG_LCF", "LCFoptionstweak", "Must be a string.", -5) return nil end
+  if LCFoptionstweak==nil then LCFoptionstweak="t20 x128 y16" end
+  if LCFoptionstweak:len()>63 then ultraschall.AddErrorMessage("CreateRenderCFG_LCF", "LCFoptionstweak", "Must not be longer than 63 bytes.", -6) return nil end
+  if Width<1 or Width>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_LCF", "Width", "Must be an integer.", -7) return nil end
+  if Height<1 or Height>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_LCF", "Height", "Must be an integer.", -8) return nil end 
+  if MaxFPS<0.01 or MaxFPS>2000.00 then ultraschall.AddErrorMessage("CreateRenderCFG_LCF", "MaxFPS", "Must be between 0.01 and 2000.00(maximum supported by Ultraschall API).", -9) return nil end
+  
+  for i=LCFoptionstweak:len(), 64 do
+    LCFoptionstweak=LCFoptionstweak.."\0"
+  end
+  Width=ultraschall.ConvertIntegerIntoString2(4, Width)
+  Height=ultraschall.ConvertIntegerIntoString2(4, Height)
+  MaxFPS = ultraschall.LimitFractionOfFloat(MaxFPS, 2, true)
+  MaxFPS = ultraschall.ConvertIntegerIntoString2(4,ultraschall.DoubleToInt(MaxFPS))
+  
+  
+  if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
+
+  return ultraschall.Base64_Encoder(" FCL"..Width..Height..MaxFPS..AspectRatio..LCFoptionstweak)
+end
+
+--A=ultraschall.CreateRenderCFG_LCF(10,10,120,true,"Tudelu                                                         A")
 
 ultraschall.ShowLastErrorMessage()
 
