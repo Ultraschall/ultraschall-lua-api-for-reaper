@@ -537,11 +537,11 @@ Video(MPEG-4/MOV (macOS 10.7+ AVFoundation))
     22: AAC-bitrate(0 to 2147483647)
     23: AAC-bitrate(0 to 2147483647)
     24: AAC-bitrate(0 to 2147483647) - highest byte
-    25: Resolution width(0 to 2147483647) - lowest byte
+    25: Resolution width(0 to 2147483647) - lowest byte - only even values possible (2,4,6,etc)
     26: Resolution width(0 to 2147483647)
     27: Resolution width(0 to 2147483647)
     28: Resolution width(0 to 2147483647) - highest byte
-    29: Resolution height(0 to 2147483647) - lowest byte
+    29: Resolution height(0 to 2147483647) - lowest byte - only even values possible (2,4,6,etc)
     30: Resolution height(0 to 2147483647)
     31: Resolution height(0 to 2147483647)
     32: Resolution height(0 to 2147483647) - highest byte

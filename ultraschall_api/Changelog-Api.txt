@@ -1,8 +1,7 @@
 <TODO>
     
     API 4.00beta2.75
-TODO!! CreateRenderCFG_WebM, CreateRenderCFG_AVI, CreateRenderCFG_MKV, CreateRenderCFG_QTMOVMP4
-       All of Mac-MP4-Get/Create-functions
+TODO!! All of Mac-MP4-Get/Create-functions
     
 TODO!! don't include folder temp in creation of the reapack-index
 TODO!! Downloads.html -> autogenerate to automatically include the correct zip-file-downloadlink
@@ -353,21 +352,24 @@ end
 ## Ultraschall Framework - Changelog
 
 ### 4.00 Beta 2.75: - "Nick Cave & the Bad Seeds - Babe, I'm on fire" - 15th of May 2019
-tagline inspired by a comment from _stevie_ ;)
+tagline inspired by a comment from \_stevie\_ ;)
 
   **!RenderMania!**
 
 #### New features in 4.00beta2.75
-  - Render: CreateRenderCFG\_GIF - creates a render-string of the format gif
-  - Render: CreateRenderCFG\_LCF - creates a render-string of the format lcf
+  - Render: CreateRenderCFG\_GIF - creates a render-string of the format video-gif
+  - Render: CreateRenderCFG\_LCF - creates a render-string of the format video-lcf
+  - Render: CreateRenderCFG\_AVI\_Video - creates a render-string for the format video-AVI
+  - Render: CreateRenderCFG\_MKV\_Video - creates a render-string for the format video-MKV
+  - Render: CreateRenderCFG\_QTMOVMP4_Video - creates a render-string for the format video-QT/MOV/MP4
   - Render: GetRenderCFG\_Settings\_AIFF - gets the settings of an audio-AIFF-rendercfg-string
   - Render: GetRenderCFG\_Settings\_AudioCD - gets the settings of an audio-AudioCD-rendercfg-string
-  - Render: GetRenderCFG\_Settings\_AVI  - gets the settings of an video-avi-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_AVI\_Video  - gets the settings of an video-avi-rendercfg-string
   - Render: GetRenderCFG\_Settings\_DDP  - returns, if a renderstring is a valid DDP-renderstring
   - Render: GetRenderCFG\_Settings\_FLAC - gets the settings of an audio-flac-rendercfg-string
   - Render: GetRenderCFG\_Settings\_GIF  - gets the settings of a video-gif-rendercfg-string
   - Render: GetRenderCFG\_Settings\_LCF  - gets the settings of a video-lcf-rendercfg-string
-  - Render: GetRenderCFG\_Settings\_MKV  - gets the settings of a video-mkv-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_MKV\_Video  - gets the settings of a video-mkv-rendercfg-string
   - Render: GetRenderCFG\_Settings\_MP3  - gets the settings of an audio-mp3-rendercfg-string
   - Render: GetRenderCFG\_Settings\_MP3MaxQuality - gets the settings of an audio-mp3-maxquality-rendercfg-string
   - Render: GetRenderCFG\_Settings\_MP3CBR - gets the settings of an audio-mp3-cbr-rendercfg-string
@@ -375,16 +377,17 @@ tagline inspired by a comment from _stevie_ ;)
   - Render: GetRenderCFG\_Settings\_MP3ABR - gets the settings of an audio-mp3-abr-rendercfg-string
   - Render: GetRenderCFG\_Settings\_OGG  - gets the settings of an audio-ogg-rendercfg-string
   - Render: GetRenderCFG\_Settings\_OPUS - gets the settings of an audio-opus-rendercfg-string
-  - Render: GetRenderCFG\_Settings\_QTMOVMP4 - gets the settings of an audio-opus-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_QTMOVMP4\_Video - gets the settings of an audio-opus-rendercfg-string
   - Render: GetRenderCFG\_Settings\_WAV  - gets the settings of an audio-wav-rendercfg-string
   - Render: GetRenderCFG\_Settings\_WAVPACK - gets the settings of an audio-wavpack-rendercfg-string
-  - Render: GetRenderCFG\_Settings\_WEBM - gets the settings of a video-webm-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_WebMVideo - gets the settings of a video-webm-rendercfg-string
 
 
 #### Changes from Beta 2.74 to Beta 2.75
   - Docs: Reaper ConfigVars - added better description for g\_config\_project
   - Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3
   - Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter
+  - Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly
   - HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well
   - Render: CreateRenderCFG\_AudioCD - improved and lifted limitations for leadin-silence-values
   - Render: CreateRenderCFG\_MP3ABR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; 
@@ -397,6 +400,7 @@ tagline inspired by a comment from _stevie_ ;)
   - Render: CreateRenderCFG\_OGG - reimplemented, should be more stable now; lifted limitations with bitrates
   - Render: CreateRenderCFG\_Opus - reimplemented, should be more stable now and supports now all options
   - Render: CreateRenderCFG\_Opus2 - deprecated, use CreateRenderCFG_Opus instead  
+  - Render: CreateRenderCFG\_WebMVideo - rewritten, lifted many limitations
   - Render: GetOutputFormat\_RenderCfg - moved to docs-index Rendering of Project -> Analyzing Renderstrings
   
   ---

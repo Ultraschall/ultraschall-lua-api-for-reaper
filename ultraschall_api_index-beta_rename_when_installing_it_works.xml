@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="34468.00" author="Meo Mespotine">
+      <version name="34627.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -320,14 +320,20 @@ tagline inspired by a comment from _stevie_ ;)
 New features in 4.00beta2.75
 
 -   Render: CreateRenderCFG_GIF - creates a render-string of the format
-    gif
+    video-gif
 -   Render: CreateRenderCFG_LCF - creates a render-string of the format
-    lcf
+    video-lcf
+-   Render: CreateRenderCFG_AVI_Video - creates a render-string for the
+    format video-AVI
+-   Render: CreateRenderCFG_MKV_Video - creates a render-string for the
+    format video-MKV
+-   Render: CreateRenderCFG_QTMOVMP4_Video - creates a render-string for
+    the format video-QT/MOV/MP4
 -   Render: GetRenderCFG_Settings_AIFF - gets the settings of an
     audio-AIFF-rendercfg-string
 -   Render: GetRenderCFG_Settings_AudioCD - gets the settings of an
     audio-AudioCD-rendercfg-string
--   Render: GetRenderCFG_Settings_AVI - gets the settings of an
+-   Render: GetRenderCFG_Settings_AVI_Video - gets the settings of an
     video-avi-rendercfg-string
 -   Render: GetRenderCFG_Settings_DDP - returns, if a renderstring is a
     valid DDP-renderstring
@@ -337,7 +343,7 @@ New features in 4.00beta2.75
     video-gif-rendercfg-string
 -   Render: GetRenderCFG_Settings_LCF - gets the settings of a
     video-lcf-rendercfg-string
--   Render: GetRenderCFG_Settings_MKV - gets the settings of a
+-   Render: GetRenderCFG_Settings_MKV_Video - gets the settings of a
     video-mkv-rendercfg-string
 -   Render: GetRenderCFG_Settings_MP3 - gets the settings of an
     audio-mp3-rendercfg-string
@@ -353,13 +359,13 @@ New features in 4.00beta2.75
     audio-ogg-rendercfg-string
 -   Render: GetRenderCFG_Settings_OPUS - gets the settings of an
     audio-opus-rendercfg-string
--   Render: GetRenderCFG_Settings_QTMOVMP4 - gets the settings of an
-    audio-opus-rendercfg-string
+-   Render: GetRenderCFG_Settings_QTMOVMP4_Video - gets the settings of
+    an audio-opus-rendercfg-string
 -   Render: GetRenderCFG_Settings_WAV - gets the settings of an
     audio-wav-rendercfg-string
 -   Render: GetRenderCFG_Settings_WAVPACK - gets the settings of an
     audio-wavpack-rendercfg-string
--   Render: GetRenderCFG_Settings_WEBM - gets the settings of a
+-   Render: GetRenderCFG_Settings_WebMVideo - gets the settings of a
     video-webm-rendercfg-string
 
 Changes from Beta 2.74 to Beta 2.75
@@ -370,6 +376,8 @@ Changes from Beta 2.74 to Beta 2.75
     regarding mp3
 -   Helpers: Base64_Encoder - fixed bug that caused encoded strings to
     end with wrong letter
+-   Helpers: LimitFractionOfFloat - improved code a little for
+    rounding-operations, hope it works now properly
 -   HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the
     TCP as well
 -   Render: CreateRenderCFG_AudioCD - improved and lifted limitations
@@ -391,6 +399,8 @@ Changes from Beta 2.74 to Beta 2.75
     now and supports now all options
 -   Render: CreateRenderCFG_Opus2 - deprecated, use CreateRenderCFG_Opus
     instead
+-   Render: CreateRenderCFG_WebMVideo - rewritten, lifted many
+    limitations
 -   Render: GetOutputFormat_RenderCfg - moved to docs-index Rendering of
     Project -> Analyzing Renderstrings
 
