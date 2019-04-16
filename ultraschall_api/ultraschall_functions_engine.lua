@@ -36925,16 +36925,19 @@ function ultraschall.CreateRenderCFG_MP3MaxQuality()
   <slug>CreateRenderCFG_MP3MaxQuality</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.77
+    Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP3MaxQuality()</functioncall>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP3MaxQuality(optional boolean write_replay_gain)</functioncall>
   <description>
-    Returns the render-cfg-string for the MP3-format with highest quality-settings. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    Creates the render-cfg-string for the MP3-format with highest quality-settings. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
   </description>
   <retvals>
     string render_cfg_string - the renderstring for MP3 with maximum quality
   </retvals>
+  <parameters>
+    optional boolean write_replay_gain - the "Write ReplayGain-tag"-checkbox; true, checked; false, unchecked; default is unchecked
+  </parameters>
   <chapter_context>
     Rendering of Project
     Creating Renderstrings
@@ -36944,22 +36947,23 @@ function ultraschall.CreateRenderCFG_MP3MaxQuality()
   <tags>projectfiles, create, render, outputformat, mp3 high quality, mp3</tags>
 </US_DocBloc>
 ]]
-  return "bDNwbUABAAABAAAACgAAAP////8EAAAAQAEAAAAAAAA="
+  if write_replay_gain==true then return "bDNwbUABAAAAAAQACgAAAP////8EAAAAQAEAAAAAAAA=" end
+  return "bDNwbUABAAAAAAAACgAAAP////8EAAAAQAEAAAAAAAA="
 end
 
 
-function ultraschall.CreateRenderCFG_MP3VBR(quality, encoding_speed)
+function ultraschall.CreateRenderCFG_MP3VBR(vbr_quality, quality, no_joint_stereo, write_replay_gain)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MP3VBR</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.77
+    Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP3VBR(integer quality, integer encoding_speed)</functioncall>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP3VBR(integer vbr_quality, integer quality, optional boolean no_joint_stereo, optional boolean write_replay_gain)</functioncall>
   <description>
-    Returns the render-cfg-string for the MP3-format with variable bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    Creates the render-cfg-string for the MP3-format with variable bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
     Returns nil in case of an error
   </description>
@@ -36967,13 +36971,16 @@ function ultraschall.CreateRenderCFG_MP3VBR(quality, encoding_speed)
     string render_cfg_string - the render-cfg-string for the selected MP3-VBR-settings
   </retvals>
   <parameters>
-    integer quality - the variable-bitrate quality; 1(for 10%) to 10(for 100%)
-    integer encoding_speed - the encoding speed for the mp3
+    integer vbr_quality - the variable-bitrate quality; 1(for 10%) to 10(for 100%)
+    integer quality - the encoding speed for the mp3
                            - 0, Maximum
                            - 1, Better
                            - 2, Normal
                            - 3, FastEncode
-                           - 4, FastestEncode
+                           - 4, FasterEncode
+                           - 5, FastestEncode
+    optional boolean no_joint_stereo - the "Do not allow joint stereo"-checkbox; true, checked; false, unchecked; default is unchecked
+    optional boolean write_replay_gain - the "Write ReplayGain-tag"-checkbox; true, checked; false, unchecked; default is unchecked
   </parameters>
   <chapter_context>
     Rendering of Project
@@ -36984,45 +36991,52 @@ function ultraschall.CreateRenderCFG_MP3VBR(quality, encoding_speed)
   <tags>projectfiles, create, render, outputformat, mp3 vbr, mp3</tags>
 </US_DocBloc>
 ]]
-  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "quality", "Must be an integer.", -1) return nil end
-  if math.type(encoding_speed)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "encoding_speed", "Must be an integer.", -2) return nil end
-  if quality<1 or quality>10 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "quality", "Must be between 1 and 10.", -3) return nil end
-  if encoding_speed<0 or encoding_speed>4 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "encoding_speed", "Must be between 0 and 4.", -3) return nil end
+  if math.type(vbr_quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "vbr_quality", "Must be an integer.", -1) return nil end
+  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "quality", "Must be an integer.", -2) return nil end
+  if vbr_quality<1 or vbr_quality>10 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "vbr_quality", "Must be between 1 and 10.", -3) return nil end
+  if quality<0 or quality>5 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3VBR", "quality", "Must be between 0 and 5.", -3) return nil end
   
-  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
+  local RenderString="bDNwbSAAAAAAAAAAAAAAAAAAAAAJAAAAQAEAAAAAAAA="  
+  local Cecoded_string = ultraschall.Base64_Decoder(RenderString)
   
-  if encoding_speed==0 then encoding_speed="Maximum"
-  elseif encoding_speed==1 then encoding_speed="Better"
-  elseif encoding_speed==2 then encoding_speed="Normal"
-  elseif encoding_speed==3 then encoding_speed="FastEncode"
-  elseif encoding_speed==4 then encoding_speed="FastestEncode"
+  local Vbr_Quality={9,8,7,6,5,4,3,2,1,0}
+  vbr_quality = ultraschall.ConvertIntegerIntoString2(2, Vbr_Quality[vbr_quality])
+  
+  local EncQuality={0,2,3,5,7,9}
+  quality=ultraschall.ConvertIntegerIntoString2(1, EncQuality[quality+1])
+  
+  local Replaced_string=Cecoded_string
+  Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, vbr_quality, 20, 2)
+--  Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, vbr_quality, 4, 2)
+  Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, quality, 12, 1)
+  
+  if no_joint_stereo==true then 
+    Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, string.char(232), 8, 1)
+    Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, string.char(3), 9, 1)
   end
   
-  local _temp, renderstring=ultraschall.GetIniFileExternalState("MP3", "VBR", ini_file)
-  local _temp, vbrquality=ultraschall.GetIniFileExternalState("MP3", "VBRQUALITY_"..quality*10, ini_file)
-  local _temp, encspeed=ultraschall.GetIniFileExternalState("MP3", "ENCSPEED_"..encoding_speed, ini_file)
+  if write_replay_gain==true then 
+    Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, string.char(4), 10, 1)
+  end
   
-  renderstring=string.gsub(renderstring, "%[ENCSPEED%]", encspeed)
-  renderstring=string.gsub(renderstring, "%[VBRQUALITY%]", vbrquality)
-  
-  return renderstring
+  return ultraschall.Base64_Encoder(Replaced_string)
 end
 
 --A=ultraschall.CreateRenderCFG_MP3VBR(1, 0)
 
 
-function ultraschall.CreateRenderCFG_MP3ABR(quality, encoding_speed)
+function ultraschall.CreateRenderCFG_MP3ABR(bitrate, quality, no_joint_stereo, write_replay_gain)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MP3ABR</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.77
+    Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP3ABR(integer quality, integer encoding_speed)</functioncall>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP3ABR(integer bitrate, integer quality, optional boolean no_joint_stereo, optional boolean write_replay_gain)</functioncall>
   <description>
-    Returns the render-cfg-string for the MP3-format with average bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    Creates the render-cfg-string for the MP3-format with average bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
     Returns nil in case of an error
   </description>
@@ -37030,7 +37044,7 @@ function ultraschall.CreateRenderCFG_MP3ABR(quality, encoding_speed)
     string render_cfg_string - the render-cfg-string for the selected MP3-ABR-settings
   </retvals>
   <parameters>
-    integer quality - the encoding quality for the mp3
+    integer bitrate - the encoding quality for the mp3
                     - 0, 8 kbps
                     - 1, 16 kbps
                     - 2, 24 kbps
@@ -37048,12 +37062,15 @@ function ultraschall.CreateRenderCFG_MP3ABR(quality, encoding_speed)
                     - 14, 224 kbps
                     - 15, 256 kbps
                     - 16, 320 kbps
-    integer encoding_speed - the encoding speed for the mp3
+    integer quality - the encoding speed for the mp3
                            - 0, Maximum
                            - 1, Better
                            - 2, Normal
                            - 3, FastEncode
-                           - 4, FastestEncode
+                           - 4, FasterEncode
+                           - 5, FastestEncode
+    optional boolean no_joint_stereo - the "Do not allow joint stereo"-checkbox; true, checked; false, unchecked; default is unchecked
+    optional boolean write_replay_gain - the "Write ReplayGain-tag"-checkbox; true, checked; false, unchecked; default is unchecked
   </parameters>
   <chapter_context>
     Rendering of Project
@@ -37064,63 +37081,51 @@ function ultraschall.CreateRenderCFG_MP3ABR(quality, encoding_speed)
   <tags>projectfiles, create, render, outputformat, mp3 abr, mp3</tags>
 </US_DocBloc>
 ]]
-  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "quality", "Must be an integer.", -1) return nil end
-  if math.type(encoding_speed)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "encoding_speed", "Must be an integer.", -2) return nil end
-  if quality<0 or quality>16 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "quality", "Must be between 1 and 16.", -3) return nil end
-  if encoding_speed<0 or encoding_speed>4 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "encoding_speed", "Must be between 0 and 4.", -3) return nil end
-
-  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
+  if math.type(bitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "bitrate", "Must be an integer.", -1) return nil end
+  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "quality", "Must be an integer.", -2) return nil end
+  if bitrate<0 or bitrate>16 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "bitrate", "Must be between 1 and 16.", -3) return nil end
+  if quality<0 or quality>5 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3ABR", "quality", "Must be between 0 and 5.", -3) return nil end
   
-  if encoding_speed==0 then encoding_speed="Maximum"
-  elseif encoding_speed==1 then encoding_speed="Better"
-  elseif encoding_speed==2 then encoding_speed="Normal"
-  elseif encoding_speed==3 then encoding_speed="FastEncode"
-  elseif encoding_speed==4 then encoding_speed="FastestEncode"
+  local RenderString="bDNwbSAAAAAAAAAAAAAAAAQAAAAEAAAAQAEAAEAAAAA="  
+  local Cecoded_string = ultraschall.Base64_Decoder(RenderString)
+  
+  local Bitrates={8,16,24,32,40,48,56,64,80,96,112,128,160,192,224,256,320}  
+  bitrate = ultraschall.ConvertIntegerIntoString2(2, Bitrates[bitrate+1])
+  
+  local EncQuality={0,2,3,5,7,9}
+  quality=ultraschall.ConvertIntegerIntoString2(1, EncQuality[quality+1])
+  
+  local Replaced_string=Cecoded_string
+  Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, bitrate, 28, 2)
+--  Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, bitrate, 4, 2)
+  Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, quality, 12, 1)
+  
+  if no_joint_stereo==true then 
+    Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, string.char(232), 8, 1)
+    Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, string.char(3), 9, 1)
   end
   
-  if quality==0 then quality=8
-  elseif quality==1 then quality=16
-  elseif quality==2 then quality=24
-  elseif quality==3 then quality=32
-  elseif quality==4 then quality=40
-  elseif quality==5 then quality=48
-  elseif quality==6 then quality=56
-  elseif quality==7 then quality=64
-  elseif quality==8 then quality=80
-  elseif quality==9 then quality=96
-  elseif quality==10 then quality=112
-  elseif quality==11 then quality=128
-  elseif quality==12 then quality=160
-  elseif quality==13 then quality=192
-  elseif quality==14 then quality=224
-  elseif quality==15 then quality=256
-  elseif quality==16 then quality=320
+  if write_replay_gain==true then 
+    Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, string.char(4), 10, 1)
   end
   
-  local _temp, renderstring=ultraschall.GetIniFileExternalState("MP3", "ABR", ini_file)
-  local _temp, abrquality=ultraschall.GetIniFileExternalState("MP3", "KBPS_ABR_"..quality, ini_file)
-  local _temp, encspeed=ultraschall.GetIniFileExternalState("MP3", "ENCSPEED_"..encoding_speed, ini_file)
-  
-  renderstring=string.gsub(renderstring, "%[ENCSPEED%]", encspeed)
-  renderstring=string.gsub(renderstring, "%[KBPS_ABR%]", abrquality)
-  
-  return renderstring
+  return ultraschall.Base64_Encoder(Replaced_string)  
 end
 
 --A=ultraschall.CreateRenderCFG_MP3ABR(1, 0)
 
-function ultraschall.CreateRenderCFG_MP3CBR(quality, encoding_speed)
+function ultraschall.CreateRenderCFG_MP3CBR(bitrate, quality, no_joint_stereo, write_replay_gain)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_MP3CBR</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.77
+    Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP3CBR(integer quality, integer encoding_speed)</functioncall>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP3CBR(integer bitrate, integer quality, optional boolean no_joint_stereo, optional boolean write_replay_gain)</functioncall>
   <description>
-    Returns the render-cfg-string for the MP3-format with constant bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    Creates the render-cfg-string for the MP3-format with constant bitrate. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
     Returns nil in case of an error
   </description>
@@ -37128,7 +37133,7 @@ function ultraschall.CreateRenderCFG_MP3CBR(quality, encoding_speed)
     string render_cfg_string - the render-cfg-string for the selected MP3-CBR-settings
   </retvals>
   <parameters>
-    integer quality - the encoding quality for the mp3
+    integer bitrate - the encoding quality for the mp3
                     - 0, 8 kbps
                     - 1, 16 kbps
                     - 2, 24 kbps
@@ -37146,12 +37151,15 @@ function ultraschall.CreateRenderCFG_MP3CBR(quality, encoding_speed)
                     - 14, 224 kbps
                     - 15, 256 kbps
                     - 16, 320 kbps
-    integer encoding_speed - the encoding speed for the mp3
+    integer quality - the encoding speed for the mp3
                            - 0, Maximum
                            - 1, Better
                            - 2, Normal
                            - 3, FastEncode
-                           - 4, FastestEncode
+                           - 4, FasterEncode
+                           - 5, FastestEncode
+    optional boolean no_joint_stereo - the "Do not allow joint stereo"-checkbox; true, checked; false, unchecked; default is unchecked
+    optional boolean write_replay_gain - the "Write ReplayGain-tag"-checkbox; true, checked; false, unchecked; default is unchecked
   </parameters>
   <chapter_context>
     Rendering of Project
@@ -37162,51 +37170,39 @@ function ultraschall.CreateRenderCFG_MP3CBR(quality, encoding_speed)
   <tags>projectfiles, create, render, outputformat, mp3 cbr, mp3</tags>
 </US_DocBloc>
 ]]
-  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "quality", "Must be an integer.", -1) return nil end
-  if math.type(encoding_speed)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "encoding_speed", "Must be an integer.", -2) return nil end
-  if quality<0 or quality>16 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "quality", "Must be between 1 and 16.", -3) return nil end
-  if encoding_speed<0 or encoding_speed>4 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "encoding_speed", "Must be between 0 and 4.", -3) return nil end
+  if math.type(bitrate)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "bitrate", "Must be an integer.", -1) return nil end
+  if math.type(quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "quality", "Must be an integer.", -2) return nil end
+  if bitrate<0 or bitrate>16 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "bitrate", "Must be between 0 and 16.", -3) return nil end
+  if quality<0 or quality>5 then ultraschall.AddErrorMessage("CreateRenderCFG_MP3CBR", "quality", "Must be between 0 and 4.", -3) return nil end
 
-  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
+  local RenderString="bDNwbQgAAAAAAAAAAAAAAP////8EAAAACAAAAAAAAAA="  
+  local Cecoded_string = ultraschall.Base64_Decoder(RenderString)
   
-  if encoding_speed==0 then encoding_speed="Maximum"
-  elseif encoding_speed==1 then encoding_speed="Better"
-  elseif encoding_speed==2 then encoding_speed="Normal"
-  elseif encoding_speed==3 then encoding_speed="FastEncode"
-  elseif encoding_speed==4 then encoding_speed="FastestEncode"
+  local Bitrates={8,16,24,32,40,48,56,64,80,96,112,128,160,192,224,256,320}  
+  bitrate = ultraschall.ConvertIntegerIntoString2(2, Bitrates[bitrate+1])
+  
+  local EncQuality={0,2,3,5,7,9}
+  quality=ultraschall.ConvertIntegerIntoString2(1, EncQuality[quality+1])
+
+  local Replaced_string=Cecoded_string
+  Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, bitrate, 24, 2)
+  Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, bitrate, 4, 2)
+  Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, quality, 12, 1)
+
+  if no_joint_stereo==true then 
+    Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, string.char(232), 8, 1)
+    Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, string.char(3), 9, 1)
+  end
+
+  if write_replay_gain==true then 
+    Replaced_string = ultraschall.ReplacePartOfString(Replaced_string, string.char(4), 10, 1)
   end
   
-  if quality==0 then quality=8
-  elseif quality==1 then quality=16
-  elseif quality==2 then quality=24
-  elseif quality==3 then quality=32
-  elseif quality==4 then quality=40
-  elseif quality==5 then quality=48
-  elseif quality==6 then quality=56
-  elseif quality==7 then quality=64
-  elseif quality==8 then quality=80
-  elseif quality==9 then quality=96
-  elseif quality==10 then quality=112
-  elseif quality==11 then quality=128
-  elseif quality==12 then quality=160
-  elseif quality==13 then quality=192
-  elseif quality==14 then quality=224
-  elseif quality==15 then quality=256
-  elseif quality==16 then quality=320
-  end
-  
-  local _temp, renderstring=ultraschall.GetIniFileExternalState("MP3", "CBR", ini_file)
-  local _temp, cbrquality=ultraschall.GetIniFileExternalState("MP3", "KBPS_CBR_"..quality, ini_file)
-  local _temp, cbr2quality=ultraschall.GetIniFileExternalState("MP3", "KBPS_CBR2_"..quality, ini_file)
-  local _temp, encspeed=ultraschall.GetIniFileExternalState("MP3", "ENCSPEED_"..encoding_speed, ini_file)
-  
-  renderstring=string.gsub(renderstring, "%[ENCSPEED%]", encspeed)
-  renderstring=string.gsub(renderstring, "%[KBPS_CBR%]", cbrquality)
-  renderstring=string.gsub(renderstring, "%[KBPS_CBR2%]", cbr2quality)
-  
-  return renderstring
+  return ultraschall.Base64_Encoder(Replaced_string)  
 end
 --A=ultraschall.CreateRenderCFG_MP3CBR(1, 1)
+
+
 
 
 function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, IncludeMarkers, EmbedProjectTempo)
@@ -37220,7 +37216,7 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
   </requires>
   <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_WAV(integer BitDepth, integer LargeFiles, integer BWFChunk, integer IncludeMarkers, boolean EmbedProjectTempo)</functioncall>
   <description>
-    Returns the render-cfg-string for the WAV-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    Creates the render-cfg-string for the WAV-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
     Returns nil in case of an error
   </description>
@@ -45982,7 +45978,7 @@ function ultraschall.Base64_Encoder(source_string, base64_type, remove_newlines,
   
   -- tear apart the source-string into bits
   -- bitorder of bytes will be reversed for the later parts of the conversion!
-  for i=1, source_string:len() do
+  for i=1, source_string:len()-1 do
     temp=string.byte(source_string:sub(i,i))
     temp=temp
     if temp&1==0 then tempstring[a+7]=0 else tempstring[a+7]=1 end
@@ -46016,8 +46012,8 @@ function ultraschall.Base64_Encoder(source_string, base64_type, remove_newlines,
 
   -- if the number of characters in the encoded_string isn't exactly divideable 
   -- by 3, add = to fill up missing bytes
-  if encoded_string:len()%3==1 then encoded_string=encoded_string.."=="
-  elseif encoded_string:len()%3==2 then encoded_string=encoded_string.."="
+  if encoded_string:len()%3==2 then encoded_string=encoded_string.."=="
+  elseif encoded_string:len()%3==1 then encoded_string=encoded_string.."="
   end
   
   return encoded_string
@@ -46105,7 +46101,17 @@ function ultraschall.Base64_Decoder(source_string, base64_type)
   return decoded_string
 end
 
---O=ultraschall.Base64_Decoder("VHV0YXNzc0z=")
+
+--reaper.CF_SetClipboard(ultraschall.Base64_Encoder("Debugger"))
+
+--[[
+L="RW5saWdodG1lbnRDcm9zc2VyRGVsdXhlRmlkZWxkdWJlbGRvbw=="
+
+O=ultraschall.Base64_Decoder(L)
+A=ultraschall.Base64_Encoder(O)
+
+if A~=L then print2(A,L) end
+--]]
 
 function ultraschall.MB(msg,title,mbtype)
 --[[
@@ -50799,7 +50805,7 @@ function ultraschall.ReplacePartOfString(originalstring, insertstring, offset, l
   <parameters>
     string originalstring - the originalstring, in which you want to insert the string
     string insertstring - the string that shall be inserted
-    integer offset - the position, at which to insert the string
+    integer offset - the position, at which to insert the string; it is the position BEFORE the position at which to insert, so if you want to replace the 25th character, offset is 24!
     optional integer length - the length of the part of the originalstring that shall be replaced, counted from offset. 0 or nil for simple insertion.
   </parameters>
   <chapter_context>
@@ -50820,6 +50826,9 @@ function ultraschall.ReplacePartOfString(originalstring, insertstring, offset, l
   
   local start=originalstring:sub(1,offset)
   local endof=originalstring:sub(offset+length+1,-1)
+  
+--  num_integers, individual_integers = ultraschall.ConvertStringToIntegers(originalstring,1)
+--  num_integers, individual_integers2 = ultraschall.ConvertStringToIntegers(start..insertstring..endof,1)
   
   return start..insertstring..endof
 end
@@ -55114,8 +55123,8 @@ function ultraschall.GetRenderCFG_Settings_MP3(rendercfg)
       integer Mode - the encoding-mode
                    - 32, Target quality(VBR)
                    - 1056, Target bitrate (ABR)
-                   - 65280, Constant bitrate (CBR)
-                   - 65344, Maximum bitrate/quality
+                   - 65344, Constant bitrate (CBR)
+                   - 65088, Maximum bitrate/quality
       integer enc_quality - the encoding-quality
                           -   0, Maximum(slow)
                           -   2, Better(recommended)
@@ -55134,7 +55143,7 @@ function ultraschall.GetRenderCFG_Settings_MP3(rendercfg)
                                 - true, checkbox is checked; false, checkbox is unchecked
     </retvals>
     <parameters>
-      string render_cfg - the render-cfg-string, that contains the audiocd-settings
+      string render_cfg - the render-cfg-string, that contains the mp3-settings
     </parameters>
     <chapter_context>
       Rendering of Project
@@ -55155,17 +55164,18 @@ function ultraschall.GetRenderCFG_Settings_MP3(rendercfg)
   --  4 - for ABR, CBR, max quality
   if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3", "rendercfg", "must be a string", -1) return -1 end
   local Decoded_string, Mode, Mode2, Mode3, JointStereo, WriteReplayGain, EncodingQuality
-  local VBR_Quality, ABR_Bitrate, num_integers, CBR_Bitrate
+  local VBR_Quality, ABR_Bitrate, num_integers, CBR_Bitrate, add
   Decoded_string = ultraschall.Base64_Decoder(rendercfg)
   if Decoded_string:sub(1,4)~="l3pm" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3", "rendercfg", "not a render-cfg-string of the format mp3", -2) return -1 end
+  EncodingQuality=string.byte(Decoded_string:sub(13,13))
+  if EncodingQuality==10 then add=1 else add=0 end
   Mode=string.byte(Decoded_string:sub(5,5))
   Mode2=string.byte(Decoded_string:sub(17,17))
-  Mode3=ultraschall.CombineBytesToInteger(0, Mode, Mode2)
+  Mode3=ultraschall.CombineBytesToInteger(0, Mode, Mode2-add)
   JointStereo=string.byte(Decoded_string:sub(9,9))
   if JointStereo==0 then JointStereo=false else JointStereo=true end
   WriteReplayGain=string.byte(Decoded_string:sub(11,11))
   if WriteReplayGain==0 then WriteReplayGain=false else WriteReplayGain=true end
-  EncodingQuality=string.byte(Decoded_string:sub(13,13))
   VBR_Quality=string.byte(Decoded_string:sub(21,21))
   CBR_Bitrate=Decoded_string:sub(25,26)
   num_integers, CBR_Bitrate = ultraschall.ConvertStringToIntegers(CBR_Bitrate, 2)
@@ -55176,6 +55186,257 @@ end
 
 --C,D,E,F,G,H,I=ultraschall.GetRenderCFG_Settings_MP3(B)
 
+function ultraschall.GetRenderCFG_Settings_MP3MaxQuality(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_MP3MaxQuality</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer retval, boolean write_replay_gain = ultraschall.GetRenderCFG_Settings_MP3MaxQuality(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for MP3 with maximum quality-settings.
+
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer retval - 0, the renderstring is a valid MP3-MaxQuality-setting; -1, it is not a valid renderstring for MP3-MaxQuality
+      boolean write_replay_gain - the write ReplayGain tag-checkbox
+                                - true, checkbox is checked; false, checkbox is unchecked
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the mp3-maxquality-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, mp3, max quality</tags>
+  </US_DocBloc>
+  ]]
+  if rendercfg=="bDNwbUABAAAAAAQACgAAAP////8EAAAAQAEAAAAAAAA=" then return 0, true end
+  if rendercfg=="bDNwbUABAAAAAAAACgAAAP////8EAAAAQAEAAAAAAAA=" then return 0, false end
+  ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3MaxQuality", "rendercfg", "no valid renderstring for MP3-Maxquality", -1)
+  return -1
+end
+
+--C,D,E,F,G,H,I=ultraschall.GetRenderCFG_Settings_MP3(B)
+
+
+function ultraschall.GetRenderCFG_Settings_MP3CBR(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_MP3CBR</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer cbr_bitrate, integer enc_quality, boolean no_joint_stereo, boolean write_replay_gain = ultraschall.GetRenderCFG_Settings_MP3CBR(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for MP3 CBR.
+
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer cbr_bitrate - the bitrate for CBR in kbps
+                          - 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320
+      integer enc_quality - the encoding-quality
+                          -   0, Maximum(slow)
+                          -   2, Better(recommended)
+                          -   3, Normal
+                          -   5, Fast encode
+                          -   7, Faster encode
+                          -   9, Fastest encode
+      boolean no_joint_stereo - the do not allow joint stereo-checkbox
+                              - true, checkbox is checked; false, checkbox is unchecked
+      boolean write_replay_gain - the write ReplayGain tag-checkbox
+                                - true, checkbox is checked; false, checkbox is unchecked
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the mp3-cbr-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, mp3, cbr</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3CBR", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string, Mode, Mode2, Mode3, JointStereo, WriteReplayGain, EncodingQuality
+  local VBR_Quality, ABR_Bitrate, num_integers, CBR_Bitrate
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="l3pm" or string.byte(Decoded_string:sub(17,17))~=255 or string.byte(Decoded_string:sub(13,13))==10 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3CBR", "rendercfg", "not a render-cfg-string of the format mp3-cbr", -2) return -1 end
+
+  CBR_Bitrate=Decoded_string:sub(25,26)
+  num_integers, CBR_Bitrate = ultraschall.ConvertStringToIntegers(CBR_Bitrate, 2)
+  
+  EncodingQuality=string.byte(Decoded_string:sub(13,13))
+  JointStereo=string.byte(Decoded_string:sub(9,9))
+  if JointStereo==0 then JointStereo=false else JointStereo=true end
+  WriteReplayGain=string.byte(Decoded_string:sub(11,11))
+  if WriteReplayGain==0 then WriteReplayGain=false else WriteReplayGain=true end
+
+  return CBR_Bitrate[1], EncodingQuality, JointStereo, WriteReplayGain
+end
+
+--C,D,E,F,G,H,I=ultraschall.GetRenderCFG_Settings_MP3(B)
+
+function ultraschall.GetRenderCFG_Settings_MP3VBR(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_MP3VBR</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer vbr_bitrate, integer enc_quality, boolean no_joint_stereo, boolean write_replay_gain = ultraschall.GetRenderCFG_Settings_MP3VBR(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for MP3 VBR.
+
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer vbr_quality - the variable-bitrate quality; 1(for 10%) to 10(for 100%) 
+      integer enc_quality - the encoding-quality
+                          -   0, Maximum(slow)
+                          -   2, Better(recommended)
+                          -   3, Normal
+                          -   5, Fast encode
+                          -   7, Faster encode
+                          -   9, Fastest encode
+      boolean no_joint_stereo - the do not allow joint stereo-checkbox
+                              - true, checkbox is checked; false, checkbox is unchecked
+      boolean write_replay_gain - the write ReplayGain tag-checkbox
+                                - true, checkbox is checked; false, checkbox is unchecked
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the mp3-vbr-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, mp3, vbr</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3VBR", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string, Mode, Mode2, Mode3, JointStereo, WriteReplayGain, EncodingQuality
+  local VBR_Quality, ABR_Bitrate, num_integers, CBR_Bitrate
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="l3pm" or string.byte(Decoded_string:sub(17,17))~=0 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3VBR", "rendercfg", "not a render-cfg-string of the format mp3-vbr", -2) return -1 end
+
+  VBR_Quality=string.byte(Decoded_string:sub(21,21))
+  VBR_Quality=(VBR_Quality-10)*-1
+  
+  
+  EncodingQuality=string.byte(Decoded_string:sub(13,13))
+  JointStereo=string.byte(Decoded_string:sub(9,9))
+  if JointStereo==0 then JointStereo=false else JointStereo=true end
+  WriteReplayGain=string.byte(Decoded_string:sub(11,11))
+  if WriteReplayGain==0 then WriteReplayGain=false else WriteReplayGain=true end
+
+  return VBR_Quality, EncodingQuality, JointStereo, WriteReplayGain
+end
+
+--C,D,E,F,G,H,I=ultraschall.GetRenderCFG_Settings_MP3(B)
+
+
+function ultraschall.GetRenderCFG_Settings_MP3ABR(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_MP3ABR</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer bitrate, integer enc_quality, boolean no_joint_stereo, boolean write_replay_gain = ultraschall.GetRenderCFG_Settings_MP3ABR(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for MP3 ABR.
+
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer bitrate -   the encoding quality for the mp3
+                      -      0, 8 kbps
+                      -      1, 16 kbps
+                      -      2, 24 kbps
+                      -      3, 32 kbps
+                      -      4, 40 kbps
+                      -      5, 48 kbps
+                      -      6, 56 kbps
+                      -      7, 64 kbps
+                      -      8, 80 kbps
+                      -      9, 96 kbps
+                      -      10, 112 kbps
+                      -      11, 128 kbps
+                      -      12, 160 kbps
+                      -      13, 192 kbps
+                      -      14, 224 kbps
+                      -      15, 256 kbps
+                      -      16, 320 kbps 
+      integer enc_quality - the encoding-quality
+                          -   0, Maximum(slow)
+                          -   2, Better(recommended)
+                          -   3, Normal
+                          -   5, Fast encode
+                          -   7, Faster encode
+                          -   9, Fastest encode
+      boolean no_joint_stereo - the do not allow joint stereo-checkbox
+                              - true, checkbox is checked; false, checkbox is unchecked
+      boolean write_replay_gain - the write ReplayGain tag-checkbox
+                                - true, checkbox is checked; false, checkbox is unchecked
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the mp3-abr-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, mp3, abr</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3ABR", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string, Mode, Mode2, Mode3, JointStereo, WriteReplayGain, EncodingQuality
+  local VBR_Quality, ABR_Bitrate, num_integers, CBR_Bitrate
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="l3pm" or string.byte(Decoded_string:sub(17,17))~=4 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP3ABR", "rendercfg", "not a render-cfg-string of the format mp3-abr", -2) return -1 end
+
+  ABR_Bitrate=Decoded_string:sub(29,30)
+  num_integers, ABR_Bitrate = ultraschall.ConvertStringToIntegers(ABR_Bitrate, 2)  
+  
+  EncodingQuality=string.byte(Decoded_string:sub(13,13))
+  JointStereo=string.byte(Decoded_string:sub(9,9))
+  if JointStereo==0 then JointStereo=false else JointStereo=true end
+  WriteReplayGain=string.byte(Decoded_string:sub(11,11))
+  if WriteReplayGain==0 then WriteReplayGain=false else WriteReplayGain=true end
+
+  return ABR_Bitrate[1], EncodingQuality, JointStereo, WriteReplayGain
+end
+
+--C,D,E,F,G,H,I=ultraschall.GetRenderCFG_Settings_MP3(B)
 
 function ultraschall.GetRenderCFG_Settings_OGG(rendercfg)
   --[[

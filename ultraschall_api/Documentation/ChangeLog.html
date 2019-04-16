@@ -53,6 +53,10 @@ Ultraschall API Changelog
 <li>Render: GetRenderCFG_Settings_LCF - gets the settings of a video-lcf-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_MKV - gets the settings of a video-mkv-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_MP3 - gets the settings of an audio-mp3-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_MP3MaxQuality - gets the settings of an audio-mp3-maxquality-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_MP3CBR - gets the settings of an audio-mp3-cbr-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_MP3VBR - gets the settings of an audio-mp3-vbr-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_MP3ABR - gets the settings of an audio-mp3-abr-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_OGG - gets the settings of an audio-ogg-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_OPUS - gets the settings of an audio-opus-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_QTMOVMP4 - gets the settings of an audio-opus-rendercfg-string</li>
@@ -63,8 +67,16 @@ Ultraschall API Changelog
 <h4>Changes from Beta 2.74 to Beta 2.75</h4>
 <ul>
 <li>Docs: Reaper ConfigVars - added better description for g_config_project</li>
+<li>Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3</li>
+<li>Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter</li>
 <li>HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well</li>
 <li>Render: CreateRenderCFG_AudioCD - improved and lifted limitations for leadin-silence-values</li>
+<li>Render: CreateRenderCFG_MP3ABR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; forgot to add FasterEncode-setting -&gt; fixed now<br />
+</li>
+<li>Render: CreateRenderCFG_MP3CBR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; forgot to add FasterEncode-setting -&gt; fixed now</li>
+<li>Render: CreateRenderCFG_MP3MaxQuality - reimplemented, supports now "Write ReplayGain tag"-checkbox</li>
+<li>Render: CreateRenderCFG_MP3VBR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; forgot to add FasterEncode-setting -&gt; fixed now<br />
+</li>
 <li>Render: CreateRenderCFG_OGG - reimplemented, should be more stable now; lifted limitations with bitrates</li>
 <li>Render: CreateRenderCFG_Opus - reimplemented, should be more stable now and supports now all options</li>
 <li>Render: CreateRenderCFG_Opus2 - deprecated, use CreateRenderCFG_Opus instead<br />
