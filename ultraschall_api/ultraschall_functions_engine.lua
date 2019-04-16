@@ -36338,7 +36338,7 @@ LCF:      IEZDT    108
   if Renderstring:sub(1,5)=="IG9za"    and Renderstring:len()==32 then return "AUDIOCD-IMAGE" end
   if Renderstring:sub(1,5)=="ZXZhd"    and Renderstring:len()==12 then return "WAV"     end
   if Renderstring:sub(1,6)=="a3B2dw"   and Renderstring:len()==28 then return "WAVPACK" end
-  if Renderstring         =="IHBkZA="                             then return "DDP"  end
+  if Renderstring:sub(1,7)=="IHBkZA="                             then return "DDP"  end
   if Renderstring:sub(1,6)=="Y2FsZh"   and Renderstring:len()==16 then return "FLAC" end
   if Renderstring:sub(1,5)=="bDNwb"    and Renderstring:len()==44 then return "MP3"  end
   if Renderstring:sub(1,6)=="U2dnTw" and Renderstring:len()==20 then return "OPUS Reaper5.941 and earlier" end
@@ -55809,7 +55809,7 @@ function ultraschall.GetRenderCFG_Settings_WebMVideo(rendercfg)
   FPS=ultraschall.IntToDouble(FPS[1])
   AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
   
-  return VidKBPS, AudKBPS, Width, Height, FPS, AspectRatio
+  return VidKBPS[1], AudKBPS[1], Width[1], Height[1], FPS, AspectRatio
 end
 
 
