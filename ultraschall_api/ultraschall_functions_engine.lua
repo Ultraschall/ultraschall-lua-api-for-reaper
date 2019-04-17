@@ -16452,7 +16452,7 @@ function ultraschall.GetProject_RenderRange(projectfilename_with_path, ProjectSt
   <slug>GetProject_RenderRange</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.975
     Lua=5.3
   </requires>
   <functioncall>integer bounds, number time_start, number time_end, integer tail, integer tail_length = ultraschall.GetProject_RenderRange(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
@@ -16469,21 +16469,20 @@ function ultraschall.GetProject_RenderRange(projectfilename_with_path, ProjectSt
   </parameters>
   <retvals>
     integer bounds - the bounds of the project to be rendered
-    -0 Custom Time Range
-    -1 Entire Project
-    -2 Time Selection, 
-    -3 Project Regions
-    -4 Selected Media Items(in combination with RENDER_STEMS 32); to get RENDER_STEMS, refer <a href="#GetProject_RenderStems">GetProject_RenderStems</a>
-    
+                   - 0, Custom Time Range
+                   - 1, Entire Project
+                   - 2, Time Selection, 
+                   - 3, Project Regions
+                   - 4, Selected Media Items(in combination with RENDER_STEMS 32); to get RENDER_STEMS, refer <a href="#GetProject_RenderStems">GetProject_RenderStems</a>
+                   - 5, Selected regions
     number time_start - TimeStart in milliseconds -2147483647 to 2147483647
     number time_end - TimeEnd in milliseconds 2147483647 to 2147483647
     integer tail - Tail on/off-flags for individual bounds
-    -0 - tail off for all bounds
-    -1 - custom time range - tail on
-    -2 - entire project - tail on
-    -4 - time selection - tail on
-    -8 - project regions - tail on
-    
+                 - 0, tail off for all bounds
+                 - 1, custom time range -> tail on
+                 - 2, entire project -> tail on
+                 - 4, time selection -> tail on
+                 - 8, project regions -> tail on    
     integer tail_length - TailLength in milliseconds, valuerange 0 - 2147483647
   </retvals>
   <chapter_context>
@@ -16564,7 +16563,6 @@ function ultraschall.GetProject_RenderResample(projectfilename_with_path, Projec
     -7-Fast (16pt sinc) - Default, 
     -8-HQ (512pt Sinc), 
     -9-Extreme HQ (768pt HQ Sinc)
-    
     integer playback_resample_mode - Playback Resample Mode (as set in the Project-Settings)
     -0-medium (64pt Sinc), 
     -1-Low (Linear Interpolation), 
@@ -16576,8 +16574,7 @@ function ultraschall.GetProject_RenderResample(projectfilename_with_path, Projec
     -7-Fast (16pt sinc) - Default, 
     -8-HQ (512pt Sinc), 
     -9-Extreme HQ (768pt HQ Sinc)
-    
-    integer project_smplrate4mix_and_fx - Use_Project_Sample_Rate_for_Mixing_and_FX/Synth_Processing 1 - yes, 0-no
+    integer project_smplrate4mix_and_fx - Use project sample rate for mixing and FX/synth processing-checkbox; 1, checked; 0, unchecked
   </retvals>
   <chapter_context>
     Project-Files
@@ -16686,13 +16683,13 @@ function ultraschall.GetProject_RenderStems(projectfilename_with_path, ProjectSt
   </parameters>
   <retvals>
     integer render_stems - the state of Render Stems
-    - 0 - Source Master Mix, 
-    - 1 - Source Master mix + stems, 
-    - 3 - Source Stems, selected tracks, 
-    - 4 - Multichannel Tracks to Multichannel Files, 
-    - 8 - Source Region Render Matrix, 
-    - 16 - Tracks with only Mono-Media to Mono Files,  
-    - 32 Selected Media Items(in combination with RENDER_RANGE->Bounds->4, refer to <a href="#GetProject_RenderRange">GetProject_RenderRange</a> to get RENDER_RANGE)
+    - 0, Source Master Mix, 
+    - 1, Source Master mix + stems, 
+    - 3, Source Stems, selected tracks, 
+    - 4, Multichannel Tracks to Multichannel Files, 
+    - 8, Source Region Render Matrix, 
+    - 16, Tracks with only Mono-Media to Mono Files,  
+    - 32, Selected Media Items(in combination with RENDER_RANGE->Bounds->4, refer to <a href="#GetProject_RenderRange">GetProject_RenderRange</a> to get RENDER_RANGE)
   </retvals>
   <chapter_context>
     Project-Files
@@ -20171,7 +20168,7 @@ function ultraschall.SetProject_RenderRange(projectfilename_with_path, bounds, t
   <slug>SetProject_RenderRange</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.975
     Lua=5.3
   </requires>
   <functioncall>integer retval = ultraschall.SetProject_RenderRange(string projectfilename_with_path, integer bounds, number time_start, number time_end, integer tail, integer tail_length, optional string ProjectStateChunk)</functioncall>
@@ -20183,20 +20180,20 @@ function ultraschall.SetProject_RenderRange(projectfilename_with_path, bounds, t
   <parameters>
     string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
     integer bounds - the bounds of the project to be rendered
-    -             0 Custom Time Range
-    -             1 Entire Project
-    -             2 Time Selection, 
-    -             3 Project Regions
-    -             4 Selected Media Items(in combination with RENDER_STEMS 32); to get RENDER_STEMS, refer GetProject_RenderStems
-    
+    -             0, Custom Time Range
+    -             1, Entire Project
+    -             2, Time Selection, 
+    -             3, Project Regions
+    -             4, Selected Media Items(in combination with RENDER_STEMS 32); to get RENDER_STEMS, refer GetProject_RenderStems
+    -             5, Selected regions
     number time_start - TimeStart in milliseconds -2147483647 to 2147483647
     number time_end - TimeEnd in milliseconds 2147483647 to 2147483647
     integer tail - Tail on/off-flags for individual bounds
-    -             0 - tail off for all bounds
-    -             1 - custom time range - tail on
-    -             2 - entire project - tail on
-    -             4 - time selection - tail on
-    -             8 - project regions - tail on
+    -             0, tail off for all bounds
+    -             1, custom time range -> tail on
+    -             2, entire project -> tail on
+    -             4, time selection -> tail on
+    -             8, project regions -> tail on
     
     integer tail_length - TailLength in milliseconds, valuerange 0 - 2147483647
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
@@ -20289,7 +20286,7 @@ function ultraschall.SetProject_RenderResample(projectfilename_with_path, resamp
     -           8-HQ (512pt Sinc), 
     -           9-Extreme HQ (768pt HQ Sinc)
     
-    integer project_smplrate4mix_and_fx - Use_Project_Sample_Rate_for_Mixing_and_FX/Synth_Processing 1, yes; 0, no
+    integer project_smplrate4mix_and_fx - Use project sample rate for mixing and FX/synth processing-checkbox; 1, checked; 0, unchecked
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>
@@ -20400,13 +20397,13 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
   <parameters>
     string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
     integer render_stems - the state of Render Stems
-    - 0 - Source Master Mix, 
-    - 1 - Source Master mix + stems, 
-    - 3 - Source Stems, selected tracks, 
-    - 4 - Multichannel Tracks to Multichannel Files, 
-    - 8 - Source Region Render Matrix, 
-    - 16 - Tracks with only Mono-Media to Mono Files,  
-    - 32 - Selected Media Items(in combination with RENDER_RANGE->Bounds->4, refer to <a href="#GetProject_RenderRange">GetProject_RenderRange</a> to get RENDER_RANGE)
+    - 0, Source Master Mix, 
+    - 1, Source Master mix + stems, 
+    - 3, Source Stems, selected tracks, 
+    - 4, Multichannel Tracks to Multichannel Files, 
+    - 8, Source Region Render Matrix, 
+    - 16, Tracks with only Mono-Media to Mono Files,  
+    - 32, Selected Media Items(in combination with RENDER_RANGE->Bounds->4, refer to <a href="#GetProject_RenderRange">GetProject_RenderRange</a> to get RENDER_RANGE)
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>
@@ -46898,6 +46895,7 @@ function ultraschall.GetProject_RenderFilename(projectfilename_with_path, Projec
   end
   -- get the value and return it
   local temp=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_FILE%s(.-)%c.-<RENDER_CFG")
+  if temp==nil then temp="" end
   if temp:sub(1,1)=="\"" then temp=temp:sub(2,-1) end
   if temp:sub(-1,-1)=="\"" then temp=temp:sub(1,-2) end
   return temp
@@ -56945,22 +56943,32 @@ function ultraschall.GetRenderSettingsTable_Project()
   <requires>
     Ultraschall=4.00
     Reaper=5.975
+    SWS=2.10.0.1
     Lua=5.3
   </requires>
   <functioncall>table RenderTable = ultraschall.GetRenderSettingsTable_Project(ReaProject ReaProject)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns all stored render-settings for the current project, as a handy table.
             
-            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
-            RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
-            RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
-            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 5, Selected regions
+            RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
+            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
+            RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
+            RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
+            RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle);  RenderTable["RenderFile"] - the directory-inputbox of the Render to File-dialog
+            RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
+            RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
+            RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
+            RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog
+            RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog
+            RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; always false, as this is not stored in projectfiles
+            RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
+            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
             RenderTable["SampleRate"] - the samplerate
+            RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always false, as this is not stored in projectfiles
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
-            RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
-            RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
     
     Returns nil in case of an error
   </description>
@@ -56978,7 +56986,8 @@ function ultraschall.GetRenderSettingsTable_Project()
 ]]
   local ReaProject, _temp
   ReaProject=0
-  RenderTable={}
+  local RenderTable={}
+  RenderTable["RenderTable"]=true
   RenderTable["Source"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_SETTINGS", 0, false)
   if RenderTable["Source"]&4~=0 then RenderTable["Source"]=RenderTable["Source"]-4 RenderTable["MultiChannelFiles"]=true else RenderTable["MultiChannelFiles"]=false end
   if RenderTable["Source"]&16~=0 then RenderTable["Source"]=RenderTable["Source"]-16 RenderTable["OnlyMonoMedia"]=true else RenderTable["OnlyMonoMedia"]=false end
@@ -56993,13 +57002,124 @@ function ultraschall.GetRenderSettingsTable_Project()
   RenderTable["AddToProj"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_ADDTOPROJ", 0, false)
   if RenderTable["AddToProj"]==1 then RenderTable["AddToProj"]=true else RenderTable["AddToProj"]=false end
   RenderTable["Dither"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_DITHER", 0, false)
-  
+  RenderTable["ProjectSampleRateFXProcessing"]=reaper.SNM_GetIntConfigVar("projrenderrateinternal", -1)
+  if RenderTable["ProjectSampleRateFXProcessing"]==1 then RenderTable["ProjectSampleRateFXProcessing"]=true else RenderTable["ProjectSampleRateFXProcessing"]=false end
+  if reaper.SNM_GetIntConfigVar("renderclosewhendone", -1)&16~=0 then RenderTable["SilentlyIncrementFilename"]=true else RenderTable["SilentlyIncrementFilename"]=false end
+  if reaper.SNM_GetIntConfigVar("renderqdelay", -1)>0 then RenderTable["RenderQueueDelay"]=true else RenderTable["RenderQueueDelay"]=false end
+  RenderTable["RenderResample"]=reaper.SNM_GetIntConfigVar("projrenderresample", -1)
+  RenderTable["OfflineOnlineRendering"]=reaper.SNM_GetIntConfigVar("projrenderlimit", -1)
   _temp, RenderTable["RenderFile"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FILE", "", false)
   _temp, RenderTable["RenderPattern"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", "", false)
   _temp, RenderTable["RenderString"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", "", false)
+
+  return RenderTable
 end
 
 --A=ultraschall.GetRenderSettingsTable_Project(ReaProject)
+
+
+function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRenderSettingsTable_ProjectFile</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>table RenderTable = ultraschall.GetRenderSettingsTable_ProjectFile(string projectfilename_with_path)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns all stored render-settings in a projectfile, as a handy table.
+            
+            RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
+            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
+            RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
+            RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
+            RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
+            RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle);  RenderTable["RenderFile"] - the directory-inputbox of the Render to File-dialog
+            RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
+            RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
+            RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
+            RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog
+            RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog
+            RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; always false, as this is not stored in projectfiles
+            RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
+            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+            RenderTable["SampleRate"] - the samplerate
+            RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always false, as this is not stored in projectfiles
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+            RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
+            RenderTable["TailMS"] - the amount of milliseconds of the tail
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    table RenderTable - a table with all of the current project's render-settings
+  </retvals>
+  <parameters>
+    string projectfilename_with_path - the projectfile, whose render-settings you want to get
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, get, projectfile, rendertable</tags>
+</US_DocBloc>
+]]
+  if projectfilename_with_path~=nil and (type(projectfilename_with_path)~="string" or reaper.file_exists(projectfilename_with_path)==false) then ultraschall.AddErrorMessage("GetRenderSettingsTable_ProjectFile", "projectfilename_with_path", "file does not exist", -1) return nil end
+  
+  if projectfilename_with_path~=nil then
+    ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path)
+  end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetRenderSettingsTable_ProjectFile", "projectfilename_with_path", "not a valid rpp-project", -2) return nil end
+  local render_stems = ultraschall.GetProject_RenderStems(nil, ProjectStateChunk)
+  local bounds, time_start, time_end, tail, tail_length = ultraschall.GetProject_RenderRange(nil, ProjectStateChunk)
+  local unknown, rendernum_chans, render_frequency = ultraschall.GetProject_RenderFreqNChans(nil, ProjectStateChunk)
+  local addmedia_after_render_state = ultraschall.GetProject_AddMediaToProjectAfterRender(nil, ProjectStateChunk)
+  local renderdither_state = ultraschall.GetProject_RenderDitherState(nil, ProjectStateChunk)
+  local render_pattern = ultraschall.GetProject_RenderPattern(nil, ProjectStateChunk)
+  local render_filename = ultraschall.GetProject_RenderFilename(nil, ProjectStateChunk)
+  local render_cfg = ultraschall.GetProject_RenderCFG(nil, ProjectStateChunk)
+
+  local resample_mode, playback_resample_mode, project_smplrate4mix_and_fx = ultraschall.GetProject_RenderResample(projectfilename_with_path, ProjectStateChunk)
+  
+  local RenderTable={}
+  RenderTable["RenderTable"]=true
+  RenderTable["Source"]=render_stems
+  if RenderTable["Source"]&4~=0 then RenderTable["Source"]=RenderTable["Source"]-4 RenderTable["MultiChannelFiles"]=true else RenderTable["MultiChannelFiles"]=false end
+  if RenderTable["Source"]&16~=0 then RenderTable["Source"]=RenderTable["Source"]-16 RenderTable["OnlyMonoMedia"]=true else RenderTable["OnlyMonoMedia"]=false end
+  RenderTable["Bounds"]=bounds
+  RenderTable["Channels"]=rendernum_chans
+  RenderTable["SampleRate"]=render_frequency
+  if RenderTable["SampleRate"]==0 then RenderTable["SampleRate"]=ultraschall.GetProject_SampleRate(nil, ProjectStateChunk) end
+  RenderTable["Startposition"]=time_start
+  RenderTable["Endposition"]=time_end
+  RenderTable["TailFlag"]=tail
+  RenderTable["TailMS"]=tail_length
+  RenderTable["AddToProj"]=addmedia_after_render_state
+  if RenderTable["AddToProj"]==1 then RenderTable["AddToProj"]=true else RenderTable["AddToProj"]=false end
+  RenderTable["Dither"]=renderdither_state
+  
+  RenderTable["ProjectSampleRateFXProcessing"]=project_smplrate4mix_and_fx
+  if RenderTable["ProjectSampleRateFXProcessing"]==1 then RenderTable["ProjectSampleRateFXProcessing"]=true else RenderTable["ProjectSampleRateFXProcessing"]=false end
+  RenderTable["SilentlyIncrementFilename"]=false
+  RenderTable["RenderQueueDelay"]=false
+  RenderTable["RenderResample"]=resample_mode
+  RenderTable["OfflineOnlineRendering"]=ultraschall.GetProject_RenderSpeed(nil, ProjectStateChunk)
+  
+  RenderTable["RenderFile"]=render_filename
+  RenderTable["RenderPattern"]=render_pattern
+  RenderTable["RenderString"]=render_cfg 
+  
+  return RenderTable
+end
+
+
+--B=ultraschall.ReadFullFile("c:\\huilui.rpp")
+--AAA=ultraschall.GetRenderSettingsTable_ProjectFile(nil,B)
+
 
 ultraschall.ShowLastErrorMessage()
 

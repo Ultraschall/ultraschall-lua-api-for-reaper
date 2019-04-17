@@ -55,6 +55,7 @@ Ultraschall API Changelog
 <li>Render: CreateRenderCFG_MP4MAC_Video - creates a render-string for the format video-MP4 for Mac</li>
 <li>Render: CreateRenderCFG_QTMOVMP4_Video - creates a render-string for the format video-QT/MOV/MP4</li>
 <li>Render: GetRenderSettingsTable_Project - returns a table with all render-settings of the currently active project</li>
+<li>Render: GetRenderSettingsTable_ProjectFile- returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk</li>
 <li>Render: GetRenderCFG_Settings_AIFF - gets the settings of an audio-AIFF-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_AudioCD - gets the settings of an audio-AudioCD-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_AVI_Video - gets the settings of an video-avi-rendercfg-string</li>
@@ -81,11 +82,17 @@ Ultraschall API Changelog
 <h4>Changes from Beta 2.74 to Beta 2.75</h4>
 <ul>
 <li>Docs: CreateTemporaryFileOfProjectfile - moved in docs to Project-Files -&gt; Helper functions</li>
+<li>Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER_DITHER (dither/noiseshape stems) and RENDER_SRATE(when returned RENDER_SRATE=0)</li>
 <li>Docs: Reaper ConfigVars - added better description for g_config_project</li>
 <li>Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3</li>
+<li>IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore</li>
+<li>IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore</li>
 <li>Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter</li>
 <li>Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly</li>
 <li>HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well</li>
+<li>Projectmanagement: GetProject_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile</li>
+<li>Projectmanagement: GetProject_RenderRange - added bounds-option for selected regions</li>
+<li>Projectmanagement: SetProject_RenderRange - added bounds-option for selected regions</li>
 <li>Render: CreateRenderCFG_AudioCD - improved and lifted limitations for leadin-silence-values</li>
 <li>Render: CreateRenderCFG_MP3ABR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; forgot to add FasterEncode-setting -&gt; fixed now<br />
 </li>

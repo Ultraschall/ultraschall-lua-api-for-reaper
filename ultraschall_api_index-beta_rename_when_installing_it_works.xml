@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="34828.00" author="Meo Mespotine">
+      <version name="34993.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -70,8 +70,6 @@
 	<source file="/ultraschall_api/IniFiles/Reaper-Gfx.GetKey_Codes_and_their_associated_character.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/Reaper-Gfx.GetKey_Codes_and_their_associated_character.ini</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-KEY-Codes_for_reaper-kb_ini.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/Reaper-KEY-Codes_for_reaper-kb_ini.ini</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-Menu-Only-Actions.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/Reaper-Menu-Only-Actions.ini</source>
-	<source file="/ultraschall_api/IniFiles/Reaper-Render-Codes-for-AudioCD.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/Reaper-Render-Codes-for-AudioCD.ini</source>
-	<source file="/ultraschall_api/IniFiles/Reaper-Render-Codes.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/Reaper-Render-Codes.ini</source>
 	<source file="/ultraschall_api/IniFiles/ultraschall_api.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/ultraschall_api.ini</source>
 	<source file="/ultraschall_api/misc/Markdown_Newspeak-1.0-draft" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/Markdown_Newspeak-1.0-draft</source>
 	<source file="/ultraschall_api/misc/Reaper-All_ConfigVars_as_toggled_by_Actions.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/Reaper-All_ConfigVars_as_toggled_by_Actions.txt</source>
@@ -340,6 +338,8 @@ New features in 4.00beta2.75
     the format video-QT/MOV/MP4
 -   Render: GetRenderSettingsTable_Project - returns a table with all
     render-settings of the currently active project
+-   Render: GetRenderSettingsTable_ProjectFile- returns a table with all
+    render-dialog-settings from an rpp-projectfile or ProjectStateChunk
 -   Render: GetRenderCFG_Settings_AIFF - gets the settings of an
     audio-AIFF-rendercfg-string
 -   Render: GetRenderCFG_Settings_AudioCD - gets the settings of an
@@ -389,16 +389,28 @@ Changes from Beta 2.74 to Beta 2.75
 
 -   Docs: CreateTemporaryFileOfProjectfile - moved in docs to
     Project-Files -> Helper functions
+-   Docs: Reaper-API - GetSetProjectInfo - added missing information
+    about RENDER_DITHER (dither/noiseshape stems) and RENDER_SRATE(when
+    returned RENDER_SRATE=0)
 -   Docs: Reaper ConfigVars - added better description for
     g_config_project
 -   Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly
     regarding mp3
+-   IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore
+-   IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not
+    necessary anymore
 -   Helpers: Base64_Encoder - fixed bug that caused encoded strings to
     end with wrong letter
 -   Helpers: LimitFractionOfFloat - improved code a little for
     rounding-operations, hope it works now properly
 -   HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the
     TCP as well
+-   Projectmanagement: GetProject_RenderFilename - could produce
+    Lua-error, when no Renderfilename was existing in the projectfile
+-   Projectmanagement: GetProject_RenderRange - added bounds-option for
+    selected regions
+-   Projectmanagement: SetProject_RenderRange - added bounds-option for
+    selected regions
 -   Render: CreateRenderCFG_AudioCD - improved and lifted limitations
     for leadin-silence-values
 -   Render: CreateRenderCFG_MP3ABR - reimplemented, supports now “Do not

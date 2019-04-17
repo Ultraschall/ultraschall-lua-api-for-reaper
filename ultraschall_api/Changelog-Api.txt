@@ -367,6 +367,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: CreateRenderCFG\_MP4MAC\_Video - creates a render-string for the format video-MP4 for Mac
   - Render: CreateRenderCFG\_QTMOVMP4\_Video - creates a render-string for the format video-QT/MOV/MP4
   - Render: GetRenderSettingsTable\_Project - returns a table with all render-settings of the currently active project
+  - Render: GetRenderSettingsTable\_ProjectFile- returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk
   - Render: GetRenderCFG\_Settings\_AIFF - gets the settings of an audio-AIFF-rendercfg-string
   - Render: GetRenderCFG\_Settings\_AudioCD - gets the settings of an audio-AudioCD-rendercfg-string
   - Render: GetRenderCFG\_Settings\_AVI\_Video  - gets the settings of an video-avi-rendercfg-string
@@ -393,11 +394,17 @@ tagline inspired by a comment from \_stevie\_ ;)
 
 #### Changes from Beta 2.74 to Beta 2.75
   - Docs: CreateTemporaryFileOfProjectfile - moved in docs to Project-Files -> Helper functions
+  - Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER\_DITHER (dither/noiseshape stems) and RENDER\_SRATE(when returned RENDER\_SRATE=0)
   - Docs: Reaper ConfigVars - added better description for g\_config\_project
   - Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3
+  - IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore
+  - IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore
   - Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter
   - Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly
   - HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well
+  - Projectmanagement: GetProject\_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile
+  - Projectmanagement: GetProject\_RenderRange - added bounds-option for selected regions
+  - Projectmanagement: SetProject\_RenderRange - added bounds-option for selected regions
   - Render: CreateRenderCFG\_AudioCD - improved and lifted limitations for leadin-silence-values
   - Render: CreateRenderCFG\_MP3ABR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; 
                                       forgot to add FasterEncode-setting -> fixed now                                  

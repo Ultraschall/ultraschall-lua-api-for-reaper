@@ -55,7 +55,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.75 - "Nick Cave & the Bad Seeds - Babe, I'm on fire" - 15th of May 2019 - Build: 34828</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>Beta 2.75 - "Nick Cave & the Bad Seeds - Babe, I'm on fire" - 15th of May 2019 - Build: 34993</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -1848,7 +1848,8 @@ The rest is the same, pass to the function a ColorTable and in the parameter Spr
 Features that use these background-scripts are:</p>
 <blockquote>
 <p><strong><a href="US_Api_Functions.html#GetLastCursorPosition">GetLastCursorPosition</a></strong> - gets the last editcursor-position before the current one. Helpful for left-click-triggered scripts, who change the editcursorposition due the mouseclick<br />
-<strong><a href="US_Api_Functions.html#GetLastPlayState">GetLastPlayState</a></strong> - gets the last playstate before the current one. Helpful for monitoring "event-based"-statechanges <strong><a href="US_Api_Functions.html#GetLastLoopState">GetLastLoopState</a></strong> - gets the last loopstate before the current one. Helpful for monitoring "event-based"-statechanges</p>
+<strong><a href="US_Api_Functions.html#GetLastPlayState">GetLastPlayState</a></strong> - gets the last playstate before the current one. Helpful for monitoring "event-based"-statechanges<br />
+<strong><a href="US_Api_Functions.html#GetLastLoopState">GetLastLoopState</a></strong> - gets the last loopstate before the current one. Helpful for monitoring "event-based"-statechanges</p>
 </blockquote>
 <p>With this, you can create event-managers, reacting to e.g. playstate-changes.</p>
 <p>Such a script could look like this:</p>
@@ -2385,7 +2386,7 @@ For that, I included the functions: <a href="US_Api_Functions.html#ClearRoutingM
 <p>This returns all HWOut-settings as a nice handy table, which you can alter. The name of each index reflects the name of the parameters of the add/get/set-HWOut-functions.<br />
 returned table is of structure:<br />
 table["HWOuts"]=true - signals, this is a HWOuts-table; don't change that!<br />
-table["number<em>of</em>tracks"] - the number of tracks in this table, from track 0(master) to track n<br />
+table["number_of_tracks"] - the number of tracks in this table, from track 0(master) to track n<br />
 table[tracknumber]["HWOut_count"] - the number of HWOuts of tracknumber, beginning with 1<br />
 table[tracknumber]["TrackID"] - the unique id of the track as guid; can be used to get the MediaTrack using reaper.BR_GetMediaTrackByGUID(0, guid)<br />
 table[tracknumber][HWOutIndex]["outputchannel"] - the number of outputchannels of this HWOutIndex of tracknumber<br />
@@ -3453,10 +3454,24 @@ It will return a boolean(true for success), the current undo-message and alle th
 </li>
 <li><a href="US_Api_Functions.html#ApplyActionToMediaItemArray2">ApplyActionToMediaItemArray2</a> - this function applies a Reaper-action to all MediaItems in MediaItemArray at once. That given action must apply itself to selected MediaItems.</li>
 </ul>
-<p>** ReaScript-console-stuff** - <a href="US_Api_Functions.html#CloseReaConsole">CloseReaConsole</a> - closes the ReaConsole-window<br />
-- <a href="US_Api_Functions.html#SetReaScriptConsole_FontStyle">SetReaScriptConsole_FontStyle</a> - sets a new font-style to the ReaScript-console<br />
-- <a href="US_Api_Functions.html#GetReaScriptConsoleWindow">GetReaScriptConsoleWindow</a> - gets the hwnd-window-handler of the ReaScript-console</p>
-<p>** print replacements** <a href="US_Api_Functions.html#print">print</a> - prints its parameters to the ReaScript-console, separated by newlines <a href="US_Api_Functions.html#print_alt">print_alt</a> - prints its parameters to the ReaScript-console, separated by two spaces. Ends with a newline. <a href="US_Api_Functions.html#print_update">print_update</a> - prints its parameters to the ReaScript-console, but clears it first <a href="US_Api_Functions.html#print2">print2</a> - prints its parameters to a message-box-window <a href="US_Api_Functions.html#print3">print3</a> - prints its parameters to the clipboard</p>
+<p><strong>ReaScript-console-stuff</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#CloseReaConsole">CloseReaConsole</a> - closes the ReaConsole-window<br />
+</li>
+<li><a href="US_Api_Functions.html#GetReaScriptConsoleWindow">GetReaScriptConsoleWindow</a> - gets the hwnd-window-handler of the ReaScript-console</li>
+</ul>
+<p><strong>print replacements</strong></p>
+<ul>
+<li><a href="US_Api_Functions.html#print">print</a> - prints its parameters to the ReaScript-console, separated by newlines<br />
+</li>
+<li><a href="US_Api_Functions.html#print_alt">print_alt</a> - prints its parameters to the ReaScript-console, separated by two spaces. Ends with a newline.<br />
+</li>
+<li><a href="US_Api_Functions.html#print_update">print_update</a> - prints its parameters to the ReaScript-console, but clears it first<br />
+</li>
+<li><a href="US_Api_Functions.html#print2">print2</a> - prints its parameters to a message-box-window<br />
+</li>
+<li><a href="US_Api_Functions.html#print3">print3</a> - prints its parameters to the clipboard</li>
+</ul>
 <p><strong>miscellaneous</strong></p>
 <ul>
 <li><a href="US_Api_Functions.html#toboolean">toboolean</a> - this tries to convert a value into a boolean. Never understood, why Lua hasn't this function itself. Has no ultraschall. at the beginning of the functionname!<br />

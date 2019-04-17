@@ -2541,8 +2541,8 @@
             Features that use these background-scripts are:
             
             >**[GetLastCursorPosition](usdocml://GetLastCursorPosition)** - gets the last editcursor-position before the current one. Helpful for left-click-triggered scripts, who change the editcursorposition due the mouseclick  
-            >**[GetLastPlayState](usdocml://GetLastPlayState)** - gets the last playstate before the current one. Helpful for monitoring "event-based"-statechanges
-            >**[GetLastLoopState](usdocml://GetLastLoopState)** - gets the last loopstate before the current one. Helpful for monitoring "event-based"-statechanges
+            >**[GetLastPlayState](usdocml://GetLastPlayState)** - gets the last playstate before the current one. Helpful for monitoring "event-based"-statechanges  
+            >**[GetLastLoopState](usdocml://GetLastLoopState)** - gets the last loopstate before the current one. Helpful for monitoring "event-based"-statechanges  
             
             With this, you can create event-managers, reacting to e.g. playstate-changes.
             
@@ -3265,7 +3265,7 @@
             >This returns all HWOut-settings as a nice handy table, which you can alter. The name of each index reflects the name of the parameters of the add/get/set-HWOut-functions.  
             >returned table is of structure:  
                 table["HWOuts"]=true - signals, this is a HWOuts-table; don't change that!  
-                table["number_of_tracks"] - the number of tracks in this table, from track 0(master) to track n  
+                table["number\_of\_tracks"] - the number of tracks in this table, from track 0(master) to track n  
                 table[tracknumber]["HWOut_count"] - the number of HWOuts of tracknumber, beginning with 1  
                 table[tracknumber]["TrackID"] - the unique id of the track as guid; can be used to get the MediaTrack using reaper.BR_GetMediaTrackByGUID(0, guid)  
                 table[tracknumber][HWOutIndex]["outputchannel"] - the number of outputchannels of this HWOutIndex of tracknumber  
@@ -4606,7 +4606,6 @@
             - [GetReaperJSFXPath](usdocml://GetReaperJSFXPath) - returns the path to the JSFX-folder  
             - [GetReaperScriptPath](usdocml://GetReaperScriptPath) - returns the path to the scripts-folder of Reaper  
             - [GetReaperWebRCPath](usdocml://GetReaperWebRCPath) - returns the paths to the folders of the WebRC-files  
-
                 
             **Ultraschall-Api-Variables**
                 
@@ -4640,18 +4639,18 @@
             - [ApplyActionToMediaItemArray](usdocml://ApplyActionToMediaItemArray) - this function applies a Reaper-action to all MediaItems in MediaItemArray individually. That given action must apply itself to selected MediaItems.  
             - [ApplyActionToMediaItemArray2](usdocml://ApplyActionToMediaItemArray2) - this function applies a Reaper-action to all MediaItems in MediaItemArray at once. That given action must apply itself to selected MediaItems.  
 
-            ** ReaScript-console-stuff**
-            - [CloseReaConsole](usdocml://CloseReaConsole) - closes the ReaConsole-window  
-            - [SetReaScriptConsole_FontStyle](usdocml://SetReaScriptConsole_FontStyle) - sets a new font-style to the ReaScript-console  
-            - [GetReaScriptConsoleWindow](usdocml://GetReaScriptConsoleWindow) - gets the hwnd-window-handler of the ReaScript-console
+            **ReaScript-console-stuff**  
             
-            ** print replacements**
-            [print](usdocml://print) - prints its parameters to the ReaScript-console, separated by newlines
-            [print_alt](usdocml://print_alt) - prints its parameters to the ReaScript-console, separated by two spaces. Ends with a newline.
-            [print_update](usdocml://print_update) - prints its parameters to the ReaScript-console, but clears it first
-            [print2](usdocml://print2) - prints its parameters to a message-box-window
-            [print3](usdocml://print3) - prints its parameters to the clipboard
-
+            - [CloseReaConsole](usdocml://CloseReaConsole) - closes the ReaConsole-window  
+            - [GetReaScriptConsoleWindow](usdocml://GetReaScriptConsoleWindow) - gets the hwnd-window-handler of the ReaScript-console  
+            
+            **print replacements**
+            
+            - [print](usdocml://print) - prints its parameters to the ReaScript-console, separated by newlines  
+            - [print_alt](usdocml://print_alt) - prints its parameters to the ReaScript-console, separated by two spaces. Ends with a newline.  
+            - [print_update](usdocml://print_update) - prints its parameters to the ReaScript-console, but clears it first  
+            - [print2](usdocml://print2) - prints its parameters to a message-box-window  
+            - [print3](usdocml://print3) - prints its parameters to the clipboard  
             
             **miscellaneous**
                 
