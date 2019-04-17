@@ -357,6 +357,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   **!RenderMania!**
 
 #### New features in 4.00beta2.75
+  - ProjectManagement: GetProjectSampleRate - gets the project's-samplerate of a specific project
   - Render: CreateRenderCFG\_AVI\_Video - creates a render-string for the format video-AVI
   - Render: CreateRenderCFG\_GIF - creates a render-string of the format video-gif
   - Render: CreateRenderCFG\_LCF - creates a render-string of the format video-lcf
@@ -365,6 +366,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: CreateRenderCFG\_MOVMAC\_Video - creates a render-string for the format video-MOV for Mac
   - Render: CreateRenderCFG\_MP4MAC\_Video - creates a render-string for the format video-MP4 for Mac
   - Render: CreateRenderCFG\_QTMOVMP4\_Video - creates a render-string for the format video-QT/MOV/MP4
+  - Render: GetRenderSettingsTable\_Project - returns a table with all render-settings of the currently active project
   - Render: GetRenderCFG\_Settings\_AIFF - gets the settings of an audio-AIFF-rendercfg-string
   - Render: GetRenderCFG\_Settings\_AudioCD - gets the settings of an audio-AudioCD-rendercfg-string
   - Render: GetRenderCFG\_Settings\_AVI\_Video  - gets the settings of an video-avi-rendercfg-string
@@ -390,6 +392,7 @@ tagline inspired by a comment from \_stevie\_ ;)
 
 
 #### Changes from Beta 2.74 to Beta 2.75
+  - Docs: CreateTemporaryFileOfProjectfile - moved in docs to Project-Files -> Helper functions
   - Docs: Reaper ConfigVars - added better description for g\_config\_project
   - Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3
   - Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter
@@ -407,7 +410,8 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: CreateRenderCFG\_Opus - reimplemented, should be more stable now and supports now all options
   - Render: CreateRenderCFG\_Opus2 - deprecated, use CreateRenderCFG_Opus instead  
   - Render: CreateRenderCFG\_WebMVideo - rewritten, lifted many limitations
-  - Render: GetOutputFormat\_RenderCfg - moved to docs-index Rendering of Project -> Analyzing Renderstrings
+  - Render: GetOutputFormat\_RenderCfg - moved to docs-index Rendering of Project -> Analyzing Renderstrings; 
+                                         allows now passing a project/projecttab as well
   
   ---
   

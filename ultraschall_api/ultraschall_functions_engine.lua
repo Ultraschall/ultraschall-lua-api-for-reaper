@@ -36276,16 +36276,16 @@ end
 --A,B=ultraschall.GetAllMediaItemsInTimeSelection("1,2", false)
 --ultraschall.NormalizeItems(B)
 
-function ultraschall.GetOutputFormat_RenderCfg(Renderstring)
+function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetOutputFormat_RenderCfg</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.77
+    Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string outputformat = ultraschall.GetOutputFormat_RenderCfg(string Renderstring)</functioncall>
+  <functioncall>string outputformat = ultraschall.GetOutputFormat_RenderCfg(string Renderstring, optional ReaProject ReaProject)</functioncall>
   <description>
     Returns the output-format set in a render-cfg-string, as stored in rpp-files and the render-presets file reaper-render.ini
     
@@ -36298,6 +36298,10 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring)
   </retvals>
   <parameters>
     string Renderstring - the render-cfg-string from a rpp-projectfile or the reaper-render.ini
+                        - nil, to get the settings of the currently opened project
+    optional ReaProject ReaProject - a ReaProject, whose renderformat you want to know; only available, when Renderstring=nil
+                                   - set to nil, to use the currently opened project
+                                   - pass as integer to get the renderformat of a specific projecttab, with 0 for the current, 1 for the first, 2 for the second, etc
   </parameters>
   <chapter_context>
     Rendering of Project
@@ -36305,7 +36309,7 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring)
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, get, render, outputformat</tags>
+  <tags>projectfiles, get, render, outputformat, reaproject, projecttab</tags>
 </US_DocBloc>
 ]]
 --[[
@@ -36327,7 +36331,19 @@ GIF:      IEZJR    24
 LCF:      IEZDT    108
 --]]
   -- check parameter
-  if type(Renderstring)~="string" then ultraschall.AddErrorMessage("GetOutputFormat_RenderCfg", "Renderstring", "Must be a string!", -1) return nil end
+  if Renderstring~=nil and type(Renderstring)~="string" then ultraschall.AddErrorMessage("GetOutputFormat_RenderCfg", "Renderstring", "Must be a string!", -1) return nil end
+  if ReaProject~=nil and ultraschall.type(ReaProject)~="ReaProject" and math.type(ReaProject)~="integer" then ultraschall.AddErrorMessage("GetOutputFormat_RenderCfg", "ReaProject", "Must be a valid ReaProject or nil!", -2) return nil end
+  local retval
+  if ReaProject==nil then ReaProject=0 end
+  if Renderstring==nil then 
+    if math.type(ReaProject)=="integer" and ReaProject>-1 then 
+      ReaProject=ReaProject-1
+      ReaProject = reaper.EnumProjects(ReaProject, "")
+      if ReaProject==nil then ultraschall.AddErrorMessage("GetOutputFormat_RenderCfg", "ReaProject", "Must be a valid ReaProject or nil!", -3) return nil end
+    end
+    retval, Renderstring = reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", "", false)
+    if retval==false then ultraschall.AddErrorMessage("GetOutputFormat_RenderCfg", "ReaProject", "Must be a valid ReaProject or nil!", -4) return nil end
+  end
 
   -- get rid of anything else than printable characters
   local A2,B=Renderstring:match("%s*()[%g%=]*()")
@@ -36354,9 +36370,8 @@ LCF:      IEZDT    108
   return "Unknown"
 end
 
-
---B=ultraschall.GetOutputFormat_RenderString(A)
-
+--A,AA=reaper.EnumProjects(1, "")
+--B=ultraschall.GetOutputFormat_RenderCfg(nil, A)
 
 function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity, channel_audio, per_channel)
 --[[
@@ -46500,8 +46515,8 @@ function ultraschall.CreateTemporaryFileOfProjectfile(projectfilename_with_path)
     string projectfilename_with_path - the project to render; nil, for the currently opened project(needs to be saved first)
   </parameters>
   <chapter_context>
-    Rendering of Project
-    Assistance functions
+    Project-Files
+    Helper functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -55769,7 +55784,7 @@ function ultraschall.GetRenderCFG_Settings_WebMVideo(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer VIDKBPS, integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_WebMVideo(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for WEBM_Video.
       
       You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
@@ -55886,7 +55901,7 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer VIDEO_CODEC, integer MJPEG_quality, integer AUDIO_CODEC, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_AVI_Video(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for AVI_Video.
       
       You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
@@ -56478,7 +56493,7 @@ function ultraschall.GetRenderCFG_Settings_MP4Mac_Video(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>boolean Stream, integer VIDKBPS, integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_MP4Mac_Video(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for MP4 for Mac_Video(stream optimised and non-stream optimised).
       This is Mac-OS only!
       
@@ -56538,7 +56553,7 @@ function ultraschall.GetRenderCFG_Settings_MOVMac_Video(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer VideoCodec, integer VIDKBPS, integer MJPEG_quality, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_MOVMac_Video(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for MOV for Mac_Video.
       This is MacOS-only.
       
@@ -56610,7 +56625,7 @@ function ultraschall.GetRenderCFG_Settings_M4AMac(rendercfg)
       Lua=5.3
     </requires>
     <functioncall>integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_M4AMac(string rendercfg)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    <description>
       Returns the settings stored in a render-cfg-string for M4A for Mac_Video(even though this stores only audio-files).
       This is MacOS-only.
       
@@ -56877,6 +56892,114 @@ function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_qua
   return ultraschall.Base64_Encoder("FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
          WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality.."\0")
 end
+
+--A,AA=reaper.EnumProjects(3, "")
+--B=ultraschall.GetOutputFormat_RenderCfg(nil, 1)
+
+function ultraschall.GetProjectSampleRate(ReaProject)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProjectSampleRate</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer samplerate = ultraschall.GetProjectSampleRate(ReaProject ReaProject)</functioncall>
+  <description>
+    Returns the project-samplerate of a specific project.
+    This switches projecttabs temporarily, so you shouldn't do this very often, as this is time-consuming and might have other side-effects!
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer samplerate - the samplerate of the ReaProject 
+  </retvals>
+  <parameters>
+    ReaProject ReaProject - the project, whose project-samplerate you want to have
+  </parameters>
+  <chapter_context>
+    Project-Files
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, get, project, samplerate</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(ReaProject)~="ReaProject" then ultraschall.AddErrorMessage("GetProjectSampleRate", "ReaProject", "Must be a valid ReaProject!", -1) return nil end
+  local curProject=reaper.EnumProjects(-1,"")
+  reaper.SelectProjectInstance(ReaProject)
+  local SRate=reaper.SNM_GetIntConfigVar("projsrate", -1)
+  reaper.SelectProjectInstance(curProject)
+  return SRate
+end
+
+--A2=reaper.EnumProjects(1,"")
+--AAA=ultraschall.GetProjectSampleRate(A2)
+
+function ultraschall.GetRenderSettingsTable_Project()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRenderSettingsTable_Project</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>table RenderTable = ultraschall.GetRenderSettingsTable_Project(ReaProject ReaProject)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns all stored render-settings for the current project, as a handy table.
+            
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+            RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
+            RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
+            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 5, Selected regions
+            RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
+            RenderTable["SampleRate"] - the samplerate
+            RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
+            RenderTable["TailMS"] - the amount of milliseconds of the tail
+            RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
+            RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    table RenderTable - a table with all of the current project's render-settings
+  </retvals>
+  <chapter_context>
+    Rendering of Project
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, get, project, rendertable</tags>
+</US_DocBloc>
+]]
+  local ReaProject, _temp
+  ReaProject=0
+  RenderTable={}
+  RenderTable["Source"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_SETTINGS", 0, false)
+  if RenderTable["Source"]&4~=0 then RenderTable["Source"]=RenderTable["Source"]-4 RenderTable["MultiChannelFiles"]=true else RenderTable["MultiChannelFiles"]=false end
+  if RenderTable["Source"]&16~=0 then RenderTable["Source"]=RenderTable["Source"]-16 RenderTable["OnlyMonoMedia"]=true else RenderTable["OnlyMonoMedia"]=false end
+  RenderTable["Bounds"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_BOUNDSFLAG", 0, false)
+  RenderTable["Channels"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_CHANNELS", 0, false)
+  RenderTable["SampleRate"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_SRATE", 0, false)
+  if RenderTable["SampleRate"]==0 then RenderTable["SampleRate"]=reaper.SNM_GetIntConfigVar("projsrate", -1) end
+  RenderTable["Startposition"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_STARTPOS", 0, false)
+  RenderTable["Endposition"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_ENDPOS", 0, false)
+  RenderTable["TailFlag"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_TAILFLAG", 0, false)
+  RenderTable["TailMS"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_TAILMS", 0, false)
+  RenderTable["AddToProj"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_ADDTOPROJ", 0, false)
+  if RenderTable["AddToProj"]==1 then RenderTable["AddToProj"]=true else RenderTable["AddToProj"]=false end
+  RenderTable["Dither"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_DITHER", 0, false)
+  
+  _temp, RenderTable["RenderFile"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FILE", "", false)
+  _temp, RenderTable["RenderPattern"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", "", false)
+  _temp, RenderTable["RenderString"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", "", false)
+end
+
+--A=ultraschall.GetRenderSettingsTable_Project(ReaProject)
 
 ultraschall.ShowLastErrorMessage()
 

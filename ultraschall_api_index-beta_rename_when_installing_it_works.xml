@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="34675.00" author="Meo Mespotine">
+      <version name="34828.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -320,6 +320,8 @@ tagline inspired by a comment from _stevie_ ;)
 
 New features in 4.00beta2.75
 
+-   ProjectManagement: GetProjectSampleRate - gets the
+    project’s-samplerate of a specific project
 -   Render: CreateRenderCFG_AVI_Video - creates a render-string for the
     format video-AVI
 -   Render: CreateRenderCFG_GIF - creates a render-string of the format
@@ -336,6 +338,8 @@ New features in 4.00beta2.75
     the format video-MP4 for Mac
 -   Render: CreateRenderCFG_QTMOVMP4_Video - creates a render-string for
     the format video-QT/MOV/MP4
+-   Render: GetRenderSettingsTable_Project - returns a table with all
+    render-settings of the currently active project
 -   Render: GetRenderCFG_Settings_AIFF - gets the settings of an
     audio-AIFF-rendercfg-string
 -   Render: GetRenderCFG_Settings_AudioCD - gets the settings of an
@@ -383,6 +387,8 @@ New features in 4.00beta2.75
 
 Changes from Beta 2.74 to Beta 2.75
 
+-   Docs: CreateTemporaryFileOfProjectfile - moved in docs to
+    Project-Files -> Helper functions
 -   Docs: Reaper ConfigVars - added better description for
     g_config_project
 -   Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly
@@ -415,7 +421,8 @@ Changes from Beta 2.74 to Beta 2.75
 -   Render: CreateRenderCFG_WebMVideo - rewritten, lifted many
     limitations
 -   Render: GetOutputFormat_RenderCfg - moved to docs-index Rendering of
-    Project -> Analyzing Renderstrings
+    Project -> Analyzing Renderstrings; allows now passing a
+    project/projecttab as well
 
 ------------------------------------------------------------------------
 

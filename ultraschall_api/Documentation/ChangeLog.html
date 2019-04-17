@@ -45,6 +45,7 @@ Ultraschall API Changelog
 <p><strong>!RenderMania!</strong></p>
 <h4>New features in 4.00beta2.75</h4>
 <ul>
+<li>ProjectManagement: GetProjectSampleRate - gets the project's-samplerate of a specific project</li>
 <li>Render: CreateRenderCFG_AVI_Video - creates a render-string for the format video-AVI</li>
 <li>Render: CreateRenderCFG_GIF - creates a render-string of the format video-gif</li>
 <li>Render: CreateRenderCFG_LCF - creates a render-string of the format video-lcf</li>
@@ -53,6 +54,7 @@ Ultraschall API Changelog
 <li>Render: CreateRenderCFG_MOVMAC_Video - creates a render-string for the format video-MOV for Mac</li>
 <li>Render: CreateRenderCFG_MP4MAC_Video - creates a render-string for the format video-MP4 for Mac</li>
 <li>Render: CreateRenderCFG_QTMOVMP4_Video - creates a render-string for the format video-QT/MOV/MP4</li>
+<li>Render: GetRenderSettingsTable_Project - returns a table with all render-settings of the currently active project</li>
 <li>Render: GetRenderCFG_Settings_AIFF - gets the settings of an audio-AIFF-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_AudioCD - gets the settings of an audio-AudioCD-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_AVI_Video - gets the settings of an video-avi-rendercfg-string</li>
@@ -78,6 +80,7 @@ Ultraschall API Changelog
 </ul>
 <h4>Changes from Beta 2.74 to Beta 2.75</h4>
 <ul>
+<li>Docs: CreateTemporaryFileOfProjectfile - moved in docs to Project-Files -&gt; Helper functions</li>
 <li>Docs: Reaper ConfigVars - added better description for g_config_project</li>
 <li>Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3</li>
 <li>Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter</li>
@@ -95,7 +98,7 @@ Ultraschall API Changelog
 <li>Render: CreateRenderCFG_Opus2 - deprecated, use CreateRenderCFG_Opus instead<br />
 </li>
 <li>Render: CreateRenderCFG_WebMVideo - rewritten, lifted many limitations</li>
-<li>Render: GetOutputFormat_RenderCfg - moved to docs-index Rendering of Project -&gt; Analyzing Renderstrings</li>
+<li>Render: GetOutputFormat_RenderCfg - moved to docs-index Rendering of Project -&gt; Analyzing Renderstrings; allows now passing a project/projecttab as well</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.74: - "Talking Heads - Once in a Lifetime" - 10th of April 2019</h3>
