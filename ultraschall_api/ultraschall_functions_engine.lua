@@ -54528,7 +54528,7 @@ end
 --reaper.UpdateArrange()
 --reaper.UpdateTimeline()
 
---[[
+
 function ultraschall.SetReaScriptConsole_FontStyle(style)
   --[[
   <\US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -54584,8 +54584,8 @@ function ultraschall.SetReaScriptConsole_FontStyle(style)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>user interface, reascript, console, font, style</tags>
   <\/US_DocBloc>
-  ]]
---[[
+--  ]]
+
   if math.type(style)~="integer" then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be an integer", -1) return false end
   if style>19 or style<1 then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be between 1 and 19", -2) return false end
   local reascript_console_hwnd = ultraschall.GetReaScriptConsoleWindow()
@@ -54596,7 +54596,7 @@ function ultraschall.SetReaScriptConsole_FontStyle(style)
   reaper.JS_WindowMessage_Post(Textfield, "WM_SETFONT", styles[style] ,0,0,0)
   return true
 end
---]]
+
 --reaper.ClearConsole()
 --ultraschall.SetReaScriptConsole_FontStyle(10)
 --reaper.ShowConsoleMsg("ABCDEFGhijklmnop\n123456789.-,!\"§$%&/()=\n----------\nOOOOOOOOOO")
@@ -56428,7 +56428,7 @@ function ultraschall.CreateRenderCFG_AVI_Video(VideoCodec, MJPEG_quality, AudioC
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, create, render, outputformat, mp4, qt, mov</tags>
+  <tags>projectfiles, create, render, outputformat, avi</tags>
 </US_DocBloc>
 ]]
   if math.type(VideoCodec)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AVI_Video", "VideoCodec", "Must be an integer!", -2) return nil end
@@ -56466,6 +56466,417 @@ function ultraschall.CreateRenderCFG_AVI_Video(VideoCodec, MJPEG_quality, AudioC
 end
 
 --A=ultraschall.CreateRenderCFG_AVI_Video(1, 1, 1, 1, 1, 1, false)
+
+
+function ultraschall.GetRenderCFG_Settings_MP4Mac_Video(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_MP4Mac_Video</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>boolean Stream, integer VIDKBPS, integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_MP4Mac_Video(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for MP4 for Mac_Video(stream optimised and non-stream optimised).
+      This is Mac-OS only!
+      
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      boolean Stream - true, mp4-video would be stream-optimized; false, mp4-video would not be stream-optimized
+      integer VIDKBPS -  the video-bitrate of the video in kbps
+      integer AUDKBPS -  the audio-bitrate of the video in kbps
+      integer WIDTH  - the width of the video in pixels
+      integer HEIGHT -  the height of the video in pixels
+      integer FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
+      boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the webm-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, mp4, mac, stream, video</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP4Mac_Video", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local num_integers, VidKBPS, AudKBPS, Width, Height, FPS, AspectRatio
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="FVAX" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP4Mac_Video", "rendercfg", "not a render-cfg-string of the format mp4-for mac-video", -2) return -1 end
+  if string.byte(Decoded_string:sub(5,5))<0 or string.byte(Decoded_string:sub(5,5))>1 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MP4Mac_Video", "rendercfg", "not a render-cfg-string of the format mp4-for mac-video", -3) return -1 end  
+
+  local Stream=string.byte(Decoded_string:sub(5,5))==0
+  
+  num_integers, VidKBPS = ultraschall.ConvertStringToIntegers(Decoded_string:sub(13,16), 4)
+  num_integers, AudKBPS = ultraschall.ConvertStringToIntegers(Decoded_string:sub(21,24), 4)
+  num_integers, Width  = ultraschall.ConvertStringToIntegers(Decoded_string:sub(25,28), 4)
+  num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(29,32), 4)
+  num_integers, FPS = ultraschall.ConvertStringToIntegers(Decoded_string:sub(33,36), 4)
+  FPS=ultraschall.IntToDouble(FPS[1])
+  AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
+  
+  return Stream, VidKBPS[1], AudKBPS[1], Width[1], Height[1], FPS, AspectRatio
+end
+
+
+function ultraschall.GetRenderCFG_Settings_MOVMac_Video(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_MOVMac_Video</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer VideoCodec, integer VIDKBPS, integer MJPEG_quality, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_MOVMac_Video(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for MOV for Mac_Video.
+      This is MacOS-only.
+      
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer VideoCodec - the videocodec used for this setting
+                         - 0, h264
+                         - 1, Apple ProRes 4444
+                         - 2, Apple ProRes 422
+                         - 3, MJPEG
+      integer VIDKBPS -  the video-bitrate of the video in kbps
+      integer MJPEG_quality - when VideoCodec==3, then MJPEG is used; given in percent
+      integer AudioCodec - the audiocodec used 
+                         - 0, AAC
+                         - 1, 16-bit PCM
+                         - 2, 24-bit PCM
+                         - 3, 32-bit FP PCM
+      integer AUDKBPS -  the audio-bitrate of the video in kbps
+      integer WIDTH  - the width of the video in pixels
+      integer HEIGHT -  the height of the video in pixels
+      integer FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
+      boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the webm-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, mov, mac, video</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MOVMac_Video", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local num_integers, VidKBPS, AudKBPS, Width, Height, FPS, AspectRatio, VideoCodec, AudioCodec, MJPEG_quality
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="FVAX" or string.byte(Decoded_string:sub(5,5))~=2 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_MOVMac_Video", "rendercfg", "not a render-cfg-string of the format mov-for mac-video", -2) return -1 end
+  local Stream=string.byte(Decoded_string:sub(5,5))==0
+  
+  num_integers, VidKBPS = ultraschall.ConvertStringToIntegers(Decoded_string:sub(13,16), 4)
+  num_integers, AudKBPS = ultraschall.ConvertStringToIntegers(Decoded_string:sub(21,24), 4)
+  num_integers, Width  = ultraschall.ConvertStringToIntegers(Decoded_string:sub(25,28), 4)
+  num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(29,32), 4)
+  num_integers, FPS    = ultraschall.ConvertStringToIntegers(Decoded_string:sub(33,36), 4)
+  FPS=ultraschall.IntToDouble(FPS[1])
+  AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
+  VideoCodec=string.byte(Decoded_string:sub(9,9))
+  AudioCodec=string.byte(Decoded_string:sub(17,17))
+  num_integers, MJPEG_quality = ultraschall.ConvertStringToIntegers(Decoded_string:sub(41,44), 4)
+  
+
+  return VideoCodec, VidKBPS[1], MJPEG_quality[1], AudioCodec, AudKBPS[1], Width[1], Height[1], FPS, AspectRatio
+end
+
+
+function ultraschall.GetRenderCFG_Settings_M4AMac(rendercfg)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetRenderCFG_Settings_M4AMac</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      Lua=5.3
+    </requires>
+    <functioncall>integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio = ultraschall.GetRenderCFG_Settings_M4AMac(string rendercfg)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the settings stored in a render-cfg-string for M4A for Mac_Video(even though this stores only audio-files).
+      This is MacOS-only.
+      
+      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      
+      Returns -1 in case of an error
+    </description>
+    <retvals>
+      integer AUDKBPS -  the audio-bitrate of the audio in kbps
+      integer WIDTH  - the width of the audio in pixels
+      integer HEIGHT -  the height of the audio in pixels
+      integer FPS  - the fps of the audio; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
+      boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+    </retvals>
+    <parameters>
+      string render_cfg - the render-cfg-string, that contains the webm-settings
+    </parameters>
+    <chapter_context>
+      Rendering of Project
+      Analyzing Renderstrings
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>render management, get, settings, rendercfg, renderstring, m4a, audio, mac, video</tags>
+  </US_DocBloc>
+  ]]
+  if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_M4AMac", "rendercfg", "must be a string", -1) return -1 end
+  local Decoded_string
+  local num_integers, VidKBPS, AudKBPS, Width, Height, FPS, AspectRatio, VideoCodec, AudioCodec, MJPEG_quality
+  Decoded_string = ultraschall.Base64_Decoder(rendercfg)
+  if Decoded_string:sub(1,4)~="FVAX" or string.byte(Decoded_string:sub(5,5))~=3 then ultraschall.AddErrorMessage("GetRenderCFG_Settings_M4AMac", "rendercfg", "not a render-cfg-string of the format m4a-for mac", -2) return -1 end
+  local Stream=string.byte(Decoded_string:sub(5,5))==0
+  
+  num_integers, VidKBPS = ultraschall.ConvertStringToIntegers(Decoded_string:sub(13,16), 4)
+  num_integers, AudKBPS = ultraschall.ConvertStringToIntegers(Decoded_string:sub(21,24), 4)
+  num_integers, Width  = ultraschall.ConvertStringToIntegers(Decoded_string:sub(25,28), 4)
+  num_integers, Height = ultraschall.ConvertStringToIntegers(Decoded_string:sub(29,32), 4)
+  num_integers, FPS    = ultraschall.ConvertStringToIntegers(Decoded_string:sub(33,36), 4)
+  FPS=ultraschall.IntToDouble(FPS[1])
+  AspectRatio=string.byte(Decoded_string:sub(37,37))~=0
+  VideoCodec=string.byte(Decoded_string:sub(9,9))
+  AudioCodec=string.byte(Decoded_string:sub(17,17))
+  num_integers, MJPEG_quality = ultraschall.ConvertStringToIntegers(Decoded_string:sub(41,44), 4)
+  
+
+  return AudKBPS[1], Width[1], Height[1], FPS, AspectRatio
+end
+
+function ultraschall.CreateRenderCFG_MP4MAC_Video(Stream, VIDKBPS, AUDKBPS, WIDTH, HEIGHT, FPS, AspectRatio)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateRenderCFG_MP4MAC_Video</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MP4MAC_Video(boolean stream, integer VIDKBPS, integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio)</functioncall>
+  <description>
+    Returns the render-cfg-string for the MP4-Mac-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    Only available on MacOS!
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string render_cfg_string - the render-cfg-string for the selected MP4-Mac-Video-settings
+  </retvals>
+  <parameters>
+    boolean Stream - true, the mp4-video is stream-optimized; false, the video is not stream-optimized
+    integer VIDKBPS - the video-bitrate for the video; 0 to 2147483647kbps
+    integer AUDKBPS - the audio-bitrate for the video; 0 to 2147483647kbps
+    integer WIDTH - the width of the video in pixels; 1 to 2147483647; only even values(2,4,6,etc) will be accepted by Reaper, uneven will be rounded up!
+    integer HEIGHT - the height of the video in pixels; 1 to 2147483647; only even values(2,4,6,etc) will be accepted by Reaper, uneven will be rounded up!
+    integer FPS - the fps of the video; must be a double-precision-float value (e.g. 9.09 or 25.00); 0.01 to 2000.00
+    boolean AspectRatio - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Creating Renderstrings
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, create, render, outputformat, mp4, stream, mac</tags>
+</US_DocBloc>
+]]
+  if type(Stream)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_MP4MAC_Video", "Stream", "Must be a boolean!", -1) return nil end
+  if math.type(VIDKBPS)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP4MAC_Video", "VIDKBPS", "Must be an integer!", -2) return nil end
+  if math.type(AUDKBPS)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP4MAC_Video", "AUDKBPS", "Must be an integer!", -3) return nil end
+  if math.type(WIDTH)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP4MAC_Video", "WIDTH", "Must be an integer!", -4) return nil end
+  if math.type(HEIGHT)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MP4MAC_Video", "HEIGHT", "Must be an integer!", -5) return nil end
+  if type(FPS)~="number" then ultraschall.AddErrorMessage("CreateRenderCFG_MP4MAC_Video", "FPS", "Must be a float-value with two digit precision (e.g. 29.97 or 25.00)!", -6) return nil end
+  if type(AspectRatio)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_MP4MAC_Video", "AspectRatio", "Must be a boolean!", -7) return nil end
+  
+  if VIDKBPS<0 or VIDKBPS>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_MP4MAC_Video", "VIDKBPS", "Must be between 1 and 2147483647", -8) return nil end
+  if AUDKBPS<0 or AUDKBPS>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_MP4MAC_Video", "AUDKBPS", "Must be between 1 and 2147483647", -9) return nil end
+
+  if WIDTH<1 or WIDTH>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_MP4MAC_Video", "WIDTH", "Must be between 1 and 2147483647.", -10) return nil end
+  if HEIGHT<1 or HEIGHT>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_MP4MAC_Video", "HEIGHT", "Must be between 1 and 2147483647.", -11) return nil end
+  if FPS<0.01 or FPS>2000.00 then ultraschall.AddErrorMessage("CreateRenderCFG_MP4MAC_Video", "FPS", "Ultraschall-API supports only fps-values between 0.01 and 2000.00, sorry.", -12) return nil end
+
+  WIDTH=ultraschall.ConvertIntegerIntoString2(4, WIDTH)
+  HEIGHT=ultraschall.ConvertIntegerIntoString2(4, HEIGHT)
+  FPS = ultraschall.ConvertIntegerIntoString2(4, ultraschall.DoubleToInt(FPS))  
+
+  local VIDKBPS=ultraschall.ConvertIntegerIntoString2(4, VIDKBPS)
+  local AUDKBPS=ultraschall.ConvertIntegerIntoString2(4, AUDKBPS)
+  local VideoCodec=string.char(0)
+  local VideoFormat=string.char(1) -- default is not stream-optimized
+  if Stream==true then VideoFormat=string.char(0) end
+  local AudioCodec=string.char(0)
+  local MJPEGQuality=ultraschall.ConvertIntegerIntoString2(4, 0)
+  
+  if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
+  
+  return ultraschall.Base64_Encoder("FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality.."\0")
+end
+
+function ultraschall.CreateRenderCFG_M4AMAC(AUDKBPS, WIDTH, HEIGHT, FPS, AspectRatio)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateRenderCFG_M4AMAC</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_M4AMAC(integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio)</functioncall>
+  <description>
+    Returns the render-cfg-string for the M4A-Mac-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    Only available on MacOS!
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string render_cfg_string - the render-cfg-string for the selected M4A-Mac-settings
+  </retvals>
+  <parameters>
+    integer AUDKBPS - the audio-bitrate for the video; 0 to 2147483647 kbps
+    integer WIDTH - the width of the video in pixels; 1 to 2147483647; only even values(2,4,6,etc) will be accepted by Reaper, uneven will be rounded up!
+    integer HEIGHT - the height of the video in pixels; 1 to 2147483647; only even values(2,4,6,etc) will be accepted by Reaper, uneven will be rounded up!
+    integer FPS - the fps of the video; must be a double-precision-float value (e.g. 9.09 or 25.00); 0.01 to 2000.00
+    boolean AspectRatio - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Creating Renderstrings
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, create, render, outputformat, m4a, audio, mac</tags>
+</US_DocBloc>
+]]
+  if math.type(AUDKBPS)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_M4AMAC", "AUDKBPS", "Must be an integer!", -1) return nil end
+  if math.type(WIDTH)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_M4AMAC", "WIDTH", "Must be an integer!", -2) return nil end
+  if math.type(HEIGHT)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_M4AMAC", "HEIGHT", "Must be an integer!", -3) return nil end
+  if type(FPS)~="number" then ultraschall.AddErrorMessage("CreateRenderCFG_M4AMAC", "FPS", "Must be a float-value with two digit precision (e.g. 29.97 or 25.00)!", -4) return nil end
+  if type(AspectRatio)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_M4AMAC", "AspectRatio", "Must be a boolean!", -5) return nil end
+  
+  if AUDKBPS<0 or AUDKBPS>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_M4AMAC", "AUDKBPS", "Must be between 1 and 2147483647", -6) return nil end
+
+  if WIDTH<1 or WIDTH>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_M4AMAC", "WIDTH", "Must be between 1 and 2147483647.", -7) return nil end
+  if HEIGHT<1 or HEIGHT>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_M4AMAC", "HEIGHT", "Must be between 1 and 2147483647.", -8) return nil end
+  if FPS<0.01 or FPS>2000.00 then ultraschall.AddErrorMessage("CreateRenderCFG_M4AMAC", "FPS", "Ultraschall-API supports only fps-values between 0.01 and 2000.00, sorry.", -9) return nil end
+
+  WIDTH=ultraschall.ConvertIntegerIntoString2(4, WIDTH)
+  HEIGHT=ultraschall.ConvertIntegerIntoString2(4, HEIGHT)
+  FPS = ultraschall.ConvertIntegerIntoString2(4, ultraschall.DoubleToInt(FPS))  
+
+  local VIDKBPS=ultraschall.ConvertIntegerIntoString2(4, 1)
+  local AUDKBPS=ultraschall.ConvertIntegerIntoString2(4, AUDKBPS)
+  local VideoCodec=string.char(0)
+  local VideoFormat=string.char(3)
+  local AudioCodec=string.char(0)
+  local MJPEGQuality=ultraschall.ConvertIntegerIntoString2(4, 0)
+  
+  if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
+  
+  return ultraschall.Base64_Encoder("FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality.."\0")
+end
+
+--integer VideoCodec, integer VIDKBPS, integer MJPEG_quality, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio
+function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_quality, AudioCodec, AUDKBPS, WIDTH, HEIGHT, FPS, AspectRatio)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateRenderCFG_MOVMAC_Video</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_MOVMAC_Video(integer VideoCodec, integer VIDKBPS, integer MJPEG_quality, integer AudioCodec, integer AUDKBPS, integer WIDTH, integer HEIGHT, integer FPS, boolean AspectRatio)</functioncall>
+  <description>
+    Returns the render-cfg-string for the MOV-Mac-Video-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+    Only available on MacOS!
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string render_cfg_string - the render-cfg-string for the selected MP4-Mac-Video-settings
+  </retvals>
+  <parameters>
+    integer VideoCodec - the videocodec used for this setting
+                       - 0, h264
+                       - 1, Apple ProRes 4444
+                       - 2, Apple ProRes 422
+                       - 3, MJPEG
+    integer VIDKBPS -  the video-bitrate of the video in kbps
+    integer MJPEG_quality - when VideoCodec==3, then MJPEG is used; given in percent
+    integer AudioCodec - the audiocodec used 
+                       - 0, AAC
+                       - 1, 16-bit PCM
+                       - 2, 24-bit PCM
+                       - 3, 32-bit FP PCM
+    integer AUDKBPS -  the audio-bitrate of the video in kbps
+    integer WIDTH  - the width of the video in pixels
+    integer HEIGHT -  the height of the video in pixels
+    integer FPS  - the fps of the video; must be a double-precision-float value (9.09 or 25.00); due API-limitations, this supports 0.01fps to 2000.00fps
+    boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Creating Renderstrings
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, create, render, outputformat, mov, mac</tags>
+</US_DocBloc>
+]]
+  if math.type(VideoCodec)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "VideoCodec", "Must be a integer!", -1) return nil end
+  if math.type(VIDKBPS)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "VIDKBPS", "Must be an integer!", -2) return nil end
+  if math.type(MJPEG_quality)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "MJPEG_quality", "Must be an integer!", -3) return nil end
+  if math.type(AudioCodec)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "AudioCodec", "Must be an integer!", -4) return nil end
+  if math.type(AUDKBPS)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "AUDKBPS", "Must be an integer!", -5) return nil end
+  if math.type(WIDTH)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "WIDTH", "Must be an integer!", -6) return nil end
+  if math.type(HEIGHT)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "HEIGHT", "Must be an integer!", -7) return nil end
+  if type(FPS)~="number" then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "FPS", "Must be a float-value with two digit precision (e.g. 29.97 or 25.00)!", -8) return nil end
+  if type(AspectRatio)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "AspectRatio", "Must be a boolean!", -9) return nil end
+  
+  if VideoCodec<0 or VideoCodec>3 then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "VideoCodec", "Must be between 0 and 3", -10) return nil end
+  if AudioCodec<0 or AudioCodec>3 then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "AudioCodec", "Must be between 0 and 3", -11) return nil end
+  if VIDKBPS<0 or VIDKBPS>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "VIDKBPS", "Must be between 0 and 2147483647", -12) return nil end
+  if AUDKBPS<0 or AUDKBPS>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "AUDKBPS", "Must be between 0 and 2147483647", -13) return nil end
+  if MJPEG_quality<0 or MJPEG_quality>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "MJPEG_quality", "Must be between 0 and 2147483647", -14) return nil end
+  
+  if WIDTH<1 or WIDTH>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "WIDTH", "Must be between 1 and 2147483647.", -15) return nil end
+  if HEIGHT<1 or HEIGHT>2147483647 then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "HEIGHT", "Must be between 1 and 2147483647.", -16) return nil end
+  if FPS<0.01 or FPS>2000.00 then ultraschall.AddErrorMessage("CreateRenderCFG_MOVMAC_Video", "FPS", "Ultraschall-API supports only fps-values between 0.01 and 2000.00, sorry.", -17) return nil end
+
+  WIDTH=ultraschall.ConvertIntegerIntoString2(4, WIDTH)
+  HEIGHT=ultraschall.ConvertIntegerIntoString2(4, HEIGHT)
+  FPS = ultraschall.ConvertIntegerIntoString2(4, ultraschall.DoubleToInt(FPS))  
+
+  local VIDKBPS=ultraschall.ConvertIntegerIntoString2(4, VIDKBPS)
+  local AUDKBPS=ultraschall.ConvertIntegerIntoString2(4, AUDKBPS)
+  local VideoCodec=string.char(VideoCodec)
+  local VideoFormat=string.char(2)
+  local AudioCodec=string.char(AudioCodec)
+  local MJPEGQuality=ultraschall.ConvertIntegerIntoString2(4, MJPEG_quality)
+  
+  if AspectRatio==true then AspectRatio=string.char(1) else AspectRatio=string.char(0) end
+  
+  return ultraschall.Base64_Encoder("FVAX"..VideoFormat.."\0\0\0"..VideoCodec.."\0\0\0"..VIDKBPS..AudioCodec.."\0\0\0"..AUDKBPS..
+         WIDTH..HEIGHT..FPS..AspectRatio.."\0\0\0"..MJPEGQuality.."\0")
+end
 
 ultraschall.ShowLastErrorMessage()
 

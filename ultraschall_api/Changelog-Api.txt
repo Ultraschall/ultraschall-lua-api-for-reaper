@@ -357,11 +357,14 @@ tagline inspired by a comment from \_stevie\_ ;)
   **!RenderMania!**
 
 #### New features in 4.00beta2.75
+  - Render: CreateRenderCFG\_AVI\_Video - creates a render-string for the format video-AVI
   - Render: CreateRenderCFG\_GIF - creates a render-string of the format video-gif
   - Render: CreateRenderCFG\_LCF - creates a render-string of the format video-lcf
-  - Render: CreateRenderCFG\_AVI\_Video - creates a render-string for the format video-AVI
+  - Render: CreateRenderCFG\_M4AMAC - creates a render-string for the format audio-M4A for Mac
   - Render: CreateRenderCFG\_MKV\_Video - creates a render-string for the format video-MKV
-  - Render: CreateRenderCFG\_QTMOVMP4_Video - creates a render-string for the format video-QT/MOV/MP4
+  - Render: CreateRenderCFG\_MOVMAC\_Video - creates a render-string for the format video-MOV for Mac
+  - Render: CreateRenderCFG\_MP4MAC\_Video - creates a render-string for the format video-MP4 for Mac
+  - Render: CreateRenderCFG\_QTMOVMP4\_Video - creates a render-string for the format video-QT/MOV/MP4
   - Render: GetRenderCFG\_Settings\_AIFF - gets the settings of an audio-AIFF-rendercfg-string
   - Render: GetRenderCFG\_Settings\_AudioCD - gets the settings of an audio-AudioCD-rendercfg-string
   - Render: GetRenderCFG\_Settings\_AVI\_Video  - gets the settings of an video-avi-rendercfg-string
@@ -369,7 +372,10 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: GetRenderCFG\_Settings\_FLAC - gets the settings of an audio-flac-rendercfg-string
   - Render: GetRenderCFG\_Settings\_GIF  - gets the settings of a video-gif-rendercfg-string
   - Render: GetRenderCFG\_Settings\_LCF  - gets the settings of a video-lcf-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_M4AMac - gets the settings of an audio M4A for Mac
   - Render: GetRenderCFG\_Settings\_MKV\_Video  - gets the settings of a video-mkv-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_MOVMac\_Video - gets the settings of a video-MOV for Mac
+  - Render: GetRenderCFG\_Settings\_MP4Mac\_Video - gets the settings of a video-MP4 for Mac
   - Render: GetRenderCFG\_Settings\_MP3  - gets the settings of an audio-mp3-rendercfg-string
   - Render: GetRenderCFG\_Settings\_MP3MaxQuality - gets the settings of an audio-mp3-maxquality-rendercfg-string
   - Render: GetRenderCFG\_Settings\_MP3CBR - gets the settings of an audio-mp3-cbr-rendercfg-string
