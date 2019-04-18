@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="34993.00" author="Meo Mespotine">
+      <version name="35045.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -318,6 +318,12 @@ tagline inspired by a comment from _stevie_ ;)
 
 New features in 4.00beta2.75
 
+-   FXManagement: GetFXStateChunk - Gets an FXStateChunk from a
+    StateChunk(usually Track/MediaItemStateChunk)
+-   FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is
+    a valid FXStateChunk
+-   FXManagement: GetParmLearnFromFXStateChunk - gets the
+    parameter-learn-settings from an FXStateChunk, as requested by Ton-e
 -   ProjectManagement: GetProjectSampleRate - gets the
     project’s-samplerate of a specific project
 -   Render: CreateRenderCFG_AVI_Video - creates a render-string for the

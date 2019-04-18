@@ -57120,6 +57120,154 @@ end
 --B=ultraschall.ReadFullFile("c:\\huilui.rpp")
 --AAA=ultraschall.GetRenderSettingsTable_ProjectFile(nil,B)
 
+function ultraschall.GetFXStateChunk(StateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.GetFXStateChunk(string StateChunk)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns an FXStateChunk from a StateChunk, like TrackStateChunks or MediaItemStateChunks.
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string FXStateChunk - the FXStateChunk, stored in the StateChunk
+  </retvals>
+  <parameters>
+    string StateChunk - the StateChunk, from which you want to retrieve the FXStateChunk
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, fxstatechunk</tags>
+</US_DocBloc>
+]]
+  if type(StateChunk)~="string" then ultraschall.AddErrorMessage("GetFXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if string.find(StateChunk, "\n  ")==nil then
+    StateChunk=ultraschall.StateChunkLayouter(StateChunk)
+  end
+  for w in string.gmatch(StateChunk, " <FXCHAIN.-\n  >") do
+    return w
+  end
+end
+
+function ultraschall.IsValidFXStateChunk(StateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsValidFXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsValidFXStateChunk(string StateChunk)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns, if a StateChunk is a valid FXStateChunk.
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, it is a valid FXStateChunk; false, it is not
+  </retvals>
+  <parameters>
+    string StateChunk - the StateChunk, which you want to check, whether it's a valid FXStateChunk
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, check, isvalid, fxstatechunk</tags>
+</US_DocBloc>
+]]
+  if type(StateChunk)~="string" then ultraschall.AddErrorMessage("IsValidFXStateChunk", "StateChunk", "Must be a string", -1) return false end
+  StateChunk=StateChunk.."\n "
+  if StateChunk:match("^%s-<FXCHAIN.-\n->")==nil then ultraschall.AddErrorMessage("IsValidFXStateChunk", "StateChunk", "Not a valid FXStateChunk", -2) return false end
+  return true
+end
+
+--temp, SC=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
+--A=ultraschall.GetFXStateChunk(SC, 1)
+--B=ultraschall.IsValidFXStateChunk(A)
+
+
+
+function ultraschall.GetParmLearnFromFXStateChunk(FXStateChunk, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmLearnFromFXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags = ultraschall.GetParmLearnFromFXStateChunk(string FXStateChunk, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns a parameter-learn-setting from an FXStateChunk
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
+    string parmname - the name of the parameter, though usually only wet or bypass
+    integer midi_note - an integer representation of the MIDI-note, which is set as command
+    integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
+                          - 0, no checkboxes
+                          - 1, enable only when track or item is selected
+                          - 2, Soft takeover (absolute mode only)
+                          - 3, Soft takeover (absolute mode only)+enable only when track or item is selected
+                          - 4, enable only when effect configuration is focused
+                          - 20, enable only when effect configuration is visible
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the ParmLearn-settings
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, parameter, learn, fxstatechunk</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmLearnFromFXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLearnFromFXStateChunk", "id", "must be an integer", -1) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  local count=0
+  local name=""
+  local idx, midi_note, checkboxes
+  for w in string.gmatch(FXStateChunk, "PARMLEARN.-\n") do
+    count=count+1    
+    if count==id then 
+      w=w:sub(1,-2).." " 
+      idx, midi_note, checkboxes = w:match(" (.-) (.-) (.-) ") 
+      if tonumber(idx)==nil then 
+        idx, name = w:match(" (.-):(.-) ")
+      end
+      break
+    end
+  end
+  if idx==nil then return end
+  return tonumber(idx), name, tonumber(midi_note), tonumber(checkboxes)
+end
+
+--O,OO,OOO,OOOO=ultraschall.GetParmLearnFromFXStateChunk(A, 2)
+
 
 ultraschall.ShowLastErrorMessage()
 
