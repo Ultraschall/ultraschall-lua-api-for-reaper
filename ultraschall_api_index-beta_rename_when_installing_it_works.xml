@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="35113.00" author="Meo Mespotine">
+      <version name="35253.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -323,7 +323,11 @@ New features in 4.00beta2.75
 -   FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is
     a valid FXStateChunk
 -   FXManagement: GetParmLearn_FXStateChunk - gets the
-    parameter-learn-settings from an FXStateChunk, as requested by Ton-e
+    parameter-learn-settings from an FXStateChunk, as requested by TonE
+-   FXManagement: GetParmLearn_MediaItem - gets the
+    parameter-learn-settings from a MediaItem, as requested by TonE
+-   FXManagement: GetParmLearn_MediaTrack - gets the
+    parameter-learn-settings from a MediaTrack, as requested by TonE
 -   Render: CreateRenderCFG_AVI_Video - creates a render-string for the
     format video-AVI
 -   Render: CreateRenderCFG_GIF - creates a render-string of the format
@@ -388,6 +392,8 @@ New features in 4.00beta2.75
     audio-wavpack-rendercfg-string
 -   Render: GetRenderCFG_Settings_WebMVideo - gets the settings of a
     video-webm-rendercfg-string
+-   Render: SetRenderSettingsTable_Project - sets the settings stored in
+    a RenderTable as the render-settings of the current project
 
 Changes from Beta 2.74 to Beta 2.75
 

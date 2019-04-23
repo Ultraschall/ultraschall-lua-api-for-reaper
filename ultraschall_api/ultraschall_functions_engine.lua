@@ -56922,6 +56922,7 @@ function ultraschall.GetRenderSettingsTable_Project()
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; always false, as this is not stored in projectfiles
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+            RenderTable["RenderTable"]=true - signals, this is a valid render-table
             RenderTable["SampleRate"] - the samplerate
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always false, as this is not stored in projectfiles
             RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
@@ -56933,6 +56934,10 @@ function ultraschall.GetRenderSettingsTable_Project()
   <retvals>
     table RenderTable - a table with all of the current project's render-settings
   </retvals>
+  <parameters>
+    ReaProject ReaProject - the project, whose render-settings you want; either a ReaProject-object or an integer, that signals the projecttab of the project
+                          - use 0, for the currently active project; 1, for the first project-tab; 2, for the second, etc; -1, for the currently rendering project
+  </parameters>
   <chapter_context>
     Rendering of Project
     Assistance functions
@@ -56942,8 +56947,20 @@ function ultraschall.GetRenderSettingsTable_Project()
   <tags>projectfiles, get, project, rendertable</tags>
 </US_DocBloc>
 ]]
-  local ReaProject, _temp
-  ReaProject=0
+  local _temp
+  if ReaProject==nil then ReaProject=0 end
+  if ultraschall.type(ReaProject)~="ReaProject" and math.type(ReaProject)~="integer" then ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -1) return nil end
+  if ReaProject==-1 then ReaProject=0x40000000 _temp=true 
+  elseif ReaProject<-2 then 
+    ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project-tab available, must be 0, for the current; 1, for the first, etc; -1, for the currently rendering project", -3) return nil 
+  end
+  
+  if math.type(ReaProject)=="integer" then ReaProject=reaper.EnumProjects(ReaProject-1, "") end
+  if ReaProject==nil and _temp~=true then 
+    ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -4) return nil 
+  elseif _temp==true then
+    ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no project currently rendering", -5) return nil 
+  end
   local RenderTable={}
   RenderTable["RenderTable"]=true
   RenderTable["Source"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_SETTINGS", 0, false)
@@ -56952,7 +56969,9 @@ function ultraschall.GetRenderSettingsTable_Project()
   RenderTable["Bounds"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_BOUNDSFLAG", 0, false)
   RenderTable["Channels"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_CHANNELS", 0, false)
   RenderTable["SampleRate"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_SRATE", 0, false)
-  if RenderTable["SampleRate"]==0 then RenderTable["SampleRate"]=reaper.SNM_GetIntConfigVar("projsrate", -1) end
+  if RenderTable["SampleRate"]==0 then 
+    RenderTable["SampleRate"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "PROJECT_SRATE", 0, false))
+  end
   RenderTable["Startposition"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_STARTPOS", 0, false)
   RenderTable["Endposition"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_ENDPOS", 0, false)
   RenderTable["TailFlag"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_TAILFLAG", 0, false)
@@ -56973,7 +56992,8 @@ function ultraschall.GetRenderSettingsTable_Project()
   return RenderTable
 end
 
---A=ultraschall.GetRenderSettingsTable_Project(ReaProject)
+
+--A=ultraschall.GetRenderSettingsTable_Project(-2)
 
 
 function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_path, ProjectStateChunk)
@@ -57003,6 +57023,7 @@ function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_pat
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; always false, as this is not stored in projectfiles
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+            RenderTable["RenderTable"]=true - signals, this is a valid render-table
             RenderTable["SampleRate"] - the samplerate
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always false, as this is not stored in projectfiles
             RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
@@ -57336,6 +57357,133 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, id)
 end
 
 --A1,B,C,D,E,F,G=ultraschall.GetParmLearn_MediaTrack(reaper.GetTrack(0,2), 1)
+
+
+function ultraschall.SetRenderSettingsTable_Project(RenderTable)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRenderSettingsTable_Project</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetRenderSettingsTable_Project(RenderTable RenderTable)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets all stored render-settings from a RenderTable as the current project-settings.
+            
+    Expected table is of the following structure:
+            RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
+            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
+            RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
+            RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
+            RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
+            RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle);  RenderTable["RenderFile"] - the directory-inputbox of the Render to File-dialog
+            RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
+            RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
+            RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
+            RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog
+            RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog
+            RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; always false, as this is not stored in projectfiles
+            RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
+            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+            RenderTable["RenderTable"]=true - signals, this is a valid render-table
+            RenderTable["SampleRate"] - the samplerate
+            RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always false, as this is not stored in projectfiles
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+            RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
+            RenderTable["TailMS"] - the amount of milliseconds of the tail
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting the render-settings was successful; false, it wasn't successful
+  </retvals>
+  <parameters>
+    RenderTable RenderTable - a RenderTable, that contains all render-dialog-settings
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, set, project, rendertable</tags>
+</US_DocBloc>
+]]
+  if type(RenderTable)~="table" or RenderTable["RenderTable"]~=true then ultraschall.AddErrorMessage("SetRenderSettingsTable_Project", "RenderTable", "not a valid RenderTable", -1) return false end
+  local _temp
+  if ReaProject==nil then ReaProject=0 end
+  --[[
+  if ultraschall.type(ReaProject)~="ReaProject" and math.type(ReaProject)~="integer" then ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -1) return nil end
+  if ReaProject==-1 then ReaProject=0x40000000 _temp=true 
+  elseif ReaProject<-2 then 
+    ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project-tab available, must be 0, for the current; 1, for the first, etc; -1, for the currently rendering project", -3) return nil 
+  end
+  
+  if math.type(ReaProject)=="integer" then ReaProject=reaper.EnumProjects(ReaProject-1, "") end
+  if ReaProject==nil and _temp~=true then 
+    ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -4) return nil 
+  elseif _temp==true then
+    ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no project currently rendering", -5) return nil 
+  end
+  --]]
+  
+  if RenderTable["MultiChannelFiles"]==true then RenderTable["Source"]=RenderTable["Source"]+4 end
+  if RenderTable["OnlyMonoMedia"]==true then RenderTable["Source"]=RenderTable["Source"]+16 end
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_SETTINGS", RenderTable["Source"], true)
+
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_BOUNDSFLAG", RenderTable["Bounds"], true)
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_CHANNELS", RenderTable["Channels"], true)
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_SRATE", RenderTable["SampleRate"], true)
+  
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_STARTPOS", RenderTable["Startposition"], true)
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_ENDPOS", RenderTable["Endposition"], true)
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_TAILFLAG", RenderTable["TailFlag"], true)
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_TAILMS", RenderTable["TailMS"], true)
+  if RenderTable["AddToProj"]==true then RenderTable["AddToProj"]=1 else RenderTable["AddToProj"]=0 end
+  RenderTable["AddToProj"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_ADDTOPROJ", RenderTable["AddToProj"], true)
+  
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_DITHER", RenderTable["Dither"], true)
+  
+  if RenderTable["ProjectSampleRateFXProcessing"]==true then RenderTable["ProjectSampleRateFXProcessing"]=1 else RenderTable["ProjectSampleRateFXProcessing"]=0 end
+  reaper.SNM_SetIntConfigVar("projrenderrateinternal", RenderTable["ProjectSampleRateFXProcessing"])
+  
+  local renderclosewhendone=reaper.SNM_GetIntConfigVar("renderclosewhendone", -1)
+
+  if RenderTable["SilentlyIncrementFilename"]==true and renderclosewhendone&16==0 then 
+    renderclosewhendone=renderclosewhendone+16
+  elseif RenderTable["SilentlyIncrementFilename"]==false and renderclosewhendone&16~=0 then
+    renderclosewhendone=renderclosewhendone-16
+  end
+  reaper.SNM_SetIntConfigVar("renderclosewhendone", renderclosewhendone)
+  
+  if RenderTable["RenderQueueDelay"]==true then reaper.SNM_SetIntConfigVar("renderqdelay", 1) else reaper.SNM_SetIntConfigVar("renderqdelay", 0) end
+  
+  reaper.SNM_SetIntConfigVar("projrenderresample", RenderTable["RenderResample"])
+  reaper.SNM_GetIntConfigVar("projrenderlimit", RenderTable["OfflineOnlineRendering"])
+  if RenderTable["RenderFile"]==nil then RenderTable["RenderFile"]="" end
+  if RenderTable["RenderPattern"]==nil then 
+    local path, filename = ultraschall.GetPath(RenderTable["RenderFile"])
+    if filename:match(".*(%.).")~=nil then
+      RenderTable["RenderPattern"]=filename:match("(.*)%.")
+      RenderTable["RenderFile"]=string.gsub(path,"\\\\", "\\")
+    else
+      RenderTable["RenderPattern"]=filename
+      RenderTable["RenderFile"]=string.gsub(path,"\\\\", "\\")
+    end
+  end
+  reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FILE", RenderTable["RenderFile"], true)
+  reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", RenderTable["RenderPattern"], true)
+  reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", RenderTable["RenderString"], true)
+  return true
+end
+
+--A=ultraschall.GetRenderSettingsTable_Project(0)
+--A=ultraschall.GetRenderSettingsTable_ProjectFile("C:\\Users\\meo\\Desktop\\Ultraschall-TutorialEinsteigerworkshop-Transkript-deutsch4.RPP")
+--A["AddToProj"]="Tudelu, Zucker im Schuh"
+--ultraschall.SetRenderSettingsTable_Project(ReaProject, A)
 
 ultraschall.ShowLastErrorMessage()
 

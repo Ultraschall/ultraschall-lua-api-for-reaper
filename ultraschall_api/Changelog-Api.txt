@@ -359,7 +359,9 @@ tagline inspired by a comment from \_stevie\_ ;)
 #### New features in 4.00beta2.75
   - FXManagement: GetFXStateChunk - Gets an FXStateChunk from a StateChunk(usually Track/MediaItemStateChunk)
   - FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is a valid FXStateChunk
-  - FXManagement: GetParmLearn\_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by Ton-e
+  - FXManagement: GetParmLearn\_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE
+  - FXManagement: GetParmLearn\_MediaItem - gets the parameter-learn-settings from a MediaItem, as requested by TonE
+  - FXManagement: GetParmLearn\_MediaTrack - gets the parameter-learn-settings from a MediaTrack, as requested by TonE
   - Render: CreateRenderCFG\_AVI\_Video - creates a render-string for the format video-AVI
   - Render: CreateRenderCFG\_GIF - creates a render-string of the format video-gif
   - Render: CreateRenderCFG\_LCF - creates a render-string of the format video-lcf
@@ -392,6 +394,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: GetRenderCFG\_Settings\_WAV  - gets the settings of an audio-wav-rendercfg-string
   - Render: GetRenderCFG\_Settings\_WAVPACK - gets the settings of an audio-wavpack-rendercfg-string
   - Render: GetRenderCFG\_Settings\_WebMVideo - gets the settings of a video-webm-rendercfg-string
+  - Render: SetRenderSettingsTable\_Project - sets the settings stored in a RenderTable as the render-settings of the current project
 
 
 #### Changes from Beta 2.74 to Beta 2.75
