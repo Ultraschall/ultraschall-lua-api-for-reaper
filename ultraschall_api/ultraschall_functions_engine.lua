@@ -57173,7 +57173,7 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, id)
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags = ultraschall.GetParmLearn_FXStateChunk(string FXStateChunk, integer id)</functioncall>
+  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message = ultraschall.GetParmLearn_FXStateChunk(string FXStateChunk, integer id)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns a parameter-learn-setting from an FXStateChunk
     An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
@@ -57183,7 +57183,7 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, id)
   <retvals>
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
-    integer midi_note - an integer representation of the MIDI-note, which is set as command
+    integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -57191,6 +57191,7 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, id)
                           - 3, Soft takeover (absolute mode only)+enable only when track or item is selected
                           - 4, enable only when effect configuration is focused
                           - 20, enable only when effect configuration is visible
+    optional string osc_message - the osc-message, that triggers the ParmLearn
   </retvals>
   <parameters>
     string FXStateChunk - the FXStateChunk, from which you want to retrieve the ParmLearn-settings
@@ -57202,7 +57203,7 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, id)
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>fxmanagement, get, parameter, learn, fxstatechunk</tags>
+  <tags>fxmanagement, get, parameter, learn, fxstatechunk, osc, midi</tags>
 </US_DocBloc>
 ]]
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmLearn_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
@@ -57217,15 +57218,16 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, id)
     count=count+1    
     if count==id then 
       w=w:sub(1,-2).." " 
-      idx, midi_note, checkboxes = w:match(" (.-) (.-) (.-) ") 
+      idx, midi_note, checkboxes, osc_message = w:match(" (.-) (.-) (.-) (.*) ") 
       if tonumber(idx)==nil then 
         idx, name = w:match(" (.-):(.-) ")
       end
       break
     end
   end
+  if osc_message=="" then osc_message=nil end
   if idx==nil then return end
-  return tonumber(idx), name, tonumber(midi_note), tonumber(checkboxes)
+  return tonumber(idx), name, tonumber(midi_note), tonumber(checkboxes), osc_message
 end
 
 --O,OO,OOO,OOOO=ultraschall.GetParmLearnFromFXStateChunk(A, 2)
@@ -57240,7 +57242,7 @@ function ultraschall.GetParmLearn_MediaItem(MediaItem, id)
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags = ultraschall.GetParmLearn_MediaItem(MediaItem MediaItem, integer id)</functioncall>
+  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message = ultraschall.GetParmLearn_MediaItem(MediaItem MediaItem, integer id)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns a parameter-learn-setting from a MediaItem
     
@@ -57249,7 +57251,7 @@ function ultraschall.GetParmLearn_MediaItem(MediaItem, id)
   <retvals>
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
-    integer midi_note - an integer representation of the MIDI-note, which is set as command
+    integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -57257,6 +57259,7 @@ function ultraschall.GetParmLearn_MediaItem(MediaItem, id)
                           - 3, Soft takeover (absolute mode only)+enable only when track or item is selected
                           - 4, enable only when effect configuration is focused
                           - 20, enable only when effect configuration is visible
+    optional string osc_message - the osc-message, that triggers the ParmLearn
   </retvals>
   <parameters>
     MediaItem MediaItem - the MediaItem, whose ParmLearn-setting you want to get
@@ -57268,7 +57271,7 @@ function ultraschall.GetParmLearn_MediaItem(MediaItem, id)
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>fxmanagement, get, parameter, learn, mediaitem</tags>
+  <tags>fxmanagement, get, parameter, learn, mediaitem, osc, midi</tags>
 </US_DocBloc>
 ]]
   if ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("GetParmLearn_MediaItem", "MediaItem", "Not a valid MediaItem", -1) return nil end
@@ -57291,7 +57294,7 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, id)
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags = ultraschall.GetParmLearn_MediaTrack(MediaTrack MediaTrack, integer id)</functioncall>
+  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message = ultraschall.GetParmLearn_MediaTrack(MediaTrack MediaTrack, integer id)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns a parameter-learn-setting from a MediaTrack
     
@@ -57300,7 +57303,7 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, id)
   <retvals>
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
-    integer midi_note - an integer representation of the MIDI-note, which is set as command
+    integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-messages
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -57308,6 +57311,7 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, id)
                           - 3, Soft takeover (absolute mode only)+enable only when track or item is selected
                           - 4, enable only when effect configuration is focused
                           - 20, enable only when effect configuration is visible
+    optional string osc_message - the osc-message, that triggers the ParmLearn
   </retvals>
   <parameters>
     MediaTrack MediaTrack - the MediaTrack, whose ParmLearn-setting you want to get
@@ -57319,7 +57323,7 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, id)
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>fxmanagement, get, parameter, learn, mediatrack</tags>
+  <tags>fxmanagement, get, parameter, learn, mediatrack, osc, midi</tags>
 </US_DocBloc>
 ]]
   if ultraschall.type(MediaTrack)~="MediaTrack" then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "MediaTrack", "Not a valid MediaItem", -1) return nil end
@@ -57331,7 +57335,7 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, id)
   return ultraschall.GetParmLearn_FXStateChunk(A, id)
 end
 
---A1,B,C,D,E,F,G=ultraschall.GetParmLearn_MediaTrack(reaper.GetTrack(0,1), 1)
+--A1,B,C,D,E,F,G=ultraschall.GetParmLearn_MediaTrack(reaper.GetTrack(0,2), 1)
 
 ultraschall.ShowLastErrorMessage()
 
