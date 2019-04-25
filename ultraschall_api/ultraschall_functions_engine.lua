@@ -57113,6 +57113,7 @@ function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_pat
   local addmedia_after_render_state = ultraschall.GetProject_AddMediaToProjectAfterRender(nil, ProjectStateChunk)
   local renderdither_state = ultraschall.GetProject_RenderDitherState(nil, ProjectStateChunk)
   local render_pattern = ultraschall.GetProject_RenderPattern(nil, ProjectStateChunk)
+  if render_pattern==nil then render_pattern="" end
   local render_filename = ultraschall.GetProject_RenderFilename(nil, ProjectStateChunk)
   local render_cfg = ultraschall.GetProject_RenderCFG(nil, ProjectStateChunk)
 
@@ -57470,7 +57471,7 @@ function ultraschall.IsValidRenderTable(RenderTable)
   return true
 end
 
-function ultraschall.ApplyRenderSettingsTable_Project(RenderTable)
+function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_rendercfg_string)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyRenderSettingsTable_Project</slug>
@@ -57481,7 +57482,7 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable)
     JS=0.980
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.ApplyRenderSettingsTable_Project(RenderTable RenderTable)</functioncall>
+  <functioncall>boolean retval = ultraschall.ApplyRenderSettingsTable_Project(RenderTable RenderTable, optional boolean apply_rendercfg_string)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets all stored render-settings from a RenderTable as the current project-settings.
             
@@ -57516,6 +57517,7 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable)
   </retvals>
   <parameters>
     RenderTable RenderTable - a RenderTable, that contains all render-dialog-settings
+    optional boolean apply_rendercfg_string - true or nil, apply it as well; false, don't apply it
   </parameters>
   <chapter_context>
     Rendering of Project
@@ -57527,6 +57529,7 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable)
 </US_DocBloc>
 ]]
   if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_Project", "RenderTable", "not a valid RenderTable", -1) return false end
+  if apply_rendercfg_string~=nil and type(apply_rendercfg_string)~="boolean" then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_Project", "apply_rendercfg_string", "must be boolean", -2) return false end
   local _temp, retval, hwnd, AddToProj, ProjectSampleRateFXProcessing, ReaProject, SaveCopyOfProject, retval
   if ReaProject==nil then ReaProject=0 end
   --[[
@@ -57590,7 +57593,9 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable)
   end
   reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FILE", RenderTable["RenderFile"], true)
   reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", RenderTable["RenderPattern"], true)
-  reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", RenderTable["RenderString"], true)
+  if apply_rendercfg_string~=false then
+    reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", RenderTable["RenderString"], true)
+  end
   
   if RenderTable["SaveCopyOfProject"]==true then SaveCopyOfProject=1 else SaveCopyOfProject=0 end
   hwnd = ultraschall.GetRenderToFileHWND()
@@ -57605,14 +57610,15 @@ end
 
 --A=ultraschall.GetRenderSettingsTable_Project(0)
 --A=ultraschall.GetRenderSettingsTable_ProjectFile("C:\\Users\\meo\\Desktop\\Ultraschall-TutorialEinsteigerworkshop-Transkript-deutsch4.RPP")
+--ultraschall.IsValidRenderTable(A)
 --A["AddToProj"]="Tudelu, Zucker im Schuh"
 --A["SaveCopyOfProject"]=false
---ultraschall.SetRenderSettingsTable_Project(A)
+--ultraschall.ApplyRenderSettingsTable_Project(A, false)
 
 --AA =  reaper.GetSetProjectInfo(ReaProject, "PROJECT_SRATE_USE", 1, true)
 
 
-function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfilename_with_path, ProjectStateChunk)
+function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfilename_with_path, apply_rendercfg_string, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyRenderSettingsTable_ProjectFile</slug>
@@ -57621,7 +57627,7 @@ function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfi
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable RenderTable, string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <functioncall>boolean retval, string ProjectStateChunk = ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable RenderTable, string projectfilename_with_path, optional boolean apply_rendercfg_string, optional string ProjectStateChunk)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets all stored render-settings from a RenderTable as the current project-settings.
             
@@ -57653,9 +57659,13 @@ function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfi
   </description>
   <retvals>
     boolean retval - true, setting the render-settings was successful; false, it wasn't successful
+    string ProjectStateChunk - the altered project/ProjectStateChunk as a string
   </retvals>
   <parameters>
     RenderTable RenderTable - a RenderTable, that contains all render-dialog-settings
+    string projectfilename_with_path - the rpp-projectfile, to which you want to apply the RenderTable; nil, to use parameter ProjectStateChunk instead
+    optional boolean apply_rendercfg_string - true or nil, apply it as well; false, don't apply it
+    optional parameter ProjectStateChunk - the ProjectStateChunkk, to which you want to apply the RenderTable
   </parameters>
   <chapter_context>
     Rendering of Project
@@ -57673,6 +57683,7 @@ function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfi
   if projectfilename_with_path~=nil and (type(projectfilename_with_path)~="string" or reaper.file_exists(projectfilename_with_path)==false) then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_ProjectFile", "projectfilename_with_path", "no such file", -3) return false end
   if ProjectStateChunk==nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_ProjectFile", "projectfilename_with_path", "not a valid rpp-projectfile", -4) return false end
+  if apply_rendercfg_string~=nil and type(apply_rendercfg_string)~="boolean" then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_ProjectFile", "apply_rendercfg_string", "must be boolean", -5) return false end
   
   if RenderTable["MultiChannelFiles"]==true then RenderTable["Source"]=RenderTable["Source"]+4 end
   if RenderTable["OnlyMonoMedia"]==true then RenderTable["Source"]=RenderTable["Source"]+16 end
@@ -57691,7 +57702,9 @@ function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfi
   retval, ProjectStateChunk = ultraschall.SetProject_RenderSpeed(nil, RenderTable["OfflineOnlineRendering"], ProjectStateChunk)
   retval, ProjectStateChunk = ultraschall.SetProject_RenderFilename(nil, RenderTable["RenderFile"], ProjectStateChunk)
   retval, ProjectStateChunk = ultraschall.SetProject_RenderPattern(nil, RenderTable["RenderPattern"], ProjectStateChunk)
-  retval, ProjectStateChunk = ultraschall.SetProject_RenderCFG(nil, RenderTable["RenderString"], ProjectStateChunk)
+  if apply_rendercfg_string==true or apply_rendercfg_string==nil then
+    retval, ProjectStateChunk = ultraschall.SetProject_RenderCFG(nil, RenderTable["RenderString"], ProjectStateChunk)
+  end
   
   if projectfilename_with_path~=nil then ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk) return true, ProjectStateChunk
   else return true, ProjectStateChunk
@@ -57699,9 +57712,9 @@ function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfi
 end
 
 --A=ultraschall.GetRenderSettingsTable_Project(0)
---A["TailMS"]=16098
+--A["RenderString"]="Whoops"
 --B=ultraschall.ReadFullFile("c:\\Render-Queue-Documentation.RPP")
---L,L2=ultraschall.ApplyRenderSettingsTable_ProjectFile(A, "c:\\Render-Queue-Documentation.RPP", B)
+--L,L2=ultraschall.ApplyRenderSettingsTable_ProjectFile(A, "c:\\Render-Queue-Documentation.RPP", 1, B)
 --print2(L2)
 
 
