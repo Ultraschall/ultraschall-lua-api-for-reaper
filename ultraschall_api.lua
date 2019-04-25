@@ -67,6 +67,7 @@ local script_path = reaper.GetResourcePath().."/UserPlugins/ultraschall_api"..ul
 ultraschall.Api_Path=script_path
 ultraschall.Api_Path=string.gsub(ultraschall.Api_Path,"\\","/")
 ultraschall.Api_InstallPath=reaper.GetResourcePath().."/UserPlugins/"
+ultraschall.API_TempPath=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/temp/"
 
 ultraschall.Api_ScriptPath=ultraschall.Api_Path.."/Scripts"
 

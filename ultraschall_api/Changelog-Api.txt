@@ -362,6 +362,8 @@ tagline inspired by a comment from \_stevie\_ ;)
   - FXManagement: GetParmLearn\_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE
   - FXManagement: GetParmLearn\_MediaItem - gets the parameter-learn-settings from a MediaItem, as requested by TonE
   - FXManagement: GetParmLearn\_MediaTrack - gets the parameter-learn-settings from a MediaTrack, as requested by TonE
+  - Render: ApplyRenderSettingsTable\_Project - applies a RenderTable to the active project
+  - Render: ApplyRenderSettingsTable\_ProjectFile - applies a RenderTable to a projectfile
   - Render: CreateRenderCFG\_AVI\_Video - creates a render-string for the format video-AVI
   - Render: CreateRenderCFG\_GIF - creates a render-string of the format video-gif
   - Render: CreateRenderCFG\_LCF - creates a render-string of the format video-lcf
@@ -371,7 +373,8 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: CreateRenderCFG\_MP4MAC\_Video - creates a render-string for the format video-MP4 for Mac
   - Render: CreateRenderCFG\_QTMOVMP4\_Video - creates a render-string for the format video-QT/MOV/MP4
   - Render: GetRenderSettingsTable\_Project - returns a table with all render-settings of the currently active project
-  - Render: GetRenderSettingsTable\_ProjectFile- returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk
+  - Render: GetRenderSettingsTable\_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk
+  - Render: IsValidRenderTable - returns, if a table is a valid RenderTable
   - Render: GetRenderCFG\_Settings\_AIFF - gets the settings of an audio-AIFF-rendercfg-string
   - Render: GetRenderCFG\_Settings\_AudioCD - gets the settings of an audio-AudioCD-rendercfg-string
   - Render: GetRenderCFG\_Settings\_AVI\_Video  - gets the settings of an video-avi-rendercfg-string
@@ -407,6 +410,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter
   - Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly
   - HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well
+  - Projectmanagement: all SetProject-functions - added missing ProjectStateChunk-returnvalue to docs
   - Projectmanagement: GetProject\_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile
   - Projectmanagement: GetProject\_RenderRange - added bounds-option for selected regions
   - Projectmanagement: SetProject\_RenderRange - added bounds-option for selected regions
@@ -424,6 +428,8 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: CreateRenderCFG\_WebMVideo - rewritten, lifted many limitations
   - Render: GetOutputFormat\_RenderCfg - moved to docs-index Rendering of Project -> Analyzing Renderstrings; 
                                          allows now passing a project/projecttab as well
+  - UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd
+  - UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd
   
   ---
   

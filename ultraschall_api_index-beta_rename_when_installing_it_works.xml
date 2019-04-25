@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="35253.00" author="Meo Mespotine">
+      <version name="35473.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -328,6 +328,10 @@ New features in 4.00beta2.75
     parameter-learn-settings from a MediaItem, as requested by TonE
 -   FXManagement: GetParmLearn_MediaTrack - gets the
     parameter-learn-settings from a MediaTrack, as requested by TonE
+-   Render: ApplyRenderSettingsTable_Project - applies a RenderTable to
+    the active project
+-   Render: ApplyRenderSettingsTable_ProjectFile - applies a RenderTable
+    to a projectfile
 -   Render: CreateRenderCFG_AVI_Video - creates a render-string for the
     format video-AVI
 -   Render: CreateRenderCFG_GIF - creates a render-string of the format
@@ -346,8 +350,11 @@ New features in 4.00beta2.75
     the format video-QT/MOV/MP4
 -   Render: GetRenderSettingsTable_Project - returns a table with all
     render-settings of the currently active project
--   Render: GetRenderSettingsTable_ProjectFile- returns a table with all
-    render-dialog-settings from an rpp-projectfile or ProjectStateChunk
+-   Render: GetRenderSettingsTable_ProjectFile - returns a table with
+    all render-dialog-settings from an rpp-projectfile or
+    ProjectStateChunk
+-   Render: IsValidRenderTable - returns, if a table is a valid
+    RenderTable
 -   Render: GetRenderCFG_Settings_AIFF - gets the settings of an
     audio-AIFF-rendercfg-string
 -   Render: GetRenderCFG_Settings_AudioCD - gets the settings of an
@@ -415,6 +422,8 @@ Changes from Beta 2.74 to Beta 2.75
     rounding-operations, hope it works now properly
 -   HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the
     TCP as well
+-   Projectmanagement: all SetProject-functions - added missing
+    ProjectStateChunk-returnvalue to docs
 -   Projectmanagement: GetProject_RenderFilename - could produce
     Lua-error, when no Renderfilename was existing in the projectfile
 -   Projectmanagement: GetProject_RenderRange - added bounds-option for
@@ -445,6 +454,10 @@ Changes from Beta 2.74 to Beta 2.75
 -   Render: GetOutputFormat_RenderCfg - moved to docs-index Rendering of
     Project -> Analyzing Renderstrings; allows now passing a
     project/projecttab as well
+-   UserInterface: GetCheckboxState - gets the current checkstate of a
+    checkbox-hwnd
+-   UserInterface: SetCheckboxState - sets a new checkstate of a
+    checkbox-hwnd
 
 ------------------------------------------------------------------------
 

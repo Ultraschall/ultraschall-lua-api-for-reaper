@@ -18358,7 +18358,7 @@ function ultraschall.SetProject_RippleState(projectfilename_with_path, ripple_st
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_RippleState(string projectfilename_with_path, integer ripple_state, optional string ProjectStatechunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RippleState(string projectfilename_with_path, integer ripple_state, optional string ProjectStatechunk)</functioncall>
   <description>
     Sets the ripple-state in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -18370,6 +18370,7 @@ function ultraschall.SetProject_RippleState(projectfilename_with_path, ripple_st
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -18410,7 +18411,7 @@ function ultraschall.SetProject_Selection(projectfilename_with_path, starttime, 
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_Selection(string projectfilename_with_path, number starttime, number endtime, number starttime2, number endtime2, optional string ProjectStatechunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_Selection(string projectfilename_with_path, number starttime, number endtime, number starttime2, number endtime2, optional string ProjectStatechunk)</functioncall>
   <description>
     Sets the ripple-state in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -18425,6 +18426,7 @@ function ultraschall.SetProject_Selection(projectfilename_with_path, starttime, 
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -18475,13 +18477,13 @@ function ultraschall.SetProject_GroupOverride(projectfilename_with_path, group_o
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_GroupOverride(string projectfilename_with_path, integer group_override1, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_GroupOverride(string projectfilename_with_path, integer group_override1, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the group-override-state in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path, optional string ProjectStateChunk - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
     integer group_override1 - the group-override state
     integer group_override2 - the group-override state
     integer group_override3 - the group-override state
@@ -18489,6 +18491,7 @@ function ultraschall.SetProject_GroupOverride(projectfilename_with_path, group_o
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -18532,7 +18535,7 @@ function ultraschall.SetProject_AutoCrossFade(projectfilename_with_path, autocro
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_AutoCrossFade(string projectfilename_with_path, integer autocrossfade_state, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_AutoCrossFade(string projectfilename_with_path, integer autocrossfade_state, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the autocrossfade-state in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -18544,6 +18547,7 @@ function ultraschall.SetProject_AutoCrossFade(projectfilename_with_path, autocro
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -18585,7 +18589,7 @@ function ultraschall.SetProject_EnvAttach(projectfilename_with_path, env_attach,
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_EnvAttach(string projectfilename_with_path, integer env_attach, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_EnvAttach(string projectfilename_with_path, integer env_attach, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the env_attach-state in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -18597,6 +18601,7 @@ function ultraschall.SetProject_EnvAttach(projectfilename_with_path, env_attach,
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -18659,7 +18664,7 @@ function ultraschall.SetProject_MixerUIFlags(projectfilename_with_path, state_bi
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer state_bitfield1, integer state_bitfield2 = ultraschall.SetProject_MixerUIFlags(string projectfilename_with_path, integer state_bitfield1, integer state_bitfield2, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_MixerUIFlags(string projectfilename_with_path, integer state_bitfield1, integer state_bitfield2, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the Mixer-UI-state-flags in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -18693,6 +18698,7 @@ function ultraschall.SetProject_MixerUIFlags(projectfilename_with_path, state_bi
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -18733,7 +18739,7 @@ function ultraschall.SetProject_PeakGain(projectfilename_with_path, peakgain_sta
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_PeakGain(string projectfilename_with_path, number peakgain_state, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_PeakGain(string projectfilename_with_path, number peakgain_state, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the peak-gain-state in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -18745,6 +18751,7 @@ function ultraschall.SetProject_PeakGain(projectfilename_with_path, peakgain_sta
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -18784,7 +18791,7 @@ function ultraschall.SetProject_Feedback(projectfilename_with_path, feedback_sta
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_Feedback(string projectfilename_with_path, integer feedback_state, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_Feedback(string projectfilename_with_path, integer feedback_state, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the feedback-state in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -18796,6 +18803,7 @@ function ultraschall.SetProject_Feedback(projectfilename_with_path, feedback_sta
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -18836,7 +18844,7 @@ function ultraschall.SetProject_PanLaw(projectfilename_with_path, panlaw_state, 
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_PanLaw(string projectfilename_with_path, number panlaw_state, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_PanLaw(string projectfilename_with_path, number panlaw_state, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the panlaw-state, as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -18848,6 +18856,7 @@ function ultraschall.SetProject_PanLaw(projectfilename_with_path, panlaw_state, 
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -18888,7 +18897,7 @@ function ultraschall.SetProject_ProjOffsets(projectfilename_with_path, start_tim
     Reaper=5.941
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_ProjOffsets(string projectfilename_with_path, number start_time, integer start_measure, integer base_ruler_marking_off_this_measure, optional ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_ProjOffsets(string projectfilename_with_path, number start_time, integer start_measure, integer base_ruler_marking_off_this_measure, optional ProjectStateChunk)</functioncall>
   <description>
     Sets the project-offset-state, as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
     
@@ -18905,6 +18914,7 @@ function ultraschall.SetProject_ProjOffsets(projectfilename_with_path, start_tim
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -18948,7 +18958,7 @@ function ultraschall.SetProject_MaxProjectLength(projectfilename_with_path, limi
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_MaxProjectLength(string projectfilename_with_path, integer limit_project_length, number projectlength_limit, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_MaxProjectLength(string projectfilename_with_path, integer limit_project_length, number projectlength_limit, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the max-project-length-state, as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -18961,6 +18971,7 @@ function ultraschall.SetProject_MaxProjectLength(projectfilename_with_path, limi
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19008,7 +19019,7 @@ function ultraschall.SetProject_Grid(projectfilename_with_path, gridstate1, grid
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_Grid(string projectfilename_with_path, integer gridstate1, integer gridstate2, number gridstate3, integer gridstate4, number gridstate5, integer gridstate6, integer gridstate7, number gridstate8, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_Grid(string projectfilename_with_path, integer gridstate1, integer gridstate2, number gridstate3, integer gridstate4, number gridstate5, integer gridstate6, integer gridstate7, number gridstate8, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the setproject-grid-state in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -19027,6 +19038,7 @@ function ultraschall.SetProject_Grid(projectfilename_with_path, gridstate1, grid
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19088,7 +19100,7 @@ function ultraschall.SetProject_Timemode(projectfilename_with_path, timemode1, t
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_Timemode(string projectfilename_with_path, integer timemode1, integer timemode2, integer showntime, integer timemode4, integer timemode5, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_Timemode(string projectfilename_with_path, integer timemode1, integer timemode2, integer showntime, integer timemode4, integer timemode5, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the timemode-state in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -19120,6 +19132,7 @@ function ultraschall.SetProject_Timemode(projectfilename_with_path, timemode1, t
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19179,7 +19192,7 @@ function ultraschall.SetProject_VideoConfig(projectfilename_with_path, preferred
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_VideoConfig(string projectfilename_with_path, integer preferredVidSizeX, integer preferredVidSizeY, integer settingsBitfield, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_VideoConfig(string projectfilename_with_path, integer preferredVidSizeX, integer preferredVidSizeY, integer settingsBitfield, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the video-config-settings, as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -19204,6 +19217,7 @@ function ultraschall.SetProject_VideoConfig(projectfilename_with_path, preferred
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19250,7 +19264,7 @@ function ultraschall.SetProject_PanMode(projectfilename_with_path, panmode_state
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_PanMode(string projectfilename_with_path, integer panmode_state, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_PanMode(string projectfilename_with_path, integer panmode_state, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the panmode-settings, as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -19266,6 +19280,7 @@ function ultraschall.SetProject_PanMode(projectfilename_with_path, panmode_state
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19311,7 +19326,7 @@ function ultraschall.SetProject_CursorPos(projectfilename_with_path, cursorpos, 
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_CursorPos(string projectfilename_with_path, number cursorpos, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_CursorPos(string projectfilename_with_path, number cursorpos, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the cursor-position in an rpp-project-file or a ProjectStateChunk
     Returns -1 in case of error.
@@ -19323,6 +19338,7 @@ function ultraschall.SetProject_CursorPos(projectfilename_with_path, cursorpos, 
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19364,7 +19380,7 @@ function ultraschall.SetProject_HorizontalZoom(projectfilename_with_path, hzoom,
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_HorizontalZoom(string projectfilename_with_path, number hzoom, integer hzoomscrollpos, integer scrollbarfactor, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_HorizontalZoom(string projectfilename_with_path, number hzoom, integer hzoomscrollpos, integer scrollbarfactor, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the horizontal-zoom in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -19378,6 +19394,7 @@ function ultraschall.SetProject_HorizontalZoom(projectfilename_with_path, hzoom,
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19420,7 +19437,7 @@ function ultraschall.SetProject_VerticalZoom(projectfilename_with_path, vzoom, P
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_VerticalZoom(string projectfilename_with_path, integer vzoom, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_VerticalZoom(string projectfilename_with_path, integer vzoom, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the vertical-zoom from an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -19432,6 +19449,7 @@ function ultraschall.SetProject_VerticalZoom(projectfilename_with_path, vzoom, P
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19472,7 +19490,7 @@ function ultraschall.SetProject_UseRecConfig(projectfilename_with_path, rec_cfg,
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_UseRecConfig(string projectfilename_with_path, integer rec_cfg, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_UseRecConfig(string projectfilename_with_path, integer rec_cfg, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the UseRec-Config in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -19487,6 +19505,7 @@ function ultraschall.SetProject_UseRecConfig(projectfilename_with_path, rec_cfg,
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19530,7 +19549,7 @@ function ultraschall.SetProject_RecMode(projectfilename_with_path, rec_mode, Pro
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_RecMode(string projectfilename_with_path, integer rec_mode, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RecMode(string projectfilename_with_path, integer rec_mode, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the recording-mode-state in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -19545,6 +19564,7 @@ function ultraschall.SetProject_RecMode(projectfilename_with_path, rec_mode, Pro
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19583,7 +19603,7 @@ function ultraschall.SetProject_SMPTESync(projectfilename_with_path, smptesync_s
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_SMPTESync(string projectfilename_with_path, integer smptesync_state1, number smptesync_fps, integer smptesync_resyncdrift, integer smptesync_skipdropframes, integer smptesync_syncseek, integer smptesync_freewheel, integer smptesync_userinput, number smptesync_offsettimecode, integer smptesync_stop_rec_drift, integer smptesync_state10, integer smptesync_stop_rec_lacktime, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_SMPTESync(string projectfilename_with_path, integer smptesync_state1, number smptesync_fps, integer smptesync_resyncdrift, integer smptesync_skipdropframes, integer smptesync_syncseek, integer smptesync_freewheel, integer smptesync_userinput, number smptesync_offsettimecode, integer smptesync_stop_rec_drift, integer smptesync_state10, integer smptesync_stop_rec_lacktime, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the TimeCodeSyncronization-SMPTE-Config in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -19620,6 +19640,7 @@ function ultraschall.SetProject_SMPTESync(projectfilename_with_path, smptesync_s
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19668,7 +19689,7 @@ function ultraschall.SetProject_Loop(projectfilename_with_path, loopbutton_state
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_Loop(string projectfilename_with_path, integer loopbutton_state, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_Loop(string projectfilename_with_path, integer loopbutton_state, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the UseRec-Config in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -19680,6 +19701,7 @@ function ultraschall.SetProject_Loop(projectfilename_with_path, loopbutton_state
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19718,7 +19740,7 @@ function ultraschall.SetProject_LoopGran(projectfilename_with_path, loopgran_sta
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_LoopGran(string projectfilename_with_path, integer loopgran_state1, number loopgran_state2, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_LoopGran(string projectfilename_with_path, integer loopgran_state1, number loopgran_state2, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the Loop-Gran-state in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -19731,6 +19753,7 @@ function ultraschall.SetProject_LoopGran(projectfilename_with_path, loopgran_sta
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19769,7 +19792,7 @@ function ultraschall.SetProject_RecPath(projectfilename_with_path, prim_recpath,
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_RecPath(string projectfilename_with_path, string prim_recpath, string sec_recpath, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RecPath(string projectfilename_with_path, string prim_recpath, string sec_recpath, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the primary and secondary recording-paths in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -19782,6 +19805,7 @@ function ultraschall.SetProject_RecPath(projectfilename_with_path, prim_recpath,
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19826,7 +19850,7 @@ function ultraschall.SetProject_RecordCFG(projectfilename_with_path, recording_c
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_RecordCFG(string projectfilename_with_path, string recording_cfg_string, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RecordCFG(string projectfilename_with_path, string recording_cfg_string, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the recording-configuration as encoded string in an RPP-Projectfile or a ProjectStateChunk, as set in ProjectSettings->Media->Recording.
     
@@ -19839,6 +19863,7 @@ function ultraschall.SetProject_RecordCFG(projectfilename_with_path, recording_c
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19877,7 +19902,7 @@ function ultraschall.SetProject_RenderCFG(projectfilename_with_path, rendercfg_s
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_RenderCFG(string projectfilename_with_path, string rendercfg_string, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderCFG(string projectfilename_with_path, string rendercfg_string, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the render-configuration as encoded string in an RPP-Projectfile or a ProjectStateChunk, as set in Render-Settings
     
@@ -19890,6 +19915,7 @@ function ultraschall.SetProject_RenderCFG(projectfilename_with_path, rendercfg_s
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19933,7 +19959,7 @@ function ultraschall.SetProject_ApplyFXCFG(projectfilename_with_path, applyfx_cf
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_ApplyFXCFG(string projectfilename_with_path, string applyfx_cfg_string, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_ApplyFXCFG(string projectfilename_with_path, string applyfx_cfg_string, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the audioformat-configuration, for fx-appliance-operation, as an encoded string in an RPP-Projectfile or a ProjectStateChunk, as set in ProjectSettings->Media->Format for Apply FX, Glue, Freeze, etc
     
@@ -19946,6 +19972,7 @@ function ultraschall.SetProject_ApplyFXCFG(projectfilename_with_path, applyfx_cf
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -19984,7 +20011,7 @@ function ultraschall.SetProject_RenderFilename(projectfilename_with_path, render
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_RenderFilename(string projectfilename_with_path, string renderfilename, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderFilename(string projectfilename_with_path, string renderfilename, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the render-filename in an rpp-projectfile or a ProjectStateChunk. Set to "", if you want to set a render-pattern with <a href="#SetProject_RenderPattern">SetProject_RenderPattern</a>.
     
@@ -19999,6 +20026,7 @@ function ultraschall.SetProject_RenderFilename(projectfilename_with_path, render
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -20045,7 +20073,7 @@ function ultraschall.SetProject_RenderFreqNChans(projectfilename_with_path, unkn
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_RenderFreqNChans(string projectfilename_with_path, integer unknown, integer rendernum_chans, integer render_frequency, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderFreqNChans(string projectfilename_with_path, integer unknown, integer rendernum_chans, integer render_frequency, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns an unknown number, the render-frequency and rendernumber of channels from an RPP-Projectfile or a ProjectStateChunk. 
     
@@ -20060,6 +20088,7 @@ function ultraschall.SetProject_RenderFreqNChans(projectfilename_with_path, unkn
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -20103,7 +20132,7 @@ function ultraschall.SetProject_RenderSpeed(projectfilename_with_path, render_sp
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_RenderSpeed(string projectfilename_with_path, integer render_speed, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderSpeed(string projectfilename_with_path, integer render_speed, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets a rendering-speed in an RPP-Projectfile or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -20120,6 +20149,7 @@ function ultraschall.SetProject_RenderSpeed(projectfilename_with_path, render_sp
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -20171,7 +20201,7 @@ function ultraschall.SetProject_RenderRange(projectfilename_with_path, bounds, t
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_RenderRange(string projectfilename_with_path, integer bounds, number time_start, number time_end, integer tail, integer tail_length, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderRange(string projectfilename_with_path, integer bounds, number time_start, number time_end, integer tail, integer tail_length, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the render-range, render-timestart, render-timeend, render-tail and render-taillength in an RPP-Projectfile or a ProjectStateChunk. 
     To get RENDER_STEMS, refer <a href="#GetProject_RenderStems">GetProject_RenderStems</a>
@@ -20200,6 +20230,7 @@ function ultraschall.SetProject_RenderRange(projectfilename_with_path, bounds, t
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -20255,7 +20286,7 @@ function ultraschall.SetProject_RenderResample(projectfilename_with_path, resamp
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_RenderResample(string projectfilename_with_path, integer resample_mode, integer playback_resample_mode, integer project_smplrate4mix_and_fx, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderResample(string projectfilename_with_path, integer resample_mode, integer playback_resample_mode, integer project_smplrate4mix_and_fx, optional string ProjectStateChunk)</functioncall>
   <description>
     Resamplemode for a)Rendering and b)Playback as well as c)if both are combined from an RPP-Projectfile or a ProjectStateChunk. 
     Returns -1 in case of error.
@@ -20273,7 +20304,6 @@ function ultraschall.SetProject_RenderResample(projectfilename_with_path, resamp
     -             7-Fast (16pt sinc) - Default, 
     -             8-HQ (512pt Sinc), 
     -             9-Extreme HQ (768pt HQ Sinc)
-    
     integer playback_resample_mode - Playback Resample Mode (as set in the Project-Settings)
     -           0-medium (64pt Sinc), 
     -           1-Low (Linear Interpolation), 
@@ -20284,13 +20314,13 @@ function ultraschall.SetProject_RenderResample(projectfilename_with_path, resamp
     -           6-Fast (IIRx2 + Linear Interpolation), 
     -           7-Fast (16pt sinc) - Default, 
     -           8-HQ (512pt Sinc), 
-    -           9-Extreme HQ (768pt HQ Sinc)
-    
+    -           9-Extreme HQ (768pt HQ Sinc)    
     integer project_smplrate4mix_and_fx - Use project sample rate for mixing and FX/synth processing-checkbox; 1, checked; 0, unchecked
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -20333,7 +20363,7 @@ function ultraschall.SetProject_AddMediaToProjectAfterRender(projectfilename_wit
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_AddMediaToProjectAfterRender(string projectfilename_with_path, integer addmedia_after_render_state, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_AddMediaToProjectAfterRender(string projectfilename_with_path, integer addmedia_after_render_state, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns, if rendered media shall be added to the project afterwards, from an RPP-Projectfile or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -20345,6 +20375,7 @@ function ultraschall.SetProject_AddMediaToProjectAfterRender(projectfilename_wit
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -20389,7 +20420,7 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_RenderStems(string projectfilename_with_path, integer render_stems, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderStems(string projectfilename_with_path, integer render_stems, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the render-stems-state from an RPP-Projectfile or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -20408,6 +20439,7 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -20450,7 +20482,7 @@ function ultraschall.SetProject_RenderDitherState(projectfilename_with_path, ren
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_RenderDitherState(string projectfilename_with_path, integer renderdither_state, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderDitherState(string projectfilename_with_path, integer renderdither_state, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the render-dither-state from an RPP-Projectfile or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -20466,6 +20498,7 @@ function ultraschall.SetProject_RenderDitherState(projectfilename_with_path, ren
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -20507,7 +20540,7 @@ function ultraschall.SetProject_TimeBase(projectfilename_with_path, timebase, Pr
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_TimeBase(string projectfilename_with_path, integer timebase, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_TimeBase(string projectfilename_with_path, integer timebase, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the timebase, as set in the project-settings, in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -20522,6 +20555,7 @@ function ultraschall.SetProject_TimeBase(projectfilename_with_path, timebase, Pr
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -20562,7 +20596,7 @@ function ultraschall.SetProject_TempoTimeSignature(projectfilename_with_path, te
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_TempoTimeSignature(string projectfilename_with_path, integer tempotimesignature, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_TempoTimeSignature(string projectfilename_with_path, integer tempotimesignature, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the timebase, as set in the project-settings, in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -20576,6 +20610,7 @@ function ultraschall.SetProject_TempoTimeSignature(projectfilename_with_path, te
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -20620,7 +20655,7 @@ function ultraschall.SetProject_ItemMixBehavior(projectfilename_with_path, item_
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_ItemMixBehavior(string projectfilename_with_path, integer item_mix_behav_state, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_ItemMixBehavior(string projectfilename_with_path, integer item_mix_behav_state, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the item mix behavior, as set in the project-settings, from an rpp-project-file.
     Returns -1 in case of error.
@@ -20634,6 +20669,7 @@ function ultraschall.SetProject_ItemMixBehavior(projectfilename_with_path, item_
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -20673,7 +20709,7 @@ function ultraschall.SetProject_DefPitchMode(projectfilename_with_path, def_pitc
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_DefPitchMode(string projectfilename_with_path, integer def_pitch_mode_state, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_DefPitchMode(string projectfilename_with_path, integer def_pitch_mode_state, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the default-pitch-mode, as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -21626,6 +21662,7 @@ function ultraschall.SetProject_DefPitchMode(projectfilename_with_path, def_pitc
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -21665,7 +21702,7 @@ function ultraschall.SetProject_TakeLane(projectfilename_with_path, take_lane_st
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_TakeLane(string projectfilename_with_path, integer take_lane_state, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_TakeLane(string projectfilename_with_path, integer take_lane_state, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the take-lane-state in an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -21677,6 +21714,7 @@ function ultraschall.SetProject_TakeLane(projectfilename_with_path, take_lane_st
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -21720,7 +21758,7 @@ function ultraschall.SetProject_SampleRate(projectfilename_with_path, sample_rat
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_SampleRate(string projectfilename_with_path, integer sample_rate, integer project_sample_rate, integer force_tempo_time_sig, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_SampleRate(string projectfilename_with_path, integer sample_rate, integer project_sample_rate, integer force_tempo_time_sig, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the project-samplerate-state, as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -21734,6 +21772,7 @@ function ultraschall.SetProject_SampleRate(projectfilename_with_path, sample_rat
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -21782,7 +21821,7 @@ function ultraschall.SetProject_TrackMixingDepth(projectfilename_with_path, mixi
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_TrackMixingDepth(string projectfilename_with_path, integer mixingdepth, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_TrackMixingDepth(string projectfilename_with_path, integer mixingdepth, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the project-samplerate-state, as set in the project-settings, from an rpp-project-file or a ProjectStateChunk.
     Returns -1 in case of error.
@@ -21800,6 +21839,7 @@ function ultraschall.SetProject_TrackMixingDepth(projectfilename_with_path, mixi
   </parameters>
   <retvals>
     integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
     Project-Files
@@ -56902,9 +56942,10 @@ function ultraschall.GetRenderSettingsTable_Project()
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
+    JS=0.980
     Lua=5.3
   </requires>
-  <functioncall>table RenderTable = ultraschall.GetRenderSettingsTable_Project(ReaProject ReaProject)</functioncall>
+  <functioncall>table RenderTable = ultraschall.GetRenderSettingsTable_Project()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns all stored render-settings for the current project, as a handy table.
             
@@ -56912,20 +56953,22 @@ function ultraschall.GetRenderSettingsTable_Project()
             RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
+            RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle);  RenderTable["RenderFile"] - the directory-inputbox of the Render to File-dialog
             RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
             RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
-            RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
             RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog
             RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog
-            RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; always false, as this is not stored in projectfiles
+            RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
-            RenderTable["SampleRate"] - the samplerate
-            RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always false, as this is not stored in projectfiles
+            RenderTable["SampleRate"] - the samplerate of the rendered file(s)
+            RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked
+            RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; true, checked; false, unchecked
             RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+            RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
     
@@ -56934,10 +56977,10 @@ function ultraschall.GetRenderSettingsTable_Project()
   <retvals>
     table RenderTable - a table with all of the current project's render-settings
   </retvals>
-  <parameters>
-    ReaProject ReaProject - the project, whose render-settings you want; either a ReaProject-object or an integer, that signals the projecttab of the project
-                          - use 0, for the currently active project; 1, for the first project-tab; 2, for the second, etc; -1, for the currently rendering project
-  </parameters>
+        <parametersss>
+          ReaProject ReaProject - the project, whose render-settings you want; either a ReaProject-object or an integer, that signals the projecttab of the project
+                                - use 0, for the currently active project; 1, for the first project-tab; 2, for the second, etc; -1, for the currently rendering project
+        </parametersss>
   <chapter_context>
     Rendering of Project
     Assistance functions
@@ -56947,7 +56990,7 @@ function ultraschall.GetRenderSettingsTable_Project()
   <tags>projectfiles, get, project, rendertable</tags>
 </US_DocBloc>
 ]]
-  local _temp
+  local _temp, ReaProject, hwnd, retval
   if ReaProject==nil then ReaProject=0 end
   if ultraschall.type(ReaProject)~="ReaProject" and math.type(ReaProject)~="integer" then ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -1) return nil end
   if ReaProject==-1 then ReaProject=0x40000000 _temp=true 
@@ -56963,22 +57006,22 @@ function ultraschall.GetRenderSettingsTable_Project()
   end
   local RenderTable={}
   RenderTable["RenderTable"]=true
-  RenderTable["Source"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_SETTINGS", 0, false)
+  RenderTable["Source"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "RENDER_SETTINGS", 0, false))
   if RenderTable["Source"]&4~=0 then RenderTable["Source"]=RenderTable["Source"]-4 RenderTable["MultiChannelFiles"]=true else RenderTable["MultiChannelFiles"]=false end
   if RenderTable["Source"]&16~=0 then RenderTable["Source"]=RenderTable["Source"]-16 RenderTable["OnlyMonoMedia"]=true else RenderTable["OnlyMonoMedia"]=false end
-  RenderTable["Bounds"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_BOUNDSFLAG", 0, false)
-  RenderTable["Channels"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_CHANNELS", 0, false)
-  RenderTable["SampleRate"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_SRATE", 0, false)
+  RenderTable["Bounds"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "RENDER_BOUNDSFLAG", 0, false))
+  RenderTable["Channels"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "RENDER_CHANNELS", 0, false))
+  RenderTable["SampleRate"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "RENDER_SRATE", 0, false))
   if RenderTable["SampleRate"]==0 then 
     RenderTable["SampleRate"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "PROJECT_SRATE", 0, false))
   end
   RenderTable["Startposition"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_STARTPOS", 0, false)
   RenderTable["Endposition"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_ENDPOS", 0, false)
-  RenderTable["TailFlag"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_TAILFLAG", 0, false)
-  RenderTable["TailMS"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_TAILMS", 0, false)
+  RenderTable["TailFlag"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "RENDER_TAILFLAG", 0, false))
+  RenderTable["TailMS"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "RENDER_TAILMS", 0, false))
   RenderTable["AddToProj"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_ADDTOPROJ", 0, false)
   if RenderTable["AddToProj"]==1 then RenderTable["AddToProj"]=true else RenderTable["AddToProj"]=false end
-  RenderTable["Dither"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_DITHER", 0, false)
+  RenderTable["Dither"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "RENDER_DITHER", 0, false))
   RenderTable["ProjectSampleRateFXProcessing"]=reaper.SNM_GetIntConfigVar("projrenderrateinternal", -1)
   if RenderTable["ProjectSampleRateFXProcessing"]==1 then RenderTable["ProjectSampleRateFXProcessing"]=true else RenderTable["ProjectSampleRateFXProcessing"]=false end
   if reaper.SNM_GetIntConfigVar("renderclosewhendone", -1)&16~=0 then RenderTable["SilentlyIncrementFilename"]=true else RenderTable["SilentlyIncrementFilename"]=false end
@@ -56989,11 +57032,20 @@ function ultraschall.GetRenderSettingsTable_Project()
   _temp, RenderTable["RenderPattern"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", "", false)
   _temp, RenderTable["RenderString"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", "", false)
 
+  hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then
+    retval, RenderTable["SaveCopyOfProject"] = reaper.BR_Win32_GetPrivateProfileString("REAPER", "autosaveonrender2", -1, reaper.get_ini_file())
+    RenderTable["SaveCopyOfProject"]=tonumber(RenderTable["SaveCopyOfProject"])
+  else
+    RenderTable["SaveCopyOfProject"]=reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1060), "BM_GETCHECK", 0,0,0,0)
+  end
+  if RenderTable["SaveCopyOfProject"]==1 then RenderTable["SaveCopyOfProject"]=true else RenderTable["SaveCopyOfProject"]=false end
+
   return RenderTable
 end
 
 
---A=ultraschall.GetRenderSettingsTable_Project(-2)
+--A=ultraschall.GetRenderSettingsTable_Project()
 
 
 function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_path, ProjectStateChunk)
@@ -57013,10 +57065,10 @@ function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_pat
             RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
+            RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle);  RenderTable["RenderFile"] - the directory-inputbox of the Render to File-dialog
             RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
-            RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
             RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
             RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog
             RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog
@@ -57024,9 +57076,11 @@ function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_pat
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
-            RenderTable["SampleRate"] - the samplerate
+            RenderTable["SampleRate"] - the samplerate of the rendered file(s)
+            RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; always false(unchecked), as this isn't stored in projectfiles
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always false, as this is not stored in projectfiles
             RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+            RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
     
@@ -57091,6 +57145,7 @@ function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_pat
   RenderTable["RenderFile"]=render_filename
   RenderTable["RenderPattern"]=render_pattern
   RenderTable["RenderString"]=render_cfg 
+  RenderTable["SaveCopyOfProject"]=false
   
   return RenderTable
 end
@@ -57122,7 +57177,7 @@ function ultraschall.GetFXStateChunk(StateChunk)
     string StateChunk - the StateChunk, from which you want to retrieve the FXStateChunk
   </parameters>
   <chapter_context>
-    Rendering of Project
+    FX-Management
     Assistance functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -57165,7 +57220,7 @@ function ultraschall.IsValidFXStateChunk(StateChunk)
     string StateChunk - the StateChunk, which you want to check, whether it's a valid FXStateChunk
   </parameters>
   <chapter_context>
-    Rendering of Project
+    FX-Management
     Assistance functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -57219,8 +57274,8 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, id)
     integer id - the id of the ParmLearn-settings you want to have, starting with 1 for the first
   </parameters>
   <chapter_context>
-    Rendering of Project
-    Assistance functions
+    MIDI Management
+    Parameter Mapping
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -57287,8 +57342,8 @@ function ultraschall.GetParmLearn_MediaItem(MediaItem, id)
     integer id - the id of the ParmLearn-settings you want to have, starting with 1 for the first
   </parameters>
   <chapter_context>
-    Rendering of Project
-    Assistance functions
+    MIDI Management
+    Parameter Mapping
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -57339,8 +57394,8 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, id)
     integer id - the id of the ParmLearn-settings you want to have, starting with 1 for the first
   </parameters>
   <chapter_context>
-    Rendering of Project
-    Assistance functions
+    MIDI Management
+    Parameter Mapping
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -57359,17 +57414,74 @@ end
 --A1,B,C,D,E,F,G=ultraschall.GetParmLearn_MediaTrack(reaper.GetTrack(0,2), 1)
 
 
-function ultraschall.SetRenderSettingsTable_Project(RenderTable)
+function ultraschall.IsValidRenderTable(RenderTable)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SetRenderSettingsTable_Project</slug>
+  <slug>IsValidRenderTable</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsValidRenderTable(RenderTable RenderTable)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    returns, if the table RenderTable is a valid RenderTable.
+    
+    Returns false in case of an error; the error-message contains the faulty table-entry.
+  </description>
+  <retvals>
+    boolean retval - true, RenderTable is a valid RenderTable; false, it is not a valid RenderTable
+  </retvals>
+  <parameters>
+    RenderTable RenderTable - the table, that you want to check for validity
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render, is valid, check, rendertable</tags>
+</US_DocBloc>
+]]
+  if type(RenderTable)~="table" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "must be a table", -1) return false end
+  if type(RenderTable["RenderTable"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "no valid rendertable", -2) return false end
+  if type(RenderTable["AddToProj"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"AddToProj\"] must be a boolean", -3) return false end
+  if math.type(RenderTable["Bounds"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Bounds\"] must be an integer", -4) return false end
+  if math.type(RenderTable["Channels"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Channels\"] must be an integer", -5) return false end
+  if math.type(RenderTable["Dither"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Dither\"] must be an integer", -6) return false end
+  if type(RenderTable["Endposition"])~="number" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Endposition\"] must be an integer", -7) return false end
+  if type(RenderTable["MultiChannelFiles"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"MultiChannelFiles\"] must be a boolean", -8) return false end
+  if math.type(RenderTable["OfflineOnlineRendering"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"OfflineOnlineRendering\"] must be an integer", -9) return false end
+  if type(RenderTable["OnlyMonoMedia"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"OnlyMonoMedia\"] must be a boolean", -10) return false end 
+  if type(RenderTable["ProjectSampleRateFXProcessing"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"ProjectSampleRateFXProcessing\"] must be a boolean", -11) return false end 
+  if type(RenderTable["RenderFile"])~="string" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"RenderFile\"] must be a string", -12) return false end 
+  if type(RenderTable["RenderPattern"])~="string" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"RenderPattern\"] must be a string", -13) return false end 
+  if type(RenderTable["RenderQueueDelay"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"RenderQueueDelay\"] must be a boolean", -14) return false end
+  if math.type(RenderTable["RenderResample"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"RenderResample\"] must be an integer", -15) return false end
+  if type(RenderTable["RenderString"])~="string" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"RenderString\"] must be a string", -16) return false end 
+  if math.type(RenderTable["SampleRate"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"SampleRate\"] must be an integer", -17) return false end
+  if type(RenderTable["SaveCopyOfProject"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"SaveCopyOfProject\"] must be a boolean", -18) return false end
+  if type(RenderTable["SilentlyIncrementFilename"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"SilentlyIncrementFilename\"] must be a boolean", -19) return false end
+  if math.type(RenderTable["Source"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Source\"] must be an integer", -20) return false end    
+  if type(RenderTable["Startposition"])~="number" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Startposition\"] must be an integer", -21) return false end
+  if math.type(RenderTable["TailFlag"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"TailFlag\"] must be an integer", -22) return false end    
+  if math.type(RenderTable["TailMS"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"TailMS\"] must be an integer", -23) return false end    
+  return true
+end
+
+function ultraschall.ApplyRenderSettingsTable_Project(RenderTable)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ApplyRenderSettingsTable_Project</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
+    JS=0.980
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.SetRenderSettingsTable_Project(RenderTable RenderTable)</functioncall>
+  <functioncall>boolean retval = ultraschall.ApplyRenderSettingsTable_Project(RenderTable RenderTable)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets all stored render-settings from a RenderTable as the current project-settings.
             
@@ -57378,23 +57490,25 @@ function ultraschall.SetRenderSettingsTable_Project(RenderTable)
             RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
+            RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle);  RenderTable["RenderFile"] - the directory-inputbox of the Render to File-dialog
             RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
             RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
-            RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
             RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog
             RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog
-            RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; always false, as this is not stored in projectfiles
+            RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
-            RenderTable["SampleRate"] - the samplerate
-            RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always false, as this is not stored in projectfiles
+            RenderTable["SampleRate"] - the samplerate of the rendered file(s)
+            RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked
+            RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; true, checked; false, unchecked
             RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+            RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
-    
+            
     Returns nil in case of an error
   </description>
   <retvals>
@@ -57412,11 +57526,11 @@ function ultraschall.SetRenderSettingsTable_Project(RenderTable)
   <tags>projectfiles, set, project, rendertable</tags>
 </US_DocBloc>
 ]]
-  if type(RenderTable)~="table" or RenderTable["RenderTable"]~=true then ultraschall.AddErrorMessage("SetRenderSettingsTable_Project", "RenderTable", "not a valid RenderTable", -1) return false end
-  local _temp
+  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_Project", "RenderTable", "not a valid RenderTable", -1) return false end
+  local _temp, retval, hwnd, AddToProj, ProjectSampleRateFXProcessing, ReaProject, SaveCopyOfProject, retval
   if ReaProject==nil then ReaProject=0 end
   --[[
-  if ultraschall.type(ReaProject)~="ReaProject" and math.type(ReaProject)~="integer" then ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -1) return nil end
+  if ultraschall.type(ReaProject)~="ReaProject" and math.type(ReaProject)~="integer" then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -1) return nil end
   if ReaProject==-1 then ReaProject=0x40000000 _temp=true 
   elseif ReaProject<-2 then 
     ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project-tab available, must be 0, for the current; 1, for the first, etc; -1, for the currently rendering project", -3) return nil 
@@ -57442,13 +57556,13 @@ function ultraschall.SetRenderSettingsTable_Project(RenderTable)
   reaper.GetSetProjectInfo(ReaProject, "RENDER_ENDPOS", RenderTable["Endposition"], true)
   reaper.GetSetProjectInfo(ReaProject, "RENDER_TAILFLAG", RenderTable["TailFlag"], true)
   reaper.GetSetProjectInfo(ReaProject, "RENDER_TAILMS", RenderTable["TailMS"], true)
-  if RenderTable["AddToProj"]==true then RenderTable["AddToProj"]=1 else RenderTable["AddToProj"]=0 end
-  RenderTable["AddToProj"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_ADDTOPROJ", RenderTable["AddToProj"], true)
+  if RenderTable["AddToProj"]==true then AddToProj=1 else AddToProj=0 end
+  reaper.GetSetProjectInfo(ReaProject, "RENDER_ADDTOPROJ", AddToProj, true)
   
   reaper.GetSetProjectInfo(ReaProject, "RENDER_DITHER", RenderTable["Dither"], true)
   
-  if RenderTable["ProjectSampleRateFXProcessing"]==true then RenderTable["ProjectSampleRateFXProcessing"]=1 else RenderTable["ProjectSampleRateFXProcessing"]=0 end
-  reaper.SNM_SetIntConfigVar("projrenderrateinternal", RenderTable["ProjectSampleRateFXProcessing"])
+  if RenderTable["ProjectSampleRateFXProcessing"]==true then ProjectSampleRateFXProcessing=1 else ProjectSampleRateFXProcessing=0 end
+  reaper.SNM_SetIntConfigVar("projrenderrateinternal", ProjectSampleRateFXProcessing)
   
   local renderclosewhendone=reaper.SNM_GetIntConfigVar("renderclosewhendone", -1)
 
@@ -57477,13 +57591,204 @@ function ultraschall.SetRenderSettingsTable_Project(RenderTable)
   reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FILE", RenderTable["RenderFile"], true)
   reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", RenderTable["RenderPattern"], true)
   reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", RenderTable["RenderString"], true)
+  
+  if RenderTable["SaveCopyOfProject"]==true then SaveCopyOfProject=1 else SaveCopyOfProject=0 end
+  hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then
+    retval = reaper.BR_Win32_WritePrivateProfileString("REAPER", "autosaveonrender2", SaveCopyOfProject, reaper.get_ini_file())
+  else
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1060), "BM_SETCHECK", SaveCopyOfProject,0,0,0)
+  end
+    
   return true
 end
 
 --A=ultraschall.GetRenderSettingsTable_Project(0)
 --A=ultraschall.GetRenderSettingsTable_ProjectFile("C:\\Users\\meo\\Desktop\\Ultraschall-TutorialEinsteigerworkshop-Transkript-deutsch4.RPP")
 --A["AddToProj"]="Tudelu, Zucker im Schuh"
---ultraschall.SetRenderSettingsTable_Project(ReaProject, A)
+--A["SaveCopyOfProject"]=false
+--ultraschall.SetRenderSettingsTable_Project(A)
+
+--AA =  reaper.GetSetProjectInfo(ReaProject, "PROJECT_SRATE_USE", 1, true)
+
+
+function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ApplyRenderSettingsTable_ProjectFile</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable RenderTable, string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets all stored render-settings from a RenderTable as the current project-settings.
+            
+    Expected table is of the following structure:
+            RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
+            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
+            RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
+            RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
+            RenderTable["Endposition"] - the endposition of the rendering selection in seconds
+            RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
+            RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle);  RenderTable["RenderFile"] - the directory-inputbox of the Render to File-dialog
+            RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
+            RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
+            RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog
+            RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog
+            RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; ignored, as this can't be stored in projectfiles
+            RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
+            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+            RenderTable["RenderTable"]=true - signals, this is a valid render-table
+            RenderTable["SampleRate"] - the samplerate of the rendered file(s)
+            RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; ignored, as this can't be stored in projectfiles
+            RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; ignored, as this can't be stored in projectfiles
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+            RenderTable["Startposition"] - the startposition of the rendering selection in seconds
+            RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
+            RenderTable["TailMS"] - the amount of milliseconds of the tail
+            
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting the render-settings was successful; false, it wasn't successful
+  </retvals>
+  <parameters>
+    RenderTable RenderTable - a RenderTable, that contains all render-dialog-settings
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, set, projectfile, rendertable</tags>
+</US_DocBloc>
+]]
+  local retval, AddToProj, ProjectSampleRateFXProcessing
+  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_ProjectFile", "RenderTable", "not a valid RenderTable", -1) return false end
+  
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_ProjectFile", "ProjectStateChunk", "not a valid ProjectStateChunk", -2) return false end
+  if projectfilename_with_path~=nil and (type(projectfilename_with_path)~="string" or reaper.file_exists(projectfilename_with_path)==false) then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_ProjectFile", "projectfilename_with_path", "no such file", -3) return false end
+  if ProjectStateChunk==nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_ProjectFile", "projectfilename_with_path", "not a valid rpp-projectfile", -4) return false end
+  
+  if RenderTable["MultiChannelFiles"]==true then RenderTable["Source"]=RenderTable["Source"]+4 end
+  if RenderTable["OnlyMonoMedia"]==true then RenderTable["Source"]=RenderTable["Source"]+16 end
+  retval, ProjectStateChunk = ultraschall.SetProject_RenderStems(nil, RenderTable["Source"], ProjectStateChunk)
+  retval, ProjectStateChunk = ultraschall.SetProject_RenderRange(nil, RenderTable["Bounds"], RenderTable["Startposition"], RenderTable["Endposition"], RenderTable["TailFlag"], RenderTable["TailMS"], ProjectStateChunk)  
+  retval, ProjectStateChunk = ultraschall.SetProject_RenderFreqNChans(nil, 0, RenderTable["Channels"], RenderTable["SampleRate"], ProjectStateChunk)
+
+  if RenderTable["AddToProj"]==true then AddToProj=1 else AddToProj=0 end  
+  retval, ProjectStateChunk = ultraschall.SetProject_AddMediaToProjectAfterRender(nil, AddToProj, ProjectStateChunk)
+  retval, ProjectStateChunk = ultraschall.SetProject_RenderDitherState(nil, RenderTable["Dither"], ProjectStateChunk)
+  
+  if RenderTable["ProjectSampleRateFXProcessing"]==true then ProjectSampleRateFXProcessing=1 else ProjectSampleRateFXProcessing=0 end
+  local resample_mode, playback_resample_mode, project_smplrate4mix_and_fx = ultraschall.GetProject_RenderResample(nil, ProjectStateChunk)
+  retval, ProjectStateChunk = ultraschall.SetProject_RenderResample(nil, RenderTable["RenderResample"], playback_resample_mode, ProjectSampleRateFXProcessing, ProjectStateChunk)
+  
+  retval, ProjectStateChunk = ultraschall.SetProject_RenderSpeed(nil, RenderTable["OfflineOnlineRendering"], ProjectStateChunk)
+  retval, ProjectStateChunk = ultraschall.SetProject_RenderFilename(nil, RenderTable["RenderFile"], ProjectStateChunk)
+  retval, ProjectStateChunk = ultraschall.SetProject_RenderPattern(nil, RenderTable["RenderPattern"], ProjectStateChunk)
+  retval, ProjectStateChunk = ultraschall.SetProject_RenderCFG(nil, RenderTable["RenderString"], ProjectStateChunk)
+  
+  if projectfilename_with_path~=nil then ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk) return true, ProjectStateChunk
+  else return true, ProjectStateChunk
+  end
+end
+
+--A=ultraschall.GetRenderSettingsTable_Project(0)
+--A["TailMS"]=16098
+--B=ultraschall.ReadFullFile("c:\\Render-Queue-Documentation.RPP")
+--L,L2=ultraschall.ApplyRenderSettingsTable_ProjectFile(A, "c:\\Render-Queue-Documentation.RPP", B)
+--print2(L2)
+
+
+
+--A=ultraschall.GetRenderSettingsTable_Project(0)
+
+--B=ultraschall.IsValidRenderTable(A)
+
+function ultraschall.GetCheckboxState(hwnd)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetCheckboxState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.GetCheckboxState(HWND hwnd)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the checked-state of a checkbox-hwnd.
+    This function will not check, whether the hwnd is an actual checkbox!
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, checkbox is checked; false, checkbox isn't checked
+  </retvals>
+  <parameters>
+    HWND hwnd - the hwnd-handler of the checkbox
+  </parameters>
+  <chapter_context>
+    User Interface
+    UI-Elements
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, get, state, checkbox</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidHWND(hwnd)==false then ultraschall.AddErrorMessage("GetCheckboxState", "hwnd", "not a valid hwnd", -1) return end
+  local state=reaper.JS_WindowMessage_Send(hwnd, "BM_GETCHECK", 0,0,0,0)
+  if state==0 then return false elseif state==1 then return true end
+end
+
+function ultraschall.SetCheckboxState(hwnd, state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetCheckboxState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SetCheckboxState(HWND hwnd, boolean state)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the checked-state of a checkbox-hwnd.
+    This function will not check, whether the hwnd is an actual checkbox!
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer retval - 0, in case of success
+  </retvals>
+  <parameters>
+    HWND hwnd - the hwnd-handler of the checkbox
+    boolean state - true, checkbox will be checked; false, checkbox will be unchecked
+  </parameters>
+  <chapter_context>
+    User Interface
+    UI-Elements
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, set, state, checkbox</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidHWND(hwnd)==false then ultraschall.AddErrorMessage("SetCheckboxState", "hwnd", "not a valid hwnd", -1) return end
+  if type(state)~="boolean" then ultraschall.AddErrorMessage("SetCheckboxState", "state", "must be a boolean", -2) return end
+  if state==true then state=1 else state=0 end
+  return reaper.JS_WindowMessage_Send(hwnd, "BM_SETCHECK", state,0,0,0)
+end
+
+--hwnd = ultraschall.GetRenderToFileHWND()
+--hwnd = reaper.JS_Window_FindChildByID(hwnd,1060)
+--AA=ultraschall.SetCheckboxState(hwnd, false)
 
 ultraschall.ShowLastErrorMessage()
 
