@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="35510.00" author="Meo Mespotine">
+      <version name="35718.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -328,6 +328,14 @@ New features in 4.00beta2.75
     parameter-learn-settings from a MediaItem, as requested by TonE
 -   FXManagement: GetParmLearn_MediaTrack - gets the
     parameter-learn-settings from a MediaTrack, as requested by TonE
+-   Project Management: GetProject_QRenderOriginalProject - returns the
+    original projectfile of a render-queued-project from a projectfile
+    or ProjectStateChunk
+-   Project Management: GetProject_QRenderOutFiles - returns the
+    render-outfiles-with-path of a render-queued-project from a
+    projectfile or ProjectStateChunk
+-   Project Management: GetProject_RenderQueueDelay - returns the
+    render-queue-delay of a projectfile or ProjectStateChunk
 -   Render: ApplyRenderSettingsTable_Project - applies a RenderTable to
     the active project
 -   Render: ApplyRenderSettingsTable_ProjectFile - applies a RenderTable
@@ -348,6 +356,9 @@ New features in 4.00beta2.75
     the format video-MP4 for Mac
 -   Render: CreateRenderCFG_QTMOVMP4_Video - creates a render-string for
     the format video-QT/MOV/MP4
+-   Render: CreateNewRenderTable - creates a new RenderTable, which
+    holds all render-settings; can be applied later to projects or
+    projectfiles
 -   Render: GetRenderSettingsTable_Project - returns a table with all
     render-settings of the currently active project
 -   Render: GetRenderSettingsTable_ProjectFile - returns a table with

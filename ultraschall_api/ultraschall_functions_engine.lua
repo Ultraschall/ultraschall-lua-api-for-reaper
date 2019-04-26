@@ -18343,7 +18343,182 @@ end
 --P,PN=reaper.EnumProjects(-1,"")
 --A1,A2,A3,A4=ultraschall.GetProject_Selection(PN)
 
+function ultraschall.GetProject_RenderQueueDelay(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_RenderQueueDelay</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>boolean qdelay_checkstate, integer qdelay_seconds = ultraschall.GetProject_Selection(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    Returns the state of the checkbox Delay queued render to allow samples to load-checkbox and the length of the delay.
+    
+    It's the entry RENDER_QDELAY
+    
+    Returns nil in case of error or if no such entry exists.
+  </description>
+  <parameters>
+    string projectfilename_with_path - filename with path for the rpp-projectfile; nil, if you want to use parameter ProjectStateChunk
+    optional string ProjectStateChunk - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil
+  </parameters>
+  <retvals>
+    boolean qdelay_checkstate - true, the checkbox is checked; false, it is unchecked
+    integer qdelay_seconds - the length of the queued-render-delay in seconds
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, get, queue, delay, seconds, checkbox, projectstatechunk</tags>
+</US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_RenderQueueDelay","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_RenderQueueDelay","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_RenderQueueDelay","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_RenderQueueDelay", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
+  end
+  -- get the values and return them
+  local Delay=ProjectStateChunk:match("RENDER_QDELAY (.-)%c")
+  if Delay==nil then 
+    return false, 0
+  else
+    return true, tonumber(Delay)
+  end
+end
 
+--A,B,C=ultraschall.GetProject_RenderQueueDelay("c:\\Ultraschall-Hackversion_3.2_US_beta_2_75\\QueuedRenders\\qrender_190426_010705_unkn.rpp", ProjectStateChunk)
+
+function ultraschall.GetProject_QRenderOriginalProject(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_QRenderOriginalProject</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string qrender_originalproject_file = ultraschall.GetProject_QRenderOriginalProject(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    Returns the original-filename of a queue-render-projectfile. Will return empty string, if the queued-render-project hadn't been saved before it was added to the render-queue.
+    
+    It's the entry QUEUED_RENDER_ORIGINAL_FILENAME
+    
+    Returns nil in case of error or if no such entry exists.
+  </description>
+  <parameters>
+    string projectfilename_with_path - filename with path for the rpp-projectfile; nil, if you want to use parameter ProjectStateChunk
+    optional string ProjectStateChunk - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil
+  </parameters>
+  <retvals>
+    string qrender_originalproject_file - the original-projectfilename of the queue-render-project
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, get, queue, original projectfilename, projectstatechunk</tags>
+</US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_QRenderOriginalProject","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_QRenderOriginalProject","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_QRenderOriginalProject","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_QRenderOriginalProject", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
+  end
+  -- get the values and return them
+  local OriginalFilename=ProjectStateChunk:match("QUEUED_RENDER_ORIGINAL_FILENAME (.-)%c")
+  if OriginalFilename==nil then 
+    return ""
+  else
+    return OriginalFilename
+  end
+end
+
+--A,B,C=ultraschall.GetProject_QRenderOriginalProject("c:\\Ultraschall-Hackversion_3.2_US_beta_2_75\\QueuedRenders\\qrender_190426_010153_internal project.RPP", ProjectStateChunk)
+
+function ultraschall.GetProject_QRenderOutFiles(projectfilename_with_path, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_QRenderOutFiles</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_outfiles, table QRenderOutFilesList, table QRenderOutFilesListGuid, boolean AutoCloseWhenFinished, boolean AutoIncrementFilename, boolean SaveCopyToOutfile = ultraschall.GetProject_QRenderOutFiles(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <description>
+    Returns the outfiles of the rendered files, stored in a queue-render-projectfile. This includes the path and files of the files, that will be rendered.
+    
+    It's the entry QUEUED_RENDER_OUTFILE
+    
+    Returns nil in case of error or if no such entry exists.
+  </description>
+  <parameters>
+    string projectfilename_with_path - filename with path for the rpp-projectfile; nil, if you want to use parameter ProjectStateChunk
+    optional string ProjectStateChunk - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil
+  </parameters>
+  <retvals>
+    integer count_outfiles - the number of render-outfiles
+    table QRenderOutFilesList - an array with all filenames-with-paths that the rendered files will have; 
+                              - if the filename contains "-001" or higher, this represents a file for a rendered stem, otherwise it is the one for the master.
+    table QRenderOutFilesListGuid - the guids of the rendered outfiles
+    boolean AutoCloseWhenFinished - true, the render-dialog will be closed after render is finished; false, the render-dialog keeps open
+    boolean AutoIncrementFilename - true, autoincrement filename if the file already exists; false, don't autoincrement filename
+    boolean SaveCopyToOutfile - true, save a copy of the project as e.g. "outfile.wav.RPP"; false, don't save a copy of the project
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, get, queue, queuerender outfiles, auto close when finished, auto increment filename, save copy of outfile</tags>
+</US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_QRenderOutFiles","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_QRenderOutFiles","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_QRenderOutFiles","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_QRenderOutFiles", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
+  end
+  -- get the values and return them
+  local QRenderOutfiles=ProjectStateChunk:match("(QUEUED_RENDER_OUTFILE .-)RIPPLE ")
+  local QRenderOutfiles=string.gsub(QRenderOutfiles, "QUEUED_RENDER_ORIGINAL_FILENAME.-\n", "")
+  local count, QRenderOutfiles = ultraschall.CSV2IndividualLinesAsArray(QRenderOutfiles, "\n")
+  local QRenderOutFilesList={}
+  local QRenderOutFilesListGuid={}
+  local AutoCloseWhenFinished, AutoIncrementFilename, SaveCopyToOutfile, checkboxes
+  for i=1, count-1 do
+    if i==1 then 
+      QRenderOutFilesList[i], checkboxes, QRenderOutFilesListGuid[i] = QRenderOutfiles[i]:match(" \"(.-)\" (.-) (.-})")
+    else
+      QRenderOutFilesList[i], QRenderOutFilesListGuid[i] = QRenderOutfiles[i]:match(" \"(.-)\".-({.-})")
+    end
+  end
+  if checkboxes&1~=0 then AutoCloseWhenFinished=true  else AutoCloseWhenFinished=false end
+  if checkboxes&16~=0 then AutoIncrementFilename=true else AutoIncrementFilename=false end
+  if checkboxes&65537~=0 then SaveCopyToOutfile=true  else SaveCopyToOutfile=false     end
+  return count-1, QRenderOutFilesList, QRenderOutFilesListGuid, AutoCloseWhenFinished, AutoIncrementFilename, SaveCopyToOutfile
+end
+
+--A,B,C,D,E,F=ultraschall.GetProject_QRenderOriginalProject("c:\\Ultraschall-Hackversion_3.2_US_beta_2_75\\QueuedRenders\\qrender_190426_010507_unkn.rpp", ProjectStateChunk)
 
 --- Set ---
 
@@ -18399,6 +18574,64 @@ end
 
 --A=ultraschall.ReadFullFile("c:\\tt.rpp")
 --B,C=ultraschall.SetProject_RippleState("c:\\tt.RPP", 1, A)
+
+function ultraschall.SetProject_RenderQueueDelay(projectfilename_with_path, renderqdelay, ProjectStateChunk)
+-- Set RippleState in a projectfilename_with_path
+--  0 - no Ripple, 1 - Ripple One Track, 2 - Ripple All
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetProject_RenderQueueDelay</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderQueueDelay(string projectfilename_with_path, integer renderqdelay, optional string ProjectStatechunk)</functioncall>
+  <description>
+    Sets the render-queue-delay-time in an rpp-project-file or a ProjectStateChunk.
+    
+    Returns -1 in case of error.
+  </description>
+  <parameters>
+    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    integer renderqdelay - 0 and higher, sets the checkbox "Delay queued render to allow samples to load and the amount of time to wait in seconds
+                         - nil, if you want to turn off render-queue-delay in the project/ProjectStateChunk
+    optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
+  </parameters>
+  <retvals>
+    integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Set
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, set, render queue delay</tags>
+</US_DocBloc>
+]]
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderQueueDelay", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
+  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RenderQueueDelay", "projectfilename_with_path", "File does not exist", -2) return -1 end
+  if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
+  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderQueueDelay", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
+  if renderqdelay~=nil and math.type(renderqdelay)~="integer" then ultraschall.AddErrorMessage("SetProject_RenderQueueDelay", "renderqdelay", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderQueueDelay", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
+
+  local FileStart, FileEnd = ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_ADDTOPROJ.-%c).-(  RENDER_STEMS.*)")
+  if renderqdelay==nil then 
+    renderqdelay="" 
+  else
+    renderqdelay="  RENDER_QDELAY "..renderqdelay.."\n"
+  end
+  ProjectStateChunk=FileStart..renderqdelay..FileEnd
+
+  if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
+  else return 1, ProjectStateChunk
+  end
+end
+
+--A=ultraschall.SetProject_RenderQueueDelay("c:\\Render-Queue-Documentation.RPP", nil, ProjectStateChunk)
 
 function ultraschall.SetProject_Selection(projectfilename_with_path, starttime, endtime, starttime2, endtime2, ProjectStateChunk)
 -- Set RippleState in a projectfilename_with_path
@@ -56955,12 +57188,13 @@ function ultraschall.GetRenderSettingsTable_Project()
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
-            RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle);  RenderTable["RenderFile"] - the directory-inputbox of the Render to File-dialog
+            RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle)
             RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
             RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
             RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog
             RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
+            RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
@@ -57025,7 +57259,13 @@ function ultraschall.GetRenderSettingsTable_Project()
   RenderTable["ProjectSampleRateFXProcessing"]=reaper.SNM_GetIntConfigVar("projrenderrateinternal", -1)
   if RenderTable["ProjectSampleRateFXProcessing"]==1 then RenderTable["ProjectSampleRateFXProcessing"]=true else RenderTable["ProjectSampleRateFXProcessing"]=false end
   if reaper.SNM_GetIntConfigVar("renderclosewhendone", -1)&16~=0 then RenderTable["SilentlyIncrementFilename"]=true else RenderTable["SilentlyIncrementFilename"]=false end
-  if reaper.SNM_GetIntConfigVar("renderqdelay", -1)>0 then RenderTable["RenderQueueDelay"]=true else RenderTable["RenderQueueDelay"]=false end
+  if reaper.SNM_GetIntConfigVar("renderqdelay", -1)>0 then 
+    RenderTable["RenderQueueDelay"]=true 
+    RenderTable["RenderQueueDelaySeconds"]=reaper.SNM_GetIntConfigVar("renderqdelay", -1) 
+  else 
+    RenderTable["RenderQueueDelay"]=false 
+    RenderTable["RenderQueueDelaySeconds"]=-reaper.SNM_GetIntConfigVar("renderqdelay", -1)
+  end
   RenderTable["RenderResample"]=reaper.SNM_GetIntConfigVar("projrenderresample", -1)
   RenderTable["OfflineOnlineRendering"]=reaper.SNM_GetIntConfigVar("projrenderlimit", -1)
   _temp, RenderTable["RenderFile"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FILE", "", false)
@@ -57067,12 +57307,13 @@ function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_pat
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
-            RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle);  RenderTable["RenderFile"] - the directory-inputbox of the Render to File-dialog
+            RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle)
             RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
             RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
             RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog
             RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog
-            RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; always false, as this is not stored in projectfiles
+            RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checkbox is checked; false, checkbox is unchecked
+            RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
@@ -57139,7 +57380,8 @@ function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_pat
   RenderTable["ProjectSampleRateFXProcessing"]=project_smplrate4mix_and_fx
   if RenderTable["ProjectSampleRateFXProcessing"]==1 then RenderTable["ProjectSampleRateFXProcessing"]=true else RenderTable["ProjectSampleRateFXProcessing"]=false end
   RenderTable["SilentlyIncrementFilename"]=false
-  RenderTable["RenderQueueDelay"]=false
+  RenderTable["RenderQueueDelay"], RenderTable["RenderQueueDelaySeconds"]=ultraschall.GetProject_RenderQueueDelay(nil, ProjectStateChunk)
+
   RenderTable["RenderResample"]=resample_mode
   RenderTable["OfflineOnlineRendering"]=ultraschall.GetProject_RenderSpeed(nil, ProjectStateChunk)
   
@@ -57152,7 +57394,7 @@ function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_pat
 end
 
 
---B=ultraschall.ReadFullFile("c:\\huilui.rpp")
+--B=ultraschall.ReadFullFile("c:\\Render-Queue-Documentation.RPP")
 --AAA=ultraschall.GetRenderSettingsTable_ProjectFile(nil,B)
 
 function ultraschall.GetFXStateChunk(StateChunk)
@@ -57467,11 +57709,18 @@ function ultraschall.IsValidRenderTable(RenderTable)
   if math.type(RenderTable["Source"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Source\"] must be an integer", -20) return false end    
   if type(RenderTable["Startposition"])~="number" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"Startposition\"] must be an integer", -21) return false end
   if math.type(RenderTable["TailFlag"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"TailFlag\"] must be an integer", -22) return false end    
-  if math.type(RenderTable["TailMS"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"TailMS\"] must be an integer", -23) return false end    
+  if math.type(RenderTable["TailMS"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"TailMS\"] must be an integer", -23) return false end
+  if math.type(RenderTable["RenderQueueDelaySeconds"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"RenderQueueDelaySeconds\"] must be an integer", -24) return false end
   return true
 end
 
 function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_rendercfg_string)
+-- ToDo!!
+-- OfflineOnlineRendering - faulty, needs to be changed through the dropdownlist
+-- ProjectSampleRateForMixing - faulty, needs to be checkboxed!
+-- ResampleMode - faulty, needs to be changed through the dropdownlist
+-- SilentlyIncrementFilename - faulty, needs to be checkboxed
+
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyRenderSettingsTable_Project</slug>
@@ -57493,12 +57742,13 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_renderc
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
-            RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle);  RenderTable["RenderFile"] - the directory-inputbox of the Render to File-dialog
+            RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle)
             RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
             RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
             RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog
             RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
+            RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
@@ -57576,10 +57826,14 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_renderc
   end
   reaper.SNM_SetIntConfigVar("renderclosewhendone", renderclosewhendone)
   
-  if RenderTable["RenderQueueDelay"]==true then reaper.SNM_SetIntConfigVar("renderqdelay", 1) else reaper.SNM_SetIntConfigVar("renderqdelay", 0) end
+  if RenderTable["RenderQueueDelay"]==true then 
+    reaper.SNM_SetIntConfigVar("renderqdelay", RenderQueueDelaySeconds)
+  else 
+    reaper.SNM_SetIntConfigVar("renderqdelay", -RenderQueueDelaySeconds)
+  end
   
   reaper.SNM_SetIntConfigVar("projrenderresample", RenderTable["RenderResample"])
-  reaper.SNM_GetIntConfigVar("projrenderlimit", RenderTable["OfflineOnlineRendering"])
+  reaper.SNM_SetIntConfigVar("projrenderlimit", RenderTable["OfflineOnlineRendering"])
   if RenderTable["RenderFile"]==nil then RenderTable["RenderFile"]="" end
   if RenderTable["RenderPattern"]==nil then 
     local path, filename = ultraschall.GetPath(RenderTable["RenderFile"])
@@ -57638,12 +57892,13 @@ function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfi
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
-            RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle);  RenderTable["RenderFile"] - the directory-inputbox of the Render to File-dialog
+            RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle);  
             RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
             RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
             RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog
             RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog
-            RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; ignored, as this can't be stored in projectfiles
+            RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox
+            RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
@@ -57702,6 +57957,13 @@ function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfi
   retval, ProjectStateChunk = ultraschall.SetProject_RenderSpeed(nil, RenderTable["OfflineOnlineRendering"], ProjectStateChunk)
   retval, ProjectStateChunk = ultraschall.SetProject_RenderFilename(nil, RenderTable["RenderFile"], ProjectStateChunk)
   retval, ProjectStateChunk = ultraschall.SetProject_RenderPattern(nil, RenderTable["RenderPattern"], ProjectStateChunk)
+
+  if RenderTable["RenderQueueDelay"]==true then 
+    retval, ProjectStateChunk = ultraschall.SetProject_RenderQueueDelay(nil, RenderTable["RenderQueueDelaySeconds"], ProjectStateChunk)
+  else
+    retval, ProjectStateChunk = ultraschall.SetProject_RenderQueueDelay(nil, nil, ProjectStateChunk)
+  end
+  
   if apply_rendercfg_string==true or apply_rendercfg_string==nil then
     retval, ProjectStateChunk = ultraschall.SetProject_RenderCFG(nil, RenderTable["RenderString"], ProjectStateChunk)
   end
@@ -57714,7 +57976,7 @@ end
 --A=ultraschall.GetRenderSettingsTable_Project(0)
 --A["RenderString"]="Whoops"
 --B=ultraschall.ReadFullFile("c:\\Render-Queue-Documentation.RPP")
---L,L2=ultraschall.ApplyRenderSettingsTable_ProjectFile(A, "c:\\Render-Queue-Documentation.RPP", 1, B)
+--L,L2=ultraschall.ApplyRenderSettingsTable_ProjectFile(A, "c:\\Render-Queue-Documentation.RPP", true, B)
 --print2(L2)
 
 
@@ -57802,6 +58064,162 @@ end
 --hwnd = ultraschall.GetRenderToFileHWND()
 --hwnd = reaper.JS_Window_FindChildByID(hwnd,1060)
 --AA=ultraschall.SetCheckboxState(hwnd, false)
+
+function ultraschall.CreateNewRenderTable(Source, Bounds, Startposition, Endposition, TailFlag, TailMS, RenderFile, RenderPattern,
+SampleRate, Channels, OfflineOnlineRendering, ProjectSampleRateFXProcessing, RenderResample, OnlyMonoMedia, MultiChannelFiles,
+Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, RenderQueueDelay, RenderQueueDelaySeconds)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CreateNewRenderTable</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>RenderTable RenderTable = ultraschall.IsValidRenderTable(integer Source, integer Bounds, number Startposition, number Endposition, integer TailFlag, integer TailMS, string RenderFile, string RenderPattern, integer SampleRate, integer Channels, integer OfflineOnlineRendering, boolean ProjectSampleRateFXProcessing, integer RenderResample, boolean OnlyMonoMedia, boolean MultiChannelFiles, integer Dither, string RenderString, boolean SilentlyIncrementFilename, boolean AddToProj, boolean SaveCopyOfProject, boolean RenderQueueDelay, integer RenderQueueDelaySeconds)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Creates a new RenderTable.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    RenderTable RenderTable - the created RenderTable
+  </retvals>
+  <parameters>
+    integer Source - The Source-dropdownlist; 
+                   - 0, Master mix
+                   - 1, Master mix + stems
+                   - 3, Stems (selected tracks)
+                   - 8, Region render matrix
+                   - 32, Selected media items
+    integer Bounds - The Bounds-dropdownlist
+                   - 0, Custom time range
+                   - 1, Entire project
+                   - 2, Time selection
+                   - 3, Project regions
+                   - 4, Selected Media Items(in combination with Source 32)
+                   - 5, Selected regions
+    number Startposition - the startposition of the render-section in seconds; only used when Bounds=0(Custom time range)
+    number Endposition - the endposition of the render-section in seconds; only used when Bounds=0(Custom time range)
+    integer TailFlag - in which bounds is the Tail-checkbox checked? 
+                     - &1, custom time bounds
+                     - &2, entire project
+                     - &4, time selection
+                     - &8, all project regions
+                     - &16, selected media items
+                     - &32, selected project regions
+    integer TailMS - the amount of milliseconds of the tail
+    string RenderFile - the contents of the Directory-inputbox of the Render to File-dialog
+    string RenderPattern - the render pattern as input into the File name-inputbox of the Render to File-dialog; set to "" if you don't want to use it
+    integer SampleRate - the samplerate of the rendered file(s)
+    integer Channels - the number of channels in the rendered file; 
+                     - 1, mono
+                     - 2, stereo
+                     - 3 and higher, the number of channels
+    integer OfflineOnlineRendering - Offline/Online rendering-dropdownlist
+                                   - 0, Full-speed Offline
+                                   - 1, 1x Offline
+                                   - 2, Online Render
+                                   - 3, Online Render(Idle)
+                                   - 4, Offline Render(Idle)
+    boolean ProjectSampleRateFXProcessing - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
+    integer RenderResample - Resample mode-dropdownlist
+                           - 0, Medium (64pt Sinc)
+                           - 1, Low (Linear Interpolation)
+                           - 2, Lowest (Point Sampling)
+                           - 3, Good (192pt Sinc)
+                           - 4, Better (348 pt Sinc)
+                           - 5, Fast (IIR + Linear Interpolation)
+                           - 6, Fast (IIRx2 + Linear Interpolation)
+                           - 7, Fast (16pt Sinc)
+                           - 8, HQ (512 pt)
+                           - 9, Extreme HQ(768pt HQ Sinc)
+    boolean OnlyMonoMedia - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
+    boolean MultiChannelFiles - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
+    integer Dither - the Dither/Noise shaping-checkboxes: 
+                   - &1, dither master mix
+                   - &2, noise shaping master mix
+                   - &4, dither stems
+                   - &8, dither noise shaping
+    string RenderString - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+    boolean SilentlyIncrementFilename - Silently increment filenames to avoid overwriting-checkbox; ignored, as this can't be stored in projectfiles
+    boolean AddToProj - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
+    boolean SaveCopyOfProject - the "Save copy of project to outfile.wav.RPP"-checkbox; ignored, as this can't be stored in projectfiles
+    boolean RenderQueueDelay - Delay queued render to allow samples to load-checkbox; ignored, as this can't be stored in projectfiles
+    integer RenderQueueDelaySeconds - the amount of seconds for the render-queue-delay
+  </parameters>
+  <chapter_context>
+    Rendering of Project
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render, is valid, check, rendertable</tags>
+</US_DocBloc>
+]]
+  if type(AddToProj)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "AddToProj", "must be a boolean", -3) return end
+  if math.type(Bounds)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Bounds", "must be an integer", -4) return end
+  if math.type(Channels)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Channels", "must be an integer", -5) return end
+  if math.type(Dither)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Dither", "must be an integer", -6) return end
+  if type(Endposition)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Endposition", "must be an integer", -7) return end
+  if type(MultiChannelFiles)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "MultiChannelFiles", "must be a boolean", -8) return end
+  if math.type(OfflineOnlineRendering)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "OfflineOnlineRendering", "must be an integer", -9) return end
+  if type(OnlyMonoMedia)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "OnlyMonoMedia", "must be a boolean", -10) return end 
+  if type(ProjectSampleRateFXProcessing)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "ProjectSampleRateFXProcessing", "must be a boolean", -11) return end 
+  if type(RenderFile)~="string" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderFile", "must be a string", -12) return end 
+  if type(RenderPattern)~="string" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderPattern", "must be a string", -13) return end 
+  if type(RenderQueueDelay)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderQueueDelay", "must be a boolean", -14) return end
+  if math.type(RenderResample)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderResample", "must be an integer", -15) return end
+  if type(RenderString)~="string" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderString", "must be a string", -16) return end 
+  if math.type(SampleRate)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "SampleRate", "must be an integer", -17) return end
+  if type(SaveCopyOfProject)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "SaveCopyOfProject", "must be a boolean", -18) return end
+  if type(SilentlyIncrementFilename)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "SilentlyIncrementFilename", "must be a boolean", -19) return end
+  if math.type(Source)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Source", "must be an integer", -20) return end    
+  if type(Startposition)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Startposition", "must be an integer", -21) return end
+  if math.type(TailFlag)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "TailFlag", "must be an integer", -22) return end    
+  if math.type(TailMS)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "TailMS", "must be an integer", -23) return end    
+  if math.type(RenderQueueDelaySeconds)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderQueueDelaySeconds", "must be an integer", -24) return end
+  local RenderTable={}
+  RenderTable["AddToProj"]=AddToProj
+  RenderTable["Bounds"]=Bounds
+  RenderTable["Channels"]=Channels
+  RenderTable["Dither"]=Dither
+  RenderTable["Endposition"]=Endposition
+  RenderTable["MultiChannelFiles"]=MultiChannelFiles
+  RenderTable["OfflineOnlineRendering"]=OfflineOnlineRendering
+  RenderTable["OnlyMonoMedia"]=OnlyMonoMedia
+  RenderTable["ProjectSampleRateFXProcessing"]=ProjectSampleRateFXProcessing
+  RenderTable["RenderFile"]=RenderFile
+  RenderTable["RenderPattern"]=RenderPattern
+  RenderTable["RenderQueueDelay"]=RenderQueueDelay
+  RenderTable["RenderQueueDelaySeconds"]=RenderQueueDelaySeconds
+  RenderTable["RenderResample"]=RenderResample
+  RenderTable["RenderString"]=RenderString
+  RenderTable["RenderTable"]=true 
+  RenderTable["SampleRate"]=SampleRate
+  RenderTable["SaveCopyOfProject"]=SaveCopyOfProject
+  RenderTable["SilentlyIncrementFilename"]=SilentlyIncrementFilename
+  RenderTable["Source"]=Source
+  RenderTable["Startposition"]=Startposition
+  RenderTable["TailFlag"]=TailFlag
+  RenderTable["TailMS"]=TailMS
+  return RenderTable
+end
+
+--Source, Bounds, Startposition, Endposition, TailFlag, TailMS, RenderFile, RenderPattern,
+--SampleRate, Channels, OfflineOnlineRendering, ProjectSampleRateFXProcessing, RenderResample, OnlyMonoMedia, MultiChannelFiles,
+--Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, RenderQueueDelay)
+
+
+--O=ultraschall.CreateNewRenderTable(2, 0, 2, 22, 0, 190, "aRenderFile", "apattern", 99, 3, 3,    false,   2, false, false, 1, "l3pm", true, true, true, true)
+ 
+
+
+--ultraschall.IsValidRenderTable(O)
+--L,L2=ultraschall.ApplyRenderSettingsTable_Project(O)
+--print2(O["RenderString"])
+--reaper.GetSetProjectInfo_String(0, "RENDER_FORMAT", "l3pm", true)
+
 
 ultraschall.ShowLastErrorMessage()
 

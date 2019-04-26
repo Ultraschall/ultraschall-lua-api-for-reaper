@@ -8638,6 +8638,9 @@
            
            >&16=0, Silently increment filenames to avoid overwriting - unchecked  
            >&16=1, Silently increment filenames to avoid overwriting - checked  
+           
+           >&65537=0, Save copy of project to outfile.wav.RPP - unchecked
+           >&65537=1, Save copy of project to outfile.wav.RPP - checked
             
       </description>  
       <chapter_context>  
@@ -8650,7 +8653,8 @@
       <slug>renderqdelay</slug>  
       <title>renderqdelay</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          Delay queued render to allow samples to load-checkbox, as set in the Render to File-dialog  
+          Delay queued render to allow samples to load-checkbox and length in seconds, as set in the Render to File-dialog  
+          This is the length in seconds, while the checkbox-state is encoded using positive(checked) or negative(unchecked) version of the value.  
           It is an integer  
           
            >negative-value, checkbox - unchecked  

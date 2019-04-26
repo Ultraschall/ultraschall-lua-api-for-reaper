@@ -154,7 +154,11 @@ end
                     RenderQueue:
                     QUEUED_RENDER_OUTFILE "C:\Users\meo\Documents\REAPER Media\untitled.flac" 0 {EB98934F-A3C1-403D-AC70-7F07975740C1}
 
-                    QUEUED_RENDER_OUTFILE renderfilename_with_path_for_queue  integer unknown string guid
+                    QUEUED_RENDER_OUTFILE renderfilename_with_path_for_queue  integer various_checkboxes  string guid
+                        integer various_checkboxes - &1, Automatically close when finished-checkbox(Rendering to file...)
+                                                     &16, Silently increment filenames to avoid overwriting
+                                                     &65537, Save copy of project to outfile.wav.RPP
+                                                     
 
                     stores the output-filename with path for the render-queue. If omitted while project is in QueuedRenders, the renderfilename will be created like a regular projectfile
 
@@ -162,6 +166,9 @@ end
                     QUEUED_RENDER_ORIGINAL_FILENAME string projectfilename
 
                     stores the original filename of the project
+                    
+                    RENDER_QDELAY 30 - the render-queue-delay time in seconds, between   RENDER_ADDTOPROJ 0 and RENDER_STEMS 0
+
       
                     The queue-filename MUST have the following namingpattern: qrender_123456_123456_projectname.RPP, 
                                       where the first number is a datestamp yymmdd and the second a timestamp hhmmss.
@@ -362,6 +369,9 @@ tagline inspired by a comment from \_stevie\_ ;)
   - FXManagement: GetParmLearn\_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE
   - FXManagement: GetParmLearn\_MediaItem - gets the parameter-learn-settings from a MediaItem, as requested by TonE
   - FXManagement: GetParmLearn\_MediaTrack - gets the parameter-learn-settings from a MediaTrack, as requested by TonE
+  - Project Management: GetProject_QRenderOriginalProject - returns the original projectfile of a render-queued-project from a projectfile or ProjectStateChunk
+  - Project Management: GetProject_QRenderOutFiles - returns the render-outfiles-with-path of a render-queued-project from a projectfile or ProjectStateChunk
+  - Project Management: GetProject_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk
   - Render: ApplyRenderSettingsTable\_Project - applies a RenderTable to the active project
   - Render: ApplyRenderSettingsTable\_ProjectFile - applies a RenderTable to a projectfile
   - Render: CreateRenderCFG\_AVI\_Video - creates a render-string for the format video-AVI
@@ -372,6 +382,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: CreateRenderCFG\_MOVMAC\_Video - creates a render-string for the format video-MOV for Mac
   - Render: CreateRenderCFG\_MP4MAC\_Video - creates a render-string for the format video-MP4 for Mac
   - Render: CreateRenderCFG\_QTMOVMP4\_Video - creates a render-string for the format video-QT/MOV/MP4
+  - Render: CreateNewRenderTable - creates a new RenderTable, which holds all render-settings; can be applied later to projects or projectfiles
   - Render: GetRenderSettingsTable\_Project - returns a table with all render-settings of the currently active project
   - Render: GetRenderSettingsTable\_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk
   - Render: IsValidRenderTable - returns, if a table is a valid RenderTable
