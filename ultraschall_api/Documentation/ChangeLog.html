@@ -64,9 +64,6 @@ Ultraschall API Changelog
 <li>Render: CreateRenderCFG_MP4MAC_Video - creates a render-string for the format video-MP4 for Mac</li>
 <li>Render: CreateRenderCFG_QTMOVMP4_Video - creates a render-string for the format video-QT/MOV/MP4</li>
 <li>Render: CreateNewRenderTable - creates a new RenderTable, which holds all render-settings; can be applied later to projects or projectfiles</li>
-<li>Render: GetRenderSettingsTable_Project - returns a table with all render-settings of the currently active project</li>
-<li>Render: GetRenderSettingsTable_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk</li>
-<li>Render: IsValidRenderTable - returns, if a table is a valid RenderTable</li>
 <li>Render: GetRenderCFG_Settings_AIFF - gets the settings of an audio-AIFF-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_AudioCD - gets the settings of an audio-AudioCD-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_AVI_Video - gets the settings of an video-avi-rendercfg-string</li>
@@ -89,7 +86,17 @@ Ultraschall API Changelog
 <li>Render: GetRenderCFG_Settings_WAV - gets the settings of an audio-wav-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_WAVPACK - gets the settings of an audio-wavpack-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_WebMVideo - gets the settings of a video-webm-rendercfg-string</li>
+<li>Render: GetRenderSaveCopyOfProject - gets the current state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.</li>
+<li>Render: GetRenderSettingsTable_Project - returns a table with all render-settings of the currently active project</li>
+<li>Render: GetRenderSettingsTable_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk</li>
+<li>Render: GetRenderQueueDelay - Gets the checkstate of the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>
+<li>Render: IsValidRenderTable - returns, if a table is a valid RenderTable<br />
+</li>
+<li>Render: SetRenderSaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.</li>
 <li>Render: SetRenderSettingsTable_Project - sets the settings stored in a RenderTable as the render-settings of the current project</li>
+<li>Render: SetRenderQueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>
+<li>UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd</li>
+<li>UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd</li>
 </ul>
 <h4>Changes from Beta 2.74 to Beta 2.75</h4>
 <ul>
@@ -97,10 +104,12 @@ Ultraschall API Changelog
 <li>Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER_DITHER (dither/noiseshape stems) and RENDER_SRATE(when returned RENDER_SRATE=0)</li>
 <li>Docs: Reaper ConfigVars - added better description for g_config_project</li>
 <li>Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3</li>
-<li>IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore</li>
-<li>IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore</li>
+<li>FileIO: GetAllFilenamesInPath - didn't add a directory-separator between file and path, if path was missing / or \ at the end -&gt; fixed now</li>
+<li>GFX: GFX_GetMouseCap - interpreted modifier-keys as mouseclicks, when gfx.getkey had been used in script; mousewheel sometimes kept stuck at one value-&gt; fixed</li>
 <li>Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter</li>
 <li>Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly</li>
+<li>IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore</li>
+<li>IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore</li>
 <li>HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well</li>
 <li>Projectmanagement: all SetProject-functions - added missing ProjectStateChunk-returnvalue to docs</li>
 <li>Projectmanagement: GetProject_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile</li>
@@ -119,6 +128,9 @@ Ultraschall API Changelog
 </li>
 <li>Render: CreateRenderCFG_WebMVideo - rewritten, lifted many limitations</li>
 <li>Render: GetOutputFormat_RenderCfg - moved to docs-index Rendering of Project -&gt; Analyzing Renderstrings; allows now passing a project/projecttab as well</li>
+<li>Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)</li>
+<li>Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)</li>
+<li>Routing: AddTrackAUXSendReceives - had parameters tracknumber and recv_tracknumber accidentally reversed, when not working with StateChunks .. oops -&gt; fixed (thanks to woodslanding)</li>
 <li>UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd</li>
 <li>UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd</li>
 </ul>

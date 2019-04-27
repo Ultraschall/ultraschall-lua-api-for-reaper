@@ -28261,7 +28261,7 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber, idx, TrackStateChunk)
     integer idx - the id-number of the Send/Receive, beginning with 1 for the first Send/Receive-Settings
     optional string TrackStateChunk - a TrackStateChunk, whose AUXRECV-entries you want to get
   </parameters>
-  <retvals>
+  <retvals markup_type="markdown" markup_version="1.0.1" indent="default">
     integer recv_tracknumber - Tracknumber, from where to receive the audio from
     integer post_pre_fader - 0-PostFader, 1-PreFX, 3-Pre-Fader
     number volume - Volume; see [MKVOL2DB](#MKVOL2DB) to convert it into a dB-value
@@ -28334,7 +28334,7 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber, idx, TrackStateChunk)
     local tr=reaper.GetTrack(0,tracknumber-1)
     if reaper.GetTrackNumSends(tr, -1)<idx then ultraschall.AddErrorMessage("GetTrackAUXSendReceives", "idx", "no such index available", -5) return -1 end
     local sendidx=idx
-    return math.tointeger(reaper.GetMediaTrackInfo_Value(reaper.BR_GetMediaTrackSendInfo_Track(tr, -1, sendidx-1, 0), "IP_TRACKNUMBER")-1), -- D1
+    return math.tointeger(reaper.GetMediaTrackInfo_Value(reaper.BR_GetMediaTrackSendInfo_Track(tr, -1, sendidx-1, 0), "IP_TRACKNUMBER")-1)+1, -- D1
            math.tointeger(reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "I_SENDMODE")), -- D2
            reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "D_VOL"),  -- D3
            reaper.GetTrackSendInfo_Value(tr, -1, sendidx-1, "D_PAN"),  -- D4
@@ -28359,6 +28359,7 @@ function ultraschall.GetTrackAUXSendReceives(tracknumber, idx, TrackStateChunk)
       for i=1, count2-1 do
         if tonumber(individual_values[i])~=nil then individual_values[i]=tonumber(individual_values[i]) end
       end
+      individual_values[1]=individual_values[1]+1
       individual_values[10]=tonumber(individual_values[10]:sub(1,-3))
       return table.unpack(individual_values)
     end
@@ -28599,7 +28600,7 @@ function ultraschall.AddTrackAUXSendReceives(tracknumber, recv_tracknumber, post
   <slug>AddTrackAUXSendReceives</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.975
     Lua=5.3
   </requires>
   <functioncall>boolean retval, optional string TrackStateChunk = ultraschall.AddTrackAUXSendReceives(integer tracknumber, integer recv_tracknumber, integer post_pre_fader, number volume, number pan, integer mute, integer mono_stereo, integer phase, integer chan_src, integer snd_chan, number pan_law, integer midichanflag, integer automation, optional string TrackStateChunk)</functioncall>
@@ -28704,9 +28705,9 @@ function ultraschall.AddTrackAUXSendReceives(tracknumber, recv_tracknumber, post
   if tracknumber>-1 then
     -- get track
     if tracknumber==0 then tr=reaper.GetMasterTrack(0)
-    else tr=reaper.GetTrack(0,tracknumber-1) end
+    else tr=reaper.GetTrack(0,recv_tracknumber-1) end
     -- create new AUXRecv
-    local sendidx=reaper.CreateTrackSend(tr, reaper.GetTrack(0,recv_tracknumber-1))
+    local sendidx=reaper.CreateTrackSend(tr, reaper.GetTrack(0,tracknumber-1))
     -- change it's settings
       reaper.SetTrackSendInfo_Value(tr, 0, sendidx, "I_SENDMODE", post_pre_fader) -- D2
       reaper.SetTrackSendInfo_Value(tr, 0, sendidx, "D_VOL", volume)  -- D3
@@ -28728,19 +28729,20 @@ function ultraschall.AddTrackAUXSendReceives(tracknumber, recv_tracknumber, post
   
   TrackStateChunk=TrackStateChunk:sub(1,Startoffs-1)..
                   "AUXRECV "..(recv_tracknumber-1).." "..post_pre_fader.." "..volume.." "..pan.." "..mute.." "..mono_stereo.." "..
-                  phase.." "..chan_src.." "..snd_chan.." "..pan_law..":U "..midichanflag.." "..automation.."\n"..
+                  phase.." "..chan_src.." "..snd_chan.." "..pan_law..":U "..midichanflag.." "..automation.." ''".."\n"..
                   TrackStateChunk:sub(Startoffs,-1)
                   
   return true, TrackStateChunk
 end
 
---A=reaper.GetTrack(0,0)
+--A=reaper.GetTrack(0,1)
 --B,BB=reaper.GetTrackStateChunk(A,"",false)
 --reaper.MB(BB,"",0)
 --DD=BB
---D,DD=ultraschall.AddTrackAUXSendReceives(-1,1,2,0.1,4,5,6,7,8,9,10,11,12,false,BB) 
+--D,DD=ultraschall.AddTrackAUXSendReceives(-1,1,3,0.1,4,5,6,7,8,9,10,11,12,BB) 
+--print2(BB)
 --print2(DD)
---reaper.SetTrackStateChunk(reaper.GetTrack(0,4), DD, false)
+--reaper.SetTrackStateChunk(reaper.GetTrack(0,2), DD, false)
 
 function ultraschall.DeleteTrackHWOut(tracknumber, idx, TrackStateChunk)
 --[[
@@ -29137,7 +29139,7 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, recv_tracknumber,
   local Start, Offset=TrackStateChunk:match("(.-PERF.-\n)()")
   local Ende = TrackStateChunk:match(".*AUXRECV.-\n(.*)")
   local count=1
-  local Middle="AUXRECV "..recv_tracknumber.." "..post_pre_fader.." "..volume.." "..pan.." "..mute.." ".. mono_stereo.." "..phase.." "..chan_src.." "..snd_chan.." "..pan_law..":U "..midichanflag.." "..automation.." ''\n"
+  local Middle="AUXRECV "..(recv_tracknumber-1).." "..post_pre_fader.." "..volume.." "..pan.." "..mute.." ".. mono_stereo.." "..phase.." "..chan_src.." "..snd_chan.." "..pan_law..":U "..midichanflag.." "..automation.." ''\n"
   local Middle1=""
   local Middle2=""
   
@@ -29155,10 +29157,12 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, recv_tracknumber,
   end
 end
 
---A,AA=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
---A,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12=ultraschall.GetTrackAUXSendReceives(1,1)
+--A,AA=reaper.GetTrackStateChunk(reaper.GetTrack(0,1),"",false)
+--A,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12=ultraschall.GetTrackAUXSendReceives(2,1)
 
---B,BB=ultraschall.SetTrackAUXSendReceives(1,1,1,2,1,1,1,1,1,1,1,1,1,1,true,AA)
+--B,BB=ultraschall.SetTrackAUXSendReceives(-1,1,3,0,1.0,0.0,0,0,0,0,0,-1.0,0,-1,AA)
+--reaper.MB(AA,"",0)
+--reaper.MB(BB,"",0)
 --ultraschall.SetTrackAUXSendReceives(1,1,1,2,3,4,5,6,7,8,9,10,11,12,true)
 --reaper.SetTrackStateChunk(reaper.GetTrack(0,1),BB,false)
 
@@ -33519,6 +33523,8 @@ function ultraschall.GetAllFilenamesInPath(path)
   local Files={}
   local count=1
   local string=""
+  
+  if path:sub(-1,-1)~="/" or path:sub(-1,-1)~="\\" then path=path.."/" end
   
   -- get all filenames in path
   while string~=nil do
@@ -58220,6 +58226,197 @@ end
 --print2(O["RenderString"])
 --reaper.GetSetProjectInfo_String(0, "RENDER_FORMAT", "l3pm", true)
 
+function ultraschall.GetRenderSaveCopyOfProject()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRenderSaveCopyOfProject</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.GetRenderSaveCopyOfProject()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the current state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, checkbox is checked; false, checkbox is unchecked
+  </retvals>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render, get, checkbox, render, save copy of project</tags>
+</US_DocBloc>
+]]
+  local SaveCopyOfProject, hwnd, state, retval
+  hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then
+    state, retval = reaper.BR_Win32_GetPrivateProfileString("REAPER", "autosaveonrender2", 0, reaper.get_ini_file())
+    retval=tonumber(retval)
+  else
+    retval=reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1060), "BM_GETCHECK", 0,0,0,0)
+  end
+  if retval==0 then retval=false else retval=true end
+  return retval
+end
+
+--A=ultraschall.GetRenderSaveCopyOfProject(false)
+
+function ultraschall.SetRenderSaveCopyOfProject(state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRenderSaveCopyOfProject</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetRenderSaveCopyOfProject(boolean state)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the "Save copy of project to outfile.wav.RPP"-checkbox of the Render to File-dialog.
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, it was unsuccessful
+  </retvals>
+  <parameters>
+    boolean state - true, check the checkbox; false, uncheck the checkbox
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render, set, checkbox, render, save copy of project</tags>
+</US_DocBloc>
+]]
+  if type(state)~="boolean" then ultraschall.AddErrorMessage("SetRenderSaveCopyOfProject", "state", "must be a boolean", -1) return false end
+  local SaveCopyOfProject, hwnd, retval
+  if state==true then SaveCopyOfProject=1 else SaveCopyOfProject=0 end
+  hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then
+    retval = reaper.BR_Win32_WritePrivateProfileString("REAPER", "autosaveonrender2", SaveCopyOfProject, reaper.get_ini_file())
+  else
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1060), "BM_SETCHECK", SaveCopyOfProject,0,0,0)
+    retval = reaper.BR_Win32_WritePrivateProfileString("REAPER", "autosaveonrender2", SaveCopyOfProject, reaper.get_ini_file())
+  end
+  return retval
+end
+
+--A=ultraschall.SetRenderSaveCopyOfProject(true)
+
+
+function ultraschall.SetRenderQueueDelay(state, length)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRenderQueueDelay</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetRenderQueueDelay(boolean state, integer length)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, it was unsuccessful
+  </retvals>
+  <parameters>
+    boolean state - true, check the checkbox; false, uncheck the checkbox
+    integer length - the number of seconds the delay shall be
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render, set, checkbox, render, delay queued render</tags>
+</US_DocBloc>
+]]
+  if type(state)~="boolean" then ultraschall.AddErrorMessage("SetRenderQueueDelay", "state", "must be a boolean", -1) return false end
+  if math.type(length)~="length" then ultraschall.AddErrorMessage("SetRenderQueueDelay", "length", "must be an integer", -2) return false end
+  local SaveCopyOfProject, hwnd, retval
+  if state==false then state=0 length=-length else state=1 end
+  hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then
+    reaper.SNM_SetIntConfigVar("renderqdelay", length)
+    retval = reaper.BR_Win32_WritePrivateProfileString("REAPER", "renderqdelay", length, reaper.get_ini_file())
+  else
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1808), "BM_SETCHECK", state,0,0,0)
+    reaper.SNM_SetIntConfigVar("renderqdelay", length)
+    retval = reaper.BR_Win32_WritePrivateProfileString("REAPER", "renderqdelay", length, reaper.get_ini_file())
+  end
+  return retval
+end
+
+--A=ultraschall.SetRenderSaveCopyOfProject(true)
+--ultraschall.SetRenderQueueDelay(false, 8)
+--reaper.SNM_SetIntConfigVar("renderqdelay", 7)
+
+function ultraschall.GetRenderQueueDelay()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRenderQueueDelay</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer length = ultraschall.GetRenderQueueDelay()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the current checkstate of the "Delay queued render to allow samples to load"-checkbox from the Render to File-dialog,
+    as well as the length of the queue-render-delay.
+  </description>
+  <retvals>
+    boolean state - true, check the checkbox; false, uncheck the checkbox
+    integer length - the number of seconds the delay shall be
+  </retvals>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render, get, checkbox, render, delay queued render</tags>
+</US_DocBloc>
+]]
+  local SaveCopyOfProject, hwnd, retval
+  hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then
+    length=reaper.SNM_GetIntConfigVar("renderqdelay", 0)
+    if length<1 then length=-length state=false else state=true end
+  else
+    state = reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1808), "BM_GETCHECK", 0,0,0,0)
+    length = reaper.SNM_GetIntConfigVar("renderqdelay", 0)
+    if length<0 then length=-length end
+    if state==0 then state=false else state=true end
+  end
+  return state, length
+end
+
+--A,B=ultraschall.GetRenderQueueDelay()
+
+--A,B=reaper.GetTrackStateChunk(reaper.GetTrack(0,1),"",false)
+--A1=ultraschall.GetTrackAUXSendReceives(-1, 1, B)
 
 ultraschall.ShowLastErrorMessage()
 

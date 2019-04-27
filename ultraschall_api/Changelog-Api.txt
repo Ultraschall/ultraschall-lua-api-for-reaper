@@ -383,9 +383,6 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: CreateRenderCFG\_MP4MAC\_Video - creates a render-string for the format video-MP4 for Mac
   - Render: CreateRenderCFG\_QTMOVMP4\_Video - creates a render-string for the format video-QT/MOV/MP4
   - Render: CreateNewRenderTable - creates a new RenderTable, which holds all render-settings; can be applied later to projects or projectfiles
-  - Render: GetRenderSettingsTable\_Project - returns a table with all render-settings of the currently active project
-  - Render: GetRenderSettingsTable\_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk
-  - Render: IsValidRenderTable - returns, if a table is a valid RenderTable
   - Render: GetRenderCFG\_Settings\_AIFF - gets the settings of an audio-AIFF-rendercfg-string
   - Render: GetRenderCFG\_Settings\_AudioCD - gets the settings of an audio-AudioCD-rendercfg-string
   - Render: GetRenderCFG\_Settings\_AVI\_Video  - gets the settings of an video-avi-rendercfg-string
@@ -408,7 +405,16 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: GetRenderCFG\_Settings\_WAV  - gets the settings of an audio-wav-rendercfg-string
   - Render: GetRenderCFG\_Settings\_WAVPACK - gets the settings of an audio-wavpack-rendercfg-string
   - Render: GetRenderCFG\_Settings\_WebMVideo - gets the settings of a video-webm-rendercfg-string
+  - Render: GetRenderSaveCopyOfProject - gets the current state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.
+  - Render: GetRenderSettingsTable\_Project - returns a table with all render-settings of the currently active project
+  - Render: GetRenderSettingsTable\_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk
+  - Render: GetRenderQueueDelay - Gets the checkstate of the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.
+  - Render: IsValidRenderTable - returns, if a table is a valid RenderTable  
+  - Render: SetRenderSaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.
   - Render: SetRenderSettingsTable\_Project - sets the settings stored in a RenderTable as the render-settings of the current project
+  - Render: SetRenderQueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.
+  - UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd
+  - UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd
 
 
 #### Changes from Beta 2.74 to Beta 2.75
@@ -416,10 +422,12 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER\_DITHER (dither/noiseshape stems) and RENDER\_SRATE(when returned RENDER\_SRATE=0)
   - Docs: Reaper ConfigVars - added better description for g\_config\_project
   - Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3
-  - IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore
-  - IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore
+  - FileIO: GetAllFilenamesInPath - didn't add a directory-separator between file and path, if path was missing / or \ at the end -> fixed now
+  - GFX: GFX\_GetMouseCap - interpreted modifier-keys as mouseclicks, when gfx.getkey had been used in script; mousewheel sometimes kept stuck at one value-> fixed
   - Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter
   - Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly
+  - IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore
+  - IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore
   - HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well
   - Projectmanagement: all SetProject-functions - added missing ProjectStateChunk-returnvalue to docs
   - Projectmanagement: GetProject\_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile
@@ -439,6 +447,9 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: CreateRenderCFG\_WebMVideo - rewritten, lifted many limitations
   - Render: GetOutputFormat\_RenderCfg - moved to docs-index Rendering of Project -> Analyzing Renderstrings; 
                                          allows now passing a project/projecttab as well
+  - Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
+  - Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
+  - Routing: AddTrackAUXSendReceives - had parameters tracknumber and recv_tracknumber accidentally reversed, when not working with StateChunks .. oops -> fixed (thanks to woodslanding)
   - UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd
   - UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd
   
