@@ -430,6 +430,7 @@ function ultraschall.ColorateDatatypes(String)
   String=string.gsub(String, " size_t ", " <i style=\"color:#0000ff;\">size_t</i> ")  
   String=string.gsub(String, " function ", " <i style=\"color:#0000ff;\">function</i> ")  
   String=string.gsub(String, " ReaperArray ", " <i style=\"color:#0000ff;\">ReaperArray</i> ")  
+  String=string.gsub(String, " RenderTable ", " <i style=\"color:#0000ff;\">RenderTable</i> ")  
   String=string.gsub(String, " optional ", " <i style=\"color:#0000ff;\">optional</i> ")  
   
 --  String=string.gsub(String, " trackstring ", " <i style=\"color:#0000ff;\">trackstring</i> ")  

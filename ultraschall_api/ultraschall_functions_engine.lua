@@ -58418,5 +58418,98 @@ end
 --A,B=reaper.GetTrackStateChunk(reaper.GetTrack(0,1),"",false)
 --A1=ultraschall.GetTrackAUXSendReceives(-1, 1, B)
 
+
+
+function ultraschall.StoreFunctionInExtState(section, key, functioncall, debug)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>StoreFunctionInExtState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.StoreFunctionInExtState(string section, string key, function func, boolean debug)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Stores a function into an extstate. You can store it's debug-information as well.
+    
+    To load the function again, use [LoadFunctionFromExtState](#LoadFunctionFromExtState)
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, it was unsuccessful
+  </retvals>
+  <parameters>
+    string section - the sectionname of the extstate
+    string key - the keyname of the extstate
+    function func - the function, that you want to store
+    boolean debug - true, store debug-values as well; false, don't store the debug-values as well
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, store, function, extstate</tags>
+</US_DocBloc>
+]]
+  if type(section)~="string" then ultraschall.AddErrorMessage("StoreFunctionInExtState", "section", "must be a string", -1) return false end
+  if type(key)~="string" then ultraschall.AddErrorMessage("StoreFunctionInExtState", "key", "must be a string", -2) return false end
+  if type(functioncall)~="function" then ultraschall.AddErrorMessage("StoreFunctionInExtState", "functioncall", "must be a function", -3) return false end
+  if type(debug)~="boolean" then ultraschall.AddErrorMessage("StoreFunctionInExtState", "debug", "must be a boolean", -4) return false end
+  local Dump=string.dump (functioncall, debug)
+  local DumpBase64 = ultraschall.Base64_Encoder(Dump)
+  reaper.SetExtState(section, key, "LuaFunc:"..DumpBase64, false)
+  return true
+end
+
+function ultraschall.LoadFunctionFromExtState(section, key)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>LoadFunctionFromExtState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>function function = ultraschall.LoadFunctionFromExtState(string section, string key)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Loads a function from an extstate, if it has been stored in there before.
+    The extstate must contain a valid function. If something else is stored, the loaded "function" might crash Lua!
+    
+    To store the function, use [StoreFunctionInExtState](#StoreFunctionInExtState)
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    function func - the stored function, that you want to (re-)load
+  </retvals>
+  <parameters>
+    string section - the sectionname of the extstate
+    string key - the keyname of the extstate
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, load, function, extstate</tags>
+</US_DocBloc>
+]]
+  if type(section)~="string" then ultraschall.AddErrorMessage("LoadFunctionFromExtState", "section", "must be a string", -1) return end
+  if type(key)~="string" then ultraschall.AddErrorMessage("LoadFunctionFromExtState", "key", "must be a string", -2) return end
+  local DumpBase64 = reaper.GetExtState(section, key)
+  if DumpBase64=="" or DumpBase64:match("LuaFunc:")==nil then ultraschall.AddErrorMessage("LoadFunctionFromExtState", "", "no function stored in extstate", -3) return end
+  local Dump = ultraschall.Base64_Decoder(DumpBase64:sub(9,-1))
+  return load(Dump)
+end
+
+--ultraschall.StoreFunctionInExtState("test", "test", print2, true)
+--KAKKALAKKA=ultraschall.LoadFunctionFromExtState("test", "test22")
+--KAKKALAKKA("789".."hhi")
+
 ultraschall.ShowLastErrorMessage()
 
