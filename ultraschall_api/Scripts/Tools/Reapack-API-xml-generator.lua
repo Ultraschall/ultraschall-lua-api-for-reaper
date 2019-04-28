@@ -18,28 +18,57 @@ end
 -- set this to the online-repo of the Ultraschall-API
 --Url="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API4.00-beta2.71/"
 Url="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/"
+Url2="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/"
 
 -- set this to the repository-folder of the api on your system
 Target_Dir="c:\\Ultraschall-Api-Git-Repo\\Ultraschall-Api-for-Reaper\\"
 
-
-
 found_dirs, dirs_array, found_files, files_array = ultraschall.GetAllRecursiveFilesAndSubdirectories(SourceDir.."/ultraschall_api")
-
 
 L=ultraschall.MakeCopyOfFile_Binary(SourceDir.."/ultraschall_api.lua", Target_Dir.."/ultraschall_api.lua")
 L=ultraschall.MakeCopyOfFile_Binary(SourceDir.."/ultraschall_api_readme.txt", Target_Dir.."/ultraschall_api_readme.txt")
 
 C,C1,C2,C3,C4,C5,C6,C7=ultraschall.GetApiVersion()
 
+version, date, beta, versionnumber, tagline = ultraschall.GetApiVersion()
+majorversion, subversion, bits, Os, portable = ultraschall.GetReaperAppVersion()
+
+SWS=reaper.CF_GetSWSVersion("")
+JS= reaper.JS_ReaScriptAPI_Version()
+
+
 C2vers=string.gsub(C2," ","")
 C2vers=C2vers:lower()
+
+ReadMe_Reaper_Internals=[[
+compiled by Meo Mespotine(mespotine.de) for the ultraschall.fm-project
+
+Documentation for Reaper-Internals ]]..majorversion.."."..subversion..[[ and Ultraschall Api 4.00-]]..beta..[[, SWS ]]..SWS..[[, JS-extension-plugin ]]..JS..[[ and ReaPack
+
+Written and compiled by Meo Mespotine (mespotine.de) for the Ultraschall.FM-project.
+licensed under creative-commons by-sa-nc-license
+
+Some docs are enhanced versions of the original docs and the Reaper-logo is by the Cockos Inc.
+The SWS-logo is by SWS-extension.org
+
+You can download the full Ultraschall-API-framework at ultraschall.fm/api
+]]
+
+ultraschall.WriteValueToFile(SourceDir.."/ultraschall_api/Reaper-Internals-readme.txt", ReadMe_Reaper_Internals)
 
 Batter=[[
 cd ]]..SourceDir..[[
 
 del c:\Ultraschall-Api-Git-Repo\Ultraschall-Api-for-Reaper\ultraschall_api4.00_]]..C2vers..[[.zip
 zip.exe c:\Ultraschall-Api-Git-Repo\Ultraschall-Api-for-Reaper\ultraschall_api4.00_]]..C2vers..[[.zip *.lua *.txt ultraschall_api -r
+
+del c:\Ultraschall-Api-Git-Repo\Ultraschall-Api-for-Reaper\Reaper-Internals-Ultraschall-Api-Docs.zip
+cd ultraschall_api
+
+..\zip.exe c:\Ultraschall-Api-Git-Repo\Ultraschall-Api-for-Reaper\Reaper-Internals-Ultraschall-Api-Docs.zip Documentation\* Reaper-Internals-readme.txt -r
+del Reaper-Internals-readme.txt
+
+del Scripts\Tools\batter.bat
 ]]
 
 
@@ -378,7 +407,7 @@ end
 
 --reaper.CF_SetClipboard(A0)
 
-
+-- generate ReaPack-indexfile
 XML_file="\t"..[[<source file="ultraschall_api.lua" type="extension">]]..Url.."/ultraschall_api.lua</source>\n"
 XML_file=XML_file.."\t"..[[<source file="ultraschall_api_readme.txt" type="extension">]]..Url.."/ultraschall_api_readme.txt</source>\n"
 
@@ -394,6 +423,21 @@ end
 
 B=ultraschall.WriteValueToFile(Target_Dir.."/ultraschall_api_index-beta_rename_when_installing_it_works.xml", XML_start..XML_file..XML_end)
 
+-- generate ReaPack-indexfile for prerelease-alphas
+XML_file="\t"..[[<source file="ultraschall_api.lua" type="extension">]]..Url2.."/ultraschall_api.lua</source>\n"
+XML_file=XML_file.."\t"..[[<source file="ultraschall_api_readme.txt" type="extension">]]..Url2.."/ultraschall_api_readme.txt</source>\n"
+
+
+for i=1, found_files do
+  tempfile=files_array[i]:match("(ultraschall_api/.*)")
+  if tempfile==nil then tempfile=files_array[i]:match("UserPlugins(/.*)") end
+  XML_file=XML_file.."\t<source file=\"/"..tempfile.."\" type=\"extension\">"..Url2..tempfile.."</source>\n"
+end
+
+--print2(XML_file:sub(1,2000))
+--print(XML_end)
+
+B=ultraschall.WriteValueToFile(Target_Dir.."/ultraschall_api_prerelease_index.xml", XML_start..XML_file..XML_end)
 
 ultraschall.ShowLastErrorMessage()
 

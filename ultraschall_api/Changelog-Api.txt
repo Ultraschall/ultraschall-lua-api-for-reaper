@@ -1,87 +1,12 @@
 <TODO>
     
     API 4.00beta2.75
-TODO!! don't include folder temp in creation of the reapack-index
-TODO!! Downloads.html -> autogenerate to automatically include the correct zip-file-downloadlink
-TODO!! winterlysnowflakes - should be initialized only, when WinterlySnowflakes is started the first time; otherwise makes calling API more laggy than useful
-TODO!! buggy function
-        the line "reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)" seems to be the problem due WM_SETFONT
-
-function ultraschall.SetReaScriptConsole_FontStyle(style)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>SetReaScriptConsole_FontStyle</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval = ultraschall.SetReaScriptConsole_FontStyle(integer style)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      If the ReaScript-console is opened, you can change the font-style of it.
-      You can choose between 19 different styles, with 3 being of fixed character length. It will change the next time you output text to the ReaScriptConsole.
-      
-      If you close and reopen the Console, you need to set the font-style again!
-      
-      You can only have one style active in the console!
-      
-      Returns false in case of an error
-    </description>
-    <retvals>
-      boolean retval - true, displaying was successful; false, displaying wasn't successful
-    </retvals>
-    <parameters>
-      integer length - the font-style used. There are 19 different ones.
-                      - fixed-character-length:
-                      -     1,  fixed, console
-                      -     2,  fixed, console alt
-                      -     3,  thin, fixed
-                      - 
-                      - normal from large to small:
-                      -     4-8
-                      -     
-                      - bold from largest to smallest:
-                      -     9-14
-                      - 
-                      - thin:
-                      -     15, thin
-                      - 
-                      - underlined:
-                      -     16, underlined, thin
-                      -     17, underlined
-                      -     18, underlined
-                      - 
-                      - symbol:
-                      -     19, symbol
-    </parameters>
-    <chapter_context>
-      User Interface
-      Miscellaneous
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>user interface, reascript, console, font, style</tags>
-  </US_DocBloc>
-  ]]
-  if math.type(style)~="integer" then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be an integer", -1) return false end
-  if style>19 or style<1 then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be between 1 and 17", -2) return false end
-  local reascript_console_hwnd = ultraschall.GetReaScriptConsoleWindow()
-  if reascript_console_hwnd==nil then return false end
-  local styles={32,33,36,31,214,37,218,1606,4373,3297,220,3492,3733,3594,35,1890,2878,3265,4392}
-  local Textfield=reaper.JS_Window_FindChildByID(reascript_console_hwnd, 1177)
-  reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)
-  return true
-end
---reaper.ClearConsole()
---ultraschall.SetReaScriptConsole_FontStyle(1)
---reaper.ShowConsoleMsg("ABCDEFGhijklmnop\n123456789.-,!\"§$%&/()=\n----------\nOOOOOOOOOO")
-
+      TODO!! winterlysnowflakes - should be initialized only, when WinterlySnowflakes is started the first time; otherwise makes calling API more laggy than useful
       TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
       TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
       TODO!!  - Add options to Normalize-Items-function, as there are numerous different actions for normalizing
       TODO!!  - Get/SetMarkersFromClipboard-functions
       TODO!! Reaper-Apidocs: use US-functions-docgenerator for layout
-      TODO!!  - GetLastEnvelopePoint (How to do that with AutomationItems ?)
       TODO!!  - CreateItemFromTake, which creates a new item from an existing take. Like cropping, but leaves the original untouched.
       TODO!!  - CropTakeFromItem, which removes a take from an item; maybe allowing multiple ones?
       TODO!!  - MoveTakeInTakeOrderInMediaitem, which allows changing the order of takes within an item
@@ -96,7 +21,7 @@ end
                     setstate=false -> insert it AFTER the AUXRECV with idx "sendidx"
                     
                     only possible using TrackStateChunks, so no speedup possible
-      TODO!! Doccreation: - retvals(maybe parameters as well?) don't convert MD2HTML in functions-engine-docconverter      
+      TODO!! Doccreation: - retvals and parameters don't convert MD2HTML in functions-engine-docconverter
 
       TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
              produziert die API Fehler.            
@@ -340,6 +265,79 @@ end
                     projectfilename - the saved projectfilename+path
                     sourcefiles - an array with all source/map-filenames[1] and their new filenames in relation of their new position[2]
                                     can be used to copy/move all the sourcefiles into the projectfolder(needs MakeDir(path) as well!)
+
+TODO!! buggy function
+        the line "reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)" seems to be the problem due WM_SETFONT
+
+function ultraschall.SetReaScriptConsole_FontStyle(style)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SetReaScriptConsole_FontStyle</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.SetReaScriptConsole_FontStyle(integer style)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      If the ReaScript-console is opened, you can change the font-style of it.
+      You can choose between 19 different styles, with 3 being of fixed character length. It will change the next time you output text to the ReaScriptConsole.
+      
+      If you close and reopen the Console, you need to set the font-style again!
+      
+      You can only have one style active in the console!
+      
+      Returns false in case of an error
+    </description>
+    <retvals>
+      boolean retval - true, displaying was successful; false, displaying wasn't successful
+    </retvals>
+    <parameters>
+      integer length - the font-style used. There are 19 different ones.
+                      - fixed-character-length:
+                      -     1,  fixed, console
+                      -     2,  fixed, console alt
+                      -     3,  thin, fixed
+                      - 
+                      - normal from large to small:
+                      -     4-8
+                      -     
+                      - bold from largest to smallest:
+                      -     9-14
+                      - 
+                      - thin:
+                      -     15, thin
+                      - 
+                      - underlined:
+                      -     16, underlined, thin
+                      -     17, underlined
+                      -     18, underlined
+                      - 
+                      - symbol:
+                      -     19, symbol
+    </parameters>
+    <chapter_context>
+      User Interface
+      Miscellaneous
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>user interface, reascript, console, font, style</tags>
+  </US_DocBloc>
+  ]]
+  if math.type(style)~="integer" then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be an integer", -1) return false end
+  if style>19 or style<1 then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be between 1 and 17", -2) return false end
+  local reascript_console_hwnd = ultraschall.GetReaScriptConsoleWindow()
+  if reascript_console_hwnd==nil then return false end
+  local styles={32,33,36,31,214,37,218,1606,4373,3297,220,3492,3733,3594,35,1890,2878,3265,4392}
+  local Textfield=reaper.JS_Window_FindChildByID(reascript_console_hwnd, 1177)
+  reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)
+  return true
+end
+--reaper.ClearConsole()
+--ultraschall.SetReaScriptConsole_FontStyle(1)
+--reaper.ShowConsoleMsg("ABCDEFGhijklmnop\n123456789.-,!\"§$%&/()=\n----------\nOOOOOOOOOO")
+
 </TODO>
 
 
@@ -351,6 +349,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   **!RenderMania!**
 
 #### New features in 4.00beta2.75
+  - Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point from a TrackEnvelope-object
   - FXManagement: GetFXStateChunk - Gets an FXStateChunk from a StateChunk(usually Track/MediaItemStateChunk)
   - FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is a valid FXStateChunk
   - FXManagement: GetParmLearn\_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE
@@ -415,9 +414,24 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3
   - Docs: corrected wrong functioncount in docs
   - Docs: when Beta-functions is enabled, the docgenerator adds beta-functions into docs as well
+  - FileIO: CountLinesInFile - errormessages return now the filename as well
   - FileIO: GetAllFilenamesInPath - didn't add a directory-separator between file and path, if path was missing / or \ at the end -> fixed now
+  - FileIO: GetLengthOfFile - errormessages return now the filename as well
+  - FileIO: ReadBinaryFileFromPattern - errormessages return now the filename as well
+  - FileIO: ReadBinaryFileUntilPattern - errormessages return now the filename as well
+  - FileIO: ReadBinaryFile_Offset - errormessages return now the filename as well
+  - FileIO: ReadFileAsLines_Array - errormessages return now the filename as well
+  - FileIO: ReadFullFile - errormessages return now the filename as well
+  - FileIO: ReadLinerangeFromFile - errormessages return now the filename as well
+  - FileIO: ReadValueFromFile - errormessages return now the filename as well
+  - FileIO: WriteValueToFile - errormessages return now the filename as well
+  - FileIO: WriteValueToFile_Insert - errormessages return now the filename as well
+  - FileIO: WriteValueToFile_InsertBinary - errormessages return now the filename as well
+  - FileIO: WriteValueToFile_Replace - errormessages return now the filename as well
+  - FileIO: WriteValueToFile_ReplaceBinary - errormessages return now the filename as well
   - GFX: GFX\_GetMouseCap - interpreted modifier-keys as mouseclicks, when gfx.getkey had been used in script; mousewheel sometimes kept stuck at one value-> fixed
   - Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter
+  - Helpers: GetReaperAppVersion - didn't return subversionnumber for pre-releases -> fixed now; returns pre-release-versions as well now
   - Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly
   - IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore
   - IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore
@@ -444,8 +458,6 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
   - Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
   - Routing: AddTrackAUXSendReceives - had parameters tracknumber and recv_tracknumber accidentally reversed, when not working with StateChunks .. oops -> fixed (thanks to woodslanding)
-  - UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd
-  - UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd
   
   ---
   

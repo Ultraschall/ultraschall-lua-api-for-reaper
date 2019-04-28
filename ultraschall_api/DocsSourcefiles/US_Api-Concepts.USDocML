@@ -493,7 +493,7 @@
             An EnvelopePointObject is an array with all the attributes of an envelope-point, containing the following values:
             
                         EnvelopePointObject[1] - Trackenvelope; The TrackEnvelope-object, in which the point lies
-                        EnvelopePointObject[2] - integer; Envelope-idx
+                        EnvelopePointObject[2] - integer; Envelope-idx, with 0 for the first envelope-point; 1, for the second, etc
                         EnvelopePointObject[3] - number; the time in seconds
                         EnvelopePointObject[4] - number; the raw value of the envelope-point
                         EnvelopePointObject[5] - integer; the shape of the envelope-point, with 

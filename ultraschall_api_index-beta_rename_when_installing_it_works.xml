@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="36035.00" author="Meo Mespotine">
+      <version name="36171.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -32,6 +32,7 @@
 	<source file="/ultraschall_api/unused_ultraschall_functions_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/unused_ultraschall_functions_engine_beta.lua</source>
 	<source file="/ultraschall_api/DocsSourcefiles/reaper-apidocs.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/DocsSourcefiles/reaper-apidocs.USDocML</source>
 	<source file="/ultraschall_api/DocsSourcefiles/reaper-config_var.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/DocsSourcefiles/reaper-config_var.USDocML</source>
+	<source file="/ultraschall_api/DocsSourcefiles/Reaper-Internals-readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/DocsSourcefiles/Reaper-Internals-readme.txt</source>
 	<source file="/ultraschall_api/DocsSourcefiles/reaper-videoprocessor-docs.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/DocsSourcefiles/reaper-videoprocessor-docs.USDocML</source>
 	<source file="/ultraschall_api/DocsSourcefiles/Reaper_StateChunk_Docs.USDOCML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/DocsSourcefiles/Reaper_StateChunk_Docs.USDOCML</source>
 	<source file="/ultraschall_api/DocsSourcefiles/US_Api-Concepts.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/DocsSourcefiles/US_Api-Concepts.USDocML</source>
@@ -237,7 +238,6 @@
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_cursorposition.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_cursorposition.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_loopstate.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_loopstate.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_playstate.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_playstate.lua</source>
-	<source file="/ultraschall_api/Scripts/Tools/batter.bat" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/batter.bat</source>
 	<source file="/ultraschall_api/Scripts/Tools/CheckApiDocReaScript.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/CheckApiDocReaScript.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/CheckReascriptCPP.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/CheckReascriptCPP.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/ChildScriptPrototype.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/ChildScriptPrototype.lua</source>
@@ -286,6 +286,7 @@
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ReaScriptConverter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ReaScriptConverter.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_StateChunkDocConverter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_StateChunkDocConverter.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_VideoProcessorDocConverter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_VideoProcessorDocConverter.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_ApiDownloads_Generator.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_ApiDownloads_Generator.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_ChangelogConverterDoc.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_ChangelogConverterDoc.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_ConceptsDocConverter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_ConceptsDocConverter.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_ConceptsDocConverter_AUD.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Docgenerator/Ultraschall_ConceptsDocConverter_AUD.lua</source>
@@ -319,6 +320,8 @@ tagline inspired by a comment from _stevie_ ;)
 
 New features in 4.00beta2.75
 
+-   Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point
+    from a TrackEnvelope-object
 -   FXManagement: GetFXStateChunk - Gets an FXStateChunk from a
     StateChunk(usually Track/MediaItemStateChunk)
 -   FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is
@@ -450,14 +453,43 @@ Changes from Beta 2.74 to Beta 2.75
 -   Docs: corrected wrong functioncount in docs
 -   Docs: when Beta-functions is enabled, the docgenerator adds
     beta-functions into docs as well
+-   FileIO: CountLinesInFile - errormessages return now the filename as
+    well
 -   FileIO: GetAllFilenamesInPath - didn’t add a directory-separator
     between file and path, if path was missing / or  at the end -> fixed
     now
+-   FileIO: GetLengthOfFile - errormessages return now the filename as
+    well
+-   FileIO: ReadBinaryFileFromPattern - errormessages return now the
+    filename as well
+-   FileIO: ReadBinaryFileUntilPattern - errormessages return now the
+    filename as well
+-   FileIO: ReadBinaryFile_Offset - errormessages return now the
+    filename as well
+-   FileIO: ReadFileAsLines_Array - errormessages return now the
+    filename as well
+-   FileIO: ReadFullFile - errormessages return now the filename as well
+-   FileIO: ReadLinerangeFromFile - errormessages return now the
+    filename as well
+-   FileIO: ReadValueFromFile - errormessages return now the filename as
+    well
+-   FileIO: WriteValueToFile - errormessages return now the filename as
+    well
+-   FileIO: WriteValueToFile_Insert - errormessages return now the
+    filename as well
+-   FileIO: WriteValueToFile_InsertBinary - errormessages return now the
+    filename as well
+-   FileIO: WriteValueToFile_Replace - errormessages return now the
+    filename as well
+-   FileIO: WriteValueToFile_ReplaceBinary - errormessages return now
+    the filename as well
 -   GFX: GFX_GetMouseCap - interpreted modifier-keys as mouseclicks,
     when gfx.getkey had been used in script; mousewheel sometimes kept
     stuck at one value-> fixed
 -   Helpers: Base64_Encoder - fixed bug that caused encoded strings to
     end with wrong letter
+-   Helpers: GetReaperAppVersion - didn’t return subversionnumber for
+    pre-releases -> fixed now; returns pre-release-versions as well now
 -   Helpers: LimitFractionOfFloat - improved code a little for
     rounding-operations, hope it works now properly
 -   IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore
@@ -506,10 +538,6 @@ Changes from Beta 2.74 to Beta 2.75
 -   Routing: AddTrackAUXSendReceives - had parameters tracknumber and
     recv_tracknumber accidentally reversed, when not working with
     StateChunks .. oops -> fixed (thanks to woodslanding)
--   UserInterface: GetCheckboxState - gets the current checkstate of a
-    checkbox-hwnd
--   UserInterface: SetCheckboxState - sets a new checkstate of a
-    checkbox-hwnd
 
 ------------------------------------------------------------------------
 

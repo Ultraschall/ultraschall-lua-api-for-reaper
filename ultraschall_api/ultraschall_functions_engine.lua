@@ -11263,7 +11263,7 @@ function ultraschall.ReadFullFile(filename_with_path, binary)
 ]]
   -- check parameters
   if type(filename_with_path) ~= "string" then ultraschall.AddErrorMessage("ReadFullFile", "filename_with_path", "must be a string", -1) return nil end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadFullFile", "filename_with_path", "file does not exist", -2) return nil end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadFullFile", "filename_with_path", "file "..filename_with_path.." does not exist ", -2) return nil end
   
   -- prepare variables
   if binary==true then binary="b" else binary="" end
@@ -11271,7 +11271,7 @@ function ultraschall.ReadFullFile(filename_with_path, binary)
   
   -- read file
   local file=io.open(filename_with_path,"r"..binary)
-  if file==nil then ultraschall.AddErrorMessage("ReadFullFile", "filename_with_path", "could not read file, probably due another application accessing it.", -3) return nil end
+  if file==nil then ultraschall.AddErrorMessage("ReadFullFile", "filename_with_path", "could not read file "..filename_with_path..", probably due another application accessing it.", -3) return nil end
   local filecontent=file:read("a")
   
   -- count lines in file, when non binary
@@ -11340,7 +11340,7 @@ function ultraschall.ReadValueFromFile(filename_with_path, value)
   -- check parameters
   if type(filename_with_path) ~= "string" then ultraschall.AddErrorMessage("ReadValueFromFile", "filename_with_path", "must be a string", -1) return nil end
   if value==nil then value="" end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadValueFromFile", "filename_with_path", "file does not exist", -2) return nil end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadValueFromFile", "filename_with_path", "file "..filename_with_path.." does not exist", -2) return nil end
   if ultraschall.IsValidMatchingPattern(value)==false then ultraschall.AddErrorMessage("ReadValueFromFile", "value", "malformed pattern", -3) return -1 end
 
   -- prepare variables
@@ -11436,7 +11436,7 @@ function ultraschall.ReadLinerangeFromFile(filename_with_path, firstlinenumber, 
   if math.type(firstlinenumber)~="integer" then ultraschall.AddErrorMessage("ReadLinerangeFromFile","firstlinenumber", "Must be an integer!", -1) return nil end
   if math.type(lastlinenumber)~="integer" then ultraschall.AddErrorMessage("ReadLinerangeFromFile","lastlinenumber", "Must be an integer!", -2) return nil end
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadLinerangeFromFile","filename_with_path", "Must be a string!", -3) return nil end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadLinerangeFromFile","filename_with_path", "File not found!", -4)return nil end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadLinerangeFromFile","filename_with_path", "File "..filename_with_path.." not found!", -4)return nil end
   
   local a=""
   local b=0
@@ -11497,17 +11497,17 @@ function ultraschall.MakeCopyOfFile(input_filename_with_path, output_filename_wi
   if type(output_filename_with_path)~="string" then ultraschall.AddErrorMessage("MakeCopyOfFile", "output_filename_with_path", "must be a string", -2) return false end
   if reaper.file_exists(input_filename_with_path)==true then
     local file=io.open(output_filename_with_path,"w")
-    if file==nil then ultraschall.AddErrorMessage("MakeCopyOfFile", "output_filename_with_path", "can't create file", -3) return false end
+    if file==nil then ultraschall.AddErrorMessage("MakeCopyOfFile", "output_filename_with_path", "can't create file "..output_filename_with_path, -3) return false end
     for line in io.lines(input_filename_with_path) do
       file:write(line.."\n")
     end
     file:close()
-  else ultraschall.AddErrorMessage("MakeCopyOfFile", "input_filename_with_path", "file does not exist", -4) return false
+  else ultraschall.AddErrorMessage("MakeCopyOfFile", "input_filename_with_path", "file does not exist "..input_filename_with_path, -4) return false
   end
   return true
 end
 
---A=ultraschall.MakeCopyOfFile("c:\\tt.rpp","c:\\huibh.txts")
+--A=ultraschall.MakeCopyOfFile("c:\\tt.ogg","e:\\huibh.txts")
 --A=ultraschall.MakeCopyOfFile("2",1)
 
 function ultraschall.MakeCopyOfFile_Binary(input_filename_with_path, output_filename_with_path)
@@ -11546,18 +11546,18 @@ function ultraschall.MakeCopyOfFile_Binary(input_filename_with_path, output_file
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
-    if fileread==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "input_filename_with_path", "could not read file, probably due another application accessing it.", -5) return nil end
+    if fileread==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "input_filename_with_path", "could not read file "..input_filename_with_path..", probably due another application accessing it.", -5) return nil end
     local file=io.open(output_filename_with_path,"wb")
-    if file==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "output_filename_with_path", "can't create file", -3) return false end
+    if file==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "output_filename_with_path", "can't create file "..output_filename_with_path, -3) return false end
     file:write(fileread:read("*a"))
     fileread:close()
     file:close()
-  else ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "input_filename_with_path", "file does not exist", -4) return false
+  else ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "input_filename_with_path", "file does not exist "..input_filename_with_path, -4) return false
   end
   return true
 end
 
---A=ultraschall.MakeCopyOfFile_Binary("c:\\testcopy.webm","c:\\testcopy2.webm")
+--A=ultraschall.MakeCopyOfFile_Binary("c:\\tt.ogg","z:\\testcopy2.webm")
 --ultraschall.MakeCopyOfFile_Binary("c:\\reaper.exe","c:\\reaper.testrl")
 
 function ultraschall.ReadBinaryFileUntilPattern(input_filename_with_path, pattern)
@@ -11604,13 +11604,13 @@ function ultraschall.ReadBinaryFileUntilPattern(input_filename_with_path, patter
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
-    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "could not read file, probably due another application accessing it.", -6) return nil end
+    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "could not read file "..input_filename_with_path..", probably due another application accessing it.", -6) return nil end
     temp=fileread:read("*a")
     temp2=temp:match("(.-"..pattern..")")
     if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "pattern not found in file", -4) return false end
     fileread:close()
   else
-    ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "file does not exist", -5) return false
+    ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "file "..input_filename_with_path.." does not exist", -5) return false
   end
   return temp2:len(), temp2
 end
@@ -11662,18 +11662,18 @@ function ultraschall.ReadBinaryFileFromPattern(input_filename_with_path, pattern
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
-    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "could not read file, probably due another application accessing it.", -6) return nil end
+    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "could not read file "..input_filename_with_path..", probably due another application accessing it.", -6) return nil end
     temp=fileread:read("*a")
     temp2=temp:match("("..pattern..".*)")
     if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "pattern not found in file", -4) return false end
     fileread:close()
   else
-    ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "file does not exist", -5) return false
+    ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "file "..input_filename_with_path.." does not exist", -5) return false
   end
   return temp2:len(), temp2
 end
 
---A,AA=ReadBinaryFileUntilPattern("c:\\reaper.exe","c:\\reaper.test","REAPER")
+--A,AA=ultraschall.ReadBinaryFileFromPattern("c:\\reaper.exe","c:\\reaper.test","REAPER")
 --A,AA=ReadBinaryFileUntilPattern("c:\\test.txt","c:\\test.temp","Ultraschall")
 --A,BB=ultraschall.ReadBinaryFileFromPattern("c:\\MarkerProject.rpp","VZOOMEX")
 --reaper.MB(BB,"",0)
@@ -11719,7 +11719,7 @@ function ultraschall.CountLinesInFile(filename_with_path)
 ]]
   -- check parameters  
   if type(filename_with_path) ~= "string" then ultraschall.AddErrorMessage("CountLinesInFile", "filename_with_path", "must be a string", -1) return nil end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("CountLinesInFile", "filename_with_path", "no such file", -2) return nil end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("CountLinesInFile", "filename_with_path", "no such file "..filename_with_path, -2) return nil end
 
   -- prepare variable
   local b=0
@@ -14071,7 +14071,7 @@ function ultraschall.ReadFileAsLines_Array(filename_with_path, firstlinenumber, 
   if math.type(firstlinenumber)~="integer" then ultraschall.AddErrorMessage("ReadFileAsLines_Array","firstlinenumber", "Must be an integer!", -1) return nil end
   if math.type(lastlinenumber)~="integer" then ultraschall.AddErrorMessage("ReadFileAsLines_Array","lastlinenumber", "Must be an integer!", -2) return nil end
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadFileAsLines_Array","filename_with_path", "Must be a string!", -3) return nil end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadFileAsLines_Array","filename_with_path", "File not found!", -4)return nil end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadFileAsLines_Array","filename_with_path", "File not found! "..filename_with_path, -4)return nil end
   
   local LineArray={}
 
@@ -24328,7 +24328,7 @@ end
   </requires>
   <functioncall>ultraschall.Api_Path</functioncall>
   <description>
-    Contains the current path to the Ultraschall-Api-folder.
+    Contains the current path of the Ultraschall-Api-folder ResourcePath/UserPlugins/ultraschall_api/
   </description>
   <chapter_context>
     API-Variables
@@ -30318,7 +30318,7 @@ function ultraschall.GetEnvelopePoint(Tracknumber, EnvelopeName, idx)
     number dBVal - the envelopevalue converted to dB
     array EnvelopePointObject - an array with all elements of an envelopepoint
     -[1] - TrackEnvelope-object
-    -[2] - Envelope-idx
+    -[2] - Envelope-idx, beginning with 0 for the first one
     -[3] - time
     -[4] - value
     -[5] - shape
@@ -30861,7 +30861,7 @@ function ultraschall.CreateEnvelopePointObject(TrackEnvelope, idx, time, value, 
     boolean retval - false in case of error, true in case of success.
     array EnvelopePointObject - an array with all elements of the envelopepoint
     -[1] - TrackEnvelope-object
-    -[2] - Envelope-idx
+    -[2] - Envelope-idx, beginning with 0 for the first one
     -[3] - time
     -[4] - value
     -[5] - shape
@@ -31055,7 +31055,6 @@ function ultraschall.GetTrackLength(Tracknumber)
 end
 
 --A=ultraschall.GetTrackLength(2)
-
 function ultraschall.GetLengthOfAllMediaItems_Track(Tracknumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -31252,7 +31251,7 @@ function ultraschall.ReadBinaryFile_Offset(input_filename_with_path, startoffset
     fileread:close()
     return temp:len(), temp
   else
-    ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "filename_with_path", "file does not exist.", -6)
+    ultraschall.AddErrorMessage("ReadBinaryFile_Offset", "filename_with_path", "file does not exist."..input_filename_with_path, -6)
     return false
   end
 end
@@ -31294,7 +31293,7 @@ function ultraschall.GetLengthOfFile(filename_with_path)
     numberofbytes=fileread:seek ("end" , 0)
     fileread:close()
   else
-    ultraschall.AddErrorMessage("GetLengthOfFile", "filename_with_path", "file does not exist.", -2)
+    ultraschall.AddErrorMessage("GetLengthOfFile", "filename_with_path", "file does not exist: ".. filename_with_path, -2)
     return -1
   end
   return numberofbytes  
@@ -32500,10 +32499,10 @@ function ultraschall.GetReaperAppVersion()
   <slug>GetReaperAppVersion</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>integer majorversion, integer subversion, string bits, string os, boolean portable = ultraschall.GetReaperAppVersion()</functioncall>
+  <functioncall>integer majorversion, integer subversion, string bits, string operating_system, boolean portable, optional string betaversion = ultraschall.GetReaperAppVersion()</functioncall>
   <description>
     Returns operating system and if it's a 64bit/32bit-operating system.
   </description>
@@ -32511,25 +32510,31 @@ function ultraschall.GetReaperAppVersion()
     integer majorversion - the majorversion of Reaper. Can be used for comparisions like "if version<5 then ... end".
     integer subversion - the subversion of Reaper. Can be used for comparisions like "if subversion<96 then ... end".
     string bits - the number of bits of the reaper-app
-    string os - the operating system, either "Win", "OSX" or "Other"
+    string operating_system - the operating system, either "Win", "OSX" or "Other"
     boolean portable - true, if it's a portable installation; false, if it isn't a portable installation
+    optional string betaversion - if you use a pre-release of Reaper, this contains the beta-version, like "rc9" or "+dev0423" or "pre6"
   </retvals>
   <chapter_context>
     API-Helper functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, appversion, reaper, version, bits, majorversion, subversion</tags>
+  <tags>helper functions, appversion, reaper, version, bits, majorversion, subversion, operating system</tags>
 </US_DocBloc>
 --]]
   -- if exe-path and resource-path are the same, it is an portable-installation
   if reaper.GetExePath()==reaper.GetResourcePath() then portable=true else portable=false end
   -- separate the returned value from GetAppVersion
-  return tonumber(reaper.GetAppVersion():match("(.-)%..-/")), tonumber(reaper.GetAppVersion():match("%.(.-)/")), reaper.GetAppVersion():match("/(.*)"), reaper.GetOS():match("(.-)%d"), portable
+  local majvers=tonumber(reaper.GetAppVersion():match("(.-)%..-/"))
+  local subvers=tonumber(reaper.GetAppVersion():match("%.(%d*)"))
+  local bits=reaper.GetAppVersion():match("/(.*)")
+  local OS=reaper.GetOS():match("(.-)%d")
+  local beta=reaper.GetAppVersion():match("%.%d*(.-)/")
+  return majvers, subvers, bits, OS, portable, beta
 end
 
 
---A,B,C,D=ultraschall.GetReaperAppVersion()
+--A,B,C,D,E,F=ultraschall.GetReaperAppVersion()
 --A,B,C,D,E,F,G=ultraschall.GetReaperAppVersion()
 
 function ultraschall.GetItemSpectralConfig(itemidx, MediaItemStateChunk)
@@ -47312,7 +47317,7 @@ function ultraschall.WriteValueToFile(filename_with_path, value, binarymode, app
 </US_DocBloc>
 --]]
   -- check parameters
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("WriteValueToFile","filename_with_path", "invalid filename", -1) return -1 end
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("WriteValueToFile","filename_with_path", "invalid filename "..filename_with_path, -1) return -1 end
   --if type(value)~="string" then ultraschall.AddErrorMessage("WriteValueToFile","value", "must be string; convert with tostring(value), if necessary.", -2) return -1 end
   value=tostring(value)
   
@@ -47323,11 +47328,13 @@ function ultraschall.WriteValueToFile(filename_with_path, value, binarymode, app
   
   -- write file
   file=io.open(filename_with_path,appendix..binary)
-  if file==nil then ultraschall.AddErrorMessage("WriteValueToFile","filename_with_path", "can't create file", -3) return -1 end
+  if file==nil then ultraschall.AddErrorMessage("WriteValueToFile","filename_with_path", "can't create file "..filename_with_path, -3) return -1 end
   file:write(value)
   file:close()
   return 1
 end
+
+--ultraschall.WriteValueToFile("z:\\okjsoid", 123)
 
 function ultraschall.WriteValueToFile_Insert(filename_with_path, linenumber, value)
 --[[
@@ -47363,7 +47370,7 @@ function ultraschall.WriteValueToFile_Insert(filename_with_path, linenumber, val
 </US_DocBloc>
 ]]
   if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_Insert","filename_with_path", "nil not allowed as filename", -1) return -1 end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_Insert","filename_with_path", "file does not exist", -2) return -1 end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_Insert","filename_with_path", "file does not exist "..filename_with_path, -2) return -1 end
   --if value==nil then ultraschall.AddErrorMessage("WriteValueToFile_Insert","value", "nil not allowed", -3) return -1 end
   value=tostring(value)
   if tonumber(linenumber)==nil then ultraschall.AddErrorMessage("WriteValueToFile_Insert","linenumber", "invalid linenumber", -4) return -1 end
@@ -47411,7 +47418,7 @@ function ultraschall.WriteValueToFile_Replace(filename_with_path, startlinenumbe
 ]]
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("WriteValueToFile_Replace","filename_with_path", "must be a string", -1) return -1 end
   if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_Replace","filename_with_path", "nil not allowed as filename", -0) return -1 end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_Replace","filename_with_path", "file does not exist", -2) return -1 end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_Replace","filename_with_path", "file does not exist "..filename_with_path, -2) return -1 end
 --  if value==nil then ultraschall.AddErrorMessage("WriteValueToFile_Replace","value", "nil not allowed", -3) return -1 end
   value=tostring(value)
   if tonumber(startlinenumber)==nil then ultraschall.AddErrorMessage("WriteValueToFile_Replace","startlinenumber", "invalid linenumber", -4) return -1 end
@@ -47423,6 +47430,8 @@ function ultraschall.WriteValueToFile_Replace(filename_with_path, startlinenumbe
   local contents2, correctnumberoflines = ultraschall.ReadLinerangeFromFile(filename_with_path, endlinenumber+1, numberoflines)
   return ultraschall.WriteValueToFile(filename_with_path, contents..value..contents2, false, false)
 end
+
+--ultraschall.WriteValueToFile_Replace("z:\\okjsoid", 123)
 
 function ultraschall.WriteValueToFile_InsertBinary(filename_with_path, byteposition, value)
 --[[
@@ -47458,7 +47467,7 @@ function ultraschall.WriteValueToFile_InsertBinary(filename_with_path, byteposit
 </US_DocBloc>
 ]]
   if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","filename_with_path", "nil not allowed as filename", -1) return -1 end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","filename_with_path", "file does not exist", -2) return -1 end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","filename_with_path", "file does not exist "..filename_with_path, -2) return -1 end
   --if value==nil then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","value", "nil not allowed", -3) return -1 end
   value=tostring(value)
   if tonumber(byteposition)==nil then ultraschall.AddErrorMessage("WriteValueToFile_InsertBinary","byteposition", "invalid value. Only integer allowed", -4) return -1 end
@@ -47469,6 +47478,8 @@ function ultraschall.WriteValueToFile_InsertBinary(filename_with_path, byteposit
   local correctnumberofbytes2, contents2=ultraschall.ReadBinaryFile_Offset(filename_with_path, byteposition, -1)
   return ultraschall.WriteValueToFile(filename_with_path, contents..value..contents2, true, false)
 end
+
+--ultraschall.WriteValueToFile_InsertBinary("z:\\okjsoid", 123)
 
 function ultraschall.WriteValueToFile_ReplaceBinary(filename_with_path, startbyteposition, endbyteposition, value)
 --[[
@@ -47505,7 +47516,7 @@ function ultraschall.WriteValueToFile_ReplaceBinary(filename_with_path, startbyt
 </US_DocBloc>
 ]]
   if filename_with_path==nil then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","filename_with_path", "nil not allowed as filename", -1) return -1 end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","filename_with_path", "file does not exist", -2) return -1 end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","filename_with_path", "file does not exist "..filename_with_path, -2) return -1 end
   --if value==nil then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","value", "nil not allowed", -3) return -1 end
   value=tostring(value)
   if tonumber(startbyteposition)==nil then ultraschall.AddErrorMessage("WriteValueToFile_ReplaceBinary","startbyteposition", "invalid value. Only integer allowed", -4) return -1 end
@@ -47520,6 +47531,8 @@ function ultraschall.WriteValueToFile_ReplaceBinary(filename_with_path, startbyt
   local correctnumberofbytes2, contents2=ultraschall.ReadBinaryFile_Offset(filename_with_path, endbyteposition-1, -1)
   return ultraschall.WriteValueToFile(filename_with_path, contents..value..contents2, true, false)
 end
+
+--ultraschall.WriteValueToFile_ReplaceBinary("z:\\okjsoid", 123)
 
 function ultraschall.StateChunkLayouter(statechunk)
 --[[
@@ -58652,6 +58665,62 @@ end
 --ultraschall.StoreFunctionInExtState("test", "test", print2, true)
 --KAKKALAKKA=ultraschall.LoadFunctionFromExtState("test", "test22")
 --KAKKALAKKA("789".."hhi")
+
+function ultraschall.GetLastEnvelopePoint_TrackEnvelope(Envelope)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLastEnvelopePoint_TrackEnvelope</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional integer envpointidx, optional number time, optional number value, optional integer shape, optional number tension, optional boolean selected =  ultraschall.GetLastEnvelopePoint_TrackEnvelope(TrackEnvelope Envelope)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the values of the last envelope-point in TrackEnvelope/MediaItemEnvelope.
+    
+    Note: there's a "hidden" last envelopepoint in every Envelope, which will be ignored by this function. It will return the last visible envelope-point instead!
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, getting the envelopepoint was successful; false, in case of an error
+    optional integer envpointidx - the idx of the found envelope-point; with 0 for the first one on the Envelope
+    optional number time - the time of the envelope-point in seconds
+    optional number value - the value of the envelope-point
+    optional integer shape - the shape of the envelope-point
+                            -0 - Linear
+                            -1 - Square
+                            -2 - Slow start/end
+                            -3 - Fast start
+                            -4 - Fast end
+                            -5 - Bezier
+    optional number tension - the intensity of the tension of the shape
+    optional boolean selected - true, envelope-point is selected; false, it is not selected
+  </retvals>
+  <parameters>
+    TrackEnvelope Envelope - the Trackenvelope/MediaItemenvelope, whose last point you want
+  </parameters>
+  <chapter_context>
+    Envelope Management
+    Get Envelope
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>envelopemanagement, envelope, point, envelope point, get, db, time, value</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(Envelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("GetLastEnvelopePoint_TrackEnvelope", "Envelope", "must be a valid Envelope-object", -1) return false end
+  local retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(Envelope, reaper.CountEnvelopePoints(Envelope)-1)
+  if retval==true and reaper.CountEnvelopePoints(Envelope)>1 then
+    return retval, reaper.CountEnvelopePoints(Envelope), time, value, shape, tension, selected
+  else
+    return false
+  end
+end
+
+--Envelope=reaper.GetTrackEnvelope(reaper.GetTrack(0,0),2)
+--A,B,C,D,E,F,G,H=ultraschall.GetLastEnvelopePoint(Envelope)
 
 ultraschall.ShowLastErrorMessage()
 

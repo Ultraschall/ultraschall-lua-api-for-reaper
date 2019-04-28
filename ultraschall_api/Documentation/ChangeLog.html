@@ -45,6 +45,7 @@ Ultraschall API Changelog
 <p><strong>!RenderMania!</strong></p>
 <h4>New features in 4.00beta2.75</h4>
 <ul>
+<li>Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point from a TrackEnvelope-object</li>
 <li>FXManagement: GetFXStateChunk - Gets an FXStateChunk from a StateChunk(usually Track/MediaItemStateChunk)</li>
 <li>FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is a valid FXStateChunk</li>
 <li>FXManagement: GetParmLearn_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE</li>
@@ -110,9 +111,24 @@ Ultraschall API Changelog
 <li>Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3</li>
 <li>Docs: corrected wrong functioncount in docs</li>
 <li>Docs: when Beta-functions is enabled, the docgenerator adds beta-functions into docs as well</li>
+<li>FileIO: CountLinesInFile - errormessages return now the filename as well</li>
 <li>FileIO: GetAllFilenamesInPath - didn't add a directory-separator between file and path, if path was missing / or \ at the end -&gt; fixed now</li>
+<li>FileIO: GetLengthOfFile - errormessages return now the filename as well</li>
+<li>FileIO: ReadBinaryFileFromPattern - errormessages return now the filename as well</li>
+<li>FileIO: ReadBinaryFileUntilPattern - errormessages return now the filename as well</li>
+<li>FileIO: ReadBinaryFile_Offset - errormessages return now the filename as well</li>
+<li>FileIO: ReadFileAsLines_Array - errormessages return now the filename as well</li>
+<li>FileIO: ReadFullFile - errormessages return now the filename as well</li>
+<li>FileIO: ReadLinerangeFromFile - errormessages return now the filename as well</li>
+<li>FileIO: ReadValueFromFile - errormessages return now the filename as well</li>
+<li>FileIO: WriteValueToFile - errormessages return now the filename as well</li>
+<li>FileIO: WriteValueToFile_Insert - errormessages return now the filename as well</li>
+<li>FileIO: WriteValueToFile_InsertBinary - errormessages return now the filename as well</li>
+<li>FileIO: WriteValueToFile_Replace - errormessages return now the filename as well</li>
+<li>FileIO: WriteValueToFile_ReplaceBinary - errormessages return now the filename as well</li>
 <li>GFX: GFX_GetMouseCap - interpreted modifier-keys as mouseclicks, when gfx.getkey had been used in script; mousewheel sometimes kept stuck at one value-&gt; fixed</li>
 <li>Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter</li>
+<li>Helpers: GetReaperAppVersion - didn't return subversionnumber for pre-releases -&gt; fixed now; returns pre-release-versions as well now</li>
 <li>Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly</li>
 <li>IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore</li>
 <li>IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore</li>
@@ -138,8 +154,6 @@ Ultraschall API Changelog
 <li>Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)</li>
 <li>Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)</li>
 <li>Routing: AddTrackAUXSendReceives - had parameters tracknumber and recv_tracknumber accidentally reversed, when not working with StateChunks .. oops -&gt; fixed (thanks to woodslanding)</li>
-<li>UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd</li>
-<li>UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.74: - "Talking Heads - Once in a Lifetime" - 10th of April 2019</h3>
