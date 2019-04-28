@@ -78,7 +78,6 @@ end
 
       TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
       TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
-      TODO!!  - Get Length of all Items in a track GetLengthOfAllItems_Track()
       TODO!!  - Add options to Normalize-Items-function, as there are numerous different actions for normalizing
       TODO!!  - Get/SetMarkersFromClipboard-functions
       TODO!! Reaper-Apidocs: use US-functions-docgenerator for layout
@@ -97,8 +96,7 @@ end
                     setstate=false -> insert it AFTER the AUXRECV with idx "sendidx"
                     
                     only possible using TrackStateChunks, so no speedup possible
-      TODO!! Doccreation: - wrong number of functions in any other docspage than functions-engine
-                          - retvals(maybe parameters as well?) don't convert MD2HTML in functions-engine-docconverter      
+      TODO!! Doccreation: - retvals(maybe parameters as well?) don't convert MD2HTML in functions-engine-docconverter      
 
       TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
              produziert die API Fehler.            
@@ -198,15 +196,12 @@ end
             3b) if QUEUED_RENDER_ORIGINAL_FILENAME exists it will be the exportfolder
                 3ba) if RENDER_FILE is set to anything, the output will be QUEUED_RENDER_ORIGINAL_FILENAME\RENDER_FILE
 
-                                                      
-                                                      
-      TODO!! Functionshook in Render-functions.
-                before the render project using last render settings-action is triggered, it should be possible to run a function that "prepares" the project for rendering
-                
-                possible, when using the renderqueue? Nope!
                 
       TODO!! Rendering "pre-trail"-management, where a to be rendered project gets adds some silence in the beginning of the project, so possible "CPU needs to run up to fully calculate the rendering" will happen first.
                 sometimes issue in render-queues
+                
+                For that- renderqueue-delay has been added by the Reaper-devs!
+                
       TODO!! Multipass-rendering
                 When you want to render out a "wet"-loop, that needs reverb or something, you would need to render this loop three times:
                         one to start up all reverbs, two for the actual loop and three for the "loop aftermath"
@@ -272,7 +267,8 @@ end
       TODO!!  - Envelope-StateChunk-functions
       TODO!!  - Get/SetProject-functions for
                     RENDER_QUEUE-stuff
-                    
+                   
+                   as well as
                   - SetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
                   - SetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk
                   - SetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk
@@ -318,8 +314,8 @@ end
                     - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
                       MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex   
     For 4.00Beta 2.9:
-        registering of running scripts into an extstate ultraschall->running_script_instance->
-            All ultraschall-API-using scripts will be registered into running_script_instance automatically.
+        registering of defer-using-running scripts into an extstate ultraschall->running_script_instance->
+            All ultraschall-API-using scripts will be registered into running_script_instance automatically, when using defer.
             We will also define an atexit-function for unregistering from the running-script-instance-register, as there can be multiple atexit-functions(up to 1024).
             That way, we can have monitoring of running scripts.
             Should allow monitoring of Defer1 to Defer10-running-states as well. Maybe they need to be set at the beginning as well? Or is it waste of resources?(probably the latter, we can assume, if it's not set "running", that defer-instance is not used and set to stopped.            
@@ -360,8 +356,10 @@ tagline inspired by a comment from \_stevie\_ ;)
   - FXManagement: GetParmLearn\_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE
   - FXManagement: GetParmLearn\_MediaItem - gets the parameter-learn-settings from a MediaItem, as requested by TonE
   - FXManagement: GetParmLearn\_MediaTrack - gets the parameter-learn-settings from a MediaTrack, as requested by TonE
+  - Helpers: ConvertBitsToInteger - converts a table with bitvalues (0 or 1) into it's integer-representation
   - Lua: StoreFunctionInExtState - stores a function into an extstate
   - Lua: LoadFunctionFromExtState - loads a function from an extstate, if stored using StoreFunctionInExtState
+  - MediaItems: GetLengthOfAllMediaItems\_Track - returns the length of all MediaItems in a track combined, in seconds
   - Project Management: GetProject_QRenderOriginalProject - returns the original projectfile of a render-queued-project from a projectfile or ProjectStateChunk
   - Project Management: GetProject_QRenderOutFiles - returns the render-outfiles-with-path of a render-queued-project from a projectfile or ProjectStateChunk
   - Project Management: GetProject_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk
@@ -415,6 +413,8 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER\_DITHER (dither/noiseshape stems) and RENDER\_SRATE(when returned RENDER\_SRATE=0)
   - Docs: Reaper ConfigVars - added better description for g\_config\_project
   - Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3
+  - Docs: corrected wrong functioncount in docs
+  - Docs: when Beta-functions is enabled, the docgenerator adds beta-functions into docs as well
   - FileIO: GetAllFilenamesInPath - didn't add a directory-separator between file and path, if path was missing / or \ at the end -> fixed now
   - GFX: GFX\_GetMouseCap - interpreted modifier-keys as mouseclicks, when gfx.getkey had been used in script; mousewheel sometimes kept stuck at one value-> fixed
   - Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter
@@ -422,6 +422,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore
   - IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore
   - HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well
+  - MediaItems: EnumerateMediaItemsInTrack - had wrong functionname in index -> fixed
   - Projectmanagement: all SetProject-functions - added missing ProjectStateChunk-returnvalue to docs
   - Projectmanagement: GetProject\_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile
   - Projectmanagement: GetProject\_RenderRange - added bounds-option for selected regions

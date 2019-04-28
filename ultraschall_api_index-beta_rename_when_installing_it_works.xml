@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="35930.00" author="Meo Mespotine">
+      <version name="36035.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -247,6 +247,7 @@
 	<source file="/ultraschall_api/Scripts/Tools/HWND-Displayer.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/HWND-Displayer.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Item_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Item_State_Diffs_Monitor.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Missing-Actions-List.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Missing-Actions-List.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/PitchShiftMode-updatechecker.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/PitchShiftMode-updatechecker.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Project_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Project_State_Diffs_Monitor.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Reapack-API-xml-generator.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Reapack-API-xml-generator.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Reaper_Configvar_String_Searcher.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Reaper_Configvar_String_Searcher.lua</source>
@@ -328,9 +329,13 @@ New features in 4.00beta2.75
     parameter-learn-settings from a MediaItem, as requested by TonE
 -   FXManagement: GetParmLearn_MediaTrack - gets the
     parameter-learn-settings from a MediaTrack, as requested by TonE
+-   Helpers: ConvertBitsToInteger - converts a table with bitvalues (0
+    or 1) into it’s integer-representation
 -   Lua: StoreFunctionInExtState - stores a function into an extstate
 -   Lua: LoadFunctionFromExtState - loads a function from an extstate,
     if stored using StoreFunctionInExtState
+-   MediaItems: GetLengthOfAllMediaItems_Track - returns the length of
+    all MediaItems in a track combined, in seconds
 -   Project Management: GetProject_QRenderOriginalProject - returns the
     original projectfile of a render-queued-project from a projectfile
     or ProjectStateChunk
@@ -442,6 +447,9 @@ Changes from Beta 2.74 to Beta 2.75
     g_config_project
 -   Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly
     regarding mp3
+-   Docs: corrected wrong functioncount in docs
+-   Docs: when Beta-functions is enabled, the docgenerator adds
+    beta-functions into docs as well
 -   FileIO: GetAllFilenamesInPath - didn’t add a directory-separator
     between file and path, if path was missing / or  at the end -> fixed
     now
@@ -457,6 +465,8 @@ Changes from Beta 2.74 to Beta 2.75
     necessary anymore
 -   HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the
     TCP as well
+-   MediaItems: EnumerateMediaItemsInTrack - had wrong functionname in
+    index -> fixed
 -   Projectmanagement: all SetProject-functions - added missing
     ProjectStateChunk-returnvalue to docs
 -   Projectmanagement: GetProject_RenderFilename - could produce

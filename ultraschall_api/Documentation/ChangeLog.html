@@ -50,8 +50,10 @@ Ultraschall API Changelog
 <li>FXManagement: GetParmLearn_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE</li>
 <li>FXManagement: GetParmLearn_MediaItem - gets the parameter-learn-settings from a MediaItem, as requested by TonE</li>
 <li>FXManagement: GetParmLearn_MediaTrack - gets the parameter-learn-settings from a MediaTrack, as requested by TonE</li>
+<li>Helpers: ConvertBitsToInteger - converts a table with bitvalues (0 or 1) into it's integer-representation</li>
 <li>Lua: StoreFunctionInExtState - stores a function into an extstate</li>
 <li>Lua: LoadFunctionFromExtState - loads a function from an extstate, if stored using StoreFunctionInExtState</li>
+<li>MediaItems: GetLengthOfAllMediaItems_Track - returns the length of all MediaItems in a track combined, in seconds</li>
 <li>Project Management: GetProject_QRenderOriginalProject - returns the original projectfile of a render-queued-project from a projectfile or ProjectStateChunk</li>
 <li>Project Management: GetProject_QRenderOutFiles - returns the render-outfiles-with-path of a render-queued-project from a projectfile or ProjectStateChunk</li>
 <li>Project Management: GetProject_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk</li>
@@ -106,6 +108,8 @@ Ultraschall API Changelog
 <li>Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER_DITHER (dither/noiseshape stems) and RENDER_SRATE(when returned RENDER_SRATE=0)</li>
 <li>Docs: Reaper ConfigVars - added better description for g_config_project</li>
 <li>Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3</li>
+<li>Docs: corrected wrong functioncount in docs</li>
+<li>Docs: when Beta-functions is enabled, the docgenerator adds beta-functions into docs as well</li>
 <li>FileIO: GetAllFilenamesInPath - didn't add a directory-separator between file and path, if path was missing / or \ at the end -&gt; fixed now</li>
 <li>GFX: GFX_GetMouseCap - interpreted modifier-keys as mouseclicks, when gfx.getkey had been used in script; mousewheel sometimes kept stuck at one value-&gt; fixed</li>
 <li>Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter</li>
@@ -113,6 +117,7 @@ Ultraschall API Changelog
 <li>IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore</li>
 <li>IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore</li>
 <li>HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well</li>
+<li>MediaItems: EnumerateMediaItemsInTrack - had wrong functionname in index -&gt; fixed</li>
 <li>Projectmanagement: all SetProject-functions - added missing ProjectStateChunk-returnvalue to docs</li>
 <li>Projectmanagement: GetProject_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile</li>
 <li>Projectmanagement: GetProject_RenderRange - added bounds-option for selected regions</li>

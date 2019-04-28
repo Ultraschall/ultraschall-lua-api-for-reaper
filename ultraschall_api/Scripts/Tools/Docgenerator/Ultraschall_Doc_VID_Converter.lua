@@ -422,7 +422,9 @@ end
 
 local String=ultraschall.ReadFullFile(Infilename, false)
 
-String=String.."\n"..ultraschall.ReadFullFile(Infilename2, false)
+if ultraschall.US_BetaFunctions=="ON" then
+    String=String.."\n"..ultraschall.ReadFullFile(Infilename2, false)
+end
 
 Ccount, C=ultraschall.SplitUSDocBlocs(String)
 

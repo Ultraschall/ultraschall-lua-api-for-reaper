@@ -1103,6 +1103,26 @@ end
 </US_DocBloc>
 ]]
 
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>API_TempPath</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.API_TempPath</functioncall>
+  <description>
+    Contains the path to the temp-folder of the Ultraschall-API.
+  </description>
+  <chapter_context>
+    API-Variables
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>api, variable, temppath</tags>
+</US_DocBloc>
+]]
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -30931,7 +30951,7 @@ end
 function ultraschall.EnumerateMediaItemsInTrack(tracknumber, idx)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetTrackLength</slug>
+  <slug>EnumerateMediaItemsInTrack</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.40
@@ -31034,7 +31054,54 @@ function ultraschall.GetTrackLength(Tracknumber)
   return POS+LEN
 end
 
---A=ultraschall.GetTrackLength(1)
+--A=ultraschall.GetTrackLength(2)
+
+function ultraschall.GetLengthOfAllMediaItems_Track(Tracknumber)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLengthOfAllMediaItems_Track</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer length = ultraschall.GetLengthOfAllMediaItems_Track(integer Tracknumber)</functioncall>
+  <description>
+    Returns the length of all MediaItems in track, combined.
+    Will return -1, in case of error
+  </description>
+  <parameters>
+    integer Tracknumber - the tracknumber, whose length you want to know; 1, track 1; 2, track 2, etc
+  </parameters>
+  <retvals>
+    integer length - the length of all MediaItems in the track combined, in seconds
+  </retvals>
+  <chapter_context>
+    Track Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>trackmanagement, count, length, all items, track, end</tags>
+</US_DocBloc>
+]]
+  if math.type(Tracknumber)~="integer" then ultraschall.AddErrorMessage("GetLengthOfAllMediaItems_Track", "Tracknumber", "must be an integer", -1) return -1 end
+
+  local MediaTrack, MediaItem, num_items, Itemcount, MediaItemArray, POS, LEN
+  if Tracknumber<1 or Tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetLengthOfAllMediaItems_Track", "Tracknumber", "no such track", -2) return -1 end
+  
+  LEN=0
+  MediaTrack=reaper.GetTrack(0,Tracknumber-1)
+
+  num_items=reaper.CountTrackMediaItems(MediaTrack)
+  for i=1, num_items do
+    MediaItem, Itemcount, MediaItemArray = ultraschall.EnumerateMediaItemsInTrack(Tracknumber, i)
+    LEN=LEN+reaper.GetMediaItemInfo_Value(MediaItem, "D_LENGTH")
+  end
+  return LEN
+end
+
+--A=ultraschall.GetLengthOfAllMediaItems_Track(2)
 
 function ultraschall.GetMediaItemArrayLength(MediaItemArray)
 --[[
@@ -35441,10 +35508,26 @@ end
 
 function progresscounter(state)
   A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_doc_engine.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gfx_engine.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gui_engine.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gui_engine_server.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_network_engine.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_sound_engine.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_video_engine.lua")
+
+if ultraschall.US_BetaFunctions=="ON" then
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine_beta.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gfx_engine_beta.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gui_engine_beta.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_network_engine_beta.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_sound_engine_beta.lua")
+  A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_video_engine_beta.lua")
+end
   A=A.."function ultraschall."
   A=A:match("function ultraschall%..*")
 --  reaper.MB(tostring(A:sub(1,400)),"",0)
+--[[
   i=0
   done=15
   todo=-17
@@ -35487,9 +35570,21 @@ function progresscounter(state)
 --  reaper.CF_SetClipboard(donestring)
 
   if state~=false then reaper.MB("Du hast schon "..done.." von ".. done+todo.." Funktionen fertig. \nDas sind schon "..N.." Prozent. \nFehlen noch "..todo.." Funktionen.\n\nNicht schlecht :D", "Hui!", 0) end
-  return done
+  --]]
+  funcs=0
+  vars=0
+  count, individual_values = ultraschall.CSV2IndividualLinesAsArray(A, "\n")
+  for i=1, count do
+    if individual_values[i]:match("^%s-</US_DocBloc>")~=nil then funcs=funcs+1 end
+  end
+  
+  for i=1, count do
+    if individual_values[i]:match("    API%-Variables")~=nil then vars=vars+1 end
+  end
+  
+  return funcs-vars, vars
 end
---progresscounter(false)
+--L,LL=progresscounter(false)
 
 
 
@@ -48301,6 +48396,55 @@ function ultraschall.ConvertIntegerToBits(integer)
   return bitvals:sub(1,-2), Table
 end
 
+function ultraschall.ConvertBitsToInteger(bitvalues)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertBitsToInteger</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer integervalue = ultraschall.ConvertBitsToInteger(table bitvalues)</functioncall>
+  <description>
+    converts a table with all bitvalues into it's integer-representation.
+    each table-entry holds either a 1 or a 0; 
+      with index 1 being the first (for 1), 
+      index 2 for the second (for 2),
+      index 3 for the third (for 4),
+      index 4 for the fourth(for 8), etc
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    table bitvalues - a table, where each entry contains the bit-value of integer; first entry for bit 1, 64th entry for bit 64, etc
+  </parameters>
+  <retvals>
+    integer integer - the integer-number converted from the integer-entries
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, bitfield, integer</tags>
+</US_DocBloc>
+]]
+  if type(bitvalues)~="table" then ultraschall.AddErrorMessage("ConvertBitsToInteger", "bitvalues", "must be a table", -1) return nil end
+  local count = ultraschall.CountEntriesInTable_Main(bitvalues)
+  local integer=0
+  for i=0, count-1 do
+    if bitvalues[i+1]~=0 and bitvalues[i+1]~=1 then ultraschall.AddErrorMessage("ConvertBitsToInteger", "bitvalues["..(i+1).."]", "must be either 0 or 1", -2) return nil end
+    if bitvalues[i+1]==1 then integer=integer+2^i end
+--    integer=integer<<1
+  end
+  return math.tointeger(integer)
+end
+
+--B=ultraschall.ConvertIntegerToBits(3)
+
+--A=ultraschall.ConvertBitsToInteger({1,1,0,0,0,1})
 
 function ultraschall.GetSetIntConfigVar(varname, set, ...)  
   --[[
@@ -58447,8 +58591,7 @@ function ultraschall.StoreFunctionInExtState(section, key, functioncall, debug)
     boolean debug - true, store debug-values as well; false, don't store the debug-values as well
   </parameters>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    API-Helper functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -58491,8 +58634,7 @@ function ultraschall.LoadFunctionFromExtState(section, key)
     string key - the keyname of the extstate
   </parameters>
   <chapter_context>
-    Configuration Settings
-    Render to File
+    API-Helper functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
