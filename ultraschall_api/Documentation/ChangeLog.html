@@ -126,17 +126,23 @@ Ultraschall API Changelog
 <li>FileIO: WriteValueToFile_InsertBinary - errormessages return now the filename as well</li>
 <li>FileIO: WriteValueToFile_Replace - errormessages return now the filename as well</li>
 <li>FileIO: WriteValueToFile_ReplaceBinary - errormessages return now the filename as well</li>
+<li>Fun: WinterlySnowflakes - only initialized now, when called (used to be initialized at every startup of an US-API-instance)</li>
+<li>General: cleanup of functions-engine - removed 3569 useless lines, who contained old debugcode sleeping in comments.</li>
 <li>GFX: GFX_GetMouseCap - interpreted modifier-keys as mouseclicks, when gfx.getkey had been used in script; mousewheel sometimes kept stuck at one value-&gt; fixed</li>
 <li>Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter</li>
+<li>Helpers: CreateUSApiDocs_HTML - removed, as I'm not using it for ages now</li>
 <li>Helpers: GetReaperAppVersion - didn't return subversionnumber for pre-releases -&gt; fixed now; returns pre-release-versions as well now</li>
 <li>Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly</li>
+<li>HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well</li>
 <li>IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore</li>
 <li>IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore</li>
-<li>HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well</li>
 <li>MediaItems: EnumerateMediaItemsInTrack - had wrong functionname in index -&gt; fixed</li>
 <li>Projectmanagement: all SetProject-functions - added missing ProjectStateChunk-returnvalue to docs</li>
+<li>Projectmanagement: GetProject_NumberOfTracks - sped code up by magnitudes for huge projects; parameter ProjectStateChunk wasn't working due stupid typo -&gt; fixed now</li>
 <li>Projectmanagement: GetProject_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile</li>
+<li>Projectmanagement: SetProject_RenderPattern - added new render-pattern options to the docs</li>
 <li>Projectmanagement: GetProject_RenderRange - added bounds-option for selected regions</li>
+<li>Projectmanagement: SetProject_RenderPattern - added new render-pattern options to the docs</li>
 <li>Projectmanagement: SetProject_RenderRange - added bounds-option for selected regions</li>
 <li>Render: CreateRenderCFG_AudioCD - improved and lifted limitations for leadin-silence-values</li>
 <li>Render: CreateRenderCFG_MP3ABR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; forgot to add FasterEncode-setting -&gt; fixed now<br />

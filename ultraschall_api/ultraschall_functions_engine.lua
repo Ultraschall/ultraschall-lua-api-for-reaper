@@ -50,177 +50,20 @@ end
 -- deprecated stuff
   runcommand = ultraschall.RunCommand
   Msg=ultraschall.Msg
----
 
+-- initialize some used variables
 ultraschall.ErrorCounter=0
-ultraschall.StartTime=os.clock()
 ultraschall.ErrorMessage={}
+ultraschall.temp,ultraschall.tempfilename=reaper.get_action_context()
+ultraschall.tempfilename=string.gsub(ultraschall.tempfilename,"\n","")
+ultraschall.tempfilename=string.gsub(ultraschall.tempfilename,"\r","")  
+ultraschall.Dump, ultraschall.ScriptFileName=reaper.get_action_context()
 
--- HoHoHo
-function ultraschall.OperationHoHoHo()
-  ultraschall.snowB=os.date("*t")
-  
-  ultraschall.snowtodaysdate=ultraschall.snowB.day.."."..ultraschall.snowB.month
-  ultraschall.snowoldgfx=gfx.update
-  
-  ultraschall.temp,ultraschall.tempfilename=reaper.get_action_context()
-  
-  ultraschall.tempfilename=string.gsub(ultraschall.tempfilename,"\n","")
-  ultraschall.tempfilename=string.gsub(ultraschall.tempfilename,"\r","")
-  
-  ultraschall.Dump, ultraschall.ScriptFileName=reaper.get_action_context()
-  
-  if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and 
-      (ultraschall.snowtodaysdate=="24.12" or 
-       ultraschall.snowtodaysdate=="25.12" or 
-       ultraschall.snowtodaysdate=="26.12") then
-    ultraschall.snowoldgfx=gfx.update
-    function gfx.update()
-      if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
-      ultraschall.snowoldgfx()
-    end      
-  end
-  --gfx.init()
-  
-  -- initial values
-  ultraschall.snowspeed=1.3       -- the falling speed of the snowflakes
-  ultraschall.snowsnowfactor=5000 -- the number of snowflakes
-  ultraschall.snowwindfactor=3    -- the amount the wind influences the snow; wind has an effect sideways and on the falling-speed. 
-                                  -- Don't set too high(>100), will look ugly otherwise. Rather experimental, than a real wind simulation...
-  
-  -- let's create some basic shapes to blit as snowflakes for:
-  -- close snowflakes
-  gfx.setimgdim(200,1,1)
-  gfx.dest=200
-  gfx.set(0.5,0.5,0.5)
-  gfx.rect(0,0,1,1)
-  -- medium snowflakes
-  gfx.setimgdim(400,1,1)
-  gfx.dest=400
-  gfx.set(0.3,0.3,0.3)
-  gfx.rect(0,0,1,1)
-  -- small and far snowflakes
-  gfx.setimgdim(401,1,1)
-  gfx.dest=401
-  gfx.set(0.2,0.2,0.2)
-  gfx.rect(0,0,1,1)
-  
-  
-  -- set framebuffer to the shown one
-  gfx.dest=-1
-  
-  -- Let's create an initial set of snowflakes
-  ultraschall.snowSnowflakes={}
-  for a=1, ultraschall.snowsnowfactor do
-    -- random x-position
-    -- random y-position
-    -- speed(which I also use as size-factor) and
-    -- another speed-factor(useful? Don't know...)
-    if gfx.w==0 then ultraschall.snowwidth=1000 else ultraschall.snowwidth=gfx.w end
-    if gfx.h==0 then ultraschall.snowheight=500 else ultraschall.snowheight=gfx.h end
-    ultraschall.snowSnowflakes[a]={math.random(1,ultraschall.snowwidth),math.random(-1500,0),math.random()*2,(math.random()/4)*math.random(-1,1)}
-    if ultraschall.snowSnowflakes[a][3]<0.4 then ultraschall.snowSnowflakes[a][3]=ultraschall.snowSnowflakes[a][3]*2 end
-  end
-    
-  
-  -- Let's create a table, that is meant to influence the fall of the snowflakes, as wind would do.
-  -- For laziness, I simply choose a sinus-wave to create it
-  -- this could be improved much much more...
-    ultraschall.snowwind=-3.6  
-    ultraschall.snowWindtable={}
-    for windcounter=0, ultraschall.snowsnowfactor do
-     ultraschall.snowwind=(ultraschall.snowwind+ultraschall.snowwindfactor*.001)--/(speed*2)
-     if ultraschall.snowwind>3.6 then ultraschall.snowwind=-3.6 end
-     ultraschall.snowWindtable[windcounter]=math.sin(windcounter)-(math.random()/2)*ultraschall.snowwindfactor
-    end
-  
-  ultraschall.snowwindoffset=1
-end
---if GUI==nil then GUI={} end
-function ultraschall.US_snowmain()
-  -- set sky to gray  
-  gfx.clear=0--reaper.ColorToNative(15,15,15)
-  local RUN=0
-  local RUN_STOP=0
-  
-  for i=1, ultraschall.snowsnowfactor do  
-    -- let's do the calculation of the falling of the snow
-    gfx.x=ultraschall.snowSnowflakes[i][1]
-    gfx.y=ultraschall.snowSnowflakes[i][2]+1
-
-    -- if a snowflake hasn't left the bottom of the window, do
-    if ultraschall.snowSnowflakes[i][2]<gfx.h then
-      local RUN=RUN+1
-      ultraschall.snowwindoffset=ultraschall.snowwindoffset+1
-      if ultraschall.snowwindoffset>ultraschall.snowsnowfactor then ultraschall.snowwindoffset=1 end
-      
-      -- calculate the movement toward the bottom, influenced by speed and wind
-      ultraschall.snowTemp=ultraschall.snowSnowflakes[i][2]+(ultraschall.snowSnowflakes[i][3]*ultraschall.snowspeed)-(ultraschall.snowWindtable[ultraschall.snowwindoffset]/4*ultraschall.snowSnowflakes[i][4])
-      if ultraschall.snowTemp>=ultraschall.snowSnowflakes[i][2] then ultraschall.snowSnowflakes[i][2]=ultraschall.snowTemp end -- prevent backwards flying snow
-      -- calculate the movement toward left/right, influenced by wind
-      ultraschall.snowSnowflakes[i][1]=ultraschall.snowSnowflakes[i][1]+(ultraschall.snowSnowflakes[i][4]+ultraschall.snowWindtable[ultraschall.snowwindoffset]/4*ultraschall.snowSnowflakes[i][4])
-      
-      
-      -- let's blit the snowflakes with their different sizes and colors
-      
-      if ultraschall.snowSnowflakes[i][3]>0.4 then 
-        -- big snowflakes, close and bright
-        gfx.blit(200,1.1*ultraschall.snowSnowflakes[i][3],0)      
-      elseif ultraschall.snowSnowflakes[i][3]<0.3 and ultraschall.snowSnowflakes[i][3]>0.1 then
-        -- medium snowflakes, normal and darker
-        gfx.blit(401,1.1,0)      
-      else
-        -- small snowflakes, dark
-        gfx.blit(400,0.7,0)
-      end
-
-    elseif gfx.h~=0 then
-      local RUN_STOP=RUN_STOP+1 -- just a debug-variable to see, how many are newly created
-
-      -- When Snowflake has left the bottom of the window, create a new one
-      -- this is like the initial creation of snowflakes, but unlike there, we make the y-position 0 here
-      if gfx.w==0 then ultraschall.snowwidth=1000 else ultraschall.snowwidth=gfx.w end
-      if gfx.h==0 then ultraschall.snowheight=3000 else ultraschall.snowheight=gfx.h end
-      ultraschall.snowSnowflakes[i]={math.random(1,ultraschall.snowwidth),0,math.random()*2,(math.random()/2)*math.random(-1,1)}
-    end
-  end
-
-  -- update gfx and start all over again
---  gfx.update()
---  if gfx.getchar()~=-1 then reaper.defer(ultraschall.US_snowmain) end
-end
-
-ultraschall.OperationHoHoHo()
-ultraschall.US_snowmain()
-  if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
---end
-
-gfx.x=0
-gfx.y=0
-gfx.r=1
-gfx.g=1
-gfx.b=1
---back2business
-if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
-    -- user_folder = buf --"C:\\Users\\[username]" -- need to be test
-    ultraschall.Separator = "\\"
-  else
-    -- user_folder = "/USERS/[username]" -- Mac OS. Not tested on Linux.
-    ultraschall.Separator = "/"
-  end
-  --ultraschall.info = debug.getinfo(1,'S');
-  ultraschall.Script_Path = reaper.GetResourcePath().."/Scripts/"-- ultraschall.info.source:match[[^@?(.*[\/])[^\/]-$]]
-  local script_path = reaper.GetResourcePath().."/UserPlugins/ultraschall_api"..ultraschall.Separator
-  ultraschall.Api_Path=script_path
-  ultraschall.Api_Path=string.gsub(ultraschall.Api_Path,"\\","/")
-  ultraschall.Api_InstallPath=reaper.GetResourcePath().."/UserPlugins/"
---]]  
-
+-- create the right separator for the current system
+if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then ultraschall.Separator = "\\" else ultraschall.Separator = "/" end
 
 -- Let's create a unique script-identifier for childscripts
 ultraschall.dump=ultraschall.tempfilename:match("%-%{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x%}")
-
---reaper.MB(tostring(ultraschall.dump),"",0)
 if ultraschall.dump==nil then 
   ultraschall.dump, ultraschall.dump2 = ultraschall.tempfilename:sub(1,-5), ultraschall.tempfilename:sub(-4,-1)
   if ultraschall.dump2==nil then ultraschall.dump2="" ultraschall.dump=ultraschall.tempfilename end
@@ -231,19 +74,28 @@ else
   ultraschall.ScriptIdentifier="ScriptIdentifier:"..ultraschall.tempfilename
 end
 ultraschall.ScriptIdentifier=string.gsub(ultraschall.ScriptIdentifier, "\\", "/")
-
 ultraschall.ScriptIdentifier_Description=""
 ultraschall.ScriptIdentifier_Title=ultraschall.tempfilename:match(".*"..ultraschall.Separator..("(.*)"))
 
---reaper.MB(tostring(ultraschall.ScriptIdentifier),"",0)
+
+-- operation HoHoHo
+ultraschall.snowB=os.date("*t")
+ultraschall.snowtodaysdate=ultraschall.snowB.day.."."..ultraschall.snowB.month
+ultraschall.snowoldgfx=gfx.update 
+
+
+-- lets initialize some API-Variables
+ultraschall.StartTime=os.clock()
+ultraschall.Script_Path = reaper.GetResourcePath().."/Scripts/"
+local script_path = reaper.GetResourcePath().."/UserPlugins/ultraschall_api"..ultraschall.Separator
+ultraschall.Api_Path=script_path
+ultraschall.Api_Path=string.gsub(ultraschall.Api_Path,"\\","/")
+ultraschall.Api_InstallPath=reaper.GetResourcePath().."/UserPlugins/"
 
 
 function ultraschall.GetEnvelopeStateChunk(TrackEnvelope, str, isundo, usesws)
   return reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
 end
-
---A=reaper.GetTrackEnvelope(reaper.GetTrack(0,1),0)
---B,C,D=ultraschall.GetEnvelopeStateChunk(A, "", true, true)
 
 function ultraschall.IntToDouble(integer, selector)
   if selector==nil then
@@ -313,8 +165,6 @@ function print2(...)
   reaper.MB(string:sub(3,-1),"Print",0)
 end
 
---print("Hula","Hoop",reaper.GetTrack(0,0))
---print("tudel")
 
 function print_alt(...)
 --[[
@@ -354,8 +204,6 @@ function print_alt(...)
   reaper.ShowConsoleMsg(string:sub(3,-1).."\n","Print",0)
 end
 
---print2("Hula","Hoop",reaper.GetTrack(0,0))
---print("tudel")
 
 function print(...)
 --[[
@@ -383,7 +231,6 @@ function print(...)
   <tags>helperfunctions, print, console</tags>
 </US_DocBloc>
 ]]
-
   local string=""
   local count=1
   local temp={...}
@@ -394,8 +241,6 @@ function print(...)
   if string:sub(-1,-1)=="\n" then string=string:sub(1,-2) end
   reaper.ShowConsoleMsg(string:sub(2,-1).."\n","Print",0)
 end
-
---print_alt(9,1,2)
 
 function ultraschall.AddErrorMessage(functionname, parametername, errormessage, errorcode)
 --[[
@@ -465,10 +310,6 @@ function ultraschall.GetTrackStateChunk(MediaTrack, str, isundo, usesws)
   return reaper.GetTrackStateChunk(MediaTrack, "", false)
 end
 
---A=reaper.GetTrack(0,0)
---L,M,N=ultraschall.GetTrackStateChunk(A,"", false, false)
---T=M:len()
-
 
 function ultraschall.SplitStringAtLineFeedToArray(unsplitstring)
 --[[
@@ -525,12 +366,6 @@ function ultraschall.SplitStringAtLineFeedToArray(unsplitstring)
   return i,array
 end
 
---L,LL=ultraschall.SplitStringAtLineFeedToArray("9,9,9,9\r\nooll\n\n\n\n")
---reaper.MB(LL[1].."O.."..LL[2],"",0)
-
-
-
-
 function ultraschall.CountCharacterInString(checkstring, character)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -578,8 +413,6 @@ function ultraschall.malformedpatternhelper(patstring)
   A:match(patstring)
 end
 
---ultraschall.malformedpatternhelper("")
-
 function ultraschall.IsValidMatchingPattern(patstring)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -611,7 +444,6 @@ function ultraschall.IsValidMatchingPattern(patstring)
   return A
 end
 
---C=ultraschall.IsValidMatchPattern()
 
 function ultraschall.GetTrackStateChunk_Tracknumber(tracknumber)
 --[[
@@ -659,10 +491,6 @@ function ultraschall.GetTrackStateChunk_Tracknumber(tracknumber)
   return reaper.GetTrackStateChunk(Track, "", false)
 end
 
---A,B,C=ultraschall.GetTrackStateChunk_Tracknumber(2,true)
---reaper.ShowConsoleMsg(B)
-
-
 function ultraschall.IsValidMediaItemStateChunk(itemstatechunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -702,13 +530,7 @@ function ultraschall.IsValidMediaItemStateChunk(itemstatechunk)
   return true
 end
 
---s,sc=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0),"",false)
---reaper.MB(sc.."LOL","",0)
---A,B=ultraschall.IsValidMediaItemStateChunk("Tohuwabohu")
-
 function ultraschall.CheckMediaItemArray(MediaItemArray)
---checks, if MediaItemArray is a valid array.
--- throws out all invalid table-entries
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CheckMediaItemArray</slug>
@@ -755,8 +577,6 @@ function ultraschall.CheckMediaItemArray(MediaItemArray)
 end
 
 function ultraschall.IsValidMediaItemArray(MediaItemArray)
---checks, if MediaItemArray is a valid array.
--- throws out all invalid table-entries
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsValidMediaItemArray</slug>
@@ -892,8 +712,6 @@ end
 
 
 function ultraschall.CSV2IndividualLinesAsArray(csv_line,separator)
--- converts a csv to an array with all individual values without the ,-separators as well as
--- the number of entries in the array(beginning with 1)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CSV2IndividualLinesAsArray</slug>
@@ -945,8 +763,6 @@ function ultraschall.CSV2IndividualLinesAsArray(csv_line,separator)
   return count-1, line_array
 end
 
---B,BB=ultraschall.CSV2IndividualLinesAsArray("wuddel,duddel", nil)
-
 function ultraschall.IsValidTrackString(trackstring)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -994,9 +810,6 @@ function ultraschall.IsValidTrackString(trackstring)
   return found, count, individual_values
 end
 
---A,B,C,D,E=ultraschall.IsValidTrackString("1,4,3")
---A,B,C,D,E=ultraschall.IsValidTrackString("1,1,2,99,l,8,4")
-
 function ultraschall.CountProjectTabs()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1032,9 +845,6 @@ function ultraschall.CountProjectTabs()
   end
   return ProjCount+1
 end
-
-
---A=ultraschall.CountProjectTabs()
 
 function ultraschall.GetProject_Tabs()
 --[[
@@ -1073,14 +883,10 @@ function ultraschall.GetProject_Tabs()
   return CountProj, ProjTabList
 end
 
-  ultraschall.tempCount, ultraschall.tempProjects = ultraschall.GetProject_Tabs()
-  if ultraschall.ProjectList==nil then 
-    ultraschall.ProjectList=Projects ultraschall.ProjectCount=ultraschall.tempCount
-  end
-  
-
---ultraschall.IDEerror=true
-
+ultraschall.tempCount, ultraschall.tempProjects = ultraschall.GetProject_Tabs()
+if ultraschall.ProjectList==nil then 
+  ultraschall.ProjectList=Projects ultraschall.ProjectCount=ultraschall.tempCount
+end
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1261,10 +1067,6 @@ function ultraschall.GetStringFromClipboard_SWS()
   <tags>copy and paste, clipboard, sws</tags>
 </US_DocBloc>
 ]]
--- gets a big string from clipboard, using the 
--- CF_GetClipboardBig-function from SWS
--- and deals with all aspects necessary, that
--- surround using it.
   local buf = reaper.CF_GetClipboard(buf)
   local WDL_FastString=reaper.SNM_CreateFastString("HudelDudel")
   local clipboardstring=reaper.CF_GetClipboardBig(WDL_FastString)
@@ -1282,9 +1084,6 @@ function ultraschall.IsValidItemStateChunk(itemstatechunk)
   if count1~=count2 then return false end
   return true
 end
---_l,sc=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0),"",false)
---A=ultraschall.IsValidItemStateChunk(sc,"",false)
-
 
 function ultraschall.ToggleIDE_Errormessages(togglevalue)
 --[[
@@ -1326,15 +1125,6 @@ function ultraschall.ToggleIDE_Errormessages(togglevalue)
   return ultraschall.IDEerror
 end
 
-
---L=ultraschall.ToggleIDE_Errormessages()
---A,B=ultraschall.AddErrorMessage("functionname","tudelu")
---M=ultraschall.ToggleIDE_Errormessages()
---A,B=ultraschall.AddErrorMessage("functionname","HeckMeck in ZeckMeck")
---A,B=ultraschall.AddErrorMessage("functionname","HeckMeck in ZeckMeck")
---A,B=ultraschall.AddErrorMessage("functionname","HeckMeck in ZeckMeck")
---reaper.MB(ultraschall.ErrorMessage[ultraschall.ErrorCounter][3],"",0)
-
 function ultraschall.ReadErrorMessage(errornumber)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1373,7 +1163,6 @@ function ultraschall.ReadErrorMessage(errornumber)
 </US_DocBloc>
 ]]
   -- check parameters
-  
   if math.type(errornumber)~="integer" then ultraschall.AddErrorMessage("ReadErrorMessage","errornumber", "not a valid value, must be an integer", -1) return false end
   if errornumber<1 or errornumber>ultraschall.ErrorCounter then ultraschall.AddErrorMessage("ReadErrorMessage","errornumber", "no such error-message. Use ultraschall.CountErrorMessages() to find out the number of messages available.", -2) return false end
 
@@ -1429,19 +1218,6 @@ function ultraschall.DeleteErrorMessage(errornumber)
   return true
 end
 
-
---ultraschall.AddErrorMessage("ReadErrorMessage","errornumber", "not a valid value", -1)
---ultraschall.AddErrorMessage("ReadErrorMessage","errornumber", "not a valid value", -2)
---ultraschall.AddErrorMessage("ReadErrorMessage","errornumber", "not a valid value", -3)
---ultraschall.AddErrorMessage("ReadErrorMessage","errornumber", "not a valid value", -4)
---ultraschall.AddErrorMessage("ReadErrorMessage","errornumber", "not a valid value", -5)
---ultraschall.AddErrorMessage("ReadErrorMessage","errornumber", "not a valid value", -6)
---ultraschall.AddErrorMessage("ReadErrorMessage","errornumber", "not a valid value", -7)
---us=ultraschall.ErrorMessage
---C1,D1,E1,F1,G1,H1,I1,J1,K1=ultraschall.ReadErrorMessage(1)
---A=ultraschall.DeleteErrorMessage(0)
---A=ultraschall.DeleteErrorMessage(1)
-
 function ultraschall.GetLastErrorMessage()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1495,12 +1271,6 @@ function ultraschall.GetLastErrorMessage()
                  ultraschall.ErrorCounter
 end
 
---L=ultraschall.ToggleIDE_Errormessages(false)
---S,T,U,V,W,X,Y,Z,ZZ,ZZZ = ultraschall.GetLastErrorMessage()
---S,T,U,V,W,X = ultraschall.GetLastErrorMessage()
---S,T,U,V,W,X = ultraschall.GetLastErrorMessage()
-
-
 function ultraschall.DeleteLastErrorMessage()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1535,16 +1305,6 @@ function ultraschall.DeleteLastErrorMessage()
   end
 end
 
-
---S,T,U,V,W,X = ultraschall.GetLastErrorMessage()
---S,T,U,V,W,X = ultraschall.GetLastErrorMessage()
---ultraschall.AddErrorMessage("Hula","Bula")
---A=ultraschall.DeleteLastErrorMessage()
---A=ultraschall.DeleteLastErrorMessage()
---ultraschall.AddErrorMessage("dings","dongs")
---S1,T1,U1,V1,W1,X1 = ultraschall.GetLastErrorMessage()
---
-
 function ultraschall.DeleteAllErrorMessages()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1578,18 +1338,6 @@ function ultraschall.DeleteAllErrorMessages()
     return true
   end
 end
-
---ultraschall.AddErrorMessage("dings","dongs")
---ultraschall.AddErrorMessage("dings","dongs")
---ultraschall.AddErrorMessage("dings","dongs")
---reaper.MB(ultraschall.ErrorCounter,"",0)
---ultraschall.AddErrorMessage("dings","dongs")
---ultraschall.DeleteAllErrorMessages()
---reaper.MB(ultraschall.ErrorMessage[1][1],"",0)
-
-
--- Nacharbeiten der Fehlercodes und des Auseinanderklamüsern des Parameters.
--- Warum hab ich das nicht schon vorher gemacht?
 
 function ultraschall.GetLastErrorMessage2(count,setread)
 --[[
@@ -1658,20 +1406,6 @@ function ultraschall.GetLastErrorMessage2(count,setread)
   return true, atable
 end
 
---Y,YY,YYY=ultraschall.GetLastErrorMessage(-1,true)
---ultraschall.AddErrorMessage("tudelu","parmesan","faultyfawlty",-3)
-
---Y,YY,YYY=ultraschall.GetLastErrorMessage2(2,true)
---Y,YY,YYY=ultraschall.GetLastErrorMessage2(2,true)
-
---Y2,YY2,YYY2=ultraschall.GetLastErrorMessage(-1,true)
-
---reaper.MB(LL[1],"",0)
-
---  ultraschall.ToggleIDE_Errormessages(false)
---  S,T,U,V = ultraschall.GetLastErrorMessage2("1","lula")
-
-
 function ultraschall.CountErrorMessages()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1738,19 +1472,6 @@ function ultraschall.ShowLastErrorMessage()
   end
 end
 
---ultraschall.AddErrorMessage("Hallelujah","integer techtelmechtel","mag nur bekuschelt werden",-69)
---ultraschall.ShowLastErrorMessage()
---ultraschall.ShowLastErrorMessage()
-
-
---------------------------------------------------
------- ULTRASCHALL FRAMEWORK 4.00 BETA 1 ---------
---------------------------------------------------
-
----------------------------
----- US Little Helpers ----
----------------------------
-
 function ultraschall.ConvertColor(r,g,b)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1787,8 +1508,6 @@ function ultraschall.ConvertColor(r,g,b)
     if math.type(b)~="integer" then ultraschall.AddErrorMessage("ConvertColor","b", "only integer allowed", -3) return 0, false end
     return reaper.ColorToNative(r,g,b)|0x1000000, true
 end
-
---ultraschall.ConvertColor(9,9,9.9)
 
 function ultraschall.ConvertColorReverse(color)
 --[[
@@ -1828,11 +1547,6 @@ function ultraschall.ConvertColorReverse(color)
     local a,b,c=reaper.ColorFromNative(color)
     return a,b,c, true
 end
---O=reaper.ColorToNative(255,255,255)|0x1000000
---P=ultraschall.ConvertColor(255,255,255)
---reaper.CF_SetClipboard(O)
---L,LL,LLL,LLLL=ultraschall.ConvertColorReverse(999)
-
 
 function ultraschall.RoundNumber(num)
 --[[
@@ -1869,23 +1583,11 @@ function ultraschall.RoundNumber(num)
     return num % 1 >= 0.5 and math.ceil(num) or math.floor(num)
 end
 
---A=ultraschall.RoundNumber("9.1")
-
 function ultraschall.ApiFunctionTest()
   ultraschall.functions_works="on"
 end
 
-
-
-
-
 function ultraschall.GetPartialString(str,sep1,sep2)
--- returns the part of a string between sep1 and sep2
---
--- str-string to be processed
--- sep1 - separator on the "left" side of the string
--- sep2 - separator on the "right" side of the string
--- returns -1 if it doesn't work, no sep1 or sep2 exist
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPartialString</slug>
@@ -1935,11 +1637,7 @@ function ultraschall.GetPartialString(str,sep1,sep2)
   return result
 end
   
---L,L2,L3,L4=ultraschall.GetPartialString("olapaloma blanca","lo","blo")
-
-
 function ultraschall.RunCommand(actioncommand_id)
--- runs a command by its ActionCommandID(instead of the CommandID-number)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RunCommand</slug>
@@ -1976,10 +1674,7 @@ function ultraschall.RunCommand(actioncommand_id)
   reaper.Main_OnCommand(command_id,0)
 end
 
---ultraschall.RunCommand("l1007")
-
 function ultraschall.Notes2CSV()
--- returns the project's notes as a CSV(retval)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Notes2CSV</slug>
@@ -2017,7 +1712,6 @@ end
 
 
 function ultraschall.CSV2Line(csv_line)
--- converts a csv to a "clean" line without the ,-separators
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CSV2Line</slug>
@@ -2053,17 +1747,7 @@ string csv_line - the csv-line, values separated by commas
   return string.gsub(csv_line, ",", "")
 end
 
-
---ALABAMA=ultraschall.CSV2Line(",sss1,2,3,4,599999,sdfhiudfho,sdfu89u409e,9iu0,")
-
-
-
 function ultraschall.RGB2Grayscale(red,green,blue)
---converts rgb to a grayscale value
--- Parameters: 
--- red - red-color-value 0-255
--- green - green-color-value 0-255
--- blue - blue-color-value 0-255
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RGB2Grayscale</slug>
@@ -2108,12 +1792,7 @@ function ultraschall.RGB2Grayscale(red,green,blue)
   return ultraschall.RoundNumber(gray_color)
 end
 
---A=ultraschall.RGB2Grayscale(0,0,0)
-
 function ultraschall.IsItemInTrack(tracknumber, itemIDX)
---returns true, if the itemIDX is part of track tracknumber, false if not, -1 if no such itemIDX or Tracknumber available
--- itemIDX - the number of the Item to check of
--- integer tracknumber - the number of the track to check in
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsItemInTrack</slug>
@@ -2161,23 +1840,7 @@ function ultraschall.IsItemInTrack(tracknumber, itemIDX)
   end  
 end
 
---AA=ultraschall.IsItemInTrack(1, 1)
-
-
-
-
---  content="%SystemRoot%\\syswow64\\chcp.com\ntestballon"
---  stringthing=string.format('%q', content)
-  
---A=ultraschall.WriteValueToFile("c:\\Ultraschall3_1-portable - Api/UserPlugins/ultraschall_api/temp/temp hui.bat", "aboutyou")
-
-
 function ultraschall.CreateTrackString(firstnumber, lastnumber, step)
--- returns a string with the all numbers from firstnumber to lastnumber, separated by a ,
--- e.g. firstnumber=4, lastnumber=8 -> 4,5,6,7,8
--- firstnumber - the number, with which the string starts
--- lastnumber - the number, with which the string ends
--- step - how many numbers shall be skipped inbetween. Can lead to a different lastnumber, if not 1 ! nil=1
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateTrackString</slug>
@@ -2207,7 +1870,6 @@ function ultraschall.CreateTrackString(firstnumber, lastnumber, step)
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>trackstring, track, create</tags>
 </US_DocBloc>
-
 --]]
   -- check parameters
   if math.type(firstnumber)~="integer" then ultraschall.AddErrorMessage("CreateTrackString","firstnumber", "only integer allowed", -1) return nil end
@@ -2227,13 +1889,9 @@ function ultraschall.CreateTrackString(firstnumber, lastnumber, step)
   return trackstring:sub(2,-1)
 end
 
---L=ultraschall.CreateTrackString("1","b")
-
 ------------------------------------
 ---- Ultraschall.ini Management ----
 ------------------------------------
-
---reaper.MB(ultraschall.Separator,"",0)
 
 function ultraschall.SetUSExternalState(section, key, value)
 -- stores value into ultraschall.ini
@@ -2279,10 +1937,6 @@ function ultraschall.SetUSExternalState(section, key, value)
   -- set value
   return ultraschall.SetIniFileValue(section, key, value, reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")
 end
-
---A=ultraschall.SetUSExternalState("tes=10to","cowb[sfijdfd]oy bebop2","Howde[]eho")
---A=ultraschall.SetUSExternalState("tes10to","cowb[sfijdfd]oy bebop2","Howde[]eho")
---AA=ultraschall.SetUSExternalState("tes89to","cafdfaaowbsfijdfdoy bebop2","Howdeeho")
 
 function ultraschall.GetUSExternalState(section, key)
 -- gets a value from ultraschall.ini
@@ -2523,20 +2177,11 @@ function ultraschall.EnumerateUSExternalState_key(section, number)
   return nil
 end
 
-
---ALAMO=ultraschall.EnumerateUSExternalState_key("view",0)
-
-
---ALABAMSA=ultraschall.CountUSExternalState_key("tes6to")
-
-
 --------------------------
 ---- Get Track States ----
 --------------------------
 
-
 function ultraschall.GetTrackName(tracknumber, str)
--- returns the trackname as a string
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackName</slug>
@@ -2588,14 +2233,7 @@ function ultraschall.GetTrackName(tracknumber, str)
   return Track_Name
 end
 
---A=ultraschall.GetTrackName(1, nil)
-
---MediaTrack=reaper.GetMasterTrack(0)
---retval, str = reaper.GetTrackStateChunk(MediaTrack, "test", false)
---reaper.ShowConsoleMsg(str)
-
 function ultraschall.GetTrackPeakColorState(tracknumber, str)
--- returns a color-number as a string
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackPeakColorState</slug>
@@ -3215,7 +2853,6 @@ function ultraschall.GetTrackRecState(tracknumber, str)
          tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
 end
 
---A1,A2,A3,A4,A5,A6,A7=ultraschall.GetTrackRecState(1)
 
 function ultraschall.GetTrackVUState(tracknumber, str)
 -- returns 0 if MultiChannelMetering is off
@@ -3271,8 +2908,6 @@ function ultraschall.GetTrackVUState(tracknumber, str)
   if str~=nil then str=str.." " else return nil end
   return tonumber(str:match("%s(.-)%s"))
 end
-
---A=ultraschall.GetTrackVUState(1)
 
 function ultraschall.GetTrackHeightState(tracknumber, str)
 --[[
@@ -3330,9 +2965,7 @@ function ultraschall.GetTrackHeightState(tracknumber, str)
          tonumber(str:match("%s.-%s(.-)%s")),
          tonumber(str:match("%s.-%s.-%s(.-)%s"))
 end
-  
---A1,A2, A3, A4=ultraschall.GetTrackHeightState(1)
-  
+    
 function ultraschall.GetTrackINQState(tracknumber, str)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -3400,7 +3033,7 @@ function ultraschall.GetTrackINQState(tracknumber, str)
          tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s")),
          tonumber(str:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
 end
---A1,A2,A3,A4,A5,A6,A7,A8=ultraschall.GetTrackINQState(2)
+
 
 function ultraschall.GetTrackNChansState(tracknumber, str)
 --[[
@@ -3454,8 +3087,6 @@ function ultraschall.GetTrackNChansState(tracknumber, str)
   if str~=nil then str=str.." " else return nil end
   return tonumber(str:match("%s(.-)%s"))
 end
-
---A=ultraschall.GetTrackNChansState(1)
 
 
 function ultraschall.GetTrackBypFXState(tracknumber, str)
@@ -3512,7 +3143,6 @@ function ultraschall.GetTrackBypFXState(tracknumber, str)
   return tonumber(str:match("%s(.-)%s"))
 end
 
---A=ultraschall.GetTrackBypFXState(0)
 
 function ultraschall.GetTrackPerfState(tracknumber, str)
 --[[
@@ -3572,12 +3202,7 @@ function ultraschall.GetTrackPerfState(tracknumber, str)
   return tonumber(str:match("%s(.-)%s"))
 end
 
---A=ultraschall.GetTrackPerfState(1)
-
 function ultraschall.GetTrackMIDIOutState(tracknumber, str)
--- -1 no output
--- 416 - microsoft GS wavetable synth - send to original channels
--- 417-432 - microsoft GS wavetable synth - send to channel state-416
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackMIDIOutState</slug>
@@ -3634,7 +3259,6 @@ function ultraschall.GetTrackMIDIOutState(tracknumber, str)
   if str~=nil then str=str.." " else return nil end
   return tonumber(str:match("%s(.-)%s"))end
 
---A=ultraschall.GetTrackMIDIOutState(1)
 
 function ultraschall.GetTrackMainSendState(tracknumber, str)
 --[[
@@ -3671,15 +3295,6 @@ function ultraschall.GetTrackMainSendState(tracknumber, str)
   -- check parameters
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("GetTrackMainSendState", "tracknumber", "must be an integer", -1) return nil end
   if tracknumber~=-1 then
-    --[[
-    -- get trackstatechunk
-    local retval, MediaTrack
-    if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("GetTrackMainSendState", "tracknumber", "no such track", -2) return nil end
-      if tracknumber==0 then MediaTrack=reaper.GetMasterTrack(0)
-      else MediaTrack=reaper.GetTrack(0, tracknumber-1)
-      end
-      retval, str = ultraschall.GetTrackStateChunk(MediaTrack, "test", false)
-    --]]
     local tr
     if tracknumber==0 then
       tr=reaper.GetMasterTrack(0)
@@ -3824,17 +3439,13 @@ function ultraschall.GetTrackGroupFlagsState(tracknumber, str)
       retval, str = ultraschall.GetTrackStateChunk(MediaTrack, "test", false)
   else
   end
-  if ultraschall.IsValidTrackStateChunk(str)==false then ultraschall.AddErrorMessage("GetTrackGroupFlagsState", "TrackStateChunk", "no valid TrackStateChunk", -3) return -1 end
-    
+  if ultraschall.IsValidTrackStateChunk(str)==false then ultraschall.AddErrorMessage("GetTrackGroupFlagsState", "TrackStateChunk", "no valid TrackStateChunk", -3) return -1 end    
   local retval=0
-
 
   local Track_TrackGroupFlags=str:match("GROUP_FLAGS.-%c") 
   if Track_TrackGroupFlags==nil then ultraschall.AddErrorMessage("GetTrackGroupFlagsState", "", "no trackgroupflags available", -4) return -1 end
   
-  
-  -- get groupflags-state
-  
+  -- get groupflags-state  
   local GroupflagString= Track_TrackGroupFlags:match("GROUP_FLAGS (.-)%c")
   local count, Tracktable=ultraschall.CSV2IndividualLinesAsArray(GroupflagString, " ")
 
@@ -3846,10 +3457,7 @@ function ultraschall.GetTrackGroupFlagsState(tracknumber, str)
   return retval, Tracktable
 end
 
---A,B=ultraschall.GetTrackGroupFlagsState(1)
-
 function ultraschall.GetTrackGroupFlags_HighState(tracknumber, str)
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackGroupFlags_HighState</slug>
@@ -3975,14 +3583,10 @@ function ultraschall.GetTrackGroupFlags_HighState(tracknumber, str)
   if ultraschall.IsValidTrackStateChunk(str)==false then ultraschall.AddErrorMessage("GetTrackGroupFlags_HighState", "TrackStateChunk", "no valid TrackStateChunk", -3) return -1 end
     
   local retval=0
-
-
   local Track_TrackGroupFlags=str:match("GROUP_FLAGS_HIGH.-%c") 
   if Track_TrackGroupFlags==nil then ultraschall.AddErrorMessage("GetTrackGroupFlags_HighState", "", "no trackgroupflags available", -4) return -1 end
   
-  
-  -- get groupflags-state
-  
+  -- get groupflags-state  
   local GroupflagString= Track_TrackGroupFlags:match("GROUP_FLAGS_HIGH (.-)%c")
   local count, Tracktable=ultraschall.CSV2IndividualLinesAsArray(GroupflagString, " ")
 
@@ -3994,16 +3598,7 @@ function ultraschall.GetTrackGroupFlags_HighState(tracknumber, str)
   return retval, Tracktable
 end
 
---A,B=ultraschall.GetTrackGroupFlags_HighState(1.1)
-
---B=2^22
---A,A1=ultraschall.GetTrackGroupFlags_HighState(1)
---A=2^2
-
--- GROUP_FLAGS 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1
-
 function ultraschall.GetTrackLockState(tracknumber, str)
--- Get the state of, if the track has locked controls(1) or not(0)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackLockState</slug>
@@ -4057,11 +3652,8 @@ function ultraschall.GetTrackLockState(tracknumber, str)
   return tonumber(str:match("%s(.-)%s"))
 end
 
---A=ultraschall.GetTrackLockState(1)
 
 function ultraschall.GetTrackLayoutNames(tracknumber, str)
--- Get the state of the current TrackLayout-names. Returns the name of the current 
--- TCP and the current MCP-layout or nil if default is selected.
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackLayoutNames</slug>
@@ -4125,11 +3717,8 @@ function ultraschall.GetTrackLayoutNames(tracknumber, str)
   return Track_LayoutTCP, Track_LayoutMCP
 end
 
---A,AA=ultraschall.GetTrackLayoutNames(2)
 
 function ultraschall.GetTrackAutomodeState(tracknumber, str)
--- returns current state of Automation-Mode
--- 0 - trim/read, 1 - read, 2 - touch, 3 - write, 4 - latch
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackAutomodeState</slug>
@@ -4182,11 +3771,7 @@ function ultraschall.GetTrackAutomodeState(tracknumber, str)
   return tonumber(str:match("%s(.-)%s"))
 end
 
-
---A=ultraschall.GetTrackAutomodeState(2)
-
 function ultraschall.GetTrackIcon_Filename(tracknumber, str)
--- Get the path and filename of the current track-icon
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackIcon_Filename</slug>
@@ -4239,13 +3824,7 @@ function ultraschall.GetTrackIcon_Filename(tracknumber, str)
   return Track_Image
 end
 
---A,A2=ultraschall.GetTrackIcon_Filename(1)
-
 function ultraschall.GetTrackRecCFG(tracknumber, str)
-  --returns the Rec-configuration-string, with which recordings are made
-  --
-  --tracknumber - the number of the track
-  --cfg_nr - the number of the reccfg, beginning with 0(there can be more than one)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackRecCFG</slug>
@@ -4302,10 +3881,7 @@ function ultraschall.GetTrackRecCFG(tracknumber, str)
   return RECCFG, tonumber(RECCFGNR)
 end
 
---A,B=ultraschall.GetTrackRecCFG(1)
-
 function ultraschall.GetTrackMidiInputChanMap(tracknumber, str)
---returns the Midi Input Channel Map-state or nil, if not existing
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackMidiInputChanMap</slug>
@@ -4356,11 +3932,7 @@ function ultraschall.GetTrackMidiInputChanMap(tracknumber, str)
   return tonumber(Track_MidiChanMap)
 end
 
---A=ultraschall.GetTrackMidiInputChanMap(1)
-
 function ultraschall.GetTrackMidiCTL(tracknumber, str)
---returns the Midi CTL-state, or nil if not existing
--- returns LinkedToMidiChannel, unknown value
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackMidiCTL</slug>
@@ -4415,10 +3987,7 @@ function ultraschall.GetTrackMidiCTL(tracknumber, str)
          tonumber(str:match("%s.-%s(.-)%s"))
 end
 
---A,A2=ultraschall.GetTrackMidiCTL(1)
-
 function ultraschall.GetTrackWidth(tracknumber, str)
---returns the Width of the track, or nil if not existing
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackWidth</slug>
@@ -4473,8 +4042,6 @@ function ultraschall.GetTrackWidth(tracknumber, str)
   if str~=nil then str=str.." " else return nil end
   return tonumber(str:match("%s(.-)%s"))
 end
-
---A,A2=ultraschall.GetTrackWidth(1)
 
 function ultraschall.GetTrackPanMode(tracknumber, str)
 --[[
@@ -4534,8 +4101,6 @@ function ultraschall.GetTrackPanMode(tracknumber, str)
   return tonumber(str:match("%s(.-)%s"))
 end
 
---A,A2=ultraschall.GetTrackPanMode(1)
-
 function ultraschall.GetTrackMidiColorMapFn(tracknumber, str)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -4586,8 +4151,6 @@ function ultraschall.GetTrackMidiColorMapFn(tracknumber, str)
   local Track_MIDICOLORMAPFN=str:match("MIDICOLORMAPFN (.-)%c")
   return Track_MIDICOLORMAPFN
 end
-
---A,A2=ultraschall.GetTrackMidiColorMapFn(1)
 
 function ultraschall.GetTrackMidiBankProgFn(tracknumber, str)
 --[[
@@ -4640,7 +4203,6 @@ function ultraschall.GetTrackMidiBankProgFn(tracknumber, str)
   return Track_MIDIBANKPROGFN
 end
 
---A,A2=ultraschall.GetTrackMidiBankProgFn(1)
 
 
 function ultraschall.GetTrackMidiTextStrFn(tracknumber, str)
@@ -4694,7 +4256,6 @@ function ultraschall.GetTrackMidiTextStrFn(tracknumber, str)
   return Track_MIDITEXTSTRFN
 end
 
---A,A2=ultraschall.GetTrackMidiTextStrFn(1)
 
 function ultraschall.GetTrackID(tracknumber, str)
 --[[
@@ -4747,10 +4308,7 @@ function ultraschall.GetTrackID(tracknumber, str)
   return Track_TRACKID
 end
 
---A,A2=ultraschall.GetTrackID(1.1)
-
 function ultraschall.GetTrackScore(tracknumber, str)
---returns the Width of the track, or nil if not existing
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackScore</slug>
@@ -4809,10 +4367,7 @@ function ultraschall.GetTrackScore(tracknumber, str)
          tonumber(str:match("%s.-%s.-%s.-%s(.-)%s"))
 end
 
---A,A2,A3,A4=ultraschall.GetTrackScore(1)
-
 function ultraschall.GetTrackVolPan(tracknumber, str)
---returns the Width of the track, or nil if not existing
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackVolPan</slug>
@@ -4876,26 +4431,11 @@ function ultraschall.GetTrackVolPan(tracknumber, str)
          tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s"))
 end
 
---L1=reaper.GetTrack(0,0)
---L2,L3=reaper.GetTrackStateChunk(L1, "", true)
-
---Mst=reaper.GetMasterTrack(0)
---L2,MstStCh=reaper.GetTrackStateChunk(Mst,"",true)
-
---A,A2,A3,A4,A5=ultraschall.GetTrackVolPan(2)
-
---reaper.MB(MstStCh,"",0)
-
-
-
 --------------------------
 ---- Set Track States ----
 --------------------------
 
 function ultraschall.SetTrackName(tracknumber, name, TrackStateChunk)
---Sets Name of the Track
--- tracknumber - counted from 0
--- name - new name of the track
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackName</slug>
@@ -4960,13 +4500,7 @@ function ultraschall.SetTrackName(tracknumber, name, TrackStateChunk)
   return B, B1.."\n"..str.."\n"..B3
 end
 
-
---ATA,ATA2=ultraschall.SetTrackName(1,"HulaKanula33")
-
 function ultraschall.SetTrackPeakColorState(tracknumber, colorvalue, TrackStateChunk)
---Sets Color of the Track
--- tracknumber - counted from 0
--- colorvalue - a colorvalue that colors this track
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackPeakColorState</slug>
@@ -5034,13 +4568,8 @@ function ultraschall.SetTrackPeakColorState(tracknumber, colorvalue, TrackStateC
   return B, B1.."\n"..str.."\n"..B3
 end
 
---L,LL=ultraschall.SetTrackPeakColorState(-1,1,L3)
---reaper.ShowConsoleMsg(L)
 
 function ultraschall.SetTrackBeatState(tracknumber, beatstate, TrackStateChunk)
---Sets BEAT of a track.
--- tracknumber - counted from 0
--- beatstate - tracktimebase for this track; -1 - Project time base, 0 - Time, 1 - Beats position, length, rate, 2 - Beats position only
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackBeatState</slug>
@@ -5106,12 +4635,7 @@ function ultraschall.SetTrackBeatState(tracknumber, beatstate, TrackStateChunk)
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ATA,ATA2=ultraschall.SetTrackBeatState(1.1,1, L3)
-
 function ultraschall.SetTrackAutoRecArmState(tracknumber, autorecarmstate, TrackStateChunk)
---Sets Autorecarmstate of the Track
--- tracknumber - counted from 0
--- autorecarmstate - 1 - autorecarm on, <> than 1 - off
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackAutoRecArmState</slug>
@@ -5179,14 +4703,7 @@ function ultraschall.SetTrackAutoRecArmState(tracknumber, autorecarmstate, Track
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ATA,ATA2=ultraschall.SetTrackAutoRecArmState(1,0,L3)
-
 function ultraschall.SetTrackMuteSoloState(tracknumber, Mute, Solo, SoloDefeat, TrackStateChunk)
---Sets Mute, Solo and SoloDefeat of the Track
--- tracknumber - counted from 0
--- Mute - 0 - Mute off, <> than 0 - on
--- Solo - 0 - off, <> than 0 - on
--- Solo Defeat - 0 - off, <> than 0 - on
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackMuteSoloState</slug>
@@ -5258,12 +4775,8 @@ function ultraschall.SetTrackMuteSoloState(tracknumber, Mute, Solo, SoloDefeat, 
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ATA,ATA2=ultraschall.SetTrackMuteSoloState(1,0,0,0,L3)
 
 function ultraschall.SetTrackIPhaseState(tracknumber, iphasestate, TrackStateChunk)
---Sets IPhase, the Phase-Buttonstate of the Track
--- tracknumber - counted from 0
--- iphasestate - 0 - off, <> than 0 - on
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackIPhaseState</slug>
@@ -5330,15 +4843,8 @@ function ultraschall.SetTrackIPhaseState(tracknumber, iphasestate, TrackStateChu
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ATA,ATA2=ultraschall.SetTrackIPhaseState(1,0, L3)
 
 function ultraschall.SetTrackIsBusState(tracknumber, busstate1, busstate2, TrackStateChunk)
---Sets ISBUS-state of the Track, if it's a folder track
--- tracknumber - counted from 0
--- track is no folder: busstate1=0, busstate2=0
--- track is a folder: busstate1=1, busstate2=1
--- track is a folder but view of all subtracks not compactible: busstate1=1, busstate2=2
--- track is last track in folder(no tracks of subfolders follow): busstate1=2, busstate2=-1  
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackIsBusState</slug>
@@ -5406,21 +4912,7 @@ function ultraschall.SetTrackIsBusState(tracknumber, busstate1, busstate2, Track
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ATA,ATA2=ultraschall.SetTrackIsBusState(1,1,0,L3)
-
-
-
 function ultraschall.SetTrackBusCompState(tracknumber, buscompstate1, buscompstate2, TrackStateChunk)
---Sets BUSCOMP-state of the Track, if tracks in a folder are compacted or not
--- tracknumber - counted from 0
--- BusCompState1:
--- 0 - no compacting
--- 1 - compacted tracks
--- 2 - minimized tracks
-
--- BusCompState2:
--- 0 - unknown
--- 1 - unknown  
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackBusCompState</slug>
@@ -5486,18 +4978,7 @@ function ultraschall.SetTrackBusCompState(tracknumber, buscompstate1, buscompsta
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ATA,ATA2=ultraschall.SetTrackBusCompState(1,0,1,L3)
-
 function ultraschall.SetTrackShowInMixState(tracknumber, MCPvisible, MCP_FX_visible, MCP_TrackSendsVisible, TCPvisible, ShowInMix5, ShowInMix6, ShowInMix7, ShowInMix8, TrackStateChunk)
--- Sets SHOWINMIX, that sets visibility of track in MCP and TCP
--- MCPvisible - 0 invisible, 1 visible
--- MCP_FX_visible - 0 visible, 1 FX-Parameters visible, 2 invisible
--- MCPTrackSendsVisible - 0 & 1.1 and higher TrackSends in MCP visible, every other number makes them invisible
--- TCPvisible - 0 track is invisible in TCP, 1 track is visible in TCP
--- ShowInMix5 - unknown
--- ShowInMix6 - unknown
--- ShowInMix7 - unknown
--- ShowInMix8 - unknown
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackShowInMixState</slug>
@@ -5580,13 +5061,7 @@ function ultraschall.SetTrackShowInMixState(tracknumber, MCPvisible, MCP_FX_visi
   return B, B1.."\n"..str.."\n"..B3
 end
 
-
---ATA,ATA2=ultraschall.SetTrackShowInMixState(1,1,1,1,1,0,0,0,0,L3)
-
 function ultraschall.SetTrackFreeModeState(tracknumber, freemodestate, TrackStateChunk)
---Sets FREEMODE-State of the track
--- tracknumber - counted from 0
--- freemodestate- 0 - off, 1 - on
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackFreeModeState</slug>
@@ -5652,8 +5127,6 @@ function ultraschall.SetTrackFreeModeState(tracknumber, freemodestate, TrackStat
 
   return B, B1.."\n"..str.."\n"..B3
 end
-
---ATA,ATA2=ultraschall.SetTrackFreeModeState(1,0,L3)
 
 function ultraschall.SetTrackRecState(tracknumber, ArmState, InputChannel, MonitorInput, RecInput, MonitorWhileRec, presPDCdelay, RecordingPath, TrackStateChunk)
 --[[
@@ -5771,14 +5244,7 @@ function ultraschall.SetTrackRecState(tracknumber, ArmState, InputChannel, Monit
   return B, B1.."\n"..str.."\n"..B3
 end
 
-
---ATA,ATA2=ultraschall.SetTrackRecState(1,0,1,1,1,1,1,1,L3)
-
-
 function ultraschall.SetTrackVUState(tracknumber, VUState, TrackStateChunk)
---Sets VU-State
--- tracknumber - counted from 0
--- VUState - 0 if MultiChannelMetering is off, 2 if MultichannelMetering is on, 3 Metering is off
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackVUState</slug>
@@ -5849,15 +5315,7 @@ function ultraschall.SetTrackVUState(tracknumber, VUState, TrackStateChunk)
   return B, B1.."\n"..str.."\n"..B3
 end
 
---TR=reaper.GetMasterTrack(0)
---Ol,TRSC=reaper.GetTrackStateChunk(TR,"",false)
---ATA,ATA2=ultraschall.SetTrackVUState(1,0,L3)
-
 function ultraschall.SetTrackHeightState(tracknumber, heightstate1, heightstate2, TrackStateChunk)
--- sets TRACKHEIGHT
--- tracknumber - number of the track, starting by 0
--- heightstate1 - 24 up to 443
--- heightstate2 - 0 - use height, 1 - compact the track and ignore the height
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackHeightState</slug>
@@ -5927,20 +5385,7 @@ function ultraschall.SetTrackHeightState(tracknumber, heightstate1, heightstate2
   return B, B1.."\n"..str.."\n"..B3
 end
 
---reaper.MB(L3,"",0)
---TRIT,TRIT2=ultraschall.SetTrackHeightState(1, 10, 0, L3)
-
 function ultraschall.SetTrackINQState(tracknumber, INQ1, INQ2, INQ3, INQ4, INQ5, INQ6, INQ7, INQ8, TrackStateChunk)
--- sets INQ
--- tracknumber - number of the track, starting by 0
--- INQ1 - unknown
--- INQ2 - unknown
--- INQ3 - unknown
--- INQ4 - unknown
--- INQ5 - unknown
--- INQ6 - unknown
--- INQ7 - unknown
--- INQ8 - unknown
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackINQState</slug>
@@ -6020,16 +5465,7 @@ function ultraschall.SetTrackINQState(tracknumber, INQ1, INQ2, INQ3, INQ4, INQ5,
   return B, B1.."\n"..str.."\n"..B3
 end
 
---reaper.MB(MstStCh,"",0)
-
---ATA, ATA2=ultraschall.SetTrackINQState(nil, 1, 1, 1, 1, 3, 0, 0, 0, L3)
---reaper.MB(ATA2,"",0)
-
-
 function ultraschall.SetTrackNChansState(tracknumber, NChans, TrackStateChunk)
---Sets NCHANS, the number of channels for this track, as set in the routing
--- tracknumber - counted from 0
--- NChans - 2 to 64, counted every second channel (2,4,6,8,etc) with stereo-tracks. Unknown, if Multichannel and Mono-tracks count differently
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackNChansState</slug>
@@ -6097,16 +5533,7 @@ function ultraschall.SetTrackNChansState(tracknumber, NChans, TrackStateChunk)
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ATA, ATA2 = ultraschall.SetTrackNChansState(nil,1, L3)
-
---reaper.MB(ATA2,"",0)
-
-
-
 function ultraschall.SetTrackBypFXState(tracknumber, FXBypassState, TrackStateChunk)
---Sets FX, FX-Bypass-state
--- tracknumber - counted from 0
--- FXBypassState - 0 bypass, 1 activate fx; has only effect, if FX or instruments are added to this track
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackBypFXState</slug>
@@ -6173,16 +5600,8 @@ function ultraschall.SetTrackBypFXState(tracknumber, FXBypassState, TrackStateCh
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ATA,ATA2=ultraschall.SetTrackBypFXState(1,1,MstStCh)
 
 function ultraschall.SetTrackPerfState(tracknumber, Perf, TrackStateChunk)
---Sets PERF, TrackPerformance-State
--- tracknumber - counted from 0
--- Perf - 0 - allow anticipative FX + allow media buffering<br>
--- 1 - allow anticipative FX + prevent media buffering <br>
--- 2 - prevent anticipative FX + allow media buffering<br>
--- 3 - prevent anticipative FX + prevent media buffering<br>
---settings seem to repeat with higher numbers (e.g. 4(like 0) - allow anticipative FX + allow media buffering), but to be safe keep it between 0 and 3
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackPerfState</slug>
@@ -6253,23 +5672,8 @@ function ultraschall.SetTrackPerfState(tracknumber, Perf, TrackStateChunk)
   return B, B1..""..str.."\n"..B3
 end
 
---reaper.MB(MstStCh,"",0)
---ultraschall.WriteValueToFile("c:\\hula2.txt",MstStCh)
-
---ATA, ATA2 = ultraschall.SetTrackPerfState(nil, 0, L3)
---reaper.MB(ATA2,"",0)
-
-
 
 function ultraschall.SetTrackMIDIOutState(tracknumber, MIDIOutState, TrackStateChunk)
---Sets MIDIOut-State
--- tracknumber - counted from 0
--- MIDIOutState - 
---  -1 no output
--- 416 - microsoft GS wavetable synth - send to original channels
--- 417-432 - microsoft GS wavetable synth - send to channel state minus 416
--- -31 - no Output, send to original channel 1
--- -16 - no Output, send to original channel 16
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackMIDIOutState</slug>
@@ -6341,16 +5745,8 @@ function ultraschall.SetTrackMIDIOutState(tracknumber, MIDIOutState, TrackStateC
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ATA, ATA2 = ultraschall.SetTrackMIDIOutState(nil,8, L3)
-
---reaper.MB(ATA2,"",0)
-
 
 function ultraschall.SetTrackMainSendState(tracknumber, MainSendOn, ParentChannels, TrackStateChunk)
--- sets MAINSEND-state
--- tracknumber - number of the track, starting by 0
--- MainSendOn - on(1) or off(0)
--- ParentChannels - the ParentChannels(0-64), interpreted as beginning with ParentChannels to ParentChannels+NCHAN
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackMainSendState</slug>
@@ -6421,13 +5817,7 @@ function ultraschall.SetTrackMainSendState(tracknumber, MainSendOn, ParentChanne
   return B, B1.."\n"..str.."\n"..B3
 end
 
---A,B=ultraschall.SetTrackMainSendState(1, 1, 60)
---reaper.MB(MstStCh,"",0)
-
 function ultraschall.SetTrackLockState(tracknumber, LockedState, TrackStateChunk)
---Sets LOCK-State, as set by the menu entry Lock Track Controls
--- tracknumber - counted from 0
--- LockedState - 1 - locked, 0 - unlocked
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackLockState</slug>
@@ -6494,14 +5884,7 @@ function ultraschall.SetTrackLockState(tracknumber, LockedState, TrackStateChunk
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ATA,ATA2=ultraschall.SetTrackLockState(1,0, L3)
---reaper.MB(ATA2,"",0)
-
 function ultraschall.SetTrackLayoutNames(tracknumber, TCP_Layoutname, MCP_Layoutname, TrackStateChunk)
---Sets LAYOUTS, the MCP and TCP-layout by name of the layout as defined in the theme.
--- tracknumber - counted from 0
--- TCP_Layoutname - name of the TrackControlPanel-Layout from the theme to use
--- MCP_Layoutname - name of the MixerControlPanel-Layout from the theme to use
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackLayoutNames</slug>
@@ -6570,14 +5953,7 @@ function ultraschall.SetTrackLayoutNames(tracknumber, TCP_Layoutname, MCP_Layout
   return B, B1..""..str.."\n"..B3
 end
 
---A,BUB=ultraschall.SetTrackLayoutNames(nil,"Ultraschall 2","", L3)
---reaper.MB(BUB,"",0)
-
-
 function ultraschall.SetTrackAutomodeState(tracknumber, automodestate, TrackStateChunk)
---Sets Automode-State, as set by the menu entry Set Track Automation Mode
--- tracknumber - counted from 0
--- automodestate - 0 - trim/read, 1 - read, 2 - touch, 3 - write, 4 - latch.
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackAutomodeState</slug>
@@ -6644,14 +6020,7 @@ function ultraschall.SetTrackAutomodeState(tracknumber, automodestate, TrackStat
   return B, B1..""..str.."\n"..B3
 end
 
---ATA, ATA2=ultraschall.SetTrackAutomodeState(nil,2,L3)
---reaper.MB(ATA2,"",0)
-
-
 function ultraschall.SetTrackIcon_Filename(tracknumber, Iconfilename_with_path, TrackStateChunk)
---Sets TRACKIMGFN, the trackicon-filename
--- tracknumber - counted from 0
--- Iconfilename_with_path - filename with path
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackIcon_Filename</slug>
@@ -6717,20 +6086,7 @@ function ultraschall.SetTrackIcon_Filename(tracknumber, Iconfilename_with_path, 
   return B, B1.."\n"..str.."\n"..B3
 end
 
-
---A,A2=ultraschall.SetTrackIcon_Filename(1,"",L3)
---reaper.CF_SetClipboard(A2)
---reaper.ShowConsoleMsg(A2,"",0)
-
---ultraschall.ShowLastErrorMessage()
---reaper.MB(MstStCh,"",0)
---ultraschall.WriteValueToFile("c:\\hula2.txt",MstStCh)
-
-
 function ultraschall.SetTrackMidiInputChanMap(tracknumber, InputChanMap, TrackStateChunk)
---Sets MIDI_INPUT_CHANMAP, as set in the Input-MIDI->Map Input to Channel menu.
--- tracknumber - counted from 0
--- InputChanMap - 0 for channel 1, 2 for channel 2, etc. -1 if not existing.
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackMidiInputChanMap</slug>
@@ -6797,18 +6153,7 @@ function ultraschall.SetTrackMidiInputChanMap(tracknumber, InputChanMap, TrackSt
   return B, B1..""..str.."\n"..B3
 end
 
---reaper.ClearConsole()
---ATA,ATA2=ultraschall.SetTrackMidiInputChanMap(1,-1,L3)
---reaper.ClearConsole()
---reaper.ShowConsoleMsg(ATA2,"",0)
-
-
 function ultraschall.SetTrackMidiCTL(tracknumber, LinkedToMidiChannel, unknown, TrackStateChunk)
--- sets MIDICTL-state
--- tracknumber - number of the track, starting by 0
--- Parameters:
--- LinkedToMidiChannel
--- unknown - ?
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackMidiCTL</slug>
@@ -6876,11 +6221,6 @@ function ultraschall.SetTrackMidiCTL(tracknumber, LinkedToMidiChannel, unknown, 
 
   return B, B1.."\n"..str.."\n"..B3
 end
-
---ATA,ATA2=ultraschall.SetTrackMidiCTL(1, 0, 0, L3)
---reaper.ClearConsole()
---reaper.ShowConsoleMsg(ATA2)
-
 
 function ultraschall.SetTrackID(tracknumber, TrackID, TrackStateChunk)
 --[[
@@ -7088,10 +6428,6 @@ function ultraschall.SetTrackMidiBankProgFn(tracknumber, MIDIBankProgFn, TrackSt
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ATA,ATA2=ultraschall.SetTrackMidiBankProgFn(1, "", L3)
-
---reaper.MB(ATA2,"",0)
-
 function ultraschall.SetTrackMidiTextStrFn(tracknumber, MIDITextStrFn, TrackStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -7234,7 +6570,6 @@ function ultraschall.SetTrackPanMode(tracknumber, panmode, TrackStateChunk)
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ATA,ATA2=ultraschall.SetTrackPanMode(nil, 1, L3)
 
 function ultraschall.SetTrackWidth(tracknumber, width, TrackStateChunk)
 --[[
@@ -7302,8 +6637,6 @@ function ultraschall.SetTrackWidth(tracknumber, width, TrackStateChunk)
 
   return B, B1.."\n"..str.."\n"..B3
 end
-
---ATA,ATA2=ultraschall.SetTrackWidth(nil, -0.9, L3)
 
 function ultraschall.SetTrackScore(tracknumber, unknown1, unknown2, unknown3, unknown4, TrackStateChunk)
 --[[
@@ -7380,8 +6713,6 @@ function ultraschall.SetTrackScore(tracknumber, unknown1, unknown2, unknown3, un
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ultraschall.SetTrackScore(1, 0, 0, 0, 0, "")
-
 function ultraschall.SetTrackVolPan(tracknumber, vol, pan, overridepanlaw, unknown, unknown2, TrackStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -7457,8 +6788,6 @@ function ultraschall.SetTrackVolPan(tracknumber, vol, pan, overridepanlaw, unkno
   return B, B1.."\n"..str.."\n"..B3
 end
 
---A=ultraschall.SetTrackVolPan(nil, 0, 1, 1, 1, 1)
-
 function ultraschall.SetTrackRecCFG(tracknumber, reccfg_string, reccfg_nr, TrackStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -7531,23 +6860,7 @@ function ultraschall.SetTrackRecCFG(tracknumber, reccfg_string, reccfg_nr, Track
   return B, B1.."\n"..str.."\n"..B3
 end
 
---ultraschall.SetTrackRecCFG(1, "", -1, "")
-
-
-------------------------------
----- Meta Data Management ----
------------------------------
-
-
---------------------
----- Navigation ----
---------------------
-
 function ultraschall.ToggleScrollingDuringPlayback(scrolling_switch, move_editcursor, goto_playcursor)
-  -- integer scrolling_switch - 1-on, 0-off
-  -- boolean move_editcursor - when scrolling stops, shall the editcursor be moved to current position of the playcursor(true) or not(false)
-  -- boolean goto_playcursor - shall the view be moved to the playcursor(true) or not(false)? 
-  -- changes, if necessary, the state of the actions 41817, 40036 and 40262
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToggleScrollingDuringPlayback</slug>
@@ -7617,12 +6930,7 @@ function ultraschall.ToggleScrollingDuringPlayback(scrolling_switch, move_editcu
     end  
   end
 
---ultraschall.ToggleScrollingDuringPlayback(1, false, true)
-
 function ultraschall.SetPlayCursor_WhenPlaying(position)--, move_view)--, length_of_view)
--- changes position of the play-cursor, when playing
--- changes view to new playposition
--- has no effect during recording, when paused or stop and returns -1 in these cases!
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetPlayCursor_WhenPlaying</slug>
@@ -7665,13 +6973,7 @@ function ultraschall.SetPlayCursor_WhenPlaying(position)--, move_view)--, length
    end
 end
 
---    reaper.SetEditCurPos(10, false, false)  
---ultraschall.SetPlayCursor_WhenPlaying(reaper.GetPlayPosition()+1000)
-
 function ultraschall.SetPlayAndEditCursor_WhenPlaying(position)--, move_view)--, length_of_view)
--- changes position of the play-cursor and the edit-cursor, when playing
--- changes view to new playposition
--- has no effect during recording, when paused or stop!
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetPlayAndEditCursor_WhenPlaying</slug>
@@ -7707,11 +7009,7 @@ function ultraschall.SetPlayAndEditCursor_WhenPlaying(position)--, move_view)--,
   reaper.SetEditCurPos(position, true, true)   
 end
 
---ultraschall.SetPlayAndEditCursor_WhenPlaying(102)
-
 function ultraschall.JumpForwardBy(seconds, seekplay)
---jumps forward by seconds
--- returns -1 if seconds is invalid or negative
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>JumpForwardBy</slug>
@@ -7750,11 +7048,7 @@ function ultraschall.JumpForwardBy(seconds, seekplay)
   end
 end
 
---A=ultraschall.JumpForwardBy(5.1, false)
-
 function ultraschall.JumpBackwardBy(seconds, seekplay)
---jumps backwards by seconds
--- returns -1 if seconds is invalid or negative
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>JumpBackwardBy</slug>
@@ -7793,11 +7087,7 @@ function ultraschall.JumpBackwardBy(seconds, seekplay)
   end
 end
 
---A=ultraschall.JumpBackwardBy(10, false)
-
 function ultraschall.JumpForwardBy_Recording(seconds)
---jumps forward by seconds and restarts recording on new position
--- returns -1 if seconds is invalid or negative or if not recording
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>JumpForwardBy_Recording</slug>
@@ -7842,11 +7132,7 @@ function ultraschall.JumpForwardBy_Recording(seconds)
   end
 end
 
---A=ultraschall.JumpForwardBy_Recording(5)
-
 function ultraschall.JumpBackwardBy_Recording(seconds)
---jumps forward by seconds and restarts recording on new position
--- returns -1 if seconds is invalid or negative or if not recording
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>JumpBackwardBy_Recording</slug>
@@ -7891,14 +7177,7 @@ function ultraschall.JumpBackwardBy_Recording(seconds)
   end
 end
 
---A=ultraschall.JumpBackwardBy_Recording(1)
-
 function ultraschall.GetNextClosestItemEdge(tracksstring, cursor_type, time_position)
--- returns time and item-object of the next closest item-start or item-end within the chosen tracks, as well as "beg" for begin and "end" for end of the returned item
--- can become slow when having thousands of items
--- string tracks - tracknumbers, separated by a comma. Negative Values will be ignored.
--- integer cursor_type - 0-edit_cursor, 1-play_cursor, 2-mouse-cursor, 3-timeposition
--- number time_position - only when cursor_type=3, else it will be ignored. time_position to check from for the next item.
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetNextClosestItemEdge</slug>
@@ -8011,18 +7290,7 @@ function ultraschall.GetNextClosestItemEdge(tracksstring, cursor_type, time_posi
   end
 end
 
---A=reaper.CountMediaItems()
---A1,A2,A3,A4=ultraschall.GetNextClosestItemEdge("0,1,2,3",2,8)
---ultraschall.ToggleIDE_Errormessages(false)
---A1,A2,A3,A4=ultraschall.GetNextClosestItemEdge("0,1,2", 3)
-
-
 function ultraschall.GetPreviousClosestItemEdge(tracksstring, cursor_type, time_position)
--- returns time and item-object of the previous closest item-start or item-end within the chosen tracks, as well as "beg" for begin and "end" for end of the returned item
--- can become slow when having thousands of items
--- string tracks - tracknumbers, separated by a comma. A single -1 means all tracks. Negative Values will be ignored.
--- integer cursor_type - 0-edit_cursor, 1-play_cursor, 2-mouse-cursor, 3-timeposition
--- number time_position - only when cursor_type=3, else it will be ignored. time_position to check from for the previous item.
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPreviousClosestItemEdge</slug>
@@ -8129,10 +7397,7 @@ function ultraschall.GetPreviousClosestItemEdge(tracksstring, cursor_type, time_
   end
 end
 
---A1,A2,A3,A4=ultraschall.GetPreviousClosestItemEdge("1", 3)
-
 function ultraschall.GetClosestNextMarker(cursor_type, time_position)
--- returns idx, position(in seconds) and name of the next closest marker
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetClosestNextMarker</slug>
@@ -8214,10 +7479,7 @@ function ultraschall.GetClosestNextMarker(cursor_type, time_position)
   return retindexnumber, retposition, retmarkername
 end
 
---A,AA,AAA=ultraschall.GetClosestNextMarker(1,99)
-
 function ultraschall.GetClosestPreviousMarker(cursor_type, time_position)
--- returns idx, position(in seconds) and name of the next closest marker
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetClosestPreviousMarker</slug>
@@ -8253,8 +7515,7 @@ function ultraschall.GetClosestPreviousMarker(cursor_type, time_position)
   if math.type(cursor_type)~="integer" then ultraschall.AddErrorMessage("GetClosestPreviousMarker", "cursor_type", "must be an integer", -1) return -1 end
   if time_position~=nil and type(time_position)~="number" then ultraschall.AddErrorMessage("GetClosestPreviousMarker", "time_position", "must be either nil or a number", -5) return -1 end
   if time_position==nil and cursor_type>2 then ultraschall.AddErrorMessage("GetClosestPreviousMarker", "time_position", "must be a number when cursortype=3", -6) return -1 end
-
-  
+    
   -- check parameters
   if time_position==nil and reaper.GetPlayState()==0 and cursor_type~=3 then
     time_position=reaper.GetCursorPosition()
@@ -8300,10 +7561,7 @@ function ultraschall.GetClosestPreviousMarker(cursor_type, time_position)
   return retindexnumber,retposition, retmarkername
 end
 
---A,AA,AAA=ultraschall.GetClosestPreviousMarker(3)
-
 function ultraschall.GetClosestNextRegionEdge(cursor_type, time_position)
--- returns idx, position(in seconds) and name of the next closest marker
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetClosestNextRegionEdge</slug>
@@ -8391,10 +7649,7 @@ function ultraschall.GetClosestNextRegionEdge(cursor_type, time_position)
   return retindexnumber,retposition, retmarkername, retbegin
 end
 
---A,AA,AAA,AAAA=ultraschall.GetClosestNextRegionEdge(3)
-
 function ultraschall.GetClosestPreviousRegionEdge(cursor_type, time_position)
--- returns idx, position(in seconds) and name of the next closest marker
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetClosestPreviousRegionEdge</slug>
@@ -8477,19 +7732,7 @@ function ultraschall.GetClosestPreviousRegionEdge(cursor_type, time_position)
   return retindexnumber, retposition, retmarkername, retbeg
 end
 
---A,AA,AAA,AAAA=ultraschall.GetClosestPreviousRegionEdge(3,1)
-
 function ultraschall.GetClosestGoToPoints(trackstring, time_position, check_itemedge, check_marker, check_region)
--- what are the closest markers/regions/item starts/itemends to position and within the chosen tracks
--- string tracks - tracknumbers, separated by a comma.
--- position - position in seconds
---
--- returns position of previous element, type of the element, elementnumber, position of next element, type of the element, elementnumber
--- positions - in seconds
--- type - can be "Item", "Marker", "Region", "ProjectStart", "ProjectEnd"
--- elementnumber - is either the number of the item or the number of the region/marker, -1 if it's an Item.
-
---reaper.MB(time_position,"",0)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetClosestGoToPoints</slug>
@@ -8595,16 +7838,7 @@ function ultraschall.GetClosestGoToPoints(trackstring, time_position, check_item
   return elementposition_prev, elementtype_prev, number_prev, elementposition_next, elementtype_next, number_next
 end
 
---ultraschall.ToggleIDE_Errormessages(false)
-
---APrev1,APrev2,APrev3,Anext1,Anext2,Anext3 = ultraschall.GetClosestGoToPoints("1",-3)
-
------------------------------
----- Muting/Cough Button ----
------------------------------
-
 function ultraschall.ToggleMute(track, position, state)
--- state 0=mute, 1=unmute
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToggleMute</slug>
@@ -8652,11 +7886,7 @@ function ultraschall.ToggleMute(track, position, state)
   return 0
 end
 
---L=ultraschall.ToggleMute(1,reaper.GetPlayPosition(),1)
-
 function ultraschall.ToggleMute_TrackObject(trackobject, position, state)
--- state 0=mute, 1=unmute
--- returns -1 when it didn't work
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToggleMute_TrackObject</slug>
@@ -8707,18 +7937,7 @@ function ultraschall.ToggleMute_TrackObject(trackobject, position, state)
   return 0
 end
 
---Track=reaper.GetTrack(0, 0)
---A,AA,AAA=ultraschall.ToggleMute_TrackObject(Track,reaper.GetPlayPosition(),0)
---Track="MackieMesser"
---CC=ultraschall.ToggleMute(0,0,1)
---CC=ultraschall.ToggleMute_TrackObject(Track,7,1)
---reaper.UpdateArrange()
-
-
 function ultraschall.GetNextMuteState(track, position)
--- returns the next mute-envelope-point, it's value and it's time
--- Envelope-Points numbering starts with 0!
--- returns -1 if not existing
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetNextMuteState</slug>
@@ -8771,12 +7990,8 @@ function ultraschall.GetNextMuteState(track, position)
   return Ainteger+1, value, time
 end
 
---A,AA,AAA,AAAA=ultraschall.GetNextMuteState(1,1)
 
 function ultraschall.GetPreviousMuteState(track, position)
--- returns the previous mute-envelope-point, it's value and it's time
--- Envelope-Points numbering starts with 0!
--- returns -1 if not existing
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPreviousMuteState</slug>
@@ -8824,15 +8039,7 @@ function ultraschall.GetPreviousMuteState(track, position)
   return Ainteger, value, time
 end
 
---A,AA,AAA,AAAA=ultraschall.GetPreviousMuteState(1,reaper.GetPlayPosition())
---A,AA,AAA,AAAA=ultraschall.GetPreviousMuteState(1,1)
-
-
-
 function ultraschall.GetNextMuteState_TrackObject(MediaTrack, position)
--- returns the next mute-envelope-point, it's value and it's time
--- Envelope-Points numbering starts with 0!
--- returns -1 if not existing
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetNextMuteState_TrackObject</slug>
@@ -8862,8 +8069,7 @@ function ultraschall.GetNextMuteState_TrackObject(MediaTrack, position)
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>cough button, mute, position, envelope, state, value</tags>
 </US_DocBloc>
---]]
-  
+--]]  
   -- check parameters
   if reaper.ValidatePtr2(0, MediaTrack, "MediaTrack*")==false then ultraschall.AddErrorMessage("GetNextMuteState_TrackObject", "track", "not a MediaTrack-object", -1) return -1 end
   local retval, time, value, shape, tension, selected
@@ -8886,13 +8092,7 @@ function ultraschall.GetNextMuteState_TrackObject(MediaTrack, position)
   return envPoint+1, value, time
 end
 
---a=reaper.GetTrack(0,0)
---B,BB,BBB=ultraschall.GetNextMuteState_TrackObject(a,1)
-
 function ultraschall.GetPreviousMuteState_TrackObject(MediaTrack, position)
--- returns the previous mute-envelope-point, it's value and it's time
--- Envelope-Points numbering starts with 0!
--- returns -1 if not existing
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPreviousMuteState_TrackObject</slug>
@@ -8938,14 +8138,8 @@ function ultraschall.GetPreviousMuteState_TrackObject(MediaTrack, position)
   local retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, envPoint)
   return Ainteger, value, time
 end
-
---  MediaTrack=reaper.GetTrack(0, 0)
---  A,AA,AAA=ultraschall.GetNextMuteState_TrackObject(MediaTrack,0)
-
-
   
 function ultraschall.CountMuteEnvelopePoints(track)
---returns the number of the envelope-points in the Mute-lane of track "track"
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountMuteEnvelopePoints</slug>
@@ -8987,12 +8181,6 @@ function ultraschall.CountMuteEnvelopePoints(track)
   -- return envelope-points
   return reaper.CountEnvelopePoints(TrackEnvelope)
 end
-
---A=ultraschall.CountMuteEnvelopePoints(1)
-
--------------------------------
----- Toggle States&Buttons ----
--------------------------------
 
 function ultraschall.CheckActionCommandIDFormat(aid)
 --[[
@@ -9070,17 +8258,8 @@ function ultraschall.CheckActionCommandIDFormat2(aid)
   end
 end
 
---A=ultraschall.CheckActionCommandIDFormat2("_Ultraschall_OnAir")
 
 function ultraschall.ToggleStateAction(section, actioncommand_id, state)
--- Toggles state of an actioncommand_id
--- returns current state of the action after toggling
---
--- section - section (usually 0 for main)
--- actioncommand_id - the ActionCommandID of the Action you'll want to toggle
--- state - 0 for off, 1 for on
---
--- If you have a button associated, you'll need to use RefreshToolbar() later!
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToggleStateAction</slug>
@@ -9128,13 +8307,8 @@ function ultraschall.ToggleStateAction(section, actioncommand_id, state)
   return reaper.GetToggleCommandState(command_id)
 end
 
---ultraschall.ToggleStateAction(0,"_Ultraschall_OnAir", 0)
 
 function ultraschall.RefreshToolbar_Action(section, actioncommand_id)
--- Refreshes a toolbarbutton with an ActionCommandID
---
--- section - section
--- actioncommand_id - ActionCommandID of the action, associated with the toolbarbutton
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RefreshToolbar_Action</slug>
@@ -9177,13 +8351,7 @@ function ultraschall.RefreshToolbar_Action(section, actioncommand_id)
   return 0
 end
 
---ultraschall.RefreshToolbar_Action(0,"_Ultraschall_OnAir")
-
 function ultraschall.ToggleStateButton(section, actioncommand_id, state)
--- Toggles state and refreshes the button of an actioncommand_id
--- section - section (usually 0 for main)
--- actioncommand_id - the ActionCommandID of the Action you'll want to toggle
--- state - 0 for off, 1 for on
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ToggleStateButton</slug>
@@ -9231,18 +8399,7 @@ function ultraschall.ToggleStateButton(section, actioncommand_id, state)
   return stater
 end
 
---A=ultraschall.ToggleStateButton(0,"_Ultraschall_OnAir", 0)
-
-
----------------------
----- Add Markers ----
----------------------
-
 function ultraschall.AddNormalMarker(position, shown_number, markertitle)
--- Adds a normal Marker, not specifically for shownotes or chapter, etc
--- position - position in seconds; must be positive value
--- shown_number - the indexnumber shown in Reaper for this marker
--- markertitle - the title of the marker
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddNormalMarker</slug>
@@ -9289,15 +8446,6 @@ end
 
 
 function ultraschall.AddPodRangeRegion(startposition, endposition)
--- creates a region that marks the begin and end of the podcast with a _PodRange:-region.
--- only one _PodRange:-region is allowed, all others will be deleted by this function!
--- helps find the right offsets for correct positioning of the chapters/shownote/markers 
--- in the exportfile
---
--- startposition - starting-position of the range in seconds; must be a positive value
--- endposition - end-position of the range in seconds; must be bigger than endposition
--- returns -1 if it fails
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddPodRangeRegion</slug>
@@ -9357,8 +8505,6 @@ function ultraschall.AddPodRangeRegion(startposition, endposition)
   return noteID
 end
 
---A=ultraschall.AddPodRangeRegion(14,17)
-
 function ultraschall.GetMarkerByName(searchname, searchisrgn)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -9410,8 +8556,6 @@ function ultraschall.GetMarkerByName(searchname, searchisrgn)
   end
   return count-1, foundmarkers
 end
-
---A,AA,AAA=ultraschall.GetMarkerByName("", true)
 
 
 function ultraschall.GetMarkerByName_Pattern(searchname, searchisrgn)
@@ -9467,8 +8611,6 @@ function ultraschall.GetMarkerByName_Pattern(searchname, searchisrgn)
   return count-1, foundmarkers
 end
 
---A,A2,A3=ultraschall.GetMarkerByName_Pattern("w", true)
-
 function ultraschall.GetMarkerAndRegionsByIndex(idx, searchisrgn)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -9519,9 +8661,6 @@ function ultraschall.GetMarkerAndRegionsByIndex(idx, searchisrgn)
     if searchisrgn==isrgn and isrgn==false and markercount==idx then return name, markrgnindexnumber, color, pos end -- if right marker, return values
   end
 end
-
---A,B,C,D,E,F,G,H,I,J=ultraschall.GetMarkerByIndex(1, false)
-
 
 function ultraschall.SetMarkerByIndex(idx, searchisrgn, shown_number, pos, rgnend, name, color, flags)
 --[[
@@ -9605,17 +8744,7 @@ function ultraschall.SetMarkerByIndex(idx, searchisrgn, shown_number, pos, rgnen
   return false
 end
 
---A,B=ultraschall.SetMarkerByIndex(1, true, 6, 7, 8, "Tudelu", reaper.ColorToNative(40,90,100)|0x1000000, 0)
-
-
 function ultraschall.AddEditMarker(position, shown_number, edittitle)
--- Adds an Editmarker. 
--- position - is time in seconds, 
--- shown_number - the number shown with the Edit-Marker in Reaper
--- edittitle - a string of a description for this Edit-marker
---
--- If no chaptertitle is given, it will write "_Edit:" only
--- returns -1 if position isn't a valid value
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddEditMarker</slug>
@@ -9668,16 +8797,7 @@ function ultraschall.AddEditMarker(position, shown_number, edittitle)
   return noteID
 end
 
---ultraschall.AddEditMarker(13,20,"hui")
-
-
-
------------------------
----- Count Markers ----
------------------------
-
 function ultraschall.CountNormalMarkers()
--- returns number of normal markers in the project
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountNormalMarkers</slug>
@@ -9720,10 +8840,7 @@ function ultraschall.CountNormalMarkers()
   return count
 end
 
---A=ultraschall.CountNormalMarkers()
-
 function ultraschall.CountEditMarkers()
--- returns number of _Edit: markers in the project
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountEditMarkers</slug>
@@ -9761,15 +8878,7 @@ function ultraschall.CountEditMarkers()
   return count
 end
 
---A=ultraschall.CountEditMarkers()
-
----------------------------
----- Enumerate Markers ----
----------------------------
-
 function ultraschall.GetPodRangeRegion()
--- returns startposition and endposition of the PodRange-Region.
--- only one _PodRange:-region is allowed, if there are more, it will return -1
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetPodRangeRegion</slug>
@@ -9817,12 +8926,8 @@ function ultraschall.GetPodRangeRegion()
   end
 end
 
---A,AA=ultraschall.GetPodRangeRegion()
-
-
 
 function ultraschall.EnumerateNormalMarkers(number)
--- returns number of markers in general(not chaptermarker!), the shown marker-number,chaptername-name of the marker
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EnumerateNormalMarkers</slug>
@@ -9895,8 +9000,6 @@ end
 --Aretnumber, Aretidxnum, Aposition, Amarkername = ultraschall.EnumerateNormalMarkers(0)
 
 function ultraschall.EnumerateEditMarkers(number)
--- Get the data of an _Edit marker
--- returns number, ID, position(in seconds) and the editmarker-name
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EnumerateEditMarkers</slug>
@@ -9911,8 +9014,8 @@ function ultraschall.EnumerateEditMarkers(number)
   </description>
   <retvals>
      integer retnumber - overallmarker/regionnumber of marker beginning with 1 for the first marker; ignore the order of first,second,etc creation of
-    - markers but counts from position 00:00:00 to end of project. So if you created a marker at position 00:00:00 and move the first created marker to
-    - the end of the timeline, it will be the last one, NOT the first one in the retval! For use with reaper's own marker-functions.
+                       - markers but counts from position 00:00:00 to end of project. So if you created a marker at position 00:00:00 and move the first created marker to
+                       - the end of the timeline, it will be the last one, NOT the first one in the retval! For use with reaper's own marker-functions.
      integer shown_number - indexnumber of the marker
      number position - the position of the marker
      string dummyname  - the name of the marker
@@ -9963,14 +9066,8 @@ function ultraschall.EnumerateEditMarkers(number)
   end
 end
 
---A=ultraschall.AddEditMarker(4,4,"titleD")
---A,AA,AAA,AAAA=ultraschall.EnumerateEditMarkers(1)
-
-
 
 function ultraschall.GetAllEditMarkers()
---returns the number of edits and an array of each editmarker in the format:
--- editmarkersarray [index] [0-position;1-editname]
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllEditMarkers</slug>
@@ -10021,8 +9118,6 @@ end
 --A,AA, AAA=ultraschall.GetAllEditMarkers()
 
 function ultraschall.GetAllNormalMarkers()
---returns the number of normal markers and an array of each normal marker in the format:
--- normalmarkersarray [index] [0-position;1-normalmarkername]
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllNormalMarkers</slug>
@@ -10073,11 +9168,7 @@ function ultraschall.GetAllNormalMarkers()
   return count, normalmarkersarray
 end
 
---A,AA=ultraschall.GetAllNormalMarkers()
-
 function ultraschall.GetAllMarkers()
--- count - number of markers
--- markersarray - an array with all names excluding _edit:, _shownote:, _chapter:. Switching between markername, type of marker, markername, type of maker
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllMarkers</slug>
@@ -10132,21 +9223,7 @@ function ultraschall.GetAllMarkers()
   return count, markersarray
 end
 
---A,AA=ultraschall.GetAllMarkers()
-
-
-----------------------
----- Set Markers -----
-----------------------
-
 function ultraschall.SetNormalMarker(number, position, shown_number, markertitle)
--- Sets values of a normal Marker(no _Chapter:, _Shownote:, etc)
--- number - number of the marker, 1 to current number of markers
--- position - position in seconds; -1 - keep the old value
--- shown_number - the number shown with the marker in Reaper; -1 - keep the old value
--- markertitle - title of the marker; nil - keep the old value
---
--- returns true if successful and false if not(i.e. marker doesn't exist)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetNormalMarker</slug>
@@ -10219,13 +9296,6 @@ end
 --A=ultraschall.SetNormalMarker(0,nil,3,"hu")
 
 function ultraschall.SetEditMarker(number, position, shown_number, edittitle)
--- Sets values of an Edit-Marker
--- number - number of the _Edit-marker, 1 to current number of _Edit-markers
--- position - position in seconds; -1 - keep the old value
--- shown_number - the number shown with the marker in Reaper; -1 - keep the old value
--- edittitle - title of the editmarker; nil - keep the old value
---
--- returns true if successful and false if not(i.e. marker doesn't exist)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetEditMarker</slug>
@@ -10294,8 +9364,6 @@ function ultraschall.SetEditMarker(number, position, shown_number, edittitle)
   end
 end
 
---A=ultraschall.SetEditMarker(1,nil,11,nil)
-
 
 function ultraschall.SetPodRangeRegion(startposition, endposition)
 -- Sets _PodRange:-Marker
@@ -10337,14 +9405,7 @@ function ultraschall.SetPodRangeRegion(startposition, endposition)
   return ultraschall.AddPodRangeRegion(startposition, endposition)
 end
 
---A,AA,AAA=ultraschall.SetPodRangeRegion(2,10)
-
--------------------------
----- Delete Markers -----
--------------------------
-
 function ultraschall.DeletePodRangeRegion()
--- deletes the PodRange-Region
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeletePodRangeRegion</slug>
@@ -10384,13 +9445,8 @@ function ultraschall.DeletePodRangeRegion()
   return itworked
 end
 
---A=ultraschall.AddPodRangeRegion(2,10)
---A2=ultraschall.DeletePodRangeRegion()
 
 function ultraschall.DeleteNormalMarker(number)
--- Deletes a Normal-Marker
--- number - number of the _Normal-marker, 1 to current number of _Normal-markers
--- returns true if successful and false if not(i.e. marker doesn't exist)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteNormalMarker</slug>
@@ -10448,14 +9504,8 @@ function ultraschall.DeleteNormalMarker(number)
   end
 end
 
---A=ultraschall.AddNormalMarker(3,10,"marke")
---A2=ultraschall.DeleteNormalMarker(1)
-
 
 function ultraschall.DeleteEditMarker(number)
--- Deletes a Edit-Marker
--- number - number of the _Edit-marker, 1 to current number of _Edit-markers
--- returns true if successful and false if not(i.e. marker doesn't exist)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteEditMarker</slug>
@@ -10509,12 +9559,7 @@ function ultraschall.DeleteEditMarker(number)
   end
 end
 
---A=ultraschall.AddEditMarker(3,10,"markel")
---A2=ultraschall.DeleteEditMarker(1)
-
-
 function ultraschall.SecondsToTime(pos)
--- converts timeposition in seconds(pos) to a timestring (h)hh:mm:ss.ms
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SecondsToTime</slug>
@@ -10590,21 +9635,7 @@ function ultraschall.SecondsToTime(pos)
   return trailinghour..hours..":"..trailingminute..minutes..":"..trailingsecond..seconds.."."..milliseconds
 end
 
---L=ultraschall.SecondsToTime(359999999999998176)
-
 function ultraschall.TimeToSeconds(timestring)
--- converts a timestring days:hours:minutes:seconds.milliseconds to timeposition in seconds
--- it is ok, to have only some of them given, so excluding hours or days is ok.
--- 
--- a single integer will be seen as seconds.
--- to specifiy milliseconds in particular, start the number with a .
--- all other values are separated by :
---
--- returns -1 in case of error, timestring is a nil  or if you try to add an 
--- additional value, added before days
---
--- does not check for valid timeranges, so 61 minutes is possible to give, even if 
--- hours are present in the string
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>TimeToSeconds</slug>
@@ -10719,21 +9750,7 @@ function ultraschall.TimeToSeconds(timestring)
   return (day*86400)+(hour*3600)+(minute*60)+seconds+milliseconds
 end
 
---L=ultraschall.TimeToSeconds("11:11:11:11.001") 
-
--------------------------
----- Export Markers -----
--------------------------
-
 function ultraschall.ExportEditMarkersToFile(filename_with_path, PodRangeStart, PodRangeEnd)
---Export Edit-Markers to filename_with_path
---filename_with_path - filename of the file where the markers shall be exported to
---PodRangeStart - start of the Podcast;markers earlier of that will not be exported;markers exported will be markerposition minus PodRangeStart
---                must be a positive value; nil=0
---PodRangeEnd - end of the Podcast; markers later of that will not be exported; 
---              must be a positive value; nil=end of project
---
--- returns -1 in case of error
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ExportEditMarkersToFile</slug>
@@ -10801,22 +9818,8 @@ function ultraschall.ExportEditMarkersToFile(filename_with_path, PodRangeStart, 
   return 1
 end
 
---A,AA=ultraschall.AddEditMarker(10,10,"ed10")
---A,AA=ultraschall.AddEditMarker(20,20,"ed20")
---A,AA=ultraschall.AddEditMarker(30,30,"ed30")
---APACHEN=ultraschall.ExportEditMarkersToFile("c:\\edit-test.txt")
-
-
 
 function ultraschall.ExportNormalMarkersToFile(filename_with_path, PodRangeStart, PodRangeEnd)
---Export Markers to filename_with_path
---filename_with_path - filename of the file where the markers shall be exported to
---PodRangeStart - start of the Podcast;markers earlier of that will not be exported;markers exported will be markerposition minus PodRangeStart
---                must be a positive value; nil=0
---PodRangeEnd - end of the Podcast; markers later of that will not be exported; 
---              must be a positive value; nil=end of project  
---
--- return -1 in case of error
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ExportNormalMarkersToFile</slug>
@@ -10879,30 +9882,8 @@ function ultraschall.ExportNormalMarkersToFile(filename_with_path, PodRangeStart
   local fileclose=io.close(file)
   return 1
 end 
---A,AA=ultraschall.AddNormalMarker(10,10,"10mark")
---A,AA=ultraschall.AddNormalMarker(30,30,"30mark")
---A,AA=ultraschall.AddNormalMarker(20,20,"20mark")
---APPALACHEN=ultraschall.ExportNormalMarkersToFile("c:\\test.txt")
-
-
--------------------------
----- Import Markers -----
--------------------------
-
 
 function ultraschall.ImportEditFromFile(filename_with_path,PodRangeStart)
--- Imports editentries from a file and returns an array of the imported values.
--- array[markernumber1][0] - position of the marker in seconds+PodRangeStart
--- array[markernumber1][1] - name of the marker
--- array[markernumber2][0] - position of the marker in seconds+PodRangeStart
--- array[markernumber2][1] - name of the marker
--- array[markernumberx][0] - position of the marker in seconds+PodRangeStart
--- array[markernumberx][1] - name of the marker
-
--- Parameters:
--- filename_with_path - filename with path of the file to import
--- Podrangestart - the start of the podcast in seconds. Will be added to the time-positions of each chaptermarker. 
---    Podrangestart=0 gives you the timepositions, as they were stored in the chapter-marker-import-file.
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ImportEditFromFile</slug>
@@ -10963,22 +9944,7 @@ function ultraschall.ImportEditFromFile(filename_with_path,PodRangeStart)
   return table
 end
 
---ABAMA=ultraschall.ImportEditFromFile("c:\\test.txt",0)
-
-
 function ultraschall.ImportMarkersFromFile(filename_with_path,PodRangeStart)
--- Imports markerentries from a file and returns an array of the imported values.
--- array[markernumber1][0] - position of the marker in seconds+PodRangeStart
--- array[markernumber1][1] - name of the marker
--- array[markernumber2][0] - position of the marker in seconds+PodRangeStart
--- array[markernumber2][1] - name of the marker
--- array[markernumberx][0] - position of the marker in seconds+PodRangeStart
--- array[markernumberx][1] - name of the marker
-
--- Parameters:
--- filename_with_path - filename with path of the file to import
--- Podrangestart - the start of the podcast in seconds. Will be added to the time-positions of each chaptermarker. 
---    Podrangestart=0 gives you the timepositions, as they were stored in the chapter-marker-import-file.
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ImportMarkersFromFile</slug>
@@ -11037,16 +10003,6 @@ function ultraschall.ImportMarkersFromFile(filename_with_path,PodRangeStart)
   -- return resulting marker-table
   return table
 end
-
---APPALACHEN=ultraschall.ImportMarkersFromFile("c:\\test.txt",10)
-
---A,AA,AAA,AAAA=ultraschall.EnumerateNormalMarkers(4)
---APPALACHEN=ultraschall.ExportMarkersToFile("c:\\test.txt",0,99999999)
-
-
--------------------------
----- Convert Markers ----
--------------------------
 
 function ultraschall.MarkerToEditMarker(number)
 --[[
@@ -11157,27 +10113,7 @@ function ultraschall.EditToMarker(number)
   return idx, shownmarker, position, markername
 end
 
---A=ultraschall.AddEditMarker(9,7,"edittitle")
---A,AA,AAA,AAAA=ultraschall.EditToMarker(1)
---A,AA,AAA,AAAA=ultraschall.MarkerToEditMarker(1)
-
-
-
-
---------------------------------------------------
------- ULTRASCHALL FRAMEWORK 4.00 BETA 2 ---------
---------------------------------------------------
-
-
------------------------------
----- Ultraschall Helpers ----
------------------------------
-
-
 function ultraschall.CreateTrackString_SelectedTracks()
--- returns a string with the all numbers from selected tracks, separated by a ,
--- e.g. firstnumber=4, lastnumber=8 -> 4,5,6,7,8
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateTrackString_SelectedTracks</slug>
@@ -11219,16 +10155,8 @@ function ultraschall.CreateTrackString_SelectedTracks()
   return trackstring:sub(1,-2)
 end
 
---A=ultraschall.CreateTrackString_SelectedTracks()
-
-
--------------------------
----- File Management ----
--------------------------
 
 function ultraschall.ReadFullFile(filename_with_path, binary)
-  -- Returns the whole file filename_with_path or nil in case of error
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ReadFullFile</slug>
@@ -11288,19 +10216,7 @@ function ultraschall.ReadFullFile(filename_with_path, binary)
 end
 
 
---A,B,C=ultraschall.ReadFullFile("c:\\msdia80.dll")
-
 function ultraschall.ReadValueFromFile(filename_with_path, value)
-  -- Returns 
-  -- a string with the contents of the file "filename_with_path" as well as
-  -- a string, that contains the linenumbers returned as a , separated csv-string and
-  -- an integer the number of lines returned
-  --
-  -- If "value" is given, it will return all lines, containing the value in the 
-  -- file "filename_with_path". The second line-numbers return-value is very valuable 
-  -- when giving a "value". "Value" is not case-sensitive.
-  -- Keep in mind, that you need to escape \ by writing \\, or it will not work
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ReadValueFromFile</slug>
@@ -11382,23 +10298,7 @@ function ultraschall.ReadValueFromFile(filename_with_path, value)
 end
 
 
---A,B,C,D,E=ultraschall.ReadValueFromFile("c:\\testhelp-beta2-7-3.html", " = ultraschall.")
-
--- MESPOTINE
-
-
 function ultraschall.ReadLinerangeFromFile(filename_with_path, firstlinenumber, lastlinenumber)
-  -- Returns a string with the contents of the file "filename_with_path" from line
-  -- firstlinenumber to lastlinenumber as well as a
-  -- boolean false if fewer lines are returned than requested, true if as many lines returned as requested
-  --
-  -- every line is separated with a newline from each other
-  -- Keep in mind, that you need to escape \ by writing \\, or it will not work
-  -- returns nil in case of error like non existing file or invalid linenumbers
-  -- returns "", if nothing was found
-  --
-  -- counting of linenumbers starts with 1 for the first line
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ReadLinerangeFromFile</slug>
@@ -11455,12 +10355,7 @@ function ultraschall.ReadLinerangeFromFile(filename_with_path, firstlinenumber, 
   return a, true, b
 end
 
-
---A,B,C=ultraschall.ReadLinerangeFromFile("c:\\temp\\540.txt",1,9)
-
 function ultraschall.MakeCopyOfFile(input_filename_with_path, output_filename_with_path)
---makes a copy of a textfile
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MakeCopyOfFile</slug>
@@ -11507,12 +10402,7 @@ function ultraschall.MakeCopyOfFile(input_filename_with_path, output_filename_wi
   return true
 end
 
---A=ultraschall.MakeCopyOfFile("c:\\tt.ogg","e:\\huibh.txts")
---A=ultraschall.MakeCopyOfFile("2",1)
-
 function ultraschall.MakeCopyOfFile_Binary(input_filename_with_path, output_filename_with_path)
---makes a copy of a binary-file
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MakeCopyOfFile_Binary</slug>
@@ -11557,13 +10447,7 @@ function ultraschall.MakeCopyOfFile_Binary(input_filename_with_path, output_file
   return true
 end
 
---A=ultraschall.MakeCopyOfFile_Binary("c:\\tt.ogg","z:\\testcopy2.webm")
---ultraschall.MakeCopyOfFile_Binary("c:\\reaper.exe","c:\\reaper.testrl")
-
 function ultraschall.ReadBinaryFileUntilPattern(input_filename_with_path, pattern)
---reads a binary file until the first occurence of pattern
---pattern - case sensitive
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ReadBinaryFileUntilPattern</slug>
@@ -11615,13 +10499,7 @@ function ultraschall.ReadBinaryFileUntilPattern(input_filename_with_path, patter
   return temp2:len(), temp2
 end
 
---A,AA=ultraschall.ReadBinaryFileUntilPattern("c:\\MarkerProject.RPP","VZOOMEX")
---reaper.MB(AA,"",0)
-
 function ultraschall.ReadBinaryFileFromPattern(input_filename_with_path, pattern)
---reads a binary file from a first occurence of pattern to it's end. Doesn't show in ReaperConsole completely!
---pattern - case sensitive
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ReadBinaryFileFromPattern</slug>
@@ -11673,22 +10551,7 @@ function ultraschall.ReadBinaryFileFromPattern(input_filename_with_path, pattern
   return temp2:len(), temp2
 end
 
---A,AA=ultraschall.ReadBinaryFileFromPattern("c:\\reaper.exe","c:\\reaper.test","REAPER")
---A,AA=ReadBinaryFileUntilPattern("c:\\test.txt","c:\\test.temp","Ultraschall")
---A,BB=ultraschall.ReadBinaryFileFromPattern("c:\\MarkerProject.rpp","VZOOMEX")
---reaper.MB(BB,"",0)
-
---CC=AA..BB--:sub(9,-1)
---laeng=CC:len()
---laengA=AA:len()
---laengB=BB:len()
-
---ultraschall.WriteValueToFile("c:\\test2.txt",CC)
---A
-
 function ultraschall.CountLinesInFile(filename_with_path)
-  -- counts the number of lines in a file "filename_with_path" and returns it as integer
-  -- Keep in mind, that you need to escape \ by writing \\, or it will not work
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountLinesInFile</slug>
@@ -11729,24 +10592,10 @@ function ultraschall.CountLinesInFile(filename_with_path)
       b=b+1
   end
   
-  -- return result
   return b
 end
 
---A=ultraschall.CountLinesInFile("c:\\Reaper5_92\\reaper.exe")
-
---------------------------
----- Ini-Config-Files ----
---------------------------
----- must be:  ----
----- [section] ----
----- key=value ----
-----  style -------
--------------------
 function ultraschall.SetIniFileExternalState(section, key, value, ini_filename_with_path)
--- stores value into ini_filename_with_path
--- returns true if successful, false if unsuccessful
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetIniFileExternalState</slug>
@@ -11788,11 +10637,7 @@ function ultraschall.SetIniFileExternalState(section, key, value, ini_filename_w
   return ultraschall.SetIniFileValue(section, key, value, ini_filename_with_path)
 end
 
---A=ultraschall.SetIniFileExternalState("hulasu","bulaabama","MamulaDoo","c:\\huhududu.ini")
-
 function ultraschall.GetIniFileExternalState(section, key, ini_filename_with_path)
--- gets a value from ini_filename_with_path
--- returns length of entry(integer) and the entry itself(string)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetIniFileExternalState</slug>
@@ -11835,10 +10680,7 @@ function ultraschall.GetIniFileExternalState(section, key, ini_filename_with_pat
   end
 end
 
---A,AA=ultraschall.GetIniFileExternalState("REAPER","defsplitxfadelen","c:\\REAPER5_78_portable\\reaper.ini")
-
 function ultraschall.CountIniFileExternalState_sec(ini_filename_with_path)
---count number of sections in the ini_filename_with_path
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountIniFileExternalState_sec</slug>
@@ -11880,11 +10722,7 @@ function ultraschall.CountIniFileExternalState_sec(ini_filename_with_path)
   return count
 end
 
---AA=ultraschall.CountIniFileExternalState_sec("c:\\test.ini")
-
-
 function ultraschall.CountIniFileExternalState_key(section, ini_filename_with_path)
---count number of keys in the section in ini_filename_with_path
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountIniFileExternalState_key</slug>
@@ -11934,10 +10772,7 @@ function ultraschall.CountIniFileExternalState_key(section, ini_filename_with_pa
   return count
 end
 
---A=ultraschall.CountIniFileExternalState_key("hula","c:\\test.ini")
-
 function ultraschall.EnumerateIniFileExternalState_sec(number_of_section, ini_filename_with_path)
--- returns name of the numberth section in ini_filename_with_path or nil, if invalid
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EnumerateIniFileExternalState_sec</slug>
@@ -11985,10 +10820,7 @@ function ultraschall.EnumerateIniFileExternalState_sec(number_of_section, ini_fi
   end
 end
 
---A=ultraschall.EnumerateIniFileExternalState_sec(0,"c:\\test.ini")
-
 function ultraschall.EnumerateIniFileExternalState_key(section, number, ini_filename_with_path)
--- returns name of a numberth key within a section in ini_filename_with_path or nil if invalid or not existing
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EnumerateIniFileExternalState_key</slug>
@@ -12044,17 +10876,7 @@ function ultraschall.EnumerateIniFileExternalState_key(section, number, ini_file
   return nil
 end
 
-
---A=ultraschall.EnumerateIniFileExternalState_key("GuiElement_1",0,"c:\\test.ini")
-
 function ultraschall.CountSectionsByPattern(pattern, ini_filename_with_path)
---uses "pattern"-string to determine, how often a section with a certain pattern exists. Good for sections, that have a number in them, like
---[section1], [section2], [section3]
---returns the number of sections, that include that pattern as well as
---a string, that includes the names of all such sections, separated by a comma
---refer pattern-matching for lua for more details
---pattern - the pattern to look for. Is case-sensitive!
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountSectionsByPattern</slug>
@@ -12106,16 +10928,8 @@ function ultraschall.CountSectionsByPattern(pattern, ini_filename_with_path)
   return count, sections:sub(1,-2)
 end
 
---A,AA=ultraschall.CountSectionsByPattern("","c:\\test.ini")
 
 function ultraschall.CountKeysByPattern(pattern, ini_filename_with_path)
---uses "pattern"-string to determine, how often a key with a certain pattern exists. Good for keys, that have a number in them, like
---key1, key2, key3
---returns the number of sections, that include keys with that pattern as well as
---a string with all [sections] that contain keys= with a pattern, separated by a , i.e. [section1],key1=,key2=,key3=,[section2],key1,key4
---refer pattern-matching for lua for more details
---pattern - the pattern to look for
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountKeysByPattern</slug>
@@ -12178,14 +10992,6 @@ end
 
 
 function ultraschall.CountValuesByPattern(pattern, ini_filename_with_path)
---uses "pattern"-string to determine, how often a value with a certain pattern exists. Good for values, that have a number in them, like
---value1, value2, value3
---returns the number of sections, that include that pattern as well as 
---a string, that contains the [sections] and the keys= that contain values that fit the pattern, separated by a comma
--- e.g. [section1], key1=, value, key4=, value, [section4], key2=, value
---refer pattern-matching for lua for more details
---pattern - the pattern to look for
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountValuesByPattern</slug>
@@ -12246,17 +11052,7 @@ function ultraschall.CountValuesByPattern(pattern, ini_filename_with_path)
   return count, retpattern:sub(1,-2)
 end
 
---A,AA=ultraschall.CountValuesByPattern("Mamula","c:\\test.ini")
-
-
 function ultraschall.EnumerateSectionsByPattern(pattern, id, ini_filename_with_path)
---uses "pattern"-string to determine a section with a certain pattern. Good for sections, that have a number in them, like
---[section1], [section2], [section3]
---returns the full section-name of the "id"-th section, that fits the pattern description
---refer pattern-matching for lua for more details
---pattern - the pattern to look for
---id - the number of the section, that fits that pattern scheme
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EnumerateSectionsByPattern</slug>
@@ -12306,20 +11102,12 @@ function ultraschall.EnumerateSectionsByPattern(pattern, id, ini_filename_with_p
     if line:match("%[.*"..pattern..".*%]") then count=count+1 end
     if count==id then return line:match("%[(.*"..pattern..".*)%]") end
   end
-  return nil--count, sections:sub(1,-2)
+  return nil
 end
 
 --A,AA=ultraschall.EnumerateSectionsByPattern("hu",2,"c:\\test.ini")
 
 function ultraschall.EnumerateKeysByPattern(pattern, section, id, ini_filename_with_path)
---uses "pattern"-string to determine, how often a key with a certain pattern exists. Good for keys, that have a number in them, like
---key1, key2, key3
---returns the full key-name of the "id"-th key, that fits the pattern description
---refer pattern-matching for lua for more details
---pattern - the pattern to look for
---section - the section, to where look for the key
---id - the number of the key, that fits that pattern scheme
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EnumerateKeysByPattern</slug>
@@ -12380,13 +11168,6 @@ end
 --A=ultraschall.EnumerateKeysByPattern("l","hula",3,"c:\\test.ini")
 
 function ultraschall.EnumerateValuesByPattern(pattern, section, id, ini_filename_with_path)
---uses "pattern"-string to determine, how often a value with a certain pattern exists. Good for values, that have a number in them, like
---values1, value2, value3
---returns the full value of the "id"-th value, that fits the pattern description
---refer pattern-matching for lua for more details
---pattern - the pattern to look for
---id - the number of the value, that fits that pattern scheme
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EnumerateValuesByPattern</slug>
@@ -12445,21 +11226,7 @@ function ultraschall.EnumerateValuesByPattern(pattern, section, id, ini_filename
   end
 end
 
---A,AA=ultraschall.EnumerateValuesByPattern("l","l",1,"c:\\test.ini")
-
-
----------------------------
----- Marker Management ----
----------------------------
-
 function ultraschall.GetMarkerByScreenCoordinates(xmouseposition, retina)
---returns a string with the marker(s) in the timeline at given 
---screen-x-position. No Regions!
---string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2"
-
---xmouseposition - x mouseposition
---retina - if it's retina/hiDPI, set it true, else, set it false
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetMarkerByScreenCoordinates</slug>
@@ -12543,19 +11310,7 @@ function ultraschall.GetMarkerByScreenCoordinates(xmouseposition, retina)
   return retstring--:match("(.-)%c.-%c")), tonumber(retstring:match(".-%c(.-)%c")), retstring:match(".-%c.-%c(.*)")
 end
 
---AAAA=ultraschall.GetMarkerByScreenCoordinates(reaper.GetMousePosition(), false)
---reaper.ClearConsole()
---reaper.ShowConsoleMsg(string.gsub(AAAA,"\n","\n").."A")
-
---B=ultraschall.GetMarkerByScreenCoordinates(reaper.GetMousePosition(), false)
-
 function ultraschall.GetMarkerByTime(position, retina)
---returns a string with the marker(s) at given timeline-position. No Regions!
---string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2"
-
---position - position in time
---retina - if it's retina/hiDPI, set it true, else, set it false
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetMarkerByTime</slug>
@@ -12642,36 +11397,8 @@ function ultraschall.GetMarkerByTime(position, retina)
   return retstring
 end
 
---L=reaper.GetPlayPosition()
---B=ultraschall.GetMarkerByTime(reaper.GetPlayPosition(), false)
---Aretval,ARetval2=reaper.BR_Win32_GetPrivateProfileString("REAPER", "leftpanewid", "", reaper.GetResourcePath().."\\reaper.ini")
---Ax,AAx= reaper.GetSet_ArrangeView2(0, false, ARetval2+57,ARetval2+57+84) 
-
---AAA=GetMarkerByTime(6475,false) --6476 in 6495
---Astart_time, Aend_time = reaper.GetSet_ArrangeView2(0, false, 0, 0)
-
-function ultraschall.main()
-  Dx,Dy = reaper.GetMousePosition()
-  Gx,Gy=gfx.clienttoscreen(Dx,Dy)  
-  Hx,Ix= reaper.GetSet_ArrangeView2(0, false, Dx-84,Dx+84) --Das kann ich in Pixel umrechnen, da ich Mouse-und Time von Startposition habe und Bereich von Startarrange bis timposition DX
-    
-  gfx.update()
-  --a,b,c,d,e,f,g,h,i=gfx.dock(-1,0,0,0,0)
-  --gfx.screentoclient(x,y)
-  reaper.defer(main)
-end
---AA=reaper.GetResourcePath().."\\reaper.ini"
---HWND=reaper.GetMainHwnd()
---main()
---Aretval=reaper.BR_Win32_WritePrivateProfileString("REAPER", "wnd_w", "100", reaper.GetResourcePath().."\\reaper.ini")
 
 function ultraschall.GetRegionByScreenCoordinates(xmouseposition, retina)
---returns a string with the marker(s) at given screen-x-position in the timeline. No Regions!
---string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2"
-
---xmouseposition - x mouseposition
---retina - if it's retina/hiDPI, set it true, else, set it false
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetRegionByScreenCoordinates</slug>
@@ -12755,16 +11482,7 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition, retina)
   return retstring
 end
 
---A=ultraschall.GetRegionByScreenCoordinates(reaper.GetMousePosition(),false)
---reaper.ClearConsole()
---reaper.ShowConsoleMsg(A)
 function ultraschall.GetRegionByTime(position, retina)
---returns a string with the marker(s) at given timeline-position. No Regions!
---string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2"
-
---position - position in time
---retina - if it's retina/hiDPI, set it true, else, set it false
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetRegionByTime</slug>
@@ -12848,16 +11566,7 @@ function ultraschall.GetRegionByTime(position, retina)
   return retstring
 end
 
---A=ultraschall.GetRegionByTime(73, false)
---reaper.ShowConsoleMsg(A)
-
 function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition, retina)
---returns a string with the marker(s) at given screen-x-position. No Regions!
---string will be "Markeridx\npos\nMarkeridx2\npos2\n"
-
---xmouseposition - x mouseposition
---retina - if it's retina/hiDPI, set it true, else, set it false
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTimesignaturesByScreenCoordinates</slug>
@@ -12928,17 +11637,7 @@ function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition, retina
   return retstring
 end
 
---A=ultraschall.GetTimesignaturesByScreenCoordinates(reaper.GetMousePosition(),false)
---reaper.ClearConsole()
---reaper.ShowConsoleMsg(A.."A")
-
 function ultraschall.GetTimeSignaturesByTime(position, retina)
---returns a string with the marker(s) at given position. No Regions!
---string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2"
-
---position - position in time
---retina - if it's retina/hiDPI, set it true, else, set it false
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTimeSignaturesByTime</slug>
@@ -13009,16 +11708,8 @@ function ultraschall.GetTimeSignaturesByTime(position, retina)
   return retstring
 end
 
---A=ultraschall.GetTimeSignaturesByTime(reaper.GetCursorPosition(),false)
---reaper.ShowConsoleMsg(A.."A")
---A,AA=GetRegionByTime(16.269,false)
-
 
 function ultraschall.IsMarkerEdit(markerid)
---checks, if a marker is an _Edit:-Marker
---returns true or false
---returns nil, if markerid isn't valid
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsMarkerEdit</slug>
@@ -13060,14 +11751,8 @@ function ultraschall.IsMarkerEdit(markerid)
   return false
 end
 
---A=ultraschall.IsMarkerEdit(1.1)
-
-
 
 function ultraschall.IsMarkerNormal(markerid)
---checks, if a marker is a Normal-Marker
---returns true or false
---returns nil, if markerid isn't valid
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsMarkerNormal</slug>
@@ -13109,12 +11794,7 @@ function ultraschall.IsMarkerNormal(markerid)
   return false
 end
 
---A=ultraschall.IsMarkerNormal(1)
-
 function ultraschall.IsRegionPodrange(markerid)
---checks, if a marker is a _PodRange:-Region
---returns true or false
---returns nil, if markerid isn't valid
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsRegionPodrange</slug>
@@ -13156,12 +11836,8 @@ function ultraschall.IsRegionPodrange(markerid)
   return false
 end
 
---A=ultraschall.IsRegionPodrange(3)
 
 function ultraschall.IsRegionEditRegion(markerid)
---checks, if a marker is an _Edit:-Region
---returns true or false
---returns nil, if markerid isn't valid
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsRegionEditRegion</slug>
@@ -13203,11 +11879,6 @@ function ultraschall.IsRegionEditRegion(markerid)
   return false
 end
 
---A=ultraschall.IsRegionEditRegion(1)
-
-----------------------
----- Edit Regions ----
-----------------------
 
 function ultraschall.AddEditRegion(startposition, endposition, text)
 --[[
@@ -13454,9 +12125,6 @@ function ultraschall.EnumerateEditRegion(number)
   end
 end
 
---A,AA,AAA,AAAA,AAAAA=ultraschall.EnumerateEditRegion(1)
-
-
 function ultraschall.CountEditRegions()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -13492,24 +12160,6 @@ function ultraschall.CountEditRegions()
 end
 
 
---AA=ultraschall.CountEditRegions()
-
----------------------------
----- kb-ini management ----
----------------------------
-
---[[ Eventuell kannste das Aktualisieren der reaper-kb.ini hiermit erzwingen?
-integer reaper.AddRemoveReaScript(boolean add, integer sectionID, string scriptfn, boolean commit)
-
-Add a ReaScript (return the new command ID, or 0 if failed) or remove a ReaScript (return >0 on success). 
-Use commit==true when adding/removing a single script. When bulk adding/removing n scripts, you can optimize 
-the n-1 first calls with commit==false and commit==true for the last call.
-
-Leider nein, nur das hinzufügen der neu reingebauten Scripts :(
---]]
-
---integer=reaper.AddRemoveReaScript(true, 0, reaper.GetResourcePath().."\\Scripts\\hula.lua", true)
-
 function ultraschall.GetKBIniFilepath()
   -- returns file with path to the reaper-kb.ini-file
 
@@ -13539,8 +12189,6 @@ function ultraschall.GetKBIniFilepath()
 ]]  
   return reaper.GetResourcePath()..ultraschall.Separator.."reaper-kb.ini"
 end
-
---AA=ultraschall.GetKBIniFilepath()
 
 function ultraschall.CountKBIniActions(filename_with_path)
 
@@ -13585,8 +12233,6 @@ string filename_with_path - path and filename of the reaper-kb.ini
   end
 end
 
---AAAAA=ultraschall.CountKBIniActions(nil)
-
 function ultraschall.CountKBIniScripts(filename_with_path)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -13628,8 +12274,6 @@ string filename_with_path - path and filename of the reaper-kb.ini
   else return -1
   end
 end
-
---AAAAA=ultraschall.CountKBIniScripts("c:\\test.txt")
 
 function ultraschall.CountKBIniKeys(filename_with_path)
 --[[
@@ -13673,13 +12317,7 @@ string filename_with_path - path and filename of the reaper-kb.ini
   end
 end
 
---AAAAA=ultraschall.CountKBIniKeys("c:\\test.txt")
-
-
 function ultraschall.GetKBIniActions(filename_with_path, idx)
--- returns integer consolidate, integer section, string ActionCommandID, string Description, string ActionsToBeExecuted
--- returns -1 if no such Action exist or filename/idx is invalid
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetKBIniActions</slug>
@@ -13748,9 +12386,6 @@ end
 --A,AA,AAA,AAAA,AAAAA=ultraschall.GetKBIniActions("c:\\test.txt",35)
 
 function ultraschall.GetKBIniScripts(filename_with_path, idx)
--- returns integer terminateinstance, integer section, string ActionCommandID, string Description, string Scriptfile
--- returns -1 if no such Script exist or filename/idx is invalid
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetKBIniScripts</slug>
@@ -13818,9 +12453,6 @@ end
 --A,AA,AAA,AAAA,AAAAA=ultraschall.GetKBIniScripts(ultraschall.GetKBIniFilepath(),165)
 
 function ultraschall.GetKBIniKeys(filename_with_path, idx)
--- returns integer Keytype/Modifier/MidiChannel, integer Key/MidiNote, string ActionCommandID, integer section
--- returns -1 if no such Script exist or filename/idx is invalid
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetKBIniKeys</slug>
@@ -13887,8 +12519,6 @@ end
 --A,AA,AAA,AAAA,AAAAA=ultraschall.GetKBIniKeys(ultraschall.GetKBIniFilepath(),103)
 
 function ultraschall.GetKBIniActionsID_ByActionCommandID(filename_with_path, ActionCommandID)
--- returns the idx(s) of an Action with a given ActionCommandID 
--- return false, if not existing
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetKBIniActionsID_ByActionCommandID</slug>
@@ -13936,8 +12566,6 @@ end
 --A=ultraschall.GetKBIniActionsID_ByActionCommandID("c:\\test.txt","_Ultraschall_ZoomToSelection")
 
 function ultraschall.GetKBIniScripts_ByActionCommandID(filename_with_path, ActionCommandID)
--- returns the idx(s) of a script with a given ActionCommandID
--- return false, if not existing
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetKBIniScripts_ByActionCommandID</slug>
@@ -13985,8 +12613,6 @@ end
 --A=ultraschall.GetKBIniScripts_ByActionCommandID("c:\\test.txt", "Haselnuss") --
 
 function ultraschall.GetKBIniKeys_ByActionCommandID(filename_with_path, ActionCommandID)
--- returns the idx(s) of a key with a given ActionCommandID
--- return false, if not existing
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetKBIniKeys_ByActionCommandID</slug>
@@ -14095,16 +12721,6 @@ end
 
 
 function ultraschall.SetKBIniActions(filename_with_path, consolidate, section, ActionCommandID, Description, ActionCommandIDs, replace)
--- adds/sets existing Actions
--- integer consolidate - 
--- integer section - 
--- string ActionCommandID - the ActionCommandID for this Action
--- string Description - the description as shown in the "Show Actions List"-window
--- string ActionCommandIDs - the Action-CommandIDs that shall be executed, when calling this action. Each ActioncommandID separated by a space.
--- boolean replace - true - replace an "old" Action with this new one, false - keep the "old" Action
-
---returns false if file does not exist, invalid parameters or the first "ActionCommandID"-parameter starts with an _
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetKBIniActions</slug>
@@ -14202,14 +12818,8 @@ function ultraschall.SetKBIniActions(filename_with_path, consolidate, section, A
   
   return true, found
 end
---ACT 0 0 "9859d0c7f8dd418bb56a41f242ea92c1"
---AA,BB=ultraschall.SetKBIniActions("c:\\test.txt",3,2,"ATest","Atest2: hullebull","_one _tw", true)
---AA,BB=ultraschall.SetKBIniActions("c:\\test.txt",1,2,"ATest","Description","_one", true)
---AA,BB=ultraschall.SetKBIniActions("c:\\test.txt",0,0,"A","ALTZSALABAMA","20 42 21 22", false)
---AA,BB=ultraschall.SetKBIniActions("c:\\test.txt",0,0,"AAA","ALTZSALABAMA","20 42 21 22", true)
 
 function ultraschall.SetKBIniScripts(filename_with_path, terminate_state, section, ActionCommandID, Description, Scriptname, replace)
---adds/sets existing Scripts
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetKBIniScripts</slug>
@@ -14307,18 +12917,7 @@ function ultraschall.SetKBIniScripts(filename_with_path, terminate_state, sectio
   return true, found
 end
 
---AA,BB=ultraschall.SetKBIniScripts("c:\\test.txt", 42, 0, "Haselnussa", "musmusmusKusKus", "Hulasss.luaa", true)
---
-
 function ultraschall.SetKBIniKeys(filename_with_path, KeyType, KeyNote, ActionCommandID, section, replace)
---adds/sets existing Keybinds
---returns false, if it doesn't work or you forgot the _ at the beginning of the ActionCommandID
---
--- string filename_with_path - filename to the kb.ini-file
--- integer KeyType - Keytype/Modifier/Midichannel
--- integer KeyNote - Key(in ASCII) or MidiNote
--- string ActionCommand - the _ActionCommandID, with which the key shall be bound. Must have a _ at the beginning!
--- integer section - section, in where this keybind shall work
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetKBIniKeys</slug>
@@ -14419,16 +13018,8 @@ function ultraschall.SetKBIniKeys(filename_with_path, KeyType, KeyNote, ActionCo
   return true, found
 end
 
---AAA,BB=ultraschall.SetKBIniKeys("c:\\test.txt",1,56,"_Ultraschall_Select_Track17",1, true)
---KEY 1 56  0
-
---AAA,BB=ultraschall.SetKBIniKeys("c:\\test.txt",110,110,"_Hulababula",101, true)
 
 function ultraschall.DeleteKBIniActions(filename_with_path, idx)
---deletes the idx'th ACT-Action in the kb.ini-file
---returns false, if something went wrong, true in case of success
---string filename_with_path - the kb.ini-file with path
---integer idx - the ACT-Action entry-number, you'd like to delete
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteKBIniActions</slug>
@@ -14488,10 +13079,6 @@ end
 --A=ultraschall.DeleteKBIniActions("c:\\test.txt",1)
 
 function ultraschall.DeleteKBIniScripts(filename_with_path, idx)
---deletes the idx'th SCR-Script in the kb.ini-file
---returns false, if something went wrong, true in case of success
---string filename_with_path - the kb.ini-file with path
---integer idx - the SCR-Script entry-number, you'd like to delete
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteKBIniScripts</slug>
@@ -14551,10 +13138,6 @@ end
 --A=ultraschall.DeleteKBIniScripts("c:\\test.txt",1)
 
 function ultraschall.DeleteKBIniKeys(filename_with_path, idx)
---deletes the idx'th KEY-bind in the kb.ini-file
---returns false, if something went wrong, true in case of success
---string filename_with_path - the kb.ini-file with path
---integer idx - the KEY-bind entry-number, you'd like to delete
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteKBIniKeys</slug>
@@ -14703,9 +13286,6 @@ function ultraschall.GetProject_ReaperVersion(projectfilename_with_path, Project
   return ProjectStateChunk:match("REAPER_PROJECT%s.-%s\"(.-)\" (.-)%s")
 end
 
---A,AA=ultraschall.GetProject_ReaperVersion("c:\\tt.rpp","<REAPER_PROJECT 0.1 \"5.77/x64\" 1529100928\n>")
-
-
 function ultraschall.GetProject_RenderCFG(projectfilename_with_path, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -14753,9 +13333,6 @@ function ultraschall.GetProject_RenderCFG(projectfilename_with_path, ProjectStat
   if retval==">" then ultraschall.AddErrorMessage("GetProject_RenderCFG", "projectfilename_with_path", "No Render-CFG-code available!", -5) return nil end
   return retval
 end
-
---A,AA=ultraschall.GetProject_RenderCFG("c:\\rendercode-project.RPP","")
---A,AA=ultraschall.GetProject_RenderCFG("c:\\ALLA.RPP","")
 
 function ultraschall.GetProject_RippleState(projectfilename_with_path, ProjectStateChunk)
 -- Set RippleState in a projectfilename_with_path
@@ -14805,10 +13382,6 @@ function ultraschall.GetProject_RippleState(projectfilename_with_path, ProjectSt
   ProjectStateChunk=ProjectStateChunk:match("REAPER_PROJECT.-(RIPPLE%s.-)%c.-<RECORD_CFG").." "
   return tonumber(ProjectStateChunk:match("%s(.-)%s"))
 end
-
---A=ultraschall.GetProject_RippleState("c:\\tt.rpp")
---A=ultraschall.GetProject_RippleState(nil,"<REAPER_PROJECT 0.1 \"5.77/x64\" 1529100928\n>")
---reaper.ShowConsoleMsg(A)
 
 function ultraschall.GetProject_GroupOverride(projectfilename_with_path, ProjectStateChunk)
 --[[
@@ -14862,9 +13435,6 @@ function ultraschall.GetProject_GroupOverride(projectfilename_with_path, Project
          tonumber(ProjectStateChunk:match("%s.-%s.-%s(.-)%s"))
 end
 
---A,AA,AAA=ultraschall.GetProject_GroupOverride("c:\\tt.rpp")
---A,AA,AAA=ultraschall.GetProject_GroupOverride(nil, ultraschall.GetStringFromClipboard_SWS())
-
 function ultraschall.GetProject_AutoCrossFade(projectfilename_with_path, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -14912,10 +13482,6 @@ function ultraschall.GetProject_AutoCrossFade(projectfilename_with_path, Project
   
   return tonumber(ProjectStateChunk:match("%s(.-)%s"))
 end
-
---A=ultraschall.GetProject_AutoCrossFade("c:\\tt.rpp")
---A,AA,AAA=ultraschall.GetProject_AutoCrossFade(nil, ultraschall.GetStringFromClipboard_SWS())
---reaper.ShowConsoleMsg(A)
 
 function ultraschall.GetProject_EnvAttach(projectfilename_with_path, ProjectStateChunk)
 --[[
@@ -14965,34 +13531,7 @@ function ultraschall.GetProject_EnvAttach(projectfilename_with_path, ProjectStat
   return tonumber(ProjectStateChunk:match("%s(.-)%s"))
 end
 
---L=ultraschall.ReadFullFile("c:\\tt.rpp")
---M=ultraschall.IsValidProjectStateChunk(L)
---reaper.MB(L,"",0)
---A=ultraschall.GetProject_EnvAttach(nil, L)
-
 function ultraschall.GetProject_MixerUIFlags(projectfilename_with_path, ProjectStateChunk)
---state1 - 0 - Show tracks in folders, Auto arrange tracks in mixer
---         1 - Show normal top level tracks
---         2 - Show Folders
---         4 - Group folders to left
---         8 - Show tracks that have receives
---         16 - Group tracks that have receives to left
---         32 - don't show tracks that are in folder
---         64 - No Autoarrange tracks in mixer
---         128 - ?
---         256 - ?
-
---state2 - 0 - Master track in mixer
---         1 - Don't show multiple rows of tracks, when size permits
---         2 - Show maximum rows even when tracks would fit in less rows
---         4 - Master Show on right side of mixer
---         8 - ?
---         16 - Show FX inserts when size permits
---         32 - Show sends when size permits
---         64 - Show tracks in mixer
---         128 - Show FX parameters, when size permits
---         256 - Don't show Master track in mixer
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_MixerUIFlags</slug>
@@ -15168,10 +13707,6 @@ end
 --A=ultraschall.GetProject_Feedback("c:\\tt.rpp")
 
 function ultraschall.GetProject_PanLaw(projectfilename_with_path, ProjectStateChunk)
---returns
--- number state - as set in the project-settings->Advanced->Pan law/mode->Pan:law(db)
---                0.5(-6.02 db) to 1(default +0.0 db)
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_PanLaw</slug>
@@ -15222,9 +13757,6 @@ end
 --A=ultraschall.GetProject_PanLaw("c:\\tt.rpp")
 
 function ultraschall.GetProject_ProjOffsets(projectfilename_with_path, ProjectStateChunk)
---returns Projectoffset (ProjectSettings->ProjectSettings->Project Start Time/Measure)
--- Project Start Time - in seconds
--- Project Start Measure - starting with 0, unlike the Settingswindow, where the 0 becomes 1 as measure
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_ProjOffsets</slug>
@@ -15281,10 +13813,6 @@ end
 --A,AA,AAA=ultraschall.GetProject_ProjOffsets(B)
 
 function ultraschall.GetProject_MaxProjectLength(projectfilename_with_path, ProjectStateChunk)
--- returns ProjectSettings->Advanced->
--- checkbox "Limit project length, stop playback/recording at:" - 0 off, 1 on
--- Projectlengthlimit - in seconds
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_MaxProjectLength</slug>
@@ -15398,8 +13926,6 @@ function ultraschall.GetProject_Grid(projectfilename_with_path, ProjectStateChun
          tonumber(ProjectStateChunk:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.-)%s"))
 end
 
---A,AA,AAA,AAAA,AAAAA,AAAAAA,AAAAAAA,AAAAAAAA=ultraschall.GetProject_Grid("c:\\tt.rpp")
-
 function ultraschall.GetProject_Timemode(projectfilename_with_path, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -15472,26 +13998,7 @@ function ultraschall.GetProject_Timemode(projectfilename_with_path, ProjectState
          tonumber(ProjectStateChunk:match("%s.-%s.-%s.-%s.-%s(.-)%s"))
 end
 
---A,AA,AAA,AAAA,AAAAA=ultraschall.GetProject_Timemode("c:\\tt.rpp")
-
 function ultraschall.GetProject_VideoConfig(projectfilename_with_path, ProjectStateChunk)
--- returns:
--- integer preferredVidSizeX - preferred video size, x pixels
--- integer preferredVidSizeY - preferred video size, y pixels
--- integer settingsBitfield3 - settings
---              0 - turned on/selected: use high quality filtering, 
---                      preserve aspect ratio(letterbox) when resizing, Items in higher numbered tracks replace lower,
---                      as well as Video colorspace set to Auto
---              1 - Video colorspace: I420/YV12
---              2 - Video colorspace: YUV2
---              3 - RGB
---              256 - Items in lower numbered tracks replace higher
---              512 - Always resize video sources to preferred video size
---              1024 - Always resize output to preferred video size
---              2048 - turn off "Use high quality filtering when resizing"
---              4096 - turn off "preserve aspect ratio (letterbox) when resizing"
--- returns nil, in case of error
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_VideoConfig</slug>
@@ -15556,8 +14063,6 @@ function ultraschall.GetProject_VideoConfig(projectfilename_with_path, ProjectSt
          tonumber(ProjectStateChunk:match("%s.-%s.-%s.-%s.-%s(.-)%s"))
 end
 
---A,AA,AAA=ultraschall.GetProject_VideoConfig("c:\\tt.rpp")
-
 function ultraschall.GetProject_PanMode(projectfilename_with_path, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -15610,10 +14115,7 @@ function ultraschall.GetProject_PanMode(projectfilename_with_path, ProjectStateC
   return tonumber(ProjectStateChunk:match("%s(.-)%s"))
 end
 
---A=ultraschall.GetProject_PanMode("c:\\tt.rpp")
-
 function ultraschall.GetProject_CursorPos(projectfilename_with_path, ProjectStateChunk)
--- returns cursorposition in seconds
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_CursorPos</slug>
@@ -15664,10 +14166,6 @@ end
 --A=ultraschall.GetProject_CursorPos("c:\\tt.rpp")
 
 function ultraschall.GetProject_HorizontalZoom(projectfilename_with_path, ProjectStateChunk)
--- returns:
--- number HorizontalZoom - 0.007 to 1000000, zoomfactor
--- integer horizontalscrollbarpos - 0 - 4294967296
--- integer scrollbarfactor - 0 to 500837, counts up, when maximum horizontalscrollbarpos overflows
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_HorizontalZoom</slug>
@@ -15724,7 +14222,6 @@ end
 --A1,AA,AAA=ultraschall.GetProject_HorizontalZoom("c:\\tt.rpp")
 
 function ultraschall.GetProject_VerticalZoom(projectfilename_with_path, ProjectStateChunk)
--- returns vertical zoomfactor(0-40)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_VerticalZoom</slug>
@@ -15775,11 +14272,6 @@ end
 --A=ultraschall.GetProject_VerticalZoom("c:\\tt.rpp")
 
 function ultraschall.GetProject_UseRecConfig(projectfilename_with_path, ProjectStateChunk)
--- ProjectSettings->Media->Format for Apply FX, Glue, Freeze, etc
--- 0 - Automatic .wav (recommended)
--- 1 - Custom (use ultraschall.GetProject_ApplyFXCFG to get recording_cfg_string)
--- 2 - Recording Format
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_UseRecConfig</slug>
@@ -15833,11 +14325,6 @@ end
 --A=ultraschall.GetProject_UseRecConfig("c:\\tt.rpp")
 
 function ultraschall.GetProject_RecMode(projectfilename_with_path, ProjectStateChunk)
---returns Recording Mode
--- 0 - Autopunch/Selected Items
--- 1 - normal
--- 2 - Time Selection/Auto Punch
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_RecMode</slug>
@@ -15891,7 +14378,6 @@ end
 --A=ultraschall.GetProject_RecMode("c:\\tt.rpp")
 
 function ultraschall.GetProject_SMPTESync(projectfilename_with_path, ProjectStateChunk)
--- ProjectSettings->Advanced->External Timecode Synchronization
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_SMPTESync</slug>
@@ -15980,10 +14466,6 @@ end
 --A,AA,AAA,AAAA,AAAAA,AAAAAA,AAAAAAA,AAAAAAAA,AAAAAAAAA,AL,AM=ultraschall.GetProject_SMPTESync("c:\\tt.rpp")
 
 function ultraschall.GetProject_Loop(projectfilename_with_path, ProjectStateChunk)
--- Loopbutton-state
--- 0 - off
--- 1 - on
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_Loop</slug>
@@ -16086,7 +14568,6 @@ end
 --A,AA=ultraschall.GetProject_LoopGran("c:\\tt.rpp")
 
 function ultraschall.GetProject_RecPath(projectfilename_with_path, ProjectStateChunk)
---returns first and secondary recording paths
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_RecPath</slug>
@@ -16191,9 +14672,6 @@ end
 --A=ultraschall.GetProject_RecordCFG("c:\\tt.rpp")
 
 function ultraschall.GetProject_ApplyFXCFG(projectfilename_with_path, ProjectStateChunk)
---To Do: Research
--- ProjectSettings->Media->Format for Apply FX, Glue, Freeze, etc
--- recording_cfg-string
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_ApplyFXCFG</slug>
@@ -16251,7 +14729,7 @@ function ultraschall.GetProject_RenderPattern(projectfilename_with_path, Project
   <slug>GetProject_RenderPattern</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.975
     Lua=5.3
   </requires>
   <functioncall>string render_pattern = ultraschall.GetProject_RenderPattern(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
@@ -16268,50 +14746,71 @@ function ultraschall.GetProject_RenderPattern(projectfilename_with_path, Project
   </parameters>
   <retvals>
     string render_pattern - the pattern, with which the rendering-filename will be automatically created. Check also <a href="#GetProject_RenderFilename">GetProject_RenderFilename</a>
-    -   Capitalizing the first character of the wildcard will capitalize the first letter of the substitution. 
-    -    Capitalizing the first two characters of the wildcard will capitalize all letters.
-    -
-    -    Directories will be created if necessary. For example if the render target is "$project/track", the directory "$project" will be created.
-    -
-    - $item    media item take name, if the input is a media item
-    - $itemnumber  1 for the first media item on a track, 2 for the second...
-    - $track    track name
-    - $tracknumber  1 for the first track, 2 for the second...
-    - $parenttrack  parent track name
-    - $region    region name
-    - $regionnumber  1 for the first region, 2 for the second...
-    - $namecount  1 for the first item or region of the same name, 2 for the second...
-    - $start    start time of the media item, render region, or time selection
-    - $end    end time of the media item, render region, or time selection
-    - $startbeats  start time in beats of the media item, render region, or time selection
-    - $endbeats  end time in beats of the media item, render region, or time selection
-    - $timelineorder  1 for the first item or region on the timeline, 2 for the second...
-    - $project    project name
-    - $tempo    project tempo at the start of the render region
-    - $timesignature  project time signature at the start of the render region, formatted as 4-4
-    - $filenumber  blank (optionally 1) for the first file rendered, 1 (optionally 2) for the second...
-    - $filenumber[N]  N for the first file rendered, N+1 for the second...
-    - $note    C0 for the first file rendered,C#0 for the second...
-    - $note[X]    X (example: B2) for the first file rendered, X+1 (example: C3) for the second...
-    - $natural    C0 for the first file rendered, D0 for the second...
-    - $natural[X]  X (example: F2) for the first file rendered, X+1 (example: G2) for the second...
-    - $format    render format (example: wav)
-    - $samplerate  sample rate (example: 44100)
-    - $sampleratek  sample rate (example: 44.1)
-    - $year    year
-    - $year2    last 2 digits of the year
-    - $month    month number
-    - $monthname  month name
-    - $day    day of the month
-    - $hour    hour of the day in 24-hour format
-    - $hour12    hour of the day in 12-hour format
-    - $ampm    am if before noon,pm if after noon
-    - $minute    minute of the hour
-    - $second    second of the minute
-    - $user    user name
-    - $computer  computer name
-    -
-    - (this description has been taken from the Render Wildcard Help within the Render-Dialog of Reaper)
+  - Capitalizing the first character of the wildcard will capitalize the first letter of the substitution. Capitalizing the first two characters of the wildcard will capitalize all letters.
+  - 
+  - Directories will be created if necessary. For example if the render target is "$project/track", the directory "$project" will be created.
+  - 
+  - Immediately following a wildcard, character replacement statements may be specified:
+  -   <X>  -- single character which is to be removed from the substituion. For example: $track< > removes all spaces from the track name, $track</><\> removes all slashes.
+  -   <abcdeX> -- multiple characters, abcde are all replaced with X. For example: <_.> replaces all underscores with periods, </\_> replaces all slashes with underscores. If > is specified as a source character, it must be listed first in the list.
+  - 
+  - $item    media item take name, if the input is a media item
+  - $itemnumber  1 for the first media item on a track, 2 for the second...
+  - $track    track name
+  - $tracknumber  1 for the first track, 2 for the second...
+  - $parenttrack  parent track name
+  - $region    region name
+  - $regionnumber  1 for the first region, 2 for the second...
+  - $project    project name
+  - $tempo    project tempo at the start of the render region
+  - $timesignature  project time signature at the start of the render region, formatted as 4-4
+  - $filenumber  blank (optionally 1) for the first file rendered, 1 (optionally 2) for the second...
+  - $filenumber[N]  N for the first file rendered, N+1 for the second...
+  - $note    C0 for the first file rendered,C#0 for the second...
+  - $note[X]    X (example: B2) for the first file rendered, X+1 (example: C3) for the second...
+  - $natural    C0 for the first file rendered, D0 for the second...
+  - $natural[X]  X (example: F2) for the first file rendered, X+1 (example: G2) for the second...
+  - $namecount  1 for the first item or region of the same name, 2 for the second...
+  - $timelineorder  1 for the first item or region on the timeline, 2 for the second...
+  - 
+  - Position/Length:
+  - $start    start time of the media item, render region, or time selection, in M-SS.TTT
+  - $end    end time of the media item, render region, or time selection, in M-SS.TTT
+  - $length    length of the media item, render region, or time selection, in M-SS.TTT
+  - $startbeats  start time in measures.beats of the media item, render region, or time selection
+  - $endbeats  end time in measures.beats of the media item, render region, or time selection
+  - $lengthbeats    length in measures.beats of the media item, render region, or time selection
+  - $starttimecode  start time in H-MM-SS-FF format of the media item, render region, or time selection
+  - $endtimecode  end time in H-MM-SS-FF format of the media item, render region, or time selection
+  - $startframes  start time in absolute frames of the media item, render region, or time selection
+  - $endframes  end time in absolute frames of the media item, render region, or time selection
+  - $lengthframes  length in absolute frames of the media item, render region, or time selection
+  - $startseconds  start time in whole seconds of the media item, render region, or time selection
+  - $endseconds  end time in whole seconds of the media item, render region, or time selection
+  - $lengthseconds  length in whole seconds of the media item, render region, or time selection
+  - 
+  - Output Format:
+  - $format    render format (example: wav)
+  - $samplerate  sample rate (example: 44100)
+  - $sampleratek  sample rate (example: 44.1)
+  - $bitdepth  bit depth, if available (example: 24 or 32FP)
+  - 
+  - Current Date/Time:
+  - $year    year, currently 2019
+  - $year2    last 2 digits of the year,currently 19
+  - $month    month number,currently 04
+  - $monthname  month name,currently apr
+  - $day    day of the month, currently 28
+  - $hour    hour of the day in 24-hour format,currently 23
+  - $hour12    hour of the day in 12-hour format,currently 11
+  - $ampm    am if before noon,pm if after noon,currently pm
+  - $minute    minute of the hour,currently 30
+  - $second    second of the minute,currently 27
+  - 
+  - Computer Information:
+  - $user    user name, currently meo
+  - $computer  computer name, currently MEO-MESPOTINE
+    -(this description has been taken from the Render Wildcard Help within the Render-Dialog of Reaper)
   </retvals>
   <chapter_context>
     Project-Files
@@ -16342,9 +14841,6 @@ end
 --A=ultraschall.GetProject_RenderPattern("c:\\tt.rpp")
 
 function ultraschall.GetProject_RenderFreqNChans(projectfilename_with_path, ProjectStateChunk)
--- returns an unknown number, Number_Channels(0-default) and RenderFrequency(0-default)
--- Number_Channels 0-seems default-project-settings(?), 1-Mono, 2-Stereo, ... up to 64 channels
--- RenderFrequency -2147483647 to 2147483647, except 0, which seems to be default-project-settings-frequency
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_RenderFreqNChans</slug>
@@ -16398,9 +14894,6 @@ end
 -- A,AA,AAA=ultraschall.GetProject_RenderFreqNChans("c:\\tt.rpp")
 
 function ultraschall.GetProject_RenderSpeed(projectfilename_with_path, ProjectStateChunk)
---    Rendering_Speed 0-Fullspeed Offline, 1-1x Offline, 
---                    2-Online Render, 3-Offline Render (Idle), 
---                    4-1x Offline Render (Idle)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_RenderSpeed</slug>
@@ -16455,18 +14948,6 @@ end
 --A=ultraschall.GetProject_RenderSpeed("c:\\tt.rpp")
 
 function ultraschall.GetProject_RenderRange(projectfilename_with_path, ProjectStateChunk)
--- returns RenderRange
--- Bounds: 0 Custom Time Range, 1 Entire Project, 2 Time Selection, 
---          3 Project Regions, 4 Selected Media Items(in combination with RENDER_STEMS 32)
--- TimeStart in milliseconds -2147483647 to 2147483647
--- TimeEnd in milliseconds 2147483647 to 2147483647
--- Tail: 
---0 Custom Time Range
---1 Entire Project
---2 Time Selection, 
---3 Project Regions
---4 Selected Media Items(in combination with RENDER_STEMS 32); to get RENDER_STEMS to 32, refer <a href="#GetProject_RenderStems">GetProject_RenderStems</a>
--- TailLength in milliseconds, valuerange 0 - 2147483647  
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_RenderRange</slug>
@@ -16537,20 +15018,6 @@ end
 --A,AA,AAA,AAAA,AAAAA=ultraschall.GetProject_RenderRange("c:\\tt.rpp")
 
 function ultraschall.GetProject_RenderResample(projectfilename_with_path, ProjectStateChunk)
--- returns Resamplemode for a)Rendering and b)Playback as well as c)if both are combined
---- Resample_Mode - 0-medium (64pt Sinc), 1-Low (Linear Interpolation), 
---                2-Lowest (Point Sampling), 3-Good(192pt Sinc), 
---                4-Better(384pt Sinc), 5-Fast (IIR + Linear Interpolation), 
---                6-Fast (IIRx2 + Linear Interpolation), 7-Fast (16pt sinc) - Default, 
---                8-HQ (512pt Sinc), 9-Extreme HQ (768pt HQ Sinc)
--- Playback_Resample_Mode (as set in the Project-Settings)
---                0-medium (64pt Sinc), 1-Low (Linear Interpolation), 
---                2-Lowest (Point Sampling), 3-Good(192pt Sinc), 
---                4-Better(384pt Sinc), 5-Fast (IIR + Linear Interpolation), 
---                6-Fast (IIRx2 + Linear Interpolation), 7-Fast (16pt sinc) - Default, 
---                8-HQ (512pt Sinc), 9-Extreme HQ (768pt HQ Sinc)
--- Use_Project_Sample_Rate_for_Mixing_and_FX/Synth_Processing - 1 - yes, 0-no
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_RenderResample</slug>
@@ -16625,8 +15092,6 @@ end
 --A,AA,AAA,AAAA,AAAAA=ultraschall.GetProject_RenderResample("c:\\tt.rpp")
 
 function ultraschall.GetProject_AddMediaToProjectAfterRender(projectfilename_with_path, ProjectStateChunk)
--- returns the state, if rendered media shall be added to the project afterwards
--- 0 - don't add, 1 - add to project
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_AddMediaToProjectAfterRender</slug>
@@ -16676,11 +15141,6 @@ end
 --A=ultraschall.GetProject_AddMediaToProjectAfterRender("c:\\tt.rpp")
 
 function ultraschall.GetProject_RenderStems(projectfilename_with_path, ProjectStateChunk)
--- returns the state of Render Stems
--- 0 - Source Master Mix, 1 - Source Master mix + stems, 3 - Source Stems, selected tracks, 
--- 4 - Multichannel Tracks to Multichannel Files, 8 - Source Region Render Matrix, 
--- 16 - Tracks with only Mono-Media to Mono Files,  
--- 32 Selected Media Items(in combination with RENDER_RANGE->Bounds->4)  
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_RenderStems</slug>
@@ -16738,9 +15198,6 @@ end
 --A=ultraschall.GetProject_RenderStems("c:\\tt.rpp")
 
 function ultraschall.GetProject_RenderDitherState(projectfilename_with_path, ProjectStateChunk)
--- returns the state of dithering of rendering
--- 0 - Dither Master Mix, 1 - Don't Dither Master Mix, 2 - Noise-shaping On Master Mix, 
--- 3 - Dither And Noiseshape Master Mix
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_RenderDitherState</slug>
@@ -16796,8 +15253,6 @@ end
 
 
 function ultraschall.GetProject_TimeBase(projectfilename_with_path, ProjectStateChunk)
--- returns Time Base for items/envelopes/markers as set in the project settings
--- 0 - Time, 1 - Beats (position, length, rate), 2 - Beats (position only)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_TimeBase</slug>
@@ -16850,8 +15305,6 @@ end
 --A=ultraschall.GetProject_TimeBase("c:\\tt.rpp")
 
 function ultraschall.GetProject_TempoTimeSignature(projectfilename_with_path, ProjectStateChunk)
--- returns Time Base for tempo/time-signature as set in the project settings
--- 0 - Time, 1 - Beats
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_TempoTimeSignature</slug>
@@ -16903,11 +15356,6 @@ end
 --A=ultraschall.GetProject_TempoTimeSignature("c:\\tt.rpp")
 
 function ultraschall.GetProject_ItemMixBehavior(projectfilename_with_path, ProjectStateChunk)
--- returns Project Settings Item Mix Behavior
--- 0 - Enclosed items replace enclosing items 
--- 1 - Items always mix
--- 2 - Items always replace earlier items
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_ItemMixBehavior</slug>
@@ -18005,10 +16453,6 @@ end
 --A=ultraschall.GetProject_TakeLane("c:\\tt.rpp")
 
 function ultraschall.GetProject_SampleRate(projectfilename_with_path, ProjectStateChunk)
--- returns Project Settings Samplerate
---        a - Project Sample Rate
---        b - Checkbox: Project Sample Rate
---        c - Checkbox: Force Project Tempo/Time Signature changes to occur on whole samples 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_SampleRate</slug>
@@ -18063,13 +16507,6 @@ end
 --A,AA,AAA=ultraschall.GetProject_SampleRate("c:\\tt.rpp")
 
 function ultraschall.GetProject_TrackMixingDepth(projectfilename_with_path, ProjectStateChunk)
--- returns TrackMixingDepth
---          1 - 32 bit float
---          2 - 39 bit integer
---          3 - 24 bit integer
---          4 - 16 bit integer
---          5 - 12 bit integer
---          6 - 8 bit integer
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_TrackMixingDepth</slug>
@@ -18126,11 +16563,6 @@ end
 --A=ultraschall.GetProject_TrackMixingDepth("c:\\tt.rpp")
 
 function ultraschall.GetProject_TrackStateChunk(projectfilename_with_path, idx, deletetrackid, ProjectStateChunk)
--- returns a trackstatechunk from an rpp-projectfile
--- projectfilename_with_path - the projectfile
--- idx - the tracknumber you want to have
--- deletetrackid - deletes trackID, to avoid possible conflicts within a project, where it shall be imported to
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_TrackStateChunk</slug>
@@ -18193,23 +16625,21 @@ end
 
 --A=ultraschall.GetProject_TrackStateChunk("c:\\tt.rpp",2,true)
 
-function ultraschall.GetProject_NumberOfTracks(projectfilename_with_path, GetProject_NumberOfTracks)
---returns the number of tracks within an rpp-projectfile
---beware of files with thousands of items, as this can take ages or even leave Reaper hang!
+function ultraschall.GetProject_NumberOfTracks(projectfilename_with_path, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_NumberOfTracks</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>integer number_of_tracks = ultraschall.GetProject_NumberOfTracks(string projectfilename_with_path, optional string GetProject_NumberOfTracks)</functioncall>
+  <functioncall>integer number_of_tracks = ultraschall.GetProject_NumberOfTracks(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
     Returns the number of tracks within an rpp-project-file or a GetProject_NumberOfTracks.
     Returns -1 in case of error.
     
-    Note: Beware of files with thousands of items, as this can take ages or even leave Reaper to hang!
+    Note: Huge projectfiles with thousands of items may take some seconds to load.
   </description>
   <parameters>
     string projectfilename_with_path - filename with path for the rpp-projectfile; nil, if you want to use parameter ProjectStateChunk
@@ -18236,26 +16666,16 @@ function ultraschall.GetProject_NumberOfTracks(projectfilename_with_path, GetPro
     end
     if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_NumberOfTracks", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return -1 end
   end
+  
   -- count tracks and return the number
   local count=0
-  local trackstate=""
-  while trackstate~=nil do
-    trackstate=ProjectStateChunk:match("<TRACK.-%c%s%s>%c")
-    if trackstate==nil then return count end
-    count=count+1
-    ProjectStateChunk=ProjectStateChunk:match("<TRACK.-%c%s%s%s%s>%c(.*)")
+  for w in string.gmatch(ProjectStateChunk, "<TRACK.-%c") do
+      count=count+1
   end
   return count
 end
 
---C=ultraschall.GetProject_NumberOfTracks("c:\\botz.RPP")
-
---MediaTrack=reaper.GetTrack(0,6)
---boolean=reaper.SetTrackStateChunk(MediaTrack, A, true)
-
---  reaper.ClearConsole()
---  reaper.ShowConsoleMsg(tostring(A))
-
+--A=ultraschall.GetProject_NumberOfTracks("C:\\testomania.rpp", GetProject_NumberOfTracks)
 
 function ultraschall.InsertTrack_TrackStateChunk(trackstatechunk)
 --[[
@@ -18296,12 +16716,7 @@ function ultraschall.InsertTrack_TrackStateChunk(trackstatechunk)
   return true, MediaTrack
 end
 
---A=ultraschall.GetProject_TrackStateChunk("c:\\tt.rpp",3,true)
---B,B2=ultraschall.InsertTrack_TrackStateChunk(A)
-
 function ultraschall.GetProject_Selection(projectfilename_with_path, ProjectStateChunk)
--- Set RippleState in a projectfilename_with_path
---  0 - no Ripple, 1 - Ripple One Track, 2 - Ripple All
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_Selection</slug>
@@ -18359,9 +16774,6 @@ function ultraschall.GetProject_Selection(projectfilename_with_path, ProjectStat
   if sel2_side1>sel2_side2 then sel2_side1,sel2_side2=sel2_side2,sel2_side1 end
   return sel1_side1, sel1_side2, sel2_side1, sel2_side2
 end
-
---P,PN=reaper.EnumProjects(-1,"")
---A1,A2,A3,A4=ultraschall.GetProject_Selection(PN)
 
 function ultraschall.GetProject_RenderQueueDelay(projectfilename_with_path, ProjectStateChunk)
 --[[
@@ -18538,13 +16950,10 @@ function ultraschall.GetProject_QRenderOutFiles(projectfilename_with_path, Proje
   return count-1, QRenderOutFilesList, QRenderOutFilesListGuid, AutoCloseWhenFinished, AutoIncrementFilename, SaveCopyToOutfile
 end
 
---A,B,C,D,E,F=ultraschall.GetProject_QRenderOriginalProject("c:\\Ultraschall-Hackversion_3.2_US_beta_2_75\\QueuedRenders\\qrender_190426_010507_unkn.rpp", ProjectStateChunk)
 
 --- Set ---
 
 function ultraschall.SetProject_RippleState(projectfilename_with_path, ripple_state, ProjectStateChunk)
--- Set RippleState in a projectfilename_with_path
---  0 - no Ripple, 1 - Ripple One Track, 2 - Ripple All
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_RippleState</slug>
@@ -18592,12 +17001,8 @@ function ultraschall.SetProject_RippleState(projectfilename_with_path, ripple_st
   end
 end
 
---A=ultraschall.ReadFullFile("c:\\tt.rpp")
---B,C=ultraschall.SetProject_RippleState("c:\\tt.RPP", 1, A)
 
 function ultraschall.SetProject_RenderQueueDelay(projectfilename_with_path, renderqdelay, ProjectStateChunk)
--- Set RippleState in a projectfilename_with_path
---  0 - no Ripple, 1 - Ripple One Track, 2 - Ripple All
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_RenderQueueDelay</slug>
@@ -18654,8 +17059,6 @@ end
 --A=ultraschall.SetProject_RenderQueueDelay("c:\\Render-Queue-Documentation.RPP", nil, ProjectStateChunk)
 
 function ultraschall.SetProject_Selection(projectfilename_with_path, starttime, endtime, starttime2, endtime2, ProjectStateChunk)
--- Set RippleState in a projectfilename_with_path
---  0 - no Ripple, 1 - Ripple One Track, 2 - Ripple All
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_Selection</slug>
@@ -18709,19 +17112,8 @@ function ultraschall.SetProject_Selection(projectfilename_with_path, starttime, 
   end
 end
 
---A=ultraschall.ReadFullFile("c:\\tt.rpp")
---B,C=ultraschall.SetProject_Selection("c:\\A-.RPP", 1,2,3,4, A)
---D,E,F,G=ultraschall.GetProject_Selection("c:\\A-.RPP", 1,2,3,4, A)
-
-
---AB=ultraschall.GetProject_RippleState("c:\\tt.rpp")
---reaper.ShowConsoleMsg(A)
 
 function ultraschall.SetProject_GroupOverride(projectfilename_with_path, group_override1, group_override2, group_override3, ProjectStateChunk)
--- Sets Group Override
--- integer state1 - 
--- integer state2 - 
--- integer state3 - 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_GroupOverride</slug>
@@ -18773,10 +17165,6 @@ function ultraschall.SetProject_GroupOverride(projectfilename_with_path, group_o
   end  
 end
 
---A,AA,AAA=ultraschall.SetProject_GroupOverride("c:\\tt.rpp",1,2,3)
---reaper.MB(AA,"",0)
---A,AA,AAA=ultraschall.GetProject_GroupOverride("c:\\tt.rpp")
-
 function ultraschall.SetProject_AutoCrossFade(projectfilename_with_path, autocrossfade_state, ProjectStateChunk)
 -- sets AutoCrossFade in a projectfilename_with_path
 -- integer state
@@ -18827,9 +17215,6 @@ function ultraschall.SetProject_AutoCrossFade(projectfilename_with_path, autocro
   end  
 end
 
---A,AA=ultraschall.SetProject_AutoCrossFade("c:\\tt.rpp",9)
---A=ultraschall.GetProject_AutoCrossFade("c:\\tt.rpp")
---reaper.ShowConsoleMsg(AA:sub(1,1000))
 
 function ultraschall.SetProject_EnvAttach(projectfilename_with_path, env_attach, ProjectStateChunk)
 -- sets Enc Attach
@@ -18881,34 +17266,7 @@ function ultraschall.SetProject_EnvAttach(projectfilename_with_path, env_attach,
   end    
 end
 
---A,AA=ultraschall.SetProject_EnvAttach("c:\\tt.rpp",6)
---A=ultraschall.GetProject_EnvAttach("c:\\tt.rpp")
-
 function ultraschall.SetProject_MixerUIFlags(projectfilename_with_path, state_bitfield1, state_bitfield2, ProjectStateChunk)
---integer state_bitfield1 
---         0 - Show tracks in folders, Auto arrange tracks in mixer
---         1 - Show normal top level tracks
---         2 - Show Folders
---         4 - Group folders to left
---         8 - Show tracks that have receives
---         16 - Group tracks that have receives to left
---         32 - don't show tracks that are in folder
---         64 - No Autoarrange tracks in mixer
---         128 - ?
---         256 - ?
-
---integer state_bitfield2 
---         0 - Master track in mixer
---         1 - Don't show multiple rows of tracks, when size permits
---         2 - Show maximum rows even when tracks would fit in less rows
---         4 - Master Show on right side of mixer
---         8 - ?
---         16 - Show FX inserts when size permits
---         32 - Show sends when size permits
---         64 - Show tracks in mixer
---         128 - Show FX parameters, when size permits
---         256 - Don't show Master track in mixer
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_MixerUIFlags</slug>
@@ -18979,11 +17337,8 @@ function ultraschall.SetProject_MixerUIFlags(projectfilename_with_path, state_bi
   end  
 end
 
---A,AA=ultraschall.SetProject_MixerUIFlags("c:\\tt.rpp", 1, 2)
---A,AA=ultraschall.GetProject_MixerUIFlags("c:\\tt.rpp")
 
 function ultraschall.SetProject_PeakGain(projectfilename_with_path, peakgain_state, ProjectStateChunk)
--- number state - 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_PeakGain</slug>
@@ -19031,11 +17386,7 @@ function ultraschall.SetProject_PeakGain(projectfilename_with_path, peakgain_sta
   end  
 end
 
---A,A2=ultraschall.SetProject_PeakGain("c:\\tt.rpp", 2.87)
---A=ultraschall.GetProject_PeakGain("c:\\tt.rpp")
-
 function ultraschall.SetProject_Feedback(projectfilename_with_path, feedback_state, ProjectStateChunk)
--- integer state - 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_Feedback</slug>
@@ -19083,12 +17434,7 @@ function ultraschall.SetProject_Feedback(projectfilename_with_path, feedback_sta
   end
 end
 
---A=ultraschall.SetProject_Feedback("c:\\tt.rpp", 4)
---B=ultraschall.GetProject_Feedback("c:\\tt.rpp", 0)
-
 function ultraschall.SetProject_PanLaw(projectfilename_with_path, panlaw_state, ProjectStateChunk)
--- number state - as set in the project-settings->Advanced->Pan law/mode->Pan:law(db)
---                0.5(-6.02 db) to 1(default +0.0 db)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_PanLaw</slug>
@@ -19136,12 +17482,8 @@ function ultraschall.SetProject_PanLaw(projectfilename_with_path, panlaw_state, 
   end  
 end
 
---A=ultraschall.SetProject_PanLaw("c:\\tt.rpp",9.786)
---B=ultraschall.GetProject_PanLaw("c:\\tt.rpp")
 
 function ultraschall.SetProject_ProjOffsets(projectfilename_with_path, start_time, start_measure, base_ruler_marking_off_this_measure, ProjectStateChunk)
--- number state1
--- integer state2
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_ProjOffsets</slug>
@@ -19194,15 +17536,7 @@ function ultraschall.SetProject_ProjOffsets(projectfilename_with_path, start_tim
   end
 end
 
---A,AA=ultraschall.SetProject_ProjOffsets("c:\\tt.rpp", 2,1)
---A,AA=ultraschall.SetProject_ProjOffsets("c:\\tt.rpp", "8","4")
---A,AA=ultraschall.GetProject_ProjOffsets("c:\\tt.rpp")
-
---
-
 function ultraschall.SetProject_MaxProjectLength(projectfilename_with_path, limit_project_length, projectlength_limit, ProjectStateChunk)
--- integer state1 - 
--- number state 2 - 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_MaxProjectLength</slug>
@@ -19251,19 +17585,7 @@ function ultraschall.SetProject_MaxProjectLength(projectfilename_with_path, limi
   end  
 end
 
---A,AA=ultraschall.SetProject_MaxProjectLength("c:\\tt.rpp",3,2)
---A,AA=ultraschall.GetProject_MaxProjectLength("c:\\tt.rpp",1,2)
-
 function ultraschall.SetProject_Grid(projectfilename_with_path, gridstate1, gridstate2, gridstate3, gridstate4, gridstate5, gridstate6, gridstate7, gridstate8, ProjectStateChunk)
--- integer state1 - 
--- integer state2 - 
--- number state3 - 
--- integer state4 -
--- number state5 -
--- integer state6 -
--- integer state7 -
--- number state8 - 
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_Grid</slug>
@@ -19326,25 +17648,9 @@ function ultraschall.SetProject_Grid(projectfilename_with_path, gridstate1, grid
   end
 end
 
---A=ultraschall.SetProject_Grid("c:\\tt.rpp", 9,10,11,12,13,14,15,16,17)
---A,A1,A2,A3,A4,A5,A6,A7,A8,A9=ultraschall.GetProject_Grid("c:\\tt.rpp")
 
 
 function ultraschall.SetProject_Timemode(projectfilename_with_path, timemode1, timemode2, showntime, timemode4, timemode5, ProjectStateChunk)
--- integer state1
--- integer state2
--- integer showntime - Transport shown time
---      -1 - use ruler time unit
---       0 - minutes:seconds
---       1 - measures:beats/minutes:seconds
---       2 - measures:beats
---       3 - seconds
---       4 - samples
---       5 - hours:minutes:seconds:frames
---       8 - absolute frames
--- integer state4
--- integer state5
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_Timemode</slug>
@@ -19415,28 +17721,7 @@ function ultraschall.SetProject_Timemode(projectfilename_with_path, timemode1, t
   end
 end
 
---A=ultraschall.SetProject_Timemode("c:\\tt.rpp")
---A,A2,A3,A4,A5=ultraschall.GetProject_Timemode("c:\\tt.rpp",1,2,3,4,5)
---A,A2,A3,A4,A5=ultraschall.SetProject_Timemode("c:\\tt.rpp",2,3,4,5,6)
---A,A2,A3,A4,A5=ultraschall.GetProject_Timemode("c:\\tt.rpp",1,2,3,4,5)
-
--- MESPOTINE - hier gehts weiter
-
 function ultraschall.SetProject_VideoConfig(projectfilename_with_path, preferredVidSizeX, preferredVidSizeY, settingsBitfield, ProjectStateChunk)
--- integer preferredVidSizeX - preferred video size, x pixels
--- integer preferredVidSizeY - preferred video size, y pixels
--- integer settingsBitfield3 - settings
---              0 - turned on/selected: use high quality filtering, 
---                      preserve aspect ratio(letterbox) when resizing, Items in higher numbered tracks replace lower,
---                      as well as Video colorspace set to Auto
---              1 - Video colorspace: I420/YV12
---              2 - Video colorspace: YUV2
---              3 - RGB
---              256 - Items in lower numbered tracks replace higher
---              512 - Always resize video sources to preferred video size
---              1024 - Always resize output to preferred video size
---              2048 - turn off "Use high quality filtering when resizing"
---              4096 - turn off "preserve aspect ratio (letterbox) when resizing"
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_VideoConfig</slug>
@@ -19499,16 +17784,8 @@ function ultraschall.SetProject_VideoConfig(projectfilename_with_path, preferred
   end
 end
 
---A,AA,AAA,AAAA,AAAAA,AAAAAA,AAAAAAA,AAAAAAAA,AAAAAAAAA=ultraschall.SetProject_VideoConfig("c:\\tt.rpp",3,4,5)
---A,AA,AAA,AAAA,AAAAA,AAAAAA,AAAAAAA,AAAAAAAA,AAAAAAAAA=ultraschall.SetProject_VideoConfig("c:\\tt.rpp")
---A,AA,AAA=ultraschall.GetProject_VideoConfig("c:\\tt.rpp",1,2,3)
 
 function ultraschall.SetProject_PanMode(projectfilename_with_path, panmode_state, ProjectStateChunk)
--- Panmode as set in ProjectSettings->Advanced->Pan law/mode->Pan mode
--- integer state - 3 Stereo balance / mono pan (default)
---                 5 Stereo pan
---                 6 Dual Pan
---                 0 reaper 3.x balance (deprecated)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_PanMode</slug>
@@ -19565,12 +17842,7 @@ function ultraschall.SetProject_PanMode(projectfilename_with_path, panmode_state
   end
 end
 
---A=ultraschall.SetProject_PanMode("c:\\tt.rpp", 1)
---A=ultraschall.SetProject_PanMode("c:\\tt.rpp", "99")
---A=ultraschall.GetProject_PanMode("c:\\tt.rpp", 0)
-
 function ultraschall.SetProject_CursorPos(projectfilename_with_path, cursorpos, ProjectStateChunk)
--- number timeposition - in seconds
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_CursorPos</slug>
@@ -19617,14 +17889,7 @@ function ultraschall.SetProject_CursorPos(projectfilename_with_path, cursorpos, 
   end
 end
 
---A=ultraschall.SetProject_CursorPos("c:\\tt.rpp")
---A=ultraschall.SetProject_CursorPos("c:\\tt.rpp",8)
---A=ultraschall.GetProject_CursorPos("c:\\tt.rpp",1.954658736589369)
-
 function ultraschall.SetProject_HorizontalZoom(projectfilename_with_path, hzoom, hzoomscrollpos, scrollbarfactor, ProjectStateChunk)
--- number HZoomfactor - 0.007 to 1000000, horizontal zoom factor
--- integer HScrollbarPos - 0 - 4294967296; horizontal scrollbar position
--- integer Scrollbarfactor - 0 to 500837, counts up, when maximum HScrollbarPos overflows
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_HorizontalZoom</slug>
@@ -19676,12 +17941,7 @@ function ultraschall.SetProject_HorizontalZoom(projectfilename_with_path, hzoom,
   end  
 end
 
---A,AA,AAA,AAAA,AAAAA,AAAAAA,AAAAAAA,AAAAAAAA,AAAAAAAAA=ultraschall.SetProject_Zoom("c:\\tt.rpp")
---A,AA,AAA,AAAA,AAAAA,AAAAAA,AAAAAAA,AAAAAAAA,AAAAAAAAA=ultraschall.SetProject_HorizontalZoom("c:\\tt.rpp",2,3,4)
---A,AA,AAA,AAAA,AAAAA,AAAAAA,AAAAAAA,AAAAAAAA,AAAAAAAAA=ultraschall.GetProject_HorizontalZoom("c:\\tt.rpp",10,11,12)
-
 function ultraschall.SetProject_VerticalZoom(projectfilename_with_path, vzoom, ProjectStateChunk)
---integer verticalzoom - 0-40; zoomfactor for vertical zoom
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_VerticalZoom</slug>
@@ -19729,12 +17989,7 @@ function ultraschall.SetProject_VerticalZoom(projectfilename_with_path, vzoom, P
   end
 end
 
---A=ultraschall.SetProject_VerticalZoom("c:\\tt.rpp",18)
---A=ultraschall.SetProject_VerticalZoom("c:\\tt.rpp","a")
---A=ultraschall.GetProject_VerticalZoom("c:\\tt.rpp",10)
-
 function ultraschall.SetProject_UseRecConfig(projectfilename_with_path, rec_cfg, ProjectStateChunk)
---
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_UseRecConfig</slug>
@@ -19785,15 +18040,7 @@ function ultraschall.SetProject_UseRecConfig(projectfilename_with_path, rec_cfg,
   end
 end
 
---A=ultraschall.SetProject_UseRecConfig("c:\\tt.rpp", 10)
---A=ultraschall.GetProject_UseRecConfig("c:\\tt.rpp", 0)
-
 function ultraschall.SetProject_RecMode(projectfilename_with_path, rec_mode, ProjectStateChunk)
---returns Recording Mode
--- 0 - Autopunch/Selected Items
--- 1 - normal
--- 2 - Time Selection/Auto Punch
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_RecMode</slug>
@@ -19844,8 +18091,6 @@ function ultraschall.SetProject_RecMode(projectfilename_with_path, rec_mode, Pro
   end  
 end
 
---A=ultraschall.SetProject_RecMode("c:\\tt.rpp",7)
---A=ultraschall.GetProject_RecMode("c:\\tt.rpp",1)
 
 function ultraschall.SetProject_SMPTESync(projectfilename_with_path, smptesync_state1, smptesync_fps, smptesync_resyncdrift, smptesync_skipdropframes, smptesync_syncseek, smptesync_freewheel, smptesync_userinput, smptesync_offsettimecode, smptesync_stop_rec_drift, smptesync_state10, smptesync_stop_rec_lacktime, ProjectStateChunk)
 --[[
@@ -19930,8 +18175,6 @@ function ultraschall.SetProject_SMPTESync(projectfilename_with_path, smptesync_s
   end  
 end
 
---B=ultraschall.SetProject_SMPTESync("c:\\tt.rpp",2,3,4,5,6,7,8,9,10,11,12)
---A,AA,AAA,AAAA,AAAAA,AAAAAA,AAAAAAA,AAAAAAAA,AAAAAAAAA,AL,AM,AN,AO=ultraschall.GetProject_SMPTESync("c:\\tt.rpp",1,2,3,4,5,6,7,8,9,10,11)
 
 function ultraschall.SetProject_Loop(projectfilename_with_path, loopbutton_state, ProjectStateChunk)
 --[[
@@ -19980,9 +18223,6 @@ function ultraschall.SetProject_Loop(projectfilename_with_path, loopbutton_state
   else return 1, ProjectStateChunk
   end  
 end
-
---B=ultraschall.SetProject_Loop("c:\\tt.rpp",11)
---A=ultraschall.GetProject_Loop("c:\\tt.rpp",1)
 
 function ultraschall.SetProject_LoopGran(projectfilename_with_path, loopgran_state1, loopgran_state2, ProjectStateChunk)
 --[[
@@ -20033,9 +18273,6 @@ function ultraschall.SetProject_LoopGran(projectfilename_with_path, loopgran_sta
   end
 end
 
---A,AA=ultraschall.SetProject_LoopGran("c:\\tt.rpp",3,6)
---A,AA=ultraschall.GetProject_LoopGran("c:\\tt.rpp",1,2)
-
 function ultraschall.SetProject_RecPath(projectfilename_with_path, prim_recpath, sec_recpath, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -20085,10 +18322,6 @@ function ultraschall.SetProject_RecPath(projectfilename_with_path, prim_recpath,
   else return 1, ProjectStateChunk
   end  
 end
-
---A,AA=ultraschall.GetProject_RecPath("c:\\tt.rpp","test","test2")
---ultraschall.SetProject_RecPath("c:\\tt.rpp","AAtest","BBtest2")
-
 
 function ultraschall.SetProject_RecordCFG(projectfilename_with_path, recording_cfg_string, ProjectStateChunk)
 --To Do: Research
@@ -20143,8 +18376,7 @@ function ultraschall.SetProject_RecordCFG(projectfilename_with_path, recording_c
   end  
 end
 
---A=ultraschall.SetProject_RecordCFG("c:\\tt.rpp", "Hubbelbubbel==")
---A=ultraschall.GetProject_RecordCFG("c:\\tt.rpp")
+
 
 function ultraschall.SetProject_RenderCFG(projectfilename_with_path, rendercfg_string, ProjectStateChunk)
 --[[
@@ -20194,11 +18426,6 @@ function ultraschall.SetProject_RenderCFG(projectfilename_with_path, rendercfg_s
     else return 1, ProjectStateChunk
   end  
 end
-
---L=ultraschall.ReadFullFile("c:\\tt.rpp")
---B,C=ultraschall.SetProject_RenderCFG("c:\\tt.rpp", "Hubbelbubbel==")
---reaper.MB(C,"",0)
---A=ultraschall.GetProject_RenderCFG("c:\\tt.rpp", "IHBkZA=")
 
 function ultraschall.SetProject_ApplyFXCFG(projectfilename_with_path, applyfx_cfg_string, ProjectStateChunk)
 --To Do: Research
@@ -20252,9 +18479,6 @@ function ultraschall.SetProject_ApplyFXCFG(projectfilename_with_path, applyfx_cf
   end  
 end
 
---A=ultraschall.SetProject_ApplyFXCFG("c:\\tt.rpp","nilfluss")
---A=ultraschall.GetProject_ApplyFXCFG("c:\\tt.rpp")
-
 function ultraschall.SetProject_RenderFilename(projectfilename_with_path, renderfilename, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -20304,20 +18528,7 @@ function ultraschall.SetProject_RenderFilename(projectfilename_with_path, render
   end
 end
 
---A=ultraschall.SetProject_RenderFilename("c:\\tt.rpp")
---A=ultraschall.SetProject_RenderFilename("c:\\tt.rpp", "c:\\testname22.ext")
---B=ultraschall.GetProject_RenderFilename("c:\\tt.rpp", "c:\\testname.ext")
-
-
---B,C=ultraschall.SetProject_RenderPattern("c:\\tt.rpp", "Tudelu")
---reaper.MB(C:sub(1,1000),"",0)
---D=ultraschall.GetProject_RenderPattern("c:\\tt.rpp")
-
-
 function ultraschall.SetProject_RenderFreqNChans(projectfilename_with_path, unknown, rendernum_chans, render_frequency, ProjectStateChunk)
--- returns an unknown number, Number_Channels(0-default) and RenderFrequency(0-default)
--- Number_Channels 0-seems default-project-settings(?), 1-Mono, 2-Stereo, ... up to 64 channels
--- RenderFrequency -2147483647 to 2147483647, except 0, which seems to be default-project-settings-frequency
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_RenderFreqNChans</slug>
@@ -20368,9 +18579,6 @@ function ultraschall.SetProject_RenderFreqNChans(projectfilename_with_path, unkn
   else return 1, ProjectStateChunk
   end  
 end
-
---A,AA,AAA=ultraschall.SetProject_RenderFreqNChans("c:\\tt.rpp",155,66,77)
---A,AA,AAA=ultraschall.GetProject_RenderFreqNChans("c:\\tt.rpp",1,4,3)
 
 function ultraschall.SetProject_RenderSpeed(projectfilename_with_path, render_speed, ProjectStateChunk)
 --    Rendering_Speed 0-Fullspeed Offline, 1-1x Offline, 
@@ -20432,20 +18640,6 @@ end
 --A=ultraschall.GetProject_RenderSpeed("c:\\tt.rpp",0)
 
 function ultraschall.SetProject_RenderRange(projectfilename_with_path, bounds, time_start, time_end, tail, tail_length, ProjectStateChunk)
--- returns RenderRange
--- Bounds: 0 Custom Time Range, 1 Entire Project, 2 Time Selection, 
---          3 Project Regions, 4 Selected Media Items(in combination with RENDER_STEMS 32)
--- TimeStart in milliseconds -2147483647 to 2147483647
--- TimeEnd in milliseconds 2147483647 to 2147483647
---integer tail - Tail on/off-flags for individual bounds
---0 - tail off for all bounds
---1 - custom time range - tail on
---2 - entire project - tail on
---4 - time selection - tail on
---8 - project regions - tail on
--- TailLength in milliseconds, valuerange 0 - 2147483647  
-
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_RenderRange</slug>
@@ -20513,24 +18707,7 @@ function ultraschall.SetProject_RenderRange(projectfilename_with_path, bounds, t
   end
 end
 
---A,AA,AAA,AAAA,AAAAA=ultraschall.SetProject_RenderRange("c:\\tt.rpp",2,3,4,5,6)
---A,AA,AAA,AAAA,AAAAA=ultraschall.GetProject_RenderRange("c:\\tt.rpp",0,-0.062,11.937,0,0)
-
 function ultraschall.SetProject_RenderResample(projectfilename_with_path, resample_mode, playback_resample_mode, project_smplrate4mix_and_fx, ProjectStateChunk)
--- returns Resamplemode for a)Rendering and b)Playback as well as c)if both are combined
---- Resample_Mode - 0-medium (64pt Sinc), 1-Low (Linear Interpolation), 
---                2-Lowest (Point Sampling), 3-Good(192pt Sinc), 
---                4-Better(384pt Sinc), 5-Fast (IIR + Linear Interpolation), 
---                6-Fast (IIRx2 + Linear Interpolation), 7-Fast (16pt sinc) - Default, 
---                8-HQ (512pt Sinc), 9-Extreme HQ (768pt HQ Sinc)
--- Playback_Resample_Mode (as set in the Project-Settings)
---                0-medium (64pt Sinc), 1-Low (Linear Interpolation), 
---                2-Lowest (Point Sampling), 3-Good(192pt Sinc), 
---                4-Better(384pt Sinc), 5-Fast (IIR + Linear Interpolation), 
---                6-Fast (IIRx2 + Linear Interpolation), 7-Fast (16pt sinc) - Default, 
---                8-HQ (512pt Sinc), 9-Extreme HQ (768pt HQ Sinc)
--- Use_Project_Sample_Rate_for_Mixing_and_FX/Synth_Processing - 1 - yes, 0-no
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_RenderResample</slug>
@@ -20601,13 +18778,8 @@ function ultraschall.SetProject_RenderResample(projectfilename_with_path, resamp
   end  
 end
 
---A,AA,AAA,AAAA,AAAAA=ultraschall.SetProject_RenderResample("c:\\tt.rpp",2,3,4)
---A,AA,AAA,AAAA,AAAAA=ultraschall.GetProject_RenderResample("c:\\tt.rpp", 1, 2, 3)
 
 function ultraschall.SetProject_AddMediaToProjectAfterRender(projectfilename_with_path, addmedia_after_render_state, ProjectStateChunk)
--- returns the state, if rendered media shall be added to the project afterwards
--- 0 - don't add, 1 - add to project
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_AddMediaToProjectAfterRender</slug>
@@ -20659,12 +18831,6 @@ end
 --A=ultraschall.GetProject_AddMediaToProjectAfterRender("c:\\tt.rpp",1)
 
 function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_stems, ProjectStateChunk)
--- returns the state of Render Stems
--- 0 - Source Master Mix, 1 - Source Master mix + stems, 3 - Source Stems, selected tracks, 
--- 4 - Multichannel Tracks to Multichannel Files, 8 - Source Region Render Matrix, 
--- 16 - Tracks with only Mono-Media to Mono Files,  
--- 32 Selected Media Items(in combination with RENDER_RANGE->Bounds->4)  
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_RenderStems</slug>
@@ -20718,9 +18884,6 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
   else return 1, ProjectStateChunk
   end  
 end
-
---A=ultraschall.SetProject_RenderStems("c:\\tt.rpp",3)
---A=ultraschall.GetProject_RenderStems("c:\\tt.rpp", 2)
 
 function ultraschall.SetProject_RenderDitherState(projectfilename_with_path, renderdither_state, ProjectStateChunk)
 -- returns the state of dithering of rendering
@@ -20783,8 +18946,6 @@ end
 
 
 function ultraschall.SetProject_TimeBase(projectfilename_with_path, timebase, ProjectStateChunk)
--- returns Time Base for items/envelopes/markers as set in the project settings
--- 0 - Time, 1 - Beats (position, length, rate), 2 - Beats (position only)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_TimeBase</slug>
@@ -20839,8 +19000,6 @@ end
 --A=ultraschall.GetProject_TimeBase("c:\\tt.rpp")
 
 function ultraschall.SetProject_TempoTimeSignature(projectfilename_with_path, tempotimesignature, ProjectStateChunk)
--- returns Time Base for tempo/time-signature as set in the project settings
--- 0 - Time, 1 - Beats
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_TempoTimeSignature</slug>
@@ -20890,16 +19049,7 @@ function ultraschall.SetProject_TempoTimeSignature(projectfilename_with_path, te
   end  
 end
 
---A=ultraschall.SetProject_TempoTimeSignature("c:\\tt.rpp",9)
---A=ultraschall.GetProject_TempoTimeSignature("c:\\tt.rpp",1)
-
-
 function ultraschall.SetProject_ItemMixBehavior(projectfilename_with_path, item_mix_behav_state, ProjectStateChunk)
--- returns Project Settings Item Mix Behavior
--- 0 - Enclosed items replace enclosing items 
--- 1 - Items always mix
--- 2 - Items always replace earlier items
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_ItemMixBehavior</slug>
@@ -20949,11 +19099,7 @@ function ultraschall.SetProject_ItemMixBehavior(projectfilename_with_path, item_
   end
 end
 
---A=ultraschall.SetProject_ItemMixBehavior("c:\\tt.rpp",99)
---A=ultraschall.GetProject_ItemMixBehavior("c:\\tt.rpp",0)
-
 function ultraschall.SetProject_DefPitchMode(projectfilename_with_path, def_pitch_mode_state, ProjectStateChunk)
--- returns Default Pitch Mode for project
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_DefPitchMode</slug>
@@ -22058,14 +20204,6 @@ end
 --A,AA,AAA=ultraschall.GetProject_SampleRate("c:\\tt.rpp",8000,2,0)
 
 function ultraschall.SetProject_TrackMixingDepth(projectfilename_with_path, mixingdepth, ProjectStateChunk)
--- returns TrackMixingDepth
---          1 - 32 bit float
---          2 - 39 bit integer
---          3 - 24 bit integer
---          4 - 16 bit integer
---          5 - 12 bit integer
---          6 - 8 bit integer
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_TrackMixingDepth</slug>
@@ -22125,33 +20263,7 @@ function ultraschall.SetProject_TrackMixingDepth(projectfilename_with_path, mixi
   end  
 end
 
---A=ultraschall.SetProject_TrackMixingDepth("c:\\tt.rpp",9865)
---A=ultraschall.GetProject_TrackMixingDepth("c:\\tt.rpp",2)
 
-
---- Delete ---
-
-
-
--------------------------------
----- Reaper.ini Management ----
--------------------------------
-
---- Get ---
-
---- Set ---
-
---- Delete ---
-
-
-----------------------
----- FX-Snapshots ----
-----------------------
-
-
-
-
---reaper.MB(reaper.GetAppVersion(),"",0)
 
 function ultraschall.MoveTrackEnvelopePointsBy(startposition, endposition, moveby, MediaTrack, cut_at_border)
 --[[
@@ -22197,40 +20309,6 @@ function ultraschall.MoveTrackEnvelopePointsBy(startposition, endposition, moveb
   if type(cut_at_border)~="boolean" then ultraschall.AddErrorMessage("MoveTrackEnvelopePointsBy", "cut_at_border", "must be a boolean", -5) return -1 end
 
   if moveby==0 then return -1 end
---[[
-
-  local EnvTrackCount=reaper.CountTrackEnvelopes(MediaTrack)
---  local numtimesigmarkers = reaper.CountTempoTimeSigMarkers(0)
-  
-  local start, stop, step, boolean
-  if moveby>0 then start=EnvTrackCount stop=0 step=-1
-  elseif moveby<0 then start=0 stop=EnvTrackCount step=1
-  end
-
-  if cut_at_borders==true then
-    for i=EnvTrackCount, 0, -1 do
-      local retval, time, value, shape, tension, selected = reaper.GetEnvelopePoint(TrackEnvelope, i)
---    local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
-      if timepos>=startposition and timepos<=endposition then
-        if (timepos+moveby>endposition or timepos+moveby<startposition) then
-          boolean=reaper.DeleteTempoTimeSigMarker(0, i)
-        end
-      end
-    end
-  end
-
-  for i=start, stop, step do
-    local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
-    if timepos>=startposition and timepos<=endposition then
-        boolean = reaper.SetTempoTimeSigMarker(0, i, timepos+moveby, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo)
-    end
-  end
-  
-  if update_timeline==true then reaper.UpdateTimeline() end
-  return 1
-end
---]]
-
   local EnvTrackCount=reaper.CountTrackEnvelopes(MediaTrack)
 
   for a=0, EnvTrackCount-1 do
@@ -22251,16 +20329,7 @@ end
   end
   
 end
---]]
---B=reaper.GetTrack(0,0)
---A=ultraschall.MoveTrackEnvelopePointsBy(20, 1068, 101, B, true)
---reaper.UpdateArrange()
---Envelope_SortPoints
 
-
----------------------------
----- Marker Management ----
----------------------------
 
 
 function ultraschall.GetAllMarkersBetween(startposition, endposition)
@@ -22446,15 +20515,8 @@ function ultraschall.GetAllRegionsBetween(startposition, endposition, partial)
   return A,B
 end
 
---A,B=ultraschall.GetAllRegionsBetween(360, 810, false)
-
--------------------------------
----- Media Item Management ----
--------------------------------
 
 function ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
---sorts entries in a trackstring and removes duplicate numbers.
---returns it as csv string(values separated by a ,), an array, with all the tracknumbers individually and the number of numbers in the trackstring
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RemoveDuplicateTracksInTrackstring</slug>
@@ -22508,17 +20570,9 @@ function ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
     return 1, trackstring:sub(1,-2), Trackstring_array, count-1
 end
 
---A,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring("1,2,99,8,4,1,1,2,2,1,2,6,8,66,6,445")
-
---C,CC=ultraschall.GetAllMediaItemsBetween(0,260,"1,2,3",false)
---P=ultraschall.OnlyMediaItemsOfTracksInTrackstring(CC, "2,3")
 
 
 function ultraschall.GetMediaItemsAtPosition(position, trackstring)
--- returns the items at given position in your selected tracks
---
--- number position - time in seconds
--- string trackstring - the tracksnumbers, beginning with 1 for first track, separated by a ,
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetMediaItemsAtPosition</slug>
@@ -22584,13 +20638,8 @@ function ultraschall.GetMediaItemsAtPosition(position, trackstring)
   return count, MediaItemArray, MediaItemStateChunkArray
 end
 
---reaper.MB(tostring(AA[1],"",0),"",0)
-
---A,B,C=ultraschall.GetMediaItemsAtPosition(1, "1")
---C=ultraschall.OnlyMediaItemsOfTracksInTrackstring(B, "o")
 
 function ultraschall.OnlyMediaItemsOfTracksInTrackstring(MediaItemArray, trackstring)
---Throws out all items, that are not in the tracks, as given by trackstring
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>OnlyMediaItemsOfTracksInTrackstring</slug>
@@ -22647,13 +20696,8 @@ function ultraschall.OnlyMediaItemsOfTracksInTrackstring(MediaItemArray, trackst
   return 1, MediaItemArray2
 end
 
---A,B=ultraschall.GetMediaItemsAtPosition(1, "1,2,3")
---CT=ultraschall.OnlyMediaItemsOfTracksInTrackstring(B, "1")
-
 
 function ultraschall.SplitMediaItems_Position(position, trackstring, crossfade)
--- Deletes ItemObject
--- MediaItem MediaItemObject - the MediaItem to delete
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SplitMediaItems_Position</slug>
@@ -22726,22 +20770,7 @@ function ultraschall.SplitMediaItems_Position(position, trackstring, crossfade)
   return true, ReturnMediaItemArray
 end
 
---retval, MediaItemArray = ultraschall.SplitMediaItems_Position(22.155, "1,3,4")
-
---AA,B=ultraschall.SplitMediaItems_Position(43, "1,2,3,4,5", false)
-
---D_FADEOUTLEN
-
---B=ultraschall.SplitMediaItems_Position(20,"1,2,3",false)
---boolean retval, string str = reaper.GetItemStateChunk(MediaItem item, string str, boolean isundo)
-
---retval, str = reaper.GetItemStateChunk(MediaItem item, "", true)
-
 function ultraschall.SplitItemsAtPositionFromArray(position, MediaItemArray, crossfade)
--- Splits the MediaItems from MediaItemArray and returns it's right hand split as an array.
--- The MediaItemArray must not include nil-entries, as they'll be interpreted as end of array.
--- MediaItemArray must start with indexnumber 1 !
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SplitItemsAtPositionFromArray</slug>
@@ -22793,15 +20822,9 @@ function ultraschall.SplitItemsAtPositionFromArray(position, MediaItemArray, cro
   return true, ReturnMediaItemArray
 end
 
---reaper.MB(tostring(A2),"",0)
---A,AA=ultraschall.GetMediaItemsAtPosition(20, "1,3")
---B,BB=ultraschall.SplitItemsAtPositionFromArray(2,AA,false)
 
---reaper.UpdateArrange()
 
 function ultraschall.DeleteMediaItem(MediaItemObject)
--- Deletes ItemObject
--- MediaItem MediaItemObject - the MediaItem to delete
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteMediaItem</slug>
@@ -22840,14 +20863,8 @@ function ultraschall.DeleteMediaItem(MediaItemObject)
     return reaper.DeleteTrackMediaItem(MediaTrack, MediaItemObject), StateChunk
 end
 
--- MediaItem=reaper.GetMediaItem(0,0)
--- A,B=ultraschall.DeleteMediaItem(MediaItem)
--- reaper.MB(B,"",0)
 
 function ultraschall.DeleteMediaItemsFromArray(MediaItemArray)
--- Deletes the MediaItems from MediaItemArray
--- The MediaItemArray must not include nil-entries, as they'll be interpreted as end of array.
--- MediaItemArray must start with indexnumber 1 !
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteMediaItemsFromArray</slug>
@@ -22879,8 +20896,6 @@ function ultraschall.DeleteMediaItemsFromArray(MediaItemArray)
 </US_DocBloc>
 ]]  
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("DeleteMediaItemsFromArray", "MediaItemArray", "must be a valid MediaItemArray", -1) return false end
---  reaper.MB(tostring(MediaItemArray),"",0)
--- Mespotine
   local count=1
   local MediaItemStateChunkArray={}
   local hula
@@ -22892,18 +20907,8 @@ function ultraschall.DeleteMediaItemsFromArray(MediaItemArray)
 end
 
 
---Aposition=24
---A1,A2=ultraschall.GetMediaItemsAtPosition(197, "1,2,3")
---AAAAAA=ultraschall.SplitItemsAtPosition(Aposition, A2)
---A3,A4=ultraschall.GetMediaItemsAtPosition(10, "1,2,3")
---AAAAAAA=ultraschall.SplitItemsAtPosition(Aposition+5, A4)
---K,K2=ultraschall.DeleteMediaItemsFromArray(A2)
-
-
-
 function ultraschall.DeleteMediaItems_Position(position, trackstring)
--- Deletes ItemObject
--- MediaItem MediaItemObject - the MediaItem to delete
+
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteMediaItems_Position</slug>
@@ -22966,22 +20971,7 @@ function ultraschall.DeleteMediaItems_Position(position, trackstring)
   return true, MediaItemStateChunkArray
 end
 
-
--- L,LL=ultraschall.DeleteMediaItems_Position(207,"1,2,3")
---
-
---A,AA=ultraschall.SplitMediaItems_Position(207,"1")
---ALABAMAA=ultraschall.DeleteMediaItemsFromArray(AA)
---reaper.UpdateArrange()
-
 function ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackstring, inside)
---returns all MediaItems between startposition and endposition in the tracks given with trackstring
---
--- number startposition - time in seconds
--- number endposition - time in seconds
--- string trackstring - the tracksnumbers, beginning with 1 for first track, separated by a ,
--- boolean inside - true: only return items that are fully inside selection, 
---                  false: include items where at least start or end is inside selection
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -23078,20 +21068,8 @@ function ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackst
 
 end
 
---A,MediaItem,statechunks=ultraschall.GetAllMediaItemsBetween(reaper.GetCursorPosition(),reaper.GetCursorPosition(),"1",false)
---reaper.MB(statechunks[1],"",0)
-
---A,AA=ultraschall.GetAllMediaItemsBetween(4,2100,"1,2,3",true)
---A,AA,AAA=ultraschall.GetAllMediaItemsBetween(0,200,"1,2,3",true)
-
 
 function ultraschall.MoveMediaItemsAfter_By(oldposition, changepositionby, trackstring)
---Moves all MediaItems, between oldposition and the end of the project, by changepositionby, in all tracks given by trackstring
---intended for things as RippleCut
---
--- number oldposition - old position in seconds
--- number changepositionby - the difference in seconds. negative means, move toward projectstart, positive toward projectend
--- string trackstring - the tracksnumbers, beginning with 1 for first track, separated by a ,
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -23152,12 +21130,6 @@ end
 --A=ultraschall.MoveMediaItemsAfter_By(reaper.GetCursorPosition(),-1,"1")
 
 function ultraschall.MoveMediaItemsBefore_By(oldposition, changepositionby, trackstring)
---Moves all MediaItems, between projectstart and oldposition, by changepositionby, in all tracks given by trackstring
---intended for things as RippleCut
---
--- number oldposition - old position in seconds
--- number changepositionby - the difference in seconds. negative means, move toward projectstart, positive toward projectend
--- string trackstring - the tracksnumbers, beginning with 1 for first track, separated by a ,
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -23220,17 +21192,6 @@ end
 --A=ultraschall.MoveMediaItemsBefore_By(1,1,"1")
 
 function ultraschall.MoveMediaItemsBetween_To(startposition, endposition, newposition, trackstring, inside)
---Moves all MediaItems within sectionstart and sectionend to newposition in all tracks given by trackstring.
--- Use inside to tell, if only the items that are completely within the section, shall be moved
---intended for things as RippleCut
---
--- number sectionstart - start of the section in seconds
--- number sectionend - end of the section in seconds
--- number newposition - the new position in seconds. The first MediaItem in the selection gets this 
---                        newposition, all others are moved in relation to this first MediaItem.
--- string trackstring - the tracksnumbers, beginning with 1 for first track, separated by a ,
--- boolean inside - true: only affects items that are fully inside selection, 
---                  false: include items where at least start or end is inside selection
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -23304,10 +21265,6 @@ end
 
 
 function ultraschall.ChangeLengthOfMediaItems_FromArray(MediaItemArray, newlength)
--- changes width of all MediaItems in MediaItemArray to newlength
--- MediaItemArray - array with all MediaItems that shall be affected. Must not 
---                    include nil-entries, as they'll be interpreted as end of array.
--- number newlength - absolute new length of Items in seconds
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -23351,17 +21308,8 @@ function ultraschall.ChangeLengthOfMediaItems_FromArray(MediaItemArray, newlengt
   return true
 end
 
---A,MediaItem=ultraschall.GetAllMediaItemsBetween(0,14,"1,2",false)
---AB=ultraschall.ChangeLengthOfMediaItems_FromArray(MediaItem,l)
-
-
 
 function ultraschall.ChangeDeltaLengthOfMediaItems_FromArray(MediaItemArray, deltalength)
--- changes width of all MediaItems in MediaItemArray by deltalength
--- MediaItemArray - array with all MediaItems that shall be affected. Must not 
---                    include nil-entries, as they'll be interpreted as end of array.
--- number deltalength - in seconds, negative: item gets shorter, positive: item gets longer, 
---                      if item is shorter than deltalength, the length stays the same.
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -23407,15 +21355,7 @@ function ultraschall.ChangeDeltaLengthOfMediaItems_FromArray(MediaItemArray, del
   return true
 end
 
---  A,MediaItem=ultraschall.GetAllMediaItemsBetween(0,14,"1,2,3",false)
---AB=  ultraschall.ChangeDeltaLengthOfMediaItems_FromArray(MediaItem,1)
-
 function ultraschall.ChangeOffsetOfMediaItems_FromArray(MediaItemArray, newoffset)
--- changes offset of all MediaItem_Takes of the MediaItems in MediaItemArray to newoffset
--- MediaItemArray - array with all MediaItems that shall be affected. Must not 
---                    include nil-entries, as they'll be interpreted as end of array.
--- number newoffset - in seconds
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ChangeOffsetOfMediaItems_FromArray</slug>
@@ -23465,16 +21405,7 @@ function ultraschall.ChangeOffsetOfMediaItems_FromArray(MediaItemArray, newoffse
   return true
 end
 
---A,MediaItem=ultraschall.GetAllMediaItemsBetween(0,14,"1,2,3",false)
---AA,AAA = ultraschall.GetMediaItemsAtPosition(13, "1,2,3")
---AB=ultraschall.ChangeOffsetOfMediaItems_FromArray(AAA, "35.09")
-
 function ultraschall.ChangeDeltaOffsetOfMediaItems_FromArray(MediaItemArray, deltaoffset)
--- changes offset of all MediaItem_Takes of the MediaItems in MediaItemArray by deltaoffset
--- MediaItemArray - array with all MediaItems that shall be affected. Must not 
---                    include nil-entries, as they'll be interpreted as end of array.
--- number newoffset - in seconds; negative: offset gets earlier, positive: item gets later
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ChangeDeltaOffsetOfMediaItems_FromArray</slug>
@@ -23525,14 +21456,8 @@ function ultraschall.ChangeDeltaOffsetOfMediaItems_FromArray(MediaItemArray, del
   return true    
 end
 
---  A,MediaItem=ultraschall.GetAllMediaItemsBetween(1,30,"1,2,3",false)
---  L=ultraschall.ChangeDeltaOffsetOfMediaItems_FromArray(MediaItem, -1.2)
---  reaper.UpdateArrange()
 
 function ultraschall.SectionCut(startposition, endposition, trackstring, add_to_clipboard)
---cuts all items between startposition and endposition in the tracks, given with trackstring
---returns the number of deleted items as well as a table with the ItemStateChunks of all deleted Items
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SectionCut</slug>
@@ -23593,14 +21518,6 @@ end
 --reaper.UpdateArrange()
 
 function ultraschall.SectionCut_Inverse(startposition, endposition, trackstring, add_to_clipboard)
--- throws away everything before startpositon and after endposition in tracks defined in trackstring.
--- keeps only, what is inside selection
--- returns: 
--- number_of_cut_items_before_sectionstart
--- itemstatechunk_of_cut_items_before_sectionstart_as_table
--- number_of_cut_items_after_sectionend
--- itemstatechunk_of_cut_items_after_sectionend_as_table
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SectionCut_Inverse</slug>
@@ -23668,10 +21585,6 @@ function ultraschall.SectionCut_Inverse(startposition, endposition, trackstring,
   return C,CCC,C2,CCC2
 end
 
---A,AA,AAA,AAAA=ultraschall.SectionCut_Inverse(2,4,"1",true)
---C,CC,CCC=ultraschall.GetAllMediaItemsBetween(0,5,"1",false)
---D=ultraschall.DeleteMediaItemsFromArray(CC)
---reaper.UpdateArrange()
 function ultraschall.PutMediaItemsToClipboard_MediaItemArray(MediaItemArray)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -23976,10 +21889,6 @@ function ultraschall.InsertMediaItem_MediaItemStateChunk(position, MediaItemStat
   return 1, MediaItemNew, start_position, start_position+length, length
 end
 
---C,CC=ultraschall.GetAllMediaItemsBetween(0,400,"1,2,3,4,5",false)
---MT=reaper.GetTrack(0,0)
---Aretval, Astr = reaper.GetItemStateChunk(reaper.GetMediaItem(0,0), "", true)
---ALABASTER,ALHula=ultraschall.InsertMediaItem_MediaItemStateChunk(1000,Astr, MT)
 
 function ultraschall.InsertMediaItemArray(position, MediaItemArray, trackstring)
 --[[
@@ -24054,10 +21963,6 @@ function ultraschall.InsertMediaItemArray(position, MediaItemArray, trackstring)
   return count, NewMediaItemArray
 end
 
---C,CC=ultraschall.GetAllMediaItemsBetween(1,60,"1,3",false)
---A,B=reaper.GetItemStateChunk(CC[1], "", true)
---reaper.ShowConsoleMsg(B)
---L,L2=ultraschall.InsertMediaItemArray(82, CC, 2)
 
 
 function ultraschall.GetMediaItemStateChunksFromItems(MediaItemArray)
@@ -24104,16 +22009,8 @@ function ultraschall.GetMediaItemStateChunksFromItems(MediaItemArray)
   return count-1, MediaItemArray_StateChunk
 end
 
---C,CC=ultraschall.GetAllMediaItemsBetween(9,60,"1",true)
---PK,BA=ultraschall.CreateMediaItemStateChunksFromItems(CC)
---ultraschall.GetMediaItemStateChunksFromItems(hsdji)
 
 function ultraschall.RippleInsert(position, MediaItemArray, trackstring, moveenvelopepoints)
---splits the items at position and inserts MediaItemArray at that position, and moves 
---all following toward the end, accordingly.
---position - the position of the earliest item in the MediaItemArray. All others will be relative to the earliest Item
---MediaItemArray - the MediaItems to be inserted
---trackstring - only the tracks in trackstring will be affected by insert and ripple, all others stay the way they are
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RippleInsert</slug>
@@ -24221,10 +22118,6 @@ function ultraschall.RippleInsert(position, MediaItemArray, trackstring, moveenv
   return NumberOfItems, NewMediaItemArray, position+ItemEnd
 end
 
---C,CC=ultraschall.GetAllMediaItemsBetween(0,15,"1,2,3",false)
---D=ultraschall.DeleteMediaItemsFromArray(CC)
---track=reaper.GetMediaItem_Track(CC[1])
---PUHDERBAER, PUHDERBAER2, PUHDERBAER3=ultraschall.RippleInsert(213,CC,"1,2,3", true, true)
 
 
 function ultraschall.MoveMediaItems_FromArray(MediaItemArray, newposition)
@@ -24293,8 +22186,6 @@ function ultraschall.MoveMediaItems_FromArray(MediaItemArray, newposition)
 end
 
 
---LCount, MIA = ultraschall.GetAllMediaItemsBetween(0,1000,"1,2",false)
---A,B,C=ultraschall.MoveMediaItems_FromArray(MIA, 4000)
 
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -24360,357 +22251,6 @@ end
 </US_DocBloc>
 --]]
 
-function ultraschall.HelpSort(one,two,three)
---reaper.MB(tostring(one),"",0)
-  if one==nil then return false end
-  if two==nil then return false end
-  --a=one
-  --b=two
-  temps={}
-  --reaper.MB(one,two,0)
-  temps[1]=one:match("<semanticcontext>%c(.-)%c")
-  --reaper.MB(temp[0],"",0)
-  temps[2]=two:match("<semanticcontext>%c(.-)%c")
-  --reaper.MB(temp[0],temp[1],0)
-  --if temp[0]==nil or temp[1]==nil then return false end
-  table.sort(temps)
-  --reaper.MB(tostring(temp),"",0)
-  if temps[1]==one:match("<semanticcontext>%c(.-)%c") then return true
-  else return false end
-  --reaper.MB(a,b,0)
-  --a=one
-  --b=two
-
-  --  for i=1, string.len(a) do
-  --    if string.byte(a,i)==nil then return false end
-  --    if string.byte(b,i)==nil then return false end
-  --    if string.byte(a,i)<string.byte(b,i) then return true end
-  --  end
-  return false
-end
-
---LLL=ultraschall.HelpSort("<semanticcontext>\naltraschall Helpers\n</semanticcontext>","<semanticcontext>\naltraschall Helpers\n</semanticcontext>")
-
-
-
-
-
------------------------------
----- Envelope Management ----
------------------------------
-
-
-
-
-
-function ultraschall.CreateUSApiDocs_HTML(filename_with_path,LLL)
---!!!TODO GFX-FILES müssen auch exportiert werden!!!---
-
---[[
-<\ApiDocBlocFunc>
-  <slug>CreateUSApiDocs_HTML</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = ultraschall.CreateUSApiDocs_HTML(string filename_with_path, string sourcefilename_with_path)</functioncall>
-  <description>
-    Creates a documentation-file for the Ultraschall-Api-Functions.
-  </description>
-  <retvals>
-    boolean retval - returns true, if help-creation worked; false if it failed
-  </retvals>
-  <parameters>
-    string filename_with_path - filename of the newly created helpfile
-    string sourcefilename_with_path - the name of the file, of which the docs shall be created from. nil - the Ultraschall Framework-Api
-  </parameters>
-  <chapter_context>
-    Help and Documentation
-    Ultraschall Api-docs
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>api, docs, documentation, html, create</tags>
-<\/ApiDocBlocFunc>
-]]
-  local functionarray={}
-  local count=1
-  local counter=0
-  local funcindex=""
-  local funclist=""
-  local A,B,C,D,E,F,G,H=reaper.get_action_context()
-  local L, integer
-  local apiversion,apidate,apibeta=ultraschall.GetApiVersion()
-  local _retval, build = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "Functions-Build", "", ultraschall.Api_Path.."/IniFiles/ultraschall_api.ini")
-  local slug=""
-  local tempparameters=""
-  local scriptpath=reaper.GetResourcePath()..ultraschall.Separator.."UserPlugins"..ultraschall.Separator.."ultraschall_api"..ultraschall.Separator
-  if LLL==nil then LLL=B end--scriptpath.."ultraschall_functions_engine.lua" end
-  local Path = ultraschall.GetPath(LLL, "(.*)/")
-  if Path == nil then Path = ultraschall.GetPath(filename_with_path, "(.*)\\") end
-  if Path == nil then Path = ultraschall.GetPath(filename_with_path, "(.*)/") end
-  integer=reaper.RecursiveCreateDirectory(Path.."\\gfx", 0)
-  local Functioncounter=0
-  
-  if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx\\reaper5.40.png", Path.."gfx\\reaper5.40.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx\\reaper5.50.png", Path.."gfx\\reaper5.50.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx\\reaper5.52.png", Path.."gfx\\reaper5.52.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx\\reaper5.77.png", Path.."gfx\\reaper5.77.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx\\SWS2.8.8.png", Path.."gfx\\SWS2.8.8.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx\\SWS2.9.6.png", Path.."gfx\\SWS2.9.6.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx\\SWS2.9.7.png", Path.."gfx\\SWS2.9.7.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx\\Lua5.3.png", Path.."gfx\\Lua5.3.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx\\ultraschall4.00.png", Path.."gfx\\ultraschall4.00.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx\\us.png", Path.."gfx\\us.png")
-  else
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx/reaper5.40.png", Path.."gfx/reaper5.40.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx/reaper5.50.png", Path.."gfx/reaper5.50.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx/reaper5.52.png", Path.."gfx/reaper5.52.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx/reaper5.77.png", Path.."gfx/reaper5.77.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx/SWS2.8.8.png", Path.."gfx/SWS2.8.8.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx/SWS2.9.6.png", Path.."gfx/SWS2.9.6.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx/SWS2.9.7.png", Path.."gfx/SWS2.9.7.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx/Lua5.3.png", Path.."gfx/Lua5.3.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx/ultraschall4.00.png", Path.."gfx/ultraschall4.00.png")
-    L=ultraschall.MakeCopyOfFile_Binary(scriptpath.."docgfx/us.png", Path.."gfx/us.png")
-  end
-    
-  -- Read sourcefile and get all helpblocs
-  reaper.ShowConsoleMsg("Creating US-Api-Files\n")
-  reaper.ShowConsoleMsg("Read Function-Engine-File\n")
-    infile=ultraschall.ReadFullFile(LLL,false)
---  infile=ultraschall.ReadValueFromFile(LLL, nil, false)
---  infile=ultraschall.ReadValueFromFile(B, nil, false)
-  reaper.ShowConsoleMsg("Parsing Function-Engine-File\n")
-  while infile~=nil do
-    local temp
-    functionarray[count],temp=infile:match("(<ApiDocBlocFunc>.-</ApiDocBlocFunc>)()")
---    infile=infile:match("<ApiDocBlocFunc>.-</ApiDocBlocFunc>(.*)")
-    if temp~=nil then infile=infile:sub(temp,-1) end
-    Functioncounter=Functioncounter+1
-    if functionarray[count]==nil then infile=nil
-    else
-      count=count+1
-    end
-  end
-  
---sort functions by semanticcontext
---  reaper.ShowConsoleMsg(functionarray[1])
-
-  for i=1, count-1 do
---  reaper.MB(functionarray[i],i,0)
-    if tostring(functionarray[i]:match("<semanticcontext>%c(.-)%c.-</semanticcontext>"))~=nil then 
---    if i==196 then reaper.MB(functionarray[i],i,0) end
-      functionarray[i]=tostring(functionarray[i]:match("<semanticcontext>%c(.-)%c.-</semanticcontext>"))..functionarray[i]
-    end
-  end
-
-  table.sort(functionarray)
-  local startfile="<html><head><title>Ultraschall Framework-Lua-Api-docs "..apiversion.."</title></head><body>\n<img src=\"gfx/us.png\" alt=\"\"><h2>Ultraschall - Framework "..apiversion.."</h2>"..apibeta.." - "..apidate.." - Build: "..build.." - <a href=\"http://www.mespotine.de/Ultraschall/Framework/US_Framework4_00_beta2_6.zip\">Download Framework for Reaper</a><div style=\"padding-left:10%; width:80%;\">"
-
---for i=1, count-1 do
---  reaper.ShowConsoleMsg(functionarray[i]:match(".-(<functionname>.-</functionname>).-"))
---end
-
---creating index
-  reaper.ShowConsoleMsg("create index\n")
-  local funclistarray={}
-  local tingle=0
-  local currentindex, currentsubindex
-  funcindex="<h3>The Functions Reference</h3><table style=\"font-size:10pt; width:100%;\">"
-  for i=1, count-1 do
-    if functionarray[i]:match("<functionname>(.-)</functionname>")~=nil or functionarray[i]:match("<chaptername>(.-)</chaptername>") then
-      funclistarray[i]=functionarray[i]:match("(<semanticcontext>.-</semanticcontext>)")..functionarray[i]
-    end
-  end
-  table.sort(funclistarray)
-  count=1
-  local firstrun=0
-  while funclistarray[count]~=nil do
-  if currentindex~=funclistarray[count]:match("<semanticcontext>%c(.-)%c.-</semanticcontext>") then
-        currentindex=funclistarray[count]:match("<semanticcontext>%c(.-)%c.-</semanticcontext>")
-        currentsubindex=funclistarray[count]:match("<semanticcontext>%c.-%c(.-)</semanticcontext>")
-        if firstrun==1 then funcindex=funcindex.."<tr><td>&nbsp;</td></tr>" end
-        if firstrun==0 then firstrun=1 end
-        funcindex=funcindex.."<tr><td>&nbsp;</td></tr><tr><td><h3><u>"..currentindex.."</u></h3></td></tr><tr><td><strong>"..currentsubindex.."</strong></td></tr>"
-        tingle=0
-  elseif currentsubindex~=funclistarray[count]:match("<semanticcontext>%c.-%c(.-)</semanticcontext>") then
-        currentsubindex=funclistarray[count]:match("<semanticcontext>%c.-%c(.-)</semanticcontext>")
-        funcindex=funcindex.."<tr><td>&nbsp;</td></tr><tr><td><strong>"..currentsubindex.."</strong></td></tr>\n"
-        tingle=0
-  end
-  tingle=tingle+1
---  reaper.MB(count,"",0)
-if funclistarray[count]:match("<functionname>.-ultraschall.(.-)%(.-</functionname>")~=nil then
-  funcindex=funcindex.."<td><a href=\"#"..tostring(funclistarray[count]:match("<slug>(.-)</slug>")).."\">"..tostring(funclistarray[count]:match("<functionname>.-ultraschall.(.-)%(.-</functionname>")).."</a>&nbsp;&nbsp;</td>"
-elseif funclistarray[count]:match("<functionname>.-(toboolean.-)%(.-</functionname>")~=nil then 
-  funcindex=funcindex.."<td><a href=\"#"..tostring(funclistarray[count]:match("<slug>(.-)</slug>")).."\">"..tostring(funclistarray[count]:match("<functionname>.-(toboolean.-)%(.-</functionname>")).."</a>&nbsp;&nbsp;</td>"
-elseif funclistarray[count]:match("<functionname>.-(ultraschall..-)</functionname>")~=nil then
---reaper.MB(tostring(funclistarray[count]:match("<functionname>.-(ultraschall..-)</functionname>")),"",0)
-  funcindex=funcindex.."<td><a href=\"#"..tostring(funclistarray[count]:match("<slug>(.-)</slug>")).."\">"..tostring(funclistarray[count]:match("<functionname>.-ultraschall.(.-)</functionname>")).."</a>&nbsp;&nbsp;</td>"
-else
---reaper.MB("","",0)
-  funcindex=funcindex.."</tr><tr><td><a href=\"#"..tostring(funclistarray[count]:match("<slug>(.-)</slug>")).."\">"..tostring(funclistarray[count]:match("<chaptername>(.-)</chaptername>")).."</a></td></tr>"
-end
---  reaper.MB(tostring(funclistarray[count]:match("<slug>(.-)</slug>")),"",0)
-  if tingle==4 then tingle=0 funcindex=funcindex.."</tr>\n<tr>" end
---  reaper.MB(tingle,"",0)
-  count=count+1
-  end
-
-  funcindex=funcindex.."</tr></table>"
-
---creating entries
-  reaper.ShowConsoleMsg("creating entries\n")
-  for i=1, count-1 do
-  local usvers,ultraschallversion,reapvers,reaperversion,swsvers,swsversion,description,luaversion,luavers
-  local retvals=""  
-  local parameters=""
-  local tempretvals=""
-  local begin=""
-  tempparameters=""
-    if functionarray[i]:match("<functionname>(.-)</functionname>")~=nil then
-      if functionarray[i]:match("<requires>(.-)</requires>")~=nil then
-        if functionarray[i]:match("<requires>.-Ultraschall=(.-)%c.-</requires>")~=nil then
-            usvers=functionarray[i]:match("<requires>.-Ultraschall=(.-)%c.-</requires>")
-            ultraschallversion="<img style=\"width:3%;\" src=\"gfx/ultraschall"..usvers..".png\" alt=\"Ultraschall version "..usvers.."\">"
-        end
-        if functionarray[i]:match("<slug>(.-)</slug>")~=nil then
-          slug=functionarray[i]:match("<slug>(.-)</slug>")
---          if slug=="" then reaper.MB(slug,"",0) end
-        else
-          slug=""
-        end
-        if functionarray[i]:match("<requires>.-Reaper=(.-)%c.-</requires>")~=nil then
-            reapvers=functionarray[i]:match("<requires>.-Reaper=(.-)%c.-</requires>")
-            reaperversion="<img style=\"width:3%;\" src=\"gfx/reaper"..reapvers..".png\" alt=\"Reaper version "..reapvers.."\">"
-        end
-        if functionarray[i]:match("<requires>.-SWS=(.-)%c.-</requires>")~=nil then
-            swsvers=functionarray[i]:match("<requires>.-SWS=(.-)%c.-</requires>")
-            swsversion="<img style=\"width:3%;\" src=\"gfx/sws"..swsvers..".png\" alt=\"sws version "..swsvers.."\">"
-        end
-        if functionarray[i]:match("<requires>.-Lua=(.-)%c.-</requires>")~=nil then
-            luavers=functionarray[i]:match("<requires>.-Lua=(.-)%c.-</requires>")
-            luaversion="<img style=\"width:3%;\" src=\"gfx/Lua"..luavers..".png\" alt=\"lua version "..luavers.."\">"
-        end
-      end
-      if functionarray[i]:match("<description>%c.-</description>")~=nil then
-          description=tostring(functionarray[i]:match("<description>%c(.-)</description>"))        
-          description=string.gsub(description, "\n", "<br>")
-      elseif functionarray[i]:match("<description>.-</description>")~=nil then
-          description=tostring(functionarray[i]:match("<description>(.-)</description>"))        
-          description=string.gsub(description, "\n", "<br>")
-      end      
-
-      if functionarray[i]:match("<retvals>.-</retvals>")~=nil then
-          tempretvals=functionarray[i]:match("<retvals>(.-</retvals>)")
---          reaper.MB(tempretvals,"",0)
---          while tempretvals~=nil do
---            retvals=retvals.."<i><div style=\"padding-left:4%;\">"..tostring(tempretvals:match("(.-)%-")).."</i>"..tostring(tempretvals:match("(%-.-)%c")).."</div>"
---            tempretvals=tostring(tempretvals:match(".-%c(.*)"))
---            if tempretvals=="" or tempretvals:match("-")==nil then tempretvals=nil end
---          end
---            tempretvals=string.gsub(tempparameters, "</retvals>", "</i>")
-            tempretvals=string.gsub(tempretvals, "\n","</i><br><i>")
-            tempretvals=string.gsub(tempretvals, " %- ", "</i> - ")
-            tempretvals=string.gsub(tempretvals, "\n.-", "</i><br><i>")
-            tempretvals=string.gsub(tempretvals, "<br><i>%-","<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
---            tempretvals=string.gsub(tempretvals, "%%%-", "-")
-
---            tempretvals=string.gsub(tempretvals, "\n", "</i><br><i>")
---            tempretvals=string.gsub(tempretvals, "<br><i>%-", "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
---            reaper.MB(tempretvals,"",0)
---        retvals=tempretvals
---reaper.MB(tempretvals:sub(9,-8),"",0)
-            retvals=retvals.."<div style=\"padding-left:4%;\">"..tempretvals:sub(9,-11).."</i></div>"
-      end      
-      if functionarray[i]:match("<parameters>.-</parameters>")~=nil then
-          tempparameters=functionarray[i]:match("<parameters>(.-</parameters>)")
---          reaper.MB(tempparameters,"",0)
---          tempparameters=string.gsub(tempparameters, "%c", " ")
-          tempparameters=string.gsub(tempparameters, "</parameters>", "</i>")
-          tempparameters=string.gsub(tempparameters, " %- ", "</i> - ")
-          tempparameters=string.gsub(tempparameters, "\n.-", "</i><br><i>")
---          reaper.ShowConsoleMsg(tostring(tempparameters:match("<br><i>%-"),"",0))
-          tempparameters=string.gsub(tempparameters, "<br><i>%-", "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
---          reaper.ShowConsoleMsg(tostring(tempparameters:match("<br><div style"),"",0))
---          if tempparameters:match("<br><div style") then tempparameters=tempparameters.."</div>" end
---          tempparameters=string.gsub(tempparameters, "%%%-", "-")
-          tempparameters=tempparameters:sub(9,-1)
---          reaper.MB(tempparameters,"",0)
---          while tempparameters~=nil do
---          reaper.MB(tempparameters,"",0)
---            parameters=parameters.."<i><div style=\"padding-left:4%;\">"..tostring(tempparameters:match("(.-)%-")).."</i>"..tostring(tempparameters:match("(%-.-)%c")).."</div>"
-            parameters=parameters.."<div style=\"padding-left:4%;\">"..tempparameters.."</div>"
---            tempparameters=tostring(tempparameters:match(" .- %c(.*)"))
---            if tempparameters=="" or tempparameters:match("-")==nil then tempparameters=nil end
---          end
---          reaper.MB(parameters.."test1","",0)
-      end      
-      slug=functionarray[i]:match("<slug>(.-)</slug>")
-      if slug==nil then slug=""
---        reaper.MB(functionarray[i]:match(".-"),"",0)
-      end
-      slug=string.gsub(slug, "\n", "")
-      if retvals~="" then retvals="<u>Returnvalues:</u><br>"..retvals end
-      if parameters~="" then parameters="<u>Parameters:</u>"..parameters end
-      if swsversion==nil then swsversion="" end
-      if luaversion==nil then luaversion="" end
-      if reaperversion==nil then reaperversion="" end
-      if ultraschallversion==nil then ultraschallversion="" end
-        funclist=funclist.."<a id=\""..slug.."\"><hr><br><i></a>"..ultraschallversion..reaperversion..swsversion.." "..functionarray[i]:match("<functionname>(.-)</functionname>").."</i><br><br>"..description.."<p></p>"..retvals.."<p></p>"..parameters.."<p></p>Tags: "..functionarray[i]:match("<tags>(.-)</tags>").."<p></p>"
-    end
-
---dok-chapters
-    if functionarray[i]:match("<chaptername>(.-)</chaptername>")~=nil then
-        if functionarray[i]:match("<slug>(.-)</slug>")~=nil then
-          slug=functionarray[i]:match("<slug>(.-)</slug>")
-        else
-          slug=""
-        end
-      if functionarray[i]:match("<description>.-</description>")~=nil then
-          description=tostring(functionarray[i]:match("<description>.-%c(.-)%c</description>"))
-          description=string.gsub(description, "\n", "<br>")
-      end      
-
-      slug=functionarray[i]:match("<slug>(.-)</slug>")
-      if slug==nil then slug=""
---        reaper.MB(functionarray[i]:match(".-"),"",0)
-      end
-      slug=string.gsub(slug, "\n", "")      
-      if functionarray[i]:match("<begin></begin>")~=nil then
-        begin="<hr>"
-      else
-        begin=""
-      end
-        funclist=funclist.."<a id=\""..slug.."\">"..begin.."</a><h4>"..functionarray[i]:match("<chaptername>(.-)</chaptername>").."</h4>"..description.."<p></p>"      
-    end
-    
-  end
-
-  --assembling helpfile
-  reaper.ShowConsoleMsg("assembling helpfile\n")
-  local endfile="<hr><p align=\"right\"><i>API-documentation automatically created by Ultraschall-Framework version "..ultraschall.GetApiVersion().." "..apibeta.." - "..Functioncounter.."-functions available</i></p></div></body></html>"
-  local outfile=startfile..funcindex.."<p></p>"..funclist..endfile
-  reaper.ShowConsoleMsg("Number of entries: "..Functioncounter.."\n")
-  reaper.ShowConsoleMsg("storing helpfile\n")
-  return ultraschall.WriteValueToFile(filename_with_path, outfile)  
-end
-
-
---ALABAMA=ultraschall.CreateUSApiDocs_HTML("c:\\testhelp-beta1-1.html", "c:\\US-Doku-beta1.txt")
---  local A,B,C,D,E,F,G,H=reaper.get_action_context()
---ALABAMA=ultraschall.CreateUSApiDocs_HTML("c:\\testhelp-beta2hulu.html", B)
---ALABAMA=ultraschall.CreateUSApiDocs_HTML("c:\\testhelp-beta2-7-1.html")
-
-
-
-
---------------------------------------------------
------- ULTRASCHALL FRAMEWORK 4.00 BETA 2.5 -------
---------------------------------------------------
 
 function ultraschall.SetAllTracksSelected(selected)
 --[[
@@ -27166,11 +24706,6 @@ function ultraschall.SetItemPosition(MediaItem, position, statechunk)
   return statechunk
 end
 
---_1, sc=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0), "", false)
---L=ultraschall.SetItemPosition(nil, 10, sc)
---reaper.MB(tostring(L),"",0)
---reaper.SetItemStateChunk(reaper.GetMediaItem(0,0), L, false)
-
 
 function ultraschall.SetItemLength(MediaItem, length, statechunk)
 --[[
@@ -27223,14 +24758,6 @@ function ultraschall.SetItemLength(MediaItem, length, statechunk)
   return statechunk
 end
 
--- MESPOTINE
---_1, sc=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0), "", false)
---reaper.MB(sc,"",0)
---L=ultraschall.SetItemLength(nil, 99, sc)
---reaper.MB(L,"",0)
---O=reaper.SetItemStateChunk(reaper.GetMediaItem(0,0), L, false)
-
---reaper.MB(tostring(L),"",0)
 
 function ultraschall.InsertMediaItemStateChunkArray(position, MediaItemStateChunkArray, trackstring)
 --[[
@@ -27372,14 +24899,6 @@ end
 
 
 function ultraschall.RippleInsert_MediaItemStateChunks(position, MediaItemStateChunkArray, trackstring, moveenvelopepoints, movemarkers)
---splits the items at position and inserts MediaItemArray at that position, and moves 
---all following toward the end, accordingly.
---position - the position of the earliest item in the MediaItemArray. All others will be relative to the earliest Item
---MediaItemArray - the MediaItems to be inserted
---trackstring - only the tracks in trackstring will be affected by insert and ripple, all others stay the way they are
-
---!!! NOCH TESTEN!!!!
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RippleInsert_MediaItemStateChunks</slug>
@@ -27743,9 +25262,6 @@ function ultraschall.GetAllSelectedTracks()
   <tags>trackmanagement, trackstring, selection, unselect, select, get</tags>
 </US_DocBloc>
 ]]
-
---returns a trackstring with all selected tracks, as well as a trackstring with unselected tracks
-
   local trackstring=""
   for i=1, reaper.CountTracks() do
     MediaTrack=reaper.GetTrack(0,i-1)
@@ -28086,8 +25602,7 @@ function ultraschall.GetAllLockedItemsFromMediaItemArray(MediaItemArray)
   <tags>mediaitemmanagement, track, set, item, mediaitem, selection, lock, lockstate, locked state, unlock, unlocked state</tags>
 </US_DocBloc>
 ]]
---lockedstate = true return only locked items
---            = false return only unlocked items
+
   if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("GetAllLockedItemsFromMediaItemArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return -1 end
   local MediaItemArray_locked={}
   local MediaItemArray_unlocked={}
@@ -28103,9 +25618,6 @@ function ultraschall.GetAllLockedItemsFromMediaItemArray(MediaItemArray)
   end
   return countlock-1, MediaItemArray_locked, countunlock-1, MediaItemArray_unlocked
 end
-
---C,CC,CCC=ultraschall.GetMediaItemsAtPosition(49,"1,2,3")
---P,PP,PPP,PPPP=ultraschall.GetAllLockedItemsFromMediaItemArray(CC)
 
 function ultraschall.GetMediaItemStateChunksFromMediaItemArray(MediaItemArray)
 --[[
@@ -28151,8 +25663,7 @@ function ultraschall.GetMediaItemStateChunksFromMediaItemArray(MediaItemArray)
   end
   return count2-1, MediaItemStateChunkArray
 end
---A=ultraschall.IsValidMediaItemArray(1)
---L=ultraschall.GetMediaItemStateChunksFromMediaItemArray(1)
+
 
 function ultraschall.GetTrackHWOut(tracknumber, idx, TrackStateChunk)
 --[[
@@ -28443,8 +25954,6 @@ function ultraschall.CountTrackHWOuts(tracknumber, TrackStateChunk)
   return count-1, TrackStateChunkArray
 end
 
---A1,A2=reaper.GetTrackStateChunk(reaper.GetTrack(0,0), "", false)
---B2,BB2=ultraschall.CountTrackHWOuts(-2, A2)
 
 function ultraschall.CountTrackAUXSendReceives(tracknumber, TrackStateChunk)
 --[[
@@ -28501,9 +26010,6 @@ function ultraschall.CountTrackAUXSendReceives(tracknumber, TrackStateChunk)
   return count-1, TrackStateChunkArray
 end
 
---C1,C2=reaper.GetTrackStateChunk(reaper.GetTrack(0,1), "", false)
---A,AA=ultraschall.CountTrackAUXSendReceives(-1, C2)
---outputchannel, post_pre_fader, volume, pan, mute, phase, source, pan_law, automationmode
 
 function ultraschall.AddTrackHWOut(tracknumber, outputchannel, post_pre_fader, volume, pan, mute, phase, source, pan_law, automationmode, TrackStateChunk)
 --[[
@@ -28605,14 +26111,8 @@ function ultraschall.AddTrackHWOut(tracknumber, outputchannel, post_pre_fader, v
                   TrackStateChunk:sub(Startoffs,-1)
                   
   return true, TrackStateChunk
-  
-
 end
 
---B,BB=ultraschall.GetTrackStateChunk_Tracknumber(1)
---A,AA=ultraschall.AddTrackHWOut(-1,0,0,1,0,0,0,0,-1,-1,false,BB)
---reaper.MB(AA,"",0)
---C,CC=reaper.SetTrackStateChunk(reaper.GetTrack(0,2),AA,false)
 
 function ultraschall.AddTrackAUXSendReceives(tracknumber, recv_tracknumber, post_pre_fader, volume, pan, mute, mono_stereo, phase, chan_src, snd_chan, pan_law, midichanflag, automation, TrackStateChunk)
 --[[
@@ -28700,13 +26200,6 @@ function ultraschall.AddTrackAUXSendReceives(tracknumber, recv_tracknumber, post
   <tags>trackmanagement, track, add, send, receive, phase, source, mute, pan, volume, post, pre, fader, channel, automation, midi, pan-law, trackstatechunk</tags>
 </US_DocBloc>
 ]]
--- integer tracknumber, integer recv_tracknumber, integer post_pre_fader, number volume, 
---                      number pan, integer mute, integer mono_stereo, integer phase, 
---                      integer chan_src, integer snd_chan, number unknown, integer midichanflag, 
---                      integer automation, boolean undo
-
--- recv_tracknumber, post_pre_fader, volume, pan, mute, mono_stereo, phase, chan_src, snd_chan, pan_law, midichanflag, automation
-
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("AddTrackAUXSendReceives", "tracknumber", "must be an integer", -1) return false end
   if tracknumber<-1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("AddTrackAUXSendReceives", "tracknumber", "no such track", -2) return false end
   if math.type(recv_tracknumber)~="integer" then ultraschall.AddErrorMessage("AddTrackAUXSendReceives", "recv_tracknumber", "must be an integer", -3) return false end
@@ -28755,14 +26248,6 @@ function ultraschall.AddTrackAUXSendReceives(tracknumber, recv_tracknumber, post
   return true, TrackStateChunk
 end
 
---A=reaper.GetTrack(0,1)
---B,BB=reaper.GetTrackStateChunk(A,"",false)
---reaper.MB(BB,"",0)
---DD=BB
---D,DD=ultraschall.AddTrackAUXSendReceives(-1,1,3,0.1,4,5,6,7,8,9,10,11,12,BB) 
---print2(BB)
---print2(DD)
---reaper.SetTrackStateChunk(reaper.GetTrack(0,2), DD, false)
 
 function ultraschall.DeleteTrackHWOut(tracknumber, idx, TrackStateChunk)
 --[[
@@ -28834,14 +26319,6 @@ function ultraschall.DeleteTrackHWOut(tracknumber, idx, TrackStateChunk)
     return true, finalstring
   end
 end
-
---A1,B1=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
---reaper.MB(B1:sub(1,1500),"",0)
-
---L1,LL1=ultraschall.DeleteTrackAUXSendReceives(-1,1,false, B1)
---L1, LL1=ultraschall.DeleteTrackHWOut(0,-1,false,B1)
---ultraschall.ShowLastErrorMessage()
---reaper.MB(LL1:sub(1,1500),"",0)
 
 
 function ultraschall.DeleteTrackAUXSendReceives(tracknumber, idx, TrackStateChunk)
@@ -28915,12 +26392,6 @@ function ultraschall.DeleteTrackAUXSendReceives(tracknumber, idx, TrackStateChun
     return true, finalstring
   end
 end
-
---A1,B1=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
---reaper.MB(B1:sub(1,1000),"",0)
-
---L1,LL1=ultraschall.DeleteTrackAUXSendReceives(-1,1,false, B1)
---reaper.MB(LL1:sub(1,1000),"",0)
 
 function ultraschall.SetTrackHWOut(tracknumber, idx, outputchannel, post_pre_fader, volume, pan, mute, phase, source, pan_law, automationmode, TrackStateChunk)
 --[[
@@ -29034,11 +26505,6 @@ function ultraschall.SetTrackHWOut(tracknumber, idx, outputchannel, post_pre_fad
   TrackStateChunk=Start..Middle1..Middle..Middle2..Ende
   return true, TrackStateChunk
 end
-
---A,AA=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
---L,LL=ultraschall.SetTrackHWOut(-1, 1, 0, 0, 4, 5, 0, 7, 8, 9, 10, true,AA)
---B=reaper.SetTrackStateChunk(reaper.GetTrack(0,1), LL, false)
---print2(LL)
 
 
 function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, recv_tracknumber, post_pre_fader, volume, pan, mute, mono_stereo, phase, chan_src, snd_chan, pan_law, midichanflag, automation, TrackStateChunk)
@@ -29177,17 +26643,6 @@ function ultraschall.SetTrackAUXSendReceives(tracknumber, idx, recv_tracknumber,
   end
 end
 
---A,AA=reaper.GetTrackStateChunk(reaper.GetTrack(0,1),"",false)
---A,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11,A12=ultraschall.GetTrackAUXSendReceives(2,1)
-
---B,BB=ultraschall.SetTrackAUXSendReceives(-1,1,3,0,1.0,0.0,0,0,0,0,0,-1.0,0,-1,AA)
---reaper.MB(AA,"",0)
---reaper.MB(BB,"",0)
---ultraschall.SetTrackAUXSendReceives(1,1,1,2,3,4,5,6,7,8,9,10,11,12,true)
---reaper.SetTrackStateChunk(reaper.GetTrack(0,1),BB,false)
-
---print2(AA)
---print2(BB)
 
 function ultraschall.GetReaperWindowPosition_Left()
 -- Due to Api-limitations: when the reaper-window is too small, it returns a wrong value, up to 72 pixels too high!
@@ -30243,11 +27698,6 @@ function ultraschall.GetAllMediaItemsFromTrackStateChunk(trackstatechunk)
   return count, MediaItemStateChunkArray
 end
 
-
---------------------------------------------------
------- ULTRASCHALL FRAMEWORK 4.00 BETA 2.6 -------
---------------------------------------------------
-
 function ultraschall.CreateTrackString_AllTracks()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -31197,8 +28647,6 @@ end
 
 
 function ultraschall.ReadBinaryFile_Offset(input_filename_with_path, startoffset, numberofbytes)
---reads a binary file from offset
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ReadBinaryFile_Offset</slug>
@@ -31303,8 +28751,6 @@ end
 
 
 function ultraschall.SecondsToTimeString_hh_mm_ss_mss(time)
--- valid timerange from 0 to 359999.99 seconds
--- limited to maximum time of 99 hours!
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SecondsToTimeString_hh_mm_ss_mss</slug>
@@ -31380,8 +28826,6 @@ function ultraschall.TimeStringToSeconds_hh_mm_ss_mss(timestring)
   <tags>timestring, converter, seconds, string</tags>
 </US_DocBloc>
 ]]
--- converts timestring to seconds
--- expects hh:mm:ss.mss as time, i.e. 12:23:34.456 or it returns -1 as result
   if type(timestring)~="string" then ultraschall.AddErrorMessage("TimeStringToSeconds_hh_mm_ss_mss","timestring", "must be a string", -1) return -1 end
   local Hour=timestring:match("(%d-):")
   if Hour==nil or string.len(Hour)~=2 then ultraschall.AddErrorMessage("TimeStringToSeconds_hh_mm_ss_mss","timestring", "no valid timestring", -2) return -1 end
@@ -31439,14 +28883,6 @@ function ultraschall.ParseMarkerString(markerstring, strict)
   <tags>markermanagement, marker, import, parse</tags>
 </US_DocBloc>
 ]]
--- splits the entries in markerstring into timeposition and name
--- returns the number of entries in markerstring, as well as a table with all entries in them
---
--- markertable[1][i] - the timestring, -1 if no time is available
--- markertable[2][i] - the time, converted into position in seconds, -1 if no time is available
--- markertable[3][i] - the name of the marker
---
--- the variable i above, is the number of the marker, beginning with 1
   if type(markerstring)~="string" then ultraschall.AddErrorMessage("ParseMarkerString","markerstring", "only string is allowed", -1) return -1 end
   local counter=1
   local markertable={}
@@ -31515,14 +28951,6 @@ function ultraschall.RenumerateMarkers(colorvalue, startingnumber)
   <tags>markermanagement, marker, numerate, shown number</tags>
 </US_DocBloc>
 ]]
--- renumerates the shown number of markers(no regions!) that have 
--- color "colorvalue", beginning with "startingnumber"
--- 
--- returns -1 in case of error
--- Parameters:
---    colorvalue - the colorvalue the marker must have
---    startingnumber - the first number that shall be given to the first marker with "colorvalue"
-
 
   if math.type(colorvalue)~="integer" then ultraschall.AddErrorMessage("RenumerateMarkers","colorvalue", "not a valid volorvalue, must be integer.", -1) return -1 end
   if math.type(startingnumber)~="integer" then ultraschall.AddErrorMessage("RenumerateMarkers","startingnumber", "not a valid starting number, must be integer", -2) return -1 end
@@ -31651,21 +29079,9 @@ function ultraschall.SetEnvelopeHeight(Height, Compacted, TrackEnvelope, TrackEn
   return true, newstr
 end
 
---A,B=reaper.GetTrackEnvelope(reaper.GetTrack(0,0),0)
-
---PUH,PUH2=ultraschall.SetEnvelopeHeight(100, true, A)
---reaper.MB(PUH2,"",0)
---reaper.UpdateArrange()
 
 
 function ultraschall.GetAllTrackEnvelopes()
--- returns all TrackEnvelopes of the current project as a table, number of tracks, the first track that has an envelope, if the master track has an envelope(0) or not (-1)
--- the table works as follows:
--- TrackEnvelopeArray[Tracknumber][0] - number of envelopes for track Tracknumber
--- TrackEnvelopeArray[Tracknumber][1][Envelopenumber] - the envelope Envelopenumber of track Tracknumber
---
--- tracknumber of 0 is for the master track
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllTrackEnvelopes</slug>
@@ -31728,14 +29144,6 @@ function ultraschall.GetAllTrackEnvelopes()
   
   return TrackEnvelopeArray, reaper.CountTracks(0), FirstEnvelopeTrackNumber, FirstEnvelopeMaster
 end
-
-
-
---L,LL=ultraschall.SetEnvelopeHeight(10,true, -1, "<VOLENV\nACT 1\nVIS 1 1 1\nLANEHEIGHT 47 0\nARM 1\nDEFSHAPE 0 -1 -1\nPT 0 1 0\n>")
-
---A,AA=ultraschall.GetTrackStateChunk(0,"hula")
---reaper.MB(LL,"",0)
---reaper.ShowConsoleMsg(AA)
 
 
 function ultraschall.CountPatternInString(sourcestring, searchstring, non_case_sensitive)
@@ -31890,16 +29298,6 @@ function ultraschall.CenterViewToCursor(cursortype, position)
     reaper.BR_SetArrangeView(0, (cursor_time-length), (cursor_time+length))
 end
 
---ultraschall.CenterViewToCursor(4,1000000)
-
-
-
-
-
-
-
-
-
 
 function toboolean(value)
     -- converts a value to boolean, or returns nil, if not convertible
@@ -32030,9 +29428,6 @@ integer retval - -1 in case of error
   return true
 end
 
---A=ultraschall.OpenURL("ftp://www.htm")
-
---
 
 function ultraschall.IsMarkerAtPosition(position)
 --[[
@@ -32148,12 +29543,7 @@ function ultraschall.IsRegionAtPosition(position)
   return yes, counter-1, markersstring:sub(2,-1), markersarray
 end
 
---A,B,C,D=ultraschall.IsRegionAtPosition(14)
 
-
-
---A,B,C,D,E,F,G,H,I=ultraschall.GetMediafileAttributes("c:\\Derek And The Dominos - Layla.mp3")
---A,B,C,D,E,F,G,H,I=ultraschall.GetMediafileAttributes("C:\\MarkerProject.RPP")
 
 function ultraschall.GetAllMediaItemGUIDs()
 --[[
@@ -32243,24 +29633,7 @@ function ultraschall.CountEntriesInTable_Main(the_table)
   return count-1, SubTables, SubTablesCount-1
 end
 
---A={}
---A[1]="tudelu"
---A["tudelu"]="More Tudelu"
---A[3]={}
---A[3][1]="oh nor"
---A[3][9]="mullewapp"
 
---A={}
---A[1]=1
---A[2]=2
---A[3]=3
-
---B={}
---B[1]=3
---B[2]=4
---B[3]=5
-
---LL,LL2,LL3=ultraschall.CountEntriesInTable_Main(B)
 
 function ultraschall.CompareArrays(Array, CompareArray2)
 --[[
@@ -32316,21 +29689,6 @@ function ultraschall.CompareArrays(Array, CompareArray2)
   return Array3, count3-1
 end
 
---a={} 
---b={}
-
---a[1]=1
---a[2]=2
-
---b[1]=4
---b[2]=2
---b[3]=3
-
---C,C2=ultraschall.CompareArrays(a, b)
-
-
-
---A,B,C,D,E,F,G,H,I=ultraschall.InsertMediaItemFromFile("c:\\tt2.opus", 2, 10, 30, 0)
 
 function ultraschall.GetOS()
 --[[
@@ -32587,12 +29945,7 @@ function ultraschall.GetItemSpectralConfig(itemidx, MediaItemStateChunk)
   return tonumber(retval)
 end
 
---mi=reaper.GetMediaItem(0,1)
---_raetval, misc=reaper.GetItemStateChunk(mi,"",false)
 
---AAA=ultraschall.GetItemSpectralConfig(1, misc)
---reaper.MB(misc,"",0)
---reaper.MB(A,"",0)
 
 function ultraschall.SetItemSpectralConfig(itemidx, item_spectral_config, MediaItemStateChunk)
 --[[
@@ -32659,12 +30012,6 @@ function ultraschall.SetItemSpectralConfig(itemidx, item_spectral_config, MediaI
   return true, MediaItemStateChunk
 end
 
-
---mi=reaper.GetMediaItem(0,1)
---_raetval, misc=reaper.GetItemStateChunk(mi,"",false)
-
---L,LL=ultraschall.SetItemSpectralConfig(2, nil, misc)
---reaper.MB(LL,"",0)
 
 
 function ultraschall.ConvertColorToGFX(r,g,b,a)
@@ -32830,9 +30177,6 @@ function ultraschall.CountItemSpectralEdits(itemidx, MediaItemStateChunk)
   return counter
 end
 
---item=reaper.GetMediaItem(0,0)
---BB,B=reaper.GetItemStateChunk(item,"",false)
---A2=ultraschall.CountItemSpectralEdits(-1, B)
 
 
 function ultraschall.GetItemSpectralEdit(itemidx, spectralidx, MediaItemStateChunk)
@@ -33052,12 +30396,6 @@ function ultraschall.SetItemSpectralVisibilityState(item, state, statechunk)
   return statechunk
 end
 
---item=reaper.GetMediaItem(0,0)
---a,A=reaper.GetItemStateChunk(item, "", true)
---A=ultraschall.SetItemSpectralVisibilityState(1, 1)
---reaper.MB(A,"",0)
---reaper.SetItemStateChunk(item, A, false)
---reaper.UpdateArrange()
 
 function ultraschall.SetItemSpectralEdit(itemidx, spectralidx, start_pos, end_pos, gain, fade, freq_fade, freq_range_bottom, freq_range_top, h, byp_solo, gate_thres, gate_floor, comp_thresh, comp_exp_ratio, n, o, fade2, freq_fade2, statechunk)
 --[[
@@ -33154,13 +30492,6 @@ function ultraschall.SetItemSpectralEdit(itemidx, spectralidx, start_pos, end_po
   return statechunk
 end
 
---item=reaper.GetMediaItem(0,0)
---b,sc=reaper.GetItemStateChunk(item, "", false)
-
---reaper.MB(sc,"",0)
---A=ultraschall.SetItemSpectralEdit(1, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, "")
---reaper.MB(A,"",0)
-
 
 function ultraschall.LimitFractionOfFloat(number, length_of_fraction, roundit)
 --[[
@@ -33213,20 +30544,6 @@ function ultraschall.LimitFractionOfFloat(number, length_of_fraction, roundit)
   
   
   return tonumber(int.."."..(fraction2))+adder
-  
---[[  number=tostring(number)
-  local pos_point, pos_end_of_fraction=number:match(".-%.().*()")
-  if length_of_fraction>=pos_end_of_fraction-pos_point then return tonumber(number) end
-
-  if roundit==false then return tonumber(number:sub(1,pos_point+length_of_fraction-1))
-  elseif roundit==true then 
-    int=number:sub(1,pos_point-2)
-    frac=tonumber(number:sub(pos_point,pos_point+length_of_fraction-1))
-    frac2=tonumber(number:sub(pos_point+length_of_fraction, pos_point+length_of_fraction))
-    if frac2>=5 then return tonumber(int.."."..frac+1)
-    else return tonumber(int.."."..frac)
-    end
-  end--]]
 end
 
 --AA=ultraschall.LimitFractionOfFloat(19999.12345, 4.1, true)
@@ -33300,20 +30617,6 @@ function ultraschall.GetAllEntriesFromTable(table)
   return count-1, table3, table2
 end
 
-
---[[A={}
-A[1]="tudelu"
-A["Hutzelblutz"]="Hops"
-A[3]="klo"
-A[4]={}
-A[4][1]="Holla"
-A[4][2]="die"
-A[4][3]="Waldfee"
-A[5]=9
-A[5]=9.9
-A[6]=reaper.MB
---]]
---L,LL,LLL=ultraschall.GetAllEntriesFromTable(ultraschall)
 
 function ultraschall.GetItemSourceFile_Take(MediaItem, take_nr)
 --[[
@@ -33759,20 +31062,6 @@ function ultraschall.EnumProjects(idx)
   return reaper.EnumProjects(idx,"")
 end
 
---A=reaper.EnumProjects(-1,"")
---B=ultraschall.EnumProjects(1)
-
---A,AA=ultraschall.EnumProjects(2)
-
-
---L=reaper.GetTrackEnvelope(reaper.GetTrack(0,0),4)
---LL,LLL=reaper.GetEnvelopeStateChunk(L,"",false)
---O=ultraschall.IsValidEnvStateChunk(LLL)
---BB,B=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
---A=ultraschall.IsValidTrackStateChunk(B:sub(1,-2))
---A,B=reaper.GetItemStateChunk(reaper.GetMediaItem(0,1),"",false)
---L=ultraschall.IsValidItemStateChunk(nil)
-
 function ultraschall.DeleteProjExtState_Section(section)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -33844,16 +31133,6 @@ function ultraschall.DeleteProjExtState_Key(section, key)
   if reaper.GetProjExtState(0, section, key)==0 then ultraschall.AddErrorMessage("DeleteProjExtState_Key","key", "no such key/value to delete", -3) return -1 end
   return reaper.SetProjExtState(0, section, key, "")
 end
-
---Ainteger=reaper.SetProjExtState(0, "ultraschall", "tudelu", "uhuhuhuhuh")
---Ainteger2=reaper.SetProjExtState(0, "ultraschall", "tudelul", "uhuhuhuhuh2")
---Ainteger3=reaper.SetProjExtState(0, "ultraschall", "tudelull", "uhuhuhuhuh3")
---P=ultraschall.DeleteProjExtState_Section("ultraschall")
---P=ultraschall.DeleteProjExtState_Section("ultraschall")
---L=ultraschall.DeleteProjExtState_Key("ultraschall", "tudelu")
---retval1, val1 = reaper.GetProjExtState(0, "ultraschall", "tudelulu")
---retval2, val2 = reaper.GetProjExtState(0, "ultraschall", "tudelul")
-
 
 function ultraschall.GetProjExtState_AllKeyValues(section)
 --[[
@@ -33952,10 +31231,6 @@ function ultraschall.IsValidGuid(guid, strict)
   end
 end
 
---L=ultraschall.IsValidGuid(reaper.GetTrackGUID(reaper.GetTrack(0,0)))
---LL=reaper.genGuid("")
---L=ultraschall.IsValidGuid("U"..LL:sub(1,-2), false)
---if L==false then reaper.MB(LL,tostring(L),0) end
 
 function ultraschall.SetGuidExtState(guid, key, value, savelocation, overwrite, persist)
 --[[
@@ -34016,13 +31291,6 @@ function ultraschall.SetGuidExtState(guid, key, value, savelocation, overwrite, 
 end
 
 
---L,LL=ultraschall.SetGuidExtState("TRACK_"..reaper.GetTrackGUID(reaper.GetTrack(0,0)),"Hulas", "projstate-ADulass", 1, true, true)
-
---A=reaper.time_precise()
---for i=0, 9000 do
---end
---B=reaper.time_precise()
-
 function ultraschall.GetGuidExtState(guid, key, savelocation)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -34074,10 +31342,6 @@ function ultraschall.GetGuidExtState(guid, key, savelocation)
   end
 end
 
---L,LL=ultraschall.GetGuidExtState("MEDIAITEM-{B6EB7726-CD8D-42A8-A5EF-DBA127A8D34C}","Tudel", 0)
---A,AA=reaper.GetProjExtState(0, "MEDIAITEM-{B6EB7726-CD8D-42A8-A5EF-DBA127A8D34C}","TUDEL")
---L,LL=ultraschall.GetGuidExtState("TRACK_"..reaper.GetTrackGUID(reaper.GetTrack(0,0)),"Hulas", 1, true, true)
---ultraschall.ShowLastErrorMessage()
 
 function ultraschall.GetVerticalZoom()
 --[[
@@ -34164,10 +31428,6 @@ function ultraschall.SetVerticalZoom(vertical_zoom_factor)
   -- do the zoom  
   reaper.CSurf_OnZoom(0, DiffVZoom)
 end
-
---L=ultraschall.SetVerticalZoom(0)
---LL=ultraschall.GetVerticalZoom(30)
---reaper.UpdateArrange()
 
 
 
@@ -34463,13 +31723,7 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
   return true, description, start, ende, vzoom, hzoom, vscroll
 end
 
---ultraschall.StoreArrangeviewSnapshot(3, "LSubisubisu", true, true, true)
 
---A,B,C,D,E,F=ultraschall.RestoreArrangeviewSnapshot(1,false, true, 1)
---ultraschall.SetVerticalZoom(40)
-
-
---ultraschall.SetVerticalZoom(29.1)
 
 function ultraschall.SetBitfield(integer_bitfield, set_to, ...)
 --[[
@@ -34637,10 +31891,7 @@ function ultraschall.SetIntConfigVar_Bitfield(configvar, set_to, ...)
   return reaper.SNM_SetIntConfigVar(configvar, integer_bitfield), integer_bitfield
 end
 
---L,LL=ultraschall.SetIntConfigVar_Bitfield("mixrowflags", nil, 1,2,4,8,16,32,64,128,256)
 
---reaper.UpdateArrange()
---reaper.UpdateTimeline()
 
 function ultraschall.CountMarkersAndRegions()
 --[[
@@ -34847,12 +32098,6 @@ function ultraschall.DeleteArrangeviewSnapshot(slot)
   return ultraschall.DeleteProjExtState_Section("Ultraschall", "ArrangeViewSnapShot_"..slot)
 end
 
---ultraschall.StoreArrangeviewSnapshot(1, "LSubisubisu", true, true, true)
---A,B,C,D,E,F,G=ultraschall.RetrieveArrangeviewSnapshot(1)
---O=ultraschall.DeleteArrangeviewSnapshot(1)
---A1,B1,C1,D1,E1,F1,G1=ultraschall.RetrieveArrangeviewSnapshot(1)
-
---KUEL,KUEL2=ultraschall.GetProjExtState_AllKeyValues("Ultraschall")
 
 function ultraschall.MakeCopyOfTable(table, seen, recursive) --copy an array
 --[[
@@ -34896,19 +32141,6 @@ function ultraschall.MakeCopyOfTable(table, seen, recursive) --copy an array
   end
   return res
 end
-
-
---[[
-A={}
-A[1]=1
-A[2]={}
-A[2][1]=2
-A[2][2]=3
-A[4]=4
-A[3]=nil
---]]
---B=ultraschall.MakeCopyOfTable(A)
---A[2]=99
 
 function ultraschall.ConvertStringToAscii_Array(string)
 --[[
@@ -34957,8 +32189,6 @@ end
 
 
 function ultraschall.CompareStringWithAsciiValues(string,...)
--- string - the string to compare against the ascii-code-parameters
--- ... - 0(0x0) to 255(0xFF), valid ascii-characters; -1 to skip comparison of a character
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CompareStringWithAsciiValues</slug>
@@ -35090,14 +32320,6 @@ function ultraschall.CheckForValidFileFormats(filename_with_path)
   return "unknown", false, "unknown"
   end
 end
-
---L,L2,L3=ultraschall.CheckForValidFileFormats("C:\\MarkerProject.RPP")
---L,L2=ultraschall.CheckForValidImageformat("h:\\aufräum\\Minerva-Digital_T-werk\\Videomaterial\\Source Code a.avi")
---AA=string.char(1, 176, 206)
---A=reaper.GetMediaSourceType(PCM_source source, string typebuf)
---M=string.format('%s', 65)
-
-
 
 
 function ultraschall.InsertImageFile(filename_with_path, track, position, length, looped)
@@ -35334,10 +32556,7 @@ function ultraschall.GetTrackExtState(track, key)
     if retval==-1 then return false else return true, retval2 end
 end
 
---item=reaper.GetTrack(0, 0)
---L=ultraschall.SetTrackExtState(item, "A", "BuddeldaddelDuB", true)
 
---B,BB=ultraschall.GetTrackExtState(item, "ALA", 0)
 
 function ultraschall.ReturnsMinusOneInCaseOfError_Arzala()
 --[[
@@ -35476,41 +32695,6 @@ end
 --L=ultraschall.GetIDEFontSize()
 
 
-function progresscounter_old(state)
-  local A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine.lua")
-  local A=A.."function ultraschall."
-  
-  local functioncounter_done=10
-  local functioncounter_todo=-9
-  local i=0
-  
-  local todostring=""
-  
-  while A:match("function ultraschall%.")~=nil do
-  --for i=0, 130 do
-    local B,C=A:match("(function ultraschall%..-<ApiDocBlocFunc>.-)()function ultraschall%.")
---    if B~=nil and B:match("<slug>\n(.-)\n</slug>")=="CountSectionsByPattern" then reaper.MB(i,tostring(B:match("(ultraschall.AddErrorMessage%(\")")),0) end
-  --  reaper.MB(B,C,0)
-    if B==nil then break end
-    i=i+1
-    if state~=false then reaper.ShowConsoleMsg(i.." - "..B:match("ultraschall%..-%)").."\n") end
-    if B:match("ultraschall%..-%(%)")~=nil then functioncounter_done=functioncounter_done+1 if i==186 then reaper.ShowConsoleMsg("TEST\n"..B:match("ultraschall%..-%(%)"),"",0) end
-    elseif B:match("(ultraschall.AddErrorMessage%(\")")~=nil then functioncounter_done=functioncounter_done+1 if i=="a186" then reaper.ShowConsoleMsg(B,"",0) end--reaper.MB(B:match("(ultraschall.AddErrorMessage%(\")"),"",0)
-    else functioncounter_todo=functioncounter_todo+1 todostring=todostring..B:match("<slug>\n*(.-)\n*</slug>").."\n"
-    end
-    A=A:sub(C,-1)
-  end
-  
-  local L=functioncounter_done+functioncounter_todo
-  local M=100/L
-  local N=functioncounter_done*M
-  
-  reaper.CF_SetClipboard(todostring)
-  reaper.MB("Du hast schon "..functioncounter_done.." von ".. functioncounter_done+functioncounter_todo.." Funktionen fertig. \nDas sind schon "..N.." Prozent. \nFehlen noch "..functioncounter_todo.." Funktionen.\n\nNicht schlecht :D", "Hui!", 0)  
-end
-
---progresscounter(false)
-
 function progresscounter(state)
   A=ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_doc_engine.lua")
@@ -35531,51 +32715,7 @@ if ultraschall.US_BetaFunctions=="ON" then
 end
   A=A.."function ultraschall."
   A=A:match("function ultraschall%..*")
---  reaper.MB(tostring(A:sub(1,400)),"",0)
---[[
-  i=0
-  done=15
-  todo=-17
-  todostring=""
-  funclist=""
-  donestring=""
-    
-  while A~=nil do
-  i=i+1
-    B=A:match("(function.-)function ultraschall%.")
-    if B==nil then break end
-    func=B:match(".-%c")
-    if state~=false then reaper.ShowConsoleMsg(i.." - "..func.."\n") end
-    funclist=funclist..tostring(func:match("ultraschall.(.-)%(")).."\n"
-    func_no_parms=func:match("%(%)")
-    docblock=B:match("US_DocBloc")
-    adderror=B:match("US_DocBloc.-(ultraschall%.AddErrorMessage)")
---    if func:match("DeleteArrangeviewSnapshot") then reaper.ShowConsoleMsg(i.." "..B,"",0) end
---    if i==547 then reaper.ShowConsoleMsg(i.." "..B,"",0) end
 
-    if func==nil then break end
-    if func_no_parms==nil and adderror==nil and docblock~=nil then todo=todo+1 todostring=todostring..tostring(func:match("ultraschall.(.-)%(")).."\n"
-    elseif docblock~=nil then
-      done=done+1
-      donestring=donestring..tostring(func:match("ultraschall.(.-)%(")).."\n"
-    end
---    if func_no_parms~=nil then reaper.MB(tostring(func).." "..tostring(func_no_parms).." "..tostring(adderror),"",0) end
-    
-    A=A:sub(B:len(),-1)
---    A=A:sub(5,-1)
---    A=A:match("function ultraschall%..*")
-  end
---  reaper.ShowConsoleMsg(todostring)
-
-  local L=done+todo
-  local M=100/L
-  local N=done*M
-    
-  --reaper.CF_SetClipboard(todostring)
---  reaper.CF_SetClipboard(donestring)
-
-  if state~=false then reaper.MB("Du hast schon "..done.." von ".. done+todo.." Funktionen fertig. \nDas sind schon "..N.." Prozent. \nFehlen noch "..todo.." Funktionen.\n\nNicht schlecht :D", "Hui!", 0) end
-  --]]
   funcs=0
   vars=0
   count, individual_values = ultraschall.CSV2IndividualLinesAsArray(A, "\n")
@@ -35590,13 +32730,6 @@ end
   return funcs-vars, vars
 end
 --L,LL=progresscounter(false)
-
-
-
-
-
-
---LOL=ultraschall.GetProject_Tabs()
 
 
 function ultraschall.CheckForChangedProjectTabs(update)
@@ -35706,12 +32839,6 @@ function ultraschall.CheckForChangedProjectTabs(update)
   return false
 end
 
-
---function main()
---  ARetval,Borderc,Corderta,Dnewproc,Enewprta,Fclosedc,Gclosedta=ultraschall.CheckForChangedProjectTabs(true)
---  reaper.defer(main)
---end
---main()
 
 
 --progresscounter()
@@ -36008,8 +33135,6 @@ end
 
 
 function ultraschall.RemoveTableEntriesOfType(worktable, removetype)
--- supports
--- boolean, integer, float, number, string, ReaProject, MediaTrack, MediaItem, MediaItem_Take, TrackEnvelope, PCM_source
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RemoveTableEntriesOfType</slug>
@@ -36056,17 +33181,6 @@ function ultraschall.RemoveTableEntriesOfType(worktable, removetype)
   end
   return NewTable
 end
-
---[[A={}
-A[1]=99
-A[2]="tudelu"
-A[3]=true
-A[9]=9.987
-A[7]=reaper.GetTrack(0,0)
-A["HollaDieWaldfee"]=false
-L,LL=ultraschall.RemoveTableEntriesOfType(A, "MediaTrack")--]]
-
-
 
 function ultraschall.IsItemInTrack3(MediaItem, trackstring)
 --[[
@@ -36170,9 +33284,6 @@ function ultraschall.IsItemInTimerange(MediaItem, startposition, endposition, in
   end
 end
 
---start, ende = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
-
---A,B=ultraschall.IsItemInTimerange(reaper.GetMediaItem(0,0), start, ende, false)
 
 function ultraschall.OnlyItemsInTracksAndTimerange(MediaItemArray, trackstring, starttime, endtime, inside)
 --[[
@@ -36234,10 +33345,6 @@ function ultraschall.OnlyItemsInTracksAndTimerange(MediaItemArray, trackstring, 
   return count2, NewMediaItemArray
 end
 
---start, ende = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
---L,L2=ultraschall.GetAllMediaItemsBetween(start,ende,"1,2,3",false)
-
---M,M2=ultraschall.OnlyItemsInTracksAndTimerange(L2, "2", start, ende, false)
 
 
 function ultraschall.ApplyActionToMediaItem(MediaItem, actioncommandid, repeat_action, midi, MIDI_hwnd)
@@ -36688,24 +33795,7 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
   <tags>projectfiles, get, render, outputformat, reaproject, projecttab</tags>
 </US_DocBloc>
 ]]
---[[
-AIFF:     ZmZpY    12
-AUDIOCD:  IG9za    32
-WAV:      ZXZhd    12
-WAVPACK:  a3B2dw   28
-DDP:      IHBkZA=
-FLAC:     Y2FsZh   16
-MP3:      bDNwbc   44
-OPUS:     U2dnTwAA 20
-OGG:      dmdnb    36
-Video
-  WebM    UE1GRgY  60
-  MKV     UE1GRgQ  60
-  MP4     UE1GRgM  60
-  AVI     UE1GRgA  60
-GIF:      IEZJR    24
-LCF:      IEZDT    108
---]]
+
   -- check parameter
   if Renderstring~=nil and type(Renderstring)~="string" then ultraschall.AddErrorMessage("GetOutputFormat_RenderCfg", "Renderstring", "Must be a string!", -1) return nil end
   if ReaProject~=nil and ultraschall.type(ReaProject)~="ReaProject" and math.type(ReaProject)~="integer" then ultraschall.AddErrorMessage("GetOutputFormat_RenderCfg", "ReaProject", "Must be a valid ReaProject or nil!", -2) return nil end
@@ -36806,39 +33896,6 @@ end
 
 function ultraschall.CreateRenderCFG_Opus2(Mode, Kbps, Complexity, channel_audio, per_channel)
   return ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity, channel_audio, per_channel)
---[[  local ini_file=ultraschall.Api_Path.."IniFiles/Reaper-Render-Codes.ini"
-  local encode
-  if reaper.file_exists(ini_file)==false then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Ooops", "external render-code-ini-file does not exist. Reinstall Ultraschall-API again, please!", -1) return nil end
-  if math.type(Kbps)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Kbps", "Must be an integer!", -2) return nil end
-  if math.type(Mode)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Mode", "Must be an integer!", -3) return nil end
-  if math.type(Complexity)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Complexity", "Must be an integer!", -4) return nil end
-  if Kbps<1 or Kbps>256 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Kbps", "Ultraschall-API supports only kbps-values between 1 to 256, sorry.", -5) return nil end
-  if Mode<0 or Mode>2 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Mode", "must be between 0 and 2", -6) return nil end
-  if Complexity<0 or Complexity>10 then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "Complexity", "must be between 0 and 10", -7) return nil end
-  if type(channel_audio)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "channel_audio", "must be a boolean", -8) return nil end
-  if type(per_channel)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_Opus2", "per_channel", "must be a boolean", -9) return nil end
-  
-  if channel_audio==false and per_channel==false then encode="A"
-  elseif channel_audio==false and per_channel==true then encode="I"
-  elseif channel_audio==true and per_channel==false then encode="E"
-  elseif channel_audio==true and per_channel==true then encode="M"
-  end
-  
-  if Mode==0 then Mode="VBR"
-  elseif Mode==1 then Mode="CVBR"
-  elseif Mode==2 then Mode="HARDCBR"
-  end
-  local _temp, renderstring=ultraschall.GetIniFileExternalState("Opus_Reaper_5_95", "Renderstring", ini_file)  
-  local _temp, renderkbps=ultraschall.GetIniFileExternalState("Opus_Reaper_5_95", "KBPS_"..Kbps, ini_file)
-  local _temp, rendermode=ultraschall.GetIniFileExternalState("Opus_Reaper_5_95", "MODE_"..Mode, ini_file)
-  local _temp, rendercomplexity=ultraschall.GetIniFileExternalState("Opus_Reaper_5_95", "Complexity_"..Complexity, ini_file)
-
-  renderstring=string.gsub(renderstring, "%[KBPS%]", renderkbps)
-  renderstring=string.gsub(renderstring, "%[MODE%]", rendermode)
-  renderstring=string.gsub(renderstring, "%[Encode%]", encode)
-  renderstring=string.gsub(renderstring, "%[Complexity%]", rendercomplexity)
-  return renderstring
-  --]]
 end
 
 --A=ultraschall.CreateRenderCFG_Opus2(0, 1, 0, false, false)
@@ -37131,72 +34188,6 @@ function ultraschall.CreateRenderCFG_WAVPACK(Mode, Bitdepth, Writemarkers, Write
 end
 
 --A=ultraschall.CreateRenderCFG_WAVPACK(0, 0, 2, true, true)
-
-function ultraschall.SaveProjectAs(projectfilename_with_path, createsubdir, copy_media, move_media, overwrite, reload)
--- BUGGY!! Can't find it's mediafiles, when project is stored in different folder and is reloaded. 
---         Probably due an relative-path-problem
---         Maybe, I need to work with an additional function SourceFileArray=GetAllMediaSourceFiles(), in which I 
---         replace all old paths with new ones, corresponding to the new path, OR:
---         I use it, to recreate the folder-structure, copying the files to the new location, OR:
---         both(probably the best idea)
-
--- parameters: boolean createsubdir - true, like the Create subdirectory for project-checkbox
---             boolean copy_media - true, like the copy all media into project directory
---             integer move_media - 0, don't move; 1, move all media into projdir; 2, copy, rather than move source-media if not in old project media path-checkboxes
---             
---[[
-<//ApiDocBlocFunc>
-  <slug>SaveProjectAs</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.77
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval = ultraschall.SaveProjectAs(string projectfilename_with_path, boolean overwrite, boolean reload)</functioncall>
-  <description>
-    Saves a project under a given name.
-    
-    Returns -1 in case of an error
-  </description>
-  <retvals>
-    integer retval - 1, in case of success; -1, in case of error
-  </retvals>
-  <parameters>
-    string projectfilename_with_path - the new projectfilename under which you want to save it, including path
-    boolean overwrite - true, overwrites an existing file; false, does not overwrite an existing file
-    boolean reload - true, reload the project under the new name; false, keep the old project opened
-  </parameters>
-  <chapter_context>
-    API-Helper functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, save, saveas</tags>
-<//ApiDocBlocFunc>
-]]
-  if type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("SaveProjectAs", "projectfilename_with_path", "Must be a string.", -1) return -1 end
-  if type(overwrite)~="boolean" then ultraschall.AddErrorMessage("SaveProjectAs", "overwrite", "Must be a boolean.", -2) return -1 end
-  if type(reload)~="boolean" then ultraschall.AddErrorMessage("SaveProjectAs", "reload", "Must be a boolean.", -3) return -1 end
-  if overwrite==false and reaper.file_exists(projectfilename_with_path)==true then ultraschall.AddErrorMessage("SaveProjectAs", "projectfilename_with_path", "File already exists", -4) return -1 end
-  local A,B=reaper.EnumProjects(-1,"")
-  local RPPTempfilename = ultraschall.CreateValidTempFile(projectfilename_with_path, true, "", true)
-  if RPPTempfilename==nil then ultraschall.AddErrorMessage("SaveProjectAs", "projectfilename_with_path", "Can't create file.", -5) return -1 end
-  local Tempfilename = ultraschall.CreateValidTempFile(B, false, "", true)
---reaper.MB(Tempfilename,B,0)
-  os.remove(RPPTempfilename)
-  os.rename(B, Tempfilename)
-  reaper.Main_SaveProject(0,false)
-  os.rename(B, projectfilename_with_path)
-  os.rename(Tempfilename, B)
-  os.remove(Tempfilename)
-  if reload==true and B~=projectfilename_with_path then
-    reaper.Main_OnCommand(40023,0)
-    reaper.Main_openProject(projectfilename_with_path)
-  end
-  return 1  
-end
-
---O=ultraschall.SaveProjectAs("c:\\temp/Achgotterl999836874668.rpp", true, true)
 
 function ultraschall.ChangePathInSource(PCM_source, NewPath)
   local Filenamebuf = reaper.GetMediaSourceFileName(PCM_source, "")
@@ -37654,18 +34645,6 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
   local WavEnder="=="
   return WavHeader..BitDepth..A0..A..B..C..WavEnder  
 end
--- -----..----- Wav bit depth: wg(8 bit PCM), xA(16 bit PCM), xg(24 bit PCM), yA(32 bit FP), 
---                             0A(64 bit FP), wQ(4 bit IMA ADPCM), wI(2 bit cADPCM)
---CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, IncludeMarkers, EmbedProjectTempo)
---reaper.Main_SaveProject(0,false)
---ALABAMA_Function=ultraschall.CreateRenderCFG_WAV(0,0,0,0,true)
---ALABAMA_Project=ultraschall.GetProject_RenderCFG("c:\\rendercode-project.rpp")
---if ALABAMA_Function~=ALABAMA_Project then ALABAM_33="UNGLEICH!" end
---reaper.CF_SetClipboard(ALABAMA)
-
---retval, count, retMediaItemStateChunkArray = ultraschall.IsValidMediaItemStateChunkArray(MediaItemStateChunkArray)
-
-
 
 
 function ultraschall.DirectoryExists(path, directory)
@@ -37714,18 +34693,7 @@ function ultraschall.DirectoryExists(path, directory)
   return found
 end
 
---L=ultraschall.DirectoryExists("c:/windows/", "system32")
---L=ultraschall.DirectoryExists("", "")
 
-
-
---A=ultraschall.CreateRenderCFG_MP3CBR(1, 4, 10)
---B=ultraschall.CreateRenderCFG_MP3CBR(1, 10, 10)
---L=ultraschall.RenderProject_RenderCFG(nil, "c:\\Reaper-Internal-Docs.mp3", 0, 10, false, true, true,A)
---L=reaper.IsProjectDirty(0)
-  
-
-  
 
 function ultraschall.AddIntToChar(char, int)
 --[[
@@ -37922,7 +34890,6 @@ end
 --A,B,C=ultraschall.InsertTrackAtIndex(1, 1, false)
 
 function ultraschall.MoveTracks(trackstring, targetindex, makepreviousfolder)
--- Reaper 5.92 !!!
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MoveTracks</slug>
@@ -38048,16 +35015,6 @@ function ultraschall.PreviewMediaFile(filename_with_path, undo)
   reaper.PreventUIRefresh(1)
 end
 
---A=ultraschall.PreviewMediaFile("c:\\Users\\meo\\Desktop\\The Beatles - Baby Youre A Rich Man (Remastered 2009).mp3")
---ultraschall.StopAnyPreview()
-
---B=reaper.Undo_DoUndo2(0)
---B=reaper.Undo_DoUndo2(0)
-
---C=ultraschall.PreviewMediaFile("c:\\Users\\meo\\Desktop\\Base64 encode_decode for Codea (Lua).html")
---ultraschall.StopAnyPreview()
-
---  local retval, MediaItem, length, numchannels, Samplerate, Filetype = ultraschall.InsertMediaItemFromFile("c:\\Users\\meo\\Desktop\\Steppenwolf - Magic Carpet Ride (Version 1969).mp3", 5, reaper.GetProjectLength(), -1, 0)
 
 function ultraschall.MakeFunctionUndoable(Func, UndoMessage, Flag, ...)
 --[[
@@ -38150,9 +35107,6 @@ function ultraschall.GetMediaItemTake(MediaItem, TakeNr)
 end
 
 
---A, B=ultraschall.GetMediaItemTake(reaper.GetMediaItem(99999999,0),9)
---A2, B2=ultraschall.GetMediaItemTake(reaper.GetMediaItem(0,0),1)
---A3, B3=ultraschall.GetMediaItemTake(reaper.GetMediaItem(0,0),2)
 
 function ultraschall.ReturnTableAsIndividualValues(Table)
 --[[
@@ -38254,9 +35208,6 @@ function ultraschall.ApplyFunctionToMediaItemArray(MediaItemArray, functionname,
   return i, RetValTable
 end
 
---A1,B2,C,D,E,F,G=ultraschall.GetAllMediaItemsBetween(0,100,"1,2,3",true)
---L,L2=ultraschall.ApplyFunctionToMediaItemArray(B2,reaper.SetMediaItemSelected,nil,false)
---reaper.UpdateArrange()
 
 
 function ultraschall.GetProject_MarkersAndRegions(projectfilename_with_path, ProjectStateChunk)
@@ -38299,21 +35250,6 @@ function ultraschall.GetProject_MarkersAndRegions(projectfilename_with_path, Pro
   <tags>projectfiles, rpp, state, get, marker, regions</tags>
 </US_DocBloc>
 ]]
---[[
-MARKER integer shownnumber number position string name integer isrgn integer color integer unknown string R
-    an entry for a marker or a region
-    regions have multiple entries with the first one being the start and the following(!) one the end of the region(with isrgn=1)
-      if the following one is not a region one(isrgn=1) then the previous one will be treated as normal marker by Reaper.
-    normal markers are never inbetween start- and end-markerentries of regions
-
-integer shownnumber - the number displayed in the marker
-number position - the position of the marker
-string name - the name of the marker; will be put in doublequotes, when it contains spaces; will be "" if it's the end of a region
-integer isrgn - 0, normal marker; 1, a region.
-integer color - the colorvalue of the marker
-integer unknown - unknown
-string R - a simple R, whose purpose is unknown
---]]
 
   -- check parameters and prepare variable ProjectStateChunk
   if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MarkersAndRegions","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
@@ -38339,7 +35275,7 @@ string R - a simple R, whose purpose is unknown
     if Offset~=nil then Markerlist=Markerlist:sub(Offset,-1) end
     if Marker==nil then break end
     MarkerCount=MarkerCount+1
---    reaper.MB(Markerlist, Marker,0)
+
     local shownnumber, position, name, isrgn, color, unknown, unknown2=Marker:match("MARKER (.-) (.-) \"(.-)\" (.-) (.-) (.-) (.*)")
     if name==nil then shownnumber, position, name, isrgn, color, unknown, unknown2=Marker:match("MARKER (.-) (.-) (.-) (.-) (.-) (.-) (.*)") end
     if isrgn=="1" then 
@@ -38356,7 +35292,7 @@ string R - a simple R, whose purpose is unknown
       MarkerArray[MarkerCount][1]=false 
       NumMarker=NumMarker+1 
     end
---reaper.MB(tostring(endposition).." "..tostring(position),Marker,0)
+
     MarkerArray[MarkerCount][2]=tonumber(position)
     MarkerArray[MarkerCount][3]=tonumber(endposition)
     MarkerArray[MarkerCount][4]=name
@@ -38366,17 +35302,6 @@ string R - a simple R, whose purpose is unknown
   return MarkerCount, NumMarker, NumRegions, MarkerArray
 end
 
-
---A,AA=ultraschall.GetProject_ReaperVersion("c:\\tt.rpp","<REAPER_PROJECT 0.1 \"5.77/x64\" 1529100928\n>")
---A,AA,AAA,AAAA=ultraschall.GetProject_MarkersAndRegions("c:\\Users/Meo/Desktop/Lula/lula.rpp","")
---A,AA,AAA,AAAA=ultraschall.GetProject_MarkersAndRegions("c:\\rendercode-project-dupl.RPP","")
---reaper.MB(A,"",0)
-
---Rendercfg = ultraschall.CreateRenderCFG_FLAC(1,1)
-
---A=ultraschall.GetOutputFormat_RenderCfg(Rendercfg)
-
---A, AA=ultraschall.RenderProjectRegions_RenderCFG("c:\\MarkerProject.rpp", "c:\\Tudelu-test", 2, false, true, true, true, Rendercfg)
 
 function ultraschall.GetGapsBetweenItems(MediaTrack)
 --[[
@@ -38573,35 +35498,6 @@ function ultraschall.type(object)
   end
 end
 
---[[
-track=reaper.GetTrack(0,0)
-env=reaper.GetTrackEnvelope(track,0)
-item=reaper.GetMediaItem(0,0)
-take=reaper.GetMediaItemTake(item,0)
-A,B=reaper.EnumProjects(0,"")
-PA=reaper.PCM_Source_CreateFromType("WAVE")
-acc=reaper.CreateTakeAudioAccessor(take)
---reaper.SNM_GetFastString(WDL_FastString)
-
-L=reaper.SNM_CreateFastString("Hula")
-
-jsd=reaper.joystick_create("tzui")
---]]
-
-
---O=ultraschall.type()
-
---[[
-Project=reaper.EnumProjects(0,"")
--- these should create an errormessage "TrackEnvelope expected", 
--- but in fact, they accept a ReaProject as TrackEnvelope, even if
--- they return nonsense-values
-A=reaper.CountAutomationItems(Project)
-B=reaper.CountEnvelopePoints(Project)
-C=reaper.CountEnvelopePointsEx(Project, 0)
-D=reaper.Envelope_FormatValue(Project,0)
-E,F,G=reaper.Envelope_GetParentTake(Project)
---]]
 
 function ultraschall.SetTrackGroupFlagsState(tracknumber, groups_bitfield_table, TrackStateChunk)
 --[[
@@ -38834,16 +35730,7 @@ function ultraschall.SetTrackGroupFlags_HighState(tracknumber, groups_bitfield_t
 
 end
 
---A=ultraschall.SetTrackGroupFlags_HighState(1, {1,2,3,4,5}, TrackStateChunk)
 
---G={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}
---A,B22=ultraschall.GetTrackStateChunk_Tracknumber(1)
---L,LL=ultraschall.SetTrackGroupFlags_HighState(-1, G, B22)
---L,LL=ultraschall.SetTrackGroupFlagsState(-1, G, B22)
---L,LL=ultraschall.GetTrackGroupFlagsState(-1,B22)
---reaper.ShowConsoleMsg(B22:match("GROUP.-\n.-\n"),"",0)
---if LL==nil then LL="" end
---reaper.ShowConsoleMsg(tostring(LL:match(".-\n.-GROUP.-\n.-\n.-\n.-\n")),"",0)
 
 function ultraschall.NewProjectTab(switch_to_new_tab)
 --[[
@@ -39750,8 +36637,7 @@ function ultraschall.CreateTrackStringByGUID(guid_csv_string)
   return Trackstring
 end
 
---D,E=ultraschall.CreateTrackStringByGUID(reaper.GetTrackGUID(reaper.GetTrack(0,0)))
---D,E=ultraschall.CreateTrackStringByGUID("tudelu")
+
 
 function ultraschall.CreateTrackStringByTracknames(tracknames_csv_string)
 --[[
@@ -39797,8 +36683,7 @@ function ultraschall.CreateTrackStringByTracknames(tracknames_csv_string)
   return Trackstring
 end
 
---D,E=ultraschall.CreateTrackStringByGUID(reaper.GetTrackGUID(reaper.GetTrack(0,0)))
---D,E=ultraschall.CreateTrackStringByTracknames("tude\ntudelu")
+
 
 function ultraschall.CreateTrackStringByMediaTracks(MediaTrackArray)
 --[[
@@ -39843,10 +36728,6 @@ function ultraschall.CreateTrackStringByMediaTracks(MediaTrackArray)
   local retval, Trackstring = ultraschall.RemoveDuplicateTracksInTrackstring(Trackstring)
   return Trackstring
 end
-
---D,E=ultraschall.CreateTrackStringByGUID(reaper.GetTrackGUID(reaper.GetTrack(0,0)))
---AA={reaper.GetTrack(0,0),reaper.GetTrack(0,1),reaper.GetMediaItem(0,4),reaper.GetTrack(0,3)}
---D,E=ultraschall.CreateTrackStringByMediaTracks(AA)
 
 function ultraschall.GetScreenWidth(want_workarea)
 --[[
@@ -40005,18 +36886,6 @@ end
 --A,AA,AAA=ultraschall.DeleteMediaItemsBetween(1000, 250, "1,2,3", false)
 
 
-
-
-
-
-
-
--- TODO:
-
-----------------------
----- Color Picker ----
-----------------------
-
 function ultraschall.CreateColorTable(startr, startg, startb, endr, endg, endb, number_of_steps)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -40098,11 +36967,6 @@ function ultraschall.CreateColorTable(startr, startg, startb, endr, endg, endb, 
   end
   return colortable
 end
-
---A=ultraschall.CreateColorTable(1, 1, 1, 255, 0, 255, 6)
---B=ultraschall.CreateColorTable(255, 255, 0, 1, 1, 1, -7)
---A=ultraschall.CreateColorTable(0, 0, 0,  255, 0, 0,  10)
---B=ultraschall.CreateColorTable(255, 0, 0,  0, 0, 0, 10)
 
 
 function ultraschall.CreateSonicRainboomColorTable()
@@ -40388,10 +37252,6 @@ function ultraschall.ApplyColorTableToItemColors(ColorTable, Spread, MediaItemAr
   return true
 end
 
---L=ultraschall.CreateSonicRainboomColorTable()
---A,B,C,D,E=ultraschall.GetAllMediaItemsBetween(0,10,"1,2,3,4,5,6",false)
---ultraschall.ApplyColorTableToItemColors(L, 2, B)
---reaper.UpdateArrange()
 
 
 function ultraschall.ReverseTable(the_table)
@@ -40692,96 +37552,6 @@ function ultraschall.ChangeColorSaturation(r,g,b,delta)
     
   return math.floor(r),math.floor(g),math.floor(b), Median, true
 end
---ultraschall.ToggleIDE_Errormessages()
---A,B,C,D=ultraschall.ChangeColorSaturation(1,100,200,10)
-
---for i=0, reaper.CountTracks()-1 do
---  A0, B0, C0 = ultraschall.ConvertColorReverse(reaper.GetTrackColor(reaper.GetTrack(0,i)))
---  A,B,C,D=ultraschall.ChangeColorSaturation(A0, B0, C0, 10)
---  reaper.SetTrackColor(reaper.GetTrack(0,i), ultraschall.ConvertColor(A,B,C))
---end
-
----------------------------
----- Routing Snapshots ----
----------------------------
-
-function ultraschall.SetRoutingSnapshot(snapshot_nr)
-end
-
-function ultraschall.RecallRoutingSnapshot(snapshot_nr)
-end
-
-function ultraschall.ClearRoutingSnapshot(snapshot_nr)
-end
-
------------------------
----- Render Export ----
------------------------
-
-
-function ultraschall.RippleDragSection_StartOffset(position,trackstring)
-end
-
-function ultraschall.RippleDrag_End(position,trackstring)
-
-end
-
-function ultraschall.RippleDragSection_End(position,trackstring)
-end
-
-
-
---ultraschall.ShowLastErrorMessage()
-
-function ultraschall.GetProjectReWireSlave(projectfilename_with_path)
---To Do
--- ProjectSettings->Advanced->Rewire Slave Settings
-end
-
-function ultraschall.GetLastEnvelopePoint(Envelopeobject)
-end
-
-function ultraschall.GetAllTrackEnvelopes_EnvelopePointArray(tracknumber)
---returns all track-envelopes from tracknumber as EnvelopePointArray
-end
-
-function ultraschall.GetAllTrackEnvelopes_EnvelopePointArray2(MediaTrack)
---returns all track-envelopes from MediaTrack as EnvelopePointArray
-end
-
-
-
-function ultraschall.OnlyMediaItemsInBothMediaItemArrays()
-end
-
-function ultraschall.OnlyMediaItemsInOneMediaItemArray()
-end
-
-function ultraschall.GetMediaItemTake_StateChunk(MediaItem, idx)
---returns an rppxml-statechunk for a MediaItemTake (not existing yet in Reaper!), for the idx'th take of MediaItem
-
---number reaper.GetMediaItemTakeInfo_Value(MediaItem_Take take, string parmname)
---MediaItem reaper.GetMediaItemTake_Item(MediaItem_Take take)
-
---[[Get parent item of media item take
-
-integer reaper.GetMediaItemTake_Peaks(MediaItem_Take take, number peakrate, number starttime, integer numchannels, integer numsamplesperchannel, integer want_extra_type, reaper.array buf)
-Gets block of peak samples to buf. Note that the peak samples are interleaved, but in two or three blocks (maximums, then minimums, then extra). Return value has 20 bits of returned sample count, then 4 bits of output_mode (0xf00000), then a bit to signify whether extra_type was available (0x1000000). extra_type can be 115 ('s') for spectral information, which will return peak samples as integers with the low 15 bits frequency, next 14 bits tonality.
-
-PCM_source reaper.GetMediaItemTake_Source(MediaItem_Take take)
-Get media source of media item take
-
-MediaTrack reaper.GetMediaItemTake_Track(MediaItem_Take take)
-Get parent track of media item take
-
-
-MediaItem_Take reaper.GetMediaItemTakeByGUID(ReaProject project, string guidGUID)
---]]
-end
-
-function ultraschall.GetAllMediaItemTake_StateChunks(MediaItem)
---returns an array with all rppxml-statechunk for all MediaItemTakes of a MediaItem.
-end
 
 
 function ultraschall.GetItemStateChunk(MediaItem, AddTracknumber)
@@ -40822,17 +37592,6 @@ function ultraschall.GetItemStateChunk(MediaItem, AddTracknumber)
   if AddTracknumber~=false then statechunk=ultraschall.SetItemUSTrackNumber_StateChunk(statechunk, math.floor(reaper.GetMediaItemInfo_Value(MediaItem, "P_TRACK"))+1) end
   return true, statechunk
 end
-
---MediaItem = reaper.GetMediaItem(0,0)
---temp, dstatechunk = ultraschall.GetItemStateChunk(MediaItem, false)
---reaper.MB(dstatechunk,"",0)
-
---A,AA=ultraschall.SectionCut(24,60,"1,2,3,4")
---number_items, MediaItemArray_StateChunk = ultraschall.RippleCut(20, 50, "1,4,5,7", false, true)
-
---reaper.MB(MediaItemArray_StateChunk[1],"",0)
-
-
 
 function ultraschall.GetDuplicatesFromArrays(array1, array2)
 --[[
@@ -40909,12 +37668,6 @@ function ultraschall.GetDuplicatesFromArrays(array1, array2)
   return dupcount, duplicates, orgcount1, originals1, orgcount2, originals2
 end
 
---function main()
---  filecount2, files2 = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
---  A, A1, B, B1, C, C1 = ultraschall.GetDuplicatesFromArrays(files, files2)
---  reaper.defer(main)
---end
-
 
 --filecount, files = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
 
@@ -40964,9 +37717,7 @@ function ultraschall.OnlyFilesOfCertainType(filearray, filetype)
   return foundcount, foundfiles
 end
 
---local A={"C:\\MarkerProject.RPP","C:\\tudel.aif"}
---A={"C:\\MarkerProject.RPP","C:\\Reaper-Internal-Docs.wav"}
---B,C=ultraschall.OnlyFilesOfCertainType(A,"RPP_PROJECT")
+
 
 function ultraschall.GetReaperWorkDir()
 --[[
@@ -41045,12 +37796,7 @@ function ultraschall.DirectoryExists2(Path)
   end
 end
 
---L=os.tmpname("C:\\B\\tudelu")
 
---Path="C:\\"
---L=Path:sub(2,2)
-
---A,B=ultraschall.DirectoryExists2("c://")
 
 function ultraschall.SetReaperWorkDir(path)
 --[[
@@ -41133,11 +37879,7 @@ function ultraschall.GetScriptFilenameFromActionCommandID(action_command_id)
   return L
 end
 
---LLL=ultraschall.GetScriptfilenameFromActionCommandID("_Ultraschall_Delete_Items_After_Editcursor_ArmedTracks_And_Preview_Audio_Before_RecordingLOLOLO")
---LLLL=ultraschall.GetScriptfilenameFromActionCommandID("_RSfd39b105f6a58a4074a3bfb9a4dd16efdde3bc91")
---LLLLL=ultraschall.GetScriptfilenameFromActionCommandID("_ALABAMA3")
---filecount, files = ultraschall.GetAllFilesnamesInPath("c:\\Tudelu\\")
---A,B=ultraschall.OnlyFilesOfCertainType(files, "JPG")
+
 
 function ultraschall.GetProject_CountAutomationItems(projectfilename_with_path, ProjectStateChunk)
 --[[
@@ -41189,11 +37931,7 @@ function ultraschall.GetProject_CountAutomationItems(projectfilename_with_path, 
   return count
 end
 
---A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
 
---A=ultraschall.ReadFullFile("c:\\00_master-002.flac.RPP")
-
---C=ultraschall.CountAutomItems_ProjectStateChunk(nil,A)
 
 function ultraschall.GetProject_AutomationItemStateChunk(projectfilename_with_path, idx, ProjectStateChunk)
 --[[
@@ -41300,8 +38038,6 @@ end
 --A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
 --B=ultraschall.GetProject_ProjectBay("c:\\automitem\\automitem.rpp")
 
---reaper.MB(B,"",0)
---main()
 
 
 function ultraschall.GetProject_Metronome(projectfilename_with_path, ProjectStateChunk)
@@ -41564,13 +38300,6 @@ function ultraschall.GetProject_Lock(projectfilename_with_path, ProjectStateChun
   return tonumber(ProjectStateChunk:match("\n  LOCK (.-)\n"))
 end
 
---reaper.Main_SaveProject(0, false)
---A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
---B=ultraschall.GetProject_Lock("c:\\automitem\\automitem.rpp",A)
---reaper.CF_SetClipboard(B)
---reaper.Main_OnCommand(40277,0)
-
-
 --reaper.MB(B,"",0)
 
 function ultraschall.GetProject_GlobalAuto(projectfilename_with_path, ProjectStateChunk)
@@ -41618,11 +38347,6 @@ function ultraschall.GetProject_GlobalAuto(projectfilename_with_path, ProjectSta
   return tonumber(ProjectStateChunk:match("\n  GLOBAL_AUTO (.-)\n"))
 end
 
---A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
---B=ultraschall.GetProject_Lock("c:\\automitem\\audiocd-codes.RPP",A)
---reaper.CF_SetClipboard(B)
---reaper.Main_OnCommand(40277,0)
---reaper.MB(B,"",0)
 
 function ultraschall.GetProject_Tempo(projectfilename_with_path, ProjectStateChunk)
 --[[
@@ -41672,11 +38396,7 @@ function ultraschall.GetProject_Tempo(projectfilename_with_path, ProjectStateChu
   return tonumber(a), tonumber(b), tonumber(c)
 end
 
---A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
---B,B2,B3=ultraschall.GetProject_Tempo("c:\\automitem\\automitem.RPP",A)
---reaper.CF_SetClipboard(B)
---reaper.Main_OnCommand(40277,0)
---reaper.MB(B,"",0)
+
 
 function ultraschall.GetProject_Playrate(projectfilename_with_path, ProjectStateChunk)
 --[[
@@ -43593,12 +40313,7 @@ function ultraschall.GetReaperWebRCPath()
   return reaper_dir, user_dir
 end
 
---A,B=ultraschall.GetReaperWebRCPath()
 
---A=9223199999999999999
---A,B,C,D,E,F,G,H=ultraschall.SplitIntegerIntoBytes(-4294967296)
---reaper.CF_SetClipboard(9222999999999999999+100000000000000)
---A=math.floor(2^0)
 
 
 function ultraschall.GetProject_Length(projectfilename_with_path, ProjectStateChunk)
@@ -43711,71 +40426,8 @@ end
 
 --L=ultraschall.GetProject_Length("c:/temp/testproject/testproject.RPP")
 
-
 --L=ultraschall.RenderProject_RenderCFG("c:\\rendercode-project-dupl.RPP", "c:\\Reaper-Internal-Docs.mp3", 0, 0, false, true, true, A)
 
-
---MT=reaper.GetTrack(0,0)
---C,CC=ultraschall.GetAllMediaItemsBetween(0,400,"1,2,3,4,5",false)
---Aretval, Astr = ultraschall.GetItemStateChunk(reaper.GetMediaItem(0,0), true)
---ALABASTER,ALHula=ultraschall.InsertMediaItem_MediaItemStateChunk(8300,Astr, MT)
-
---L=ultraschall.SetIDEFontSize(15)
-
-
---MT=reaper.GetTrack(reaper.EnumProjects(2,""),0)
---Aretval, Astr = reaper.GetItemStateChunk(reaper.GetMediaItem(0,0), "", true)
---Astr=ultraschall.SetUS_Tracknumber(
---A,B,C,D,E,F,G=ultraschall.InsertMediaItem_MediaItemStateChunk(1000,Astr, MT)
-
---ultraschall.StopAnyPreview()
-
-
---input_filename_with_path="C:\\MarkerProject.RPP"
-
---A,B=ultraschall.ReadBinaryFile_Offset(input_filename_with_path, 0, 100)
---C,D=ultraschall.ReadBinaryFile_Offset(input_filename_with_path, -20, 21)
-
---reaper.MB(B..D,tostring(ultraschall.IsValidProjectStateChunk(B..D)),0)
-
-
-
---[[
-
-Unicode Tests
-
-
-count=0
-count2=0
-B=""
-function main()
-  for i=0, 312 do
-  count=count+1
-  if count==512 then count2=count2+1 count=0 end
---  A=string.pack ("s16", count, count)
---  oldA=A
-  A=utf8.char(count)
-  B=B.."\n\r"..A
-  L=B:len()
-  if A==ultraschall.Euro then reaper.MB(count, count2,0) end
-  end
---  reaper.CF_SetClipboard(B)
-  if count2<256 then reaper.defer(main) else ultraschall.WriteValueToFile("C:\\UTF8-test.txt", B) end
-end
-
-
---main()
-Byte1, Byte2, Byte3, Byte4 = ultraschall.SplitIntegerIntoBytes(261)
-Aretval = ultraschall.CombineBytesToInteger(0, 128)
-A2=string.char(128)
-  A=string.pack ("j", Aretval)
-  
---  reaper.MB(A,A:len(),0)
---]]
---L,L2,L3,L4=ultraschall.GetProject_Length("c:\\Users/Meo/Desktop/Lula/lula.rpp")
-
---L=ultraschall.RenderProject_RenderCFG(nil, "c:\\Reaper-Internal-Docs.mp3", 0, 100, false, true, true)
---A, AA=ultraschall.RenderProjectRegions_RenderCFG("c:\\MarkerProject.rpp", "c:\\Tudelu-test", 1, false, true, true, true)
 
 function ultraschall.ConvertColorToMac(red, green, blue)
 --[[
@@ -44561,26 +41213,6 @@ function ultraschall.ShowMenu(Title,Entries,x,y)
 
   local ownwindow=false
   if gfx.h==0 and gfx.w==0 then gfx.init("Ultraschall-Menu",0,0,0,x,y)
-
---possible workaround for Mac, but unused...
---    left, top, right, bottom = reaper.my_getViewport(1, 1, 2, 2, 1, 1, 2, 2, true)
---    convx, convy = gfx.screentoclient(0, 0)
---    convx2, convy2 = gfx.clienttoscreen(0, 0)
---[[
-    if convy~=y then
-      gfx.quit()
-      count=bottom
-      numtable={}
-      for i=0, bottom do
-        --reaper.ShowConsoleMsg(i.." ")
-        numtable[i]=count
-        count=count-1
-      end
-      
-      y=numtable[y]
-      gfx.init("Ultraschall-Menu",1,1,0,100,y-21)
-    end
---]]
     gfx.x=-10
     gfx.y=-25
     ownwindow=true
@@ -45219,83 +41851,18 @@ function ultraschall.GetSetConfigAutoMute(set, setting, persist)
     return reaper.SNM_GetIntConfigVar(config_var, -33)
   else 
     local temp=reaper.SNM_SetIntConfigVar(config_var, setting)
-    if temp==false then return -1 else if persist==true then 
-      retval = ultraschall.SetIniFileExternalState("REAPER", config_var, tostring(setting), reaper.get_ini_file()) 
-    end 
-    return setting 
-  end
+    if temp==false then 
+      return -1 
+    else 
+      if persist==true then 
+        retval = ultraschall.SetIniFileExternalState("REAPER", config_var, tostring(setting), reaper.get_ini_file()) 
+      end 
+      return setting 
+    end
   end
 end
 
 
-
-
-
-function ultraschall.tempgfxupdate_snowflakes()
-    if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
-    ultraschall.snowoldgfx()
-end
-
-function ultraschall.WinterlySnowflakes(toggle, falling_speed, number_snowflakes)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>WinterlySnowflakes</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.95
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval = ultraschall.WinterlySnowflakes(boolean toggle, number falling_speed, integer number_snowflakes)</functioncall>
-  <description>
-    Exchanges the gfx.update()-function with a variant, that displays falling snowflakes everytime it is called.
-    
-    returns -1 in case of error
-  </description>
-  <retvals>
-    integer retval - returns -1 in case of a'JS_Window_ListFind' n error; 1, in case of success
-  </retvals>
-  <parameters>
-    boolean toggle - true, toggles falling snow on; false, toggles falling snow off
-    number falling_speed - the falling speed of the snowflakes, 1.3 is recommended
-    integer number_snowflakes - the number of falling snowflakes at the same time on screen; 2000 is recommended
-  </parameters>
-  <chapter_context>
-    User Interface
-    Miscellaneous
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, miscellaneous, winterly snowflakes</tags>
-</US_DocBloc>
-]]  
-  if type(falling_speed)~="number" then ultraschall.AddErrorMessage("WinterlySnowflakes", "falling_speed", "must be a number", -1) return -1 end
-  if math.type(number_snowflakes)~="integer" then ultraschall.AddErrorMessage("WinterlySnowflakes", "number_snowflakes", "must be an integer", -2) return -1 end
-  ultraschall.snowspeed=falling_speed           -- the falling speed of the snowflakes
-  ultraschall.snowsnowfactor=number_snowflakes -- the number of snowflakes
-  if toggle==true then
-    gfx.update=ultraschall.tempgfxupdate_snowflakes
-  else
-    gfx.update=ultraschall.snowoldgfx
-  end
-  return 1
-end
---[[
---LL=ultraschall.WinterlySnowflakes(true,"1000",1)
-gfx.init()
-L=1
-function main()
-  for i=0, 1 do
-  L=L+1
-  gfx.update()
-  end
-  A=gfx.getchar()
-  if A==65 then ultraschall.WinterlySnowflakes(true, 1, 1000) end
-  if A==66 then ultraschall.WinterlySnowflakes(false, 1, 1000) end
-  reaper.defer(main)
-end
-
-main()
---]]
 
 function ultraschall.SplitStringAtNULLBytes(splitstring)
 --[[
@@ -45583,8 +42150,6 @@ end
 --reaper.MB(ultraschall.ScriptIdentifier,"",0)
 
 
-
-
 function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND, ...)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -45670,12 +42235,7 @@ function ultraschall.MIDI_OnCommandByFilename(filename, MIDIEditor_HWND, ...)
   return true, string.gsub("ScriptIdentifier:"..filename2, "\\", "/")
 end
 
---A=ultraschall.GetReaperScriptPath().."/testscript_that_displays_stuff.lua"
---AAA=ultraschall.MIDI_OnCommandByFilename(reaper.MIDIEditor_GetActive(), A)
---AAA=ultraschall.MIDI_OnCommandByFilename(A, reaper.MIDIEditor_GetActive())
---reaper.MB("","",0)
---AAA2,AAA3=ultraschall.MIDI_OnCommandByFilename(A, reaper.MIDIEditor_GetActive())
---reaper.ShowConsoleMsg(AAA3.." - outside\n")
+
 
 function ultraschall.GetScriptParameters(script_identifier, remove)
 --[[
@@ -47035,7 +43595,7 @@ function ultraschall.SetProject_RenderPattern(projectfilename_with_path, render_
   <slug>SetProject_RenderPattern</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.975
     Lua=5.3
   </requires>
   <functioncall>integer retval = ultraschall.SetProject_RenderPattern(string projectfilename_with_path, string render_pattern, optional string ProjectStateChunk)</functioncall>
@@ -47047,49 +43607,70 @@ function ultraschall.SetProject_RenderPattern(projectfilename_with_path, render_
   <parameters>
     string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
     string render_pattern - the pattern, with which the rendering-filename will be automatically created. Check also <a href="#GetProject_RenderFilename">GetProject_RenderFilename</a>
-    -Capitalizing the first character of the wildcard will capitalize the first letter of the substitution. 
-    -Capitalizing the first two characters of the wildcard will capitalize all letters.
-    -
-    -Directories will be created if necessary. For example if the render target is "$project/track", the directory "$project" will be created.
-    -
-    -$item    media item take name, if the input is a media item
-    -$itemnumber  1 for the first media item on a track, 2 for the second...
-    -$track    track name
-    -$tracknumber  1 for the first track, 2 for the second...
-    -$parenttrack  parent track name
-    -$region    region name
-    -$regionnumber  1 for the first region, 2 for the second...
-    -$namecount  1 for the first item or region of the same name, 2 for the second...
-    -$start    start time of the media item, render region, or time selection
-    -$end    end time of the media item, render region, or time selection
-    -$startbeats  start time in beats of the media item, render region, or time selection
-    -$endbeats  end time in beats of the media item, render region, or time selection
-    -$timelineorder  1 for the first item or region on the timeline, 2 for the second...
-    -$project    project name
-    -$tempo    project tempo at the start of the render region
-    -$timesignature  project time signature at the start of the render region, formatted as 4-4
-    -$filenumber  blank (optionally 1) for the first file rendered, 1 (optionally 2) for the second...
-    -$filenumber[N]  N for the first file rendered, N+1 for the second...
-    -$note    C0 for the first file rendered,C#0 for the second...
-    -$note[X]    X (example: B2) for the first file rendered, X+1 (example: C3) for the second...
-    -$natural    C0 for the first file rendered, D0 for the second...
-    -$natural[X]  X (example: F2) for the first file rendered, X+1 (example: G2) for the second...
-    -$format    render format (example: wav)
-    -$samplerate  sample rate (example: 44100)
-    -$sampleratek  sample rate (example: 44.1)
-    -$year    year
-    -$year2    last 2 digits of the year
-    -$month    month number
-    -$monthname  month name
-    -$day    day of the month
-    -$hour    hour of the day in 24-hour format
-    -$hour12    hour of the day in 12-hour format
-    -$ampm    am if before noon,pm if after noon
-    -$minute    minute of the hour
-    -$second    second of the minute
-    -$user    user name
-    -$computer  computer name
-    -
+  - Capitalizing the first character of the wildcard will capitalize the first letter of the substitution. Capitalizing the first two characters of the wildcard will capitalize all letters.
+  - 
+  - Directories will be created if necessary. For example if the render target is "$project/track", the directory "$project" will be created.
+  - 
+  - Immediately following a wildcard, character replacement statements may be specified:
+  -   <X>  -- single character which is to be removed from the substituion. For example: $track< > removes all spaces from the track name, $track</><\> removes all slashes.
+  -   <abcdeX> -- multiple characters, abcde are all replaced with X. For example: <_.> replaces all underscores with periods, </\_> replaces all slashes with underscores. If > is specified as a source character, it must be listed first in the list.
+  - 
+  - $item    media item take name, if the input is a media item
+  - $itemnumber  1 for the first media item on a track, 2 for the second...
+  - $track    track name
+  - $tracknumber  1 for the first track, 2 for the second...
+  - $parenttrack  parent track name
+  - $region    region name
+  - $regionnumber  1 for the first region, 2 for the second...
+  - $project    project name
+  - $tempo    project tempo at the start of the render region
+  - $timesignature  project time signature at the start of the render region, formatted as 4-4
+  - $filenumber  blank (optionally 1) for the first file rendered, 1 (optionally 2) for the second...
+  - $filenumber[N]  N for the first file rendered, N+1 for the second...
+  - $note    C0 for the first file rendered,C#0 for the second...
+  - $note[X]    X (example: B2) for the first file rendered, X+1 (example: C3) for the second...
+  - $natural    C0 for the first file rendered, D0 for the second...
+  - $natural[X]  X (example: F2) for the first file rendered, X+1 (example: G2) for the second...
+  - $namecount  1 for the first item or region of the same name, 2 for the second...
+  - $timelineorder  1 for the first item or region on the timeline, 2 for the second...
+  - 
+  - Position/Length:
+  - $start    start time of the media item, render region, or time selection, in M-SS.TTT
+  - $end    end time of the media item, render region, or time selection, in M-SS.TTT
+  - $length    length of the media item, render region, or time selection, in M-SS.TTT
+  - $startbeats  start time in measures.beats of the media item, render region, or time selection
+  - $endbeats  end time in measures.beats of the media item, render region, or time selection
+  - $lengthbeats    length in measures.beats of the media item, render region, or time selection
+  - $starttimecode  start time in H-MM-SS-FF format of the media item, render region, or time selection
+  - $endtimecode  end time in H-MM-SS-FF format of the media item, render region, or time selection
+  - $startframes  start time in absolute frames of the media item, render region, or time selection
+  - $endframes  end time in absolute frames of the media item, render region, or time selection
+  - $lengthframes  length in absolute frames of the media item, render region, or time selection
+  - $startseconds  start time in whole seconds of the media item, render region, or time selection
+  - $endseconds  end time in whole seconds of the media item, render region, or time selection
+  - $lengthseconds  length in whole seconds of the media item, render region, or time selection
+  - 
+  - Output Format:
+  - $format    render format (example: wav)
+  - $samplerate  sample rate (example: 44100)
+  - $sampleratek  sample rate (example: 44.1)
+  - $bitdepth  bit depth, if available (example: 24 or 32FP)
+  - 
+  - Current Date/Time:
+  - $year    year, currently 2019
+  - $year2    last 2 digits of the year,currently 19
+  - $month    month number,currently 04
+  - $monthname  month name,currently apr
+  - $day    day of the month, currently 28
+  - $hour    hour of the day in 24-hour format,currently 23
+  - $hour12    hour of the day in 12-hour format,currently 11
+  - $ampm    am if before noon,pm if after noon,currently pm
+  - $minute    minute of the hour,currently 30
+  - $second    second of the minute,currently 27
+  - 
+  - Computer Information:
+  - $user    user name, currently meo
+  - $computer  computer name, currently MEO-MESPOTINE
     -(this description has been taken from the Render Wildcard Help within the Render-Dialog of Reaper)
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -47608,104 +44189,6 @@ function ultraschall.StateChunkLayouter(statechunk)
   return newsc
 end
 
---[[
-function ultraschall.CountUltraschallEffectPlugins(track)
---[[
-</US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>CountUltraschallEffectPlugins</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.965
-    Lua=5.3
-  </requires>
-  <functioncall>integer num_studiolink, table studiolink_bypass_state, integer num_studiolink_onair, table studiolink_onair_bypass_state, integer num_soundboard, table soundboard_bypass_state, integer num_usdynamics, table usdynamics_bypass_state = ultraschall.CountUltraschallEffectPlugins(integer track)</functioncall>
-  <description>
-    Counts the number of loaded StudioLink-plugins, StudioLink_OnAir-plugins, Ultraschall-Soundboards and Ultraschall_Dynamics-instances in this track.
-    It also returns the bypass/offline-states of each plugin as a table, of the following format:    
-      <pre><code>
-        bypass_state_table[plugin_index][1]=bypass state; 1, plugin-instance is bypassed; 0, plugin-instance is normal
-        bypass_state_table[plugin_index][2]=offline state; 1, plugin-instance is offline; 0, plugin-instance is online
-        bypass_state_table[plugin_index][3]=unknown state(needs documentation first); 0, default setting
-      </code></pre>
-    Probably only helpful, if you've installed these plugins or using Ultraschall.
-    
-    returns -1 in case of an error
-  </description>
-  <parameters>
-    integer track - the tracknumber, whose plugin-counts/bypass-states you want to get; 0, Master Track; 1 and higher, Track 1 an higher
-  </parameters>
-  <retvals>
-    integer num_studiolink - the number of loaded StudioLink-plugins in this track
-    table studiolink_bypass_state - the bypass-states of StudioLink in this track
-    integer num_studiolink_onair - the number of loaded StudioLink_OnAir-plugins in this track
-    table studiolink_onair_bypass_state - the bypass-states of StudioLink_OnAir in this track
-    integer num_soundboard - the number of loaded Ultraschall Soundboard-plugins in this track
-    table soundboard_bypass_state - the bypass-states of the Ultraschall Soundboard in this track
-    integer num_usdynamics - the number of loaded Ultraschall_Dynamics-plugins in this track
-    table usdynamics_bypass_state - the bypass-states of Ultraschall_Dynamics in this track
-  </retvals>
-  <chapter_context>
-    FX/Plugin Management
-    Ultraschall-related
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>fx_pluginmanagement, count, get, studiolink, studiolinkonair, soundboard, ultraschall_dynamics, bypass-state, offline-state</tags>
-<//US_DocBloc>
-]]
---[[
-  local MediaTrack
-  if math.type(track)~="integer" then ultraschall.AddErrorMessage("CountUltraschallEffectPlugins", "track", "must be an integer", -1) return -1 end
-  if track==0 then MediaTrack=reaper.GetMasterTrack(0) else MediaTrack=reaper.GetTrack(0, track-1) end
-  if MediaTrack==nil then ultraschall.AddErrorMessage("CountUltraschallEffectPlugins", "track", "no such track", -2) return -1 end
-  local num_sl=0
-  local sl_byp={}
-  local num_slonair=0
-  local slonair_byp={}
-  local num_soundboard=0
-  local soundboard_byp={}
-  local num_usdynamics=0
-  local usdynamics_byp={}
-  local lastbypassline=""
-
-  local A,B=reaper.GetTrackStateChunk(MediaTrack,"",false)
-  
-  for k in string.gmatch(B,"(.-\n)") do
---    print2(k)
-    if k:match("<.-StudioLinkOnAir ")~=nil then 
-      num_slonair=num_slonair+1 
-      slonair_byp[num_slonair]={lastbypassline:match(" (%d) (%d) (%d)")} 
-      slonair_byp[num_slonair][1]=tonumber(slonair_byp[num_slonair][1]) 
-      slonair_byp[num_slonair][2]=tonumber(slonair_byp[num_slonair][2]) 
-      slonair_byp[num_slonair][3]=tonumber(slonair_byp[num_slonair][3]) 
-    elseif k:match("<.-StudioLink ")~=nil then 
-      num_sl=num_sl+1 
-      sl_byp[num_sl]={lastbypassline:match(" (%d) (%d) (%d)")} 
-      sl_byp[num_sl][1]=tonumber(sl_byp[num_sl][1]) 
-      sl_byp[num_sl][2]=tonumber(sl_byp[num_sl][2]) 
-      sl_byp[num_sl][3]=tonumber(sl_byp[num_sl][3])
-    elseif k:match("<.-Soundboard %(Ultraschall%)")~=nil or k:match("<.-Ultraschall: Soundboard")~=nil then 
-    print2(k)
-      num_soundboard=num_soundboard+1
-      soundboard_byp[num_soundboard]={lastbypassline:match(" (%d) (%d) (%d)")} 
-      soundboard_byp[num_soundboard][1]=tonumber(soundboard_byp[num_soundboard][1]) 
-      soundboard_byp[num_soundboard][2]=tonumber(soundboard_byp[num_soundboard][2]) 
-      soundboard_byp[num_soundboard][3]=tonumber(soundboard_byp[num_soundboard][3]) 
-    elseif k:match("<.-Ultraschall_Dynamics")~=nil then 
-      num_usdynamics=num_usdynamics+1 
-      usdynamics_byp[num_usdynamics]={lastbypassline:match(" (%d) (%d) (%d)")} 
-      usdynamics_byp[num_usdynamics][1]=tonumber(usdynamics_byp[num_usdynamics][1]) 
-      usdynamics_byp[num_usdynamics][2]=tonumber(usdynamics_byp[num_usdynamics][2]) 
-      usdynamics_byp[num_usdynamics][3]=tonumber(usdynamics_byp[num_usdynamics][3]) 
-    elseif k:match("BYPASS %d %d %d%c")~=nil then lastbypassline=k
-    end
-  end
-  return num_sl, sl_byp, num_slonair, slonair_byp, num_soundboard, soundboard_byp, num_usdynamics, usdynamics_byp
-end
-
---A,B,C,D,E,F,G,H=ultraschall.CountUltraschallEffectPlugins(3)
---]]
-
 
 function ultraschall.GetTopmostHWND(hwnd)
 --[[
@@ -48088,11 +44571,6 @@ function ultraschall.IsReaperRendering()
   end
 end
 
---function main()
---  C,C1,C2,D,E=ultraschall.IsReaperRendering()
---  reaper.defer(main)
---end
---main()
 
 function ultraschall.GetAllRecursiveFilesAndSubdirectories(path)
 --[[
@@ -48704,12 +45182,6 @@ function ultraschall.Defer1(func, mode, timer_counter)
   return true, ultraschall.ScriptIdentifier..".defer_script01"
 end
 
-function main()
-
-end
-
---A,B=ultraschall.Defer1(main,1,1)
---reaper.CF_SetClipboard(B)
 
 
 function ultraschall.StopDeferCycle(identifier)
@@ -48751,11 +45223,6 @@ function ultraschall.StopDeferCycle(identifier)
     return false
   end
 end
-
-
-
-
-
 
 
 function ultraschall.Defer2(func, mode, timer_counter)
@@ -48808,7 +45275,8 @@ function ultraschall.Defer2(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc2)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc2)~="function" then 
     ultraschall.AddErrorMessage("Defer2", "func", "must be a function", -1)
     return false 
   end
@@ -48894,7 +45362,8 @@ function ultraschall.Defer3(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc3)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc3)~="function" then 
     ultraschall.AddErrorMessage("Defer3", "func", "must be a function", -1)
     return false 
   end
@@ -48980,7 +45449,8 @@ function ultraschall.Defer4(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc4)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc4)~="function" then 
     ultraschall.AddErrorMessage("Defer4", "func", "must be a function", -1)
     return false 
   end
@@ -49066,7 +45536,8 @@ function ultraschall.Defer5(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc5)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc5)~="function" then 
     ultraschall.AddErrorMessage("Defer5", "func", "must be a function", -1)
     return false 
   end
@@ -49152,7 +45623,8 @@ function ultraschall.Defer6(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc6)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc6)~="function" then 
     ultraschall.AddErrorMessage("Defer6", "func", "must be a function", -1)
     return false 
   end
@@ -49238,7 +45710,8 @@ function ultraschall.Defer7(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc7)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc7)~="function" then 
     ultraschall.AddErrorMessage("Defer7", "func", "must be a function", -1)
     return false 
   end
@@ -49324,7 +45797,8 @@ function ultraschall.Defer8(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc8)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc8)~="function" then 
     ultraschall.AddErrorMessage("Defer8", "func", "must be a function", -1)
     return false 
   end
@@ -49410,7 +45884,8 @@ function ultraschall.Defer9(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc9)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc9)~="function" then 
     ultraschall.AddErrorMessage("Defer9", "func", "must be a function", -1)
     return false 
   end
@@ -49496,7 +45971,8 @@ function ultraschall.Defer10(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc10)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc10)~="function" then 
     ultraschall.AddErrorMessage("Defer10", "func", "must be a function", -1)
     return false 
   end
@@ -49582,7 +46058,8 @@ function ultraschall.Defer11(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc11)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc11)~="function" then 
     ultraschall.AddErrorMessage("Defer11", "func", "must be a function", -1)
     return false 
   end
@@ -49668,7 +46145,8 @@ function ultraschall.Defer12(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc12)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc12)~="function" then 
     ultraschall.AddErrorMessage("Defer12", "func", "must be a function", -1)
     return false 
   end
@@ -49754,7 +46232,8 @@ function ultraschall.Defer13(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc13)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc13)~="function" then 
     ultraschall.AddErrorMessage("Defer13", "func", "must be a function", -1)
     return false 
   end
@@ -49840,7 +46319,8 @@ function ultraschall.Defer14(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc14)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc14)~="function" then 
     ultraschall.AddErrorMessage("Defer14", "func", "must be a function", -1)
     return false 
   end
@@ -49926,7 +46406,8 @@ function ultraschall.Defer15(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc15)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc15)~="function" then 
     ultraschall.AddErrorMessage("Defer15", "func", "must be a function", -1)
     return false 
   end
@@ -50012,7 +46493,8 @@ function ultraschall.Defer16(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc16)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc16)~="function" then 
     ultraschall.AddErrorMessage("Defer16", "func", "must be a function", -1)
     return false 
   end
@@ -50098,7 +46580,8 @@ function ultraschall.Defer17(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc17)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc17)~="function" then 
     ultraschall.AddErrorMessage("Defer17", "func", "must be a function", -1)
     return false 
   end
@@ -50184,7 +46667,8 @@ function ultraschall.Defer18(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc18)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc18)~="function" then 
     ultraschall.AddErrorMessage("Defer18", "func", "must be a function", -1)
     return false 
   end
@@ -50270,7 +46754,8 @@ function ultraschall.Defer19(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc19)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc19)~="function" then 
     ultraschall.AddErrorMessage("Defer19", "func", "must be a function", -1)
     return false 
   end
@@ -50356,7 +46841,8 @@ function ultraschall.Defer20(func, mode, timer_counter)
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
   </US_DocBloc>
-  ]]  if type(func)~="function" and type(ultraschall.deferfunc20)~="function" then 
+  ]]  
+  if type(func)~="function" and type(ultraschall.deferfunc20)~="function" then 
     ultraschall.AddErrorMessage("Defer20", "func", "must be a function", -1)
     return false 
   end
@@ -50433,11 +46919,6 @@ function ultraschall.GetTrackSelection_TrackStateChunk(TrackStateChunk)
   return tonumber(Track_Name)
 end
 
---A=ultraschall.GetProjectStateChunk()
---B=ultraschall.GetProject_TrackStateChunk(nil, 1, false, A)
-
-
---C=ultraschall.GetTrackSelection(-1,B)
 
 function ultraschall.SetTrackSelection_TrackStateChunk(selection_state, TrackStateChunk)
 -- returns the trackname as a string
@@ -50485,11 +46966,6 @@ function ultraschall.SetTrackSelection_TrackStateChunk(selection_state, TrackSta
   return Start.."    SEL "..selection_state.."\n    "..End
 end
 
---A=ultraschall.GetProjectStateChunk()
---B=ultraschall.GetProject_TrackStateChunk(nil, 1, false, A)
-
---C=ultraschall.SetTrackSelection_TrackStateChunk(1, B)
---print2(C)
 
 function ultraschall.GetIniFileValue(section, key, errval, inifile)
 -- returns the trackname as a string
@@ -50533,21 +47009,10 @@ function ultraschall.GetIniFileValue(section, key, errval, inifile)
   section=tostring(section)
   key=tostring(key)
 
-  --[[
-  local A=ultraschall.ReadFullFile(inifile).."\n["
-  
-  local SectionArea=A:match(section.."%](.-)\n%[").."\n"
-  local KeyValue=SectionArea:match("\n"..key.."=(.-)\n")
-  if KeyValue==nil then KeyValue=errval end
-  return KeyValue:len(), KeyValue
-  --]]
   return reaper.BR_Win32_GetPrivateProfileString(section, key, errval, inifile)
 end
 
-
-
 --AAA,BBB=ultraschall.GetIniFileValue("REAPER", "automute", "LULATSCH", reaper.get_ini_file())
-
 
 function ultraschall.SetIniFileValue(section, key, value, inifile)
 --[[
@@ -50590,31 +47055,7 @@ function ultraschall.SetIniFileValue(section, key, value, inifile)
   section=tostring(section)
   key=tostring(key)
   value=tostring(value)
-  --[[
-  local Start, Middle, Ende, A, Kombi, Offset
-  local A=ultraschall.ReadFullFile(inifile)
-  if A==nil then A="" end
-  if A:match("%["..section.."%]")~=nil then
-    A=A.."\n["
-    Start=A:match("(.*)%["..section)
-    Middle, Offset=A:match("(%["..section.."%].-)()%[")
-    Ende=A:sub(Offset,-2)
-    
-    if Middle:match(key)~=nil then
-      Middle=string.gsub(Middle, key.."=.-\n", key.."="..value.."\n")
-    else
-      Middle=Middle..key.."="..value.."\n\n"
-      Ende="\n"..Ende
-    end
-     
-  else
-    Start=A
-    Middle="\n"
-    Ende="["..section.."]\n"..key.."="..value.."\n"
-  end
-  Kombi=string.gsub(Start..Middle..Ende, "\n\n", "\n")
-  return ultraschall.WriteValueToFile(inifile, Kombi)
-  --]]
+
   return reaper.BR_Win32_WritePrivateProfileString(section, key, value, inifile)
 end
 
@@ -50839,14 +47280,6 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
   return ARHWND, TLHWND, TCPHWND
 end
 
---    reaper.SetExtState("ultraschall", "arrangehwnd", "", false)
-
---A,B,C=ultraschall.GetHWND_ArrangeViewAndTimeLine()
---C,D=reaper.JS_Window_GetTitle(B)
---P=reaper.GetHZoomLevel()
---C=reaper.JS_Window_FromPoint(reaper.GetMousePosition())
-
---ultraschall.ShowLastErrorMessage()
 
 
 function ultraschall.GetVerticalScroll()
@@ -52700,14 +49133,6 @@ end
 
 runcommand=ultraschall.RunCommand
 
---CC=ultraschall.ToggleMute_TrackObject(Track,1,1)
-
-
---A=ultraschall.GetReaperScriptPath().."/test-api.lua"
---A=ultraschall.GetReaperScriptPath().."/us.png"
---B,C=ultraschall.Main_OnCommandByFilename(A)
---reaper.CF_SetClipboard(C.." "..ultraschall.ScriptIdentifier)
-
 
 function ultraschall.GetRenderQueueHWND()
 --[[
@@ -53169,12 +49594,6 @@ function ultraschall.GetTracknumberByGuid(guid)
   end
 end
 
---A = reaper.BR_GetMediaTrackGUID(reaper.GetMasterTrack(0))
---GUID = reaper.GetTrackGUID(reaper.GetTrack(0,2))
-
---A,B=ultraschall.GetTracknumberByGuid(GUID)
-
---A=ultraschall.GetTracknumberByGuid("{00000000-0000-0000-0000-000000000000}")
 
 function ultraschall.GetAllHWOuts()
   -- returned table is of structure:
@@ -53343,21 +49762,6 @@ function ultraschall.ApplyAllHWOuts(AllHWOuts, option)
   end
   return true
 end
-
---[[
-A1,B=ultraschall.GetAllHWOuts()
-for i=0, B do
-  for a=1, A1[i]["HWOut_count"] do
-    A1[i][a]["volume"]=1
-  end
-end
-
---ultraschall.InsertTrackAtIndex(2,5,false)
---C=ultraschall.ApplyAllHWOuts(A1,1)
-
---A,B,C,D,E,F,G,H,I=ultraschall.GetTrackHWOut(0,1)
---ultraschall.SetTrackHWOut(0,1,A-1024,B,C,D,E,F,G,H,I,false)
---]]
 
 function ultraschall.GetAllAUXSendReceives()
   -- returned table is of structure:
@@ -53562,35 +49966,7 @@ function ultraschall.ApplyAllAUXSendReceives(AllAUXSendReceives, option)
 end
 
 
-
---[[
-A1,B=ultraschall.GetAllAUXSendReceives()
-
-for i=1, B do
-  for a=1, A1[i]["AUXSendReceives_count"] do
-    A1[i][a]["volume"]=1
-  end
-end
-
--- wenn man track am Anfang des Projekts einfügt, gehen AUXREcvs verloren
--- muss das so?
---mespotine
---ultraschall.InsertTrackAtIndex(0,1,false)
---ultraschall.InsertTrackAtIndex(3,1,false)
---ultraschall.InsertTrackAtIndex(6,1,false)
-
-A0=ultraschall.ApplyAllAUXSendReceives(A1,2)
---]]
---C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15 = ultraschall.GetTrackAUXSendReceives(1,1)
---ultraschall.SetTrackAUXSendReceives(1,1,C1, C2-1, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12,false)
-
---ultraschall.AddTrackHWOut(1,2,1,10,1024,1024,1024,1024,1024,1024,false,1,1,false)
-
 function ultraschall.GetAllMainSendStates()
-  -- returns table, of the structure:
-  -- Table[tracknumber]["MainSend"]      - Send to Master on(1) or off(1)
-  -- Table[tracknumber]["ParentChannels"] - the parent channels of this track
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllMainSendStates</slug>
@@ -53701,24 +50077,6 @@ function ultraschall.ApplyAllMainSendStates(AllMainSendsTable, option)
   end
   return true
 end
-
---[[
-A,B=ultraschall.GetAllMainSendStates()
-
---ultraschall.InsertTrackAtIndex(0, 1, true)
---O=reaper.DeleteTrack(reaper.GetTrack(0,0))
-for i=1, B do
-  A[i]["MainSendOn"]=1
-end
-
---ultraschall.ShowErrorMessagesInReascriptConsole(true)
-A0=ultraschall.ApplyAllMainSendStates(A,2)
---]]
-
-
---A=ultraschall.GetSetConfigAutoMute(true, 0, true)
-
---B=ultraschall.SetIniFileExternalState("REAPER", "automute", tostring(1), reaper.get_ini_file())
 
 
 function ultraschall.GetSetConfigAutoMuteFlags(set, setting, persist)
@@ -54614,10 +50972,6 @@ function ultraschall.ConvertStringToIntegers(String, Size)
   return String:len(), Table
 end
 
---A,B=ultraschall.ConvertStringToIntegers("Haleluja",7)
---print3(B[1])
-
---C=ultraschall.CombineBytesToInteger(0,101)
 
 function print_update(...)
 --[[
@@ -54965,18 +51319,6 @@ function ultraschall.PrintProgressBar(show, length, maximumvalue, currentvalue, 
   return true, ProgressString, tonumber(Percentage:sub(1,-2)), status
 end
 
---A,B,C,D,E,F=ultraschall.PrintProgressBar(true, 20, 50, 6, true, 19, "Hula", "Hoop", "HUi:")
-
---A=ultraschall.GetVerticalZoom()
---B=ultraschall.SetVerticalZoom(30)
---B=ultraschall.SetVerticalRelativeZoom(-40)
---C=ultraschall.GetVerticalZoom()
---C=GetVerticalZoom()
---ultraschall.SetVerticalRelativeScroll(1)
---ultraschall.SetVerticalRelativeScroll(-1)
---reaper.UpdateArrange()
---reaper.UpdateTimeline()
-
 
 function ultraschall.SetReaScriptConsole_FontStyle(style)
   --[[
@@ -55046,22 +51388,6 @@ function ultraschall.SetReaScriptConsole_FontStyle(style)
   return true
 end
 
---reaper.ClearConsole()
---ultraschall.SetReaScriptConsole_FontStyle(10)
---reaper.ShowConsoleMsg("ABCDEFGhijklmnop\n123456789.-,!\"§$%&/()=\n----------\nOOOOOOOOOO")
---print("Hula")
-
---A=ultraschall.GetRenderToFileHWND()
---    B=reaper.JS_WindowMessage_Send(A, "WM_CREATE", 666,666,0,0)
---[[
-for i=0, 100000 do 
-  Textfield=reaper.JS_Window_FindChildByID(A, i)
-  if Textfield~=nil then 
---    B=reaper.JS_WindowMessage_Send(Textfield, "WM_DESTROY", i,i,0,0)
---    reaper.JS_Window_Destroy(Textfield)
-  end
-end
---]]
 
 function ultraschall.GetHWInputs_Aliasnames()
   --[[
@@ -56479,16 +52805,6 @@ function ultraschall.GetRenderCFG_Settings_DDP(rendercfg)
   ]]
   if rendercfg=="IHBkZA==" then return true else return false end
 end
-
-
---A=ultraschall.CreateRenderCFG_AudioCD(1,false,2,30082,true)
-
---A=ultraschall.CreateRenderCFG_Opus(0, 1, 10, true, false)
-
---V=ultraschall.CreateRenderCFG_Opus2(0, 1, 10, true, false)
---A=ultraschall.CreateRenderCFG_OGG(2,0.05,2,1,9,602)
-
---A2,B=reaper.GetSetProjectInfo_String(0, "RENDER_FORMAT", A, true)
 
 
 function ultraschall.CreateRenderCFG_GIF(Width, Height, MaxFPS, AspectRatio, IgnoreLowBits, EncodeTransparency)
@@ -58719,8 +55035,191 @@ function ultraschall.GetLastEnvelopePoint_TrackEnvelope(Envelope)
   end
 end
 
+-- HoHoHo
+function ultraschall.OperationHoHoHo()  
+  if ultraschall.tempfilename:match("ultraschall_startscreen.lua")~=nil and 
+      (ultraschall.snowtodaysdate=="24.12" or 
+       ultraschall.snowtodaysdate=="25.12" or 
+       ultraschall.snowtodaysdate=="26.12") then
+    if ultraschall.snowheight==nil then ultraschall.SnowInit() end
+    ultraschall.snowoldgfx=gfx.update
+    function gfx.update()
+      if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
+      ultraschall.snowoldgfx()
+    end      
+  end
+end
+--if GUI==nil then GUI={} end
+
+function ultraschall.SnowInit()
+  --gfx.init()
+  
+  -- initial values
+  ultraschall.snowspeed=1.3       -- the falling speed of the snowflakes
+  ultraschall.snowsnowfactor=5000 -- the number of snowflakes
+  ultraschall.snowwindfactor=3    -- the amount the wind influences the snow; wind has an effect sideways and on the falling-speed. 
+                                  -- Don't set too high(>100), will look ugly otherwise. Rather experimental, than a real wind simulation...
+  
+  -- let's create some basic shapes to blit as snowflakes for:
+  -- close snowflakes
+  gfx.setimgdim(200,1,1)
+  gfx.dest=200
+  gfx.set(0.5,0.5,0.5)
+  gfx.rect(0,0,1,1)
+  -- medium snowflakes
+  gfx.setimgdim(400,1,1)
+  gfx.dest=400
+  gfx.set(0.3,0.3,0.3)
+  gfx.rect(0,0,1,1)
+  -- small and far snowflakes
+  gfx.setimgdim(401,1,1)
+  gfx.dest=401
+  gfx.set(0.2,0.2,0.2)
+  gfx.rect(0,0,1,1)
+  
+  
+  -- set framebuffer to the shown one
+  gfx.dest=-1
+  
+  -- Let's create an initial set of snowflakes
+  ultraschall.snowSnowflakes={}
+  for a=1, ultraschall.snowsnowfactor do
+    -- random x-position
+    -- random y-position
+    -- speed(which I also use as size-factor) and
+    -- another speed-factor(useful? Don't know...)
+    if gfx.w==0 then ultraschall.snowwidth=1000 else ultraschall.snowwidth=gfx.w end
+    if gfx.h==0 then ultraschall.snowheight=500 else ultraschall.snowheight=gfx.h end
+    ultraschall.snowSnowflakes[a]={math.random(1,ultraschall.snowwidth),math.random(-1500,0),math.random()*2,(math.random()/4)*math.random(-1,1)}
+    if ultraschall.snowSnowflakes[a][3]<0.4 then ultraschall.snowSnowflakes[a][3]=ultraschall.snowSnowflakes[a][3]*2 end
+  end
+    
+  
+  -- Let's create a table, that is meant to influence the fall of the snowflakes, as wind would do.
+  -- For laziness, I simply choose a sinus-wave to create it
+  -- this could be improved much much more...
+    ultraschall.snowwind=-3.6  
+    ultraschall.snowWindtable={}
+    for windcounter=0, ultraschall.snowsnowfactor do
+     ultraschall.snowwind=(ultraschall.snowwind+ultraschall.snowwindfactor*.001)--/(speed*2)
+     if ultraschall.snowwind>3.6 then ultraschall.snowwind=-3.6 end
+     ultraschall.snowWindtable[windcounter]=math.sin(windcounter)-(math.random()/2)*ultraschall.snowwindfactor
+    end
+  
+  ultraschall.snowwindoffset=1
+  gfx.x=0
+  gfx.y=0
+  gfx.r=1
+  gfx.g=1
+  gfx.b=1
+end
+function ultraschall.US_snowmain()
+
+  -- set sky to gray  
+  gfx.clear=0--reaper.ColorToNative(15,15,15)
+  local RUN=0
+  local RUN_STOP=0
+  
+  for i=1, ultraschall.snowsnowfactor do  
+    -- let's do the calculation of the falling of the snow
+    gfx.x=ultraschall.snowSnowflakes[i][1]
+    gfx.y=ultraschall.snowSnowflakes[i][2]+1
+
+    -- if a snowflake hasn't left the bottom of the window, do
+    if ultraschall.snowSnowflakes[i][2]<gfx.h then
+      local RUN=RUN+1
+      ultraschall.snowwindoffset=ultraschall.snowwindoffset+1
+      if ultraschall.snowwindoffset>ultraschall.snowsnowfactor then ultraschall.snowwindoffset=1 end
+      
+      -- calculate the movement toward the bottom, influenced by speed and wind
+      ultraschall.snowTemp=ultraschall.snowSnowflakes[i][2]+(ultraschall.snowSnowflakes[i][3]*ultraschall.snowspeed)-(ultraschall.snowWindtable[ultraschall.snowwindoffset]/4*ultraschall.snowSnowflakes[i][4])
+      if ultraschall.snowTemp>=ultraschall.snowSnowflakes[i][2] then ultraschall.snowSnowflakes[i][2]=ultraschall.snowTemp end -- prevent backwards flying snow
+      -- calculate the movement toward left/right, influenced by wind
+      ultraschall.snowSnowflakes[i][1]=ultraschall.snowSnowflakes[i][1]+(ultraschall.snowSnowflakes[i][4]+ultraschall.snowWindtable[ultraschall.snowwindoffset]/4*ultraschall.snowSnowflakes[i][4])
+      
+      
+      -- let's blit the snowflakes with their different sizes and colors
+      
+      if ultraschall.snowSnowflakes[i][3]>0.4 then 
+        -- big snowflakes, close and bright
+        gfx.blit(200,1.1*ultraschall.snowSnowflakes[i][3],0)      
+      elseif ultraschall.snowSnowflakes[i][3]<0.3 and ultraschall.snowSnowflakes[i][3]>0.1 then
+        -- medium snowflakes, normal and darker
+        gfx.blit(401,1.1,0)      
+      else
+        -- small snowflakes, dark
+        gfx.blit(400,0.7,0)
+      end
+
+    elseif gfx.h~=0 then
+      local RUN_STOP=RUN_STOP+1 -- just a debug-variable to see, how many are newly created
+
+      -- When Snowflake has left the bottom of the window, create a new one
+      -- this is like the initial creation of snowflakes, but unlike there, we make the y-position 0 here
+      if gfx.w==0 then ultraschall.snowwidth=1000 else ultraschall.snowwidth=gfx.w end
+      if gfx.h==0 then ultraschall.snowheight=3000 else ultraschall.snowheight=gfx.h end
+      ultraschall.snowSnowflakes[i]={math.random(1,ultraschall.snowwidth),0,math.random()*2,(math.random()/2)*math.random(-1,1)}
+    end
+  end
+
+end
+
+
+
+function ultraschall.tempgfxupdate_snowflakes()
+    if ultraschall.US_snowmain~=nil then ultraschall.US_snowmain() end
+    ultraschall.snowoldgfx()
+end
+
+function ultraschall.WinterlySnowflakes(toggle, falling_speed, number_snowflakes)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>WinterlySnowflakes</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.WinterlySnowflakes(boolean toggle, number falling_speed, integer number_snowflakes)</functioncall>
+  <description>
+    Exchanges the gfx.update()-function with a variant, that displays falling snowflakes everytime it is called.
+    
+    returns -1 in case of error
+  </description>
+  <retvals>
+    integer retval - returns -1 in case of a'JS_Window_ListFind' n error; 1, in case of success
+  </retvals>
+  <parameters>
+    boolean toggle - true, toggles falling snow on; false, toggles falling snow off
+    number falling_speed - the falling speed of the snowflakes, 1.3 is recommended
+    integer number_snowflakes - the number of falling snowflakes at the same time on screen; 2000 is recommended
+  </parameters>
+  <chapter_context>
+    User Interface
+    Miscellaneous
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, miscellaneous, winterly snowflakes</tags>
+</US_DocBloc>
+]]  
+  if type(falling_speed)~="number" then ultraschall.AddErrorMessage("WinterlySnowflakes", "falling_speed", "must be a number", -1) return -1 end
+  if math.type(number_snowflakes)~="integer" then ultraschall.AddErrorMessage("WinterlySnowflakes", "number_snowflakes", "must be an integer", -2) return -1 end
+  if ultraschall.snowheight==nil then ultraschall.SnowInit() end
+  ultraschall.snowspeed=falling_speed           -- the falling speed of the snowflakes
+  ultraschall.snowsnowfactor=number_snowflakes -- the number of snowflakes
+  if toggle==true then
+    gfx.update=ultraschall.tempgfxupdate_snowflakes
+  else
+    gfx.update=ultraschall.snowoldgfx
+  end
+  return 1
+end
+
 --Envelope=reaper.GetTrackEnvelope(reaper.GetTrack(0,0),2)
 --A,B,C,D,E,F,G,H=ultraschall.GetLastEnvelopePoint(Envelope)
+
+ultraschall.OperationHoHoHo()
 
 ultraschall.ShowLastErrorMessage()
 

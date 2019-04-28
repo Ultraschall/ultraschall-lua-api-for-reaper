@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="36171.00" author="Meo Mespotine">
+      <version name="36366.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/._Changelog-Api.txt</source>
@@ -29,7 +29,6 @@
 	<source file="/ultraschall_api/ultraschall_tag_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/ultraschall_tag_engine_beta.lua</source>
 	<source file="/ultraschall_api/ultraschall_video_engine.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/ultraschall_video_engine.lua</source>
 	<source file="/ultraschall_api/ultraschall_video_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/ultraschall_video_engine_beta.lua</source>
-	<source file="/ultraschall_api/unused_ultraschall_functions_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/unused_ultraschall_functions_engine_beta.lua</source>
 	<source file="/ultraschall_api/DocsSourcefiles/reaper-apidocs.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/DocsSourcefiles/reaper-apidocs.USDocML</source>
 	<source file="/ultraschall_api/DocsSourcefiles/reaper-config_var.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/DocsSourcefiles/reaper-config_var.USDocML</source>
 	<source file="/ultraschall_api/DocsSourcefiles/Reaper-Internals-readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/DocsSourcefiles/Reaper-Internals-readme.txt</source>
@@ -483,28 +482,41 @@ Changes from Beta 2.74 to Beta 2.75
     filename as well
 -   FileIO: WriteValueToFile_ReplaceBinary - errormessages return now
     the filename as well
+-   Fun: WinterlySnowflakes - only initialized now, when called (used to
+    be initialized at every startup of an US-API-instance)
+-   General: cleanup of functions-engine - removed 3569 useless lines,
+    who contained old debugcode sleeping in comments.
 -   GFX: GFX_GetMouseCap - interpreted modifier-keys as mouseclicks,
     when gfx.getkey had been used in script; mousewheel sometimes kept
     stuck at one value-> fixed
 -   Helpers: Base64_Encoder - fixed bug that caused encoded strings to
     end with wrong letter
+-   Helpers: CreateUSApiDocs_HTML - removed, as I’m not using it for
+    ages now
 -   Helpers: GetReaperAppVersion - didn’t return subversionnumber for
     pre-releases -> fixed now; returns pre-release-versions as well now
 -   Helpers: LimitFractionOfFloat - improved code a little for
     rounding-operations, hope it works now properly
+-   HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the
+    TCP as well
 -   IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore
 -   IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not
     necessary anymore
--   HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the
-    TCP as well
 -   MediaItems: EnumerateMediaItemsInTrack - had wrong functionname in
     index -> fixed
 -   Projectmanagement: all SetProject-functions - added missing
     ProjectStateChunk-returnvalue to docs
+-   Projectmanagement: GetProject_NumberOfTracks - sped code up by
+    magnitudes for huge projects; parameter ProjectStateChunk wasn’t
+    working due stupid typo -> fixed now
 -   Projectmanagement: GetProject_RenderFilename - could produce
     Lua-error, when no Renderfilename was existing in the projectfile
+-   Projectmanagement: SetProject_RenderPattern - added new
+    render-pattern options to the docs
 -   Projectmanagement: GetProject_RenderRange - added bounds-option for
     selected regions
+-   Projectmanagement: SetProject_RenderPattern - added new
+    render-pattern options to the docs
 -   Projectmanagement: SetProject_RenderRange - added bounds-option for
     selected regions
 -   Render: CreateRenderCFG_AudioCD - improved and lifted limitations
