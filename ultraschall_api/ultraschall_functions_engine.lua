@@ -55472,5 +55472,113 @@ end
 --TrackEnvelope=reaper.GetTrackEnvelopeByName(reaper.GetTrack(0,0),"Mute")
 --A=ultraschall.SetArmState_Envelope(TrackEnvelope, 0)
 
+function ultraschall.GetProjectStateChunk(projectfilename_with_path)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProjectStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>string ProjectStateChunk = ultraschall.GetProjectStateChunk(optional string projectfilename_with_path)</functioncall>
+  <description>
+    Gets the ProjectStateChunk of the current active project or a projectfile.
+    
+    returns nil if getting the ProjectStateChunk took too long
+  </description>
+  <retvals>
+    string ProjectStateChunk - the ProjectStateChunk of the current project; nil, if getting the ProjectStateChunk took too long
+  </retvals>
+  <parameters>
+    optional string projectfilename_with_path - the filename of an rpp-projectfile, that you want to load as ProjectStateChunk; nil, to get the ProjectStateChunk from the currently active project
+  </parameters>
+  <chapter_context>
+    Project-Files
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, get, projectstatechunk</tags>
+</US_DocBloc>
+]]  
+  local ProjectStateChunk
+  if projectfilename_with_path~=nil then 
+    ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path)
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProjectStateChunk", "projectfilename_with_path", "must be a valid ReaProject or nil", -1) return nil end
+    return ProjectStateChunk
+  end
+  
+  -- get the currently focused hwnd
+  local oldfocushwnd = reaper.JS_Window_GetFocus()
+  
+  -- turn off renderqdelay temporarily
+  local qretval, qlength = ultraschall.GetRender_QueueDelay()
+  local retval = ultraschall.SetRender_QueueDelay(false, qlength)
+  
+  -- turn on auto-increment filename temporarily
+  local old_autoincrement = ultraschall.GetRender_AutoIncrementFilename()
+  ultraschall.SetRender_AutoIncrementFilename(true)  
+  
+  -- get all filenames in render-queue
+  local oldbounds, oldstartpos, oldendpos, prep_changes, files, files2, filecount, filecount2    
+  filecount, files = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."\\QueuedRenders")
+  
+  -- set render-settings for empty projects(workaround for that edgecase)
+  if reaper.CountTracks()==0 then
+    oldbounds=reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", 0, false)
+    oldstartpos=reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", 0, false)
+    oldendpos=reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", 1, false)  
+    
+    reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", 0, true)
+    reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", 0, true)
+    reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", 1, true)
+    
+    prep_changes=true
+  end
+  
+  -- add current project to render-queue
+  reaper.Main_OnCommand(41823,0)
+  
+  -- wait, until Reaper has added the project to the render-queue and get it's filename
+  local i=0
+  while l==nil do
+    i=i+1
+    filecount2, files2 = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."\\QueuedRenders")
+    if filecount2~=filecount then break end
+    if i==1000000 then ultraschall.AddErrorMessage("GetProjectStateChunk", "", "timeout: Getting the ProjectStateChunk took too long for some reasons, please report this as bug to me!", -1) return end
+  end
+  local duplicate_count, duplicate_array, originalscount_array1, originals_array1, originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(files, files2)
+
+  -- read render-queued-project and reset temporarily changed settings in the current project, as well as the ProjectStateChunk
+  local ProjectStateChunk=ultraschall.ReadFullFile(originals_array2[1])
+  os.remove(originals_array2[1])
+  if prep_changes==true then
+    reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", oldbounds, true)
+    reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", oldstartpos, true)
+    reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", oldendpos, true)
+    retval, ProjectStateChunk = ultraschall.SetProject_RenderRange(nil, math.floor(oldbounds), math.floor(oldstartpos), math.floor(oldendpos), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILFLAG", 0, false)), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILMS", 0, false)), ProjectStateChunk)
+  end
+  
+  -- remove QUEUED_RENDER_ORIGINAL_FILENAME and QUEUED_RENDER_OUTFILE-entries
+  ProjectStateChunk=string.gsub(ProjectStateChunk, "  QUEUED_RENDER_OUTFILE .-%c", "")
+  ProjectStateChunk=string.gsub(ProjectStateChunk, "  QUEUED_RENDER_ORIGINAL_FILENAME .-%c", "")
+  
+  -- reset old auto-increment-checkbox-state
+  ultraschall.SetRender_AutoIncrementFilename(old_autoincrement)
+  
+  -- reset old focus-state on a specific hwnd
+  reaper.JS_Window_SetFocus(oldfocushwnd)
+  
+  retval = ultraschall.SetRender_QueueDelay(qretval, qlength)
+  return ProjectStateChunk
+end
+
+--A=ultraschall.GetProjectStateChunk()
+--print2(A)
+--A=ultraschall.IsValidReaProject("C:\\huilui.RPP")
+
 ultraschall.ShowLastErrorMessage()
 

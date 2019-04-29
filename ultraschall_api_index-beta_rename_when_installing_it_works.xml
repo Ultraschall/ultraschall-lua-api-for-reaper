@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="36419.00" author="Meo Mespotine">
+      <version name="36463.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -350,6 +350,9 @@ New features in 4.00beta2.75
     projectfile or ProjectStateChunk
 -   Project Management: GetProject_RenderQueueDelay - returns the
     render-queue-delay of a projectfile or ProjectStateChunk
+-   Project Management: GetProjectStateChunk - returns the
+    ProjectStateChunk of the current-active project or a valid
+    projectfile
 -   Render: ApplyRenderSettingsTable_Project - applies a RenderTable to
     the active project
 -   Render: ApplyRenderSettingsTable_ProjectFile - applies a RenderTable

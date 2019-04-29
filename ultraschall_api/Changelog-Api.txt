@@ -8,7 +8,7 @@
       TODO!!  - CreateItemFromTake, which creates a new item from an existing take. Like cropping, but leaves the original untouched.
       TODO!!  - CropTakeFromItem, which removes a take from an item; maybe allowing multiple ones?
       TODO!!  - MoveTakeInTakeOrderInMediaitem, which allows changing the order of takes within an item
-      TODO!! Statechunk-Docs, when Reaper 5.974 or later  is released:   + Item notes: optionally display image notes in full height mode
+      TODO!! Statechunk-Docs, when Reaper 5.974 or later is released:   + Item notes: optionally display image notes in full height mode
                                                                          new Item/AI-items/Track/Take-extstates from pre-releases
                                                                          AUXRECV is missing in the statechunk-docs, maybe other routing-stuff as well?
                                                                                     funfact - -1:U entry is pan_law, go into a routing-setting and rightclick the pan-slider of a receive to get this dialog
@@ -20,23 +20,6 @@
                     
                     only possible using TrackStateChunks, so no speedup possible
       TODO!! Doccreation: - retvals and parameters don't convert MD2HTML in functions-engine-docconverter
-      TODO!! GetProjectStateChunk - replace all absolute paths, that refer to the recording-path RECORD_PATH
-                                    with their relative counterparts.
-                                    Use the QUEUED_RENDER_ORIGINAL_FILENAME for that replacing of mediafilenamepaths or the projectpath for an unsaved project
-                                    That means: if I find Projectfilepath/Recordingpath in the ProjectStateChunk, exchange it with Recordingpath/
-                                    You should also check, during Reaper rendering the render-queue and I add a new render-file to the queue, if Reaper tries to render that new file as well or if it ignores it. This could be a potential troublemaker.
-                                            Answer: No, Reaper ignores added 
-
-                                  - avoid running this function during rendering; maybe with EnumProjects and the currently rendering project?
-                                        -> ehrmm...what? Because of the render-queue or what?
-                                        
-                                  - for absolute paths, check, whether a specific Source FILE "bla" is existing. If yes, it is absolute, if not, it is relative and must be exchanged with an absolute one.
-                                  - Reaper does the relative/absolute-management itself. That means, relative paths are always in relation to the rpp-file. If the rpp-file is stored somewhere else, where the FILE "" isn't a subfolder/file anymore, Reaper saves the file with absolute-paths to the MediaFiles.
-                                  -- TODO: !! Set selection of first track to selected, if not already
-                                  --          remove selection of first track, if necessary, from ProjectStateChunk and the project
-                                  --        workaround for the render-setting "Stems (selected tracks)"
-      
-
       TODO!! RenderProject_RenderCfg - new implementation, that exploits the render-queue, rather the reopening of a project
                                        should work with opened projects, but still unknown, how to add unopened projects properly and how to find out the rendered files afterwards...
                                        maybe that way: RENDER_FILE contains the path, where the file is stored in, either with or without the actual filename(the latter when using RENDER_PATTERNS).
@@ -361,6 +344,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Project Management: GetProject_QRenderOriginalProject - returns the original projectfile of a render-queued-project from a projectfile or ProjectStateChunk
   - Project Management: GetProject_QRenderOutFiles - returns the render-outfiles-with-path of a render-queued-project from a projectfile or ProjectStateChunk
   - Project Management: GetProject_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk
+  - Project Management: GetProjectStateChunk - returns the ProjectStateChunk of the current-active project or a valid projectfile
   - Render: ApplyRenderSettingsTable\_Project - applies a RenderTable to the active project
   - Render: ApplyRenderSettingsTable\_ProjectFile - applies a RenderTable to a projectfile
   - Render: CreateRenderCFG\_AVI\_Video - creates a render-string for the format video-AVI

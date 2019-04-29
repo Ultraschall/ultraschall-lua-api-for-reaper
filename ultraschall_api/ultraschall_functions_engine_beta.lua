@@ -63,139 +63,6 @@ end
 
 
 
-function ultraschall.GetProjectStateChunk(Project)
--- TODO: !! Set selection of first track to selected, if not already
---          remove selection of first track, if necessary, from ProjectStateChunk and the project
---        workaround for the render-setting "Stems (selected tracks)"
-
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetProjectStateChunk</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.965
-    SWS=2.9.7
-    Lua=5.3
-  </requires>
-  <functioncall>string ProjectStateChunk = ultraschall.GetProjectStateChunk(ReaProject project)</functioncall>
-  <description>
-    Gets a ProjectStateChunk of a ReaProject-object.
-    
-    Returns nil in case of error.
-  </description>
-  <parameters>
-    ReaProject project - the ReaProject, whose ProjectStateChunk you want; nil, for the currently opened project
-  </parameters>
-  <retvals>
-    string ProjectStateChunk - the ProjectStateChunk of the a specific ReaProject-object; nil, in case of an error
-  </retvals>
-  <chapter_context>
-    Project-Files
-    RPP-Files Get
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, get, projectstatechunk</tags>
-</US_DocBloc>
-]]  
-  if Project~=nil and ultraschall.IsValidReaProject(Project)==false then ultraschall.AddErrorMessage("GetProjectStateChunk", "Project", "must be a valid ReaProject", -1) return nil end
-  local currentproject=reaper.EnumProjects(-1,"")
-  reaper.PreventUIRefresh(2)
-  if Project~=nil then
-    reaper.SelectProjectInstance(Project)
-  end
-  local ProjectStateChunk=""
-  local sc, retval, item, endposition, numchannels, Samplerate, Filetype, editcursorposition, track, temp, files2, filecount2
-  
-  -- get all filenames in render-queue
-  local Path=reaper.GetResourcePath().."\\QueuedRenders\\"
-  local filecount, files = ultraschall.GetAllFilenamesInPath(Path)
-  
-  -- workaround, when another project in the render-queue renders into the same renderfile, as the current project
-  -- add to configvar "renderclosewhendone" a 16, if needed
-  -- will be reset to it's old value later, if necessary
-  local renderstate=reaper.SNM_GetIntConfigVar("renderclosewhendone", -1)
-  if renderstate&16==0 then reaper.SNM_SetIntConfigVar("renderclosewhendone", renderstate+16) end
-
-  -- if project is empty, insert a temporary track with an item into it, or Reaper complains
-  if reaper.GetProjectLength(0)==0 then 
-    temp=true
-    retval, item, endposition, numchannels, Samplerate, Filetype, editcursorposition, track = ultraschall.InsertMediaItemFromFile(ultraschall.Api_Path.."/misc/silence.flac", 0, 0, -1, 0)
-  end
- 
-  -- put project into the render-queue
-  reaper.Main_OnCommand(41823,0)
---  reaper.MB("","",0) 
-  -- get the new render-queue-file from which we want to get the ProjectStateChunk
-  -- load it and remove it immediately
-  local filecount2, files2 = ultraschall.GetAllFilenamesInPath(Path)
-  
---  reaper.MB(filecount.." "..tostring(filecount2),"",0)
-  
-  --Buggy, when running this function numerous times after each other
-  -- can't find the right file all the times. But why?
-  local waiter=reaper.time_precise()+2
-  while filecount2==filecount do
-    -- Lua is faster than the Action for adding the project into the render-queue, so we need to 
-    -- wait a little, until we can proceed
-    filecount2, files2 = ultraschall.GetAllFilenamesInPath(Path)
-    if filecount2~=filecount then break end
-    if reaper.time_precise()>waiter then reaper.MB(filecount.." "..filecount2,"HUI",0) AA=files BB=files2 ultraschall.AddErrorMessage("GetProjectStateChunk", "", "can't create ProjectStateChunk, probably due weird render-settings(e.g \"Stems (selected tracks)\")", -2) reaper.PreventUIRefresh(-2) return nil end
-  end
---  if lucki==nil then return end
-  duplicate_count, duplicate_array, 
-  originalscount_array1, originals_array1, 
-  originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(files, files2) -- maybe this?
-  ProjectStateChunk=ultraschall.ReadFullFile(originals_array2[originalscount_array2])
---K,KK=  os.remove(originals_array2[originalscount_array2])
---reaper.MB(originals_array2[1],"",0)
-K,KK=os.rename(originals_array2[originalscount_array2], originals_array2[originalscount_array2].."KK")
-  --Buggy end
-
-  -- delete temporary MediaItem and MediaTrack from the project again
-  if temp==true then
-    retval, sc=reaper.GetTrackStateChunk(track, "", false)
-    ultraschall.DeleteMediaItem(item) -- first the MediaItem, or it will be put into the ProjectBay
-    reaper.DeleteTrack(track) -- then delete the MediaItem
-    reaper.Undo_DoUndo2(0)
-  end
-  
-  reaper.SNM_SetIntConfigVar("renderclosewhendone", renderstate)
-  reaper.PreventUIRefresh(-2)
-    
-
-  if Project~=nil then
-    reaper.SelectProjectInstance(currentproject)
-  end    
-  
-  reaper.PreventUIRefresh(-1)
-  local QRenderFiles=""
-  local QRenderProject=ProjectStateChunk:match("QUEUED_RENDER_ORIGINAL_FILENAME.-\n")
-  for k in string.gmatch(ProjectStateChunk, "(QUEUED_RENDER_OUTFILE.-)\n") do
-    QRenderFiles=QRenderFiles..k.."\n"
-  end
-  ProjectStateChunk=string.gsub(ProjectStateChunk,"  QUEUED_RENDER_OUTFILE.-\n","")
-  ProjectStateChunk=string.gsub(ProjectStateChunk,"  QUEUED_RENDER_ORIGINAL_FILENAME.-\n","")
-  
-  if temp==true then
-    ProjectStateChunk=string.gsub(ProjectStateChunk, "<TRACK.-NAME silence.-%c%s%s>", "")
-  end
-  if start==0 and endit==0 then retval = ultraschall.SetProject_Selection(nil, 0, 0, 0, 0, ProjectStatechunk) end
-  return ProjectStateChunk, QRenderFiles:sub(1,-2), QRenderProject
-end
-
---A=ultraschall.GetProjectStateChunk()
---reaper.MB(A:sub(-3500,-1),"",0)
---reaper.CF_SetClipboard(A)
-
---for i=0, 1 do
---  A=ultraschall.GetProjectStateChunk()
---  if A==nil then break end
---end
-
---ultraschall.RenderProject_RenderCFG(nil, nil, 1, 10, false, false, false, nil)
-
-
 function ultraschall.GetProject_RenderOutputPath(projectfilename_with_path)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -669,5 +536,58 @@ function ultraschall.GetAllMediaItemTake_StateChunks(MediaItem)
 --returns an array with all rppxml-statechunk for all MediaItemTakes of a MediaItem.
 end
 
+
+function ultraschall.AddProjectfileToRenderQueue(Projectfilename2)
+-- Todo
+-- add 
+--  QUEUED_RENDER_OUTFILE "C:\defrenderpath\untitled.flac" 65553 {8B34A896-AAE3-4F7F-9A5E-63C19B1C9AE0}
+--  QUEUED_RENDER_ORIGINAL_FILENAME C:\Render-Queue-Documentation.RPP
+-- to them
+-- the former being dependend on, whether some render-stems is selected
+
+  --Projectfilename2="c:\\Render-Queue-Documentation.RPP"
+  local path, projfilename = ultraschall.GetPath(Projectfilename2)
+  local Projectfilename=ultraschall.API_TempPath..projfilename
+  local A,B, Count, Individual_values, tempa, tempb, filename, Qfilename
+  
+  ultraschall.MakeCopyOfFile(Projectfilename2, Projectfilename)
+  
+  --k,Projectfilename = reaper.EnumProjects(-1,"")
+  A=ultraschall.ReadFullFile(Projectfilename) 
+  B=""
+  
+  Count, Individual_values = ultraschall.CSV2IndividualLinesAsArray(A, "\n")
+  
+  
+  for i=1, Count do
+    if Individual_values[i]:match("^        FILE \"")~=nil then
+      filename=Individual_values[i]:match("\"(.-)\"")
+      if reaper.file_exists(path..filename)==true then
+        tempa, tempb=Individual_values[i]:match("(.-\").-(\".*)")
+        Individual_values[i]=tempa..path..filename..tempb
+      end
+    end
+    B=B.."\n"..Individual_values[i]
+  end
+  
+  -- let's create a valid render-queue-filename
+  local A, month, day, hour, min, sec
+  A=os.date("*t")
+  if tostring(A["month"]):len()==1 then month="0"..tostring(A["month"]) else month=tostring(A["month"]) end
+  if tostring(A["day"]):len()==1 then day="0"..tostring(A["day"]) else day=tostring(A["day"]) end
+  
+  if tostring(A["hour"]):len()==1 then hour="0"..tostring(A["hour"]) else hour=tostring(A["hour"]) end
+  if tostring(A["min"]):len()==1 then min="0"..tostring(A["min"]) else min=tostring(A["min"]) end
+  if tostring(A["sec"]):len()==1 then sec="0"..tostring(A["sec"]) else sec=tostring(A["sec"]) end
+  
+  Qfilename="qrender_"..tostring(A["year"]):sub(-2,-1)..month..day.."_"..hour..min..sec.."_"..Projectfilename2:match("[\\/](.*)")
+
+  ultraschall.WriteValueToFile("c:\\Ultraschall-Hackversion_3.2_US_beta_2_75\\QueuedRenders\\"..Qfilename, B)
+end
+
+--A=9879
+--HHhwnd = ultraschall.GetRenderQueueHWND()
+
+--ultraschall.AddProjectfileToRenderQueue("c:\\Render-Queue-Documentation.RPP")
 
 ultraschall.ShowLastErrorMessage()
