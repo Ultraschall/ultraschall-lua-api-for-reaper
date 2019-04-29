@@ -2,7 +2,6 @@
     
     API 4.00beta2.75
       TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
-      TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
       TODO!!  - Add options to Normalize-Items-function, as there are numerous different actions for normalizing
       TODO!!  - Get/SetMarkersFromClipboard-functions
       TODO!! Reaper-Apidocs: use US-functions-docgenerator for layout
@@ -21,10 +20,6 @@
                     
                     only possible using TrackStateChunks, so no speedup possible
       TODO!! Doccreation: - retvals and parameters don't convert MD2HTML in functions-engine-docconverter
-
-      TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
-             produziert die API Fehler.            
-      TODO!! Event-System, as defined on the Congress
       TODO!! GetProjectStateChunk - replace all absolute paths, that refer to the recording-path RECORD_PATH
                                     with their relative counterparts.
                                     Use the QUEUED_RENDER_ORIGINAL_FILENAME for that replacing of mediafilenamepaths or the projectpath for an unsaved project
@@ -153,11 +148,13 @@
                    
                    -
 
-
-      TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
-
-      
     For 4.00beta2.8:
+      TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
+             produziert die API Fehler.
+      TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
+                Needs first functions for activating Envelopes, but they don't exist, until they are displayed.
+                I might have to add non-activated envelopes by adding env-statechunks into TrackStateChunks.
+      TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
       TODO!!  - totype(value, string type), converts a value to type and returns it, if impossible, returns nil; includes string, boolean, integer, float, hex, oct, base64, etc
       TODO!!  - SetStateChunk-functions: how to check for ProjectStateChunk/TrackStateChunk/ItemStateChunk/EnvStateChunk, when new parameters are added to the function?
                                          something with ... ? Otherwise, new added parameters will break old scripts...
@@ -171,8 +168,8 @@
       TODO!!  - Import3rdPartyScripts(string filelist, integer script_target, boolean add)
               copies files from filelist into script_target
               script_target - 0, scripts-folder
-                      - 1, ultraschall-3rd-party-scripts-folder
-                      - -1, don't copy files
+                            - 1, ultraschall-3rd-party-scripts-folder
+                            --1, don't copy files
               boolean add - true, add the scripts to the actionlist; false, remove them from the action-list
       TODO!!  - create HTML-docs from all files in the functions-department of Ultraschall/3rd-party-functions
       TODO!!  - Show$ContextMenu() - ShowPopupMenu is too complicated to use. Create proper useable functions to address that
@@ -244,6 +241,7 @@
             That way, we can have monitoring of running scripts.
             Should allow monitoring of Defer1 to Defer10-running-states as well. Maybe they need to be set at the beginning as well? Or is it waste of resources?(probably the latter, we can assume, if it's not set "running", that defer-instance is not used and set to stopped.            
         
+        TODO!! Event-System, as defined on the Congress
         TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
         TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
                           - not possible, as I can't programmatically change the selected envelope...maybe with SetCursorContext, as this allows focusing a trackenvelope, 
@@ -348,7 +346,9 @@ tagline inspired by a comment from \_stevie\_ ;)
   **!RenderMania!**
 
 #### New features in 4.00beta2.75
+  - Envelopes: GetArmState_Envelope - gets the armstate of a TrackEnvelope
   - Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point from a TrackEnvelope-object
+  - Envelopes: SetArmState_Envelope - sets the armstate of a TrackEnvelope
   - FXManagement: GetFXStateChunk - Gets an FXStateChunk from a StateChunk(usually Track/MediaItemStateChunk)
   - FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is a valid FXStateChunk
   - FXManagement: GetParmLearn\_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE

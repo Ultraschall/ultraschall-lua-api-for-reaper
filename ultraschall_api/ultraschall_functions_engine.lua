@@ -54824,7 +54824,7 @@ function ultraschall.SetRenderQueueDelay(state, length)
 </US_DocBloc>
 ]]
   if type(state)~="boolean" then ultraschall.AddErrorMessage("SetRenderQueueDelay", "state", "must be a boolean", -1) return false end
-  if math.type(length)~="length" then ultraschall.AddErrorMessage("SetRenderQueueDelay", "length", "must be an integer", -2) return false end
+  if math.type(length)~="integer" then ultraschall.AddErrorMessage("SetRenderQueueDelay", "length", "must be an integer", -2) return false end
   local SaveCopyOfProject, hwnd, retval
   if state==false then state=0 length=-length else state=1 end
   hwnd = ultraschall.GetRenderToFileHWND()
@@ -54872,7 +54872,7 @@ function ultraschall.GetRenderQueueDelay()
   <tags>render, get, checkbox, render, delay queued render</tags>
 </US_DocBloc>
 ]]
-  local SaveCopyOfProject, hwnd, retval
+  local SaveCopyOfProject, hwnd, retval, length, state
   hwnd = ultraschall.GetRenderToFileHWND()
   if hwnd==nil then
     length=reaper.SNM_GetIntConfigVar("renderqdelay", 0)
@@ -55207,7 +55207,7 @@ function ultraschall.WinterlySnowflakes(toggle, falling_speed, number_snowflakes
   if math.type(number_snowflakes)~="integer" then ultraschall.AddErrorMessage("WinterlySnowflakes", "number_snowflakes", "must be an integer", -2) return -1 end
   if ultraschall.snowheight==nil then ultraschall.SnowInit() end
   ultraschall.snowspeed=falling_speed           -- the falling speed of the snowflakes
-  ultraschall.snowsnowfactor=number_snowflakes -- the number of snowflakes
+  ultraschall.snowsnowfactor=number_snowflakes  -- the number of snowflakes
   if toggle==true then
     gfx.update=ultraschall.tempgfxupdate_snowflakes
   else
@@ -55220,6 +55220,81 @@ end
 --A,B,C,D,E,F,G,H=ultraschall.GetLastEnvelopePoint(Envelope)
 
 ultraschall.OperationHoHoHo()
+
+function ultraschall.GetArmState_Envelope(TrackEnvelope)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetArmState_Envelope</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.GetArmState_Envelope(TrackEnvelope TrackEnvelope)</functioncall>
+  <description>
+    Returns the current armed-state of a TrackEnvelope-object.
+    
+    returns nil in case of error
+  </description>
+  <retvals>
+    integer retval - 0, unarmed; 1, armed
+  </retvals>
+  <parameters>
+    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose armed-state you want to know
+  </parameters>
+  <chapter_context>
+    Envelope Management
+    Get Envelope States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>envelope states, get, arm</tags>
+</US_DocBloc>
+]]  
+  if ultraschall.type(TrackEnvelope)=="TrackEnvelope" then ultraschall.AddErrorMessage("GetArmState_Envelope", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return end
+  local retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+  return tonumber(str:match("ARM (%d*)"))
+end
+
+function ultraschall.SetArmState_Envelope(TrackEnvelope, state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetArmState_Envelope</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetArmState_Envelope(TrackEnvelope TrackEnvelope, integer state)</functioncall>
+  <description>
+    Sets the new armed-state of a TrackEnvelope-object.
+    
+    returns false in case of error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <parameters>
+    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose armed-state you want to know
+    integer state - 0, unarmed; 1, armed
+  </parameters>
+  <chapter_context>
+    Envelope Management
+    Set Envelope States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>envelope states, set, arm</tags>
+</US_DocBloc>
+]]  
+  if ultraschall.type(TrackEnvelope)=="TrackEnvelope" then ultraschall.AddErrorMessage("SetArmState_Envelope", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return false end
+  if math.type(state)~="integer" then ultraschall.AddErrorMessage("SetArmState_Envelope", "state", "Must be an integer, either 1 or 0", -2) return false end
+  local retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+  return reaper.SetEnvelopeStateChunk(TrackEnvelope, string.gsub(str, "ARM %d*%c", "ARM "..state.."\n"), false)
+end
+
+--TrackEnvelope=reaper.GetTrackEnvelopeByName(reaper.GetTrack(0,0),"Mute")
+--A=ultraschall.SetArmState_Envelope(TrackEnvelope, 0)
 
 ultraschall.ShowLastErrorMessage()
 
