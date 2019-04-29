@@ -29890,7 +29890,7 @@ function ultraschall.GetReaperAppVersion()
   local beta=reaper.GetAppVersion():match("%.%d*(.-)/")
   return majvers, subvers, bits, OS, portable, beta
 end
-
+ 
 
 --A,B,C,D,E,F=ultraschall.GetReaperAppVersion()
 --A,B,C,D,E,F,G=ultraschall.GetReaperAppVersion()
@@ -54302,7 +54302,7 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_renderc
     renderclosewhendone=renderclosewhendone+16
   elseif RenderTable["SilentlyIncrementFilename"]==false and renderclosewhendone&16~=0 then
     renderclosewhendone=renderclosewhendone-16
-  end
+  end 
   reaper.SNM_SetIntConfigVar("renderclosewhendone", renderclosewhendone)
   
   if RenderTable["RenderQueueDelay"]==true then 
