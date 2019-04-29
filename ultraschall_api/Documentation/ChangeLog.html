@@ -71,6 +71,10 @@ Ultraschall API Changelog
 <li>Render: CreateRenderCFG_MP4MAC_Video - creates a render-string for the format video-MP4 for Mac</li>
 <li>Render: CreateRenderCFG_QTMOVMP4_Video - creates a render-string for the format video-QT/MOV/MP4</li>
 <li>Render: CreateNewRenderTable - creates a new RenderTable, which holds all render-settings; can be applied later to projects or projectfiles</li>
+<li>Render: GetRender_AutoIncrementFilename - gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
+<li>Render: GetRender_ProjectSampleRateForMix - gets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog</li>
+<li>Render: GetRender_SaveCopyOfProject - gets the current state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog</li>
+<li>Render: GetRender_QueueDelay - Gets the checkstate of the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>
 <li>Render: GetRenderCFG_Settings_AIFF - gets the settings of an audio-AIFF-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_AudioCD - gets the settings of an audio-AudioCD-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_AVI_Video - gets the settings of an video-avi-rendercfg-string</li>
@@ -93,15 +97,15 @@ Ultraschall API Changelog
 <li>Render: GetRenderCFG_Settings_WAV - gets the settings of an audio-wav-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_WAVPACK - gets the settings of an audio-wavpack-rendercfg-string</li>
 <li>Render: GetRenderCFG_Settings_WebMVideo - gets the settings of a video-webm-rendercfg-string</li>
-<li>Render: GetRenderSaveCopyOfProject - gets the current state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.</li>
 <li>Render: GetRenderSettingsTable_Project - returns a table with all render-settings of the currently active project</li>
 <li>Render: GetRenderSettingsTable_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk</li>
-<li>Render: GetRenderQueueDelay - Gets the checkstate of the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>
 <li>Render: IsValidRenderTable - returns, if a table is a valid RenderTable<br />
 </li>
-<li>Render: SetRenderSaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.</li>
+<li>Render: SetRender_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
+<li>Render: SetRender_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog</li>
+<li>Render: SetRender_SaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.</li>
+<li>Render: SetRender_QueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>
 <li>Render: SetRenderSettingsTable_Project - sets the settings stored in a RenderTable as the render-settings of the current project</li>
-<li>Render: SetRenderQueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>
 <li>UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd</li>
 <li>UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd</li>
 </ul>

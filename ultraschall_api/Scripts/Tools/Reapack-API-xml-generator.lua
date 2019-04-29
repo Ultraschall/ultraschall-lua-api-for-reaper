@@ -395,7 +395,7 @@ PS: In this documentation, I assume you have some basic knowledge in Lua and in 
 SourceDir=string.gsub(SourceDir, "/", ultraschall.Separator)
 A0="c:\\windows\\system32\\cmd.exe /Q /C xcopy "..SourceDir.."\\ultraschall_api "..Target_Dir.."\\ultraschall_api\\ /T /E /Y"
 
-reaper.CF_SetClipboard(A0)
+--reaper.CF_SetClipboard(A0)
 A,A1,A2,A3=reaper.ExecProcess(A0, 0)
   
 for i=1, found_files do

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="36414.00" author="Meo Mespotine">
+      <version name="36419.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/._Changelog-Api.txt</source>
@@ -373,6 +373,18 @@ New features in 4.00beta2.75
 -   Render: CreateNewRenderTable - creates a new RenderTable, which
     holds all render-settings; can be applied later to projects or
     projectfiles
+-   Render: GetRender_AutoIncrementFilename - gets the current state of
+    the “Silently increment filenames to avoid overwriting”-checkbox
+    from the Render to File-dialog
+-   Render: GetRender_ProjectSampleRateForMix - gets the current state
+    of the “Use project sample rate for mixing and FX/synth
+    processing”-checkbox from the Render to File-dialog
+-   Render: GetRender_SaveCopyOfProject - gets the current state of the
+    “Save copy of project to outfile.wav.RPP”-checkbox from the Render
+    to File-dialog
+-   Render: GetRender_QueueDelay - Gets the checkstate of the “Delay
+    queued render to allow samples to load”-checkbox of the Render to
+    File-dialog.
 -   Render: GetRenderCFG_Settings_AIFF - gets the settings of an
     audio-AIFF-rendercfg-string
 -   Render: GetRenderCFG_Settings_AudioCD - gets the settings of an
@@ -417,26 +429,26 @@ New features in 4.00beta2.75
     audio-wavpack-rendercfg-string
 -   Render: GetRenderCFG_Settings_WebMVideo - gets the settings of a
     video-webm-rendercfg-string
--   Render: GetRenderSaveCopyOfProject - gets the current state of the
-    “Save copy of project to outfile.wav.RPP”-checkbox from the Render
-    to File-dialog.
 -   Render: GetRenderSettingsTable_Project - returns a table with all
     render-settings of the currently active project
 -   Render: GetRenderSettingsTable_ProjectFile - returns a table with
     all render-dialog-settings from an rpp-projectfile or
     ProjectStateChunk
--   Render: GetRenderQueueDelay - Gets the checkstate of the “Delay
-    queued render to allow samples to load”-checkbox of the Render to
-    File-dialog.
 -   Render: IsValidRenderTable - returns, if a table is a valid
     RenderTable
--   Render: SetRenderSaveCopyOfProject - sets the checked-state of the
+-   Render: SetRender_AutoIncrementFilename - sets the current state of
+    the “Silently increment filenames to avoid overwriting”-checkbox
+    from the Render to File-dialog
+-   Render: SetRender_ProjectSampleRateForMix - sets the current state
+    of the “Use project sample rate for mixing and FX/synth
+    processing”-checkbox from the Render to File-dialog
+-   Render: SetRender_SaveCopyOfProject - sets the checked-state of the
     “Save copy of project to outfile.wav.RPP”-checkbox from the Render
     to File-dialog.
+-   Render: SetRender_QueueDelay - Sets the “Delay queued render to
+    allow samples to load”-checkbox of the Render to File-dialog.
 -   Render: SetRenderSettingsTable_Project - sets the settings stored in
     a RenderTable as the render-settings of the current project
--   Render: SetRenderQueueDelay - Sets the “Delay queued render to allow
-    samples to load”-checkbox of the Render to File-dialog.
 -   UserInterface: GetCheckboxState - gets the current checkstate of a
     checkbox-hwnd
 -   UserInterface: SetCheckboxState - sets a new checkstate of a

@@ -54699,10 +54699,10 @@ end
 --print2(O["RenderString"])
 --reaper.GetSetProjectInfo_String(0, "RENDER_FORMAT", "l3pm", true)
 
-function ultraschall.GetRenderSaveCopyOfProject()
+function ultraschall.GetRender_SaveCopyOfProject()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetRenderSaveCopyOfProject</slug>
+  <slug>GetRender_SaveCopyOfProject</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.975
@@ -54710,7 +54710,7 @@ function ultraschall.GetRenderSaveCopyOfProject()
     JS=0.980
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.GetRenderSaveCopyOfProject()</functioncall>
+  <functioncall>boolean retval = ultraschall.GetRender_SaveCopyOfProject()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Gets the current state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.
     
@@ -54740,12 +54740,12 @@ function ultraschall.GetRenderSaveCopyOfProject()
   return retval
 end
 
---A=ultraschall.GetRenderSaveCopyOfProject(false)
+--A=ultraschall.GetRender_SaveCopyOfProject(false)
 
-function ultraschall.SetRenderSaveCopyOfProject(state)
+function ultraschall.SetRender_SaveCopyOfProject(state)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SetRenderSaveCopyOfProject</slug>
+  <slug>SetRender_SaveCopyOfProject</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.975
@@ -54753,7 +54753,7 @@ function ultraschall.SetRenderSaveCopyOfProject(state)
     JS=0.980
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.SetRenderSaveCopyOfProject(boolean state)</functioncall>
+  <functioncall>boolean retval = ultraschall.SetRender_SaveCopyOfProject(boolean state)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets the "Save copy of project to outfile.wav.RPP"-checkbox of the Render to File-dialog.
     
@@ -54774,7 +54774,7 @@ function ultraschall.SetRenderSaveCopyOfProject(state)
   <tags>render, set, checkbox, render, save copy of project</tags>
 </US_DocBloc>
 ]]
-  if type(state)~="boolean" then ultraschall.AddErrorMessage("SetRenderSaveCopyOfProject", "state", "must be a boolean", -1) return false end
+  if type(state)~="boolean" then ultraschall.AddErrorMessage("SetRender_SaveCopyOfProject", "state", "must be a boolean", -1) return false end
   local SaveCopyOfProject, hwnd, retval
   if state==true then SaveCopyOfProject=1 else SaveCopyOfProject=0 end
   hwnd = ultraschall.GetRenderToFileHWND()
@@ -54787,13 +54787,13 @@ function ultraschall.SetRenderSaveCopyOfProject(state)
   return retval
 end
 
---A=ultraschall.SetRenderSaveCopyOfProject(true)
+--A=ultraschall.SetRender_SaveCopyOfProject(true)
 
 
-function ultraschall.SetRenderQueueDelay(state, length)
+function ultraschall.SetRender_QueueDelay(state, length)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>SetRenderQueueDelay</slug>
+  <slug>SetRender_QueueDelay</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.975
@@ -54801,7 +54801,7 @@ function ultraschall.SetRenderQueueDelay(state, length)
     JS=0.980
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.SetRenderQueueDelay(boolean state, integer length)</functioncall>
+  <functioncall>boolean retval = ultraschall.SetRender_QueueDelay(boolean state, integer length)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.
     
@@ -54823,8 +54823,8 @@ function ultraschall.SetRenderQueueDelay(state, length)
   <tags>render, set, checkbox, render, delay queued render</tags>
 </US_DocBloc>
 ]]
-  if type(state)~="boolean" then ultraschall.AddErrorMessage("SetRenderQueueDelay", "state", "must be a boolean", -1) return false end
-  if math.type(length)~="integer" then ultraschall.AddErrorMessage("SetRenderQueueDelay", "length", "must be an integer", -2) return false end
+  if type(state)~="boolean" then ultraschall.AddErrorMessage("SetRender_QueueDelay", "state", "must be a boolean", -1) return false end
+  if math.type(length)~="integer" then ultraschall.AddErrorMessage("SetRender_QueueDelay", "length", "must be an integer", -2) return false end
   local SaveCopyOfProject, hwnd, retval
   if state==false then state=0 length=-length else state=1 end
   hwnd = ultraschall.GetRenderToFileHWND()
@@ -54839,14 +54839,14 @@ function ultraschall.SetRenderQueueDelay(state, length)
   return retval
 end
 
---A=ultraschall.SetRenderSaveCopyOfProject(true)
+--A=ultraschall.SetRender_SaveCopyOfProject(true)
 --ultraschall.SetRenderQueueDelay(false, 8)
 --reaper.SNM_SetIntConfigVar("renderqdelay", 7)
 
-function ultraschall.GetRenderQueueDelay()
+function ultraschall.GetRender_QueueDelay()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetRenderQueueDelay</slug>
+  <slug>GetRender_QueueDelay</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.975
@@ -54854,7 +54854,7 @@ function ultraschall.GetRenderQueueDelay()
     JS=0.980
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer length = ultraschall.GetRenderQueueDelay()</functioncall>
+  <functioncall>boolean retval, integer length = ultraschall.GetRender_QueueDelay()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Gets the current checkstate of the "Delay queued render to allow samples to load"-checkbox from the Render to File-dialog,
     as well as the length of the queue-render-delay.
@@ -54890,6 +54890,182 @@ end
 
 --A,B=reaper.GetTrackStateChunk(reaper.GetTrack(0,1),"",false)
 --A1=ultraschall.GetTrackAUXSendReceives(-1, 1, B)
+
+function ultraschall.SetRender_ProjectSampleRateForMix(state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRender_ProjectSampleRateForMix</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetRender_ProjectSampleRateForMix(boolean state)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the "Use project sample rate for mixing and FX/synth processing"-checkbox of the Render to File-dialog.
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, it was unsuccessful
+  </retvals>
+  <parameters>
+    boolean state - true, check the checkbox; false, uncheck the checkbox
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render, set, checkbox, render, use project sample rate for mixing</tags>
+</US_DocBloc>
+]]
+  if type(state)~="boolean" then ultraschall.AddErrorMessage("SetRender_ProjectSampleRateForMix", "state", "must be a boolean", -1) return false end
+  local SaveCopyOfProject, hwnd, retval
+  if state==false then state=0 else state=1 end
+  hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then
+    reaper.SNM_SetIntConfigVar("projrenderrateinternal", state)
+  else
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1062), "BM_SETCHECK", state,0,0,0)
+    reaper.SNM_SetIntConfigVar("projrenderrateinternal", state)
+  end
+  return true
+end
+
+--A=ultraschall.SetRenderProjectSampleRateForMix(false)
+
+function ultraschall.GetRender_ProjectSampleRateForMix()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRender_ProjectSampleRateForMix</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.GetRender_ProjectSampleRateForMix()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog.
+  </description>
+  <retvals>
+    boolean state - true, check the checkbox; false, uncheck the checkbox
+  </retvals>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render, get, checkbox, render, use project sample rate for mixing</tags>
+</US_DocBloc>
+]]
+  local SaveCopyOfProject, hwnd, retval, length, state
+  hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then
+    state=reaper.SNM_GetIntConfigVar("projrenderrateinternal", 0)
+  else
+    state = reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1062), "BM_GETCHECK", 0,0,0,0)
+  end
+  if state==0 then state=false else state=true end
+  return state
+end
+
+--A=ultraschall.GetRenderProjectSampleRateForMix()
+
+function ultraschall.SetRender_AutoIncrementFilename(state)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRender_AutoIncrementFilename</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetRender_AutoIncrementFilename(boolean state)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog.
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, it was unsuccessful
+  </retvals>
+  <parameters>
+    boolean state - true, check the checkbox; false, uncheck the checkbox
+  </parameters>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render, get, checkbox, render, auto increment filenames</tags>
+</US_DocBloc>
+]]
+  if type(state)~="boolean" then ultraschall.AddErrorMessage("SetRender_AutoIncrementFilename", "state", "must be a boolean", -1) return false end
+  local SaveCopyOfProject, hwnd, retval
+  if state==false then state=0 else state=1 end
+  hwnd = ultraschall.GetRenderToFileHWND()
+  local oldval=reaper.SNM_GetIntConfigVar("renderclosewhendone",-1)
+  if state==1 and oldval&16==0 then oldval=oldval+16 
+  elseif state==0 and oldval&16==16 then oldval=oldval-16 end
+  if hwnd~=nil then
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1042), "BM_SETCHECK", state,0,0,0)
+  end
+  reaper.SNM_SetIntConfigVar("renderclosewhendone", oldval)
+  return true
+end
+
+--A=ultraschall.SetRender_AutoIncrementFilename(false)
+
+function ultraschall.GetRender_AutoIncrementFilename()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRender_AutoIncrementFilename</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.GetRender_AutoIncrementFilename()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog.
+  </description>
+  <retvals>
+    boolean state - true, check the checkbox; false, uncheck the checkbox
+  </retvals>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render, get, checkbox, render, auto increment filenames</tags>
+</US_DocBloc>
+]]
+  local SaveCopyOfProject, hwnd, retval, length, state
+  hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then
+    state=reaper.SNM_GetIntConfigVar("renderclosewhendone", 0)
+    if state&16==16 then state=1 end
+  else
+    state = reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1042), "BM_GETCHECK", 0,0,0,0)
+  end
+  if state==0 then state=false else state=true end
+  return state
+end
+
+--A=ultraschall.GetRender_AutoIncrementFilename()
 
 
 
