@@ -360,6 +360,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: GetRender\_AutoIncrementFilename - gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog
   - Render: GetRender\_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
   - Render: GetRender\_ProjectSampleRateForMix - gets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog
+  - Render: GetRender\_ResampleMode - gets the current state of the "Resample mode (if needed)"-dropdownlist from the Render to File-dialog
   - Render: GetRender\_SaveCopyOfProject - gets the current state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog
   - Render: GetRender\_QueueDelay - Gets the checkstate of the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.
   - Render: GetRenderCFG\_Settings\_AIFF - gets the settings of an audio-AIFF-rendercfg-string
@@ -390,6 +391,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: SetRender\_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog
   - Render: SetRender\_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
   - Render: SetRender\_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog
+  - Render: SetRender\_ResampleMode - sets the current state of the "Resample mode (if needed)"-dropdownlist from the Render to File-dialog
   - Render: SetRender\_SaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.
   - Render: SetRender\_QueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.
   - Render: SetRenderSettingsTable\_Project - sets the settings stored in a RenderTable as the render-settings of the current project

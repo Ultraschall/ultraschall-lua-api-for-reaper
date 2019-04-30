@@ -55668,8 +55668,8 @@ function ultraschall.SetRender_OfflineOnlineMode(mode)
     boolean retval - true, setting it was successful; false, setting it was unsuccessful
   </retvals>
   <chapter_context>
-    Project-Files
-    RPP-Files Get
+    Configuration Settings
+    Render to File
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -55716,7 +55716,7 @@ function ultraschall.GetRender_OfflineOnlineMode()
     gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
   </description>
   <retvals>
-    integer mode - the mode, that you want to set
+    integer mode - the mode, that is set
                  - 0, Full-speed Offline
                  - 1, 1x Offline
                  - 2, Online Render
@@ -55724,8 +55724,8 @@ function ultraschall.GetRender_OfflineOnlineMode()
                  - 4, 1x Offline Render (Idle)
   </retvals>
   <chapter_context>
-    Project-Files
-    RPP-Files Get
+    Configuration Settings
+    Render to File
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -55738,9 +55738,122 @@ function ultraschall.GetRender_OfflineOnlineMode()
   if hwnd==nil then return reaper.SNM_GetIntConfigVar("projrenderlimit", -1) end
 
   return reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1001), "CB_GETCURSEL", 0,100,0,100)
-
 end
 
 --A,B,C=ultraschall.GetRender_OfflineOnlineMode()
+
+
+function ultraschall.GetRender_ResampleMode()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRender_ResampleMode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>integer mode = ultraschall.GetRender_ResampleMode()</functioncall>
+  <description>
+    gets the current mode of the "Resample mode (if needed)"-dropdownlist from the Render to File-dialog
+  </description>
+  <retvals>
+    integer mode - the mode, that is set
+                 -  0, Medium (64pt Sinc), 
+                 -  1, Low (Linear Interpolation), 
+                 -  2, Lowest (Point Sampling), 
+                 -  3, Good(192pt Sinc), 
+                 -  4, Better(384pt Sinc), 
+                 -  5, Fast (IIR + Linear Interpolation), 
+                 -  6, Fast (IIRx2 + Linear Interpolation), 
+                 -  7, Fast (16pt sinc) - Default, 
+                 -  8, HQ (512pt Sinc), 
+                 -  9, Extreme HQ (768pt HQ Sinc)
+  </retvals>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>rendermanagement, render, get, resample mode</tags>
+</US_DocBloc>
+]]
+  local oldfocus=reaper.JS_Window_GetFocus()
+  
+  local hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then return reaper.SNM_GetIntConfigVar("projrenderresample", -1) end
+
+  return reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1000), "CB_GETCURSEL", 0,100,0,100)
+end
+
+--A,B,C=ultraschall.GetRender_ResampleMode()
+
+function ultraschall.SetRender_ResampleMode(mode)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRender_ResampleMode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetRender_ResampleMode(integer mode)</functioncall>
+  <description>
+    sets the current mode of the "Resample mode (if needed)"-dropdownlist from the Render to File-dialog
+    
+    Returns false in case of an error
+  </description>
+  <parameters>
+    integer mode - the mode, that is set
+                 -  0, Medium (64pt Sinc), 
+                 -  1, Low (Linear Interpolation), 
+                 -  2, Lowest (Point Sampling), 
+                 -  3, Good(192pt Sinc), 
+                 -  4, Better(384pt Sinc), 
+                 -  5, Fast (IIR + Linear Interpolation), 
+                 -  6, Fast (IIRx2 + Linear Interpolation), 
+                 -  7, Fast (16pt sinc) - Default, 
+                 -  8, HQ (512pt Sinc), 
+                 -  9, Extreme HQ (768pt HQ Sinc)
+  </parameters>
+  <retvals>
+    boolean retval - true, setting it was successful; false, setting it was unsuccessful
+  </retvals>
+  <chapter_context>
+    Configuration Settings
+    Render to File
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>rendermanagement, render, set, resample mode</tags>
+</US_DocBloc>
+]]
+  if math.type(mode)~="integer" then ultraschall.AddErrorMessage("SetRender_ResampleMode", "mode", "must be an integer", -1) return false end
+  if mode<0 or mode>9 then ultraschall.AddErrorMessage("SetRender_ResampleMode", "mode", "must be between 0 and 9", -2) return false end
+  local oldfocus=reaper.JS_Window_GetFocus()
+  
+  local hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then reaper.SNM_SetIntConfigVar("projrenderresample", mode) return end
+
+    -- select the new format-setting
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)
+    -- the following triggers Reaper to understand, that changes occurred, by clicking at the
+    -- dropdownlist twice.
+    -- Does this work on Mac and Linux?
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "WM_LBUTTONDOWN", 1,0,0,0)
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "WM_LBUTTONUP", 1,0,0,0)
+    
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "WM_LBUTTONDOWN", 1,0,0,0)
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "WM_LBUTTONUP", 1,0,0,0)
+
+    reaper.JS_Window_SetFocus(oldfocus)    
+    return true
+end
+
+--A=ultraschall.SetRender_ResampleMode(5)
 
 ultraschall.ShowLastErrorMessage()
