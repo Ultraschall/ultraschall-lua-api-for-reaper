@@ -401,6 +401,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   
 #### Changes from Beta 2.74 to Beta 2.75
   - Docs: CreateTemporaryFileOfProjectfile - moved in docs to Project-Files -> Helper functions
+  - Docs: Reaper- updated docs to Reaper 5.975
   - Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER\_DITHER (dither/noiseshape stems) and RENDER\_SRATE(when returned RENDER\_SRATE=0)
   - Docs: Reaper ConfigVars - added better description for g\_config\_project
   - Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3

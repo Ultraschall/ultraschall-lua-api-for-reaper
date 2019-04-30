@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="36532.00" author="Meo Mespotine">
+      <version name="36536.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/._Changelog-Api.txt</source>
@@ -50,6 +50,7 @@
 	<source file="/ultraschall_api/Documentation/Reaper_API_Web_Documentation.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/Reaper_API_Web_Documentation.html</source>
 	<source file="/ultraschall_api/Documentation/Reaper_Config_Variables.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/Reaper_Config_Variables.html</source>
 	<source file="/ultraschall_api/Documentation/Reaper_StateChunk_Docs.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/Reaper_StateChunk_Docs.html</source>
+	<source file="/ultraschall_api/Documentation/render-codes-decoded-base64-strings.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/render-codes-decoded-base64-strings.txt</source>
 	<source file="/ultraschall_api/Documentation/US_Api_AUD.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/US_Api_AUD.html</source>
 	<source file="/ultraschall_api/Documentation/US_Api_Concepts_AUD.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/US_Api_Concepts_AUD.html</source>
 	<source file="/ultraschall_api/Documentation/US_Api_Concepts_DOC.html" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/US_Api_Concepts_DOC.html</source>
@@ -74,7 +75,6 @@
 	<source file="/ultraschall_api/misc/Markdown_Newspeak-1.0-draft" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/Markdown_Newspeak-1.0-draft</source>
 	<source file="/ultraschall_api/misc/Reaper-All_ConfigVars_as_toggled_by_Actions.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/Reaper-All_ConfigVars_as_toggled_by_Actions.txt</source>
 	<source file="/ultraschall_api/misc/Reaper_Internals.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/Reaper_Internals.pfi</source>
-	<source file="/ultraschall_api/misc/render-codes-decoded-base64-strings.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/render-codes-decoded-base64-strings.txt</source>
 	<source file="/ultraschall_api/misc/silence.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/silence.flac</source>
 	<source file="/ultraschall_api/misc/SnM_Marker.cpp-Marker_Region_Update_Stuff" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/SnM_Marker.cpp-Marker_Region_Update_Stuff</source>
 	<source file="/ultraschall_api/misc/tempproject.RPP" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/tempproject.RPP</source>
@@ -473,6 +473,7 @@ Changes from Beta 2.74 to Beta 2.75
 
 -   Docs: CreateTemporaryFileOfProjectfile - moved in docs to
     Project-Files -> Helper functions
+-   Docs: Reaper- updated docs to Reaper 5.975
 -   Docs: Reaper-API - GetSetProjectInfo - added missing information
     about RENDER_DITHER (dither/noiseshape stems) and RENDER_SRATE(when
     returned RENDER_SRATE=0)

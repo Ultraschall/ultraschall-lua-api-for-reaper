@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ## ReaScript API as of Reaper 5.974
+            ## ReaScript API as of Reaper 5.975
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -990,11 +990,11 @@
         <functioncall prog_lang="lua">integer = reaper.CountEnvelopePointsEx(TrackEnvelope envelope, integer autoitem_idx)</functioncall>
         <functioncall prog_lang="python">Int RPR_CountEnvelopePointsEx(TrackEnvelope envelope, Int autoitem_idx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            Returns the number of points in the envelope. Automation Items can be selected with autoitem_idx.
+            Returns the number of points in the envelope. autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.<br><br>
         </description>
         <retvals>
             integer - the number of envelope-points in the envelopeobject envelope
@@ -3000,11 +3000,11 @@
         <functioncall prog_lang="lua">boolean = reaper.DeleteEnvelopePointRangeEx(TrackEnvelope envelope, integer autoitem_idx, number time_start, number time_end)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_DeleteEnvelopePointRangeEx(TrackEnvelope envelope, Int autoitem_idx, Float time_start, Float time_end)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            Deletes a range of envelope points. You can delete the points in either the envelope or the automation-items existing in this TrackEnvelope
+            Delete a range of envelope points. autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.<br><br>
         </description>
         <retvals>
             boolean - true, if deleting was successful; false, if not
@@ -4061,11 +4061,11 @@
         <functioncall prog_lang="lua">boolean = reaper.Envelope_SortPointsEx(TrackEnvelope envelope, integer autoitem_idx)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_Envelope_SortPointsEx(TrackEnvelope envelope, Int autoitem_idx)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Sort envelope points by time. autoitem_idx==-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [SetEnvelopePoint](#SetEnvelopePoint), [InsertEnvelopePoint](#InsertEnvelopePoint).
+            Sort envelope points by time. autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [SetEnvelopePoint](#SetEnvelopePoint), [InsertEnvelopePoint](#InsertEnvelopePoint).
         </description>
         <retvals>
             boolean - 
@@ -4954,11 +4954,11 @@
         <functioncall prog_lang="lua">integer = reaper.GetEnvelopePointByTimeEx(TrackEnvelope envelope, integer autoitem_idx, number time)</functioncall>
         <functioncall prog_lang="python">Int RPR_GetEnvelopePointByTimeEx(TrackEnvelope envelope, Int autoitem_idx, Float time)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns the envelope point at or immediately prior to the given time position. autoitem_idx==-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [GetEnvelopePoint](#GetEnvelopePoint), [SetEnvelopePoint](#SetEnvelopePoint), [Envelope_Evaluate](#Envelope_Evaluate).
+            Returns the envelope point at or immediately prior to the given time position. autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [GetEnvelopePoint](#GetEnvelopePoint), [SetEnvelopePoint](#SetEnvelopePoint), [Envelope_Evaluate](#Envelope_Evaluate).
         </description>
         <retvals>
             integer - 
@@ -4984,11 +4984,11 @@
         <functioncall prog_lang="lua">boolean retval, optional number time, optional number value, optional number shape, optional number tension, optional boolean selected = reaper.GetEnvelopePointEx(TrackEnvelope envelope, integer autoitem_idx, integer ptidx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int autoitem_idx, Int ptidx, Float timeOutOptional, Float valueOutOptional, Int shapeOutOptional, Float tensionOutOptional, Boolean selectedOutOptional) = RPR_GetEnvelopePointEx(envelope, autoitem_idx, ptidx, timeOutOptional, valueOutOptional, shapeOutOptional, tensionOutOptional, selectedOutOptional)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the attributes of an envelope point. autoitem_idx==-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [GetEnvelopePointByTime](#GetEnvelopePointByTime), [SetEnvelopePoint](#SetEnvelopePoint).
+            Get the attributes of an envelope point. autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [GetEnvelopePointByTime](#GetEnvelopePointByTime), [SetEnvelopePoint](#SetEnvelopePoint).
         </description>
         <retvals>
             boolean retval - 
@@ -5345,7 +5345,38 @@
         </chapter_context>
         <tags></tags>
     </US_DocBloc>
-
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>GetItemFromPoint</slug>
+        <title>GetItemFromPoint</title>
+        <functioncall prog_lang="cpp">MediaItem* GetItemFromPoint(int screen_x, int screen_y, bool allow_locked, MediaItem_Take** takeOutOptional)</functioncall>
+        <functioncall prog_lang="eel">MediaItem GetItemFromPoint(int screen_x, int screen_y, bool allow_locked, MediaItem_Take &take)</functioncall>
+        <functioncall prog_lang="lua">MediaItem, MediaItem_Take take = reaper.GetItemFromPoint(integer screen_x, integer screen_y, boolean allow_locked)</functioncall>
+        <functioncall prog_lang="python">MediaItem RPR_GetItemFromPoint(Int screen_x, Int screen_y, Boolean allow_locked, MediaItem_Take* takeOutOptional)</functioncall>
+        <requires>
+            Reaper=5.975
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Returns the first item at the screen coordinates specified. If allow_locked is false, locked items are ignored. If takeOutOptional specified, returns the take hit.
+        </description>
+        <retvals>
+            MediaItem - the MediaItem at the position
+            MediaItem_Take take - the MediaItem_Take at the position
+        </retvals>
+        <pamrameters>
+            integer screen_x - the x-position in pixels
+            integer screen_y - the y-position in pixels
+            boolean allow_locked - true, allow getting locked items as well; false, don't get locked items
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Mediaitem Management
+        </chapter_context>
+        <tags>mediaitem management, get, item, mediaitem, mediaitem take, take, at position</tags>
+    </US_DocBloc>
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetItemProjectContext</slug>
         <title>GetItemProjectContext</title>
@@ -7518,11 +7549,11 @@
         <functioncall prog_lang="lua">number = reaper.GetSetAutomationItemInfo(TrackEnvelope env, integer autoitem_idx, string desc, number value, boolean is_set)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetSetAutomationItemInfo(TrackEnvelope env, Int autoitem_idx, String desc, Float value, Boolean is_set)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            Get or set automation item information. autoitem_idx==0 for the first automation item on an envelope, 1 for the second item, etc. desc can be any of the following:
+            Get or set automation item information. autoitem_idx=0 for the first automation item on an envelope, 1 for the second item, etc. desc can be any of the following:
             D_POOL_ID: double *, automation item pool ID (as an integer); edits are propagated to all other automation items that share a pool ID
             D_POSITION: double *, automation item timeline position in seconds
             D_LENGTH: double *, automation item length in seconds
@@ -7532,6 +7563,7 @@
             D_AMPLITUDE: double *, automation item amplitude in the range [-1,1]
             D_LOOPSRC: double *, nonzero if the automation item contents are looped
             D_UISEL: double *, nonzero if the automation item is selected in the arrange view
+            D_POOL_QNLEN : double *, automation item pooled source length in quarter notes (setting will affect all pooled instances)
         </description>
         <retvals>
             number - 
@@ -7559,13 +7591,14 @@
         <functioncall prog_lang="lua">boolean retval, string valuestrNeedBig = reaper.GetSetAutomationItemInfo_String(TrackEnvelope env, integer autoitem_idx, string desc, string valuestrNeedBig, boolean is_set)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope env, Int autoitem_idx, String desc, String valuestrNeedBig, Boolean is_set) = RPR_GetSetAutomationItemInfo_String(env, autoitem_idx, desc, valuestrNeedBig, is_set)</functioncall>
         <requires>
-            Reaper=5.974
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            Get or set automation item information. autoitem_idx==0 for the first automation item on an envelope, 1 for the second item, etc. returns true on success. desc can be any of the following:
+            Get or set automation item information. autoitem_idx=0 for the first automation item on an envelope, 1 for the second item, etc. returns true on success. desc can be any of the following:
             
             P_POOL_NAME : char *, name of the underlying automation item pool
+            P_POOL_EXT:xyz : char *, extension-specific persistent data
         </description>
         <retvals>
             boolean retval -
@@ -7577,6 +7610,39 @@
             string desc - 
             string valuestrNeedBig - 
             boolean is_set - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Automation Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>GetSetEnvelopeInfo_String</slug>
+        <title>GetSetEnvelopeInfo_String</title>
+        <functioncall prog_lang="cpp">bool GetSetEnvelopeInfo_String(TrackEnvelope* env, const char* parmname, char* stringNeedBig, bool setNewValue)</functioncall>
+        <functioncall prog_lang="eel">bool GetSetEnvelopeInfo_String(TrackEnvelope env, "parmname", #stringNeedBig, bool setNewValue)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string stringNeedBig = reaper.GetSetEnvelopeInfo_String(TrackEnvelope env, string parmname, string stringNeedBig, boolean setNewValue)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, TrackEnvelope env, String parmname, String stringNeedBig, Boolean setNewValue) = RPR_GetSetEnvelopeInfo_String(env, parmname, stringNeedBig, setNewValue)</functioncall>
+        <requires>
+            Reaper=5.975
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Gets/sets an attribute string:
+            P_EXT:xyz : char * : extension-specific persistent data
+        </description>
+        <retvals>
+            boolean retval -
+            string stringNeedBig - 
+        </retvals>
+        <parameters>
+            TrackEnvelope env - 
+            string parmname - 
+            string stringNeedBig - 
+            boolean setNewValue - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -7714,12 +7780,13 @@
         <functioncall prog_lang="lua">boolean retval, string stringNeedBig = reaper.GetSetMediaItemInfo_String(MediaItem item, string parmname, string stringNeedBig, boolean setNewValue)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem item, String parmname, String stringNeedBig, Boolean setNewValue) = RPR_GetSetMediaItemInfo_String(item, parmname, stringNeedBig, setNewValue)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*">
             Gets/sets an item attribute string:
                 P_NOTES : char * : item note text (do not write to returned pointer, use setNewValue to update)
+                P_EXT:xyz : char * : extension-specific persistent data
                 GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function, GUID is a string {xyz-...}.
         </description>
         <retvals>
@@ -7748,12 +7815,13 @@
         <functioncall prog_lang="lua">boolean retval, string stringNeedBig = reaper.GetSetMediaItemTakeInfo_String(MediaItem_Take tk, string parmname, string stringNeedBig, boolean setnewvalue)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaItem_Take tk, String parmname, String stringNeedBig, Boolean setnewvalue) = RPR_GetSetMediaItemTakeInfo_String(tk, parmname, stringNeedBig, setnewvalue)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*">
             Gets/sets a take attribute string:
                 P_NAME : char * to take name
+                P_EXT:xyz : char * : extension-specific persistent data
                 GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function, GUID is a string {xyz-...}.
         </description>
         <retvals>
@@ -7782,7 +7850,7 @@
         <functioncall prog_lang="lua">boolean retval, string stringNeedBig = reaper.GetSetMediaTrackInfo_String(MediaTrack tr, string parmname, string stringNeedBig, boolean setnewvalue)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, MediaTrack tr, String parmname, String stringNeedBig, Boolean setnewvalue) = RPR_GetSetMediaTrackInfo_String(tr, parmname, stringNeedBig, setnewvalue)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -7791,6 +7859,7 @@
             P_ICON : const char * : track icon (full filename, or relative to resource_path/data/track_icons)
             P_MCP_LAYOUT : const char * : layout name
             P_TCP_LAYOUT : const char * : layout name
+            P_EXT:xyz : char * : extension-specific persistent data
             GUID : GUID * : 16-byte GUID, can query or update. If using a _String() function, GUID is a string {xyz-...}.
         </description>
         <retvals>
@@ -7881,23 +7950,24 @@
         <functioncall prog_lang="lua">number value = reaper.GetSetProjectInfo(ReaProject project, string desc, number value, boolean is_set)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetSetProjectInfo(ReaProject project, String desc, Float value, Boolean is_set)</functioncall>
         <requires>
-            Reaper=5.974
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*">
             Get or set project information.
 
-            RENDER_SETTINGS: int *, &1=stems+master mix, &2=stems only, &4=multichannel tracks to multichannel files, &8=use render matrix, &16=tracks with only modo media to mono files, &32=selected media items
-            RENDER_BOUNDSFLAG : int *, 0=custom time bounds, 1=entire project, 2=time selection, 3=all project regions, 4=selected media items, 5=selected project regions
-            RENDER_CHANNELS: int *, number of channels in rendered file
-            RENDER_SRATE: int *, sample rate of rendered file; 0, project uses default project-samplerate
-            RENDER_STARTPOS : double *, render start time when RENDER_BOUNDSFLAG=0
-            RENDER_ENDPOS : double *, render end time when RENDER_BOUNDSFLAG=0
-            RENDER_TAILFLAG: int *, in which Bounds shall the Tail-checkbox be set, or in which Bounds is the Tail-checkbox set?
-                             &1=custom time bounds, &2=entire project, &4=time selection, &8=all project regions, &16=selected media items, &32=selected project regions
-            RENDER_TAILMS: int *, tail length in ms to render (will only be used if RENDER_BOUNDSFLAG and RENDER_TAILFLAG are set, otherwise it will be ignored)
-            RENDER_ADDTOPROJ: int *, 1=add rendered files to project
-            RENDER_DITHER: int *, &1=dither master mix, &2=noise shaping master mix, &4=dither stems, &8=dither noise shaping
+            RENDER_SETTINGS: &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items
+            RENDER_BOUNDSFLAG : 0=custom time bounds, 1=entire project, 2=time selection, 3=all project regions, 4=selected media items, 5=selected project regions
+            RENDER_CHANNELS: number of channels in rendered file
+            RENDER_SRATE: sample rate of rendered file (or 0 for project sample rate)
+            RENDER_STARTPOS : render start time when RENDER_BOUNDSFLAG=0
+            RENDER_ENDPOS : render end time when RENDER_BOUNDSFLAG=0
+            RENDER_TAILFLAG: apply render tail setting when rendering: &amp;1=custom time bounds, &amp;2=entire project, &amp;4=time selection, &amp;8=all project regions, &amp;16=selected media items, &amp;32=selected project regions
+            RENDER_TAILMS: tail length in ms to render (only used if RENDER_BOUNDSFLAG and RENDER_TAILFLAG are set)
+            RENDER_ADDTOPROJ: 1=add rendered files to project
+            RENDER_DITHER: &amp;1=dither, &amp;2=noise shaping, &amp;4=dither stems, &amp;8=noise shaping on stems
+            PROJECT_SRATE: samplerate (ignored unless PROJECT_SRATE_USE set)
+            PROJECT_SRATE_USE: set to 1 if project samplerate is used
         </description>
         <retvals>
             number value -
@@ -7924,15 +7994,20 @@
         <functioncall prog_lang="lua">boolean retval, string valuestrNeedBig = reaper.GetSetProjectInfo_String(ReaProject project, string desc, string valuestrNeedBig, boolean is_set)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, ReaProject project, String desc, String valuestrNeedBig, Boolean is_set) = RPR_GetSetProjectInfo_String(project, desc, valuestrNeedBig, is_set)</functioncall>
         <requires>
-            Reaper=5.974
+            Reaper=5.975
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Get or set project information.
 
-            RECORD_PATH: char *, recording directory
-            RENDER_FILE: char *, render directory
-            RENDER_PATTERN: char *, render file name (may contain wildcards)
+            RECORD\_PATH: recording directory -- may be blank or a relative path, to get the effective path see [GetProjectPathEx](#GetProjectPathEx)<br>
+            RENDER\_FILE: render directory
+            RENDER\_PATTERN: render file name (may contain wildcards)
+            RENDER\_FORMAT: base64-encoded sink configuration (see project files, etc). Callers can also pass a simple 4-byte string (non-base64-encoded), to use default settings for that sink type.
+            see [render-code-documentation](render-codes-decoded-base64-strings.txt) for how the unencoded RENDER_FORMAT-string is structured.
+            
+            To just use the 4-byte-string, you can use: 
+            "evaw" for wave, "ffia" for aiff, " iso" for audio-cd, " pdd" for ddp, "calf" for flac, "l3pm" for mp3, "vggo" for ogg, "SggO" for Opus, "PMFF" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, " FIG" for Gif, " FCL" for LCF, "kpvw" for wavepack            
         </description>
         <retvals>
             boolean retval - 
@@ -8792,6 +8867,39 @@
         <tags></tags>
     </US_DocBloc>
 
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>GetTrackFromPoint</slug>
+        <title>GetTrackFromPoint</title>
+        <functioncall prog_lang="cpp">MediaTrack* GetTrackFromPoint(int screen_x, int screen_y, int* infoOutOptional)</functioncall>
+        <functioncall prog_lang="eel">MediaTrack GetTrackFromPoint(int screen_x, int screen_y, optional int &info)</functioncall>
+        <functioncall prog_lang="lua">MediaTrack retval, optional number info = reaper.GetTrackFromPoint(integer screen_x, integer screen_y)</functioncall>
+        <functioncall prog_lang="python">(MediaTrack retval, Int screen_x, Int screen_y, Int infoOutOptional) = RPR_GetTrackFromPoint(screen_x, screen_y, infoOutOptional)</functioncall>
+        <requires>
+            Reaper=5.975
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Returns the track from the screen coordinates specified. If the screen coordinates refer to a window associated to the track (such as FX), the track will be returned. infoOutOptional will be set to 1 if it is likely an envelope, 2 if it is likely a track FX.
+        </description>
+        <retvals>
+            MediaTrack retval - the MediaTrack at position; if the position is above a window associated with the track, this holds the track, where retval info will hold additional information
+            optional number info - additional information, if the position is above a windows associated with a track
+                                 - 1, if it is likely an envelope
+                                 - 2, if it is likely a track FX
+        </retvals>
+        <parameters>
+            integer screen_x - the x-position in pixels, from which you want to get the underlying track
+            integer screen_y - the y-position in pixels, from which you want to get the underlying track
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Track Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>GetTrackGUID</slug>
         <title>GetTrackGUID</title>
@@ -9909,11 +10017,11 @@
         <functioncall prog_lang="lua">boolean = reaper.InsertEnvelopePointEx(TrackEnvelope envelope, integer autoitem_idx, number time, number value, integer shape, number tension, boolean selected, optional boolean noSortIn)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int autoitem_idx, Float time, Float value, Int shape, Float tension, Boolean selected, Boolean noSortInOptional) = RPR_InsertEnvelopePointEx(envelope, autoitem_idx, time, value, shape, tension, selected, noSortInOptional)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Insert an envelope point. If setting multiple points at once, set noSort=true, and call Envelope\_SortPoints when done. autoitem\_idx==-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [GetEnvelopePoint](#GetEnvelopePoint), [SetEnvelopePoint](#SetEnvelopePoint), [GetEnvelopeScalingMode](#GetEnvelopeScalingMode).
+            Insert an envelope point. If setting multiple points at once, set noSort=true, and call Envelope\_SortPoints when done. autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [GetEnvelopePoint](#GetEnvelopePoint), [SetEnvelopePoint](#SetEnvelopePoint), [GetEnvelopeScalingMode](#GetEnvelopeScalingMode).
         </description>
         <retvals>
             boolean - 
@@ -12093,7 +12201,7 @@
         <functioncall prog_lang="lua">integer = reaper.MIDIEditor_GetSetting_int(HWND midieditor, string setting_desc)</functioncall>
         <functioncall prog_lang="python">Int RPR_MIDIEditor_GetSetting_int(HWND midieditor, String setting_desc)</functioncall>
         <requires>
-            Reaper=5.97
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -12107,7 +12215,7 @@
                 scale\_enabled: returns 0-1
                 scale\_root: returns 0-12 (0=C)
                 if setting\_desc is unsupported, the function returns -1.
-                See [MIDIEditor_GetActive](#MIDIEditor_GetActive), [MIDIEditor_GetSetting_str](#MIDIEditor_GetSetting_str)
+                See [MIDIEditor_SetSetting_int](#MIDIEditor_SetSetting_int), [MIDIEditor_GetActive](#MIDIEditor_GetActive), [MIDIEditor_GetSetting_str](#MIDIEditor_GetSetting_str)
         </description>
         <retvals>
             integer - 
@@ -12237,6 +12345,38 @@
         <parameters>
             midieditor - 
             command_id - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            MIDI Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>MIDIEditor_SetSetting_int</slug>
+        <title>MIDIEditor_SetSetting_int</title>
+        <functioncall prog_lang="cpp">bool MIDIEditor_SetSetting_int(HWND midieditor, const char* setting_desc, int setting)</functioncall>
+        <functioncall prog_lang="eel">bool MIDIEditor_SetSetting_int(HWND midieditor, "setting_desc", int setting)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.MIDIEditor_SetSetting_int(HWND midieditor, string setting_desc, integer setting)</functioncall>
+        <functioncall prog_lang="python">Boolean RPR_MIDIEditor_SetSetting_int(HWND midieditor, String setting_desc, Int setting)</functioncall>
+        <requires>
+            Reaper=5.975
+            Lua=5.3
+        </requires>
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Set settings for a MIDI editor. setting_desc can be:
+            active_note_row: 0-127
+            See [MIDIEditor_GetSetting_int](#MIDIEditor_GetSetting_int)
+        </description>
+        <retvals>
+            boolean retval - 
+        </retvals>
+        <parameters>
+            HWND midieditor -
+            string setting_desc - 
+            integer setting - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -13833,11 +13973,11 @@
         <functioncall prog_lang="lua">boolean = reaper.SetEnvelopePointEx(TrackEnvelope envelope, integer autoitem_idx, integer ptidx, optional number timeIn, optional number valueIn, optional number shapeIn, optional number tensionIn, optional boolean selectedIn, optional boolean noSortIn)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int autoitem_idx, Int ptidx, Float timeInOptional, Float valueInOptional, Int shapeInOptional, Float tensionInOptional, Boolean selectedInOptional, Boolean noSortInOptional) = RPR_SetEnvelopePointEx(envelope, autoitem_idx, ptidx, timeInOptional, valueInOptional, shapeInOptional, tensionInOptional, selectedInOptional, noSortInOptional)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.975
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Set attributes of an envelope point. Values that are not supplied will be ignored. If setting multiple points at once, set noSort=true, and call Envelope\_SortPoints when done. Tautoitem\_idx==-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [GetEnvelopePoint](#GetEnvelopePoint), [InsertEnvelopePoint](#InsertEnvelopePoint), [GetEnvelopeScalingMode](#GetEnvelopeScalingMode).
+            Set attributes of an envelope point. Values that are not supplied will be ignored. If setting multiple points at once, set noSort=true, and call Envelope\_SortPoints when done. autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [GetEnvelopePoint](#GetEnvelopePoint), [InsertEnvelopePoint](#InsertEnvelopePoint), [GetEnvelopeScalingMode](#GetEnvelopeScalingMode).
         </description>
         <retvals>
             boolean - 
@@ -19665,6 +19805,41 @@
         </parameters>
         <retvals>
             groupstate - 
+        </retvals>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Track Management
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>    
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>GetSetTrackSendInfo_String</slug>
+        <title>GetSetTrackSendInfo_String</title>
+        <functioncall prog_lang="cpp">bool GetSetTrackSendInfo_String(MediaTrack* tr, int category, int sendidx, const char* parmname, char* stringNeedBig, bool setNewValue)</functioncall>
+        <functioncall prog_lang="eel">bool GetSetTrackSendInfo_String(MediaTrack tr, int category, int sendidx, "parmname", #stringNeedBig, bool setNewValue)</functioncall>
+        <functioncall prog_lang="lua">boolean retval, string stringNeedBig = reaper.GetSetTrackSendInfo_String(MediaTrack tr, integer category, integer sendidx, string parmname, string stringNeedBig, boolean setNewValue)</functioncall>
+        <functioncall prog_lang="python">(Boolean retval, MediaTrack tr, Int category, Int sendidx, String parmname, String stringNeedBig, Boolean setNewValue) = RPR_GetSetTrackSendInfo_String(tr, category, sendidx, parmname, stringNeedBig, setNewValue)</functioncall>
+        <requires>
+            Reaper=5.975
+            Lua=5.3
+        </requires>
+        <description prog_lang="*"> 
+            Gets/sets a send attribute string:
+                P_EXT:xyz : char * : extension-specific persistent data
+        </description>
+        <parameters>
+            MediaTrack tr - 
+            integer category - 
+            integer sendidx - 
+            string parmname - 
+            string stringNeedBig - 
+            boolean setNewValue - 
+        </parameters>
+        <retvals>
+            boolean retval - 
+            string stringNeedBig - 
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
