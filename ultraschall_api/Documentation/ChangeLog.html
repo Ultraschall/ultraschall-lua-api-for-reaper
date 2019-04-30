@@ -57,6 +57,7 @@ Ultraschall API Changelog
 <li>Lua: StoreFunctionInExtState - stores a function into an extstate</li>
 <li>Lua: LoadFunctionFromExtState - loads a function from an extstate, if stored using StoreFunctionInExtState</li>
 <li>MediaItems: GetLengthOfAllMediaItems_Track - returns the length of all MediaItems in a track combined, in seconds</li>
+<li>Project Management: GetProject_GroupName - gets the name of an item-group, as stored in a ProjectStateChunk of projectfile</li>
 <li>Project Management: GetProject_QRenderOriginalProject - returns the original projectfile of a render-queued-project from a projectfile or ProjectStateChunk</li>
 <li>Project Management: GetProject_QRenderOutFiles - returns the render-outfiles-with-path of a render-queued-project from a projectfile or ProjectStateChunk</li>
 <li>Project Management: GetProject_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk</li>
@@ -73,6 +74,7 @@ Ultraschall API Changelog
 <li>Render: CreateRenderCFG_QTMOVMP4_Video - creates a render-string for the format video-QT/MOV/MP4</li>
 <li>Render: CreateNewRenderTable - creates a new RenderTable, which holds all render-settings; can be applied later to projects or projectfiles</li>
 <li>Render: GetRender_AutoIncrementFilename - gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
+<li>Render: GetRender_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog</li>
 <li>Render: GetRender_ProjectSampleRateForMix - gets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog</li>
 <li>Render: GetRender_SaveCopyOfProject - gets the current state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog</li>
 <li>Render: GetRender_QueueDelay - Gets the checkstate of the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>
@@ -103,6 +105,7 @@ Ultraschall API Changelog
 <li>Render: IsValidRenderTable - returns, if a table is a valid RenderTable<br />
 </li>
 <li>Render: SetRender_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
+<li>Render: SetRender_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog</li>
 <li>Render: SetRender_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog</li>
 <li>Render: SetRender_SaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.</li>
 <li>Render: SetRender_QueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>

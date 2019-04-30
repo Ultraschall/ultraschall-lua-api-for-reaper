@@ -55580,5 +55580,167 @@ end
 --print2(A)
 --A=ultraschall.IsValidReaProject("C:\\huilui.RPP")
 
-ultraschall.ShowLastErrorMessage()
+function ultraschall.GetProject_GroupName(projectfilename_with_path, idx, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProject_GroupName</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string groupname = ultraschall.GetProject_GroupName(string projectfilename_with_path, integer idx, optional string ProjectStateChunk)</functioncall>
+  <description>
+    Returns the name associated to a specific group of items. There can be more than one!
+    
+    It is the GROUP-entry in the root of the ProjectStateChunk.
+    
+    Returns nil in case of error or if no such entry exists.
+  </description>
+  <parameters>
+    string projectfilename_with_path - filename with path for the rpp-projectfile; nil, if you want to use parameter ProjectStateChunk
+    integer idx - the index of the item-group, whose name you want to know
+    optional string ProjectStateChunk - a ProjectStateChunk to use instead if a filename; only used, when projectfilename_with_path is nil
+  </parameters>
+  <retvals>
+    string groupname - the associated groupname of the itemgroup; nil, no such group or no name is given(default Group idx)
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, get, group, name, projectstatechunk</tags>
+</US_DocBloc>
+]]
+  -- check parameters and prepare variable ProjectStateChunk
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_GroupName","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("GetProject_GroupName", "idx", "must be an integer", -5) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_GroupName","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil then
+    if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
+    else ultraschall.AddErrorMessage("GetProject_GroupName","projectfilename_with_path", "File does not exist!", -3) return nil
+    end
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_GroupName", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
+  end
+  -- get the values and return them
+  local count, split_string = ultraschall.SplitStringAtLineFeedToArray(ProjectStateChunk)
+  local counter2=0
+  for i=1, count do
+    if split_string[i]:match("GROUP %d .*")~=nil then 
+      counter2=counter2+1
+      if idx==counter2 then 
+        local temp=split_string[i]:match("GROUP %d (.*)")
+        if temp:sub(1,1)=="\"" and temp:sub(-1,-1)=="\"" then temp=temp:sub(2,-2) end
+        return temp
+      end
+    end
+  end
+end
 
+function ultraschall.SetRender_OfflineOnlineMode(mode)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetRender_OfflineOnlineMode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetRender_OfflineOnlineMode(integer mode)</functioncall>
+  <description>
+    sets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
+    
+    Returns false in case of an error
+  </description>
+  <parameters>
+    integer mode - the mode, that you want to set
+                 - 0, Full-speed Offline
+                 - 1, 1x Offline
+                 - 2, Online Render
+                 - 3, Offline Render (Idle)
+                 - 4, 1x Offline Render (Idle)
+  </parameters>
+  <retvals>
+    boolean retval - true, setting it was successful; false, setting it was unsuccessful
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>rendermanagement, render, set, offline, online, idle</tags>
+</US_DocBloc>
+]]
+  if math.type(mode)~="integer" then ultraschall.AddErrorMessage("SetRender_OfflineOnlineMode", "mode", "must be an integer", -1) return false end
+  if mode<0 or mode>4 then ultraschall.AddErrorMessage("SetRender_OfflineOnlineMode", "mode", "must be between 0 and 4", -2) return false end
+  local oldfocus=reaper.JS_Window_GetFocus()
+  
+  local hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then reaper.SNM_SetIntConfigVar("projrenderlimit", mode) return end
+
+    -- select the new format-setting
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd,1001), "CB_SETCURSEL", mode,0,0,0)
+    -- the following triggers Reaper to understand, that changes occurred, by clicking at the
+    -- dropdownlist twice.
+    -- Does this work on Mac and Linux?
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONDOWN", 1,0,0,0)
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONUP", 1,0,0,0)
+    
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONDOWN", 1,0,0,0)
+    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONUP", 1,0,0,0)
+
+    reaper.JS_Window_SetFocus(oldfocus)    
+    return true
+end
+
+--A=ultraschall.SetRender_OfflineOnlineMode(4)
+
+function ultraschall.GetRender_OfflineOnlineMode()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRender_OfflineOnlineMode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.980
+    Lua=5.3
+  </requires>
+  <functioncall>integer mode = ultraschall.GetRender_OfflineOnlineMode()</functioncall>
+  <description>
+    gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
+  </description>
+  <retvals>
+    integer mode - the mode, that you want to set
+                 - 0, Full-speed Offline
+                 - 1, 1x Offline
+                 - 2, Online Render
+                 - 3, Offline Render (Idle)
+                 - 4, 1x Offline Render (Idle)
+  </retvals>
+  <chapter_context>
+    Project-Files
+    RPP-Files Get
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>rendermanagement, render, get, offline, online, idle</tags>
+</US_DocBloc>
+]]
+  local oldfocus=reaper.JS_Window_GetFocus()
+  
+  local hwnd = ultraschall.GetRenderToFileHWND()
+  if hwnd==nil then return reaper.SNM_GetIntConfigVar("projrenderlimit", -1) end
+
+  return reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1001), "CB_GETCURSEL", 0,100,0,100)
+
+end
+
+--A,B,C=ultraschall.GetRender_OfflineOnlineMode()
+
+ultraschall.ShowLastErrorMessage()
