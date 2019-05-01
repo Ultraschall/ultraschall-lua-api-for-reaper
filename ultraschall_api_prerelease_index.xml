@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="36828.00" author="Meo Mespotine">
+      <version name="36860.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/._Changelog-Api.txt</source>
@@ -380,6 +380,12 @@ New features in 4.00beta2.75
 -   Render: CreateNewRenderTable - creates a new RenderTable, which
     holds all render-settings; can be applied later to projects or
     projectfiles
+-   Render: DeleteRenderPreset_Bounds - deletes a bounds-render-preset
+    from reaper-render.ini and the used render-presets in the Render to
+    File-dialog
+-   Render: DeleteRenderPreset_FormatOptions - deletes a
+    format/options-render-preset from reaper-render.ini and the used
+    render-presets in the Render to File-dialog
 -   Render: GetRender_AutoIncrementFilename - gets the current state of
     the “Silently increment filenames to avoid overwriting”-checkbox
     from the Render to File-dialog

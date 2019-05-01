@@ -358,6 +358,8 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: CreateRenderCFG\_MP4MAC\_Video - creates a render-string for the format video-MP4 for Mac
   - Render: CreateRenderCFG\_QTMOVMP4\_Video - creates a render-string for the format video-QT/MOV/MP4
   - Render: CreateNewRenderTable - creates a new RenderTable, which holds all render-settings; can be applied later to projects or projectfiles
+  - Render: DeleteRenderPreset\_Bounds - deletes a bounds-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog
+  - Render: DeleteRenderPreset\_FormatOptions - deletes a format/options-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog
   - Render: GetRender\_AutoIncrementFilename - gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog
   - Render: GetRender\_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
   - Render: GetRender\_ProjectSampleRateForMix - gets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog

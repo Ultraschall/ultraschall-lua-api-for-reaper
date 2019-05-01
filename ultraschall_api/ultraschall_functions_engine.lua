@@ -56074,8 +56074,10 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, RenderFormatOption
      Lua=5.3
    </requires>
    <functioncall>RenderTable RenderTable = ultraschall.GetRenderPreset_RenderTable(string Bounds_Name, string RenderFormatOptions_Name)</functioncall>
-   <description>
+   <description markup_type="markdown" markup_version="1.0.1" indent="default">
      returns a rendertable, that contains all settings of a specific render-preset.
+    
+     use [GetRenderPreset_Names](#GetRenderPreset_Names) to get the available render-preset-names.
      
      Some settings aren't stored in Presets and will get default values:
      TailMS=0, SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, RenderQueueDelaySeconds=false
@@ -56110,18 +56112,19 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, RenderFormatOption
      Returns false in case of an error
    </description>
    <parameters>
-     string trackstring - a string with all tracknumbers, separated by commas
+     string Bounds_Name - the name of the Bounds-render-preset you want to get
+     string RenderFormatOptions_Name - the name of the Renderformat-options-render-preset you want to get
    </parameters>
    <retvals>
      RenderTable RenderTable - a render-table, which contains all settings from a render-preset
    </retvals>
    <chapter_context>
-     Track Management
-     Assistance functions
+      Rendering of Project
+      Render Presets
    </chapter_context>
    <target_document>US_Api_Documentation</target_document>
    <source_document>ultraschall_functions_engine.lua</source_document>
-   <tags>trackmanagement, delete, track, trackstring</tags>
+   <tags>render management, get, render preset, names</tags>
  </US_DocBloc>
  ]]
   if type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Bounds_Name", "must be a string", -1) return end
@@ -56172,6 +56175,102 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, RenderFormatOption
 end
 
 --OOO=ultraschall.GetRender_Preset("A127", "A17")
+
+function ultraschall.DeleteRenderPreset_Bounds(Bounds_Name)
+ --[[
+ <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+   <slug>DeleteRenderPreset_Bounds</slug>
+   <requires>
+     Ultraschall=4.00
+     Reaper=5.975
+     Lua=5.3
+   </requires>
+   <functioncall>boolean retval = ultraschall.DeleteRenderPreset_Bounds(string Bounds_Name)</functioncall>
+   <description markup_type="markdown" markup_version="1.0.1" indent="default">
+     deletes a Bounds-render-preset from Reaper's render-presets.
+     
+     This deletes all(!) occurrences of the Bounds-render-preset with the same name. 
+     Though, you shouldn't store multiple Bounds-render-presets with the same name into reaper-render.ini in the first place.
+    
+     use [GetRenderPreset_Names](#GetRenderPreset_Names) to get the available render-preset-names.
+     
+     Returns false in case of an error
+   </description>
+   <parameters>
+     string Bounds_Name - the name of the Bounds-render-preset you want to get
+   </parameters>
+   <retvals>
+     boolean retval - true, deleting was successful; false, deleting was unsuccessful
+   </retvals>
+   <chapter_context>
+      Rendering of Project
+      Render Presets
+   </chapter_context>
+   <target_document>US_Api_Documentation</target_document>
+   <source_document>ultraschall_functions_engine.lua</source_document>
+   <tags>render management, delete, render preset, names, bounds</tags>
+ </US_DocBloc>
+ ]]
+  if type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("DeleteRenderPreset_Bounds", "Bounds_Name", "must be a string", -1) return false end
+  local A,B
+  local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
+  if A==nil then A="" end
+  B=string.gsub(A, "RENDERPRESET_OUTPUT "..Bounds_Name.." (.-)\n", "")
+  if A==B then ultraschall.AddErrorMessage("DeleteRenderPreset_Bounds", "Bounds_Name", "no such Bounds-preset", -2) return false end
+  A=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/reaper-render.ini", B)
+  if A==-1 then ultraschall.AddErrorMessage("DeleteRenderPreset_Bounds", "", "can't access "..reaper.GetResourcePath().."/reaper-render.ini", -3) return false end
+  return true
+end
+
+--ultraschall.DeleteRenderPreset_Bounds("A02")
+
+function ultraschall.DeleteRenderPreset_FormatOptions(RenderFormatOptions_Name)
+ --[[
+ <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+   <slug>DeleteRenderPreset_FormatOptions</slug>
+   <requires>
+     Ultraschall=4.00
+     Reaper=5.975
+     Lua=5.3
+   </requires>
+   <functioncall>boolean retval = ultraschall.DeleteRenderPreset_FormatOptions(string RenderFormatOptions_Name)</functioncall>
+   <description markup_type="markdown" markup_version="1.0.1" indent="default">
+     deletes a Render-Format-Options-render-preset from Reaper's render-presets.
+     
+     This deletes all(!) occurrences of the Render-Format-Options-render-preset with the same name. 
+     Though, you shouldn't store multiple Render-Format-Options-render-preset with the same name into reaper-render.ini in the first place.
+    
+     use [GetRenderPreset_Names](#GetRenderPreset_Names) to get the available render-preset-names.
+     
+     Returns false in case of an error
+   </description>
+   <parameters>
+     string RenderFormatOptions_Name - the name of the Renderformat-options-render-preset you want to get
+   </parameters>
+   <retvals>
+     boolean retval - true, deleting was successful; false, deleting was unsuccessful
+   </retvals>
+   <chapter_context>
+      Rendering of Project
+      Render Presets
+   </chapter_context>
+   <target_document>US_Api_Documentation</target_document>
+   <source_document>ultraschall_functions_engine.lua</source_document>
+   <tags>render management, delete, render preset, names, format options</tags>
+ </US_DocBloc>
+ ]]
+  if type(RenderFormatOptions_Name)~="string" then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "RenderFormatOptions_Name", "must be a string", -1) return false end
+  local A,B
+  local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
+  if A==nil then A="" end
+  B=string.gsub(A, "<RENDERPRESET "..RenderFormatOptions_Name.." (.-\n>)\n", "")
+  if A==B then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "RenderFormatOptions_Name", "no such Bounds-preset", -2) return false end
+  A=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/reaper-render.ini", B)
+  if A==-1 then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "", "can't access "..reaper.GetResourcePath().."/reaper-render.ini", -3) return false end
+  return true
+end
+
+--ultraschall.DeleteRenderPreset_FormatOptions("A02")
 
 ultraschall.ShowLastErrorMessage()
 
