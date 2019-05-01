@@ -61,6 +61,7 @@ Ultraschall API Changelog
 <li>Project Management: GetProject_QRenderOriginalProject - returns the original projectfile of a render-queued-project from a projectfile or ProjectStateChunk</li>
 <li>Project Management: GetProject_QRenderOutFiles - returns the render-outfiles-with-path of a render-queued-project from a projectfile or ProjectStateChunk</li>
 <li>Project Management: GetProject_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk</li>
+<li>Project Management: GetProject_Selection - had some inner variables exposed -&gt; fixed now</li>
 <li>Project Management: GetProjectStateChunk - returns the ProjectStateChunk of the current-active project or a valid projectfile</li>
 <li>Render: ApplyRenderSettingsTable_Project - applies a RenderTable to the active project</li>
 <li>Render: ApplyRenderSettingsTable_ProjectFile - applies a RenderTable to a projectfile</li>
@@ -105,6 +106,7 @@ Ultraschall API Changelog
 <li>Render: GetRenderSettingsTable_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk</li>
 <li>Render: IsValidRenderTable - returns, if a table is a valid RenderTable<br />
 </li>
+<li>Render: RenderProject_RenderCFG - sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)</li>
 <li>Render: SetRender_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
 <li>Render: SetRender_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog</li>
 <li>Render: SetRender_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog</li>
@@ -112,6 +114,7 @@ Ultraschall API Changelog
 <li>Render: SetRender_SaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.</li>
 <li>Render: SetRender_QueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>
 <li>Render: SetRenderSettingsTable_Project - sets the settings stored in a RenderTable as the render-settings of the current project</li>
+<li>Trackmanagement: DeleteTracks_TrackString - deletes all tracks given in a trackstring</li>
 <li>UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd</li>
 <li>UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd</li>
 </ul>
@@ -153,9 +156,10 @@ Ultraschall API Changelog
 <li>Projectmanagement: all SetProject-functions - added missing ProjectStateChunk-returnvalue to docs</li>
 <li>Projectmanagement: GetProject_NumberOfTracks - sped code up by magnitudes for huge projects; parameter ProjectStateChunk wasn't working due stupid typo -&gt; fixed now</li>
 <li>Projectmanagement: GetProject_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile</li>
-<li>Projectmanagement: SetProject_RenderPattern - added new render-pattern options to the docs</li>
+<li>Projectmanagement: GetProject_RenderPattern - added new render-pattern options to the docs</li>
 <li>Projectmanagement: GetProject_RenderRange - added bounds-option for selected regions</li>
-<li>Projectmanagement: SetProject_RenderPattern - added new render-pattern options to the docs</li>
+<li>Projectmanagement: SetProject_RenderPattern - added new render-pattern options to the docs; stabilized, when no render-pattern was set in project/ProjectStateChunk</li>
+<li>Projectmanagement: SetProject_RenderFilename - stabilized, when no render-filename was set in project/ProjectStateChunk</li>
 <li>Projectmanagement: SetProject_RenderRange - added bounds-option for selected regions</li>
 <li>Render: CreateRenderCFG_AudioCD - improved and lifted limitations for leadin-silence-values</li>
 <li>Render: CreateRenderCFG_MP3ABR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; forgot to add FasterEncode-setting -&gt; fixed now<br />

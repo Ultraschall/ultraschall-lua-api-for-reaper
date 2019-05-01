@@ -341,10 +341,11 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Lua: StoreFunctionInExtState - stores a function into an extstate
   - Lua: LoadFunctionFromExtState - loads a function from an extstate, if stored using StoreFunctionInExtState
   - MediaItems: GetLengthOfAllMediaItems\_Track - returns the length of all MediaItems in a track combined, in seconds
-  - Project Management: GetProject_GroupName - gets the name of an item-group, as stored in a ProjectStateChunk of projectfile
-  - Project Management: GetProject_QRenderOriginalProject - returns the original projectfile of a render-queued-project from a projectfile or ProjectStateChunk
-  - Project Management: GetProject_QRenderOutFiles - returns the render-outfiles-with-path of a render-queued-project from a projectfile or ProjectStateChunk
-  - Project Management: GetProject_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk
+  - Project Management: GetProject\_GroupName - gets the name of an item-group, as stored in a ProjectStateChunk of projectfile
+  - Project Management: GetProject\_QRenderOriginalProject - returns the original projectfile of a render-queued-project from a projectfile or ProjectStateChunk
+  - Project Management: GetProject\_QRenderOutFiles - returns the render-outfiles-with-path of a render-queued-project from a projectfile or ProjectStateChunk
+  - Project Management: GetProject\_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk
+  - Project Management: GetProject\_Selection - had some inner variables exposed -> fixed now
   - Project Management: GetProjectStateChunk - returns the ProjectStateChunk of the current-active project or a valid projectfile
   - Render: ApplyRenderSettingsTable\_Project - applies a RenderTable to the active project
   - Render: ApplyRenderSettingsTable\_ProjectFile - applies a RenderTable to a projectfile
@@ -388,6 +389,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: GetRenderSettingsTable\_Project - returns a table with all render-settings of the currently active project
   - Render: GetRenderSettingsTable\_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk
   - Render: IsValidRenderTable - returns, if a table is a valid RenderTable  
+  - Render: RenderProject\_RenderCFG - sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)
   - Render: SetRender\_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog
   - Render: SetRender\_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
   - Render: SetRender\_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog
@@ -395,6 +397,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: SetRender\_SaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.
   - Render: SetRender\_QueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.
   - Render: SetRenderSettingsTable\_Project - sets the settings stored in a RenderTable as the render-settings of the current project
+  - Trackmanagement: DeleteTracks\_TrackString - deletes all tracks given in a trackstring
   - UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd
   - UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd
 
@@ -436,9 +439,10 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Projectmanagement: all SetProject-functions - added missing ProjectStateChunk-returnvalue to docs
   - Projectmanagement: GetProject\_NumberOfTracks - sped code up by magnitudes for huge projects; parameter ProjectStateChunk wasn't working due stupid typo -> fixed now
   - Projectmanagement: GetProject\_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile
-  - Projectmanagement: SetProject\_RenderPattern - added new render-pattern options to the docs
+  - Projectmanagement: GetProject\_RenderPattern - added new render-pattern options to the docs
   - Projectmanagement: GetProject\_RenderRange - added bounds-option for selected regions
-  - Projectmanagement: SetProject\_RenderPattern - added new render-pattern options to the docs
+  - Projectmanagement: SetProject\_RenderPattern - added new render-pattern options to the docs; stabilized, when no render-pattern was set in project/ProjectStateChunk
+  - Projectmanagement: SetProject\_RenderFilename - stabilized, when no render-filename was set in project/ProjectStateChunk
   - Projectmanagement: SetProject\_RenderRange - added bounds-option for selected regions
   - Render: CreateRenderCFG\_AudioCD - improved and lifted limitations for leadin-silence-values
   - Render: CreateRenderCFG\_MP3ABR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; 
