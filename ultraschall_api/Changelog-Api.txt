@@ -386,6 +386,8 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: GetRenderCFG\_Settings\_WAV  - gets the settings of an audio-wav-rendercfg-string
   - Render: GetRenderCFG\_Settings\_WAVPACK - gets the settings of an audio-wavpack-rendercfg-string
   - Render: GetRenderCFG\_Settings\_WebMVideo - gets the settings of a video-webm-rendercfg-string
+  - Render: GetRenderPreset\_Names - returns the render-presetnames currently stored
+  - Render: GetRenderPreset\_RenderTable - returns a RenderTable of all settings of a specific render-preset
   - Render: GetRenderSettingsTable\_Project - returns a table with all render-settings of the currently active project
   - Render: GetRenderSettingsTable\_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk
   - Render: IsValidRenderTable - returns, if a table is a valid RenderTable  

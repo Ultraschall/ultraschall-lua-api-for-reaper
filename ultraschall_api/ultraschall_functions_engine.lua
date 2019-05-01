@@ -55995,6 +55995,184 @@ end
 --A["RenderString"]="l3pm"
 --ultraschall.ApplyRenderSettingsTable_Project(A, true)
 
+
+function ultraschall.GetRenderPreset_Names()
+ --[[
+ <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+   <slug>GetRenderPreset_Names</slug>
+   <requires>
+     Ultraschall=4.00
+     Reaper=5.975
+     Lua=5.3
+   </requires>
+   <functioncall>integer bounds_presets, table bounds_names, integer options_format_presets, table options_format_names, integer both_presets, table both_names = ultraschall.GetRenderPreset_Names()</functioncall>
+   <description>
+     Returns all render-preset-names for a) Bounds and output pattern/filename b) Options and format c) both presets, who share the same name
+   </description>
+   <retvals>
+      integer bounds_presets - the number of found bounds and output-pattern-presets
+      table bounds_names - the names of all found bounds and output-pattern-presets
+      integer options_format_presets - the number of found options and format-presets
+      table options_format_names - the names of all found options and format-presets
+      integer both_presets - the number of found presets, who both share the same name
+      table both_names - the names of all found presets, who both share the same name
+   </retvals>
+   <chapter_context>
+      Rendering of Project
+      Render Presets
+   </chapter_context>
+   <target_document>US_Api_Documentation</target_document>
+   <source_document>ultraschall_functions_engine.lua</source_document>
+   <tags>render management, get, render preset, names</tags>
+ </US_DocBloc>
+ ]]
+  local A, Count, Lines, Output_Preset_Counter, Output_Preset, Preset_Counter, Preset, temp
+  A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
+  if A==nil then A="" end
+  Count, Lines=ultraschall.SplitStringAtLineFeedToArray(A)
+  Output_Preset_Counter=0
+  Output_Preset={}
+  Preset_Counter=0
+  Preset={}
+  
+  for i=1, Count do
+    if Lines[i]:match("^<RENDERPRESET ") then 
+      Preset_Counter=Preset_Counter+1 
+      temp=Lines[i]:match("^<RENDERPRESET (.)")
+      if temp=="\"" then 
+        Preset[Preset_Counter]=Lines[i]:match("^<RENDERPRESET \"(.-)\"")
+      else
+        Preset[Preset_Counter]=Lines[i]:match("^<RENDERPRESET (.-) ")
+      end
+    elseif Lines[i]:match("^RENDERPRESET_OUTPUT ") then 
+      Output_Preset_Counter=Output_Preset_Counter+1 
+      temp=Lines[i]:match("^RENDERPRESET_OUTPUT (.)")
+      if temp=="\"" then 
+        Output_Preset[Output_Preset_Counter]=Lines[i]:match("^RENDERPRESET_OUTPUT \"(.-)\"")
+      else
+        Output_Preset[Output_Preset_Counter]=Lines[i]:match("^RENDERPRESET_OUTPUT (.-) ")
+      end
+    end
+  end
+  
+  local duplicate_count, duplicate_array, originalscount_array1, originals_array1, 
+                                          originalscount_array2, originals_array2 
+                      = ultraschall.GetDuplicatesFromArrays(Output_Preset, Preset)
+  
+  return Output_Preset_Counter, Output_Preset, Preset_Counter, Preset, duplicate_count, duplicate_array
+end
+
+--A,B,C,D,E,F,G=ultraschall.GetRender_AllPresetNames()
+
+function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, RenderFormatOptions_Name)
+ --[[
+ <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+   <slug>GetRenderPreset_RenderTable</slug>
+   <requires>
+     Ultraschall=4.00
+     Reaper=5.975
+     Lua=5.3
+   </requires>
+   <functioncall>RenderTable RenderTable = ultraschall.GetRenderPreset_RenderTable(string Bounds_Name, string RenderFormatOptions_Name)</functioncall>
+   <description>
+     returns a rendertable, that contains all settings of a specific render-preset.
+     
+     Some settings aren't stored in Presets and will get default values:
+     TailMS=0, SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, RenderQueueDelaySeconds=false
+     
+     returned table if of the following format:
+     
+     RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; always false, as this isn't stored in render-presets
+     RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
+     RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
+     RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
+     RenderTable["Endposition"] - the endposition of the rendering selection in seconds
+     RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
+     RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle)
+     RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
+     RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
+     RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog
+     RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog
+     RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; always false, as this isn't stored in render-presets
+     RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay; always 0, as this isn't stored in render-presets
+     RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
+     RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+     RenderTable["RenderTable"]=true - signals, this is a valid render-table
+     RenderTable["SampleRate"] - the samplerate of the rendered file(s)
+     RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; always false, as this isn't stored in render-presets
+     RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always false, as this isn't stored in Presets
+     RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+     RenderTable["Startposition"] - the startposition of the rendering selection in seconds
+     RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
+     RenderTable["TailMS"] - the amount of milliseconds of the tail; always 0, as this isn't stored in render-presets
+     
+     
+     Returns false in case of an error
+   </description>
+   <parameters>
+     string trackstring - a string with all tracknumbers, separated by commas
+   </parameters>
+   <retvals>
+     RenderTable RenderTable - a render-table, which contains all settings from a render-preset
+   </retvals>
+   <chapter_context>
+     Track Management
+     Assistance functions
+   </chapter_context>
+   <target_document>US_Api_Documentation</target_document>
+   <source_document>ultraschall_functions_engine.lua</source_document>
+   <tags>trackmanagement, delete, track, trackstring</tags>
+ </US_DocBloc>
+ ]]
+  if type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Bounds_Name", "must be a string", -1) return end
+  if type(RenderFormatOptions_Name)~="string" then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "RenderFormatOptions_Name", "must be a string", -2) return end
+  local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
+  if A==nil then A="" end
+  if Bounds_Name:match("%s")~=nil then Bounds_Name="\""..Bounds_Name.."\"" end
+  if RenderFormatOptions_Name:match("%s")~=nil then RenderFormatOptions_Name="\""..RenderFormatOptions_Name.."\"" end
+  
+  local Bounds=A:match("RENDERPRESET_OUTPUT "..Bounds_Name.." (.-)\n")
+  if Bounds==nil then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Bounds_Name", "no such Bounds-preset available", -3) return end
+  
+  local RenderFormatOptions=A:match("<RENDERPRESET "..RenderFormatOptions_Name.." (.-\n>)\n")
+  if RenderFormatOptions==nil then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "RenderFormatOptions_Name", "no such Render-Format-preset available", -4) return end
+  
+  local SampleRate, channels, offline_online_dropdownlist, 
+  useprojectsamplerate_checkbox, resamplemode_dropdownlist, 
+  dither, rendercfg = RenderFormatOptions:match("(.-) (.-) (.-) (.-) (.-) (.-) (.-) (.-)")
+  rendercfg = RenderFormatOptions:match("\n%s*(.*)\n")
+
+  local bounds_dropdownlist, start_position, endposition, source_dropdownlist_and_checkboxes, 
+  unknown, outputfilename_renderpattern, tails_checkbox = Bounds:match("(.-) (.-) (.-) (.-) (.-) (.-) (.*)")
+  
+  local MultiChannel, MonoMedia
+  
+  if source_dropdownlist_and_checkboxes&4==0 then 
+    MultiChannel=false 
+  else 
+    MultiChannel=true 
+    source_dropdownlist_and_checkboxes=source_dropdownlist_and_checkboxes-4
+  end
+  if source_dropdownlist_and_checkboxes&16==0 then 
+    MonoMedia=false 
+  else 
+    MonoMedia=true 
+    source_dropdownlist_and_checkboxes=math.floor(source_dropdownlist_and_checkboxes-16)
+  end
+  
+  if useprojectsamplerate_checkbox==0 then useprojectsamplerate_checkbox=false else useprojectsamplerate_checkbox=true end
+
+  local RenderTable=ultraschall.CreateNewRenderTable(source_dropdownlist_and_checkboxes, tonumber(bounds_dropdownlist), tonumber(start_position),
+                                               tonumber(endposition), tonumber(tails_checkbox), 0, "", outputfilename_renderpattern, 
+                                               tonumber(SampleRate), tonumber(channels), tonumber(offline_online_dropdownlist), 
+                                               useprojectsamplerate_checkbox, 
+                                               tonumber(resamplemode_dropdownlist), MonoMedia, MultiChannel, tonumber(dither), rendercfg, 
+                                               false, false, false, false, 0)
+  return RenderTable
+end
+
+--OOO=ultraschall.GetRender_Preset("A127", "A17")
+
 ultraschall.ShowLastErrorMessage()
 
 
