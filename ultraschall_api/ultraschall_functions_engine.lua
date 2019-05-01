@@ -43133,7 +43133,7 @@ function ultraschall.RenderProject_RenderCFG(projectfilename_with_path, renderfi
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject_RenderCFG(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg)</functioncall>
@@ -47822,6 +47822,7 @@ function ultraschall.GetRenderToFileHWND()
   local render_tr=reaper.JS_Localize("Render...", "DLG_506")
   local wildcards_tr=reaper.JS_Localize("Wildcards", "DLG_506")
   
+  --count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find("Render to File", false)
   local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
   if count_hwnds==0 then return nil
   else
@@ -47837,6 +47838,8 @@ function ultraschall.GetRenderToFileHWND()
 end
 
 --AAAA=ultraschall.GetRenderToFileHWND()
+
+
 
 --AAA=ultraschall.GetRenderToFileHWND()
 
@@ -53726,7 +53729,7 @@ function ultraschall.GetRenderSettingsTable_Project()
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>table RenderTable = ultraschall.GetRenderSettingsTable_Project()</functioncall>
@@ -54279,7 +54282,7 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_renderc
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.ApplyRenderSettingsTable_Project(RenderTable RenderTable, optional boolean apply_rendercfg_string)</functioncall>
@@ -54543,7 +54546,7 @@ function ultraschall.GetCheckboxState(hwnd)
   <requires>
     Ultraschall=4.00
     Reaper=5.975
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.GetCheckboxState(HWND hwnd)</functioncall>
@@ -54580,7 +54583,7 @@ function ultraschall.SetCheckboxState(hwnd, state)
   <requires>
     Ultraschall=4.00
     Reaper=5.975
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>integer retval = ultraschall.SetCheckboxState(HWND hwnd, boolean state)</functioncall>
@@ -54779,7 +54782,7 @@ function ultraschall.GetRender_SaveCopyOfProject()
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.GetRender_SaveCopyOfProject()</functioncall>
@@ -54822,7 +54825,7 @@ function ultraschall.SetRender_SaveCopyOfProject(state)
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetRender_SaveCopyOfProject(boolean state)</functioncall>
@@ -54859,7 +54862,7 @@ function ultraschall.SetRender_SaveCopyOfProject(state)
   return retval
 end
 
---A=ultraschall.SetRender_SaveCopyOfProject(true)
+--B=ultraschall.SetRender_SaveCopyOfProject(true)
 
 
 function ultraschall.SetRender_QueueDelay(state, length)
@@ -54870,7 +54873,7 @@ function ultraschall.SetRender_QueueDelay(state, length)
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetRender_QueueDelay(boolean state, integer length)</functioncall>
@@ -54912,7 +54915,7 @@ function ultraschall.SetRender_QueueDelay(state, length)
 end
 
 --A=ultraschall.SetRender_SaveCopyOfProject(true)
---ultraschall.SetRenderQueueDelay(false, 8)
+--ultraschall.SetRender_QueueDelay(true, 118)
 --reaper.SNM_SetIntConfigVar("renderqdelay", 7)
 
 function ultraschall.GetRender_QueueDelay()
@@ -54923,7 +54926,7 @@ function ultraschall.GetRender_QueueDelay()
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>boolean retval, integer length = ultraschall.GetRender_QueueDelay()</functioncall>
@@ -54958,7 +54961,7 @@ function ultraschall.GetRender_QueueDelay()
   return state, length
 end
 
---A,B=ultraschall.GetRenderQueueDelay()
+--A,B=ultraschall.GetRender_QueueDelay()
 
 --A,B=reaper.GetTrackStateChunk(reaper.GetTrack(0,1),"",false)
 --A1=ultraschall.GetTrackAUXSendReceives(-1, 1, B)
@@ -54971,7 +54974,7 @@ function ultraschall.SetRender_ProjectSampleRateForMix(state)
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetRender_ProjectSampleRateForMix(boolean state)</functioncall>
@@ -55008,7 +55011,7 @@ function ultraschall.SetRender_ProjectSampleRateForMix(state)
   return true
 end
 
---A=ultraschall.SetRenderProjectSampleRateForMix(false)
+--A=ultraschall.SetRender_ProjectSampleRateForMix(false)
 
 function ultraschall.GetRender_ProjectSampleRateForMix()
 --[[
@@ -55018,7 +55021,7 @@ function ultraschall.GetRender_ProjectSampleRateForMix()
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.GetRender_ProjectSampleRateForMix()</functioncall>
@@ -55048,7 +55051,7 @@ function ultraschall.GetRender_ProjectSampleRateForMix()
   return state
 end
 
---A=ultraschall.GetRenderProjectSampleRateForMix()
+--A=ultraschall.GetRender_ProjectSampleRateForMix()
 
 function ultraschall.SetRender_AutoIncrementFilename(state)
 --[[
@@ -55058,7 +55061,7 @@ function ultraschall.SetRender_AutoIncrementFilename(state)
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetRender_AutoIncrementFilename(boolean state)</functioncall>
@@ -55106,7 +55109,7 @@ function ultraschall.GetRender_AutoIncrementFilename()
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.GetRender_AutoIncrementFilename()</functioncall>
@@ -55131,7 +55134,7 @@ function ultraschall.GetRender_AutoIncrementFilename()
     state=reaper.SNM_GetIntConfigVar("renderclosewhendone", 0)
     if state&16==16 then state=1 end
   else
-    state = reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1042), "BM_GETCHECK", 0,0,0,0)
+    state = reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1042), "BM_GETCHECK", 1,0,0,0)
   end
   if state==0 then state=false else state=true end
   return state
@@ -55552,7 +55555,7 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path)
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>string ProjectStateChunk = ultraschall.GetProjectStateChunk(optional string projectfilename_with_path)</functioncall>
@@ -55711,6 +55714,7 @@ function ultraschall.GetProject_GroupName(projectfilename_with_path, idx, Projec
   end
 end
 
+
 function ultraschall.SetRender_OfflineOnlineMode(mode)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -55719,7 +55723,7 @@ function ultraschall.SetRender_OfflineOnlineMode(mode)
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetRender_OfflineOnlineMode(integer mode)</functioncall>
@@ -55756,6 +55760,28 @@ function ultraschall.SetRender_OfflineOnlineMode(mode)
   if hwnd==nil then reaper.SNM_SetIntConfigVar("projrenderlimit", mode) return end
 
     -- select the new format-setting
+    if ultraschall.IsOS_Windows()==true then
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1001), "CB_SETCURSEL", mode,0,0,0)
+    --[[
+      reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "CB_SETCURSEL", mode,0,0,0)
+    
+      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONDOWN", 1,0,0,0)
+      reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONUP", 1,0,0,0)
+        
+      reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONDOWN", 1,0,0,0)
+      reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONUP", 1,0,0,0)
+      --]]
+    elseif ultraschall.IsOS_Mac()==true then
+      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1001), "CB_SETCURSEL", mode,0,0,0)
+    else
+      -- ToDo: Check with Linux
+      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1001), "CB_SETCURSEL", mode,0,0,0)
+    end
+
+    reaper.JS_Window_SetFocus(oldfocus)    --]]
+    
+    --[[
+    -- select the new format-setting
     reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd,1001), "CB_SETCURSEL", mode,0,0,0)
     -- the following triggers Reaper to understand, that changes occurred, by clicking at the
     -- dropdownlist twice.
@@ -55766,7 +55792,7 @@ function ultraschall.SetRender_OfflineOnlineMode(mode)
     reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONDOWN", 1,0,0,0)
     reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1001), "WM_LBUTTONUP", 1,0,0,0)
 
-    reaper.JS_Window_SetFocus(oldfocus)    
+    reaper.JS_Window_SetFocus(oldfocus)    --]]
     return true
 end
 
@@ -55780,7 +55806,7 @@ function ultraschall.GetRender_OfflineOnlineMode()
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>integer mode = ultraschall.GetRender_OfflineOnlineMode()</functioncall>
@@ -55823,7 +55849,7 @@ function ultraschall.GetRender_ResampleMode()
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>integer mode = ultraschall.GetRender_ResampleMode()</functioncall>
@@ -55870,7 +55896,7 @@ function ultraschall.SetRender_ResampleMode(mode)
     Ultraschall=4.00
     Reaper=5.975
     SWS=2.10.0.1
-    JS=0.980
+    JS=0.972
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetRender_ResampleMode(integer mode)</functioncall>
@@ -55912,21 +55938,27 @@ function ultraschall.SetRender_ResampleMode(mode)
   if hwnd==nil then reaper.SNM_SetIntConfigVar("projrenderresample", mode) return end
 
     -- select the new format-setting
-    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)
-    -- the following triggers Reaper to understand, that changes occurred, by clicking at the
-    -- dropdownlist twice.
-    -- Does this work on Mac and Linux?
-    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "WM_LBUTTONDOWN", 1,0,0,0)
-    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "WM_LBUTTONUP", 1,0,0,0)
-    
-    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "WM_LBUTTONDOWN", 1,0,0,0)
-    reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "WM_LBUTTONUP", 1,0,0,0)
+    if ultraschall.IsOS_Windows()==true then
+--      reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)
+      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)    
+--      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1000), "WM_LBUTTONDOWN", 1,0,0,0)
+--      reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "WM_LBUTTONUP", 1,0,0,0)
+        
+--      reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "WM_LBUTTONDOWN", 1,0,0,0)
+--      reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(hwnd, 1000), "WM_LBUTTONUP", 1,0,0,0)
+    elseif ultraschall.IsOS_Mac()==true then
+      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)
+    else
+      -- ToDo: Check with Linux
+      reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd, 1000), "CB_SETCURSEL", mode,0,0,0)
+    end
 
-    reaper.JS_Window_SetFocus(oldfocus)    
+    reaper.JS_Window_SetFocus(oldfocus)    --]]
     return true
 end
 
---A=ultraschall.SetRender_ResampleMode(5)
+--A=ultraschall.SetRender_ResampleMode(0)
+--A=ultraschall.GetRender_ResampleMode(0)
 
 function ultraschall.DeleteTracks_TrackString(trackstring)
 --[[
