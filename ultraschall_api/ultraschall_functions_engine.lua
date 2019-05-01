@@ -53810,18 +53810,12 @@ function ultraschall.GetRenderSettingsTable_Project()
   RenderTable["AddToProj"]=reaper.GetSetProjectInfo(ReaProject, "RENDER_ADDTOPROJ", 0, false)
   if RenderTable["AddToProj"]==1 then RenderTable["AddToProj"]=true else RenderTable["AddToProj"]=false end
   RenderTable["Dither"]=math.tointeger(reaper.GetSetProjectInfo(ReaProject, "RENDER_DITHER", 0, false))
-  RenderTable["ProjectSampleRateFXProcessing"]=reaper.SNM_GetIntConfigVar("projrenderrateinternal", -1)
-  if RenderTable["ProjectSampleRateFXProcessing"]==1 then RenderTable["ProjectSampleRateFXProcessing"]=true else RenderTable["ProjectSampleRateFXProcessing"]=false end
-  if reaper.SNM_GetIntConfigVar("renderclosewhendone", -1)&16~=0 then RenderTable["SilentlyIncrementFilename"]=true else RenderTable["SilentlyIncrementFilename"]=false end
-  if reaper.SNM_GetIntConfigVar("renderqdelay", -1)>0 then 
-    RenderTable["RenderQueueDelay"]=true 
-    RenderTable["RenderQueueDelaySeconds"]=reaper.SNM_GetIntConfigVar("renderqdelay", -1) 
-  else 
-    RenderTable["RenderQueueDelay"]=false 
-    RenderTable["RenderQueueDelaySeconds"]=-reaper.SNM_GetIntConfigVar("renderqdelay", -1)
-  end
-  RenderTable["RenderResample"]=reaper.SNM_GetIntConfigVar("projrenderresample", -1)
-  RenderTable["OfflineOnlineRendering"]=reaper.SNM_GetIntConfigVar("projrenderlimit", -1)
+  RenderTable["ProjectSampleRateFXProcessing"]=ultraschall.GetRender_ProjectSampleRateForMix()
+  RenderTable["SilentlyIncrementFilename"]=ultraschall.GetRender_AutoIncrementFilename()
+  
+  RenderTable["RenderQueueDelay"], RenderTable["RenderQueueDelaySeconds"] = ultraschall.GetRender_QueueDelay()
+  RenderTable["RenderResample"]=ultraschall.GetRender_ResampleMode()
+  RenderTable["OfflineOnlineRendering"]=ultraschall.GetRender_OfflineOnlineMode()
   _temp, RenderTable["RenderFile"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FILE", "", false)
   _temp, RenderTable["RenderPattern"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", "", false)
   _temp, RenderTable["RenderString"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", "", false)
@@ -54363,31 +54357,17 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_renderc
   reaper.GetSetProjectInfo(ReaProject, "RENDER_ENDPOS", RenderTable["Endposition"], true)
   reaper.GetSetProjectInfo(ReaProject, "RENDER_TAILFLAG", RenderTable["TailFlag"], true)
   reaper.GetSetProjectInfo(ReaProject, "RENDER_TAILMS", RenderTable["TailMS"], true)
+  
   if RenderTable["AddToProj"]==true then AddToProj=1 else AddToProj=0 end
   reaper.GetSetProjectInfo(ReaProject, "RENDER_ADDTOPROJ", AddToProj, true)
-  
   reaper.GetSetProjectInfo(ReaProject, "RENDER_DITHER", RenderTable["Dither"], true)
   
-  if RenderTable["ProjectSampleRateFXProcessing"]==true then ProjectSampleRateFXProcessing=1 else ProjectSampleRateFXProcessing=0 end
-  reaper.SNM_SetIntConfigVar("projrenderrateinternal", ProjectSampleRateFXProcessing)
+  ultraschall.SetRender_ProjectSampleRateForMix(RenderTable["ProjectSampleRateFXProcessing"])
+  ultraschall.SetRender_AutoIncrementFilename(RenderTable["SilentlyIncrementFilename"])
+  ultraschall.SetRender_QueueDelay(RenderTable["RenderQueueDelay"], RenderTable["RenderQueueDelaySeconds"])
+  ultraschall.SetRender_ResampleMode(RenderTable["RenderResample"])
+  ultraschall.SetRender_OfflineOnlineMode(RenderTable["OfflineOnlineRendering"])
   
-  local renderclosewhendone=reaper.SNM_GetIntConfigVar("renderclosewhendone", -1)
-
-  if RenderTable["SilentlyIncrementFilename"]==true and renderclosewhendone&16==0 then 
-    renderclosewhendone=renderclosewhendone+16
-  elseif RenderTable["SilentlyIncrementFilename"]==false and renderclosewhendone&16~=0 then
-    renderclosewhendone=renderclosewhendone-16
-  end 
-  reaper.SNM_SetIntConfigVar("renderclosewhendone", renderclosewhendone)
-  
-  if RenderTable["RenderQueueDelay"]==true then 
-    reaper.SNM_SetIntConfigVar("renderqdelay", RenderTable["RenderQueueDelaySeconds"])
-  else 
-    reaper.SNM_SetIntConfigVar("renderqdelay", -RenderTable["RenderQueueDelaySeconds"])
-  end
-  
-  reaper.SNM_SetIntConfigVar("projrenderresample", RenderTable["RenderResample"])
-  reaper.SNM_SetIntConfigVar("projrenderlimit", RenderTable["OfflineOnlineRendering"])
   if RenderTable["RenderFile"]==nil then RenderTable["RenderFile"]="" end
   if RenderTable["RenderPattern"]==nil then 
     local path, filename = ultraschall.GetPath(RenderTable["RenderFile"])
@@ -54412,7 +54392,6 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_renderc
   else
     reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1060), "BM_SETCHECK", SaveCopyOfProject,0,0,0)
   end
-    
   return true
 end
 
@@ -56004,5 +55983,18 @@ end
 
 --A=ultraschall.SetProject_RenderPattern("c:\\tudelu - Kopie.rpp", "AchHuiFile")
 
+--A=ultraschall.GetRenderSettingsTable_Project()
+--B=ultraschall.IsValidRenderTable(A)
+
+
+--A=ultraschall.GetRenderSettingsTable_Project(0)
+--A=ultraschall.GetRenderSettingsTable_ProjectFile("C:\\Users\\meo\\Desktop\\Ultraschall-TutorialEinsteigerworkshop-Transkript-deutsch4.RPP")
+--ultraschall.IsValidRenderTable(A)
+--A["AddToProj"]="Tudelu, Zucker im Schuh"
+--A["SaveCopyOfProject"]=false
+--A["RenderString"]="l3pm"
+--ultraschall.ApplyRenderSettingsTable_Project(A, true)
+
 ultraschall.ShowLastErrorMessage()
+
 
