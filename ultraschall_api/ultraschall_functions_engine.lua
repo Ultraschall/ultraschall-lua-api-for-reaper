@@ -55451,7 +55451,8 @@ end
 
 ultraschall.OperationHoHoHo()
 
-function ultraschall.GetArmState_Envelope(TrackEnvelope)
+
+function ultraschall.GetArmState_Envelope(TrackEnvelope, EnvelopeStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetArmState_Envelope</slug>
@@ -55460,7 +55461,7 @@ function ultraschall.GetArmState_Envelope(TrackEnvelope)
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.GetArmState_Envelope(TrackEnvelope TrackEnvelope)</functioncall>
+  <functioncall>integer retval = ultraschall.GetArmState_Envelope(TrackEnvelope TrackEnvelope, optional string EnvelopeStateChunk)</functioncall>
   <description>
     Returns the current armed-state of a TrackEnvelope-object.
     
@@ -55470,7 +55471,8 @@ function ultraschall.GetArmState_Envelope(TrackEnvelope)
     integer retval - 0, unarmed; 1, armed
   </retvals>
   <parameters>
-    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose armed-state you want to know
+    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose armed-state you want to know; nil, to use parameter EnvelopeStateChunk instead
+    optional string EnvelopeStateChunk - if TrackEnvelope is set to nil, you can pass an EnvelopeStateChunk into this parameter, to get that armed state
   </parameters>
   <chapter_context>
     Envelope Management
@@ -55478,15 +55480,28 @@ function ultraschall.GetArmState_Envelope(TrackEnvelope)
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>envelope states, get, arm</tags>
+  <tags>envelope states, get, arm, envelopestatechunk</tags>
 </US_DocBloc>
 ]]  
-  if ultraschall.type(TrackEnvelope)=="TrackEnvelope" then ultraschall.AddErrorMessage("GetArmState_Envelope", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return end
-  local retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("GetArmState_Envelope", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return end
+  if TrackEnvelope==nil and ultraschall.IsValidEnvStateChunk(EnvelopeStateChunk)==false then ultraschall.AddErrorMessage("GetArmState_Envelope", "EnvelopeStateChunk", "Must be a valid EnvelopeStateChunk", -2) return end
+  local retval, str
+  if TrackEnvelope==nil then 
+    str=EnvelopeStateChunk
+  else
+    retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+  end
   return tonumber(str:match("ARM (%d*)"))
 end
 
-function ultraschall.SetArmState_Envelope(TrackEnvelope, state)
+
+--TrackEnvelope=reaper.GetTrackEnvelopeByName(reaper.GetTrack(0,0),"Mute")
+--A,EnvStCh=reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+--A=ultraschall.type(TrackEnvelope)
+--B=ultraschall.GetArmState_Envelope(TrackEnveope, EnvStCh)
+--]]
+
+function ultraschall.SetArmState_Envelope(TrackEnvelope, state, EnvelopeStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetArmState_Envelope</slug>
@@ -55495,7 +55510,7 @@ function ultraschall.SetArmState_Envelope(TrackEnvelope, state)
     Reaper=5.95
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.SetArmState_Envelope(TrackEnvelope TrackEnvelope, integer state)</functioncall>
+  <functioncall>boolean retval, optional string EnvelopeStateChunk = ultraschall.SetArmState_Envelope(TrackEnvelope TrackEnvelope, integer state, optional string EnvelopeStateChunk)</functioncall>
   <description>
     Sets the new armed-state of a TrackEnvelope-object.
     
@@ -55503,10 +55518,12 @@ function ultraschall.SetArmState_Envelope(TrackEnvelope, state)
   </description>
   <retvals>
     boolean retval - true, setting was successful; false, setting was unsuccessful
+    optional string EnvelopeStateChunk - the altered EnvelopeStateChunk, when parameter TrackEnvelope is set to nil
   </retvals>
   <parameters>
-    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose armed-state you want to know
+    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose armed-state you want to change
     integer state - 0, unarmed; 1, armed
+    optional string EnvelopeStateChunk - if parameter TrackEnvelope is set to nil, you can pass an EnvelopeStateChunk into this parameters and change its arm-state
   </parameters>
   <chapter_context>
     Envelope Management
@@ -55514,17 +55531,27 @@ function ultraschall.SetArmState_Envelope(TrackEnvelope, state)
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>envelope states, set, arm</tags>
+  <tags>envelope states, set, arm, envelopestatechunk</tags>
 </US_DocBloc>
 ]]  
-  if ultraschall.type(TrackEnvelope)=="TrackEnvelope" then ultraschall.AddErrorMessage("SetArmState_Envelope", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return false end
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("SetArmState_Envelope", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return false end
   if math.type(state)~="integer" then ultraschall.AddErrorMessage("SetArmState_Envelope", "state", "Must be an integer, either 1 or 0", -2) return false end
-  local retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
-  return reaper.SetEnvelopeStateChunk(TrackEnvelope, string.gsub(str, "ARM %d*%c", "ARM "..state.."\n"), false)
+  if TrackEnvelope==nil and ultraschall.IsValidEnvStateChunk(EnvelopeStateChunk)==false then ultraschall.AddErrorMessage("SetArmState_Envelope", "EnvelopeStateChunk", "Must be a valid EnvelopeStateChunk", -3) return end
+  if TrackEnvelope~=nil then
+    local retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+    return reaper.SetEnvelopeStateChunk(TrackEnvelope, string.gsub(str, "ARM %d*%c", "ARM "..state.."\n"), false)
+  else
+    return true, string.gsub(EnvelopeStateChunk, "ARM %d*%c", "ARM "..state.."\n")
+  end
 end
 
---TrackEnvelope=reaper.GetTrackEnvelopeByName(reaper.GetTrack(0,0),"Mute")
---A=ultraschall.SetArmState_Envelope(TrackEnvelope, 0)
+--[[
+TrackEnvelope=reaper.GetTrackEnvelopeByName(reaper.GetTrack(0,0),"Mute")
+A,EnvStCh=reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+A,B=ultraschall.SetArmState_Envelope(TrackEnvelope, 1, EnvStCh)
+
+print2(B)
+--]]
 
 function ultraschall.GetProjectStateChunk(projectfilename_with_path)
 --[[
