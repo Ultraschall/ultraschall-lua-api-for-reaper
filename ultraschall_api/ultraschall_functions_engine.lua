@@ -56272,6 +56272,315 @@ end
 
 --ultraschall.DeleteRenderPreset_FormatOptions("A02")
 
+
+function ultraschall.AddRenderPreset(Bounds_Name, RenderFormatOptions_Name, RenderTable)
+ --[[
+ <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+   <slug>AddRenderPreset</slug>
+   <requires>
+     Ultraschall=4.00
+     Reaper=5.975
+     Lua=5.3
+   </requires>
+   <functioncall>boolean retval = ultraschall.AddRenderPreset(string Bounds_Name, string RenderFormatOptions_Name, RenderTable RenderTable)</functioncall>
+   <description>
+     adds a new render-preset into reaper-render.ini. 
+     
+     This function will check, whether the chosen names are already in use. 
+     
+     Added render-presets are available after (re-)opening in the Render to File-dialog     
+     
+     Note: You can choose, whether to include only Bounds, only RenderFormatOptions of both. The Bounds and the RenderFormatOptions store different parts of the render-presets.
+     
+     Bounds_Name stores only:
+              RenderTable["Bounds"] - the bounds-dropdownlist, 
+                                      0, Custom time range
+                                      1, Entire project 
+                                      2, Time selection 
+                                      3, Project regions
+                                      4, Selected Media Items(in combination with Source 32)
+                                      5, Selected regions 
+              RenderTable["Startposition"] - the startposition of the render
+              RenderTable["Endposition"] - the endposition of the render
+              RenderTable["Source"]+RenderTable["MultiChannelFiles"]+RenderTable["OnlyMonoMedia"] - the source dropdownlist, includes 
+                                      0, Master mix 
+                                      1, Master mix + stems
+                                      3, Stems (selected tracks)
+                                      &4, Multichannel tracks to multichannel files
+                                      8, Region render matrix
+                                      &16, Tracks with only mono media to mono files
+                                      32, Selected media items
+              "0"    - unknown, default setting is 0
+              RenderTable["RenderPattern"] - the renderpattern, which hold also the wildcards
+              RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? 
+                                      &1, custom time bounds
+                                      &2, entire project
+                                      &4, time selection
+                                      &8, all project regions
+                                      &16, selected media items
+                                      &32, selected project regions 
+     
+     RenderFormatOptions_Name stores only:
+              RenderTable["SampleRate"] - the samplerate, with which to render; 0, use project-settings
+              RenderTable["Channels"] - the number of channels for the output-file
+              RenderTable["OfflineOnlineRendering"] - the offline/online-dropdownlist 
+                                      0, Full-speed Offline
+                                      1, 1x Offline
+                                      2, Online Render
+                                      3, Online Render(Idle)
+                                      4, Offline Render(Idle); 
+              RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; 1, checked; 0, unchecked 
+              RenderTable["RenderResample"] - Resample mode-dropdownlist; 
+                                      0, Medium (64pt Sinc)
+                                      1, Low (Linear Interpolation)
+                                      2, Lowest (Point Sampling)
+                                      3, Good (192pt Sinc)
+                                      4, Better (348 pt Sinc)
+                                      5, Fast (IIR + Linear Interpolation)
+                                      6, Fast (IIRx2 + Linear Interpolation)
+                                      7, Fast (16pt Sinc)
+                                      8, HQ (512 pt)
+                                      9, Extreme HQ(768pt HQ Sinc) 
+              RenderTable["Dither"] - the Dither/Noise shaping-checkboxes: 
+                                      &1, dither master mix
+                                      &2, noise shaping master mix
+                                      &4, dither stems
+                                      &8, dither noise shaping 
+              RenderTable["RenderString"] - the render-cfg-string, which holds the render-outformat-settings
+      
+     Returns false in case of an error
+   </description>
+   <parameters>
+     string Bounds_Name - the name of the Bounds-render-preset you want to add; nil, to not add a new Bounds-render-preset
+     string RenderFormatOptions_Name - the name of the Renderformat-options-render-preset you want to add; to not add a new Render-Format-Options-render-preset
+     RenderTable RenderTable - the RenderTable, which holds all information for inclusion into the Render-Preset
+   </parameters>
+   <retvals>
+     boolean retval - true, adding was successful; false, adding was unsuccessful
+   </retvals>
+   <chapter_context>
+      Rendering of Project
+      Render Presets
+   </chapter_context>
+   <target_document>US_Api_Documentation</target_document>
+   <source_document>ultraschall_functions_engine.lua</source_document>
+   <tags>render management, add, render preset, names, format options, bounds, rendertable</tags>
+ </US_DocBloc>
+ ]]
+  if Bounds_Name==nil and RenderFormatOptions_Name==nil then ultraschall.AddErrorMessage("AddRenderPreset", "RenderTable/RenderFormatOptions_Name", "can't be both set to nil", -6) return false end
+  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("AddRenderPreset", "RenderTable", "must be a valid render-table", -1) return false end
+  if Bounds_Name~=nil and type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("AddRenderPreset", "Bounds_Name", "must be a string", -2) return false end
+  if RenderFormatOptions_Name~=nil and type(RenderFormatOptions_Name)~="string" then ultraschall.AddErrorMessage("AddRenderPreset", "RenderFormatOptions_Name", "must be a string", -3) return false end
+  
+  local A,B, Source, RenderPattern, ProjectSampleRateFXProcessing, String
+  local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
+  if A==nil then A="" end
+  
+  Source=RenderTable["Source"]
+  if RenderTable["MultiChannelFiles"]==true then Source=Source+4 end
+  if RenderTable["OnlyMonoMedia"]==true then Source=Source+16 end
+  if RenderTable["ProjectSampleRateFXProcessing"]==true then ProjectSampleRateFXProcessing=1 else ProjectSampleRateFXProcessing=0 end
+  if RenderTable["RenderPattern"]=="" or RenderTable["RenderPattern"]:match("%s")~=nil then
+    RenderPattern="\""..RenderTable["RenderPattern"].."\""
+  else
+    RenderPattern=RenderTable["RenderPattern"]
+  end
+
+  if Bounds_Name~=nil and (Bounds_Name:match("%s")~=nil or Bounds_Name=="") then Bounds_Name="\""..Bounds_Name.."\"" end
+  if RenderFormatOptions_Name~=nil and (RenderFormatOptions_Name:match("%s")~=nil or RenderFormatOptions_Name=="") then RenderFormatOptions_Name="\""..RenderFormatOptions_Name.."\"" end
+  
+  if Bounds_Name~=nil and ("\n"..A):match("\nRENDERPRESET_OUTPUT "..Bounds_Name)~=nil then ultraschall.AddErrorMessage("AddRenderPreset", "Bounds_Name", "bounds-preset already exists", -4) return false end
+  if RenderFormatOptions_Name~=nil and ("\n"..A):match("\n<RENDERPRESET "..RenderFormatOptions_Name)~=nil then ultraschall.AddErrorMessage("AddRenderPreset", "RenderFormatOptions_Name", "renderformat/options-preset already exists", -5) return false end
+
+  -- add Bounds-preset, if given
+  if Bounds_Name~=nil then 
+    String="\nRENDERPRESET_OUTPUT "..Bounds_Name.." "..RenderTable["Bounds"]..
+           " "..RenderTable["Startposition"]..
+           " "..RenderTable["Endposition"]..
+           " "..Source..
+           " ".."0"..
+           " "..RenderPattern..
+           " "..RenderTable["TailFlag"].."\n"
+    A=A..String
+  end
+  
+  -- add Formar-options-preset, if given
+  if RenderFormatOptions_Name~=nil then 
+      String="<RENDERPRESET "..RenderFormatOptions_Name..
+             " "..RenderTable["SampleRate"]..
+             " "..RenderTable["Channels"]..
+             " "..RenderTable["OfflineOnlineRendering"]..
+             " "..ProjectSampleRateFXProcessing..
+             " "..RenderTable["RenderResample"]..
+             " "..RenderTable["Dither"]..
+             "\n  "..RenderTable["RenderString"].."\n>"
+      A=A..String
+  end
+    
+  
+  local AA=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/reaper-render.ini", A)
+  if A==-1 then ultraschall.AddErrorMessage("AddRenderPreset", "", "can't access "..reaper.GetResourcePath().."/reaper-render.ini", -7) return false end
+  return true
+end
+
+--L=ultraschall.GetRenderSettingsTable_Project()
+--ultraschall.AddRenderPreset(nil, nil, L)
+
+
+function ultraschall.SetRenderPreset(Bounds_Name, RenderFormatOptions_Name, RenderTable)
+ --[[
+ <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+   <slug>SetRenderPreset</slug>
+   <requires>
+     Ultraschall=4.00
+     Reaper=5.975
+     Lua=5.3
+   </requires>
+   <functioncall>boolean retval = ultraschall.SetRenderPreset(string Bounds_Name, string RenderFormatOptions_Name, RenderTable RenderTable)</functioncall>
+   <description>
+     sets an already existing render-preset in reaper-render.ini. 
+     
+     This function will check, whether the chosen names aren't given yet in any preset. 
+     
+     Changed render-presets are updated after (re-)opening in the Render to File-dialog     
+     
+     Note: You can choose, whether to include only Bounds, only RenderFormatOptions of both. The Bounds and the RenderFormatOptions store different parts of the render-presets.
+     
+     Bounds_Name stores only:
+              RenderTable["Bounds"] - the bounds-dropdownlist, 
+                                      0, Custom time range
+                                      1, Entire project 
+                                      2, Time selection 
+                                      3, Project regions
+                                      4, Selected Media Items(in combination with Source 32)
+                                      5, Selected regions 
+              RenderTable["Startposition"] - the startposition of the render
+              RenderTable["Endposition"] - the endposition of the render
+              RenderTable["Source"]+RenderTable["MultiChannelFiles"]+RenderTable["OnlyMonoMedia"] - the source dropdownlist, includes 
+                                      0, Master mix 
+                                      1, Master mix + stems
+                                      3, Stems (selected tracks)
+                                      &4, Multichannel tracks to multichannel files
+                                      8, Region render matrix
+                                      &16, Tracks with only mono media to mono files
+                                      32, Selected media items
+              "0"    - unknown, default setting is 0
+              RenderTable["RenderPattern"] - the renderpattern, which hold also the wildcards
+              RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? 
+                                      &1, custom time bounds
+                                      &2, entire project
+                                      &4, time selection
+                                      &8, all project regions
+                                      &16, selected media items
+                                      &32, selected project regions 
+     
+     RenderFormatOptions_Name stores only:
+              RenderTable["SampleRate"] - the samplerate, with which to render; 0, use project-settings
+              RenderTable["Channels"] - the number of channels for the output-file
+              RenderTable["OfflineOnlineRendering"] - the offline/online-dropdownlist 
+                                      0, Full-speed Offline
+                                      1, 1x Offline
+                                      2, Online Render
+                                      3, Online Render(Idle)
+                                      4, Offline Render(Idle); 
+              RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; 1, checked; 0, unchecked 
+              RenderTable["RenderResample"] - Resample mode-dropdownlist; 
+                                      0, Medium (64pt Sinc)
+                                      1, Low (Linear Interpolation)
+                                      2, Lowest (Point Sampling)
+                                      3, Good (192pt Sinc)
+                                      4, Better (348 pt Sinc)
+                                      5, Fast (IIR + Linear Interpolation)
+                                      6, Fast (IIRx2 + Linear Interpolation)
+                                      7, Fast (16pt Sinc)
+                                      8, HQ (512 pt)
+                                      9, Extreme HQ(768pt HQ Sinc) 
+              RenderTable["Dither"] - the Dither/Noise shaping-checkboxes: 
+                                      &1, dither master mix
+                                      &2, noise shaping master mix
+                                      &4, dither stems
+                                      &8, dither noise shaping 
+              RenderTable["RenderString"] - the render-cfg-string, which holds the render-outformat-settings
+      
+     Returns false in case of an error
+   </description>
+   <parameters>
+     string Bounds_Name - the name of the Bounds-render-preset you want to add; nil, to not add a new Bounds-render-preset
+     string RenderFormatOptions_Name - the name of the Renderformat-options-render-preset you want to add; to not add a new Render-Format-Options-render-preset
+     RenderTable RenderTable - the RenderTable, which holds all information for inclusion into the Render-Preset
+   </parameters>
+   <retvals>
+     boolean retval - true, setting was successful; false, setting was unsuccessful
+   </retvals>
+   <chapter_context>
+      Rendering of Project
+      Render Presets
+   </chapter_context>
+   <target_document>US_Api_Documentation</target_document>
+   <source_document>ultraschall_functions_engine.lua</source_document>
+   <tags>render management, set, render preset, names, format options, bounds, rendertable</tags>
+ </US_DocBloc>
+ ]]
+  if Bounds_Name==nil and RenderFormatOptions_Name==nil then ultraschall.AddErrorMessage("SetRenderPreset", "RenderTable/RenderFormatOptions_Name", "can't be both set to nil", -6) return false end
+  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("SetRenderPreset", "RenderTable", "must be a valid render-table", -1) return false end
+  if Bounds_Name~=nil and type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("SetRenderPreset", "Bounds_Name", "must be a string", -2) return false end
+  if RenderFormatOptions_Name~=nil and type(RenderFormatOptions_Name)~="string" then ultraschall.AddErrorMessage("SetRenderPreset", "RenderFormatOptions_Name", "must be a string", -3) return false end
+  
+  local A,B, Source, RenderPattern, ProjectSampleRateFXProcessing, String, Bounds, RenderFormatOptions
+  local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
+  if A==nil then A="" end
+  
+  Source=RenderTable["Source"]
+  if RenderTable["MultiChannelFiles"]==true then Source=Source+4 end
+  if RenderTable["OnlyMonoMedia"]==true then Source=Source+16 end
+  if RenderTable["ProjectSampleRateFXProcessing"]==true then ProjectSampleRateFXProcessing=1 else ProjectSampleRateFXProcessing=0 end
+  if RenderTable["RenderPattern"]=="" or RenderTable["RenderPattern"]:match("%s")~=nil then
+    RenderPattern="\""..RenderTable["RenderPattern"].."\""
+  else
+    RenderPattern=RenderTable["RenderPattern"]
+  end
+
+  if Bounds_Name~=nil and (Bounds_Name:match("%s")~=nil or Bounds_Name=="") then Bounds_Name="\""..Bounds_Name.."\"" end
+  if RenderFormatOptions_Name~=nil and (RenderFormatOptions_Name:match("%s")~=nil or RenderFormatOptions_Name=="") then RenderFormatOptions_Name="\""..RenderFormatOptions_Name.."\"" end
+  
+  if Bounds_Name~=nil and ("\n"..A):match("\nRENDERPRESET_OUTPUT "..Bounds_Name)==nil then ultraschall.AddErrorMessage("SetRenderPreset", "Bounds_Name", "no bounds-preset with that name", -4) return false end
+  if RenderFormatOptions_Name~=nil and ("\n"..A):match("\n<RENDERPRESET "..RenderFormatOptions_Name)==nil then ultraschall.AddErrorMessage("SetRenderPreset", "RenderFormatOptions_Name", "no renderformat/options-preset with that name", -5) return false end
+
+  -- set Bounds-preset, if given
+  if Bounds_Name~=nil then 
+    Bounds=("\n"..A):match("(\nRENDERPRESET_OUTPUT "..Bounds_Name..".-\n)")
+    String="\nRENDERPRESET_OUTPUT "..Bounds_Name.." "..RenderTable["Bounds"]..
+           " "..RenderTable["Startposition"]..
+           " "..RenderTable["Endposition"]..
+           " "..Source..
+           " ".."0"..
+           " "..RenderPattern..
+           " "..RenderTable["TailFlag"].."\n"
+    A=string.gsub(A, Bounds, String)
+  end
+
+  -- set Formar-options-preset, if given
+  if RenderFormatOptions_Name~=nil then 
+      RenderFormatOptions=A:match("\n<RENDERPRESET "..RenderFormatOptions_Name..".->")
+      String="\n<RENDERPRESET "..RenderFormatOptions_Name..
+             " "..RenderTable["SampleRate"]..
+             " "..RenderTable["Channels"]..
+             " "..RenderTable["OfflineOnlineRendering"]..
+             " "..ProjectSampleRateFXProcessing..
+             " "..RenderTable["RenderResample"]..
+             " "..RenderTable["Dither"]..
+             "\n  "..RenderTable["RenderString"].."\n>"
+    A=string.gsub(A, RenderFormatOptions, String)
+  end
+    
+  
+  local AA=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/reaper-render.ini", A)
+  if A==-1 then ultraschall.AddErrorMessage("SetRenderPreset", "", "can't access "..reaper.GetResourcePath().."/reaper-render.ini", -7) return false end
+  return true
+  --]]
+end
+
+--L=ultraschall.GetRenderSettingsTable_Project()
+--ultraschall.SetRenderPreset("A04", "A04", L)
+
 ultraschall.ShowLastErrorMessage()
-
-

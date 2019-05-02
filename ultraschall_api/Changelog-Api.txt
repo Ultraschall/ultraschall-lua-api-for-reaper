@@ -347,6 +347,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Project Management: GetProject\_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk
   - Project Management: GetProject\_Selection - had some inner variables exposed -> fixed now
   - Project Management: GetProjectStateChunk - returns the ProjectStateChunk of the current-active project or a valid projectfile
+  - Render: AddRenderPreset - adds a new render-preset
   - Render: ApplyRenderSettingsTable\_Project - applies a RenderTable to the active project
   - Render: ApplyRenderSettingsTable\_ProjectFile - applies a RenderTable to a projectfile
   - Render: CreateRenderCFG\_AVI\_Video - creates a render-string for the format video-AVI
@@ -400,6 +401,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: SetRender\_ResampleMode - sets the current state of the "Resample mode (if needed)"-dropdownlist from the Render to File-dialog
   - Render: SetRender\_SaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.
   - Render: SetRender\_QueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.
+  - Render: SetRenderPreset - sets the values of an existing render-preset
   - Render: SetRenderSettingsTable\_Project - sets the settings stored in a RenderTable as the render-settings of the current project
   - Trackmanagement: DeleteTracks\_TrackString - deletes all tracks given in a trackstring
   - UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd

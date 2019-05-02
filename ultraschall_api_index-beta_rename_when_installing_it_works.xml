@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="36860.00" author="Meo Mespotine">
+      <version name="37027.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -357,6 +357,7 @@ New features in 4.00beta2.75
 -   Project Management: GetProjectStateChunk - returns the
     ProjectStateChunk of the current-active project or a valid
     projectfile
+-   Render: AddRenderPreset - adds a new render-preset
 -   Render: ApplyRenderSettingsTable_Project - applies a RenderTable to
     the active project
 -   Render: ApplyRenderSettingsTable_ProjectFile - applies a RenderTable
@@ -477,6 +478,8 @@ New features in 4.00beta2.75
     to File-dialog.
 -   Render: SetRender_QueueDelay - Sets the “Delay queued render to
     allow samples to load”-checkbox of the Render to File-dialog.
+-   Render: SetRenderPreset - sets the values of an existing
+    render-preset
 -   Render: SetRenderSettingsTable_Project - sets the settings stored in
     a RenderTable as the render-settings of the current project
 -   Trackmanagement: DeleteTracks_TrackString - deletes all tracks given
