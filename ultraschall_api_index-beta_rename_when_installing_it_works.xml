@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="37068.00" author="Meo Mespotine">
+      <version name="37078.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -119,6 +119,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.971.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.971.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.972.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.972.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.980.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.980.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/JS_0.986.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.986.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0_951.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0_951.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png</source>
@@ -493,7 +494,7 @@ Changes from Beta 2.74 to Beta 2.75
 
 -   Docs: CreateTemporaryFileOfProjectfile - moved in docs to
     Project-Files -> Helper functions
--   Docs: Reaper- updated docs to Reaper 5.975
+-   Docs: Reaper- updated docs to Reaper 5.976, JS-extension 0.986
 -   Docs: Reaper-API - GetSetProjectInfo - added missing information
     about RENDER_DITHER (dither/noiseshape stems) and RENDER_SRATE(when
     returned RENDER_SRATE=0)

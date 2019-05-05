@@ -6079,13 +6079,13 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaItemTakeInfo_Value(MediaItem_Take take, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaItemTakeInfo_Value(MediaItem_Take take, String parmname)</functioncall>
         <requires>
-            Reaper=5.95
+            Reaper=5.976
             Lua=5.3
         </requires>
         <description prog_lang="*">
             Get media item take numerical-value attributes.
             D_STARTOFFS : double *, start offset in take of item
-            D_VOL : double *, take volume
+            D_VOL : double *, take volume (negative if take polarity is flipped)
             D_PAN : double *, take pan
             D_PANLAW : double *, take pan law (-1.0=default, 0.5=-6dB, 1.0=+0dB, etc)
             D_PLAYRATE : double *, take playrate (1.0=normal, 2.0=doublespeed, etc)
@@ -14327,13 +14327,13 @@
         <functioncall prog_lang="lua">boolean = reaper.SetMediaItemTakeInfo_Value(MediaItem_Take take, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_SetMediaItemTakeInfo_Value(MediaItem_Take take, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.976
             Lua=5.3
         </requires>
         <description prog_lang="*">
             Set media item take numerical-value attributes.
             D_STARTOFFS : double *, start offset in take of item
-            D_VOL : double *, take volume
+            D_VOL : double *, take volume (negative if take polarity is flipped)
             D_PAN : double *, take pan
             D_PANLAW : double *, take pan law (-1.0=default, 0.5=-6dB, 1.0=+0dB, etc)
             D_PLAYRATE : double *, take playrate (1.0=normal, 2.0=doublespeed, etc)
@@ -23285,13 +23285,15 @@
         <functioncall prog_lang="python">Int JS_Composite(void windowHWND, Int srcx, Int srcy, Int srcw, Int srch, void sysBitmap, Int dstx, Int dsty, Int dstw, Int dsth)</functioncall>
         <requires>
             Reaper=5.965
-            JS=0.980
+            JS=0.986
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Composites a LICE bitmap with a REAPER window.
 
             Each time that the window is re-drawn, the bitmap will be blitted over the window's client area (with per-pixel alpha blending).
+            
+            If dstw or dsth is -1, the bitmap will be stretched to fill the width or height of the window, respectively.
 
             Notes:
 
@@ -23971,13 +23973,12 @@
         <functioncall prog_lang="python">JS_GDI_ReleaseDC(void windowHWND, void deviceHDC)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.951
+            JS=0.986
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            
+            Any GDI HDC should be released immediately after drawing, and deferred scripts should get and release new DCs in each cycle.
         </description>
-
         <parameters>
            identifier windowHWND - 
            identifier deviceHDC - 
@@ -24254,18 +24255,14 @@
         <functioncall prog_lang="python">JS_LICE_Bezier(void bitmap, Float xstart, Float ystart, Float xctl1, Float yctl1, Float xctl2, Float yctl2, Float xend, Float yend, Float tol, Int color, Float alpha, String mode, Boolean antialias)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.951
+            JS=0.986
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA".
-           
-           
-           
+           LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA" to enable per-pixel alpha blending.
+
            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-
         </description>
-
         <parameters>
            identifier bitmap - 
            number xstart - 
@@ -24299,14 +24296,12 @@
         <functioncall prog_lang="python">JS_LICE_Blit(void destBitmap, Int dstx, Int dsty, void sourceBitmap, Int srcx, Int srcy, Int width, Int height, Float alpha, String mode)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.951
+            JS=0.986
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA".
-
+            LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA" to enable per-pixel alpha blending.
         </description>
-
         <parameters>
            identifier destBitmap - 
            integer dstx - 
@@ -24623,22 +24618,16 @@
         <functioncall prog_lang="python">JS_LICE_FillPolygon(void bitmap, String packedX, String packedY, Int numPoints, Int color, Float alpha, String mode)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.951
+            JS=0.986
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            packedX and packedY are two strings of coordinates, each packed as "&lt;i4".
-           
-           
-           
-           LICE modes : "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA".
-           
-           
-           
+           packedX and packedY are two strings of coordinates, each packed as "&lt;i4".
+
+           LICE modes : "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA" to enable per-pixel alpha blending.
+
            LICE color format: 0xAARRGGBB (AA is only used in ALPHA mode).
-
         </description>
-
         <parameters>
            identifier bitmap - 
            string packedX - 
@@ -24999,6 +24988,36 @@
     </US_DocBloc>
   
     <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_LICE_MeasureText</slug>
+        <title>JS_LICE_MeasureText(JS)</title>
+        <functioncall prog_lang="cpp">void JS_LICE_MeasureText(const char* text, int* widthOut, int* HeightOut)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_LICE_MeasureText", "text", int &width, int &Height)</functioncall>
+        <functioncall prog_lang="lua">number width, number Height = reaper.JS_LICE_MeasureText(string text)</functioncall>
+        <functioncall prog_lang="python">(String text, Int widthOut, Int HeightOut) = JS_LICE_MeasureText(text, widthOut, HeightOut)</functioncall>
+        <requires>
+            Reaper=5.95
+            JS=0.986
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+
+        </description>
+        <retvals>
+           number width - 
+           number Height - 
+        </retvals>
+        <parameters>
+           string text - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+  
+    <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_LICE_PutPixel</slug>
         <title>JS_LICE_PutPixel(JS)</title>
         <functioncall prog_lang="cpp">void JS_LICE_PutPixel(void* bitmap, int x, int y, int color, double alpha, const char* mode)</functioncall>
@@ -25073,14 +25092,12 @@
         <functioncall prog_lang="python">JS_LICE_RotatedBlit(void destBitmap, Int dstx, Int dsty, Int dstw, Int dsth, void sourceBitmap, Float srcx, Float srcy, Float srcw, Float srch, Float angle, Float rotxcent, Float rotycent, Boolean cliptosourcerect, Float alpha, String mode)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.951
+            JS=0.986
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA".
-
+            LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA" to enable per-pixel alpha blending.
         </description>
-
         <parameters>
            identifier destBitmap - 
            integer dstx - 
@@ -25157,14 +25174,12 @@
         <functioncall prog_lang="python">JS_LICE_ScaledBlit(void destBitmap, Int dstx, Int dsty, Int dstw, Int dsth, void srcBitmap, Float srcx, Float srcy, Float srcw, Float srch, Float alpha, String mode)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.951
+            JS=0.986
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA".
-
+            LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA" to enable per-pixel alpha blending.
         </description>
-
         <parameters>
            identifier destBitmap - 
            integer dstx - 
@@ -25258,18 +25273,46 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Converts a GDI font into a LICE font.
            
-           
-           
            The font can be modified by the following flags, in a comma-separated list:
            
            "VERTICAL", "BOTTOMUP", "NATIVE", "BLUR", "INVERT", "MONO", "SHADOW" or "OUTLINE".
 
         </description>
-
         <parameters>
            identifier LICEFont - 
            identifier GDIFont - 
            string moreFormats - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_LICE_WritePNG</slug>
+        <title>JS_LICE_WritePNG(JS)</title>
+        <functioncall prog_lang="cpp">bool JS_LICE_WritePNG(const char* filename, void* bitmap, bool wantAlpha)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("JS_LICE_WritePNG", "filename", void* bitmap, bool wantAlpha)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.JS_LICE_WritePNG(string filename, identifier bitmap, boolean wantAlpha)</functioncall>
+        <functioncall prog_lang="python">Boolean JS_LICE_WritePNG(String filename, void bitmap, Boolean wantAlpha)</functioncall>
+        <requires>
+            Reaper=5.95
+            JS=0.986
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+        
+        </description>
+        <retvals>
+            boolean retval - 
+        </retvals>
+        <parameters>
+           string filename - 
+           identifier bitmap - 
+           boolean wantAlpha - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25730,6 +25773,37 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_VKeys_GetDown</slug>
+        <title>JS_VKeys_GetDown(JS)</title>
+        <functioncall prog_lang="cpp">void JS_VKeys_GetDown(double cutoffTime, char* stateOutNeedBig, int* stateOutNeedBig_sz)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_VKeys_GetDown", cutoffTime, #state)</functioncall>
+        <functioncall prog_lang="lua">string state = reaper.JS_VKeys_GetDown(number cutoffTime)</functioncall>
+        <functioncall prog_lang="python">(Float cutoffTime, String stateOutNeedBig, Int stateOutNeedBig_sz) = JS_VKeys_GetDown(cutoffTime, stateOutNeedBig, stateOutNeedBig_sz)</functioncall>
+        <requires>
+            Reaper=5.965
+            JS=0.986
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Returns a 255-byte array that specifies which virtual keys, from 0x01 to 0xFF, have sent KEYDOWN messages since cutoffTime.
+
+            Note: Mouse buttons and modifier keys are not (currently) reliably detected, and JS_Mouse_GetState can be used instead.
+        </description>
+        <retvals>
+           string state - 
+        </retvals>
+        <parameters>
+            number cutoffTime - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_VKeys_ClearHistory</slug>
         <title>JS_VKeys_ClearHistory(JS)</title>
         <functioncall prog_lang="cpp">void JS_VKeys_ClearHistory()</functioncall>
@@ -25742,7 +25816,7 @@
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            
+            deprecated
         </description>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -25765,9 +25839,7 @@
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Retrieves the cumulative states of all virtual keys since the last [JS\_VKeys\_ClearHistory](#JS_VKeys_ClearHistory), in a 255-byte array.
-
-            Note: Mouse buttons and modifier keys are not (currently) reliably detected, and [JS\_Mouse\_GetState](#JS_Mouse_GetState) can be used instead.
+           deprecated
         </description>
         <retvals>
            boolean retval - 
@@ -25790,13 +25862,18 @@
         <functioncall prog_lang="python">(Boolean retval, String stateOutNeedBig, Int stateOutNeedBig_sz) = JS_VKeys_GetState(stateOutNeedBig, stateOutNeedBig_sz)</functioncall>
         <requires>
             Reaper=5.965
-            JS=0.980
+            JS=0.986
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Retrieves the current states of all virtual keys, from 0x01 to 0xFF, in a 255-byte array.
+            Retrieves the current states (0 or 1) of all virtual keys, from 0x01 to 0xFF, in a 255-byte array.
 
-            Note: Mouse buttons and modifier keys are not (currently) reliably detected, and [JS\_Mouse\_GetState](#JS_Mouse_GetState) can be used instead.
+            cutoffTime: A key is only regarded as down if it sent a KEYDOWN message after the cut-off time, not followed by KEYUP. (This is useful for excluding old KEYDOWN messages that weren't properly followed by KEYUP.) 
+            If cutoffTime is positive, is it interpreted as absolute time in similar format as time_precise().
+            If cutoffTime is negative, it is relative to the current time.
+
+            Notes:
+            * Mouse buttons and modifier keys are not (currently) reliably detected, and [JS_Mouse_GetState](#JS_Mouse_GetState) can be used instead.
         </description>
         <retvals>
            boolean retval - 
@@ -25810,6 +25887,36 @@
         <tags></tags>
     </US_DocBloc>
     
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_VKeys_GetUp</slug>
+        <title>JS_VKeys_GetUp(JS)</title>
+        <functioncall prog_lang="cpp">void JS_VKeys_GetUp(double cutoffTime, char* stateOutNeedBig, int* stateOutNeedBig_sz)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_VKeys_GetUp", cutoffTime, #state)</functioncall>
+        <functioncall prog_lang="lua">string state = reaper.JS_VKeys_GetUp(number cutoffTime)</functioncall>
+        <functioncall prog_lang="python">(Float cutoffTime, String stateOutNeedBig, Int stateOutNeedBig_sz) = JS_VKeys_GetUp(cutoffTime, stateOutNeedBig, stateOutNeedBig_sz)</functioncall>
+        <requires>
+            Reaper=5.965
+            JS=0.986
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Return a 255-byte array that specifies which virtual keys, from 0x01 to 0xFF, have sent KEYUP messages since cutoffTime.
+
+            Note: Mouse buttons and modifier keys are not (currently) reliably detected, and [JS_Mouse_GetState](#JS_Mouse_GetState) can be used instead.
+        </description>
+        <retvals>
+           string state - 
+        </retvals>
+        <parameters>
+            number cutoffTime - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_VKeys_Intercept</slug>
@@ -26108,49 +26215,40 @@
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_WindowMessage_Post</slug>
         <title>JS_WindowMessage_Post(JS)</title>
-        <functioncall prog_lang="cpp">bool JS_WindowMessage_Post(void* windowHWND, const char* message, int wParamLow, int wParamHigh, int lParamLow, int lParamHigh)</functioncall>
-        <functioncall prog_lang="eel">bool  extension_api("JS_WindowMessage_Post", void* windowHWND, "message", int wParamLow, int wParamHigh, int lParamLow, int lParamHigh)</functioncall>
-        <functioncall prog_lang="lua">boolean reaper.JS_WindowMessage_Post(identifier windowHWND, string message, integer wParamLow, integer wParamHigh, integer lParamLow, integer lParamHigh)</functioncall>
-        <functioncall prog_lang="python">Boolean  JS_WindowMessage_Post(void windowHWND, String message, Int wParamLow, Int wParamHigh, Int lParamLow, Int lParamHigh)</functioncall>
+        <functioncall prog_lang="cpp">bool JS_WindowMessage_Post(void* windowHWND, const char* message, double wParam, int wParamHighWord, double lParam, int lParamHighWord)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("JS_WindowMessage_Post", void* windowHWND, "message", wParam, int wParamHighWord, lParam, int lParamHighWord)</functioncall>
+        <functioncall prog_lang="lua">boolean retval = reaper.JS_WindowMessage_Post(identifier windowHWND, string message, number wParam, integer wParamHighWord, number lParam, integer lParamHighWord)</functioncall>
+        <functioncall prog_lang="python">Boolean JS_WindowMessage_Post(void windowHWND, String message, Float wParam, Int wParamHighWord, Float lParam, Int lParamHighWord)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.951
+            JS=0.986
             Lua=5.3
         </requires>
         <description>
             Posts a message in the message queue associated with the thread that created the specified window, and returns without waiting.
-           
-           
-           
-           Parameters:
-           
-            * message: String containing a single message name, such as "WM_SETCURSOR", or in hexadecimal format, "0x0020".
-           
-            (For a list of message types that are valid cross-platform, refer to swell-types.h. Only these will be recognized by WM_ name.)
-           
-           
-           
-           Notes:
-           
-            * For more information about parameter values, refer to documentation for the Win32 C++ function PostMessage.
-           
-            * Messages should only be sent to windows that were created from the main thread.
-           
-            * The message will be sent directly to the window, skipping interception by scripts.
-           
-            * Useful for simulating mouse clicks and calling mouse modifier actions from scripts.
 
+            Parameters:
+            * message: String containing a single message name, such as "WM_SETCURSOR", or in hexadecimal format, "0x0020".
+            (For a list of WM_ and CB_ message types that are valid cross-platform, refer to swell-types.h. Only these will be recognized by WM_ or CB_ name.)
+            * wParam, wParamHigh, lParam and lParamHigh: Low and high 16-bit WORDs of the WPARAM and LPARAM parameters.
+            (Most window messages encode separate information into the two WORDs. However, for those rare cases in which the entire WPARAM and LPARAM must be used to post a large pointer, the script can store this address in wParam or lParam, and keep wParamHigh and lParamHigh zero.)
+
+            Notes:
+            * For more information about parameter values, refer to documentation for the Win32 C++ function PostMessage.
+            * Messages should only be sent to windows that were created from the main thread.
+            * The message will be sent directly to the window, skipping interception by scripts.
+            * Useful for simulating mouse clicks and calling mouse modifier actions from scripts.
         </description>
         <retvals>
-           boolean  - 
+           boolean retval - 
         </retvals>
         <parameters>
            identifier windowHWND - 
            string message - 
-           integer wParamLow - 
-           integer wParamHigh - 
-           integer lParamLow - 
-           integer lParamHigh - 
+           number wParam - 
+           integer wParamHighWord - 
+           number lParam - 
+           integer lParamHighWord - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26174,8 +26272,6 @@
         </requires>
         <description>
             Release intercepts of specified message types.
-           
-           
            
            Parameters:
            
@@ -26254,42 +26350,28 @@
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_WindowMessage_Send</slug>
         <title>JS_WindowMessage_Send(JS)</title>
-        <functioncall prog_lang="cpp">int JS_WindowMessage_Send(void* windowHWND, const char* message, int wParamLow, int wParamHigh, int lParamLow, int lParamHigh)</functioncall>
-        <functioncall prog_lang="eel">int  extension_api("JS_WindowMessage_Send", void* windowHWND, "message", int wParamLow, int wParamHigh, int lParamLow, int lParamHigh)</functioncall>
-        <functioncall prog_lang="lua">integer reaper.JS_WindowMessage_Send(identifier windowHWND, string message, integer wParamLow, integer wParamHigh, integer lParamLow, integer lParamHigh)</functioncall>
-        <functioncall prog_lang="python">Int  JS_WindowMessage_Send(void windowHWND, String message, Int wParamLow, Int wParamHigh, Int lParamLow, Int lParamHigh)</functioncall>
+        <functioncall prog_lang="cpp">int JS_WindowMessage_Send(void* windowHWND, const char* message, double wParam, int wParamHighWord, double lParam, int lParamHighWord)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("JS_WindowMessage_Send", void* windowHWND, "message", wParam, int wParamHighWord, lParam, int lParamHighWord)</functioncall>
+        <functioncall prog_lang="lua">integer reaper.JS_WindowMessage_Send(identifier windowHWND, string message, number wParam, integer wParamHighWord, number lParam, integer lParamHighWord)</functioncall>
+        <functioncall prog_lang="python">Int JS_WindowMessage_Send(void windowHWND, String message, Float wParam, Int wParamHighWord, Float lParam, Int lParamHighWord)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.951
+            JS=0.986
             Lua=5.3
         </requires>
         <description>
-            Posts a message in the message queue associated with the thread that created the specified window, and returns without waiting.
-           
-           
-           
-           Parameters:
-           
+           Sends a message to the specified window, and returns after the message has been processed.
+
+            Parameters:
             * message: String containing a single message name, such as "WM_SETCURSOR", or in hexadecimal format, "0x0020".
-           
-            (For a list of message types that are valid cross-platform, refer to swell-types.h. Only these will be recognized by WM_ name.)
-           
-           
-           
-           Returns:
-           
-            * Unlike JS_WindowMessage_Post, Send returns an LRESULT.
-           
-           
-           
-           Notes:
-           
+            (For a list of WM_ and CB_ message types that are valid cross-platform, refer to swell-types.h. Only these will be recognized by WM_ or CB_ name.)
+            * wParam, wParamHigh, lParam and lParamHigh: Low and high 16-bit WORDs of the WPARAM and LPARAM parameters.
+            (Most window messages encode separate information into the two WORDs. However, for those rare cases in which the entire WPARAM and LPARAM must be used to post a large pointer, the script can store this address in wParam or lParam, and keep wParamHigh and lParamHigh zero.)
+
+            Notes:
             * For more information about parameter and return values, refer to documentation for the Win32 C++ function SendMessage.
-           
             * Messages should only be sent to windows that were created from the main thread.
-           
             * The message will be sent directly to the window, skipping interception by scripts.
-           
             * Useful for simulating mouse clicks and calling mouse modifier actions from scripts.
 
         </description>
@@ -26299,10 +26381,10 @@
         <parameters>
            identifier windowHWND - 
            string message - 
-           integer wParamLow - 
-           integer wParamHigh - 
-           integer lParamLow - 
-           integer lParamHigh - 
+           number wParam - 
+           integer wParamHighWord - 
+           number lParam - 
+           integer lParamHighWord - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -27299,13 +27381,15 @@
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            DEPRECATED: Since REAPER v5.974, windows can be checked using the native function [ValidatePtr](#ValidatePtr)(windowHWND, "HWND").
+        
             Determines whether the specified window handle identifies an existing window.
 
             On macOS and Linux, only windows that were created by WDL/swell will be identified (and only such windows should be acted on by scripts).
 
-            WARNING! On MacOS and Linux, REAPER WILL CRASH if the handle passed to a JS\_Window or JS\_WindowMessage function does not refer to an existing window.
+            WARNING! On MacOS and Linux, REAPER WILL CRASH if the handle passed to a [JS\_Window](#JS_Window) or [JS\_WindowMessage](#JS_WindowMessage) function does not refer to an existing window.
 
-            The IsWindow function is slower on macOS and Linux. Preferably use native functions such as MIDIEditor_GetMode to test handles.
+            The IsWindow function is slower on macOS and Linux. Preferably use native functions such as [MIDIEditor\_GetMode](#MIDIEditor_GetMode) to test handles.
         </description>
         <retvals>
            boolean  - 
@@ -27967,24 +28051,27 @@
         <functioncall prog_lang="python">(Int retval, String windowTitle, String initialFolder, String initialFile, String extensionList, Boolean allowMultiple, String fileNamesOutNeedBig, Int fileNamesOutNeedBig_sz) = JS_Dialog_BrowseForOpenFiles(windowTitle, initialFolder, initialFile, extensionList, allowMultiple, fileNamesOutNeedBig, fileNamesOutNeedBig_sz)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.962
+            JS=0.986
             Lua=5.3
         </requires>
         <description>
-            Opens a file-chooser-dialog, which allows selecting one or more files.
+            If allowMultiple is true, multiple files may be selected. The returned string is \0-separated, with the first substring containing the folder path and subsequent substrings containing the file names.
+            * On macOS, the first substring may be empty, and each file name will then contain its entire path.
+            * This function only allows selection of existing files, and does not allow creation of new files.
 
-            If allowMultiple is true, multiple files may be selected. The returned string is 0-separated, with the first substring containing the folder path and subsequent substrings containing the file names. (If the first substring is empty, each file name contains its entire path.)
-
-            retval is 1 if a file was selected, 0 if the user cancelled the dialog, and -1 if an error occurred.
-
-            extensionList is a string containing pairs of 0-terminated substrings. The last substring must be terminated by two 0 characters. Each pair defines one filter pattern:
+            extensionList is a string containing pairs of \0-terminated substrings. The last substring must be terminated by two \0 characters. Each pair defines one filter pattern:
             * The first substring in each pair describes the filter in user-readable form (for example, "Lua script files (*.lua)") and will be displayed in the dialog box.
             * The second substring specifies the filter that the operating system must use to search for the files (for example, "*.txt"; the wildcard should not be omitted). To specify multiple extensions for a single display string, use a semicolon to separate the patterns (for example, "*.lua;*.eel").
 
             An example of an extensionList string:
             "ReaScript files\0*.lua;*.eel\0Lua files (.lua)\0*.lua\0EEL files (.eel)\0*.eel\0\0".
 
-            If the extensionList string is empty, it will display the default "All files (*.*)" filter.
+            On macOS, file dialogs do not accept empty extensionLists, nor wildcard extensions (such as "All files\0*.*\0\0"), so each acceptable extension must be listed explicitly. On Linux and Windows, wildcard extensions are acceptable, and if the extensionList string is empty, the dialog will display a default "All files (*.*)" filter.
+
+            retval is 1 if one or more files were selected, 0 if the user cancelled the dialog, or negative if an error occurred.
+
+            Displaying \0-separated strings:
+            * REAPER's IDE and ShowConsoleMsg only display strings up to the first \0 byte. If multiple files were selected, only the first substring containing the path will be displayed. This is not a problem for Lua or EEL, which can access the full string beyond the first \0 byte as usual.
         </description>
         <retvals>
             integer retval - 1, file was selected; 0, no file selected; -1, in case of an error
@@ -28024,13 +28111,13 @@
         <functioncall prog_lang="python">(Int retval, String windowTitle, String initialFolder, String initialFile, String extensionList, String fileNameOutNeedBig, Int fileNameOutNeedBig_sz) = JS_Dialog_BrowseForSaveFile(windowTitle, initialFolder, initialFile, extensionList, fileNameOutNeedBig, fileNameOutNeedBig_sz)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.962
+            JS=0.986
             Lua=5.3
         </requires>
         <description>
             Opens a file-chooser-dialog for saving operations.
 
-            retval is 1 if a file was selected, 0 if the user cancelled the dialog, and -1 if an error occurred.
+            retval is 1 if a file was selected, 0 if the user cancelled the dialog, or negative if an error occurred.
 
             extensionList is a string containing pairs of 0-terminated substrings. The last substring must be terminated by two 0 characters. Each pair defines one filter pattern:
             * The first substring in each pair describes the filter in user-readable form (for example, "Lua script files (*.lua)") and will be displayed in the dialog box.
@@ -28438,8 +28525,76 @@
         </chapter_context>
         <tags></tags>
     </US_DocBloc>
+    
   
-
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>Xen_StartSourcePreview</slug>
+        <title>Xen_StartSourcePreview(JS)</title>
+        <functioncall prog_lang="cpp">int Xen_StartSourcePreview(PCM_source* source, double gain, bool loop)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("Xen_StartSourcePreview", PCM_source source, gain, bool loop)</functioncall>
+        <functioncall prog_lang="lua">integer id = reaper.Xen_StartSourcePreview(PCM_source source, number gain, boolean loop)</functioncall>
+        <functioncall prog_lang="python">Int Xen_StartSourcePreview(PCM_source source, Float gain, Boolean loop)</functioncall>
+        <requires>
+            Reaper=5.95
+            JS=0.986
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Start audio preview of a PCM\_source, which can be created using functions like [PCM\_Source\_CreateFromFile](#PCM_Source_CreateFromFile)
+            
+            Returns id of a preview handle that can be provided to [Xen\_StopSourcePreview](#Xen_StopSourcePreview).
+            
+            If the given PCM\_source does not belong to an existing MediaItem/Take, it will be deleted by the preview system when the preview is stopped.
+            
+            You can preview more than one file at the same time.
+        </description>
+        <retvals>
+           integer id - the id of this preview, which can be used to stop it again
+        </retvals>
+        <parameters>
+           PCM_source source - a PCM_source-created using a mediafile/item 
+           number gain - the volume of the previewed pcm_source
+           boolean loop - true, loop the PCM_source; false, play only once
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>Xen_StopSourcePreview</slug>
+        <title>Xen_StopSourcePreview(JS)</title>
+        <functioncall prog_lang="cpp">int Xen_StopSourcePreview(int preview_id)</functioncall>
+        <functioncall prog_lang="eel">int extension_api("Xen_StopSourcePreview", int preview_id)</functioncall>
+        <functioncall prog_lang="lua">integer retval = reaper.Xen_StopSourcePreview(integer preview_id)</functioncall>
+        <functioncall prog_lang="python">Int Xen_StopSourcePreview(Int preview_id)</functioncall>
+        <requires>
+            Reaper=5.95
+            JS=0.986
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Stop audio preview. 
+            
+            To stop all running previews, set id=-1
+        </description>
+        <retvals>
+           integer retval - 
+        </retvals>
+        <parameters>
+           integer preview_id - the id of the running preview; -1, stops all running previews
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>BR_Win32_CB_FindString</slug>
         <title>BR_Win32_CB_FindString(SWS)</title>
@@ -39058,7 +39213,7 @@
         <title>GetSetMediaItemInfo</title>
         <functioncall prog_lang="cpp">void* (*GetSetMediaItemInfo)(MediaItem* item, const char* parmname, void* setNewValue)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.976
         </requires>
         <description indent="default">
             Get/Set Media Item Info
@@ -39077,7 +39232,7 @@
                 -B_UISEL : bool * to ui selected
                 -C_BEATATTACHMODE : char * to one char of beat attached mode, -1=def, 0=time, 1=allbeats, 2=beatsosonly
                 -C_LOCK : char * to one char of lock flags (&1 is locked, currently)
-                -D_VOL : double * of item volume (volume bar)
+                -D_VOL : double *, take volume (negative if take polarity is flipped)
                 -D_POSITION : double * of item position (seconds)
                 -D_LENGTH : double * of item length (seconds)
                 -D_SNAPOFFSET : double * of item snap offset (seconds)

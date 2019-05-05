@@ -1,6 +1,16 @@
 <TODO>
     
     API 4.00beta2.75
+    
+      TODO!!: add this to undo-functions, as they are the explanation of the extraflags
+        #ifndef UNDO_STATE_ALL
+        #define UNDO_STATE_ALL 0xFFFFFFFF
+        #define UNDO_STATE_TRACKCFG 1 // has track/master vol/pan/routing, ALL envelopes (matser included)
+        #define UNDO_STATE_FX 2  // track/master fx
+        #define UNDO_STATE_ITEMS 4  // track items
+        #define UNDO_STATE_MISCCFG 8 // loop selection, markers, regions, extensions!
+        #endif
+
       TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
       TODO!!  - Add options to Normalize-Items-function, as there are numerous different actions for normalizing
       TODO!!  - Get/SetMarkersFromClipboard-functions
@@ -410,7 +420,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   
 #### Changes from Beta 2.74 to Beta 2.75
   - Docs: CreateTemporaryFileOfProjectfile - moved in docs to Project-Files -> Helper functions
-  - Docs: Reaper- updated docs to Reaper 5.975
+  - Docs: Reaper- updated docs to Reaper 5.976, JS-extension 0.986
   - Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER\_DITHER (dither/noiseshape stems) and RENDER\_SRATE(when returned RENDER\_SRATE=0)
   - Docs: Reaper ConfigVars - added better description for g\_config\_project
   - Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3
