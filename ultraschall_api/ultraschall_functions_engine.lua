@@ -158,8 +158,8 @@ function print2(...)
   local string=""
   local count=1
   local temp={...}
-  while temp[count]~=nil do
-    string=string.."  "..tostring(temp[count])
+  while temp[count]~=nil or temp[count+1]~=nil do
+   string=string.."  "..tostring(temp[count])
     count=count+1
   end
   reaper.MB(string:sub(3,-1),"Print",0)
@@ -54030,8 +54030,62 @@ end
 --B=ultraschall.IsValidFXStateChunk(A)
 
 
+function ultraschall.GetFXFromFXStateChunk(FXStateChunk, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFXFromFXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string fx = ultraschall.GetFXFromFXStateChunk(string FXStateChunk, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns all lines of a specific TrackFX/ItemFX from a StateChunk
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string fx - all lines of an fx from a statechunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the FX-entries
+    integer id - the id of the FX-entries you want to have, starting with 1 for the first
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, fx</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetFXFromFXStateChunk", "FXStateChunk", "must be a valid FXStateChunk", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetFXFromFXStateChunk", "id", "must be an integer", -2) return nil end
+  local count=0
+  FXStateChunk=FXStateChunk:match("(BYPASS.*)")
+  for w in string.gmatch(FXStateChunk, ".-WAK %d\n") do
+    count=count+1
+    if count==id then return w end
+  end
+end
 
-function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, id)
+--temp, SC=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0),"",false)
+--temp, SC=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
+--SC=ultraschall.GetFXStateChunk(SC, 1)
+--SC=ultraschall.GetFXFromFXStateChunk(SC, 2)
+--B=ultraschall.IsValidFXStateChunk(A)
+--print2(SC)
+--print2("L"..string.gsub(A:match("\n.-\n(.*==)"),"%c","").."L")
+
+--for i=1, 1000 do
+--  A=ultraschall.Base64_Decoder("AAB6QwAAAACCEt6+ghJev+GNpr+CEt6/kcsKwOGNJsAxUELAghJewNLUecCRy4rAuayYwOGNpsAJb7TAMVDCwFkx0MCCEt7AqvPrwNLU+cD92gPBkcsKwSW8EcG5rBjBTZ0fweGNJsF1fi3BCW80wZ1fO8ExUELBxUBJwVkxUMHtIVfBghJewRYDZcGq82vBPuRywdLUecGzYoDB/dqDwUdTh8GRy4rB20OOwSW8kcFvNJXBuayYwQMlnMFNnZ/BlxWjweGNpsErBqrBdX6twb/2sMEJb7TBU+e3wZ1fu8Hn177BMVDCwXvIxcHFQMnBD7nMwVkx0MGjqdPB7SHXwTia2sGCEt7BzIrhwRYD5cFge+jBqvPrwfRr78E+5PLBiFz2wdLU+cHHsvrBfLX1wWFB78GSb+jBVobhwT+X2sGxptPBxbXMwcLExcG5077BruK3waTxsMGZAKrBjg+jwYMenMF4LZXBbTyOwWJLh8FXWoDBmdJywYPwZMFtDlfBVyxJwUJKO8EsaC3BFoYfwQCkEcHqwQPBqb/rwH37z8BSN7TAJnOYwPVdecCe1UHARk0KwN6Jpb9NrBy/4A6cvtkhlr3L3ok7Mm6dPV+oPD7yQa0+MWALP/o1Tj9m348/tznAP29T+D8CIBxAtfw/QFauZ0DJiYlAFv2gQD8PukDDldRA2V3wQJeWBkGAYRVBxmwkQd+TM0GIsUJBvqBRQbM9YEG2Zm5B9Px7QZFyhEH3g4pBJSmQQcJalUGcE5pBjlCeQVcQokFqU6VBtRuoQWJsqkGcSaxBW7itQSe+rkHrYK9Bz6avQQ2Wr0HbNK9BTomuQUmZrUFxaqxBIgKrQWZlqUH3mKdBO6GlQUKCo0HMP6FBS92eQeVdnEF5xJlBpxOXQctNlEEPdZFBYouOQYaSi0ERjIhBbnmFQeZbgkE9aX5BQgl4QbSZcUE8HGtBVpJkQVj9XUFxXldBs7ZQQREHSkFlUENBcJM8QeLQNUFUCS9BUj0oQVdtIUHRmRpBIsMTQaLpDEGfDQZBwV7+QEWe8EA72uJABhPVQP1Ix0BwfLlApa2rQNrcnUBHCpBAHTaCQBLBaEBlE01AeGMxQIqxFUCm+/M/C5G8P5kjhT9DZxs/SgsyPkHLhL6mUTG/biCQv3OZx7+9E/+/k0cbwMkFN8BxxFLAf4NuwHQhhcBRAZPAUuGgwHPBrsCxobzACILKwHZi2MD4QubAjSP0wBkCAcFy8gfB0uIOwTfTFcGiwxzBEbQjwYSkKsH7lDHBdYU4wfF1P8FxZkbB8lZNwXZHVMH7N1vBgihiwQsZacGUCXDBUGZ1wScOd8EAAAAAAADYwg=="):sub(i,i)
+--  print_alt(A)
+--end
+
+function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, fxid, id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetParmLearn_FXStateChunk</slug>
@@ -54040,7 +54094,7 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, id)
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message = ultraschall.GetParmLearn_FXStateChunk(string FXStateChunk, integer id)</functioncall>
+  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message = ultraschall.GetParmLearn_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns a parameter-learn-setting from an FXStateChunk
     An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
@@ -54062,10 +54116,11 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, id)
   </retvals>
   <parameters>
     string FXStateChunk - the FXStateChunk, from which you want to retrieve the ParmLearn-settings
+    integer fxid - the fx, of which you want to get the parameter-learn-settings
     integer id - the id of the ParmLearn-settings you want to have, starting with 1 for the first
   </parameters>
   <chapter_context>
-    MIDI Management
+    FX-Management
     Parameter Mapping
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -54074,10 +54129,13 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, id)
 </US_DocBloc>
 ]]
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmLearn_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
-  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_FXStateChunk", "id", "must be an integer", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_FXStateChunk", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_FXStateChunk", "fxid", "must be an integer", -3) return nil end
   if string.find(FXStateChunk, "\n  ")==nil then
     FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
   end
+  FXStateChunk=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmLearn_FXStateChunk", "fxid", "no such fx", -4) return nil end
   local count=0
   local name=""
   local idx, midi_note, checkboxes
@@ -54097,10 +54155,14 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, id)
   return tonumber(idx), name, tonumber(midi_note), tonumber(checkboxes), osc_message
 end
 
---O,OO,OOO,OOOO=ultraschall.GetParmLearnFromFXStateChunk(A, 2)
+--temp, SC=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0),"",false)
+--temp, SC=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
+--SC=ultraschall.GetFXStateChunk(SC, 1)
+--O,OO,OOO,OOOO=ultraschall.GetParmLearn_FXStateChunk(SC, 2, 1)
+--ultraschall.ShowLastErrorMessage()
 
 
-function ultraschall.GetParmLearn_MediaItem(MediaItem, id)
+function ultraschall.GetParmLearn_MediaItem(MediaItem, fxid, id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetParmLearn_MediaItem</slug>
@@ -54109,7 +54171,7 @@ function ultraschall.GetParmLearn_MediaItem(MediaItem, id)
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message = ultraschall.GetParmLearn_MediaItem(MediaItem MediaItem, integer id)</functioncall>
+  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message = ultraschall.GetParmLearn_MediaItem(MediaItem MediaItem, integer fxid, integer id)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns a parameter-learn-setting from a MediaItem
     
@@ -54130,10 +54192,11 @@ function ultraschall.GetParmLearn_MediaItem(MediaItem, id)
   </retvals>
   <parameters>
     MediaItem MediaItem - the MediaItem, whose ParmLearn-setting you want to get
+    integer fxid - the fx, of which you want to get the parameter-learn-settings
     integer id - the id of the ParmLearn-settings you want to have, starting with 1 for the first
   </parameters>
   <chapter_context>
-    MIDI Management
+    FX-Management
     Parameter Mapping
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -54143,16 +54206,17 @@ function ultraschall.GetParmLearn_MediaItem(MediaItem, id)
 ]]
   if ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("GetParmLearn_MediaItem", "MediaItem", "Not a valid MediaItem", -1) return nil end
   if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_MediaItem", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_MediaItem", "fxid", "must be an integer", -3) return nil end
   local _temp, A=reaper.GetItemStateChunk(MediaItem, "", false)
-  A=ultraschall.GetFXStateChunk(A, 1)
-  if A==nil then ultraschall.AddErrorMessage("GetParmLearn_MediaItem", "MediaItem", "Has no FX-chain", -3) return nil end
+  local FXStateChunk=ultraschall.GetFXStateChunk(A)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmLearn_MediaItem", "MediaItem", "Has no FX-chain", -4) return nil end
   
-  return ultraschall.GetParmLearn_FXStateChunk(A, id)
+  return ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, fxid, id)
 end
 
---A1,B,C,D,E,F,G=ultraschall.GetParmLearn_MediaItem(reaper.GetMediaItem(0,0), 1)
+--A1,B,C,D,E,F,G=ultraschall.GetParmLearn_MediaItem(reaper.GetMediaItem(0,0), 2, 1)
 
-function ultraschall.GetParmLearn_MediaTrack(MediaTrack, id)
+function ultraschall.GetParmLearn_MediaTrack(MediaTrack, fxid, id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetParmLearn_MediaTrack</slug>
@@ -54161,7 +54225,7 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, id)
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message = ultraschall.GetParmLearn_MediaTrack(MediaTrack MediaTrack, integer id)</functioncall>
+  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message = ultraschall.GetParmLearn_MediaTrack(MediaTrack MediaTrack, integer fxid, integer id)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns a parameter-learn-setting from a MediaTrack
     
@@ -54182,10 +54246,11 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, id)
   </retvals>
   <parameters>
     MediaTrack MediaTrack - the MediaTrack, whose ParmLearn-setting you want to get
+    integer fxid - the fx, of which you want to get the parameter-learn-settings
     integer id - the id of the ParmLearn-settings you want to have, starting with 1 for the first
   </parameters>
   <chapter_context>
-    MIDI Management
+    FX-Management
     Parameter Mapping
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -54193,16 +54258,17 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, id)
   <tags>fxmanagement, get, parameter, learn, mediatrack, osc, midi</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.type(MediaTrack)~="MediaTrack" then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "MediaTrack", "Not a valid MediaItem", -1) return nil end
+  if ultraschall.type(MediaTrack)~="MediaTrack" then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "MediaTrack", "Not a valid MediaTrack", -1) return nil end
   if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "fxid", "must be an integer", -3) return nil end
   local _temp, A=reaper.GetTrackStateChunk(MediaTrack, "", false)
   A=ultraschall.GetFXStateChunk(A, 1)
-  if A==nil then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "MediaTrack", "Has no FX-chain", -3) return nil end
+  if A==nil then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "MediaTrack", "Has no FX-chain", -4) return nil end
   
-  return ultraschall.GetParmLearn_FXStateChunk(A, id)
+  return ultraschall.GetParmLearn_FXStateChunk(A, fxid, id)
 end
 
---A1,B,C,D,E,F,G=ultraschall.GetParmLearn_MediaTrack(reaper.GetTrack(0,2), 1)
+--A1,B,C,D,E,F,G=ultraschall.GetParmLearn_MediaTrack(reaper.GetTrack(0,0), 1, 2)
 
 
 function ultraschall.IsValidRenderTable(RenderTable)

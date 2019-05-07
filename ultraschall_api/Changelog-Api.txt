@@ -343,6 +343,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point from a TrackEnvelope-object
   - Envelopes: SetArmState_Envelope - sets the armstate of a TrackEnvelope or EnvelopeStateChunk
   - FXManagement: GetFXStateChunk - Gets an FXStateChunk from a StateChunk(usually Track/MediaItemStateChunk)
+  - FXManagement: GetFXFromFXStateChunk - gets all lines of a specific FX stored in an FXStateChunk
   - FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is a valid FXStateChunk
   - FXManagement: GetParmLearn\_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE
   - FXManagement: GetParmLearn\_MediaItem - gets the parameter-learn-settings from a MediaItem, as requested by TonE
@@ -420,7 +421,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   
 #### Changes from Beta 2.74 to Beta 2.75
   - Docs: CreateTemporaryFileOfProjectfile - moved in docs to Project-Files -> Helper functions
-  - Docs: Reaper- updated docs to Reaper 5.976, JS-extension 0.986
+  - Docs: Reaper - updated docs to Reaper 5.977, JS-extension 0.986
   - Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER\_DITHER (dither/noiseshape stems) and RENDER\_SRATE(when returned RENDER\_SRATE=0)
   - Docs: Reaper ConfigVars - added better description for g\_config\_project
   - Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3
@@ -448,6 +449,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Helpers: CreateUSApiDocs\_HTML - removed, as I'm not using it for ages now
   - Helpers: GetReaperAppVersion - didn't return subversionnumber for pre-releases -> fixed now; returns pre-release-versions as well now
   - Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly
+  - Helpers: print2 - didn't show anything, if the first parameter was nil -> fixed now
   - HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well
   - IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore
   - IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore

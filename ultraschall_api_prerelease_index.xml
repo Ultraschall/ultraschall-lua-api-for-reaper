@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="37078.00" author="Meo Mespotine">
+      <version name="37248.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/._Changelog-Api.txt</source>
@@ -328,6 +328,8 @@ New features in 4.00beta2.75
     TrackEnvelope or EnvelopeStateChunk
 -   FXManagement: GetFXStateChunk - Gets an FXStateChunk from a
     StateChunk(usually Track/MediaItemStateChunk)
+-   FXManagement: GetFXFromFXStateChunk - gets all lines of a specific
+    FX stored in an FXStateChunk
 -   FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is
     a valid FXStateChunk
 -   FXManagement: GetParmLearn_FXStateChunk - gets the
@@ -494,7 +496,7 @@ Changes from Beta 2.74 to Beta 2.75
 
 -   Docs: CreateTemporaryFileOfProjectfile - moved in docs to
     Project-Files -> Helper functions
--   Docs: Reaper- updated docs to Reaper 5.976, JS-extension 0.986
+-   Docs: Reaper - updated docs to Reaper 5.977, JS-extension 0.986
 -   Docs: Reaper-API - GetSetProjectInfo - added missing information
     about RENDER_DITHER (dither/noiseshape stems) and RENDER_SRATE(when
     returned RENDER_SRATE=0)
@@ -550,6 +552,8 @@ Changes from Beta 2.74 to Beta 2.75
     pre-releases -> fixed now; returns pre-release-versions as well now
 -   Helpers: LimitFractionOfFloat - improved code a little for
     rounding-operations, hope it works now properly
+-   Helpers: print2 - didn’t show anything, if the first parameter was
+    nil -> fixed now
 -   HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the
     TCP as well
 -   IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore
