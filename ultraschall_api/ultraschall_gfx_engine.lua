@@ -688,7 +688,7 @@ function ultraschall.GFX_GetMouseCap(doubleclick_wait, drag_wait)
       integer drag_x  - the x-position of the mouse-dragging-coordinate; is like click_x for non-dragging mousestates
       integer drag_y  - the y-position of the mouse-dragging-coordinate; is like click_y for non-dragging mousestates
       integer mouse_wheel - the mouse_wheel-delta, since the last time calling this function
-      integer mouse_hwheel - the mouse_wheel-delta, since the last time calling this function
+      integer mouse_hwheel - the mouse_horizontal-wheel-delta, since the last time calling this function
   </retvals>
   <chapter_context>
     Mouse Handling

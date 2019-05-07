@@ -45,15 +45,20 @@ Ultraschall API Changelog
 <p><strong>!RenderMania!</strong></p>
 <h4>New features in 4.00beta2.75</h4>
 <ul>
+<li>Docs: misc/misc_docs - added this folder to put into that various (often unfinished) docs</li>
+<li>Docs: ParmLearnDocs.txt - documented parameter-learn/modulation/alias-settings</li>
 <li>Envelopes: GetArmState_Envelope - gets the armstate of a TrackEnvelope or EnvelopeStateChunk</li>
 <li>Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point from a TrackEnvelope-object</li>
 <li>Envelopes: SetArmState_Envelope - sets the armstate of a TrackEnvelope or EnvelopeStateChunk</li>
 <li>FXManagement: GetFXStateChunk - Gets an FXStateChunk from a StateChunk(usually Track/MediaItemStateChunk)</li>
 <li>FXManagement: GetFXFromFXStateChunk - gets all lines of a specific FX stored in an FXStateChunk</li>
-<li>FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is a valid FXStateChunk</li>
+<li>FXManagement: GetParmAlias_FXStateChunk - gets an aliasname for a specific parameter of an FX</li>
+<li>FXManagement: GetParmAlias_MediaTrack - gets an aliasname for a specific parameter of an FX in a specific track</li>
 <li>FXManagement: GetParmLearn_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE</li>
 <li>FXManagement: GetParmLearn_MediaItem - gets the parameter-learn-settings from a MediaItem, as requested by TonE</li>
 <li>FXManagement: GetParmLearn_MediaTrack - gets the parameter-learn-settings from a MediaTrack, as requested by TonE</li>
+<li>FXManagement: GetParmModulationChunk_FXStateChunk - gets the chunk for parameter-modulation for a specific parameter of an FX in a specific track</li>
+<li>FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is a valid FXStateChunk</li>
 <li>Helpers: ConvertBitsToInteger - converts a table with bitvalues (0 or 1) into it's integer-representation</li>
 <li>Lua: StoreFunctionInExtState - stores a function into an extstate</li>
 <li>Lua: LoadFunctionFromExtState - loads a function from an extstate, if stored using StoreFunctionInExtState</li>

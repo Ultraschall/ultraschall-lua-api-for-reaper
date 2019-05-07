@@ -54099,6 +54099,8 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, fxid, id)
     Returns a parameter-learn-setting from an FXStateChunk
     An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
     
+    It is the PARMLEARN-entry
+    
     Returns nil in case of an error
   </description>
   <retvals>
@@ -54175,6 +54177,8 @@ function ultraschall.GetParmLearn_MediaItem(MediaItem, fxid, id)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns a parameter-learn-setting from a MediaItem
     
+    It is the PARMLEARN-entry
+    
     Returns nil in case of an error
   </description>
   <retvals>
@@ -54229,6 +54233,8 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, fxid, id)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns a parameter-learn-setting from a MediaTrack
     
+    It is the PARMLEARN-entry
+    
     Returns nil in case of an error
   </description>
   <retvals>
@@ -54269,6 +54275,195 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, fxid, id)
 end
 
 --A1,B,C,D,E,F,G=ultraschall.GetParmLearn_MediaTrack(reaper.GetTrack(0,0), 1, 2)
+
+
+-- mespotine
+
+function ultraschall.GetParmAlias_FXStateChunk(FXStateChunk, fxid, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmAlias_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parm_idx, string parm_aliasname = ultraschall.GetParmAlias_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns a parameter-alias-setting from an FXStateChunk
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    
+    Parameter-aliases are only stored for MediaTracks.
+    
+    It is the PARMALIAS-entry
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
+    string parm_aliasname - the alias-name of the parameter
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the ParmAlias-settings
+    integer fxid - the fx, of which you want to get the parameter-alias-settings
+    integer id - the id of the ParmAlias-settings you want to have, starting with 1 for the first
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, parameter, alias, fxstatechunk</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmAlias_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmAlias_FXStateChunk", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmAlias_FXStateChunk", "fxid", "must be an integer", -3) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  FXStateChunk=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmAlias_FXStateChunk", "fxid", "no such fx", -4) return nil end
+  local count=0
+  local aliasname=""
+  local idx
+  for w in string.gmatch(FXStateChunk, "PARMALIAS.-\n") do
+    count=count+1    
+    if count==id then 
+      w=w:sub(1,-2).." " 
+      idx, aliasname = w:match(" (.-) (.*) ") 
+      if tonumber(idx)==nil then 
+        idx, aliasname = w:match(" (.-):(.-) ")
+      end
+      break
+    end
+  end
+  if osc_message=="" then osc_message=nil end
+  if idx==nil then return end
+  return tonumber(idx), aliasname
+end
+
+--temp, SC=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0),"",false)
+--temp, SC=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
+--SC=ultraschall.GetFXStateChunk(SC, 1)
+--O,OO,OOO,OOOO=ultraschall.GetParmAlias_FXStateChunk(SC, 1, 1)
+--ultraschall.ShowLastErrorMessage()
+
+
+
+function ultraschall.GetParmAlias_MediaTrack(MediaTrack, fxid, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmAlias_MediaTrack</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parm_idx, string parm_aliasname = ultraschall.GetParmAlias_MediaTrack(MediaTrack MediaTrack, integer fxid, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns a parameter-aliasname-setting from a MediaTrack
+    
+    It is the PARMALIAS-entry
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
+    string parm_aliasname - the alias-name of the parameter
+  </retvals>
+  <parameters>
+    MediaTrack MediaTrack - the MediaTrack, whose ParmAlias-setting you want to get
+    integer fxid - the fx, of which you want to get the parameter-alias-settings
+    integer id - the id of the ParmAlias-settings you want to have, starting with 1 for the first
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, parameter, alias, mediatrack</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(MediaTrack)~="MediaTrack" then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "MediaTrack", "Not a valid MediaTrack", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "fxid", "must be an integer", -3) return nil end
+  local _temp, A=reaper.GetTrackStateChunk(MediaTrack, "", false)
+  A=ultraschall.GetFXStateChunk(A, 1)
+  if A==nil then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "MediaTrack", "Has no FX-chain", -4) return nil end
+  
+  return ultraschall.GetParmAlias_FXStateChunk(A, fxid, id)
+end
+
+--A1,B,C,D,E,F,G=ultraschall.GetParmAlias_MediaTrack(reaper.GetTrack(0,0), 2, 1)
+
+function ultraschall.GetParmModulationChunk_FXStateChunk(FXStateChunk, fxid, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmModulationChunk_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string parm_modulation_chunk = ultraschall.GetParmModulationChunk_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns a parameter-modulation-chunk from an FXStateChunk
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string parm_modulation_chunk - a chunk of the parameter-modulation settings
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the Parameter-modulation-settings
+    integer fxid - the fx, of which you want to get the parameter-modulation-chunk-settings
+    integer id - the id of the Parameter-modulation you want to have, starting with 1 for the first
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, parameter, modulation, fxstatechunk</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmModulationChunk_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmModulationChunk_FXStateChunk", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmModulationChunk_FXStateChunk", "fxid", "must be an integer", -3) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  FXStateChunk=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmModulationChunk_FXStateChunk", "fxid", "no such fx", -4) return nil end
+  local count=0
+  local aliasname=""
+  local idx
+  for w in string.gmatch(FXStateChunk, "<PROGRAMENV.-\n.->") do
+    --print2(w)
+    count=count+1    
+    if count==id then 
+      return w 
+    end
+  end
+  if osc_message=="" then osc_message=nil end
+  if idx==nil then return end
+  return tonumber(idx), aliasname
+end
+
+--temp, SC=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0),"",false)
+--temp, SC=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
+--SC=ultraschall.GetFXStateChunk(SC, 1)
+--O,OO,OOO,OOOO=ultraschall.GetParmModulationChunk_FXStateChunk(SC, 1, 2)
+--print2(O)
+--ultraschall.ShowLastErrorMessage()
+
+
+-- mespotine
 
 
 function ultraschall.IsValidRenderTable(RenderTable)

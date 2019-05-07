@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="37248.00" author="Meo Mespotine">
+      <version name="37326.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/._Changelog-Api.txt</source>
@@ -226,8 +226,14 @@
 	<source file="/ultraschall_api/misc/gfx/SWS2.9.7.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/gfx/SWS2.9.7.png</source>
 	<source file="/ultraschall_api/misc/gfx/ultraschall4.00.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/gfx/ultraschall4.00.png</source>
 	<source file="/ultraschall_api/misc/gfx/us.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/gfx/us.png</source>
+	<source file="/ultraschall_api/misc/misc_docs/Envelope-StateChunk-Doku.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/misc_docs/Envelope-StateChunk-Doku.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/LiceCap_ini_doku.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/misc_docs/LiceCap_ini_doku.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/MediaItemStateChunk-Doku.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/misc_docs/MediaItemStateChunk-Doku.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/ParmLearnDocs.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/misc_docs/ParmLearnDocs.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/Reaper-ActionList.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/misc_docs/Reaper-ActionList.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/Reaper-Render-Strings-docs_Jul2018.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/misc_docs/Reaper-Render-Strings-docs_Jul2018.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt</source>
 	<source file="/ultraschall_api/misc/peaks/silence.flac.reapeaks" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/peaks/silence.flac.reapeaks</source>
-	<source file="/ultraschall_api/misc/Recordings/01-tempproject.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/Recordings/01-tempproject.flac</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak</source>
@@ -280,7 +286,6 @@
 	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Render_Current_Project.webm" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Render_Current_Project.webm</source>
 	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Render_Project.webm" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/Render_Project.webm</source>
 	<source file="/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/UserInterface_ProgressBar-Example.webm" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Scripts_Examples/demovideos_of_example_scripts/UserInterface_ProgressBar-Example.webm</source>
-	<source file="/ultraschall_api/misc/Recordings/peaks/01-tempproject.flac.reapeaks" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/Recordings/peaks/01-tempproject.flac.reapeaks</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/Recordings/01-US_Notification_Sound.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/misc/US_Notification_Sound/Recordings/01-US_Notification_Sound.flac</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ConfigVarDocConverter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ConfigVarDocConverter.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ReaScriptConverter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Scripts/Tools/Docgenerator/Reaper_ReaScriptConverter.lua</source>
@@ -320,6 +325,10 @@ tagline inspired by a comment from _stevie_ ;)
 
 New features in 4.00beta2.75
 
+-   Docs: misc/misc_docs - added this folder to put into that various
+    (often unfinished) docs
+-   Docs: ParmLearnDocs.txt - documented
+    parameter-learn/modulation/alias-settings
 -   Envelopes: GetArmState_Envelope - gets the armstate of a
     TrackEnvelope or EnvelopeStateChunk
 -   Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point
@@ -330,14 +339,21 @@ New features in 4.00beta2.75
     StateChunk(usually Track/MediaItemStateChunk)
 -   FXManagement: GetFXFromFXStateChunk - gets all lines of a specific
     FX stored in an FXStateChunk
--   FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is
-    a valid FXStateChunk
+-   FXManagement: GetParmAlias_FXStateChunk - gets an aliasname for a
+    specific parameter of an FX
+-   FXManagement: GetParmAlias_MediaTrack - gets an aliasname for a
+    specific parameter of an FX in a specific track
 -   FXManagement: GetParmLearn_FXStateChunk - gets the
     parameter-learn-settings from an FXStateChunk, as requested by TonE
 -   FXManagement: GetParmLearn_MediaItem - gets the
     parameter-learn-settings from a MediaItem, as requested by TonE
 -   FXManagement: GetParmLearn_MediaTrack - gets the
     parameter-learn-settings from a MediaTrack, as requested by TonE
+-   FXManagement: GetParmModulationChunk_FXStateChunk - gets the chunk
+    for parameter-modulation for a specific parameter of an FX in a
+    specific track
+-   FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is
+    a valid FXStateChunk
 -   Helpers: ConvertBitsToInteger - converts a table with bitvalues (0
     or 1) into it’s integer-representation
 -   Lua: StoreFunctionInExtState - stores a function into an extstate
