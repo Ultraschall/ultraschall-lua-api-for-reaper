@@ -360,6 +360,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - FXManagement: GetParmLFOLearn\_FXStateChunk - gets the parameter-lfo-learn-settings from an FXStateChunk
   - FXManagement: GetParmLFOLearn\_MediaItem - gets the parameter-lfo-learn-settings from an FXStateChunk
   - FXManagement: GetParmLFOLearn\_MediaTrack - gets the parameter-lfo-learn-settings from an FXStateChunk
+  - FXManagement: GetParmMIDIPLink\_FXStateChunk - gets the parameter-link-settings from an FXStateChunk
   - FXManagement: GetParmModulationChunk\_FXStateChunk - gets the chunk for parameter-modulation for a specific parameter of an FX in a specific track
   - FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is a valid FXStateChunk
   - Helpers: ConvertBitsToInteger - converts a table with bitvalues (0 or 1) into it's integer-representation

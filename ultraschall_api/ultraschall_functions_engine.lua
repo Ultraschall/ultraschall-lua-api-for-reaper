@@ -53739,6 +53739,7 @@ function ultraschall.GetRenderSettingsTable_Project()
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
             RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
+            RenderTable["CloseAfterRender"] - true, closes rendering to file-dialog after render; false, doesn't close it
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
@@ -53819,6 +53820,11 @@ function ultraschall.GetRenderSettingsTable_Project()
   _temp, RenderTable["RenderFile"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FILE", "", false)
   _temp, RenderTable["RenderPattern"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", "", false)
   _temp, RenderTable["RenderString"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", "", false)
+  if reaper.SNM_GetIntConfigVar("renderclosewhendone", -111)&16==0 then
+    RenderTable["CloseAfterRender"]=false
+  else
+    RenderTable["CloseAfterRender"]=true
+  end
 
   hwnd = ultraschall.GetRenderToFileHWND()
   if hwnd==nil then
@@ -53852,6 +53858,7 @@ function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_pat
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
             RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
+            RenderTable["CloseAfterRender"] - close rendering to file-dialog after render; always false, as this isn't stored in projectfiles
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
@@ -53937,6 +53944,7 @@ function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_pat
   RenderTable["RenderPattern"]=render_pattern
   RenderTable["RenderString"]=render_cfg 
   RenderTable["SaveCopyOfProject"]=false
+  RenderTable["CloseAfterRender"]=false
   
   return RenderTable
 end
@@ -54520,16 +54528,12 @@ function ultraschall.IsValidRenderTable(RenderTable)
   if math.type(RenderTable["TailFlag"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"TailFlag\"] must be an integer", -22) return false end    
   if math.type(RenderTable["TailMS"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"TailMS\"] must be an integer", -23) return false end
   if math.type(RenderTable["RenderQueueDelaySeconds"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"RenderQueueDelaySeconds\"] must be an integer", -24) return false end
+  if type(RenderTable["CloseAfterRender"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"CloseAfterRender\"] must be a boolean", -25) return false end
+    
   return true
 end
 
 function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_rendercfg_string)
--- ToDo!!
--- OfflineOnlineRendering - faulty, needs to be changed through the dropdownlist
--- ProjectSampleRateForMixing - faulty, needs to be checkboxed!
--- ResampleMode - faulty, needs to be changed through the dropdownlist
--- SilentlyIncrementFilename - faulty, needs to be checkboxed
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ApplyRenderSettingsTable_Project</slug>
@@ -54548,6 +54552,7 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_renderc
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
             RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
+            RenderTable["CloseAfterRender"] - true, close rendering to file-dialog after render; false, don't close it
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
@@ -54653,6 +54658,14 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_renderc
   else
     reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1060), "BM_SETCHECK", SaveCopyOfProject,0,0,0)
   end
+  
+  if reaper.SNM_GetIntConfigVar("renderclosewhendone",-199)&16==0 and RenderTable["CloseAfterRender"]==true then
+    local temp = reaper.SNM_GetIntConfigVar("renderclosewhendone",-199)+16
+    reaper.SNM_SetIntConfigVar("renderclosewhendone", temp)
+  elseif reaper.SNM_GetIntConfigVar("renderclosewhendone",-199)&16==16 and RenderTable["CloseAfterRender"]==false then
+    local temp = reaper.SNM_GetIntConfigVar("renderclosewhendone",-199)-16
+    reaper.SNM_SetIntConfigVar("renderclosewhendone", temp)
+  end
   return true
 end
 
@@ -54683,6 +54696,7 @@ function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfi
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
             RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
+            RenderTable["CloseAfterRender"] - close rendering to file-dialog after render; ignored, as this can't be set in projectfiles
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
@@ -54861,7 +54875,7 @@ end
 
 function ultraschall.CreateNewRenderTable(Source, Bounds, Startposition, Endposition, TailFlag, TailMS, RenderFile, RenderPattern,
 SampleRate, Channels, OfflineOnlineRendering, ProjectSampleRateFXProcessing, RenderResample, OnlyMonoMedia, MultiChannelFiles,
-Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, RenderQueueDelay, RenderQueueDelaySeconds)
+Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, RenderQueueDelay, RenderQueueDelaySeconds, CloseAfterRender)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateNewRenderTable</slug>
@@ -54941,6 +54955,7 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
     boolean SaveCopyOfProject - the "Save copy of project to outfile.wav.RPP"-checkbox; ignored, as this can't be stored in projectfiles
     boolean RenderQueueDelay - Delay queued render to allow samples to load-checkbox; ignored, as this can't be stored in projectfiles
     integer RenderQueueDelaySeconds - the amount of seconds for the render-queue-delay
+    boolean CloseAfterRender - true, closes rendering to file-dialog after render; false, doesn't close it
   </parameters>
   <chapter_context>
     Rendering of Project
@@ -54973,6 +54988,8 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
   if math.type(TailFlag)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "TailFlag", "must be an integer", -22) return end    
   if math.type(TailMS)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "TailMS", "must be an integer", -23) return end    
   if math.type(RenderQueueDelaySeconds)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderQueueDelaySeconds", "must be an integer", -24) return end
+  if math.type(CloseAfterRender)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "CloseAfterRender", "must be a boolean", -25) return end
+  
   local RenderTable={}
   RenderTable["AddToProj"]=AddToProj
   RenderTable["Bounds"]=Bounds
@@ -54997,6 +55014,7 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
   RenderTable["Startposition"]=Startposition
   RenderTable["TailFlag"]=TailFlag
   RenderTable["TailMS"]=TailMS
+  RenderTable["CloseAfterRender"]=CloseAfterRender
   return RenderTable
 end
 
@@ -56375,6 +56393,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, RenderFormatOption
      RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; always false, as this isn't stored in render-presets
      RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
      RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
+     RenderTable["CloseAfterRender"] - close rendering to file-dialog after rendering; always false, as this isn't stored in render-presets
      RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
      RenderTable["Endposition"] - the endposition of the rendering selection in seconds
      RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
@@ -57246,7 +57265,7 @@ function ultraschall.GetParmLFO_FXStateChunk(FXStateChunk, fxid, id)
   local PARAMBASE=tonumber(FXStateChunk1:match("PARAMBASE (.-)\n"))
   
   local LFO=tonumber(FXStateChunk1:match("LFO (.-)\n"))
-  LFO_Strength_slider, LFO_direction_radiobuttons=FXStateChunk1:match("LFOWT (.-) (.-)\n")
+  local LFO_Strength_slider, LFO_direction_radiobuttons=FXStateChunk1:match("LFOWT (.-) (.-)\n")
   
   local LFOSHAPE=tonumber(FXStateChunk1:match("LFOSHAPE (.-)\n"))
   local TempoSync_checkbox, unknown, phase_reset_dropdownlist= FXStateChunk1:match("LFOSYNC (.-) (.-) (.-)\n")
@@ -57264,5 +57283,143 @@ end
 --SC=ultraschall.GetFXStateChunk(SC)
 --print2(SC)
 --A={ultraschall.GetParmLFO_FXStateChunk(SC,1,1)}
+
+
+-- integer parmidx, string parmname, boolean plink_enabled, number scale, integer midi_fx_idx, integer midi_fx_idx2, integer linked_parmidx, number offset, optional integer bus, optional integer channel, optional integer category, optional integer midi_note
+function ultraschall.GetParmMIDIPLink_FXStateChunk(FXStateChunk, fxid, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmMIDIPLink_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parmidx, string parmname, integer parameter_modulation, number parmbase, boolean plink_enabled, number scale, integer midi_fx_idx, integer midi_fx_idx2, integer linked_parmidx, number offset, optional integer bus, optional integer channel, optional integer category, optional integer midi_note = ultraschall.GetParmMIDIPLink_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the parameter-modulation-settings of the Parameter-Link-Modulation-settings from an FXStateChunk
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    
+    It is entries from the <PROGRAMENV-chunk
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parmidx - the id of the parameter, that shall be modulated; order like in the dropdownlist
+    string parmname - the name of the parameter, usually bypass or wet
+    integer parameter_modulation - the "Enable parameter modulation, baseline value(envelope overrides)"-checkbox; 0, enabled; 1, disabled
+    number parmbase - parameter-modulation-baseline-slider; between 0.0000 and 1.0000; default is 0.2500
+    boolean plink_enabled - true, parameter-linking is enabled; false, parameter linking is disabled
+    number scale - the scale-slider; -1.00(-100%) to 1.00(100%); default is 0(0%)
+    integer midi_fx_idx - the big MIDI/FX-button in the "Link from MIDI or FX parameter"-area
+                        -  -1, nothing selected
+                        -  -100, MIDI-parameter-settings
+                        -  0 - the first fx
+                        -  1 - the second fx
+                        -  2 - the third fx, etc
+    integer midi_fx_idx2 - the big MIDI/FX-button in the "Link from MIDI or FX parameter"-area; Reaper stores the idx for idx using two values, where this is the second one
+                         - it is unknown why, so I include it in here anyway
+                         -  -1, nothing selected
+                         -  -100, MIDI-parameter-settings
+                         -  0 - the first fx
+                         -  1 - the second fx
+                         -  2 - the third fx, etc
+    integer linked_parmidx - the parameter idx, that you want to link; 
+                    - When MIDI:
+                    -     16
+                    - When FX-parameter:
+                    -     0 to n; 0 for the first; 1, for the second, etc
+    number offset - Offset-slider; -1.00(-100%) to 1.00(100%); default is 0(0%) 
+    optional integer bus - the MIDI-bus; 0 to 15 for bus 1 to 16; only available, when midi_fx_idx=-100, otherwise nil
+    optional integer channel - the MIDI-channel; 0, omni; 1 to 16 for channel 1 to 16; only available, when midi_fx_idx=-100, otherwise nil
+    optional integer category - the MIDI-category, which affects the meaning of parameter midi_note; only available, when midi_fx_idx=-100, otherwise nil
+                              - 144, MIDI note
+                              - 160, Aftertouch
+                              - 176, CC 14Bit and CC
+                              - 192, Program Change
+                              - 208, Channel Pressure
+                              - 224, Pitch
+    optional integer midi_note - the midi_note/command, whose meaning depends on parameter category; only available, when midi_fx_idx=-100, otherwise nil
+                               -   When MIDI note:
+                               -        0(C-2) to 127(G8)
+                               -   When Aftertouch:
+                               -        0(C-2) to 127(G8)
+                               -   When CC14 Bit:
+                               -        128 to 159; see dropdownlist for the commands(the order of the list is the same as this numbering)
+                               -   When CC:
+                               -        0 to 119; see dropdownlist for the commands(the order of the list is the same as this numbering)
+                               -   When Program Change:
+                               -        0
+                               -   When Channel Pressure:
+                               -        0
+                               -   When Pitch:
+                               -        0
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the ParmLinkModulation-settings
+    integer fxid - the fx, of which you want to get the parameter-linking-modulation-settings
+    integer id - the id of the ParmLinkModulation-settings you want to have, starting with 1 for the first
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, parameter, linking, linked, midi, fx, modulation, fxstatechunk, lfo</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmMIDIPLink_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmMIDIPLink_FXStateChunk", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmMIDIPLink_FXStateChunk", "fxid", "must be an integer", -3) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  local FXStateChunk1
+  FXStateChunk=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmMIDIPLink_FXStateChunk", "fxid", "no such fx", -4) return nil end
+  
+  local count=0
+  for w in string.gmatch(FXStateChunk, "<PROGRAMENV.->") do
+    count=count+1
+    if count==id then
+      FXStateChunk1=w
+      break
+    end
+  end
+  -- print2(FXStateChunk1)
+  if FXStateChunk1==nil then ultraschall.AddErrorMessage("GetParmMIDIPLink_FXStateChunk", "id", "no such parameter modulation-setting", -5) return nil end
+  local parmname
+  local parmidx, enable_parameter_modulation_checkbox = FXStateChunk1:match("<PROGRAMENV (.-) (.-)\n")
+  if parmidx:match(":")~=nil then parmidx, parmname=parmidx:match("(.-):(.*)") else parmname="" end
+  local PARAMBASE=tonumber(FXStateChunk1:match("PARAMBASE (.-)\n"))
+  if FXStateChunk1:match("\n      PLINK ")==nil then return tonumber(parmidx), parmname, tonumber(enable_parameter_modulation_checkbox), PARAMBASE, false end
+  
+  local scale, midi_fx_idx, parmidx2, offset = FXStateChunk1:match("PLINK (.-) (.-) (.-) (.-)\n")
+  local bus, channel, category, midi_note, midi_fx_idx2
+  if tonumber(midi_fx_idx)==nil then midi_fx_idx, midi_fx_idx2 = midi_fx_idx:match("(.-):(.*)") else midi_fx_idx2=midi_fx_idx end
+  if tonumber(midi_fx_idx)==-100 then
+    bus, channel, category, midi_note = FXStateChunk1:match("MIDIPLINK (.-) (.-) (.-) (.-)\n")
+  end
+  
+  return tonumber(parmidx), parmname, tonumber(enable_parameter_modulation_checkbox), PARAMBASE, true, 
+         tonumber(scale), tonumber(midi_fx_idx), tonumber(midi_fx_idx2), tonumber(parmidx2), tonumber(offset), 
+         tonumber(bus), tonumber(channel), tonumber(category), tonumber(midi_note)
+end
+
+--temp, SC=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0),"",false)
+--temp, SC=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
+--SC=ultraschall.GetFXStateChunk(SC)
+--print2(SC)
+--A={ultraschall.GetParmMIDIPLink_FXStateChunk(SC,1,2)}
+
+--A={ultraschall.GetParmAudioControl_FXStateChunk(SC,1,2)}
+--A={ultraschall.GetParmLFO_FXStateChunk(SC,1,2)}
+
+--A=ultraschall.GetRenderSettingsTable_Project(0)
+--A["CloseAfterRender"]=false
+--ultraschall.ApplyRenderSettingsTable_Project(A,true)
+
+
 
 ultraschall.ShowLastErrorMessage()
