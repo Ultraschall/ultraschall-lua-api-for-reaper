@@ -352,9 +352,13 @@ tagline inspired by a comment from \_stevie\_ ;)
   - FXManagement: GetFXFromFXStateChunk - gets all lines of a specific FX stored in an FXStateChunk
   - FXManagement: GetParmAlias\_FXStateChunk - gets an aliasname for a specific parameter of an FX
   - FXManagement: GetParmAlias\_MediaTrack - gets an aliasname for a specific parameter of an FX in a specific track
+  - FXManagement: GetParmAudioControl\_FXStateChunk - gets all settings from the Audio Control Signal-settings from parameter-modulation
   - FXManagement: GetParmLearn\_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE
   - FXManagement: GetParmLearn\_MediaItem - gets the parameter-learn-settings from a MediaItem, as requested by TonE
   - FXManagement: GetParmLearn\_MediaTrack - gets the parameter-learn-settings from a MediaTrack, as requested by TonE
+  - FXManagement: GetParmLFOLearn\_FXStateChunk - gets the parameter-lfo-learn-settings from an FXStateChunk
+  - FXManagement: GetParmLFOLearn\_MediaItem - gets the parameter-lfo-learn-settings from an FXStateChunk
+  - FXManagement: GetParmLFOLearn\_MediaTrack - gets the parameter-lfo-learn-settings from an FXStateChunk
   - FXManagement: GetParmModulationChunk\_FXStateChunk - gets the chunk for parameter-modulation for a specific parameter of an FX in a specific track
   - FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is a valid FXStateChunk
   - Helpers: ConvertBitsToInteger - converts a table with bitvalues (0 or 1) into it's integer-representation

@@ -81,8 +81,9 @@ FX-parameter-modulation:
     For Item/TakeFX:
         Stored in MediaItemStateChunks in the   <TAKEFX-chunk, usually after the FX-entry
 
-    <PROGRAMENV  integer parm_idx  integer enable_parameter_modulation_checkbox
+    <PROGRAMENV  integer parm_idx[:name]  integer enable_parameter_modulation_checkbox
         integer parm_idx  - the id of the parameter, that shall be modulated; order like in the dropdownlist
+        optional string name - the name of the parameter, usually bypass or wet
         integer enable_parameter_modulation_checkbox - 0, enabled; 1, disabled
       
       PARAMBASE number parameter_modulation_baseline_slider
@@ -184,7 +185,7 @@ The following are only available when AUDIOCTL 1:
         
       RMS  integer attack_slider  integer release_slider
         integer attack_slider - attack in milliseconds; 0 to 1000; default is 300
-        integer release_slider - attack in milliseconds; 0 to 1000; default is 300
+        integer release_slider - release in milliseconds; 0 to 1000; default is 300
         
       DBLO  number Min_volume
         DBLO decides the lowest value possible for parameter DBHI; DBHI decides the highest volume for DBLO

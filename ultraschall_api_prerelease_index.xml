@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="37326.00" author="Meo Mespotine">
+      <version name="37468.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/._Changelog-Api.txt</source>
@@ -343,12 +343,20 @@ New features in 4.00beta2.75
     specific parameter of an FX
 -   FXManagement: GetParmAlias_MediaTrack - gets an aliasname for a
     specific parameter of an FX in a specific track
+-   FXManagement: GetParmAudioControl_FXStateChunk - gets all settings
+    from the Audio Control Signal-settings from parameter-modulation
 -   FXManagement: GetParmLearn_FXStateChunk - gets the
     parameter-learn-settings from an FXStateChunk, as requested by TonE
 -   FXManagement: GetParmLearn_MediaItem - gets the
     parameter-learn-settings from a MediaItem, as requested by TonE
 -   FXManagement: GetParmLearn_MediaTrack - gets the
     parameter-learn-settings from a MediaTrack, as requested by TonE
+-   FXManagement: GetParmLFOLearn_FXStateChunk - gets the
+    parameter-lfo-learn-settings from an FXStateChunk
+-   FXManagement: GetParmLFOLearn_MediaItem - gets the
+    parameter-lfo-learn-settings from an FXStateChunk
+-   FXManagement: GetParmLFOLearn_MediaTrack - gets the
+    parameter-lfo-learn-settings from an FXStateChunk
 -   FXManagement: GetParmModulationChunk_FXStateChunk - gets the chunk
     for parameter-modulation for a specific parameter of an FX in a
     specific track

@@ -56847,7 +56847,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
     A=string.gsub(A, Bounds, String)
   end
 
-  -- set Formar-options-preset, if given
+  -- set Format-options-preset, if given
   if RenderFormatOptions_Name~=nil then 
       RenderFormatOptions=A:match("\n<RENDERPRESET "..RenderFormatOptions_Name..".->")
       String="\n<RENDERPRESET "..RenderFormatOptions_Name..
@@ -56870,5 +56870,296 @@ end
 
 --L=ultraschall.GetRenderSettingsTable_Project()
 --ultraschall.SetRenderPreset("A04", "A04", L)
+
+
+function ultraschall.GetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmLFOLearn_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message = ultraschall.GetParmLFOLearn_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns a parameter-lfo-learn-setting from an FXStateChunk
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    
+    It is the LFOLEARN-entry
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
+    string parmname - the name of the parameter, though usually only wet or bypass
+    integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
+    integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
+                          - 0, no checkboxes
+                          - 1, enable only when track or item is selected
+                          - 2, Soft takeover (absolute mode only)
+                          - 3, Soft takeover (absolute mode only)+enable only when track or item is selected
+                          - 4, enable only when effect configuration is focused
+                          - 20, enable only when effect configuration is visible
+    optional string osc_message - the osc-message, that triggers the ParmLFOLearn
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the ParmLFOLearn-settings
+    integer fxid - the fx, of which you want to get the parameter-lfo-learn-settings
+    integer id - the id of the ParmLFOLearn-settings you want to have, starting with 1 for the first
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, parameter, learn, lfo, fxstatechunk, osc, midi</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmLFOLearn_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLFOLearn_FXStateChunk", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLFOLearn_FXStateChunk", "fxid", "must be an integer", -3) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  FXStateChunk=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmLFOLearn_FXStateChunk", "fxid", "no such fx", -4) return nil end
+  local count=0
+  local name=""
+  local idx, midi_note, checkboxes
+  for w in string.gmatch(FXStateChunk, "LFOLEARN.-\n") do
+    count=count+1    
+    if count==id then 
+      w=w:sub(1,-2).." " 
+      idx, midi_note, checkboxes, osc_message = w:match(" (.-) (.-) (.-) (.*) ") 
+      if tonumber(idx)==nil then 
+        idx, name = w:match(" (.-):(.-) ")
+      end
+      break
+    end
+  end
+  if osc_message=="" then osc_message=nil end
+  if idx==nil then return end
+  return tonumber(idx), name, tonumber(midi_note), tonumber(checkboxes), osc_message
+end
+
+--temp, SC=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0),"",false)
+--temp, SC=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
+--SC=ultraschall.GetFXStateChunk(SC, 1)
+--O,OO,OOO,OOOO=ultraschall.GetParmLFOLearn_FXStateChunk(SC, 1, 1)
+--ultraschall.ShowLastErrorMessage()
+
+
+function ultraschall.GetParmLFOLearn_MediaItem(MediaItem, fxid, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmLFOLearn_MediaItem</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message = ultraschall.GetParmLFOLearn_MediaItem(MediaItem MediaItem, integer fxid, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns a parameter-lfo-learn-setting from a MediaItem
+    
+    It is the LFOLEARN-entry
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
+    string parmname - the name of the parameter, though usually only wet or bypass
+    integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
+    integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
+                          - 0, no checkboxes
+                          - 1, enable only when track or item is selected
+                          - 2, Soft takeover (absolute mode only)
+                          - 3, Soft takeover (absolute mode only)+enable only when track or item is selected
+                          - 4, enable only when effect configuration is focused
+                          - 20, enable only when effect configuration is visible
+    optional string osc_message - the osc-message, that triggers the ParmLFOLearn
+  </retvals>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose ParmLFOLearn-setting you want to get
+    integer fxid - the fx, of which you want to get the parameter-lfo-learn-settings
+    integer id - the id of the ParmLFOLearn-settings you want to have, starting with 1 for the first
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, parameter, learn, mediaitem, osc, midi, lfo</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("GetParmLFOLearn_MediaItem", "MediaItem", "Not a valid MediaItem", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLFOLearn_MediaItem", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLFOLearn_MediaItem", "fxid", "must be an integer", -3) return nil end
+  local _temp, A=reaper.GetItemStateChunk(MediaItem, "", false)
+  local FXStateChunk=ultraschall.GetFXStateChunk(A)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmLFOLearn_MediaItem", "MediaItem", "Has no FX-chain", -4) return nil end
+  
+  return ultraschall.GetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id)
+end
+
+--A1,B,C,D,E,F,G=ultraschall.GetParmLFOLearn_MediaItem(reaper.GetMediaItem(0,0), 1, 1)
+
+function ultraschall.GetParmLFOLearn_MediaTrack(MediaTrack, fxid, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmLFOLearn_MediaTrack</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parm_idx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message = ultraschall.GetParmLFOLearn_MediaTrack(MediaTrack MediaTrack, integer fxid, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns a parameter-lfo-learn-setting from a MediaTrack
+    
+    It is the PARMLEARN-entry
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
+    string parmname - the name of the parameter, though usually only wet or bypass
+    integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-messages
+    integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
+                          - 0, no checkboxes
+                          - 1, enable only when track or item is selected
+                          - 2, Soft takeover (absolute mode only)
+                          - 3, Soft takeover (absolute mode only)+enable only when track or item is selected
+                          - 4, enable only when effect configuration is focused
+                          - 20, enable only when effect configuration is visible
+    optional string osc_message - the osc-message, that triggers the ParmLFOLearn
+  </retvals>
+  <parameters>
+    MediaTrack MediaTrack - the MediaTrack, whose ParmLFOLearn-setting you want to get
+    integer fxid - the fx, of which you want to get the parameter-lfo-learn-settings
+    integer id - the id of the ParmLFOLearn-settings you want to have, starting with 1 for the first
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, parameter, learn, mediatrack, osc, midi, lfo</tags>
+</US_DocBloc>
+]]
+  if ultraschall.type(MediaTrack)~="MediaTrack" then ultraschall.AddErrorMessage("GetParmLFOLearn_MediaTrack", "MediaTrack", "Not a valid MediaTrack", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLFOLearn_MediaTrack", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLFOLearn_MediaTrack", "fxid", "must be an integer", -3) return nil end
+  local _temp, A=reaper.GetTrackStateChunk(MediaTrack, "", false)
+  A=ultraschall.GetFXStateChunk(A, 1)
+  if A==nil then ultraschall.AddErrorMessage("GetParmLFOLearn_MediaTrack", "MediaTrack", "Has no FX-chain", -4) return nil end
+  
+  return ultraschall.GetParmLFOLearn_FXStateChunk(A, fxid, id)
+end
+
+--A1,B,C,D,E,F,G=ultraschall.GetParmLFOLearn_MediaTrack(reaper.GetTrack(0,0), 1, 1)
+
+function ultraschall.GetParmAudioControl_FXStateChunk(FXStateChunk, fxid, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmAudioControl_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parmidx, string parmname, integer parameter_modulation, number parmbase, integer audioctrl, number audioctrlstrength, integer audioctrl_direction, integer channels, integer stereo, integer rms_attack, integer rms_release, number db_lo, number db_hi, number audioctrlshaping_x, number audioctrlshaping_y = ultraschall.GetParmAudioControl_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns a parameter-modulation-setting from an FXStateChunk
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    
+    It is entries from the <PROGRAMENV-chunk
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parmidx - the id of the parameter, that shall be modulated; order like in the dropdownlist
+    string parmname - the name of the parameter, usually bypass or wet
+    integer parameter_modulation - the "Enable parameter modulation, baseline value(envelope overrides)"-checkbox; 0, enabled; 1, disabled
+    number parmbase - parameter-modulation-baseline-slider; between 0.0000 and 1.0000; default is 0.2500
+    integer audioctrl - "Audio control signal (sidechain)"-checkbox - 0, disabled; 1, enabled
+    number audioctrlstrength - the strength-slider for AudioControlSignal; 0.0000(0%) to 1.000(100%); 0.493(49.3%); default is 1
+    integer audioctrl_direction - the direction-radiobuttons for AudioControlSignal; -1, Negative; 0, Centered; 1, Positive
+    integer channels - the Track audio channel-dropdownlist; linked to entry parameter stereo as well
+                     - -1, no channel selected(yet) (default)
+                     - 0 and higher, track 1 and higher is selected
+    integer stereo - linked to channels as well
+                   - 0, mono(use only the channel set in CHAN); 1, stereo(use the channel set in CHAN and CHAN+1)
+    integer rms_attack - rms attack in milliseconds; 0 to 1000; default is 300
+    integer rms_release - rms release in milliseconds; 0 to 1000; default is 300
+    number db_lo - db_lo decides the lowest value possible for parameter db_hi; db_hi decides the highest volume for db_lo
+                 - Min volume-slider in dB; maximum valuerange possible is -60dB to 11.9dB
+    number db_hi - db_lo decides the lowest value possible for parameter db_hi; db_hi decides the highest volume for db_lo
+                 - Max volume-slider in dB; maximum valuerange possible is -59.9dB to 12dB
+    number audioctrlshaping_x - the x-position of the shaping-dragging-point; between 0.000000 and 1.000000
+    number audioctrlshaping_y - the y-position of the shaping-dragging-point; between 0.000000 and 1.000000
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the ParmModulation-settings
+    integer fxid - the fx, of which you want to get the parameter-modulation-settings
+    integer id - the id of the ParmModulation-settings you want to have, starting with 1 for the first
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, parameter, learn, fxstatechunk, osc, midi</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmAudioControls_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmAudioControls_FXStateChunk", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmAudioControls_FXStateChunk", "fxid", "must be an integer", -3) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  local FXStateChunk1
+  FXStateChunk=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmAudioControls_FXStateChunk", "fxid", "no such fx", -4) return nil end
+  
+  local count=0
+  for w in string.gmatch(FXStateChunk, "<PROGRAMENV.->") do
+    count=count+1
+    if count==id then
+      FXStateChunk1=w
+      break
+    end
+  end
+  if FXStateChunk1==nil then ultraschall.AddErrorMessage("GetParmAudioControls_FXStateChunk", "id", "no such parameter modulation-setting", -5) return nil end
+  local parmname
+  local parmidx, enable_parameter_modulation_checkbox = FXStateChunk1:match("<PROGRAMENV (.-) (.-)\n")
+  if parmidx:match(":")~=nil then parmidx, parmname=parmidx:match("(.-):(.*)") else parmname="" end
+  local PARAMBASE=tonumber(FXStateChunk1:match("PARAMBASE (.-)\n"))
+  
+  local AUDIOCTL=tonumber(FXStateChunk1:match("AUDIOCTL (.-)\n"))
+  local AudioCTL_Strength_slider, AudioCTL_direction_radiobuttons=FXStateChunk1:match("AUDIOCTLWT (.-) (.-)\n")
+  
+  local CHAN=tonumber(FXStateChunk1:match("CHAN (.-)\n"))
+  local STEREO=tonumber(FXStateChunk1:match("STEREO (.-)\n"))
+  local RMS_attack, RMS_release = FXStateChunk1:match("RMS (.-) (.-)\n")
+  local DBLO=tonumber(FXStateChunk1:match("DBLO (.-)\n"))
+  local DBHI=tonumber(FXStateChunk1:match("DBHI (.-)\n"))
+  local X2=tonumber(FXStateChunk1:match("X2 (.-)\n"))
+  local Y2=tonumber(FXStateChunk1:match("Y2 (.-)\n"))
+  
+  return tonumber(parmidx), parmname, tonumber(enable_parameter_modulation_checkbox), PARAMBASE, AUDIOCTL, tonumber(AudioCTL_Strength_slider), 
+         tonumber(AudioCTL_direction_radiobuttons), CHAN, STEREO, tonumber(RMS_attack), tonumber(RMS_release), DBLO, DBHI, X2, Y2
+end
+
+--temp, SC=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0),"",false)
+--temp, SC=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
+--SC=ultraschall.GetFXStateChunk(SC)
+--print2(SC)
+--A={ultraschall.GetParmAudioControl_FXStateChunk(SC,1,2)}
 
 ultraschall.ShowLastErrorMessage()
