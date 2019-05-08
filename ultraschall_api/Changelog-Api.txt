@@ -356,6 +356,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - FXManagement: GetParmLearn\_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE
   - FXManagement: GetParmLearn\_MediaItem - gets the parameter-learn-settings from a MediaItem, as requested by TonE
   - FXManagement: GetParmLearn\_MediaTrack - gets the parameter-learn-settings from a MediaTrack, as requested by TonE
+  - FXManagement: GetParmLFO\_FXStateChunk - gets the LFO-settings from the parameter-modulation from an FXStateChunk
   - FXManagement: GetParmLFOLearn\_FXStateChunk - gets the parameter-lfo-learn-settings from an FXStateChunk
   - FXManagement: GetParmLFOLearn\_MediaItem - gets the parameter-lfo-learn-settings from an FXStateChunk
   - FXManagement: GetParmLFOLearn\_MediaTrack - gets the parameter-lfo-learn-settings from an FXStateChunk

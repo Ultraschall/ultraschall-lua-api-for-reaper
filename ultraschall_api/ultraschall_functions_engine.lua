@@ -57074,7 +57074,7 @@ function ultraschall.GetParmAudioControl_FXStateChunk(FXStateChunk, fxid, id)
   </requires>
   <functioncall>integer parmidx, string parmname, integer parameter_modulation, number parmbase, integer audioctrl, number audioctrlstrength, integer audioctrl_direction, integer channels, integer stereo, integer rms_attack, integer rms_release, number db_lo, number db_hi, number audioctrlshaping_x, number audioctrlshaping_y = ultraschall.GetParmAudioControl_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns a parameter-modulation-setting from an FXStateChunk
+    Returns the parameter-modulation-settings of the Audio control signal-settings from an FXStateChunk
     An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
     
     It is entries from the <PROGRAMENV-chunk
@@ -57114,7 +57114,7 @@ function ultraschall.GetParmAudioControl_FXStateChunk(FXStateChunk, fxid, id)
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>fxmanagement, get, parameter, learn, fxstatechunk, osc, midi</tags>
+  <tags>fxmanagement, get, parameter, modulation, fxstatechunk, audio control signal</tags>
 </US_DocBloc>
 ]]
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmAudioControls_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
@@ -57161,5 +57161,108 @@ end
 --SC=ultraschall.GetFXStateChunk(SC)
 --print2(SC)
 --A={ultraschall.GetParmAudioControl_FXStateChunk(SC,1,2)}
+
+
+function ultraschall.GetParmLFO_FXStateChunk(FXStateChunk, fxid, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetParmLFO_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer parmidx, string parmname, integer parameter_modulation, number parmbase, integer lfo, number lfo_strength, integer lfo_direction, integer lfo_shape, integer temposync, integer unknown, integer phase_reset, number lfo_speed, number lfo_speedphase = ultraschall.GetParmLFO_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the parameter-modulation-settings of the LFO-settings from an FXStateChunk
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    
+    It is entries from the <PROGRAMENV-chunk
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    integer parmidx - the id of the parameter, that shall be modulated; order like in the dropdownlist
+    string parmname - the name of the parameter, usually bypass or wet
+    integer parameter_modulation - the "Enable parameter modulation, baseline value(envelope overrides)"-checkbox; 0, enabled; 1, disabled
+    number parmbase - parameter-modulation-baseline-slider; between 0.0000 and 1.0000; default is 0.2500
+    integer lfo - LFO checkbox; 0, disabled; 1, enabled
+    number lfo_strength - Strength-slider in the LFO parameter-modulation; 0.0000(0%) to 1.000(100%); 0.493(49.3%); default is 1
+    integer lfo_direction - Direction-radiobuttons in the LFO parameter modulation; -1, Negative; 0, Centered; 1, Positive
+    integer lfo_shape - the shape of the LFO
+                    - 0, sine
+                    - 1, square
+                    - 2, saw L
+                    - 3, saw R
+                    - 4, triangle
+                    - 5, random
+    integer temposync - the Tempo sync-checkbox in the LFO parameter-modulation; 0, disabled; 1, enabled
+    integer unknown - unknown
+    integer phase_reset - phase-reset-dropdownlist
+                        - 0, On seek/loop (deterministic output)
+                        - 1, Free-running (non-deterministic output)
+    number lfo_speed - Speed-slider in the LFO parameter-modulation; either Hz(temposync=0) or QN(temposync=1) 
+                     - Hz: 0(0.0039Hz) to 1(8.0000Hz); higher values are possible, lower values go into negative; default is 0.124573(1.0000Hz)
+                     - QN: 0(8.0000QN) to 1(0.2500QN); lower values are possible; higher values go into negative; default is 0.9(1.0000QN)
+    number lfo_speedphase - Phase-slider in the LFO parameter-modulation; 0.000 to to 1.000; default is 0.5
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, from which you want to retrieve the ParmModulation-settings
+    integer fxid - the fx, of which you want to get the parameter-modulation-settings
+    integer id - the id of the ParmModulation-settings you want to have, starting with 1 for the first
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, parameter, modulation, fxstatechunk, lfo</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("GetParmLFO_FXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLFO_FXStateChunk", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLFO_FXStateChunk", "fxid", "must be an integer", -3) return nil end
+  if string.find(FXStateChunk, "\n  ")==nil then
+    FXStateChunk=ultraschall.StateChunkLayouter(FXStateChunk)
+  end
+  local FXStateChunk1
+  FXStateChunk=ultraschall.GetFXFromFXStateChunk(FXStateChunk, fxid)
+  if FXStateChunk==nil then ultraschall.AddErrorMessage("GetParmLFO_FXStateChunk", "fxid", "no such fx", -4) return nil end
+  
+  local count=0
+  for w in string.gmatch(FXStateChunk, "<PROGRAMENV.->") do
+    count=count+1
+    if count==id then
+      FXStateChunk1=w
+      break
+    end
+  end
+  -- print2(FXStateChunk1)
+  if FXStateChunk1==nil then ultraschall.AddErrorMessage("GetParmLFO_FXStateChunk", "id", "no such parameter modulation-setting", -5) return nil end
+  local parmname
+  local parmidx, enable_parameter_modulation_checkbox = FXStateChunk1:match("<PROGRAMENV (.-) (.-)\n")
+  if parmidx:match(":")~=nil then parmidx, parmname=parmidx:match("(.-):(.*)") else parmname="" end
+  local PARAMBASE=tonumber(FXStateChunk1:match("PARAMBASE (.-)\n"))
+  
+  local LFO=tonumber(FXStateChunk1:match("LFO (.-)\n"))
+  LFO_Strength_slider, LFO_direction_radiobuttons=FXStateChunk1:match("LFOWT (.-) (.-)\n")
+  
+  local LFOSHAPE=tonumber(FXStateChunk1:match("LFOSHAPE (.-)\n"))
+  local TempoSync_checkbox, unknown, phase_reset_dropdownlist= FXStateChunk1:match("LFOSYNC (.-) (.-) (.-)\n")
+  local LFOSPEED_slider, LFOSPEED_phase = FXStateChunk1:match("LFOSPEED (.-) (.-)\n")
+  
+  --integer lfo, number lfo_strength, integer lfo_direction, integer lfo_shape, integer temposync, integer unknown, integer phase_reset, number lfo_speed, number lfo_speedphase
+  
+  return tonumber(parmidx), parmname, tonumber(enable_parameter_modulation_checkbox), PARAMBASE, LFO, tonumber(LFO_Strength_slider), 
+         tonumber(LFO_direction_radiobuttons), LFOSHAPE, tonumber(TempoSync_checkbox), tonumber(unknown), tonumber(phase_reset_dropdownlist),
+         tonumber(LFOSPEED_slider), tonumber(LFOSPEED_phase)
+end
+
+--temp, SC=reaper.GetItemStateChunk(reaper.GetMediaItem(0,0),"",false)
+--temp, SC=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
+--SC=ultraschall.GetFXStateChunk(SC)
+--print2(SC)
+--A={ultraschall.GetParmLFO_FXStateChunk(SC,1,1)}
 
 ultraschall.ShowLastErrorMessage()

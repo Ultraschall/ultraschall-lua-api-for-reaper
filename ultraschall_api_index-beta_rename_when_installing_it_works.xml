@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="37468.00" author="Meo Mespotine">
+      <version name="37555.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -351,6 +351,8 @@ New features in 4.00beta2.75
     parameter-learn-settings from a MediaItem, as requested by TonE
 -   FXManagement: GetParmLearn_MediaTrack - gets the
     parameter-learn-settings from a MediaTrack, as requested by TonE
+-   FXManagement: GetParmLFO_FXStateChunk - gets the LFO-settings from
+    the parameter-modulation from an FXStateChunk
 -   FXManagement: GetParmLFOLearn_FXStateChunk - gets the
     parameter-lfo-learn-settings from an FXStateChunk
 -   FXManagement: GetParmLFOLearn_MediaItem - gets the
