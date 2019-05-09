@@ -123,7 +123,6 @@ Ultraschall API Changelog
 <li>Render: GetRenderSettingsTable_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk</li>
 <li>Render: IsValidRenderTable - returns, if a table is a valid RenderTable<br />
 </li>
-<li>Render: RenderProject_RenderCFG - sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)</li>
 <li>Render: SetRender_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
 <li>Render: SetRender_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog</li>
 <li>Render: SetRender_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog</li>
@@ -193,6 +192,8 @@ Ultraschall API Changelog
 </li>
 <li>Render: CreateRenderCFG_WebMVideo - rewritten, lifted many limitations</li>
 <li>Render: GetOutputFormat_RenderCfg - moved to docs-index Rendering of Project -&gt; Analyzing Renderstrings; allows now passing a project/projecttab as well</li>
+<li>Render: RenderProject - renamed from RenderProject_RenderCFG, which is still available, but undocumented; sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)</li>
+<li>Render: RenderProject_Regions - renamed from RenderProjectRegions_RenderCFG, which is still available, but undocumented; sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)</li>
 <li>Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)</li>
 <li>Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)</li>
 <li>Routing: AddTrackAUXSendReceives - had parameters tracknumber and recv_tracknumber accidentally reversed, when not working with StateChunks .. oops -&gt; fixed (thanks to woodslanding)</li>

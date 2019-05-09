@@ -420,7 +420,6 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: GetRenderSettingsTable\_Project - returns a table with all render-settings of the currently active project
   - Render: GetRenderSettingsTable\_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk
   - Render: IsValidRenderTable - returns, if a table is a valid RenderTable  
-  - Render: RenderProject\_RenderCFG - sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)
   - Render: SetRender\_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog
   - Render: SetRender\_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
   - Render: SetRender\_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog
@@ -491,6 +490,8 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: CreateRenderCFG\_WebMVideo - rewritten, lifted many limitations
   - Render: GetOutputFormat\_RenderCfg - moved to docs-index Rendering of Project -> Analyzing Renderstrings; 
                                          allows now passing a project/projecttab as well
+  - Render: RenderProject - renamed from RenderProject\_RenderCFG, which is still available, but undocumented; sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)
+  - Render: RenderProject\_Regions - renamed from RenderProjectRegions\_RenderCFG, which is still available, but undocumented; sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)
   - Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
   - Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
   - Routing: AddTrackAUXSendReceives - had parameters tracknumber and recv_tracknumber accidentally reversed, when not working with StateChunks .. oops -> fixed (thanks to woodslanding)

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="37678.00" author="Meo Mespotine">
+      <version name="37737.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -490,9 +490,6 @@ New features in 4.00beta2.75
     ProjectStateChunk
 -   Render: IsValidRenderTable - returns, if a table is a valid
     RenderTable
--   Render: RenderProject_RenderCFG - sped up rendering the current
-    project by magnitudes; no “save before rendering” necessary anymore;
-    stabilized deleting the targetfile(if selected)
 -   Render: SetRender_AutoIncrementFilename - sets the current state of
     the “Silently increment filenames to avoid overwriting”-checkbox
     from the Render to File-dialog
@@ -631,6 +628,15 @@ Changes from Beta 2.74 to Beta 2.75
 -   Render: GetOutputFormat_RenderCfg - moved to docs-index Rendering of
     Project -> Analyzing Renderstrings; allows now passing a
     project/projecttab as well
+-   Render: RenderProject - renamed from RenderProject_RenderCFG, which
+    is still available, but undocumented; sped up rendering the current
+    project by magnitudes; no “save before rendering” necessary anymore;
+    stabilized deleting the targetfile(if selected)
+-   Render: RenderProject_Regions - renamed from
+    RenderProjectRegions_RenderCFG, which is still available, but
+    undocumented; sped up rendering the current project by magnitudes;
+    no “save before rendering” necessary anymore; stabilized deleting
+    the targetfile(if selected)
 -   Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based,
     as it should be(thanks to woodslanding)
 -   Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based,
