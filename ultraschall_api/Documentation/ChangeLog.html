@@ -76,8 +76,8 @@ Ultraschall API Changelog
 <li>Project Management: GetProject_Selection - had some inner variables exposed -&gt; fixed now</li>
 <li>Project Management: GetProjectStateChunk - returns the ProjectStateChunk of the current-active project or a valid projectfile</li>
 <li>Render: AddRenderPreset - adds a new render-preset</li>
-<li>Render: ApplyRenderSettingsTable_Project - applies a RenderTable to the active project</li>
-<li>Render: ApplyRenderSettingsTable_ProjectFile - applies a RenderTable to a projectfile</li>
+<li>Render: ApplyRenderTable_Project - applies a RenderTable to the active project</li>
+<li>Render: ApplyRenderTable_ProjectFile - applies a RenderTable to a projectfile</li>
 <li>Render: CreateRenderCFG_AVI_Video - creates a render-string for the format video-AVI</li>
 <li>Render: CreateRenderCFG_GIF - creates a render-string of the format video-gif</li>
 <li>Render: CreateRenderCFG_LCF - creates a render-string of the format video-lcf</li>
@@ -119,8 +119,8 @@ Ultraschall API Changelog
 <li>Render: GetRenderCFG_Settings_WebMVideo - gets the settings of a video-webm-rendercfg-string</li>
 <li>Render: GetRenderPreset_Names - returns the render-presetnames currently stored</li>
 <li>Render: GetRenderPreset_RenderTable - returns a RenderTable of all settings of a specific render-preset</li>
-<li>Render: GetRenderSettingsTable_Project - returns a table with all render-settings of the currently active project</li>
-<li>Render: GetRenderSettingsTable_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk</li>
+<li>Render: GetRenderTable_Project - returns a table with all render-settings of the currently active project</li>
+<li>Render: GetRenderTable_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk</li>
 <li>Render: IsValidRenderTable - returns, if a table is a valid RenderTable<br />
 </li>
 <li>Render: SetRender_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
@@ -130,7 +130,6 @@ Ultraschall API Changelog
 <li>Render: SetRender_SaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.</li>
 <li>Render: SetRender_QueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>
 <li>Render: SetRenderPreset - sets the values of an existing render-preset</li>
-<li>Render: SetRenderSettingsTable_Project - sets the settings stored in a RenderTable as the render-settings of the current project</li>
 <li>Trackmanagement: DeleteTracks_TrackString - deletes all tracks given in a trackstring</li>
 <li>UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd</li>
 <li>UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd</li>

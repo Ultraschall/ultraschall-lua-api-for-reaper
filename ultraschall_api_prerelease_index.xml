@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="37737.00" author="Meo Mespotine">
+      <version name="37746.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/._Changelog-Api.txt</source>
@@ -389,10 +389,10 @@ New features in 4.00beta2.75
     ProjectStateChunk of the current-active project or a valid
     projectfile
 -   Render: AddRenderPreset - adds a new render-preset
--   Render: ApplyRenderSettingsTable_Project - applies a RenderTable to
-    the active project
--   Render: ApplyRenderSettingsTable_ProjectFile - applies a RenderTable
-    to a projectfile
+-   Render: ApplyRenderTable_Project - applies a RenderTable to the
+    active project
+-   Render: ApplyRenderTable_ProjectFile - applies a RenderTable to a
+    projectfile
 -   Render: CreateRenderCFG_AVI_Video - creates a render-string for the
     format video-AVI
 -   Render: CreateRenderCFG_GIF - creates a render-string of the format
@@ -483,11 +483,10 @@ New features in 4.00beta2.75
     currently stored
 -   Render: GetRenderPreset_RenderTable - returns a RenderTable of all
     settings of a specific render-preset
--   Render: GetRenderSettingsTable_Project - returns a table with all
+-   Render: GetRenderTable_Project - returns a table with all
     render-settings of the currently active project
--   Render: GetRenderSettingsTable_ProjectFile - returns a table with
-    all render-dialog-settings from an rpp-projectfile or
-    ProjectStateChunk
+-   Render: GetRenderTable_ProjectFile - returns a table with all
+    render-dialog-settings from an rpp-projectfile or ProjectStateChunk
 -   Render: IsValidRenderTable - returns, if a table is a valid
     RenderTable
 -   Render: SetRender_AutoIncrementFilename - sets the current state of
@@ -508,8 +507,6 @@ New features in 4.00beta2.75
     allow samples to load”-checkbox of the Render to File-dialog.
 -   Render: SetRenderPreset - sets the values of an existing
     render-preset
--   Render: SetRenderSettingsTable_Project - sets the settings stored in
-    a RenderTable as the render-settings of the current project
 -   Trackmanagement: DeleteTracks_TrackString - deletes all tracks given
     in a trackstring
 -   UserInterface: GetCheckboxState - gets the current checkstate of a

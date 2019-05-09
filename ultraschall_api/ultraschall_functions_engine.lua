@@ -43191,7 +43191,7 @@ function ultraschall.RenderProject(projectfilename_with_path, renderfilename_wit
   if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProject", "overwrite_without_asking", "Must be boolean", -10) return -1 end
   
   if projectfilename_with_path==nil or RenderTable==nil then
-      local OldRenderTable=ultraschall.GetRenderSettingsTable_Project()
+      local OldRenderTable=ultraschall.GetRenderTable_Project()
       local path,filename
         if renderfilename_with_path~=nil then path,filename=ultraschall.GetPath(renderfilename_with_path) else path,filename="","" end
       local RenderTable={}
@@ -43229,7 +43229,7 @@ function ultraschall.RenderProject(projectfilename_with_path, renderfilename_wit
         end        
       end 
       
-      ultraschall.ApplyRenderSettingsTable_Project(RenderTable, true)
+      ultraschall.ApplyRenderTable_Project(RenderTable, true)
 --      ultraschall.IsValidRenderTable(RenderTable)
 --      ultraschall.ShowLastErrorMessage()
       local NumTracks=reaper.CountTracks(0)
@@ -43242,7 +43242,7 @@ function ultraschall.RenderProject(projectfilename_with_path, renderfilename_wit
       local NumTracks2=reaper.CountTracks(0)
       local TrackString=ultraschall.CreateTrackString(NumTracks+1, NumTracks2)
       local count, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(0, reaper.GetProjectLength(), TrackString, false)
-      ultraschall.ApplyRenderSettingsTable_Project(OldRenderTable, true)
+      ultraschall.ApplyRenderTable_Project(OldRenderTable, true)
       local Filearray={}
       for i=1, count do
         Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \"(.-)\"")
@@ -53756,10 +53756,10 @@ end
 --A,AA=reaper.EnumProjects(3, "")
 --B=ultraschall.GetOutputFormat_RenderCfg(nil, 1)
 
-function ultraschall.GetRenderSettingsTable_Project()
+function ultraschall.GetRenderTable_Project()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetRenderSettingsTable_Project</slug>
+  <slug>GetRenderTable_Project</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.975
@@ -53767,7 +53767,7 @@ function ultraschall.GetRenderSettingsTable_Project()
     JS=0.972
     Lua=5.3
   </requires>
-  <functioncall>table RenderTable = ultraschall.GetRenderSettingsTable_Project()</functioncall>
+  <functioncall>table RenderTable = ultraschall.GetRenderTable_Project()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns all stored render-settings for the current project, as a handy table.
             
@@ -53816,17 +53816,17 @@ function ultraschall.GetRenderSettingsTable_Project()
 ]]
   local _temp, ReaProject, hwnd, retval
   if ReaProject==nil then ReaProject=0 end
-  if ultraschall.type(ReaProject)~="ReaProject" and math.type(ReaProject)~="integer" then ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -1) return nil end
+  if ultraschall.type(ReaProject)~="ReaProject" and math.type(ReaProject)~="integer" then ultraschall.AddErrorMessage("GetRenderTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -1) return nil end
   if ReaProject==-1 then ReaProject=0x40000000 _temp=true 
   elseif ReaProject<-2 then 
-    ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project-tab available, must be 0, for the current; 1, for the first, etc; -1, for the currently rendering project", -3) return nil 
+    ultraschall.AddErrorMessage("GetRenderTable_Project", "ReaProject", "no such project-tab available, must be 0, for the current; 1, for the first, etc; -1, for the currently rendering project", -3) return nil 
   end
   
   if math.type(ReaProject)=="integer" then ReaProject=reaper.EnumProjects(ReaProject-1, "") end
   if ReaProject==nil and _temp~=true then 
-    ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -4) return nil 
+    ultraschall.AddErrorMessage("GetRenderTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -4) return nil 
   elseif _temp==true then
-    ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no project currently rendering", -5) return nil 
+    ultraschall.AddErrorMessage("GetRenderTable_Project", "ReaProject", "no project currently rendering", -5) return nil 
   end
   local RenderTable={}
   RenderTable["RenderTable"]=true
@@ -53874,19 +53874,19 @@ function ultraschall.GetRenderSettingsTable_Project()
 end
 
 
---A=ultraschall.GetRenderSettingsTable_Project()
+--A=ultraschall.GetRenderTable_Project()
 
 
-function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_path, ProjectStateChunk)
+function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetRenderSettingsTable_ProjectFile</slug>
+  <slug>GetRenderTable_ProjectFile</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>table RenderTable = ultraschall.GetRenderSettingsTable_ProjectFile(string projectfilename_with_path)</functioncall>
+  <functioncall>table RenderTable = ultraschall.GetRenderTable_ProjectFile(string projectfilename_with_path)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns all stored render-settings in a projectfile, as a handy table.
             
@@ -53932,12 +53932,12 @@ function ultraschall.GetRenderSettingsTable_ProjectFile(projectfilename_with_pat
   <tags>projectfiles, get, projectfile, rendertable</tags>
 </US_DocBloc>
 ]]
-  if projectfilename_with_path~=nil and (type(projectfilename_with_path)~="string" or reaper.file_exists(projectfilename_with_path)==false) then ultraschall.AddErrorMessage("GetRenderSettingsTable_ProjectFile", "projectfilename_with_path", "file does not exist", -1) return nil end
+  if projectfilename_with_path~=nil and (type(projectfilename_with_path)~="string" or reaper.file_exists(projectfilename_with_path)==false) then ultraschall.AddErrorMessage("GetRenderTable_ProjectFile", "projectfilename_with_path", "file does not exist", -1) return nil end
   
   if projectfilename_with_path~=nil then
     ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path)
   end
-  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetRenderSettingsTable_ProjectFile", "projectfilename_with_path", "not a valid rpp-project", -2) return nil end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetRenderTable_ProjectFile", "projectfilename_with_path", "not a valid rpp-project", -2) return nil end
   local render_stems = ultraschall.GetProject_RenderStems(nil, ProjectStateChunk)
   local bounds, time_start, time_end, tail, tail_length = ultraschall.GetProject_RenderRange(nil, ProjectStateChunk)
   local unknown, rendernum_chans, render_frequency = ultraschall.GetProject_RenderFreqNChans(nil, ProjectStateChunk)
@@ -53986,7 +53986,7 @@ end
 
 
 --B=ultraschall.ReadFullFile("c:\\Render-Queue-Documentation.RPP")
---AAA=ultraschall.GetRenderSettingsTable_ProjectFile(nil,B)
+--AAA=ultraschall.GetRenderTable_ProjectFile(nil,B)
 
 function ultraschall.GetFXStateChunk(StateChunk)
 --[[
@@ -54150,6 +54150,25 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, fxid, id)
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
     integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
+                    -  examples:
+                    -          0,   OSC is used
+                    -          176, MIDI Chan 1 CC 0
+                    -          ...
+                    -          432, MIDI Chan 1 CC 1
+                    -          ...
+                    -          9360, MIDI Chan 1 Note 36
+                    -          9616, MIDI Chan 1 Note 37
+                    -          9872, MIDI Chan 1 Note 38
+                    -            ...
+                    -            
+                    -      CC Mode-dropdownlist:
+                    -         set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                    -          &65536 &131072 &262144 
+                    -             0       0       0,      Absolute
+                    -             1       0       0,      Relative 1(127=-1, 1=+1)
+                    -             0       1       0,      Relative 2(63=-1, 65=+1)
+                    -             1       1       0,      Relative 3(65=-1, 1=+1)
+                    -             0       0       1,      Toggle (>0=toggle)
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -54228,6 +54247,25 @@ function ultraschall.GetParmLearn_MediaItem(MediaItem, fxid, id)
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
     integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
+                    -  examples:
+                    -          0,   OSC is used
+                    -          176, MIDI Chan 1 CC 0
+                    -          ...
+                    -          432, MIDI Chan 1 CC 1
+                    -          ...
+                    -          9360, MIDI Chan 1 Note 36
+                    -          9616, MIDI Chan 1 Note 37
+                    -          9872, MIDI Chan 1 Note 38
+                    -            ...
+                    -            
+                    -      CC Mode-dropdownlist:
+                    -         set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                    -          &65536 &131072 &262144 
+                    -             0       0       0,      Absolute
+                    -             1       0       0,      Relative 1(127=-1, 1=+1)
+                    -             0       1       0,      Relative 2(63=-1, 65=+1)
+                    -             1       1       0,      Relative 3(65=-1, 1=+1)
+                    -             0       0       1,      Toggle (>0=toggle)
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -54284,6 +54322,25 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, fxid, id)
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
     integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-messages
+                    -  examples:
+                    -          0,   OSC is used
+                    -          176, MIDI Chan 1 CC 0
+                    -          ...
+                    -          432, MIDI Chan 1 CC 1
+                    -          ...
+                    -          9360, MIDI Chan 1 Note 36
+                    -          9616, MIDI Chan 1 Note 37
+                    -          9872, MIDI Chan 1 Note 38
+                    -            ...
+                    -            
+                    -      CC Mode-dropdownlist:
+                    -         set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                    -          &65536 &131072 &262144 
+                    -             0       0       0,      Absolute
+                    -             1       0       0,      Relative 1(127=-1, 1=+1)
+                    -             0       1       0,      Relative 2(63=-1, 65=+1)
+                    -             1       1       0,      Relative 3(65=-1, 1=+1)
+                    -             0       0       1,      Toggle (>0=toggle)
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -54568,10 +54625,10 @@ function ultraschall.IsValidRenderTable(RenderTable)
   return true
 end
 
-function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_rendercfg_string)
+function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_string)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ApplyRenderSettingsTable_Project</slug>
+  <slug>ApplyRenderTable_Project</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.975
@@ -54579,7 +54636,7 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_renderc
     JS=0.972
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.ApplyRenderSettingsTable_Project(RenderTable RenderTable, optional boolean apply_rendercfg_string)</functioncall>
+  <functioncall>boolean retval = ultraschall.ApplyRenderTable_Project(RenderTable RenderTable, optional boolean apply_rendercfg_string)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets all stored render-settings from a RenderTable as the current project-settings.
             
@@ -54627,22 +54684,22 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_renderc
   <tags>projectfiles, set, project, rendertable</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_Project", "RenderTable", "not a valid RenderTable", -1) return false end
-  if apply_rendercfg_string~=nil and type(apply_rendercfg_string)~="boolean" then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_Project", "apply_rendercfg_string", "must be boolean", -2) return false end
+  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("ApplyRenderTable_Project", "RenderTable", "not a valid RenderTable", -1) return false end
+  if apply_rendercfg_string~=nil and type(apply_rendercfg_string)~="boolean" then ultraschall.AddErrorMessage("ApplyRenderTable_Project", "apply_rendercfg_string", "must be boolean", -2) return false end
   local _temp, retval, hwnd, AddToProj, ProjectSampleRateFXProcessing, ReaProject, SaveCopyOfProject, retval
   if ReaProject==nil then ReaProject=0 end
   --[[
-  if ultraschall.type(ReaProject)~="ReaProject" and math.type(ReaProject)~="integer" then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -1) return nil end
+  if ultraschall.type(ReaProject)~="ReaProject" and math.type(ReaProject)~="integer" then ultraschall.AddErrorMessage("ApplyRenderTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -1) return nil end
   if ReaProject==-1 then ReaProject=0x40000000 _temp=true 
   elseif ReaProject<-2 then 
-    ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project-tab available, must be 0, for the current; 1, for the first, etc; -1, for the currently rendering project", -3) return nil 
+    ultraschall.AddErrorMessage("GetRenderTable_Project", "ReaProject", "no such project-tab available, must be 0, for the current; 1, for the first, etc; -1, for the currently rendering project", -3) return nil 
   end
   
   if math.type(ReaProject)=="integer" then ReaProject=reaper.EnumProjects(ReaProject-1, "") end
   if ReaProject==nil and _temp~=true then 
-    ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -4) return nil 
+    ultraschall.AddErrorMessage("GetRenderTable_Project", "ReaProject", "no such project available, must be either a ReaProject-object or the projecttab-number(1-based)", -4) return nil 
   elseif _temp==true then
-    ultraschall.AddErrorMessage("GetRenderSettingsTable_Project", "ReaProject", "no project currently rendering", -5) return nil 
+    ultraschall.AddErrorMessage("GetRenderTable_Project", "ReaProject", "no project currently rendering", -5) return nil 
   end
   --]]
   if RenderTable["MultiChannelFiles"]==true then RenderTable["Source"]=RenderTable["Source"]+4 end
@@ -54704,26 +54761,26 @@ function ultraschall.ApplyRenderSettingsTable_Project(RenderTable, apply_renderc
   return true
 end
 
---A=ultraschall.GetRenderSettingsTable_Project(0)
---A=ultraschall.GetRenderSettingsTable_ProjectFile("C:\\Users\\meo\\Desktop\\Ultraschall-TutorialEinsteigerworkshop-Transkript-deutsch4.RPP")
+--A=ultraschall.GetRenderTable_Project(0)
+--A=ultraschall.GetRenderTable_ProjectFile("C:\\Users\\meo\\Desktop\\Ultraschall-TutorialEinsteigerworkshop-Transkript-deutsch4.RPP")
 --ultraschall.IsValidRenderTable(A)
 --A["AddToProj"]="Tudelu, Zucker im Schuh"
 --A["SaveCopyOfProject"]=false
---ultraschall.ApplyRenderSettingsTable_Project(A, false)
+--ultraschall.ApplyRenderTable_Project(A, false)
 
 --AA =  reaper.GetSetProjectInfo(ReaProject, "PROJECT_SRATE_USE", 1, true)
 
 
-function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfilename_with_path, apply_rendercfg_string, ProjectStateChunk)
+function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_with_path, apply_rendercfg_string, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>ApplyRenderSettingsTable_ProjectFile</slug>
+  <slug>ApplyRenderTable_ProjectFile</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string ProjectStateChunk = ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable RenderTable, string projectfilename_with_path, optional boolean apply_rendercfg_string, optional string ProjectStateChunk)</functioncall>
+  <functioncall>boolean retval, string ProjectStateChunk = ultraschall.ApplyRenderTable_ProjectFile(RenderTable RenderTable, string projectfilename_with_path, optional boolean apply_rendercfg_string, optional string ProjectStateChunk)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets all stored render-settings from a RenderTable as the current project-settings.
             
@@ -54775,13 +54832,13 @@ function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfi
 </US_DocBloc>
 ]]
   local retval, AddToProj, ProjectSampleRateFXProcessing
-  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_ProjectFile", "RenderTable", "not a valid RenderTable", -1) return false end
+  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("ApplyRenderTable_ProjectFile", "RenderTable", "not a valid RenderTable", -1) return false end
   
-  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_ProjectFile", "ProjectStateChunk", "not a valid ProjectStateChunk", -2) return false end
-  if projectfilename_with_path~=nil and (type(projectfilename_with_path)~="string" or reaper.file_exists(projectfilename_with_path)==false) then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_ProjectFile", "projectfilename_with_path", "no such file", -3) return false end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("ApplyRenderTable_ProjectFile", "ProjectStateChunk", "not a valid ProjectStateChunk", -2) return false end
+  if projectfilename_with_path~=nil and (type(projectfilename_with_path)~="string" or reaper.file_exists(projectfilename_with_path)==false) then ultraschall.AddErrorMessage("ApplyRenderTable_ProjectFile", "projectfilename_with_path", "no such file", -3) return false end
   if ProjectStateChunk==nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
-  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_ProjectFile", "projectfilename_with_path", "not a valid rpp-projectfile", -4) return false end
-  if apply_rendercfg_string~=nil and type(apply_rendercfg_string)~="boolean" then ultraschall.AddErrorMessage("ApplyRenderSettingsTable_ProjectFile", "apply_rendercfg_string", "must be boolean", -5) return false end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("ApplyRenderTable_ProjectFile", "projectfilename_with_path", "not a valid rpp-projectfile", -4) return false end
+  if apply_rendercfg_string~=nil and type(apply_rendercfg_string)~="boolean" then ultraschall.AddErrorMessage("ApplyRenderTable_ProjectFile", "apply_rendercfg_string", "must be boolean", -5) return false end
   
   if RenderTable["MultiChannelFiles"]==true then RenderTable["Source"]=RenderTable["Source"]+4 end
   if RenderTable["OnlyMonoMedia"]==true then RenderTable["Source"]=RenderTable["Source"]+16 end
@@ -54816,15 +54873,15 @@ function ultraschall.ApplyRenderSettingsTable_ProjectFile(RenderTable, projectfi
   end
 end
 
---A=ultraschall.GetRenderSettingsTable_Project(0)
+--A=ultraschall.GetRenderTable_Project(0)
 --A["RenderString"]="Whoops"
 --B=ultraschall.ReadFullFile("c:\\Render-Queue-Documentation.RPP")
---L,L2=ultraschall.ApplyRenderSettingsTable_ProjectFile(A, "c:\\Render-Queue-Documentation.RPP", true, B)
+--L,L2=ultraschall.ApplyRenderTable_ProjectFile(A, "c:\\Render-Queue-Documentation.RPP", true, B)
 --print2(L2)
 
 
 
---A=ultraschall.GetRenderSettingsTable_Project(0)
+--A=ultraschall.GetRenderTable_Project(0)
 
 --B=ultraschall.IsValidRenderTable(A)
 
@@ -55063,7 +55120,7 @@ end
 
 
 --ultraschall.IsValidRenderTable(O)
---L,L2=ultraschall.ApplyRenderSettingsTable_Project(O)
+--L,L2=ultraschall.ApplyRenderTable_Project(O)
 --print2(O["RenderString"])
 --reaper.GetSetProjectInfo_String(0, "RENDER_FORMAT", "l3pm", true)
 
@@ -56324,17 +56381,17 @@ end
 
 --A=ultraschall.SetProject_RenderPattern("c:\\tudelu - Kopie.rpp", "AchHuiFile")
 
---A=ultraschall.GetRenderSettingsTable_Project()
+--A=ultraschall.GetRenderTable_Project()
 --B=ultraschall.IsValidRenderTable(A)
 
 
---A=ultraschall.GetRenderSettingsTable_Project(0)
---A=ultraschall.GetRenderSettingsTable_ProjectFile("C:\\Users\\meo\\Desktop\\Ultraschall-TutorialEinsteigerworkshop-Transkript-deutsch4.RPP")
+--A=ultraschall.GetRenderTable_Project(0)
+--A=ultraschall.GetRenderTable_ProjectFile("C:\\Users\\meo\\Desktop\\Ultraschall-TutorialEinsteigerworkshop-Transkript-deutsch4.RPP")
 --ultraschall.IsValidRenderTable(A)
 --A["AddToProj"]="Tudelu, Zucker im Schuh"
 --A["SaveCopyOfProject"]=false
 --A["RenderString"]="l3pm"
---ultraschall.ApplyRenderSettingsTable_Project(A, true)
+--ultraschall.ApplyRenderTable_Project(A, true)
 
 
 function ultraschall.GetRenderPreset_Names()
@@ -56765,7 +56822,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
   return true
 end
 
---L=ultraschall.GetRenderSettingsTable_Project()
+--L=ultraschall.GetRenderTable_Project()
 --ultraschall.AddRenderPreset(nil, nil, L)
 
 
@@ -56922,7 +56979,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
   --]]
 end
 
---L=ultraschall.GetRenderSettingsTable_Project()
+--L=ultraschall.GetRenderTable_Project()
 --ultraschall.SetRenderPreset("A04", "A04", L)
 
 
@@ -56948,6 +57005,25 @@ function ultraschall.GetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id)
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
     integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
+                    -  examples:
+                    -          0,   OSC is used
+                    -          176, MIDI Chan 1 CC 0
+                    -          ...
+                    -          432, MIDI Chan 1 CC 1
+                    -          ...
+                    -          9360, MIDI Chan 1 Note 36
+                    -          9616, MIDI Chan 1 Note 37
+                    -          9872, MIDI Chan 1 Note 38
+                    -            ...
+                    -            
+                    -      CC Mode-dropdownlist:
+                    -         set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                    -          &65536 &131072 &262144 
+                    -             0       0       0,      Absolute
+                    -             1       0       0,      Relative 1(127=-1, 1=+1)
+                    -             0       1       0,      Relative 2(63=-1, 65=+1)
+                    -             1       1       0,      Relative 3(65=-1, 1=+1)
+                    -             0       0       1,      Toggle (>0=toggle)
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -57026,6 +57102,25 @@ function ultraschall.GetParmLFOLearn_MediaItem(MediaItem, fxid, id)
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
     integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
+                    -  examples:
+                    -          0,   OSC is used
+                    -          176, MIDI Chan 1 CC 0
+                    -          ...
+                    -          432, MIDI Chan 1 CC 1
+                    -          ...
+                    -          9360, MIDI Chan 1 Note 36
+                    -          9616, MIDI Chan 1 Note 37
+                    -          9872, MIDI Chan 1 Note 38
+                    -            ...
+                    -            
+                    -      CC Mode-dropdownlist:
+                    -         set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                    -          &65536 &131072 &262144 
+                    -             0       0       0,      Absolute
+                    -             1       0       0,      Relative 1(127=-1, 1=+1)
+                    -             0       1       0,      Relative 2(63=-1, 65=+1)
+                    -             1       1       0,      Relative 3(65=-1, 1=+1)
+                    -             0       0       1,      Toggle (>0=toggle)
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -57082,6 +57177,25 @@ function ultraschall.GetParmLFOLearn_MediaTrack(MediaTrack, fxid, id)
     integer parm_idx - the idx of the parameter; order is exactly like the order in the contextmenu of Parameter List -> Learn
     string parmname - the name of the parameter, though usually only wet or bypass
     integer midi_note - an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-messages
+                           -  examples:
+                           -          0,   OSC is used
+                           -          176, MIDI Chan 1 CC 0
+                           -          ...
+                           -          432, MIDI Chan 1 CC 1
+                           -          ...
+                           -          9360, MIDI Chan 1 Note 36
+                           -          9616, MIDI Chan 1 Note 37
+                           -          9872, MIDI Chan 1 Note 38
+                           -            ...
+                           -            
+                           -      CC Mode-dropdownlist:
+                           -         set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                           -          &65536 &131072 &262144 
+                           -             0       0       0,      Absolute
+                           -             1       0       0,      Relative 1(127=-1, 1=+1)
+                           -             0       1       0,      Relative 2(63=-1, 65=+1)
+                           -             1       1       0,      Relative 3(65=-1, 1=+1)
+                           -             0       0       1,      Toggle (>0=toggle)
     integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
                           - 0, no checkboxes
                           - 1, enable only when track or item is selected
@@ -57451,13 +57565,19 @@ end
 --A={ultraschall.GetParmAudioControl_FXStateChunk(SC,1,2)}
 --A={ultraschall.GetParmLFO_FXStateChunk(SC,1,2)}
 
---A=ultraschall.GetRenderSettingsTable_Project(0)
+--A=ultraschall.GetRenderTable_Project(0)
 --A["CloseAfterRender"]=false
---ultraschall.ApplyRenderSettingsTable_Project(A,true)
+--ultraschall.ApplyRenderTable_Project(A,true)
 
 
 --A,B,C,D=ultraschall.RenderProject(nil, nil, 0, 100, true, true, true)
 --  reaper.GetSetProjectInfo(ReaProject, "RENDER_ADDTOPROJ", 0, true)
 --ultraschall.RenderProject_Regions(nil, "c:\\testofon.lol", 1,true, true, true, true, nil)
+
+function ultraschall.RenderProject_RenderTable(projectfilename_with_path, RenderTable)
+  if projectfilename_with_path==nil then
+--    ultraschall.ApplyRenderTable_Project(
+  end
+end
 
 ultraschall.ShowLastErrorMessage()
