@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="37746.00" author="Meo Mespotine">
+      <version name="37982.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -489,6 +489,8 @@ New features in 4.00beta2.75
     render-dialog-settings from an rpp-projectfile or ProjectStateChunk
 -   Render: IsValidRenderTable - returns, if a table is a valid
     RenderTable
+-   Render: RenderProject_RenderTable - renders a projectfile or the
+    current active project using a RenderTable
 -   Render: SetRender_AutoIncrementFilename - sets the current state of
     the “Silently increment filenames to avoid overwriting”-checkbox
     from the Render to File-dialog
@@ -583,6 +585,11 @@ Changes from Beta 2.74 to Beta 2.75
     necessary anymore
 -   MediaItems: EnumerateMediaItemsInTrack - had wrong functionname in
     index -> fixed
+-   MediaItems: PreviewMediaFile- uses now Xenakios’ function
+    Xen_StartSourcePreview(more stable that way), has now gain and loop
+    as additional parameters
+-   MediaItems: StopAnyPreview - uses now Xenakios’ function
+    Xen_StopSourcePreview(more stable that way)
 -   Projectmanagement: all SetProject-functions - added missing
     ProjectStateChunk-returnvalue to docs
 -   Projectmanagement: GetProject_NumberOfTracks - sped code up by

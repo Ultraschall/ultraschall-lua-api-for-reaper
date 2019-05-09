@@ -1,17 +1,10 @@
 <TODO>
     
     API 4.00beta2.75
-
-      TODO!! Preview-functions - use XEN-functions for that now, as they are much much much better!
-      TODO!! check, whether JS_Extension 0.986 works now on Mac for RenderToFile again Edit: It works, up the JS-versionnumber to 0.986!
-      TODO!! RenderTable - add closeafterrender-parameter into RenderTables
       TODO!! PitchShiftMode - update them to current version of Reaper
-      TODO!! up the needed versions of JS-Extension0.986, SWS2.10.0.1 and Reaper5.977. Include a check for valid Reaper version as well.
-      TODO!! RenderProject_RenderTable - uses the settings in RenderTable to render the selected project
-      TODO!! RenderProject_RenderCfg - rename to RenderProject, while the old name is persisting but undocumented
-      TODO!! RenderProjectRegions_RenderCFG - rename to RenderProject_Regions, while the old name is persisting but undocumented
+      TODO!! RenderProject - use RenderProject_RenderTable for the rendering
+      TODO!! RenderProjectRegions - use RenderProject_RenderTable for the rendering
       
-    
       TODO!!: add this to undo-functions, as they are the explanation of the extraflags
         #ifndef UNDO_STATE_ALL
         #define UNDO_STATE_ALL 0xFFFFFFFF
@@ -420,6 +413,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: GetRenderTable\_Project - returns a table with all render-settings of the currently active project
   - Render: GetRenderTable\_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk
   - Render: IsValidRenderTable - returns, if a table is a valid RenderTable  
+  - Render: RenderProject\_RenderTable - renders a projectfile or the current active project using a RenderTable
   - Render: SetRender\_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog
   - Render: SetRender\_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
   - Render: SetRender\_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog
@@ -467,6 +461,8 @@ tagline inspired by a comment from \_stevie\_ ;)
   - IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore
   - IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore
   - MediaItems: EnumerateMediaItemsInTrack - had wrong functionname in index -> fixed
+  - MediaItems: PreviewMediaFile- uses now Xenakios' function Xen\_StartSourcePreview(more stable that way), has now gain and loop as additional parameters
+  - MediaItems: StopAnyPreview - uses now Xenakios' function Xen\_StopSourcePreview(more stable that way)
   - Projectmanagement: all SetProject-functions - added missing ProjectStateChunk-returnvalue to docs
   - Projectmanagement: GetProject\_NumberOfTracks - sped code up by magnitudes for huge projects; parameter ProjectStateChunk wasn't working due stupid typo -> fixed now
   - Projectmanagement: GetProject\_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile

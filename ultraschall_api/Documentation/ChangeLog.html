@@ -123,6 +123,7 @@ Ultraschall API Changelog
 <li>Render: GetRenderTable_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk</li>
 <li>Render: IsValidRenderTable - returns, if a table is a valid RenderTable<br />
 </li>
+<li>Render: RenderProject_RenderTable - renders a projectfile or the current active project using a RenderTable</li>
 <li>Render: SetRender_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
 <li>Render: SetRender_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog</li>
 <li>Render: SetRender_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog</li>
@@ -170,6 +171,8 @@ Ultraschall API Changelog
 <li>IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore</li>
 <li>IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore</li>
 <li>MediaItems: EnumerateMediaItemsInTrack - had wrong functionname in index -&gt; fixed</li>
+<li>MediaItems: PreviewMediaFile- uses now Xenakios' function Xen_StartSourcePreview(more stable that way), has now gain and loop as additional parameters</li>
+<li>MediaItems: StopAnyPreview - uses now Xenakios' function Xen_StopSourcePreview(more stable that way)</li>
 <li>Projectmanagement: all SetProject-functions - added missing ProjectStateChunk-returnvalue to docs</li>
 <li>Projectmanagement: GetProject_NumberOfTracks - sped code up by magnitudes for huge projects; parameter ProjectStateChunk wasn't working due stupid typo -&gt; fixed now</li>
 <li>Projectmanagement: GetProject_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile</li>

@@ -33793,7 +33793,7 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
                                    - pass as integer to get the renderformat of a specific projecttab, with 0 for the current, 1 for the first, 2 for the second, etc
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Analyzing Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -33871,7 +33871,7 @@ function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity, channel_audio,
     boolean per_channel - true, kbps per channel (6-256); false, kbps combined for all channels 
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -33938,7 +33938,7 @@ function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, 
     integer ABR_KBPS_MAX - the maximum-bitrate for ABR-mode; 0 to 2048
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -33998,7 +33998,7 @@ function ultraschall.CreateRenderCFG_DDP()
     string render_cfg_string - the render-cfg-string for the selected DDP-settings
   </retvals>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -34045,7 +34045,7 @@ function ultraschall.CreateRenderCFG_FLAC(Bitrate, EncSpeed)
     integer EncSpeed - the encoding speed; 0(fastest) to 8(slowest); 5(default)
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -34131,7 +34131,7 @@ function ultraschall.CreateRenderCFG_WAVPACK(Mode, Bitdepth, Writemarkers, Write
     boolean IncludeFilenameBWF - the include project filename in BWF data-checkbox; true, checked; false, unchecked
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -34261,7 +34261,7 @@ function ultraschall.CreateRenderCFG_MP3MaxQuality()
     optional boolean write_replay_gain - the "Write ReplayGain-tag"-checkbox; true, checked; false, unchecked; default is unchecked
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -34305,7 +34305,7 @@ function ultraschall.CreateRenderCFG_MP3VBR(vbr_quality, quality, no_joint_stere
     optional boolean write_replay_gain - the "Write ReplayGain-tag"-checkbox; true, checked; false, unchecked; default is unchecked
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -34395,7 +34395,7 @@ function ultraschall.CreateRenderCFG_MP3ABR(bitrate, quality, no_joint_stereo, w
     optional boolean write_replay_gain - the "Write ReplayGain-tag"-checkbox; true, checked; false, unchecked; default is unchecked
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -34484,7 +34484,7 @@ function ultraschall.CreateRenderCFG_MP3CBR(bitrate, quality, no_joint_stereo, w
     optional boolean write_replay_gain - the "Write ReplayGain-tag"-checkbox; true, checked; false, unchecked; default is unchecked
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -34576,7 +34576,7 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
     boolean EmbedProjectTempo - Embed project tempo (use with care)-checkbox; true, checked; false, unchecked
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -34817,9 +34817,10 @@ function ultraschall.StopAnyPreview()
   <tags>mediaitemmanagement, stop, preview, audio, mediaitem, track, mediaexplorer</tags>
 </US_DocBloc>
 ]]
-  ultraschall.RunCommand("_SWS_STOPPREVIEW") -- Xenakios/SWS: Stop current media item/take preview
-  ultraschall.PreviewMediaFile(ultraschall.Api_Path.."/misc/silence.flac")
+--  ultraschall.RunCommand("_SWS_STOPPREVIEW") -- Xenakios/SWS: Stop current media item/take preview
+--  ultraschall.PreviewMediaFile(ultraschall.Api_Path.."/misc/silence.flac")
   --ultraschall.StopAnyPreview()
+  reaper.Xen_StopSourcePreview(-1)
 end
 
 
@@ -34958,7 +34959,7 @@ end
 --L=ultraschall.MoveTracks("2,3,5", 8, 1)
 
 
-function ultraschall.PreviewMediaFileA(filename_with_path)
+function ultraschall.PreviewMediaFile(filename_with_path, gain, loop)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>PreviewMediaFile</slug>
@@ -34967,9 +34968,9 @@ function ultraschall.PreviewMediaFileA(filename_with_path)
     Reaper=5.92
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.PreviewMediaFile(string filename_with_path)</functioncall>
+  <functioncall>integer retval = ultraschall.PreviewMediaFile(string filename_with_path, optional number gain, optional boolean loop)</functioncall>
   <description>
-    Plays a preview of a media-file.
+    Plays a preview of a media-file. You can only play one file at a time.
     
     Returns false in case of an error
   </description>
@@ -34978,6 +34979,8 @@ function ultraschall.PreviewMediaFileA(filename_with_path)
   </retvals>
   <parameters>
     string filename_with_path - the filename with path of the media-file to play
+    optional number gain - the gain of the volume; nil, defaults to 1
+    optional boolean loop - true, loop the previewed file; false or nil, don't loop the file
   </parameters>
   <chapter_context>
     MediaItem Management
@@ -34991,35 +34994,24 @@ function ultraschall.PreviewMediaFileA(filename_with_path)
 
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("PreviewMediaItem", "filename_with_path", "Must be a string.", -1) return false end
   if reaper.file_exists(filename_with_path)== false then ultraschall.AddErrorMessage("PreviewMediaItem", "filename_with_path", "File does not exist.", -2) return false end
-  local oldstate=reaper.SNM_GetIntConfigVar("showpeaksbuild",-99)
-  if oldstate==1 then reaper.SNM_SetIntConfigVar("showpeaksbuild", 0) end
-  local count, MediaItemArray = ultraschall.GetAllSelectedMediaItems()
-  reaper.PreventUIRefresh(1)
-  local retval, MediaItem, length, numchannels, Samplerate, Filetype = ultraschall.InsertMediaItemFromFile(filename_with_path, 0, reaper.GetProjectLength(), -1, 0)
-  local B=reaper.GetTrack(0, reaper.CountTracks(0)-1)
-  ultraschall.DeselectMediaItems_MediaItemArray(MediaItemArray)
-  reaper.SetMediaItemSelected(MediaItem, true)
-  ultraschall.RunCommand("_XENAKIOS_ITEMASPCM1")
-  ultraschall.DeleteMediaItem(MediaItem)
-  ultraschall.SelectMediaItems_MediaItemArray(MediaItemArray)
-  reaper.DeleteTrack(B)
-  reaper.SNM_SetIntConfigVar("showpeaksbuild", oldstate)
-  reaper.PreventUIRefresh(-1)
-  if retval==-1 then return false else return true end
+
+  if type(loop)~="boolean" then loop=false end
+  if type(gain)~="number" then gain=1 end
+  --ultraschall.StopAnyPreview()
+  reaper.Xen_StopSourcePreview(-1)
+  --if ultraschall.PreviewPCMSource~=nil then reaper.PCM_Source_Destroy(ultraschall.PreviewPCMSource) end
+  ultraschall.PreviewPCMSource=reaper.PCM_Source_CreateFromFile(filename_with_path)
+  
+  local retval=reaper.Xen_StartSourcePreview(ultraschall.PreviewPCMSource, gain, loop)
+  return retval
 end
 
-function ultraschall.PreviewMediaFile(filename_with_path, undo)
-  local id=reaper.time_precise()
-  if undo~=false then reaper.Undo_BeginBlock() end
-  reaper.PreventUIRefresh(1)  
-  local A=ultraschall.PreviewMediaFileA(filename_with_path)
-  if undo~=false then 
-    reaper.Undo_EndBlock("ultraschall_undo"..id, 0)
-    local B=reaper.Undo_CanUndo2(0)  
-    if B=="ultraschall_undo"..id then reaper.Undo_DoUndo2(0) end
-  end
-  reaper.PreventUIRefresh(1)
-end
+--ultraschall.StopAnyPreview()
+--O=ultraschall.PreviewMediaFile("c:\\Derek And The Dominos - Layla.mp3", 1, false)
+--O2=ultraschall.PreviewMediaFile("c:\\Derek And The Dominos - Layla.mp3", 1, false)
+--ultraschall.PreviewMediaFile("c:\\Derek And The Dominos - Layla.mp3", 1, false)
+--ultraschall.PreviewMediaFile("c:\\Derek And The Dominos - Layla.mp3", 1, false)
+
 
 
 function ultraschall.MakeFunctionUndoable(Func, UndoMessage, Flag, ...)
@@ -43167,7 +43159,7 @@ function ultraschall.RenderProject(projectfilename_with_path, renderfilename_wit
                              - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a>
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Rendering any Outputformat
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -43176,7 +43168,7 @@ function ultraschall.RenderProject(projectfilename_with_path, renderfilename_wit
 </US_DocBloc>
 ]]
   local retval
---  local curProj=reaper.EnumProjects(-1,"")
+  local curProj=reaper.EnumProjects(-1,"")
   if type(startposition)~="number" then ultraschall.AddErrorMessage("RenderProject", "startposition", "Must be a number in seconds.", -1) return -1 end
   if type(endposition)~="number" then ultraschall.AddErrorMessage("RenderProject", "endposition", "Must be a number in seconds.", -2) return -1 end
   if startposition>=0 and endposition>0 and endposition<=startposition then ultraschall.AddErrorMessage("RenderProject", "endposition", "Must be bigger than startposition.", -3) return -1 end
@@ -43461,7 +43453,7 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
     optional table RenderTable - a table, which holds all render-settings, which will be applied to the render(except the ones already given with the other parameters)                          
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Rendering any Outputformat
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -44662,7 +44654,7 @@ function ultraschall.IsReaperRendering()
     optional boolean queue_render - true, if a project from the queued-folder is currently being rendered; false, if not; a hint if queued-rendering is currently active
   </retvals>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Assistance functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -47628,7 +47620,7 @@ function ultraschall.CreateRenderCFG_AIFF(bits)
     integer bits - the bitdepth of the aiff-file; 8, 16, 24 and 32 are supported
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -47676,7 +47668,7 @@ function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_wi
     boolean burncd_image_after_render - Burn CD image after render-checkbox; true, checked; false, unchecked
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -51804,7 +51796,7 @@ function ultraschall.GetRenderCFG_Settings_FLAC(rendercfg)
       string render_cfg - the render-cfg-string, that contains the flac-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -51847,7 +51839,7 @@ function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
       string render_cfg - the render-cfg-string, that contains the aiff-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -51897,7 +51889,7 @@ function ultraschall.GetRenderCFG_Settings_AudioCD(rendercfg)
       string render_cfg - the render-cfg-string, that contains the audiocd-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -51967,7 +51959,7 @@ function ultraschall.GetRenderCFG_Settings_MP3(rendercfg)
       string render_cfg - the render-cfg-string, that contains the mp3-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52033,7 +52025,7 @@ function ultraschall.GetRenderCFG_Settings_MP3MaxQuality(rendercfg)
       string render_cfg - the render-cfg-string, that contains the mp3-maxquality-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52086,7 +52078,7 @@ function ultraschall.GetRenderCFG_Settings_MP3CBR(rendercfg)
       string render_cfg - the render-cfg-string, that contains the mp3-cbr-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52149,7 +52141,7 @@ function ultraschall.GetRenderCFG_Settings_MP3VBR(rendercfg)
       string render_cfg - the render-cfg-string, that contains the mp3-vbr-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52231,7 +52223,7 @@ function ultraschall.GetRenderCFG_Settings_MP3ABR(rendercfg)
       string render_cfg - the render-cfg-string, that contains the mp3-abr-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52288,7 +52280,7 @@ function ultraschall.GetRenderCFG_Settings_OGG(rendercfg)
       string render_cfg - the render-cfg-string, that contains the ogg-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52341,7 +52333,7 @@ function ultraschall.GetRenderCFG_Settings_OPUS(rendercfg)
       string render_cfg - the render-cfg-string, that contains the opus-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52395,7 +52387,7 @@ function ultraschall.GetRenderCFG_Settings_GIF(rendercfg)
       string render_cfg - the render-cfg-string, that contains the gif-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52451,7 +52443,7 @@ function ultraschall.GetRenderCFG_Settings_LCF(rendercfg)
       string render_cfg - the render-cfg-string, that contains the lcf-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52532,7 +52524,7 @@ function ultraschall.GetRenderCFG_Settings_WAV(rendercfg)
       string render_cfg - the render-cfg-string, that contains the wav-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52616,7 +52608,7 @@ function ultraschall.GetRenderCFG_Settings_WAVPACK(rendercfg)
       string render_cfg - the render-cfg-string, that contains the wavpack-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52673,7 +52665,7 @@ function ultraschall.GetRenderCFG_Settings_WebMVideo(rendercfg)
       string render_cfg - the render-cfg-string, that contains the webm-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52735,7 +52727,7 @@ function ultraschall.GetRenderCFG_Settings_MKV_Video(rendercfg)
       string render_cfg - the render-cfg-string, that contains the mkv-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52798,7 +52790,7 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
       string render_cfg - the render-cfg-string, that contains the avi-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52856,7 +52848,7 @@ function ultraschall.GetRenderCFG_Settings_QTMOVMP4_Video(rendercfg)
       string render_cfg - the render-cfg-string, that contains the qt/mov/mp4-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52905,7 +52897,7 @@ function ultraschall.GetRenderCFG_Settings_DDP(rendercfg)
       string render_cfg - the render-cfg-string, that contains the DDP-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -52944,7 +52936,7 @@ function ultraschall.CreateRenderCFG_GIF(Width, Height, MaxFPS, AspectRatio, Ign
     boolean EncodeTransparency - Encode transparency-checkbox; true, checked; false, unchecked
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -53004,7 +52996,7 @@ function ultraschall.CreateRenderCFG_LCF(Width, Height, MaxFPS, AspectRatio, LCF
     optional string LCFoptionstweak - a 64bytes string, which can hold tweak-settings for lcf; default is "t20 x128 y16"; this function does not check for these options to be valid!
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -53067,7 +53059,7 @@ function ultraschall.CreateRenderCFG_WebMVideo(VIDKBPS, AUDKBPS, WIDTH, HEIGHT, 
     boolean AspectRatio - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -53141,7 +53133,7 @@ function ultraschall.CreateRenderCFG_MKV_Video(VideoCodec, MJPEG_quality, AudioC
     boolean AspectRatio - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -53218,7 +53210,7 @@ function ultraschall.CreateRenderCFG_QTMOVMP4_Video(VideoCodec, MJPEG_quality, A
     boolean AspectRatio - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -53298,7 +53290,7 @@ function ultraschall.CreateRenderCFG_AVI_Video(VideoCodec, MJPEG_quality, AudioC
     boolean AspectRatio - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -53374,7 +53366,7 @@ function ultraschall.GetRenderCFG_Settings_MP4Mac_Video(rendercfg)
       string render_cfg - the render-cfg-string, that contains the webm-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -53444,7 +53436,7 @@ function ultraschall.GetRenderCFG_Settings_MOVMac_Video(rendercfg)
       string render_cfg - the render-cfg-string, that contains the webm-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -53504,7 +53496,7 @@ function ultraschall.GetRenderCFG_Settings_M4AMac(rendercfg)
       string render_cfg - the render-cfg-string, that contains the webm-settings
     </parameters>
     <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
@@ -53563,7 +53555,7 @@ function ultraschall.CreateRenderCFG_MP4MAC_Video(Stream, VIDKBPS, AUDKBPS, WIDT
     boolean AspectRatio - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -53631,7 +53623,7 @@ function ultraschall.CreateRenderCFG_M4AMAC(AUDKBPS, WIDTH, HEIGHT, FPS, AspectR
     boolean AspectRatio - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -53708,7 +53700,7 @@ function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_qua
     boolean AspectRatio  - the aspect-ratio; true, keep source aspect ratio; false, don't keep source aspect ratio 
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Creating Renderstrings
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -53806,7 +53798,7 @@ function ultraschall.GetRenderTable_Project()
                                 - use 0, for the currently active project; 1, for the first project-tab; 2, for the second, etc; -1, for the currently rendering project
         </parametersss>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Assistance functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -53893,7 +53885,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
             RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
             RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
-            RenderTable["CloseAfterRender"] - close rendering to file-dialog after render; always false, as this isn't stored in projectfiles
+            RenderTable["CloseAfterRender"] - close rendering to file-dialog after render; always true, as this isn't stored in projectfiles
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
@@ -53908,7 +53900,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
             RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
-            RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; always false(unchecked), as this isn't stored in projectfiles
+            RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; always true(checked), as this isn't stored in projectfiles
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always false, as this is not stored in projectfiles
             RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
@@ -53924,7 +53916,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
     string projectfilename_with_path - the projectfile, whose render-settings you want to get
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Assistance functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -53969,7 +53961,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
   
   RenderTable["ProjectSampleRateFXProcessing"]=project_smplrate4mix_and_fx
   if RenderTable["ProjectSampleRateFXProcessing"]==1 then RenderTable["ProjectSampleRateFXProcessing"]=true else RenderTable["ProjectSampleRateFXProcessing"]=false end
-  RenderTable["SilentlyIncrementFilename"]=false
+  RenderTable["SilentlyIncrementFilename"]=true
   RenderTable["RenderQueueDelay"], RenderTable["RenderQueueDelaySeconds"]=ultraschall.GetProject_RenderQueueDelay(nil, ProjectStateChunk)
 
   RenderTable["RenderResample"]=resample_mode
@@ -53979,7 +53971,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
   RenderTable["RenderPattern"]=render_pattern
   RenderTable["RenderString"]=render_cfg 
   RenderTable["SaveCopyOfProject"]=false
-  RenderTable["CloseAfterRender"]=false
+  RenderTable["CloseAfterRender"]=true
   
   return RenderTable
 end
@@ -54588,7 +54580,7 @@ function ultraschall.IsValidRenderTable(RenderTable)
     RenderTable RenderTable - the table, that you want to check for validity
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Assistance functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -54676,7 +54668,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
     optional boolean apply_rendercfg_string - true or nil, apply it as well; false, don't apply it
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Assistance functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -54751,11 +54743,11 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
     reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1060), "BM_SETCHECK", SaveCopyOfProject,0,0,0)
   end
   
-  if reaper.SNM_GetIntConfigVar("renderclosewhendone",-199)&16==0 and RenderTable["CloseAfterRender"]==true then
-    local temp = reaper.SNM_GetIntConfigVar("renderclosewhendone",-199)+16
+  if reaper.SNM_GetIntConfigVar("renderclosewhendone",-199)&1==0 and RenderTable["CloseAfterRender"]==true then
+    local temp = reaper.SNM_GetIntConfigVar("renderclosewhendone",-199)+1
     reaper.SNM_SetIntConfigVar("renderclosewhendone", temp)
-  elseif reaper.SNM_GetIntConfigVar("renderclosewhendone",-199)&16==16 and RenderTable["CloseAfterRender"]==false then
-    local temp = reaper.SNM_GetIntConfigVar("renderclosewhendone",-199)-16
+  elseif reaper.SNM_GetIntConfigVar("renderclosewhendone",-199)&1==1 and RenderTable["CloseAfterRender"]==false then
+    local temp = reaper.SNM_GetIntConfigVar("renderclosewhendone",-199)-1
     reaper.SNM_SetIntConfigVar("renderclosewhendone", temp)
   end
   return true
@@ -54823,7 +54815,7 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
     optional parameter ProjectStateChunk - the ProjectStateChunkk, to which you want to apply the RenderTable
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Assistance functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -54976,7 +54968,7 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>RenderTable RenderTable = ultraschall.IsValidRenderTable(integer Source, integer Bounds, number Startposition, number Endposition, integer TailFlag, integer TailMS, string RenderFile, string RenderPattern, integer SampleRate, integer Channels, integer OfflineOnlineRendering, boolean ProjectSampleRateFXProcessing, integer RenderResample, boolean OnlyMonoMedia, boolean MultiChannelFiles, integer Dither, string RenderString, boolean SilentlyIncrementFilename, boolean AddToProj, boolean SaveCopyOfProject, boolean RenderQueueDelay, integer RenderQueueDelaySeconds)</functioncall>
+  <functioncall>RenderTable RenderTable = ultraschall.IsValidRenderTable(integer Source, integer Bounds, number Startposition, number Endposition, integer TailFlag, integer TailMS, string RenderFile, string RenderPattern, integer SampleRate, integer Channels, integer OfflineOnlineRendering, boolean ProjectSampleRateFXProcessing, integer RenderResample, boolean OnlyMonoMedia, boolean MultiChannelFiles, integer Dither, string RenderString, boolean SilentlyIncrementFilename, boolean AddToProj, boolean SaveCopyOfProject, boolean RenderQueueDelay, integer RenderQueueDelaySeconds, boolean CloseAfterRender)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Creates a new RenderTable.
     
@@ -55050,7 +55042,7 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
     boolean CloseAfterRender - true, closes rendering to file-dialog after render; false, doesn't close it
   </parameters>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Assistance functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -55205,9 +55197,11 @@ function ultraschall.SetRender_SaveCopyOfProject(state)
   hwnd = ultraschall.GetRenderToFileHWND()
   if hwnd==nil then
     retval = reaper.BR_Win32_WritePrivateProfileString("REAPER", "autosaveonrender2", SaveCopyOfProject, reaper.get_ini_file())
+    retval = reaper.BR_Win32_WritePrivateProfileString("REAPER", "autosaveonrender", SaveCopyOfProject, reaper.get_ini_file())
   else
     reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(hwnd,1060), "BM_SETCHECK", SaveCopyOfProject,0,0,0)
     retval = reaper.BR_Win32_WritePrivateProfileString("REAPER", "autosaveonrender2", SaveCopyOfProject, reaper.get_ini_file())
+    retval = reaper.BR_Win32_WritePrivateProfileString("REAPER", "autosaveonrender", SaveCopyOfProject, reaper.get_ini_file())
   end
   return retval
 end
@@ -56416,7 +56410,7 @@ function ultraschall.GetRenderPreset_Names()
       table both_names - the names of all found presets, who both share the same name
    </retvals>
    <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Render Presets
    </chapter_context>
    <target_document>US_Api_Documentation</target_document>
@@ -56485,7 +56479,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, RenderFormatOption
      RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; always false, as this isn't stored in render-presets
      RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
      RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
-     RenderTable["CloseAfterRender"] - close rendering to file-dialog after rendering; always false, as this isn't stored in render-presets
+     RenderTable["CloseAfterRender"] - close rendering to file-dialog after rendering; always true, as this isn't stored in render-presets
      RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
      RenderTable["Endposition"] - the endposition of the rendering selection in seconds
      RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
@@ -56501,7 +56495,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, RenderFormatOption
      RenderTable["RenderTable"]=true - signals, this is a valid render-table
      RenderTable["SampleRate"] - the samplerate of the rendered file(s)
      RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; always false, as this isn't stored in render-presets
-     RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always false, as this isn't stored in Presets
+     RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always true, as this isn't stored in Presets
      RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
      RenderTable["Startposition"] - the startposition of the rendering selection in seconds
      RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
@@ -56518,7 +56512,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, RenderFormatOption
      RenderTable RenderTable - a render-table, which contains all settings from a render-preset
    </retvals>
    <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Render Presets
    </chapter_context>
    <target_document>US_Api_Documentation</target_document>
@@ -56569,7 +56563,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, RenderFormatOption
                                                tonumber(SampleRate), tonumber(channels), tonumber(offline_online_dropdownlist), 
                                                useprojectsamplerate_checkbox, 
                                                tonumber(resamplemode_dropdownlist), MonoMedia, MultiChannel, tonumber(dither), rendercfg, 
-                                               false, false, false, false, 0)
+                                               true, false, false, false, 0, true)
   return RenderTable
 end
 
@@ -56602,7 +56596,7 @@ function ultraschall.DeleteRenderPreset_Bounds(Bounds_Name)
      boolean retval - true, deleting was successful; false, deleting was unsuccessful
    </retvals>
    <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Render Presets
    </chapter_context>
    <target_document>US_Api_Documentation</target_document>
@@ -56650,7 +56644,7 @@ function ultraschall.DeleteRenderPreset_FormatOptions(RenderFormatOptions_Name)
      boolean retval - true, deleting was successful; false, deleting was unsuccessful
    </retvals>
    <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Render Presets
    </chapter_context>
    <target_document>US_Api_Documentation</target_document>
@@ -56758,7 +56752,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
      boolean retval - true, adding was successful; false, adding was unsuccessful
    </retvals>
    <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Render Presets
    </chapter_context>
    <target_document>US_Api_Documentation</target_document>
@@ -56912,7 +56906,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
      boolean retval - true, setting was successful; false, setting was unsuccessful
    </retvals>
    <chapter_context>
-      Rendering of Project
+      Rendering Projects
       Render Presets
    </chapter_context>
    <target_document>US_Api_Documentation</target_document>
@@ -57574,10 +57568,281 @@ end
 --  reaper.GetSetProjectInfo(ReaProject, "RENDER_ADDTOPROJ", 0, true)
 --ultraschall.RenderProject_Regions(nil, "c:\\testofon.lol", 1,true, true, true, true, nil)
 
-function ultraschall.RenderProject_RenderTable(projectfilename_with_path, RenderTable)
+function ultraschall.RenderProject_RenderTable(projectfilename_with_path, RenderTable, AddToProj, CloseAfterRender, SilentlyIncrementFilename)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RenderProject_RenderTable</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.972
+    Lua=5.3
+  </requires>
+  <functioncall>integer count, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject_RenderTable(optional string projectfilename_with_path, optional RenderTable RenderTable, optional boolean AddToProj, optional boolean CloseAfterRender, optional boolean SilentlyIncrementFilename)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Renders a projectfile or the current active project, using the settings from a RenderTable.
+            
+    Expected RenderTable is of the following structure:
+            RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
+            RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions
+            RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
+            RenderTable["CloseAfterRender"] - true, close rendering to file-dialog after render; false, don't close it
+            RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
+            RenderTable["Endposition"] - the endposition of the rendering selection in seconds
+            RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
+            RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle)
+            RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked
+            RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked
+            RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog
+            RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog
+            RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
+            RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
+            RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
+            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+            RenderTable["RenderTable"]=true - signals, this is a valid render-table
+            RenderTable["SampleRate"] - the samplerate of the rendered file(s)
+            RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked
+            RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; true, checked; false, unchecked
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+            RenderTable["Startposition"] - the startposition of the rendering selection in seconds
+            RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
+            RenderTable["TailMS"] - the amount of milliseconds of the tail
+            
+    Returns -1 in case of an error
+  </description>
+  <retvals>
+    integer count - the number of files that have been rendered
+    array MediaItemStateChunkArray - the MediaItemStateChunks of all the rendered files
+    array Filearray - filenames with path of all rendered files
+  </retvals>
+  <parameters>
+    optional string projectfilename_with_path - the projectfilename with path of the rpp-file that you want to render; nil, to render the current active project
+    optional RenderTable RenderTable - the RenderTable with all render-settings, that you want to apply; nil, use the project's existing settings
+    optional boolean AddToProj - true, add the rendered files to the project; nil or false, don't add them; 
+                               - will overwrite the settings in the RenderTable; will default to true, if no RenderTable is passed
+                               - only has an effect, when rendering the current active project
+    optional boolean CloseAfterRender - true or nil, closes rendering to file-dialog after rendering is finished; false, keep it open
+                                      - will overwrite the settings in the RenderTable; will default to true, if no RenderTable is passed
+    optional boolean SilentlyIncrementFilename - true or nil, silently increment filename, when file already exists; false, ask for overwriting
+                                              - will overwrite the settings in the RenderTable; will default to true, if no RenderTable is passed
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Rendering any Outputformat
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, render, output, file, rendertable</tags>
+</US_DocBloc>
+]]
+  if RenderTable~=nil and ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("RenderProject_RenderTable", "RenderTable", "must be a valid RenderTable", -1) return -1 end
+  if AddToProj~=nil and type(AddToProj)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "AddToProj", "must be nil or boolean", -10) return -1 end
+  if CloseAfterRender~=nil and type(CloseAfterRender)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "CloseAfterRender", "must be nil or boolean", -11) return -1 end
+  if SilentlyIncrementFilename~=nil and type(SilentlyIncrementFilename)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "SilentlyIncrementFilename", "must be nil or boolean", -12) return -1 end
+
+  if RenderTable==nil then norendertable=true end
+
+  local tempfilename, retval, oldcloseafterrender
   if projectfilename_with_path==nil then
---    ultraschall.ApplyRenderTable_Project(
+    -- if user wants to render the currently opened file
+    
+    -- use current render-settings, if user didn't pass a RenderTable
+    if RenderTable==nil then RenderTable=ultraschall.GetRenderTable_Project() end
+    
+    -- enable adding files to project, as this gives us the filenames of the rendered files
+    local oldAddToProj=RenderTable["AddToProj"] 
+    RenderTable["AddToProj"]=true
+    
+    -- set the defaults for incrementing filenames and close rendering to file dialog after render, 
+    -- if parameters got set to nil:
+    local oldcloseafterrender=RenderTable["CloseAfterRender"]
+    local oldsilentlyincreasefilename=RenderTable["SilentlyIncrementFilename"]
+    if CloseAfterRender~=nil then RenderTable["CloseAfterRender"]=CloseAfterRender end
+    if SilentlyIncrementFilename==nil then SilentlyIncrementFilename=true end
+    if SilentlyIncrementFilename~=nil then RenderTable["SilentlyIncrementFilename"]=SilentlyIncrementFilename end    
+    if CloseAfterRender==nil and norendertable==true then RenderTable["CloseAfterRender"]=true end
+    
+    -- get the old number of tracks
+    local OldTrackNumber=reaper.CountTracks(0) 
+    
+    -- If RenderPattern is not set, I need to split up the RenderFile into path and filename and set them accordingly,
+    -- or Reaper tries to write a file "untitled" into path RenderFile, even if RenderFile shall be the file+path.
+    -- If RenderFile is a valid directory instead of a filename and RenderPattern is "", it will render the file untitled.ext into the
+    -- path given in RenderFile
+    local RenderPattern=RenderTable["RenderPattern"]
+    local RenderFile=RenderTable["RenderFile"]
+    if RenderPattern=="" and ultraschall.DirectoryExists2(RenderFile)==false then RenderTable["RenderFile"], RenderTable["RenderPattern"] = ultraschall.GetPath(RenderFile) end
+    
+    -- get the current settings as rendertable and apply the RenderTable the user passed to us
+    local OldRenderTable=ultraschall.GetRenderTable_Project()
+    ultraschall.ApplyRenderTable_Project(RenderTable, true)
+    
+    -- change back the entries in RenderTable so the user does not have my temporary changes in it
+    RenderTable["RenderPattern"]=RenderPattern
+    RenderTable["RenderFile"]=RenderFile
+    
+    -- let's render:
+    reaper.PreventUIRefresh(-1) -- prevent updating the userinterface, as I don't want flickering when rendered files are added and I'll delete them after that
+    reaper.Main_OnCommand(41824,0) -- render using the last used settings
+
+    -- if no track has been added, the rendering was aborted by userinteraction or error
+    if reaper.CountTracks(0)==OldTrackNumber then ultraschall.AddErrorMessage("RenderProject_RenderTable", "", "rendering aborted", -2) return -1 end
+    
+    -- restore old rendersettings
+    ultraschall.ApplyRenderTable_Project(OldRenderTable, true)
+    RenderTable["AddToProj"]=oldAddToProj
+    
+    -- get all rendered files, that have been added to the track
+    local trackstring=ultraschall.CreateTrackString(OldTrackNumber+1, reaper.CountTracks(0))
+    local Count, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(0, reaper.GetProjectLength(), trackstring, false)
+    
+    -- if user didn't want the renderd files to be added into the project, we delete them again.
+    if AddToProj==false then
+      retval = ultraschall.DeleteTracks_TrackString(trackstring)
+    end
+    reaper.PreventUIRefresh(1) -- reenable refreshing of the user interface 
+    
+    -- let's get the filenames of the rendered files
+    local Filearray={}
+    for i=1, Count do
+      Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \"(.-)\"")
+    end
+    
+    -- restore old settings, that I temporarily overwrite in the RenderTable
+    RenderTable["CloseAfterRender"]=oldcloseafterrender
+    RenderTable["SilentlyIncrementFilename"]=oldsilentlyincreasefilename
+    
+    -- return, what has been found
+    return Count, MediaItemStateChunkArray, Filearray
+  else
+    -- if user wants to render a projectfile:
+    
+    -- check parameters
+    local retval2, oldSaveOpts
+    if type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "projectfilename_with_path", "must be a string", -3) return -1 end
+    if reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProject_RenderTable", "projectfilename_with_path", "no such file", -4) return -1 end
+        
+    -- let's create a copy of the projectfile, which we will modify (Never use the original! Never!)
+    tempfilename = ultraschall.CreateValidTempFile(projectfilename_with_path, true, "", true)
+    if tempfilename==nil then ultraschall.AddErrorMessage("RenderProject_RenderTable", "projectfilename_with_path", "can't create temporary file in projectpath", -5) return -1 end
+    retval = ultraschall.MakeCopyOfFile(projectfilename_with_path, tempfilename)
+    
+    -- use current render-settings from the project, if user didn't pass a RenderTable
+    if RenderTable==nil then 
+      RenderTable=ultraschall.GetRenderTable_ProjectFile(tempfilename) 
+    end
+
+    if SilentlyIncrementFilename~=nil then 
+      RenderTable["SilentlyIncrementFilename"]=SilentlyIncrementFilename
+    end
+    
+    if CloseAfterRender~=nil then 
+      RenderTable["CloseAfterRender"]=CloseAfterRender
+    end
+          
+    -- set Adding renderd files to project as enabled, as we need that to get the filenames of the rendered files
+    RenderTable["AddToProj"]=true
+    ultraschall.ApplyRenderTable_ProjectFile(RenderTable, tempfilename, true)
+    local curProj=reaper.EnumProjects(-1,"") -- get the current tab, before we start the magic
+    
+    -- let's start the magic:
+    
+    -- load the project into a new projecttab
+    reaper.Main_OnCommand(40859,0)    -- create new temporary tab
+    reaper.Main_openProject(tempfilename) -- load the temporary projectfile
+    
+    -- manage automatically closing of the render-window and filename-increasing
+    local val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
+    local oldval=val
+    if RenderTable["CloseAfterRender"]==true then 
+      if val&1==0 then val=val+1 end
+      if val==-99 then val=1 end
+    elseif RenderTable["CloseAfterRender"]==false then 
+      if val&1==1 then val=val-1 end
+      if val==-99 then val=0 end
+    end
+    
+    if RenderTable["SilentlyIncrementFilename"]==true then 
+      if val&16==0 then val=val+16 end
+      if val==-99 then val=16 end
+    elseif RenderTable["SilentlyIncrementFilename"]==false then 
+      if val&16==16 then val=val-16 end
+      if val==-99 then val=0 end
+    end
+    reaper.SNM_SetIntConfigVar("renderclosewhendone", val)
+    
+    -- temporarily disable building peak-caches
+    local peakval=reaper.SNM_GetIntConfigVar("peakcachegenmode", -99)
+    reaper.SNM_SetIntConfigVar("peakcachegenmode", 0)
+    
+    local AllTracks=ultraschall.CreateTrackString_AllTracks() -- get number of tracks after rendering and adding of rendered files
+
+    -- let's prevent creation of copies of the rendered outfile.rpp, as this would spam the harddrive of the user,
+    -- even if this option is enabled currently
+    retval = ultraschall.GetRender_SaveCopyOfProject()
+    ultraschall.SetRender_SaveCopyOfProject(false)
+    retval2=ultraschall.GetRender_SaveCopyOfProject()
+    
+    reaper.Main_OnCommand(41824,0)    -- render using it with the last rendersettings(those, we inserted included)
+    
+    -- reset old Save Copy of Project to outfile-checkbox setting
+    ultraschall.SetRender_SaveCopyOfProject(retval)
+    
+    -- temporarily prevent creation of bak-files and save project, as otherwise we couldn't close the tab
+    oldSaveOpts=reaper.SNM_GetIntConfigVar("saveopts", -111)
+    if oldSaveOpts&1==1 then reaper.SNM_SetIntConfigVar("saveopts", oldSaveOpts-1) end
+    reaper.Main_SaveProject(0, false) -- save it(no use, but otherwise, Reaper would open a Save-Dialog, that we don't want and need)    
+    reaper.SNM_SetIntConfigVar("saveopts", oldSaveOpts) -- reset old bak-files-behavior
+    
+    local AllTracks2=ultraschall.CreateTrackString_AllTracks() -- get number of tracks after rendering and adding of rendered files
+    if AllTracks==AllTracks2 then ultraschall.AddErrorMessage("RenderProject_RenderTable", "", "rendering aborted", -13) return -1 end
+    local retval, Trackstring = ultraschall.OnlyTracksInOneTrackstring(AllTracks, AllTracks2) -- only get the newly added tracks as trackstring
+    
+    -- get the newly rendered items and their statechunks
+    local count, MediaItemArray, MediaItemStateChunkArray
+    if Trackstring~="" then 
+      count, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(0, reaper.GetProjectLength(0), Trackstring, false) -- get the new MediaItems created after adding the rendered files
+    else
+      count=0
+    end
+    reaper.Main_OnCommand(40860,0)    -- close the temporary-tab again
+    
+    -- get the individual filenames of all the rendered files
+    local Filearray={}
+    for i=1, count do
+      Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \"(.-)\"")
+    end
+    
+    -- reset old renderclose/overwrite/Peak-cache-settings
+    reaper.SNM_SetIntConfigVar("renderclosewhendone", oldval)
+    reaper.SNM_SetIntConfigVar("peakcachegenmode", peakval)
+    
+    --remove the temp-file, return to the old projecttab and we are done.
+    os.remove(tempfilename)
+    reaper.SelectProjectInstance(curProj)
+    return count, MediaItemStateChunkArray, Filearray
   end
 end
 
+--ultraschall.SetRender_SaveCopyOfProject(true)
+
+
+--C1=ultraschall.GetRenderTable_ProjectFile("C:\\temp\\1.RPP")
+--[[ultraschall.ShowLastErrorMessage()
+C1["RenderFile"]="c:\\temp\\"
+C1["CloseAfterRender"]=false
+C1["SilentlyIncrementFilename"]=true
+C1["AddToProj"]=false
+A1,A2,A3,A4 = ultraschall.RenderProject_RenderTable("C:\\temp\\1.RPP", C1)
+--A1,A2,A3,A4 = ultraschall.RenderProject_RenderTable(nil, C1)
+--  reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", "", true)
+--  C1,C2=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", "", false)
+--  reaper.Main_OnCommand(41824,0) 
+--]]
+--D=ultraschall.GetRenderTable_Project("C:\\temp\\1.RPP")
+--C1["CloseAfterRender"]=false
+--C1["SilentlyIncrementFilename"]=false
+
+--A1,A2,A3,A4 = ultraschall.RenderProject_RenderTable()
 ultraschall.ShowLastErrorMessage()
