@@ -431,6 +431,10 @@ tagline inspired by a comment from \_stevie\_ ;)
 
   
 #### Changes from Beta 2.74 to Beta 2.75
+  - ChildScripts: GetScriptParameters - omitted parameters, who were nil or "" -> fixed
+  - ChildScripts: GetScriptReturnvalues - omitted returnvalues, who were nil or "" -> fixed
+  - ChildScripts: SetScriptParameters - omitted parameters, who were nil or "" -> fixed
+  - ChildScripts: SetScriptReturnvalues - omitted returnvalues, who were nil or "" -> fixed
   - Docs: CreateTemporaryFileOfProjectfile - moved in docs to Project-Files -> Helper functions
   - Docs: Reaper - updated docs to Reaper 5.977, JS-extension 0.986
   - Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER\_DITHER (dither/noiseshape stems) and RENDER\_SRATE(when returned RENDER\_SRATE=0)
@@ -459,6 +463,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Helpers: Base64\_Encoder - fixed bug that caused encoded strings to end with wrong letter
   - Helpers: CreateUSApiDocs\_HTML - removed, as I'm not using it for ages now
   - Helpers: GetReaperAppVersion - didn't return subversionnumber for pre-releases -> fixed now; returns pre-release-versions as well now
+  - Helpers: MB - allows now to choose your own texts for the buttons
   - Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly
   - Helpers: print2 - didn't show anything, if the first parameter was nil -> fixed now
   - HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well

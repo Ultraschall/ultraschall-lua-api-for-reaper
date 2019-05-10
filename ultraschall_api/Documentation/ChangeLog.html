@@ -140,6 +140,10 @@ Ultraschall API Changelog
 </ul>
 <h4>Changes from Beta 2.74 to Beta 2.75</h4>
 <ul>
+<li>ChildScripts: GetScriptParameters - omitted parameters, who were nil or "" -&gt; fixed</li>
+<li>ChildScripts: GetScriptReturnvalues - omitted returnvalues, who were nil or "" -&gt; fixed</li>
+<li>ChildScripts: SetScriptParameters - omitted parameters, who were nil or "" -&gt; fixed</li>
+<li>ChildScripts: SetScriptReturnvalues - omitted returnvalues, who were nil or "" -&gt; fixed</li>
 <li>Docs: CreateTemporaryFileOfProjectfile - moved in docs to Project-Files -&gt; Helper functions</li>
 <li>Docs: Reaper - updated docs to Reaper 5.977, JS-extension 0.986</li>
 <li>Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER_DITHER (dither/noiseshape stems) and RENDER_SRATE(when returned RENDER_SRATE=0)</li>
@@ -168,6 +172,7 @@ Ultraschall API Changelog
 <li>Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter</li>
 <li>Helpers: CreateUSApiDocs_HTML - removed, as I'm not using it for ages now</li>
 <li>Helpers: GetReaperAppVersion - didn't return subversionnumber for pre-releases -&gt; fixed now; returns pre-release-versions as well now</li>
+<li>Helpers: MB - allows now to choose your own texts for the buttons</li>
 <li>Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly</li>
 <li>Helpers: print2 - didn't show anything, if the first parameter was nil -&gt; fixed now</li>
 <li>HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well</li>

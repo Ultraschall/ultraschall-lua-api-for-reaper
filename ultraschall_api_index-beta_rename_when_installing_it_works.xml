@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="38164.00" author="Meo Mespotine">
+      <version name="38197.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -82,6 +82,7 @@
 	<source file="/ultraschall_api/misc/USDocML-Specs1_0_version2.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/USDocML-Specs1_0_version2.txt</source>
 	<source file="/ultraschall_api/misc/USDocML-Specs1_0_version3.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/USDocML-Specs1_0_version3.txt</source>
 	<source file="/ultraschall_api/Scripts/GetUserInputValues_Helper_Script.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/GetUserInputValues_Helper_Script.lua</source>
+	<source file="/ultraschall_api/Scripts/SetMessageBox_Helper_Script.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/SetMessageBox_Helper_Script.lua</source>
 	<source file="/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_TracknamePatterns.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_TracknamePatterns.lua</source>
 	<source file="/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_Tracknames.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_Tracknames.lua</source>
 	<source file="/ultraschall_api/Scripts/ultraschall_EventManager.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/ultraschall_EventManager.lua</source>
@@ -524,6 +525,14 @@ New features in 4.00beta2.75
 
 Changes from Beta 2.74 to Beta 2.75
 
+-   ChildScripts: GetScriptParameters - omitted parameters, who were nil
+    or "" -> fixed
+-   ChildScripts: GetScriptReturnvalues - omitted returnvalues, who were
+    nil or "" -> fixed
+-   ChildScripts: SetScriptParameters - omitted parameters, who were nil
+    or "" -> fixed
+-   ChildScripts: SetScriptReturnvalues - omitted returnvalues, who were
+    nil or "" -> fixed
 -   Docs: CreateTemporaryFileOfProjectfile - moved in docs to
     Project-Files -> Helper functions
 -   Docs: Reaper - updated docs to Reaper 5.977, JS-extension 0.986
@@ -580,6 +589,7 @@ Changes from Beta 2.74 to Beta 2.75
     ages now
 -   Helpers: GetReaperAppVersion - didn’t return subversionnumber for
     pre-releases -> fixed now; returns pre-release-versions as well now
+-   Helpers: MB - allows now to choose your own texts for the buttons
 -   Helpers: LimitFractionOfFloat - improved code a little for
     rounding-operations, hope it works now properly
 -   Helpers: print2 - didn’t show anything, if the first parameter was
