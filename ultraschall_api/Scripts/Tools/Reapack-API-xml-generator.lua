@@ -5,6 +5,13 @@ ultraschall.ShowErrorMessagesInReascriptConsole(true)
 --!!TODO
 -- script has issues with urls, that contain spaces and other characters in them, that aren't url-suitable.
 
+Docs={5,
+"ultraschall_Help_Reaper_Api_Documentation.lua",
+"ultraschall_Help_Ultraschall_Api_Functions_Reference.lua",
+"ultraschall_Help_Ultraschall_Api_Introduction_and_Concepts.lua",
+"ultraschall_OpenFolder_Api_Documentation.lua",
+"ultraschall_OpenFolder_Api_ExampleScripts.lua"
+}
 
 -- set this to the folder, that you want to create a reapack of
 SourceDir=reaper.GetResourcePath().."/UserPlugins/"--"c:/Ultraschall-Hackversion_3.2_alpha_Februar2019/UserPlugins/"
@@ -418,6 +425,10 @@ for i=1, found_files do
   XML_file=XML_file.."\t<source file=\"/"..tempfile.."\" type=\"extension\">"..Url..tempfile.."</source>\n"
 end
 
+for i=1, Docs[1] do
+  XML_file=XML_file.."\t<source file=\"/"..Docs[i+1].."\" type=\"script\">"..Url..Docs[i+1].."</source>\n"
+end
+
 --print2(XML_file:sub(1,2000))
 --print(XML_end)
 
@@ -434,6 +445,13 @@ for i=1, found_files do
   XML_file=XML_file.."\t<source file=\"/"..tempfile.."\" type=\"extension\">"..Url2..tempfile.."</source>\n"
 end
 
+
+for i=1, Docs[1] do
+  XML_file=XML_file.."\t<source file=\"/"..Docs[i+1].."\" type=\"script\">"..Url2..Docs[i+1].."</source>\n"
+end
+
+--  print2(XML_file:sub(-1000,-1))
+  
 --print2(XML_file:sub(1,2000))
 --print(XML_end)
 
