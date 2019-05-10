@@ -4,6 +4,7 @@
       TODO!! PitchShiftMode - update them to current version of Reaper
       TODO!! RenderProject - use RenderProject_RenderTable for the rendering
       TODO!! RenderProjectRegions - use RenderProject_RenderTable for the rendering
+      TODO!! RenderProject_RenderQueue - renders a project from the renderqueue
       
       TODO!!: add this to undo-functions, as they are the explanation of the extraflags
         #ifndef UNDO_STATE_ALL
@@ -366,6 +367,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Project Management: GetProject\_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk
   - Project Management: GetProject\_Selection - had some inner variables exposed -> fixed now
   - Project Management: GetProjectStateChunk - returns the ProjectStateChunk of the current-active project or a valid projectfile
+  - Render: AddProjectFileToRenderQueue - adds a projectfile or the current active project to the render-queue
   - Render: AddRenderPreset - adds a new render-preset
   - Render: ApplyRenderTable\_Project - applies a RenderTable to the active project
   - Render: ApplyRenderTable\_ProjectFile - applies a RenderTable to a projectfile
@@ -380,6 +382,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: CreateNewRenderTable - creates a new RenderTable, which holds all render-settings; can be applied later to projects or projectfiles
   - Render: DeleteRenderPreset\_Bounds - deletes a bounds-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog
   - Render: DeleteRenderPreset\_FormatOptions - deletes a format/options-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog
+  - Render: GetQueuedProjects - gets the projectfilenames of the projects currently in the render-queue
   - Render: GetRender\_AutoIncrementFilename - gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog
   - Render: GetRender\_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
   - Render: GetRender\_ProjectSampleRateForMix - gets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog
@@ -414,6 +417,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: GetRenderTable\_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk
   - Render: IsValidRenderTable - returns, if a table is a valid RenderTable  
   - Render: RenderProject\_RenderTable - renders a projectfile or the current active project using a RenderTable
+  - Render: ResolveRenderPattern - resolves the renderfilename+renderpattern into it's final outputfilename
   - Render: SetRender\_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog
   - Render: SetRender\_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
   - Render: SetRender\_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog

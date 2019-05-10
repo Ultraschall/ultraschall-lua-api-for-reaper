@@ -45,6 +45,8 @@ if type(ultraschall)~="table" then
   reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "Functions-Build", string, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
   reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", string2, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")  
   ultraschall={} 
+  
+  ultraschall.API_TempPath=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/temp/"
 end
 
 -- deprecated stuff
@@ -16931,8 +16933,10 @@ function ultraschall.GetProject_QRenderOutFiles(projectfilename_with_path, Proje
     if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_QRenderOutFiles", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
   end
   -- get the values and return them
-  local QRenderOutfiles=ProjectStateChunk:match("(QUEUED_RENDER_OUTFILE .-)RIPPLE ")
-  local QRenderOutfiles=string.gsub(QRenderOutfiles, "QUEUED_RENDER_ORIGINAL_FILENAME.-\n", "")
+--  print2(ProjectStateChunk)
+  local QRenderOutFiles=ProjectStateChunk:match("(QUEUED_RENDER_OUTFILE .-)RIPPLE ")
+  if QRenderOutFiles==nil then ultraschall.AddErrorMessage("GetProject_QRenderOutFiles", "projectfilename_with_path", "No entries found!", -5) return nil end
+  local QRenderOutfiles=string.gsub(QRenderOutFiles, "QUEUED_RENDER_ORIGINAL_FILENAME.-\n", "")
   local count, QRenderOutfiles = ultraschall.CSV2IndividualLinesAsArray(QRenderOutfiles, "\n")
   local QRenderOutFilesList={}
   local QRenderOutFilesListGuid={}
@@ -55918,7 +55922,7 @@ A,B=ultraschall.SetArmState_Envelope(TrackEnvelope, 1, EnvStCh)
 print2(B)
 --]]
 
-function ultraschall.GetProjectStateChunk(projectfilename_with_path)
+function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProjectStateChunk</slug>
@@ -55932,6 +55936,9 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path)
   <functioncall>string ProjectStateChunk = ultraschall.GetProjectStateChunk(optional string projectfilename_with_path)</functioncall>
   <description>
     Gets the ProjectStateChunk of the current active project or a projectfile.
+    
+    Important: don't call it too often in a row(wait at least three seconds), as this might fail in these cases(Reaper-API-limitations). 
+    This function also eats up a lot of resources, so be sparse with it!
     
     returns nil if getting the ProjectStateChunk took too long
   </description>
@@ -55993,7 +56000,10 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path)
   while l==nil do
     i=i+1
     filecount2, files2 = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."\\QueuedRenders")
-    if filecount2~=filecount then break end
+    if filecount2~=filecount then 
+      --print_alt(filecount2, filecount) 
+      break 
+    end
     if i==1000000 then ultraschall.AddErrorMessage("GetProjectStateChunk", "", "timeout: Getting the ProjectStateChunk took too long for some reasons, please report this as bug to me!", -1) return end
   end
   local duplicate_count, duplicate_array, originalscount_array1, originals_array1, originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(files, files2)
@@ -56008,9 +56018,11 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path)
     retval, ProjectStateChunk = ultraschall.SetProject_RenderRange(nil, math.floor(oldbounds), math.floor(oldstartpos), math.floor(oldendpos), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILFLAG", 0, false)), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILMS", 0, false)), ProjectStateChunk)
   end
   
-  -- remove QUEUED_RENDER_ORIGINAL_FILENAME and QUEUED_RENDER_OUTFILE-entries
-  ProjectStateChunk=string.gsub(ProjectStateChunk, "  QUEUED_RENDER_OUTFILE .-%c", "")
-  ProjectStateChunk=string.gsub(ProjectStateChunk, "  QUEUED_RENDER_ORIGINAL_FILENAME .-%c", "")
+  if keepqrender~=true then
+    -- remove QUEUED_RENDER_ORIGINAL_FILENAME and QUEUED_RENDER_OUTFILE-entries
+    ProjectStateChunk=string.gsub(ProjectStateChunk, "  QUEUED_RENDER_OUTFILE .-%c", "")
+    ProjectStateChunk=string.gsub(ProjectStateChunk, "  QUEUED_RENDER_ORIGINAL_FILENAME .-%c", "")
+  end
   
   -- reset old auto-increment-checkbox-state
   ultraschall.SetRender_AutoIncrementFilename(old_autoincrement)
@@ -57845,4 +57857,249 @@ A1,A2,A3,A4 = ultraschall.RenderProject_RenderTable("C:\\temp\\1.RPP", C1)
 --C1["SilentlyIncrementFilename"]=false
 
 --A1,A2,A3,A4 = ultraschall.RenderProject_RenderTable()
+
+function ultraschall.GetQueuedProjects()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetQueuedProjects</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer Filecount, array Filearray = ultraschall.GetQueuedProjects()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the number and names of files currently in the render-queue
+  </description>
+  <retvals>
+    integer Filecount - the number of project-files in the render-queue
+    array Filearray - filenames with path of all queued-projectfiles
+  </retvals>
+  <chapter_context>
+    Rendering Projects
+    RenderQueue
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, get, count, files, projects, render, queue, renderqueue</tags>
+</US_DocBloc>
+]]
+  local filecount, files = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."/QueuedRenders/")
+  for i=filecount, 1, -1 do
+    if files[i]:sub(-4,-1):lower()~=".rpp" then table.remove(files,i) filecount=filecount-1 end
+  end
+  return filecount, files
+end
+
+--A, B = ultraschall.GetQueuedProjects()
+
+function ultraschall.AddProjectFileToRenderQueue(projectfilename_with_path)
+-- Todo
+-- add 
+--  QUEUED_RENDER_OUTFILE "C:\defrenderpath\untitled.flac" 65553 {8B34A896-AAE3-4F7F-9A5E-63C19B1C9AE0}
+-- to them, being dependend on, whether some render-stems is selected
+-- need to have somehow a resolve render-pattern-function
+
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AddProjectFileToRenderQueue</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.AddProjectFileToRenderQueue(string projectfilename_with_path)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Adds a projectfile or the current active project to the render-queue
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, adding was successful; false, adding was unsuccessful
+  </retvals>
+  <parameters>
+    string projectfilename_with_path - the projectfile, that you want to add to the render-queue; nil, to add the current active project
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    RenderQueue
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, add, project, render, queue, renderqueue</tags>
+</US_DocBloc>
+]]
+  if projectfilename_with_path==nil then reaper.Main_OnCommand(41823,0) return true end
+  if type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("AddProjectFileToRenderQueue", "projectfilename_with_path", "must be a string", -1) return false end
+  if reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("AddProjectFileToRenderQueue", "projectfilename_with_path", "no such projectfile", -2) return false end
+  
+  
+  local path, projfilename = ultraschall.GetPath(projectfilename_with_path)
+  local Projectfilename=ultraschall.API_TempPath..projfilename
+  local A, B, Count, Individual_values, tempa, tempb, filename, Qfilename
+  
+  A=ultraschall.ReadFullFile(projectfilename_with_path) 
+  B=""
+  
+  if ultraschall.IsValidProjectStateChunk(A)==false then ultraschall.AddErrorMessage("AddProjectFileToRenderQueue", "projectfilename_with_path", "not a valid projectfile", -3) return false end
+  
+  Count, Individual_values = ultraschall.CSV2IndividualLinesAsArray(A, "\n")
+  
+  for i=1, Count do
+    if Individual_values[i]:match("^        FILE \"")~=nil then
+      filename=Individual_values[i]:match("\"(.-)\"")
+      if reaper.file_exists(path..filename)==true then
+        tempa, tempb=Individual_values[i]:match("(.-\").-(\".*)")
+        Individual_values[i]=tempa..path..filename..tempb
+      end
+    end
+    B=B.."\n"..Individual_values[i]
+  end
+  
+  -- let's create a valid render-queue-filename
+  local A, month, day, hour, min, sec
+  A=os.date("*t")
+  if tostring(A["month"]):len()==1 then month="0"..tostring(A["month"]) else month=tostring(A["month"]) end
+  if tostring(A["day"]):len()==1 then day="0"..tostring(A["day"]) else day=tostring(A["day"]) end
+  
+  if tostring(A["hour"]):len()==1 then hour="0"..tostring(A["hour"]) else hour=tostring(A["hour"]) end
+  if tostring(A["min"]):len()==1 then min="0"..tostring(A["min"]) else min=tostring(A["min"]) end
+  if tostring(A["sec"]):len()==1 then sec="0"..tostring(A["sec"]) else sec=tostring(A["sec"]) end
+  
+  Qfilename="qrender_"..tostring(A["year"]):sub(-2,-1)..month..day.."_"..hour..min..sec.."_"..projectfilename_with_path:match(".*[\\/](.*)")
+
+  B=B:match(".-<REAPER_PROJECT.-\n").."  QUEUED_RENDER_ORIGINAL_FILENAME C:\\Render-Queue-Documentation.RPP\n"..B:match(".-<REAPER_PROJECT.-\n(.*)")
+
+  -- write file into render-queue
+  if ultraschall.WriteValueToFile(reaper.GetResourcePath().."/QueuedRenders/"..Qfilename, B)==-1 then return false else return true end
+end
+
+--A=ultraschall.AddProjectFileToRenderQueue("c:\\Render-Queue-Documentation.RPP")
+--ultraschall.AddProjectFileToRenderQueue("c:\\Users\\meo\\Desktop\\trss\\Maerz2019-1\\rec\\rec-edit.RPP")
+
+function ultraschall.ResolveRenderPattern(renderfile, renderpattern)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ResolveRenderPattern</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.972
+    Lua=5.3
+  </requires>
+  <functioncall>count_outfiles, table QRenderOutFilesList = ultraschall.ResolveRenderPattern(string renderfile, string renderpattern)</functioncall>
+  <description>
+    Resolves the renderpattern to the right renderfilenames.
+    
+    This resolves stem-names according to the tracks of the current active project, so a wildcard of $TRACK will contain the tracknames of the current project.
+    
+    Important: don't call it too often in a row(wait at least three seconds), as this might fail in these cases(Reaper-API-limitations). 
+    This function also eats up a lot of resources, so be sparse with it!
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+     integer count_outfiles - the number of render-outfiles 
+     table QRenderOutFilesList - an array with all filenames-with-paths that the rendered files will have; 
+                               - the first filename is the one for the mastertrack, the others for stems
+  </retvals>
+  <parameters>
+    string renderfile - the renderfile, which is usually the path into which the rendered files are stored
+    string renderpattern  - the renderpattern, which is the filename with or without wildcards
+                          - Capitalizing the first character of the wildcard will capitalize the first letter of the substitution. Capitalizing the first two characters of the wildcard will capitalize all letters.
+                          - 
+                          - Directories will be created if necessary. For example if the render target is "$project/track", the directory "$project" will be created.
+                          - 
+                          - Immediately following a wildcard, character replacement statements may be specified:
+                          -   <X>  -- single character which is to be removed from the substituion. For example: $track< > removes all spaces from the track name, $track</><\> removes all slashes.
+                          -   <abcdeX> -- multiple characters, abcde are all replaced with X. For example: <_.> replaces all underscores with periods, </\_> replaces all slashes with underscores. If > is specified as a source character, it must be listed first in the list.
+                          - 
+                          - $item    media item take name, if the input is a media item
+                          - $itemnumber  1 for the first media item on a track, 2 for the second...
+                          - $track    track name
+                          - $tracknumber  1 for the first track, 2 for the second...
+                          - $parenttrack  parent track name
+                          - $region    region name
+                          - $regionnumber  1 for the first region, 2 for the second...
+                          - $project    project name
+                          - $tempo    project tempo at the start of the render region
+                          - $timesignature  project time signature at the start of the render region, formatted as 4-4
+                          - $filenumber  blank (optionally 1) for the first file rendered, 1 (optionally 2) for the second...
+                          - $filenumber[N]  N for the first file rendered, N+1 for the second...
+                          - $note    C0 for the first file rendered,C#0 for the second...
+                          - $note[X]    X (example: B2) for the first file rendered, X+1 (example: C3) for the second...
+                          - $natural    C0 for the first file rendered, D0 for the second...
+                          - $natural[X]  X (example: F2) for the first file rendered, X+1 (example: G2) for the second...
+                          - $namecount  1 for the first item or region of the same name, 2 for the second...
+                          - $timelineorder  1 for the first item or region on the timeline, 2 for the second...
+                          - 
+                          - Position/Length:
+                          - $start    start time of the media item, render region, or time selection, in M-SS.TTT
+                          - $end    end time of the media item, render region, or time selection, in M-SS.TTT
+                          - $length    length of the media item, render region, or time selection, in M-SS.TTT
+                          - $startbeats  start time in measures.beats of the media item, render region, or time selection
+                          - $endbeats  end time in measures.beats of the media item, render region, or time selection
+                          - $lengthbeats    length in measures.beats of the media item, render region, or time selection
+                          - $starttimecode  start time in H-MM-SS-FF format of the media item, render region, or time selection
+                          - $endtimecode  end time in H-MM-SS-FF format of the media item, render region, or time selection
+                          - $startframes  start time in absolute frames of the media item, render region, or time selection
+                          - $endframes  end time in absolute frames of the media item, render region, or time selection
+                          - $lengthframes  length in absolute frames of the media item, render region, or time selection
+                          - $startseconds  start time in whole seconds of the media item, render region, or time selection
+                          - $endseconds  end time in whole seconds of the media item, render region, or time selection
+                          - $lengthseconds  length in whole seconds of the media item, render region, or time selection
+                          - 
+                          - Output Format:
+                          - $format    render format (example: wav)
+                          - $samplerate  sample rate (example: 44100)
+                          - $sampleratek  sample rate (example: 44.1)
+                          - $bitdepth  bit depth, if available (example: 24 or 32FP)
+                          - 
+                          - Current Date/Time:
+                          - $year    year, currently 2019
+                          - $year2    last 2 digits of the year,currently 19
+                          - $month    month number,currently 04
+                          - $monthname  month name,currently apr
+                          - $day    day of the month, currently 28
+                          - $hour    hour of the day in 24-hour format,currently 23
+                          - $hour12    hour of the day in 12-hour format,currently 11
+                          - $ampm    am if before noon,pm if after noon,currently pm
+                          - $minute    minute of the hour,currently 30
+                          - $second    second of the minute,currently 27
+                          - 
+                          - Computer Information:
+                          - $user    user name, currently meo
+                          - $computer  computer name, currently MEO-MESPOTINE
+                          -(this description has been taken from the Render Wildcard Help within the Render-Dialog of Reaper)
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render, resolve, output, filename</tags>
+</US_DocBloc>
+]]  
+  if type(renderfile)~="string" then ultraschall.AddErrorMessage("ResolveRenderPattern", "renderfile", "must be a string", -1) return nil end
+  if type(renderpattern)~="string" then ultraschall.AddErrorMessage("ResolveRenderPattern", "renderpattern", "must be a string", -2) return nil end
+  local retval, temprenderfile= reaper.GetSetProjectInfo_String(0, "RENDER_FILE", "", false)
+  local retval, temprenderpattern = reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", "", false)
+  local temprendersetting = reaper.GetSetProjectInfo(0, "RENDER_SETTINGS", 1, false)
+  
+  retval = reaper.GetSetProjectInfo_String(0, "RENDER_FILE", renderfile, true)
+  retval = reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", renderpattern, true)
+  retval = reaper.GetSetProjectInfo(0, "RENDER_SETTINGS", 1, true)
+  local ProjectStateChunk=ultraschall.GetProjectStateChunk(nil, true)
+  retval = reaper.GetSetProjectInfo_String(0, "RENDER_FILE", temprenderfile, true)
+  retval = reaper.GetSetProjectInfo_String(0, "RENDER_PATTERN", temprenderpattern, true)
+  retval = reaper.GetSetProjectInfo(0, "RENDER_SETTINGS", temprendersetting, true)
+  --print2(ProjectStateChunk)
+  local a,b=ultraschall.GetProject_QRenderOutFiles(nil, ProjectStateChunk)
+  return a,b
+end
+
+--A,B,C,D,E,F,G=ultraschall.ResolveRenderPattern("c:\\holabola", "tudessslu$TRACK$USER")
+
 ultraschall.ShowLastErrorMessage()

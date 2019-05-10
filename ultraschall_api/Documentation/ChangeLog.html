@@ -75,6 +75,7 @@ Ultraschall API Changelog
 <li>Project Management: GetProject_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk</li>
 <li>Project Management: GetProject_Selection - had some inner variables exposed -&gt; fixed now</li>
 <li>Project Management: GetProjectStateChunk - returns the ProjectStateChunk of the current-active project or a valid projectfile</li>
+<li>Render: AddProjectFileToRenderQueue - adds a projectfile or the current active project to the render-queue</li>
 <li>Render: AddRenderPreset - adds a new render-preset</li>
 <li>Render: ApplyRenderTable_Project - applies a RenderTable to the active project</li>
 <li>Render: ApplyRenderTable_ProjectFile - applies a RenderTable to a projectfile</li>
@@ -89,6 +90,7 @@ Ultraschall API Changelog
 <li>Render: CreateNewRenderTable - creates a new RenderTable, which holds all render-settings; can be applied later to projects or projectfiles</li>
 <li>Render: DeleteRenderPreset_Bounds - deletes a bounds-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog</li>
 <li>Render: DeleteRenderPreset_FormatOptions - deletes a format/options-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog</li>
+<li>Render: GetQueuedProjects - gets the projectfilenames of the projects currently in the render-queue</li>
 <li>Render: GetRender_AutoIncrementFilename - gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
 <li>Render: GetRender_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog</li>
 <li>Render: GetRender_ProjectSampleRateForMix - gets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog</li>
@@ -124,6 +126,7 @@ Ultraschall API Changelog
 <li>Render: IsValidRenderTable - returns, if a table is a valid RenderTable<br />
 </li>
 <li>Render: RenderProject_RenderTable - renders a projectfile or the current active project using a RenderTable</li>
+<li>Render: ResolveRenderPattern - resolves the renderfilename+renderpattern into it's final outputfilename</li>
 <li>Render: SetRender_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
 <li>Render: SetRender_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog</li>
 <li>Render: SetRender_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog</li>
