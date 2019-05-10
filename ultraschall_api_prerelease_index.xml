@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="38198.00" author="Meo Mespotine">
+      <version name="38227.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/._Changelog-Api.txt</source>
@@ -504,6 +504,8 @@ New features in 4.00beta2.75
     RenderTable
 -   Render: RenderProject_RenderTable - renders a projectfile or the
     current active project using a RenderTable
+-   Render: RenderProject_RenderQueue - renders a specific project from
+    the render-queue
 -   Render: ResolveRenderPattern - resolves the
     renderfilename+renderpattern into it’s final outputfilename
 -   Render: SetRender_AutoIncrementFilename - sets the current state of

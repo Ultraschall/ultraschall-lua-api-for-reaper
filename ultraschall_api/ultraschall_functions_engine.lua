@@ -58024,7 +58024,7 @@ function ultraschall.ResolveRenderPattern(renderfile, renderpattern)
     JS=0.972
     Lua=5.3
   </requires>
-  <functioncall>count_outfiles, table QRenderOutFilesList = ultraschall.ResolveRenderPattern(string renderfile, string renderpattern)</functioncall>
+  <functioncall>integer count_outfiles, table QRenderOutFilesList = ultraschall.ResolveRenderPattern(string renderfile, string renderpattern)</functioncall>
   <description>
     Resolves the renderpattern to the right renderfilenames.
     
@@ -58137,5 +58137,56 @@ function ultraschall.ResolveRenderPattern(renderfile, renderpattern)
 end
 
 --A,B,C,D,E,F,G=ultraschall.ResolveRenderPattern("c:\\holabola", "tudessslu$TRACK$USER")
+
+function ultraschall.RenderProject_RenderQueue(index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RenderProject_RenderQueue</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.RenderProject_RenderQueue(string renderfile, string renderpattern)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Renders a specific project from the render-queue. 
+    
+    See [GetQueuedProjects](#GetQueuedProjects) to get the names of the currently existing render-queue-projects, where the filename-order reflects the index needed for this function.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - false, a problem occurred; true, rendering went through; returns true as well, when rendering is aborted!
+  </retvals>
+  <parameters>
+    integer index - the index of the render-queued-project; beginning with 1
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectmanagement, renderqueue, render</tags>
+</US_DocBloc>
+]]  
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("RenderProject_RenderQueue", "index", "no such queued-project", -1) return false end
+  local Filecount, Filearray = ultraschall.GetQueuedProjects()
+  if index>Filecount or index<1 then ultraschall.AddErrorMessage("RenderProject_RenderQueue", "index", "no such queued-project", -2) return false end
+  Filecount=Filecount-1
+  table.remove(Filearray,index)
+  for i=1, Filecount do
+    os.rename(Filearray[i], Filearray[i].."p")
+  end
+  
+  reaper.Main_OnCommand(41207,0)
+  
+  for i=1, Filecount do
+    os.rename(Filearray[i].."p", Filearray[i])
+  end
+  return true
+end
+
+--ultraschall.RenderProject_RenderQueue(1)
 
 ultraschall.ShowLastErrorMessage()

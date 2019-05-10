@@ -4,7 +4,6 @@
       TODO!! PitchShiftMode - update them to current version of Reaper
       TODO!! RenderProject - use RenderProject_RenderTable for the rendering
       TODO!! RenderProjectRegions - use RenderProject_RenderTable for the rendering
-      TODO!! RenderProject_RenderQueue - renders a project from the renderqueue
       
       TODO!!: add this to undo-functions, as they are the explanation of the extraflags
         #ifndef UNDO_STATE_ALL
@@ -417,6 +416,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: GetRenderTable\_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk
   - Render: IsValidRenderTable - returns, if a table is a valid RenderTable  
   - Render: RenderProject\_RenderTable - renders a projectfile or the current active project using a RenderTable
+  - Render: RenderProject\_RenderQueue - renders a specific project from the render-queue
   - Render: ResolveRenderPattern - resolves the renderfilename+renderpattern into it's final outputfilename
   - Render: SetRender\_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog
   - Render: SetRender\_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
