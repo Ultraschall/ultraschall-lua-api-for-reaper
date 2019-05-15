@@ -1,25 +1,8 @@
 <TODO>
     
     API 4.00beta2.75
-      TODO!! PitchShiftMode - update them to current version of Reaper
-      TODO!! RenderProject - use RenderProject_RenderTable for the rendering
       TODO!! RenderProjectRegions - use RenderProject_RenderTable for the rendering
-      
-      TODO!!: add this to undo-functions, as they are the explanation of the extraflags
-        #ifndef UNDO_STATE_ALL
-        #define UNDO_STATE_ALL 0xFFFFFFFF
-        #define UNDO_STATE_TRACKCFG 1 // has track/master vol/pan/routing, ALL envelopes (matser included)
-        #define UNDO_STATE_FX 2  // track/master fx
-        #define UNDO_STATE_ITEMS 4  // track items
-        #define UNDO_STATE_MISCCFG 8 // loop selection, markers, regions, extensions!
-        #endif
-
-      
-      TODO!! GetTrackPanLaw_Boost(tracknumber, sendidx, setstate)
-                    setstate=true -> don't insert it
-                    setstate=false -> insert it AFTER the AUXRECV with idx "sendidx"
-                    
-                    only possible using TrackStateChunks, so no speedup possible
+      TODO!! Docs for Rendering, Rendertables and removing beta-management-chapter
                     
       TODO!! RenderProject_RenderCfg - new implementation, that exploits the render-queue, rather the reopening of a project
                                        should work with opened projects, but still unknown, how to add unopened projects properly and how to find out the rendered files afterwards...
@@ -99,27 +82,38 @@
             3b) if QUEUED_RENDER_ORIGINAL_FILENAME exists it will be the exportfolder
                 3ba) if RENDER_FILE is set to anything, the output will be QUEUED_RENDER_ORIGINAL_FILENAME\RENDER_FILE
 
-                
-      TODO!! Multipass-rendering
-                When you want to render out a "wet"-loop, that needs reverb or something, you would need to render this loop three times:
-                        one to start up all reverbs, two for the actual loop and three for the "loop aftermath"
-                After that, you need to edit this rendered file down to the middle part by hand, which is tedious.
-                If there's a rendering-function could do that automatically, it would be cool.
-                    Load the project(if not the current one)
-                    Copy the tracks with the to be looped items/timeselection into an empty project, which must hold all rendering-settings(looped-time-selection probably)
-                    duplicate it so the items are now three times after each other
-                    Render it out and include the rendered file into the current project(maybe as stems?)
-                    edit it down to the original loop
-                    Render that out into a new file
-                    Delete the temp-rendered-files
-                    close the projects and return the filename
-      TODO!!  - RenderProjectRegions_RenderCFG2  and RenderProject_RenderCFG2 - set RenderPattern instead of RenderFilenameWithPath
-      TODO!!  - RenderProjectRegions_RenderCFG3  and RenderProject_RenderCFG3 - set Track(s) to be rendered
-                                                      
-
-
-
     For 4.00beta2.8:
+        TODO!! Multipass-rendering
+                    When you want to render out a "wet"-loop, that needs reverb or something, you would need to render this loop three times:
+                            one to start up all reverbs, two for the actual loop and three for the "loop aftermath"
+                    After that, you need to edit this rendered file down to the middle part by hand, which is tedious.
+                    If there's a rendering-function could do that automatically, it would be cool.
+                        Load the project(if not the current one)
+                        Copy the tracks with the to be looped items/timeselection into an empty project, which must hold all rendering-settings(looped-time-selection probably)
+                        duplicate it so the items are now three times after each other
+                        Render it out and include the rendered file into the current project(maybe as stems?)
+                        edit it down to the original loop
+                        Render that out into a new file
+                        Delete the temp-rendered-files
+                        close the projects and return the filename
+        TODO!!  - RenderProjectRegions_RenderCFG2  and RenderProject_RenderCFG2 - set RenderPattern instead of RenderFilenameWithPath
+        TODO!!  - RenderProjectRegions_RenderCFG3  and RenderProject_RenderCFG3 - set Track(s) to be rendered
+        TODO!! PitchShiftMode - update them to current version of Reaper
+        TODO!!: add this to undo-functions, as they are the explanation of the extraflags
+        #ifndef UNDO_STATE_ALL
+        #define UNDO_STATE_ALL 0xFFFFFFFF
+        #define UNDO_STATE_TRACKCFG 1 // has track/master vol/pan/routing, ALL envelopes (matser included)
+        #define UNDO_STATE_FX 2  // track/master fx
+        #define UNDO_STATE_ITEMS 4  // track items
+        #define UNDO_STATE_MISCCFG 8 // loop selection, markers, regions, extensions!
+        #endif
+
+      
+      TODO!! GetTrackPanLaw_Boost(tracknumber, sendidx, setstate)
+                    setstate=true -> don't insert it
+                    setstate=false -> insert it AFTER the AUXRECV with idx "sendidx"
+                    
+                    only possible using TrackStateChunks, so no speedup possible
       TODO!! Statechunk-Docs, when Reaper 5.974 or later is released:   + Item notes: optionally display image notes in full height mode
                                                                          new Item/AI-items/Track/Take-extstates from pre-releases
                                                                          AUXRECV is missing in the statechunk-docs, maybe other routing-stuff as well?
@@ -497,13 +491,15 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: CreateRenderCFG\_WebMVideo - rewritten, lifted many limitations
   - Render: GetOutputFormat\_RenderCfg - moved to docs-index Rendering of Project -> Analyzing Renderstrings; 
                                          allows now passing a project/projecttab as well
-  - Render: RenderProject - renamed from RenderProject\_RenderCFG, which is still available, but undocumented; sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)
+                                         recoded, is now more future-proof 
+  - Render: RenderProject - renamed from RenderProject\_RenderCFG, which is still available, but undocumented; reimplemented: sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)
   - Render: RenderProject\_Regions - renamed from RenderProjectRegions\_RenderCFG, which is still available, but undocumented; sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)
   - Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
   - Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
   - Routing: AddTrackAUXSendReceives - had parameters tracknumber and recv_tracknumber accidentally reversed, when not working with StateChunks .. oops -> fixed (thanks to woodslanding)
   - TrackManagement: GetTrackHeightState - stabilised parameter TrackStateChunk, returns now locked-trackstate
   - TrackManagement: SetTrackHeightState - stabilised parameter TrackStateChunk, allows now setting locked-trackstate
+  - TrackManagement: SetTracksSelected - when trackstring=nil or "", it deselectes all tracks now
   
   ---
   
