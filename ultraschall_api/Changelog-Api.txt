@@ -358,7 +358,6 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Project Management: GetProject\_QRenderOutFiles - returns the render-outfiles-with-path of a render-queued-project from a projectfile or ProjectStateChunk
   - Project Management: GetProject\_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk
   - Project Management: GetProject\_Selection - had some inner variables exposed -> fixed now
-  - Project Management: GetProjectStateChunk - returns the ProjectStateChunk of the current-active project or a valid projectfile
   - Render: AddProjectFileToRenderQueue - adds a projectfile or the current active project to the render-queue
   - Render: AddRenderPreset - adds a new render-preset
   - Render: ApplyRenderTable\_Project - applies a RenderTable to the active project
@@ -410,7 +409,6 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: IsValidRenderTable - returns, if a table is a valid RenderTable  
   - Render: RenderProject\_RenderTable - renders a projectfile or the current active project using a RenderTable
   - Render: RenderProject\_RenderQueue - renders a specific project from the render-queue
-  - Render: ResolveRenderPattern - resolves the renderfilename+renderpattern into it's final outputfilename
   - Render: SetRender\_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog
   - Render: SetRender\_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
   - Render: SetRender\_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog
@@ -418,8 +416,13 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: SetRender\_SaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.
   - Render: SetRender\_QueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.
   - Render: SetRenderPreset - sets the values of an existing render-preset
+  - Scripts: ultraschall\_Add\_ExampleScripts\_To\_Reaper.lua - adds the example-scripts into Reaper, can be searched for using examples
+  - Scripts: ultraschall\_Help\_Reaper\_Api\_Video\_Documentation.lua - opens the video-api-documenation in the browser
+  - Scripts: ultraschall\_Help\_Reaper\_Api\_Web\_Documentation.lua - opens the web-rc-api-documenation in the browser
+  - Scripts: ultraschall\_Help\_Reaper\_ConfigVars\_Documentation.lua - opens the config-vars-documenation in the browser
   - Scripts: ultraschall\_OpenFolder\_Api\_Documentation.lua - opens the documentation-folders
   - Scripts: ultraschall\_OpenFolder\_Api\_ExampleScripts.lua - opens the example-scripts-folder
+  - Scripts: ultraschall_Remove_ExampleScripts_To_Reaper.lua - removes the example-scripts from Reaper again
   - Trackmanagement: DeleteTracks\_TrackString - deletes all tracks given in a trackstring
   - UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd
   - UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd

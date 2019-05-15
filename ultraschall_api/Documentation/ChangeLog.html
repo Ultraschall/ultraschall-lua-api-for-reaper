@@ -74,7 +74,6 @@ Ultraschall API Changelog
 <li>Project Management: GetProject_QRenderOutFiles - returns the render-outfiles-with-path of a render-queued-project from a projectfile or ProjectStateChunk</li>
 <li>Project Management: GetProject_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk</li>
 <li>Project Management: GetProject_Selection - had some inner variables exposed -&gt; fixed now</li>
-<li>Project Management: GetProjectStateChunk - returns the ProjectStateChunk of the current-active project or a valid projectfile</li>
 <li>Render: AddProjectFileToRenderQueue - adds a projectfile or the current active project to the render-queue</li>
 <li>Render: AddRenderPreset - adds a new render-preset</li>
 <li>Render: ApplyRenderTable_Project - applies a RenderTable to the active project</li>
@@ -127,7 +126,6 @@ Ultraschall API Changelog
 </li>
 <li>Render: RenderProject_RenderTable - renders a projectfile or the current active project using a RenderTable</li>
 <li>Render: RenderProject_RenderQueue - renders a specific project from the render-queue</li>
-<li>Render: ResolveRenderPattern - resolves the renderfilename+renderpattern into it's final outputfilename</li>
 <li>Render: SetRender_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
 <li>Render: SetRender_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog</li>
 <li>Render: SetRender_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog</li>
@@ -135,8 +133,13 @@ Ultraschall API Changelog
 <li>Render: SetRender_SaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.</li>
 <li>Render: SetRender_QueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>
 <li>Render: SetRenderPreset - sets the values of an existing render-preset</li>
+<li>Scripts: ultraschall_Add_ExampleScripts_To_Reaper.lua - adds the example-scripts into Reaper, can be searched for using examples</li>
+<li>Scripts: ultraschall_Help_Reaper_Api_Video_Documentation.lua - opens the video-api-documenation in the browser</li>
+<li>Scripts: ultraschall_Help_Reaper_Api_Web_Documentation.lua - opens the web-rc-api-documenation in the browser</li>
+<li>Scripts: ultraschall_Help_Reaper_ConfigVars_Documentation.lua - opens the config-vars-documenation in the browser</li>
 <li>Scripts: ultraschall_OpenFolder_Api_Documentation.lua - opens the documentation-folders</li>
 <li>Scripts: ultraschall_OpenFolder_Api_ExampleScripts.lua - opens the example-scripts-folder</li>
+<li>Scripts: ultraschall<em>Remove</em>ExampleScripts<em>To</em>Reaper.lua - removes the example-scripts from Reaper again</li>
 <li>Trackmanagement: DeleteTracks_TrackString - deletes all tracks given in a trackstring</li>
 <li>UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd</li>
 <li>UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd</li>

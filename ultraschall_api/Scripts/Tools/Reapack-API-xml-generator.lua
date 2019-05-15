@@ -5,12 +5,17 @@ ultraschall.ShowErrorMessagesInReascriptConsole(true)
 --!!TODO
 -- script has issues with urls, that contain spaces and other characters in them, that aren't url-suitable.
 
-Docs={5,
+Docs={10,
+"ultraschall_Add_ExampleScripts_To_Reaper.lua",
 "ultraschall_Help_Reaper_Api_Documentation.lua",
+"ultraschall_Help_Reaper_Api_Video_Documentation.lua",
+"ultraschall_Help_Reaper_Api_Web_Documentation.lua",
+"ultraschall_Help_Reaper_ConfigVars_Documentation.lua",
 "ultraschall_Help_Ultraschall_Api_Functions_Reference.lua",
 "ultraschall_Help_Ultraschall_Api_Introduction_and_Concepts.lua",
 "ultraschall_OpenFolder_Api_Documentation.lua",
-"ultraschall_OpenFolder_Api_ExampleScripts.lua"
+"ultraschall_OpenFolder_Api_ExampleScripts.lua",
+"ultraschall_Remove_ExampleScripts_To_Reaper.lua"
 }
 
 -- set this to the folder, that you want to create a reapack of
