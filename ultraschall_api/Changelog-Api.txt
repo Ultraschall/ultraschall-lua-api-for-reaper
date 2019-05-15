@@ -502,6 +502,8 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
   - Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
   - Routing: AddTrackAUXSendReceives - had parameters tracknumber and recv_tracknumber accidentally reversed, when not working with StateChunks .. oops -> fixed (thanks to woodslanding)
+  - TrackManagement: GetTrackHeightState - stabilised parameter TrackStateChunk, returns now locked-trackstate
+  - TrackManagement: SetTrackHeightState - stabilised parameter TrackStateChunk, allows now setting locked-trackstate
   
   ---
   

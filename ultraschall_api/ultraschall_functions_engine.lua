@@ -2929,7 +2929,7 @@ function ultraschall.GetTrackHeightState(tracknumber, str)
   <retvals>
     integer height - 24 up to 443
     integer heightstate2 - 0 - use height, 1 - compact the track and ignore the height
-    integer unknown - unknown    
+    integer lock_trackheight - 0, don't lock the trackheight; 1, lock the trackheight
   </retvals>
   <parameters>
     integer tracknumber - number of the track, beginning with 1; 0 for master track; -1, if you want to use the parameter TrackStateChunk instead.
@@ -2957,7 +2957,10 @@ function ultraschall.GetTrackHeightState(tracknumber, str)
       retval, str = ultraschall.GetTrackStateChunk(MediaTrack, "test", false)
   else
   end
-  if str==nil or str:match("<TRACK.*>")==nil then ultraschall.AddErrorMessage("GetTrackHeightState", "TrackStateChunk", "no valid TrackStateChunk", -3) return nil end
+  if type(str)~="string" or str:match("<TRACK.*>")==nil then 
+    ultraschall.AddErrorMessage("GetTrackHeightState", "TrackStateChunk", "no valid TrackStateChunk", -3) 
+    return nil 
+  end
   
   -- get trackheight-state
   str=str:match("(TRACKHEIGHT%s.-)%c")
@@ -2967,6 +2970,8 @@ function ultraschall.GetTrackHeightState(tracknumber, str)
          tonumber(str:match("%s.-%s(.-)%s")),
          tonumber(str:match("%s.-%s.-%s(.-)%s"))
 end
+    
+--A,B,C=ultraschall.GetTrackHeightState(1)
     
 function ultraschall.GetTrackINQState(tracknumber, str)
 --[[
@@ -5317,16 +5322,16 @@ function ultraschall.SetTrackVUState(tracknumber, VUState, TrackStateChunk)
   return B, B1.."\n"..str.."\n"..B3
 end
 
-function ultraschall.SetTrackHeightState(tracknumber, heightstate1, heightstate2, TrackStateChunk)
+function ultraschall.SetTrackHeightState(tracknumber, heightstate1, heightstate2, heightstate3, TrackStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetTrackHeightState</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=5.977
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackHeightState(integer tracknumber, integer height, integer heightstate2, optional string TrackStateChunk)</functioncall>
+  <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackHeightState(integer tracknumber, integer height, integer heightstate2, integer lockedtrackheight, optional string TrackStateChunk)</functioncall>
   <description>
     Sets TRACKHEIGHT-state; the height and compacted state of the track or a TrackStateChunk.
     
@@ -5339,6 +5344,7 @@ function ultraschall.SetTrackHeightState(tracknumber, heightstate1, heightstate2
   <parameters>
     integer tracknumber - number of the track, beginning with 1; 0 for master-track; -1 if you want to use parameter TrackStateChunk
     integer height -  24 up to 443 pixels
+    integer lockedtrackheight - 0, trackheight is not locked; 1, trackheight is locked
     optional string TrackStateChunk - use a trackstatechunk instead of a track; only used when tracknumber is -1
   </parameters>
   <chapter_context>
@@ -5355,9 +5361,14 @@ function ultraschall.SetTrackHeightState(tracknumber, heightstate1, heightstate2
   if tracknumber<-1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("SetTrackHeightState", "tracknumber", "no such track in the project", -2) return false end
   if math.type(heightstate1)~="integer" then ultraschall.AddErrorMessage("SetTrackHeightState", "height", "must be an integer, between 24 and 443", -3) return false end
   if math.type(heightstate2)~="integer" then ultraschall.AddErrorMessage("SetTrackHeightState", "heightstate2", "must be an integer", -4) return false end
+  if type(heightstate3)=="string" then 
+    TrackStateChunk=heightstate3
+    heightstate=""
+  elseif math.type(heightstate3)~="integer" then ultraschall.AddErrorMessage("SetTrackHeightState", "lockedtrackheight", "must be an integer", -4) return false 
+  end
   
   -- create state-entry
-  local str="TRACKHEIGHT "..heightstate1.." "..heightstate2
+  local str="TRACKHEIGHT "..heightstate1.." "..heightstate2.." "..heightstate3
   
   -- get trackstatechunk
   local Mediatrack, A, AA, B
@@ -5386,6 +5397,12 @@ function ultraschall.SetTrackHeightState(tracknumber, heightstate1, heightstate2
 
   return B, B1.."\n"..str.."\n"..B3
 end
+
+--A,AA=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
+--A00,A01=ultraschall.SetTrackHeightState(-1, 100, 1, AA)
+--A,AA=reaper.GetTrackStateChunk(reaper.GetTrack(0,0),"",false)
+--A1,B1,C1=ultraschall.GetTrackHeightState(-1, A01)
+--print2(A01)
 
 function ultraschall.SetTrackINQState(tracknumber, INQ1, INQ2, INQ3, INQ4, INQ5, INQ6, INQ7, INQ8, TrackStateChunk)
 --[[
@@ -43157,253 +43174,6 @@ function ultraschall.CreateValidTempFile(filename_with_path, create, suffix, ret
 end
 
 
-function ultraschall.RenderProject(projectfilename_with_path, renderfilename_with_path, startposition, endposition, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>RenderProject</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.975
-    SWS=2.10.0.1
-    JS=0.972
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg)</functioncall>
-  <description>
-    Renders a project, using a specific render-cfg-string.
-    To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
-    
-    Returns -1 in case of an error
-  </description>
-  <retvals>
-    integer retval - -1, in case of error; 0, in case of success
-    integer renderfilecount - the number of rendered files
-    array MediaItemStateChunkArray - the MediaItemStateChunks of all rendered files, with the one in entry 1 being the rendered master-track(when rendering stems)
-    array Filearray - the filenames of the rendered files, including their paths. The filename in entry 1 is the one of the mastered track(when rendering stems)
-  </retvals>
-  <parameters>
-    string projectfilename_with_path - the project to render; nil, for the currently opened project(needs to be saved first)
-    string renderfilename_with_path - the filename of the output-file. If you give the wrong extension, Reaper will exchange it by the correct one.
-                                    - nil, will use the render-filename/render-pattern already set in the project as renderfilename
-    number startposition - the startposition of the render-area in seconds; 
-                         - -1, to use the startposition set in the projectfile itself; 
-                         - -2, to use the start of the time-selection
-    number endposition - the endposition of the render-area in seconds; 
-                       - 0, to use projectlength of the currently opened and active project(not supported with "external" projectfiles, yet)
-                       - -1, to use the endposition set in the projectfile itself
-                       - -2, to use the end of the time-selection
-    boolean overwrite_without_asking - true, overwrite an existing renderfile; false, don't overwrite an existing renderfile
-    boolean renderclosewhendone - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings
-    boolean filenameincrease - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings
-    string rendercfg         - the rendercfg-string, that contains all render-settings for an output-format
-                             - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a>
-  </parameters>
-  <chapter_context>
-    Rendering Projects
-    Rendering any Outputformat
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, render, output, file</tags>
-</US_DocBloc>
-]]
-  local retval
-  local curProj=reaper.EnumProjects(-1,"")
-  if type(startposition)~="number" then ultraschall.AddErrorMessage("RenderProject", "startposition", "Must be a number in seconds.", -1) return -1 end
-  if type(endposition)~="number" then ultraschall.AddErrorMessage("RenderProject", "endposition", "Must be a number in seconds.", -2) return -1 end
-  if startposition>=0 and endposition>0 and endposition<=startposition then ultraschall.AddErrorMessage("RenderProject", "endposition", "Must be bigger than startposition.", -3) return -1 end
-  if endposition<-2 then ultraschall.AddErrorMessage("RenderProject", "endposition", "Must be bigger than 0 or -1(to retain project-file's endposition).", -4) return -1 end
-  if startposition<-2 then ultraschall.AddErrorMessage("RenderProject", "startposition", "Must be bigger than 0 or -1(to retain project-file's startposition).", -5) return -1 end
---  if projectfilename_with_path==nil and reaper.IsProjectDirty(0)==1 then ultraschall.AddErrorMessage("RenderProject", "renderfilename_with_path", "To render current project, it must be saved first!", -8) return -2 end
-  if endposition==0 and projectfilename_with_path==nil then endposition=reaper.GetProjectLength(0) end
-  
-  if projectfilename_with_path~=nil and (type(projectfilename_with_path)~="string" or reaper.file_exists(projectfilename_with_path))==false then ultraschall.AddErrorMessage("RenderProject", "projectfilename_with_path", "File does not exist.", -6) return -1 end
-  if renderfilename_with_path~=nil and type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject", "renderfilename_with_path", "Must be a string.", -7) return -1 end  
-  if rendercfg~=nil and ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProject", "rendercfg", "No valid render_cfg-string.", -9) return -1 end
-  if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProject", "overwrite_without_asking", "Must be boolean", -10) return -1 end
-  
-  if projectfilename_with_path==nil or RenderTable==nil then
-      local OldRenderTable=ultraschall.GetRenderTable_Project()
-      local path,filename
-        if renderfilename_with_path~=nil then path,filename=ultraschall.GetPath(renderfilename_with_path) else path,filename="","" end
-      local RenderTable={}
-      RenderTable["RenderTable"]=true
-      RenderTable["Source"]=0
-      RenderTable["Bounds"]=0
-      RenderTable["Startposition"]=startposition
-      RenderTable["Endposition"]=endposition
-      RenderTable["TailFlag"]=0
-      RenderTable["TailMS"]=0
-      RenderTable["RenderFile"]=path
-      RenderTable["RenderPattern"]=filename
-      RenderTable["SampleRate"]=0
-      RenderTable["Channels"]=2
-      RenderTable["OfflineOnlineRendering"]=0
-      RenderTable["ProjectSampleRateFXProcessing"]=true
-      RenderTable["RenderResample"]=7
-      RenderTable["OnlyMonoMedia"]=false
-      RenderTable["MultiChannelFiles"]=false
-      RenderTable["Dither"]=0
-      RenderTable["RenderString"]=rendercfg
-      RenderTable["SilentlyIncrementFilename"]=filenameincrease
-      RenderTable["AddToProj"]=true
-      RenderTable["SaveCopyOfProject"]=false
-      RenderTable["RenderQueueDelay"]=false
-      RenderTable["RenderQueueDelaySeconds"]=0
-      RenderTable["RenderString"]=""
-      RenderTable["CloseAfterRender"]=true
-      
-      -- delete renderfile, if already existing and overwrite_without_asking==true
-      if overwrite_without_asking==true then
-        if renderfilename_with_path~=nil and reaper.file_exists(renderfilename_with_path)==true then
-          os.remove(renderfilename_with_path) 
-          if reaper.file_exists(renderfilename_with_path)==true then ultraschall.AddErrorMessage("RenderProject", "renderfilename_with_path", "Couldn't delete file. It's probably still in use.", -14) return -1 end
-        end        
-      end 
-      
-      ultraschall.ApplyRenderTable_Project(RenderTable, true)
---      ultraschall.IsValidRenderTable(RenderTable)
---      ultraschall.ShowLastErrorMessage()
-      local NumTracks=reaper.CountTracks(0)
-      reaper.PreventUIRefresh(-1)
-      if renderclosewhendone==true then
-        reaper.Main_OnCommand(42230,0)
-      else
-        reaper.Main_OnCommand(41824,0)
-      end
-      local NumTracks2=reaper.CountTracks(0)
-      local TrackString=ultraschall.CreateTrackString(NumTracks+1, NumTracks2)
-      local count, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(0, reaper.GetProjectLength(), TrackString, false)
-      ultraschall.ApplyRenderTable_Project(OldRenderTable, true)
-      local Filearray={}
-      for i=1, count do
-        Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \"(.-)\"")
-      end
-      ultraschall.DeleteTracks_TrackString(TrackString)
-      reaper.PreventUIRefresh(1)
-      return 1, count, MediaItemArray, Filearray
-  end
-
-  -- Read Projectfile
-  local FileContent=ultraschall.ReadFullFile(projectfilename_with_path, false)
-  if ultraschall.CheckForValidFileFormats(projectfilename_with_path)~="RPP_PROJECT" then ultraschall.AddErrorMessage("RenderProject", "projectfilename_with_path", "Must be a valid Reaper-Project", -14) return -1 end
-  local oldrendercfg=ultraschall.GetProject_RenderCFG(nil, FileContent)
-  if rendercfg==nil then rendercfg=oldrendercfg end
-    
-  -- create temporary-project-filename
-  local tempfile = ultraschall.CreateValidTempFile(projectfilename_with_path, true, "ultraschall-temp", true) 
-  
-  -- Write temporary projectfile
-  ultraschall.WriteValueToFile(tempfile, FileContent)
-  
-  -- Add the render-filename to the project 
-  if renderfilename_with_path~=nil then
-    ultraschall.SetProject_RenderFilename(tempfile, renderfilename_with_path)
-    ultraschall.SetProject_RenderPattern(tempfile, nil)
-  end
-  
-  -- Add render-format-settings as well as adding media to project after rendering
-  ultraschall.SetProject_RenderCFG(tempfile, rendercfg)
-  ultraschall.SetProject_AddMediaToProjectAfterRender(tempfile, 1)
-  
-  -- Add the rendertime to the temporary project-file, when 
-  local bounds, time_start, time_end, tail, tail_length = ultraschall.GetProject_RenderRange(tempfile)
---  if time_end==0 then time_end = ultraschall.GetProject_Length(tempfile) end
-  local timesel1_start, timesel1_end = ultraschall.GetProject_Selection(tempfile)
-  --   if startposition and/or endposition are -1, retain the start/endposition from the project-file
-
-  if startposition==-1 then startposition=time_start end
-  if endposition==-1 or endposition==0 then if time_end==0 then endposition=ultraschall.GetProject_Length(tempfile) else endposition=time_end end end
-  if startposition==-2 then startposition=timesel1_start end
-  if endposition==-2 then endposition=timesel1_end end
-
-  if endposition==0 and startposition==0 then ultraschall.AddErrorMessage("RenderProject", "startposition or endposition in RPP-Project", "Can't render a project of length 0 seconds.", -13) os.remove (tempfile) return -1 end
-  if endposition<=startposition and endposition~=0 then ultraschall.AddErrorMessage("RenderProject", "startposition or endposition in RPP-Project", "Must be bigger than startposition.", -11) os.remove (tempfile) return -1 end
-  local Bretval = ultraschall.SetProject_RenderRange(tempfile, 0, startposition, endposition, 0, 0)
-  if Bretval==-1 then 
-    os.remove (tempfile) 
-    ultraschall.AddErrorMessage("RenderProject", "projectfilename_with_path", "Can't set the timerange in the temporary-project "..tempfile, -12)
-    return -1 
-  end
-  
-
-  -- Get currently opened project
-  local _temp, oldprojectname=ultraschall.EnumProjects(0)
-  
-  --Now the magic happens:
-  
-  -- delete renderfile, if already existing and overwrite_without_asking==true
-  if overwrite_without_asking==true then
-    if renderfilename_with_path~=nil and reaper.file_exists(renderfilename_with_path)==true then
-      os.remove(renderfilename_with_path) 
-      if reaper.file_exists(renderfilename_with_path)==true then ultraschall.AddErrorMessage("RenderProject", "renderfilename_with_path", "Couldn't delete file. It's probably still in use.", -13) return -1 end
-    end
-  end 
-  
-  
-  reaper.Main_OnCommand(40859,0)    -- create new temporary tab
-  reaper.Main_openProject(tempfile) -- load the temporary projectfile
-  
-  -- manage automatically closing of the render-window and filename-increasing
-  local val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
-  local oldval=val
-  if renderclosewhendone==true then 
-    if val&1==0 then val=val+1 end
-    if val==-99 then val=1 end
-  elseif renderclosewhendone==false then 
-    if val&1==1 then val=val-1 end
-    if val==-99 then val=0 end
-  end
-  
-  if filenameincrease==true then 
-    if val&16==0 then val=val+16 end
-    if val==-99 then val=16 end
-  elseif filenameincrease==false then 
-    if val&16==16 then val=val-16 end
-    if val==-99 then val=0 end
-  end
-  reaper.SNM_SetIntConfigVar("renderclosewhendone", val)
-  
-  -- temporarily disable building peak-caches
-  local peakval=reaper.SNM_GetIntConfigVar("peakcachegenmode", -99)
-  reaper.SNM_SetIntConfigVar("peakcachegenmode", 0)
-  
-  local AllTracks=ultraschall.CreateTrackString_AllTracks() -- get number of tracks after rendering and adding of rendered files
-  
-  reaper.Main_OnCommand(41824,0)    -- render using it with the last rendersettings(those, we inserted included)
-  reaper.Main_SaveProject(0, false) -- save it(no use, but otherwise, Reaper would open a Save-Dialog, that we don't want and need)
-  local AllTracks2=ultraschall.CreateTrackString_AllTracks() -- get number of tracks after rendering and adding of rendered files
-  local retval, Trackstring = ultraschall.OnlyTracksInOneTrackstring(AllTracks, AllTracks2) -- only get the newly added tracks as trackstring
-  local count, MediaItemArray, MediaItemStateChunkArray
-  if Trackstring~="" then 
-    count, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(0, reaper.GetProjectLength(0), Trackstring, false) -- get the new MediaItems created after adding the rendered files
-  else
-    count=0
-  end
-  reaper.Main_OnCommand(40860,0)    -- close the temporary-tab again
-
-  local Filearray={}
-  for i=1, count do
-    Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \"(.-)\"")
-  end
-
-  -- reset old renderclose/overwrite/Peak-cache-settings
-  reaper.SNM_SetIntConfigVar("renderclosewhendone", oldval)
-  reaper.SNM_SetIntConfigVar("peakcachegenmode", peakval)
-
-  --remove the temp-file and we are done.
-  os.remove (tempfile)
-  os.remove (tempfile.."-bak")
-  reaper.SelectProjectInstance(curProj)
-  return 0, count, MediaItemStateChunkArray, Filearray
-  --]]
-end
-
---A,B,C,D=ultraschall.RenderProject(nil, nil, 0, 100, true, true, true)
-
-function ultraschall.RenderProject_RenderCFG(...)
-  ultraschall.RenderProject(...)
-end
 
 --ultraschall.RenderProject_RenderCFG(nil, "c:\\testofon.lol", 1,2)
 
@@ -57691,15 +57461,15 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
 
   if RenderTable==nil then norendertable=true end
 
-  local tempfilename, retval, oldcloseafterrender
+  local tempfilename, retval, oldcloseafterrender, oldCopyOfProject, aborted, oldSaveOpts, Count, MediaItemArray, MediaItemStateChunkArray, trackstring
   if projectfilename_with_path==nil then
     -- if user wants to render the currently opened file
-    
     -- use current render-settings, if user didn't pass a RenderTable
     if RenderTable==nil then RenderTable=ultraschall.GetRenderTable_Project() end
     
     -- enable adding files to project, as this gives us the filenames of the rendered files
     local oldAddToProj=RenderTable["AddToProj"] 
+    if AddToProj==nil then AddToProj=oldAddToProj end
     RenderTable["AddToProj"]=true
     
     -- set the defaults for incrementing filenames and close rendering to file dialog after render, 
@@ -57712,7 +57482,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
     if CloseAfterRender==nil and norendertable==true then RenderTable["CloseAfterRender"]=true end
     
     -- get the old number of tracks
-    local OldTrackNumber=reaper.CountTracks(0) 
+    local OldTrackNumber=reaper.CountTracks(0)     
     
     -- If RenderPattern is not set, I need to split up the RenderFile into path and filename and set them accordingly,
     -- or Reaper tries to write a file "untitled" into path RenderFile, even if RenderFile shall be the file+path.
@@ -57720,11 +57490,17 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
     -- path given in RenderFile
     local RenderPattern=RenderTable["RenderPattern"]
     local RenderFile=RenderTable["RenderFile"]
-    if RenderPattern=="" and ultraschall.DirectoryExists2(RenderFile)==false then RenderTable["RenderFile"], RenderTable["RenderPattern"] = ultraschall.GetPath(RenderFile) end
+    if RenderPattern=="" and ultraschall.DirectoryExists2(RenderFile)==false then 
+      RenderTable["RenderFile"], RenderTable["RenderPattern"] = ultraschall.GetPath(RenderFile) 
+    end
+    if RenderTable["RenderFile"]==nil then RenderTable["RenderFile"]="" end
+    if RenderTable["RenderPattern"]==nil then RenderTable["RenderPattern"]="" end
+
     
     -- get the current settings as rendertable and apply the RenderTable the user passed to us
     local OldRenderTable=ultraschall.GetRenderTable_Project()
-    ultraschall.ApplyRenderTable_Project(RenderTable, true)
+    ultraschall.ApplyRenderTable_Project(RenderTable, true) -- here the bug happens
+    ultraschall.ShowLastErrorMessage()
     
     -- change back the entries in RenderTable so the user does not have my temporary changes in it
     RenderTable["RenderPattern"]=RenderPattern
@@ -57732,34 +57508,53 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
     
     -- let's render:
     reaper.PreventUIRefresh(-1) -- prevent updating the userinterface, as I don't want flickering when rendered files are added and I'll delete them after that
-    reaper.Main_OnCommand(41824,0) -- render using the last used settings
 
+    -- let's change creation of copies of the rendered outfile.rpp-setting,
+    oldCopyOfProject = ultraschall.GetRender_SaveCopyOfProject()
+    ultraschall.SetRender_SaveCopyOfProject(RenderTable["SaveCopyOfProject"])
+    
+    -- temporarily prevent creation of bak-files and save project, as otherwise we couldn't close the tab
+    oldSaveOpts=reaper.SNM_GetIntConfigVar("saveopts", -111)
+    if oldSaveOpts&1==1 then reaper.SNM_SetIntConfigVar("saveopts", oldSaveOpts-1) end
+    reaper.Main_OnCommand(41824,0)    -- render using it with the last rendersettings(those, we inserted included)
+    reaper.SNM_SetIntConfigVar("saveopts", oldSaveOpts) -- reset old bak-files-behavior    
+    
+    -- reset old Save Copy of Project to outfile-checkbox setting
+    ultraschall.SetRender_SaveCopyOfProject(oldCopyOfProject)
+    
     -- if no track has been added, the rendering was aborted by userinteraction or error
-    if reaper.CountTracks(0)==OldTrackNumber then ultraschall.AddErrorMessage("RenderProject_RenderTable", "", "rendering aborted", -2) return -1 end
+    if reaper.CountTracks(0)==OldTrackNumber then aborted=true end
     
     -- restore old rendersettings
     ultraschall.ApplyRenderTable_Project(OldRenderTable, true)
     RenderTable["AddToProj"]=oldAddToProj
     
     -- get all rendered files, that have been added to the track
-    local trackstring=ultraschall.CreateTrackString(OldTrackNumber+1, reaper.CountTracks(0))
-    local Count, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(0, reaper.GetProjectLength(), trackstring, false)
+    if aborted~=true then
+      trackstring=ultraschall.CreateTrackString(OldTrackNumber+1, reaper.CountTracks(0))
+      Count, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(0, reaper.GetProjectLength(), trackstring, false)
+    end
     
     -- if user didn't want the renderd files to be added into the project, we delete them again.
-    if AddToProj==false then
+    if AddToProj==false and aborted~=true then
+      retval = ultraschall.ApplyActionToTrack(trackstring, "_SWS_DELALLITEMS")
       retval = ultraschall.DeleteTracks_TrackString(trackstring)
     end
     reaper.PreventUIRefresh(1) -- reenable refreshing of the user interface 
     
     -- let's get the filenames of the rendered files
-    local Filearray={}
-    for i=1, Count do
-      Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \"(.-)\"")
+    if aborted~=true then
+      local Filearray={}
+      for i=1, Count do
+        Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \"(.-)\"")
+      end
     end
     
     -- restore old settings, that I temporarily overwrite in the RenderTable
     RenderTable["CloseAfterRender"]=oldcloseafterrender
     RenderTable["SilentlyIncrementFilename"]=oldsilentlyincreasefilename
+
+    if aborted == true then ultraschall.AddErrorMessage("RenderProject_RenderTable", "", "rendering aborted", -2) return -1 end
     
     -- return, what has been found
     return Count, MediaItemStateChunkArray, Filearray
@@ -57826,25 +57621,23 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
     
     local AllTracks=ultraschall.CreateTrackString_AllTracks() -- get number of tracks after rendering and adding of rendered files
 
-    -- let's prevent creation of copies of the rendered outfile.rpp, as this would spam the harddrive of the user,
-    -- even if this option is enabled currently
-    retval = ultraschall.GetRender_SaveCopyOfProject()
-    ultraschall.SetRender_SaveCopyOfProject(false)
-    retval2=ultraschall.GetRender_SaveCopyOfProject()
-    
-    reaper.Main_OnCommand(41824,0)    -- render using it with the last rendersettings(those, we inserted included)
-    
-    -- reset old Save Copy of Project to outfile-checkbox setting
-    ultraschall.SetRender_SaveCopyOfProject(retval)
+    -- let's change creation of copies of the rendered outfile.rpp-setting,
+    oldCopyOfProject = ultraschall.GetRender_SaveCopyOfProject()
+    ultraschall.SetRender_SaveCopyOfProject(RenderTable["SaveCopyOfProject"])
     
     -- temporarily prevent creation of bak-files and save project, as otherwise we couldn't close the tab
     oldSaveOpts=reaper.SNM_GetIntConfigVar("saveopts", -111)
     if oldSaveOpts&1==1 then reaper.SNM_SetIntConfigVar("saveopts", oldSaveOpts-1) end
+    reaper.Main_OnCommand(41824,0)    -- render using it with the last rendersettings(those, we inserted included)
     reaper.Main_SaveProject(0, false) -- save it(no use, but otherwise, Reaper would open a Save-Dialog, that we don't want and need)    
-    reaper.SNM_SetIntConfigVar("saveopts", oldSaveOpts) -- reset old bak-files-behavior
+    reaper.SNM_SetIntConfigVar("saveopts", oldSaveOpts) -- reset old bak-files-behavior    
+    
+    -- reset old Save Copy of Project to outfile-checkbox setting
+    ultraschall.SetRender_SaveCopyOfProject(retval)
+    
     
     local AllTracks2=ultraschall.CreateTrackString_AllTracks() -- get number of tracks after rendering and adding of rendered files
-    if AllTracks==AllTracks2 then ultraschall.AddErrorMessage("RenderProject_RenderTable", "", "rendering aborted", -13) return -1 end
+    if AllTracks==AllTracks2 then aborted=true end
     local retval, Trackstring = ultraschall.OnlyTracksInOneTrackstring(AllTracks, AllTracks2) -- only get the newly added tracks as trackstring
     
     -- get the newly rendered items and their statechunks
@@ -57869,6 +57662,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
     --remove the temp-file, return to the old projecttab and we are done.
     os.remove(tempfilename)
     reaper.SelectProjectInstance(curProj)
+    if aborted == true then ultraschall.AddErrorMessage("RenderProject_RenderTable", "", "rendering aborted", -2) return -1 end
     return count, MediaItemStateChunkArray, Filearray
   end
 end
@@ -58188,5 +57982,369 @@ function ultraschall.RenderProject_RenderQueue(index)
 end
 
 --ultraschall.RenderProject_RenderQueue(1)
+
+function ultraschall.RenderProject(projectfilename_with_path, renderfilename_with_path, startposition, endposition, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg, RenderTable)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RenderProject</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.10.0.1
+    JS=0.972
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg)</functioncall>
+  <description>
+    Renders a project, using a specific render-cfg-string.
+    To get render-cfg-strings, see functions starting with CreateRenderCFG_, like<a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, etc.
+    
+    Returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - -1, in case of error; 0, in case of success
+    integer renderfilecount - the number of rendered files
+    array MediaItemStateChunkArray - the MediaItemStateChunks of all rendered files, with the one in entry 1 being the rendered master-track(when rendering stems+master)
+    array Filearray - the filenames of the rendered files, including their paths. The filename in entry 1 is the one of the mastered track(when rendering stems+master)
+  </retvals>
+  <parameters>
+    string projectfilename_with_path - the project to render; nil, for the currently opened project
+    string renderfilename_with_path - the filename with path of the output-file. If you give the wrong extension, Reaper will exchange it by the correct one.
+                                    - nil, will use the render-filename/render-pattern already set in the project as renderfilename
+    number startposition - the startposition of the render-area in seconds; 
+                         - -1, to use the startposition set in the projectfile itself; 
+                         - -2, to use the start of the time-selection
+    number endposition - the endposition of the render-area in seconds; 
+                       - -1, to use the endposition set in the projectfile/current project itself
+                       - -2, to use the end of the time-selection
+    boolean overwrite_without_asking - true, overwrite an existing renderfile; false, don't overwrite an existing renderfile
+    boolean renderclosewhendone - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings
+    boolean filenameincrease - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings
+    string rendercfg         - the rendercfg-string, that contains all render-settings for an output-format
+                             - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a>
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Rendering any Outputformat
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, render, output, file</tags>
+</US_DocBloc>
+]]
+  local retval, path, filename, count, timesel1_end, timesel1_start, start_sel, end_sel
+  local curProj=reaper.EnumProjects(-1,"")
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("RenderProject", "startposition", "Must be a number in seconds.", -1) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("RenderProject", "endposition", "Must be a number in seconds.", -2) return -1 end
+  if startposition>=0 and endposition>0 and endposition<=startposition then ultraschall.AddErrorMessage("RenderProject", "endposition", "Must be bigger than startposition.", -3) return -1 end
+  if endposition<-2 then ultraschall.AddErrorMessage("RenderProject", "endposition", "Must be bigger than 0 or -1(to retain project-file's endposition).", -4) return -1 end
+  if startposition<-2 then ultraschall.AddErrorMessage("RenderProject", "startposition", "Must be bigger than 0 or -1(to retain project-file's startposition).", -5) return -1 end
+
+  if endposition==0 and projectfilename_with_path==nil then endposition=reaper.GetProjectLength(0) end
+  
+  if projectfilename_with_path~=nil then
+    if type(projectfilename_with_path)~="string" or reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProject", "projectfilename_with_path", "File does not exist.", -6) return -1 end
+  end
+  if renderfilename_with_path~=nil and type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject", "renderfilename_with_path", "Must be a string.", -7) return -1 end  
+  if rendercfg~=nil and ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProject", "rendercfg", "No valid render_cfg-string.", -9) return -1 end
+  if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProject", "overwrite_without_asking", "Must be boolean", -10) return -1 end
+  if filenameincrease~=nil and type(filenameincrease)~="boolean" then ultraschall.AddErrorMessage("RenderProject", "filenameincrease", "Must be either nil or boolean", -13) return -1 end
+  if renderclosewhendone~=nil and type(renderclosewhendone)~="boolean" then ultraschall.AddErrorMessage("RenderProject", "renderclosewhendone", "Must be either nil or a boolean", -12) return -1 end
+
+  if RenderTable~=nil and ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("RenderProject", "RenderTable", "Must be either nil or a valid RenderTable", -15) return -1 end
+
+  --print2(renderfilename_with_path)
+  if renderfilename_with_path~=nil then 
+    path, filename = ultraschall.GetPath(renderfilename_with_path)
+  end
+  if path==nil then path="" end
+  if filename==nil then filename="" end
+
+  if projectfilename_with_path==nil then
+    --RenderTable=ultraschall.GetRenderTable_Project()
+    start_sel, end_sel = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
+    if startposition==-1 then startposition=0
+    elseif startposition==-2 then startposition=start_sel
+    end
+    if endposition==-1 then endposition=reaper.GetProjectLength(0)
+    elseif endposition==-2 then endposition=end_sel
+    end
+  else
+    if renderfilename_with_path==nil then
+      path=ultraschall.GetProject_RenderFilename(projectfilename_with_path)
+      filename=ultraschall.GetProject_RenderPattern(projectfilename_with_path)
+      if path==nil then path="" end
+      if filename==nil then filename="" end
+    end
+    RenderTable=ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path)
+    timesel1_start, timesel1_end = ultraschall.GetProject_Selection(projectfilename_with_path)
+    if startposition==-1 then startposition=0
+    elseif startposition==-2 then startposition=start_sel
+    end
+    if endposition==-1 then endposition=ultraschall.GetProject_Length(projectfilename_with_path)
+    elseif endposition==-2 then endposition=end_sel
+    end
+  end    
+  
+  
+  if endposition<=startposition then ultraschall.AddErrorMessage("RenderProject", "startposition or endposition in RPP-Project", "Must be bigger than startposition.", -11) return -1 end
+  
+  if renderclosewhendone==nil then 
+    renderclosewhendone=reaper.SNM_GetIntConfigVar("renderclosewhendone", -2222)&1
+    if renderclosewhendone==1 then renderclosewhendone=true else renderclosewhendone=false end
+  end
+  if filenameincrease==nil then 
+    filenameincrease=reaper.SNM_GetIntConfigVar("renderclosewhendone", -2222)&16
+    if filenameincrease==1 then filenameincrease=true else filenameincrease=false end
+  end
+  
+  if RenderTable==nil then 
+    RenderTable={}
+    RenderTable["RenderTable"]=true
+    RenderTable["Source"]=0
+    RenderTable["Bounds"]=0
+    RenderTable["Startposition"]=startposition
+    RenderTable["Endposition"]=endposition
+    RenderTable["TailFlag"]=0
+    RenderTable["TailMS"]=0
+    RenderTable["RenderFile"]=path
+    RenderTable["RenderPattern"]=filename
+    RenderTable["SampleRate"]=0
+    RenderTable["Channels"]=2
+    RenderTable["OfflineOnlineRendering"]=0
+    RenderTable["ProjectSampleRateFXProcessing"]=true
+    RenderTable["RenderResample"]=7
+    RenderTable["OnlyMonoMedia"]=false
+    RenderTable["MultiChannelFiles"]=false
+    RenderTable["Dither"]=0
+    RenderTable["SilentlyIncrementFilename"]=filenameincrease
+    RenderTable["SaveCopyOfProject"]=false
+    RenderTable["RenderQueueDelay"]=false
+    RenderTable["RenderQueueDelaySeconds"]=0
+    RenderTable["RenderString"]=""
+    RenderTable["RenderFile"]=path
+    RenderTable["RenderPattern"]=filename
+    RenderTable["CloseAfterRender"]=renderclosewhendone
+    RenderTable["AddToProj"]=false
+    if rendercfg~=nil then
+      RenderTable["RenderString"]=rendercfg
+    end
+  else
+    RenderTable["Startposition"]=startposition
+    RenderTable["Endposition"]=endposition
+    RenderTable["SilentlyIncrementFilename"]=filenameincrease    
+    RenderTable["RenderFile"]=path
+    RenderTable["RenderPattern"]=filename
+    RenderTable["CloseAfterRender"]=renderclosewhendone
+    if rendercfg~=nil then
+      RenderTable["RenderString"]=rendercfg
+    end
+  end
+  
+  
+  -- delete renderfile, if already existing and overwrite_without_asking==true
+  if overwrite_without_asking==true then
+    if renderfilename_with_path~=nil and reaper.file_exists(renderfilename_with_path)==true then
+      os.remove(renderfilename_with_path) 
+      if reaper.file_exists(renderfilename_with_path)==true then ultraschall.AddErrorMessage("RenderProject", "renderfilename_with_path", "Couldn't delete file. It's probably still in use.", -14) return -1 end
+    end        
+  end 
+
+
+  local count, MediaItemStateChunkArray, Filearray = ultraschall.RenderProject_RenderTable(projectfilename_with_path, RenderTable)
+  return 0, count, MediaItemStateChunkArray, Filearray
+end
+
+--A,B,C=ultraschall.RenderProject("c:\\Targetfile.flac.RPP", "c:\\temp\\sk-huis.flac", 10, 100, true, true, true)
+--A,B,C=ultraschall.RenderProject("c:\\Render-Queue-Documentation - Kopie.RPP", nil, 0, -1, true, true, true)
+--A,B,C=ultraschall.RenderProject(nil, nil, -2, -1, true, true, true)
+
+--A=reaper.DeleteTrackMediaItem(reaper.GetTrack(0,1), reaper.GetMediaItem(0,1))
+--reaper.UpdateArrange()
+  
+--[[
+  if projectfilename_with_path==nil or RenderTable==nil then
+      local OldRenderTable=ultraschall.GetRenderTable_Project()
+      local path,filename
+        if renderfilename_with_path~=nil then path,filename=ultraschall.GetPath(renderfilename_with_path) else path,filename="","" end
+      local RenderTable={}
+      RenderTable["RenderTable"]=true
+      RenderTable["Source"]=0
+      RenderTable["Bounds"]=0
+      RenderTable["Startposition"]=startposition
+      RenderTable["Endposition"]=endposition
+      RenderTable["TailFlag"]=0
+      RenderTable["TailMS"]=0
+      RenderTable["RenderFile"]=path
+      RenderTable["RenderPattern"]=filename
+      RenderTable["SampleRate"]=0
+      RenderTable["Channels"]=2
+      RenderTable["OfflineOnlineRendering"]=0
+      RenderTable["ProjectSampleRateFXProcessing"]=true
+      RenderTable["RenderResample"]=7
+      RenderTable["OnlyMonoMedia"]=false
+      RenderTable["MultiChannelFiles"]=false
+      RenderTable["Dither"]=0
+      RenderTable["RenderString"]=rendercfg
+      RenderTable["SilentlyIncrementFilename"]=filenameincrease
+      RenderTable["AddToProj"]=true
+      RenderTable["SaveCopyOfProject"]=false
+      RenderTable["RenderQueueDelay"]=false
+      RenderTable["RenderQueueDelaySeconds"]=0
+      RenderTable["RenderString"]=""
+      RenderTable["CloseAfterRender"]=true
+      
+--[[      
+      ultraschall.ApplyRenderTable_Project(RenderTable, true)
+--      ultraschall.IsValidRenderTable(RenderTable)
+--      ultraschall.ShowLastErrorMessage()
+      local NumTracks=reaper.CountTracks(0)
+      reaper.PreventUIRefresh(-1)
+      if renderclosewhendone==true then
+        reaper.Main_OnCommand(42230,0)
+      else
+        reaper.Main_OnCommand(41824,0)
+      end
+      local NumTracks2=reaper.CountTracks(0)
+      local TrackString=ultraschall.CreateTrackString(NumTracks+1, NumTracks2)
+      local count, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(0, reaper.GetProjectLength(), TrackString, false)
+      ultraschall.ApplyRenderTable_Project(OldRenderTable, true)
+      local Filearray={}
+      for i=1, count do
+        Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \"(.-)\"")
+      end
+      ultraschall.DeleteTracks_TrackString(TrackString)
+      reaper.PreventUIRefresh(1)
+      return 1, count, MediaItemArray, Filearray
+  end
+
+  -- Read Projectfile
+  local FileContent=ultraschall.ReadFullFile(projectfilename_with_path, false)
+  if ultraschall.CheckForValidFileFormats(projectfilename_with_path)~="RPP_PROJECT" then ultraschall.AddErrorMessage("RenderProject", "projectfilename_with_path", "Must be a valid Reaper-Project", -14) return -1 end
+  local oldrendercfg=ultraschall.GetProject_RenderCFG(nil, FileContent)
+  if rendercfg==nil then rendercfg=oldrendercfg end
+    
+  -- create temporary-project-filename
+  local tempfile = ultraschall.CreateValidTempFile(projectfilename_with_path, true, "ultraschall-temp", true) 
+  
+  -- Write temporary projectfile
+  ultraschall.WriteValueToFile(tempfile, FileContent)
+  
+  -- Add the render-filename to the project 
+  if renderfilename_with_path~=nil then
+    ultraschall.SetProject_RenderFilename(tempfile, renderfilename_with_path)
+    ultraschall.SetProject_RenderPattern(tempfile, nil)
+  end
+  
+  -- Add render-format-settings as well as adding media to project after rendering
+  ultraschall.SetProject_RenderCFG(tempfile, rendercfg)
+  ultraschall.SetProject_AddMediaToProjectAfterRender(tempfile, 1)
+  
+  -- Add the rendertime to the temporary project-file, when 
+  local bounds, time_start, time_end, tail, tail_length = ultraschall.GetProject_RenderRange(tempfile)
+--  if time_end==0 then time_end = ultraschall.GetProject_Length(tempfile) end
+  local timesel1_start, timesel1_end = ultraschall.GetProject_Selection(tempfile)
+  --   if startposition and/or endposition are -1, retain the start/endposition from the project-file
+
+  if startposition==-1 then startposition=time_start end
+  if endposition==-1 or endposition==0 then if time_end==0 then endposition=ultraschall.GetProject_Length(tempfile) else endposition=time_end end end
+  if startposition==-2 then startposition=timesel1_start end
+  if endposition==-2 then endposition=timesel1_end end
+
+  if endposition==0 and startposition==0 then ultraschall.AddErrorMessage("RenderProject", "startposition or endposition in RPP-Project", "Can't render a project of length 0 seconds.", -13) os.remove (tempfile) return -1 end
+  if endposition<=startposition and endposition~=0 then ultraschall.AddErrorMessage("RenderProject", "startposition or endposition in RPP-Project", "Must be bigger than startposition.", -11) os.remove (tempfile) return -1 end
+  local Bretval = ultraschall.SetProject_RenderRange(tempfile, 0, startposition, endposition, 0, 0)
+  if Bretval==-1 then 
+    os.remove (tempfile) 
+    ultraschall.AddErrorMessage("RenderProject", "projectfilename_with_path", "Can't set the timerange in the temporary-project "..tempfile, -12)
+    return -1 
+  end
+  
+
+  -- Get currently opened project
+  local _temp, oldprojectname=ultraschall.EnumProjects(0)
+  
+  --Now the magic happens:
+  
+  -- delete renderfile, if already existing and overwrite_without_asking==true
+  if overwrite_without_asking==true then
+    if renderfilename_with_path~=nil and reaper.file_exists(renderfilename_with_path)==true then
+      os.remove(renderfilename_with_path) 
+      if reaper.file_exists(renderfilename_with_path)==true then ultraschall.AddErrorMessage("RenderProject", "renderfilename_with_path", "Couldn't delete file. It's probably still in use.", -13) return -1 end
+    end
+  end 
+  
+  
+  reaper.Main_OnCommand(40859,0)    -- create new temporary tab
+  reaper.Main_openProject(tempfile) -- load the temporary projectfile
+  
+  -- manage automatically closing of the render-window and filename-increasing
+  local val=reaper.SNM_GetIntConfigVar("renderclosewhendone", -99)
+  local oldval=val
+  if renderclosewhendone==true then 
+    if val&1==0 then val=val+1 end
+    if val==-99 then val=1 end
+  elseif renderclosewhendone==false then 
+    if val&1==1 then val=val-1 end
+    if val==-99 then val=0 end
+  end
+  
+  if filenameincrease==true then 
+    if val&16==0 then val=val+16 end
+    if val==-99 then val=16 end
+  elseif filenameincrease==false then 
+    if val&16==16 then val=val-16 end
+    if val==-99 then val=0 end
+  end
+  reaper.SNM_SetIntConfigVar("renderclosewhendone", val)
+  
+  -- temporarily disable building peak-caches
+  local peakval=reaper.SNM_GetIntConfigVar("peakcachegenmode", -99)
+  reaper.SNM_SetIntConfigVar("peakcachegenmode", 0)
+  
+  local AllTracks=ultraschall.CreateTrackString_AllTracks() -- get number of tracks after rendering and adding of rendered files
+  
+  reaper.Main_OnCommand(41824,0)    -- render using it with the last rendersettings(those, we inserted included)
+  reaper.Main_SaveProject(0, false) -- save it(no use, but otherwise, Reaper would open a Save-Dialog, that we don't want and need)
+  local AllTracks2=ultraschall.CreateTrackString_AllTracks() -- get number of tracks after rendering and adding of rendered files
+  local retval, Trackstring = ultraschall.OnlyTracksInOneTrackstring(AllTracks, AllTracks2) -- only get the newly added tracks as trackstring
+  local count, MediaItemArray, MediaItemStateChunkArray
+  if Trackstring~="" then 
+    count, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(0, reaper.GetProjectLength(0), Trackstring, false) -- get the new MediaItems created after adding the rendered files
+  else
+    count=0
+  end
+  reaper.Main_OnCommand(40860,0)    -- close the temporary-tab again
+
+  local Filearray={}
+  for i=1, count do
+    Filearray[i]=MediaItemStateChunkArray[i]:match("%<SOURCE.-FILE \"(.-)\"")
+  end
+
+  -- reset old renderclose/overwrite/Peak-cache-settings
+  reaper.SNM_SetIntConfigVar("renderclosewhendone", oldval)
+  reaper.SNM_SetIntConfigVar("peakcachegenmode", peakval)
+
+  --remove the temp-file and we are done.
+  os.remove (tempfile)
+  os.remove (tempfile.."-bak")
+  reaper.SelectProjectInstance(curProj)
+  --]]
+--  return 0, count, MediaItemStateChunkArray, Filearray
+  --]]
+--end
+
+--AAA=ultraschall.GetRenderTable_Project()
+
+--AAA["Source"]=23
+
+--A,B,C,D=ultraschall.RenderProject(nil, "c:\\tudelu.txt", 0, 10, true, true, true, nil, AAA)
+
+function ultraschall.RenderProject_RenderCFG(...)
+  ultraschall.RenderProject(...)
+end
+
+
+--ultraschall.RenderProject_Regions(projectfilename_with_path, renderfilename_with_path, region, addregionname, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg, RenderTable)
 
 ultraschall.ShowLastErrorMessage()
