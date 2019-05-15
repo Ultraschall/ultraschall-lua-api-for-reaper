@@ -207,13 +207,13 @@ Ultraschall API Changelog
 <li>Render: CreateRenderCFG_WebMVideo - rewritten, lifted many limitations</li>
 <li>Render: GetOutputFormat_RenderCfg - moved to docs-index Rendering of Project -&gt; Analyzing Renderstrings; allows now passing a project/projecttab as well recoded, is now more future-proof</li>
 <li>Render: RenderProject - renamed from RenderProject_RenderCFG, which is still available, but undocumented; reimplemented: sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)</li>
-<li>Render: RenderProject_Regions - renamed from RenderProjectRegions_RenderCFG, which is still available, but undocumented; sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)</li>
+<li>Render: RenderProject_Regions - renamed from RenderProjectRegions_RenderCFG, which is still available, but undocumented; sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected) parameters renderfilename<em>with</em>path and rendercfg are now mandatory</li>
 <li>Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)</li>
 <li>Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)</li>
 <li>Routing: AddTrackAUXSendReceives - had parameters tracknumber and recv_tracknumber accidentally reversed, when not working with StateChunks .. oops -&gt; fixed (thanks to woodslanding)</li>
 <li>TrackManagement: GetTrackHeightState - stabilised parameter TrackStateChunk, returns now locked-trackstate</li>
 <li>TrackManagement: SetTrackHeightState - stabilised parameter TrackStateChunk, allows now setting locked-trackstate</li>
-<li>TrackManagement: SetTracksSelected - when trackstring=nil or "", it deselectes all tracks now</li>
+<li>TrackManagement: SetTracksSelected - when trackstring=nil or "", it deselects all tracks now</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.74: - "Talking Heads - Once in a Lifetime" - 10th of April 2019</h3>

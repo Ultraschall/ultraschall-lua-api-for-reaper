@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="38723.00" author="Meo Mespotine">
+      <version name="38748.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/._Changelog-Api.txt</source>
@@ -673,7 +673,8 @@ Changes from Beta 2.74 to Beta 2.75
     RenderProjectRegions_RenderCFG, which is still available, but
     undocumented; sped up rendering the current project by magnitudes;
     no “save before rendering” necessary anymore; stabilized deleting
-    the targetfile(if selected)
+    the targetfile(if selected) parameters renderfilename_with_path and
+    rendercfg are now mandatory
 -   Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based,
     as it should be(thanks to woodslanding)
 -   Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based,
@@ -686,7 +687,7 @@ Changes from Beta 2.74 to Beta 2.75
 -   TrackManagement: SetTrackHeightState - stabilised parameter
     TrackStateChunk, allows now setting locked-trackstate
 -   TrackManagement: SetTracksSelected - when trackstring=nil or "", it
-    deselectes all tracks now
+    deselects all tracks now
 
 ------------------------------------------------------------------------
 

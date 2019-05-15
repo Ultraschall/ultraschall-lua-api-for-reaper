@@ -1,10 +1,12 @@
 <TODO>
     
     API 4.00beta2.75
-      TODO!! RenderProjectRegions - use RenderProject_RenderTable for the rendering
+      TODO!! public-beta-index-file checken
       TODO!! Docs for Rendering, Rendertables and removing beta-management-chapter
-                    
-      TODO!! RenderProject_RenderCfg - new implementation, that exploits the render-queue, rather the reopening of a project
+          
+          
+      Done: keep it as docs in here:
+             RenderProject_RenderCfg - new implementation, that exploits the render-queue, rather the reopening of a project
                                        should work with opened projects, but still unknown, how to add unopened projects properly and how to find out the rendered files afterwards...
                                        maybe that way: RENDER_FILE contains the path, where the file is stored in, either with or without the actual filename(the latter when using RENDER_PATTERNS).
                                        I just need to take a "file_in_path_snapshot" before and after the rendering, get rid of the files that are there before AND after and what's left if the newly rendered file(s).
@@ -96,8 +98,6 @@
                         Render that out into a new file
                         Delete the temp-rendered-files
                         close the projects and return the filename
-        TODO!!  - RenderProjectRegions_RenderCFG2  and RenderProject_RenderCFG2 - set RenderPattern instead of RenderFilenameWithPath
-        TODO!!  - RenderProjectRegions_RenderCFG3  and RenderProject_RenderCFG3 - set Track(s) to be rendered
         TODO!! PitchShiftMode - update them to current version of Reaper
         TODO!!: add this to undo-functions, as they are the explanation of the extraflags
         #ifndef UNDO_STATE_ALL
@@ -142,13 +142,11 @@
       TODO!!  - totype(value, string type), converts a value to type and returns it, if impossible, returns nil; includes string, boolean, integer, float, hex, oct, base64, etc
       TODO!!  - SetStateChunk-functions: how to check for ProjectStateChunk/TrackStateChunk/ItemStateChunk/EnvStateChunk, when new parameters are added to the function?
                                          something with ... ? Otherwise, new added parameters will break old scripts...
-      TODO!! ultraschall.SortTableByCertainTableEntry - sorts a table by a certain entry in the table
-                                                      - like table[4][2][1]
-                                                      probably impossible, cause, how to pass [2][1] as parameter?
       TODO!!  - import/export Bonus-script-packs-functions(for importing and registering additional bonus scripts)
       TODO!!  - Add3rdParty-Script-support/functions-support
       TODO!!  - AddUltraschallScripts() AddUltraschall3rdPartyScripts() add all 3rd party-scripts from the 3rd-party-US-folder
             also add scripts to do that, that will be registered into the ActionList together with the ShowUSApiHelp-script as well
+            Note: Should be a script, rather than a function. Easier to handle.
       TODO!!  - Import3rdPartyScripts(string filelist, integer script_target, boolean add)
               copies files from filelist into script_target
               script_target - 0, scripts-folder
@@ -158,6 +156,7 @@
       TODO!!  - create HTML-docs from all files in the functions-department of Ultraschall/3rd-party-functions
       TODO!!  - Show$ContextMenu() - ShowPopupMenu is too complicated to use. Create proper useable functions to address that
       TODO!!  - GFX: virtual screenbuffers(create/remove/blit)
+                - probably useless and tow slow
       TODO!!  - ultraschall.gfx_getkey(integer buffer), allows pipe-ing of UserInput directly into a textbuffer. The textbuffer acts like a invisible textbox, which can be shown using drawstr or something
                                                         must support arrow, bspc, enter, return, copynpaste as well
 
@@ -226,10 +225,9 @@
             Should allow monitoring of Defer1 to Defer10-running-states as well. Maybe they need to be set at the beginning as well? Or is it waste of resources?(probably the latter, we can assume, if it's not set "running", that defer-instance is not used and set to stopped.            
         
         TODO!! Event-System, as defined on the Congress
+            -- too difficult to use, needs a better way to deal with it...
         TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
-        TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
-                          - not possible, as I can't programmatically change the selected envelope...maybe with SetCursorContext, as this allows focusing a trackenvelope, 
-                                  but also sets focus to arrangeview, which is quite brutal
+
       TODO!! SaveProjectAs(ReaProject project, newfilename, relative_sourcefilenames, ProjectStateChunk)
                  params:
                     project - the project to save, either ReaProject or projecttab-nr;
@@ -246,6 +244,7 @@
                     projectfilename - the saved projectfilename+path
                     sourcefiles - an array with all source/map-filenames[1] and their new filenames in relation of their new position[2]
                                     can be used to copy/move all the sourcefiles into the projectfolder(needs MakeDir(path) as well!)
+              Note: could be doable, using the dialog and a background-script, that fills out the stuff from the back
 
 TODO!! buggy function
         the line "reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)" seems to be the problem due WM_SETFONT
@@ -494,12 +493,13 @@ tagline inspired by a comment from \_stevie\_ ;)
                                          recoded, is now more future-proof 
   - Render: RenderProject - renamed from RenderProject\_RenderCFG, which is still available, but undocumented; reimplemented: sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)
   - Render: RenderProject\_Regions - renamed from RenderProjectRegions\_RenderCFG, which is still available, but undocumented; sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)
+                                     parameters renderfilename_with_path and rendercfg are now mandatory
   - Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
   - Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
   - Routing: AddTrackAUXSendReceives - had parameters tracknumber and recv_tracknumber accidentally reversed, when not working with StateChunks .. oops -> fixed (thanks to woodslanding)
   - TrackManagement: GetTrackHeightState - stabilised parameter TrackStateChunk, returns now locked-trackstate
   - TrackManagement: SetTrackHeightState - stabilised parameter TrackStateChunk, allows now setting locked-trackstate
-  - TrackManagement: SetTracksSelected - when trackstring=nil or "", it deselectes all tracks now
+  - TrackManagement: SetTracksSelected - when trackstring=nil or "", it deselects all tracks now
   
   ---
   

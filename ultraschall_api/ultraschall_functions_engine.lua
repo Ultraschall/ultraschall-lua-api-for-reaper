@@ -43230,103 +43230,6 @@ function ultraschall.GetMediafileAttributes(filename)
   return Length, Numchannels, Samplerate, Filetype
 end
 
-function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfilename_with_path, region, addregionname, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg, RenderTable)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>RenderProject_Regions</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.965
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject_Regions(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg, optional table RenderTable)</functioncall>
-  <description>
-    Renders a region of a project, using a specific render-cfg-string.
-    To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
-    
-    Returns -1 in case of an error
-    Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).
-  </description>
-  <retvals>
-    integer retval - -1, in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
-    integer renderfilecount - the number of rendered files
-    array MediaItemStateChunkArray - the MediaItemStateChunks of all rendered files, with the one in entry 1 being the rendered master-track(when rendering stems)
-    array Filearray - the filenames of the rendered files, including their paths. The filename in entry 1 is the one of the mastered track(when rendering stems)
-  </retvals>
-  <parameters>
-    string projectfilename_with_path - the project to render; nil, for the currently opened project
-    string renderfilename_with_path - the filename of the output-file. 
-                                    - Don't add a file-extension, when using addregionname=true!
-                                    - Give a path only, when you want to use only the regionname as render-filename(set addregionname=true !)
-                                    - nil, use the filename/render-pattern already set in the project for the renderfilename
-    integer region - the number of the region in the Projectfile to render
-    boolean addregionname - add the name of the region to the renderfilename; only works, when you don't add a file-extension to renderfilename_with_path
-    boolean overwrite_without_asking - true, overwrite an existing renderfile; false, don't overwrite an existing renderfile
-    boolean renderclosewhendone - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings
-    boolean filenameincrease - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings
-    optional string rendercfg - the rendercfg-string, that contains all render-settings for an output-format
-                              - To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a>
-                              - omit it or set to nil, if you want to use the render-string already set in the project
-    optional table RenderTable - a table, which holds all render-settings, which will be applied to the render(except the ones already given with the other parameters)                          
-  </parameters>
-  <chapter_context>
-    Rendering Projects
-    Rendering any Outputformat
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, render, output, file</tags>
-</US_DocBloc>
-]]
-  local retval
-  local curProj=reaper.EnumProjects(-1,"")
-  if math.type(region)~="integer" then ultraschall.AddErrorMessage("RenderProject_Regions", "region", "Must be an integer.", -1) return -1 end
---  if projectfilename_with_path==nil and reaper.IsProjectDirty(0)==1 then ultraschall.AddErrorMessage("RenderProject_Regions", "renderfilename_with_path", "To render current project, it must be saved first!", -2) return -2 end
---[[  if type(projectfilename_with_path)~="string" then 
-    -- reaper.Main_SaveProject(0, false)
-    retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
-  end
---]]
-
-  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProject_Regions", "projectfilename_with_path", "File does not exist.", -3) return -1 end
-  if renderfilename_with_path~=nil and type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject_Regions", "renderfilename_with_path", "Must be a string.", -4) return -1 end  
-  if rendercfg~=nil and ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil then ultraschall.AddErrorMessage("RenderProject_Regions", "rendercfg", "No valid render_cfg-string.", -5) return -1 end
-  if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProject_Regions", "overwrite_without_asking", "Must be boolean", -6) return -1 end
-  if RenderTable~=nil and ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("RenderProject_Regions", "RenderTable", "Must be either nil or a valid RenderTable", -8) return -1 end
-
-  local countmarkers, nummarkers, numregions, markertable, markertable_temp, countregions
-  markertable={}
-  if projectfilename_with_path~=nil then 
-    countmarkers, nummarkers, numregions, markertable = ultraschall.GetProject_MarkersAndRegions(projectfilename_with_path)
-  else
-    countmarkers, countregions = ultraschall.CountMarkersAndRegions()
-    numregions, markertable_temp = ultraschall.GetAllRegions()
-    for index=1, numregions do
-      markertable[index]={}
-      markertable[index][1]=true
-      markertable[index][2]=markertable_temp[index][0]
-      markertable[index][3]=markertable_temp[index][1]
-      markertable[index][4]=markertable_temp[index][2]
-      markertable[index][5]=markertable_temp[index][4]
-      markertable[index][6]=markertable_temp[index][5]
-    end    
-  end
-  if region>numregions then ultraschall.AddErrorMessage("RenderProject_Regions", "region", "No such region in the project.", -7) return -1 end
-  local regioncount=0
-  for i=1, countmarkers do
-    if markertable[i][1]==true then 
-      regioncount=regioncount+1
-      if regioncount==region then region=i break end
-    end
-  end
-  if addregionname==true then renderfilename_with_path=renderfilename_with_path..markertable[region][4] end
-
-  return ultraschall.RenderProject(projectfilename_with_path, renderfilename_with_path, tonumber(markertable[region][2]), tonumber(markertable[region][3]), overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg, RenderTable)
-end
-
-function ultraschall.RenderProjectRegions_RenderCFG(...)
-  ultraschall.RenderProject_Regions(...)
-end
 
 --ultraschall.RenderProject_Regions(nil, "c:\\testofon.lol", 1,true, true, true, true, nil)
 
@@ -58019,7 +57922,8 @@ function ultraschall.RenderProject(projectfilename_with_path, renderfilename_wit
   <parameters>
     string projectfilename_with_path - the project to render; nil, for the currently opened project
     string renderfilename_with_path - the filename with path of the output-file. If you give the wrong extension, Reaper will exchange it by the correct one.
-                                    - note: parameter overwrite_without_asking only works, when you give the right extension!
+                                    - You can use wildcards to some extend in the actual filename(not the path!)
+                                    - note: parameter overwrite_without_asking only works, when you give the right extension and use no wildcards, due API-limitations!
     number startposition - the startposition of the render-area in seconds; 
                          - -1, to use the startposition set in the projectfile itself; 
                          - -2, to use the start of the time-selection
@@ -58027,7 +57931,7 @@ function ultraschall.RenderProject(projectfilename_with_path, renderfilename_wit
                        - -1, to use the endposition set in the projectfile/current project itself
                        - -2, to use the end of the time-selection
     boolean overwrite_without_asking - true, overwrite an existing renderfile; false, don't overwrite an existing renderfile
-                                     - works only, when renderfilename_with_path has the right extension given!
+                                     - works only, when renderfilename_with_path has the right extension given and when not using wildcards(due API-limitations)!
     boolean renderclosewhendone - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings
     boolean filenameincrease - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings
     string rendercfg         - the rendercfg-string, that contains all render-settings for an output-format
@@ -58172,7 +58076,106 @@ function ultraschall.RenderProject_RenderCFG(...)
 end
 
 
---ultraschall.RenderProject_Regions(projectfilename_with_path, renderfilename_with_path, region, addregionname, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg, RenderTable)
+function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfilename_with_path, region, addregionname, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RenderProject_Regions</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject_Regions(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)</functioncall>
+  <description>
+    Renders a region of a project, using a specific render-cfg-string.
+    To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
+    
+    Returns -1 in case of an error
+    Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).
+  </description>
+  <retvals>
+    integer retval - -1, in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
+    integer renderfilecount - the number of rendered files
+    array MediaItemStateChunkArray - the MediaItemStateChunks of all rendered files, with the one in entry 1 being the rendered master-track(when rendering stems)
+    array Filearray - the filenames of the rendered files, including their paths. The filename in entry 1 is the one of the mastered track(when rendering stems)
+  </retvals>
+  <parameters>
+    string projectfilename_with_path - the project to render; nil, for the currently opened project
+    string renderfilename_with_path - the filename of the output-file. 
+                                    - Don't add a file-extension, when using addregionname=true!
+                                    - You can use wildcards to some extend in the actual filename(not the path!); doesn't support $region yet
+                                    - Give a path only, when you want to use only the regionname as render-filename(set addregionname=true !)
+    integer region - the number of the region in the Projectfile to render
+    boolean addregionname - add the name of the region to the renderfilename; only works, when you don't add a file-extension to renderfilename_with_path
+    boolean overwrite_without_asking - true, overwrite an existing renderfile; false, don't overwrite an existing renderfile
+    boolean renderclosewhendone - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings
+    boolean filenameincrease - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings
+    string rendercfg         - the rendercfg-string, that contains all render-settings for an output-format
+                             - To get render-cfg-strings, see CreateRenderCFG_xxx-functions, like: <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a>
+                             - 
+                             - If you want to render the current project, you can use a four-letter-version of the render-string; will use the default settings for that format. Not available with projectfiles!
+                             - "evaw" for wave, "ffia" for aiff, " iso" for audio-cd, " pdd" for ddp, "calf" for flac, "l3pm" for mp3, "vggo" for ogg, "SggO" for Opus, "PMFF" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, " FIG" for Gif, " FCL" for LCF, "kpvw" for wavepack 
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    Rendering any Outputformat
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, render, output, file</tags>
+</US_DocBloc>
+]]
+  local retval
+  local curProj=reaper.EnumProjects(-1,"")
+  if math.type(region)~="integer" then ultraschall.AddErrorMessage("RenderProject_Regions", "region", "Must be an integer.", -1) return -1 end
+
+  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProject_Regions", "projectfilename_with_path", "File does not exist.", -3) return -1 end
+  if type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject_Regions", "renderfilename_with_path", "Must be a string.", -4) return -1 end  
+  if rendercfg==nil or ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil or ultraschall.GetOutputFormat_RenderCfg(rendercfg)=="Unknown" then ultraschall.AddErrorMessage("RenderProject_Regions", "rendercfg", "No valid render_cfg-string.", -5) return -1 end
+  if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProject_Regions", "overwrite_without_asking", "Must be boolean", -6) return -1 end
+
+  local countmarkers, nummarkers, numregions, markertable, markertable_temp, countregions
+  markertable={}
+  if projectfilename_with_path~=nil then 
+    countmarkers, nummarkers, numregions, markertable = ultraschall.GetProject_MarkersAndRegions(projectfilename_with_path)
+  else
+    countmarkers, countregions = ultraschall.CountMarkersAndRegions()
+    numregions, markertable_temp = ultraschall.GetAllRegions()
+    for index=1, numregions do
+      markertable[index]={}
+      markertable[index][1]=true
+      markertable[index][2]=markertable_temp[index][0]
+      markertable[index][3]=markertable_temp[index][1]
+      markertable[index][4]=markertable_temp[index][2]
+      markertable[index][5]=markertable_temp[index][4]
+      markertable[index][6]=markertable_temp[index][5]
+    end    
+  end
+  if region>numregions then ultraschall.AddErrorMessage("RenderProject_Regions", "region", "No such region in the project.", -7) return -1 end
+  local regioncount=0
+  for i=1, countmarkers do
+    if markertable[i][1]==true then 
+      regioncount=regioncount+1
+      if regioncount==region then region=i break end
+    end
+  end
+  if addregionname==true then 
+    local renderfilename_with_path2=renderfilename_with_path:match("(.*)%.")..markertable[region][4]..renderfilename_with_path:match(".*(%..*)")
+    if renderfilename_with_path==nil then 
+      renderfilename_with_path=renderfilename_with_path..markertable[region][4]
+    else
+      renderfilename_with_path=renderfilename_with_path2
+    end
+  end
+
+  return ultraschall.RenderProject(projectfilename_with_path, renderfilename_with_path, tonumber(markertable[region][2]), tonumber(markertable[region][3]), overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg, RenderTable)
+end
+
+function ultraschall.RenderProjectRegions_RenderCFG(...)
+  ultraschall.RenderProject_Regions(...)
+end
+
+--ultraschall.RenderProject_Regions("c:\\aa.rpp", "c:\\tudelu$user.flac", 1, true, true, renderclosewhendone, filenameincrease, ultraschall.CreateRenderCFG_FLAC(1,1))
 
 --B=ultraschall.GetOutputFormat_RenderCfg("calf", A)
 
