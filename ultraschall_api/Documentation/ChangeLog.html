@@ -45,7 +45,8 @@ Ultraschall API Changelog
 <p><strong>!RenderMania!</strong></p>
 <h4>New features in 4.00beta2.75</h4>
 <ul>
-<li>Docs: misc/misc_docs - added this folder to put into that various (often unfinished) docs</li>
+<li>Docs: ConfigVars: defpitchcfg - updated PitchShiftmodes</li>
+<li>Docs: Misc/misc_docs - added this folder to put into that various (often unfinished) docs</li>
 <li>Docs: ParmLearnDocs.txt - documented parameter-learn/modulation/alias-settings</li>
 <li>Envelopes: GetArmState_Envelope - gets the armstate of a TrackEnvelope or EnvelopeStateChunk</li>
 <li>Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point from a TrackEnvelope-object</li>
@@ -69,11 +70,14 @@ Ultraschall API Changelog
 <li>Lua: StoreFunctionInExtState - stores a function into an extstate</li>
 <li>Lua: LoadFunctionFromExtState - loads a function from an extstate, if stored using StoreFunctionInExtState</li>
 <li>MediaItems: GetLengthOfAllMediaItems_Track - returns the length of all MediaItems in a track combined, in seconds</li>
+<li>MediaItems: GetItemPlayRate - updated pitchshiftmodes in docs</li>
+<li>Project Management: GetProject_DefPitchMode - returns now the stretchmarker-mode as well(as set in Project Settings); updated docs to recent pitch-shift-modes</li>
 <li>Project Management: GetProject_GroupName - gets the name of an item-group, as stored in a ProjectStateChunk of projectfile</li>
 <li>Project Management: GetProject_QRenderOriginalProject - returns the original projectfile of a render-queued-project from a projectfile or ProjectStateChunk</li>
 <li>Project Management: GetProject_QRenderOutFiles - returns the render-outfiles-with-path of a render-queued-project from a projectfile or ProjectStateChunk</li>
 <li>Project Management: GetProject_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk</li>
 <li>Project Management: GetProject_Selection - had some inner variables exposed -&gt; fixed now</li>
+<li>Project Management: SetProject_DefPitchMode - allows now setting the stretchmarker-mode as well(as set in Project Settings); updated docs to recent pitch-shift-modes</li>
 <li>Render: AddProjectFileToRenderQueue - adds a projectfile or the current active project to the render-queue</li>
 <li>Render: AddRenderPreset - adds a new render-preset</li>
 <li>Render: ApplyRenderTable_Project - applies a RenderTable to the active project</li>
@@ -133,6 +137,7 @@ Ultraschall API Changelog
 <li>Render: SetRender_SaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.</li>
 <li>Render: SetRender_QueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>
 <li>Render: SetRenderPreset - sets the values of an existing render-preset</li>
+<li>Scripts: GetPitchShiftModes.lua - gets a full list of all pitch-shiftmodes of the currently running Reaper-instance, formats it and puts it into clipboard</li>
 <li>Scripts: ultraschall_Add_ExampleScripts_To_Reaper.lua - adds the example-scripts into Reaper, can be searched for using examples</li>
 <li>Scripts: ultraschall_Help_Reaper_Api_Video_Documentation.lua - opens the video-api-documenation in the browser</li>
 <li>Scripts: ultraschall_Help_Reaper_Api_Web_Documentation.lua - opens the web-rc-api-documenation in the browser</li>

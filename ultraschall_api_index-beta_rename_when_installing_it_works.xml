@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="38757.00" author="Meo Mespotine">
+      <version name="38788.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -259,10 +259,10 @@
 	<source file="/ultraschall_api/Scripts/Tools/ConfigVarConverter.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/ConfigVarConverter.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Env_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Env_State_Diffs_Monitor.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/FindNewActions.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/FindNewActions.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/GetPitchShiftModes.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/GetPitchShiftModes.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/HWND-Displayer.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/HWND-Displayer.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Item_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Item_State_Diffs_Monitor.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Missing-Actions-List.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Missing-Actions-List.lua</source>
-	<source file="/ultraschall_api/Scripts/Tools/PitchShiftMode-updatechecker.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/PitchShiftMode-updatechecker.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Project_State_Diffs_Monitor.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Project_State_Diffs_Monitor.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Reapack-API-xml-generator.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Reapack-API-xml-generator.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Reaper_Configvar_String_Searcher.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Reaper_Configvar_String_Searcher.lua</source>
@@ -344,7 +344,8 @@ tagline inspired by a comment from _stevie_ ;)
 
 New features in 4.00beta2.75
 
--   Docs: misc/misc_docs - added this folder to put into that various
+-   Docs: ConfigVars: defpitchcfg - updated PitchShiftmodes
+-   Docs: Misc/misc_docs - added this folder to put into that various
     (often unfinished) docs
 -   Docs: ParmLearnDocs.txt - documented
     parameter-learn/modulation/alias-settings
@@ -392,6 +393,10 @@ New features in 4.00beta2.75
     if stored using StoreFunctionInExtState
 -   MediaItems: GetLengthOfAllMediaItems_Track - returns the length of
     all MediaItems in a track combined, in seconds
+-   MediaItems: GetItemPlayRate - updated pitchshiftmodes in docs
+-   Project Management: GetProject_DefPitchMode - returns now the
+    stretchmarker-mode as well(as set in Project Settings); updated docs
+    to recent pitch-shift-modes
 -   Project Management: GetProject_GroupName - gets the name of an
     item-group, as stored in a ProjectStateChunk of projectfile
 -   Project Management: GetProject_QRenderOriginalProject - returns the
@@ -404,6 +409,9 @@ New features in 4.00beta2.75
     render-queue-delay of a projectfile or ProjectStateChunk
 -   Project Management: GetProject_Selection - had some inner variables
     exposed -> fixed now
+-   Project Management: SetProject_DefPitchMode - allows now setting the
+    stretchmarker-mode as well(as set in Project Settings); updated docs
+    to recent pitch-shift-modes
 -   Render: AddProjectFileToRenderQueue - adds a projectfile or the
     current active project to the render-queue
 -   Render: AddRenderPreset - adds a new render-preset
@@ -531,6 +539,9 @@ New features in 4.00beta2.75
     allow samples to load”-checkbox of the Render to File-dialog.
 -   Render: SetRenderPreset - sets the values of an existing
     render-preset
+-   Scripts: GetPitchShiftModes.lua - gets a full list of all
+    pitch-shiftmodes of the currently running Reaper-instance, formats
+    it and puts it into clipboard
 -   Scripts: ultraschall_Add_ExampleScripts_To_Reaper.lua - adds the
     example-scripts into Reaper, can be searched for using examples
 -   Scripts: ultraschall_Help_Reaper_Api_Video_Documentation.lua - opens
