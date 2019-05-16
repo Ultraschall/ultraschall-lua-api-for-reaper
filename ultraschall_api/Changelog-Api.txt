@@ -2,7 +2,7 @@
     
     API 4.00beta2.75
       TODO!! public-beta-index-file checken
-      TODO!! Docs for Rendering, Rendertables and removing beta-management-chapter
+      TODO!! Docs for Rendering
           
           
       Done: keep it as docs in here:
@@ -84,6 +84,8 @@
             3b) if QUEUED_RENDER_ORIGINAL_FILENAME exists it will be the exportfolder
                 3ba) if RENDER_FILE is set to anything, the output will be QUEUED_RENDER_ORIGINAL_FILENAME\RENDER_FILE
 
+    For 4.00beta2.76:
+        concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
     For 4.00beta2.8:
         TODO!! Multipass-rendering
                     When you want to render out a "wet"-loop, that needs reverb or something, you would need to render this loop three times:
@@ -328,9 +330,9 @@ tagline inspired by a comment from \_stevie\_ ;)
   **!RenderMania!**
 
 #### New features in 4.00beta2.75
-  - Docs: ConfigVars: defpitchcfg - updated PitchShiftmodes
   - Docs: Misc/misc_docs - added this folder to put into that various (often unfinished) docs
   - Docs: ParmLearnDocs.txt - documented parameter-learn/modulation/alias-settings
+  - Docs: US-Concepts - added description of RenderTable
   - Envelopes: GetArmState_Envelope - gets the armstate of a TrackEnvelope or EnvelopeStateChunk
   - Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point from a TrackEnvelope-object
   - Envelopes: SetArmState_Envelope - sets the armstate of a TrackEnvelope or EnvelopeStateChunk
@@ -437,12 +439,14 @@ tagline inspired by a comment from \_stevie\_ ;)
   - ChildScripts: GetScriptReturnvalues - omitted returnvalues, who were nil or "" -> fixed
   - ChildScripts: SetScriptParameters - omitted parameters, who were nil or "" -> fixed
   - ChildScripts: SetScriptReturnvalues - omitted returnvalues, who were nil or "" -> fixed
+  - Docs: corrected wrong functioncount in docs
   - Docs: CreateTemporaryFileOfProjectfile - moved in docs to Project-Files -> Helper functions
-  - Docs: Reaper - updated docs to Reaper 5.977, JS-extension 0.986
+  - Docs: ConfigVars: defpitchcfg - updated PitchShiftmodes
+  - Docs: Reaper - updated docs to Reaper 5.978, JS-extension 0.986
   - Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER\_DITHER (dither/noiseshape stems) and RENDER\_SRATE(when returned RENDER\_SRATE=0)
   - Docs: Reaper ConfigVars - added better description for g\_config\_project
   - Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3
-  - Docs: corrected wrong functioncount in docs
+  - Docs: US-Concepts - added functions to checking datatypes and removed beta-functions information from How to install hotfixes
   - Docs: when Beta-functions is enabled, the docgenerator adds beta-functions into docs as well
   - FileIO: CountLinesInFile - errormessages return now the filename as well
   - FileIO: GetAllFilenamesInPath - didn't add a directory-separator between file and path, if path was missing / or \ at the end -> fixed now

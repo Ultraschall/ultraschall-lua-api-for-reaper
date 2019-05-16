@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="38788.00" author="Meo Mespotine">
+      <version name="38802.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -157,6 +157,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.972.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.972.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.974.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.974.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.975.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.975.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper5.978.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.978.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi</source>
@@ -344,11 +345,11 @@ tagline inspired by a comment from _stevie_ ;)
 
 New features in 4.00beta2.75
 
--   Docs: ConfigVars: defpitchcfg - updated PitchShiftmodes
 -   Docs: Misc/misc_docs - added this folder to put into that various
     (often unfinished) docs
 -   Docs: ParmLearnDocs.txt - documented
     parameter-learn/modulation/alias-settings
+-   Docs: US-Concepts - added description of RenderTable
 -   Envelopes: GetArmState_Envelope - gets the armstate of a
     TrackEnvelope or EnvelopeStateChunk
 -   Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point
@@ -573,9 +574,11 @@ Changes from Beta 2.74 to Beta 2.75
     or "" -> fixed
 -   ChildScripts: SetScriptReturnvalues - omitted returnvalues, who were
     nil or "" -> fixed
+-   Docs: corrected wrong functioncount in docs
 -   Docs: CreateTemporaryFileOfProjectfile - moved in docs to
     Project-Files -> Helper functions
--   Docs: Reaper - updated docs to Reaper 5.977, JS-extension 0.986
+-   Docs: ConfigVars: defpitchcfg - updated PitchShiftmodes
+-   Docs: Reaper - updated docs to Reaper 5.978, JS-extension 0.986
 -   Docs: Reaper-API - GetSetProjectInfo - added missing information
     about RENDER_DITHER (dither/noiseshape stems) and RENDER_SRATE(when
     returned RENDER_SRATE=0)
@@ -583,7 +586,8 @@ Changes from Beta 2.74 to Beta 2.75
     g_config_project
 -   Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly
     regarding mp3
--   Docs: corrected wrong functioncount in docs
+-   Docs: US-Concepts - added functions to checking datatypes and
+    removed beta-functions information from How to install hotfixes
 -   Docs: when Beta-functions is enabled, the docgenerator adds
     beta-functions into docs as well
 -   FileIO: CountLinesInFile - errormessages return now the filename as

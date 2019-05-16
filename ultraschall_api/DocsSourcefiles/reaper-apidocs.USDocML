@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ## ReaScript API as of Reaper 5.977
+            ## ReaScript API as of Reaper 5.978
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -3495,15 +3495,21 @@
         <title>EnsureNotCompletelyOffscreen</title>
         <functioncall prog_lang="cpp">void EnsureNotCompletelyOffscreen(RECT* rInOut)</functioncall>
         <functioncall prog_lang="eel">EnsureNotCompletelyOffscreen(int &amp;r.left, int &amp;r.top, int &amp;r.right, int &amp;r.bot)</functioncall>
-        <functioncall prog_lang="lua">integer r.left, integer r.top, integer r.right, integer r.bot = reaper.EnsureNotCompletelyOffscreen()</functioncall>
-        <functioncall prog_lang="python">RPR_EnsureNotCompletelyOffscreen(RECT rOut)</functioncall>
+        <functioncall prog_lang="lua">integer r.left, integer r.top, integer r.right, integer r.bot = reaper.EnsureNotCompletelyOffscreen(integer r.left, integer r.top, integer r.right, integer r.bot)</functioncall>
+        <functioncall prog_lang="python">RPR_EnsureNotCompletelyOffscreen(RECT rInOut)</functioncall>
         <requires>
-            Reaper=5.92
+            Reaper=5.978
             Lua=5.3
         </requires>
         <description prog_lang="*">
             call with a saved window rect for your window and it'll correct any positioning info.
         </description>
+        <parameters>
+            integer r.left - 
+            integer r.top - 
+            integer r.right - 
+            integer r.bot - 
+        </parameters>
         <retvals>
             integer r.left - 
             integer r.top - 

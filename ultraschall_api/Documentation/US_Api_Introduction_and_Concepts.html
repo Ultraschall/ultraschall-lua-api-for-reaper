@@ -55,9 +55,9 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.00Beta 2.75 - "Nick Cave & the Bad Seeds - Babe, I'm on fire" - 15th of May 2019 - Build: 38786</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.00Beta 2.75 - "Nick Cave & the Bad Seeds - Babe, I'm on fire" - 15th of May 2019 - Build: 38801</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
-<td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to use Beta functions and hotfixes</a></td>
+<td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to install hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
 </tr><tr><td><a href="#Introduction_005_License">Introduction: License</a></td>
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Datatypes</b></td></tr><tr><td><a href="#Datatypes_001_Introduction">Datatypes: Introduction</a></td>
@@ -67,8 +67,9 @@ Ultraschall API functions
 </tr><tr><td><a href="#Datatypes_005_EnvelopePointObject">Datatypes: EnvelopePointObject</a></td>
 <td><a href="#Datatypes_006_EnvelopePointArray">Datatypes: EnvelopePointArray</a></td>
 <td><a href="#Datatypes_007_ColorTable">Datatypes: ColorTable</a></td>
-<td><a href="#Datatypes_050_CheckingDatatypes">Datatypes: Checking Datatypes</a></td>
-</tr><tr></tr><p><tr><td>&nbsp;</td></tr><tr><td><b>API-Variables</b></td></tr><tr><td><a href="#API_Variables_001_Introduction">API-Variables</a></td>
+<td><a href="#Datatypes_008_RenderTable">Datatypes: RenderTable</a></td>
+</tr><tr><td><a href="#Datatypes_050_CheckingDatatypes">Datatypes: Checking Datatypes</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>API-Variables</b></td></tr><tr><td><a href="#API_Variables_001_Introduction">API-Variables</a></td>
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Rendering</b></td></tr><tr><td><a href="#Rendering_001_Introduction">Rendering: Introduction</a></td>
 <td><a href="#Rendering_002_About_Renderstrings">Rendering: About Renderstrings</a></td>
 <td><a href="#Rendering_003_About_Renderingfunctions">Rendering: About Rendering-functions</a></td>
@@ -186,7 +187,7 @@ Ultraschall API functions
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_002_How_to_Use"></a>
 <div style="font-size:100%"><h4><a href="#Introduction_002_How_to_Use">^</a> <u>How to use the Ultraschall API</u></h4></div><p><p>Using the Ultraschall-API is quite easy.</p>
-<p>First make sure, you use the right versions of Reaper and SWS: <a href="https://www.reaper.fm">Reaper 5.965</a>, <a href="https://www.sws-extension.org">SWS 2.9.7</a> and <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">Julian Sader's plugin 0.963.</a> You can download them at <a href="http://www.reaper.fm">reaper.fm</a> and <a href="http://www.sws-extension.org">sws-extension.org</a> respectively. Julian Sader's plugin can be installed using ReaPack or gotten from <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">his own github-site</a></p>
+<p>First make sure, you use the right versions of Reaper and SWS: <a href="https://www.reaper.fm">Reaper 5.977</a>, <a href="https://www.sws-extension.org">SWS 2.10.0.1</a> and <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">Julian Sader's plugin 0.986.</a> You can download them at <a href="http://www.reaper.fm">reaper.fm</a> and <a href="http://www.sws-extension.org">sws-extension.org</a> respectively. Julian Sader's plugin can be installed using ReaPack or gotten from <a href="https://github.com/juliansader/ReaExtensions/tree/master/js_ReaScriptAPI/">his own github-site</a></p>
 <p>To install the Ultraschall-API, just follow the following steps:</p>
 <p><strong>Installation via ReaPack</strong>:</p>
 <p>The easiest way is to install the Ultraschall-API using ReaPack. ReaPack is a package-manager for extensions and helper-stuff for Reaper, which allows you to easily install and update content done by the Reaper community. Many Scripts, Themes, JSFX-FX, etc are available through that.</p>
@@ -220,7 +221,7 @@ For more information on ReaPack and it's usage, refer <a href="https://reapack.c
 <p><strong>Manual Installation</strong>:</p>
 <p>If you can't or don't want to install ReaPack, you can also install it manually.</p>
 <ol>
-<li>Just download the zip-file of the current version from <a href="https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api4.00_beta2.72.zip">ultraschall<em>api4.00</em>beta2.72.zip</a>.<br />
+<li>Just download the zip-file of the current version from <a href="https://github.com/Ultraschall/ultraschall-lua-api-for-reaper/raw/master/ultraschall_api4.00_beta2.75.zip">ultraschall_api4.00_beta2.75.zip</a>.<br />
 </li>
 <li>Extract it to the UserPlugins-folder in the Resources-folder of Reaper. You can find the correct Resources-path in the Reaper-menu "Options -&gt; Show REAPER resource path in explorer/finder...".<br />
 The folder UserPlugins should contain the folder ultraschall_api and the files ultraschall_api_readme.txt and ultraschall_api.lua after this step.<br />
@@ -240,7 +241,8 @@ Include the following line in your script at the beginning:</p>
 <pre><code>     ultraschall.ApiTest()</code></pre></li>
 </ol>
 <p>after the dofile-line and hit ctrl+s or cmd+s(on mac).</p>
-<p>The script should show a messagebox, that tells you, which of the Ultraschall-API-parts are activated. If it shows, everything works fine :)</p>
+<p>The script should show a messagebox, that tells you, which of the Ultraschall-API-parts are activated. If it shows, everything works fine :)<br />
+If not, it will probably show you a messagebox, which will tell you, which required extension or Reaper-version is missing and where to find it.</p>
 <p>If you are already familiar with programming Reaper's own API-functions, you know, that all of Reaper's functions are placed in a table called "reaper."<br />
 e.g. reaper.ShowConsoleMsg("msg")</p>
 <p>The Ultraschall-API is quite the same, but is using the table "ultraschall." instead.<br />
@@ -250,27 +252,18 @@ e.g. ultraschall.ApiTest()</p>
 <p>Oh, before I forget: The ultraschall_api-folder holds a folder "Scripts_Examples" in which you can find some demos and example-scripts using this API.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes"></a>
-<div style="font-size:100%"><h4><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">^</a> <u>How to use Beta functions and hotfixes</u></h4></div><p><p>Before a new version of the Ultraschall-API is finished, it is in beta-stage. But sometimes, bugs need to be fixed even before a new release is done or you may want to test new functions from the next release for bugs and quirks.<br />
-So I added two ways to deal with that.</p>
-<ol>
-<li><p>Hotfixes<br />
+<div style="font-size:100%"><h4><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">^</a> <u>How to install hotfixes</u></h4></div><p><p>Before a new version of the Ultraschall-API is finished, it is in beta-stage. But sometimes, bugs need to be fixed even before a new release is done or you may want to test new functions from the next release for bugs and quirks.<br />
+So I added a way to deal with that.</p>
+<p>Hotfixes<br />
 Hotfixes are available at <a href="http://ultraschall.fm/api">ultraschall.fm/api</a>. They provide fixes for functions and bugs that came across after a release, but no new functions.<br />
 Just download the ultraschall_hotfixes.lua and put it into UserPlugins/ultraschall_api-folder.<br />
 The chance is high, that there is already an ultraschall_hotfixes.lua-file in the folder. You can safely overwrite it.<br />
 Voila, you have added the most recent bugfixes.</p>
-<pre><code>To get the bugs back, just delete the ultraschall_hotfixes.lua.
-
-All fixes in ultraschall\_hotfixes.lua will be part of the next full version of the Ultraschall-API.
-
-Check again from time to time to get the latest hotfixes.</code></pre></li>
-<li><p>Beta-functions and features Beta-functions are functions intended for a future release of the Ultraschall-API. If you want to test them, just download the latest Beta-Pack from <a href="http://ultraschall.fm/api">ultraschall.fm/api</a>.<br />
-Extract the files in the Beta-pack to UserPlugins of the Resources-folder of your Reaper-installation. Voila, the beta-functions are installed.</p>
-<p>To use them, you need to explicitly turn them on in your script, using the following lines:</p>
-<pre><code>     ultraschall.US_BetaFunctions=&quot;ON&quot;          -- Only has an effect, if ultraschall-beta-functions exist in Scripts-folder  
-                                                -- Turn ON, if you want BETA-Api-Functions</code></pre>
-<p>The documentation for beta-versions can be found at <a href="http://api.ultraschall.fm/Downloads.html">api.ultraschall.fm/Downloads.html</a></p>
-<p>Be aware, they are in beta-stage. They will probably change, disappear or be exchanged with better functions. Beta-functions are only for testing purposes, not for productive coding!</p></li>
-</ol>
+<pre><code>   To get the bugs back, just delete the ultraschall_hotfixes.lua.
+   
+   All fixes in ultraschall\_hotfixes.lua will be part of the next full version of the Ultraschall-API.
+   
+   Check again from time to time to get the latest hotfixes.</code></pre>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Introduction_004_Bugreporting_FeatureRequests"></a>
 <div style="font-size:100%"><h4><a href="#Introduction_004_Bugreporting_FeatureRequests">^</a> <u>Introduction: Bugreporting and Feature Requests</u></h4></div><p><p>If you find any bugs or itches and want to report them, I suggest you the following procedure:</p>
@@ -493,6 +486,20 @@ Structure:</p>
 <li>Some of the functions who make use of ColorTables are: <a href="US_Api_Functions.html#ApplyColorTableToTrackColors">ApplyColorTableToTrackColors</a></li>
 </ul>
 
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_008_RenderTable"></a>
+<div style="font-size:100%"><h4><a href="#Datatypes_008_RenderTable">^</a> <u>Datatypes: RenderTable</u></h4></div><p><p>When working with rendering, you have to deal with dozens of potential options. I tried to add all these options as parameters into the rendering-functions but, I failed miserably.<br />
+This is mostly because, there are so many.</p>
+<p>So I added a new construct, called: the RenderTable.</p>
+<p>A Rendertable is a table, which stores all rendersettings you can set in Reaper. And with all, I mean all!</p>
+<p>Structure:<br />
+RenderTable["AddToProj"] - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked RenderTable["Bounds"] - 0, Custom time range; 1, Entire project; 2, Time selection; 3, Project regions; 4, Selected Media Items(in combination with Source 32); 5, Selected regions RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels RenderTable["CloseAfterRender"] - true, close rendering to file-dialog after render; false, don't close it RenderTable["Dither"] - &amp;1, dither master mix; &amp;2, noise shaping master mix; &amp;4, dither stems; &amp;8, dither noise shaping RenderTable["Endposition"] - the endposition of the rendering selection in seconds RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle) RenderTable["OnlyMonoMedia"] - Tracks with only mono media to mono files-checkbox; true, checked; false, unchecked RenderTable["ProjectSampleRateFXProcessing"] - Use project sample rate for mixing and FX/synth processing-checkbox; true, checked; false, unchecked RenderTable["RenderFile"] - the contents of the Directory-inputbox of the Render to File-dialog RenderTable["RenderPattern"] - the render pattern as input into the File name-inputbox of the Render to File-dialog RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc) RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string RenderTable["RenderTable"]=true - signals, this is a valid render-table RenderTable["SampleRate"] - the samplerate of the rendered file(s) RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; true, checked; false, unchecked RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items RenderTable["Startposition"] - the startposition of the rendering selection in seconds RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &amp;1, custom time bounds; &amp;2, entire project; &amp;4, time selection; &amp;8, all project regions; &amp;16, selected media items; &amp;32, selected project regions RenderTable["TailMS"] - the amount of milliseconds of the tail</p>
+<p>This rendertable can be used by, e.g. <a href="US_Api_Functions.html#RenderProject_RenderTable">RenderProject_RenderTable</a></p>
+<ul>
+<li>You can create Rendertables using: <a href="US_Api_Functions.html#CreateNewRenderTable">CreateNewRenderTable</a>(new rendertable), <a href="US_Api_Functions.html#GetRenderTable_Project">GetRenderTable_Project</a>(create from the current project), <a href="US_Api_Functions.html#GetRenderTable_ProjectFile">GetRenderTable_ProjectFile</a>(create from an rpp-projectfile), <a href="US_Api_Functions.html#GetRenderPreset_RenderTable">GetRenderPreset_RenderTable</a>(create from render-preset)</li>
+<li>You can check for valid RenderTables using: <a href="US_Api_Functions.html#IsValidRenderTable">IsValidRenderTable</a></li>
+<li>Some of the functions who make use of RenderTables are: <a href="US_Api_Functions.html#RenderProject_RenderTable">RenderProject_RenderTable</a></li>
+</ul>
+
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Datatypes_050_CheckingDatatypes"></a>
 <div style="font-size:100%"><h4><a href="#Datatypes_050_CheckingDatatypes">^</a> <u>Datatypes: Checking Datatypes</u></h4></div><p><p>When you work with data of different sources but need to work with data of a specific type, it would be handy to have ways of checking, whether a certain variable has data of a specific type.<br />
 Lua provides ways of checking for valid datatypes(type() and math.type()) as well as Reaper(ValidatePtr() and ValidatePtr2()).</p>
@@ -525,6 +532,8 @@ To check for Ultraschall-API specific or other Reaper-datatypes, you can use the
 </li>
 <li><a href="US_Api_Functions.html#IsValidEnvelopePointArray">IsValidEnvelopePointArray</a> - checks, if a table is a valid <a href="#Datatypes_006_EnvelopePointArray">EnvelopePointArray</a></li>
 <li><a href="US_Api_Functions.html#IsValidArrangeviewSnapshot">IsValidArrangeviewSnapshot</a> - checks, if an extstate is a valid ArrangeviewSnapshot</li>
+<li><a href="US_Api_Functions.html#IsValidRenderTable">IsValidRenderTable</a> - checks, if a table is a valid <a href="#Datatypes_008_RenderTable">RenderTable</a></li>
+<li><a href="US_Api_Functions.html#IsValidTrackString">IsValidTrackString</a> - checks, whether a string is a <a href="#Datatypes_002_trackstring">trackstrings</a></li>
 </ul>
 <p>Other Reaper-datatypes:</p>
 <ul>
@@ -533,6 +542,8 @@ To check for Ultraschall-API specific or other Reaper-datatypes, you can use the
 <li><a href="US_Api_Functions.html#IsValidTrackStateChunk">IsValidTrackStateChunk</a> - checks, if a string is a valid TrackStateChunk</li>
 <li><a href="US_Api_Functions.html#IsValidMediaItemStateChunk">IsValidMediaItemStateChunk</a> - checks, if a string is a valid MediaItemStateChunk</li>
 <li><a href="US_Api_Functions.html#IsValidEnvStateChunk">IsValidEnvStateChunk</a> - checks, if a string is a valid EnvelopeStateChunk</li>
+<li><a href="US_Api_Functions.html#IsValidFXStateChunk">IsValidFXStateChunk</a> - checks, if a string is a valid FXStateChunk(both, from tracks and/or items)</li>
+<li><a href="US_Api_Functions.html#IsValidHWND">IsValidHWND</a> - checks, if a identifier is a valid HWND</li>
 </ul>
 <p>They will be part of ultraschall.type() someday.</p></li>
 <li><p>other types of data<br />
@@ -3513,4 +3524,4 @@ Though, after not having seen the lights of the days for months now, I'm not sur
 <p>I go to sleep now. I think, I deserved it :)</p>
 <p>Meo Mespotine, Leipzig(Germany) 30th of November 2018</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.75 - 89 chapters available</td></table><br><hr></div></body></html>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.75 - 90 chapters available</td></table><br><hr></div></body></html>
