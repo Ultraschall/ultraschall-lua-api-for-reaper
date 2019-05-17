@@ -30,6 +30,7 @@ end
 -- set this to the online-repo of the Ultraschall-API
 --Url="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API4.00-beta2.71/"
 Url="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/"
+--Url="file:///c:/Ultraschall-Api-Git-Repo/Ultraschall-Api-for-Reaper/" -- for reapindex-tests first
 Url2="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/"
 
 -- set this to the repository-folder of the api on your system
@@ -431,7 +432,7 @@ for i=1, found_files do
 end
 
 for i=1, Docs[1] do
-  XML_file=XML_file.."\t<source file=\"/"..Docs[i+1].."\" type=\"script\">"..Url..Docs[i+1].."</source>\n"
+  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Docs[i+1].."\" type=\"script\">"..Url.."/ultraschall_api/Scripts/"..Docs[i+1].."</source>\n"
 end
 
 --print2(XML_file:sub(1,2000))
@@ -452,7 +453,7 @@ end
 
 
 for i=1, Docs[1] do
-  XML_file=XML_file.."\t<source file=\"/"..Docs[i+1].."\" type=\"script\">"..Url2..Docs[i+1].."</source>\n"
+  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Docs[i+1].."\" type=\"script\">"..Url2..Docs[i+1].."</source>\n"
 end
 
 --  print2(XML_file:sub(-1000,-1))
