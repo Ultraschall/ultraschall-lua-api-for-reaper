@@ -42,12 +42,13 @@ Ultraschall API Changelog
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.00 Beta 2.75: - "Nick Cave &amp; the Bad Seeds - Babe, I'm on fire" - 15th of May 2019</h3>
 <p>tagline inspired by a comment from _stevie_ ;)</p>
-<p><strong>!RenderMania!</strong></p>
+<p><strong>!RenderMania Update!</strong> Has now 933 functions with 93 new ones!</p>
 <h4>New features in 4.00beta2.75</h4>
 <ul>
 <li>Docs: Misc/misc_docs - added this folder to put into that various (often unfinished) docs</li>
 <li>Docs: ParmLearnDocs.txt - documented parameter-learn/modulation/alias-settings</li>
-<li>Docs: US-Concepts - added description of RenderTable</li>
+<li>Docs: US-Concepts - added description of datatype RenderTable</li>
+<li>Docs: US-Concepts - Rendering: About RenderTables; description of how to use and work with RenderTables</li>
 <li>Envelopes: GetArmState_Envelope - gets the armstate of a TrackEnvelope or EnvelopeStateChunk</li>
 <li>Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point from a TrackEnvelope-object</li>
 <li>Envelopes: SetArmState_Envelope - sets the armstate of a TrackEnvelope or EnvelopeStateChunk</li>
@@ -66,7 +67,9 @@ Ultraschall API Changelog
 <li>FXManagement: GetParmMIDIPLink_FXStateChunk - gets the parameter-link-settings from an FXStateChunk</li>
 <li>FXManagement: GetParmModulationChunk_FXStateChunk - gets the chunk for parameter-modulation for a specific parameter of an FX in a specific track</li>
 <li>FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is a valid FXStateChunk</li>
+<li>Helpers: ConvertAscii2Hex - converts a string into it's two-digit-hexadecimal-number-representation</li>
 <li>Helpers: ConvertBitsToInteger - converts a table with bitvalues (0 or 1) into it's integer-representation</li>
+<li>Helpers: ConvertHex2Ascii - converts a string with two-digit-hexadecimal-numbers into it's ascii-representation</li>
 <li>Lua: StoreFunctionInExtState - stores a function into an extstate</li>
 <li>Lua: LoadFunctionFromExtState - loads a function from an extstate, if stored using StoreFunctionInExtState</li>
 <li>MediaItems: GetLengthOfAllMediaItems_Track - returns the length of all MediaItems in a track combined, in seconds</li>
@@ -144,7 +147,7 @@ Ultraschall API Changelog
 <li>Scripts: ultraschall_Help_Reaper_ConfigVars_Documentation.lua - opens the config-vars-documenation in the browser</li>
 <li>Scripts: ultraschall_OpenFolder_Api_Documentation.lua - opens the documentation-folders</li>
 <li>Scripts: ultraschall_OpenFolder_Api_ExampleScripts.lua - opens the example-scripts-folder</li>
-<li>Scripts: ultraschall<em>Remove</em>ExampleScripts<em>To</em>Reaper.lua - removes the example-scripts from Reaper again</li>
+<li>Scripts: ultraschall_Remove_ExampleScripts_To_Reaper.lua - removes the example-scripts from Reaper again</li>
 <li>Trackmanagement: DeleteTracks_TrackString - deletes all tracks given in a trackstring</li>
 <li>UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd</li>
 <li>UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd</li>
@@ -163,6 +166,8 @@ Ultraschall API Changelog
 <li>Docs: Reaper ConfigVars - added better description for g_config_project</li>
 <li>Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3</li>
 <li>Docs: US-Concepts - added functions to checking datatypes and removed beta-functions information from How to install hotfixes</li>
+<li>Docs: US-Concepts "Rendering: About Rendering-functions" - added information about RenderProject_RenderTable as well as removing the info about needing to save current active project before rendering</li>
+<li>Docs: US-Concepts "Rendering: Change more render-settings in projectfiles" - rewritten, as the difficult alteration of projectfiles isn't needed anymore for rendering the current project</li>
 <li>Docs: when Beta-functions is enabled, the docgenerator adds beta-functions into docs as well</li>
 <li>FileIO: CountLinesInFile - errormessages return now the filename as well</li>
 <li>FileIO: GetAllFilenamesInPath - didn't add a directory-separator between file and path, if path was missing / or \ at the end -&gt; fixed now</li>

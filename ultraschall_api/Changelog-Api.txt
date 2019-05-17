@@ -326,13 +326,15 @@ end
 
 ### 4.00 Beta 2.75: - "Nick Cave & the Bad Seeds - Babe, I'm on fire" - 15th of May 2019
 tagline inspired by a comment from \_stevie\_ ;)
-
-  **!RenderMania!**
+  
+  **!RenderMania Update!**
+  Has now 933 functions with 93 new ones!
 
 #### New features in 4.00beta2.75
   - Docs: Misc/misc_docs - added this folder to put into that various (often unfinished) docs
   - Docs: ParmLearnDocs.txt - documented parameter-learn/modulation/alias-settings
-  - Docs: US-Concepts - added description of RenderTable
+  - Docs: US-Concepts - added description of datatype RenderTable
+  - Docs: US-Concepts - Rendering: About RenderTables; description of how to use and work with RenderTables
   - Envelopes: GetArmState_Envelope - gets the armstate of a TrackEnvelope or EnvelopeStateChunk
   - Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point from a TrackEnvelope-object
   - Envelopes: SetArmState_Envelope - sets the armstate of a TrackEnvelope or EnvelopeStateChunk
@@ -351,7 +353,9 @@ tagline inspired by a comment from \_stevie\_ ;)
   - FXManagement: GetParmMIDIPLink\_FXStateChunk - gets the parameter-link-settings from an FXStateChunk
   - FXManagement: GetParmModulationChunk\_FXStateChunk - gets the chunk for parameter-modulation for a specific parameter of an FX in a specific track
   - FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is a valid FXStateChunk
+  - Helpers: ConvertAscii2Hex - converts a string into it's two-digit-hexadecimal-number-representation
   - Helpers: ConvertBitsToInteger - converts a table with bitvalues (0 or 1) into it's integer-representation
+  - Helpers: ConvertHex2Ascii - converts a string with two-digit-hexadecimal-numbers into it's ascii-representation
   - Lua: StoreFunctionInExtState - stores a function into an extstate
   - Lua: LoadFunctionFromExtState - loads a function from an extstate, if stored using StoreFunctionInExtState
   - MediaItems: GetLengthOfAllMediaItems\_Track - returns the length of all MediaItems in a track combined, in seconds
@@ -428,7 +432,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Scripts: ultraschall\_Help\_Reaper\_ConfigVars\_Documentation.lua - opens the config-vars-documenation in the browser
   - Scripts: ultraschall\_OpenFolder\_Api\_Documentation.lua - opens the documentation-folders
   - Scripts: ultraschall\_OpenFolder\_Api\_ExampleScripts.lua - opens the example-scripts-folder
-  - Scripts: ultraschall_Remove_ExampleScripts_To_Reaper.lua - removes the example-scripts from Reaper again
+  - Scripts: ultraschall\_Remove\_ExampleScripts\_To\_Reaper.lua - removes the example-scripts from Reaper again
   - Trackmanagement: DeleteTracks\_TrackString - deletes all tracks given in a trackstring
   - UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd
   - UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd
@@ -447,6 +451,8 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Docs: Reaper ConfigVars - added better description for g\_config\_project
   - Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3
   - Docs: US-Concepts - added functions to checking datatypes and removed beta-functions information from How to install hotfixes
+  - Docs: US-Concepts "Rendering: About Rendering-functions" - added information about RenderProject\_RenderTable as well as removing the info about needing to save current active project before rendering
+  - Docs: US-Concepts "Rendering: Change more render-settings in projectfiles" - rewritten, as the difficult alteration of projectfiles isn't needed anymore for rendering the current project
   - Docs: when Beta-functions is enabled, the docgenerator adds beta-functions into docs as well
   - FileIO: CountLinesInFile - errormessages return now the filename as well
   - FileIO: GetAllFilenamesInPath - didn't add a directory-separator between file and path, if path was missing / or \ at the end -> fixed now

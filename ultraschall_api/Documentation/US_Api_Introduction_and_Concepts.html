@@ -55,7 +55,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.00Beta 2.75 - "Nick Cave & the Bad Seeds - Babe, I'm on fire" - 15th of May 2019 - Build: 38801</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.00Beta 2.75 - "Nick Cave & the Bad Seeds - Babe, I'm on fire" - 15th of May 2019 - Build: 38835</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to install hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -72,9 +72,12 @@ Ultraschall API functions
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>API-Variables</b></td></tr><tr><td><a href="#API_Variables_001_Introduction">API-Variables</a></td>
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Rendering</b></td></tr><tr><td><a href="#Rendering_001_Introduction">Rendering: Introduction</a></td>
 <td><a href="#Rendering_002_About_Renderstrings">Rendering: About Renderstrings</a></td>
+<td><a href="#Rendering_002a_About_RenderTables">Rendering: About RenderTables</a></td>
 <td><a href="#Rendering_003_About_Renderingfunctions">Rendering: About Rendering-functions</a></td>
-<td><a href="#Rendering_004_Change_more_render_settings">Rendering: Change more render-settings</a></td>
-</tr><tr></tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Arrangeview Snapshots</b></td></tr><tr><td><a href="#Arrangeview_Snapshots_001_Introduction">Arrangeview Snapshots: Introduction</a></td>
+</tr><tr><td><a href="#Rendering_004_Change_more_render_settings">Rendering: Change more render-settings in projectfiles</a></td>
+<td><a href="#Rendering_005_RenderPresets">Rendering: Render Presets</a></td>
+<td><a href="#Rendering_006_RenderQueue">Rendering: Render Queue</a></td>
+</tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Arrangeview Snapshots</b></td></tr><tr><td><a href="#Arrangeview_Snapshots_001_Introduction">Arrangeview Snapshots: Introduction</a></td>
 <td><a href="#Arrangeview_Snapshots_002_HowToStoreRetrieveDelete">Arrangeview Snapshots: How to store, retrieve, delete</a></td>
 <td><a href="#Arrangeview_Snapshots_003_HowToRestore">Arrangeview Snapshots: How to restore</a></td>
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Navigation</b></td></tr><tr><td><a href="#Navigation_001_Introduction">Navigation: Introduction</a></td>
@@ -150,7 +153,7 @@ Ultraschall API functions
 <p>The Ultraschall-Framework itself is intended to include a set of Lua-functions, that help creating such functionalities. By giving programmers helper functions to get access to each and every corner of Reaper. That way, extending Ultraschall and Reaper is more comfortable to do.</p>
 <p>This API was to be used within Ultraschall only, but quickly evolved into a huge 700 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:</p>
 <ul>
-<li><a href="#Rendering_001_Introduction">Rendering</a> - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want. Just create a renderstring and pass it over to <a href="US_Api_Functions.html#RenderProject_RenderCFG">RenderProject_RenderCFG</a> or <a href="US_Api_Functions.html#RenderProjectRegions_RenderCFG">RenderProjectRegions_RenderCFG</a></li>
+<li><a href="#Rendering_001_Introduction">Rendering</a> - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want. Just create a renderstring and pass it over to <a href="US_Api_Functions.html#RenderProject">RenderProject</a> or <a href="US_Api_Functions.html#RenderProject_Regions">RenderProject_Regions</a></li>
 <li><a href="#Navigation_001_Introduction">Navigation, Follow and Arrangeview-Manipulation</a> - get/set cursors, zoom, autoscroll-management, scroll, etc</li>
 <li><a href="#Arrangeview_Snapshots_001_Introduction">ArrangeView-Snapshots</a> - you can save, retrieve snapshots of the arrangeview, including position, zoomstates to quickly jump through parts of your project</li>
 <li><a href="#Trackstate_Management_001_Introduction">Trackstates</a> - you can access and set all(!) track-states available</li>
@@ -573,23 +576,39 @@ So I added some API-variables, like:</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_001_Introduction"></a>
 <div style="font-size:100%"><h4><a href="#Rendering_001_Introduction">^</a> <u>Rendering: Introduction</u></h4></div><p><p>The Ultraschall-API provides functions for rendering your projects, without having to use the Rendering-dialog of Reaper. This gives you a wide range of possibilities to customize your rendering-needs.</p>
-<p>Basically the process is based on:</p>
+<p>There are two basic ways to render a file.</p>
+<p>The easy way:</p>
 <ol>
 <li><p>creating a renderstring with all format-specific-settings, using the accompanying functions:<br />
-<a href="US_Api_Functions.html#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="US_Api_Functions.html#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="US_Api_Functions.html#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3ABR">CreateRenderCFG_MP3ABR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3CBR">CreateRenderCFG_MP3CBR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3MaxQuality">CreateRenderCFG_MP3MaxQuality</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3VBR">CreateRenderCFG_MP3VBR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="US_Api_Functions.html#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>,<br />
-<a href="US_Api_Functions.html#CreateRenderCFG_Opus2">CreateRenderCFG_Opus2</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WAV">CreateRenderCFG_WAV</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a></p></li>
+<a href="US_Api_Functions.html#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="US_Api_Functions.html#CreateRenderCFG_AudioCD">CreateRenderCFG_AudioCD</a>, <a href="US_Api_Functions.html#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a> ,<a href="US_Api_Functions.html#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="US_Api_Functions.html#CreateRenderCFG_M4AMAC">CreateRenderCFG_M4AMAC</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3ABR">CreateRenderCFG_MP3ABR</a>,<a href="US_Api_Functions.html#CreateRenderCFG_MP3CBR">CreateRenderCFG_MP3CBR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3MaxQuality">CreateRenderCFG_MP3MaxQuality</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3VBR">CreateRenderCFG_MP3VBR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="US_Api_Functions.html#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WAV">CreateRenderCFG_WAV</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a> <a href="US_Api_Functions.html#CreateRenderCFG_AVI_Video">CreateRenderCFG_AVI_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_GIF">CreateRenderCFG_GIF</a>, <a href="US_Api_Functions.html#CreateRenderCFG_LCF">CreateRenderCFG_LCF</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MKV_Video">CreateRenderCFG_MKV_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MOVMAC_Video">CreateRenderCFG_MOVMAC_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP4MAC_Video">CreateRenderCFG_MP4MAC_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_QTMOVMP4_Video">CreateRenderCFG_QTMOVMP4_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a></p></li>
 <li><p>passing the render-string to one of the Render-functions<br />
-<a href="US_Api_Functions.html#RenderProject_RenderCFG">RenderProject_RenderCFG</a>, <a href="US_Api_Functions.html#RenderProjectRegions_RenderCFG">RenderProjectRegions_RenderCFG</a></p></li>
+<a href="US_Api_Functions.html#RenderProject">RenderProject</a>, <a href="US_Api_Functions.html#RenderProject_Regions">RenderProject_Regions</a></p></li>
 </ol>
-<p>So the following code should render the current project into an MP3 with a Constant Bitrate of 128kbps. Note: to render the currently opened project, it must be saved first!</p>
+<p>So the following code should render the current project into an MP3 with a Constant Bitrate of 128kbps.</p>
 <pre><code>       -- create Render-string
        render_cfg_string = ultraschall.CreateRenderCFG_MP3CBR(11, 2)
        
        -- Pass this Render-string to the rendering-function
-       ultraschall.RenderProject_RenderCFG(nil, &quot;c:\\exportfile.mp3&quot;, 0, -1, false, false, false, render_cfg_string)</code></pre>
-<p>One downside, though: when you want to render the currently opened project, it will be opened a second time for the rendering.<br />
-So if the current project has many effect-plugins and/or uses much memory, this means, the rendering of the current project using the UltraschallAPI-functions needs twice the ressources of your project! This is due Reaper-limitations, unfortunately.</p>
-<p>Read the accompanying documentation-entries for <a href="US_Api_Functions.html#CreateRenderCFG_MP3CBR">CreateRenderCFG_MP3CBR</a> and <a href="US_Api_Functions.html#RenderProject_RenderCFG">RenderProject_RenderCFG</a> for more details and/or the following chapters.</p>
+       ultraschall.RenderProject(nil, &quot;c:\\exportfile.mp3&quot;, 0, -1, false, false, false, render_cfg_string)</code></pre>
+<p>The full control way:</p>
+<ol>
+<li><p>creating a <a href="#Datatypes_008_RenderTable">RenderTable</a>, which holds all settings you can set for the rendering-process, using one of the following functions:<br />
+<a href="US_Api_Functions.html#CreateNewRenderTable">CreateNewRenderTable</a>(new rendertable), <a href="US_Api_Functions.html#GetRenderTable_Project">GetRenderTable_Project</a>(create from the current project), <a href="US_Api_Functions.html#GetRenderTable_ProjectFile">GetRenderTable_ProjectFile</a>(create from an rpp-projectfile), <a href="US_Api_Functions.html#GetRenderPreset_RenderTable">GetRenderPreset_RenderTable</a>(create from render-preset)</p></li>
+<li><p>optionally exchanging the renderstring(which holds all format-specific-settings) in the RenderTable, using the accompanying functions:<br />
+<a href="US_Api_Functions.html#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="US_Api_Functions.html#CreateRenderCFG_AudioCD">CreateRenderCFG_AudioCD</a>, <a href="US_Api_Functions.html#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a> ,<a href="US_Api_Functions.html#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="US_Api_Functions.html#CreateRenderCFG_M4AMAC">CreateRenderCFG_M4AMAC</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3ABR">CreateRenderCFG_MP3ABR</a>,<a href="US_Api_Functions.html#CreateRenderCFG_MP3CBR">CreateRenderCFG_MP3CBR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3MaxQuality">CreateRenderCFG_MP3MaxQuality</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3VBR">CreateRenderCFG_MP3VBR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="US_Api_Functions.html#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WAV">CreateRenderCFG_WAV</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a> <a href="US_Api_Functions.html#CreateRenderCFG_AVI_Video">CreateRenderCFG_AVI_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_GIF">CreateRenderCFG_GIF</a>, <a href="US_Api_Functions.html#CreateRenderCFG_LCF">CreateRenderCFG_LCF</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MKV_Video">CreateRenderCFG_MKV_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MOVMAC_Video">CreateRenderCFG_MOVMAC_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP4MAC_Video">CreateRenderCFG_MP4MAC_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_QTMOVMP4_Video">CreateRenderCFG_QTMOVMP4_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a></p></li>
+<li><p>Render the project, using the function:<br />
+<a href="US_Api_Functions.html#RenderProject_RenderTable">RenderProject_RenderTable</a></p></li>
+</ol>
+<p>So the following code should render the current project, using the settings stored in a projectfile "c:\testproject.rpp", into an MP3 with a Constant Bitrate of 128kbps.</p>
+<pre><code>    -- create RenderTable
+    RenderTable = ultraschall.GetRenderTable_ProjectFile(&quot;c:\\testproject.rpp&quot;)
+    
+    -- create Render-string
+    RenderTable[&quot;RenderString&quot;] = ultraschall.CreateRenderCFG_MP3CBR(11, 2)
+    
+    -- Render project using that RenderTable
+    ultraschall.RenderProject_RenderTable(nil, RenderTable, false, false, false)</code></pre>
+<p>Read the accompanying documentation-entries for <a href="US_Api_Functions.html#CreateRenderCFG_MP3CBR">CreateRenderCFG_MP3CBR</a> and <a href="US_Api_Functions.html#RenderProject">RenderProject</a> for more details and/or the following chapters.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_002_About_Renderstrings"></a>
 <div style="font-size:100%"><h4><a href="#Rendering_002_About_Renderstrings">^</a> <u>Rendering: About Renderstrings</u></h4></div><p><p>Render-strings(or render_cfg, as they are named in Reaper) are strings, that contain all settings for a specific Render-Output-format, as MP3, WAV, AIF, FLAC, etc.<br />
@@ -604,24 +623,62 @@ This is due my approach decoding them, though I tried to provide all settings th
 Have a look into the functions-reference to get the possible values for these parameters.</p>
 <pre><code>        render_string = ultraschall.CreateRenderCFG_FLAC(0, 5)</code></pre>
 <p>This will create a render-string for FLAC with 24bit-depth and the encoding-speed of 5(which is the default-setting in the render-dialog).</p>
-<p>This renderstring can then be passed over to <a href="US_Api_Functions.html#SetProject_RenderCFG">SetProject_RenderCFG</a> to set it into a project-file, or to <a href="US_Api_Functions.html#RenderProject_RenderCFG">RenderProject_RenderCFG</a> to render a projectfile using the format-settings in the Render-string.</p>
+<p>This renderstring can then be passed over to <a href="US_Api_Functions.html#SetProject_RenderCFG">SetProject_RenderCFG</a> to set it into a project-file, or to <a href="US_Api_Functions.html#RenderProject">RenderProject</a> to render a projectfile using the format-settings in the Render-string or put into <a href="#Datatypes_008_RenderTable">RenderTables</a>, that can be used for the rendering function <a href="US_Api_Functions.html#RenderProject_RenderTable">RenderProject_RenderTable</a>.</p>
 <p>The following render-string-functions are available in Ultraschall-API:<br />
-<a href="US_Api_Functions.html#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="US_Api_Functions.html#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="US_Api_Functions.html#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3ABR">CreateRenderCFG_MP3ABR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3CBR">CreateRenderCFG_MP3CBR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3MaxQuality">CreateRenderCFG_MP3MaxQuality</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3VBR">CreateRenderCFG_MP3VBR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="US_Api_Functions.html#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="US_Api_Functions.html#CreateRenderCFG_Opus2">CreateRenderCFG_Opus2</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WAV">CreateRenderCFG_WAV</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>,<br />
-<a href="US_Api_Functions.html#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a></p>
+<a href="US_Api_Functions.html#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="US_Api_Functions.html#CreateRenderCFG_AudioCD">CreateRenderCFG_AudioCD</a>, <a href="US_Api_Functions.html#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a> ,<a href="US_Api_Functions.html#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="US_Api_Functions.html#CreateRenderCFG_M4AMAC">CreateRenderCFG_M4AMAC</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3ABR">CreateRenderCFG_MP3ABR</a>,<a href="US_Api_Functions.html#CreateRenderCFG_MP3CBR">CreateRenderCFG_MP3CBR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3MaxQuality">CreateRenderCFG_MP3MaxQuality</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP3VBR">CreateRenderCFG_MP3VBR</a>, <a href="US_Api_Functions.html#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="US_Api_Functions.html#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WAV">CreateRenderCFG_WAV</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a> <a href="US_Api_Functions.html#CreateRenderCFG_AVI_Video">CreateRenderCFG_AVI_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_GIF">CreateRenderCFG_GIF</a>, <a href="US_Api_Functions.html#CreateRenderCFG_LCF">CreateRenderCFG_LCF</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MKV_Video">CreateRenderCFG_MKV_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MOVMAC_Video">CreateRenderCFG_MOVMAC_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_MP4MAC_Video">CreateRenderCFG_MP4MAC_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_QTMOVMP4_Video">CreateRenderCFG_QTMOVMP4_Video</a>, <a href="US_Api_Functions.html#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a></p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_002a_About_RenderTables"></a>
+<div style="font-size:100%"><h4><a href="#Rendering_002a_About_RenderTables">^</a> <u>Rendering: About RenderTables</u></h4></div><p><p>RenderTables are tables, who hold all settings, that one can set in Reaper for the rendering-process. Most of the stuff about them, I've told already in the chapter <a href="#Datatypes_008_RenderTable">RenderTables</a>.<br />
+The main goal behind them is, to make passing the dozens of render-settings much easier and comfortable.</p>
+<p>But even then, creating one is very painful, so I made functions, who create valid RenderTables.</p>
+<p>It is always a good idea to use the US-API-functions for creating RenderTables, as I may add more settings into RenderTables(when Reaper gets new ones). If you would create a RenderTable by hand without my functions, you not only miss out the new features. In fact, your old RenderTable would be seen as invalid by the API, as it's missing settings.<br />
+So be advised to always use the CreateRenderTable-functions from the API. They will always create valid RenderTables, setting unset settings to useful defaults.<br />
+That way, your old scripts will not break, even if you don't update them.<br />
+After a RenderTable is created, you can safely alter it's settings to valid values, but creating them must be done by US-API's functions.</p>
+<p>I wrote numerous functions to create and work with RenderTables.</p>
+<p><strong>Create new RenderTable:</strong></p>
+<ul>
+<li><strong><a href="US_Api_Functions.html#CreateNewRenderTable">CreateNewRenderTable</a></strong> - creates a new RenderTable, where you can set all rendersettings.</li>
+</ul>
+<p><strong>Get render-settings a RenderTable:</strong></p>
+<ul>
+<li><strong><a href="US_Api_Functions.html#GetRenderTable_Project">GetRenderTable_Project</a></strong> - creates a new RenderTable, taking the render-settings from the current active project<br />
+</li>
+<li><strong><a href="US_Api_Functions.html#GetRenderTable_ProjectFile">GetRenderTable_ProjectFile</a></strong> - creates a new RenderTable, taking the render-settings from an rpp-projectfile<br />
+</li>
+<li><strong><a href="US_Api_Functions.html#GetRenderPreset_RenderTable">GetRenderPreset_RenderTable</a></strong> - creates a new RenderTable, taking the render-settings from stored render-presets(more on render-presets later)</li>
+</ul>
+<p><strong>Apply settings from a RenderTable:</strong></p>
+<ul>
+<li><strong><a href="US_Api_Functions.html#ApplyRenderTable_Project">ApplyRenderTable_Project</a></strong> - applies settings from a RenderTable to the current active project<br />
+</li>
+<li><strong><a href="US_Api_Functions.html#ApplyRenderTable_ProjectFile">ApplyRenderTable_ProjectFile</a></strong> - applies settings from a RenderTable to an rpp-projectfile<br />
+</li>
+<li><strong><a href="US_Api_Functions.html#SetRenderPreset">SetRenderPreset</a></strong> - applies settings from a RenderTable to a render-preset</li>
+</ul>
+<p><strong>Check for validity:</strong></p>
+<ul>
+<li><strong><a href="US_Api_Functions.html#IsValidRenderTable">IsValidRenderTable</a></strong> - checks, whether a table is a valid RenderTable</li>
+</ul>
+<p>With that, you can interoperate with RenderTables and render-settings from/to projects, projectfile and presets in any way you wish.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_003_About_Renderingfunctions"></a>
-<div style="font-size:100%"><h4><a href="#Rendering_003_About_Renderingfunctions">^</a> <u>Rendering: About Rendering-functions</u></h4></div><p><p>The rendering-functions let you render a project, either a stored rpp-project-file or the currently opened one(only when it has been saved!).<br />
-They provide you with a wide range of functionality, so the rendering process should be quite close to Reaper's "official"-own-process using the render-dialog.<br />
+<div style="font-size:100%"><h4><a href="#Rendering_003_About_Renderingfunctions">^</a> <u>Rendering: About Rendering-functions</u></h4></div><p><p>The rendering-functions let you render a project, either a stored rpp-project-file or the currently opened one.<br />
+They provide you with a wide range of functionality, so the rendering process should be quite close to Reaper's "official"-own-process using the Render to File-dialog.<br />
 They also return the filenames of the rendered files, as well as MediaItemStateChunks of all rendered files, so you can easily import them into your project.</p>
-<p>There are currently two different render-functions available:</p>
+<p>There are currently three different render-functions available:</p>
 <ol>
-<li><a href="US_Api_Functions.html#RenderProject_RenderCFG">RenderProject_RenderCFG</a> - with this one, you can render a whole project or just from startposition to endposition in seconds</li>
-<li><a href="US_Api_Functions.html#RenderProjectRegions_RenderCFG">RenderProjectRegions_RenderCFG</a> with this one, you can render specific regions of a project</li>
+<li><a href="US_Api_Functions.html#RenderProject">RenderProject</a> - with this one, you can render a whole project or just from startposition to endposition in seconds<br />
+</li>
+<li><a href="US_Api_Functions.html#RenderProject_Regions">RenderProject_Regions</a> with this one, you can render specific regions of a project<br />
+</li>
+<li><a href="US_Api_Functions.html#RenderProject_RenderTable">RenderProject_RenderTable</a> with this one, you can render a project using a RenderTable, which allows you full control over all render-settings</li>
 </ol>
-<p>Basically they are the same, with the only difference, that with the first one you can set a specific startposition and endposition, while the second one, you set it to a region-number.<br />
+<h4>RenderProject and RenderProject_Regions</h4>
+<p>are basically the same, with the only difference, that with the first one you can set a specific startposition and endposition, while the second one, you set it to a region-number.<br />
 That said, a lot of the parameters are the same.</p>
 <pre><code>         projectfilename_with_path - the projectfile with path, that you want to render. Set it to nil, if you want to render the 
-                                     currently opened project(which must be saved before rendering!)
+                                     currently opened project
          renderfilename_with_path  - the filename with path of the output-file
          overwrite_without_asking  - if you want to overwrite already existing outputfiles, set this to true; else, set it to false</code></pre>
 <p>The following two are directly connected to some of Reaper's dialogs:</p>
@@ -638,16 +695,81 @@ That said, a lot of the parameters are the same.</p>
                                the chapter &quot;Rendering: About Renderstrings&quot;
                                if you omit it or set it to nil, it will use the format-settings already set in the projectfile</code></pre>
 <p>It also returns some interesting return-values:</p>
-<pre><code>        retval - 0, if rendering was successful; -1, in case of an error; -2, if the project hasn&#39;t been saved yet
-        renderfilecount - the number of rendered files. Usually 1, but can be higher, when rendering stems as well
-        MediaItemStateChunkArray - an array with MediaItemStateChunks of the rendered projects, ready to include into a project of your choice
-                                   the first entry is for the Master-render-file
-        Filearray - an array with filenames-with-path of all rendered files, with the first entry being the one of the master-track-rendered-file</code></pre>
+<pre><code>        retval                   - 0, if rendering was successful; -1, in case of an error  
+        renderfilecount          - the number of rendered files. Usually 1, but can be higher, when rendering stems as well  
+        MediaItemStateChunkArray - an array with MediaItemStateChunks of the rendered projects, ready to include into a project of your choice  
+                                   the first entry is for the Master-render-file  
+        Filearray                - an array with filenames-with-path of all rendered files, with the first entry being the one of  
+                                   the master-track-rendered-file</code></pre>
+<h4>RenderProject_RenderTable</h4>
+<p>works different and uses a <a href="#Datatypes_008_RenderTable">RenderTable</a>, which stores all rendersettings(and I mean: ALL).<br />
+This gives you full control over the rendering-process and you can customize it in anyway you want.</p>
+<p>You can set the following parameters:</p>
+<pre><code>        projectfilename_with_path - You can pass here the filename+path of the project that you want to render.  
+                                    To render the current active project, set this parameter to nil.  
+        RenderTable               - a RenderTable, which holds all render-settings you want to set; to use the already set settings, set this to nil  
+                                    This RenderTable allows you to control all render-settings.  
+        AddToProj                 - when rendering the current project, shall the rendered files be added to the project(true) or not(false)?  </code></pre>
+<p>The following two are directly connected to some of Reaper's dialogs:</p>
+<pre><code>        CloseAfterRender          - the render-progress-window, that is shown during the actual rendering can be closed automatically after  
+                                    rendering is finished(there&#39;s a checkbox in that window to set this). Set this to true to automatically  
+                                    close it; set it to false to keep it shown; set it to nil and it will use the setting the user set with  
+                                    the checkbox  
+        SilentlyIncrementFilename - another of Reaper&#39;s dialogs, that will pop up, when an output-file already exists and overwrite_without_asking   
+                                    is set to false. It will ask you to automatically increase the filename with a number to prevent accidental  
+                                    overwriting. Set this to true to automatically increase filename;   
+                                    set it to false to show the dialog; set it to nil to use the settings the user chose  </code></pre>
+<p>The return-values should be quite familiar to you from the other render-functions:</p>
+<pre><code>        renderfilecount          - the number of rendered files. Usually 1, but can be higher, when rendering stems as well  
+        MediaItemStateChunkArray - an array with MediaItemStateChunks of the rendered projects, ready to include into a project of your choice  
+                                   the first entry is for the Master-render-file  
+        Filearray                - an array with filenames-with-path of all rendered files, with the first entry being the one of  
+                                   the master-track-rendered-file</code></pre>
 <p>With that, you should be able to successfully render your project and do some neat stuff afterwards.</p>
-<p>For more enhanced customization of Rendering, see <a href="#Rendering_004_Change_more_render_settings">Rendering: Change more render-settings</a> for more details.</p>
+<p>For more enhanced customization of Rendering, see <a href="#Rendering_004_Change_more_render_settings">Rendering: Change more render-settings in projectfiles</a> for more details.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_004_Change_more_render_settings"></a>
-<div style="font-size:100%"><h4><a href="#Rendering_004_Change_more_render_settings">^</a> <u>Rendering: Change more render-settings</u></h4></div><p><p>Reaper's own render-dialog provides you with much more possibilities, than the rendering-functions themselves provide you with.</p>
+<div style="font-size:100%"><h4><a href="#Rendering_004_Change_more_render_settings">^</a> <u>Rendering: Change more render-settings in projectfiles</u></h4></div><p><p>Sometimes, you want to alter Render-Settings in a projectfile by hand, without using RenderTables for that. For that, the API has many useful functions as well, starting with SetProject_ You can alter a projectfile using the following Ultraschall-Framework-functions, that represent certain elements from Reaper's Render-Dialog:</p>
+<pre><code>- [SetProject_RenderFilename](US_Api_Functions.html#SetProject_RenderFilename) - to alter the output-filename
+- [SetProject_RenderPattern](US_Api_Functions.html#SetProject_RenderPattern) - to set the wildcards for the output-filename 
+- [SetProject_RenderDitherState](US_Api_Functions.html#SetProject_RenderDitherState) - to set the &quot;Master mix: Dither/Noise shaping&quot;-checkboxes
+- [SetProject_RenderFreqNChans](US_Api_Functions.html#SetProject_RenderFreqNChans) - to set the Sample rate in Hz and Channels
+- [SetProject_RenderRange](US_Api_Functions.html#SetProject_RenderRange) - to set Bounds-dropdownlist, Time bounds-entryboxes and Tail
+- [SetProject_RenderResample](US_Api_Functions.html#SetProject_RenderResample) - to set &quot;Resample mode (if needed)&quot; 
+- [SetProject_RenderSpeed](US_Api_Functions.html#SetProject_RenderSpeed) to set the render-speed, and
+- [SetProject_RenderStems](US_Api_Functions.html#SetProject_RenderStems) to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)  </code></pre>
+<p>If you want to alter the currently opened project in its rpp-projectfile, you need to save it first. After that, use:</p>
+<pre><code>        retval, projectfilename_with_path = reaper.EnumProjects(-1,&quot;&quot;)</code></pre>
+<p>to get the projectfilename_with_path of the current project as returnvalue. Use projectfilename_with_path and the SetProject-functions needed for you alterations.</p>
+<p>The functions are just a small selection of the functions to alter project-files, as provided by the Ultraschall-API. Browse through the functions in the "Project-Files"-section of the index of the Ultraschall-API-Functions-Reference for many more of them.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_005_RenderPresets"></a>
+<div style="font-size:100%"><h4><a href="#Rendering_005_RenderPresets">^</a> <u>Rendering: Render Presets</u></h4></div><p><p>TODO!!! Render Presets !! Reaper's own render-dialog provides you with much more possibilities, than the rendering-functions themselves provide you with.</p>
+<p>In the likely case, that you want to influence more things for rendering, like samplerate, stereo or mono, etc, you should do the following things:</p>
+<ol>
+<li>make a copy of the rpp-file that you want to render using <a href="US_Api_Functions.html#MakeCopyOfFile">MakeCopyOfFile</a>. The copy must have a different name and be in the same folder, as the original rpp-file!</li>
+<li><p>Now you can alter the copy of the projectfile using the following Ultraschall-Framework-functions, that represent certain elements from Reaper's Render-Dialog:</p>
+<ul>
+<li><a href="US_Api_Functions.html#SetProject_RenderFilename">SetProject_RenderFilename</a> - to alter the output-filename</li>
+<li><a href="US_Api_Functions.html#SetProject_RenderPattern">SetProject_RenderPattern</a> - to set the wildcards for the output-filename</li>
+<li><a href="US_Api_Functions.html#SetProject_RenderDitherState">SetProject_RenderDitherState</a> - to set the "Master mix: Dither/Noise shaping"-checkboxes</li>
+<li><a href="US_Api_Functions.html#SetProject_RenderFreqNChans">SetProject_RenderFreqNChans</a> - to set the Sample rate in Hz and Channels</li>
+<li><a href="US_Api_Functions.html#SetProject_RenderRange">SetProject_RenderRange</a> - to set Bounds-dropdownlist, Time bounds-entryboxes and Tail</li>
+<li><a href="US_Api_Functions.html#SetProject_RenderResample">SetProject_RenderResample</a> - to set "Resample mode (if needed)"</li>
+<li><a href="US_Api_Functions.html#SetProject_RenderSpeed">SetProject_RenderSpeed</a> to set the render-speed, and</li>
+<li><a href="US_Api_Functions.html#SetProject_RenderStems">SetProject_RenderStems</a> to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)</li>
+</ul></li>
+<li><p>after you've set the individual render-settings, you create a render-string, as described in <a href="#Rendering_002_About_Renderstrings">Rendering: About Renderstrings</a>.</p></li>
+<li><p>render using the altered copy(!) of the projectfile(not the original projectfile!), as described in <a href="#Rendering_003_About_Renderingfunctions">Rendering: About Rendering-functions</a>.</p></li>
+</ol>
+<p>If you want to alter the currently opened project, you need to save it first. After that, use:</p>
+<pre><code>        retval, projectfilename_with_path = reaper.EnumProjects(-1,&quot;&quot;)</code></pre>
+<p>to get the projectfilename_with_path of the current project as returnvalue. Use projectfilename_with_path and go through steps 1 through 4.</p>
+<p>The functions in step 2) are just a small selection of the functions to alter project-files, as provided by the Ultraschall-API. Browse through the functions in the "Project-Files"-section of the index of the Ultraschall-API-Functions-Reference for many more of them.<br />
+However, changing some of the stuff might cause issues with the rendering-functions provided with this API.</p>
+
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Rendering_006_RenderQueue"></a>
+<div style="font-size:100%"><h4><a href="#Rendering_006_RenderQueue">^</a> <u>Rendering: Render Queue</u></h4></div><p><p>TODO!!! Render Queue !! Reaper's own render-dialog provides you with much more possibilities, than the rendering-functions themselves provide you with.</p>
 <p>In the likely case, that you want to influence more things for rendering, like samplerate, stereo or mono, etc, you should do the following things:</p>
 <ol>
 <li>make a copy of the rpp-file that you want to render using <a href="US_Api_Functions.html#MakeCopyOfFile">MakeCopyOfFile</a>. The copy must have a different name and be in the same folder, as the original rpp-file!</li>
@@ -3524,4 +3646,4 @@ Though, after not having seen the lights of the days for months now, I'm not sur
 <p>I go to sleep now. I think, I deserved it :)</p>
 <p>Meo Mespotine, Leipzig(Germany) 30th of November 2018</p>
 
-<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.75 - 90 chapters available</td></table><br><hr></div></body></html>
+<table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><br><hr><table width="100%"><td style="position:absolute; right:0;">Automatically generated by Ultraschall-API 4.00 Beta 2.75 - 93 chapters available</td></table><br><hr></div></body></html>

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="38802.00" author="Meo Mespotine">
+      <version name="38836.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/._Changelog-Api.txt</source>
@@ -157,6 +157,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.972.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/reaper5.972.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.974.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/reaper5.974.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.975.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/reaper5.975.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper5.977.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/reaper5.977.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.978.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/reaper5.978.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/Reaper_Button.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png</source>
@@ -341,7 +342,7 @@ Ultraschall Framework - Changelog
 
 tagline inspired by a comment from _stevie_ ;)
 
-!RENDERMANIA!
+!RENDERMANIA UPDATE! Has now 933 functions with 93 new ones!
 
 New features in 4.00beta2.75
 
@@ -349,7 +350,9 @@ New features in 4.00beta2.75
     (often unfinished) docs
 -   Docs: ParmLearnDocs.txt - documented
     parameter-learn/modulation/alias-settings
--   Docs: US-Concepts - added description of RenderTable
+-   Docs: US-Concepts - added description of datatype RenderTable
+-   Docs: US-Concepts - Rendering: About RenderTables; description of
+    how to use and work with RenderTables
 -   Envelopes: GetArmState_Envelope - gets the armstate of a
     TrackEnvelope or EnvelopeStateChunk
 -   Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point
@@ -387,8 +390,12 @@ New features in 4.00beta2.75
     specific track
 -   FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is
     a valid FXStateChunk
+-   Helpers: ConvertAscii2Hex - converts a string into it’s
+    two-digit-hexadecimal-number-representation
 -   Helpers: ConvertBitsToInteger - converts a table with bitvalues (0
     or 1) into it’s integer-representation
+-   Helpers: ConvertHex2Ascii - converts a string with
+    two-digit-hexadecimal-numbers into it’s ascii-representation
 -   Lua: StoreFunctionInExtState - stores a function into an extstate
 -   Lua: LoadFunctionFromExtState - loads a function from an extstate,
     if stored using StoreFunctionInExtState
@@ -588,6 +595,12 @@ Changes from Beta 2.74 to Beta 2.75
     regarding mp3
 -   Docs: US-Concepts - added functions to checking datatypes and
     removed beta-functions information from How to install hotfixes
+-   Docs: US-Concepts “Rendering: About Rendering-functions” - added
+    information about RenderProject_RenderTable as well as removing the
+    info about needing to save current active project before rendering
+-   Docs: US-Concepts “Rendering: Change more render-settings in
+    projectfiles” - rewritten, as the difficult alteration of
+    projectfiles isn’t needed anymore for rendering the current project
 -   Docs: when Beta-functions is enabled, the docgenerator adds
     beta-functions into docs as well
 -   FileIO: CountLinesInFile - errormessages return now the filename as

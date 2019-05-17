@@ -59945,7 +59945,6 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
     To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
     
     Returns -1 in case of an error
-    Returns -2 if currently opened project must be saved first(if you want to render the currently opened project).
   </description>
   <retvals>
     integer retval - -1, in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
@@ -60038,4 +60037,94 @@ end
 --A,B=ultraschall.GetProject_DefPitchMode(nil, K2)
 
 --print2(K2)
+
+function ultraschall.ConvertHex2Ascii(hexstring)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertHex2Ascii</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.977
+    Lua=5.3
+  </requires>
+  <functioncall>string ascii_string = ultraschall.ConvertHex2Ascii(string hexstring)</functioncall>
+  <description>
+    converts a hexstring into an ascii-string.
+
+    Will convert 2 hexvalues into one byte.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string ascii_string - the converted string
+  </retvals>
+  <parameters>
+    string hexstring - the original string with only hexadecimal numbers 
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helperfunctions, convert, hex, hexadecimal, ascii</tags>
+</US_DocBloc>
+]]
+  if type(hexstring)~="string" then ultraschall.AddErrorMessage("ConvertHex2Ascii", "hexstring", "must be a string", -1) return end
+  if string.gsub(hexstring, "%x", ""):len()>0 then ultraschall.AddErrorMessage("ConvertHex2Ascii", "hexstring", "contains non-hex-characters", -2) return end
+  if hexstring:len()%2==1 then ultraschall.AddErrorMessage("ConvertHex2Ascii", "hexstring", "length must be divideable by 2", -3) return end
+
+  local String=""
+  for i=1, hexstring:len(), 2 do
+    String=String..string.char(tonumber("0x"..hexstring:sub(i,i+1)))
+  end
+  return String
+end
+
+--A="0F000000000000000000000000000000BC020000000000000302012248656C766574696361204E65756500000000000000000000000000000000000037"
+--B=ultraschall.ConvertHex2Ascii(A)
+
+function ultraschall.ConvertAscii2Hex(orgstring)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertAscii2Hex</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.977
+    Lua=5.3
+  </requires>
+  <functioncall>string hexstring = ultraschall.ConvertAscii2Hex(string ascii_string)</functioncall>
+  <description>
+    converts an ascii-string into a hexstring.
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string hexstring - the original string with only hexadecimal numbers 
+  </retvals>
+  <parameters>
+    string ascii_string - the converted string
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helperfunctions, convert, hex, hexadecimal, ascii</tags>
+</US_DocBloc>
+]]
+  if type(orgstring)~="string" then ultraschall.AddErrorMessage("ConvertAscii2Hex", "orgstring", "must be a string", -1) return end
+  local String=""
+  local temp
+  for i=1, orgstring:len() do
+    temp=string.format('%X', string.byte(orgstring:sub(i,i)))
+    if temp:len()==1 then temp="0"..temp end    
+    String=String..temp
+  end
+  return String
+end
+
+--A1=ultraschall.ConvertAscii2Hex(B)
+
 ultraschall.ShowLastErrorMessage()
