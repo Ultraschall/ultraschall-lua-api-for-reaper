@@ -328,7 +328,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   **!RenderMania Update!**
   Has now 933 functions with 93 new ones!
   
-   - **Rendering** - reworked Rendering completely; you can render the current project now directly, access render-presets and render-queues (thanks to the Justin and Schwa for adding the features needed into Reaper)
+   - **Rendering** - reworked Rendering completely; you can render the current project now directly, access render-presets and render-queues (thanks to Justin and Schwa for adding the features needed into Reaper)
    
    - **Render-Format-strings** - you can create all(!) renderformats available in Reaper as BASE64-encoded strings, as well as analyzing already BASE64-encoded renderstrings(this alone is 44 functions)
    

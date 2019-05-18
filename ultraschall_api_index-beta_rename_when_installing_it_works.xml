@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="38873.00" author="Meo Mespotine">
+      <version name="38874.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -346,8 +346,8 @@ tagline inspired by a comment from _stevie_ ;)
 
 -   RENDERING - reworked Rendering completely; you can render the
     current project now directly, access render-presets and
-    render-queues (thanks to the Justin and Schwa for adding the
-    features needed into Reaper)
+    render-queues (thanks to Justin and Schwa for adding the features
+    needed into Reaper)
 
 -   RENDER-FORMAT-STRINGS - you can create all(!) renderformats
     available in Reaper as BASE64-encoded strings, as well as analyzing
