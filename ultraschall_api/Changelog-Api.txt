@@ -2,8 +2,6 @@
     
     API 4.00beta2.75
       TODO!! public-beta-index-file checken
-      TODO!! Docs for Rendering
-          
           
       Done: keep it as docs in here:
              RenderProject_RenderCfg - new implementation, that exploits the render-queue, rather the reopening of a project
@@ -346,7 +344,7 @@ tagline inspired by a comment from \_stevie\_ ;)
    
    - **Example Scripts** - when you've installed the API using ReaPack, new actions for registering and unregistering the example-scripts as well as opening the example-script-folder. Type into the Actions-dialog-filter the words "ultraschall" and "examples".
    
-   - **Even more about docs** - docs for parameter-learn added as well as many docs I had lying around(find them in the ResourceFolder/UserPlugins/ultraschall\_api/Misc/misc\_docs-folder)
+   - **Even more about docs** - docs for parameter-learn added(thanks to Anton9 for helping me with that) as well as many docs I had lying around(find them in the ResourceFolder/UserPlugins/ultraschall\_api/Misc/misc\_docs-folder)
 
    - **CleanUp** - removed junk and converted files into smaller fileformats(where applicable), so the API is now 20MB smaller
    

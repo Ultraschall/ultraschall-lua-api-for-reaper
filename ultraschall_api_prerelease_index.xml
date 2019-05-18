@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="38871.00" author="Meo Mespotine">
+      <version name="38873.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/._Changelog-Api.txt</source>
@@ -378,8 +378,9 @@ tagline inspired by a comment from _stevie_ ;)
     well as opening the example-script-folder. Type into the
     Actions-dialog-filter the words “ultraschall” and “examples”.
 
--   EVEN MORE ABOUT DOCS - docs for parameter-learn added as well as
-    many docs I had lying around(find them in the
+-   EVEN MORE ABOUT DOCS - docs for parameter-learn added(thanks to
+    Anton9 for helping me with that) as well as many docs I had lying
+    around(find them in the
     ResourceFolder/UserPlugins/ultraschall_api/Misc/misc_docs-folder)
 
 -   CLEANUP - removed junk and converted files into smaller
