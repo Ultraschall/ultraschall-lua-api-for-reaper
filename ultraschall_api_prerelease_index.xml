@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="38837.00" author="Meo Mespotine">
+      <version name="38871.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/._Changelog-Api.txt</source>
@@ -338,11 +338,63 @@
 <changelog><![CDATA[
 Ultraschall Framework - Changelog
 
-4.00 Beta 2.75: - “Nick Cave & the Bad Seeds - Babe, I’m on fire” - 15th of May 2019
+4.00 Beta 2.75: - “Nick Cave & the Bad Seeds - Babe, I’m on fire” - 31st of May 2019
 
 tagline inspired by a comment from _stevie_ ;)
 
 !RENDERMANIA UPDATE! Has now 933 functions with 93 new ones!
+
+-   RENDERING - reworked Rendering completely; you can render the
+    current project now directly, access render-presets and
+    render-queues (thanks to the Justin and Schwa for adding the
+    features needed into Reaper)
+
+-   RENDER-FORMAT-STRINGS - you can create all(!) renderformats
+    available in Reaper as BASE64-encoded strings, as well as analyzing
+    already BASE64-encoded renderstrings(this alone is 44 functions)
+
+-   PARAMETER LEARN - you can get all parameter learn, modulation and
+    lfo-settings, as well as FXStateChunks who store that information,
+    add/set/delete will come later (requested by TonE and Anton9)
+
+-   ULTRASCHALL.MB - shows a messagebox and allows exchanging the texts
+    of the buttons with your own texts
+
+-   LOADFUNCTIONFROMEXTSTATE AND STOREFUNCTIONINEXTSTATE - lets you pass
+    a Lua-function from one script to another using an extstate, no
+    external files and loads and requires necessary
+
+-   DOCS - updated docs for Reaper 5.978, SWS 2.10.0.1, JS-extension
+    0.986
+
+-   MORE DOCS - when you’ve installed the API using ReaPack, actions
+    will be added for opening the individual parts of the docs, like
+    Reaper API(ReaScript, Video, WebRC), ConfigVars,
+    Ultraschall-Concepts and FunctionsAPI. Type into the
+    Actions-dialog-filter the words “ultraschall” and “help”.
+
+-   EXAMPLE SCRIPTS - when you’ve installed the API using ReaPack, new
+    actions for registering and unregistering the example-scripts as
+    well as opening the example-script-folder. Type into the
+    Actions-dialog-filter the words “ultraschall” and “examples”.
+
+-   EVEN MORE ABOUT DOCS - docs for parameter-learn added as well as
+    many docs I had lying around(find them in the
+    ResourceFolder/UserPlugins/ultraschall_api/Misc/misc_docs-folder)
+
+-   CLEANUP - removed junk and converted files into smaller
+    fileformats(where applicable), so the API is now 20MB smaller
+
+-   MANY OTHER HELPFUL FUNCTIONS - HexString2Ascii2HexString, Get/Set
+    Armstate of Envelopes, DeleteTracks_TrackString,
+    Get/SetCheckboxState and more
+
+-   BUGFIXES - as usual ;)
+
+If you find this helpful and use this, please consider donating to me at
+ultraschall.fm/danke (look for mespotine) or paypal(lspmp3@yahoo.de).
+Might be a small donation for you, but a giant motivation leap for
+mankind(means: me) ;)
 
 New features in 4.00beta2.75
 
@@ -353,6 +405,10 @@ New features in 4.00beta2.75
 -   Docs: US-Concepts - added description of datatype RenderTable
 -   Docs: US-Concepts - Rendering: About RenderTables; description of
     how to use and work with RenderTables
+-   Docs: US-Concepts - Rendering: Render Presets; description for how
+    to deal with render-presets
+-   Docs: US-Concepts - Rendering: Render Queue; description for how to
+    render using the render-queue
 -   Envelopes: GetArmState_Envelope - gets the armstate of a
     TrackEnvelope or EnvelopeStateChunk
 -   Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point
@@ -452,7 +508,7 @@ New features in 4.00beta2.75
 -   Render: DeleteRenderPreset_FormatOptions - deletes a
     format/options-render-preset from reaper-render.ini and the used
     render-presets in the Render to File-dialog
--   Render: GetQueuedProjects - gets the projectfilenames of the
+-   Render: GetRenderQueuedProjects - gets the projectfilenames of the
     projects currently in the render-queue
 -   Render: GetRender_AutoIncrementFilename - gets the current state of
     the “Silently increment filenames to avoid overwriting”-checkbox
@@ -682,7 +738,7 @@ Changes from Beta 2.74 to Beta 2.75
 -   Projectmanagement: SetProject_RenderRange - added bounds-option for
     selected regions
 -   ReaPack: Reapack-API-xml-generator.lua - added installation of
-    Docs-opening-scripts as well. Let’s hope, this works.
+    Docs-opening-scripts as well.
 -   Render: CreateRenderCFG_AudioCD - improved and lifted limitations
     for leadin-silence-values
 -   Render: CreateRenderCFG_MP3ABR - reimplemented, supports now “Do not
@@ -3721,7 +3777,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 700+ Lua-functions library for Reaper.}
+a 900+ Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -3735,7 +3791,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 700 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 900+ function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

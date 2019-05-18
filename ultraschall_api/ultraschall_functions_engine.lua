@@ -35888,7 +35888,7 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string outputformat = ultraschall.GetOutputFormat_RenderCfg(string Renderstring, optional ReaProject ReaProject)</functioncall>
+  <functioncall>string outputformat, string renderstring = ultraschall.GetOutputFormat_RenderCfg(string Renderstring, optional ReaProject ReaProject)</functioncall>
   <description>
     Returns the output-format set in a render-cfg-string, as stored in rpp-files and the render-presets file reaper-render.ini
     
@@ -35898,6 +35898,7 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
     string outputformat - the outputformat, set in the render-cfg-string
     - The following are valid: 
     - WAV, AIFF, AUDIOCD-IMAGE, DDP, FLAC, MP3, OGG, Opus, Video, Video (Mac), Video GIF, Video LCF, WAVPACK
+    string renderstring - the renderstringm which is either the renderstring you've passed or the one from the ReaProject you passed as second parameter
   </retvals>
   <parameters>
     string Renderstring - the render-cfg-string from a rpp-projectfile or the reaper-render.ini
@@ -35944,21 +35945,21 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
 
   --print2("9"..Renderstring:sub(1,4).."9")
   
-  if Renderstring:sub(1,4)=="evaw" then return "WAV" end
-  if Renderstring:sub(1,4)=="ffia" then return "AIFF" end
-  if Renderstring:sub(1,4)==" osi" then return "AUDIOCD-IMAGE" end
-  if Renderstring:sub(1,4)==" pdd" then return "DDP" end
-  if Renderstring:sub(1,4)=="calf" then return "FLAC" end
-  if Renderstring:sub(1,4)=="l3pm" then return "MP3" end
-  if Renderstring:sub(1,4)=="vggo" then return "OGG" end
-  if Renderstring:sub(1,4)=="SggO" then return "Opus" end
-  if Renderstring:sub(1,4)=="PMFF" then return "Video" end
-  if Renderstring:sub(1,4)=="FVAX" then return "Video (Mac)" end
-  if Renderstring:sub(1,4)==" FIG" then return "Video GIF" end
-  if Renderstring:sub(1,4)==" FCL" then return "Video LCF" end
-  if Renderstring:sub(1,4)=="kpvw" then return "WAVPACK" end
+  if Renderstring:sub(1,4)=="evaw" then return "WAV", Renderstring end
+  if Renderstring:sub(1,4)=="ffia" then return "AIFF", Renderstring end
+  if Renderstring:sub(1,4)==" osi" then return "AUDIOCD-IMAGE", Renderstring end
+  if Renderstring:sub(1,4)==" pdd" then return "DDP", Renderstring end
+  if Renderstring:sub(1,4)=="calf" then return "FLAC", Renderstring end
+  if Renderstring:sub(1,4)=="l3pm" then return "MP3", Renderstring end
+  if Renderstring:sub(1,4)=="vggo" then return "OGG", Renderstring end
+  if Renderstring:sub(1,4)=="SggO" then return "Opus", Renderstring end
+  if Renderstring:sub(1,4)=="PMFF" then return "Video", Renderstring end
+  if Renderstring:sub(1,4)=="FVAX" then return "Video (Mac)", Renderstring end
+  if Renderstring:sub(1,4)==" FIG" then return "Video GIF", Renderstring end
+  if Renderstring:sub(1,4)==" FCL" then return "Video LCF", Renderstring end
+  if Renderstring:sub(1,4)=="kpvw" then return "WAVPACK", Renderstring end
     
-  return "Unknown"
+  return "Unknown", Renderstring
 end
 
 --A=
@@ -58162,7 +58163,7 @@ end
 
 --A,B,C,D,E,F,G=ultraschall.GetRender_AllPresetNames()
 
-function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, RenderFormatOptions_Name)
+function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format_Name)
  --[[
  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
    <slug>GetRenderPreset_RenderTable</slug>
@@ -58171,7 +58172,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, RenderFormatOption
      Reaper=5.975
      Lua=5.3
    </requires>
-   <functioncall>RenderTable RenderTable = ultraschall.GetRenderPreset_RenderTable(string Bounds_Name, string RenderFormatOptions_Name)</functioncall>
+   <functioncall>RenderTable RenderTable = ultraschall.GetRenderPreset_RenderTable(string Bounds_Name, string Options_and_Format_Name)</functioncall>
    <description markup_type="markdown" markup_version="1.0.1" indent="default">
      returns a rendertable, that contains all settings of a specific render-preset.
     
@@ -58212,7 +58213,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, RenderFormatOption
    </description>
    <parameters>
      string Bounds_Name - the name of the Bounds-render-preset you want to get
-     string RenderFormatOptions_Name - the name of the Renderformat-options-render-preset you want to get
+     string Options_and_Format_Name - the name of the Renderformat-options-render-preset you want to get
    </parameters>
    <retvals>
      RenderTable RenderTable - a render-table, which contains all settings from a render-preset
@@ -58227,17 +58228,17 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, RenderFormatOption
  </US_DocBloc>
  ]]
   if type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Bounds_Name", "must be a string", -1) return end
-  if type(RenderFormatOptions_Name)~="string" then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "RenderFormatOptions_Name", "must be a string", -2) return end
+  if type(Options_and_Format_Name)~="string" then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Options_and_Format_Name", "must be a string", -2) return end
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
   if A==nil then A="" end
   if Bounds_Name:match("%s")~=nil then Bounds_Name="\""..Bounds_Name.."\"" end
-  if RenderFormatOptions_Name:match("%s")~=nil then RenderFormatOptions_Name="\""..RenderFormatOptions_Name.."\"" end
+  if Options_and_Format_Name:match("%s")~=nil then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
   
   local Bounds=A:match("RENDERPRESET_OUTPUT "..Bounds_Name.." (.-)\n")
   if Bounds==nil then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Bounds_Name", "no such Bounds-preset available", -3) return end
   
-  local RenderFormatOptions=A:match("<RENDERPRESET "..RenderFormatOptions_Name.." (.-\n>)\n")
-  if RenderFormatOptions==nil then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "RenderFormatOptions_Name", "no such Render-Format-preset available", -4) return end
+  local RenderFormatOptions=A:match("<RENDERPRESET "..Options_and_Format_Name.." (.-\n>)\n")
+  if RenderFormatOptions==nil then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Options_and_Format_Name", "no such Render-Format-preset available", -4) return end
   
   local SampleRate, channels, offline_online_dropdownlist, 
   useprojectsamplerate_checkbox, resamplemode_dropdownlist, 
@@ -58323,7 +58324,7 @@ end
 
 --ultraschall.DeleteRenderPreset_Bounds("A02")
 
-function ultraschall.DeleteRenderPreset_FormatOptions(RenderFormatOptions_Name)
+function ultraschall.DeleteRenderPreset_FormatOptions(Options_and_Format_Name)
  --[[
  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
    <slug>DeleteRenderPreset_FormatOptions</slug>
@@ -58332,7 +58333,7 @@ function ultraschall.DeleteRenderPreset_FormatOptions(RenderFormatOptions_Name)
      Reaper=5.975
      Lua=5.3
    </requires>
-   <functioncall>boolean retval = ultraschall.DeleteRenderPreset_FormatOptions(string RenderFormatOptions_Name)</functioncall>
+   <functioncall>boolean retval = ultraschall.DeleteRenderPreset_FormatOptions(string Options_and_Format_Name)</functioncall>
    <description markup_type="markdown" markup_version="1.0.1" indent="default">
      deletes a Render-Format-Options-render-preset from Reaper's render-presets.
      
@@ -58344,7 +58345,7 @@ function ultraschall.DeleteRenderPreset_FormatOptions(RenderFormatOptions_Name)
      Returns false in case of an error
    </description>
    <parameters>
-     string RenderFormatOptions_Name - the name of the Renderformat-options-render-preset you want to get
+     string Options_and_Format_Name - the name of the Renderformat-options-render-preset you want to get
    </parameters>
    <retvals>
      boolean retval - true, deleting was successful; false, deleting was unsuccessful
@@ -58358,12 +58359,12 @@ function ultraschall.DeleteRenderPreset_FormatOptions(RenderFormatOptions_Name)
    <tags>render management, delete, render preset, names, format options</tags>
  </US_DocBloc>
  ]]
-  if type(RenderFormatOptions_Name)~="string" then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "RenderFormatOptions_Name", "must be a string", -1) return false end
+  if type(Options_and_Format_Name)~="string" then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "Options_and_Format_Name", "must be a string", -1) return false end
   local A,B
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
   if A==nil then A="" end
-  B=string.gsub(A, "<RENDERPRESET "..RenderFormatOptions_Name.." (.-\n>)\n", "")
-  if A==B then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "RenderFormatOptions_Name", "no such Bounds-preset", -2) return false end
+  B=string.gsub(A, "<RENDERPRESET "..Options_and_Format_Name.." (.-\n>)\n", "")
+  if A==B then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "Options_and_Format_Name", "no such Bounds-preset", -2) return false end
   A=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/reaper-render.ini", B)
   if A==-1 then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "", "can't access "..reaper.GetResourcePath().."/reaper-render.ini", -3) return false end
   return true
@@ -58372,7 +58373,7 @@ end
 --ultraschall.DeleteRenderPreset_FormatOptions("A02")
 
 
-function ultraschall.AddRenderPreset(Bounds_Name, RenderFormatOptions_Name, RenderTable)
+function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, RenderTable)
  --[[
  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
    <slug>AddRenderPreset</slug>
@@ -58381,7 +58382,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
      Reaper=5.975
      Lua=5.3
    </requires>
-   <functioncall>boolean retval = ultraschall.AddRenderPreset(string Bounds_Name, string RenderFormatOptions_Name, RenderTable RenderTable)</functioncall>
+   <functioncall>boolean retval = ultraschall.AddRenderPreset(string Bounds_Name, string Options_and_Format_Name, RenderTable RenderTable)</functioncall>
    <description>
      adds a new render-preset into reaper-render.ini. 
      
@@ -58419,7 +58420,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
                                       &16, selected media items
                                       &32, selected project regions 
      
-     RenderFormatOptions_Name stores only:
+     Options_and_Format_Name stores only:
               RenderTable["SampleRate"] - the samplerate, with which to render; 0, use project-settings
               RenderTable["Channels"] - the number of channels for the output-file
               RenderTable["OfflineOnlineRendering"] - the offline/online-dropdownlist 
@@ -58451,7 +58452,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
    </description>
    <parameters>
      string Bounds_Name - the name of the Bounds-render-preset you want to add; nil, to not add a new Bounds-render-preset
-     string RenderFormatOptions_Name - the name of the Renderformat-options-render-preset you want to add; to not add a new Render-Format-Options-render-preset
+     string Options_and_Format_Name - the name of the Renderformat-options-render-preset you want to add; to not add a new Render-Format-Options-render-preset
      RenderTable RenderTable - the RenderTable, which holds all information for inclusion into the Render-Preset
    </parameters>
    <retvals>
@@ -58466,10 +58467,10 @@ function ultraschall.AddRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
    <tags>render management, add, render preset, names, format options, bounds, rendertable</tags>
  </US_DocBloc>
  ]]
-  if Bounds_Name==nil and RenderFormatOptions_Name==nil then ultraschall.AddErrorMessage("AddRenderPreset", "RenderTable/RenderFormatOptions_Name", "can't be both set to nil", -6) return false end
+  if Bounds_Name==nil and Options_and_Format_Name==nil then ultraschall.AddErrorMessage("AddRenderPreset", "RenderTable/Options_and_Format_Name", "can't be both set to nil", -6) return false end
   if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("AddRenderPreset", "RenderTable", "must be a valid render-table", -1) return false end
   if Bounds_Name~=nil and type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("AddRenderPreset", "Bounds_Name", "must be a string", -2) return false end
-  if RenderFormatOptions_Name~=nil and type(RenderFormatOptions_Name)~="string" then ultraschall.AddErrorMessage("AddRenderPreset", "RenderFormatOptions_Name", "must be a string", -3) return false end
+  if Options_and_Format_Name~=nil and type(Options_and_Format_Name)~="string" then ultraschall.AddErrorMessage("AddRenderPreset", "Options_and_Format_Name", "must be a string", -3) return false end
   
   local A,B, Source, RenderPattern, ProjectSampleRateFXProcessing, String
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
@@ -58486,10 +58487,10 @@ function ultraschall.AddRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
   end
 
   if Bounds_Name~=nil and (Bounds_Name:match("%s")~=nil or Bounds_Name=="") then Bounds_Name="\""..Bounds_Name.."\"" end
-  if RenderFormatOptions_Name~=nil and (RenderFormatOptions_Name:match("%s")~=nil or RenderFormatOptions_Name=="") then RenderFormatOptions_Name="\""..RenderFormatOptions_Name.."\"" end
+  if Options_and_Format_Name~=nil and (Options_and_Format_Name:match("%s")~=nil or Options_and_Format_Name=="") then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
   
   if Bounds_Name~=nil and ("\n"..A):match("\nRENDERPRESET_OUTPUT "..Bounds_Name)~=nil then ultraschall.AddErrorMessage("AddRenderPreset", "Bounds_Name", "bounds-preset already exists", -4) return false end
-  if RenderFormatOptions_Name~=nil and ("\n"..A):match("\n<RENDERPRESET "..RenderFormatOptions_Name)~=nil then ultraschall.AddErrorMessage("AddRenderPreset", "RenderFormatOptions_Name", "renderformat/options-preset already exists", -5) return false end
+  if Options_and_Format_Name~=nil and ("\n"..A):match("\n<RENDERPRESET "..Options_and_Format_Name)~=nil then ultraschall.AddErrorMessage("AddRenderPreset", "Options_and_Format_Name", "renderformat/options-preset already exists", -5) return false end
 
   -- add Bounds-preset, if given
   if Bounds_Name~=nil then 
@@ -58504,8 +58505,8 @@ function ultraschall.AddRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
   end
   
   -- add Formar-options-preset, if given
-  if RenderFormatOptions_Name~=nil then 
-      String="<RENDERPRESET "..RenderFormatOptions_Name..
+  if Options_and_Format_Name~=nil then 
+      String="<RENDERPRESET "..Options_and_Format_Name..
              " "..RenderTable["SampleRate"]..
              " "..RenderTable["Channels"]..
              " "..RenderTable["OfflineOnlineRendering"]..
@@ -58526,7 +58527,7 @@ end
 --ultraschall.AddRenderPreset(nil, nil, L)
 
 
-function ultraschall.SetRenderPreset(Bounds_Name, RenderFormatOptions_Name, RenderTable)
+function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, RenderTable)
  --[[
  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
    <slug>SetRenderPreset</slug>
@@ -58535,7 +58536,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
      Reaper=5.975
      Lua=5.3
    </requires>
-   <functioncall>boolean retval = ultraschall.SetRenderPreset(string Bounds_Name, string RenderFormatOptions_Name, RenderTable RenderTable)</functioncall>
+   <functioncall>boolean retval = ultraschall.SetRenderPreset(string Bounds_Name, string Options_and_Format_Name, RenderTable RenderTable)</functioncall>
    <description>
      sets an already existing render-preset in reaper-render.ini. 
      
@@ -58573,7 +58574,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
                                       &16, selected media items
                                       &32, selected project regions 
      
-     RenderFormatOptions_Name stores only:
+     Options_and_Format_Name stores only:
               RenderTable["SampleRate"] - the samplerate, with which to render; 0, use project-settings
               RenderTable["Channels"] - the number of channels for the output-file
               RenderTable["OfflineOnlineRendering"] - the offline/online-dropdownlist 
@@ -58605,7 +58606,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
    </description>
    <parameters>
      string Bounds_Name - the name of the Bounds-render-preset you want to add; nil, to not add a new Bounds-render-preset
-     string RenderFormatOptions_Name - the name of the Renderformat-options-render-preset you want to add; to not add a new Render-Format-Options-render-preset
+     string Options_and_Format_Name - the name of the Renderformat-options-render-preset you want to add; to not add a new Render-Format-Options-render-preset
      RenderTable RenderTable - the RenderTable, which holds all information for inclusion into the Render-Preset
    </parameters>
    <retvals>
@@ -58620,10 +58621,10 @@ function ultraschall.SetRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
    <tags>render management, set, render preset, names, format options, bounds, rendertable</tags>
  </US_DocBloc>
  ]]
-  if Bounds_Name==nil and RenderFormatOptions_Name==nil then ultraschall.AddErrorMessage("SetRenderPreset", "RenderTable/RenderFormatOptions_Name", "can't be both set to nil", -6) return false end
+  if Bounds_Name==nil and Options_and_Format_Name==nil then ultraschall.AddErrorMessage("SetRenderPreset", "RenderTable/Options_and_Format_Name", "can't be both set to nil", -6) return false end
   if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("SetRenderPreset", "RenderTable", "must be a valid render-table", -1) return false end
   if Bounds_Name~=nil and type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("SetRenderPreset", "Bounds_Name", "must be a string", -2) return false end
-  if RenderFormatOptions_Name~=nil and type(RenderFormatOptions_Name)~="string" then ultraschall.AddErrorMessage("SetRenderPreset", "RenderFormatOptions_Name", "must be a string", -3) return false end
+  if Options_and_Format_Name~=nil and type(Options_and_Format_Name)~="string" then ultraschall.AddErrorMessage("SetRenderPreset", "Options_and_Format_Name", "must be a string", -3) return false end
   
   local A,B, Source, RenderPattern, ProjectSampleRateFXProcessing, String, Bounds, RenderFormatOptions
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
@@ -58640,10 +58641,10 @@ function ultraschall.SetRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
   end
 
   if Bounds_Name~=nil and (Bounds_Name:match("%s")~=nil or Bounds_Name=="") then Bounds_Name="\""..Bounds_Name.."\"" end
-  if RenderFormatOptions_Name~=nil and (RenderFormatOptions_Name:match("%s")~=nil or RenderFormatOptions_Name=="") then RenderFormatOptions_Name="\""..RenderFormatOptions_Name.."\"" end
+  if Options_and_Format_Name~=nil and (Options_and_Format_Name:match("%s")~=nil or Options_and_Format_Name=="") then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
   
   if Bounds_Name~=nil and ("\n"..A):match("\nRENDERPRESET_OUTPUT "..Bounds_Name)==nil then ultraschall.AddErrorMessage("SetRenderPreset", "Bounds_Name", "no bounds-preset with that name", -4) return false end
-  if RenderFormatOptions_Name~=nil and ("\n"..A):match("\n<RENDERPRESET "..RenderFormatOptions_Name)==nil then ultraschall.AddErrorMessage("SetRenderPreset", "RenderFormatOptions_Name", "no renderformat/options-preset with that name", -5) return false end
+  if Options_and_Format_Name~=nil and ("\n"..A):match("\n<RENDERPRESET "..Options_and_Format_Name)==nil then ultraschall.AddErrorMessage("SetRenderPreset", "Options_and_Format_Name", "no renderformat/options-preset with that name", -5) return false end
 
   -- set Bounds-preset, if given
   if Bounds_Name~=nil then 
@@ -58659,9 +58660,9 @@ function ultraschall.SetRenderPreset(Bounds_Name, RenderFormatOptions_Name, Rend
   end
 
   -- set Format-options-preset, if given
-  if RenderFormatOptions_Name~=nil then 
-      RenderFormatOptions=A:match("\n<RENDERPRESET "..RenderFormatOptions_Name..".->")
-      String="\n<RENDERPRESET "..RenderFormatOptions_Name..
+  if Options_and_Format_Name~=nil then 
+      RenderFormatOptions=A:match("\n<RENDERPRESET "..Options_and_Format_Name..".->")
+      String="\n<RENDERPRESET "..Options_and_Format_Name..
              " "..RenderTable["SampleRate"]..
              " "..RenderTable["Channels"]..
              " "..RenderTable["OfflineOnlineRendering"]..
@@ -59576,16 +59577,16 @@ A1,A2,A3,A4 = ultraschall.RenderProject_RenderTable("C:\\temp\\1.RPP", C1)
 
 --A1,A2,A3,A4 = ultraschall.RenderProject_RenderTable()
 
-function ultraschall.GetQueuedProjects()
+function ultraschall.GetRenderQueuedProjects()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetQueuedProjects</slug>
+  <slug>GetRenderQueuedProjects</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>integer Filecount, array Filearray = ultraschall.GetQueuedProjects()</functioncall>
+  <functioncall>integer Filecount, array Filearray = ultraschall.GetRenderQueuedProjects()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Gets the number and names of files currently in the render-queue
   </description>
@@ -59609,7 +59610,7 @@ function ultraschall.GetQueuedProjects()
   return filecount, files
 end
 
---A, B = ultraschall.GetQueuedProjects()
+--A, B = ultraschall.GetRenderQueuedProjects()
 
 function ultraschall.AddProjectFileToRenderQueue(projectfilename_with_path)
 -- Todo
@@ -59705,11 +59706,11 @@ function ultraschall.RenderProject_RenderQueue(index)
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.RenderProject_RenderQueue(string renderfile, string renderpattern)</functioncall>
+  <functioncall>boolean retval = ultraschall.RenderProject_RenderQueue(integer index)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Renders a specific project from the render-queue. 
     
-    See [GetQueuedProjects](#GetQueuedProjects) to get the names of the currently existing render-queue-projects, where the filename-order reflects the index needed for this function.
+    See [GetRenderQueuedProjects](#GetRenderQueuedProjects) to get the names of the currently existing render-queue-projects, where the filename-order reflects the index needed for this function.
     
     returns false in case of an error
   </description>
@@ -59717,7 +59718,7 @@ function ultraschall.RenderProject_RenderQueue(index)
     boolean retval - false, a problem occurred; true, rendering went through; returns true as well, when rendering is aborted!
   </retvals>
   <parameters>
-    integer index - the index of the render-queued-project; beginning with 1
+    integer index - the index of the render-queued-project; beginning with 1; -1 to render all projects in the render-queue
   </parameters>
   <chapter_context>
     Rendering Projects
@@ -59729,23 +59730,27 @@ function ultraschall.RenderProject_RenderQueue(index)
 </US_DocBloc>
 ]]  
   if math.type(index)~="integer" then ultraschall.AddErrorMessage("RenderProject_RenderQueue", "index", "no such queued-project", -1) return false end
-  local Filecount, Filearray = ultraschall.GetQueuedProjects()
-  if index>Filecount or index<1 then ultraschall.AddErrorMessage("RenderProject_RenderQueue", "index", "no such queued-project", -2) return false end
-  Filecount=Filecount-1
-  table.remove(Filearray,index)
-  for i=1, Filecount do
-    os.rename(Filearray[i], Filearray[i].."p")
+  local Filecount, Filearray = ultraschall.GetRenderQueuedProjects()
+  if index~=-1 and (index>Filecount or index<1) then ultraschall.AddErrorMessage("RenderProject_RenderQueue", "index", "no such queued-project; index must be an existing queued-project, bigger or equal 1 or -1 for all queued projects", -2) return false end
+  if index~=-1 then
+    Filecount=Filecount-1
+    table.remove(Filearray,index)
+    for i=1, Filecount do
+      os.rename(Filearray[i], Filearray[i].."p")
+    end
   end
   
   reaper.Main_OnCommand(41207,0)
   
-  for i=1, Filecount do
-    os.rename(Filearray[i].."p", Filearray[i])
+  if index~=-1 then
+    for i=1, Filecount do
+      os.rename(Filearray[i].."p", Filearray[i])
+    end
   end
   return true
 end
 
---ultraschall.RenderProject_RenderQueue(1)
+--ultraschall.RenderProject_RenderQueue(10)
 
 function ultraschall.RenderProject(projectfilename_with_path, renderfilename_with_path, startposition, endposition, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
 --[[

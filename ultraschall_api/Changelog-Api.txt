@@ -324,17 +324,48 @@ end
 
 ## Ultraschall Framework - Changelog
 
-### 4.00 Beta 2.75: - "Nick Cave & the Bad Seeds - Babe, I'm on fire" - 15th of May 2019
+### 4.00 Beta 2.75: - "Nick Cave & the Bad Seeds - Babe, I'm on fire" - 31st of May 2019
 tagline inspired by a comment from \_stevie\_ ;)
   
   **!RenderMania Update!**
   Has now 933 functions with 93 new ones!
+  
+   - **Rendering** - reworked Rendering completely; you can render the current project now directly, access render-presets and render-queues (thanks to the Justin and Schwa for adding the features needed into Reaper)
+   
+   - **Render-Format-strings** - you can create all(!) renderformats available in Reaper as BASE64-encoded strings, as well as analyzing already BASE64-encoded renderstrings(this alone is 44 functions)
+   
+   - **Parameter Learn** - you can get all parameter learn, modulation and lfo-settings, as well as FXStateChunks who store that information, add/set/delete will come later (requested by TonE and Anton9)
+    
+   - **ultraschall.MB** - shows a messagebox and allows exchanging the texts of the buttons with your own texts
+   
+   - **LoadFunctionFromExtState and StoreFunctionInExtState** - lets you pass a Lua-function from one script to another using an extstate, no external files and loads and requires necessary
+
+   - **Docs** - updated docs for Reaper 5.978, SWS 2.10.0.1, JS-extension 0.986
+   
+   - **More Docs** - when you've installed the API using ReaPack, actions will be added for opening the individual parts of the docs, like Reaper API(ReaScript, Video, WebRC), ConfigVars, Ultraschall-Concepts and FunctionsAPI. Type into the Actions-dialog-filter the words "ultraschall" and "help".
+   
+   - **Example Scripts** - when you've installed the API using ReaPack, new actions for registering and unregistering the example-scripts as well as opening the example-script-folder. Type into the Actions-dialog-filter the words "ultraschall" and "examples".
+   
+   - **Even more about docs** - docs for parameter-learn added as well as many docs I had lying around(find them in the ResourceFolder/UserPlugins/ultraschall\_api/Misc/misc\_docs-folder)
+
+   - **CleanUp** - removed junk and converted files into smaller fileformats(where applicable), so the API is now 20MB smaller
+   
+   - **Many other helpful functions** - HexString2Ascii2HexString, Get/Set Armstate of Envelopes, DeleteTracks\_TrackString, Get/SetCheckboxState and more
+   
+   - **Bugfixes** - as usual ;)
+
+
+If you find this helpful and use this, please consider donating to me at ultraschall.fm/danke (look for mespotine) or paypal(lspmp3@yahoo.de).  
+Might be a small donation for you, but a giant motivation leap for mankind(means: me) ;)
+
 
 #### New features in 4.00beta2.75
   - Docs: Misc/misc_docs - added this folder to put into that various (often unfinished) docs
   - Docs: ParmLearnDocs.txt - documented parameter-learn/modulation/alias-settings
   - Docs: US-Concepts - added description of datatype RenderTable
   - Docs: US-Concepts - Rendering: About RenderTables; description of how to use and work with RenderTables
+  - Docs: US-Concepts - Rendering: Render Presets; description for how to deal with render-presets
+  - Docs: US-Concepts - Rendering: Render Queue; description for how to render using the render-queue
   - Envelopes: GetArmState_Envelope - gets the armstate of a TrackEnvelope or EnvelopeStateChunk
   - Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point from a TrackEnvelope-object
   - Envelopes: SetArmState_Envelope - sets the armstate of a TrackEnvelope or EnvelopeStateChunk
@@ -356,7 +387,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Helpers: ConvertAscii2Hex - converts a string into it's two-digit-hexadecimal-number-representation
   - Helpers: ConvertBitsToInteger - converts a table with bitvalues (0 or 1) into it's integer-representation
   - Helpers: ConvertHex2Ascii - converts a string with two-digit-hexadecimal-numbers into it's ascii-representation
-  - Lua: StoreFunctionInExtState - stores a function into an extstate
+  - Lua: StoreFunctionInExtState - stores a function into an extstate 
   - Lua: LoadFunctionFromExtState - loads a function from an extstate, if stored using StoreFunctionInExtState
   - MediaItems: GetLengthOfAllMediaItems\_Track - returns the length of all MediaItems in a track combined, in seconds
   - MediaItems: GetItemPlayRate - updated pitchshiftmodes in docs
@@ -382,7 +413,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Render: CreateNewRenderTable - creates a new RenderTable, which holds all render-settings; can be applied later to projects or projectfiles
   - Render: DeleteRenderPreset\_Bounds - deletes a bounds-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog
   - Render: DeleteRenderPreset\_FormatOptions - deletes a format/options-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog
-  - Render: GetQueuedProjects - gets the projectfilenames of the projects currently in the render-queue
+  - Render: GetRenderQueuedProjects - gets the projectfilenames of the projects currently in the render-queue
   - Render: GetRender\_AutoIncrementFilename - gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog
   - Render: GetRender\_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
   - Render: GetRender\_ProjectSampleRateForMix - gets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog
@@ -492,7 +523,7 @@ tagline inspired by a comment from \_stevie\_ ;)
   - Projectmanagement: SetProject\_RenderPattern - added new render-pattern options to the docs; stabilized, when no render-pattern was set in project/ProjectStateChunk
   - Projectmanagement: SetProject\_RenderFilename - stabilized, when no render-filename was set in project/ProjectStateChunk
   - Projectmanagement: SetProject\_RenderRange - added bounds-option for selected regions
-  - ReaPack: Reapack-API-xml-generator.lua - added installation of Docs-opening-scripts as well. Let's hope, this works.
+  - ReaPack: Reapack-API-xml-generator.lua - added installation of Docs-opening-scripts as well.
   - Render: CreateRenderCFG\_AudioCD - improved and lifted limitations for leadin-silence-values
   - Render: CreateRenderCFG\_MP3ABR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; 
                                       forgot to add FasterEncode-setting -> fixed now                                  

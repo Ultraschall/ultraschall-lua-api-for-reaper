@@ -8,7 +8,7 @@
                 
                 The Ultraschall-Framework itself is intended to include a set of Lua-functions, that help creating such functionalities. By giving programmers helper functions to get access to each and every corner of Reaper. That way, extending Ultraschall and Reaper is more comfortable to do.
                 
-                This API was to be used within Ultraschall only, but quickly evolved into a huge 700 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:
+                This API was to be used within Ultraschall only, but quickly evolved into a huge 900+ function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:
                
                 - [Rendering](#Rendering_001_Introduction) - you can render your projects without having to use the render-dialog. You can customize the rendering-workflow in every way you want.
                                    Just create a renderstring and pass it over to [RenderProject](usdocml://RenderProject) or [RenderProject_Regions](usdocml://RenderProject_Regions)
@@ -770,7 +770,8 @@
                        render_cfg_string = ultraschall.CreateRenderCFG_MP3CBR(11, 2)
                        
                        -- Pass this Render-string to the rendering-function
-                       ultraschall.RenderProject(nil, "c:\\exportfile.mp3", 0, -1, false, false, false, render_cfg_string)
+                       retval, rendered_files_count, rendered_files_MediaItemStateChunk, rendered_files_array 
+                                      = ultraschall.RenderProject(nil, "c:\\exportfile.mp3", 0, -1, false, false, false, render_cfg_string)
                
             The full control way:  
             
@@ -797,7 +798,8 @@
                     RenderTable["RenderString"] = ultraschall.CreateRenderCFG_MP3CBR(11, 2)
                     
                     -- Render project using that RenderTable
-                    ultraschall.RenderProject_RenderTable(nil, RenderTable, false, false, false)
+                    rendered_files_count, rendered_files_MediaItemStateChunk, rendered_files_array 
+                                                                = ultraschall.RenderProject_RenderTable(nil, RenderTable, false, false, false)
                
                Read the accompanying documentation-entries for [CreateRenderCFG_MP3CBR](usdocml://CreateRenderCFG_MP3CBR) and [RenderProject](usdocml://RenderProject) for more details and/or the following chapters.
         </description>
@@ -817,14 +819,13 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Render-strings(or render_cfg, as they are named in Reaper) are strings, that contain all settings for a specific Render-Output-format, as MP3, WAV, AIF, FLAC, etc.  
             They are usually stored into RPP-projectfiles and are quite cryptic(for those of you, who know what that means: BASE64-encoded).  
-            These are essential for rendering a project using the provided rendering-functions, so the Ultraschall-API provides functions who create these render-strings.  
+            These are essential for rendering a project using the provided rendering-functions, so the Ultraschall-API provides functions who create or analyze such render-strings.  
             
             All these functions start with CreateRenderCFG_ in their name, so if you are looking for a specific format, use CreateRenderCFG\_audioformat (like CreateRenderCFG\_FLAC, etc).   
-            The parameters of these functions represent all format-options as you are used from the Render-dialog. They should be fairly complete, though some formats (Video, OGG) are limited with some of their options(fps, width, height, kbps, etc).  
-            This is due my approach decoding them, though I tried to provide all settings that are useful in your everyday use(documented in the accompanying parameter-descriptions in the functions-reference).  
+            The parameters of these functions represent all format-options as you are used from the Render-dialog. They should be fairly complete, though some formats (Video, OGG) are limited with some of their options(fps only supported up to 2000.00).  
             
             Example for FLAC:
-            
+
 
                         render_string = ultraschall.CreateRenderCFG_FLAC(integer BitDepth, integer EncSpeed)
 
@@ -841,11 +842,37 @@
             This renderstring can then be passed over to [SetProject_RenderCFG](usdocml://SetProject_RenderCFG) to set it into a project-file, or to [RenderProject](usdocml://RenderProject) to render a projectfile using the format-settings in the Render-string or put into [RenderTables](#Datatypes_008_RenderTable), that can be used for the rendering function [RenderProject_RenderTable](usdocml://RenderProject_RenderTable).
             
             The following render-string-functions are available in Ultraschall-API:  
-                 [CreateRenderCFG_AIFF](usdocml://CreateRenderCFG_AIFF), [CreateRenderCFG_AudioCD](usdocml://CreateRenderCFG_AudioCD), [CreateRenderCFG_DDP](usdocml://CreateRenderCFG_DDP) ,[CreateRenderCFG_FLAC](usdocml://CreateRenderCFG_FLAC), [CreateRenderCFG_M4AMAC](usdocml://CreateRenderCFG_M4AMAC), 
-                 [CreateRenderCFG_MP3ABR](usdocml://CreateRenderCFG_MP3ABR),[CreateRenderCFG_MP3CBR](usdocml://CreateRenderCFG_MP3CBR), [CreateRenderCFG_MP3MaxQuality](usdocml://CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG_MP3VBR](usdocml://CreateRenderCFG_MP3VBR), 
-                 [CreateRenderCFG_OGG](usdocml://CreateRenderCFG_OGG), [CreateRenderCFG_Opus](usdocml://CreateRenderCFG_Opus), [CreateRenderCFG_WAV](usdocml://CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](usdocml://CreateRenderCFG_WAVPACK)
-                 [CreateRenderCFG\_AVI_Video](usdocml://CreateRenderCFG_AVI_Video), [CreateRenderCFG_GIF](usdocml://CreateRenderCFG_GIF), [CreateRenderCFG_LCF](usdocml://CreateRenderCFG_LCF), [CreateRenderCFG\_MKV_Video](usdocml://CreateRenderCFG_MKV_Video), [CreateRenderCFG\_MOVMAC_Video](usdocml://CreateRenderCFG_MOVMAC_Video), [CreateRenderCFG\_MP4MAC_Video](usdocml://CreateRenderCFG_MP4MAC_Video), 
-                 [CreateRenderCFG\_QTMOVMP4_Video](usdocml://CreateRenderCFG_QTMOVMP4_Video), [CreateRenderCFG_WebMVideo](usdocml://CreateRenderCFG_WebMVideo)
+            >[CreateRenderCFG_AIFF](usdocml://CreateRenderCFG_AIFF), [CreateRenderCFG_AudioCD](usdocml://CreateRenderCFG_AudioCD), [CreateRenderCFG_DDP](usdocml://CreateRenderCFG_DDP) ,[CreateRenderCFG_FLAC](usdocml://CreateRenderCFG_FLAC), [CreateRenderCFG_M4AMAC](usdocml://CreateRenderCFG_M4AMAC), 
+            >[CreateRenderCFG_MP3ABR](usdocml://CreateRenderCFG_MP3ABR),[CreateRenderCFG_MP3CBR](usdocml://CreateRenderCFG_MP3CBR), [CreateRenderCFG_MP3MaxQuality](usdocml://CreateRenderCFG_MP3MaxQuality), [CreateRenderCFG_MP3VBR](usdocml://CreateRenderCFG_MP3VBR), 
+            >[CreateRenderCFG_OGG](usdocml://CreateRenderCFG_OGG), [CreateRenderCFG_Opus](usdocml://CreateRenderCFG_Opus), [CreateRenderCFG_WAV](usdocml://CreateRenderCFG_WAV), [CreateRenderCFG_WAVPACK](usdocml://CreateRenderCFG_WAVPACK),
+            >[CreateRenderCFG\_AVI_Video](usdocml://CreateRenderCFG_AVI_Video), [CreateRenderCFG_GIF](usdocml://CreateRenderCFG_GIF), [CreateRenderCFG_LCF](usdocml://CreateRenderCFG_LCF), [CreateRenderCFG\_MKV_Video](usdocml://CreateRenderCFG_MKV_Video), [CreateRenderCFG\_MOVMAC_Video](usdocml://CreateRenderCFG_MOVMAC_Video), [CreateRenderCFG\_MP4MAC_Video](usdocml://CreateRenderCFG_MP4MAC_Video), 
+            >[CreateRenderCFG\_QTMOVMP4_Video](usdocml://CreateRenderCFG_QTMOVMP4_Video), [CreateRenderCFG_WebMVideo](usdocml://CreateRenderCFG_WebMVideo)
+                 
+            If you have already a Base64-encoded-renderstring but would love to know, which settings it holds, you can analyze them as well.
+            First, you need to determine, which format is stored in this render-string, using:
+            
+            **[GetOutputFormat\_RenderCfg](usdocml://GetOutputFormat_RenderCfg)**
+            
+                        string outputformat, string renderstring = ultraschall.GetOutputFormat_RenderCfg(string Renderstring, optional ReaProject ReaProject)
+                    
+            >This allows you to get the output-format stored in a Renderstring. If you set it to nil, it will return the output-format set in the current active project.  
+            >You can also pass a ReaProject as optional second parameter, so the function will return the output-format of it as well.  
+            >To make life easier, it also returns the analysed render-string. So if you want to know the renderoutput-format of a ReaProject, you also get the render-string to work on further.
+            
+            Now that we know, of which format the renderstring is, we can get the settings stored in it. So let's assume, it is a renderstring of the format FLAC, you can use the following function to analyse it's settings:
+            
+            **[GetRenderCFG\_Settings\_FLAC](usdocml://GetRenderCFG_Settings_FLAC)**
+            
+                        integer encoding_depth, integer compression = ultraschall.GetRenderCFG_Settings_FLAC(string rendercfg)
+            
+            >Pass to this function the renderstring of the flac-format and it will return the settings for encoding_depth and compression, as settable in the Render to File-dialog.
+            
+            The following functions are available for analysing the render-strings in all kinds of formats:
+            >[GetRenderCFG\_Settings\_AIFF](usdocml://GetRenderCFG_Settings_AIFF), [GetRenderCFG\_Settings\_AudioCD](usdocml://GetRenderCFG_Settings_AudioCD), [GetRenderCFG\_Settings\_DDP](usdocml://GetRenderCFG_Settings_DDP), [GetRenderCFG\_Settings\_FLAC](usdocml://GetRenderCFG_Settings_FLAC), [GetRenderCFG\_Settings\_M4AMac](usdocml://GetRenderCFG_Settings_M4AMac),
+            >[GetRenderCFG\_Settings\_MP3](usdocml://GetRenderCFG_Settings_MP3), [GetRenderCFG\_Settings\_MP3ABR](usdocml://GetRenderCFG_Settings_MP3ABR), [GetRenderCFG\_Settings\_MP3CBR](usdocml://GetRenderCFG_Settings_MP3CBR), [GetRenderCFG\_Settings\_MP3MaxQuality](usdocml://GetRenderCFG_Settings_MP3MaxQuality), [GetRenderCFG\_Settings\_MP3VBR](usdocml://GetRenderCFG_Settings_MP3VBR),
+            >[GetRenderCFG\_Settings\_OGG](usdocml://GetRenderCFG_Settings_OGG), [GetRenderCFG\_Settings\_OPUS](usdocml://GetRenderCFG_Settings_OPUS), [GetRenderCFG\_Settings\_WAV](usdocml://GetRenderCFG_Settings_WAV), [GetRenderCFG\_Settings\_WAVPACK](usdocml://GetRenderCFG_Settings_WAVPACK),
+            >[GetRenderCFG\_Settings\_AVI\_Video](usdocml://GetRenderCFG_Settings_AVI_Video), [GetRenderCFG\_Settings\_GIF](usdocml://GetRenderCFG_Settings_GIF), [GetRenderCFG\_Settings\_LCF](usdocml://GetRenderCFG_Settings_LCF), [GetRenderCFG\_Settings\_MKV\_Video](usdocml://GetRenderCFG_Settings_MKV_Video), [GetRenderCFG\_Settings\_MOVMac\_Video](usdocml://GetRenderCFG_Settings_MOVMac_Video),
+            >[GetRenderCFG\_Settings\_MP4Mac\_Video](usdocml://GetRenderCFG_Settings_MP4Mac_Video), [GetRenderCFG\_Settings\_QTMOVMP4\_Video](usdocml://GetRenderCFG_Settings_QTMOVMP4_Video), [GetRenderCFG\_Settings\_WebMVideo](usdocml://GetRenderCFG_Settings_WebMVideo)
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
@@ -867,9 +894,9 @@
             But even then, creating one is very painful, so I made functions, who create valid RenderTables.  
             
             It is always a good idea to use the US-API-functions for creating RenderTables, as I may add more settings into RenderTables(when Reaper gets new ones). If you would create a RenderTable
-            by hand without my functions, you not only miss out the new features. In fact, your old RenderTable would be seen as invalid by the API, as it's missing settings.   
+            by hand without my functions, you not only miss out the new features. In fact, your old RenderTable would be seen as invalid by the API, as it's missing new settings.   
             So be advised to always use the CreateRenderTable-functions from the API. They will always create valid RenderTables, setting unset settings to useful defaults.  
-            That way, your old scripts will not break, even if you don't update them.  
+            That way, your old scripts will not break, even if you don't update them to use new settings.  
             After a RenderTable is created, you can safely alter it's settings to valid values, but creating them must be done by US-API's functions.  
                   
             I wrote numerous functions to create and work with RenderTables.  
@@ -894,7 +921,7 @@
             
             - **[IsValidRenderTable](usdocml://IsValidRenderTable)** - checks, whether a table is a valid RenderTable  
             
-            With that, you can interoperate with RenderTables and render-settings from/to projects, projectfile and presets in any way you wish.
+            With that, you can interoperate with RenderTables and render-settings from/to projects, projectfiles and presets in any way you wish.
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
@@ -916,9 +943,9 @@
             
             There are currently three different render-functions available:  
             
-            1. [RenderProject](usdocml://RenderProject) - with this one, you can render a whole project or just from startposition to endposition in seconds  
-            2. [RenderProject_Regions](usdocml://RenderProject_Regions) with this one, you can render specific regions of a project  
-            3. [RenderProject_RenderTable](usdocml://RenderProject_RenderTable) with this one, you can render a project using a RenderTable, which allows you full control over all render-settings  
+            1. [RenderProject](usdocml://RenderProject) - with this one, you can render a whole project or just timeselection or from startposition to endposition in seconds  
+            2. [RenderProject_Regions](usdocml://RenderProject_Regions) - with this one, you can render specific regions of a project  
+            3. [RenderProject_RenderTable](usdocml://RenderProject_RenderTable) - with this one, you can render a project using a [RenderTable](#Rendering_002a_About_RenderTables), which allows you full control over all render-settings  
             
             ####RenderProject and RenderProject_Regions 
             
@@ -945,14 +972,14 @@
             
                          rendercfg           - the renderstring, as created using a CreateRenderCFG_XXX-function, as described in 
                                                the chapter "Rendering: About Renderstrings"
-                                               if you omit it or set it to nil, it will use the format-settings already set in the projectfile
+                                               if you omit it or set it to nil, it will use the format-settings already set in the project or projectfile
             
             It also returns some interesting return-values:
             
-                        retval                   - 0, if rendering was successful; -1, in case of an error  
+                        retval                   - 0, if rendering was successful; -1, in case of an error(like invalid parametervalues or user aborted rendering)  
                         renderfilecount          - the number of rendered files. Usually 1, but can be higher, when rendering stems as well  
                         MediaItemStateChunkArray - an array with MediaItemStateChunks of the rendered projects, ready to include into a project of your choice  
-                                                   the first entry is for the Master-render-file  
+                                                   the first entry is for the master-track-rendered-file  
                         Filearray                - an array with filenames-with-path of all rendered files, with the first entry being the one of  
                                                    the master-track-rendered-file
             
@@ -984,13 +1011,13 @@
             
                         renderfilecount          - the number of rendered files. Usually 1, but can be higher, when rendering stems as well  
                         MediaItemStateChunkArray - an array with MediaItemStateChunks of the rendered projects, ready to include into a project of your choice  
-                                                   the first entry is for the Master-render-file  
+                                                   the first entry is for the master-track-rendered-file  
                         Filearray                - an array with filenames-with-path of all rendered files, with the first entry being the one of  
                                                    the master-track-rendered-file
             
             With that, you should be able to successfully render your project and do some neat stuff afterwards.  
             
-            For more enhanced customization of Rendering, see [Rendering: Change more render-settings in projectfiles](#Rendering_004_Change_more_render_settings) for more details.
+            For more enhanced customization of projectfiles for Rendering, see [Rendering: Change more render-settings in projectfiles](#Rendering_004_Change_more_render_settings).
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
@@ -1006,23 +1033,23 @@
         <slug>Rendering_004_Change_more_render_settings</slug>
         <title>Rendering: Change more render-settings in projectfiles</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            Sometimes, you want to alter Render-Settings in a projectfile by hand, without using RenderTables for that. For that, the API has many useful functions as well, starting with SetProject_
+            Sometimes, you want to alter Render-Settings in a projectfile by hand, without using RenderTables for that. So, the API has many useful functions as well, starting with SetProject_
             You can alter a projectfile using the following Ultraschall-Framework-functions, that represent certain elements from Reaper's Render-Dialog:
             
-                - [SetProject_RenderFilename](usdocml://SetProject_RenderFilename) - to alter the output-filename
-                - [SetProject_RenderPattern](usdocml://SetProject_RenderPattern) - to set the wildcards for the output-filename 
-                - [SetProject_RenderDitherState](usdocml://SetProject_RenderDitherState) - to set the "Master mix: Dither/Noise shaping"-checkboxes
-                - [SetProject_RenderFreqNChans](usdocml://SetProject_RenderFreqNChans) - to set the Sample rate in Hz and Channels
-                - [SetProject_RenderRange](usdocml://SetProject_RenderRange) - to set Bounds-dropdownlist, Time bounds-entryboxes and Tail
-                - [SetProject_RenderResample](usdocml://SetProject_RenderResample) - to set "Resample mode (if needed)" 
-                - [SetProject_RenderSpeed](usdocml://SetProject_RenderSpeed) to set the render-speed, and
-                - [SetProject_RenderStems](usdocml://SetProject_RenderStems) to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)  
+               - [SetProject_RenderFilename](usdocml://SetProject_RenderFilename) - to alter the output-filename
+               - [SetProject_RenderPattern](usdocml://SetProject_RenderPattern) - to set the wildcards for the output-filename 
+               - [SetProject_RenderDitherState](usdocml://SetProject_RenderDitherState) - to set the "Master mix: Dither/Noise shaping"-checkboxes
+               - [SetProject_RenderFreqNChans](usdocml://SetProject_RenderFreqNChans) - to set the Sample rate in Hz and Channels
+               - [SetProject_RenderRange](usdocml://SetProject_RenderRange) - to set Bounds-dropdownlist, Time bounds-entryboxes and Tail
+               - [SetProject_RenderResample](usdocml://SetProject_RenderResample) - to set "Resample mode (if needed)" 
+               - [SetProject_RenderSpeed](usdocml://SetProject_RenderSpeed) to set the render-speed, and
+               - [SetProject_RenderStems](usdocml://SetProject_RenderStems) to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)  
                 
             If you want to alter the currently opened project in its rpp-projectfile, you need to save it first. After that, use:
             
                         retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
             
-            to get the projectfilename\_with\_path of the current project as returnvalue. Use projectfilename\_with\_path and the SetProject-functions needed for you alterations.
+            to get the projectfilename\_with\_path of the current project as returnvalue. Use projectfilename\_with\_path as parameter for the SetProject-functions needed for you alterations.
             
             The functions are just a small selection of the functions to alter project-files, as provided by the Ultraschall-API. Browse through the functions in the "Project-Files"-section of the index of the Ultraschall-API-Functions-Reference for many more of them.  
         </description>
@@ -1040,35 +1067,86 @@
         <slug>Rendering_005_RenderPresets</slug>
         <title>Rendering: Render Presets</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            TODO!!! Render Presets !!
-            Reaper's own render-dialog provides you with much more possibilities, than the rendering-functions themselves provide you with.
+            Reaper has the concept of render-presets, who hold all render-settings you can set in the Render to File-dialog and you want to store for quick retrieval.  
+            These can be reused within the Render to File-dialog, when clicking the Preset-button.  
+            Render-presets are split into two main parts: Bounds and Options and Formats, who each hold parts of the full render-settings-package.
             
-            In the likely case, that you want to influence more things for rendering, like samplerate, stereo or mono, etc, you should do the following things:
+            Options and Format holds the following settings:  
+            OutputAndFormatPresetname, SampleRate, Channels, offline\_online\_dropdownlist, useprojectsamplerate\_checkbox, resamplemode\_dropdownlist, various\_checkboxes and rendercfg
             
-            1. make a copy of the rpp-file that you want to render using [MakeCopyOfFile](usdocml://MakeCopyOfFile). The copy must have a different name and be in the same folder, as the original rpp-file!
-            2. Now you can alter the copy of the projectfile using the following Ultraschall-Framework-functions, that represent certain elements from Reaper's Render-Dialog:
+            Bounds holds the following settings:
+            BoundsPresetname, bounds\_dropdownlist, start\_position, endposition, source_dropdownlist\_and\_checkboxes, unknown, outputfilename\_renderpattern, tail\_checkbox
             
-                - [SetProject_RenderFilename](usdocml://SetProject_RenderFilename) - to alter the output-filename
-                - [SetProject_RenderPattern](usdocml://SetProject_RenderPattern) - to set the wildcards for the output-filename 
-                - [SetProject_RenderDitherState](usdocml://SetProject_RenderDitherState) - to set the "Master mix: Dither/Noise shaping"-checkboxes
-                - [SetProject_RenderFreqNChans](usdocml://SetProject_RenderFreqNChans) - to set the Sample rate in Hz and Channels
-                - [SetProject_RenderRange](usdocml://SetProject_RenderRange) - to set Bounds-dropdownlist, Time bounds-entryboxes and Tail
-                - [SetProject_RenderResample](usdocml://SetProject_RenderResample) - to set "Resample mode (if needed)" 
-                - [SetProject_RenderSpeed](usdocml://SetProject_RenderSpeed) to set the render-speed, and
-                - [SetProject_RenderStems](usdocml://SetProject_RenderStems) to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)  
-                
-            3. after you've set the individual render-settings, you create a render-string, as described in [Rendering: About Renderstrings](#Rendering_002_About_Renderstrings).  
+            That means, to get the full render-settings as a Rendertable, you need to get both, the settings for a Renderformat-preset and a Bounds-preset.  
+            And to make that easier, I added numerous functions:
             
-            4. render using the altered copy(!) of the projectfile(not the original projectfile!), as described in [Rendering: About Rendering-functions](#Rendering_003_About_Renderingfunctions).
+            **[GetRenderPreset_Names](usdocml://GetRenderPreset_Names)**
             
-            If you want to alter the currently opened project, you need to save it first. After that, use:
+                        integer bounds_presets, table bounds_names, integer options_format_presets, table options_format_names, 
+                                                      integer both_presets, table both_names = ultraschall.GetRenderPreset_Names()
             
-                        retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
+            >This gets all Bounds-presetnames and all Options and Format-presetnames. These are important, as you need them to for getting them 
+            >as RenderTable using [GetRenderPreset_RenderTable](usdocml://GetRenderPreset_RenderTable).  
+            >As a general rule: RenderPresets who were stored using "All Settings" in the Render-Presets-menu of the Render to File-dialog, share the same presetname.  
             
-            to get the projectfilename\_with\_path of the current project as returnvalue. Use projectfilename\_with\_path and go through steps 1 through 4.
+            If you know the preset-names, you can create a [RenderTable](#Datatypes_008_RenderTable), that stores all render-settings stored in their presets.
             
-            The functions in step 2) are just a small selection of the functions to alter project-files, as provided by the Ultraschall-API. Browse through the functions in the "Project-Files"-section of the index of the Ultraschall-API-Functions-Reference for many more of them.  
-            However, changing some of the stuff might cause issues with the rendering-functions provided with this API.
+            **[GetRenderPreset_RenderTable](usdocml://GetRenderPreset_RenderTable)**
+            
+                        RenderTable RenderTable = ultraschall.GetRenderPreset_RenderTable(string Bounds_Name, string Options_and_Format_Name)
+            
+            >This function returns a RenderTable from render-presets. You simply pass to the function the Bounds-presetname and the options and 
+            >format-presetname and it will take these settings and put them into a RenderTable.  
+            >
+            >Some settings aren't stored in Render-Presets and therefore will get default values:  
+            >TailMS=0, SilentlyIncrementFilename=false, AddToProj=false, SaveCopyOfProject=false, RenderQueueDelay=false, 
+            >RenderQueueDelaySeconds=false  
+            >
+            >This RenderTable can be used for the [RenderProject_RenderTable](usdocml://RenderProject_RenderTable)-function.  
+            
+            Using already existing render-presets is nice, but being able to change them is even nicer. Once they are added/set, they are available after (re-)opening the Render to File-dialog.
+            
+            **[AddRenderPreset](usdocml://AddRenderPreset)**
+            
+                        boolean retval = ultraschall.AddRenderPreset(string Bounds_Name, string Options_and_Format_Name, 
+                                                                                                  RenderTable RenderTable)
+            
+            >With this one, you can add a new render-setting, the usage is simple: pass to it a new Bounds-presetname, a new Options and Format-presetname and 
+            >a RenderTable, which holds all render-settings.
+            >If you want to just store one of the render-presets, you pass nil to the other presetname. So if you want to add only a Bounds-preset,
+            >the functioncall could look like that:
+            
+                        retval = ultraschall.AddRenderPreset("My new bounds-render-preset", nil, RenderTable)
+            
+            >The function will check, whether the chosen name is already in use and return false in that case.
+            
+            **[SetRenderPreset](usdocml://SetRenderPreset)**
+            
+                        boolean retval = ultraschall.SetRenderPreset(string Bounds_Name, string Options_and_Format_Name, 
+                                                                                                  RenderTable RenderTable)
+            
+            >As you can see, it basically works like the aforementioned [AddRenderPreset](usdocml://AddRenderPreset). The only difference is
+            >that is checks, whether the preset-name does not exists. In that case, it returns false, otherwise it exchanges the render-preset-settings
+            >with the settings stored in the RenderTable.
+            
+            Now we have get, add and set, so what is still missing? You're right: deleting them.
+            
+            **[DeleteRenderPreset_Bounds](usdocml://DeleteRenderPreset_Bounds)**
+            
+                        boolean retval = ultraschall.DeleteRenderPreset_Bounds(string Bounds_Name)
+            
+            >This function deletes an already stored bounds-render-preset. Just pass the Bounds-presetname and it deletes it, if existing.
+            >If the preset does not exist, it returns false, otherwise it returns true.
+            
+            **[DeleteRenderPreset_FormatOptions](usdocml://DeleteRenderPreset_FormatOptions)**
+            
+                        boolean retval = ultraschall.DeleteRenderPreset_FormatOptions(string Options_and_Format_Name)
+            
+            >Basically like [DeleteRenderPreset_Bounds](usdocml://DeleteRenderPreset_Bounds), but deletes an Options and Format-renderpreset.
+            >Just pass the Options and Format-presetname and it deletes it from the presets.
+            >If the preset does not exist, it returns false, otherwise it returns true.
+            
+            This should give you a lot of control over render-presets.
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
@@ -1077,42 +1155,38 @@
         </chapter_context>
         <previous_chapter>Rendering_004_Change_more_render_settings</previous_chapter>
         <next_chapter>Rendering_006_RenderQueue</next_chapter>
-        <tags>documentation, rendering, projects, functions, render, renderstring, rendercfg, render_cfg, advanced</tags>
+        <tags>documentation, rendering, projects, presets, get, set, add, delete, rendertable</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Rendering_006_RenderQueue</slug>
         <title>Rendering: Render Queue</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            TODO!!! Render Queue !!
-            Reaper's own render-dialog provides you with much more possibilities, than the rendering-functions themselves provide you with.
+            Another way to render projects is using the RenderQueue, which is often practical. For that, I included some functions to deal with the render-queue:
             
-            In the likely case, that you want to influence more things for rendering, like samplerate, stereo or mono, etc, you should do the following things:
+            **[GetRenderQueuedProjects](usdocml://GetRenderQueuedProjects)**  
             
-            1. make a copy of the rpp-file that you want to render using [MakeCopyOfFile](usdocml://MakeCopyOfFile). The copy must have a different name and be in the same folder, as the original rpp-file!
-            2. Now you can alter the copy of the projectfile using the following Ultraschall-Framework-functions, that represent certain elements from Reaper's Render-Dialog:
+                        integer Filecount, array Filearray = ultraschall.GetRenderQueuedProjects()
             
-                - [SetProject_RenderFilename](usdocml://SetProject_RenderFilename) - to alter the output-filename
-                - [SetProject_RenderPattern](usdocml://SetProject_RenderPattern) - to set the wildcards for the output-filename 
-                - [SetProject_RenderDitherState](usdocml://SetProject_RenderDitherState) - to set the "Master mix: Dither/Noise shaping"-checkboxes
-                - [SetProject_RenderFreqNChans](usdocml://SetProject_RenderFreqNChans) - to set the Sample rate in Hz and Channels
-                - [SetProject_RenderRange](usdocml://SetProject_RenderRange) - to set Bounds-dropdownlist, Time bounds-entryboxes and Tail
-                - [SetProject_RenderResample](usdocml://SetProject_RenderResample) - to set "Resample mode (if needed)" 
-                - [SetProject_RenderSpeed](usdocml://SetProject_RenderSpeed) to set the render-speed, and
-                - [SetProject_RenderStems](usdocml://SetProject_RenderStems) to set, whether to render stems, Master mix, region-render-matrix, etc (Source-dropdownlist)  
-                
-            3. after you've set the individual render-settings, you create a render-string, as described in [Rendering: About Renderstrings](#Rendering_002_About_Renderstrings).  
+            >This function allows you to get the projects currently stored in RenderQueue and the number of queued projects.  
+            >The order of the projects in FileArray represent the index, which can be used in [RenderProject_RenderQueue](usdocml://RenderProject_RenderQueue), with the first project being index 1, the second being index 2, etc.  
+            >You can also render these projects using the other render-functions as well.
             
-            4. render using the altered copy(!) of the projectfile(not the original projectfile!), as described in [Rendering: About Rendering-functions](#Rendering_003_About_Renderingfunctions).
+            **[RenderProject_RenderQueue](usdocml://RenderProject_RenderQueue)**  
             
-            If you want to alter the currently opened project, you need to save it first. After that, use:
+                        boolean retval = ultraschall.RenderProject_RenderQueue(integer index)
             
-                        retval, projectfilename_with_path = reaper.EnumProjects(-1,"")
+            >This renders a project in the render-queue. The index represents the project within the render-queue, with 1 for the first.  
+            >To know, which queued project has which index, use [GetRenderQueuedProjects](usdocml://GetRenderQueuedProjects).  
+            >If you set index to -1, it will attempt rendering all projects in the render-queue.
+            >Due API-limitations, this function can not return the rendered files(I hope I can circumvent this limitation at some point).
             
-            to get the projectfilename\_with\_path of the current project as returnvalue. Use projectfilename\_with\_path and go through steps 1 through 4.
+            **[AddProjectFileToRenderQueue](usdocml://AddProjectFileToRenderQueue)**  
             
-            The functions in step 2) are just a small selection of the functions to alter project-files, as provided by the Ultraschall-API. Browse through the functions in the "Project-Files"-section of the index of the Ultraschall-API-Functions-Reference for many more of them.  
-            However, changing some of the stuff might cause issues with the rendering-functions provided with this API.
+                        boolean retval = ultraschall.AddProjectFileToRenderQueue(string projectfilename_with_path)
+            
+            >If you have a project, which you want to add to the RenderQueue, but is not currently opened yet, you can use this function.  
+            >Just pass to it the projectfilename+path of the project, that you want to add to the RenderQueue and it will do what is needed for that.  
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
@@ -1121,7 +1195,7 @@
         </chapter_context>
         <previous_chapter>Rendering_005_RenderPresets</previous_chapter>
         <next_chapter>Arrangeview_Snapshots_001_Introduction</next_chapter>
-        <tags>documentation, rendering, projects, functions, render, renderstring, rendercfg, render_cfg, advanced</tags>
+        <tags>documentation, rendering, projects, functions, render, queue, renderqueue, add, get</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">

@@ -40,15 +40,33 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.00 Beta 2.75: - "Nick Cave &amp; the Bad Seeds - Babe, I'm on fire" - 15th of May 2019</h3>
+<h3>4.00 Beta 2.75: - "Nick Cave &amp; the Bad Seeds - Babe, I'm on fire" - 31st of May 2019</h3>
 <p>tagline inspired by a comment from _stevie_ ;)</p>
 <p><strong>!RenderMania Update!</strong> Has now 933 functions with 93 new ones!</p>
+<ul>
+<li><p><strong>Rendering</strong> - reworked Rendering completely; you can render the current project now directly, access render-presets and render-queues (thanks to the Justin and Schwa for adding the features needed into Reaper)</p></li>
+<li><p><strong>Render-Format-strings</strong> - you can create all(!) renderformats available in Reaper as BASE64-encoded strings, as well as analyzing already BASE64-encoded renderstrings(this alone is 44 functions)</p></li>
+<li><p><strong>Parameter Learn</strong> - you can get all parameter learn, modulation and lfo-settings, as well as FXStateChunks who store that information, add/set/delete will come later (requested by TonE and Anton9)</p></li>
+<li><p><strong>ultraschall.MB</strong> - shows a messagebox and allows exchanging the texts of the buttons with your own texts</p></li>
+<li><p><strong>LoadFunctionFromExtState and StoreFunctionInExtState</strong> - lets you pass a Lua-function from one script to another using an extstate, no external files and loads and requires necessary</p></li>
+<li><p><strong>Docs</strong> - updated docs for Reaper 5.978, SWS 2.10.0.1, JS-extension 0.986</p></li>
+<li><p><strong>More Docs</strong> - when you've installed the API using ReaPack, actions will be added for opening the individual parts of the docs, like Reaper API(ReaScript, Video, WebRC), ConfigVars, Ultraschall-Concepts and FunctionsAPI. Type into the Actions-dialog-filter the words "ultraschall" and "help".</p></li>
+<li><p><strong>Example Scripts</strong> - when you've installed the API using ReaPack, new actions for registering and unregistering the example-scripts as well as opening the example-script-folder. Type into the Actions-dialog-filter the words "ultraschall" and "examples".</p></li>
+<li><p><strong>Even more about docs</strong> - docs for parameter-learn added as well as many docs I had lying around(find them in the ResourceFolder/UserPlugins/ultraschall_api/Misc/misc_docs-folder)</p></li>
+<li><p><strong>CleanUp</strong> - removed junk and converted files into smaller fileformats(where applicable), so the API is now 20MB smaller</p></li>
+<li><p><strong>Many other helpful functions</strong> - HexString2Ascii2HexString, Get/Set Armstate of Envelopes, DeleteTracks_TrackString, Get/SetCheckboxState and more</p></li>
+<li><p><strong>Bugfixes</strong> - as usual ;)</p></li>
+</ul>
+<p>If you find this helpful and use this, please consider donating to me at ultraschall.fm/danke (look for mespotine) or paypal(lspmp3@yahoo.de).<br />
+Might be a small donation for you, but a giant motivation leap for mankind(means: me) ;)</p>
 <h4>New features in 4.00beta2.75</h4>
 <ul>
 <li>Docs: Misc/misc_docs - added this folder to put into that various (often unfinished) docs</li>
 <li>Docs: ParmLearnDocs.txt - documented parameter-learn/modulation/alias-settings</li>
 <li>Docs: US-Concepts - added description of datatype RenderTable</li>
 <li>Docs: US-Concepts - Rendering: About RenderTables; description of how to use and work with RenderTables</li>
+<li>Docs: US-Concepts - Rendering: Render Presets; description for how to deal with render-presets</li>
+<li>Docs: US-Concepts - Rendering: Render Queue; description for how to render using the render-queue</li>
 <li>Envelopes: GetArmState_Envelope - gets the armstate of a TrackEnvelope or EnvelopeStateChunk</li>
 <li>Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point from a TrackEnvelope-object</li>
 <li>Envelopes: SetArmState_Envelope - sets the armstate of a TrackEnvelope or EnvelopeStateChunk</li>
@@ -96,7 +114,7 @@ Ultraschall API Changelog
 <li>Render: CreateNewRenderTable - creates a new RenderTable, which holds all render-settings; can be applied later to projects or projectfiles</li>
 <li>Render: DeleteRenderPreset_Bounds - deletes a bounds-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog</li>
 <li>Render: DeleteRenderPreset_FormatOptions - deletes a format/options-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog</li>
-<li>Render: GetQueuedProjects - gets the projectfilenames of the projects currently in the render-queue</li>
+<li>Render: GetRenderQueuedProjects - gets the projectfilenames of the projects currently in the render-queue</li>
 <li>Render: GetRender_AutoIncrementFilename - gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
 <li>Render: GetRender_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog</li>
 <li>Render: GetRender_ProjectSampleRateForMix - gets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog</li>
@@ -207,7 +225,7 @@ Ultraschall API Changelog
 <li>Projectmanagement: SetProject_RenderPattern - added new render-pattern options to the docs; stabilized, when no render-pattern was set in project/ProjectStateChunk</li>
 <li>Projectmanagement: SetProject_RenderFilename - stabilized, when no render-filename was set in project/ProjectStateChunk</li>
 <li>Projectmanagement: SetProject_RenderRange - added bounds-option for selected regions</li>
-<li>ReaPack: Reapack-API-xml-generator.lua - added installation of Docs-opening-scripts as well. Let's hope, this works.</li>
+<li>ReaPack: Reapack-API-xml-generator.lua - added installation of Docs-opening-scripts as well.</li>
 <li>Render: CreateRenderCFG_AudioCD - improved and lifted limitations for leadin-silence-values</li>
 <li>Render: CreateRenderCFG_MP3ABR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; forgot to add FasterEncode-setting -&gt; fixed now<br />
 </li>
