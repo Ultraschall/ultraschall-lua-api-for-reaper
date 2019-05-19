@@ -83,7 +83,101 @@
                 3ba) if RENDER_FILE is set to anything, the output will be QUEUED_RENDER_ORIGINAL_FILENAME\RENDER_FILE
 
     For 4.00beta2.76:
-        concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
+        - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
+        - TODO!! Add/Set/Delete ParameterLean,Modulation,LFOLearn
+        - TODO!! ultraschall.RenderProject_Loops()
+        - TODO!! Monitor the rendering to file-dialog for queue-renders, to get the rendered filenames, using a background script, if possible at all
+        - TODO!! GetUserInputs 
+                - set length of caption-textfields and move inputboxes accordingly, as well as the width of the DialogWindow AND
+                  position it correctly centered
+                - Captions ending with \n shall be the full width of the window(for full readability of the caption), where the 
+                  associated inputbox is moved into the next line,which means, that all lines must be moved downwards properly 
+                  and height must be adjusted accordingly
+                - additional parameters, x,y, to set a position of the GetUserInput-window
+                - maybe auto_size, using caption length and input-box-default-value length to get the desired widths(needs GetLength of Text working somehow, using
+                  JS-extension-plugin)
+        - TODO!! SetProjectZeug fertig machen
+        - TODO!! localization:
+            boolean retval, string errors = ultraschall.Localize_UseLocalizeFile(string localizationfile, string section)
+                sets internal variables 
+                    ultraschall.Localize_File    - the filename+path of the translation-file, if no path is given, it is GetResourcePath().."/LangPack/"
+                    ultraschall.Localize_Section - the section used
+                    ultraschall.Localized_File_Content - a table, which holds the translated texts from the localize-file, using the untranslated text as index
+            Should return possible parsing-errors as retval errors, so one can see, whether there's a faulty entry in localization-file and in which line.
+            
+            ultraschall.Localize_ReloadLocalization()
+                    reloads the contents of ultraschall.Localized_File_Content, for automatic updating of translated texts in translationfile during runtime
+            
+            ultraschall.Localize(string text)
+                translates the text in text into the translated version, stored in file ultraschall.Localize_File, section ultraschall.Localize_Section
+                if text can't be found, it will simply return the text passed as parameter.
+            
+            Translationfile is of structure(maybe simplifying possible?)
+            
+            -- for multilined texts, the translated_text-tag directly underneath original_text-tag is the translation of original_text-tag
+            -- newlines with only spaced/tabs are allowed inbetween them, anything else means, original text is untranslated
+            <section "sectionname">
+                <original_text>
+                    original_text
+                    with_newlines1
+                </original_text>
+                <translated_text>
+                    übersetzter Text1
+                    mit newlines
+                </translated_text>
+            </section>
+            
+            -- for  single-lined texts
+            <section "sectionname">
+                <localized original="original_text" translated="translated_text"/>
+                <localized original="original_text2" translated="translated_text2"/>
+                <localized original="original_text3" translated="translated_text3"/>
+            </section>
+            
+            -- for mixed
+            <section "sectionname">
+                <original_text>
+                    original_text
+                    with_newlines1
+                </original_text>
+                <translated_text>
+                    übersetzter Text1
+                    mit newlines
+                </translated_text>
+                <localized original="original_text"  translated="translated_text"/>
+                <localized original="original_text2" translated="translated_text2"/>
+                <localized original="original_text3" translated="translated_text3"/>
+            </section>
+        - TODO!! ChildScripts: Run code directly
+                    Folgende Idee:
+                    Ich füge 100 dummy-scripte in Reaper hinzu, die Folgendes in etwa tun(an Beispiel von Skript 1):
+                        MyGuid=reaper.GetExtState("ultraschall", "DummyScript001_Guid")
+                        RunScript=reaper.GetExtState("ultraschall", "DummyScript001_Scriptfile")
+                        
+                        reaper.SetExtState("ultraschall", "DummyScript001_Guid", "", false)
+                        reaper.SetExtState("ultraschall", "DummyScript001_Scriptfile", "", false)
+                        
+                        
+                        dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+                        ultraschall.ScriptIdentifier="BlaBlascriptidentifier"..guid..".luasomething"
+                            
+                        
+                        dofile(RunScript)
+                        
+                   Das Skript kann ich nun per ExtStates befüllen mit den notwendigen Sachen(Guid und Scriptfile), die es braucht um zu laufen und es starten.
+                   In Skriptfile kann ich nun den Code packen, der ausgeführt werden soll, per WriteValueToFile.
+                   Wichtig ist dabei: ich muss, bevor ich ein ChildSkript nutzen kann, checken, ob reaper.GetExtState("ultraschall", "DummyScriptXXX_Guid")=="" ist, sonst muss ich XXX solange höherzählen und checken, bis ich einen freies Skript finde.
+                   Das dient dazu zu verhindern, dass ein Skript doppelt befüllt wird, noch bevor es gestartet werden kann(RaceCondition oder DiningPhilosophers).
+                   
+                   Eventuell: Solche Skripte müssen davon ausgehen, dass sie in Skripts gestartet wurden, sonst finden sie relative-filenamen als Dateien nicht mehr
+                   Eventuell: Muss ich get_action_context mir hacken, damit es das gerunnte Skript anzeigt? Dunno.
+                   
+                   Wichtig: Die US-API muss dann beim initialisiern checken, ob sie schon gestartet wurde und dann das Initialisieren skippen, sonst kanns sein, dass man in diesen ChildSkripten die US-API doppelt reinholt.
+                   Wichtig: Ich muss es irgendwie schaffen, dass die Dummy-Skripte in der kb.ini als Run another instance geführt werden, sonst poppt dieser dumme Dialog auf.
+        
+                   Vielleicht kann ich das auch nutzen, um Skripte allgemein zu starten, aber nur dann, wenn ich das "Wo bin ich"-Relative, Absolute-Pfadproblem vorher löse. Sonst geht das Skript davon aus im Ursprungsverzeichnis zu liegen, nicht in Scripts.
+                   Dunno, wie wichtig das ist zu machen, oder ob das nicht eigentlich egal ist, weil die Standardverzeichnisse von denen Skripte ausgehen ohnehin nur die von Reaper sind(check that plz)
+        
     For 4.00beta2.8:
         TODO!! Multipass-rendering
                     When you want to render out a "wet"-loop, that needs reverb or something, you would need to render this loop three times:
