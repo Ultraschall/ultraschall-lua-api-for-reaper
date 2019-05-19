@@ -453,7 +453,7 @@ end
 
 
 for i=1, Docs[1] do
-  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Docs[i+1].."\" type=\"script\">"..Url.."/ultraschall_api/Scripts/"..Docs[i+1].."</source>\n"
+  XML_file=XML_file.."\t<source main=\"true\" file=\"/"..Docs[i+1].."\" type=\"script\">"..Url2.."/ultraschall_api/Scripts/"..Docs[i+1].."</source>\n"
 end
 
 --  print2(XML_file:sub(-1000,-1))
