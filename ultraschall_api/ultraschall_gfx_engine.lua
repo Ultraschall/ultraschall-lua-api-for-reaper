@@ -688,7 +688,7 @@ function ultraschall.GFX_GetMouseCap(doubleclick_wait, drag_wait)
       integer drag_x  - the x-position of the mouse-dragging-coordinate; is like click_x for non-dragging mousestates
       integer drag_y  - the y-position of the mouse-dragging-coordinate; is like click_y for non-dragging mousestates
       integer mouse_wheel - the mouse_wheel-delta, since the last time calling this function
-      integer mouse_hwheel - the mouse_wheel-delta, since the last time calling this function
+      integer mouse_hwheel - the mouse_horizontal-wheel-delta, since the last time calling this function
   </retvals>
   <chapter_context>
     Mouse Handling
@@ -698,7 +698,7 @@ function ultraschall.GFX_GetMouseCap(doubleclick_wait, drag_wait)
   <tags>gfx, functions, mouse, mouse cap, leftclick, rightclick, doubleclick, drag, wheel, mousewheel, horizontal mousewheel</tags>
 </US_DocBloc>
 ]]
-HUI=reaper.time_precise()
+--HUITOO=reaper.time_precise()
   -- prepare variables
   if ultraschall.mouse_last_mousecap==nil then
     -- if mouse-function hasn't been used yet, initialize variables
@@ -722,11 +722,16 @@ HUI=reaper.time_precise()
   if ultraschall.mouse_last_hwheel~=gfx.mouse_hwheel or ultraschall.mouse_last_wheel~=gfx.mouse_wheel then
     ultraschall.mouse_last_hwheel=math.floor(gfx.mouse_hwheel)
     ultraschall.mouse_last_wheel=math.floor(gfx.mouse_wheel)
-    gfx.mouse_hwheel=0
-    gfx.mouse_wheel=0
   end
+  gfx.mouse_hwheel=0
+  gfx.mouse_wheel=0
   
-  if gfx.mouse_cap==0 then
+  local newmouse_cap=0
+  if gfx.mouse_cap&1~=0 then newmouse_cap=newmouse_cap+1 end
+  if gfx.mouse_cap&2~=0 then newmouse_cap=newmouse_cap+2 end
+  if gfx.mouse_cap&64~=0 then newmouse_cap=newmouse_cap+64 end
+  
+  if newmouse_cap==0 then
   -- if no mouse_cap is set, reset all counting-variables and return just the basics
     ultraschall.mouse_last_mousecap=0
     ultraschall.mouse_dragcounter=0
@@ -741,7 +746,7 @@ HUI=reaper.time_precise()
   end
   if ultraschall.mouse_clickblock==false then
     
-    if gfx.mouse_cap~=ultraschall.mouse_last_mousecap then
+    if newmouse_cap~=ultraschall.mouse_last_mousecap then
       -- first mouseclick
       if ultraschall.mouse_dblclick~=1 or (ultraschall.mouse_lastx==gfx.mouse_x and ultraschall.mouse_lasty==gfx.mouse_y) then
 
@@ -751,7 +756,7 @@ HUI=reaper.time_precise()
           ultraschall.mouse_dblclick=1
           ultraschall.mouse_dblclick_counter=0
         elseif ultraschall.mouse_dblclick==1 and ultraschall.mouse_dblclick_counter<doubleclick_wait 
-            and ultraschall.mouse_last_clicked_mousecap==gfx.mouse_cap then
+            and ultraschall.mouse_last_clicked_mousecap==newmouse_cap then
           -- when doubleclick occured, gfx.mousecap is still the same as the last clicked mousecap:
           -- block further mouseclick, until mousebutton is released and return doubleclick-values
           ultraschall.mouse_dblclick=2
@@ -767,12 +772,12 @@ HUI=reaper.time_precise()
       end
       -- in every other case, this is a first-click, so set the appropriate variables and return 
       -- the first-click state and values
-      ultraschall.mouse_last_mousecap=gfx.mouse_cap
-      ultraschall.mouse_last_clicked_mousecap=gfx.mouse_cap
+      ultraschall.mouse_last_mousecap=newmouse_cap
+      ultraschall.mouse_last_clicked_mousecap=newmouse_cap
       ultraschall.mouse_lastx=gfx.mouse_x
       ultraschall.mouse_lasty=gfx.mouse_y
       return "CLK", "FirstCLK", gfx.mouse_cap, ultraschall.mouse_lastx, ultraschall.mouse_lasty, ultraschall.mouse_lastx, ultraschall.mouse_lasty, ultraschall.mouse_last_wheel, ultraschall.mouse_last_hwheel
-    elseif gfx.mouse_cap==ultraschall.mouse_last_mousecap and ultraschall.mouse_dragcounter<drag_wait
+    elseif newmouse_cap==ultraschall.mouse_last_mousecap and ultraschall.mouse_dragcounter<drag_wait
       and (gfx.mouse_x~=ultraschall.mouse_lastx or gfx.mouse_y~=ultraschall.mouse_lasty) then
       -- dragging when mouse moves, sets dragcounter to full waiting-period
       ultraschall.mouse_endx=gfx.mouse_x
@@ -780,12 +785,12 @@ HUI=reaper.time_precise()
       ultraschall.mouse_dragcounter=drag_wait
       ultraschall.mouse_dblclick=0
       return "CLK", "DRAG", gfx.mouse_cap, ultraschall.mouse_lastx, ultraschall.mouse_lasty, ultraschall.mouse_endx, ultraschall.mouse_endy, ultraschall.mouse_last_wheel, ultraschall.mouse_last_hwheel
-    elseif gfx.mouse_cap==ultraschall.mouse_last_mousecap and ultraschall.mouse_dragcounter<drag_wait then
+    elseif newmouse_cap==ultraschall.mouse_last_mousecap and ultraschall.mouse_dragcounter<drag_wait then
       -- when clicked but mouse doesn't move, count up, until we reach the countlimit for
       -- activating dragging
       ultraschall.mouse_dragcounter=ultraschall.mouse_dragcounter+1
       return "CLK", "CLK", gfx.mouse_cap, ultraschall.mouse_lastx, ultraschall.mouse_lasty, ultraschall.mouse_endx, ultraschall.mouse_endy, ultraschall.mouse_last_wheel, ultraschall.mouse_last_hwheel
-    elseif gfx.mouse_cap==ultraschall.mouse_last_mousecap and ultraschall.mouse_dragcounter==drag_wait then
+    elseif newmouse_cap==ultraschall.mouse_last_mousecap and ultraschall.mouse_dragcounter==drag_wait then
       -- dragging, after drag-counter is set to full waiting-period
       ultraschall.mouse_endx=gfx.mouse_x
       ultraschall.mouse_endy=gfx.mouse_y

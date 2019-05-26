@@ -1,18 +1,343 @@
 <TODO>
     
     API 4.00beta2.75
-TODO!!
->Render to File-dialog -> FLAC
-    1002  FLAC encoding depth-dropdownlist  -   ComboBox
-    1003  Data compression-dropdownlist     -   ComboBox
-    65535  FLAC encoding depth:             -   Static
-    
-    is missing a static-text for "compression"
-    
-TODO!! don't include folder temp in creation of the reapack-index
-TODO!! Downloads.html -> autogenerate to automatically include the correct zip-file-downloadlink
-TODO!! winterlysnowflakes - should be initialized only, when WinterlySnowflakes is started the first time; otherwise makes calling API more laggy than useful
-TODO!! buggy function, crashes Reaper on Mac for some reason...try to fix it
+      Done: keep it as docs in here:
+             RenderProject_RenderCfg - new implementation, that exploits the render-queue, rather the reopening of a project
+                                       should work with opened projects, but still unknown, how to add unopened projects properly and how to find out the rendered files afterwards...
+                                       maybe that way: RENDER_FILE contains the path, where the file is stored in, either with or without the actual filename(the latter when using RENDER_PATTERNS).
+                                       I just need to take a "file_in_path_snapshot" before and after the rendering, get rid of the files that are there before AND after and what's left if the newly rendered file(s).
+                                       Could this work? Try it.
+                                       
+                                       Other notes for that follow now:
+                                       
+            Renderpattern:
+                    der Renderpath kommt in RENDER_FILE rein, wenn dieser nicht gesetzt ist, wird das Verzeichnis genommen, in der das rpp liegt
+
+                    Wenn man RENDER_PATTERN nutzt und gleichzeitig einen "Dateinamen" bei RENDER_FILE einträgt, so wird ein Unterverzeichnis angelegt, in das reingerendert wird.
+                    Sprich: Ich muss vorher noch checken, ob der Renderpath ein gültiger ist
+
+
+                    Pfad zu relativen Dateien:
+                          RECORD_PATH "Recordingss" ""
+                          
+                          ist der Record-Path, der im Projektverzeichnis liegt.
+                          Sprich: Pfad/Projektdatei.rpp wird zu Pfad/Record_Path
+                          
+                          Zu klären ist noch, wie das mit dem secondary-record-path geht...
+                          
+                          Reaper selbst macht beim speichern aus relativen Pfaden absolute Pfade, wenn es nötig ist, außer beim
+                          erstellen von queue-renderfiles, wo sämtliche Pfade absolutiert werden.
+                          Sprich: alle Pfad/Record_Path-Angaben kann ich in relativ ändern, um das ursprüngliche ProjectStateChunk zu bekommen
+
+
+                    RenderQueue:
+                    QUEUED_RENDER_OUTFILE "C:\Users\meo\Documents\REAPER Media\untitled.flac" 0 {EB98934F-A3C1-403D-AC70-7F07975740C1}
+
+                    QUEUED_RENDER_OUTFILE renderfilename_with_path_for_queue  integer various_checkboxes  string guid
+                        integer various_checkboxes - &1, Automatically close when finished-checkbox(Rendering to file...)
+                                                     &16, Silently increment filenames to avoid overwriting
+                                                     &65537, Save copy of project to outfile.wav.RPP
+                                                     
+
+                    stores the output-filename with path for the render-queue. If omitted while project is in QueuedRenders, the renderfilename will be created like a regular projectfile
+
+
+                    QUEUED_RENDER_ORIGINAL_FILENAME string projectfilename
+
+                    stores the original filename of the project
+                    
+                    RENDER_QDELAY 30 - the render-queue-delay time in seconds, between   RENDER_ADDTOPROJ 0 and RENDER_STEMS 0
+
+      
+                    The queue-filename MUST have the following namingpattern: qrender_123456_123456_projectname.RPP, 
+                                      where the first number is a datestamp yymmdd and the second a timestamp hhmmss.
+                                      the projectname is optional BUT the _ before it is mandatory. Otherwise, Reaper 
+                                      stops rendering with an error!
+      
+      More Notes on Queued Rendering:
+            If RENDER_PATTERN is set, RENDER_NAME will be seen as folder.
+            If neither RENDER_NAME, RENDER_PATTERN or QUEUED_RENDER_OUTFILE are set, Reaper will use the folder in
+                QUEUED_RENDER_ORIGINAL_FILENAME as export-folder.
+            If none of them is set, not even QUEUED_RENDER_ORIGINAL_FILENAME, the files will be exported to the QueuedRenders-folder as
+            -001.ext, -002.ext, etc
+            
+      Multiple exported files are always according the numbering filename-001.ext, filename-002.ext, etc, 
+      where filename-001.ext is the one for the master-track, if stem+master-rendering is set.
+      
+      Check in the exportfolder, if there are new files. Needs a new function "GetRenderExportFolderOfProject(string projectname)"
+      which checks, according to the former rules, which exportfolder is used.
+      
+      For QueuedOutput-folders:
+          1) if RENDER_PATTERN does not exist, RENDER_FILE "" or RENDER_FILE does not exist and QUEUED_RENDER_ORIGINAL_FILENAME and QUEUED_RENDER_OUTFILE do no exist:
+                outputfolder is the project-folder
+           
+          2) if RENDER_FILE is set and RENDER_PATTERN does not exist or isn't set, RENDER_FILE is the filename+path
+            2a) if RENDER_FILE has no absolute path, the QUEUED_RENDER_ORIGINAL_FILENAME\RENDER_FILE\ will be export path
+               2ab) if QUEUED_RENDER_ORIGINAL_FILENAME does not exist, QueuedRenders\RENDER_FILE\ will be the exportfolder
+          
+          3) if RENDER_PATTERN is set to anything, RENDER_FILE will be the exportfolder
+            3a) if RENDER_FILE isn't set to anything, the export-folder will be QueuedRenders\
+            3b) if QUEUED_RENDER_ORIGINAL_FILENAME exists it will be the exportfolder
+                3ba) if RENDER_FILE is set to anything, the output will be QUEUED_RENDER_ORIGINAL_FILENAME\RENDER_FILE
+
+    For 4.00beta2.76:
+        - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
+        - TODO!! Add/Set/Delete ParameterLean,Modulation,LFOLearn
+        - TODO!! ultraschall.RenderProject_Loops()
+        - TODO!! Monitor the rendering to file-dialog for queue-renders, to get the rendered filenames, using a background script, if possible at all
+        - TODO!! GetUserInputs 
+                - set length of caption-textfields and move inputboxes accordingly, as well as the width of the DialogWindow AND
+                  position it correctly centered
+                - Captions ending with \n shall be the full width of the window(for full readability of the caption), where the 
+                  associated inputbox is moved into the next line,which means, that all lines must be moved downwards properly 
+                  and height must be adjusted accordingly
+                - additional parameters, x,y, to set a position of the GetUserInput-window
+                - maybe auto_size, using caption length and input-box-default-value length to get the desired widths(needs GetLength of Text working somehow, using
+                  JS-extension-plugin)
+        - TODO!! SetProjectZeug fertig machen
+        - TODO!! localization:
+            boolean retval, string errors = ultraschall.Localize_UseLocalizeFile(string localizationfile, string section)
+                sets internal variables 
+                    ultraschall.Localize_File    - the filename+path of the translation-file, if no path is given, it is GetResourcePath().."/LangPack/"
+                    ultraschall.Localize_Section - the section used
+                    ultraschall.Localized_File_Content - a table, which holds the translated texts from the localize-file, using the untranslated text as index
+            Should return possible parsing-errors as retval errors, so one can see, whether there's a faulty entry in localization-file and in which line.
+            
+            ultraschall.Localize_ReloadLocalization()
+                    reloads the contents of ultraschall.Localized_File_Content, for automatic updating of translated texts in translationfile during runtime
+            
+            ultraschall.Localize(string text)
+                translates the text in text into the translated version, stored in file ultraschall.Localize_File, section ultraschall.Localize_Section
+                if text can't be found, it will simply return the text passed as parameter.
+            
+            Translationfile is of structure(maybe simplifying possible?)
+            
+            -- for multilined texts, the translated_text-tag directly underneath original_text-tag is the translation of original_text-tag
+            -- newlines with only spaced/tabs are allowed inbetween them, anything else means, original text is untranslated
+            <section "sectionname">
+                <original_text>
+                    original_text
+                    with_newlines1
+                </original_text>
+                <translated_text>
+                    übersetzter Text1
+                    mit newlines
+                </translated_text>
+            </section>
+            
+            -- for  single-lined texts
+            <section "sectionname">
+                <localized original="original_text" translated="translated_text"/>
+                <localized original="original_text2" translated="translated_text2"/>
+                <localized original="original_text3" translated="translated_text3"/>
+            </section>
+            
+            -- for mixed
+            <section "sectionname">
+                <original_text>
+                    original_text
+                    with_newlines1
+                </original_text>
+                <translated_text>
+                    übersetzter Text1
+                    mit newlines
+                </translated_text>
+                <localized original="original_text"  translated="translated_text"/>
+                <localized original="original_text2" translated="translated_text2"/>
+                <localized original="original_text3" translated="translated_text3"/>
+            </section>
+        - TODO!! ChildScripts: Run code directly
+                    Folgende Idee:
+                    Ich füge 100 dummy-scripte in Reaper hinzu, die Folgendes in etwa tun(an Beispiel von Skript 1):
+                        MyGuid=reaper.GetExtState("ultraschall", "DummyScript001_Guid")
+                        RunScript=reaper.GetExtState("ultraschall", "DummyScript001_Scriptfile")
+                        
+                        reaper.SetExtState("ultraschall", "DummyScript001_Guid", "", false)
+                        reaper.SetExtState("ultraschall", "DummyScript001_Scriptfile", "", false)
+                        
+                        
+                        dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+                        ultraschall.ScriptIdentifier="BlaBlascriptidentifier"..guid..".luasomething"
+                            
+                        
+                        dofile(RunScript)
+                        
+                   Das Skript kann ich nun per ExtStates befüllen mit den notwendigen Sachen(Guid und Scriptfile), die es braucht um zu laufen und es starten.
+                   In Skriptfile kann ich nun den Code packen, der ausgeführt werden soll, per WriteValueToFile.
+                   Wichtig ist dabei: ich muss, bevor ich ein ChildSkript nutzen kann, checken, ob reaper.GetExtState("ultraschall", "DummyScriptXXX_Guid")=="" ist, sonst muss ich XXX solange höherzählen und checken, bis ich einen freies Skript finde.
+                   Das dient dazu zu verhindern, dass ein Skript doppelt befüllt wird, noch bevor es gestartet werden kann(RaceCondition oder DiningPhilosophers).
+                   
+                   Eventuell: Solche Skripte müssen davon ausgehen, dass sie in Skripts gestartet wurden, sonst finden sie relative-filenamen als Dateien nicht mehr
+                   Eventuell: Muss ich get_action_context mir hacken, damit es das gerunnte Skript anzeigt? Dunno.
+                   
+                   Wichtig: Die US-API muss dann beim initialisiern checken, ob sie schon gestartet wurde und dann das Initialisieren skippen, sonst kanns sein, dass man in diesen ChildSkripten die US-API doppelt reinholt.
+                   Wichtig: Ich muss es irgendwie schaffen, dass die Dummy-Skripte in der kb.ini als Run another instance geführt werden, sonst poppt dieser dumme Dialog auf.
+        
+                   Vielleicht kann ich das auch nutzen, um Skripte allgemein zu starten, aber nur dann, wenn ich das "Wo bin ich"-Relative, Absolute-Pfadproblem vorher löse. Sonst geht das Skript davon aus im Ursprungsverzeichnis zu liegen, nicht in Scripts.
+                   Dunno, wie wichtig das ist zu machen, oder ob das nicht eigentlich egal ist, weil die Standardverzeichnisse von denen Skripte ausgehen ohnehin nur die von Reaper sind(check that plz)
+        
+    For 4.00beta2.8:
+        TODO!! Multipass-rendering
+                    When you want to render out a "wet"-loop, that needs reverb or something, you would need to render this loop three times:
+                            one to start up all reverbs, two for the actual loop and three for the "loop aftermath"
+                    After that, you need to edit this rendered file down to the middle part by hand, which is tedious.
+                    If there's a rendering-function could do that automatically, it would be cool.
+                        Load the project(if not the current one)
+                        Copy the tracks with the to be looped items/timeselection into an empty project, which must hold all rendering-settings(looped-time-selection probably)
+                        duplicate it so the items are now three times after each other
+                        Render it out and include the rendered file into the current project(maybe as stems?)
+                        edit it down to the original loop
+                        Render that out into a new file
+                        Delete the temp-rendered-files
+                        close the projects and return the filename
+        TODO!!: add this to undo-functions, as they are the explanation of the extraflags
+        #ifndef UNDO_STATE_ALL
+        #define UNDO_STATE_ALL 0xFFFFFFFF
+        #define UNDO_STATE_TRACKCFG 1 // has track/master vol/pan/routing, ALL envelopes (matser included)
+        #define UNDO_STATE_FX 2  // track/master fx
+        #define UNDO_STATE_ITEMS 4  // track items
+        #define UNDO_STATE_MISCCFG 8 // loop selection, markers, regions, extensions!
+        #endif
+
+      
+      TODO!! GetTrackPanLaw_Boost(tracknumber, sendidx, setstate)
+                    setstate=true -> don't insert it
+                    setstate=false -> insert it AFTER the AUXRECV with idx "sendidx"
+                    
+                    only possible using TrackStateChunks, so no speedup possible
+      TODO!! Statechunk-Docs, when Reaper 5.974 or later is released:   + Item notes: optionally display image notes in full height mode
+                                                                         new Item/AI-items/Track/Take-extstates from pre-releases
+                                                                         AUXRECV is missing in the statechunk-docs, maybe other routing-stuff as well?
+                                                                                    funfact - -1:U entry is pan_law, go into a routing-setting and rightclick the pan-slider of a receive to get this dialog
+                                                                         AUXRECV_WITHOUT_PANLAW_BOOST - if existing after a AUXRECV, pan_law has the Gain compensation (boost pans)-checkbox set
+                                                                                                        go into a routing-setting and rightclick the pan-slider of a receive to get this dialog
+      TODO!! Doccreation: - retvals and parameters don't convert MD2HTML in functions-engine-docconverter
+      TODO!!  - issue with parameters/retvals in USDocML-files: nil-error, when a retval/parameter entry is only 
+                <retvals>
+                    -
+                </retvals> 
+                also has an issue, when an empty line occurs, between numerous - It ends interpretation at that point.
+                like that:
+                   -
+                   
+                   -
+      Maybe rewrite Doccreation from scratch with proper css.
+           
+           
+      TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
+             produziert die API Fehler.
+      TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
+                Needs first functions for activating Envelopes, but they don't exist, until they are displayed.
+                I might have to add non-activated envelopes by adding env-statechunks into TrackStateChunks.
+      TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
+      TODO!!  - totype(value, string type), converts a value to type and returns it, if impossible, returns nil; includes string, boolean, integer, float, hex, oct, base64, etc
+      TODO!!  - SetStateChunk-functions: how to check for ProjectStateChunk/TrackStateChunk/ItemStateChunk/EnvStateChunk, when new parameters are added to the function?
+                                         something with ... ? Otherwise, new added parameters will break old scripts...
+      TODO!!  - import/export Bonus-script-packs-functions(for importing and registering additional bonus scripts)
+      TODO!!  - Add3rdParty-Script-support/functions-support
+      TODO!!  - AddUltraschallScripts() AddUltraschall3rdPartyScripts() add all 3rd party-scripts from the 3rd-party-US-folder
+            also add scripts to do that, that will be registered into the ActionList together with the ShowUSApiHelp-script as well
+            Note: Should be a script, rather than a function. Easier to handle.
+      TODO!!  - Import3rdPartyScripts(string filelist, integer script_target, boolean add)
+              copies files from filelist into script_target
+              script_target - 0, scripts-folder
+                            - 1, ultraschall-3rd-party-scripts-folder
+                            --1, don't copy files
+              boolean add - true, add the scripts to the actionlist; false, remove them from the action-list
+      TODO!!  - create HTML-docs from all files in the functions-department of Ultraschall/3rd-party-functions
+      TODO!!  - Show$ContextMenu() - ShowPopupMenu is too complicated to use. Create proper useable functions to address that
+      TODO!!  - GFX: virtual screenbuffers(create/remove/blit)
+                - probably useless and tow slow
+      TODO!!  - ultraschall.gfx_getkey(integer buffer), allows pipe-ing of UserInput directly into a textbuffer. The textbuffer acts like a invisible textbox, which can be shown using drawstr or something
+                                                        must support arrow, bspc, enter, return, copynpaste as well
+
+      TODO!!  - functions to setup the LICECAP-settings, before running it; a function to run LiceCap
+            set filename with .gif or .lcf to set the default filetype used!
+      TODO!!  - functions for native-colorstuff like, gradients, hue
+            as well as the same functions for a colorarray, which has a number of colors inside of it, that can be contrasted, gradiented, etc
+            they shall support gfx.init-color-values as output(boolean gfx.init-colorvalues (0 to 1)
+            Already started with ColorTables for Colorpicker(!!!!)
+      TODO!!  - GetAllTakesFromMediaItem - returns an array with all takes from an item, objects as well as info_values
+      TODO!!  - Get/SetProjectBay-functions
+      TODO!!  - Envelope-StateChunk-functions
+      TODO!!  - Get/SetProject-functions for
+                    RENDER_QUEUE-stuff
+                   
+                   as well as
+                  - SetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
+                  - SetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk
+                  - SetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk
+                  - SetProject_MasterPlayspeed - gets the statechunk for all master-playspeed-settings from a project/ProjectStateChunk
+                  - SetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk
+                  - SetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk
+                  - SetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk
+                  - SetProject_GlobalAuto - returns the global automation override-settings of an rpp-file or ProjectStateChunk
+                  - SetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk
+                  - SetProject_Playrate 
+                  - SetProject_MasterAutomode
+                  - SetProject_MasterSel
+                  - SetProject_MasterFXByp
+                  - SetProject_MasterMuteSolo
+                  - SetProject_MasterNChans
+                  - SetProject_MasterTrackHeight
+                  - SetProject_MasterTrackColor
+                  - SetProject_MasterTrackView
+                  - SetProject_CountMasterHWOuts
+                  - SetProject_MasterHWOut
+                  
+                  - SetProject_MasterVolume - 
+                  - SetProject_MasterPanMode - 
+                  - SetProject_MasterWidth - 
+                  - SetProject_MasterGroupFlagsState - 
+                  - SetProject_MasterGroupFlagsHighState - 
+                  - SetProject_GroupDisabled - 
+                  
+                  - SetProject_MasterHWVolEnvStateChunk
+                  - SetProject_MasterFXListStateChunk - 
+                  - SetProject_MasterDualPanEnvStateChunk - 
+                  - SetProject_MasterDualPanEnv2StateChunk - 
+                  - SetProject_MasterDualPanEnvLStateChunk - 
+                  - SetProject_MasterDualPanEnvL2StateChunk - 
+                  - SetProject_MasterVolEnvStateChunk - 
+                  - SetProject_MasterVolEnv2StateChunk - 
+                  - SetProject_MasterVolEnv3StateChunk - 
+                  - SetProject_MasterHWPanEnvStateChunk - 
+                  - SetProject_MasterPanMode_Ex - 
+                  - SetProject_TempoEnv_ExStateChunk
+                  
+               - IsValid-check functions for
+                    - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
+                      MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex   
+    For 4.00Beta 2.9:
+        registering of defer-using-running scripts into an extstate ultraschall->running_script_instance->
+            All ultraschall-API-using scripts will be registered into running_script_instance automatically, when using defer.
+            We will also define an atexit-function for unregistering from the running-script-instance-register, as there can be multiple atexit-functions(up to 1024).
+            That way, we can have monitoring of running scripts.
+            Should allow monitoring of Defer1 to Defer10-running-states as well. Maybe they need to be set at the beginning as well? Or is it waste of resources?(probably the latter, we can assume, if it's not set "running", that defer-instance is not used and set to stopped.            
+        
+        TODO!! Event-System, as defined on the Congress
+            -- too difficult to use, needs a better way to deal with it...
+        TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
+
+      TODO!! SaveProjectAs(ReaProject project, newfilename, relative_sourcefilenames, ProjectStateChunk)
+                 params:
+                    project - the project to save, either ReaProject or projecttab-nr;
+                              0, the currently opened project
+                              nil, use parameter ProjectStateChunk instead
+                    newfilename - the filename under which to store the Project
+                    relative_sourcefile_position - 0, keep absolute paths
+                                                 - 1, make paths relative
+                                                 - 2, make sourcefile-path+filenames relative to the project-folder(hardest option to code)
+                    ProjectStateChunk - a projectstatechunk to use for the save-operation
+                    
+                 retvals:
+                    retval - true, if saving succeeded
+                    projectfilename - the saved projectfilename+path
+                    sourcefiles - an array with all source/map-filenames[1] and their new filenames in relation of their new position[2]
+                                    can be used to copy/move all the sourcefiles into the projectfolder(needs MakeDir(path) as well!)
+              Note: could be doable, using the dialog and a background-script, that fills out the stuff from the back
+
+TODO!! buggy function
         the line "reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)" seems to be the problem due WM_SETFONT
 
 function ultraschall.SetReaScriptConsole_FontStyle(style)
@@ -84,280 +409,240 @@ end
 --ultraschall.SetReaScriptConsole_FontStyle(1)
 --reaper.ShowConsoleMsg("ABCDEFGhijklmnop\n123456789.-,!\"§$%&/()=\n----------\nOOOOOOOOOO")
 
-      TODO!! get/set mode/time_counter for already running loops in my own script, with a function that sets these variables. That way, you can reset the timing-values to some other value(second/cyclevalue)
-      TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
-      TODO!!  - Get Length of all Items in a track GetLengthOfAllItems_Track()
-      TODO!!  - Add options to Normalize-Items-function, as there are numerous different actions for normalizing
-      TODO!!  - Get/SetMarkersFromClipboard-functions
-      TODO!! Reaper-Apidocs: use US-functions-docgenerator for layout
-      TODO!!  - GetLastEnvelopePoint (How to do that with AutomationItems ?)
-      TODO!!  - CreateItemFromTake, which creates a new item from an existing take. Like cropping, but leaves the original untouched.
-      TODO!!  - CropTakeFromItem, which removes a take from an item; maybe allowing multiple ones?
-      TODO!!  - MoveTakeInTakeOrderInMediaitem, which allows changing the order of takes within an item
-      TODO!! Statechunk-Docs, when Reaper 5.974 or later  is released:   + Item notes: optionally display image notes in full height mode
-                                                                         new Item/AI-items/Track/Take-extstates from pre-releases
-                                                                         AUXRECV is missing in the statechunk-docs, maybe other routing-stuff as well?
-                                                                                    funfact - -1:U entry is pan_law, go into a routing-setting and rightclick the pan-slider of a receive to get this dialog
-                                                                         AUXRECV_WITHOUT_PANLAW_BOOST - if existing after a AUXRECV, pan_law has the Gain compensation (boost pans)-checkbox set
-                                                                                                        go into a routing-setting and rightclick the pan-slider of a receive to get this dialog
-      TODO!! GetTrackPanLaw_Boost(tracknumber, sendidx, setstate)
-                    setstate=true -> don't insert it
-                    setstate=false -> insert it AFTER the AUXRECV with idx "sendidx"
-                    
-                    only possible using TrackStateChunks, so no speedup possible
-      TODO!! Doccreation: - wrong number of functions in any other docspage than functions-engine
-                          - retvals(maybe parameters as well?) don't convert MD2HTML in functions-engine-docconverter      
-
-      TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
-             produziert die API Fehler.            
-      TODO!! Event-System, as defined on the Congress
-      TODO!! create renderstring - MP3 has new options as of Reaper 5.965(Do not allow joint stereo, Write ReplayGain tag)
-      TODO!! GetProjectStateChunk - replace all absolute paths, that refer to the recording-path RECORD_PATH
-                                    with their relative counterparts.
-                                    Use the QUEUED_RENDER_ORIGINAL_FILENAME for that replacing of mediafilenamepaths or the projectpath for an unsaved project
-                                    That means: if I find Projectfilepath/Recordingpath in the ProjectStateChunk, exchange it with Recordingpath/
-                                    You should also check, during Reaper rendering the render-queue and I add a new render-file to the queue, if Reaper tries to render that new file as well or if it ignores it. This could be a potential troublemaker.
-                                            Answer: No, Reaper ignores added 
-
-                                  - avoid running this function during rendering; maybe with EnumProjects and the currently rendering project?
-                                        -> ehrmm...what? Because of the render-queue or what?
-                                        
-                                  - for absolute paths, check, whether a specific Source FILE "bla" is existing. If yes, it is absolute, if not, it is relative and must be exchanged with an absolute one.
-                                  - Reaper does the relative/absolute-management itself. That means, relative paths are always in relation to the rpp-file. If the rpp-file is stored somewhere else, where the FILE "" isn't a subfolder/file anymore, Reaper saves the file with absolute-paths to the MediaFiles.
-                                  -- TODO: !! Set selection of first track to selected, if not already
-                                  --          remove selection of first track, if necessary, from ProjectStateChunk and the project
-                                  --        workaround for the render-setting "Stems (selected tracks)"
-      
-
-      TODO!! RenderProject_RenderCfg - new implementation, that exploits the render-queue, rather the reopening of a project
-                                       should work with opened projects, but still unknown, how to add unopened projects properly and how to find out the rendered files afterwards...
-                                       maybe that way: RENDER_FILE contains the path, where the file is stored in, either with or without the actual filename(the latter when using RENDER_PATTERNS).
-                                       I just need to take a "file_in_path_snapshot" before and after the rendering, get rid of the files that are there before AND after and what's left if the newly rendered file(s).
-                                       Could this work? Try it.
-                                       
-                                       Other notes for that follow now:
-                                       
-            Renderpattern:
-                    der Renderpath kommt in RENDER_FILE rein, wenn dieser nicht gesetzt ist, wird das Verzeichnis genommen, in der das rpp liegt
-
-                    Wenn man RENDER_PATTERN nutzt und gleichzeitig einen "Dateinamen" bei RENDER_FILE einträgt, so wird ein Unterverzeichnis angelegt, in das reingerendert wird.
-                    Sprich: Ich muss vorher noch checken, ob der Renderpath ein gültiger ist
-
-
-                    Pfad zu relativen Dateien:
-                          RECORD_PATH "Recordingss" ""
-                          
-                          ist der Record-Path, der im Projektverzeichnis liegt.
-                          Sprich: Pfad/Projektdatei.rpp wird zu Pfad/Record_Path
-                          
-                          Zu klären ist noch, wie das mit dem secondary-record-path geht...
-                          
-                          Reaper selbst macht beim speichern aus relativen Pfaden absolute Pfade, wenn es nötig ist, außer beim
-                          erstellen von queue-renderfiles, wo sämtliche Pfade absolutiert werden.
-                          Sprich: alle Pfad/Record_Path-Angaben kann ich in relativ ändern, um das ursprüngliche ProjectStateChunk zu bekommen
-
-
-                    RenderQueue:
-                    QUEUED_RENDER_OUTFILE "C:\Users\meo\Documents\REAPER Media\untitled.flac" 0 {EB98934F-A3C1-403D-AC70-7F07975740C1}
-
-                    QUEUED_RENDER_OUTFILE renderfilename_with_path_for_queue  integer unknown string guid
-
-                    stores the output-filename with path for the render-queue. If omitted while project is in QueuedRenders, the renderfilename will be created like a regular projectfile
-
-
-                    QUEUED_RENDER_ORIGINAL_FILENAME string projectfilename
-
-                    stores the original filename of the project
-      
-                    The queue-filename MUST have the following namingpattern: qrender_123456_123456_projectname.RPP, 
-                                      where the first number is a datestamp yymmdd and the second a timestamp hhmmss.
-                                      the projectname is optional BUT the _ before it is mandatory. Otherwise, Reaper 
-                                      stops rendering with an error!
-      
-      More Notes on Queued Rendering:
-            If RENDER_PATTERN is set, RENDER_NAME will be seen as folder.
-            If neither RENDER_NAME, RENDER_PATTERN or QUEUED_RENDER_OUTFILE are set, Reaper will use the folder in
-                QUEUED_RENDER_ORIGINAL_FILENAME as export-folder.
-            If none of them is set, not even QUEUED_RENDER_ORIGINAL_FILENAME, the files will be exported to the QueuedRenders-folder as
-            -001.ext, -002.ext, etc
-            
-      Multiple exported files are always according the numbering filename-001.ext, filename-002.ext, etc, 
-      where filename-001.ext is the one for the master-track, if stem+master-rendering is set.
-      
-      Check in the exportfolder, if there are new files. Needs a new function "GetRenderExportFolderOfProject(string projectname)"
-      which checks, according to the former rules, which exportfolder is used.
-      
-      For QueuedOutput-folders:
-          1) if RENDER_PATTERN does not exist, RENDER_FILE "" or RENDER_FILE does not exist and QUEUED_RENDER_ORIGINAL_FILENAME and QUEUED_RENDER_OUTFILE do no exist:
-                outputfolder is the project-folder
-           
-          2) if RENDER_FILE is set and RENDER_PATTERN does not exist or isn't set, RENDER_FILE is the filename+path
-            2a) if RENDER_FILE has no absolute path, the QUEUED_RENDER_ORIGINAL_FILENAME\RENDER_FILE\ will be export path
-               2ab) if QUEUED_RENDER_ORIGINAL_FILENAME does not exist, QueuedRenders\RENDER_FILE\ will be the exportfolder
-          
-          3) if RENDER_PATTERN is set to anything, RENDER_FILE will be the exportfolder
-            3a) if RENDER_FILE isn't set to anything, the export-folder will be QueuedRenders\
-            3b) if QUEUED_RENDER_ORIGINAL_FILENAME exists it will be the exportfolder
-                3ba) if RENDER_FILE is set to anything, the output will be QUEUED_RENDER_ORIGINAL_FILENAME\RENDER_FILE
-
-                                                      
-                                                      
-      TODO!! Functionshook in Render-functions.
-                before the render project using last render settings-action is triggered, it should be possible to run a function that "prepares" the project for rendering
-                
-                possible, when using the renderqueue? Nope!
-                
-      TODO!! Rendering "pre-trail"-management, where a to be rendered project gets adds some silence in the beginning of the project, so possible "CPU needs to run up to fully calculate the rendering" will happen first.
-                sometimes issue in render-queues
-      TODO!! Multipass-rendering
-                When you want to render out a "wet"-loop, that needs reverb or something, you would need to render this loop three times:
-                        one to start up all reverbs, two for the actual loop and three for the "loop aftermath"
-                After that, you need to edit this rendered file down to the middle part by hand, which is tedious.
-                If there's a rendering-function could do that automatically, it would be cool.
-                    Load the project(if not the current one)
-                    Copy the tracks with the to be looped items/timeselection into an empty project, which must hold all rendering-settings(looped-time-selection probably)
-                    duplicate it so the items are now three times after each other
-                    Render it out and include the rendered file into the current project(maybe as stems?)
-                    edit it down to the original loop
-                    Render that out into a new file
-                    Delete the temp-rendered-files
-                    close the projects and return the filename
-      TODO!!  - RenderProjectRegions_RenderCFG2  and RenderProject_RenderCFG2 - set RenderPattern instead of RenderFilenameWithPath
-      TODO!!  - RenderProjectRegions_RenderCFG3  and RenderProject_RenderCFG3 - set Track(s) to be rendered
-      TODO!!  - Renderfunctions - full featured Video; add GIF, LCF
-      TODO!!  - MP4 on Mac-Rendering
-                                                      
-
-
-      TODO!!  - issue with parameters/retvals in USDocML-files: nil-error, when a retval/parameter entry is only 
-                <retvals>
-                    -
-                </retvals> 
-                also has an issue, when an empty line occurs, between numerous - It ends interpretation at that point.
-                like that:
-                   -
-                   
-                   -
-
-
-      TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
-
-      
-    For 4.00beta2.8:
-      TODO!!  - totype(value, string type), converts a value to type and returns it, if impossible, returns nil; includes string, boolean, integer, float, hex, oct, base64, etc
-      TODO!! MediaItemArrays should include possible ItemExtStates as well. Need a copy of TrackExtStates as well.
-             Importfunctions must allow importing the ItemExtStates as well.
-      TODO!!  - SetStateChunk-functions: how to check for ProjectStateChunk/TrackStateChunk/ItemStateChunk/EnvStateChunk, when new parameters are added to the function?
-                                         something with ... ? Otherwise, new added parameters will break old scripts...
-      TODO!! ultraschall.SortTableByCertainTableEntry - sorts a table by a certain entry in the table
-                                                      - like table[4][2][1]
-                                                      probably impossible, cause, how to pass [2][1] as parameter?
-      TODO!!  - Envelope-ExtStates
-      TODO!!  - import/export Bonus-script-packs-functions(for importing and registering additional bonus scripts)
-      TODO!!  - Add3rdParty-Script-support/functions-support
-      TODO!!  - AddUltraschallScripts() AddUltraschall3rdPartyScripts() add all 3rd party-scripts from the 3rd-party-US-folder
-            also add scripts to do that, that will be registered into the ActionList together with the ShowUSApiHelp-script as well
-      TODO!!  - Import3rdPartyScripts(string filelist, integer script_target, boolean add)
-              copies files from filelist into script_target
-              script_target - 0, scripts-folder
-                      - 1, ultraschall-3rd-party-scripts-folder
-                      - -1, don't copy files
-              boolean add - true, add the scripts to the actionlist; false, remove them from the action-list
-      TODO!!  - create HTML-docs from all files in the functions-department of Ultraschall/3rd-party-functions
-      TODO!!  - Show$ContextMenu() - ShowPopupMenu is too complicated to use. Create proper useable functions to address that
-      TODO!!  - GFX: virtual screenbuffers(create/remove/blit)
-      TODO!!  - ultraschall.gfx_getkey(integer buffer), allows pipe-ing of UserInput directly into a textbuffer. The textbuffer acts like a invisible textbox, which can be shown using drawstr or something
-                                                        must support arrow, bspc, enter, return, copynpaste as well
-
-      TODO!!  - functions to setup the LICECAP-settings, before running it; a function to run LiceCap
-            set filename with .gif or .lcf to set the default filetype used!
-      TODO!!  - functions for native-colorstuff like, gradients, hue
-            as well as the same functions for a colorarray, which has a number of colors inside of it, that can be contrasted, gradiented, etc
-            they shall support gfx.init-color-values as output(boolean gfx.init-colorvalues (0 to 1)
-            Already started with ColorTables for Colorpicker(!!!!)
-      TODO!!  - GetAllTakesFromMediaItem - returns an array with all takes from an item, objects as well as info_values
-      TODO!!  - Get/SetProjectBay-functions
-      TODO!!  - Envelope-StateChunk-functions
-      TODO!!  - Get/SetProject-functions for
-                    RENDER_QUEUE-stuff
-                    
-                  - SetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
-                  - SetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk
-                  - SetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk
-                  - SetProject_MasterPlayspeed - gets the statechunk for all master-playspeed-settings from a project/ProjectStateChunk
-                  - SetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk
-                  - SetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk
-                  - SetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk
-                  - SetProject_GlobalAuto - returns the global automation override-settings of an rpp-file or ProjectStateChunk
-                  - SetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk
-                  - SetProject_Playrate 
-                  - SetProject_MasterAutomode
-                  - SetProject_MasterSel
-                  - SetProject_MasterFXByp
-                  - SetProject_MasterMuteSolo
-                  - SetProject_MasterNChans
-                  - SetProject_MasterTrackHeight
-                  - SetProject_MasterTrackColor
-                  - SetProject_MasterTrackView
-                  - SetProject_CountMasterHWOuts
-                  - SetProject_MasterHWOut
-                  
-                  - SetProject_MasterVolume - 
-                  - SetProject_MasterPanMode - 
-                  - SetProject_MasterWidth - 
-                  - SetProject_MasterGroupFlagsState - 
-                  - SetProject_MasterGroupFlagsHighState - 
-                  - SetProject_GroupDisabled - 
-                  
-                  - SetProject_MasterHWVolEnvStateChunk
-                  - SetProject_MasterFXListStateChunk - 
-                  - SetProject_MasterDualPanEnvStateChunk - 
-                  - SetProject_MasterDualPanEnv2StateChunk - 
-                  - SetProject_MasterDualPanEnvLStateChunk - 
-                  - SetProject_MasterDualPanEnvL2StateChunk - 
-                  - SetProject_MasterVolEnvStateChunk - 
-                  - SetProject_MasterVolEnv2StateChunk - 
-                  - SetProject_MasterVolEnv3StateChunk - 
-                  - SetProject_MasterHWPanEnvStateChunk - 
-                  - SetProject_MasterPanMode_Ex - 
-                  - SetProject_TempoEnv_ExStateChunk
-                  
-               - IsValid-check functions for
-                    - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
-                      MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex   
-    For 4.00Beta 2.9:
-        registering of running scripts into an extstate ultraschall->running_script_instance->
-            All ultraschall-API-using scripts will be registered into running_script_instance automatically.
-            We will also define an atexit-function for unregistering from the running-script-instance-register, as there can be multiple atexit-functions(up to 1024).
-            That way, we can have monitoring of running scripts.
-            Should allow monitoring of Defer1 to Defer10-running-states as well. Maybe they need to be set at the beginning as well? Or is it waste of resources?(probably the latter, we can assume, if it's not set "running", that defer-instance is not used and set to stopped.            
-        
-        TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
-        TODO!!  - ultraschall.ApplyActionToEnvelope(TrackEnvelope, actioncommandid) 
-                          - not possible, as I can't programmatically change the selected envelope...maybe with SetCursorContext, as this allows focusing a trackenvelope, 
-                                  but also sets focus to arrangeview, which is quite brutal
-      TODO!! SaveProjectAs(ReaProject project, newfilename, relative_sourcefilenames, ProjectStateChunk)
-                 params:
-                    project - the project to save, either ReaProject or projecttab-nr;
-                              0, the currently opened project
-                              nil, use parameter ProjectStateChunk instead
-                    newfilename - the filename under which to store the Project
-                    relative_sourcefile_position - 0, keep absolute paths
-                                                 - 1, make paths relative
-                                                 - 2, make sourcefile-path+filenames relative to the project-folder(hardest option to code)
-                    ProjectStateChunk - a projectstatechunk to use for the save-operation
-                    
-                 retvals:
-                    retval - true, if saving succeeded
-                    projectfilename - the saved projectfilename+path
-                    sourcefiles - an array with all source/map-filenames[1] and their new filenames in relation of their new position[2]
-                                    can be used to copy/move all the sourcefiles into the projectfolder(needs MakeDir(path) as well!)
 </TODO>
-
 
 
 ## Ultraschall Framework - Changelog
 
+### 4.00 Beta 2.75: - "Nick Cave & the Bad Seeds - Babe, I'm on fire" - 29th of May 2019
+tagline inspired by a comment from \_stevie\_ ;)
+  
+  **!RenderMania Update!**
+  Has now 935 functions with 95 new ones!
+  
+   - **Rendering** - reworked Rendering completely; you can render the current project now directly, access render-presets and render-queues (thanks to Justin and Schwa for adding the features needed into Reaper)
+   
+   - **Render-Format-strings** - you can create all(!) renderformats available in Reaper as BASE64-encoded strings, as well as analyzing already BASE64-encoded renderstrings(this alone is 44 functions)
+   
+   - **Parameter Learn** - you can get all parameter learn, modulation and lfo-settings, as well as FXStateChunks who store that information, add/set/delete will come later (requested by TonE and Anton9)
+    
+   - **ultraschall.MB** - shows a messagebox and allows exchanging the texts of the buttons with your own texts
+   
+   - **LoadFunctionFromExtState and StoreFunctionInExtState** - lets you pass a Lua-function from one script to another using an extstate, no external files and loads and requires necessary
+
+   - **Docs** - updated docs for Reaper 5.978, SWS 2.10.0.1, JS-extension 0.986
+   
+   - **More Docs** - when you've installed the API using ReaPack, actions will be added for opening the individual parts of the docs, like Reaper API(ReaScript, Video, WebRC), ConfigVars, Ultraschall-Concepts and FunctionsAPI. Type into the Actions-dialog-filter the words "ultraschall" and "help".
+   
+   - **Example Scripts** - when you've installed the API using ReaPack, new actions for registering and unregistering the example-scripts as well as opening the example-script-folder. Type into the Actions-dialog-filter the words "ultraschall" and "examples".
+   
+   - **Even more about docs** - docs for parameter-learn added(thanks to Anton9 for helping me with that) as well as many docs I had lying around(find them in the ResourceFolder/UserPlugins/ultraschall\_api/Misc/misc\_docs-folder)
+
+   - **CleanUp** - removed junk and converted files into smaller fileformats(where applicable), so the API is now 20MB smaller
+   
+   - **Many other helpful functions** - HexString2Ascii2HexString, Get/Set Armstate of Envelopes, DeleteTracks\_TrackString, Get/SetCheckboxState and more
+   
+   - **Bugfixes** - as usual ;)
+
+
+If you find this helpful and use this, please consider donating to me at ultraschall.fm/danke (look for mespotine), paypal(lspmp3@yahoo.de) or patreon.com/mespotine.  
+Might be a small donation for you, but a giant motivation leap for mankind(means: me) ;)
+
+
+#### New features in 4.00beta2.75
+  - Docs: Misc/misc_docs - added this folder to put into that various (often unfinished) docs
+  - Docs: ParmLearnDocs.txt - documented parameter-learn/modulation/alias-settings
+  - Docs: US-Concepts - added description of datatype RenderTable
+  - Docs: US-Concepts - Rendering: About RenderTables; description of how to use and work with RenderTables
+  - Docs: US-Concepts - Rendering: Render Presets; description for how to deal with render-presets
+  - Docs: US-Concepts - Rendering: Render Queue; description for how to render using the render-queue
+  - Envelopes: GetArmState_Envelope - gets the armstate of a TrackEnvelope or EnvelopeStateChunk
+  - Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point from a TrackEnvelope-object
+  - Envelopes: SetArmState_Envelope - sets the armstate of a TrackEnvelope or EnvelopeStateChunk
+  - FXManagement: GetFXStateChunk - Gets an FXStateChunk from a StateChunk(usually Track/MediaItemStateChunk)
+  - FXManagement: GetFXFromFXStateChunk - gets all lines of a specific FX stored in an FXStateChunk
+  - FXManagement: GetParmAlias\_FXStateChunk - gets an aliasname for a specific parameter of an FX
+  - FXManagement: GetParmAlias\_MediaTrack - gets an aliasname for a specific parameter of an FX in a specific track
+  - FXManagement: GetParmAudioControl\_FXStateChunk - gets all settings from the Audio Control Signal-settings from parameter-modulation
+  - FXManagement: GetParmLearn\_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE
+  - FXManagement: GetParmLearn\_MediaItem - gets the parameter-learn-settings from a MediaItem, as requested by TonE
+  - FXManagement: GetParmLearn\_MediaTrack - gets the parameter-learn-settings from a MediaTrack, as requested by TonE
+  - FXManagement: GetParmLFO\_FXStateChunk - gets the LFO-settings from the parameter-modulation from an FXStateChunk
+  - FXManagement: GetParmLFOLearn\_FXStateChunk - gets the parameter-lfo-learn-settings from an FXStateChunk
+  - FXManagement: GetParmLFOLearn\_MediaItem - gets the parameter-lfo-learn-settings from an FXStateChunk
+  - FXManagement: GetParmLFOLearn\_MediaTrack - gets the parameter-lfo-learn-settings from an FXStateChunk
+  - FXManagement: GetParmMIDIPLink\_FXStateChunk - gets the parameter-link-settings from an FXStateChunk
+  - FXManagement: GetParmModulationChunk\_FXStateChunk - gets the chunk for parameter-modulation for a specific parameter of an FX in a specific track
+  - FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is a valid FXStateChunk
+  - Helpers: ConvertAscii2Hex - converts a string into it's two-digit-hexadecimal-number-representation
+  - Helpers: ConvertBitsToInteger - converts a table with bitvalues (0 or 1) into it's integer-representation
+  - Helpers: ConvertHex2Ascii - converts a string with two-digit-hexadecimal-numbers into it's ascii-representation
+  - Lua: StoreFunctionInExtState - stores a function into an extstate 
+  - Lua: LoadFunctionFromExtState - loads a function from an extstate, if stored using StoreFunctionInExtState
+  - MediaItems: GetLengthOfAllMediaItems\_Track - returns the length of all MediaItems in a track combined, in seconds
+  - MediaItems: GetItemPlayRate - updated pitchshiftmodes in docs
+  - Project Management: GetProject\_DefPitchMode - returns now the stretchmarker-mode as well(as set in Project Settings); updated docs to recent pitch-shift-modes
+  - Project Management: GetProject\_GroupName - gets the name of an item-group, as stored in a ProjectStateChunk of projectfile
+  - Project Management: GetProject\_QRenderOriginalProject - returns the original projectfile of a render-queued-project from a projectfile or ProjectStateChunk
+  - Project Management: GetProject\_QRenderOutFiles - returns the render-outfiles-with-path of a render-queued-project from a projectfile or ProjectStateChunk
+  - Project Management: GetProject\_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk
+  - Project Management: GetProject\_Selection - had some inner variables exposed -> fixed now
+  - Project Management: SetProject\_DefPitchMode - allows now setting the stretchmarker-mode as well(as set in Project Settings); updated docs to recent pitch-shift-modes
+  - Render: AddProjectFileToRenderQueue - adds a projectfile or the current active project to the render-queue
+  - Render: AddRenderPreset - adds a new render-preset
+  - Render: ApplyRenderTable\_Project - applies a RenderTable to the active project
+  - Render: ApplyRenderTable\_ProjectFile - applies a RenderTable to a projectfile
+  - Render: CreateRenderCFG\_AVI\_Video - creates a render-string for the format video-AVI
+  - Render: CreateRenderCFG\_GIF - creates a render-string of the format video-gif
+  - Render: CreateRenderCFG\_LCF - creates a render-string of the format video-lcf
+  - Render: CreateRenderCFG\_M4AMAC - creates a render-string for the format audio-M4A for Mac
+  - Render: CreateRenderCFG\_MKV\_Video - creates a render-string for the format video-MKV
+  - Render: CreateRenderCFG\_MOVMAC\_Video - creates a render-string for the format video-MOV for Mac
+  - Render: CreateRenderCFG\_MP4MAC\_Video - creates a render-string for the format video-MP4 for Mac
+  - Render: CreateRenderCFG\_QTMOVMP4\_Video - creates a render-string for the format video-QT/MOV/MP4
+  - Render: CreateNewRenderTable - creates a new RenderTable, which holds all render-settings; can be applied later to projects or projectfiles
+  - Render: DeleteRenderPreset\_Bounds - deletes a bounds-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog
+  - Render: DeleteRenderPreset\_FormatOptions - deletes a format/options-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog
+  - Render: GetLastRenderPaths - returns the last 20 used render-output-paths, that have been used for rendering by any project in Reaper.
+  - Render: GetLastUsedRenderPatterns - returns the last 12 used render-patterns, that have been used for rendering by any project in Reaper.
+  - Render: GetRenderQueuedProjects - gets the projectfilenames of the projects currently in the render-queue
+  - Render: GetRender\_AutoIncrementFilename - gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog
+  - Render: GetRender\_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
+  - Render: GetRender\_ProjectSampleRateForMix - gets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog
+  - Render: GetRender\_ResampleMode - gets the current state of the "Resample mode (if needed)"-dropdownlist from the Render to File-dialog
+  - Render: GetRender\_SaveCopyOfProject - gets the current state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog
+  - Render: GetRender\_QueueDelay - Gets the checkstate of the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.
+  - Render: GetRenderCFG\_Settings\_AIFF - gets the settings of an audio-AIFF-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_AudioCD - gets the settings of an audio-AudioCD-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_AVI\_Video  - gets the settings of an video-avi-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_DDP  - returns, if a renderstring is a valid DDP-renderstring
+  - Render: GetRenderCFG\_Settings\_FLAC - gets the settings of an audio-flac-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_GIF  - gets the settings of a video-gif-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_LCF  - gets the settings of a video-lcf-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_M4AMac - gets the settings of an audio M4A for Mac
+  - Render: GetRenderCFG\_Settings\_MKV\_Video  - gets the settings of a video-mkv-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_MOVMac\_Video - gets the settings of a video-MOV for Mac
+  - Render: GetRenderCFG\_Settings\_MP4Mac\_Video - gets the settings of a video-MP4 for Mac
+  - Render: GetRenderCFG\_Settings\_MP3  - gets the settings of an audio-mp3-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_MP3MaxQuality - gets the settings of an audio-mp3-maxquality-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_MP3CBR - gets the settings of an audio-mp3-cbr-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_MP3VBR - gets the settings of an audio-mp3-vbr-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_MP3ABR - gets the settings of an audio-mp3-abr-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_OGG  - gets the settings of an audio-ogg-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_OPUS - gets the settings of an audio-opus-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_QTMOVMP4\_Video - gets the settings of an audio-opus-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_WAV  - gets the settings of an audio-wav-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_WAVPACK - gets the settings of an audio-wavpack-rendercfg-string
+  - Render: GetRenderCFG\_Settings\_WebMVideo - gets the settings of a video-webm-rendercfg-string
+  - Render: GetRenderPreset\_Names - returns the render-presetnames currently stored
+  - Render: GetRenderPreset\_RenderTable - returns a RenderTable of all settings of a specific render-preset
+  - Render: GetRenderTable\_Project - returns a table with all render-settings of the currently active project
+  - Render: GetRenderTable\_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk
+  - Render: IsValidRenderTable - returns, if a table is a valid RenderTable  
+  - Render: RenderProject\_RenderTable - renders a projectfile or the current active project using a RenderTable
+  - Render: RenderProject\_RenderQueue - renders a specific project from the render-queue
+  - Render: SetRender\_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog
+  - Render: SetRender\_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog
+  - Render: SetRender\_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog
+  - Render: SetRender\_ResampleMode - sets the current state of the "Resample mode (if needed)"-dropdownlist from the Render to File-dialog
+  - Render: SetRender\_SaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.
+  - Render: SetRender\_QueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.
+  - Render: SetRenderPreset - sets the values of an existing render-preset
+  - Scripts: GetPitchShiftModes.lua - gets a full list of all pitch-shiftmodes of the currently running Reaper-instance, formats it and puts it into clipboard
+  - Scripts: ultraschall\_Add\_ExampleScripts\_To\_Reaper.lua - adds the example-scripts into Reaper, can be searched for using examples
+  - Scripts: ultraschall\_Help\_Reaper\_Api\_Video\_Documentation.lua - opens the video-api-documenation in the browser
+  - Scripts: ultraschall\_Help\_Reaper\_Api\_Web\_Documentation.lua - opens the web-rc-api-documenation in the browser
+  - Scripts: ultraschall\_Help\_Reaper\_ConfigVars\_Documentation.lua - opens the config-vars-documenation in the browser
+  - Scripts: ultraschall\_OpenFolder\_Api\_Documentation.lua - opens the documentation-folders
+  - Scripts: ultraschall\_OpenFolder\_Api\_ExampleScripts.lua - opens the example-scripts-folder
+  - Scripts: ultraschall\_Remove\_ExampleScripts\_To\_Reaper.lua - removes the example-scripts from Reaper again
+  - Trackmanagement: DeleteTracks\_TrackString - deletes all tracks given in a trackstring
+  - UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd
+  - UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd
+
+  
+#### Changes from Beta 2.74 to Beta 2.75
+  - ChildScripts: GetScriptParameters - omitted parameters, who were nil or "" -> fixed
+  - ChildScripts: GetScriptReturnvalues - omitted returnvalues, who were nil or "" -> fixed
+  - ChildScripts: SetScriptParameters - omitted parameters, who were nil or "" -> fixed
+  - ChildScripts: SetScriptReturnvalues - omitted returnvalues, who were nil or "" -> fixed
+  - Docs: corrected wrong functioncount in docs
+  - Docs: CreateTemporaryFileOfProjectfile - moved in docs to Project-Files -> Helper functions
+  - Docs: ConfigVars: defpitchcfg - updated PitchShiftmodes
+  - Docs: Reaper - updated docs to Reaper 5.978, JS-extension 0.986
+  - Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER\_DITHER (dither/noiseshape stems) and RENDER\_SRATE(when returned RENDER\_SRATE=0)
+  - Docs: Reaper ConfigVars - added better description for g\_config\_project
+  - Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3
+  - Docs: US-Concepts - added functions to checking datatypes and removed beta-functions information from How to install hotfixes
+  - Docs: US-Concepts "Rendering: About Rendering-functions" - added information about RenderProject\_RenderTable as well as removing the info about needing to save current active project before rendering
+  - Docs: US-Concepts "Rendering: Change more render-settings in projectfiles" - rewritten, as the difficult alteration of projectfiles isn't needed anymore for rendering the current project
+  - Docs: when Beta-functions is enabled, the docgenerator adds beta-functions into docs as well
+  - FileIO: CountLinesInFile - errormessages return now the filename as well
+  - FileIO: GetAllFilenamesInPath - didn't add a directory-separator between file and path, if path was missing / or \ at the end -> fixed now
+  - FileIO: GetLengthOfFile - errormessages return now the filename as well
+  - FileIO: ReadBinaryFileFromPattern - errormessages return now the filename as well
+  - FileIO: ReadBinaryFileUntilPattern - errormessages return now the filename as well
+  - FileIO: ReadBinaryFile_Offset - errormessages return now the filename as well
+  - FileIO: ReadFileAsLines_Array - errormessages return now the filename as well
+  - FileIO: ReadFullFile - errormessages return now the filename as well
+  - FileIO: ReadLinerangeFromFile - errormessages return now the filename as well
+  - FileIO: ReadValueFromFile - errormessages return now the filename as well
+  - FileIO: WriteValueToFile - errormessages return now the filename as well
+  - FileIO: WriteValueToFile_Insert - errormessages return now the filename as well
+  - FileIO: WriteValueToFile_InsertBinary - errormessages return now the filename as well
+  - FileIO: WriteValueToFile_Replace - errormessages return now the filename as well
+  - FileIO: WriteValueToFile_ReplaceBinary - errormessages return now the filename as well
+  - Fun: WinterlySnowflakes - only initialized now, when called (used to be initialized at every startup of an US-API-instance)
+  - General: cleanup of functions-engine - removed 3569 useless lines, who contained old debugcode sleeping in comments.
+  - GFX: GFX\_GetMouseCap - interpreted modifier-keys as mouseclicks, when gfx.getkey had been used in script; mousewheel sometimes kept stuck at one value-> fixed
+  - Helpers: Base64\_Encoder - fixed bug that caused encoded strings to end with wrong letter
+  - Helpers: CreateUSApiDocs\_HTML - removed, as I'm not using it for ages now
+  - Helpers: GetReaperAppVersion - didn't return subversionnumber for pre-releases -> fixed now; returns pre-release-versions as well now
+  - Helpers: MB - allows now to choose your own texts for the buttons
+  - Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly
+  - Helpers: print2 - didn't show anything, if the first parameter was nil -> fixed now
+  - HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well
+  - IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore
+  - IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore
+  - MediaItems: EnumerateMediaItemsInTrack - had wrong functionname in index -> fixed
+  - MediaItems: PreviewMediaFile- uses now Xenakios' function Xen\_StartSourcePreview(more stable that way), has now gain and loop as additional parameters
+  - MediaItems: StopAnyPreview - uses now Xenakios' function Xen\_StopSourcePreview(more stable that way)
+  - Projectmanagement: all SetProject-functions - added missing ProjectStateChunk-returnvalue to docs
+  - Projectmanagement: GetProject\_NumberOfTracks - sped code up by magnitudes for huge projects; parameter ProjectStateChunk wasn't working due stupid typo -> fixed now
+  - Projectmanagement: GetProject\_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile
+  - Projectmanagement: GetProject\_RenderPattern - added new render-pattern options to the docs
+  - Projectmanagement: GetProject\_RenderRange - added bounds-option for selected regions
+  - Projectmanagement: SetProject\_RenderPattern - added new render-pattern options to the docs; stabilized, when no render-pattern was set in project/ProjectStateChunk
+  - Projectmanagement: SetProject\_RenderFilename - stabilized, when no render-filename was set in project/ProjectStateChunk
+  - Projectmanagement: SetProject\_RenderRange - added bounds-option for selected regions
+  - ReaPack: Reapack-API-xml-generator.lua - added installation of Docs-opening-scripts as well.
+  - Render: CreateRenderCFG\_AudioCD - improved and lifted limitations for leadin-silence-values
+  - Render: CreateRenderCFG\_MP3ABR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; 
+                                      forgot to add FasterEncode-setting -> fixed now                                  
+  - Render: CreateRenderCFG\_MP3CBR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; 
+                                      forgot to add FasterEncode-setting -> fixed now
+  - Render: CreateRenderCFG\_MP3MaxQuality - reimplemented, supports now "Write ReplayGain tag"-checkbox
+  - Render: CreateRenderCFG\_MP3VBR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; 
+                                      forgot to add FasterEncode-setting -> fixed now                                  
+  - Render: CreateRenderCFG\_OGG - reimplemented, should be more stable now; lifted limitations with bitrates
+  - Render: CreateRenderCFG\_Opus - reimplemented, should be more stable now and supports now all options
+  - Render: CreateRenderCFG\_Opus2 - deprecated, use CreateRenderCFG_Opus instead  
+  - Render: CreateRenderCFG\_WebMVideo - rewritten, lifted many limitations
+  - Render: GetOutputFormat\_RenderCfg - moved to docs-index Rendering of Project -> Analyzing Renderstrings; 
+                                         allows now passing a project/projecttab as well
+                                         recoded, is now more future-proof 
+  - Render: RenderProject - renamed from RenderProject\_RenderCFG, which is still available, but undocumented; reimplemented: sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)
+  - Render: RenderProject\_Regions - renamed from RenderProjectRegions\_RenderCFG, which is still available, but undocumented; sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)
+                                     parameters renderfilename_with_path and rendercfg are now mandatory
+  - Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
+  - Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)
+  - Routing: AddTrackAUXSendReceives - had parameters tracknumber and recv_tracknumber accidentally reversed, when not working with StateChunks .. oops -> fixed (thanks to woodslanding)
+  - TrackManagement: GetTrackHeightState - stabilised parameter TrackStateChunk, returns now locked-trackstate
+  - TrackManagement: SetTrackHeightState - stabilised parameter TrackStateChunk, allows now setting locked-trackstate
+  - TrackManagement: SetTracksSelected - when trackstring=nil or "", it deselects all tracks now
+  
+  ---
+  
 ### 4.00 Beta 2.74: - "Talking Heads - Once in a Lifetime" - 10th of April 2019
 
    Has now 822 functions, with 22 new ones

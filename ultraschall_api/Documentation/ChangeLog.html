@@ -40,6 +40,217 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
+<h3>4.00 Beta 2.75: - "Nick Cave &amp; the Bad Seeds - Babe, I'm on fire" - 29th of May 2019</h3>
+<p>tagline inspired by a comment from _stevie_ ;)</p>
+<p><strong>!RenderMania Update!</strong> Has now 935 functions with 95 new ones!</p>
+<ul>
+<li><p><strong>Rendering</strong> - reworked Rendering completely; you can render the current project now directly, access render-presets and render-queues (thanks to Justin and Schwa for adding the features needed into Reaper)</p></li>
+<li><p><strong>Render-Format-strings</strong> - you can create all(!) renderformats available in Reaper as BASE64-encoded strings, as well as analyzing already BASE64-encoded renderstrings(this alone is 44 functions)</p></li>
+<li><p><strong>Parameter Learn</strong> - you can get all parameter learn, modulation and lfo-settings, as well as FXStateChunks who store that information, add/set/delete will come later (requested by TonE and Anton9)</p></li>
+<li><p><strong>ultraschall.MB</strong> - shows a messagebox and allows exchanging the texts of the buttons with your own texts</p></li>
+<li><p><strong>LoadFunctionFromExtState and StoreFunctionInExtState</strong> - lets you pass a Lua-function from one script to another using an extstate, no external files and loads and requires necessary</p></li>
+<li><p><strong>Docs</strong> - updated docs for Reaper 5.978, SWS 2.10.0.1, JS-extension 0.986</p></li>
+<li><p><strong>More Docs</strong> - when you've installed the API using ReaPack, actions will be added for opening the individual parts of the docs, like Reaper API(ReaScript, Video, WebRC), ConfigVars, Ultraschall-Concepts and FunctionsAPI. Type into the Actions-dialog-filter the words "ultraschall" and "help".</p></li>
+<li><p><strong>Example Scripts</strong> - when you've installed the API using ReaPack, new actions for registering and unregistering the example-scripts as well as opening the example-script-folder. Type into the Actions-dialog-filter the words "ultraschall" and "examples".</p></li>
+<li><p><strong>Even more about docs</strong> - docs for parameter-learn added(thanks to Anton9 for helping me with that) as well as many docs I had lying around(find them in the ResourceFolder/UserPlugins/ultraschall_api/Misc/misc_docs-folder)</p></li>
+<li><p><strong>CleanUp</strong> - removed junk and converted files into smaller fileformats(where applicable), so the API is now 20MB smaller</p></li>
+<li><p><strong>Many other helpful functions</strong> - HexString2Ascii2HexString, Get/Set Armstate of Envelopes, DeleteTracks_TrackString, Get/SetCheckboxState and more</p></li>
+<li><p><strong>Bugfixes</strong> - as usual ;)</p></li>
+</ul>
+<p>If you find this helpful and use this, please consider donating to me at ultraschall.fm/danke (look for mespotine), paypal(lspmp3@yahoo.de) or patreon.com/mespotine.<br />
+Might be a small donation for you, but a giant motivation leap for mankind(means: me) ;)</p>
+<h4>New features in 4.00beta2.75</h4>
+<ul>
+<li>Docs: Misc/misc_docs - added this folder to put into that various (often unfinished) docs</li>
+<li>Docs: ParmLearnDocs.txt - documented parameter-learn/modulation/alias-settings</li>
+<li>Docs: US-Concepts - added description of datatype RenderTable</li>
+<li>Docs: US-Concepts - Rendering: About RenderTables; description of how to use and work with RenderTables</li>
+<li>Docs: US-Concepts - Rendering: Render Presets; description for how to deal with render-presets</li>
+<li>Docs: US-Concepts - Rendering: Render Queue; description for how to render using the render-queue</li>
+<li>Envelopes: GetArmState_Envelope - gets the armstate of a TrackEnvelope or EnvelopeStateChunk</li>
+<li>Envelopes: GetLastEnvelopePoint_TrackEnvelope - gets the last point from a TrackEnvelope-object</li>
+<li>Envelopes: SetArmState_Envelope - sets the armstate of a TrackEnvelope or EnvelopeStateChunk</li>
+<li>FXManagement: GetFXStateChunk - Gets an FXStateChunk from a StateChunk(usually Track/MediaItemStateChunk)</li>
+<li>FXManagement: GetFXFromFXStateChunk - gets all lines of a specific FX stored in an FXStateChunk</li>
+<li>FXManagement: GetParmAlias_FXStateChunk - gets an aliasname for a specific parameter of an FX</li>
+<li>FXManagement: GetParmAlias_MediaTrack - gets an aliasname for a specific parameter of an FX in a specific track</li>
+<li>FXManagement: GetParmAudioControl_FXStateChunk - gets all settings from the Audio Control Signal-settings from parameter-modulation</li>
+<li>FXManagement: GetParmLearn_FXStateChunk - gets the parameter-learn-settings from an FXStateChunk, as requested by TonE</li>
+<li>FXManagement: GetParmLearn_MediaItem - gets the parameter-learn-settings from a MediaItem, as requested by TonE</li>
+<li>FXManagement: GetParmLearn_MediaTrack - gets the parameter-learn-settings from a MediaTrack, as requested by TonE</li>
+<li>FXManagement: GetParmLFO_FXStateChunk - gets the LFO-settings from the parameter-modulation from an FXStateChunk</li>
+<li>FXManagement: GetParmLFOLearn_FXStateChunk - gets the parameter-lfo-learn-settings from an FXStateChunk</li>
+<li>FXManagement: GetParmLFOLearn_MediaItem - gets the parameter-lfo-learn-settings from an FXStateChunk</li>
+<li>FXManagement: GetParmLFOLearn_MediaTrack - gets the parameter-lfo-learn-settings from an FXStateChunk</li>
+<li>FXManagement: GetParmMIDIPLink_FXStateChunk - gets the parameter-link-settings from an FXStateChunk</li>
+<li>FXManagement: GetParmModulationChunk_FXStateChunk - gets the chunk for parameter-modulation for a specific parameter of an FX in a specific track</li>
+<li>FXManagement: IsValidFXStateChunk - checks, whether a StateChunk is a valid FXStateChunk</li>
+<li>Helpers: ConvertAscii2Hex - converts a string into it's two-digit-hexadecimal-number-representation</li>
+<li>Helpers: ConvertBitsToInteger - converts a table with bitvalues (0 or 1) into it's integer-representation</li>
+<li>Helpers: ConvertHex2Ascii - converts a string with two-digit-hexadecimal-numbers into it's ascii-representation</li>
+<li>Lua: StoreFunctionInExtState - stores a function into an extstate</li>
+<li>Lua: LoadFunctionFromExtState - loads a function from an extstate, if stored using StoreFunctionInExtState</li>
+<li>MediaItems: GetLengthOfAllMediaItems_Track - returns the length of all MediaItems in a track combined, in seconds</li>
+<li>MediaItems: GetItemPlayRate - updated pitchshiftmodes in docs</li>
+<li>Project Management: GetProject_DefPitchMode - returns now the stretchmarker-mode as well(as set in Project Settings); updated docs to recent pitch-shift-modes</li>
+<li>Project Management: GetProject_GroupName - gets the name of an item-group, as stored in a ProjectStateChunk of projectfile</li>
+<li>Project Management: GetProject_QRenderOriginalProject - returns the original projectfile of a render-queued-project from a projectfile or ProjectStateChunk</li>
+<li>Project Management: GetProject_QRenderOutFiles - returns the render-outfiles-with-path of a render-queued-project from a projectfile or ProjectStateChunk</li>
+<li>Project Management: GetProject_RenderQueueDelay - returns the render-queue-delay of a projectfile or ProjectStateChunk</li>
+<li>Project Management: GetProject_Selection - had some inner variables exposed -&gt; fixed now</li>
+<li>Project Management: SetProject_DefPitchMode - allows now setting the stretchmarker-mode as well(as set in Project Settings); updated docs to recent pitch-shift-modes</li>
+<li>Render: AddProjectFileToRenderQueue - adds a projectfile or the current active project to the render-queue</li>
+<li>Render: AddRenderPreset - adds a new render-preset</li>
+<li>Render: ApplyRenderTable_Project - applies a RenderTable to the active project</li>
+<li>Render: ApplyRenderTable_ProjectFile - applies a RenderTable to a projectfile</li>
+<li>Render: CreateRenderCFG_AVI_Video - creates a render-string for the format video-AVI</li>
+<li>Render: CreateRenderCFG_GIF - creates a render-string of the format video-gif</li>
+<li>Render: CreateRenderCFG_LCF - creates a render-string of the format video-lcf</li>
+<li>Render: CreateRenderCFG_M4AMAC - creates a render-string for the format audio-M4A for Mac</li>
+<li>Render: CreateRenderCFG_MKV_Video - creates a render-string for the format video-MKV</li>
+<li>Render: CreateRenderCFG_MOVMAC_Video - creates a render-string for the format video-MOV for Mac</li>
+<li>Render: CreateRenderCFG_MP4MAC_Video - creates a render-string for the format video-MP4 for Mac</li>
+<li>Render: CreateRenderCFG_QTMOVMP4_Video - creates a render-string for the format video-QT/MOV/MP4</li>
+<li>Render: CreateNewRenderTable - creates a new RenderTable, which holds all render-settings; can be applied later to projects or projectfiles</li>
+<li>Render: DeleteRenderPreset_Bounds - deletes a bounds-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog</li>
+<li>Render: DeleteRenderPreset_FormatOptions - deletes a format/options-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog</li>
+<li>Render: GetLastRenderPaths - returns the last 20 used render-output-paths, that have been used for rendering by any project in Reaper.</li>
+<li>Render: GetLastUsedRenderPatterns - returns the last 12 used render-patterns, that have been used for rendering by any project in Reaper.</li>
+<li>Render: GetRenderQueuedProjects - gets the projectfilenames of the projects currently in the render-queue</li>
+<li>Render: GetRender_AutoIncrementFilename - gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
+<li>Render: GetRender_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog</li>
+<li>Render: GetRender_ProjectSampleRateForMix - gets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog</li>
+<li>Render: GetRender_ResampleMode - gets the current state of the "Resample mode (if needed)"-dropdownlist from the Render to File-dialog</li>
+<li>Render: GetRender_SaveCopyOfProject - gets the current state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog</li>
+<li>Render: GetRender_QueueDelay - Gets the checkstate of the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>
+<li>Render: GetRenderCFG_Settings_AIFF - gets the settings of an audio-AIFF-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_AudioCD - gets the settings of an audio-AudioCD-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_AVI_Video - gets the settings of an video-avi-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_DDP - returns, if a renderstring is a valid DDP-renderstring</li>
+<li>Render: GetRenderCFG_Settings_FLAC - gets the settings of an audio-flac-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_GIF - gets the settings of a video-gif-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_LCF - gets the settings of a video-lcf-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_M4AMac - gets the settings of an audio M4A for Mac</li>
+<li>Render: GetRenderCFG_Settings_MKV_Video - gets the settings of a video-mkv-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_MOVMac_Video - gets the settings of a video-MOV for Mac</li>
+<li>Render: GetRenderCFG_Settings_MP4Mac_Video - gets the settings of a video-MP4 for Mac</li>
+<li>Render: GetRenderCFG_Settings_MP3 - gets the settings of an audio-mp3-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_MP3MaxQuality - gets the settings of an audio-mp3-maxquality-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_MP3CBR - gets the settings of an audio-mp3-cbr-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_MP3VBR - gets the settings of an audio-mp3-vbr-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_MP3ABR - gets the settings of an audio-mp3-abr-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_OGG - gets the settings of an audio-ogg-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_OPUS - gets the settings of an audio-opus-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_QTMOVMP4_Video - gets the settings of an audio-opus-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_WAV - gets the settings of an audio-wav-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_WAVPACK - gets the settings of an audio-wavpack-rendercfg-string</li>
+<li>Render: GetRenderCFG_Settings_WebMVideo - gets the settings of a video-webm-rendercfg-string</li>
+<li>Render: GetRenderPreset_Names - returns the render-presetnames currently stored</li>
+<li>Render: GetRenderPreset_RenderTable - returns a RenderTable of all settings of a specific render-preset</li>
+<li>Render: GetRenderTable_Project - returns a table with all render-settings of the currently active project</li>
+<li>Render: GetRenderTable_ProjectFile - returns a table with all render-dialog-settings from an rpp-projectfile or ProjectStateChunk</li>
+<li>Render: IsValidRenderTable - returns, if a table is a valid RenderTable<br />
+</li>
+<li>Render: RenderProject_RenderTable - renders a projectfile or the current active project using a RenderTable</li>
+<li>Render: RenderProject_RenderQueue - renders a specific project from the render-queue</li>
+<li>Render: SetRender_AutoIncrementFilename - sets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
+<li>Render: SetRender_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog</li>
+<li>Render: SetRender_ProjectSampleRateForMix - sets the current state of the "Use project sample rate for mixing and FX/synth processing"-checkbox from the Render to File-dialog</li>
+<li>Render: SetRender_ResampleMode - sets the current state of the "Resample mode (if needed)"-dropdownlist from the Render to File-dialog</li>
+<li>Render: SetRender_SaveCopyOfProject - sets the checked-state of the "Save copy of project to outfile.wav.RPP"-checkbox from the Render to File-dialog.</li>
+<li>Render: SetRender_QueueDelay - Sets the "Delay queued render to allow samples to load"-checkbox of the Render to File-dialog.</li>
+<li>Render: SetRenderPreset - sets the values of an existing render-preset</li>
+<li>Scripts: GetPitchShiftModes.lua - gets a full list of all pitch-shiftmodes of the currently running Reaper-instance, formats it and puts it into clipboard</li>
+<li>Scripts: ultraschall_Add_ExampleScripts_To_Reaper.lua - adds the example-scripts into Reaper, can be searched for using examples</li>
+<li>Scripts: ultraschall_Help_Reaper_Api_Video_Documentation.lua - opens the video-api-documenation in the browser</li>
+<li>Scripts: ultraschall_Help_Reaper_Api_Web_Documentation.lua - opens the web-rc-api-documenation in the browser</li>
+<li>Scripts: ultraschall_Help_Reaper_ConfigVars_Documentation.lua - opens the config-vars-documenation in the browser</li>
+<li>Scripts: ultraschall_OpenFolder_Api_Documentation.lua - opens the documentation-folders</li>
+<li>Scripts: ultraschall_OpenFolder_Api_ExampleScripts.lua - opens the example-scripts-folder</li>
+<li>Scripts: ultraschall_Remove_ExampleScripts_To_Reaper.lua - removes the example-scripts from Reaper again</li>
+<li>Trackmanagement: DeleteTracks_TrackString - deletes all tracks given in a trackstring</li>
+<li>UserInterface: GetCheckboxState - gets the current checkstate of a checkbox-hwnd</li>
+<li>UserInterface: SetCheckboxState - sets a new checkstate of a checkbox-hwnd</li>
+</ul>
+<h4>Changes from Beta 2.74 to Beta 2.75</h4>
+<ul>
+<li>ChildScripts: GetScriptParameters - omitted parameters, who were nil or "" -&gt; fixed</li>
+<li>ChildScripts: GetScriptReturnvalues - omitted returnvalues, who were nil or "" -&gt; fixed</li>
+<li>ChildScripts: SetScriptParameters - omitted parameters, who were nil or "" -&gt; fixed</li>
+<li>ChildScripts: SetScriptReturnvalues - omitted returnvalues, who were nil or "" -&gt; fixed</li>
+<li>Docs: corrected wrong functioncount in docs</li>
+<li>Docs: CreateTemporaryFileOfProjectfile - moved in docs to Project-Files -&gt; Helper functions</li>
+<li>Docs: ConfigVars: defpitchcfg - updated PitchShiftmodes</li>
+<li>Docs: Reaper - updated docs to Reaper 5.978, JS-extension 0.986</li>
+<li>Docs: Reaper-API - GetSetProjectInfo - added missing information about RENDER_DITHER (dither/noiseshape stems) and RENDER_SRATE(when returned RENDER_SRATE=0)</li>
+<li>Docs: Reaper ConfigVars - added better description for g_config_project</li>
+<li>Docs: render-codes-decoded-base64-strings.txt - fixed errors, mostly regarding mp3</li>
+<li>Docs: US-Concepts - added functions to checking datatypes and removed beta-functions information from How to install hotfixes</li>
+<li>Docs: US-Concepts "Rendering: About Rendering-functions" - added information about RenderProject_RenderTable as well as removing the info about needing to save current active project before rendering</li>
+<li>Docs: US-Concepts "Rendering: Change more render-settings in projectfiles" - rewritten, as the difficult alteration of projectfiles isn't needed anymore for rendering the current project</li>
+<li>Docs: when Beta-functions is enabled, the docgenerator adds beta-functions into docs as well</li>
+<li>FileIO: CountLinesInFile - errormessages return now the filename as well</li>
+<li>FileIO: GetAllFilenamesInPath - didn't add a directory-separator between file and path, if path was missing / or \ at the end -&gt; fixed now</li>
+<li>FileIO: GetLengthOfFile - errormessages return now the filename as well</li>
+<li>FileIO: ReadBinaryFileFromPattern - errormessages return now the filename as well</li>
+<li>FileIO: ReadBinaryFileUntilPattern - errormessages return now the filename as well</li>
+<li>FileIO: ReadBinaryFile_Offset - errormessages return now the filename as well</li>
+<li>FileIO: ReadFileAsLines_Array - errormessages return now the filename as well</li>
+<li>FileIO: ReadFullFile - errormessages return now the filename as well</li>
+<li>FileIO: ReadLinerangeFromFile - errormessages return now the filename as well</li>
+<li>FileIO: ReadValueFromFile - errormessages return now the filename as well</li>
+<li>FileIO: WriteValueToFile - errormessages return now the filename as well</li>
+<li>FileIO: WriteValueToFile_Insert - errormessages return now the filename as well</li>
+<li>FileIO: WriteValueToFile_InsertBinary - errormessages return now the filename as well</li>
+<li>FileIO: WriteValueToFile_Replace - errormessages return now the filename as well</li>
+<li>FileIO: WriteValueToFile_ReplaceBinary - errormessages return now the filename as well</li>
+<li>Fun: WinterlySnowflakes - only initialized now, when called (used to be initialized at every startup of an US-API-instance)</li>
+<li>General: cleanup of functions-engine - removed 3569 useless lines, who contained old debugcode sleeping in comments.</li>
+<li>GFX: GFX_GetMouseCap - interpreted modifier-keys as mouseclicks, when gfx.getkey had been used in script; mousewheel sometimes kept stuck at one value-&gt; fixed</li>
+<li>Helpers: Base64_Encoder - fixed bug that caused encoded strings to end with wrong letter</li>
+<li>Helpers: CreateUSApiDocs_HTML - removed, as I'm not using it for ages now</li>
+<li>Helpers: GetReaperAppVersion - didn't return subversionnumber for pre-releases -&gt; fixed now; returns pre-release-versions as well now</li>
+<li>Helpers: MB - allows now to choose your own texts for the buttons</li>
+<li>Helpers: LimitFractionOfFloat - improved code a little for rounding-operations, hope it works now properly</li>
+<li>Helpers: print2 - didn't show anything, if the first parameter was nil -&gt; fixed now</li>
+<li>HWND: GetHWND_ArrangeViewAndTimeLine - returns now the HWND of the TCP as well</li>
+<li>IniFiles: Reaper-Render-Codes.ini - removed, not necessary anymore</li>
+<li>IniFiles: Reaper-Render-Codes-for-AudioCD.ini - removed, not necessary anymore</li>
+<li>MediaItems: EnumerateMediaItemsInTrack - had wrong functionname in index -&gt; fixed</li>
+<li>MediaItems: PreviewMediaFile- uses now Xenakios' function Xen_StartSourcePreview(more stable that way), has now gain and loop as additional parameters</li>
+<li>MediaItems: StopAnyPreview - uses now Xenakios' function Xen_StopSourcePreview(more stable that way)</li>
+<li>Projectmanagement: all SetProject-functions - added missing ProjectStateChunk-returnvalue to docs</li>
+<li>Projectmanagement: GetProject_NumberOfTracks - sped code up by magnitudes for huge projects; parameter ProjectStateChunk wasn't working due stupid typo -&gt; fixed now</li>
+<li>Projectmanagement: GetProject_RenderFilename - could produce Lua-error, when no Renderfilename was existing in the projectfile</li>
+<li>Projectmanagement: GetProject_RenderPattern - added new render-pattern options to the docs</li>
+<li>Projectmanagement: GetProject_RenderRange - added bounds-option for selected regions</li>
+<li>Projectmanagement: SetProject_RenderPattern - added new render-pattern options to the docs; stabilized, when no render-pattern was set in project/ProjectStateChunk</li>
+<li>Projectmanagement: SetProject_RenderFilename - stabilized, when no render-filename was set in project/ProjectStateChunk</li>
+<li>Projectmanagement: SetProject_RenderRange - added bounds-option for selected regions</li>
+<li>ReaPack: Reapack-API-xml-generator.lua - added installation of Docs-opening-scripts as well.</li>
+<li>Render: CreateRenderCFG_AudioCD - improved and lifted limitations for leadin-silence-values</li>
+<li>Render: CreateRenderCFG_MP3ABR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; forgot to add FasterEncode-setting -&gt; fixed now<br />
+</li>
+<li>Render: CreateRenderCFG_MP3CBR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; forgot to add FasterEncode-setting -&gt; fixed now</li>
+<li>Render: CreateRenderCFG_MP3MaxQuality - reimplemented, supports now "Write ReplayGain tag"-checkbox</li>
+<li>Render: CreateRenderCFG_MP3VBR - reimplemented, supports now "Do not allow joint stereo" and "Write ReplayGain tag"-checkboxes; forgot to add FasterEncode-setting -&gt; fixed now<br />
+</li>
+<li>Render: CreateRenderCFG_OGG - reimplemented, should be more stable now; lifted limitations with bitrates</li>
+<li>Render: CreateRenderCFG_Opus - reimplemented, should be more stable now and supports now all options</li>
+<li>Render: CreateRenderCFG_Opus2 - deprecated, use CreateRenderCFG_Opus instead<br />
+</li>
+<li>Render: CreateRenderCFG_WebMVideo - rewritten, lifted many limitations</li>
+<li>Render: GetOutputFormat_RenderCfg - moved to docs-index Rendering of Project -&gt; Analyzing Renderstrings; allows now passing a project/projecttab as well recoded, is now more future-proof</li>
+<li>Render: RenderProject - renamed from RenderProject_RenderCFG, which is still available, but undocumented; reimplemented: sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected)</li>
+<li>Render: RenderProject_Regions - renamed from RenderProjectRegions_RenderCFG, which is still available, but undocumented; sped up rendering the current project by magnitudes; no "save before rendering" necessary anymore; stabilized deleting the targetfile(if selected) parameters renderfilename<em>with</em>path and rendercfg are now mandatory</li>
+<li>Routing: GetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)</li>
+<li>Routing: SetTrackAUXSendReceives - recv_tracknumber is now 1-based, as it should be(thanks to woodslanding)</li>
+<li>Routing: AddTrackAUXSendReceives - had parameters tracknumber and recv_tracknumber accidentally reversed, when not working with StateChunks .. oops -&gt; fixed (thanks to woodslanding)</li>
+<li>TrackManagement: GetTrackHeightState - stabilised parameter TrackStateChunk, returns now locked-trackstate</li>
+<li>TrackManagement: SetTrackHeightState - stabilised parameter TrackStateChunk, allows now setting locked-trackstate</li>
+<li>TrackManagement: SetTracksSelected - when trackstring=nil or "", it deselects all tracks now</li>
+</ul>
+<hr />
 <h3>4.00 Beta 2.74: - "Talking Heads - Once in a Lifetime" - 10th of April 2019</h3>
 <p>Has now 822 functions, with 22 new ones</p>
 <ul>
