@@ -44912,7 +44912,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00","31st of May 2019", "Beta 2.75", 400.0275,  "\"Nick Cave & the Bad Seeds - Babe, I'm on fire\"", ultraschall.hotfixdate
+  return "4.00","29th of May 2019", "Beta 2.75", 400.0275,  "\"Nick Cave & the Bad Seeds - Babe, I'm on fire\"", ultraschall.hotfixdate
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
@@ -60131,5 +60131,78 @@ function ultraschall.ConvertAscii2Hex(orgstring)
 end
 
 --A1=ultraschall.ConvertAscii2Hex(B)
+
+function ultraschall.GetLastUsedRenderPatterns()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLastUsedRenderPatterns</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.977
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>array last_render_patterns = ultraschall.GetLastUsedRenderPatterns()</functioncall>
+  <description>
+    returns the last 12 used render-patterns, that have been used for rendering by any project in Reaper.
+  </description>
+  <retvals>
+    array last_render_patterns - a table, which holds the last 12 used render-patterns, used by any project in Reaper
+  </retvals>
+  <chapter_context>
+    Rendering Projects
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render management, get, last, used, renderpattern</tags>
+</US_DocBloc>
+]]
+  local Table={}
+  local temp
+  for i=0, 11 do
+    temp, Table[i]=reaper.BR_Win32_GetPrivateProfileString("REAPER", "render_pattern_"..i, "", reaper.get_ini_file())
+  end
+  return Table
+end
+
+--A=ultraschall.GetLastUsedRenderPatterns()
+
+function ultraschall.GetLastRenderPaths()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetLastRenderPaths</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.977
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>array last_render_paths = ultraschall.GetLastRenderPaths()</functioncall>
+  <description>
+    returns the last 20 used render-output-paths, that have been used for rendering by any project in Reaper.
+  </description>
+  <retvals>
+    array last_render_paths - a table, which holds the last 20 used render-output-paths, used by any project in Reaper
+  </retvals>
+  <chapter_context>
+    Rendering Projects
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render management, get, last, used, renderoutput, path</tags>
+</US_DocBloc>
+]]
+  local Table={}
+  local temp
+  for i=1, 20 do
+    if i==1 then a="" else a=i end
+    temp, Table[i]=reaper.BR_Win32_GetPrivateProfileString("REAPER", "lastrenderpath"..a, "", reaper.get_ini_file())
+  end
+  return Table
+end
+
+--A,B=ultraschall.GetLastRenderPaths()
 
 ultraschall.ShowLastErrorMessage()

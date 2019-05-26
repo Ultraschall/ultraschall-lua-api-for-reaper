@@ -40,9 +40,9 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.00 Beta 2.75: - "Nick Cave &amp; the Bad Seeds - Babe, I'm on fire" - 31st of May 2019</h3>
+<h3>4.00 Beta 2.75: - "Nick Cave &amp; the Bad Seeds - Babe, I'm on fire" - 29th of May 2019</h3>
 <p>tagline inspired by a comment from _stevie_ ;)</p>
-<p><strong>!RenderMania Update!</strong> Has now 933 functions with 93 new ones!</p>
+<p><strong>!RenderMania Update!</strong> Has now 935 functions with 95 new ones!</p>
 <ul>
 <li><p><strong>Rendering</strong> - reworked Rendering completely; you can render the current project now directly, access render-presets and render-queues (thanks to Justin and Schwa for adding the features needed into Reaper)</p></li>
 <li><p><strong>Render-Format-strings</strong> - you can create all(!) renderformats available in Reaper as BASE64-encoded strings, as well as analyzing already BASE64-encoded renderstrings(this alone is 44 functions)</p></li>
@@ -57,7 +57,7 @@ Ultraschall API Changelog
 <li><p><strong>Many other helpful functions</strong> - HexString2Ascii2HexString, Get/Set Armstate of Envelopes, DeleteTracks_TrackString, Get/SetCheckboxState and more</p></li>
 <li><p><strong>Bugfixes</strong> - as usual ;)</p></li>
 </ul>
-<p>If you find this helpful and use this, please consider donating to me at ultraschall.fm/danke (look for mespotine) or paypal(lspmp3@yahoo.de).<br />
+<p>If you find this helpful and use this, please consider donating to me at ultraschall.fm/danke (look for mespotine), paypal(lspmp3@yahoo.de) or patreon.com/mespotine.<br />
 Might be a small donation for you, but a giant motivation leap for mankind(means: me) ;)</p>
 <h4>New features in 4.00beta2.75</h4>
 <ul>
@@ -114,6 +114,8 @@ Might be a small donation for you, but a giant motivation leap for mankind(means
 <li>Render: CreateNewRenderTable - creates a new RenderTable, which holds all render-settings; can be applied later to projects or projectfiles</li>
 <li>Render: DeleteRenderPreset_Bounds - deletes a bounds-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog</li>
 <li>Render: DeleteRenderPreset_FormatOptions - deletes a format/options-render-preset from reaper-render.ini and the used render-presets in the Render to File-dialog</li>
+<li>Render: GetLastRenderPaths - returns the last 20 used render-output-paths, that have been used for rendering by any project in Reaper.</li>
+<li>Render: GetLastUsedRenderPatterns - returns the last 12 used render-patterns, that have been used for rendering by any project in Reaper.</li>
 <li>Render: GetRenderQueuedProjects - gets the projectfilenames of the projects currently in the render-queue</li>
 <li>Render: GetRender_AutoIncrementFilename - gets the current state of the "Silently increment filenames to avoid overwriting"-checkbox from the Render to File-dialog</li>
 <li>Render: GetRender_OfflineOnlineMode - gets the current mode of the offline/online-render-dropdownlist from the Render to File-dialog</li>
