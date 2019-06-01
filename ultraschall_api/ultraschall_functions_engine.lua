@@ -44912,7 +44912,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00","29th of May 2019", "Beta 2.75", 400.0275,  "\"Nick Cave & the Bad Seeds - Babe, I'm on fire\"", ultraschall.hotfixdate
+  return "4.00","31st of July 2019", "Beta 2.76", 400.0276,  "\"The Cure - Fire in Cairo\"", ultraschall.hotfixdate
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
