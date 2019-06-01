@@ -1,8 +1,8 @@
--- Meo Mespotine 9th of April 2019
+-- Meo Mespotine 1st of June 2019
 --
 -- Ultraschall-API-helper-script for GetUserInputs, which will circumvent Reaper's limitation with
 -- commas in the GetUserInputs-inputfields
--- so now, we have no need for csvs anymore
+-- so now, we have no need for csvs anymore, which is more stable in all ways
 
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
@@ -37,14 +37,16 @@ function main()
     -- the GetUserInputs-window is open, so go into the main2-function
     reaper.JS_Window_SetTitle(hwnd, params[2])
     for i=1, 16 do
-        reaper.JS_Window_SetTitle(reaper.JS_Window_FindChildByID(hwnd,1999+i), params[i+4])
+        reaper.JS_Window_SetTitle(reaper.JS_Window_FindChildByID(hwnd,1999+i), params[i+caption_offset+4])
     end
     for i=1, 16 do
-        reaper.JS_Window_SetTitle(reaper.JS_Window_FindChildByID(hwnd,999+i), params[i+20])
+        reaper.JS_Window_SetTitle(reaper.JS_Window_FindChildByID(hwnd,999+i), params[i+caption_offset+20])
     end
     reaper.defer(main2)
   end
 end
+
+caption_offset=tonumber(params[3])-1
 
 main()
 
