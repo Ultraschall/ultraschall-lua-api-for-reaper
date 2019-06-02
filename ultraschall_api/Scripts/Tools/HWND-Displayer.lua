@@ -121,7 +121,7 @@ function main()
   
   Key=gfx.getchar()
   if Key==8 then hwnd2=reaper.JS_Window_GetParent(hwnd) if hwnd2~=nil then hwnd=hwnd2 updatelist(hwnd) end end
-  if Key~=0 then print3(Key) end
+  --if Key~=0 then print3(Key) end
   if Maxcount>0 and Key==1685026670.0 then Counter=Counter+1 if Counter>Maxcount then Counter=Maxcount end end
   if Maxcount>0 and Key==30064.0 then Counter=Counter-1 if Counter<0 then Counter=0 end end
   if Key==13 then hwnd=HWND[Counter] updatelist(HWND[Counter]) end
@@ -220,7 +220,7 @@ function main()
                                   
   --end
   gfx.update()
-  if quitit~=true then reaper.defer(main) end
+  if quitit~=true and Key~=-1 then reaper.defer(main) end
 end
 
 main()
