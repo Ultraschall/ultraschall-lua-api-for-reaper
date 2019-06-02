@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="39162.00" author="Meo Mespotine">
+      <version name="39176.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -342,16 +342,26 @@ Ultraschall Framework - Changelog
 
 New features in 4.00beta2.75
 
-    - FXManagement: AutoDetectVSTPlugins - auto-searches for the vst-plugin-folder
-    - FXManagement: ScanDXPlugins - rescans all DX(DirectX)-plugins, optionally scans all or just the new ones
-    - FXManagement: ScanVSTPlugins - rescans all vst-plugins, optionally clears vst-plugin-cache first
-    - ReaMote: AutoSearchReaMoteSlaves - autosearches for new ReaMote-slaves
+-   Actions: GetAllActions - gets all actions, actioncommandids and
+    scriptnames of all actions in a specific section
+-   FXManagement: AutoDetectVSTPlugins - auto-searches for the
+    vst-plugin-folder
+-   FXManagement: ScanDXPlugins - rescans all DX(DirectX)-plugins,
+    optionally scans all or just the new ones
+-   FXManagement: ScanVSTPlugins - rescans all vst-plugins, optionally
+    clears vst-plugin-cache first
+-   ReaMote: AutoSearchReaMoteSlaves - autosearches for new
+    ReaMote-slaves
 
 Changes from Beta 2.75 to Beta 2.76
 
-    - Helpers: GetUserInputs - allows now setting width of the captions-field(requested by Julian Sader), allows now commas in captions and default-values as well; title is now the one defined by the title-parameter(used to have temporary title previously) (reported by X-Raym)
-    - Scripts: HWND-Displayer.lua - reimplemented, much more comfortable now with a lot of more features.
-    ---
+-   Helpers: GetUserInputs - allows now setting width of the
+    captions-field(requested by Julian Sader), allows now commas in
+    captions and default-values as well; title is now the one defined by
+    the title-parameter(used to have temporary title previously)
+    (reported by X-Raym)
+-   Scripts: HWND-Displayer.lua - reimplemented, much more comfortable
+    now with a lot of more features. —
 
 
 Ultraschall Framework - Changelog
