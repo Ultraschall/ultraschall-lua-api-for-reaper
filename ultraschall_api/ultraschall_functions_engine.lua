@@ -49329,6 +49329,9 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
       caption_names[1]="first caption name"
       caption_names[2]="second caption name"
       caption_names[1]="*third caption name, which creates an inputfield for passwords, due the * at the beginning"
+      
+    Note: Don't use this function within defer-scripts or scripts that are started by defer-scripts, as this produces errors.
+          This is due limitations in Reaper, sorry.
      
     returns false in case of an error.
   </description>
