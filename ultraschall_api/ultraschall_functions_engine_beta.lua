@@ -1062,7 +1062,7 @@ end
 
 --A,B=ultraschall.GetAllActions(0)
 
-function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize)
+function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x, y)
 -- TODO:: nice to have feature: when mouse is above crossfades between two adjacent items, return this state as well as a boolean
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1072,7 +1072,7 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize)
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>MediaItem MediaItem, MediaItem_Take MediaItem_Take, MediaItem MediaItem_unlocked, boolean Item_moved, number StartDiffTime, number EndDiffTime, number LengthDiffTime, number OffsetDiffTime = ultraschall.get_action_context_MediaItemDiff(boolean exlude_mousecursorsize)</functioncall>
+  <functioncall>MediaItem MediaItem, MediaItem_Take MediaItem_Take, MediaItem MediaItem_unlocked, boolean Item_moved, number StartDiffTime, number EndDiffTime, number LengthDiffTime, number OffsetDiffTime = ultraschall.get_action_context_MediaItemDiff(optional boolean exlude_mousecursorsize, optional integer x, optional integer y)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns the currently clicked MediaItem, Take as well as the difference of position, end, length and startoffset since last time calling this function.
     Good for implementing ripple-drag/editing-functions, whose position depends on changes in the currently clicked MediaItem.
@@ -1109,21 +1109,26 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize)
                          - This could be important, if you want to affect other items with rippling.
   </retvals>
   <parameters>
-    boolean exlude_mousecursorsize - false or nil, get the item underneath, when it can be affected by the mouse-cursor(dragging etc): when in doubt, use this
-                                   - true, get the item underneath the mousecursor only, when mouse is strictly above the item,
-                                   -       which means: this ignores the item when mouse is not above it, even if the mouse could affect the item
+    optional boolean exlude_mousecursorsize - false or nil, get the item underneath, when it can be affected by the mouse-cursor(dragging etc): when in doubt, use this
+                                            - true, get the item underneath the mousecursor only, when mouse is strictly above the item,
+                                            -       which means: this ignores the item when mouse is not above it, even if the mouse could affect the item
+    optional integer x - nil, use the current x-mouseposition; otherwise the x-position in pixels
+    optional integer y - nil, use the current y-mouseposition; otherwise the y-position in pixels
   </parameters>
   <chapter_context>
     API-Helper functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, get, action, context, difftime, item, mediaitem, offset, lengt, end, start, locked, unlocked</tags>
+  <tags>helper functions, get, action, context, difftime, item, mediaitem, offset, length, end, start, locked, unlocked</tags>
 </US_DocBloc>
 --]]
-  local x, y, MediaItem, MediaItem_Take, MediaItem_unlocked
+  if x~=nil and math.type(x)~="integer" then ultraschall.AddErrorMessage("get_action_context_MediaItemDiff", "x", "must be either nil or an integer", -1) return nil end
+  if y~=nil and math.type(y)~="integer" then ultraschall.AddErrorMessage("get_action_context_MediaItemDiff", "y", "must be either nil or an integer", -2) return nil end
+  if (x~=nil and y==nil) or (y~=nil and x==nil) then ultraschall.AddErrorMessage("get_action_context_MediaItemDiff", "x or y", "must be either both nil or both an integer!", -3) return nil end
+  local MediaItem, MediaItem_Take, MediaItem_unlocked
   local StartDiffTime, EndDiffTime, Item_moved, LengthDiffTime, OffsetDiffTime
-  x,y=reaper.GetMousePosition()
+  if x==nil and y==nil then x,y=reaper.GetMousePosition() end
   MediaItem, MediaItem_Take = reaper.GetItemFromPoint(x, y, true)
   MediaItem_unlocked = reaper.GetItemFromPoint(x, y, false)
   if MediaItem==nil and exlude_mousecursorsize~=true then
@@ -1134,6 +1139,32 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize)
     MediaItem, MediaItem_Take = reaper.GetItemFromPoint(x-3, y, true)
     MediaItem_unlocked = reaper.GetItemFromPoint(x-3, y, false)
   end
+  
+  -- crossfade-stuff
+  -- example-values for crossfade-parts
+  -- Item left: 811 -> 817 , Item right: 818 -> 825
+  --               6           7
+  -- first:  get, if the next and previous items are at each other/crossing; if nothing -> no crossfade
+  -- second: get, if within the aforementioned pixel-ranges, there's another item
+  --              6 pixels for the one before the current item
+  --              7 pixels for the next item
+  -- third: if yes: crossfade-area, else: no crossfade area
+  --[[
+  -- buggy: need to know the length of the crossfade, as the aforementioned attempt would work only
+  --        if the items are adjacent but not if they overlap
+  --        also need to take into account, what if zoomed out heavily, where items might be only
+  --        a few pixels wide
+  
+  if MediaItem~=nil then
+    ItemNumber = reaper.GetMediaItemInfo_Value(MediaItem, "IP_ITEMNUMBER")
+    ItemTrack  = reaper.GetMediaItemInfo_Value(MediaItem, "P_TRACK")
+    ItemBefore = reaper.GetTrackMediaItem(ItemTrack, ItemNumber-1)
+    ItemAfter = reaper.GetTrackMediaItem(ItemTrack, ItemNumber+1)
+    if ItemBefore~=nil then
+      ItemBefore_crossfade=reaper.GetMediaItemInfo_Value(ItemBefore, "D_POSITION")+reaper.GetMediaItemInfo_Value(ItemBefore, "D_LENGTH")>=reaper.GetMediaItemInfo_Value(MediaItem, "D_POSITION")
+    end
+  end
+  --]]
   
   if ultraschall.get_action_context_MediaItem_old~=MediaItem then
     StartDiffTime=0
@@ -1173,6 +1204,6 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize)
   return MediaItem, MediaItem_Take, MediaItem_unlocked, Item_moved, StartDiffTime, EndDiffTime, LengthDiffTime, OffsetDiffTime
 end
 
-
+--a,b,c,d,e,f,g,h,i=ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x, y)
 
 ultraschall.ShowLastErrorMessage()
