@@ -642,9 +642,12 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
       
       The following example shows an input-dialog with three fields, where the first two the have default-values:
       
-        retval, number_of_inputfields, returnvalues = ultraschall.GetUserInputs("I am the title", {"first", "second", "third"}, {1,"two"})
+        retval, number_of_inputfields, returnvalues = ultraschall.GetUserInputs("I am the title", {"first", "second", "third"}, {1,"two"})   
      
-    returns false in case of an error.
+   Note: Don't use this function within defer-scripts or scripts that are started by defer-scripts, as this produces errors.
+         This is due limitations in Reaper, sorry.
+
+   returns false in case of an error.
   </description>
   <retvals>
     boolean retval - true, the user clicked ok on the userinput-window; false, the user clicked cancel or an error occured
