@@ -2,10 +2,9 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="39176.00" author="Meo Mespotine">
+      <version name="39185.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
-	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
 	<source file="/ultraschall_api/Readme-First.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Readme-First.txt</source>
 	<source file="/ultraschall_api/Ultraschall_Api_Documentation1.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Ultraschall_Api_Documentation1.txt</source>
@@ -350,13 +349,16 @@ New features in 4.00beta2.75
     optionally scans all or just the new ones
 -   FXManagement: ScanVSTPlugins - rescans all vst-plugins, optionally
     clears vst-plugin-cache first
+-   HelperFunctions: get_action_context_MediaItemDiff - gets the
+    MediaItemDifference(position, start, end, length, offset) wince last
+    time calling this function. Good for ripple-drag-scripts.
 -   ReaMote: AutoSearchReaMoteSlaves - autosearches for new
     ReaMote-slaves
 
 Changes from Beta 2.75 to Beta 2.76
 
 -   Helpers: GetUserInputs - allows now setting width of the
-    captions-field(requested by Julian Sader), allows now commas in
+    captions-fields(requested by Julian Sader), allows now commas in
     captions and default-values as well; title is now the one defined by
     the title-parameter(used to have temporary title previously)
     (reported by X-Raym)

@@ -537,58 +537,75 @@ function ultraschall.GetAllMediaItemTake_StateChunks(MediaItem)
 end
 
 
-function ultraschall.AddProjectfileToRenderQueue(Projectfilename2)
--- Todo
--- add 
---  QUEUED_RENDER_OUTFILE "C:\defrenderpath\untitled.flac" 65553 {8B34A896-AAE3-4F7F-9A5E-63C19B1C9AE0}
---  QUEUED_RENDER_ORIGINAL_FILENAME C:\Render-Queue-Documentation.RPP
--- to them
--- the former being dependend on, whether some render-stems is selected
-
-  --Projectfilename2="c:\\Render-Queue-Documentation.RPP"
-  local path, projfilename = ultraschall.GetPath(Projectfilename2)
-  local Projectfilename=ultraschall.API_TempPath..projfilename
-  local A,B, Count, Individual_values, tempa, tempb, filename, Qfilename
-  
-  ultraschall.MakeCopyOfFile(Projectfilename2, Projectfilename)
-  
-  --k,Projectfilename = reaper.EnumProjects(-1,"")
-  A=ultraschall.ReadFullFile(Projectfilename) 
-  B=""
-  
-  Count, Individual_values = ultraschall.CSV2IndividualLinesAsArray(A, "\n")
-  
-  
-  for i=1, Count do
-    if Individual_values[i]:match("^        FILE \"")~=nil then
-      filename=Individual_values[i]:match("\"(.-)\"")
-      if reaper.file_exists(path..filename)==true then
-        tempa, tempb=Individual_values[i]:match("(.-\").-(\".*)")
-        Individual_values[i]=tempa..path..filename..tempb
-      end
-    end
-    B=B.."\n"..Individual_values[i]
-  end
-  
-  -- let's create a valid render-queue-filename
-  local A, month, day, hour, min, sec
-  A=os.date("*t")
-  if tostring(A["month"]):len()==1 then month="0"..tostring(A["month"]) else month=tostring(A["month"]) end
-  if tostring(A["day"]):len()==1 then day="0"..tostring(A["day"]) else day=tostring(A["day"]) end
-  
-  if tostring(A["hour"]):len()==1 then hour="0"..tostring(A["hour"]) else hour=tostring(A["hour"]) end
-  if tostring(A["min"]):len()==1 then min="0"..tostring(A["min"]) else min=tostring(A["min"]) end
-  if tostring(A["sec"]):len()==1 then sec="0"..tostring(A["sec"]) else sec=tostring(A["sec"]) end
-  
-  Qfilename="qrender_"..tostring(A["year"]):sub(-2,-1)..month..day.."_"..hour..min..sec.."_"..Projectfilename2:match("[\\/](.*)")
-
-  ultraschall.WriteValueToFile("c:\\Ultraschall-Hackversion_3.2_US_beta_2_75\\QueuedRenders\\"..Qfilename, B)
+function ultraschall.SetReaScriptConsole_FontStyle(style)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SetReaScriptConsole_FontStyle</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>boolean retval = ultraschall.SetReaScriptConsole_FontStyle(integer style)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      If the ReaScript-console is opened, you can change the font-style of it.
+      You can choose between 19 different styles, with 3 being of fixed character length. It will change the next time you output text to the ReaScriptConsole.
+      
+      If you close and reopen the Console, you need to set the font-style again!
+      
+      You can only have one style active in the console!
+      
+      Returns false in case of an error
+    </description>
+    <retvals>
+      boolean retval - true, displaying was successful; false, displaying wasn't successful
+    </retvals>
+    <parameters>
+      integer length - the font-style used. There are 19 different ones.
+                      - fixed-character-length:
+                      -     1,  fixed, console
+                      -     2,  fixed, console alt
+                      -     3,  thin, fixed
+                      - 
+                      - normal from large to small:
+                      -     4-8
+                      -     
+                      - bold from largest to smallest:
+                      -     9-14
+                      - 
+                      - thin:
+                      -     15, thin
+                      - 
+                      - underlined:
+                      -     16, underlined, thin
+                      -     17, underlined
+                      -     18, underlined
+                      - 
+                      - symbol:
+                      -     19, symbol
+    </parameters>
+    <chapter_context>
+      User Interface
+      Miscellaneous
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>user interface, reascript, console, font, style</tags>
+  </US_DocBloc>
+  ]]
+  if math.type(style)~="integer" then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be an integer", -1) return false end
+  if style>19 or style<1 then ultraschall.AddErrorMessage("SetReaScriptConsole_FontStyle", "style", "must be between 1 and 17", -2) return false end
+  local reascript_console_hwnd = ultraschall.GetReaScriptConsoleWindow()
+  if reascript_console_hwnd==nil then return false end
+  local styles={32,33,36,31,214,37,218,1606,4373,3297,220,3492,3733,3594,35,1890,2878,3265,4392}
+  local Textfield=reaper.JS_Window_FindChildByID(reascript_console_hwnd, 1177)
+  reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)
+  return true
 end
+--reaper.ClearConsole()
+--ultraschall.SetReaScriptConsole_FontStyle(1)
+--reaper.ShowConsoleMsg("ABCDEFGhijklmnop\n123456789.-,!\"§$%&/()=\n----------\nOOOOOOOOOO")
 
---A=9879
---HHhwnd = ultraschall.GetRenderQueueHWND()
-
---ultraschall.AddProjectfileToRenderQueue("c:\\Render-Queue-Documentation.RPP")
 
 
 
@@ -1044,6 +1061,118 @@ function ultraschall.GetAllActions(section)
 end
 
 --A,B=ultraschall.GetAllActions(0)
+
+function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize)
+-- TODO:: nice to have feature: when mouse is above crossfades between two adjacent items, return this state as well as a boolean
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>get_action_context_MediaItemDiff</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>MediaItem MediaItem, MediaItem_Take MediaItem_Take, MediaItem MediaItem_unlocked, boolean Item_moved, number StartDiffTime, number EndDiffTime, number LengthDiffTime, number OffsetDiffTime = ultraschall.get_action_context_MediaItemDiff(boolean exlude_mousecursorsize)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the currently clicked MediaItem, Take as well as the difference of position, end, length and startoffset since last time calling this function.
+    Good for implementing ripple-drag/editing-functions, whose position depends on changes in the currently clicked MediaItem.
+    Repeatedly call this (e.g. in a defer-cycle) to get all changes made, during dragging position, length or offset of the MediaItem underneath mousecursor.
+    
+    This function takes into account the size of the start/end-drag-mousecursor, that means: if mouse-position is within 3 pixels before start/after end of the item, it will get the correct MediaItem. 
+    This is a workaround, as the mouse-cursor changes to dragging and can still affect the MediaItem, even though the mouse at this position isn't above a MediaItem anymore.
+    To be more strict, set exlude_mousecursorsize to true. That means, it will only detect MediaItems directly beneath the mousecursor. If the mouse isn't above a MediaItem, this function will ignore it, even if the mouse could still affect the MediaItem.
+    If you don't understand, what that means: simply omit exlude_mousecursorsize, which should work in almost all use-cases. If it doesn't work as you want, try setting it to true and see, whether it works now.    
+  </description>
+  <retvals>
+    MediaItem MediaItem - the MediaItem at the current mouse-position; nil if not found
+    MediaItem_Take MediaItem_Take - the MediaItem_Take underneath the mouse-cursor
+    MediaItem MediaItem_unlocked - if the MediaItem isn't locked, you'll get a MediaItem here. If it is locked, this retval is nil
+    boolean Item_moved - true, the item was moved; false, only a part(either start or end or offset) of the item was moved
+    number StartDiffTime - if the start of the item changed, this is the difference;
+                         -   positive, the start of the item has been changed towards the end of the project
+                         -   negative, the start of the item has been changed towards the start of the project
+                         -   0, no changes to the itemstart-position at all
+    number EndDiffTime - if the end of the item changed, this is the difference;
+                         -   positive, the end of the item has been changed towards the end of the project
+                         -   negative, the end of the item has been changed towards the start of the project
+                         -   0, no changes to the itemend-position at all
+    number LengthDiffTime - if the length of the item changed, this is the difference;
+                         -   positive, the length is longer
+                         -   negative, the length is shorter
+                         -   0, no changes to the length of the item
+    number OffsetDiffTime - if the offset of the item-take has changed, this is the difference;
+                         -   positive, the offset has been changed towards the start of the project
+                         -   negative, the offset has been changed towards the end of the project
+                         -   0, no changes to the offset of the item-take
+                         - Note: this is the offset of the take underneath the mousecursor, which might not be the same size, as the MediaItem itself!
+                         - So changes to the offset maybe changes within the MediaItem or the start of the MediaItem!
+                         - This could be important, if you want to affect other items with rippling.
+  </retvals>
+  <parameters>
+    boolean exlude_mousecursorsize - false or nil, get the item underneath, when it can be affected by the mouse-cursor(dragging etc): when in doubt, use this
+                                   - true, get the item underneath the mousecursor only, when mouse is strictly above the item,
+                                   -       which means: this ignores the item when mouse is not above it, even if the mouse could affect the item
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, get, action, context, difftime, item, mediaitem, offset, lengt, end, start, locked, unlocked</tags>
+</US_DocBloc>
+--]]
+  local x, y, MediaItem, MediaItem_Take, MediaItem_unlocked
+  local StartDiffTime, EndDiffTime, Item_moved, LengthDiffTime, OffsetDiffTime
+  x,y=reaper.GetMousePosition()
+  MediaItem, MediaItem_Take = reaper.GetItemFromPoint(x, y, true)
+  MediaItem_unlocked = reaper.GetItemFromPoint(x, y, false)
+  if MediaItem==nil and exlude_mousecursorsize~=true then
+    MediaItem, MediaItem_Take = reaper.GetItemFromPoint(x+3, y, true)
+    MediaItem_unlocked = reaper.GetItemFromPoint(x+3, y, false)
+  end
+  if MediaItem==nil and exlude_mousecursorsize~=true then
+    MediaItem, MediaItem_Take = reaper.GetItemFromPoint(x-3, y, true)
+    MediaItem_unlocked = reaper.GetItemFromPoint(x-3, y, false)
+  end
+  
+  if ultraschall.get_action_context_MediaItem_old~=MediaItem then
+    StartDiffTime=0
+    EndDiffTime=0
+    LengthDiffTime=0
+    OffsetDiffTime=0
+    if MediaItem~=nil then
+      ultraschall.get_action_context_MediaItem_Start=reaper.GetMediaItemInfo_Value(MediaItem, "D_POSITION")
+      ultraschall.get_action_context_MediaItem_End=reaper.GetMediaItemInfo_Value(MediaItem, "D_LENGTH")+reaper.GetMediaItemInfo_Value(MediaItem, "D_POSITION")
+      ultraschall.get_action_context_MediaItem_Length=reaper.GetMediaItemInfo_Value(MediaItem, "D_LENGTH")
+      ultraschall.get_action_context_MediaItem_Offset=reaper.GetMediaItemTakeInfo_Value(MediaItem_Take, "D_STARTOFFS")
+    end
+  else
+    if MediaItem~=nil then      
+      StartDiffTime=ultraschall.get_action_context_MediaItem_Start
+      EndDiffTime=ultraschall.get_action_context_MediaItem_End
+      LengthDiffTime=ultraschall.get_action_context_MediaItem_Length
+      OffsetDiffTime=ultraschall.get_action_context_MediaItem_Offset
+      
+      ultraschall.get_action_context_MediaItem_Start=reaper.GetMediaItemInfo_Value(MediaItem, "D_POSITION")
+      ultraschall.get_action_context_MediaItem_End=reaper.GetMediaItemInfo_Value(MediaItem, "D_LENGTH")+reaper.GetMediaItemInfo_Value(MediaItem, "D_POSITION")
+      ultraschall.get_action_context_MediaItem_Length=reaper.GetMediaItemInfo_Value(MediaItem, "D_LENGTH")
+      ultraschall.get_action_context_MediaItem_Offset=reaper.GetMediaItemTakeInfo_Value(MediaItem_Take, "D_STARTOFFS")
+      
+      Item_moved=(ultraschall.get_action_context_MediaItem_Start~=StartDiffTime
+              and ultraschall.get_action_context_MediaItem_End~=EndDiffTime)
+              
+      StartDiffTime=ultraschall.get_action_context_MediaItem_Start-StartDiffTime
+      EndDiffTime=ultraschall.get_action_context_MediaItem_End-EndDiffTime
+      LengthDiffTime=ultraschall.get_action_context_MediaItem_Length-LengthDiffTime
+      OffsetDiffTime=ultraschall.get_action_context_MediaItem_Offset-OffsetDiffTime
+      
+    end    
+  end
+  ultraschall.get_action_context_MediaItem_old=MediaItem
+
+  return MediaItem, MediaItem_Take, MediaItem_unlocked, Item_moved, StartDiffTime, EndDiffTime, LengthDiffTime, OffsetDiffTime
+end
+
 
 
 ultraschall.ShowLastErrorMessage()
