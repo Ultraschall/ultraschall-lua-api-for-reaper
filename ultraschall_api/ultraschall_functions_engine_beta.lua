@@ -1210,15 +1210,10 @@ end
 --a,b,c,d,e,f,g,h,i=ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x, y)
 
 function ultraschall.Localize_UseFile(filename, section, language)
--- TODO: how to "encode" the language? In the filename? How do regular Langpacks do it and can I use them as reference for
---       getting the currently installed language?
---       shall there be numerous languages in one file, separated by sections [sectionname_languageabbrev] [general_de] [general_us]?
---       I think, filename is better: XRaym_de.USLangPack, XRaym_us.USLangPack, XRaym_fr.USLangPack or something
+-- TODO: getting the currently installed language for the case, that language = set to nil
+--       I think, filename as place for the language is better: XRaym_de.USLangPack, XRaym_us.USLangPack, XRaym_fr.USLangPack or something
 --       
 --       Maybe I should force to use the extension USLangPack...
---
---       BUG!! Doesn't pick out the wanted section yet, but all of them currently.
---             Needs fixing...
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Localize_UseFile</slug>
@@ -1269,6 +1264,7 @@ function ultraschall.Localize_UseFile(filename, section, language)
   local filenamestart, filenamsendof=ultraschall.GetPath(filename)
   local filenamext=filenamsendof:match(".*(%..*)")
   if language==nil then language="" end
+  local filename2=filename
   if filenamext==nil or filenamsendof==nil then 
     filename=filename.."_"..language
   else
@@ -1279,14 +1275,27 @@ function ultraschall.Localize_UseFile(filename, section, language)
     if reaper.file_exists(reaper.GetResourcePath().."/LangPack/"..filename)==false then
       ultraschall.AddErrorMessage("Localize_UseFile", "filename", "file does not exist", -3) return false
     else
-      ultraschall.Localize_Filename=reaper.GetResourcePath().."/LangPack/"..filename
+      ultraschall.Localize_Filename=reaper.GetResourcePath().."/LangPack/"..filename2
       ultraschall.Localize_Section=section
+      ultraschall.Localize_Language=language
     end
   else
-    ultraschall.Localize_Filename=filename
+    ultraschall.Localize_Filename=filename2
     ultraschall.Localize_Section=section
+    ultraschall.Localize_Language=language
   end
-  ultraschall.Localize_File="\n"..ultraschall.ReadFullFile(filename).."\n"
+  ultraschall.Localize_File=ultraschall.ReadFullFile(filename).."\n["
+  ultraschall.Localize_File=ultraschall.Localize_File:match(section.."%]\n(.-)%[")
+  ultraschall.Localize_File_Content={}
+  for k in string.gmatch(ultraschall.Localize_File, "(.-)\n") do
+    k=string.gsub(k, "\\n", "\n")
+    k=string.gsub(k, "=", "\0")
+    k=string.gsub(k, "\\\0", "=")
+    local left, right=k:match("(.-)\0(.*)")
+    --print2(left, "======", right)
+    ultraschall.Localize_File_Content[left]=right
+  end
+  
   
 --  ultraschall.Localize_File2=string.gsub(ultraschall.Localize_File, "\n;.-\n", "\n")
   
@@ -1310,10 +1319,6 @@ end
 --P=#O
 
 function ultraschall.Localize(text, ...)
---TODO: %s must be numbered, like %s1 %s2 %s32 etc
---      that way, you can retain an order as well as reordering them, if a translation needs them differently ordered
---      otherwise, you would be stuck with the way, the original language would order them
---      %sxxx must contain a space before and after it, so a "text %s1 ," could become "text replacement,"
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Localize</slug>
@@ -1354,15 +1359,13 @@ function ultraschall.Localize(text, ...)
 --]]
   local retval=true
   if type(text)~="string" then ultraschall.AddErrorMessage("Localize", "text", "must be a string", -1) return nil, retval end
-  text2=string.gsub(text, "\n", "\\n")
-  text2=string.gsub(text2, "=", "\\=")
   local Tab={...}
-  if ultraschall.Localize_File==nil then ultraschall.Localize_File="" end
-  retvaltext=ultraschall.Localize_File:match("\n"..text2.."=(.-)\n")
+  if ultraschall.Localize_File_Content==nil then return text, false end
+  local retvaltext=ultraschall.Localize_File_Content[text]
   if retvaltext==nil then retvaltext=text retval=false end
   retvaltext=string.gsub(retvaltext, "\\n", "\n")
   for i=1, #Tab do
-    retvaltext=string.gsub(retvaltext, "%%s", tostring(Tab[i]), 1)
+    retvaltext=string.gsub(retvaltext, "%%s"..i.." ", tostring(Tab[i]))
   end
   retvaltext=string.gsub(retvaltext, "\\=", "=")
   return retvaltext, retval
@@ -1372,7 +1375,9 @@ end
 Localize=ultraschall.Localize
 
 
---A=Localize("Export MP3\nEcht", " 123 ", " 992 ", " klongel ")
+--A=Localize("Export MP3\nEcht", " Eins ", " Zwo ", " Drei ")
+--A=Localize("Hud=el%s=", -22,2,3,4,5,6,7,8,9, "ZEHN")
+--print2(A)
 --A=ultraschall.Localize("Export MP3\nRender your Podcast to a MP3 File.\n\n\nChapter Markers\nYou may take a final look at your chapter markers.\n\n\nID3 Metadata\nUse the ID3 Editor to add metadata to your podcast.\n\n\nPodcast Episode Image:\nFound.\n\n\n\n\nFinalize MP3\nHit the button and select your MP3 to finalize it\nwith metadata, chapters and episode image!")
 --AAA,AAA2=ultraschall.Localize("Export MP3\nRender your Podcast to a MP3 File.\n\n\nChapter Markers\nYou may take a final look at your chapter markers.\n\n\nID3 Metadata\nUse the ID3 Editor to add metadata to your podcast.\n\n\nPodcast Episode Image:\nFound.\n\n\n\n\nFinalize MP3\nHit the button and select your MP3 to finalize it\nwith metadata, chapters and episode image!", "ALABASTERHEINRICH")
 --AA=reaper.file_exists(ultraschall.Localize_Filename)
@@ -1399,19 +1404,14 @@ function ultraschall.Localize_RefreshFile()
 </US_DocBloc>
 --]]
   if ultraschall.Localize_Filename~=nil then
-    ultraschall.Localize_File=ultraschall.ReadFullFile(ultraschall.Localize_Filename)
+    return ultraschall.Localize_UseFile(ultraschall.Localize_Filename, ultraschall.Localize_Section, ultraschall.Localize_Language)
+  else
+    ultraschall.AddErrorMessage("Localize_RefreshFile", "", "no translation-file loaded", -1)
+    return false
   end
-  if ultraschall.Localize_File==nil then ultraschall.Localize_File="" else ultraschall.Localize_File="\n"..ultraschall.Localize_File.."\n" end
-  
-  while ultraschall.Localize_File~=ultraschall.Localize_File2 do
-    ultraschall.Localize_File2=ultraschall.Localize_File
-    ultraschall.Localize_File=string.gsub(ultraschall.Localize_File2, "\n;.-\n", "\n")
-  end
-  
-  ultraschall.Localize_File=string.gsub(ultraschall.Localize_File, "\n\n", "\n")
 end
 
---ultraschall.Localize_RefreshFile()
+--OOO=ultraschall.Localize_RefreshFile()
 
 --print2(ultraschall.Localize_File)
 
