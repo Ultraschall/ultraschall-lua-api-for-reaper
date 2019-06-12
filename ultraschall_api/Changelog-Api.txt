@@ -280,12 +280,16 @@ TODO!! buggy function
    - FXManagement: ScanDXPlugins - rescans all DX(DirectX)-plugins, optionally scans all or just the new ones
    - FXManagement: ScanVSTPlugins - rescans all vst-plugins, optionally clears vst-plugin-cache first
    - HelperFunctions: get\_action\_context\_MediaItemDiff - gets the MediaItemDifference(position, start, end, length, offset) wince last time calling this function. Good for ripple-drag-scripts.
+   - Localize: Localize - localizes a string, using the texts from a translationfile; can be used with or without ultraschall. at the beginning
+   - Localize: Localize\_RefreshFile - reloads an already set translation-file, so translations can be updated at runtime
+   - Localize: Localize\_UseFile - sets a translationfile, that shall be used by function ultraschall.Localize
    - ReaMote: AutoSearchReaMoteSlaves - autosearches for new ReaMote-slaves
     
 #### Changes from Beta 2.75 to Beta 2.76
    - Helpers: GetUserInputs - allows now setting width of the captions-fields(requested by Julian Sader), allows now commas in captions and default-values as well; title is now the one defined by the title-parameter(used to have temporary title previously) (reported by X-Raym)
    - Scripts: HWND-Displayer.lua - reimplemented, much more comfortable now with a lot of more features.
-    ---
+   
+   ---
 
 ## Ultraschall Framework - Changelog
 
