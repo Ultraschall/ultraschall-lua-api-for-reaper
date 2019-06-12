@@ -1216,6 +1216,9 @@ function ultraschall.Localize_UseFile(filename, section, language)
 --       I think, filename is better: XRaym_de.USLangPack, XRaym_us.USLangPack, XRaym_fr.USLangPack or something
 --       
 --       Maybe I should force to use the extension USLangPack...
+--
+--       BUG!! Doesn't pick out the wanted section yet, but all of them currently.
+--             Needs fixing...
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Localize_UseFile</slug>
@@ -1307,6 +1310,10 @@ end
 --P=#O
 
 function ultraschall.Localize(text, ...)
+--TODO: %s must be numbered, like %s1 %s2 %s32 etc
+--      that way, you can retain an order as well as reordering them, if a translation needs them differently ordered
+--      otherwise, you would be stuck with the way, the original language would order them
+--      %sxxx must contain a space before and after it, so a "text %s1 ," could become "text replacement,"
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>Localize</slug>
