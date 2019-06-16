@@ -272,7 +272,7 @@ TODO!! buggy function
 </TODO>
 ## Ultraschall Framework - Changelog
 
-### 4.00 Beta 2.76: - "The Cure - Burn like Fire in Cairo" - 30th of July 2019
+### 4.00 Beta 2.76: - "The Police - Walking on the Moon" - 20th of July 2019
 
 #### New features in 4.00beta2.75
    - Actions: GetAllActions - gets all actions, actioncommandids and scriptnames of all actions in a specific section
@@ -286,6 +286,7 @@ TODO!! buggy function
    - ReaMote: AutoSearchReaMoteSlaves - autosearches for new ReaMote-slaves
     
 #### Changes from Beta 2.75 to Beta 2.76
+   - API: versionscheck - had problems with pre/rc and dev-versions of Reaper -> fixed
    - Helpers: GetUserInputs - allows now setting width of the captions-fields(requested by Julian Sader), allows now commas in captions and default-values as well; title is now the one defined by the title-parameter(used to have temporary title previously) (reported by X-Raym)
    - Scripts: HWND-Displayer.lua - reimplemented, much more comfortable now with a lot of more features.
    
