@@ -3,11 +3,11 @@
 
 
     For 4.00beta2.76:
+        - TODO!! reaper.GetLastTouchedFX, reaper.GetFocusedFX - high word/low word-management is too difficult, make new functions of them
         - TODO!! XML-generator has problems with spaces and & in filenames; use this to overcome this:
                       tempfile=files_array[i]
                       tempfile2=string.gsub(tempfile, "&", "%%26")
                       tempfile2=string.gsub(tempfile2, " ", "%%20")
-        - TODO!! GetSetEnvelopeInfo_String in docs must be in envelopes, not in automation items
         - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
         - TODO!! Add/Set/Delete ParameterLean,Modulation,LFOLearn
         - TODO!! ultraschall.RenderProject_Loops()
@@ -287,6 +287,7 @@ TODO!! buggy function
     
 #### Changes from Beta 2.75 to Beta 2.76
    - API: versionscheck - had problems with pre/rc and dev-versions of Reaper -> fixed
+   - Docs: updated Reaper-docs to 5.979
    - Helpers: GetUserInputs - allows now setting width of the captions-fields(requested by Julian Sader), allows now commas in captions and default-values as well; title is now the one defined by the title-parameter(used to have temporary title previously) (reported by X-Raym)
    - Scripts: HWND-Displayer.lua - reimplemented, much more comfortable now with a lot of more features.
    

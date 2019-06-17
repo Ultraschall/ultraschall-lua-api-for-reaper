@@ -962,11 +962,11 @@
         <functioncall prog_lang="lua">integer = reaper.CountEnvelopePoints(TrackEnvelope envelope)</functioncall>
         <functioncall prog_lang="python">Int RPR_CountEnvelopePoints(TrackEnvelope envelope)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.979
             Lua=5.3
         </requires>
-        <description prog_lang="*">
-            Returns the number of points in the envelope.
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Returns the number of points in the envelope. See [#CountEnvelopePointsEx](#CountEnvelopePointsEx)
         </description>
         <retvals>
             integer - the number of envelope-points in the envelopeobject envelope
@@ -990,11 +990,17 @@
         <functioncall prog_lang="lua">integer = reaper.CountEnvelopePointsEx(TrackEnvelope envelope, integer autoitem_idx)</functioncall>
         <functioncall prog_lang="python">Int RPR_CountEnvelopePointsEx(TrackEnvelope envelope, Int autoitem_idx)</functioncall>
         <requires>
-            Reaper=5.975
+            Reaper=5.979
             Lua=5.3
         </requires>
-        <description prog_lang="*">
-            Returns the number of points in the envelope. autoitem_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.<br><br>
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
+            Returns the number of points in the envelope.
+            autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
+            For automation items, pass autoitem\_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
+            even if the automation item is trimmed so that not all points are visible.
+            Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.
+            
+            See [GetEnvelopePointEx](#GetEnvelopePointEx), [SetEnvelopePointEx](#SetEnvelopePointEx), [InsertEnvelopePointEx](#InsertEnvelopePointEx), [DeleteEnvelopePointEx](#DeleteEnvelopePointEx).
         </description>
         <retvals>
             integer - the number of envelope-points in the envelopeobject envelope
@@ -2099,6 +2105,7 @@
         </chapter_context>
         <tags>trackmanagement, routing, receive, volume, set, alter, relative</tags>
     </US_DocBloc>
+    
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>CSurf_OnRew</slug>
@@ -2963,6 +2970,46 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>DeleteEnvelopePointEx</slug>
+        <title>DeleteEnvelopePointEx</title>
+        <functioncall prog_lang="cpp">bool DeleteEnvelopePointEx(TrackEnvelope* envelope, int autoitem_idx, int ptidx)</functioncall>
+        <functioncall prog_lang="eel">bool DeleteEnvelopePointEx(TrackEnvelope envelope, int autoitem_idx, int ptidx)</functioncall>
+        <functioncall prog_lang="lua">boolean reaper.DeleteEnvelopePointEx(TrackEnvelope envelope, integer autoitem_idx, integer ptidx)</functioncall>
+        <functioncall prog_lang="python">Boolean RPR_DeleteEnvelopePointEx(TrackEnvelope envelope, Int autoitem_idx, Int ptidx)</functioncall>
+        <requires>
+            Reaper=5.979
+            Lua=5.3
+        </requires>
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1">
+            Delete an envelope point. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done.
+            autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
+            For automation items, pass autoitem\_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
+            even if the automation item is trimmed so that not all points are visible.
+            Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.
+            
+            See [CountEnvelopePointsEx](#CountEnvelopePointsEx), [GetEnvelopePointEx](#GetEnvelopePointEx), [SetEnvelopePointEx](#SetEnvelopePointEx), [InsertEnvelopePointEx](#InsertEnvelopePointEx).
+        </description>
+        <retvals>
+            boolean - true, deleting was successful; false, deleting was unsuccessful
+        </retvals>
+        <parameters>
+            TrackEnvelope envelope - the envelope, in which the point lies, that you want to delete
+            integer autoitem_idx - -1, the underlying envelope; 
+                                 - 0 to x, the 1st to x-1th automation-item
+                                 - |0x10000000 to base ptidx on the number of points in one full loop iteration,
+                                 - even if the automation item is trimmed so that not all points are visible.
+                                 - Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.
+            integer ptidx - the envelope-point to delete
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Envelope Management
+        </chapter_context>
+        <tags>envelopemanagement, envelopepoints, delete, range</tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>DeleteEnvelopePointRange</slug>
         <title>DeleteEnvelopePointRange</title>
         <functioncall prog_lang="cpp">bool DeleteEnvelopePointRange(TrackEnvelope* envelope, double time_start, double time_end)</functioncall>
@@ -2970,11 +3017,13 @@
         <functioncall prog_lang="lua">boolean = reaper.DeleteEnvelopePointRange(TrackEnvelope envelope, number time_start, number time_end)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_DeleteEnvelopePointRange(TrackEnvelope envelope, Float time_start, Float time_end)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.979
             Lua=5.3
         </requires>
-        <description prog_lang="*">
-            Delete a range of envelope points.
+        <description prog_lang="*" markup_type="markdown" markup_version="1.0.1">
+            Delete a range of envelope points. 
+            
+            See [DeleteEnvelopePointRangeEx](#DeleteEnvelopePointRangeEx), [DeleteEnvelopePointEx](#DeleteEnvelopePointEx).
         </description>
         <retvals>
             boolean - true, if it succeeded
@@ -4897,11 +4946,11 @@
         <functioncall prog_lang="lua">boolean retval, optional number time, optional number value, optional number shape, optional number tension, optional boolean selected = reaper.GetEnvelopePoint(TrackEnvelope envelope, integer ptidx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int ptidx, Float timeOutOptional, Float valueOutOptional, Int shapeOutOptional, Float tensionOutOptional, Boolean selectedOutOptional) = RPR_GetEnvelopePoint(envelope, ptidx, timeOutOptional, valueOutOptional, shapeOutOptional, tensionOutOptional, selectedOutOptional)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.979
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the attributes of an envelope point. See [GetEnvelopePointByTime](#GetEnvelopePointByTime), [SetEnvelopePoint](#SetEnvelopePoint).
+            Get the attributes of an envelope point. See [GetEnvelopePointEx](#GetEnvelopePointEx)
         </description>
         <retvals>
             boolean retval - 
@@ -4931,11 +4980,13 @@
         <functioncall prog_lang="lua">integer = reaper.GetEnvelopePointByTime(TrackEnvelope envelope, number time)</functioncall>
         <functioncall prog_lang="python">Int RPR_GetEnvelopePointByTime(TrackEnvelope envelope, Float time)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.979
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns the envelope point at or immediately prior to the given time position. See [GetEnvelopePoint](#GetEnvelopePoint), [SetEnvelopePoint](#SetEnvelopePoint), [Envelope_Evaluate](#Envelope_Evaluate).
+            Returns the envelope point at or immediately prior to the given time position. 
+            
+            See [GetEnvelopePointByTimeEx](#GetEnvelopePointByTimeEx)
         </description>
         <retvals>
             integer - 
@@ -4960,11 +5011,17 @@
         <functioncall prog_lang="lua">integer = reaper.GetEnvelopePointByTimeEx(TrackEnvelope envelope, integer autoitem_idx, number time)</functioncall>
         <functioncall prog_lang="python">Int RPR_GetEnvelopePointByTimeEx(TrackEnvelope envelope, Int autoitem_idx, Float time)</functioncall>
         <requires>
-            Reaper=5.975
+            Reaper=5.979
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns the envelope point at or immediately prior to the given time position. autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [GetEnvelopePoint](#GetEnvelopePoint), [SetEnvelopePoint](#SetEnvelopePoint), [Envelope_Evaluate](#Envelope_Evaluate).
+            Returns the envelope point at or immediately prior to the given time position.
+            autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
+            For automation items, pass autoitem\_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
+            even if the automation item is trimmed so that not all points are visible.
+            Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.
+
+            See [GetEnvelopePointEx](#GetEnvelopePointEx), [SetEnvelopePointEx](#SetEnvelopePointEx), [InsertEnvelopePointEx](#InsertEnvelopePointEx), [DeleteEnvelopePointEx](#DeleteEnvelopePointEx).
         </description>
         <retvals>
             integer - 
@@ -4990,11 +5047,17 @@
         <functioncall prog_lang="lua">boolean retval, optional number time, optional number value, optional number shape, optional number tension, optional boolean selected = reaper.GetEnvelopePointEx(TrackEnvelope envelope, integer autoitem_idx, integer ptidx)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int autoitem_idx, Int ptidx, Float timeOutOptional, Float valueOutOptional, Int shapeOutOptional, Float tensionOutOptional, Boolean selectedOutOptional) = RPR_GetEnvelopePointEx(envelope, autoitem_idx, ptidx, timeOutOptional, valueOutOptional, shapeOutOptional, tensionOutOptional, selectedOutOptional)</functioncall>
         <requires>
-            Reaper=5.975
+            Reaper=5.979
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the attributes of an envelope point. autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [GetEnvelopePointByTime](#GetEnvelopePointByTime), [SetEnvelopePoint](#SetEnvelopePoint).
+            Get the attributes of an envelope point.
+            autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
+            For automation items, pass autoitem\_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
+            even if the automation item is trimmed so that not all points are visible.
+            Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.
+
+            See [CountEnvelopePointsEx](#CountEnvelopePointsEx), [SetEnvelopePointEx](#SetEnvelopePointEx), [InsertEnvelopePointEx](#InsertEnvelopePointEx), [DeleteEnvelopePointEx](#DeleteEnvelopePointEx).
         </description>
         <retvals>
             boolean retval - 
@@ -5140,18 +5203,21 @@
         <functioncall prog_lang="lua">integer retval, integer tracknumber, integer itemnumber, integer fxnumber = reaper.GetFocusedFX()</functioncall>
         <functioncall prog_lang="python">(Int retval, Int tracknumberOut, Int itemnumberOut, Int fxnumberOut) = RPR_GetFocusedFX(tracknumberOut, itemnumberOut, fxnumberOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.979
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get focused FX.
-            If item FX, fxnumber will have the high word be the take index, the low word the FX index. See [GetLastTouchedFX](#GetLastTouchedFX).
+            Get focused FX. 
+            
+            See [GetLastTouchedFX](#GetLastTouchedFX).
         </description>
         <retvals>
-            integer retval - 1, track FX window has focus; 2, item FX window has focus; 0, no FX window has focus
+            integer retval - 0, if no FX window has focus
+                           - 1, if a track FX window has focus or was the last focused and still open
+                           - 2, if an item FX window has focus or was the last focused and still open
             integer tracknumber - tracknumber; 0, master track; 1, track 1; etc. 
             integer itemnumber - -1, if it's a track-fx; 0 and higher, the mediaitem-number
-            integer fxnumber - the FX-idx within the fxchain of tracknumber; 0, first fx; 1, second fx; 2, third fx; etc
+            integer fxnumber - If item FX, fxnumber will have the high word be the take index, the low word the FX index
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -5508,17 +5574,23 @@
         <functioncall prog_lang="lua">boolean retval, integer tracknumber, integer fxnumber, integer paramnumber = reaper.GetLastTouchedFX()</functioncall>
         <functioncall prog_lang="python">(Boolean retval, Int tracknumberOut, Int fxnumberOut, Int paramnumberOut) = RPR_GetLastTouchedFX(tracknumberOut, fxnumberOut, paramnumberOut)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.979
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the last touched track, it's last touched parameter and tracknumber.
+            
+            The low word of tracknumber is the 1-based track index -- 0 means the master track, 1 means track 1, etc. 
+            
             See [GetFocusedFX](#GetFocusedFX).
         </description>
         <retvals>
             boolean retval - true, if last touched FX parameter is valid; false, if otherwise
             integer tracknumber - the tracknumber; 0 means the master track, 1 means track 1, etc.
+                                - If the high word of tracknumber is nonzero, it refers to the 1-based item index (1 is the first item on the track, etc).                                 
             integer fxnumber - the id of the FX in the track tracknumber, zero-based
+                             - For track FX, the low 24 bits of fxnumber refer to the FX index in the chain, and if the next 8 bits are 01, then the FX is record FX. 
+                             - For item FX, the low word defines the FX index in the chain, and the high word defines the take number. 
             integer paramnumber - the id of the last parameter touched, zero-based
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
@@ -7653,7 +7725,7 @@
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
         <chapter_context>
-            Automation Management
+            Envelope Management
         </chapter_context>
         <tags></tags>
     </US_DocBloc>
@@ -7962,7 +8034,7 @@
         <description prog_lang="*">
             Get or set project information.
 
-            RENDER_SETTINGS: &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items
+            RENDER_SETTINGS: &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items; &amp;64=selected media items via master
             RENDER_BOUNDSFLAG : 0=custom time bounds, 1=entire project, 2=time selection, 3=all project regions, 4=selected media items, 5=selected project regions
             RENDER_CHANNELS: number of channels in rendered file
             RENDER_SRATE: sample rate of rendered file (or 0 for project sample rate)
@@ -9638,26 +9710,36 @@
         <functioncall prog_lang="lua">boolean retval, string retvals_csv = reaper.GetUserInputs(string title, integer num_inputs, string captions_csv, string retvals_csv)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, String title, Int num_inputs, String captions_csv, String retvals_csv, Int retvals_csv_sz) = RPR_GetUserInputs(title, num_inputs, captions_csv, retvals_csv, retvals_csv_sz)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.979
             Lua=5.3
         </requires>
-        <description prog_lang="*">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Opens a window with input-fields to get values from the user.
             If a caption begins with *, for example "*password", the edit field will not display the input text.
-            Maximum fields is 16. Values are returned as a comma-separated string. Returns false if the user canceled the dialog. To increase text field width, add an extra caption field, and specify extrawidth=(number of characters for the inputfields; 0 to 1000 and higher)
-
-            You can type maximum 1023 characters into one inputfield, everything longer will be cut to 1023 characters!
-            The user can input a comma (,), which is not escaped by Reaper. This could cause trouble, when analysing multiple returned retvals_csv.
+            Maximum fields is 16. Values are returned as a comma/custom separator-separated string. 
+            Returns false if the user canceled the dialog. 
+            
+            You can supply special extra information via additional caption fields: extrawidth=XXX to increase text field width, separator=X to use a different separator for returned fields(separator=\n is recommended).
+            
+            Example:
+            
+            retval, retvals_csv = reaper.GetUserInputs("Title", 2, "Hello,World, separator=\n", "defaultvalue1\ndefaultvalue2")
+            
+            will return the values input by the user, separated by a newline.
+            
+            \n is recommended, as this allows the user entering everything, a one-lined-inputbox can handle.
+            
+            Important: the separator-field in the captions has no effect on how captions are separated from each other. They still need to be separated by commas!
         </description>
         <retvals>
             retval - did the user click OK in the dialog(true) or close/cancel the dialog(false)
-            retvals_csv - the data from each of the input-fields, separated by a comma ,
+            retvals_csv - the data from each of the input-fields, separated by a comma , or a separator you chose.
         </retvals>
         <parameters>
             title - title of the window
             num_inputs - number of input-fields, 1-16.
             captions_csv - a string with the captions for each input-field, each separated by a comma. Can be fewer than num_inputs. If a caption begins with *, the inputfield will display * instead of characters(for i.e. passwords).
-            retvals_csv - default-values for each input-field, separated by a comma.
+            retvals_csv - default-values for each input-field, separated by a comma or a separator you chose.
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -9989,11 +10071,11 @@
         <functioncall prog_lang="lua">boolean = reaper.InsertEnvelopePoint(TrackEnvelope envelope, number time, number value, integer shape, number tension, boolean selected, optional boolean noSortIn)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Float time, Float value, Int shape, Float tension, Boolean selected, Boolean noSortInOptional) = RPR_InsertEnvelopePoint(envelope, time, value, shape, tension, selected, noSortInOptional)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.979
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Insert an envelope point. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done. See [GetEnvelopePoint](#GetEnvelopePoint), [SetEnvelopePoint](#SetEnvelopePoint), [GetEnvelopeScalingMode](#GetEnvelopeScalingMode).
+            Insert an envelope point. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done. See [InsertEnvelopePointEx](#InsertEnvelopePointEx).
         </description>
         <retvals>
             boolean - 
@@ -10023,11 +10105,17 @@
         <functioncall prog_lang="lua">boolean = reaper.InsertEnvelopePointEx(TrackEnvelope envelope, integer autoitem_idx, number time, number value, integer shape, number tension, boolean selected, optional boolean noSortIn)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int autoitem_idx, Float time, Float value, Int shape, Float tension, Boolean selected, Boolean noSortInOptional) = RPR_InsertEnvelopePointEx(envelope, autoitem_idx, time, value, shape, tension, selected, noSortInOptional)</functioncall>
         <requires>
-            Reaper=5.975
+            Reaper=5.979
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Insert an envelope point. If setting multiple points at once, set noSort=true, and call Envelope\_SortPoints when done. autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [GetEnvelopePoint](#GetEnvelopePoint), [SetEnvelopePoint](#SetEnvelopePoint), [GetEnvelopeScalingMode](#GetEnvelopeScalingMode).
+            Insert an envelope point. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done.
+            autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
+            For automation items, pass autoitem\_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
+            even if the automation item is trimmed so that not all points are visible.
+            Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.
+
+            See [CountEnvelopePointsEx](#CountEnvelopePointsEx), [GetEnvelopePointEx](#GetEnvelopePointEx), [SetEnvelopePointEx](#SetEnvelopePointEx), [DeleteEnvelopePointEx](#DeleteEnvelopePointEx).
         </description>
         <retvals>
             boolean - 
@@ -13944,11 +14032,11 @@
         <functioncall prog_lang="lua">boolean = reaper.SetEnvelopePoint(TrackEnvelope envelope, integer ptidx, optional number timeIn, optional number valueIn, optional number shapeIn, optional number tensionIn, optional boolean selectedIn, optional boolean noSortIn)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int ptidx, Float timeInOptional, Float valueInOptional, Int shapeInOptional, Float tensionInOptional, Boolean selectedInOptional, Boolean noSortInOptional) = RPR_SetEnvelopePoint(envelope, ptidx, timeInOptional, valueInOptional, shapeInOptional, tensionInOptional, selectedInOptional, noSortInOptional)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.979
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Set attributes of an envelope point. Values that are not supplied will be ignored. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done. See [GetEnvelopePoint](#GetEnvelopePoint), [InsertEnvelopePoint](#InsertEnvelopePoint), [GetEnvelopeScalingMode](#GetEnvelopeScalingMode).
+            Set attributes of an envelope point. Values that are not supplied will be ignored. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done. See [SetEnvelopePointEx](#SetEnvelopePointEx).
         </description>
         <retvals>
             boolean - 
@@ -13979,11 +14067,16 @@
         <functioncall prog_lang="lua">boolean = reaper.SetEnvelopePointEx(TrackEnvelope envelope, integer autoitem_idx, integer ptidx, optional number timeIn, optional number valueIn, optional number shapeIn, optional number tensionIn, optional boolean selectedIn, optional boolean noSortIn)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, TrackEnvelope envelope, Int autoitem_idx, Int ptidx, Float timeInOptional, Float valueInOptional, Int shapeInOptional, Float tensionInOptional, Boolean selectedInOptional, Boolean noSortInOptional) = RPR_SetEnvelopePointEx(envelope, autoitem_idx, ptidx, timeInOptional, valueInOptional, shapeInOptional, tensionInOptional, selectedInOptional, noSortInOptional)</functioncall>
         <requires>
-            Reaper=5.975
+            Reaper=5.979
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Set attributes of an envelope point. Values that are not supplied will be ignored. If setting multiple points at once, set noSort=true, and call Envelope\_SortPoints when done. autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc. See [GetEnvelopePoint](#GetEnvelopePoint), [InsertEnvelopePoint](#InsertEnvelopePoint), [GetEnvelopeScalingMode](#GetEnvelopeScalingMode).
+            Set attributes of an envelope point. Values that are not supplied will be ignored. If setting multiple points at once, set noSort=true, and call Envelope_SortPoints when done.
+            autoitem\_idx=-1 for the underlying envelope, 0 for the first automation item on the envelope, etc.
+            For automation items, pass autoitem\_idx|0x10000000 to base ptidx on the number of points in one full loop iteration,
+            even if the automation item is trimmed so that not all points are visible.
+            Otherwise, ptidx will be based on the number of visible points in the automation item, including all loop iterations.
+            See [CountEnvelopePointsEx](#CountEnvelopePointsEx), [GetEnvelopePointEx](#GetEnvelopePointEx), [InsertEnvelopePointEx](#InsertEnvelopePointEx), [DeleteEnvelopePointEx](#DeleteEnvelopePointEx).
         </description>
         <retvals>
             boolean - 
@@ -35461,6 +35554,7 @@
             is a stable sorting function with an API similar to qsort().
             HOWEVER, it requires some temporary space, equal to the size of the data being sorted, so you can pass it as the last parameter,
             or NULL and it will allocate and free space internally. 
+            
         </description>
         <retvals>
             void* -
