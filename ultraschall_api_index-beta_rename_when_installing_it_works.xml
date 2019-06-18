@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="39470.00" author="Meo Mespotine">
+      <version name="39566.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -341,7 +341,7 @@ Ultraschall Framework - Changelog
 
 4.00 Beta 2.76: - “The Police - Walking on the Moon” - 20th of July 2019
 
-New features in 4.00beta2.75
+New features in 4.00beta2.76
 
 -   Actions: GetAllActions - gets all actions, actioncommandids and
     scriptnames of all actions in a specific section
@@ -363,11 +363,16 @@ New features in 4.00beta2.75
     used by function ultraschall.Localize
 -   ReaMote: AutoSearchReaMoteSlaves - autosearches for new
     ReaMote-slaves
+-   Render: AddSelectedItemsToRenderQueue - adds selected MediaItems to
+    render-queue as either one render-queued-project or individual
+    projects
+-   Render: GetRenderingToFileHWND - gets the hwnd of the
+    rendering-to-file-dialog, during rendering
 
 Changes from Beta 2.75 to Beta 2.76
 
 -   API: versionscheck - had problems with pre/rc and dev-versions of
-    Reaper -> fixed
+    Reaper -> fixed(reported by X-Raym)
 -   Docs: updated Reaper-docs to 5.979
 -   Helpers: GetUserInputs - allows now setting width of the
     captions-fields(requested by Julian Sader), allows now commas in

@@ -3,6 +3,21 @@
 
 
     For 4.00beta2.76:
+        - TODO!! Default-Color-Theme-Colortables and loading ColorTable from Theme-functions
+                Originally Posted by mespotine  View Post
+                A second action focusing on only random-strong colors would be useful, I think. Should be scriptable as well though.
+
+                Regarding default color-values, IIRC they are stored in the .ReaperTheme-files, with the currently used stored in reaper.ini as well.
+                So how would one reset color palette in reaper without losing theme config otherwise? just colors.
+        - TODO!! AddItemsToRenderQueue-function
+                Hi, 
+
+                I need to add items to the render queue automatically as part of a wider pipeline script.
+                I can't find any functions which relate to it, and the only script examples seem to work either using region render matrix or by muting everything you don't want and sending the whole project using the native action.
+
+                This is possible via the render window button, has anyone come across a way to do this in script?
+
+                Cheers
         - TODO!! reaper.GetLastTouchedFX, reaper.GetFocusedFX - high word/low word-management is too difficult, make new functions of them
         - TODO!! XML-generator has problems with spaces and & in filenames; use this to overcome this:
                       tempfile=files_array[i]
@@ -274,7 +289,7 @@ TODO!! buggy function
 
 ### 4.00 Beta 2.76: - "The Police - Walking on the Moon" - 20th of July 2019
 
-#### New features in 4.00beta2.75
+#### New features in 4.00beta2.76
    - Actions: GetAllActions - gets all actions, actioncommandids and scriptnames of all actions in a specific section
    - FXManagement: AutoDetectVSTPlugins - auto-searches for the vst-plugin-folder
    - FXManagement: ScanDXPlugins - rescans all DX(DirectX)-plugins, optionally scans all or just the new ones
@@ -284,9 +299,11 @@ TODO!! buggy function
    - Localize: Localize\_RefreshFile - reloads an already set translation-file, so translations can be updated at runtime
    - Localize: Localize\_UseFile - sets a translationfile, that shall be used by function ultraschall.Localize
    - ReaMote: AutoSearchReaMoteSlaves - autosearches for new ReaMote-slaves
+   - Render: AddSelectedItemsToRenderQueue - adds selected MediaItems to render-queue as either one render-queued-project or individual projects
+   - Render: GetRenderingToFileHWND - gets the hwnd of the rendering-to-file-dialog, during rendering
     
 #### Changes from Beta 2.75 to Beta 2.76
-   - API: versionscheck - had problems with pre/rc and dev-versions of Reaper -> fixed
+   - API: versionscheck - had problems with pre/rc and dev-versions of Reaper -> fixed(reported by X-Raym)
    - Docs: updated Reaper-docs to 5.979
    - Helpers: GetUserInputs - allows now setting width of the captions-fields(requested by Julian Sader), allows now commas in captions and default-values as well; title is now the one defined by the title-parameter(used to have temporary title previously) (reported by X-Raym)
    - Scripts: HWND-Displayer.lua - reimplemented, much more comfortable now with a lot of more features.

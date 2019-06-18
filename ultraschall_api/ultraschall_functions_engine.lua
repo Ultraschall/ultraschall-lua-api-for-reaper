@@ -55614,7 +55614,7 @@ function ultraschall.GetRenderTable_Project()
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; true, checked; false, unchecked
-            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
@@ -55733,7 +55733,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; always true(checked), as this isn't stored in projectfiles
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always false, as this is not stored in projectfiles
-            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
@@ -56484,7 +56484,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; true, checked; false, unchecked
-            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
@@ -56628,7 +56628,7 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; ignored, as this can't be stored in projectfiles
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; ignored, as this can't be stored in projectfiles
-            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
@@ -58220,7 +58220,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
      RenderTable["SampleRate"] - the samplerate of the rendered file(s)
      RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; always false, as this isn't stored in render-presets
      RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; always true, as this isn't stored in Presets
-     RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+     RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items
      RenderTable["Startposition"] - the startposition of the rendering selection in seconds
      RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
      RenderTable["TailMS"] - the amount of milliseconds of the tail; always 0, as this isn't stored in render-presets
@@ -59328,7 +59328,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked
             RenderTable["SilentlyIncrementFilename"] - Silently increment filenames to avoid overwriting-checkbox; true, checked; false, unchecked
-            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 32, Selected media items
+            RenderTable["Source"] - 0, Master mix; 1, Master mix + stems; 3, Stems (selected tracks); 8, Region render matrix; 16, Tracks with only Mono-Media to Mono Files; 32, Selected media items
             RenderTable["Startposition"] - the startposition of the rendering selection in seconds
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
@@ -59739,7 +59739,7 @@ function ultraschall.RenderProject_RenderQueue(index)
   </parameters>
   <chapter_context>
     Rendering Projects
-    Assistance functions
+    RenderQueue
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -59767,7 +59767,7 @@ function ultraschall.RenderProject_RenderQueue(index)
   return true
 end
 
---ultraschall.RenderProject_RenderQueue(10)
+--ultraschall.RenderProject_RenderQueue(2)
 
 function ultraschall.RenderProject(projectfilename_with_path, renderfilename_with_path, startposition, endposition, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
 --[[

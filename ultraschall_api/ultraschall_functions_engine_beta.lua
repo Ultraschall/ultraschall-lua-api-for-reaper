@@ -1416,4 +1416,131 @@ end
 --print2(ultraschall.Localize_File)
 
 
+function ultraschall.AddSelectedItemsToRenderQueue(render_items_individually, render_items_through_master, RenderTable)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AddSelectedItemsToRenderQueue</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer num_queued_projects = ultraschall.AddSelectedItemsToRenderQueue(optional boolean render_items_individually, optional boolean render_items_through_master, optional RenderTable RenderTables)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Adds the selected MediaItems to the render-queue.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, adding was successful; false, adding was unsuccessful
+    integer num_queued_projects - the number of newly created projects in the render-queue
+  </retvals>
+  <parameters>
+    optional boolean render_items_individually - false or nil, render all selected MediaItems in one render-queued-project; true, render all selected MediaItems individually as separate Queued-projects
+    optional boolean render_items_through_master - false or nil, just render the MediaItems; true, render the MediaItems through the Master-channel
+    optional RenderTable RenderTables - a RenderTable to apply for the renders in the render-queue
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    RenderQueue
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, add, mediaitem, item, items, selected, render, queue, renderqueue</tags>
+</US_DocBloc>
+]]
+  if reaper.CountSelectedMediaItems(0)<1 then ultraschall.AddErrorMessage("AddSelectedItemsToRenderQueue", "", "no MediaItem selected", -1) return false end
+  if RenderTable==nil then
+    RenderTable = ultraschall.GetRenderTable_Project()
+  else
+    if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("AddSelectedItemsToRenderQueue", "RenderTable", "no valid Rendertable", -2) return false end
+  end
+  local RenderTable_org = ultraschall.GetRenderTable_Project()
+  
+  if render_items_through_master==true then
+    RenderTable["Source"]=64
+  else
+    RenderTable["Source"]=32
+  end
+  RenderTable["Bounds"]=4
+  RenderTable["RenderFile"]="c:\\temp\\"
+  local retval = ultraschall.ApplyRenderTable_Project(RenderTable, true)
+  
+  if render_items_individually~=true then
+    reaper.Main_OnCommand(41823,0)
+    count=1
+  else
+    count, MediaItemArray = ultraschall.GetAllSelectedMediaItems()
+    reaper.SelectAllMediaItems(0, false)
+    for i=1, count do
+      reaper.SetMediaItemSelected(MediaItemArray[i], true)
+      reaper.Main_OnCommand(41823,0)
+      reaper.SetMediaItemSelected(MediaItemArray[i], false)
+    end
+    ultraschall.SelectMediaItems_MediaItemArray(MediaItemArray)
+  end
+  
+  
+  retval = ultraschall.ApplyRenderTable_Project(RenderTable_org, true)
+  return true, count
+end
+
+--A,AA=ultraschall.AddSelectedItemsToRenderQueue(false, false)
+--ultraschall.AddProjectFileToRenderQueue("c:\\Users\\meo\\Desktop\\trss\\Maerz2019-1\\rec\\rec-edit.RPP")
+
+
+--RenderTable = ultraschall.GetRenderTable_Project()
+
+function ultraschall.GetRenderingToFileHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRenderingToFileHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.977
+    Lua=5.3
+  </requires>
+  <functioncall>HWND rendertofile_dialog = ultraschall.GetRenderingToFileHWND()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the HWND of the Rendering to File-dialog, if Reaper is currently rendering.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    HWND rendertofile_dialog - the HWND of the render to file-dialog; nil, in case of an error
+  </retvals>
+  <parameters>
+    optional boolean render_items_individually - false or nil, render all selected MediaItems in one render-queued-project; true, render all selected MediaItems individually as separate Queued-projects
+    optional boolean render_items_through_master - false or nil, just render the MediaItems; true, render the MediaItems through the Master-channel
+    optional RenderTable RenderTables - a RenderTable to apply for the renders in the render-queue
+  </parameters>
+  <chapter_context>
+    Rendering Projects
+    RenderQueue
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render, get, hwnd, render to file, dialog</tags>
+</US_DocBloc>
+]]
+  local HWND=reaper.JS_Window_Find(reaper.JS_Localize("Rendering to File..." ,"DLG_124"), true)
+  if HWND==nil then HWND=reaper.JS_Window_Find(reaper.JS_Localize("Finished in" ,"render"), false) end
+  if HWND==nil then HWND=reaper.JS_Window_Find(reaper.JS_Localize("Rendering region " ,"render"), false) end
+  if HWND==nil then ultraschall.AddErrorMessage("GetRenderingToFileHWND", "", "Can't find Rendering to File-window", -1) return end
+  if ultraschall.IsValidHWND(HWND)==true then
+    local Retval1 = ultraschall.HasHWNDChildWindowNames(HWND, reaper.JS_Localize("Launch File", "DLG_124"))
+    local Retval2= ultraschall.HasHWNDChildWindowNames(HWND, reaper.JS_Localize("Automatically close when finished", "DLG_124"))
+    local Retval3= ultraschall.HasHWNDChildWindowNames(HWND, reaper.JS_Localize("Render status", "DLG_124"))
+    if Retval1==true and Retval2==true and Retval3==true then
+      return HWND
+    else
+      ultraschall.AddErrorMessage("GetRenderingToFileHWND", "", "Can't find Rendering to File-window", -2) return
+    end
+  else
+    ultraschall.AddErrorMessage("GetRenderingToFileHWND", "", "Can't find Rendering to File-window", -3) return
+  end
+end
+
+--A=ultraschall.GetRenderingToFileHWND()
+
 ultraschall.ShowLastErrorMessage()

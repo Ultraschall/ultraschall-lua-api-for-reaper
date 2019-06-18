@@ -5540,7 +5540,7 @@
           MIDI CC touch-replace recording timeout-inputbox, as set in the Preferences -> MIDI Settings  
           It is an integer  
                     
-                    0 to 2147483647;in milliseconds
+           >0 to 2147483647;in milliseconds
                     
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
