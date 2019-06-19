@@ -23528,13 +23528,15 @@
         <functioncall prog_lang="python">JS_GDI_Blit(void destHDC, Int dstx, Int dsty, void sourceHDC, Int srcx, Int srxy, Int width, Int height, String modeOptional)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.980
+            JS=0.988
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Blits between two device contexts, which may include LICE "system bitmaps".
 
-            modeOptional: "SRCCOPY" by default, or specify "ALPHA" to enable per-pixel alpha blending.
+            mode: Optional parameter. "SRCCOPY" by default, or specify "ALPHA" to enable per-pixel alpha blending.
+
+            WARNING: On WindowsOS, GDI_Blit does not perform alpha multiplication of the source bitmap. For proper color rendering, a seperate pre-multiplication step is therefore required, using either LICE_Blit or LICE_ProcessRect.
         </description>
         <parameters>
            identifier destHDC - 
@@ -24303,6 +24305,69 @@
         </chapter_context>
         <tags></tags>
     </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_LICE_AlterBitmapHSV</slug>
+        <title>JS_LICE_AlterBitmapHSV(JS)</title>
+        <functioncall prog_lang="cpp">void JS_LICE_AlterBitmapHSV(void* bitmap, double hue, double saturation, double value)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_LICE_AlterBitmapHSV", void* bitmap, hue, saturation, value)</functioncall>
+        <functioncall prog_lang="lua">reaper.JS_LICE_AlterBitmapHSV(identifier bitmap, number hue, number saturation, number value)</functioncall>
+        <functioncall prog_lang="python">(JS_LICE_AlterBitmapHSV(void bitmap, Float hue, Float saturation, Float value)</functioncall>
+        <requires>
+            Reaper=5.965
+            JS=0.988
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Hue is rolled over, saturation and value are clamped, all 0..1. (Alpha remains unchanged.)
+        </description>
+        <parameters>
+           identifier bitmap - 
+           number hue - 
+           number saturation - 
+           number value - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_LICE_AlterRectHSV</slug>
+        <title>JS_LICE_AlterRectHSV(JS)</title>
+        <functioncall prog_lang="cpp">void JS_LICE_AlterRectHSV(void* bitmap, int x, int y, int w, int h, double hue, double saturation, double value)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_LICE_AlterRectHSV", void* bitmap, int x, int y, int w, int h, hue, saturation, value)</functioncall>
+        <functioncall prog_lang="lua">reaper.JS_LICE_AlterRectHSV(identifier bitmap, integer x, integer y, integer w, integer h, number hue, number saturation, number value)</functioncall>
+        <functioncall prog_lang="python">JS_LICE_AlterRectHSV(void bitmap, Int x, Int y, Int w, Int h, Float hue, Float saturation, Float value)</functioncall>
+        <requires>
+            Reaper=5.965
+            JS=0.988
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Hue is rolled over, saturation and value are clamped, all 0..1. (Alpha remains unchanged.)
+        </description>
+        <parameters>
+           identifier bitmap - 
+           integer x - 
+           integer y - 
+           integer w - 
+           integer h - 
+           number hue - 
+           number saturation - 
+           number value - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
   
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_LICE_Arc</slug>
@@ -24395,11 +24460,16 @@
         <functioncall prog_lang="python">JS_LICE_Blit(void destBitmap, Int dstx, Int dsty, void sourceBitmap, Int srcx, Int srcy, Int width, Int height, Float alpha, String mode)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.986
+            JS=0.988
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA" to enable per-pixel alpha blending.
+            Standard LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA" to enable per-pixel alpha blending.
+
+            In addition to the standard LICE modes, LICE_Blit also offers:
+            * "CHANCOPY_XTOY", with X and Y any of the four channels, A, R, G or B. (CHANCOPY_ATOA is similar to MASK mode.)
+            * "BLUR"
+            * "ALPHAMUL", which overwrites the destination with a per-pixel alpha-multiplied copy of the source. (Similar to first clearing the destination with 0x00000000 and then blitting with "COPY,ALPHA".)
         </description>
         <parameters>
            identifier destBitmap - 
@@ -25117,6 +25187,49 @@
     </US_DocBloc>
   
     <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_LICE_ProcessRect</slug>
+        <title>JS_LICE_ProcessRect(JS)</title>
+        <functioncall prog_lang="cpp">bool JS_LICE_ProcessRect(void* bitmap, int x, int y, int w, int h, const char* mode, double operand)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("JS_LICE_ProcessRect", void* bitmap, int x, int y, int w, int h, "mode", operand)</functioncall>
+        <functioncall prog_lang="lua">boolean reaper.JS_LICE_ProcessRect(identifier bitmap, integer x, integer y, integer w, integer h, string mode, number operand)</functioncall>
+        <functioncall prog_lang="python">Boolean JS_LICE_ProcessRect(void bitmap, Int x, Int y, Int w, Int h, String mode, Float operand)</functioncall>
+        <requires>
+            Reaper=5.95
+            JS=0.988
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Applies bitwise operations to each pixel in the target rectangle.
+
+            operand: a color in 0xAARRGGBB format.
+
+            modes:
+            * "XOR", "OR" or "AND".
+            * "SET_XYZ", with XYZ any combination of A, R, G, and B: copies the specified channels from operand to the bitmap. (Useful for setting the alpha values of a bitmap.)
+            * "ALPHAMUL": Performs alpha pre-multiplication on each pixel in the rect. operand is ignored in this mode. (On WindowsOS, GDI_Blit does not perform alpha multiplication on the fly, and a separate alpha pre-multiplication step is therefore required.)
+
+            NOTE:
+            LICE_Blit and LICE_ScaledBlit are also useful for processing bitmap colors. For example, to multiply all channel values by 1.5:
+            reaper.JS_LICE_Blit(bitmap, x, y, bitmap, x, y, w, h, 0.5, "ADD").
+        </description>
+        <parameters>
+           identifier bitmap - 
+           integer x - 
+           integer y - 
+           integer w - 
+           integer h - 
+           string mode - 
+           number operand - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+  
+    <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_LICE_PutPixel</slug>
         <title>JS_LICE_PutPixel(JS)</title>
         <functioncall prog_lang="cpp">void JS_LICE_PutPixel(void* bitmap, int x, int y, int color, double alpha, const char* mode)</functioncall>
@@ -25300,6 +25413,34 @@
         </chapter_context>
         <tags></tags>
     </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_LICE_SetAlphaFromColorMask</slug>
+        <title>JS_LICE_SetAlphaFromColorMask(JS)</title>
+        <functioncall prog_lang="cpp">void JS_LICE_SetAlphaFromColorMask(void* bitmap, int colorRGB)</functioncall>
+        <functioncall prog_lang="eel">extension_api("JS_LICE_SetAlphaFromColorMask", void* bitmap, int colorRGB)</functioncall>
+        <functioncall prog_lang="lua">reaper.JS_LICE_SetAlphaFromColorMask(identifier bitmap, integer colorRGB)</functioncall>
+        <functioncall prog_lang="python">JS_LICE_SetAlphaFromColorMask(void bitmap, Int colorRGB)</functioncall>
+        <requires>
+            Reaper=5.95
+            JS=0.988
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Sets all pixels that match the given color's RGB values to fully transparent, and all other pixels to fully opaque. (All pixels' RGB values remain unchanged.)
+        </description>
+        <parameters>
+           identifier bitmap - 
+           integer colorRGB - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
   
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_LICE_SetFontBkColor</slug>
@@ -25608,6 +25749,33 @@
            string packedString - 
            integer stringLength - 
         </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+    
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_Mouse_GetCursor</slug>
+        <title>JS_Mouse_GetCursor(JS)</title>
+        <functioncall prog_lang="cpp">void* JS_Mouse_GetCursor()</functioncall>
+        <functioncall prog_lang="eel">void* extension_api("JS_Mouse_GetCursor")</functioncall>
+        <functioncall prog_lang="lua">identifier = reaper.JS_Mouse_GetCursor()</functioncall>
+        <functioncall prog_lang="python">void JS_Mouse_GetCursor()</functioncall>
+        <requires>
+            Reaper=5.965
+            JS=0.988
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            On Windows, retrieves a handle to the current mouse cursor.
+            On Linux and macOS, retrieves a handle to the last cursor set by REAPER or its extensions via SWELL.
+        </description>
+        <retvals>
+           identifier - 
+        </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
         <chapter_context>
@@ -26661,11 +26829,13 @@
         <functioncall prog_lang="python">void JS_Window_AttachTopmostPin(void windowHWND)</functioncall>
         <requires>
             Reaper=5.965
-            JS=0.964
+            JS=0.988
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            
+            Attaches a "pin on top" button to the window frame. The button should remember its state when closing and re-opening the window.
+
+            WARNING: This function does not yet work on Linux.
         </description>
         <retvals>
             identifier HWND - 
@@ -27867,31 +28037,25 @@
         <slug>JS_Window_SetOpacity</slug>
         <title>JS_Window_SetOpacity(JS)</title>
         <functioncall prog_lang="cpp">bool JS_Window_SetOpacity(void* windowHWND, const char* mode, double value)</functioncall>
-        <functioncall prog_lang="eel">bool  extension_api("JS_Window_SetOpacity", void* windowHWND, "mode", value)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("JS_Window_SetOpacity", void* windowHWND, "mode", value)</functioncall>
         <functioncall prog_lang="lua">boolean reaper.JS_Window_SetOpacity(identifier windowHWND, string mode, number value)</functioncall>
-        <functioncall prog_lang="python">Boolean  JS_Window_SetOpacity(void windowHWND, String mode, Float value)</functioncall>
+        <functioncall prog_lang="python">Boolean JS_Window_SetOpacity(void windowHWND, String mode, Float value)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.951
+            JS=0.988
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Sets the window opacity.
-           
-           
-           
-           Parameters:
-           
-           mode: either "ALPHA" or "COLOR". 
-           
-           value: If ALPHA, the specified value may range from zero to one, and will apply to the entire window. 
-           
-           If COLOR, value specifies a 0xRRGGBB color, and all pixels in this color will be made transparent. (All mouse clicks over transparent pixels will pass through, too).
-           
-           
-           
-           WARNING: COLOR mode is only available in Windows, not Linux or MacOS.
 
+            Parameters:
+            mode: either "ALPHA" or "COLOR". 
+            value: If ALPHA, the specified value may range from zero to one, and will apply to the entire window. 
+            If COLOR, value specifies a 0xRRGGBB color, and all pixels in this color will be made transparent. (All mouse clicks over transparent pixels will pass through, too).
+
+            WARNINGS:
+            This function does not yet work properly on macOS.
+            COLOR mode is only available in Windows, not Linux or macOS.
         </description>
         <retvals>
            boolean  - 
@@ -28013,28 +28177,25 @@
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_Window_SetZOrder</slug>
         <title>JS_Window_SetZOrder(JS)</title>
-        <functioncall prog_lang="cpp">void JS_Window_SetZOrder(void* windowHWND, const char* ZOrder, void* insertAfterHWND)</functioncall>
-        <functioncall prog_lang="eel">extension_api("JS_Window_SetZOrder", void* windowHWND, "ZOrder", void* insertAfterHWND)</functioncall>
-        <functioncall prog_lang="lua">reaper.JS_Window_SetZOrder(identifier windowHWND, string ZOrder, identifier insertAfterHWND)</functioncall>
-        <functioncall prog_lang="python">JS_Window_SetZOrder(void windowHWND, String ZOrder, void insertAfterHWND)</functioncall>
+        <functioncall prog_lang="cpp">bool JS_Window_SetZOrder(void* windowHWND, const char* ZOrder, void* insertAfterHWND)</functioncall>
+        <functioncall prog_lang="eel">bool extension_api("JS_Window_SetZOrder", void* windowHWND, "ZOrder", void* insertAfterHWND)</functioncall>
+        <functioncall prog_lang="lua">boolean reaper.JS_Window_SetZOrder(identifier windowHWND, string ZOrder, identifier insertAfterHWND)</functioncall>
+        <functioncall prog_lang="python">Boolean JS_Window_SetZOrder(void windowHWND, String ZOrder, void insertAfterHWND)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.951
+            JS=0.988
             Lua=5.3
         </requires>
         <description>
             Sets the window Z order.
-           
-           
-           
-           Parameters:
-           
-            * ZOrder: "INSERT_AFTER", "BOTTOM", "TOPMOST", "NOTOPMOST" or "TOP" ).
-           
-            * InsertAfterHWND: If ZOrder is INSERT_AFTER, insertAfterHWND must be a handle to the window to precede windowHWND in the Z order; otherwise, insertAfterHWND is ignored.
 
+            Parameters:
+            * ZOrder: "BOTTOM", "TOPMOST", "NOTOPMOST", "TOP" or "INSERT_AFTER".
+            * InsertAfterHWND: If ZOrder is INSERT_AFTER, insertAfterHWND must be a handle to the window to precede windowHWND in the Z order; otherwise, insertAfterHWND is ignored (in which case it can be set to the same value as windowHWND).
         </description>
-
+        <retvals>
+           boolean  - 
+        </retvals>
         <parameters>
            identifier windowHWND - 
            string ZOrder - 
