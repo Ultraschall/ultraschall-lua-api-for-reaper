@@ -304,8 +304,10 @@ TODO!! buggy function
     
 #### Changes from Beta 2.75 to Beta 2.76
    - API: versionscheck - had problems with pre/rc and dev-versions of Reaper -> fixed(reported by X-Raym)
-   - Docs: updated Reaper-docs to 5.979 and JS-extension 0.988
+   - Docs: updated Reaper-docs to 5.979 and JS-extension 0.989
+   - Helpers: GetPath - when filename has no path, it returns now "", filename
    - Helpers: GetUserInputs - allows now setting width of the captions-fields(requested by Julian Sader), allows now commas in captions and default-values as well; title is now the one defined by the title-parameter(used to have temporary title previously) (reported by X-Raym)
+   - Render: RenderProject_Regions - produced Lua-error, when passing a filename without extension and if region was <1, returns error-messages now in that case
    - Scripts: HWND-Displayer.lua - reimplemented, much more comfortable now with a lot of more features.
    
    ---

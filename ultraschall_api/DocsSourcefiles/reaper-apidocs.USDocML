@@ -19475,15 +19475,24 @@
         <functioncall prog_lang="lua">reaper.Undo_EndBlock(string descchange, integer extraflags)</functioncall>
         <functioncall prog_lang="python">RPR_Undo_EndBlock(String descchange, Int extraflags)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.979
             Lua=5.3
         </requires>
         <description prog_lang="*">
             call to end the block,with extra flags if any,and a description
         </description>
         <parameters>
-            descchange - 
-            extraflags - 
+            descchange - a string that describes the changes of the undo-block
+            extraflags - -1, all undo states
+                       - 1, track/master vol/pan/routing, routing/hwout envelopes too
+                       - 2, track/master fx
+                       - 4, track items
+                       - 8, loop selection, markers, regions, extensions
+                       - 16, freeze state
+                       - 32, non-FX envelopes only
+                       - 64, FX envelopes, implied by UNDO_STATE_FX too
+                       - 128, contents of automation items -- not position, length, rate etc of automation items, which is part of envelope state
+                       - 256, ARA state
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -19501,7 +19510,7 @@
         <functioncall prog_lang="lua">reaper.Undo_EndBlock2(ReaProject proj, string descchange, integer extraflags)</functioncall>
         <functioncall prog_lang="python">RPR_Undo_EndBlock2(ReaProject proj, String descchange, Int extraflags)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.979
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -19509,8 +19518,17 @@
         </description>
         <parameters markup_type="markdown" markup_version="1.0.1">
             proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
-            descchange - 
-            extraflags - 
+            descchange - a string that describes the changes of the undo-block
+            extraflags - -1, all undo states
+                       - 1, track/master vol/pan/routing, routing/hwout envelopes too
+                       - 2, track/master fx
+                       - 4, track items
+                       - 8, loop selection, markers, regions, extensions
+                       - 16, freeze state
+                       - 32, non-FX envelopes only
+                       - 64, FX envelopes, implied by UNDO_STATE_FX too
+                       - 128, contents of automation items -- not position, length, rate etc of automation items, which is part of envelope state
+                       - 256, ARA state
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26950,25 +26968,24 @@
         <functioncall prog_lang="python">void  JS_Window_Find(String title, Boolean exact)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.951
+            JS=0.989
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns a HWND to the top-level window whose title matches the specified string. This function does not search child window, and is not case sensitive.
-           
-           
-           
-           Parameters:
-           
-            * exact: Match entire title exactly, or match substring of title.
+            Returns a HWND to a window whose title matches the specified string.
+            * Unlike the Win32 function FindWindow, this function searches top-level as well as child windows, so that the target window can be found irrespective of docked state.
+            * In addition, the function can optionally match substrings of the title.
+            * Matching is not case sensitive.
 
+            Parameters:
+            * exact: Match entire title, or match substring of title.
         </description>
         <retvals>
-           identifier  - 
+           identifier  - the identifier of the found window, or nil
         </retvals>
         <parameters>
-           string title - 
-           boolean exact - 
+           string title - the title of the window to find
+           boolean exact - true, title must match exactly the name of the window; false, title can only partially match the windowtitle 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -26991,9 +27008,7 @@
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Returns a HWND to the child window whose title matches the specified string.
-           
-           
+           Returns a HWND to the child window whose title matches the specified string.
            
            Parameters:
            
@@ -27001,12 +27016,12 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier  - the identifier for the window found; nil, if no such window found
         </retvals>
         <parameters>
-           identifier parentHWND - 
-           string title - 
-           boolean exact - 
+           identifier parentHWND - the identifier of the parent window to the child-window
+           string title - the title of the child-window to find
+           boolean exact - true, title must match exactly the name of the window; false, title can only partially match the windowtitle 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -27033,7 +27048,7 @@
 
             (The ID of a window may be retrieved by JS\_Window\_GetLongPtr.)
             
-            For Reaper's [MainHWND](#GetMainHwnd), you can get:
+            For instance: with Reaper's [MainHWND](#GetMainHwnd), you can get:
                 0: Transport(Windows)/MainHWND(Mac)
                 999: project-tabs(if existing, otherwise will be nil)
                 1000: trackview
@@ -27075,13 +27090,13 @@
             * title: An empty string, "", will match all windows. (Search is not case sensitive.)
         </description>
         <parameters>
-           identifier parentHWND - 
-           identifier childHWND - 
-           string className - 
-           string title - 
+           identifier parentHWND - the parent hwnd of the child-window to find
+           identifier childHWND - the parent child-window of the window to find; set it to parentHWND to search beginning with the first childhwnd of the parenthwnd
+           string className - the name of the class of the child-window, that you want to find
+           string title - the title of the child-window to find
         </parameters>
         <retvals>
-            identifier HWND - 
+            identifier HWND - the found window; nil, if no window has been found
         </retvals>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -27091,6 +27106,38 @@
         <tags></tags>
     </US_DocBloc>
 
+    <US_DocBloc version="1.0" spok_lang="en">
+        <slug>JS_Window_FindTop</slug>
+        <title>JS_Window_FindTop(JS)</title>
+        <functioncall prog_lang="cpp">void* JS_Window_FindTop(const char* title, bool exact)</functioncall>
+        <functioncall prog_lang="eel">void* extension_api("JS_Window_FindTop", "title", bool exact)</functioncall>
+        <functioncall prog_lang="lua">identifier reaper.JS_Window_FindTop(string title, boolean exact)</functioncall>
+        <functioncall prog_lang="python">void JS_Window_FindTop(String title, Boolean exact)</functioncall>
+        <requires>
+            Reaper=5.965
+            JS=0.989
+            Lua=5.3
+        </requires>
+        <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
+            Returns a HWND to a top-level window whose title matches the specified string.
+
+            Parameters:
+            * exact: Match entire title length, or match substring of title. In both cases, matching is not case sensitive.
+        </description>
+        <parameters>
+           string title - the title of the top-level window to find
+           boolean exact - true, title must match exactly the name of the window; false, title can only partially match the windowtitle 
+        </parameters>
+        <retvals>
+            identifier HWND - the found identifier of the window; nil, if not found
+        </retvals>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            JS_Plugin
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en">
         <slug>JS_Window_FromPoint</slug>
@@ -27109,11 +27156,11 @@
 
         </description>
         <retvals>
-           identifier  - 
+           identifier  - the window found at the coordinates
         </retvals>
         <parameters>
-           integer x - 
-           integer y - 
+           integer x - the x-position in pixels, at which to find the window
+           integer y - the y-position in pixels, at which to find the window
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>

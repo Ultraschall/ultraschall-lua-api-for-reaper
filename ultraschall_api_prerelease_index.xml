@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="39573.00" author="Meo Mespotine">
+      <version name="39584.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Changelog-Api.txt</source>
@@ -128,6 +128,8 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.972.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/JS_0.972.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.980.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/JS_0.980.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.986.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/JS_0.986.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/JS_0.988.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/JS_0.988.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/JS_0.989.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/JS_0.989.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0_951.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/JS_0_951.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.75/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png</source>
@@ -373,12 +375,17 @@ Changes from Beta 2.75 to Beta 2.76
 
 -   API: versionscheck - had problems with pre/rc and dev-versions of
     Reaper -> fixed(reported by X-Raym)
--   Docs: updated Reaper-docs to 5.979 and JS-extension 0.988
+-   Docs: updated Reaper-docs to 5.979 and JS-extension 0.989
+-   Helpers: GetPath - when filename has no path, it returns now "",
+    filename
 -   Helpers: GetUserInputs - allows now setting width of the
     captions-fields(requested by Julian Sader), allows now commas in
     captions and default-values as well; title is now the one defined by
     the title-parameter(used to have temporary title previously)
     (reported by X-Raym)
+-   Render: RenderProject_Regions - produced Lua-error, when passing a
+    filename without extension and if region was <1, returns
+    error-messages now in that case
 -   Scripts: HWND-Displayer.lua - reimplemented, much more comfortable
     now with a lot of more features.
 
