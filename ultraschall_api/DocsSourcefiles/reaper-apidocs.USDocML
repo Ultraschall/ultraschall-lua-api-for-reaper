@@ -31845,24 +31845,28 @@
         </requires>
         <description indent="default">
             Blits from srcimg(srcs,srct,srcw,srch) to destination (destx,desty,destw,desth). Source texture coordinates are s/t, dsdx represents the change in s coordinate for each x pixel, dtdy represents the change in t coordinate for each y pixel, etc. dsdxdy represents the change in dsdx for each line. If usecliprect is specified and 0, then srcw/srch are ignored.
+            
+            This function allows you to manipulate the image, which you want to blit, by transforming, moving or cropping it.
+            
+            To do rotation, you can manipulate dtdx and dsdy together.
         </description>
         <parameters>
-            srcimg - 
-            srcs - 
-            srct - 
-            srcw - 
-            srch -
-            destx - 
-            desty - 
-            destw - 
-            desth - 
-            dsdx -
-            dtdx - 
-            dsdy - 
-            dtdy - 
-            dsdxdy - 
-            dtdxdy -
-            usecliprect - 
+            srcimg - image - the image to blit
+            srcs - positiondeltaX - the delta of the x-position of the image within the blitted area in pixels(useful default: 0)
+            srct - positiondeltaY - the delta of the y-position of the image within the blitted area in pixels(useful default: 0)
+            srcw - unknown - (useful default: 0)
+            srch - unknown - (useful default: 0)
+            destx - positiondeltaX - the delta of the x-position of the blitted area in pixels(useful default: 0)
+            desty - positiondeltaY - the delta of the y-position of the blitted area in pixels(useful default: 0)
+            destw - blitsizeX - the x-size of the blitted area in pixels; the deltaimage might be cropped, if it exceeds this size(useful default: width of the image)
+            desth - blitsizeY - the y-size of the blitted area in pixels; the deltaimage might be cropped, if it exceeds this size(useful default: height of the image)
+            dsdx - stretchfactorX, the lower, the more stretched is the image(minimum 0; 1 for full size); limited by blitsizeX(useful default: 1)
+            dtdx - deltaY: the delta of the right side of the image, related to the left side of the image; positive, right is moved up; negative, right is moved down; this delta is linear(useful default: 0)
+            dsdy - deltaX: the delta of the bottom side of the image, related to the top side of the image; positive, bottom is moved left; negative, bottom is moved right; this delta is linear(useful default: 0)
+            dtdy - stretchfactorY, the lower, the more stretched is the image(minimum 0; 1 for full size); limited by blitsizeY(useful default: 1)
+            dsdxdy - deltacurvedY: the delta of the right side of the image, related to the left side of the image; positive, right is moved up; negative, right is moved down; this delta "curves" the delta via a bezier(useful default: 0)
+            dtdxdy - deltacurvedX: the delta of the bottom side of the image, related to the top side of the image; positive, bottom is moved left; negative, bottom is moved right; this delta "curves" the delta via a bezier(useful default: 0)
+            usecliprect - can be set to 0 or 1(useful default: 0)
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -34109,7 +34113,8 @@
         </description>
         <parameters>
            integer source - the source-image/framebuffer to blit; -1 to 1023; -1 for the currently displayed framebuffer.
-           number scale - the scale-factor; 1, for normal size; smaller or bigger than 1 make image smaller or bigger; has no effect, when destx, desty, destw, desth are given
+           number scale - the scale-factor; 1, for normal size; smaller or bigger than 1 make image smaller or bigger
+                        - has no effect, when destx, desty, destw, desth are given
            number rotation - the rotation-factor; 0 to 6.28; 3.14 for 180 degrees.
            optional number srcx - the x-coordinate-offset in the source-image
            optional number srcy - the y-coordinate-offset in the source-image
@@ -34131,15 +34136,17 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
-        <slug>lua_gfx.blit</slug>
-        <title>gfx.blit</title>
+        <slug>lua_gfx.blit_simplified</slug>
+        <title>gfx.blit(simplified)</title>
         <functioncall prog_lang="lua">integer source = gfx.blit(integer source, number scale, number rotation)</functioncall>
         <requires>
             Reaper=5.62
             Lua=5.3
         </requires>
-        <description indent="default">
+        <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Blits(draws) the content of source-image to another source-image or an opened window.
+            
+            This is a simplified version of [gfx.blit()](#lua_gfx.blit).
             
             If three parameters are specified, copies the entirity of the source bitmap to gfx.x,gfx.y using current opacity and copy mode (set with gfx.a, gfx.mode). You can specify scale (1.0 is unscaled) and rotation (0.0 is not rotated, angles are in radians).For the "source" parameter specify -1 to use the main framebuffer as source, or an image index (see gfx.loadimg()).
         </description>
@@ -34259,31 +34266,38 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="lua">
         <slug>lua_gfx.deltablit</slug>
         <title>gfx.deltablit</title>
-        <functioncall prog_lang="lua">gfx.deltablit(srcimg,srcs,srct,srcw,srch,destx,desty,destw,desth,dsdx,dtdx,dsdy,dtdy,dsdxdy,dtdxdy[,usecliprect=1])</functioncall>
+        <functioncall prog_lang="lua">number retval = gfx.deltablit(integer srcimg, integer srcs, integer srct, integer srcw, integer srch, number destx, number desty, number destw, number desth, number dsdx, number dtdx, number dsdy, number dtdy, number dsdxdy, number dtdxdy,optional integer usecliprect)</functioncall>
         <requires>
             Reaper=5.95
             Lua=5.3
         </requires>
         <description indent="default">
             Blits from srcimg(srcs,srct,srcw,srch) to destination (destx,desty,destw,desth). Source texture coordinates are s/t, dsdx represents the change in s coordinate for each x pixel, dtdy represents the change in t coordinate for each y pixel, etc. dsdxdy represents the change in dsdx for each line. If usecliprect is specified and 0, then srcw/srch are ignored.
+            
+            This function allows you to manipulate the image, which you want to blit, by transforming, moving or cropping it.
+            
+            To do rotation, you can manipulate dtdx and dsdy together.
         </description>
+        <retvals>
+            number retval - unknown, usually 0
+        </retvals>
         <parameters>
-            srcimg - 
-            srcs - 
-            srct - 
-            srcw - 
-            srch - 
-            destx - 
-            desty - 
-            destw - 
-            desth - 
-            dsdx - 
-            dtdx - 
-            dsdy - 
-            dtdy - 
-            dsdxdy - 
-            dtdxdy -
-            usecliprect - 
+            integer srcimg - image - the image to blit
+            integer srcs - positiondeltaX - the delta of the x-position of the image within the blitted area in pixels(useful default: 0)
+            integer srct - positiondeltaY - the delta of the y-position of the image within the blitted area in pixels(useful default: 0)
+            integer srcw - unknown - (useful default: 0)
+            integer srch - unknown - (useful default: 0)
+            number destx - positiondeltaX - the delta of the x-position of the blitted area in pixels(useful default: 0)
+            number desty - positiondeltaY - the delta of the y-position of the blitted area in pixels(useful default: 0)
+            number destw - blitsizeX - the x-size of the blitted area in pixels; the deltaimage might be cropped, if it exceeds this size(useful default: width of the image)
+            number desth - blitsizeY - the y-size of the blitted area in pixels; the deltaimage might be cropped, if it exceeds this size(useful default: height of the image)
+            number dsdx - stretchfactorX, the lower, the more stretched is the image(minimum 0; 1 for full size); limited by blitsizeX(useful default: 1)
+            number dtdx - deltaY: the delta of the right side of the image, related to the left side of the image; positive, right is moved up; negative, right is moved down; this delta is linear(useful default: 0)
+            number dsdy - deltaX: the delta of the bottom side of the image, related to the top side of the image; positive, bottom is moved left; negative, bottom is moved right; this delta is linear(useful default: 0)
+            number dtdy - stretchfactorY, the lower, the more stretched is the image(minimum 0; 1 for full size); limited by blitsizeY(useful default: 1)
+            number dsdxdy - deltacurvedY: the delta of the right side of the image, related to the left side of the image; positive, right is moved up; negative, right is moved down; this delta "curves" the delta via a bezier(useful default: 0)
+            number dtdxdy - deltacurvedX: the delta of the bottom side of the image, related to the top side of the image; positive, bottom is moved left; negative, bottom is moved right; this delta "curves" the delta via a bezier(useful default: 0)
+            optional integer usecliprect - can be set to 0 or 1(useful default: 0)
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -34447,7 +34461,7 @@
                         A=gfx.getchar() -- first byte
                         B=gfx.getchar() -- second byte
                         
-                        if A==261 and B==128 then reaper.MB("You typed the â‚¬-symbol.", "Message", 0) end -- typed character is the Euro-currency-symbol: €
+                        if A==261 and B==128 then reaper.MB("You typed the Euro-symbol.", "Message", 0) end -- typed character is the Euro-currency-symbol: €
                                                 
         </description>
         <retvals>
