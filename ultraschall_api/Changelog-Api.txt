@@ -301,6 +301,9 @@ TODO!! buggy function
    - ReaMote: AutoSearchReaMoteSlaves - autosearches for new ReaMote-slaves
    - Render: AddSelectedItemsToRenderQueue - adds selected MediaItems to render-queue as either one render-queued-project or individual projects
    - Render: GetRenderingToFileHWND - gets the hwnd of the rendering-to-file-dialog, during rendering
+   - Tools: ultraschall_Add_Developertools_To_Reaper.lua - allows installing developertools into Reaper
+   - Tools: ultraschall_Remove_Developertools_From_Reaper.lua - allows removing already installed developertools from Reaper
+
     
 #### Changes from Beta 2.75 to Beta 2.76
    - API: versionscheck - had problems with pre/rc and dev-versions of Reaper -> fixed(reported by X-Raym)
@@ -309,7 +312,21 @@ TODO!! buggy function
    - Helpers: GetUserInputs - allows now setting width of the captions-fields(requested by Julian Sader), allows now commas in captions and default-values as well; title is now the one defined by the title-parameter(used to have temporary title previously) (reported by X-Raym)
    - Render: RenderProject_Regions - produced Lua-error, when passing a filename without extension and if region was <1, returns error-messages now in that case
    - Scripts: HWND-Displayer.lua - reimplemented, much more comfortable now with a lot of more features.
-   
+   - Tools - the following scripts renamed to:
+      ultraschall_developertool_ActionlistToIni-Converter.lua
+      ultraschall_developertool_Display-Altered-ConfigFile-Entries.lua
+      ultraschall_developertool_Display-Altered-Config-Vars.lua
+      ultraschall_developertool_Env_State_Diffs_Monitor.lua
+      ultraschall_developertool_findConfigVarsToggledByActions.lua
+      ultraschall_developertool_GetPitchShiftModes.lua
+      ultraschall_developertool_gfx_deltablit_displayer.lua
+      ultraschall_developertool_HWND-Displayer.lua
+      ultraschall_developertool_Item_State_Diffs_Monitor.lua
+      ultraschall_developertool_Project_State_Diffs_Monitor.lua
+      ultraschall_developertool_StateInspector.lua
+      ultraschall_developertool_Track_State_Diffs_Monitor.lua
+   - Tools: ultraschall_Remove_ExampleScripts_To_Reaper.lua - renamed to ultraschall_Remove_ExampleScripts_From_Reaper.lua, better name that way
+ 
    ---
 
 ## Ultraschall Framework - Changelog
