@@ -1543,4 +1543,67 @@ end
 
 --A=ultraschall.GetRenderingToFileHWND()
 
+
+function DeleteParmLearn_FXStateChunk(FXStateChunk, fxid, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteParmLearn_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string alteredFXStateChunk = ultraschall.DeleteParmLearn_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Deletes a ParmLearn-entry from an FXStateChunk.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if deletion was successful; false, if the function couldn't delete anything
+    string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, which you want to delete a ParmLearn from
+    integer fxid - the id of the fx, which holds the to-delete-ParmLearn-entry; beginning with 1
+    integer id - the id of the ParmLearn-entry to delete; beginning with 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, parm, learn, delete, parm, learn, midi, osc, binding</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("DeleteParmLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("DeleteParmLearn_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("DeleteParmLearn_FXStateChunk", "id", "must be an integer", -3) return false end
+    
+  local count=0
+  local FX, UseFX2, start, stop
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  count=0
+  if UseFX~=nil then
+    for k in string.gmatch(UseFX, "    PARMLEARN.-\n") do
+      count=count+1
+      if count==id then UseFX2=string.gsub(UseFX, k, "") break end
+    end
+  end
+  
+  if UseFX2~=nil then
+    start,stop=string.find(FXStateChunk, UseFX, 0, true)
+    return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
+  else
+    return false, FXStateChunk
+  end
+end
+
+--DeleteParmLearn_FXStateChunk(FXStateChunk, 1, 1)
+
 ultraschall.ShowLastErrorMessage()
