@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="39610.00" author="Meo Mespotine">
+      <version name="39634.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -364,6 +364,8 @@ New features in 4.00beta2.76
     optionally scans all or just the new ones
 -   FXManagement: ScanVSTPlugins - rescans all vst-plugins, optionally
     clears vst-plugin-cache first
+-   FXManagement: SetParmLFOLearn_FXStateChunk - sets a
+    parameter-lfo-learn-entry from a specific fx in an FXStateChunk
 -   HelperFunctions: get_action_context_MediaItemDiff - gets the
     MediaItemDifference(position, start, end, length, offset) since last
     time calling this function. Good for ripple-drag-scripts.

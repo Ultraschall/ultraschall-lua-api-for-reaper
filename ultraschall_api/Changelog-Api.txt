@@ -292,11 +292,12 @@ TODO!! buggy function
 #### New features in 4.00beta2.76
    - Actions: GetAllActions - gets all actions, actioncommandids and scriptnames of all actions in a specific section
    - FXManagement: AutoDetectVSTPlugins - auto-searches for the vst-plugin-folder
-   - FXManagement: DeleteParmAlias_FXStateChunk - deletes a parameter-alias-entry from a specific fx in an FXStateChunk
-   - FXManagement: DeleteParmLFOLearn_FXStateChunk - deletes a parameter-lfo-learn-entry from a specific fx in an FXStateChunk
-   - FXManagement: DeleteParmLearn_FXStateChunk - deletes a ParmLearn-entry from a specific fx in an FXStateChunk
+   - FXManagement: DeleteParmAlias\_FXStateChunk - deletes a parameter-alias-entry from a specific fx in an FXStateChunk
+   - FXManagement: DeleteParmLFOLearn\_FXStateChunk - deletes a parameter-lfo-learn-entry from a specific fx in an FXStateChunk
+   - FXManagement: DeleteParmLearn\_FXStateChunk - deletes a ParmLearn-entry from a specific fx in an FXStateChunk
    - FXManagement: ScanDXPlugins - rescans all DX(DirectX)-plugins, optionally scans all or just the new ones
    - FXManagement: ScanVSTPlugins - rescans all vst-plugins, optionally clears vst-plugin-cache first
+   - FXManagement: SetParmLFOLearn\_FXStateChunk - sets a parameter-lfo-learn-entry from a specific fx in an FXStateChunk
    - HelperFunctions: get\_action\_context\_MediaItemDiff - gets the MediaItemDifference(position, start, end, length, offset) since last time calling this function. Good for ripple-drag-scripts.
    - Localize: Localize - localizes a string, using the texts from a translationfile; can be used with or without ultraschall. at the beginning
    - Localize: Localize\_RefreshFile - reloads an already set translation-file, so translations can be updated at runtime
@@ -304,8 +305,8 @@ TODO!! buggy function
    - ReaMote: AutoSearchReaMoteSlaves - autosearches for new ReaMote-slaves
    - Render: AddSelectedItemsToRenderQueue - adds selected MediaItems to render-queue as either one render-queued-project or individual projects
    - Render: GetRenderingToFileHWND - gets the hwnd of the rendering-to-file-dialog, during rendering
-   - Tools: ultraschall_Add_Developertools_To_Reaper.lua - allows installing developertools into Reaper
-   - Tools: ultraschall_Remove_Developertools_From_Reaper.lua - allows removing already installed developertools from Reaper
+   - Tools: ultraschall\_Add\_Developertools\_To\_Reaper.lua - allows installing developertools into Reaper
+   - Tools: ultraschall\_Remove\_Developertools\_From\_Reaper.lua - allows removing already installed developertools from Reaper
 
     
 #### Changes from Beta 2.75 to Beta 2.76
@@ -316,19 +317,19 @@ TODO!! buggy function
    - Render: RenderProject_Regions - produced Lua-error, when passing a filename without extension and if region was <1, returns error-messages now in that case
    - Scripts: HWND-Displayer.lua - reimplemented, much more comfortable now with a lot of more features.
    - Tools - the following scripts renamed to:
-      ultraschall_developertool_ActionlistToIni-Converter.lua
-      ultraschall_developertool_Display-Altered-ConfigFile-Entries.lua
-      ultraschall_developertool_Display-Altered-Config-Vars.lua
-      ultraschall_developertool_Env_State_Diffs_Monitor.lua
-      ultraschall_developertool_findConfigVarsToggledByActions.lua
-      ultraschall_developertool_GetPitchShiftModes.lua
-      ultraschall_developertool_gfx_deltablit_displayer.lua
-      ultraschall_developertool_HWND-Displayer.lua
-      ultraschall_developertool_Item_State_Diffs_Monitor.lua
-      ultraschall_developertool_Project_State_Diffs_Monitor.lua
-      ultraschall_developertool_StateInspector.lua
-      ultraschall_developertool_Track_State_Diffs_Monitor.lua
-   - Tools: ultraschall_Remove_ExampleScripts_To_Reaper.lua - renamed to ultraschall_Remove_ExampleScripts_From_Reaper.lua, better name that way
+      ultraschall\_developertool\_ActionlistToIni-Converter.lua
+      ultraschall\_developertool\_Display-Altered-ConfigFile-Entries.lua
+      ultraschall\_developertool\_Display-Altered-Config-Vars.lua
+      ultraschall\_developertool\_Env\_State\_Diffs\_Monitor.lua
+      ultraschall\_developertool\_findConfigVarsToggledByActions.lua
+      ultraschall\_developertool\_GetPitchShiftModes.lua
+      ultraschall\_developertool\_gfx\_deltablit\_displayer.lua
+      ultraschall\_developertool\_HWND-Displayer.lua
+      ultraschall\_developertool\_Item\_State\_Diffs\_Monitor.lua
+      ultraschall\_developertool\_Project\_State\_Diffs\_Monitor.lua
+      ultraschall\_developertool\_StateInspector.lua
+      ultraschall\_developertool\_Track\_State\_Diffs\_Monitor.lua
+   - Tools: ultraschall\_Remove\_ExampleScripts\_To\_Reaper.lua - renamed to ultraschall\_Remove\_ExampleScripts\_From\_Reaper.lua, better name that way
  
    ---
 

@@ -815,10 +815,10 @@ end
 
 --ultraschall.ScanVSTPlugins(true)
 
-function ultraschall.AutoDetectVSTPlugins()
+function ultraschall.AutoDetectVSTPluginsFolder()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>AutoDetectVSTPlugins</slug>
+  <slug>AutoDetectVSTPluginsFolder</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.977
@@ -826,7 +826,7 @@ function ultraschall.AutoDetectVSTPlugins()
     JS=0.986
     Lua=5.3
   </requires>
-  <functioncall>ultraschall.AutoDetectVSTPlugins()</functioncall>
+  <functioncall>ultraschall.AutoDetectVSTPluginsFolder()</functioncall>
   <description>
     Auto-detects the vst-plugins-folder.
   </description>
@@ -862,7 +862,7 @@ function ultraschall.AutoDetectVSTPlugins()
   end
 end
 
---ultraschall.AutoDetectVSTPlugins()
+--ultraschall.AutoDetectVSTPluginsFolder()
 
 function ultraschall.ScanDXPlugins(re_scan)
 --[[
@@ -1235,6 +1235,8 @@ function ultraschall.Localize_UseFile(filename, section, language)
     More Text with\nNewlines and %s - substitution=Translated Text with\nNewlines and %s - substitution
     A third\=example with escaped equal\=in it = translated text with escaped\=equaltext
     
+    see [../misc/ultraschall_translation_file_format.USLangPack](specs for more information).
+    
     returns false in case of an error
   </description>
   <retvals>
@@ -1338,6 +1340,8 @@ function ultraschall.Localize(text, ...)
     If no translation is available, it returns the original string. In that case, %s in the string could be replaced by optional parameters ...
     
     This function can be used with or without ultraschall. at the beginning, for your convenience.
+
+    see [../misc/ultraschall_translation_file_format.USLangPack](specs for more information).
     
     returns false in case of an error
   </description>
@@ -1394,6 +1398,9 @@ function ultraschall.Localize_RefreshFile()
   <functioncall>string translated_string, boolean translated = Localize_RefreshFile()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Reloads the translation-file, that has been set using [Localize_UseFile](#Localize_UseFile).
+    
+    see [../misc/ultraschall_translation_file_format.USLangPack](specs for more information).
+    
   </description>
   <chapter_context>
     Localization
@@ -1582,7 +1589,7 @@ function ultraschall.DeleteParmLearn_FXStateChunk(FXStateChunk, fxid, id)
   if math.type(id)~="integer" then ultraschall.AddErrorMessage("DeleteParmLearn_FXStateChunk", "id", "must be an integer", -3) return false end
     
   local count=0
-  local FX, UseFX2, start, stop
+  local FX, UseFX2, start, stop, UseFX
   for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
     count=count+1
     if count==fxid then UseFX=k end
@@ -1644,7 +1651,7 @@ function ultraschall.DeleteParmAlias_FXStateChunk(FXStateChunk, fxid, id)
   if math.type(id)~="integer" then ultraschall.AddErrorMessage("DeleteParmAlias_FXStateChunk", "id", "must be an integer", -3) return false end
     
   local count=0
-  local FX, UseFX2, start, stop
+  local FX, UseFX2, start, stop, UseFX
   for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
     count=count+1
     if count==fxid then UseFX=k end
@@ -1710,7 +1717,7 @@ function ultraschall.DeleteParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id)
   if math.type(id)~="integer" then ultraschall.AddErrorMessage("DeleteParmLFOLearn_FXStateChunk", "id", "must be an integer", -3) return false end
     
   local count=0
-  local FX, UseFX2, start, stop
+  local FX, UseFX2, start, stop, UseFX
   for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
     count=count+1
     if count==fxid then UseFX=k end
@@ -1738,5 +1745,77 @@ end
 
 --ultraschall.DeleteParmAlias_FXStateChunk(FXStateChunk, 1, 1)
 
+function ultraschall.SetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id, parm_idx, midi_note, checkboxflags, osc_message)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetParmLFOLearn_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.SetParmLFOLearn_FXStateChunk(string FXStateChunk, integer fxid, integer id, integer midi_note, integer checkboxflags, optional string osc_message)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets an already existing ParmLFO-Learn-entry of an FX-plugin from an FXStateChunk.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if setting new values was successful; false, if setting was unsuccessful(e.g. no such ParmLFO)
+    optional string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, in which you want to set a ParmLFO-Learn-entry
+    integer fxid - the id of the fx, which holds the to-set-ParmLFO-Learn-entry; beginning with 1
+    integer id - the id of the ParmLFO-Learn-entry to set; beginning with 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, delete, parm, lfo, learn, midi, osc, binding</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetParmLFOLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("SetParmLFOLearn_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("SetParmLFOLearn_FXStateChunk", "id", "must be an integer", -3) return false end    
+
+  if osc_message~=nil and type(osc_message)~="string" then ultraschall.AddErrorMessage("SetParmLFOLearn_FXStateChunk", "osc_message", "must be either nil or a string", -4) return false end
+  if math.type(midi_note)~="integer" then ultraschall.AddErrorMessage("SetParmLFOLearn_FXStateChunk", "midi_note", "must be an integer", -5) return false end
+  if math.type(checkboxflags)~="integer" then ultraschall.AddErrorMessage("SetParmLFOLearn_FXStateChunk", "checkboxflags", "must be an integer", -6) return false end
+  
+  if osc_message~=nil and midi_note~=0 then ultraschall.AddErrorMessage("SetParmLFOLearn_FXStateChunk", "midi_note", "must be set to 0, when using parameter osc_message", -7) return false end
+  if osc_message==nil then osc_message="" end
+    
+  local count=0
+  local FX, UseFX2, start, stop, UseFX
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  count=0
+  if UseFX~=nil then
+    for k in string.gmatch(UseFX, "    LFOLEARN.-\n") do
+      count=count+1
+      if count==id then 
+        start,stop=string.find(UseFX, k, 0, true)
+        UseFX2=UseFX:sub(1,start-2).."\n"..k:match("    LFOLEARN%s.-%s")..midi_note.." "..checkboxflags.." "..osc_message..""..UseFX:sub(stop,-1)
+        break 
+      end
+    end
+  end  
+  
+  if UseFX2~=nil then
+    if osc_message==nil then osc_message="" end
+    start,stop=string.find(FXStateChunk, UseFX, 0, true)  
+    return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
+  else
+    return false
+  end
+  --]]
+end
 
 ultraschall.ShowLastErrorMessage()
