@@ -1544,7 +1544,7 @@ end
 --A=ultraschall.GetRenderingToFileHWND()
 
 
-function DeleteParmLearn_FXStateChunk(FXStateChunk, fxid, id)
+function ultraschall.DeleteParmLearn_FXStateChunk(FXStateChunk, fxid, id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>DeleteParmLearn_FXStateChunk</slug>
@@ -1604,6 +1604,139 @@ function DeleteParmLearn_FXStateChunk(FXStateChunk, fxid, id)
   end
 end
 
---DeleteParmLearn_FXStateChunk(FXStateChunk, 1, 1)
+--ultraschall.DeleteParmLearn_FXStateChunk(FXStateChunk, 1, 1)
+
+function ultraschall.DeleteParmAlias_FXStateChunk(FXStateChunk, fxid, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteParmAlias_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string alteredFXStateChunk = ultraschall.DeleteParmAlias_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Deletes a ParmAlias-entry from an FXStateChunk.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if deletion was successful; false, if the function couldn't delete anything
+    string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, which you want to delete a ParmAlias from
+    integer fxid - the id of the fx, which holds the to-delete-ParmAlias-entry; beginning with 1
+    integer id - the id of the ParmAlias-entry to delete; beginning with 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, parm, alias, delete, parm, learn, midi, osc, binding</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("DeleteParmAlias_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("DeleteParmAlias_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("DeleteParmAlias_FXStateChunk", "id", "must be an integer", -3) return false end
+    
+  local count=0
+  local FX, UseFX2, start, stop
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  count=0
+  if UseFX~=nil then
+    for k in string.gmatch(UseFX, "    PARMALIAS.-\n") do
+      count=count+1
+      if count==id then 
+        start,stop=string.find(UseFX, k, 0, true)
+        UseFX2=UseFX:sub(1,start-2)..UseFX:sub(stop,-1)
+        break 
+      end
+    end
+  end  
+  
+  if UseFX2~=nil then
+    start,stop=string.find(FXStateChunk, UseFX, 0, true)
+    return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
+  else
+    return false, FXStateChunk
+  end
+end
+
+--ultraschall.DeleteParmAlias_FXStateChunk(FXStateChunk, 1, 1)
+
+function ultraschall.DeleteParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteParmLFOLearn_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string alteredFXStateChunk = ultraschall.DeleteParmLFOLearn_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Deletes a ParmLFO-Learn-entry from an FXStateChunk.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if deletion was successful; false, if the function couldn't delete anything
+    string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, which you want to delete a ParmLFO-Learn-entry from
+    integer fxid - the id of the fx, which holds the to-delete-ParmLFO-Learn-entry; beginning with 1
+    integer id - the id of the ParmLFO-Learn-entry to delete; beginning with 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, parm, lfo, delete, learn, midi, osc, binding</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("DeleteParmLFOLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("DeleteParmLFOLearn_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("DeleteParmLFOLearn_FXStateChunk", "id", "must be an integer", -3) return false end
+    
+  local count=0
+  local FX, UseFX2, start, stop
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  count=0
+  if UseFX~=nil then
+    for k in string.gmatch(UseFX, "    LFOLEARN.-\n") do
+      count=count+1
+      if count==id then 
+        start,stop=string.find(UseFX, k, 0, true)
+        UseFX2=UseFX:sub(1,start-2)..UseFX:sub(stop,-1)
+        break 
+      end
+    end
+  end  
+  
+  if UseFX2~=nil then
+    start,stop=string.find(FXStateChunk, UseFX, 0, true)
+    return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
+  else
+    return false, FXStateChunk
+  end
+end
+
+--ultraschall.DeleteParmAlias_FXStateChunk(FXStateChunk, 1, 1)
+
 
 ultraschall.ShowLastErrorMessage()
