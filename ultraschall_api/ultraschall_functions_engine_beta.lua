@@ -1745,7 +1745,7 @@ end
 
 --ultraschall.DeleteParmAlias_FXStateChunk(FXStateChunk, 1, 1)
 
-function ultraschall.SetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id, parm_idx, midi_note, checkboxflags, osc_message)
+function ultraschall.SetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id, midi_note, checkboxflags, osc_message)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetParmLFOLearn_FXStateChunk</slug>
@@ -1768,6 +1768,34 @@ function ultraschall.SetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id, parm_i
     string FXStateChunk - the FXStateChunk, in which you want to set a ParmLFO-Learn-entry
     integer fxid - the id of the fx, which holds the to-set-ParmLFO-Learn-entry; beginning with 1
     integer id - the id of the ParmLFO-Learn-entry to set; beginning with 1
+    integer midi_note -   an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
+                      -    examples:
+                      -            0,   OSC is used
+                      -            176, MIDI Chan 1 CC 0
+                      -            ...
+                      -            432, MIDI Chan 1 CC 1
+                      -            ...
+                      -            9360, MIDI Chan 1 Note 36
+                      -            9616, MIDI Chan 1 Note 37
+                      -            9872, MIDI Chan 1 Note 38
+                      -              ...
+                      -              
+                      -        CC Mode-dropdownlist:
+                      -           set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                      -            &65536 &131072 &262144 
+                      -               0       0       0,      Absolute
+                      -               1       0       0,      Relative 1(127=-1, 1=+1)
+                      -               0       1       0,      Relative 2(63=-1, 65=+1)
+                      -               1       1       0,      Relative 3(65=-1, 1=+1)
+                      -               0       0       1,      Toggle (>0=toggle) 
+    integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
+                          -    0, no checkboxes
+                          -    1, enable only when track or item is selected
+                          -    2, Soft takeover (absolute mode only)
+                          -    3, Soft takeover (absolute mode only)+enable only when track or item is selected
+                          -    4, enable only when effect configuration is focused
+                          -    20, enable only when effect configuration is visible 
+    optional string osc_message - the osc-message, that triggers the ParmLFOLearn, only when midi_note is set to 0!
   </parameters>
   <chapter_context>
     FX-Management
@@ -1775,7 +1803,7 @@ function ultraschall.SetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id, parm_i
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>fx management, delete, parm, lfo, learn, midi, osc, binding</tags>
+  <tags>fx management, set, parm, lfo, learn, midi, osc, binding</tags>
 </US_DocBloc>
 ]]
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetParmLFOLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
@@ -1819,7 +1847,7 @@ function ultraschall.SetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id, parm_i
 end
 
 
-function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, parm_idx, midi_note, checkboxflags, osc_message)
+function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, midi_note, checkboxflags, osc_message)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetParmLearn_FXStateChunk</slug>
@@ -1842,6 +1870,34 @@ function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, parm_idx,
     string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Learn-entry
     integer fxid - the id of the fx, which holds the to-set-Parm-Learn-entry; beginning with 1
     integer id - the id of the Parm-Learn-entry to set; beginning with 1
+    integer midi_note -   an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
+                      -    examples:
+                      -            0,   OSC is used
+                      -            176, MIDI Chan 1 CC 0
+                      -            ...
+                      -            432, MIDI Chan 1 CC 1
+                      -            ...
+                      -            9360, MIDI Chan 1 Note 36
+                      -            9616, MIDI Chan 1 Note 37
+                      -            9872, MIDI Chan 1 Note 38
+                      -              ...
+                      -              
+                      -        CC Mode-dropdownlist:
+                      -           set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                      -            &65536 &131072 &262144 
+                      -               0       0       0,      Absolute
+                      -               1       0       0,      Relative 1(127=-1, 1=+1)
+                      -               0       1       0,      Relative 2(63=-1, 65=+1)
+                      -               1       1       0,      Relative 3(65=-1, 1=+1)
+                      -               0       0       1,      Toggle (>0=toggle) 
+    integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
+                          -    0, no checkboxes
+                          -    1, enable only when track or item is selected
+                          -    2, Soft takeover (absolute mode only)
+                          -    3, Soft takeover (absolute mode only)+enable only when track or item is selected
+                          -    4, enable only when effect configuration is focused
+                          -    20, enable only when effect configuration is visible 
+    optional string osc_message - the osc-message, that triggers the ParmLFOLearn, only when midi_note is set to 0!
   </parameters>
   <chapter_context>
     FX-Management
@@ -1849,7 +1905,7 @@ function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, parm_idx,
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>fx management, delete, parm, learn, midi, osc, binding</tags>
+  <tags>fx management, set, parm, learn, midi, osc, binding</tags>
 </US_DocBloc>
 ]]
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
@@ -1889,7 +1945,76 @@ function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, parm_idx,
   else
     return false
   end
-  --]]
+end
+
+function ultraschall.SetParmAlias_FXStateChunk(FXStateChunk, fxid, id, parmalias)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetParmAlias_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.SetParmAlias_FXStateChunk(string FXStateChunk, integer fxid, integer id, string parmalias)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets an already existing Parm-Learn-entry of an FX-plugin from an FXStateChunk.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if setting new values was successful; false, if setting was unsuccessful(e.g. no such ParmLearn)
+    optional string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Learn-entry
+    integer fxid - the id of the fx, which holds the to-set-Parm-Learn-entry; beginning with 1
+    integer id - the id of the Parm-Learn-entry to set; beginning with 1
+    string parmalias - the new aliasname of the parameter
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, set, parm, aliasname</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetParmAlias_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("SetParmAlias_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("SetParmAlias_FXStateChunk", "id", "must be an integer", -3) return false end    
+
+  if type(parmalias)~="string" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "parmalias", "must be a string", -4) return false end
+    
+  local count=0
+  local FX, UseFX2, start, stop, UseFX
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  count=0
+  if UseFX~=nil then
+    for k in string.gmatch(UseFX, "    PARMALIAS.-\n") do
+      count=count+1
+      if count==id then 
+--        print2(k)
+        start,stop=string.find(UseFX, k, 0, true)
+        UseFX2=UseFX:sub(1,start-2).."\n"..k:match("    PARMALIAS%s.-%s")..parmalias..""..UseFX:sub(stop,-1)
+--        print2(UseFX2)
+        break 
+      end
+    end
+  end  
+  
+  if UseFX2~=nil then
+    if osc_message==nil then osc_message="" end
+    start,stop=string.find(FXStateChunk, UseFX, 0, true)  
+    return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
+  else
+    return false
+  end
 end
 
 function ultraschall.SetFXStateChunk(StateChunk, FXStateChunk, TakeFXChain_id)
@@ -1934,7 +2059,10 @@ function ultraschall.SetFXStateChunk(StateChunk, FXStateChunk, TakeFXChain_id)
   OldFXStateChunk=string.gsub(OldFXStateChunk, "^%s*", "")
   
   local Start, Stop = string.find(StateChunk, OldFXStateChunk, 0, true)
-  return true, StateChunk:sub(1,Start-1)..FXStateChunk..StateChunk:sub(Stop+1,-1)
+  StateChunk=StateChunk:sub(1,Start-1)..FXStateChunk:sub(2,-1)..StateChunk:sub(Stop+1,-1)
+  StateChunk=string.gsub(StateChunk, "\n%s*", "\n")
+  --print3(StateChunk)
+  return true, StateChunk
 end
 
 function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)

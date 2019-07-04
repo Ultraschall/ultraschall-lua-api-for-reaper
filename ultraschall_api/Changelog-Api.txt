@@ -298,6 +298,7 @@ TODO!! buggy function
    - FXManagement: ScanDXPlugins - rescans all DX(DirectX)-plugins, optionally scans all or just the new ones
    - FXManagement: ScanVSTPlugins - rescans all vst-plugins, optionally clears vst-plugin-cache first
    - FXManagement: SetFXStateChunk - sets an FXStateChunk into a TrackStateChunk or MediaItemStateChunk
+   - FXManagement: SetParmAlias\_FXStateChunk - sets a parameter-alias-entry from a specific fx in an FXStateChunk
    - FXManagement: SetParmLearn\_FXStateChunk - sets a parameter-learn-entry from a specific fx in an FXStateChunk
    - FXManagement: SetParmLFOLearn\_FXStateChunk - sets a parameter-lfo-learn-entry from a specific fx in an FXStateChunk
    - HelperFunctions: get\_action\_context\_MediaItemDiff - gets the MediaItemDifference(position, start, end, length, offset) since last time calling this function. Good for ripple-drag-scripts.
