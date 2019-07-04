@@ -1818,4 +1818,176 @@ function ultraschall.SetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id, parm_i
   --]]
 end
 
+
+function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, parm_idx, midi_note, checkboxflags, osc_message)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetParmLearn_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.SetParmLearn_FXStateChunk(string FXStateChunk, integer fxid, integer id, integer midi_note, integer checkboxflags, optional string osc_message)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets an already existing Parm-Learn-entry of an FX-plugin from an FXStateChunk.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if setting new values was successful; false, if setting was unsuccessful(e.g. no such ParmLearn)
+    optional string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Learn-entry
+    integer fxid - the id of the fx, which holds the to-set-Parm-Learn-entry; beginning with 1
+    integer id - the id of the Parm-Learn-entry to set; beginning with 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, delete, parm, learn, midi, osc, binding</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "id", "must be an integer", -3) return false end    
+
+  if osc_message~=nil and type(osc_message)~="string" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "osc_message", "must be either nil or a string", -4) return false end
+  if math.type(midi_note)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "midi_note", "must be an integer", -5) return false end
+  if math.type(checkboxflags)~="integer" then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "checkboxflags", "must be an integer", -6) return false end
+  
+  if osc_message~=nil and midi_note~=0 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "midi_note", "must be set to 0, when using parameter osc_message", -7) return false end
+  if osc_message==nil then osc_message="" end
+    
+  local count=0
+  local FX, UseFX2, start, stop, UseFX
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  count=0
+  if UseFX~=nil then
+    for k in string.gmatch(UseFX, "    PARMLEARN.-\n") do
+      count=count+1
+      if count==id then 
+        start,stop=string.find(UseFX, k, 0, true)
+        UseFX2=UseFX:sub(1,start-2).."\n"..k:match("    PARMLEARN%s.-%s")..midi_note.." "..checkboxflags.." "..osc_message..""..UseFX:sub(stop,-1)
+        break 
+      end
+    end
+  end  
+  
+  if UseFX2~=nil then
+    if osc_message==nil then osc_message="" end
+    start,stop=string.find(FXStateChunk, UseFX, 0, true)  
+    return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
+  else
+    return false
+  end
+  --]]
+end
+
+function ultraschall.SetFXStateChunk(StateChunk, FXStateChunk, TakeFXChain_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetFXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional string alteredStateChunk = ultraschall.SetFXStateChunk(string StateChunk, string FXStateChunk)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets an FXStateChunk into a TrackStateChunk or a MediaItemStateChunk.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if setting new values was successful; false, if setting was unsuccessful
+    optional string alteredStateChunk - the altered StateChunk
+  </retvals>
+  <parameters>
+    string StateChunk - the TrackStateChunk, into which you want to set the FXChain
+    string FXStateChunk - the FXStateChunk, which you want to set into the TrackStateChunk
+    optional integer TakeFXChain_id - when using MediaItemStateChunks, this allows you to choose the take of which you want the FXChain; default is 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, set, trackstatechunk, mediaitemstatechunk, fxstatechunk</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetFXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if ultraschall.IsValidTrackStateChunk(StateChunk)==false and ultraschall.IsValidMediaItemStateChunk(StateChunk)==false then ultraschall.AddErrorMessage("SetFXStateChunk", "StateChunk", "no valid Track/ItemStateChunk", -1) return false end
+  if TakeFXChain_id~=nil and math.type(TakeFXChain_id)~="integer" then ultraschall.AddErrorMessage("SetFXStateChunk", "TakeFXChain_id", "must be an integer", -3) return end
+  if TakeFXChain_id==nil then TakeFXChain_id=1 end
+  local OldFXStateChunk=ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
+  OldFXStateChunk=string.gsub(OldFXStateChunk, "\n%s*", "\n")  
+  OldFXStateChunk=string.gsub(OldFXStateChunk, "^%s*", "")
+  
+  local Start, Stop = string.find(StateChunk, OldFXStateChunk, 0, true)
+  return true, StateChunk:sub(1,Start-1)..FXStateChunk..StateChunk:sub(Stop+1,-1)
+end
+
+function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.GetFXStateChunk(string StateChunk, optional integer TakeFXChain_id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns an FXStateChunk from a TrackStateChunk or a MediaItemStateChunk.
+    
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    
+    Returns nil in case of an error or if no FXStateChunk has been found.
+  </description>
+  <retvals>
+    string FXStateChunk - the FXStateChunk, stored in the StateChunk
+  </retvals>
+  <parameters>
+    string StateChunk - the StateChunk, from which you want to retrieve the FXStateChunk
+    optional integer TakeFXChain_id - when using MediaItemStateChunks, this allows you to choose the take of which you want the FXChain; default is 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, fxstatechunk, trackstatechunk, mediaitemstatechunk</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidTrackStateChunk(StateChunk)==false and ultraschall.IsValidMediaItemStateChunk(StateChunk)==false then ultraschall.AddErrorMessage("GetFXStateChunk", "StateChunk", "no valid Track/ItemStateChunk", -1) return end
+  if TakeFXChain_id~=nil and math.type(TakeFXChain_id)~="integer" then ultraschall.AddErrorMessage("GetFXStateChunk", "TakeFXChain_id", "must be an integer", -2) return end
+  if TakeFXChain_id==nil then TakeFXChain=1 end
+  
+  if string.find(StateChunk, "\n  ")==nil then
+    StateChunk=ultraschall.StateChunkLayouter(StateChunk)
+  end
+  for w in string.gmatch(StateChunk, " <FXCHAIN.-\n  >") do
+    return w
+  end
+  local count=0
+  for w in string.gmatch(StateChunk, " <TAKEFX.-\n  >") do
+    count=count+1
+    if TakeFXChain_id==count then
+      return w
+    end
+  end
+end
+
+
 ultraschall.ShowLastErrorMessage()

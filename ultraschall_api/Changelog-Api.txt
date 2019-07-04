@@ -297,6 +297,8 @@ TODO!! buggy function
    - FXManagement: DeleteParmLearn\_FXStateChunk - deletes a ParmLearn-entry from a specific fx in an FXStateChunk
    - FXManagement: ScanDXPlugins - rescans all DX(DirectX)-plugins, optionally scans all or just the new ones
    - FXManagement: ScanVSTPlugins - rescans all vst-plugins, optionally clears vst-plugin-cache first
+   - FXManagement: SetFXStateChunk - sets an FXStateChunk into a TrackStateChunk or MediaItemStateChunk
+   - FXManagement: SetParmLearn\_FXStateChunk - sets a parameter-learn-entry from a specific fx in an FXStateChunk
    - FXManagement: SetParmLFOLearn\_FXStateChunk - sets a parameter-lfo-learn-entry from a specific fx in an FXStateChunk
    - HelperFunctions: get\_action\_context\_MediaItemDiff - gets the MediaItemDifference(position, start, end, length, offset) since last time calling this function. Good for ripple-drag-scripts.
    - Localize: Localize - localizes a string, using the texts from a translationfile; can be used with or without ultraschall. at the beginning

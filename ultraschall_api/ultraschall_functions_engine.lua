@@ -55812,48 +55812,6 @@ end
 --B=ultraschall.ReadFullFile("c:\\Render-Queue-Documentation.RPP")
 --AAA=ultraschall.GetRenderTable_ProjectFile(nil,B)
 
-function ultraschall.GetFXStateChunk(StateChunk)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetFXStateChunk</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.975
-    Lua=5.3
-  </requires>
-  <functioncall>string FXStateChunk = ultraschall.GetFXStateChunk(string StateChunk)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns an FXStateChunk from a StateChunk, like TrackStateChunks or MediaItemStateChunks.
-    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
-    
-    Returns nil in case of an error or if no FXStateChunk has been found.
-  </description>
-  <retvals>
-    string FXStateChunk - the FXStateChunk, stored in the StateChunk
-  </retvals>
-  <parameters>
-    string StateChunk - the StateChunk, from which you want to retrieve the FXStateChunk
-  </parameters>
-  <chapter_context>
-    FX-Management
-    Assistance functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>fxmanagement, get, fxstatechunk</tags>
-</US_DocBloc>
-]]
-  if type(StateChunk)~="string" then ultraschall.AddErrorMessage("GetFXStateChunk", "StateChunk", "Not a valid FXStateChunk", -1) return nil end
-  if string.find(StateChunk, "\n  ")==nil then
-    StateChunk=ultraschall.StateChunkLayouter(StateChunk)
-  end
-  for w in string.gmatch(StateChunk, " <FXCHAIN.-\n  >") do
-    return w
-  end
-  for w in string.gmatch(StateChunk, " <TAKEFX.-\n  >") do
-    return w
-  end
-end
 
 function ultraschall.IsValidFXStateChunk(StateChunk)
 --[[
@@ -60244,5 +60202,7 @@ function ultraschall.GetLastRenderPaths()
 end
 
 --A,B=ultraschall.GetLastRenderPaths()
+
+
 
 ultraschall.ShowLastErrorMessage()
