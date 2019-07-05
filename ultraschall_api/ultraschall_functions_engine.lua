@@ -21831,7 +21831,7 @@ function ultraschall.GetAllRegions()
         regionarray[index][0] - position
         regionarray[index][1] - endposition
         regionarray[index][2] - name
-        regionarray[index][3] - indexnumber of the region within all markers in the project
+        regionarray[index][3] - indexnumber of the region within all markers in the project. This is 1-based, unlike in Reaper's own API!
         regionarray[index][4] - the shown index-number
         regionarray[index][5] - the color of the region
         
@@ -21859,7 +21859,7 @@ function ultraschall.GetAllRegions()
       RegionArray[RegCount][0]=pos
       RegionArray[RegCount][1]=rgnend
       RegionArray[RegCount][2]=name
-      RegionArray[RegCount][3]=retval-1
+      RegionArray[RegCount][3]=retval
       RegionArray[RegCount][4]=markrgnindexnumber
       RegionArray[RegCount][5]=color
       RegCount=RegCount+1
