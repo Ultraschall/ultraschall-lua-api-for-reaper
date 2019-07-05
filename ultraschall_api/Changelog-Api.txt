@@ -318,6 +318,8 @@ TODO!! buggy function
    - Helpers: GetPath - when filename has no path, it returns now "", filename
    - Helpers: GetUserInputs - allows now setting width of the captions-fields(requested by Julian Sader), allows now commas in captions and default-values as well; title is now the one defined by the title-parameter(used to have temporary title previously) (reported by X-Raym)
    - Render: RenderProject_Regions - produced Lua-error, when passing a filename without extension and if region was <1, returns error-messages now in that case
+                                     allows now giving an optional separator between renderfilename_with_path and regionname when addregionname=true, including /
+                                     check docs for that new feature
    - Scripts: HWND-Displayer.lua - reimplemented, much more comfortable now with a lot of more features.
    - Tools - the following scripts renamed to:
       ultraschall\_developertool\_ActionlistToIni-Converter.lua

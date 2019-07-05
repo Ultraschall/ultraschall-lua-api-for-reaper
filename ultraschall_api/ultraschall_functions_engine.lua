@@ -59911,7 +59911,7 @@ function ultraschall.RenderProject_RenderCFG(...)
 end
 
 
-function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfilename_with_path, region, addregionname, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
+function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfilename_with_path, region, addregionname, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg, addregionnameseparator)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RenderProject_Regions</slug>
@@ -59920,7 +59920,7 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject_Regions(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, string rendercfg)</functioncall>
+  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject_Regions(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, string rendercfg, optional string addregionnameseparator)</functioncall>
   <description>
     Renders a region of a project, using a specific render-cfg-string.
     To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
@@ -59936,9 +59936,8 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
   <parameters>
     string projectfilename_with_path - the project to render; nil, for the currently opened project
     string renderfilename_with_path - the filename of the output-file. 
-                                    - Don't add a file-extension, when using addregionname=true!
                                     - You can use wildcards to some extend in the actual filename(not the path!); doesn't support $region yet
-                                    - Give a path only, when you want to use only the regionname as render-filename(set addregionname=true !)
+                                    - Will be seen as path only, when you set addregionname=true and addregionnameseparator="/"
     integer region - the number of the region in the Projectfile to render
     boolean addregionname - add the name of the region to the renderfilename; only works, when you don't add a file-extension to renderfilename_with_path
     boolean overwrite_without_asking - true, overwrite an existing renderfile; false, don't overwrite an existing renderfile
@@ -59949,6 +59948,9 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
                              - 
                              - If you want to render the current project, you can use a four-letter-version of the render-string; will use the default settings for that format. Not available with projectfiles!
                              - "evaw" for wave, "ffia" for aiff, " iso" for audio-cd, " pdd" for ddp, "calf" for flac, "l3pm" for mp3, "vggo" for ogg, "SggO" for Opus, "PMFF" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, " FIG" for Gif, " FCL" for LCF, "kpvw" for wavepack 
+    optional string addregionnameseparator - when addregionname==true, this parameter allows you to set a separator between renderfilename_with_path and regionname. 
+                                           - Also allows / or \\ to use renderfilename_with_path as only path as folder, into which the files are stored having the regionnames only.
+                                           - Default is an empty string.
   </parameters>
   <chapter_context>
     Rendering Projects
@@ -59956,7 +59958,7 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>projectfiles, render, output, file</tags>
+  <tags>projectfiles, render, output, file, region</tags>
 </US_DocBloc>
 ]]
   local retval
@@ -59967,6 +59969,7 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
   if type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject_Regions", "renderfilename_with_path", "Must be a string.", -4) return -1 end  
   if rendercfg==nil or ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil or ultraschall.GetOutputFormat_RenderCfg(rendercfg)=="Unknown" then ultraschall.AddErrorMessage("RenderProject_Regions", "rendercfg", "No valid render_cfg-string.", -5) return -1 end
   if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProject_Regions", "overwrite_without_asking", "Must be boolean", -6) return -1 end
+  if addregionnameseparator~=nil and type(addregionnameseparator)~="string" then ultraschall.AddErrorMessage("RenderProject_Regions", "addregionnameseparator", "Must be a string or nil", -9) return -1 end
 
   local countmarkers, nummarkers, numregions, markertable, markertable_temp, countregions
   markertable={}
@@ -59996,33 +59999,39 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
     end
   end
   
---  print2("Häh?", renderfilename_with_path)
+  --print2("Häh?", renderfilename_with_path)
 
   if addregionname==true then 
-    render_filename_with_path2=renderfilename_with_path:match("(.*)%.")
-    render_filename_with_path3=renderfilename_with_path:match("(.*)%.")
-    if render_filename_with_path2==nil then
-      render_filename_with_path2=renderfilename_with_path.."O"
-      render_filename_with_path2=markertable[region][4].."O"
-    else
-      render_filename_with_path2=render_filename_with_path2..markertable[region][4]..render_filename_with_path2
-    end
+    if addregionnameseparator==nil then addregionnameseparator="" end
+    renderfilename_with_path=renderfilename_with_path..addregionnameseparator..markertable[region][4]
+--    render_filename_with_path2=renderfilename_with_path:match("(.*)%.")
+--    render_filename_with_path3=renderfilename_with_path:match("(.*)%.")
+--    if render_filename_with_path2==nil then
+--      render_filename_with_path2=renderfilename_with_path.."O"
+--      render_filename_with_path2=markertable[region][4].."O"
+--    else
+--      render_filename_with_path2=render_filename_with_path2..markertable[region][4]..render_filename_with_path2
+--    end
   -- old buggy code. In here only for future reference, if my new code(the lines after if addregionname==true then) introduced new bugs, 
   -- rather than only fixing them
 --      print(region, markertable[region], projectfilename_with_path)
-      --[[
+--[[
       renderfilename_with_path2=
-          renderfilename_with_path:match("(.*)%.").."O"
---          markertable[region][4]..
---          renderfilename_with_path:match(".*(%..*)")
+          renderfilename_with_path:match("(.*)%.")..
+          markertable[region][4]..
+          renderfilename_with_path:match(".*(%..*)")
 
   --]]
+  --[[
     if renderfilename_with_path==nil then 
       renderfilename_with_path=renderfilename_with_path..markertable[region][4]
     else
       renderfilename_with_path=renderfilename_with_path2
+      print2(renderfilename_with_path, "Ach", renderfilename_with_path2, "Ach", renderfilename_with_path3)
     end
+    --]]
   end
+--      print2(renderfilename_with_path, "Ach")  
 
   return ultraschall.RenderProject(projectfilename_with_path, renderfilename_with_path, tonumber(markertable[region][2]), tonumber(markertable[region][3]), overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg, RenderTable)
 end
