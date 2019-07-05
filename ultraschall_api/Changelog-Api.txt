@@ -317,9 +317,10 @@ TODO!! buggy function
    - Docs: updated Reaper-docs to 5.979 and JS-extension 0.989
    - Helpers: GetPath - when filename has no path, it returns now "", filename
    - Helpers: GetUserInputs - allows now setting width of the captions-fields(requested by Julian Sader), allows now commas in captions and default-values as well; title is now the one defined by the title-parameter(used to have temporary title previously) (reported by X-Raym)
+   - Markers: GetAllRegions - returned index in allregionsarray[index][3] wasn't 1-based, causing problems with other functions -> fixed
    - Render: RenderProject_Regions - produced Lua-error, when passing a filename without extension and if region was <1, returns error-messages now in that case
                                      allows now giving an optional separator between renderfilename_with_path and regionname when addregionname=true, including /
-                                     check docs for that new feature
+                                     check docs for that new feature(reported by reapero)
    - Scripts: HWND-Displayer.lua - reimplemented, much more comfortable now with a lot of more features.
    - Tools - the following scripts renamed to:
       ultraschall\_developertool\_ActionlistToIni-Converter.lua
