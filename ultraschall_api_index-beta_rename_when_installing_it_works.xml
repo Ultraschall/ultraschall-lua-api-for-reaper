@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="38962.07" author="Meo Mespotine">
+      <version name="38965.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/._Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/._Changelog-Api.txt</source>
@@ -336,19 +336,6 @@
 	<source main="true" file="/ultraschall_OpenFolder_Api_ExampleScripts.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api/Scripts/ultraschall_OpenFolder_Api_ExampleScripts.lua</source>
 	<source main="true" file="/ultraschall_Remove_ExampleScripts_To_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api/Scripts/ultraschall_Remove_ExampleScripts_To_Reaper.lua</source>
 <changelog><![CDATA[
-Ultraschall Framework - Changelog
-
-4.00 Beta 2.76: - “The Cure - Burn like Fire in Cairo” - 30th of July 2019
-
-New features in 4.00beta2.75
-
-Changes from Beta 2.75 to Beta 2.76
-
-    - Helpers: GetUserInputs - allows now commas in captions and default-values; title is now the one defined by the title-parameter(used to have temporary title previously) (reported by X-Raym)
-
-    ---
-
-
 Ultraschall Framework - Changelog
 
 4.00 Beta 2.75: - “Nick Cave & the Bad Seeds - Babe, I’m on fire” - 29th of May 2019
