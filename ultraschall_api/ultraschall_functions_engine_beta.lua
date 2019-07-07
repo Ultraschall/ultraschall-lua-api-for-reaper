@@ -1999,17 +1999,14 @@ function ultraschall.SetParmAlias_FXStateChunk(FXStateChunk, fxid, id, parmalias
     for k in string.gmatch(UseFX, "    PARMALIAS.-\n") do
       count=count+1
       if count==id then 
---        print2(k)
         start,stop=string.find(UseFX, k, 0, true)
         UseFX2=UseFX:sub(1,start-2).."\n"..k:match("    PARMALIAS%s.-%s")..parmalias..""..UseFX:sub(stop,-1)
---        print2(UseFX2)
         break 
       end
     end
   end  
   
   if UseFX2~=nil then
-    if osc_message==nil then osc_message="" end
     start,stop=string.find(FXStateChunk, UseFX, 0, true)  
     return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
   else
@@ -2116,6 +2113,422 @@ function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
     end
   end
 end
+
+
+function ultraschall.AddParmLFOLearn_FXStateChunk(FXStateChunk, fxid, parmidx, parmname, midi_note, checkboxflags, osc_message)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AddParmLFOLearn_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.AddParmLFOLearn_FXStateChunk(string FXStateChunk, integer fxid, integer parmidx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Adds a new Parm-LFOLearn-entry to an FX-plugin from an FXStateChunk.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if setting new values was successful; false, if setting was unsuccessful(e.g. no such ParmLearn)
+    optional string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Learn-entry
+    integer fxid - the id of the fx, which holds the to-set-Parm-Learn-entry; beginning with 1
+    integer parmidx - the parameter, whose alias you want to add
+    string parmname - the name of the parameter, usually \"\" or \"byp\" for bypass or \"wet\" for wet; when using wet or bypass, these are essential to give!
+    integer midi_note -   an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
+                      -    examples:
+                      -            0,   OSC is used
+                      -            176, MIDI Chan 1 CC 0
+                      -            ...
+                      -            432, MIDI Chan 1 CC 1
+                      -            ...
+                      -            9360, MIDI Chan 1 Note 36
+                      -            9616, MIDI Chan 1 Note 37
+                      -            9872, MIDI Chan 1 Note 38
+                      -              ...
+                      -              
+                      -        CC Mode-dropdownlist:
+                      -           set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                      -            &65536 &131072 &262144 
+                      -               0       0       0,      Absolute
+                      -               1       0       0,      Relative 1(127=-1, 1=+1)
+                      -               0       1       0,      Relative 2(63=-1, 65=+1)
+                      -               1       1       0,      Relative 3(65=-1, 1=+1)
+                      -               0       0       1,      Toggle (>0=toggle) 
+    integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
+                          -    0, no checkboxes
+                          -    1, enable only when track or item is selected
+                          -    2, Soft takeover (absolute mode only)
+                          -    3, Soft takeover (absolute mode only)+enable only when track or item is selected
+                          -    4, enable only when effect configuration is focused
+                          -    20, enable only when effect configuration is visible 
+    optional string osc_message - the osc-message, that triggers the ParmLFOLearn, only when midi_note is set to 0!
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, add, parm, learn, lfo, midi, osc, binding</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("AddParmLFOLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("AddParmLFOLearn_FXStateChunk", "fxid", "must be an integer", -2) return false end
+
+  if osc_message~=nil and type(osc_message)~="string" then ultraschall.AddErrorMessage("AddParmLFOLearn_FXStateChunk", "osc_message", "must be either nil or a string", -4) return false end
+  if math.type(midi_note)~="integer" then ultraschall.AddErrorMessage("AddParmLFOLearn_FXStateChunk", "midi_note", "must be an integer", -5) return false end
+  if math.type(checkboxflags)~="integer" then ultraschall.AddErrorMessage("AddParmLFOLearn_FXStateChunk", "checkboxflags", "must be an integer", -6) return false end
+  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("AddParmLFOLearn_FXStateChunk", "parmidx", "must be an integer", -7) return false end
+  if type(parmname)~="string" then ultraschall.AddErrorMessage("AddParmLFOLearn_FXStateChunk", "parmname", "must be a string, either \"\" or byp or wet", -8) return false 
+  elseif parmname~="" then parmname=":"..parmname
+  end
+    
+  if osc_message~=nil and midi_note~=0 then ultraschall.AddErrorMessage("AddParmLFOLearn_FXStateChunk", "midi_note", "must be set to 0, when using parameter osc_message", -9) return false end
+  if osc_message==nil then osc_message="" end
+  
+  local count=0
+  local FX, UseFX2, start, stop, UseFX
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  if UseFX:match("LFOLEARN "..parmidx..parmname)~=nil then ultraschall.AddErrorMessage("AddParmLFOLearn_FXStateChunk", "parmidx", "there's already an alias for this parmidx", -10) return false end
+  if UseFX:match("LFOLEARN "..parmidx)~=nil then ultraschall.AddErrorMessage("AddParmLFOLearn_FXStateChunk", "parmidx", "there's already an alias for this parmidx", -10) return false end
+  local UseFX_start, UseFX_end=UseFX:match("(.-)(LFOLEARN.*)")
+  if UseFX_start==nil or UseFX_end==nil then UseFX_start, UseFX_end=UseFX:match("(.-)(PARMLEARN.*)") end
+  if UseFX_start==nil or UseFX_end==nil then UseFX_start, UseFX_end=UseFX:match("(.-)(WAK.*)") end
+  UseFX2=UseFX_start.."LFOLEARN "..parmidx..parmname.." "..midi_note.." "..checkboxflags.." "..osc_message.."\n    "..UseFX_end
+  
+  if UseFX2~=nil then
+    start,stop=string.find(FXStateChunk, UseFX, 0, true)  
+    return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
+  else
+    return false
+  end
+end
+
+
+function ultraschall.AddParmLearn_FXStateChunk(FXStateChunk, fxid, parmidx, parmname, midi_note, checkboxflags, osc_message)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AddParmLearn_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.AddParmLearn_FXStateChunk(string FXStateChunk, integer fxid, integer parmidx, string parmname, integer midi_note, integer checkboxflags, optional string osc_message)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Adds a new Parm-Learn-entry to an FX-plugin from an FXStateChunk.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if setting new values was successful; false, if setting was unsuccessful(e.g. no such ParmLearn)
+    optional string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Learn-entry
+    integer fxid - the id of the fx, which holds the to-set-Parm-Learn-entry; beginning with 1
+    integer parmidx - the parameter, whose alias you want to add
+    string parmname - the name of the parameter, usually \"\" or \"byp\" for bypass or \"wet\" for wet; when using wet or bypass, these are essential to give!
+    integer midi_note -   an integer representation of the MIDI-note, which is set as command; 0, in case of an OSC-message
+                      -    examples:
+                      -            0,   OSC is used
+                      -            176, MIDI Chan 1 CC 0
+                      -            ...
+                      -            432, MIDI Chan 1 CC 1
+                      -            ...
+                      -            9360, MIDI Chan 1 Note 36
+                      -            9616, MIDI Chan 1 Note 37
+                      -            9872, MIDI Chan 1 Note 38
+                      -              ...
+                      -              
+                      -        CC Mode-dropdownlist:
+                      -           set the following flags to their specific values (0=0, 1=the value beginning &, like &65536 or &131072 or &262144)
+                      -            &65536 &131072 &262144 
+                      -               0       0       0,      Absolute
+                      -               1       0       0,      Relative 1(127=-1, 1=+1)
+                      -               0       1       0,      Relative 2(63=-1, 65=+1)
+                      -               1       1       0,      Relative 3(65=-1, 1=+1)
+                      -               0       0       1,      Toggle (>0=toggle) 
+    integer checkboxflags - the checkboxes checked in the MIDI/OSC-learn dialog
+                          -    0, no checkboxes
+                          -    1, enable only when track or item is selected
+                          -    2, Soft takeover (absolute mode only)
+                          -    3, Soft takeover (absolute mode only)+enable only when track or item is selected
+                          -    4, enable only when effect configuration is focused
+                          -    20, enable only when effect configuration is visible 
+    optional string osc_message - the osc-message, that triggers the ParmLFOLearn, only when midi_note is set to 0!
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, add, parm, learn, midi, osc, binding</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk", "fxid", "must be an integer", -2) return false end
+
+  if osc_message~=nil and type(osc_message)~="string" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk", "osc_message", "must be either nil or a string", -4) return false end
+  if math.type(midi_note)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk", "midi_note", "must be an integer", -5) return false end
+  if math.type(checkboxflags)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk", "checkboxflags", "must be an integer", -6) return false end
+  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk", "parmidx", "must be an integer", -7) return false end
+  if type(parmname)~="string" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk", "parmname", "must be a string, either \"\" or byp or wet", -8) return false 
+  elseif parmname~="" then parmname=":"..parmname
+  end
+    
+  if osc_message~=nil and midi_note~=0 then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk", "midi_note", "must be set to 0, when using parameter osc_message", -9) return false end
+  if osc_message==nil then osc_message="" end
+  
+  local count=0
+  local FX, UseFX2, start, stop, UseFX
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  if UseFX:match("PARMLEARN "..parmidx..parmname)~=nil then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk", "parmidx", "there's already an alias for this parmidx", -10) return false end
+  if UseFX:match("PARMLEARN "..parmidx)~=nil then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk", "parmidx", "there's already an alias for this parmidx", -11) return false end
+  local UseFX_start, UseFX_end=UseFX:match("(.-)(PARMLEARN.*)")
+  if UseFX_start==nil or UseFX_end==nil then UseFX_start, UseFX_end=UseFX:match("(.-)(WAK.*)") end
+  --id, midi_note, checkboxflags, osc_message
+  UseFX2=UseFX_start.."PARMLEARN "..parmidx..parmname.." "..midi_note.." "..checkboxflags.." "..osc_message.."\n    "..UseFX_end
+  
+  if UseFX2~=nil then
+    start,stop=string.find(FXStateChunk, UseFX, 0, true)  
+    return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
+  else
+    return false
+  end
+end
+
+function ultraschall.AddParmAlias_FXStateChunk(FXStateChunk, fxid, parmidx, parmalias)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AddParmAlias_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.AddParmAlias_FXStateChunk(string FXStateChunk, integer fxid, string parmalias)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Adds a new Parm-Alias-entry to an FX-plugin from an FXStateChunk.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if setting new values was successful; false, if setting was unsuccessful(e.g. no such ParmLearn)
+    optional string alteredFXStateChunk - the altered FXStateChunk
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, in which you want to set a Parm-Learn-entry
+    integer fxid - the id of the fx, which holds the to-set-Parm-Learn-entry; beginning with 1
+    integer parmidx - the parameter, whose alias you want to add
+    string parmalias - the new aliasname of the parameter
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, set, parm, aliasname</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("AddParmAlias_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("AddParmAlias_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("AddParmAlias_FXStateChunk", "id", "must be an integer", -3) return false end    
+
+  if type(parmalias)~="string" then ultraschall.AddErrorMessage("AddParmAlias_FXStateChunk", "parmalias", "must be a string", -4) return false end
+  if math.type(parmidx)~="integer" then ultraschall.AddErrorMessage("AddParmAlias_FXStateChunk", "parmidx", "must be an integer", -5) return false end
+  
+  local count=0
+  local FX, UseFX2, start, stop, UseFX
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  if UseFX:match("PARMALIAS "..parmidx)~=nil then ultraschall.AddErrorMessage("AddParmAlias_FXStateChunk", "parmidx", "there's already an alias for this parmidx", -6) return false end
+  local UseFX_start, UseFX_end=UseFX:match("(.-)(FXID.*)")
+  UseFX2=UseFX_start.."PARMALIAS "..parmidx.." "..parmalias.."\n    "..UseFX_end
+  
+  if UseFX2~=nil then
+    start,stop=string.find(FXStateChunk, UseFX, 0, true)  
+    return true, FXStateChunk:sub(1, start)..UseFX2:sub(2,-2)..FXStateChunk:sub(stop, -1)
+  else
+    return false
+  end
+end
+
+function ultraschall.CountParmAlias_FXStateChunk(FXStateChunk, fxid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CountParmAlias_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>integer count = ultraschall.CountParmAlias_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Counts already existing Parm-Alias-entries of an FX-plugin from an FXStateChunk.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    integer count - the number of ParmAliases found
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, in which you want to count a Parm-Learn-entry
+    integer fxid - the id of the fx, which holds the to-count-Parm-Learn-entry; beginning with 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, count, parm, aliasname</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("CountParmAlias_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("CountParmAlias_FXStateChunk", "fxid", "must be an integer", -2) return false end
+    
+  local count=0
+  local FX, UseFX2, start, stop, UseFX
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  count=0
+  if UseFX~=nil then
+    for k in string.gmatch(UseFX, "    PARMALIAS.-\n") do
+      count=count+1
+    end
+  end  
+  return count
+end
+--]]
+
+function ultraschall.CountParmLearn_FXStateChunk(FXStateChunk, fxid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CountParmLearn_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>integer count = ultraschall.CountParmLearn_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Counts already existing Parm-Learn-entries of an FX-plugin from an FXStateChunk.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    integer count - the number of ParmLearn-entried found
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, in which you want to count a Parm-Learn-entry
+    integer fxid - the id of the fx, which holds the to-count-Parm-Learn-entry; beginning with 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, count, parm, learn</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("CountParmLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("CountParmLearn_FXStateChunk", "fxid", "must be an integer", -2) return false end
+    
+  local count=0
+  local FX, UseFX2, start, stop, UseFX
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  count=0
+  if UseFX~=nil then
+    for k in string.gmatch(UseFX, "    PARMLEARN.-\n") do
+      count=count+1
+    end
+  end  
+  return count
+end
+
+function ultraschall.CountParmLFOLearn_FXStateChunk(FXStateChunk, fxid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CountParmLFOLearn_FXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>integer count = ultraschall.CountParmLFOLearn_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Counts already existing Parm-LFOLearn-entries of an FX-plugin from an FXStateChunk.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    integer count - the number of LFOLearn-entried found
+  </retvals>
+  <parameters>
+    string FXStateChunk - the FXStateChunk, in which you want to count a Parm-LFOLearn-entry
+    integer fxid - the id of the fx, which holds the to-count-Parm-LFOLearn-entry; beginning with 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Parameter Mapping
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, count, parm, lfo, learn</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("CountParmLFOLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("CountParmLFOLearn_FXStateChunk", "fxid", "must be an integer", -2) return false end
+    
+  local count=0
+  local FX, UseFX2, start, stop, UseFX
+  for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
+    count=count+1
+    if count==fxid then UseFX=k end
+  end
+  
+  count=0
+  if UseFX~=nil then
+    for k in string.gmatch(UseFX, "    LFOLEARN.-\n") do
+      count=count+1
+    end
+  end  
+  return count
+end
+
+--retval,TrackStateChunk=reaper.GetTrackStateChunk(reaper.GetTrack(0,0), "", false)
+--FXStateChunk=ultraschall.GetFXStateChunk(TrackStateChunk, 1)
+--A,B,C=ultraschall.CountParmLFOLearn_FXStateChunk(FXStateChunk, 1, 16, "", 0, 1, "WetWetWet")
+--retval, TrackStateChunk=ultraschall.SetFXStateChunk(TrackStateChunk, B)
+--reaper.SetTrackStateChunk(reaper.GetTrack(0,0), TrackStateChunk,false)
+--print2(B)
 
 
 ultraschall.ShowLastErrorMessage()

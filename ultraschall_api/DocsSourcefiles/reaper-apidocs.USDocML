@@ -4163,7 +4163,7 @@
             where "/Q" executes cmd.exe silently(otherwise a command-line-window pops up; but output of commands will show anyway) and "/C command" executes command.
             
             To get a full directory-listing of c:\\ in a file c:\\directorylisting.txt, you can use:
-            -   "c:\\windows\\system32\\cmd.exe /Q /C dir c:\ >c:\\directorylisting.txt"
+            -   "c:\\windows\\system32\\cmd.exe /Q /C dir c:\\ >c:\\directorylisting.txt"
         </description>            
         <retvals>
             string - return value, newline and output of the command; otherwise nil

@@ -292,6 +292,12 @@ TODO!! buggy function
 #### New features in 4.00beta2.76
    - Actions: GetAllActions - gets all actions, actioncommandids and scriptnames of all actions in a specific section
    - FXManagement: AutoDetectVSTPlugins - auto-searches for the vst-plugin-folder
+   - FXManagement: AddParmAlias\_FXStateChunk - adds a parameter-alias-entry to an FXStateChunk
+   - FXManagement: AddParmLearn\_FXStateChunk - adds a parameter-learn-entry to an FXStateChunk
+   - FXManagement: AddParmLFOLearn\_FXStateChunk - adds a parameter-lfo-learn-entry to an FXStateChunk
+   - FXManagement: CountParmAlias\_FXStateChunk - counts parameter-alias-entries in an FXStateChunk
+   - FXManagement: CountParmLearn\_FXStateChunk - counts parameter-learn-entries in an FXStateChunk
+   - FXManagement: CountParmLFOLearn\_FXStateChunk - counts parameter-lfo-learn-entries in an FXStateChunk
    - FXManagement: DeleteParmAlias\_FXStateChunk - deletes a parameter-alias-entry from a specific fx in an FXStateChunk
    - FXManagement: DeleteParmLFOLearn\_FXStateChunk - deletes a parameter-lfo-learn-entry from a specific fx in an FXStateChunk
    - FXManagement: DeleteParmLearn\_FXStateChunk - deletes a ParmLearn-entry from a specific fx in an FXStateChunk
