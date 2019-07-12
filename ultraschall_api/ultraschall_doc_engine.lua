@@ -25,7 +25,7 @@
 ]] 
 
 --------------------------------------
---- ULTRASCHALL - API - GFX-Engine ---
+--- ULTRASCHALL - API - Doc-Engine ---
 --------------------------------------
 
 
@@ -48,7 +48,7 @@ if type(ultraschall)~="table" then
   ultraschall={} 
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 end
-
+--[[
 function ultraschall.SplitUSDocBlocs(String)
   local Table={}
   local Counter=0
@@ -280,17 +280,22 @@ function ultraschall.GetAllSlugs(Table)
   local counter=1
   local SlugTable={}
   while Table[counter]~=nil do
-    SlugTable[Table[counter][1]]=counter
+  --]]
+  --SlugTable[Table[counter][1]]=counter
+  --[[
     counter=counter+1
   end
   return counter-1, SlugTable
 end
-
+--]]
+--[[
 function ultraschall.ConvertSplitDocBlocTableIndex_Slug(Table)
   local counter=1
   local TableSlug={}
   while Table[counter]~=nil do
-    TableSlug[Table[counter][1]]=Table[counter]
+  --]]
+--    TableSlug[Table[counter][1]]=Table[counter]
+--[[
     counter=counter+1    
   end
   return TableSlug
@@ -443,3 +448,74 @@ function ultraschall.ColorateDatatypes(String)
   String=string.gsub(String, "%[ ", "[")
   return String:sub(2,-2)
 end
+--]]
+
+
+function ultraschall.Docs_GetAllUSDocBlocsFromString(String)
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetAllUSDocBlocsFromString", "String", "must be a string", -1) return nil end
+  local Array={}
+  local count=0
+  for k in string.gmatch(String, "(<US_DocBloc.-</US_DocBloc>)") do
+    count=count+1
+    Array[count]=k
+  end
+  return count, Array
+end
+
+function ultraschall.Docs_GetUSDocBloc_Slug(String)
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Slug", "String", "must be a string", -1) return nil end
+  return String:match("<slug>(.-)</slug>")
+end
+
+function ultraschall.Docs_GetUSDocBloc_Title(String)
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Title", "String", "must be a string", -1) return nil end
+  return String:match("<title>(.-)</title>")
+end
+
+function ultraschall.Docs_GetUSDocBloc_Description(String)
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Description", "String", "must be a string", -1) return nil end
+  local Description=String:match("<description.->(.-)</description>")
+  local markup_type=Description:match("markup_type=\"(.-)\"")
+  local markup_version=Description:match("markup_version=\"(.-)\"")
+  local indent=Description:match("indent=\"(.-)\"")
+  local language=Description:match("language=\"(.-)\"")
+  if language==nil then language="" end
+  if indent==nil then indent="default" end
+  if markup_type==nil then markup_type="text" end
+  if markup_version==nil then markup_version="" end
+  return Description, markup_type, markup_version, indent, language
+end
+
+function ultraschall.Docs_GetUSDocBloc_TargetDocument(String)
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_TargetDocument", "String", "must be a string", -1) return nil end
+  return String:match("<target_document>(.-)</target_document>")
+end
+
+function ultraschall.Docs_GetUSDocBloc_SourceDocument(String)
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_SourceDocument", "String", "must be a string", -1) return nil end
+  return String:match("<source_document>(.-)</source_document>")
+end
+
+function ultraschall.Docs_GetUSDocBloc_ChapterContext(String)
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_ChapterContext", "String", "must be a string", -1) return nil end
+  Chapters=String:match("<chapter_context>\n(.-)</chapter_context>")
+  count, split_string = ultraschall.SplitStringAtLineFeedToArray(Chapters)
+  for i=1, count do
+    split_string[i]=split_string[i]:match("%s*(.*)")
+  end
+  return count, split_string
+end
+
+function ultraschall.Docs_GetUSDocBloc_Tags(String)
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Tags", "String", "must be a string", -1) return nil end
+  Tags=String:match("<tags>(.-)</tags>")
+  count, split_string = ultraschall.CSV2IndividualLinesAsArray(Tags)
+  for i=1, count do
+    split_string[i]=split_string[i]:match("%s*(.*)")
+  end
+  return count, split_string
+end
+
+--A0,CCC=ultraschall.Docs_GetAllUSDocBlocsFromString(ultraschall.GetStringFromClipboard_SWS(""))
+--B=ultraschall.Docs_GetUSDocBloc_Slug(CCC[1])
+--A1, A2, A3, A4, A5=ultraschall.Docs_GetUSDocBloc_Tags(CCC[1])

@@ -2531,4 +2531,94 @@ end
 --print2(B)
 
 
+function ultraschall.SplitStringAtLineFeedToArray(unsplitstring)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SplitStringAtLineFeedToArray</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer count, array split_string = ultraschall.SplitStringAtLineFeedToArray(string unsplitstring)</functioncall>
+  <description>
+    Splits the string unsplitstring at linefeed/tabs/control characters and puts each of these splitpieces into an array, each splitpiece one array-entry.
+    The linefeeds will not(!) be returned in the array's entries.
+    Returns the number of entries in the array, as well as the array itself
+    If there are no controlcharacters or linefeeds in the string, the array will have only one entry with unsplitstring in it.
+    returns -1 in case of failure
+  </description>
+  <parameters>
+    string unsplitstring - the string, that shall be split at LineFeed/Tabs/Control Characters. Nil is not allowed.
+  </parameters>
+  <retvals>
+    integer count - number of entries in the split_string-array
+    array split_string - an array with all the individual "postsplit"-pieces of the string
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>string, split, linefeed, tabs, control characters, array</tags>
+</US_DocBloc>
+]]
+  local array={}
+  if unsplitstring==nil then ultraschall.AddErrorMessage("SplitStringAtLineFeedToArray", "unsplitstring", "nil is not allowed as value", -1) return -1 end
+  unsplitstring=string.gsub (unsplitstring, "\r", "")
+  local count=0
+  for k in string.gmatch(unsplitstring, "(.-)\n") do
+    count=count+1
+    array[count]=k
+  end
+  if count==0 then return 1, {unsplitstring} end
+  return count, array
+end
+
+function ultraschall.AnyTrackMute(master)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AnyTrackMute</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.979
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.AnyTrackMute()</functioncall>
+  <description>
+    returns true, if any track is muted, otherwise returns false.
+  </description>
+  <parameters>
+    boolean master - true, include the master-track as well; false, don't include master-track
+  </parameters>
+  <retvals>
+    boolean retval - true, if any track is muted; false, if not
+  </retvals>
+  <chapter_context>
+    Track Management
+    Get Track States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>trackmanagement, is, track, master, mute</tags>
+</US_DocBloc>
+]]
+  local retval, mute
+  
+  if master==true then
+    retval, mute = reaper.GetTrackUIMute(reaper.GetMasterTrack(0))
+    if mute==true then return true end
+  end
+  
+  for i=0, reaper.CountTracks(0)-1 do
+    retval, mute = reaper.GetTrackUIMute(reaper.GetTrack(0,i))
+    if mute==true then return true end
+  end
+  return false
+end
+
+
+--A=ultraschall.AnyTrackMute()
+
 ultraschall.ShowLastErrorMessage()

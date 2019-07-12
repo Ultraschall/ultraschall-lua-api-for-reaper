@@ -64,20 +64,25 @@ Ultraschall API Changelog
 <li>Localize: Localize - localizes a string, using the texts from a translationfile; can be used with or without ultraschall. at the beginning</li>
 <li>Localize: Localize_RefreshFile - reloads an already set translation-file, so translations can be updated at runtime</li>
 <li>Localize: Localize_UseFile - sets a translationfile, that shall be used by function ultraschall.Localize</li>
+<li>Misc: Developer_Reaper5965.ReaperLangPack - a language-pack, which displays the sections, in which the caption is located in a langpack</li>
 <li>ReaMote: AutoSearchReaMoteSlaves - autosearches for new ReaMote-slaves</li>
 <li>Render: AddSelectedItemsToRenderQueue - adds selected MediaItems to render-queue as either one render-queued-project or individual projects</li>
 <li>Render: GetRenderingToFileHWND - gets the hwnd of the rendering-to-file-dialog, during rendering</li>
+<li>Tools: LangPack2Developer_langpack_converter.lua - converts a language-pack into a developer-langpack, which displays the sections, in which every caption is located in the langpack</li>
 <li>Tools: ultraschall_Add_Developertools_To_Reaper.lua - allows installing developertools into Reaper</li>
+<li>Tools: ultraschall_developertool_CheckForNewConfigVars.lua - checks the individual lines of a string in clipboard for valid config-vars; thought I already had added that...</li>
 <li>Tools: ultraschall_Remove_Developertools_From_Reaper.lua - allows removing already installed developertools from Reaper</li>
+<li>Track Management: AnyTrackMute - returns, if any track is muted; optionally includes the master-track as well</li>
 </ul>
 <h4>Changes from Beta 2.75 to Beta 2.76</h4>
 <ul>
 <li>API: versionscheck - had problems with pre/rc and dev-versions of Reaper -&gt; fixed(reported by X-Raym)</li>
-<li>Docs: updated Reaper-docs to 5.979 and JS-extension 0.989</li>
+<li>Docs: updated Reaper-docs to 5.980 and JS-extension 0.989</li>
 <li>Helpers: GetPath - when filename has no path, it returns now "", filename</li>
 <li>Helpers: GetUserInputs - allows now setting width of the captions-fields(requested by Julian Sader), allows now commas in captions and default-values as well; title is now the one defined by the title-parameter(used to have temporary title previously) (reported by X-Raym)</li>
+<li>Helpers: SplitStringAtLineFeedToArray - sped up by magnitudes, should now work much faster with megabyte-strings</li>
 <li>Markers: GetAllRegions - returned index in allregionsarray[index][3] wasn't 1-based, causing problems with other functions -&gt; fixed</li>
-<li>Render: RenderProject<em>Regions - produced Lua-error, when passing a filename without extension and if region was &lt;1, returns error-messages now in that case allows now giving an optional separator between renderfilename</em>with_path and regionname when addregionname=true, including / check docs for that new feature(reported by reapero)</li>
+<li>Render: RenderProject_Regions - produced Lua-error, when passing a filename without extension and if region was &lt;1, returns error-messages now in that case allows now giving an optional separator between renderfilename_with_path and regionname when addregionname=true, including / check docs for that new feature(reported by reapero)</li>
 <li>Scripts: HWND-Displayer.lua - reimplemented, much more comfortable now with a lot of more features.</li>
 <li>Tools - the following scripts renamed to: ultraschall_developertool_ActionlistToIni-Converter.lua ultraschall_developertool_Display-Altered-ConfigFile-Entries.lua ultraschall_developertool_Display-Altered-Config-Vars.lua ultraschall_developertool_Env_State_Diffs_Monitor.lua ultraschall_developertool_findConfigVarsToggledByActions.lua ultraschall_developertool_GetPitchShiftModes.lua ultraschall_developertool_gfx_deltablit_displayer.lua ultraschall_developertool_HWND-Displayer.lua ultraschall_developertool_Item_State_Diffs_Monitor.lua ultraschall_developertool_Project_State_Diffs_Monitor.lua ultraschall_developertool_StateInspector.lua ultraschall_developertool_Track_State_Diffs_Monitor.lua</li>
 <li>Tools: ultraschall_Remove_ExampleScripts_To_Reaper.lua - renamed to ultraschall_Remove_ExampleScripts_From_Reaper.lua, better name that way</li>
