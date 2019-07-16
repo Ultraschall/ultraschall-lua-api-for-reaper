@@ -44,6 +44,14 @@ Ultraschall API Changelog
 <h4>New features in 4.00beta2.76</h4>
 <ul>
 <li>Actions: GetAllActions - gets all actions, actioncommandids and scriptnames of all actions in a specific section</li>
+<li>DocEngine: Docs_GetAllUSDocBlocsFromString - gets all US_DocBlocs from a string</li>
+<li>DocEngine: Docs_GetUSDocBloc_ChapterContext - gets the chapters of a US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_Description - gets the description of a US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_Slug - gets the slug from an US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_SourceDocument - gets the source-document-entry from an US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_TargetDocument - gets the target-document-entry from an US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_Title - gets the title from an US_DocBloc</li>
+<li>DocEngine: Docs_RemoveIndent - removes indention from a text</li>
 <li>FXManagement: AutoDetectVSTPlugins - auto-searches for the vst-plugin-folder</li>
 <li>FXManagement: AddParmAlias_FXStateChunk - adds a parameter-alias-entry to an FXStateChunk</li>
 <li>FXManagement: AddParmLearn_FXStateChunk - adds a parameter-learn-entry to an FXStateChunk</li>
@@ -60,13 +68,14 @@ Ultraschall API Changelog
 <li>FXManagement: SetParmAlias_FXStateChunk - sets a parameter-alias-entry from a specific fx in an FXStateChunk</li>
 <li>FXManagement: SetParmLearn_FXStateChunk - sets a parameter-learn-entry from a specific fx in an FXStateChunk</li>
 <li>FXManagement: SetParmLFOLearn_FXStateChunk - sets a parameter-lfo-learn-entry from a specific fx in an FXStateChunk</li>
+<li>GFX-Management: GFX_SetFont - sets a font to be used in a gfx-window; adjust Mac-fonts to match the size of Windows-fonts(unlike Reaper's own gfx.setfont)(code by lokasenna with contributions by Justin and Schwa)</li>
 <li>HelperFunctions: get_action_context_MediaItemDiff - gets the MediaItemDifference(position, start, end, length, offset) since last time calling this function. Good for ripple-drag-scripts.</li>
 <li>Localize: Localize - localizes a string, using the texts from a translationfile; can be used with or without ultraschall. at the beginning</li>
 <li>Localize: Localize_RefreshFile - reloads an already set translation-file, so translations can be updated at runtime</li>
 <li>Localize: Localize_UseFile - sets a translationfile, that shall be used by function ultraschall.Localize</li>
 <li>Misc: Developer_Reaper5965.ReaperLangPack - a language-pack, which displays the sections, in which the caption is located in a langpack</li>
 <li>ReaMote: AutoSearchReaMoteSlaves - autosearches for new ReaMote-slaves</li>
-<li>Render: AddSelectedItemsToRenderQueue - adds selected MediaItems to render-queue as either one render-queued-project or individual projects</li>
+<li>Render: AddSelectedItemsToRenderQueue - adds selected MediaItems to render-queue as either one render-queued-project or individual projects(requested by Travesty)</li>
 <li>Render: GetRenderingToFileHWND - gets the hwnd of the rendering-to-file-dialog, during rendering</li>
 <li>Tools: LangPack2Developer_langpack_converter.lua - converts a language-pack into a developer-langpack, which displays the sections, in which every caption is located in the langpack</li>
 <li>Tools: ultraschall_Add_Developertools_To_Reaper.lua - allows installing developertools into Reaper</li>
@@ -77,7 +86,9 @@ Ultraschall API Changelog
 <h4>Changes from Beta 2.75 to Beta 2.76</h4>
 <ul>
 <li>API: versionscheck - had problems with pre/rc and dev-versions of Reaper -&gt; fixed(reported by X-Raym)</li>
+<li>Docs: Concepts-RenderTable - layout was totally messed up due Markdown -&gt; fixed</li>
 <li>Docs: FileType-Description - added missing info to ReaperConfigZip-Filetype-description</li>
+<li>Docs: Index - index in all docs was missing chapters -&gt; fixed</li>
 <li>Docs: updated Reaper-docs to 5.980 and JS-extension 0.989</li>
 <li>Helpers: GetPath - when filename has no path, it returns now "", filename</li>
 <li>Helpers: GetUserInputs - allows now setting width of the captions-fields(requested by Julian Sader), allows now commas in captions and default-values as well; title is now the one defined by the title-parameter(used to have temporary title previously) (reported by X-Raym)</li>

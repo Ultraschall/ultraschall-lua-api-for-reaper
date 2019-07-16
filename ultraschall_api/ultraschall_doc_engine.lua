@@ -53,15 +53,15 @@ function ultraschall.SplitUSDocBlocs(String)
   local Table={}
   local Counter=0
   TUT=""
-  while String:match("<US_DocBloc")~=nil do
+  while String:match("<%US_DocBloc")~=nil do
     Counter=Counter+1
     Table[Counter]={}
-    Table[Counter][2], Offset=String:match("(<US_DocBloc.-</US_DocBloc>)()")        -- USDocBloc
-    Table[Counter][1]=Table[Counter][2]:match("<slug>\n*%s*\t*(.-)\n*%s*\t*</slug>")               -- the Slug
+    Table[Counter][2], Offset=String:match("(<%US_DocBloc.-</%US_DocBloc>)()")        -- USDocBloc
+    Table[Counter][1]=Table[Counter][2]:match("<%slug>\n*%s*\t*(.-)\n*%s*\t*</%slug>")               -- the Slug
     TUT=TUT.."\n"..Table[Counter][1]
-    Table[Counter][3]=Table[Counter][2]:match("<US_DocBloc.-version=\"(.-)\".->")   -- version
-    Table[Counter][4]=Table[Counter][2]:match("<US_DocBloc.-spok_lang=\"(.-)\".->") -- spok-language
-    Table[Counter][5]=Table[Counter][2]:match("<US_DocBloc.-prog_lang=\"(.-)\".->") -- prog-language
+    Table[Counter][3]=Table[Counter][2]:match("<%US_DocBloc.-version=\"(.-)\".->")   -- version
+    Table[Counter][4]=Table[Counter][2]:match("<%US_DocBloc.-spok_lang=\"(.-)\".->") -- spok-language
+    Table[Counter][5]=Table[Counter][2]:match("<%US_DocBloc.-prog_lang=\"(.-)\".->") -- prog-language
     
     String=String:sub(Offset,-1)
   end
@@ -71,7 +71,7 @@ end
 
 
 function ultraschall.ParseSlug(String)
-  return String:match("<slug>.-\n*%s*\t*(.-)\n*%s*\t*</slug>")
+  return String:match("<%slug>.-\n*%s*\t*(.-)\n*%s*\t*</%slug>")
 end
 
 
@@ -450,72 +450,451 @@ function ultraschall.ColorateDatatypes(String)
 end
 --]]
 
+function ultraschall.Docs_RemoveIndent(String, indenttype)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_RemoveIndent</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.978
+    Lua=5.3
+  </requires>
+  <functioncall>string unindented_text = ultraschall.Docs_RemoveIndent(string String, string indenttype)</functioncall>
+  <description>
+    unindents an indented text from a US_DocBloc.
+    
+    There are different styles of unindention:
+      as_typed - keeps the text, as it is
+      minus_starts_line - will throw away everything from start of the line until(and including) the firt - in it
+      preceding_spaces - will remove all spaces/tabs in the beginning of each line
+      default - will take the indention of the first line and apply it to each of the following lines
+                that means, indention relative to the first line is kept
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string unindented_text - the string, from which the indention was removed
+  </retvals>
+  <parameters>
+    string String - the string, which shall be unindented
+    string indenttype - the type of indention you want to remove
+                      - as_typed - keeps the text, as it is
+                      - minus_starts_line - will throw away everything from start of the line until(and including) the firt - in it
+                      - preceding_spaces - will remove all spaces/tabs in the beginning of each line
+                      - default - will take the indention of the first line and apply it to each of the following lines
+                                  that means, indention relative to the first line is kept
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, indent, unindent, text, usdocbloc</tags>
+</US_DocBloc>
+]]
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_RemoveIndent", "String", "must be a string", -1) return nil end
+  if type(indenttype)~="string" then ultraschall.AddErrorMessage("Docs_RemoveIndent", "indenttype", "must be a string", -2) return nil end
+  if indenttype=="as_typed" then return String end
+  if indenttype=="minus_starts_line" then return string.gsub("\n"..String, "\n.-%-", "\n"):sub(2,-1) end
+  if indenttype=="preceding_spaces" then  return string.gsub("\n"..String, "\n%s*", "\n"):sub(2,-1) end
+  if indenttype=="default" then 
+    local Length=String:match("(%s*)")
+    if Length==nil then Length="" end
+    return string.gsub("\n"..String, "\n"..Length, "\n"):sub(2,-1)
+  end
+  
+  return String
+end
+
+
 
 function ultraschall.Docs_GetAllUSDocBlocsFromString(String)
-  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetAllUSDocBlocsFromString", "String", "must be a string", -1) return nil end
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetAllUSDocBlocsFromString</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.978
+    Lua=5.3
+  </requires>
+  <functioncall>integer found_usdocblocs, array all_found_usdocblocs = ultraschall.Docs_GetAllUSDocBlocsFromString(string String)</functioncall>
+  <description>
+    returns all US_DocBloc-elements from a string.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer found_usdocblocs - the number of found US_DocBlocs in the string
+    array all_found_usdocblocs - the individual US_DocBlocs found in the string
+  </retvals>
+  <parameters>
+    string String - a string, from which to retrieve the US_DocBlocs
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, all, usdocbloc</tags>
+</US_DocBloc>
+]]
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetAllUSDocBlocsFromString", "String", "must be a string ", -1) return nil end
   local Array={}
   local count=0
-  for k in string.gmatch(String, "(<US_DocBloc.-</US_DocBloc>)") do
+  for k in string.gmatch(String, "<(US_DocBloc.-</US_DocBloc>)") do
     count=count+1
-    Array[count]=k
+    Array[count]="<"..k
   end
   return count, Array
 end
 
 function ultraschall.Docs_GetUSDocBloc_Slug(String)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetUSDocBloc_Slug</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.978
+    Lua=5.3
+  </requires>
+  <functioncall>string slug = ultraschall.Docs_GetUSDocBloc_Slug(string String)</functioncall>
+  <description>
+    returns the slug from an US_DocBloc-element
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string slug - the slug, as stored in the USDocBloc
+  </retvals>
+  <parameters>
+    string String - a string which hold a US_DocBloc to retrieve the slug from
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, slug, usdocbloc</tags>
+</US_DocBloc>
+]]
   if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Slug", "String", "must be a string", -1) return nil end
   return String:match("<slug>(.-)</slug>")
 end
 
-function ultraschall.Docs_GetUSDocBloc_Title(String)
+function ultraschall.Docs_GetUSDocBloc_Title(String, index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetUSDocBloc_Title</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.978
+    Lua=5.3
+  </requires>
+  <functioncall>string title, string spok_lang = ultraschall.Docs_GetUSDocBloc_Title(string String, integer index)</functioncall>
+  <description>
+    returns the title from an US_DocBloc-element.
+    There can be multiple titles, e.g. in multiple languages
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string title - the title, as stored in the USDocBloc
+    string spok_lang - the language, in which the title is stored
+  </retvals>
+  <parameters>
+    string String - a string which hold a US_DocBloc to retrieve the title from
+    integer index - the index of the title to get, starting with 1 for the first title
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, title, languages, spoken, spok_lang, usdocbloc</tags>
+</US_DocBloc>
+]]
   if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Title", "String", "must be a string", -1) return nil end
-  return String:match("<title>(.-)</title>")
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Title", "index", "must be an integer", -2) return nil end
+  if index<1 then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Title", "index", "must be >0", -3) return nil end
+  local counter=0
+  local title, spok_lang
+  for k in string.gmatch(String, "(<title.->.-)</title>") do
+    counter=counter+1
+    if counter==index then title=k:match("<title.->(.*)") spok_lang=k:match("spok_lang=\"(.-)\".->") if spok_lang==nil then spok_lang="" end return title, spok_lang end
+  end
 end
 
-function ultraschall.Docs_GetUSDocBloc_Description(String)
+
+function ultraschall.Docs_GetUSDocBloc_Description(String, unindent_description, index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetUSDocBloc_Description</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.978
+    Lua=5.3
+  </requires>
+  <functioncall>string title, string spok_lang = ultraschall.Docs_GetUSDocBloc_Description(string String, boolean unindent_description, integer index)</functioncall>
+  <description>
+    returns the description-text from an US_DocBloc-element.
+    There can be multiple descriptions, e.g. in multiple languages
+    
+    It will remove automatically indentation(as requested by the description-tag of the US_DocBloc), if unindent_description==true.
+    If no indentation is requested by the description-tag, it will assume default(the indentation of the first line will be applied to all other lines).
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string title - the title, as stored in the USDocBloc
+    string spok_lang - the language, in which the title is stored
+  </retvals>
+  <parameters>
+    string String - a string which hold a US_DocBloc to retrieve the description from
+    boolean unindent_description - true, will remove indentation as given in the description-tag; false, return the text as it is
+    integer index - the index of the title to get, starting with 1 for the first title
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, description, languages, spoken, spok_lang, indentation, usdocbloc</tags>
+</US_DocBloc>
+]]
   if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Description", "String", "must be a string", -1) return nil end
-  local Description=String:match("<description.->(.-)</description>")
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Description", "index", "must be an integer", -2) return nil end
+  if index<1 then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Description", "index", "must be >0", -3) return nil end
+  if type(unindent_description)~="boolean" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Description", "unindent_description", "must be a boolean", -4) return nil end
+  
+  local counter=0
+  local title, spok_lang, found
+  for k in string.gmatch(String, "(<description.->.-</description>)") do
+    counter=counter+1
+    if counter==index then String=k found=true end
+  end
+  
+  if found~=true then return end
+  
+  local Description=String:match("<description.->(.-)\n%s*</description>")
   local markup_type=Description:match("markup_type=\"(.-)\"")
   local markup_version=Description:match("markup_version=\"(.-)\"")
-  local indent=Description:match("indent=\"(.-)\"")
-  local language=Description:match("language=\"(.-)\"")
+  local indent=String:match("indent=\"(.-)\"")
+  local language=String:match("spok_lang=\"(.-)\"")
   if language==nil then language="" end
   if indent==nil then indent="default" end
   if markup_type==nil then markup_type="text" end
   if markup_version==nil then markup_version="" end
+  if unindent_description~=false then 
+    Description=ultraschall.Docs_RemoveIndent(Description, indent)
+  end
   return Description, markup_type, markup_version, indent, language
 end
 
 function ultraschall.Docs_GetUSDocBloc_TargetDocument(String)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetUSDocBloc_TargetDocument</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.978
+    Lua=5.3
+  </requires>
+  <functioncall>string target_document = ultraschall.Docs_GetUSDocBloc_TargetDocument(string String)</functioncall>
+  <description>
+    returns the target-document from an US_DocBloc-element.
+    The target-document is the document, into which the converted DocBloc shall be stored into.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string target_document - the target-document, into which the converted US_DocBloc shall be stored into
+  </retvals>
+  <parameters>
+    string String - a string which hold a US_DocBloc to retrieve the target-document-entry from
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, target-document, usdocbloc</tags>
+</US_DocBloc>
+]]
   if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_TargetDocument", "String", "must be a string", -1) return nil end
   return String:match("<target_document>(.-)</target_document>")
 end
 
 function ultraschall.Docs_GetUSDocBloc_SourceDocument(String)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetUSDocBloc_SourceDocument</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.978
+    Lua=5.3
+  </requires>
+  <functioncall>string source_document = ultraschall.Docs_GetUSDocBloc_SourceDocument(string String)</functioncall>
+  <description>
+    returns the source-document from an US_DocBloc-element.
+    The source-document is the document, into which the converted DocBloc shall be stored into.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string source_document - the source-document, into which the converted US_DocBloc shall be stored into
+  </retvals>
+  <parameters>
+    string String - a string which hold a US_DocBloc to retrieve the source-document-entry from
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, source-document, usdocbloc</tags>
+</US_DocBloc>
+]]
   if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_SourceDocument", "String", "must be a string", -1) return nil end
   return String:match("<source_document>(.-)</source_document>")
 end
 
-function ultraschall.Docs_GetUSDocBloc_ChapterContext(String)
+function ultraschall.Docs_GetUSDocBloc_ChapterContext(String, index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Docs_GetUSDocBloc_ChapterContext</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.978
+    Lua=5.3
+  </requires>
+  <functioncall>integer count, array chapters, string spok_lang = ultraschall.Docs_GetUSDocBloc_ChapterContext(string String, integer index)</functioncall>
+  <description>
+    returns the chapters and subchapters, in which the US_DocBloc shall be stored into
+    A US_DocBloc can have multiple chapter-entries, e.g. for multiple languages.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    integer count - the number of chapters found
+    array chapters - the chapternams as an array
+    string spok_lang - the language of the chapters; "" if no languages is given
+  </retvals>
+  <parameters>
+    string String - a string which hold a US_DocBloc to retrieve the source-document-entry from
+    integer index - the index of the chapter-entries, starting with 1 for the first
+  </parameters>
+  <chapter_context>
+    Ultraschall DocML
+  </chapter_context>
+  <target_document>US_Api_DOC</target_document>
+  <source_document>ultraschall_doc_engine.lua</source_document>
+  <tags>doc engine, get, chapters, spoken languages, usdocbloc</tags>
+</US_DocBloc>
+]]
   if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_ChapterContext", "String", "must be a string", -1) return nil end
-  Chapters=String:match("<chapter_context>\n(.-)</chapter_context>")
-  count, split_string = ultraschall.SplitStringAtLineFeedToArray(Chapters)
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_ChapterContext", "index", "must be an integer", -2) return nil end
+  if index<1 then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_ChapterContext", "index", "must be >0", -3) return nil end
+  
+  local counter=0
+  local title, spok_lang, found
+  for k in string.gmatch(String, "(<chapter_context.->.-</chapter_context>)") do
+    counter=counter+1
+    if counter==index then String=k found=true end
+  end
+  
+  if found~=true then return end
+    
+  local language=String:match("spok_lang=\"(.-)\"")
+  if language==nil then language="" end
+  
+  local Chapters=String:match("<chapter_context.->.-\n(.-)</chapter_context>")
+  local count, split_string = ultraschall.SplitStringAtLineFeedToArray(Chapters)
   for i=1, count do
     split_string[i]=split_string[i]:match("%s*(.*)")
   end
-  return count, split_string
+  return count, split_string, language
 end
 
+
+-- add numerous of these elements, so you can have multiple spok_langs
 function ultraschall.Docs_GetUSDocBloc_Tags(String)
   if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Tags", "String", "must be a string", -1) return nil end
-  Tags=String:match("<tags>(.-)</tags>")
-  count, split_string = ultraschall.CSV2IndividualLinesAsArray(Tags)
+  local Tags=String:match("<tags>(.-)</tags>")
+  local count, split_string = ultraschall.CSV2IndividualLinesAsArray(Tags)
   for i=1, count do
     split_string[i]=split_string[i]:match("%s*(.*)")
   end
   return count, split_string
 end
 
---A0,CCC=ultraschall.Docs_GetAllUSDocBlocsFromString(ultraschall.GetStringFromClipboard_SWS(""))
+function ultraschall.Docs_GetUSDocBloc_Params(String)
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Params", "String", "must be a string", -1) return nil end
+  local parms=String:match("(<parameters.->.-)</parameters>")
+  local count, split_string = ultraschall.SplitStringAtLineFeedToArray(parms)
+  local Parmcount=0
+  local Params={}
+  for i=1, count do
+    split_string[i]=split_string[i]:match("%s*(.*)")
+  end
+  for i=2, count do
+    if split_string[i]:match("%-")==nil then
+    elseif split_string[i]:sub(1,1)~="-" then
+      Parmcount=Parmcount+1
+      Params[Parmcount]={}
+      Params[Parmcount][1], Params[Parmcount][2]=split_string[i]:match("(.-)%-(.*)")
+    else
+      Params[Parmcount][2]=Params[Parmcount][2].."\n"..split_string[i]:sub(2,-1)
+    end
+  end
+  local markuptype=split_string[1]:match("markup_type=\"(.-)\"")
+  if markuptype==nil then markuptype="text" end
+  local markupversion=split_string[1]:match("markup_version=\"(.-)\"")
+  if markupversion==nil then markupversion="" end
+  local prog_lang=split_string[1]:match("prog_lang=\"(.-)\"")
+  if prog_lang==nil then prog_lang="*" end
+  local indent=split_string[1]:match("indent=\"(.-)\"")
+  if indent==nil then indent="default" end
+  
+  return Parmcount, Params, markuptype, markupversion, prog_lang, indent
+end
+
+function ultraschall.Docs_GetUSDocBloc_Retvals(String)
+  if type(String)~="string" then ultraschall.AddErrorMessage("Docs_GetUSDocBloc_Retvals", "String", "must be a string", -1) return nil end
+  local retvals=String:match("(<retvals.->.-)</retvals>")
+  local count, split_string = ultraschall.SplitStringAtLineFeedToArray(retvals)
+  local Retvalscount=0
+  local Retvals={}
+  for i=1, count do
+    split_string[i]=split_string[i]:match("%s*(.*)")
+  end
+  for i=2, count do
+    if split_string[i]:match("%-")==nil then
+    elseif split_string[i]:sub(1,1)~="-" then
+      Retvalscount=Retvalscount+1
+      Retvals[Retvalscount]={}
+      Retvals[Retvalscount][1], Retvals[Retvalscount][2]=split_string[i]:match("(.-)%-(.*)")
+    else
+      Retvals[Retvalscount][2]=Retvals[Retvalscount][2].."\n"..split_string[i]:sub(2,-1)
+    end
+  end
+  local markuptype=split_string[1]:match("markup_type=\"(.-)\"")
+  if markuptype==nil then markuptype="text" end
+  local markupversion=split_string[1]:match("markup_version=\"(.-)\"")
+  if markupversion==nil then markupversion="" end
+  local prog_lang=split_string[1]:match("prog_lang=\"(.-)\"")
+  if prog_lang==nil then prog_lang="*" end
+  local indent=split_string[1]:match("indent=\"(.-)\"")
+  if indent==nil then indent="default" end
+  
+  return Retvalscount, Retvals, markuptype, markupversion, prog_lang, indent
+end
+
+--A_1=ultraschall.GetStringFromClipboard_SWS("")
+--A0,CCC=ultraschall.Docs_GetAllUSDocBlocsFromString(A_1)
 --B=ultraschall.Docs_GetUSDocBloc_Slug(CCC[1])
---A1, A2, A3, A4, A5=ultraschall.Docs_GetUSDocBloc_Tags(CCC[1])
+--A1, A2, A3, A4, A5=ultraschall.Docs_GetUSDocBloc_Description(CCC[1], true, 1)
+--print2(A1)
+
+--AAA=ultraschall.Docs_RemoveIndent(ultraschall.GetStringFromClipboard_SWS(""), "preceding_spaces")
+--print2(AAA)
+
