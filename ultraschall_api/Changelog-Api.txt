@@ -3,26 +3,7 @@
 
 
     For 4.00beta2.76:
-            - TODO!! ultraschall.GFX_SetFont-alternative, which deals with different font-sizes on MacvsWin(function by lokasenna, Justin and Schwa)
-                        -- Usage: Font.set("Arial", 10, "bi")
-                        Font.set = function (font, size, flagStr)
-
-                          -- Different OSes use different font sizes, for some reason
-                          -- This should give a similar size on Mac/Linux as on Windows
-                          if not string.match( reaper.GetOS(), "Win") then
-                            size = math.floor(size * 0.8)
-                          end
-
-                          -- Cheers to Justin and Schwa for this
-                          local flags = 0
-                          if flagStr then
-                            for i = 1, flagStr:len() do
-                              flags = flags * 256 + string.byte(flagStr, i)
-                            end
-                          end
-
-                          gfx.setfont(1, font, size, flags)
-                        end
+        - TODO: Doc: Concepts: Localize
 
     For 4.00beta2.77
         - TODO!! Localize: can we detect, which language-file is currently installed and which language it holds, to decide, which language to use?
@@ -252,16 +233,55 @@ TODO!! buggy function
 
 ### 4.00 Beta 2.76: - "The Police - Walking on the Moon" - 20th of July 2019
 
+Has now 977 functions with 42 new ones!
+
+  **New in this release:**
+    
+  - **Parameter Learn**  
+  You can set/get/delete parameter-learning in Statechunks.  
+    1) get a StateChunk  
+    2) get its FXStateChunk using GetFXStateChunk  
+    3) alter this FXStateChunk using the ParmLearn-functions  
+    4) set this FXStateChunk using SetFXStateChunk  
+    5) (re-)apply the final StateChunk to the Track/Item  
+    
+  - **Localize**  
+  You can localize your scripts using an external localize-file.   
+  If that exists, ultraschall.Localize will convert your string into it's localized one, otherwise it uses it's original text.  
+   
+  - **DocEngine**   
+  long time on my list, functions for the DocEngine. With them, you can use my Reaper-internal-sourcefiles (.USDocML) and create your own conversions of them.  
+  
+  - **get\_action\_context\_MediaItemDiff**  
+  a function, which helps you to get the diff of an MediaItem since last time calling this function. Good for RippleDrag-features.  
+          
+  - **AddSelectedItemsToRenderQueue**  
+  this adds MediaItems into the Render-Queued, either as single-queued or multiqueued-project-files(requested by Travesty)  
+
+  - **GetUserInputs**  
+  allows now setting the lenth of the captions-fields.  
+  No more cutting off of longer captions!(requested by Julian Sader)  
+  
+  - **More functions, more bugfixes, updated Reaper-docs, speedups**  
+        
 #### New features in 4.00beta2.76
    - Actions: GetAllActions - gets all actions, actioncommandids and scriptnames of all actions in a specific section
+   - DocEngine: Docs\_ConvertPlainTextToHTML - converts a plaintext into html
    - DocEngine: Docs\_GetAllUSDocBlocsFromString - gets all US_DocBlocs from a string
-   - DocEngine: Docs\_GetUSDocBloc\_ChapterContext - gets the chapters of a US_DocBloc
-   - DocEngine: Docs\_GetUSDocBloc\_Description - gets the description of a US_DocBloc
+   - DocEngine: Docs\_GetUSDocBloc\_ChapterContext - gets the chapters of an US_DocBloc
+   - DocEngine: Docs\_GetUSDocBloc\_Description - gets the description of an US_DocBloc
+   - DocEngine: Docs\_GetUSDocBloc\_Functioncall - gets a functioncall of an US_DocBloc
+   - DocEngine: Docs\_GetUSDocBloc\_NextChapter - gets the slug of the next chapter of the US_DocBloc
+   - DocEngine: Docs\_GetUSDocBloc\_Params - gets the parameters of an US_DocBloc
+   - DocEngine: Docs\_GetUSDocBloc\_PreviousChapter - gets the slug of the previous chapter of the US_DocBloc
+   - DocEngine: Docs\_GetUSDocBloc\_Requires - gets the requires-tag from an US_DocBloc
+   - DocEngine: Docs\_GetUSDocBloc\_Retvals - gets the retvals of an US_DocBloc
    - DocEngine: Docs\_GetUSDocBloc\_Slug - gets the slug from an US_DocBloc
    - DocEngine: Docs\_GetUSDocBloc\_SourceDocument - gets the source-document-entry from an US_DocBloc
    - DocEngine: Docs\_GetUSDocBloc\_TargetDocument - gets the target-document-entry from an US_DocBloc
+   - DocEngine: Docs\_GetUSDocBloc\_Tags - gets the tags-entry from an US_DocBloc
    - DocEngine: Docs\_GetUSDocBloc\_Title - gets the title from an US_DocBloc
-   - DocEngine: Docs\_RemoveIndent - removes indention from a text
+   - DocEngine: Docs\_RemoveIndent - removes indentation from a text(usually taken from an US_DocBloc)
    - FXManagement: AutoDetectVSTPlugins - auto-searches for the vst-plugin-folder
    - FXManagement: AddParmAlias\_FXStateChunk - adds a parameter-alias-entry to an FXStateChunk
    - FXManagement: AddParmLearn\_FXStateChunk - adds a parameter-learn-entry to an FXStateChunk
@@ -283,6 +303,7 @@ TODO!! buggy function
    - Localize: Localize - localizes a string, using the texts from a translationfile; can be used with or without ultraschall. at the beginning
    - Localize: Localize\_RefreshFile - reloads an already set translation-file, so translations can be updated at runtime
    - Localize: Localize\_UseFile - sets a translationfile, that shall be used by function ultraschall.Localize
+   - Localize: ultraschall\_translation\_file\_format.USLangPack - has a description of the USLangPack-fileformat for usage with the Localize-functions(see in misc-folder)
    - Misc: Developer_Reaper5965.ReaperLangPack - a language-pack, which displays the sections, in which the caption is located in a langpack
    - ReaMote: AutoSearchReaMoteSlaves - autosearches for new ReaMote-slaves
    - Render: AddSelectedItemsToRenderQueue - adds selected MediaItems to render-queue as either one render-queued-project or individual projects(requested by Travesty)

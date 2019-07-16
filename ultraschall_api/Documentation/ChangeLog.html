@@ -41,17 +41,49 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.00 Beta 2.76: - "The Police - Walking on the Moon" - 20th of July 2019</h3>
+<p>Has now 977 functions with 42 new ones!</p>
+<p><strong>New in this release:</strong></p>
+<ul>
+<li><p><strong>Parameter Learn</strong><br />
+You can set/get/delete parameter-learning in Statechunks.<br />
+1) get a StateChunk<br />
+2) get its FXStateChunk using GetFXStateChunk<br />
+3) alter this FXStateChunk using the ParmLearn-functions<br />
+4) set this FXStateChunk using SetFXStateChunk<br />
+5) (re-)apply the final StateChunk to the Track/Item</p></li>
+<li><p><strong>Localize</strong><br />
+You can localize your scripts using an external localize-file.<br />
+If that exists, ultraschall.Localize will convert your string into it's localized one, otherwise it uses it's original text.</p></li>
+<li><p><strong>DocEngine</strong><br />
+long time on my list, functions for the DocEngine. With them, you can use my Reaper-internal-sourcefiles (.USDocML) and create your own conversions of them.</p></li>
+<li><p><strong>get_action_context_MediaItemDiff</strong><br />
+a function, which helps you to get the diff of an MediaItem since last time calling this function. Good for RippleDrag-features.</p></li>
+<li><p><strong>AddSelectedItemsToRenderQueue</strong><br />
+this adds MediaItems into the Render-Queued, either as single-queued or multiqueued-project-files(requested by Travesty)</p></li>
+<li><p><strong>GetUserInputs</strong><br />
+allows now setting the lenth of the captions-fields.<br />
+No more cutting off of longer captions!(requested by Julian Sader)</p></li>
+<li><p><strong>More functions, more bugfixes, updated Reaper-docs, speedups</strong></p></li>
+</ul>
 <h4>New features in 4.00beta2.76</h4>
 <ul>
 <li>Actions: GetAllActions - gets all actions, actioncommandids and scriptnames of all actions in a specific section</li>
+<li>DocEngine: Docs_ConvertPlainTextToHTML - converts a plaintext into html</li>
 <li>DocEngine: Docs_GetAllUSDocBlocsFromString - gets all US_DocBlocs from a string</li>
-<li>DocEngine: Docs_GetUSDocBloc_ChapterContext - gets the chapters of a US_DocBloc</li>
-<li>DocEngine: Docs_GetUSDocBloc_Description - gets the description of a US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_ChapterContext - gets the chapters of an US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_Description - gets the description of an US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_Functioncall - gets a functioncall of an US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_NextChapter - gets the slug of the next chapter of the US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_Params - gets the parameters of an US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_PreviousChapter - gets the slug of the previous chapter of the US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_Requires - gets the requires-tag from an US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_Retvals - gets the retvals of an US_DocBloc</li>
 <li>DocEngine: Docs_GetUSDocBloc_Slug - gets the slug from an US_DocBloc</li>
 <li>DocEngine: Docs_GetUSDocBloc_SourceDocument - gets the source-document-entry from an US_DocBloc</li>
 <li>DocEngine: Docs_GetUSDocBloc_TargetDocument - gets the target-document-entry from an US_DocBloc</li>
+<li>DocEngine: Docs_GetUSDocBloc_Tags - gets the tags-entry from an US_DocBloc</li>
 <li>DocEngine: Docs_GetUSDocBloc_Title - gets the title from an US_DocBloc</li>
-<li>DocEngine: Docs_RemoveIndent - removes indention from a text</li>
+<li>DocEngine: Docs_RemoveIndent - removes indentation from a text(usually taken from an US_DocBloc)</li>
 <li>FXManagement: AutoDetectVSTPlugins - auto-searches for the vst-plugin-folder</li>
 <li>FXManagement: AddParmAlias_FXStateChunk - adds a parameter-alias-entry to an FXStateChunk</li>
 <li>FXManagement: AddParmLearn_FXStateChunk - adds a parameter-learn-entry to an FXStateChunk</li>
@@ -73,6 +105,7 @@ Ultraschall API Changelog
 <li>Localize: Localize - localizes a string, using the texts from a translationfile; can be used with or without ultraschall. at the beginning</li>
 <li>Localize: Localize_RefreshFile - reloads an already set translation-file, so translations can be updated at runtime</li>
 <li>Localize: Localize_UseFile - sets a translationfile, that shall be used by function ultraschall.Localize</li>
+<li>Localize: ultraschall_translation_file_format.USLangPack - has a description of the USLangPack-fileformat for usage with the Localize-functions(see in misc-folder)</li>
 <li>Misc: Developer_Reaper5965.ReaperLangPack - a language-pack, which displays the sections, in which the caption is located in a langpack</li>
 <li>ReaMote: AutoSearchReaMoteSlaves - autosearches for new ReaMote-slaves</li>
 <li>Render: AddSelectedItemsToRenderQueue - adds selected MediaItems to render-queue as either one render-queued-project or individual projects(requested by Travesty)</li>
