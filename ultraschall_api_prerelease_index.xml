@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="39863.00" author="Meo Mespotine">
+      <version name="40294.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/Changelog-Api.txt</source>
@@ -249,6 +249,7 @@
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-ActionList.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/misc_docs/Reaper-ActionList.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-Render-Strings-docs_Jul2018.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/misc_docs/Reaper-Render-Strings-docs_Jul2018.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-Windows-ChildIDs.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/misc_docs/Reaper-Windows-ChildIDs.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/render-codes-decoded-base64-strings.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/misc_docs/render-codes-decoded-base64-strings.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt</source>
 	<source file="/ultraschall_api/misc/peaks/silence.flac.reapeaks" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/peaks/silence.flac.reapeaks</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac</source>
@@ -351,10 +352,82 @@ Ultraschall Framework - Changelog
 
 4.00 Beta 2.76: - “The Police - Walking on the Moon” - 20th of July 2019
 
+Has now 977 functions with 42 new ones!
+
+NEW IN THIS RELEASE:
+
+-   PARAMETER LEARN
+    You can set/get/delete parameter-learning in Statechunks.
+    1)  get a StateChunk
+    2)  get its FXStateChunk using GetFXStateChunk
+    3)  alter this FXStateChunk using the ParmLearn-functions
+    4)  set this FXStateChunk using SetFXStateChunk
+    5)  (re-)apply the final StateChunk to the Track/Item
+-   LOCALIZE
+    You can localize your scripts using an external localize-file.
+    If that exists, ultraschall.Localize will convert your string into
+    it’s localized one, otherwise it uses it’s original text.
+
+-   DOCENGINE
+    long time on my list, functions for the DocEngine. With them, you
+    can use my Reaper-internal-sourcefiles (.USDocML) and create your
+    own conversions of them.
+
+-   GET_ACTION_CONTEXT_MEDIAITEMDIFF
+    a function, which helps you to get the diff of an MediaItem since
+    last time calling this function. Good for RippleDrag-features.
+
+-   ADDSELECTEDITEMSTORENDERQUEUE
+    this adds MediaItems into the Render-Queued, either as single-queued
+    or multiqueued-project-files(requested by Travesty)
+
+-   GETUSERINPUTS
+    allows now setting the length of the captions-fields.
+    No more cutting off of longer captions!(requested by Julian Sader)
+
+-   MORE FUNCTIONS, MORE BUGFIXES, UPDATED REAPER-DOCS, SPEEDUPS
+
 New features in 4.00beta2.76
 
 -   Actions: GetAllActions - gets all actions, actioncommandids and
     scriptnames of all actions in a specific section
+-   DocEngine: Docs_ConvertPlainTextToHTML - converts a plaintext into
+    html
+-   DocEngine: Docs_GetAllUSDocBlocsFromString - gets all US_DocBlocs
+    from a string
+-   DocEngine: Docs_GetUSDocBloc_ChapterContext - gets the chapters of
+    an US_DocBloc
+-   DocEngine: Docs_GetUSDocBloc_Description - gets the description of
+    an US_DocBloc
+-   DocEngine: Docs_GetUSDocBloc_Functioncall - gets a functioncall of
+    an US_DocBloc
+-   DocEngine: Docs_GetUSDocBloc_NextChapter - gets the slug of the next
+    chapter of the US_DocBloc
+-   DocEngine: Docs_GetUSDocBloc_Params - gets the parameters of an
+    US_DocBloc
+-   DocEngine: Docs_GetUSDocBloc_PreviousChapter - gets the slug of the
+    previous chapter of the US_DocBloc
+-   DocEngine: Docs_GetUSDocBloc_Requires - gets the requires-tag from
+    an US_DocBloc
+-   DocEngine: Docs_GetUSDocBloc_Retvals - gets the retvals of an
+    US_DocBloc
+-   DocEngine: Docs_GetUSDocBloc_Slug - gets the slug from an US_DocBloc
+-   DocEngine: Docs_GetUSDocBloc_SourceDocument - gets the
+    source-document-entry from an US_DocBloc
+-   DocEngine: Docs_GetUSDocBloc_TargetDocument - gets the
+    target-document-entry from an US_DocBloc
+-   DocEngine: Docs_GetUSDocBloc_Tags - gets the tags-entry from an
+    US_DocBloc
+-   DocEngine: Docs_GetUSDocBloc_Title - gets the title from an
+    US_DocBloc
+-   DocEngine: Docs_RemoveIndent - removes indentation from a
+    text(usually taken from an US_DocBloc)
+-   Docs: Concepts: Localize_001_Introduction - Introduction to
+    Localization
+-   Docs: Concepts: Localize_002_LangPack_Fileformat - How to write the
+    translation-file
+-   Docs: Concepts: Localize_003_Localize_Functions - usage of
+    Localization functions
 -   FXManagement: AutoDetectVSTPlugins - auto-searches for the
     vst-plugin-folder
 -   FXManagement: AddParmAlias_FXStateChunk - adds a
@@ -387,6 +460,10 @@ New features in 4.00beta2.76
     parameter-learn-entry from a specific fx in an FXStateChunk
 -   FXManagement: SetParmLFOLearn_FXStateChunk - sets a
     parameter-lfo-learn-entry from a specific fx in an FXStateChunk
+-   GFX-Management: GFX_SetFont - sets a font to be used in a
+    gfx-window; adjust Mac-fonts to match the size of
+    Windows-fonts(unlike Reaper’s own gfx.setfont)(code by lokasenna
+    with contributions by Justin and Schwa)
 -   HelperFunctions: get_action_context_MediaItemDiff - gets the
     MediaItemDifference(position, start, end, length, offset) since last
     time calling this function. Good for ripple-drag-scripts.
@@ -397,20 +474,23 @@ New features in 4.00beta2.76
     translation-file, so translations can be updated at runtime
 -   Localize: Localize_UseFile - sets a translationfile, that shall be
     used by function ultraschall.Localize
+-   Localize: ultraschall_translation_file_format.USLangPack - has a
+    description of the USLangPack-fileformat for usage with the
+    Localize-functions(see in misc-folder)
 -   Misc: Developer_Reaper5965.ReaperLangPack - a language-pack, which
     displays the sections, in which the caption is located in a langpack
 -   ReaMote: AutoSearchReaMoteSlaves - autosearches for new
     ReaMote-slaves
 -   Render: AddSelectedItemsToRenderQueue - adds selected MediaItems to
     render-queue as either one render-queued-project or individual
-    projects
+    projects(requested by Travesty)
 -   Render: GetRenderingToFileHWND - gets the hwnd of the
     rendering-to-file-dialog, during rendering
 -   Tools: LangPack2Developer_langpack_converter.lua - converts a
     language-pack into a developer-langpack, which displays the
     sections, in which every caption is located in the langpack
 -   Tools: ultraschall_Add_Developertools_To_Reaper.lua - allows
-    installing developertools into Reaper
+    installing developertools into Reaper (requested by X-Raym)
 -   Tools: ultraschall_developertool_CheckForNewConfigVars.lua - checks
     the individual lines of a string in clipboard for valid config-vars;
     thought I already had added that…
@@ -423,8 +503,11 @@ Changes from Beta 2.75 to Beta 2.76
 
 -   API: versionscheck - had problems with pre/rc and dev-versions of
     Reaper -> fixed(reported by X-Raym)
+-   Docs: Concepts-RenderTable - layout was totally messed up due
+    Markdown -> fixed
 -   Docs: FileType-Description - added missing info to
     ReaperConfigZip-Filetype-description
+-   Docs: Index - index in all docs was missing chapters -> fixed
 -   Docs: updated Reaper-docs to 5.980 and JS-extension 0.989
 -   Helpers: GetPath - when filename has no path, it returns now "",
     filename
@@ -3776,7 +3859,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 965 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 39863 from 12.07.2019 12:25:14).}
+a 977 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -3790,7 +3873,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 965 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 977 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -3914,7 +3997,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 965 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 39863 from 12.07.2019 12:25:14).}
+a 977 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -3928,7 +4011,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 965 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 977 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
