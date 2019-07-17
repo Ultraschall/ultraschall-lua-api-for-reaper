@@ -60509,7 +60509,7 @@ function ultraschall.Localize_UseFile(filename, section, language)
     More Text with\nNewlines and %s - substitution=Translated Text with\nNewlines and %s - substitution
     A third\=example with escaped equal\=in it = translated text with escaped\=equaltext
     
-    see [../misc/ultraschall_translation_file_format.USLangPack](specs for more information).
+    see [specs for more information](../misc/ultraschall_translation_file_format.USLangPack).
     
     returns false in case of an error
   </description>
@@ -60603,7 +60603,7 @@ function ultraschall.Localize(text, ...)
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string translated_string, boolean translated = ultraschall.Localize(string original_string, ...)</functioncall>
+  <functioncall>string translated_string, boolean retval = ultraschall.Localize(string original_string, ...)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Translates the string original_string into its translated version, as stored in a translation-file.
     
@@ -60615,7 +60615,7 @@ function ultraschall.Localize(text, ...)
     
     This function can be used with or without ultraschall. at the beginning, for your convenience.
 
-    see [../misc/ultraschall_translation_file_format.USLangPack](specs for more information).
+    see [specs for more information](../misc/ultraschall_translation_file_format.USLangPack).
     
     returns false in case of an error
   </description>
@@ -60669,13 +60669,16 @@ function ultraschall.Localize_RefreshFile()
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>string translated_string, boolean translated = Localize_RefreshFile()</functioncall>
+  <functioncall>boolean retval = ultraschall.Localize_RefreshFile()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Reloads the translation-file, that has been set using [Localize_UseFile](#Localize_UseFile).
     
     see [specs for more information](../misc/ultraschall_translation_file_format.USLangPack).
     
   </description>
+  <retvals>
+    boolean retval - true, translation-file has been found and set successfully; false, translation-file hasn't been found
+  </retvals>
   <chapter_context>
     Localization
   </chapter_context>

@@ -1,7 +1,4 @@
 <TODO>
-    
-
-
     For 4.00beta2.76:
         - TODO: Doc: Concepts: Localize
 
@@ -76,15 +73,6 @@
                         Render that out into a new file
                         Delete the temp-rendered-files
                         close the projects and return the filename
-        TODO!!: add this to undo-functions, as they are the explanation of the extraflags
-        #ifndef UNDO_STATE_ALL
-        #define UNDO_STATE_ALL 0xFFFFFFFF
-        #define UNDO_STATE_TRACKCFG 1 // has track/master vol/pan/routing, ALL envelopes (matser included)
-        #define UNDO_STATE_FX 2  // track/master fx
-        #define UNDO_STATE_ITEMS 4  // track items
-        #define UNDO_STATE_MISCCFG 8 // loop selection, markers, regions, extensions!
-        #endif
-
       
       TODO!! GetTrackPanLaw_Boost(tracknumber, sendidx, setstate)
                     setstate=true -> don't insert it
@@ -203,6 +191,12 @@
         
         TODO!! Event-System, as defined on the Congress
             -- too difficult to use, needs a better way to deal with it...
+            maybe by passing functions to the event-manager:
+                You write a function, which in a very efficient/ressourcefriendly way returns "true" under certain conditions.
+                You pass it to the eventmanager and tell it to run script/action xyz, maybe with parameters like returned returnvalues by the passed function.
+                
+                Needs more research, though much easier and more flexible than my previous attempt.
+                
         TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
 
       TODO!! SaveProjectAs(ReaProject project, newfilename, relative_sourcefilenames, ProjectStateChunk)
@@ -259,7 +253,7 @@ Has now 977 functions with 42 new ones!
   this adds MediaItems into the Render-Queued, either as single-queued or multiqueued-project-files(requested by Travesty)  
 
   - **GetUserInputs**  
-  allows now setting the lenth of the captions-fields.  
+  allows now setting the length of the captions-fields.  
   No more cutting off of longer captions!(requested by Julian Sader)  
   
   - **More functions, more bugfixes, updated Reaper-docs, speedups**  
@@ -282,6 +276,9 @@ Has now 977 functions with 42 new ones!
    - DocEngine: Docs\_GetUSDocBloc\_Tags - gets the tags-entry from an US_DocBloc
    - DocEngine: Docs\_GetUSDocBloc\_Title - gets the title from an US_DocBloc
    - DocEngine: Docs\_RemoveIndent - removes indentation from a text(usually taken from an US_DocBloc)
+   - Docs: Concepts: Localize\_001\_Introduction - Introduction to Localization
+   - Docs: Concepts: Localize\_002\_LangPack\_Fileformat - How to write the translation-file
+   - Docs: Concepts: Localize\_003\_Localize\_Functions - usage of Localization functions
    - FXManagement: AutoDetectVSTPlugins - auto-searches for the vst-plugin-folder
    - FXManagement: AddParmAlias\_FXStateChunk - adds a parameter-alias-entry to an FXStateChunk
    - FXManagement: AddParmLearn\_FXStateChunk - adds a parameter-learn-entry to an FXStateChunk
@@ -309,7 +306,7 @@ Has now 977 functions with 42 new ones!
    - Render: AddSelectedItemsToRenderQueue - adds selected MediaItems to render-queue as either one render-queued-project or individual projects(requested by Travesty)
    - Render: GetRenderingToFileHWND - gets the hwnd of the rendering-to-file-dialog, during rendering
    - Tools: LangPack2Developer\_langpack\_converter.lua - converts a language-pack into a developer-langpack, which displays the sections, in which every caption is located in the langpack
-   - Tools: ultraschall\_Add\_Developertools\_To\_Reaper.lua - allows installing developertools into Reaper
+   - Tools: ultraschall\_Add\_Developertools\_To\_Reaper.lua - allows installing developertools into Reaper (requested by X-Raym)
    - Tools: ultraschall\_developertool\_CheckForNewConfigVars.lua - checks the individual lines of a string in clipboard for valid config-vars; thought I already had added that...
    - Tools: ultraschall\_Remove\_Developertools\_From\_Reaper.lua - allows removing already installed developertools from Reaper
    - Track Management: AnyTrackMute - returns, if any track is muted; optionally includes the master-track as well
@@ -329,19 +326,19 @@ Has now 977 functions with 42 new ones!
                                      allows now giving an optional separator between renderfilename\_with\_path and regionname when addregionname=true, including /
                                      check docs for that new feature(reported by reapero)
    - Scripts: HWND-Displayer.lua - reimplemented, much more comfortable now with a lot of more features.
-   - Tools - the following scripts renamed to:
-      ultraschall\_developertool\_ActionlistToIni-Converter.lua
-      ultraschall\_developertool\_Display-Altered-ConfigFile-Entries.lua
-      ultraschall\_developertool\_Display-Altered-Config-Vars.lua
-      ultraschall\_developertool\_Env\_State\_Diffs\_Monitor.lua
-      ultraschall\_developertool\_findConfigVarsToggledByActions.lua
-      ultraschall\_developertool\_GetPitchShiftModes.lua
-      ultraschall\_developertool\_gfx\_deltablit\_displayer.lua
-      ultraschall\_developertool\_HWND-Displayer.lua
-      ultraschall\_developertool\_Item\_State\_Diffs\_Monitor.lua
-      ultraschall\_developertool\_Project\_State\_Diffs\_Monitor.lua
-      ultraschall\_developertool\_StateInspector.lua
-      ultraschall\_developertool\_Track\_State\_Diffs\_Monitor.lua
+   - Tools - the following scripts renamed to:  
+      ultraschall\_developertool\_ActionlistToIni-Converter.lua  
+      ultraschall\_developertool\_Display-Altered-ConfigFile-Entries.lua  
+      ultraschall\_developertool\_Display-Altered-Config-Vars.lua  
+      ultraschall\_developertool\_Env\_State\_Diffs\_Monitor.lua  
+      ultraschall\_developertool\_findConfigVarsToggledByActions.lua  
+      ultraschall\_developertool\_GetPitchShiftModes.lua  
+      ultraschall\_developertool\_gfx\_deltablit\_displayer.lua  
+      ultraschall\_developertool\_HWND-Displayer.lua  
+      ultraschall\_developertool\_Item\_State\_Diffs\_Monitor.lua  
+      ultraschall\_developertool\_Project\_State\_Diffs\_Monitor.lua  
+      ultraschall\_developertool\_StateInspector.lua  
+      ultraschall\_developertool\_Track\_State\_Diffs\_Monitor.lua  
    - Tools: ultraschall\_Remove\_ExampleScripts\_To\_Reaper.lua - renamed to ultraschall\_Remove\_ExampleScripts\_From\_Reaper.lua, better name that way
  
    ---

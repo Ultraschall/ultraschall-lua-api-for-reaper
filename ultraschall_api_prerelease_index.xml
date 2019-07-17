@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40276.00" author="Meo Mespotine">
+      <version name="40287.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/Changelog-Api.txt</source>
@@ -249,6 +249,7 @@
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-ActionList.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/misc_docs/Reaper-ActionList.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-Render-Strings-docs_Jul2018.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/misc_docs/Reaper-Render-Strings-docs_Jul2018.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-Windows-ChildIDs.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/misc_docs/Reaper-Windows-ChildIDs.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/render-codes-decoded-base64-strings.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/misc_docs/render-codes-decoded-base64-strings.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt</source>
 	<source file="/ultraschall_api/misc/peaks/silence.flac.reapeaks" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/peaks/silence.flac.reapeaks</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.76/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac</source>
@@ -381,7 +382,7 @@ NEW IN THIS RELEASE:
     or multiqueued-project-files(requested by Travesty)
 
 -   GETUSERINPUTS
-    allows now setting the lenth of the captions-fields.
+    allows now setting the length of the captions-fields.
     No more cutting off of longer captions!(requested by Julian Sader)
 
 -   MORE FUNCTIONS, MORE BUGFIXES, UPDATED REAPER-DOCS, SPEEDUPS
@@ -421,6 +422,12 @@ New features in 4.00beta2.76
     US_DocBloc
 -   DocEngine: Docs_RemoveIndent - removes indentation from a
     text(usually taken from an US_DocBloc)
+-   Docs: Concepts: Localize_001_Introduction - Introduction to
+    Localization
+-   Docs: Concepts: Localize_002_LangPack_Fileformat - How to write the
+    translation-file
+-   Docs: Concepts: Localize_003_Localize_Functions - usage of
+    Localization functions
 -   FXManagement: AutoDetectVSTPlugins - auto-searches for the
     vst-plugin-folder
 -   FXManagement: AddParmAlias_FXStateChunk - adds a
@@ -483,7 +490,7 @@ New features in 4.00beta2.76
     language-pack into a developer-langpack, which displays the
     sections, in which every caption is located in the langpack
 -   Tools: ultraschall_Add_Developertools_To_Reaper.lua - allows
-    installing developertools into Reaper
+    installing developertools into Reaper (requested by X-Raym)
 -   Tools: ultraschall_developertool_CheckForNewConfigVars.lua - checks
     the individual lines of a string in clipboard for valid config-vars;
     thought I already had added that…
