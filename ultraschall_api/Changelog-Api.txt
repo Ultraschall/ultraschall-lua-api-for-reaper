@@ -225,6 +225,15 @@ TODO!! buggy function
 </TODO>
 ## Ultraschall Framework - Changelog
 
+### 4.00 Beta 2.77: - "" - 31st of August 2019
+ 
+#### New features in 4.00beta2.77
+
+#### Changes from Beta 2.76 to Beta 2.77
+
+   ---
+
+
 ### 4.00 Beta 2.76: - "The Police - Walking on the Moon" - 20th of July 2019
 
 Has now 977 functions with 42 new ones!
