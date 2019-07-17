@@ -55,7 +55,7 @@ Ultraschall API functions
         </div>
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
-<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.00Beta 2.76 - "The Police - Walking on the Moon" - 20th of July 2019 - Build: 40286</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
+<br><br><img src="gfx/us.png"><div style="padding-left:0%;"><br>4.00Beta 2.76 - "The Police - Walking on the Moon" - 20th of July 2019 - Build: 40294</div><h3>Introduction and Concepts</h3><table style="font-size:10pt; width:100%;" ><tr><td>&nbsp;</td></tr><tr><td><b>Introduction</b></td></tr><tr><td><a href="#Introduction_001_Api">Introduction to the Ultraschall API</a></td>
 <td><a href="#Introduction_002_How_to_Use">How to use the Ultraschall API</a></td>
 <td><a href="#Introduction_003_How_to_Use_Beta_Functions_And_Hotfixes">How to install hotfixes</a></td>
 <td><a href="#Introduction_004_Bugreporting_FeatureRequests">Introduction: Bugreporting and Feature Requests</a></td>
@@ -144,7 +144,7 @@ Ultraschall API functions
 <td><a href="#DeferScripts_003_Stopping_Defer_Loops_From_In_and_Outside">DeferScripts: Stopping Defer-loops from in- and outside of scripts</a></td>
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Localize Scripts</b></td></tr><tr><td><a href="#Localize_001_Introduction">Localize Scripts: Introduction</a></td>
 <td><a href="#Localize_002_LangPack_Fileformat">Localize Scripts: Language-pack-fileformat</a></td>
-<td><a href="#Localize_003_Localize_Functions">Localize Scripts: Introduction</a></td>
+<td><a href="#Localize_003_Localize_Functions">Localize Scripts: Functions</a></td>
 </tr><p><tr><td>&nbsp;</td></tr><tr><td><b>Helper Functions</b></td></tr><tr><td><a href="#Helper_Functions_001_Introduction">Helper_Functions: Introduction</a></td>
 <td><a href="#Helper_Functions_002_ClipboardManagement">Helper_Functions: Clipboard Management</a></td>
 <td><a href="#Helper_Functions_003_Data_Manipulation">Helper_Functions: Data Manipulation</a></td>
@@ -3519,41 +3519,45 @@ Run the function, that shall be deferred(and has one of Defer1 to Defer20 inside
 Unfortunately, this isn't possible for scripts, or better: Not that easy.</p>
 <p>So I thought, that adding such functionalities for Lua-Scripts would be a good idea too.</p>
 <p>The whole process consists of two main things:</p>
-<pre><code>1. The USLangPack-file, which holds all the original texts and their translated counterparts  
-2. The functions, with whom you can easily translate text within your scripts.  </code></pre>
+<ol>
+<li>The USLangPack-file, which holds all the original texts and their translated counterparts<br />
+</li>
+<li>The functions, with whom you can easily translate text within your scripts.</li>
+</ol>
 <p>Let's start with the first one, the translationfile.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Localize_002_LangPack_Fileformat"></a>
 <div style="font-size:100%"><h4><a href="#Localize_002_LangPack_Fileformat">^</a> <u>Localize Scripts: Language-pack-fileformat</u></h4></div><p><p>A USLangPack-translationfile is a simple ini-file of the format:</p>
-<pre><code>    [section]
-    key=value</code></pre>
+<pre><code>            [section]
+            key=value</code></pre>
 <p>In our case, the section is the scriptname, the key is the original string and the value is the translated string.</p>
-<pre><code>    [myluascript.lua]
-    Hello World=Hallo Welt</code></pre>
+<pre><code>            [myluascript.lua]
+            Hello World=Hallo Welt</code></pre>
 <p><strong>Basics</strong></p>
 <p>In this example, the text "Hello World" in myluascript.lua would be translated to the german translation "Hallo Welt".<br />
 If you need to add comments, you can simply write a semicolon. Everything written in that line after the semicolon will be ignored.</p>
-<pre><code>    [myluascript.lua]
-    Hello World=Hallo Welt ;It looks like part of the translation, but it&#39;s not!
+<pre><code>            [myluascript.lua]
+            Hello World=Hallo Welt ;It looks like part of the translation, but it&#39;s not!
     </code></pre>
 <p>Now here's the thing, you may want to add = into your text, but ini-files use this as separator between key and value.<br />
 So, to write an = you need to escape it, using \=</p>
-<pre><code>    [myluascript.lua]
-    Hello\=World=Hallo\=Welt
+<pre><code>            [myluascript.lua]
+            Hello\=World=Hallo\=Welt
     </code></pre>
-<p>In the above example, the text holds now an = The escape-symbol will be removed when reading it from the translationfile automatically. If you don't want that, write \= and it will become \= in the text.</p>
+<p>In the above example, the text holds now an =<br />
+The escape-symbol will be removed when reading it from the translationfile automatically. If you don't want that, write \= and it will become \= in the text.</p>
 <p>Newlines are also possible. Just write \n in the places, where you want to have a newline:</p>
-<pre><code>    [myluascript.lua]
-    Hello\nWorld=Hallo\nWelt
+<pre><code>            [myluascript.lua]
+            Hello\nWorld=Hallo\nWelt
     </code></pre>
 <p>The newlines (\n) in the above example, will be replaced by the Localize-function automatically into newlines.</p>
 <p><strong>Advanced</strong></p>
 <p>Sometimes, you want to have substitutions, like filenames, variable numbers, etc. As this is very important, I added ways of adding them into the translation as well.<br />
 Substitutions are written into the text using %sxxx, where xxx is a number between 000 and 999.<br />
 The number between 000 and 999 reflects the order of the substitutions.<br />
-Let's assume the following translationentries:</p>
-<pre><code>    [myluascript.lua]
-    The filename %s000 is the one that you have selected.=Du hast den Dateinamen %s000 ausgewählt.
+Let's assume the following translationentry:</p>
+<pre><code>            [myluascript.lua]
+            The filename %s000 is the one that you have selected.=Du hast den Dateinamen %s000 ausgewählt.
     </code></pre>
 <p>In this example, the text has the substituion of %s000, which will represent the filename.<br />
 Now look closely: the substitution %s000 in the english text is on the third position, while in the german translation, it is on the fifth!<br />
@@ -3561,22 +3565,22 @@ That's why substitutions are numbered, as the translator may need to rearrange t
 Especially, if you have a number of substitutions, the order in the translated version can be "disordered", compared to the original one.<br />
 The Localize-function takes care of substituting the right words into the substitutions.</p>
 <p>As a good practice, you should add a comment directly above the line, which holds the substitution, which explains the meaning of the substitution(s).</p>
-<pre><code>    [myluascript.lua]
-    ;%s000 - this is a filename, which could also hold the path to the file
-    The filename %s000 is the one that you have selected.=Du hast den Dateinamen %s000 ausgewählt.
+<pre><code>            [myluascript.lua]
+            ;%s000 - this is a filename, which could also hold the path to the file
+            The filename %s000 is the one that you have selected.=Du hast den Dateinamen %s000 ausgewählt.
     </code></pre>
 <p>That way, the translator knows, what to expect from it, which improves quality of the translation.</p>
 <p><strong>Different Languages</strong></p>
 <p>Now you can do one translation, but there are many more languages. So how to make that work?<br />
 Via the filename.</p>
 <p>The used languages in a translationfile is always added to the USLangPack-file:</p>
-<pre><code>    mylangpack_language.USLangPack
+<pre><code>            mylangpack_language.USLangPack
     </code></pre>
 <p>So an english, german and spanish version would be named like this:</p>
-<pre><code>    mylangpack_en.USLangPack
-    mylangpack_de.USLangPack
-    mylangpack_es.USLangPack
-    </code></pre>
+<pre><code>            mylangpack_en.USLangPack
+            mylangpack_de.USLangPack
+            mylangpack_es.USLangPack
+        </code></pre>
 <p>The Localize_UseFile-function will load the right LangPack for you.</p>
 <p><strong>Best Practices</strong></p>
 <p>I will add some final notes on how to translate properly, for scripters as well as for translators:</p>
@@ -3594,13 +3598,13 @@ So what I wrote for scripters is also valid for you: So keep your texts as short
 This makes life easier for the user and the scripter.</p>
 
 <table style="margin-left:-4.1%; border-collapse: separate; border-spacing: 6px 2px;" border="0"></table><br><hr><a id="Localize_003_Localize_Functions"></a>
-<div style="font-size:100%"><h4><a href="#Localize_003_Localize_Functions">^</a> <u>Localize Scripts: Introduction</u></h4></div><p><p>Using a translationfile to localize texts in your script is very easy. There are only three functions to deal with that:<br />
+<div style="font-size:100%"><h4><a href="#Localize_003_Localize_Functions">^</a> <u>Localize Scripts: Functions</u></h4></div><p><p>Using a translationfile to localize texts in your script is very easy. There are only three functions to deal with that:<br />
 <a href="US_Api_Functions.html#Localize_UseFile">Localize_UseFile</a>, <a href="US_Api_Functions.html#Localize_RefreshFile">Localize_RefreshFile</a>, <a href="US_Api_Functions.html#Localize">Localize</a></p>
 <p>Let's go into more detail:</p>
 <blockquote>
 <p><strong><a href="US_Api_Functions.html#Localize_UseFile">Localize_UseFile</a></strong></p>
 </blockquote>
-<pre><code>    boolean retval = ultraschall.Localize_UseFile(string filename, string section, string language)
+<pre><code>            boolean retval = ultraschall.Localize_UseFile(string filename, string section, string language)
     </code></pre>
 <blockquote>
 <p>This function loads the contents of a translationfile into your script.<br />
@@ -3613,7 +3617,7 @@ This function will load the right translationfile with the right language and th
 <blockquote>
 <p><strong><a href="US_Api_Functions.html#Localize_RefreshFile">Localize_RefreshFile</a></strong></p>
 </blockquote>
-<pre><code>    boolean retval = ultraschall.Localize_RefreshFile()
+<pre><code>            boolean retval = ultraschall.Localize_RefreshFile()
     </code></pre>
 <blockquote>
 <p>If the translationfile has been updated, you might want to reload it. Just run this function, and it reloads an already loaded translation.</p>
@@ -3622,18 +3626,19 @@ This function will load the right translationfile with the right language and th
 <blockquote>
 <p><strong><a href="US_Api_Functions.html#Localize">Localize</a></strong></p>
 </blockquote>
-<pre><code>    string translated_string, boolean translated = ultraschall.Localize(string original_string, ...)
-    
-    or alternatively
-    
-    string translated_string, boolean translated = Localize(string original_string, ...)
+<pre><code>            string translated_string, boolean translated = ultraschall.Localize(string original_string, ...)
+        </code></pre>
+<blockquote>
+<p>or alternatively</p>
+</blockquote>
+<pre><code>            string translated_string, boolean translated = Localize(string original_string, ...)
     </code></pre>
 <blockquote>
 <p>This localizes a string, using the loaded translation. Just pass the original-string into the first parameter.<br />
 If you have substitutions, you pass them as additional parameters in the order of appearance.<br />
 That means, if you have a string "I am a filename %s000 and a number %s001" the Localize-functioncall will be</p>
 </blockquote>
-<pre><code>    translated_string, translated = Localize(&quot;I am a filename %s000 and a number %s001&quot;, &quot;name_of_the_file0ab.txt&quot;, &quot;135&quot;)</code></pre>
+<pre><code>            translated_string, translated = Localize(&quot;I am a filename %s000 and a number %s001&quot;, &quot;name_of_the_file0ab.txt&quot;, &quot;135&quot;)</code></pre>
 <blockquote>
 <p>This will return the localized string with the substitutions in the right places.<br />
 If for one reason or another, no translation can be done(no loaded translationfile, etc), the second returnvalue translated will be set to false.</p>

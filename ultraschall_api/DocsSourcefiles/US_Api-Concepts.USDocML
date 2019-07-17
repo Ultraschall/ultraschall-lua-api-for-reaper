@@ -4797,8 +4797,8 @@
             
             The whole process consists of two main things:  
             
-                1. The USLangPack-file, which holds all the original texts and their translated counterparts  
-                2. The functions, with whom you can easily translate text within your scripts.  
+              1. The USLangPack-file, which holds all the original texts and their translated counterparts  
+              2. The functions, with whom you can easily translate text within your scripts.  
                 
             Let's start with the first one, the translationfile.
         </description>
@@ -4819,35 +4819,35 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             A USLangPack-translationfile is a simple ini-file of the format:
             
-                    [section]
-                    key=value
+                            [section]
+                            key=value
                 
             In our case, the section is the scriptname, the key is the original string and the value is the translated string.
             
-                    [myluascript.lua]
-                    Hello World=Hallo Welt
+                            [myluascript.lua]
+                            Hello World=Hallo Welt
 
             **Basics**
 
             In this example, the text "Hello World" in myluascript.lua would be translated to the german translation "Hallo Welt".  
             If you need to add comments, you can simply write a semicolon. Everything written in that line after the semicolon will be ignored.
             
-                    [myluascript.lua]
-                    Hello World=Hallo Welt ;It looks like part of the translation, but it's not!
+                            [myluascript.lua]
+                            Hello World=Hallo Welt ;It looks like part of the translation, but it's not!
                     
             Now here's the thing, you may want to add = into your text, but ini-files use this as separator between key and value.  
             So, to write an = you need to escape it, using \=
                     
-                    [myluascript.lua]
-                    Hello\=World=Hallo\=Welt
+                            [myluascript.lua]
+                            Hello\=World=Hallo\=Welt
                     
-            In the above example, the text holds now an =
+            In the above example, the text holds now an =  
             The escape-symbol will be removed when reading it from the translationfile automatically. If you don't want that, write \\= and it will become \= in the text.
             
             Newlines are also possible. Just write \n in the places, where you want to have a newline:
             
-                    [myluascript.lua]
-                    Hello\nWorld=Hallo\nWelt
+                            [myluascript.lua]
+                            Hello\nWorld=Hallo\nWelt
                     
             The newlines (\n) in the above example, will be replaced by the Localize-function automatically into newlines.
             
@@ -4856,10 +4856,10 @@
             Sometimes, you want to have substitutions, like filenames, variable numbers, etc. As this is very important, I added ways of adding them into the translation as well.  
             Substitutions are written into the text using %sxxx, where xxx is a number between 000 and 999.  
             The number between 000 and 999 reflects the order of the substitutions.  
-            Let's assume the following translationentries:
+            Let's assume the following translationentry:
             
-                    [myluascript.lua]
-                    The filename %s000 is the one that you have selected.=Du hast den Dateinamen %s000 ausgewählt.
+                            [myluascript.lua]
+                            The filename %s000 is the one that you have selected.=Du hast den Dateinamen %s000 ausgewählt.
                     
              In this example, the text has the substituion of %s000, which will represent the filename.  
              Now look closely: the substitution %s000 in the english text is on the third position, while in the german translation, it is on the fifth!  
@@ -4869,9 +4869,9 @@
              
              As a good practice, you should add a comment directly above the line, which holds the substitution, which explains the meaning of the substitution(s).
              
-                    [myluascript.lua]
-                    ;%s000 - this is a filename, which could also hold the path to the file
-                    The filename %s000 is the one that you have selected.=Du hast den Dateinamen %s000 ausgewählt.
+                            [myluascript.lua]
+                            ;%s000 - this is a filename, which could also hold the path to the file
+                            The filename %s000 is the one that you have selected.=Du hast den Dateinamen %s000 ausgewählt.
                     
              That way, the translator knows, what to expect from it, which improves quality of the translation.
              
@@ -4882,14 +4882,14 @@
              
              The used languages in a translationfile is always added to the USLangPack-file:
              
-                    mylangpack_language.USLangPack
+                            mylangpack_language.USLangPack
                     
              So an english, german and spanish version would be named like this:
              
-                    mylangpack_en.USLangPack
-                    mylangpack_de.USLangPack
-                    mylangpack_es.USLangPack
-                    
+                            mylangpack_en.USLangPack
+                            mylangpack_de.USLangPack
+                            mylangpack_es.USLangPack
+                        
              The Localize\_UseFile-function will load the right LangPack for you.
              
              **Best Practices**
@@ -4923,7 +4923,7 @@
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>Localize_003_Localize_Functions</slug>
-        <title>Localize Scripts: Introduction</title>
+        <title>Localize Scripts: Functions</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Using a translationfile to localize texts in your script is very easy. There are only three functions to deal with that:  
             [Localize_UseFile](usdocml://Localize_UseFile), [Localize\_RefreshFile](usdocml://Localize_RefreshFile), [Localize](usdocml://Localize)  
@@ -4932,7 +4932,7 @@
             
             >**[Localize\_UseFile](usdocml://Localize_UseFile)**
             
-                    boolean retval = ultraschall.Localize_UseFile(string filename, string section, string language)
+                            boolean retval = ultraschall.Localize_UseFile(string filename, string section, string language)
                     
             >This function loads the contents of a translationfile into your script.  
             >You need to pass the filename of the translationfile. If you omit the path, it will look in the Resource-folder/LangPack/ for the file.  
@@ -4943,7 +4943,7 @@
             
             >**[Localize\_RefreshFile](usdocml://Localize_RefreshFile)**
             
-                    boolean retval = ultraschall.Localize_RefreshFile()
+                            boolean retval = ultraschall.Localize_RefreshFile()
                     
             >If the translationfile has been updated, you might want to reload it. Just run this function, and it reloads an already loaded translation.
             
@@ -4951,17 +4951,17 @@
             
             >**[Localize](usdocml://Localize)**
             
-                    string translated_string, boolean translated = ultraschall.Localize(string original_string, ...)
-                    
-                    or alternatively
-                    
-                    string translated_string, boolean translated = Localize(string original_string, ...)
+                            string translated_string, boolean translated = ultraschall.Localize(string original_string, ...)
+                        
+             >or alternatively
+                        
+                            string translated_string, boolean translated = Localize(string original_string, ...)
                     
              >This localizes a string, using the loaded translation. Just pass the original-string into the first parameter.  
              >If you have substitutions, you pass them as additional parameters in the order of appearance.  
              >That means, if you have a string "I am a filename %s000 and a number %s001" the Localize-functioncall will be  
              
-                    translated_string, translated = Localize("I am a filename %s000 and a number %s001", "name_of_the_file0ab.txt", "135")
+                            translated_string, translated = Localize("I am a filename %s000 and a number %s001", "name_of_the_file0ab.txt", "135")
              
              >This will return the localized string with the substitutions in the right places.  
              >If for one reason or another, no translation can be done(no loaded translationfile, etc), the second returnvalue translated will be set to false.  
