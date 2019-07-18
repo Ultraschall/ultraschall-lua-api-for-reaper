@@ -189,7 +189,7 @@ function ultraschall.ResolveRenderPattern(renderpattern)
                                   -    where XXX is a number between 001(usually for master-track) and 999
   </retvals>
   <chapter_context>
-    Rendering of Project
+    Rendering Projects
     Assistance functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -972,4 +972,60 @@ end
 --P=#O
 
 
+function ultraschall.FindPatternsInString(SourceString, pattern, sort_after_finding)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>FindPatternsInString</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_found_items, array found_items = ultraschall.FindPatternsInString(string SourceString, string pattern, boolean sort_after_finding)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Finds all occurrences of matching-patterns in a string. You can sort them optionally.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer count_found_items - the number of found items in the string; -1, in case of an error
+    array found_items - all occurrences found in the string as an array
+  </retvals>
+  <parameters>
+    string SourceString - the source-string to search for all occurences
+    string pattern - the matching-pattern, with which to search for in the string
+    boolean sort_after_finding - true, sorts the entries; false, doesn't sort the entries
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Analysis
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, find, patterns, string</tags>
+</US_DocBloc>
+--]]
+  if type(SourceString)~="string" then ultraschall.AddErrorMessage("FindPatternsInString", "SourceString", "must be a string", -1) return -1 end
+  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("FindPatternsInString", "pattern", "not a valid matching-pattern", -2) return -1 end
+  if type(sort_after_finding)~="boolean" then ultraschall.AddErrorMessage("FindPatternsInString", "sort_after_finding", "must be a boolean", -3) return -1 end
+  local String={}
+  local counter=1
+  for k in string.gmatch(SourceString, pattern) do
+    String[counter]=k
+    counter=counter+1
+  end
+  
+  if sort_after_finding==true then table.sort(String) end
+  
+  local String2=""
+  for i=1, counter-1 do
+    String2=String2..String[i].."\n"
+  end
+  return counter-1, String, String2
+end
 
+--O,P,Q = ultraschall.FindPatternsInString(A, "<slug>(.-)</slug>", false)
+
+
+function ultraschall.TracksToColorPattern(colorpattern, startingcolor, direction)
+end

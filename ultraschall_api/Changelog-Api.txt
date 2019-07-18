@@ -228,9 +228,31 @@ TODO!! buggy function
 ### 4.00 Beta 2.77: - "" - 31st of August 2019
  
 #### New features in 4.00beta2.77
+    - Helper Functions: FindPatternsInString - finds all occurrences of a matching-pattern in a string
 
 #### Changes from Beta 2.76 to Beta 2.77
-
+   - API: functions - moved all functions into modules for future modular-concept
+   - Docs: GetRenderingToFileHWND - had parameters described, that don't exist -> fixed
+   - Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -> Data Manipulation
+   - Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -> Data Manipulation
+   - Helper Functions: SecondsToTimeString_hh_mm_ss_mss - moved to docs-index API-Helper functions -> Data Manipulation
+   - Helper Functions: TimeStringToSeconds_hh_mm_ss_mss - moved to docs-index API-Helper functions -> Data Manipulation
+   - Helper Functions: TimeToSeconds - moved to docs-index API-Helper functions -> Data Manipulation
+   - HWND: GetActionsHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - HWND: GetBatchFileItemConverterHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - HWND: GetConsolidateTracksHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - HWND: GetExportProjectMIDIHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - HWND: GetPreferencesHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - HWND: GetProjectDirectoryCleanupHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - HWND: GetProjectSettingsHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - HWND: GetRenderQueueHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - HWND: GetRenderToFileHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - HWND: GetRenderingToFileHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - HWND: GetSaveLiveOutputToDiskHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - HWND: GetVideoHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - Project Management: GetProject_MasterGroupFlagsState - moved to correct docsindex Project Management
+   - Project Management: GetProject_MasterGroupFlagsState - moved to correct docsindex Project Management
+   
    ---
 
 
