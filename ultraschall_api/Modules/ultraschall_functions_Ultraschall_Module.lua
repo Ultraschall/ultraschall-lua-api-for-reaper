@@ -709,7 +709,7 @@ function ultraschall.EnumerateUSExternalState_key(section, number)
   </requires>
   <functioncall>string key_name = ultraschall.EnumerateUSExternalState_key(string section, integer number)</functioncall>
   <description>
-    returns name of a numberth key within a section in ultraschall%.ini or nil if invalid or not existing
+    returns name of a numberth key within a section in ultraschall.ini or nil if invalid or not existing
   </description>
   <retvals>
     string key_name  - the name ob the numberth key in ultraschall.ini.
