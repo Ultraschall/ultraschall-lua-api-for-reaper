@@ -235,8 +235,8 @@ TODO!! buggy function
    - Helper Functions: GetUserInputs - did change the tables passed as default-retvals -> fixed now
    - Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -> Data Manipulation
-   - Helper Functions: SecondsToTimeString_hh_mm_ss_mss - moved to docs-index API-Helper functions -> Data Manipulation
-   - Helper Functions: TimeStringToSeconds_hh_mm_ss_mss - moved to docs-index API-Helper functions -> Data Manipulation
+   - Helper Functions: SecondsToTimeString\_hh\_mm\_ss\_mss - moved to docs-index API-Helper functions -> Data Manipulation
+   - Helper Functions: TimeStringToSeconds\_hh\_mm\_ss\_mss - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: TimeToSeconds - moved to docs-index API-Helper functions -> Data Manipulation
    - HWND: GetActionsHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - HWND: GetBatchFileItemConverterHWND - moved to docs-index User Interface -> Reaper-Windowhandler
@@ -250,8 +250,8 @@ TODO!! buggy function
    - HWND: GetRenderingToFileHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - HWND: GetSaveLiveOutputToDiskHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - HWND: GetVideoHWND - moved to docs-index User Interface -> Reaper-Windowhandler
-   - Project Management: GetProject_MasterGroupFlagsState - moved to correct docsindex Project Management
-   - Project Management: GetProject_MasterGroupFlagsState - moved to correct docsindex Project Management
+   - Project Management: GetProject\_MasterGroupFlagsState - moved to correct docsindex Project Management
+   - Project Management: GetProject\_MasterGroupFlagsState - moved to correct docsindex Project Management
    - Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs
    
    ---
