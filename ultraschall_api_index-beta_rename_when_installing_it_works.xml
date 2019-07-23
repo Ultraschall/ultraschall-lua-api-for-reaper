@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40305.00" author="Meo Mespotine">
+      <version name="40307.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -190,6 +190,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.977.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.977.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.978.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.978.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.979.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.979.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper5.980.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.980.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi</source>
@@ -276,7 +277,6 @@
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-Windows-ChildIDs.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/Reaper-Windows-ChildIDs.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/render-codes-decoded-base64-strings.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/render-codes-decoded-base64-strings.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt</source>
-	<source file="/ultraschall_api/misc/peaks/silence.flac.reapeaks" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/peaks/silence.flac.reapeaks</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak</source>
@@ -387,6 +387,8 @@ Changes from Beta 2.76 to Beta 2.77
     modular-concept
 -   Docs: GetRenderingToFileHWND - had parameters described, that don’t
     exist -> fixed
+-   Helper Functions: GetUserInputs - did change the tables passed as
+    default-retvals -> fixed now
 -   Helper Functions: IsValidMatchingPattern - moved to docs-index
     API-Helper functions -> Data Manipulation
 -   Helper Functions: SecondsToTime - moved to docs-index API-Helper

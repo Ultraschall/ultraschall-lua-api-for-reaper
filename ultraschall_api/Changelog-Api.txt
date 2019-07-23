@@ -1,8 +1,7 @@
 <TODO>
-    For 4.00beta2.76:
-        - TODO: Doc: Concepts: Localize
-
     For 4.00beta2.77
+        - TODO!! GetUserInputs - count doesn't match, if fewer inputboxes are filled than do exist.
+                        tested with 9 Inputboxes, 6 Captionboxes. There's somewhere a mismatch...
         - TODO!! Localize: can we detect, which language-file is currently installed and which language it holds, to decide, which language to use?
         - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
         - TODO!! XML-generator has problems with spaces and & in filenames; use this to overcome this:
@@ -233,6 +232,7 @@ TODO!! buggy function
 #### Changes from Beta 2.76 to Beta 2.77
    - API: functions - moved all functions into modules for future modular-concept
    - Docs: GetRenderingToFileHWND - had parameters described, that don't exist -> fixed
+   - Helper Functions: GetUserInputs - did change the tables passed as default-retvals -> fixed now
    - Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTimeString_hh_mm_ss_mss - moved to docs-index API-Helper functions -> Data Manipulation

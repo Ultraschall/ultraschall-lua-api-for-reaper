@@ -1784,14 +1784,17 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
   caption_names[17]=nil
 
   -- fill up empty default-values, so the passed parameters are 16 in count  
+  local default_retvals2={}
   for i=1, 16 do
     if default_retvals[i]==nil then
-      default_retvals[i]=""
+      default_retvals2[i]=""
+    else
+      default_retvals2[i]=default_retvals[i]
     end
   end
-  default_retvals[17]=nil
+  default_retvals2[17]=nil
 
-  local numentries, concatenated_table = ultraschall.ConcatIntegerIndexedTables(caption_names, default_retvals)
+  local numentries, concatenated_table = ultraschall.ConcatIntegerIndexedTables(caption_names, default_retvals2)
   
   local temptitle="Tudelu"..reaper.genGuid()
   
@@ -1810,6 +1813,7 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
 end
 
 --A,B,C,D=ultraschall.GetUserInputs("I got you", {"ShalalalaOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOHAH"}, {"HHHAAAAHHHHHHHHHHHHHHHHHHHHHHHHAHHHHHHHA"}, -1)
+
 
 
 
