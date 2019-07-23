@@ -252,6 +252,7 @@ TODO!! buggy function
    - HWND: GetVideoHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - Project Management: GetProject_MasterGroupFlagsState - moved to correct docsindex Project Management
    - Project Management: GetProject_MasterGroupFlagsState - moved to correct docsindex Project Management
+   - Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs
    
    ---
 

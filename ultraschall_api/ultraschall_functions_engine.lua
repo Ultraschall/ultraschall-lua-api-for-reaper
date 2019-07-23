@@ -1194,8 +1194,10 @@ dofile(script_path .. "Modules/ultraschall_functions_AutomationItems_Module.lua"
 dofile(script_path .. "Modules/ultraschall_functions_AudioManagement_Module.lua")
 dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_Module.lua")
 dofile(script_path .. "Modules/ultraschall_functions_Ultraschall_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ProjectFiles_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_ProjectManagement_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua")
 dofile(script_path .. "Modules/ultraschall_functions_MediaItem_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua")
 dofile(script_path .. "Modules/ultraschall_functions_HelperFunctions_Module.lua")
 dofile(script_path .. "Modules/ultraschall_functions_ReaperUserInterface_Module.lua")
 dofile(script_path .. "Modules/ultraschall_functions_DeferManagement_Module.lua")
@@ -1212,7 +1214,7 @@ dofile(script_path .. "Modules/ultraschall_functions_Localize_Module.lua")
 dofile(script_path .. "Modules/ultraschall_functions_MIDIManagement_Module.lua")
 dofile(script_path .. "Modules/ultraschall_functions_MetaData_Module.lua")
 dofile(script_path .. "Modules/ultraschall_functions_Envelope_Module.lua")
-
-
+dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_Routing_Module.lua")
 
 ultraschall.ShowLastErrorMessage()

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40307.00" author="Meo Mespotine">
+      <version name="40313.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Changelog-Api.txt</source>
@@ -96,16 +96,20 @@
 	<source file="/ultraschall_api/Modules/ultraschall_functions_HelperFunctions_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_HelperFunctions_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_Localize_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_Localize_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_Markers_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_Markers_Module.lua</source>
+	<source file="/ultraschall_api/Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_MediaItem_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_MediaItem_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_MetaData_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_MetaData_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_MIDIManagement_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_MIDIManagement_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_Muting_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_Muting_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_Navigation_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_Navigation_Module.lua</source>
-	<source file="/ultraschall_api/Modules/ultraschall_functions_ProjectFiles_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_ProjectFiles_Module.lua</source>
+	<source file="/ultraschall_api/Modules/ultraschall_functions_ProjectManagement_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_ProjectManagement_Module.lua</source>
+	<source file="/ultraschall_api/Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_ReaMote_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_ReaMote_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_ReaperUserInterface_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_Render_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_Render_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_TrackManagement_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_TrackManagement_Module.lua</source>
+	<source file="/ultraschall_api/Modules/ultraschall_functions_TrackManagement_Routing_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_TrackManagement_Routing_Module.lua</source>
+	<source file="/ultraschall_api/Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua</source>
 	<source file="/ultraschall_api/Modules/ultraschall_functions_Ultraschall_Module.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Modules/ultraschall_functions_Ultraschall_Module.lua</source>
 	<source file="/ultraschall_api/Scripts/GetUserInputValues_Helper_Script.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Scripts/GetUserInputValues_Helper_Script.lua</source>
 	<source file="/ultraschall_api/Scripts/SetMessageBox_Helper_Script.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Scripts/SetMessageBox_Helper_Script.lua</source>
@@ -427,6 +431,8 @@ Changes from Beta 2.76 to Beta 2.77
     correct docsindex Project Management
 -   Project Management: GetProject_MasterGroupFlagsState - moved to
     correct docsindex Project Management
+-   Ultraschall: moved ultraschall.ini-related functions to Ultraschall
+    Specific-index in the docs
 
 ------------------------------------------------------------------------
 

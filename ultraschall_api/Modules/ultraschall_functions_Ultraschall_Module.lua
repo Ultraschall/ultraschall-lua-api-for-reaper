@@ -463,5 +463,289 @@ function ultraschall.GetAllMainSendStates2()
   return AllMainSends, number_of_tracks
 end
 
-
 --A,B=ultraschall.GetAllMainSendStates2()
+
+
+function ultraschall.SetUSExternalState(section, key, value)
+-- stores value into ultraschall.ini
+-- returns true if successful, false if unsuccessful
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetUSExternalState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetUSExternalState(string section, string key, string value)</functioncall>
+  <description>
+    stores values into ultraschall.ini. Returns true if successful, false if unsuccessful.
+    
+    unlike other Ultraschall-API-functions, this converts the values, that you pass as parameters, into strings, regardless of their type
+  </description>
+  <retvals>
+    boolean retval - true, if successful, false if unsuccessful.
+  </retvals>
+  <parameters>
+    string section - section within the ini-file
+    string key - key within the section
+    string value - the value itself
+  </parameters>
+  <chapter_context>
+    Ultraschall Specific
+    Ultraschall.ini
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationmanagement, value, insert, store</tags>
+</US_DocBloc>
+--]]
+  -- check parameters
+  section=tostring(section)
+  key=tostring(key)
+  value=tostring(value)  
+  
+  if section:match(".*(%=).*")=="=" then ultraschall.AddErrorMessage("SetUSExternalState","section", "no = allowed in section", -4) return false end
+
+  -- set value
+  return ultraschall.SetIniFileValue(section, key, value, reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")
+end
+
+function ultraschall.GetUSExternalState(section, key)
+-- gets a value from ultraschall.ini
+-- returns length of entry(integer) and the entry itself(string)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetUSExternalState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string value = ultraschall.GetUSExternalState(string section, string key)</functioncall>
+  <description>
+    gets a value from ultraschall.ini. 
+    
+    returns an empty string in case of an error
+  </description>
+  <retvals>
+    string value  - the value itself; empty string in case of an error or no such extstate
+  </retvals>
+  <parameters>
+    string section - the section of the ultraschall.ini.
+    string key - the key of which you want it's value.
+  </parameters>
+  <chapter_context>
+    Ultraschall Specific
+    Ultraschall.ini
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationmanagement, value, get</tags>
+</US_DocBloc>
+--]]
+  -- check parameters
+  if type(section)~="string" then ultraschall.AddErrorMessage("GetUSExternalState","section", "only string allowed", -1) return "" end
+  if type(key)~="string" then ultraschall.AddErrorMessage("GetUSExternalState","key", "only string allowed", -2) return "" end
+ 
+  -- get value
+  local A, B = ultraschall.GetIniFileValue(section, key, "", reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")
+  return B
+end
+
+--A,AA=ultraschall.GetUSExternalState("ultraschall_clock","docked")
+
+function ultraschall.CountUSExternalState_sec()
+--count number of sections in the ultraschall.ini
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CountUSExternalState_sec</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer section_count = ultraschall.CountUSExternalState_sec()</functioncall>
+  <description>
+    returns the number of [sections] in the ultraschall.ini
+  </description>
+  <retvals>
+    integer section_count  - the number of section in the ultraschall.ini
+  </retvals>
+  <chapter_context>
+    Ultraschall Specific
+    Ultraschall.ini
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationmanagement, count, section</tags>
+</US_DocBloc>
+
+--]]
+  -- check existence of ultraschall.ini
+  if reaper.file_exists(reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")==false then ultraschall.AddErrorMessage("CountUSExternalState_sec","", "ultraschall.ini does not exist", -1) return -1 end
+  
+  -- count external-states
+  local count=0
+  for line in io.lines(reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini") do
+    local check=line:match(".*=.*")
+    if check~=nil then check="" count=count+1 end
+  end
+  return count
+end
+
+--A=ultraschall.CountUSExternalState_sec()
+
+function ultraschall.CountUSExternalState_key(section)
+--count number of keys in the section in ultraschall.ini
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CountUSExternalState_key</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer key_count = ultraschall.CountUSExternalState_key(string section)</functioncall>
+  <description>
+    returns the number of keys in the given [section] in ultraschall.ini
+  </description>
+  <retvals>
+    integer key_count  - the number of keys within an ultraschall.ini-section
+  </retvals>
+  <parameters>
+    string section - the section of the ultraschall.ini, of which you want the number of keys.
+  </parameters>
+  <chapter_context>
+    Ultraschall Specific
+    Ultraschall.ini
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationmanagement, count, key</tags>
+</US_DocBloc>
+--]]
+  -- check parameter and existence of ultraschall.ini
+  if type(section)~="string" then ultraschall.AddErrorMessage("CountUSExternalState_key","section", "only string allowed", -1) return false end
+  if reaper.file_exists(reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")==false then ultraschall.AddErrorMessage("CountUSExternalState_key","", "ultraschall.ini does not exist", -2) return -1 end
+
+  -- prepare variables
+  local count=0
+  local startcount=0
+  
+  -- count keys
+  for line in io.lines(reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini") do
+   local check=line:match("%[.*.%]")
+    if startcount==1 and line:match(".*=.*") then
+      count=count+1
+    else
+      startcount=0
+    if "["..section.."]" == check then startcount=1 end
+    if check==nil then check="" end
+    end
+  end
+  
+  return count
+end
+
+--A=ultraschall.CountUSExternalState_key("view")
+
+function ultraschall.EnumerateUSExternalState_sec(number)
+-- returns name of the numberth section in ultraschall.ini or nil, if invalid
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EnumerateUSExternalState_sec</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string section_name = ultraschall.EnumerateUSExternalState_sec(integer number)</functioncall>
+  <description>
+    returns name of the numberth section in ultraschall.ini or nil if invalid
+  </description>
+  <retvals>
+    string section_name  - the name of the numberth section within ultraschall.ini
+  </retvals>
+  <parameters>
+    integer number - the number of section, whose name you want to know
+  </parameters>
+  <chapter_context>
+    Ultraschall Specific
+    Ultraschall.ini
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationmanagement, enumerate, section</tags>
+</US_DocBloc>
+--]]
+  -- check parameter and existence of ultraschall.ini
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateUSExternalState_sec", "number", "only integer allowed", -1) return false end
+  if reaper.file_exists(reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")==false then ultraschall.AddErrorMessage("EnumerateUSExternalState_sec", "", "ultraschall.ini does not exist", -2) return -1 end
+
+  if number<=0 then ultraschall.AddErrorMessage("EnumerateUSExternalState_sec","number", "no negative number allowed", -3) return nil end
+  if number>ultraschall.CountUSExternalState_sec() then ultraschall.AddErrorMessage("EnumerateUSExternalState_sec","number", "only "..ultraschall.CountUSExternalState_sec().." sections available", -4) return nil end
+
+  -- look for and return the requested line
+  local count=0
+  for line in io.lines(reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini") do
+    check=line:match("%[.-%]")
+    if check~=nil then count=count+1 end
+    if count==number then return line end
+  end
+end
+
+--A=ultraschall.EnumerateUSExternalState_sec(10)
+
+function ultraschall.EnumerateUSExternalState_key(section, number)
+-- returns name of a numberth key within a section in ultraschall.ini or nil if invalid or not existing
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EnumerateUSExternalState_key</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string key_name = ultraschall.EnumerateUSExternalState_key(string section, integer number)</functioncall>
+  <description>
+    returns name of a numberth key within a section in ultraschall%.ini or nil if invalid or not existing
+  </description>
+  <retvals>
+    string key_name  - the name ob the numberth key in ultraschall.ini.
+  </retvals>
+  <parameters>
+    string section - the section within ultraschall.ini, where the key is stored.
+    integer number - the number of the key, whose name you want to know; 1 for the first one
+  </parameters>
+  <chapter_context>
+    Ultraschall Specific
+    Ultraschall.ini
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationmanagement, enumerate, key</tags>
+</US_DocBloc>
+--]]
+  -- check parameter
+  if type(section)~="string" then ultraschall.AddErrorMessage("EnumerateUSExternalState_key", "section", "only string allowed", -1) return false end
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateUSExternalState_key", "number", "only integer allowed", -2) return false end
+
+  -- prepare variables
+  local count=0
+  local startcount=0
+  
+  -- find and return the proper line
+  for line in io.lines(reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini") do
+    local check=line:match("%[.*.%]")
+    if startcount==1 and line:match(".*=.*") then
+      count=count+1
+      if count==number then local temp=line:match(".*=") return temp:sub(1,-2) end
+    else
+      startcount=0
+      if "["..section.."]" == check then startcount=1 end
+      if check==nil then check="" end
+    end
+  end
+  return nil
+end
