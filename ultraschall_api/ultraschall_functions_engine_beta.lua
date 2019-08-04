@@ -1253,4 +1253,57 @@ G=ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender)
 H=ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender)
 --]]
 
+function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetFXStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.GetFXStateChunk(string StateChunk, optional integer TakeFXChain_id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns an FXStateChunk from a TrackStateChunk or a MediaItemStateChunk.
+    
+    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
+    
+    Returns nil in case of an error or if no FXStateChunk has been found.
+  </description>
+  <retvals>
+    string FXStateChunk - the FXStateChunk, stored in the StateChunk
+  </retvals>
+  <parameters>
+    string StateChunk - the StateChunk, from which you want to retrieve the FXStateChunk
+    optional integer TakeFXChain_id - when using MediaItemStateChunks, this allows you to choose the take of which you want the FXChain; default is 1
+  </parameters>
+  <chapter_context>
+    FX-Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, get, fxstatechunk, trackstatechunk, mediaitemstatechunk</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidTrackStateChunk(StateChunk)==false and ultraschall.IsValidMediaItemStateChunk(StateChunk)==false then ultraschall.AddErrorMessage("GetFXStateChunk", "StateChunk", "no valid Track/ItemStateChunk", -1) return end
+  if TakeFXChain_id~=nil and math.type(TakeFXChain_id)~="integer" then ultraschall.AddErrorMessage("GetFXStateChunk", "TakeFXChain_id", "must be an integer", -2) return end
+  if TakeFXChain_id==nil then TakeFXChain=1 end
+  
+  if string.find(StateChunk, "\n  ")==nil then
+    StateChunk=ultraschall.StateChunkLayouter(StateChunk)
+  end
+  for w in string.gmatch(StateChunk, " <FXCHAIN.-\n  >") do
+    return string.gsub("\n"..w, "\n      ", "\n    "):sub(2,-1)
+    --return w
+  end
+  local count=0
+  for w in string.gmatch(StateChunk, " <TAKEFX.-\n  >") do
+    count=count+1
+    if TakeFXChain_id==count then
+      return string.gsub("\n"..w, "\n      ", "\n    "):sub(2,-1)
+    end
+  end
+end
+
 ultraschall.ShowLastErrorMessage()

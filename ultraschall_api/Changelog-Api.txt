@@ -1,134 +1,52 @@
 <TODO>
     For 4.00beta2.77
-        - TODO!! GetProjectStateChunk
-function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender)
-    --[[
-    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-      <slug>GetProjectStateChunk</slug>
-      <requires>
-        Ultraschall=4.00
-        Reaper=5.975
-        SWS=2.10.0.1
-        JS=0.972
-        Lua=5.3
-      </requires>
-      <functioncall>string ProjectStateChunk = ultraschall.GetProjectStateChunk(optional string projectfilename_with_path)</functioncall>
-      <description>
-        Gets the ProjectStateChunk of the current active project or a projectfile.
-        
-        Important: don't call it too often in a row(wait at least three seconds), as this might fail in these cases(Reaper-API-limitations). 
-        This function also eats up a lot of resources, so be sparse with it!
-        
-        returns nil if getting the ProjectStateChunk took too long
-      </description>
-      <retvals>
-        string ProjectStateChunk - the ProjectStateChunk of the current project; nil, if getting the ProjectStateChunk took too long
-      </retvals>
-      <parameters>
-        optional string projectfilename_with_path - the filename of an rpp-projectfile, that you want to load as ProjectStateChunk; nil, to get the ProjectStateChunk from the currently active project
-      </parameters>
-      <chapter_context>
-        Project-Files
-        Helper functions
-      </chapter_context>
-      <target_document>US_Api_Documentation</target_document>
-      <source_document>ultraschall_functions_engine.lua</source_document>
-      <tags>projectmanagement, get, projectstatechunk</tags>
-    </US_DocBloc>
-    ]]  
-      local ProjectStateChunk
-      if projectfilename_with_path~=nil then 
-        ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path)
-        if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProjectStateChunk", "projectfilename_with_path", "must be a valid ReaProject or nil", -1) return nil end
-        return ProjectStateChunk
-      end
-      
-      -- get the currently focused hwnd
-      local oldfocushwnd = reaper.JS_Window_GetFocus()
-      
-      -- turn off renderqdelay temporarily
-      local qretval, qlength = ultraschall.GetRender_QueueDelay()
-      local retval = ultraschall.SetRender_QueueDelay(false, qlength)
-      
-      -- turn on auto-increment filename temporarily
-      local old_autoincrement = ultraschall.GetRender_AutoIncrementFilename()
-      ultraschall.SetRender_AutoIncrementFilename(true)  
-      
-      -- get all filenames in render-queue
-      local oldbounds, oldstartpos, oldendpos, prep_changes, files, files2, filecount, filecount2    
-      filecount, files = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."\\QueuedRenders")
-      
-      -- set render-settings for empty projects(workaround for that edgecase)
-      if reaper.CountTracks()==0 then
-        oldbounds=reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", 0, false)
-        oldstartpos=reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", 0, false)
-        oldendpos=reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", 1, false)  
-        
-        reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", 0, true)
-        reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", 0, true)
-        reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", 1, true)
-        
-        prep_changes=true
-      end
-      
-      -- add current project to render-queue
-      reaper.Main_OnCommand(41823,0)
-      
-      -- wait, until Reaper has added the project to the render-queue and get it's filename
-      local i=0
-      while l==nil do
-        i=i+1
-        filecount2, files2 = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."\\QueuedRenders")
-        if filecount2~=filecount then 
-          --print_alt(filecount2, filecount) 
-          break 
-        end
-        if i==1000000 then ultraschall.AddErrorMessage("GetProjectStateChunk", "", "timeout: Getting the ProjectStateChunk took too long for some reasons, please report this as bug to me!", -1) return end
-      end
-      local duplicate_count, duplicate_array, originalscount_array1, originals_array1, originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(files, files2)
-       -- read render-queued-project and reset temporarily changed settings in the current project, as well as the ProjectStateChunk
-      local ProjectStateChunk=ultraschall.ReadFullFile(originals_array2[1])
-      os.remove(originals_array2[1])
-      if prep_changes==true then
-        reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", oldbounds, true)
-        reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", oldstartpos, true)
-        reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", oldendpos, true)
-        retval, ProjectStateChunk = ultraschall.SetProject_RenderRange(nil, math.floor(oldbounds), math.floor(oldstartpos), math.floor(oldendpos), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILFLAG", 0, false)), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILMS", 0, false)), ProjectStateChunk)
-      end
-      
-      if keepqrender~=true then
-        -- remove QUEUED_RENDER_ORIGINAL_FILENAME and QUEUED_RENDER_OUTFILE-entries
-        ProjectStateChunk=string.gsub(ProjectStateChunk, "  QUEUED_RENDER_OUTFILE .-%c", "")
-        ProjectStateChunk=string.gsub(ProjectStateChunk, "  QUEUED_RENDER_ORIGINAL_FILENAME .-%c", "")
-      end
-      
-      -- reset old auto-increment-checkbox-state
-      ultraschall.SetRender_AutoIncrementFilename(old_autoincrement)
-      
-      -- reset old focus-state on a specific hwnd
-      reaper.JS_Window_SetFocus(oldfocushwnd)
-      
-      retval = ultraschall.SetRender_QueueDelay(qretval, qlength)
-      return ProjectStateChunk
-    end
-     --A=ultraschall.GetProjectStateChunk()
-    --print2(A)
-    --A=ultraschall.IsValidReaProject("C:\\huilui.RPP")
-        - TODO!! GetUserInputs - count doesn't match, if fewer inputboxes are filled than do exist.
-                        tested with 9 Inputboxes, 6 Captionboxes. There's somewhere a mismatch...
-        - TODO!! Localize: can we detect, which language-file is currently installed and which language it holds, to decide, which language to use?
+        - TODO!! GetFXStateChunk bugreport from Anton9?
         - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
         - TODO!! XML-generator has problems with spaces and & in filenames; use this to overcome this:
                       tempfile=files_array[i]
                       tempfile2=string.gsub(tempfile, "&", "%%26")
                       tempfile2=string.gsub(tempfile2, " ", "%%20")
                       Notes: really tempfile2(!)? And, do I need to exchange only on source or also on target-file?
-        - TODO!! Default-Color-Theme-Colortables and loading ColorTable from Theme-functions
-                Originally Posted by mespotine  View Post
-                A second action focusing on only random-strong colors would be useful, I think. Should be scriptable as well though.
-
-                Regarding default color-values, IIRC they are stored in the .ReaperTheme-files, with the currently used stored in reaper.ini as well.
-                So how would one reset color palette in reaper without losing theme config otherwise? just colors.
+         - TODO!! Eventmanager - make it working
+            Event-System, as defined on the Congress
+            -- too difficult to use, needs a better way to deal with it...
+            maybe by passing functions to the event-manager:
+                You write a function, which in a very efficient/ressourcefriendly way returns "true" under certain conditions.
+                You pass it to the eventmanager and tell it to run script/action xyz, maybe with parameters like returned returnvalues by the passed function.
+                
+                Needs more research, though much easier and more flexible than my previous attempt.
+                
+                Use the following approach:
+                    Der Eventmanager wird gestartet und geht eine Table durch, in der lauter Funktionen drin stehn.
+                    Jede dieser Funktionen wird gestartet und wenn die Funktion true zurückgibt, startet sie die dazu gehörigen Action(s)
+                    Jede dieser Funktionen kann nun noch vier weitere Attribute haben:
+                        - nur alle x Sekunden ausführen
+                        - nur x-mal checken(0-bis auf Widerruf)
+                        - wenn true erreicht, starte die Actions nur einmal oder starte die Actions mehrfach
+                        - ein Identifier, mit dem man das Event beenden/bearbeiten kann
+                        - der Scriptidentifier des Scripts, das das Event hinzugefügt hat(um später alles wieder beenden zu können)
+                    Der Eventmanager erlaubt nun alle derzeitig vorhandenen Events zu requesten und zurückzugeben(evtl sollen sie in nem extstate sofort eingetragen werden, dass sie jederzeit abgerufen werden können?), so dass man sehen kann, welche Events sind gesetzt mit welchen Attributen und Actions
+                    Der Eventmanager erlaubt das hinzufügen, getten/setten und beenden solcher Events
+                    Mehr kann und soll er nicht können.
+                    
+                    Um nun eine Funktion dort einzubringen, schreibt man ein Skript, in welchem man eine Funktion unterbringt, die das Event abfragen kann.
+                    Diese Funktion muss(!) als Erstes true oder false zurückgeben, darf optional noch ein weiteren Retval zurückgeben, der requested werden kann. Weitere werden ignoriert.
+                    Dann startet man den Event-Manager mit ultraschall.EventManager_Start(), egal, ob er schon gestartet ist oder nicht.
+                    Man übergibt nun die Funktion mit event_identifier = ultraschall.Eventmanager_AddNewEvent(function, seconds_to_live, check_every_x_seconds, actions_csv)
+                        Diese Funktion erstellt auch den identifier.
+                    Mit ultraschall.Eventmanager_StopEvent(identifier) kann man das Event beenden und entfernen.
+                    Identifier kann man auch als Nummer übergeben, dann wird der Reihenfolge in der Eventtable im Eventmanager nachgegangen.
+                    
+                    Weitere Funktionen:
+                        ultraschall.Eventmanager_GetEventAttributes(identifier) - identifier kann auch eine Nummer sein, so dass man alle EventAttributes der Reihenfolge nach bekommen kann.
+                        ultraschall.Eventmanager_CountEvents() - gibt die Anzahl an vorhandenen Events zurück
+                        ultraschall.Eventmanager_SetEventAttributes(identifier, function, seconds_to_live, check_every_x_seconds, actions_csv) - nil als parameter bedeutet, keine Änderung an diesem Attribut
+                        ultraschall.Eventmanager_RemoveEvent(identifier) - identifier kann auch eine Nummer sein, so dass man alle EventAttributes der Reihenfolge nach bekommen kann.
+                        ultraschall.Eventmanager_GetAllEvents() - returns all events with all attributes currently managed by the eventmanager
+                        ultraschall.Eventmanager_Stop(optional string ScriptIdentifier) - stops the eventmanager, means, all events you've registered will be removed. Should be used in atexit-functions of defer-scripts.
+                                                                                            kann auch mit ScriptIdentifier aus anderem Skript heraus gestartet werden, so dass man eine "StartMyEvents" und "StopMyEvents" Action bauen kann.
+         - TODO!! GetUserInputs - count doesn't match, if fewer inputboxes are filled than do exist.
+                        tested with 9 Inputboxes, 6 Captionboxes. There's somewhere a mismatch...
          - TODO!! GetUserInputs 
                 - set length of caption-textfields and move inputboxes accordingly, as well as the width of the DialogWindow AND
                   position it correctly centered
@@ -142,6 +60,19 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender
         - TODO!! SetProjectZeug fertig machen
         - TODO!! Add/Set/DeleteModulation
         - TODO!! ultraschall.RenderProject_Loops()
+                Multipass-rendering
+                    When you want to render out a "wet"-loop, that needs reverb or something, you would need to render this loop three times:
+                            one to start up all reverbs, two for the actual loop and three for the "loop aftermath"
+                    After that, you need to edit this rendered file down to the middle part by hand, which is tedious.
+                    If there's a rendering-function could do that automatically, it would be cool.
+                        Load the project(if not the current one)
+                        Copy the tracks with the to be looped items/timeselection into an empty project, which must hold all rendering-settings(looped-time-selection probably)
+                        duplicate it so the items are now three times after each other
+                        Render it out and include the rendered file into the current project(maybe as stems?)
+                        edit it down to the original loop
+                        Render that out into a new file
+                        Delete the temp-rendered-files
+                        close the projects and return the filename
         - TODO!! Monitor the rendering to file-dialog for queue-renders, to get the rendered filenames, using a background script, if possible at all
         - TODO!! ChildScripts: Run code directly
                     Folgende Idee:
@@ -173,20 +104,15 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender
                    Vielleicht kann ich das auch nutzen, um Skripte allgemein zu starten, aber nur dann, wenn ich das "Wo bin ich"-Relative, Absolute-Pfadproblem vorher löse. Sonst geht das Skript davon aus im Ursprungsverzeichnis zu liegen, nicht in Scripts.
                    Dunno, wie wichtig das ist zu machen, oder ob das nicht eigentlich egal ist, weil die Standardverzeichnisse von denen Skripte ausgehen ohnehin nur die von Reaper sind(check that plz)
     For 4.00beta2.8:
-        TODO!! Multipass-rendering
-                    When you want to render out a "wet"-loop, that needs reverb or something, you would need to render this loop three times:
-                            one to start up all reverbs, two for the actual loop and three for the "loop aftermath"
-                    After that, you need to edit this rendered file down to the middle part by hand, which is tedious.
-                    If there's a rendering-function could do that automatically, it would be cool.
-                        Load the project(if not the current one)
-                        Copy the tracks with the to be looped items/timeselection into an empty project, which must hold all rendering-settings(looped-time-selection probably)
-                        duplicate it so the items are now three times after each other
-                        Render it out and include the rendered file into the current project(maybe as stems?)
-                        edit it down to the original loop
-                        Render that out into a new file
-                        Delete the temp-rendered-files
-                        close the projects and return the filename
-      
+      TODO!! Default-Color-Theme-Colortables and loading ColorTable from Theme-functions
+              Originally Posted by mespotine  View Post
+              A second action focusing on only random-strong colors would be useful, I think. Should be scriptable as well though.
+
+              Regarding default color-values, IIRC they are stored in the .ReaperTheme-files, with the currently used stored in reaper.ini as well.
+              So how would one reset color palette in reaper without losing theme config otherwise? just colors.
+              needs more research
+      TODO!! Localize: can we detect, which language-file is currently installed and which language it holds, to decide, which language to use?
+                Nope...needs more research
       TODO!! GetTrackPanLaw_Boost(tracknumber, sendidx, setstate)
                     setstate=true -> don't insert it
                     setstate=false -> insert it AFTER the AUXRECV with idx "sendidx"
@@ -301,47 +227,7 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender
             We will also define an atexit-function for unregistering from the running-script-instance-register, as there can be multiple atexit-functions(up to 1024).
             That way, we can have monitoring of running scripts.
             Should allow monitoring of Defer1 to Defer10-running-states as well. Maybe they need to be set at the beginning as well? Or is it waste of resources?(probably the latter, we can assume, if it's not set "running", that defer-instance is not used and set to stopped.            
-        
-        TODO!! Event-System, as defined on the Congress
-            -- too difficult to use, needs a better way to deal with it...
-            maybe by passing functions to the event-manager:
-                You write a function, which in a very efficient/ressourcefriendly way returns "true" under certain conditions.
-                You pass it to the eventmanager and tell it to run script/action xyz, maybe with parameters like returned returnvalues by the passed function.
-                
-                Needs more research, though much easier and more flexible than my previous attempt.
-                
-                Use the following approach:
-                    Der Eventmanager wird gestartet und geht eine Table durch, in der lauter Funktionen drin stehn.
-                    Jede dieser Funktionen wird gestartet und wenn die Funktion true zurückgibt, startet sie die dazu gehörigen Action(s)
-                    Jede dieser Funktionen kann nun noch vier weitere Attribute haben:
-                        - nur alle x Sekunden ausführen
-                        - nur x-mal checken(0-bis auf Widerruf)
-                        - wenn true erreicht, starte die Actions nur einmal oder starte die Actions mehrfach
-                        - ein Identifier, mit dem man das Event beenden/bearbeiten kann
-                        - der Scriptidentifier des Scripts, das das Event hinzugefügt hat(um später alles wieder beenden zu können)
-                    Der Eventmanager erlaubt nun alle derzeitig vorhandenen Events zu requesten und zurückzugeben(evtl sollen sie in nem extstate sofort eingetragen werden, dass sie jederzeit abgerufen werden können?), so dass man sehen kann, welche Events sind gesetzt mit welchen Attributen und Actions
-                    Der Eventmanager erlaubt das hinzufügen, getten/setten und beenden solcher Events
-                    Mehr kann und soll er nicht können.
-                    
-                    Um nun eine Funktion dort einzubringen, schreibt man ein Skript, in welchem man eine Funktion unterbringt, die das Event abfragen kann.
-                    Diese Funktion muss(!) als Erstes true oder false zurückgeben, darf optional noch ein weiteren Retval zurückgeben, der requested werden kann. Weitere werden ignoriert.
-                    Dann startet man den Event-Manager mit ultraschall.EventManager_Start(), egal, ob er schon gestartet ist oder nicht.
-                    Man übergibt nun die Funktion mit event_identifier = ultraschall.Eventmanager_AddNewEvent(function, seconds_to_live, check_every_x_seconds, actions_csv)
-                        Diese Funktion erstellt auch den identifier.
-                    Mit ultraschall.Eventmanager_StopEvent(identifier) kann man das Event beenden und entfernen.
-                    Identifier kann man auch als Nummer übergeben, dann wird der Reihenfolge in der Eventtable im Eventmanager nachgegangen.
-                    
-                    Weitere Funktionen:
-                        ultraschall.Eventmanager_GetEventAttributes(identifier) - identifier kann auch eine Nummer sein, so dass man alle EventAttributes der Reihenfolge nach bekommen kann.
-                        ultraschall.Eventmanager_CountEvents() - gibt die Anzahl an vorhandenen Events zurück
-                        ultraschall.Eventmanager_SetEventAttributes(identifier, function, seconds_to_live, check_every_x_seconds, actions_csv) - nil als parameter bedeutet, keine Änderung an diesem Attribut
-                        ultraschall.Eventmanager_RemoveEvent(identifier) - identifier kann auch eine Nummer sein, so dass man alle EventAttributes der Reihenfolge nach bekommen kann.
-                        ultraschall.Eventmanager_GetAllEvents() - returns all events with all attributes currently managed by the eventmanager
-                        ultraschall.Eventmanager_Stop(optional string ScriptIdentifier) - stops the eventmanager, means, all events you've registered will be removed. Should be used in atexit-functions of defer-scripts.
-                                                                                            kann auch mit ScriptIdentifier aus anderem Skript heraus gestartet werden, so dass man eine "StartMyEvents" und "StopMyEvents" Action bauen kann.
 
-                    
-                
         TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
 
       TODO!! SaveProjectAs(ReaProject project, newfilename, relative_sourcefilenames, ProjectStateChunk)
@@ -384,6 +270,7 @@ TODO!! buggy function
    - Docs: GetTrackSendInfo_Value - fixed Markdown-formatting-problems
    - Docs: SetTrackSendInfo_Value - fixed Markdown-formatting-problems
    - Docs: print-functions - all print-functions, like sprint, fprint, gfx.printf, etc include now formatting information in the description.
+   - FXManagement: GetFXStateChunk - had layoutproblem, when the passed StateChunk was taken from a ProjectStateChunk -> fixed(thanks to Anton9?)
    - Helper Functions: GetUserInputs - did change the tables passed as default-retvals -> fixed now
    - Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -> Data Manipulation
