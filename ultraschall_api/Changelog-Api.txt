@@ -196,6 +196,38 @@
                 
                 Needs more research, though much easier and more flexible than my previous attempt.
                 
+                Use the following approach:
+                    Der Eventmanager wird gestartet und geht eine Table durch, in der lauter Funktionen drin stehn.
+                    Jede dieser Funktionen wird gestartet und wenn die Funktion true zurückgibt, startet sie die dazu gehörigen Action(s)
+                    Jede dieser Funktionen kann nun noch vier weitere Attribute haben:
+                        - nur alle x Sekunden ausführen
+                        - nur x-mal checken(0-bis auf Widerruf)
+                        - wenn true erreicht, starte die Actions nur einmal oder starte die Actions mehrfach
+                        - ein Identifier, mit dem man das Event beenden/bearbeiten kann
+                        - der Scriptidentifier des Scripts, das das Event hinzugefügt hat(um später alles wieder beenden zu können)
+                    Der Eventmanager erlaubt nun alle derzeitig vorhandenen Events zu requesten und zurückzugeben(evtl sollen sie in nem extstate sofort eingetragen werden, dass sie jederzeit abgerufen werden können?), so dass man sehen kann, welche Events sind gesetzt mit welchen Attributen und Actions
+                    Der Eventmanager erlaubt das hinzufügen, getten/setten und beenden solcher Events
+                    Mehr kann und soll er nicht können.
+                    
+                    Um nun eine Funktion dort einzubringen, schreibt man ein Skript, in welchem man eine Funktion unterbringt, die das Event abfragen kann.
+                    Diese Funktion muss(!) als Erstes true oder false zurückgeben, darf optional noch ein weiteren Retval zurückgeben, der requested werden kann. Weitere werden ignoriert.
+                    Dann startet man den Event-Manager mit ultraschall.EventManager_Start(), egal, ob er schon gestartet ist oder nicht.
+                    Man übergibt nun die Funktion mit event_identifier = ultraschall.Eventmanager_AddNewEvent(function, seconds_to_live, check_every_x_seconds, actions_csv)
+                        Diese Funktion erstellt auch den identifier.
+                    Mit ultraschall.Eventmanager_StopEvent(identifier) kann man das Event beenden und entfernen.
+                    Identifier kann man auch als Nummer übergeben, dann wird der Reihenfolge in der Eventtable im Eventmanager nachgegangen.
+                    
+                    Weitere Funktionen:
+                        ultraschall.Eventmanager_GetEventAttributes(identifier) - identifier kann auch eine Nummer sein, so dass man alle EventAttributes der Reihenfolge nach bekommen kann.
+                        ultraschall.Eventmanager_CountEvents() - gibt die Anzahl an vorhandenen Events zurück
+                        ultraschall.Eventmanager_SetEventAttributes(identifier, function, seconds_to_live, check_every_x_seconds, actions_csv) - nil als parameter bedeutet, keine Änderung an diesem Attribut
+                        ultraschall.Eventmanager_RemoveEvent(identifier) - identifier kann auch eine Nummer sein, so dass man alle EventAttributes der Reihenfolge nach bekommen kann.
+                        ultraschall.Eventmanager_GetAllEvents() - returns all events with all attributes currently managed by the eventmanager
+                        ultraschall.Eventmanager_Stop(optional string ScriptIdentifier) - stops the eventmanager, means, all events you've registered will be removed. Should be used in atexit-functions of defer-scripts.
+                                                                                            kann auch mit ScriptIdentifier aus anderem Skript heraus gestartet werden, so dass man eine "StartMyEvents" und "StopMyEvents" Action bauen kann.
+
+                    
+                
         TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
 
       TODO!! SaveProjectAs(ReaProject project, newfilename, relative_sourcefilenames, ProjectStateChunk)
@@ -228,10 +260,14 @@ TODO!! buggy function
  
 #### New features in 4.00beta2.77
    - Helper Functions: FindPatternsInString - finds all occurrences of a matching-pattern in a string
+   - EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript
 
 #### Changes from Beta 2.76 to Beta 2.77
    - API: functions - moved all functions into modules for future modular-concept
    - Docs: GetRenderingToFileHWND - had parameters described, that don't exist -> fixed
+   - Docs: GetTrackSendInfo_Value - fixed Markdown-formatting-problems
+   - Docs: SetTrackSendInfo_Value - fixed Markdown-formatting-problems
+   - Docs: print-functions - all print-functions, like sprint, fprint, gfx.printf, etc include now formatting information in the description.
    - Helper Functions: GetUserInputs - did change the tables passed as default-retvals -> fixed now
    - Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -> Data Manipulation

@@ -1026,6 +1026,54 @@ end
 
 --O,P,Q = ultraschall.FindPatternsInString(A, "<slug>(.-)</slug>", false)
 
-
 function ultraschall.TracksToColorPattern(colorpattern, startingcolor, direction)
 end
+
+
+function ultraschall.GetTrackPositions()
+  local Arrange_view, timeline, TrackControlPanel = ultraschall.GetHWND_ArrangeViewAndTimeLine()
+  local retval, left, top, right, bottom = reaper.JS_Window_GetClientRect(Arrange_view)
+  local Tracks={}
+  local x=left+2
+  local OldItem=nil
+  local Counter=0
+  local B
+  for y=top, bottom do
+    A,B=reaper.GetTrackFromPoint(x,y)
+    if OldItem~=A and A~=nil then
+      Counter=Counter+1
+      Tracks[Counter]={}
+      Tracks[Counter][tostring(A)]=A
+      Tracks[Counter]["Track_Top"]=y
+      Tracks[Counter]["Track_Bottom"]=y
+      OldItem=A
+    elseif A==OldItem and A~=nil and B==0 then
+      Tracks[Counter]["Track_Bottom"]=y
+    elseif A==OldItem and A~=nil and B==1 then
+      if Tracks[Counter]["Env_Top"]==nil then
+        Tracks[Counter]["Env_Top"]=y
+      end
+      Tracks[Counter]["Env_Bottom"]=y
+    elseif A==OldItem and A~=nil and B==2 then
+      if Tracks[Counter]["TrackFX_Top"]==nil then
+        Tracks[Counter]["TrackFX_Top"]=y
+      end
+      Tracks[Counter]["TrackFX_Bottom"]=y
+    end
+  end
+  return Counter, Tracks
+end
+
+--A,B=ultraschall.GetTrackPositions()
+
+function ultraschall.GetAllTrackHeights()
+  HH=reaper.SNM_GetIntConfigVar("defvzoom", -999)
+  Heights={}
+  for i=0, reaper.CountTracks(0) do
+    Heights[i+1], heightstate2, unknown = ultraschall.GetTrackHeightState(i)
+   -- if Heights[i+1]==0 then Heights[i+1]=HH end
+  end
+
+end
+
+ultraschall.GetAllTrackHeights()

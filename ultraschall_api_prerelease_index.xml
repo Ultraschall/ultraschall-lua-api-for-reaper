@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40316.00" author="Meo Mespotine">
+      <version name="40486.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Changelog-Api.txt</source>
@@ -117,7 +117,7 @@
 	<source file="/ultraschall_api/Scripts/ultraschall_Add_ExampleScripts_To_Reaper.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Scripts/ultraschall_Add_ExampleScripts_To_Reaper.lua</source>
 	<source file="/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_TracknamePatterns.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_TracknamePatterns.lua</source>
 	<source file="/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_Tracknames.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Scripts/Ultraschall_Add_Mute_Action_For_Tracknames.lua</source>
-	<source file="/ultraschall_api/Scripts/ultraschall_EventManager.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Scripts/ultraschall_EventManager.lua</source>
+	<source file="/ultraschall_api/Scripts/Ultraschall_EventManager.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Scripts/Ultraschall_EventManager.lua</source>
 	<source file="/ultraschall_api/Scripts/ultraschall_Help_Reaper_Api_Documentation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Scripts/ultraschall_Help_Reaper_Api_Documentation.lua</source>
 	<source file="/ultraschall_api/Scripts/ultraschall_Help_Reaper_Api_Video_Documentation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Scripts/ultraschall_Help_Reaper_Api_Video_Documentation.lua</source>
 	<source file="/ultraschall_api/Scripts/ultraschall_Help_Reaper_Api_Web_Documentation.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Scripts/ultraschall_Help_Reaper_Api_Web_Documentation.lua</source>
@@ -385,6 +385,8 @@ New features in 4.00beta2.77
 
 -   Helper Functions: FindPatternsInString - finds all occurrences of a
     matching-pattern in a string
+-   EventManager: Ultraschall_EventManager.lua - first version of the
+    EventManager-backgroundscript
 
 Changes from Beta 2.76 to Beta 2.77
 
@@ -392,6 +394,11 @@ Changes from Beta 2.76 to Beta 2.77
     modular-concept
 -   Docs: GetRenderingToFileHWND - had parameters described, that don’t
     exist -> fixed
+-   Docs: GetTrackSendInfo_Value - fixed Markdown-formatting-problems
+-   Docs: SetTrackSendInfo_Value - fixed Markdown-formatting-problems
+-   Docs: print-functions - all print-functions, like sprint, fprint,
+    gfx.printf, etc include now formatting information in the
+    description.
 -   Helper Functions: GetUserInputs - did change the tables passed as
     default-retvals -> fixed now
 -   Helper Functions: IsValidMatchingPattern - moved to docs-index
