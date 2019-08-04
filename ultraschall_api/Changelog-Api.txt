@@ -379,6 +379,7 @@ TODO!! buggy function
 
 #### Changes from Beta 2.76 to Beta 2.77
    - API: functions - moved all functions into modules for future modular-concept
+   - Docs: Doc-Engine - had wrong parameters and retvals in numerous functions...fixed(ooops)
    - Docs: GetRenderingToFileHWND - had parameters described, that don't exist -> fixed
    - Docs: GetTrackSendInfo_Value - fixed Markdown-formatting-problems
    - Docs: SetTrackSendInfo_Value - fixed Markdown-formatting-problems
