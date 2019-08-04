@@ -5186,7 +5186,7 @@ end
 
 
 function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x, y)
--- TODO:: nice to have feature: when mouse is above crossfades between two adjacent items, return this state as well as a boolean
+-- TODO: nice to have feature: when mouse is above crossfades between two adjacent items, return this state as well as a boolean
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>get_action_context_MediaItemDiff</slug>
@@ -5196,7 +5196,7 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x,
     Lua=5.3
   </requires>
   <functioncall>MediaItem MediaItem, MediaItem_Take MediaItem_Take, MediaItem MediaItem_unlocked, boolean Item_moved, number StartDiffTime, number EndDiffTime, number LengthDiffTime, number OffsetDiffTime = ultraschall.get_action_context_MediaItemDiff(optional boolean exlude_mousecursorsize, optional integer x, optional integer y)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns the currently clicked MediaItem, Take as well as the difference of position, end, length and startoffset since last time calling this function.
     Good for implementing ripple-drag/editing-functions, whose position depends on changes in the currently clicked MediaItem.
     Repeatedly call this (e.g. in a defer-cycle) to get all changes made, during dragging position, length or offset of the MediaItem underneath mousecursor.

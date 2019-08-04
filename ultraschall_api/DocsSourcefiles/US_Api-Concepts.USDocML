@@ -163,16 +163,16 @@
             So I added a way to deal with that.
             
             Hotfixes  
-                   Hotfixes are available at [ultraschall.fm/api](http://ultraschall.fm/api). They provide fixes for functions and bugs that came across after a release, but no new functions.  
-                   Just download the ultraschall\_hotfixes.lua and put it into UserPlugins/ultraschall\_api-folder.  
-                   The chance is high, that there is already an ultraschall\_hotfixes.lua-file in the folder. You can safely overwrite it.  
-                   Voila, you have added the most recent bugfixes.  
+               Hotfixes are available at [ultraschall.fm/api](http://ultraschall.fm/api). They provide fixes for functions and bugs that came across after a release, but no new functions.  
+               Just download the ultraschall\_hotfixes.lua and put it into UserPlugins/ultraschall\_api-folder.  
+               The chance is high, that there is already an ultraschall\_hotfixes.lua-file in the folder. You can safely overwrite it.  
+               Voila, you have added the most recent bugfixes.  
                    
-                   To get the bugs back, just delete the ultraschall_hotfixes.lua.
+               To get the bugs back, just delete the ultraschall_hotfixes.lua.
                    
-                   All fixes in ultraschall\_hotfixes.lua will be part of the next full version of the Ultraschall-API.
+               All fixes in ultraschall\_hotfixes.lua will be part of the next full version of the Ultraschall-API.
                    
-                   Check again from time to time to get the latest hotfixes.
+               Check again from time to time to get the latest hotfixes.
         </description>
         <target_document>US_Api_Introduction_and_Concepts</target_document>
         <source_document></source_document>
