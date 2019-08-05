@@ -18,7 +18,7 @@
                 
                 Use the following approach:
                     Der Eventmanager wird gestartet und geht eine Table durch, in der lauter Funktionen drin stehn.
-                    Jede dieser Funktionen wird gestartet und wenn die Funktion true zurückgibt, startet sie die dazu gehörigen Action(s)
+                    Jede dieser Funktionen wird gestartet und wenn die Funktion true zurückgibt, startet sie die dazu gehörigen Action(s) in den jeweiligen Sections(Main und MediaExplorer am Anfang)
                     Jede dieser Funktionen kann nun noch vier weitere Attribute haben:
                         - nur alle x Sekunden ausführen
                         - nur x-mal checken(0-bis auf Widerruf)
@@ -262,7 +262,7 @@ TODO!! buggy function
    - Helper Functions: FindPatternsInString - finds all occurrences of a matching-pattern in a string
    - EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript
    - ProjectManagement: GetProjectStateChunk - returns the ProjectStateChunk of the current project(finally working!)
-   - User Interface: GetMediaExplorerHWND - gets the HWND of the Media Explorer
+   - User Interface: GetMediaExplorerHWND - gets the HWND-windowhandler of the Media Explorer
    - User Interface: UpdateMediaExplorer - updates the listview of the Media Explorer
    - User Interface: MediaExplorer_OnCommand - runs an Media Explorer action(just like Reaper's Main_OnCommand and Midi_OnCommand-functions); no scripts yet
 

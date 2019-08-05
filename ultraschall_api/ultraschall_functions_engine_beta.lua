@@ -1306,4 +1306,128 @@ function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
   end
 end
 
+function ultraschall.GetMediaExplorerHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetMediaExplorerHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetMediaExplorerHWND()</functioncall>
+  <description>
+    returns the HWND of the Media Explorer, if the window is opened.
+    
+    returns nil if Media Explorer is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the Media Explorer
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, media explorer, hwnd, get</tags>
+</US_DocBloc>
+--]]
+
+  local translation=reaper.JS_Localize("Media Explorer", "common")
+  local auto_play=reaper.JS_Localize("Auto play", "explorer_DLG_101")
+  local vol=reaper.JS_Localize("vol", "explorer_DLG_101")
+  local navigate_backwards=reaper.JS_Localize("Navigate backwards", "access")
+
+  
+  --count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find("Render to File", false)
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            auto_play.."\0"..
+                                            vol.."\0"..
+                                            navigate_backwards)==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end 
+
+--A=ultraschall.GetMediaExplorerHWND()
+
+
+function ultraschall.UpdateMediaExplorer()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UpdateMediaExplorer</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.UpdateMediaExplorer()</functioncall>
+  <description>
+    updates the listview of the Media Explorer.
+    
+    returns false if Media Explorer is closed
+  </description>
+  <retvals>
+    boolean retval - true, could update the listview of the Media Explorer; false, couldn't update the listview
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, media explorer, hwnd, update, listview</tags>
+</US_DocBloc>
+--]]
+  local HWND=ultraschall.GetMediaExplorerHWND()
+  if ultraschall.IsValidHWND(HWND)==false then ultraschall.AddErrorMessage("UpdateMediaExplorer", "", "Can't get MediaExplorer-HWND. Is it opened?", -1) return false end
+  return reaper.JS_Window_OnCommand(HWND, 40018)
+end
+
+--ultraschall.UpdateMediaExplorer()
+
+
+function ultraschall.MediaExplorer_OnCommand(actioncommandid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MediaExplorer_OnCommand</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.MediaExplorer_OnCommand(integer actioncommandid)</functioncall>
+  <description>
+    runs a Media Explorer-associated action.
+    Note: Can only run Reaper's native actions currently(all actions having a number as actioncommandid), not scripts!
+    
+    returns false if Media Explorer is closed
+  </description>
+  <retvals>
+    boolean retval - true, could update run the action in the Media Explorer; false, couldn't run it
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, media explorer, hwnd, oncommand, run, command</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.CheckActionCommandIDFormat2(actioncommandid)==false then ultraschall.AddErrorMessage("MediaExplorer_OnCommand", "actioncommandid", "not a valid action-command-id", -1) return false end
+  local HWND=ultraschall.GetMediaExplorerHWND()
+  if ultraschall.IsValidHWND(HWND)==false then ultraschall.AddErrorMessage("MediaExplorer_OnCommand", "", "Can't get MediaExplorer-HWND. Is it opened?", -2) return false end
+  local Actioncommandid=reaper.NamedCommandLookup(actioncommandid)
+  return reaper.JS_Window_OnCommand(HWND, tonumber(Actioncommandid))
+end
+
 ultraschall.ShowLastErrorMessage()
