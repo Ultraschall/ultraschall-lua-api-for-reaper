@@ -37,6 +37,11 @@
                     Mit ultraschall.Eventmanager_StopEvent(identifier) kann man das Event beenden und entfernen.
                     Identifier kann man auch als Nummer übergeben, dann wird der Reihenfolge in der Eventtable im Eventmanager nachgegangen.
                     
+                    Wichtig:
+                    Jede Funktion, welche man in den Eventmanager schiebt, bekommt eine Table als Parameter übergeben, den sogenannten UserSpace, in welcher man sich seine wichtigsten Daten zwischenspeichern kann.
+                    Diese Table ist an das Event gebunden, sprich: selbst wenn man die gleiche Check-Funktion für zwei verschiedene Events nutzt, so hat man zwei UserSpace-Tables, eine für jeden Event.
+                    Diese Table wird als erster Parameter übergeben und kann als solcher ausgelesen und genutzt werden(muss aber nicht).
+                    
                     Weitere Funktionen:
                         ultraschall.Eventmanager_GetEventAttributes(identifier) - identifier kann auch eine Nummer sein, so dass man alle EventAttributes der Reihenfolge nach bekommen kann.
                         ultraschall.Eventmanager_CountEvents() - gibt die Anzahl an vorhandenen Events zurück

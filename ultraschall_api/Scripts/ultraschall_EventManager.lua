@@ -1,9 +1,13 @@
 -- Event Manager - Prototype
 -- Meo Mespotine
 --
--- ToDo: AddEvent, SetEvent, GetEventManagerParameters
+-- ToDo: SetEvent, PauseEvent
 --       Managen, dass nur ein Eventmanager gestartet wird
---       Es sollte möglich sein Actions in verschiedenen Sections zu starten, zumindest Main und MediaExplorer
+--       Es sollte möglich sein Actions in verschiedenen Sections zu starten, zumindest Main und MediaExplorer(beide drin), Midi wäre auch nice
+--
+-- Api eigene Funktionen:
+--      StartEventManager, StopEventManager, AddEvent, SetEvent, DeleteEvent, GetEventManagerParameters(Funktion außerhalb des Eventmanagers, eher in der API selbst beheimatet)
+--      GetEventStateChunk, PauseEvent
 
 --[[
 EventStateChunk-specs:
@@ -14,6 +18,7 @@ SourceScriptIdentifier: identifier-guid
 CheckAllXSeconds: number
 CheckForXSeconds: number
 StartActionsOnceDuringTrue: boolean
+Paused: boolean, if the eventcheck is currently paused or not
 Function: Base64string-oneliner
 CountOfActions: number
 folgende so oft wie CountOfActions angibt
@@ -28,6 +33,7 @@ SourceScriptIdentifier: ScriptIdentifier-{C47C1F6A-5CAC-4B48-A0DD-760A62246D6B}
 CheckAllXSeconds: 1
 CheckForXSeconds: 10
 StartActionsOnceDuringTrue: true
+Paused: false
 Function: G0x1YVMAGZMNChoKBAgECAh4VgAAAAAAAAAAAAAAKHdAAXpAQzpcVWx0cmFzY2hhbGwtSGFja3ZlcnNpb25fMy4yX1VTX2JldGFfMl83N1xTY3JpcHRzXC4uXFVzZXJQbHVnaW5zXHVsdHJhc2NoYWxsX2FwaVxcU2NyaXB0c1x1bHRyYXNjaGFsbF9FdmVudE1hbmFnZXIubHVhDAAAABIAAAAAAAILAAAABgBAAAdAQAAkgIAAH4BAAB6AAIADAIAAJgAAAR5AAIADAAAAJgAAASYAgAADAAAABAdyZWFwZXIEDUdldFBsYXlTdGF0ZRMBAAAAAAAAAAEAAAAAAAAAAAALAAAADQAAAA0AAAANAAAADQAAAA0AAAAOAAAADgAAAA4AAAAQAAAAEAAAABIAAAAAAAAAAQAAAAVfRU4=
 CountOfActions: 2
 Action: 40105
@@ -40,7 +46,7 @@ deferoffset=0.130 -- the offset of delay, introduced by the defer-management of 
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 -- testfunction
-function IsPlayStatePlay()
+function IsPlayStatePlay(UserSpace)
   if reaper.GetPlayState()==1 then 
     return true
   else
@@ -64,8 +70,10 @@ EventTable[1]={}
   EventTable[1]["StartActionsOnceDuringTrue"]=false           -- drin
   EventTable[1]["StartActionsOnceDuringTrue_laststate"]=false -- drin
   EventTable[1]["ScriptIdentifier"]=""                        -- script-identifier, damit alle events des scripts beendet werden können
-  EventTable[1]["Identifier"]=""                              -- eindeutiger identifier für dieses Event
+  EventTable[1]["EventIdentifier"]=""                              -- eindeutiger identifier für dieses Event
   EventTable[1]["CountOfActions"]=5                           -- drin
+  EventTable[1]["Paused"]==false                              -- true, wenn der Event temporär nicht gecheckt werden soll(pausiert), sonst checken
+  EventTable[1]["UserSpace"]                                  -- eine Table, in der sich die Checkfunktion Sachen zwischenspeichern kann. Jedes Event hat seine eigene UserSpace-Table.
 
   -- Actions
   EventTable[1][1]=40105                                      -- drin
@@ -98,8 +106,11 @@ EventTable[1]={}
   EventTable[2]["StartActionsOnceDuringTrue"]=false           -- drin
   EventTable[2]["StartActionsOnceDuringTrue_laststate"]=false -- drin
   EventTable[2]["ScriptIdentifier"]=""                        -- script-identifier, damit alle events des scripts beendet werden können
-  EventTable[2]["Identifier"]=""                              -- eindeutiger identifier für dieses Event
+  EventTable[2]["EventIdentifier"]=""                              -- eindeutiger identifier für dieses Event
   EventTable[2]["CountOfActions"]=1                           -- drin
+  EventTable[2]["Paused"]==false                              -- true, wenn der Event temporär nicht gecheckt werden soll(pausiert), sonst checken
+  EventTable[2]["UserSpace"]                                  -- eine Table, in der sich die Checkfunktion Sachen zwischenspeichern kann. Jedes Event hat seine eigene UserSpace-Table.
+  
   EventTable[2][1]=41666                                      -- drin
   EventTable[2]["sec"..1]=0                                   -- sections
   EventTable[2][2]=41666                                      -- drin
@@ -130,8 +141,11 @@ EventTable[1]={}
   EventTable[3]["StartActionsOnceDuringTrue"]=false           -- drin
   EventTable[3]["StartActionsOnceDuringTrue_laststate"]=false -- drin
   EventTable[3]["ScriptIdentifier"]=""                        -- script-identifier, damit alle events des scripts beendet werden können
-  EventTable[3]["Identifier"]=""                              -- eindeutiger identifier für dieses Event
+  EventTable[3]["EventIdentifier"]=""                              -- eindeutiger identifier für dieses Event
+  EventTable[3]["Paused"]==false                              -- true, wenn der Event temporär nicht gecheckt werden soll(pausiert), sonst checken
   EventTable[3]["CountOfActions"]=3                           -- drin
+  EventTable[3]["UserSpace"]                                  -- eine Table, in der sich die Checkfunktion Sachen zwischenspeichern kann. Jedes Event hat seine eigene UserSpace-Table.
+  
   EventTable[3][1]=1068                                       -- drin
   EventTable[3]["sec"..1]=0                                   -- sections
   EventTable[3][2]=41666                                      -- drin
@@ -157,60 +171,63 @@ function main()
   current_state=nil  
   
   for i=1, CountOfEvents do
-    current_state=EventTable[i]["Function"]()
-    doit=false
-    -- check every x second
-    if EventTable[i]["CheckAllXSeconds"]~=-1 and EventTable[i]["CheckAllXSeconds_current"]==nil then
-      -- set timer to the time, when the check shall be done
-      EventTable[i]["CheckAllXSeconds_current"]=reaper.time_precise()+EventTable[i]["CheckAllXSeconds"]
+    if EventTable[i]["Paused"]==false then
+    --print2(i, EventTable[i]["Paused"])
+      current_state=EventTable[i]["Function"](EventTable[i]["UserSpace"])
       doit=false
-    elseif EventTable[1]["CheckAllXSeconds_current"]~=nil 
-          and EventTable[i]["CheckAllXSeconds"]~=-1 and 
-          EventTable[i]["CheckAllXSeconds_current"]<reaper.time_precise()-deferoffset then
-      -- if timer is up, start the check
-      EventTable[i]["CheckAllXSeconds_current"]=nil
-      doit=true
-    elseif EventTable[i]["CheckAllXSeconds"]==-1 then
-      -- if no timer is set at all for this event, run all actions
-      doit=true
-    end
-
-    -- let's run the actions, if requested
-    if current_state==true and doit==true then
-        if EventTable[i]["StartActionsOnceDuringTrue"]==false then
-          -- if actions shall be only run as long as the event happens
-          for a=1, EventTable[i]["CountOfActions"] do
-            A=reaper.time_precise()
-            if EventTable[i]["sec"..a]==0 then
-              reaper.Main_OnCommand(EventTable[i][a],0)
-            elseif EventTable[i]["sec"..a]==32063 then
-              retval = ultraschall.MediaExplorer_OnCommand(EventTable[i][a])
+      -- check every x second
+      if EventTable[i]["CheckAllXSeconds"]~=-1 and EventTable[i]["CheckAllXSeconds_current"]==nil then
+        -- set timer to the time, when the check shall be done
+        EventTable[i]["CheckAllXSeconds_current"]=reaper.time_precise()+EventTable[i]["CheckAllXSeconds"]
+        doit=false
+      elseif EventTable[i]["CheckAllXSeconds_current"]~=nil 
+            and EventTable[i]["CheckAllXSeconds"]~=-1 and 
+            EventTable[i]["CheckAllXSeconds_current"]<reaper.time_precise()-deferoffset then
+        -- if timer is up, start the check
+        EventTable[i]["CheckAllXSeconds_current"]=nil
+        doit=true
+      elseif EventTable[i]["CheckAllXSeconds"]==-1 then
+        -- if no timer is set at all for this event, run all actions
+        doit=true
+      end
+  
+      -- let's run the actions, if requested
+      if current_state==true and doit==true then
+          if EventTable[i]["StartActionsOnceDuringTrue"]==false then
+            -- if actions shall be only run as long as the event happens
+            for a=1, EventTable[i]["CountOfActions"] do
+              A=reaper.time_precise()
+              if EventTable[i]["sec"..a]==0 then
+                reaper.Main_OnCommand(EventTable[i][a],0)
+              elseif EventTable[i]["sec"..a]==32063 then
+                retval = ultraschall.MediaExplorer_OnCommand(EventTable[i][a])
+              end
+            end
+          elseif EventTable[i]["StartActionsOnceDuringTrue"]==true and EventTable[i]["StartActionsOnceDuringTrue_laststate"]==false then
+            -- if actions shall be only run once, when event-statechange happens
+            for a=1, EventTable[i]["CountOfActions"] do
+              A=reaper.time_precise()
+              if EventTable[i]["sec"..a]==0 then
+                reaper.Main_OnCommand(EventTable[i][a],0)
+              elseif EventTable[i]["sec"..a]==32063 then
+                retval = ultraschall.MediaExplorer_OnCommand(EventTable[i][a])
+              end
             end
           end
-        elseif EventTable[i]["StartActionsOnceDuringTrue"]==true and EventTable[i]["StartActionsOnceDuringTrue_laststate"]==false then
-          -- if actions shall be only run once, when event-statechange happens
-          for a=1, EventTable[i]["CountOfActions"] do
-            A=reaper.time_precise()
-            if EventTable[i]["sec"..a]==0 then
-              reaper.Main_OnCommand(EventTable[i][a],0)
-            elseif EventTable[i]["sec"..a]==32063 then
-              retval = ultraschall.MediaExplorer_OnCommand(EventTable[i][a])
-            end
-          end
-        end
-        EventTable[i]["StartActionsOnceDuringTrue_laststate"]=true        
-    else
-      -- if no event shall be run, set laststate of StartActionsOnceDuringTrue_laststate to false
-      EventTable[i]["StartActionsOnceDuringTrue_laststate"]=false
-    end    
-    
-    -- check for x seconds, then remove the event from the list
-    if EventTable[i]["CheckForXSeconds"]~=-1 and EventTable[i]["CheckForXSeconds_current"]==nil then
-      -- set timer, for when the checking shall be finished and the event being removed
-      EventTable[i]["CheckForXSeconds_current"]=reaper.time_precise()+EventTable[i]["CheckForXSeconds"]
-    elseif EventTable[i]["CheckForXSeconds_current"]~=nil and EventTable[i]["CheckForXSeconds"]~=-1 and EventTable[i]["CheckForXSeconds_current"]<=reaper.time_precise()-deferoffset then
-      -- if the timer for checking for this event is up, remove the event
-      RemoveEvent_ID(i)
+          EventTable[i]["StartActionsOnceDuringTrue_laststate"]=true        
+      else
+        -- if no event shall be run, set laststate of StartActionsOnceDuringTrue_laststate to false
+        EventTable[i]["StartActionsOnceDuringTrue_laststate"]=false
+      end    
+      
+      -- check for x seconds, then remove the event from the list
+      if EventTable[i]["CheckForXSeconds"]~=-1 and EventTable[i]["CheckForXSeconds_current"]==nil then
+        -- set timer, for when the checking shall be finished and the event being removed
+        EventTable[i]["CheckForXSeconds_current"]=reaper.time_precise()+EventTable[i]["CheckForXSeconds"]
+      elseif EventTable[i]["CheckForXSeconds_current"]~=nil and EventTable[i]["CheckForXSeconds"]~=-1 and EventTable[i]["CheckForXSeconds_current"]<=reaper.time_precise()-deferoffset then
+        -- if the timer for checking for this event is up, remove the event
+        RemoveEvent_ID(i)
+      end
     end
   end
   
@@ -231,7 +248,7 @@ end
 function RemoveEvent_Identifier(identifier)
 -- remove event by identifier
   for i=1, CountOfEvents do
-    if EventTable[i]["Identifier"]==identifier then
+    if EventTable[i]["EventIdentifier"]==identifier then
       table.remove(EventTable,i)
       CountOfEvents=CountOfEvents-1
       break
@@ -294,7 +311,8 @@ function AddEvent(EventStateChunk)
   local CheckForXSeconds=tonumber(EventStateChunk:match("CheckForXSeconds: (.-)\n"))
   local StartActionsOnceDuringTrue=toboolean(EventStateChunk:match("StartActionsOnceDuringTrue: (.-)\n"))
   local Function=EventStateChunk:match("Function: (.-)\n")
-  local CountOfActions,offset=EventStateChunk:match("CountOfActions: (.-)\n()")
+  local Paused=toboolean(EventStateChunk:match("Paused: (.-)\n()"))
+  local CountOfActions,offset=EventStateChunk:match("CountOfActions: (.-)\n()")  
   local CountOfActions=tonumber(CountOfActions)
   
   if EventName==nil or
@@ -336,6 +354,9 @@ function AddEvent(EventStateChunk)
   EventTable[CountOfEvents]["ScriptIdentifier"]=SourceScriptIdentifier                        -- script-identifier, damit alle events des scripts beendet werden können
   EventTable[CountOfEvents]["EventIdentifier"]=EventIdentifier                              -- eindeutiger identifier für dieses Event
   EventTable[CountOfEvents]["CountOfActions"]=CountOfActions                           -- drin
+  EventTable[CountOfEvents]["Paused"]=Paused
+  EventTable[CountOfEvents]["UserSpace"]={}
+  
   
   for i=1, CountOfActions do
     EventTable[CountOfEvents][i]=ActionsTable[i]["action"]
@@ -351,16 +372,36 @@ EventIdentifier: ]]..reaper.genGuid()..[[
 SourceScriptIdentifier: ScriptIdentifier-]]..reaper.genGuid()..[[
 
 CheckAllXSeconds: 1
-CheckForXSeconds: 10
+CheckForXSeconds: -1
 StartActionsOnceDuringTrue: true
-Function: G0x1YVMAGZMNChoKBAgECAh4VgAAAAAAAAAAAAAAKHdAAXpAQzpcVWx0cmFzY2hhbGwtSGFja3ZlcnNpb25fMy4yX1VTX2JldGFfMl83N1xTY3JpcHRzXC4uXFVzZXJQbHVnaW5zXHVsdHJhc2NoYWxsX2FwaVxcU2NyaXB0c1x1bHRyYXNjaGFsbF9FdmVudE1hbmFnZXIubHVhDAAAABIAAAAAAAILAAAABgBAAAdAQAAkgIAAH4BAAB6AAIADAIAAJgAAAR5AAIADAAAAJgAAASYAgAADAAAABAdyZWFwZXIEDUdldFBsYXlTdGF0ZRMBAAAAAAAAAAEAAAAAAAAAAAALAAAADQAAAA0AAAANAAAADQAAAA0AAAAOAAAADgAAAA4AAAAQAAAAEAAAABIAAAAAAAAAAQAAAAVfRU4=
-CountOfActions: 2
+Paused: false
+Function: ]]..ultraschall.Base64_Encoder(string.dump(IsPlayStatePlay))..[[
+
+CountOfActions: 1
 Action: 40105
 Section: 0
+]]
+
+EventStateChunk2=[[
+Eventname: Tudelu2
+EventIdentifier: ]]..reaper.genGuid()..[[
+
+SourceScriptIdentifier: ScriptIdentifier-]]..reaper.genGuid()..[[
+
+CheckAllXSeconds: 1
+CheckForXSeconds: -1
+StartActionsOnceDuringTrue: true
+Paused: false
+Function: ]]..ultraschall.Base64_Encoder(string.dump(IsPlayStatePlay))..[[
+
+CountOfActions: 1
 Action: 1011
 Section: 32063
 ]]
+
+
 --A=ultraschall.Base64_Encoder(string.dump(IsPlayStatePlay))
 print3(A)
 print3(EventStateChunk)
 AddEvent(EventStateChunk)
+AddEvent(EventStateChunk2)
