@@ -40,15 +40,17 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.00 Beta 2.77: - "" - 31st of August 2019</h3>
+<h3>4.00 Beta 2.77: - "Radiohead - Paranoid Android" - 31st of August 2019</h3>
 <h4>New features in 4.00beta2.77</h4>
 <ul>
 <li>Helper Functions: FindPatternsInString - finds all occurrences of a matching-pattern in a string</li>
+<li>Helper Functions: IsWithinTimeRange - returns, if a time is within a start and endtime, takes care of the precision-problem time-positions in Lua have</li>
 <li>EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript</li>
 <li>ProjectManagement: GetProjectStateChunk - returns the ProjectStateChunk of the current project(finally working!)</li>
+<li>Trackmanagement: IsSplitAtPosition - returns, if a split/mediaitemend/mediaitemstart exists at a certain position, within certain tracks</li>
 <li>User Interface: GetMediaExplorerHWND - gets the HWND-windowhandler of the Media Explorer</li>
 <li>User Interface: UpdateMediaExplorer - updates the listview of the Media Explorer</li>
-<li>User Interface: MediaExplorer<em>OnCommand - runs an Media Explorer action(just like Reaper's Main</em>OnCommand and Midi_OnCommand-functions); no scripts yet</li>
+<li>User Interface: MediaExplorer_OnCommand - runs an Media Explorer action(just like Reaper's Main_OnCommand and Midi_OnCommand-functions); runs no scripts yet</li>
 </ul>
 <h4>Changes from Beta 2.76 to Beta 2.77</h4>
 <ul>

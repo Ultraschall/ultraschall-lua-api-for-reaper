@@ -1,6 +1,5 @@
 <TODO>
     For 4.00beta2.77
-        - TODO!! GetFXStateChunk bugreport from Anton9?
         - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
         - TODO!! XML-generator has problems with spaces and & in filenames; use this to overcome this:
                       tempfile=files_array[i]
@@ -255,21 +254,21 @@
 
 TODO!! buggy function
         the line "reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)" seems to be the problem due WM_SETFONT
-
-
-
 </TODO>
+
 ## Ultraschall Framework - Changelog
 
-### 4.00 Beta 2.77: - "" - 31st of August 2019
+### 4.00 Beta 2.77: - "Radiohead - Paranoid Android" - 30st of September 2019
  
 #### New features in 4.00beta2.77
    - Helper Functions: FindPatternsInString - finds all occurrences of a matching-pattern in a string
+   - Helper Functions: IsWithinTimeRange - returns, if a time is within a start and endtime, takes care of the precision-problem time-positions in Lua have
    - EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript
    - ProjectManagement: GetProjectStateChunk - returns the ProjectStateChunk of the current project(finally working!)
+   - Trackmanagement: IsSplitAtPosition - returns, if a split/mediaitemend/mediaitemstart exists at a certain position, within certain tracks
    - User Interface: GetMediaExplorerHWND - gets the HWND-windowhandler of the Media Explorer
    - User Interface: UpdateMediaExplorer - updates the listview of the Media Explorer
-   - User Interface: MediaExplorer_OnCommand - runs an Media Explorer action(just like Reaper's Main_OnCommand and Midi_OnCommand-functions); no scripts yet
+   - User Interface: MediaExplorer\_OnCommand - runs an Media Explorer action(just like Reaper's Main\_OnCommand and Midi\_OnCommand-functions); runs no scripts yet
 
 #### Changes from Beta 2.76 to Beta 2.77
    - API: functions - moved all functions into modules for future modular-concept
