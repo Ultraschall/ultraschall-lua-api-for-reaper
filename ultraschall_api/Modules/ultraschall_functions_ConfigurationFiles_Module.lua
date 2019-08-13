@@ -170,12 +170,12 @@ function ultraschall.CountIniFileExternalState_sec(ini_filename_with_path)
   <tags>configurationmanagement, count, sections, ini-files</tags>
 </US_DocBloc>
 ]]
-  
   if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("CountIniFileExternalState_sec", "ini_filename_with_path", "File does not exist.", -1) return -1 end
   local count=0
   
   for line in io.lines(ini_filename_with_path) do
-    local check=line:match(".*=.*")
+    --local check=line:match(".*=.*")
+    check=line:match("%[.*.%]")
     if check~=nil then check="" count=count+1 end
   end
   return count
@@ -273,7 +273,8 @@ function ultraschall.EnumerateIniFileExternalState_sec(number_of_section, ini_fi
   
   local count=0
   for line in io.lines(ini_filename_with_path) do
-    local check=line:match(".*=.*")
+    --local check=line:match(".*=.*")
+    check=line:match("%[.*.%]")
     if check==nil then count=count+1 end
     if count==number_of_section then return line:sub(2,-2) end
   end

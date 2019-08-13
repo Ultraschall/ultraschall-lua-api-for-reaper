@@ -588,7 +588,8 @@ function ultraschall.CountUSExternalState_sec()
   -- count external-states
   local count=0
   for line in io.lines(reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini") do
-    local check=line:match(".*=.*")
+    --local check=line:match(".*=.*")
+    check=line:match("%[.*.%]")
     if check~=nil then check="" count=count+1 end
   end
   return count

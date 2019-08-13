@@ -258,7 +258,7 @@ TODO!! buggy function
 
 ## Ultraschall Framework - Changelog
 
-### 4.00 Beta 2.77: - "Radiohead - Paranoid Android" - 30st of September 2019
+### 4.00 Beta 2.77: - "Radiohead - Paranoid Android" - 30th of September 2019
  
 #### New features in 4.00beta2.77
    - Helper Functions: FindPatternsInString - finds all occurrences of a matching-pattern in a string
@@ -278,6 +278,9 @@ TODO!! buggy function
    - Docs: SetTrackSendInfo_Value - fixed Markdown-formatting-problems
    - Docs: print-functions - all print-functions, like sprint, fprint, gfx.printf, etc include now formatting information in the description.
    - FXManagement: GetFXStateChunk - had layoutproblem, when the passed StateChunk was taken from a ProjectStateChunk -> fixed(thanks to lossius)
+   - Configurationfiles: CountUSExternalState_sec - did count keys instead of sections -> fixed(thanks to rstockm)
+   - Configurationfiles: CountIniFileExternalState_sec - did count keys instead of sections -> fixed(thanks to rstockm)
+   - Configurationfiles: EnumerateIniFileExternalState_sec - did enumerate keys instead of sections -> fixed(thanks to rstockm)
    - Helper Functions: GetUserInputs - did change the tables passed as default-retvals -> fixed now
    - Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -> Data Manipulation
@@ -297,7 +300,7 @@ TODO!! buggy function
    - HWND: GetSaveLiveOutputToDiskHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - HWND: GetVideoHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - Project Management: GetProject\_MasterGroupFlagsState - moved to correct docsindex Project Management
-   - Project Management: GetProject\_MasterGroupFlagsState - moved to correct docsindex Project Management
+   - Project Management: SetProject\_MasterGroupFlagsState - moved to correct docsindex Project Management
    - Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs
    
    ---
