@@ -2932,3 +2932,43 @@ function ultraschall.SetReaperWindowToSize(x,y)
 end
 
 
+function ultraschall.ConvertYCoordsMac2Win(ycoord, height)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertYCoordsMac2Win</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer conv_ycoord = ultraschall.ConvertYCoordsMac2Win(integer ycoord, optional integer height)</functioncall>
+  <description>
+    Converts the y-coordinate between Windows/Linux and MacOS-based systems.
+    
+    Note: MacOS y-coordinates begin at the bottom of the screen, while Windows and Linux y-coordinates begin at the top.
+    With this function, you can convert between these two coordinate-systems
+    
+    returns nil in case of error
+  </description>
+  <parameters>
+    integer ycoord - the y-coordinate to convert in pixels
+    optional integer height - the height of the screen in pixels, which is the base for the conversion; nil, uses current screenheight
+  </parameters>
+  <retvals>
+    integer conv_ycoord - the converted coordinate in pixels
+  </retvals>
+  <chapter_context>
+    User Interface
+    Miscellaneous
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, convert, coordinate, mac, windows, linux, y</tags>
+</US_DocBloc>
+--]]
+  if math.type(ycoord)~="integer" then ultraschall.AddErrorMessage("ConvertYCoordsMac2Win", "ycoord", "must be an integer", -1) return end
+  if ycoord<0 then ultraschall.AddErrorMessage("ConvertYCoordsMac2Win", "ycoord", "must be bigger than 0", -2) return end
+  local A,B,C,D
+  if height==nil then A,B,C,height=reaper.my_getViewport(0,0,0,0,0,0,0,0,true) end
+  return (ycoord-height)*-1
+end

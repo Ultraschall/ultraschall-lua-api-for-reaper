@@ -271,6 +271,7 @@ TODO!! buggy function
    - MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project
    - ProjectManagement: GetProjectStateChunk - returns the ProjectStateChunk of the current project(finally working!)
    - Trackmanagement: IsSplitAtPosition - returns, if a split/mediaitemend/mediaitemstart exists at a certain position, within certain tracks
+   - User Interface: ConvertYCoordsMac2Win - converts the y-coordinate between the Mac <-> Windows/Linux-style coordinatesystems
    - User Interface: GetMediaExplorerHWND - gets the HWND-windowhandler of the Media Explorer
    - User Interface: UpdateMediaExplorer - updates the listview of the Media Explorer
    - User Interface: MediaExplorer\_OnCommand - runs an Media Explorer action(just like Reaper's Main\_OnCommand and Midi\_OnCommand-functions); runs no scripts yet, only native/extension actions
