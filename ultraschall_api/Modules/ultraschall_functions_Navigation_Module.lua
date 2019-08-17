@@ -74,7 +74,7 @@ function ultraschall.ToggleScrollingDuringPlayback(scrolling_switch, move_editcu
     integer retval - -1, in case of an error
   </retvals>
   <parameters>
-    integer scrolling_switch - 1-on, 0-off
+    integer scrolling_switch - 1, on; 0, off
     boolean move_editcursor - when scrolling stops, shall the editcursor be moved to current position of the playcursor(true) or not(false)
     boolean goto_playcursor - true, move view to playcursor; false, don't move
   </parameters>
@@ -133,7 +133,9 @@ function ultraschall.SetPlayCursor_WhenPlaying(position)--, move_view)--, length
   </requires>
   <functioncall>ultraschall.SetPlayCursor_WhenPlaying(number position)</functioncall>
   <description>
-    Changes position of the play-cursor, when playing. Changes view to new playposition. Has no effect during recording, when paused or stop and returns -1 in these cases!
+    Changes position of the play-cursor, when playing. Changes view to new playposition. 
+    
+    Has no effect during recording, when paused or stop and returns -1 in these cases!
   </description>
   <parameters>
     number position - in seconds
@@ -176,7 +178,9 @@ function ultraschall.SetPlayAndEditCursor_WhenPlaying(position)--, move_view)--,
   </requires>
   <functioncall>ultraschall.SetPlayAndEditCursor_WhenPlaying(number position)</functioncall>
   <description>
-    Changes position of the play and edit-cursor, when playing. Changes view to new playposition. Has no effect during recording, when paused or stop and returns -1 in these cases!
+    Changes position of the play and edit-cursor, when playing. Changes view to new playposition. 
+    
+    Has no effect during recording, when paused or stop and returns -1 in these cases!
   </description>
   <parameters>
     number position - in seconds
@@ -212,7 +216,9 @@ function ultraschall.JumpForwardBy(seconds, seekplay)
   </requires>
   <functioncall>ultraschall.JumpForwardBy(number seconds, boolean seekplay)</functioncall>
   <description>
-    Jumps editcursor forward by <i>seconds</i> seconds. Returns -1 if parameter is negative. During Recording: only the playcursor will be moved, the current recording-position is still at it's "old" position! If you want to move the current recording position as well, use <a href="#JumpForwardBy_Recording">ultraschall.JumpForwardBy_Recording</a> instead.
+    Jumps editcursor forward by <i>seconds</i> seconds. 
+    
+    Returns -1 if parameter is negative. During Recording: only the playcursor will be moved, the current recording-position is still at it's "old" position! If you want to move the current recording position as well, use <a href="#JumpForwardBy_Recording">ultraschall.JumpForwardBy_Recording</a> instead.
   </description>
   <parameters>
     number seconds - jump forward by seconds
@@ -251,7 +257,9 @@ function ultraschall.JumpBackwardBy(seconds, seekplay)
   </requires>
   <functioncall>ultraschall.JumpBackwardBy(number seconds, boolean seekplay)</functioncall>
   <description>
-    Jumps editcursor backward by <i>seconds</i> seconds. Returns -1 if parameter is negative. During Recording: only the playcursor will be moved, the current recording-position is still at it's "old" position! If you want to move the current recording position as well, use <a href="#JumpBackwardBy_Recording">ultraschall.JumpBackwardBy_Recording</a> instead.
+    Jumps editcursor backward by <i>seconds</i> seconds. 
+    
+    Returns -1 if parameter is negative. During Recording: only the playcursor will be moved, the current recording-position is still at it's "old" position! If you want to move the current recording position as well, use <a href="#JumpBackwardBy_Recording">ultraschall.JumpBackwardBy_Recording</a> instead.
   </description>
   <parameters>
     number seconds - jump backwards by seconds
@@ -291,6 +299,8 @@ function ultraschall.JumpForwardBy_Recording(seconds)
   <functioncall>ultraschall.JumpForwardBy_Recording(number seconds)</functioncall>
   <description>
     Stops recording, jumps forward by <i>seconds</i> seconds and restarts recording. Will keep paused-recording, if recording was paused. Has no effect during play,play/pause and stop.
+    
+    returns -1 in case of an error
   </description>
   <parameters>
     number seconds - restart recording forwards by seconds
@@ -336,6 +346,8 @@ function ultraschall.JumpBackwardBy_Recording(seconds)
   <functioncall>ultraschall.JumpBackwardBy_Recording(number seconds)</functioncall>
   <description>
     Stops recording, jumps backward by <i>seconds</i> seconds and restarts recording. Will keep paused-recording, if recording was paused. Has no effect during play,play/pause and stop.
+    
+    returns -1 in case of an error
   </description>
   <parameters>
     number seconds - restart recording backwards by seconds
@@ -382,6 +394,8 @@ function ultraschall.GetNextClosestItemEdge(tracksstring, cursor_type, time_posi
   <functioncall>number position, integer item_number, string edgetype, MediaItem found_item  = ultraschall.GetNextClosestItemEdge(string trackstring, integer cursor_type, optional number time_position)</functioncall>
   <description>
     returns the position of the next closest item in seconds. It will return the position of the beginning or the end of that item, depending on what is closer.
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     number position  - the position of the next closest item-edge in tracks in trackstring
@@ -495,6 +509,8 @@ function ultraschall.GetPreviousClosestItemEdge(tracksstring, cursor_type, time_
   <functioncall>number position, number position, integer item_number, string edgetype, MediaItem found_item = ultraschall.GetPreviousClosestItemEdge(string tracks, integer cursor_type, optional number time_position)</functioncall>
   <description>
     returns the position of the previous closest item-edge in seconds. It will return the position of the beginning or the end of that item, depending on what is closer.
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     number position  - the position of the previous closest item edge in tracks in trackstring
@@ -602,6 +618,8 @@ function ultraschall.GetClosestNextMarker(cursor_type, time_position)
   <functioncall>number markerindex, number position, string markertitle = ultraschall.GetClosestNextMarker(integer cursor_type, optional number time_position)</functioncall>
   <description>
     returns the markerindex(counted from all markers), the position and the name of the next closest marker in seconds.
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     number markerindex - the next closest markerindex (of all(!) markers)
@@ -766,6 +784,8 @@ function ultraschall.GetClosestNextRegionEdge(cursor_type, time_position)
   <functioncall>number markerindex, number position, string markertitle, string edge_type = ultraschall.GetClosestNextRegionEdge(integer cursor_type, optional number time_position)</functioncall>
   <description>
     returns the regionindex(counted from all markers and regions), the position and the name of the next closest regionstart/end(depending on which is closer to time_position) in seconds.
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     number markerindex - the next closest markerindex (of all(!) markers)
@@ -774,7 +794,11 @@ function ultraschall.GetClosestNextRegionEdge(cursor_type, time_position)
     string edge_type - the type of the edge of the region, either "beg" or "end"
   </retvals>
   <parameters>
-    integer cursor_type - previous closest regionstart/end related to the current position of 0 - Edit Cursor, 1 - Play Cursor, 2 - Mouse Cursor, 3 - Timeposition
+    integer cursor_type - previous closest regionstart/end related to the current position of 
+                        - 0, Edit Cursor, 
+                        - 1, Play Cursor, 
+                        - 2, Mouse Cursor, 
+                        - 3, Timeposition
     only number time_position - only, when cursor_type=3, a time position in seconds, from where to check for the next closest regionstart/end. When omitted, it will take the current play(during play and rec) or edit-cursor-position.
   </parameters>
   <chapter_context>
@@ -854,6 +878,8 @@ function ultraschall.GetClosestPreviousRegionEdge(cursor_type, time_position)
   <functioncall>number markerindex, number position, string markertitle, string edge_type = ultraschall.GetClosestPreviousRegionEdge(integer cursor_type, optional number time_position)</functioncall>
   <description>
     returns the regionindex(counted from all markers and regions), the position and the name of the previous closest regionstart/end(depending on which is closer to time_position) in seconds.
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     number markerindex - the previous closest markerindex (of all(!) markers)
@@ -1044,6 +1070,8 @@ function ultraschall.CenterViewToCursor(cursortype, position)
   <functioncall>ultraschall.CenterViewToCursor(integer cursortype, optional number position)</functioncall>
   <description>
     centers the arrange-view around a given cursor
+    
+    returns nil in case of an error
   </description>
   <parameters>
     integer cursortype - the cursortype to center

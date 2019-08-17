@@ -153,7 +153,7 @@ function ultraschall.ReadValueFromFile(filename_with_path, value)
   if type(filename_with_path) ~= "string" then ultraschall.AddErrorMessage("ReadValueFromFile", "filename_with_path", "must be a string", -1) return nil end
   if value==nil then value="" end
   if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadValueFromFile", "filename_with_path", "file "..filename_with_path.." does not exist", -2) return nil end
-  if ultraschall.IsValidMatchingPattern(value)==false then ultraschall.AddErrorMessage("ReadValueFromFile", "value", "malformed pattern", -3) return -1 end
+  if ultraschall.IsValidMatchingPattern(value)==false then ultraschall.AddErrorMessage("ReadValueFromFile", "value", "malformed pattern", -3) return nil end
 
   -- prepare variables
   local contents=""
@@ -232,7 +232,7 @@ function ultraschall.ReadLinerangeFromFile(filename_with_path, firstlinenumber, 
   if math.type(firstlinenumber)~="integer" then ultraschall.AddErrorMessage("ReadLinerangeFromFile","firstlinenumber", "Must be an integer!", -1) return nil end
   if math.type(lastlinenumber)~="integer" then ultraschall.AddErrorMessage("ReadLinerangeFromFile","lastlinenumber", "Must be an integer!", -2) return nil end
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadLinerangeFromFile","filename_with_path", "Must be a string!", -3) return nil end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadLinerangeFromFile","filename_with_path", "File "..filename_with_path.." not found!", -4)return nil end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadLinerangeFromFile","filename_with_path", "File "..filename_with_path.." not found!", -4) return nil end
   
   local a=""
   local b=0
@@ -310,6 +310,8 @@ function ultraschall.MakeCopyOfFile_Binary(input_filename_with_path, output_file
   <functioncall>boolean retval = ultraschall.MakeCopyOfFile_Binary(string input_filename_with_path, string output_filename_with_path)</functioncall>
   <description>
     Copies input_filename_with_path to output_filename_with_path as binary-file.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval - returns true, if copy worked; false if it didn't
@@ -332,7 +334,7 @@ function ultraschall.MakeCopyOfFile_Binary(input_filename_with_path, output_file
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
-    if fileread==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "input_filename_with_path", "could not read file "..input_filename_with_path..", probably due another application accessing it.", -5) return nil end
+    if fileread==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "input_filename_with_path", "could not read file "..input_filename_with_path..", probably due another application accessing it.", -5) return false end
     local file=io.open(output_filename_with_path,"wb")
     if file==nil then ultraschall.AddErrorMessage("MakeCopyOfFile_Binary", "output_filename_with_path", "can't create file "..output_filename_with_path, -3) return false end
     file:write(fileread:read("*a"))
@@ -358,6 +360,8 @@ function ultraschall.ReadBinaryFileUntilPattern(input_filename_with_path, patter
     
     Pattern can also contain patterns for pattern matching. Refer the LUA-docs for pattern matching.
     i.e. characters like ^$()%.[]*+-? must be escaped with a %, means: %[%]%(%) etc
+    
+    returns false in case of an error
   </description>
   <retvals>
     integer length - the length of the returned data
@@ -380,11 +384,11 @@ function ultraschall.ReadBinaryFileUntilPattern(input_filename_with_path, patter
   local temp2
   if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "must be a string", -1) return false end
   if type(pattern)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "must be a string", -2) return false end
-  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "malformed pattern", -3) return -1 end
+  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "malformed pattern", -3) return false end
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
-    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "could not read file "..input_filename_with_path..", probably due another application accessing it.", -6) return nil end
+    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "input_filename_with_path", "could not read file "..input_filename_with_path..", probably due another application accessing it.", -6) return false end
     temp=fileread:read("*a")
     temp2=temp:match("(.-"..pattern..")")
     if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileUntilPattern", "pattern", "pattern not found in file", -4) return false end
@@ -410,6 +414,8 @@ function ultraschall.ReadBinaryFileFromPattern(input_filename_with_path, pattern
     
     The pattern can also contain patterns for pattern matching. Refer the LUA-docs for pattern matching.
     i.e. characters like ^$()%.[]*+-? must be escaped with a %, means: %[%]%(%) etc
+    
+    returns false in case of an error
   </description>
   <retvals>
     integer length - the length of the returned data
@@ -432,11 +438,11 @@ function ultraschall.ReadBinaryFileFromPattern(input_filename_with_path, pattern
   local temp2
   if type(input_filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "must be a string", -1) return false end
   if type(pattern)~="string" then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "must be a string", -2) return false end
-  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "malformed pattern", -3) return -1 end
+  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "malformed pattern", -3) return false end
   
   if reaper.file_exists(input_filename_with_path)==true then
     local fileread=io.open(input_filename_with_path,"rb")
-    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "could not read file "..input_filename_with_path..", probably due another application accessing it.", -6) return nil end
+    if fileread==nil then ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "input_filename_with_path", "could not read file "..input_filename_with_path..", probably due another application accessing it.", -6) return false end
     temp=fileread:read("*a")
     temp2=temp:match("("..pattern..".*)")
     if temp2==nil then fileread:close() ultraschall.AddErrorMessage("ReadBinaryFileFromPattern", "pattern", "pattern not found in file", -4) return false end
@@ -477,8 +483,8 @@ function ultraschall.CountLinesInFile(filename_with_path)
 </US_DocBloc>
 ]]
   -- check parameters  
-  if type(filename_with_path) ~= "string" then ultraschall.AddErrorMessage("CountLinesInFile", "filename_with_path", "must be a string", -1) return nil end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("CountLinesInFile", "filename_with_path", "no such file "..filename_with_path, -2) return nil end
+  if type(filename_with_path) ~= "string" then ultraschall.AddErrorMessage("CountLinesInFile", "filename_with_path", "must be a string", -1) return -1 end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("CountLinesInFile", "filename_with_path", "no such file "..filename_with_path, -2) return -1 end
 
   -- prepare variable
   local b=0
@@ -530,7 +536,7 @@ function ultraschall.ReadFileAsLines_Array(filename_with_path, firstlinenumber, 
   if math.type(firstlinenumber)~="integer" then ultraschall.AddErrorMessage("ReadFileAsLines_Array","firstlinenumber", "Must be an integer!", -1) return nil end
   if math.type(lastlinenumber)~="integer" then ultraschall.AddErrorMessage("ReadFileAsLines_Array","lastlinenumber", "Must be an integer!", -2) return nil end
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadFileAsLines_Array","filename_with_path", "Must be a string!", -3) return nil end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadFileAsLines_Array","filename_with_path", "File not found! "..filename_with_path, -4)return nil end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ReadFileAsLines_Array","filename_with_path", "File not found! "..filename_with_path, -4) return nil end
   
   local LineArray={}
 
@@ -641,7 +647,7 @@ function ultraschall.GetLengthOfFile(filename_with_path)
   <tags>filemanagement,file,length,bytes,count</tags>
 </US_DocBloc>
 ]]
-  if filename_with_path==nil then ultraschall.AddErrorMessage("GetLengthOfFile", "filename_with_path", "nil not allowed as filename", -1) return false end
+  if filename_with_path==nil then ultraschall.AddErrorMessage("GetLengthOfFile", "filename_with_path", "nil not allowed as filename", -1) return -1 end
   local numberofbytes
   if reaper.file_exists(filename_with_path)==true then
     local fileread=io.open(filename_with_path,"rb")

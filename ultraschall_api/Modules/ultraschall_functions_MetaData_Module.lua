@@ -140,7 +140,7 @@ function ultraschall.GetProjExtState_AllKeyValues(section)
        AllValues[idx][1]=Key
        AllValues[idx][2]=Value
     
-    Returns 0 in case of an error or if no key exists in the given section
+    Returns -1 in case of an error or if no key exists in the given section
   </description>
   <parameters>
     string section - the section/extname, from whom a key/value shall be deleted
@@ -158,8 +158,8 @@ function ultraschall.GetProjExtState_AllKeyValues(section)
 </US_DocBloc>
 --]]
 
-  if type(section)~="string" then ultraschall.AddErrorMessage("GetProjExtState_AllKeyValues","section", "must be a string", -1) return 0 end
-  if reaper.EnumProjExtState(0, section, 0)==false then ultraschall.AddErrorMessage("GetProjExtState_AllKeyValues","section", "no such section", -2) return 0 end
+  if type(section)~="string" then ultraschall.AddErrorMessage("GetProjExtState_AllKeyValues","section", "must be a string", -1) return -1 end
+  if reaper.EnumProjExtState(0, section, 0)==false then ultraschall.AddErrorMessage("GetProjExtState_AllKeyValues","section", "no such section", -2) return -1 end
   local retval=true
   local count=0
   local ProjExtStateArray={}

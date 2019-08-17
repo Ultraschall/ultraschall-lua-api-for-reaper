@@ -63,15 +63,17 @@ function ultraschall.ToggleMute(track, position, state)
   </requires>
   <functioncall>integer retval = ultraschall.ToggleMute(integer track, number position, integer state)</functioncall>
   <description>
-    Sets mute within the mute-envelope-lane, by inserting the fitting envelope-points. Can be used to program coughbuttons. Returns -1, if it fails.
+    Sets mute within the mute-envelope-lane, by inserting the fitting envelope-points. Can be used to program coughbuttons. 
+    
+    Returns -1, in case of an error
   </description>
   <retvals>
-    integer retval  - toggling was 0 - success, -1 - fail
+    integer retval - toggling was 0, success; -1, fail
   </retvals>
   <parameters>
     integer track - the track-number, for where you want to set the mute-envelope-lane.
     number position - position in seconds
-    integer state - 0 for mute the track on this position, 1 for unmuting the track on this position
+    integer state - 0, for mute the track on this position; 1, for unmuting the track on this position
   </parameters>
   <chapter_context>
     Mute Management
@@ -111,17 +113,19 @@ function ultraschall.ToggleMute_TrackObject(trackobject, position, state)
   </requires>
   <functioncall>integer retval = ultraschall.ToggleMute_TrackObject(MediaTrack trackobject, number position, integer state)</functioncall>
   <description>
-    Sets mute within the mute-envelope-lane, by inserting the fitting envelope-points. Can be used to program coughbuttons. Returns -1, if it fails.
+    Sets mute within the mute-envelope-lane, by inserting the fitting envelope-points. Can be used to program coughbuttons. 
+    
+    Returns -1, if it fails.
     
     Works like <a href="#ToggleMute">ultraschall.ToggleMute</a> but uses a trackobject instead of the tracknumber as parameter.
   </description>
   <retvals>
-    integer retval  - toggling was 0 - success, -1 - fail
+    integer retval - toggling was 0, success; -1, fail
   </retvals>
   <parameters>
     MediaTrack trackobject - the track-object for the track, where you want to set the mute-envelope-lane. Refer <a href="Reaper_API_Lua.html#reaper.GetTrack">GetTrack()</a> for more details.
     number position - position in seconds
-    integer state - 0 for mute the track on this position, 1 for unmuting the track on this position
+    integer state - 0, for mute the track on this position, 1, for unmuting the track on this position
   </parameters>
   <chapter_context>
     Mute Management
@@ -162,7 +166,9 @@ function ultraschall.GetNextMuteState(track, position)
   </requires>
   <functioncall>integer envIDX, number envVal, number envPosition = ultraschall.GetNextMuteState(integer track, number position)</functioncall>
   <description>
-    Returns the next mute-envelope-point-ID, it's value(0 or 1) and it's time. Envelope-Points numbering starts with 0! Returns -1 if not existing.
+    Returns the next mute-envelope-point-ID, it's value(0 or 1) and it's time. Envelope-Points numbering starts with 0! 
+    
+    Returns -1 if not existing.
   </description>
   <retvals>
     integer envIDX - number of the muteenvelope-point
@@ -185,7 +191,6 @@ function ultraschall.GetNextMuteState(track, position)
 
   -- check parameters
   if math.type(track)~="integer" then ultraschall.AddErrorMessage("GetNextMuteState", "track", "must be an integer.", -1) return -1 end
-
   if type(position)~="number" then ultraschall.AddErrorMessage("GetNextMuteState", "position", "must be a number.", -2) return -1 end
   
   -- prepare variables
@@ -216,7 +221,9 @@ function ultraschall.GetPreviousMuteState(track, position)
   </requires>
   <functioncall>integer envIDX, number envVal, number envPosition = ultraschall.GetPreviousMuteState(integer track, number position)</functioncall>
   <description>
-    Returns the previous mute-envelope-point-ID, it's value(0 or 1) and it's time. Envelope-Points numbering starts with 0! Returns -1 if not existing.
+    Returns the previous mute-envelope-point-ID, it's value(0 or 1) and it's time. Envelope-Points numbering starts with 0! 
+    
+    Returns -1 if not existing.
   </description>
   <retvals>
     integer envIDX - number of the muteenvelope-point
@@ -264,7 +271,9 @@ function ultraschall.GetNextMuteState_TrackObject(MediaTrack, position)
   </requires>
   <functioncall>integer envIDX, number envVal, number envPosition = ultraschall.GetNextMuteState_TrackObject(MediaTrack track, number position)</functioncall>
   <description>
-    Returns the next mute-envelope-point-ID, it's value(0 or 1) and it's time. Envelope-Points numbering starts with 0! Returns -1 if not existing.
+    Returns the next mute-envelope-point-ID, it's value(0 or 1) and it's time. Envelope-Points numbering starts with 0! 
+    
+    Returns -1 if not existing.
   </description>
   <retvals>
     integer envIDX - number of the muteenvelope-point
@@ -317,7 +326,9 @@ function ultraschall.GetPreviousMuteState_TrackObject(MediaTrack, position)
   </requires>
   <functioncall>integer envIDX, number envVal, number envPosition = ultraschall.GetPreviousMuteState_TrackObject(MediaTrack track, number position)</functioncall>
   <description>
-    Returns the previous mute-envelope-point-ID, it's value(0 or 1) and it's time. Envelope-Points numbering starts with 0! Returns -1 if not existing.
+    Returns the previous mute-envelope-point-ID, it's value(0 or 1) and it's time. Envelope-Points numbering starts with 0! 
+    
+    Returns -1 if not existing.
   </description>
   <retvals>
     integer envIDX - number of the muteenvelope-point
@@ -364,7 +375,9 @@ function ultraschall.CountMuteEnvelopePoints(track)
   </requires>
   <functioncall>integer retval = ultraschall.CountMuteEnvelopePoints(integer track)</functioncall>
   <description>
-    Returns the number of the envelope-points in the Mute-lane of track "track". Returns -1, if it fails.
+    Returns the number of the envelope-points in the Mute-lane of track "track". 
+    
+    Returns -1, if it fails.
   </description>
   <retvals>
     integer retval  - number of mute-envelope-points

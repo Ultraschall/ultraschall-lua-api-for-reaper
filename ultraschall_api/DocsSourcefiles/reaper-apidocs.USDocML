@@ -3800,12 +3800,12 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>EnumProjects</slug>
         <title>EnumProjects</title>
-        <functioncall prog_lang="cpp">ReaProject* EnumProjects(int idx, char* projfn, int projfn_sz)</functioncall>
-        <functioncall prog_lang="eel">ReaProject EnumProjects(int idx, #projfn)</functioncall>
-        <functioncall prog_lang="lua">ReaProject retval, string projfn = reaper.EnumProjects(integer idx, string projfn)</functioncall>
-        <functioncall prog_lang="python">(ReaProject retval, Int idx, String projfn, Int projfn_sz) = RPR_EnumProjects(idx, projfn, projfn_sz)</functioncall>
+        <functioncall prog_lang="cpp">ReaProject* EnumProjects(int idx, char* projfnOutOptional, int projfnOutOptional_sz)</functioncall>
+        <functioncall prog_lang="eel">ReaProject EnumProjects(int idx, optional #projfn)</functioncall>
+        <functioncall prog_lang="lua">ReaProject retval, optional string projfn = reaper.EnumProjects(integer idx)</functioncall>
+        <functioncall prog_lang="python">(ReaProject retval, Int idx, String projfnOutOptional, Int projfnOutOptional_sz) = RPR_EnumProjects(idx, projfnOutOptional, projfnOutOptional_sz)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.982
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1">
@@ -3816,11 +3816,10 @@
         </description>
         <retvals>
             ReaProject retval - a ReaProject-object of the project you requested
-            string projfn - the path+filename.rpp of the project. returns "" if no filename exists
+            optional string projfn - the path+filename.rpp of the project. returns nil if no filename exists
         </retvals>
         <parameters>
             integer idx - -1 for current project; 0 and higher for the projects; 0x40000000 for currently rendering project, if any.
-            string projfn - unknown
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -4906,6 +4905,44 @@
             Mediaitem Management
         </chapter_context>
         <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>GetEnvelopeInfo_Value</slug>
+        <title>GetEnvelopeInfo_Value</title>
+        <functioncall prog_lang="cpp">double GetEnvelopeInfo_Value(TrackEnvelope* tr, const char* parmname)</functioncall>
+        <functioncall prog_lang="eel">double GetEnvelopeInfo_Value(TrackEnvelope tr, "parmname")</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.GetEnvelopeInfo_Value(TrackEnvelope tr, string parmname)</functioncall>
+        <functioncall prog_lang="python">Float RPR_GetEnvelopeInfo_Value(TrackEnvelope tr, String parmname)</functioncall>
+        <requires>
+            Reaper=5.982
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Gets an envelope numerical-value attribute:
+                I_TCPY : int *, Y offset of envelope relative to parent track (may be separate lane or overlap with track contents)
+                I_TCPH : int *, visible height of envelope
+                I_TCPY_USED : int *, Y offset of envelope relative to parent track, exclusive of padding
+                I_TCPH_USED : int *, visible height of envelope, exclusive of padding
+                P_TRACK : MediaTrack *, parent track pointer (if any)
+                P_ITEM : MediaItem *, parent item pointer (if any)
+                P_TAKE : MediaItem_Take *, parent take pointer (if any)
+        </description>
+        <retvals>
+            number retval - the returned value of the attribute
+        </retvals>
+        <parameters>
+            TrackEnvelope tr - the TrackEnvelope, of which you want to retrieve the attribute-value
+            string parmname - the attribute, whose value you want; 
+                            - can be I_TCPY, I_TCPH, I_TCPY_USED, I_TCPH_USED, P_TRACK, P_ITEM, P_TAKE
+                            - see description for more details
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Envelope Management
+        </chapter_context>
+        <tags>envelope management, get, attribute, value, height, offset, track</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -6398,7 +6435,7 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaTrackInfo_Value(MediaTrack tr, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaTrackInfo_Value(MediaTrack tr, String parmname)</functioncall>
         <requires>
-            Reaper=5.974
+            Reaper=5.982
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -6416,7 +6453,9 @@
             I_AUTOMODE : int * : track automation mode (0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
             I_NCHAN : int * : number of track channels, must be 2-64, even
             I_SELECTED : int * : track selected? 0 or 1
-            I_WNDH : int * : current TCP window height (Read-only)
+            I_WNDH : int * : current TCP window height including envelopes (Read-only)
+            I_TCPH : int * : current TCP window height not including envelopes (Read-only)
+            I_TCPY : int * : current TCP window Y position relative to top of arrange view (Read-only)
             I_FOLDERDEPTH : int * : folder depth change (0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
             I_FOLDERCOMPACT : int * : folder compacting (only valid on folders), 0=normal, 1=small, 2=tiny children
             I_MIDIHWOUT : int * : track midi hardware output index (&gt;0 for disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31))
@@ -14467,7 +14506,7 @@
         <functioncall prog_lang="lua">boolean = reaper.SetMediaTrackInfo_Value(MediaTrack tr, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_SetMediaTrackInfo_Value(MediaTrack tr, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=5.974
+            Reaper=5.982
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -14485,7 +14524,9 @@
             I_AUTOMODE : int * : track automation mode (0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
             I_NCHAN : int * : number of track channels, must be 2-64, even
             I_SELECTED : int * : track selected? 0 or 1
-            I_WNDH : int * : current TCP window height (Read-only)
+            I_WNDH : int * : current TCP window height including envelopes (Read-only)
+            I_TCPH : int * : current TCP window height not including envelopes (Read-only)
+            I_TCPY : int * : current TCP window Y position relative to top of arrange view (Read-only)
             I_FOLDERDEPTH : int * : folder depth change (0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
             I_FOLDERCOMPACT : int * : folder compacting (only valid on folders), 0=normal, 1=small, 2=tiny children
             I_MIDIHWOUT : int * : track midi hardware output index (&gt;0 for disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31))

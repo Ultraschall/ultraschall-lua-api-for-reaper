@@ -311,7 +311,7 @@ function ultraschall.GetItemFadeIn(MediaItem, statechunk)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>string fadestate1, number fadestate2, number fadestate3, string fadestate4, integer fadestate5, number fadestate6 = ultraschall.GetItemFadeIn(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
+  <functioncall>number fadestate1, number fadestate2, number fadestate3, number fadestate4, integer fadestate5, number fadestate6 = ultraschall.GetItemFadeIn(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns fadein-entries of a MediaItem or MediaItemStateChunk.
     Returns nil in case of error.
@@ -321,10 +321,10 @@ function ultraschall.GetItemFadeIn(MediaItem, statechunk)
     string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
   </parameters>
   <retvals>
-    string curvetype1 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype2
+    number curvetype1 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype2
     number fadein - fadein in seconds
     number fadestate3 - fadeinstate entry as set in the rppxml-mediaitem-statechunk
-    string curvetype2 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype1
+    number curvetype2 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype1
     integer fadestate5 - fadeinstate entry as set in the rppxml-mediaitem-statechunk
     number curve - curve -1 to 1
   </retvals>
@@ -372,7 +372,7 @@ function ultraschall.GetItemFadeOut(MediaItem, statechunk)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>string curvetype1, number fadeout_length, number fadeout_length2, string curvetype2, integer fadestate5, number curve = ultraschall.GetItemFadeOut(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
+  <functioncall>number curvetype1, number fadeout_length, number fadeout_length2, number curvetype2, integer fadestate5, number curve = ultraschall.GetItemFadeOut(MediaItem MediaItem, optional string MediaItemStateChunk)</functioncall>
   <description>
     Returns fadeout-entries of a MediaItem or MediaItemStateChunk.
     Returns nil in case of error.
@@ -382,10 +382,10 @@ function ultraschall.GetItemFadeOut(MediaItem, statechunk)
     optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
   </parameters>
   <retvals>
-    string curvetype1 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype2
+    number curvetype1 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype2
     number fadeout_length - the current fadeout-length in seconds
     number fadeout_length2 - the fadeout-length in seconds; overrides fadeout_length and will be moved to fadeout_length when fadeout-length changes(e.g. mouse-drag); might be autocrossfade-length
-    string curvetype2 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype1
+    number curvetype2 - the type of the curve: 0, 1, 2, 3, 4, 5, 5.1; must be set like curvetype1
     integer fadestate5 - unknown
     number curve - curvation of the fadeout, -1 to 1
   </retvals>
@@ -2706,18 +2706,18 @@ function ultraschall.GetItemChanMode(MediaItem, statechunk)
     optional string MediaItemStateChunk - an rpp-xml-statechunk, as created by reaper-api-functions like GetItemStateChunk
   </parameters>
   <retvals>
-    integer channelmode - channelmode
-    - 0 - normal
-    - 1 - reverse stereo
-    - 2 - Mono (Mix L+R)
-    - 3 - Mono Left
-    - 4 - Mono Right
-    - 5 - Mono 3
-    - ...
-    - 66 - Mono 64
-    - 67 - Stereo 1/2
-    - ...
-    - 129 - Stereo 63/64
+    integer channelmode - channelmode of the MediaItem
+                        - 0 - normal
+                        - 1 - reverse stereo
+                        - 2 - Mono (Mix L+R)
+                        - 3 - Mono Left
+                        - 4 - Mono Right
+                        - 5 - Mono 3
+                        - ...
+                        - 66 - Mono 64
+                        - 67 - Stereo 1/2
+                        - ...
+                        - 129 - Stereo 63/64
   </retvals>
   <chapter_context>
     MediaItem Management
@@ -3051,7 +3051,7 @@ function ultraschall.SetItemUSTrackNumber_StateChunk(statechunk, tracknumber)
 </US_DocBloc>
 ]]
   if ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemUSTrackNumber_StateChunk","MediaItemStateChunk", "must be a valid MediaItemStateChunk.", -1) return -1 end
-  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("SetItemUSTrackNumber_StateChunk","tracknumber", "must be an integer.", -2) end
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("SetItemUSTrackNumber_StateChunk","tracknumber", "must be an integer.", -2) return -1 end
   if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("SetItemUSTrackNumber_StateChunk","tracknumber", "no such track.", -3) return -1 end
   if statechunk:match("ULTRASCHALL_TRACKNUMBER") then 
     statechunk="<ITEM\n"..statechunk:match(".-ULTRASCHALL_TRACKNUMBER.-%c(.*)")
@@ -3096,9 +3096,9 @@ function ultraschall.SetItemPosition(MediaItem, position, statechunk)
   -- check parameters
   local _tudelu
   if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
-  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemPosition", "statechunk", "Must be a valid statechunk.", -1) return nil
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemPosition", "statechunk", "Must be a valid statechunk.", -1) return -1
   end
-  if type(position)~="number" then ultraschall.AddErrorMessage("SetItemPosition", "position", "Must be a number.", -2) return nil end  
+  if type(position)~="number" then ultraschall.AddErrorMessage("SetItemPosition", "position", "Must be a number.", -2) return -1 end  
   if position<0 then ultraschall.AddErrorMessage("SetItemPosition", "position", "Must bigger than or equal 0.", -3) return -1 end
   
   -- do the magic
@@ -3147,10 +3147,10 @@ function ultraschall.SetItemLength(MediaItem, length, statechunk)
   -- check parameters
   local _tudelu
   if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==true then _tudelu, statechunk=reaper.GetItemStateChunk(MediaItem, "", false) 
-  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemLength", "statechunk", "Must be a valid statechunk.", -1) return nil
+  elseif ultraschall.IsValidItemStateChunk(statechunk)==false then ultraschall.AddErrorMessage("SetItemLength", "statechunk", "Must be a valid statechunk.", -1) return -1
   end
 --  reaper.MB(type(length),length,0)
-  if type(length)~="number" then ultraschall.AddErrorMessage("SetItemLength", "length", "Must be a number.", -2) return nil end  
+  if type(length)~="number" then ultraschall.AddErrorMessage("SetItemLength", "length", "Must be a number.", -2) return -1 end  
   if length<0 then ultraschall.AddErrorMessage("SetItemLength", "length", "Must bigger than or equal 0.", -3) return -1 end
   
   -- do the magic

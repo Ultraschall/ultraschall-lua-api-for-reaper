@@ -1706,7 +1706,7 @@ function ultraschall.SetFXStateChunk(StateChunk, FXStateChunk, TakeFXChain_id)
 ]]
   if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SetFXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
   if ultraschall.IsValidTrackStateChunk(StateChunk)==false and ultraschall.IsValidMediaItemStateChunk(StateChunk)==false then ultraschall.AddErrorMessage("SetFXStateChunk", "StateChunk", "no valid Track/ItemStateChunk", -1) return false end
-  if TakeFXChain_id~=nil and math.type(TakeFXChain_id)~="integer" then ultraschall.AddErrorMessage("SetFXStateChunk", "TakeFXChain_id", "must be an integer", -3) return end
+  if TakeFXChain_id~=nil and math.type(TakeFXChain_id)~="integer" then ultraschall.AddErrorMessage("SetFXStateChunk", "TakeFXChain_id", "must be an integer", -3) return false end
   if TakeFXChain_id==nil then TakeFXChain_id=1 end
   local OldFXStateChunk=ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
   OldFXStateChunk=string.gsub(OldFXStateChunk, "\n%s*", "\n")  
@@ -2042,7 +2042,7 @@ function ultraschall.CountParmAlias_FXStateChunk(FXStateChunk, fxid)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Counts already existing Parm-Alias-entries of an FX-plugin from an FXStateChunk.
     
-    returns false in case of an error
+    returns -1 in case of an error
   </description>
   <retvals>
     integer count - the number of ParmAliases found
@@ -2060,8 +2060,8 @@ function ultraschall.CountParmAlias_FXStateChunk(FXStateChunk, fxid)
   <tags>fx management, count, parm, aliasname</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("CountParmAlias_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
-  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("CountParmAlias_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("CountParmAlias_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return -1 end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("CountParmAlias_FXStateChunk", "fxid", "must be an integer", -2) return -1 end
     
   local count=0
   local FX, UseFX2, start, stop, UseFX
@@ -2093,7 +2093,7 @@ function ultraschall.CountParmLearn_FXStateChunk(FXStateChunk, fxid)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Counts already existing Parm-Learn-entries of an FX-plugin from an FXStateChunk.
     
-    returns false in case of an error
+    returns -1 in case of an error
   </description>
   <retvals>
     integer count - the number of ParmLearn-entried found
@@ -2111,8 +2111,8 @@ function ultraschall.CountParmLearn_FXStateChunk(FXStateChunk, fxid)
   <tags>fx management, count, parm, learn</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("CountParmLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
-  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("CountParmLearn_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("CountParmLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return -1 end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("CountParmLearn_FXStateChunk", "fxid", "must be an integer", -2) return -1 end
     
   local count=0
   local FX, UseFX2, start, stop, UseFX
@@ -2143,7 +2143,7 @@ function ultraschall.CountParmLFOLearn_FXStateChunk(FXStateChunk, fxid)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Counts already existing Parm-LFOLearn-entries of an FX-plugin from an FXStateChunk.
     
-    returns false in case of an error
+    returns -1 in case of an error
   </description>
   <retvals>
     integer count - the number of LFOLearn-entried found
@@ -2161,8 +2161,8 @@ function ultraschall.CountParmLFOLearn_FXStateChunk(FXStateChunk, fxid)
   <tags>fx management, count, parm, lfo, learn</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("CountParmLFOLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return false end
-  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("CountParmLFOLearn_FXStateChunk", "fxid", "must be an integer", -2) return false end
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("CountParmLFOLearn_FXStateChunk", "FXStateChunk", "no valid FXStateChunk", -1) return -1 end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("CountParmLFOLearn_FXStateChunk", "fxid", "must be an integer", -2) return -1 end
     
   local count=0
   local FX, UseFX2, start, stop, UseFX

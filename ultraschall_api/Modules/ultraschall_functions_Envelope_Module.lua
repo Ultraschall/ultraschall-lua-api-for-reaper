@@ -65,6 +65,8 @@ function ultraschall.IsValidEnvStateChunk(statechunk)
   <functioncall>boolean valid = ultraschall.IsValidEnvStateChunk(string EnvelopeStateChunk)</functioncall>
   <description>
     returns, if a EnvelopeStateChunk is a valid statechunk
+    
+    returns false, in case of an error
   </description>
   <parameters>
     string EnvelopeStateChunk - a string to check, if it's a valid EnvelopeStateChunk
@@ -387,6 +389,8 @@ function ultraschall.CheckEnvelopePointObject(EnvelopePointObject)
   <functioncall>boolean retval = ultraschall.CheckEnvelopePointObject(array EnvelopePointObject)</functioncall>
   <description>
     Checks, if EnvelopePointObject is valid or not.
+    
+    returns false in case of an error
   </description>
   <parameters>
     array EnvelopePointObject - an array with all information of an envelope point
@@ -429,6 +433,8 @@ function ultraschall.IsValidEnvelopePointObject(EnvelopePointObject)
   <functioncall>boolean retval = ultraschall.IsValidEnvelopePointObject(array EnvelopePointObject)</functioncall>
   <description>
     Checks, if EnvelopePointObject is valid or not.
+    
+    returns false in case of an error
   </description>
   <parameters>
     array EnvelopePointObject - an array with all information of an envelope point
@@ -466,6 +472,7 @@ function ultraschall.SetEnvelopePoints_EnvelopePointObject(EnvelopePointObject, 
   <functioncall>boolean retval = ultraschall.SetEnvelopePoints_EnvelopePointObject(array EnvelopePointObject, boolean sort_in)</functioncall>
   <description>
     Sets an envelope-point, as defined in EnvelopePointObject.
+    
     returns true in case of success, false in case of failure.
   </description>
   <parameters>
@@ -502,6 +509,7 @@ function ultraschall.SetEnvelopePoints_EnvelopePointArray(EnvelopePointArray, so
   <functioncall>boolean retval = ultraschall.SetEnvelopePoints_EnvelopePointArray(array EnvelopePointArray, boolean sort_in)</functioncall>
   <description>
     Sets envelope-points, as defined in the EnvelopePointObjects, in the EnvelopePointArray.
+    
     returns true in case of success, false in case of failure.
   </description>
   <parameters>
@@ -547,6 +555,7 @@ function ultraschall.DeleteEnvelopePoints_EnvelopePointObject(EnvelopePointObjec
   <functioncall>boolean retval = ultraschall.DeleteEnvelopePoints_EnvelopePointObject(array EnvelopePointObject)</functioncall>
   <description>
     Deletes an envelope-point, as defined in EnvelopePointObject.
+    
     returns true in case of success, false in case of failure.
   </description>
   <parameters>
@@ -717,12 +726,12 @@ function ultraschall.CreateEnvelopePointObject(TrackEnvelope, idx, time, value, 
     number time - the time of the envelope point in seconds
     number value - the raw-value of the envelope point
     integer shape - the shape of this envelope
-    -0 - Linear
-    -1 - Square
-    -2 - Slow start/end
-    -3 - Fast start
-    -4 - Fast end
-    -5 - Bezier
+                  -0 - Linear
+                  -1 - Square
+                  -2 - Slow start/end
+                  -3 - Fast start
+                  -4 - Fast end
+                  -5 - Bezier
     number tension - the intensity of the tension of the shape
     boolean selected - true, if this point is selected; false if not
   </parameters>
@@ -1123,7 +1132,7 @@ function ultraschall.SetArmState_Envelope(TrackEnvelope, state, EnvelopeStateChu
 ]]  
   if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("SetArmState_Envelope", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return false end
   if math.type(state)~="integer" then ultraschall.AddErrorMessage("SetArmState_Envelope", "state", "Must be an integer, either 1 or 0", -2) return false end
-  if TrackEnvelope==nil and ultraschall.IsValidEnvStateChunk(EnvelopeStateChunk)==false then ultraschall.AddErrorMessage("SetArmState_Envelope", "EnvelopeStateChunk", "Must be a valid EnvelopeStateChunk", -3) return end
+  if TrackEnvelope==nil and ultraschall.IsValidEnvStateChunk(EnvelopeStateChunk)==false then ultraschall.AddErrorMessage("SetArmState_Envelope", "EnvelopeStateChunk", "Must be a valid EnvelopeStateChunk", -3) return false end
   if TrackEnvelope~=nil then
     local retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
     return reaper.SetEnvelopeStateChunk(TrackEnvelope, string.gsub(str, "ARM %d*%c", "ARM "..state.."\n"), false)

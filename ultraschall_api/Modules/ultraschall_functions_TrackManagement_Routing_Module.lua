@@ -1043,6 +1043,8 @@ function ultraschall.ClearRoutingMatrix(ClearHWOuts, ClearAuxRecvs, ClearTrackMa
   <functioncall>boolean retval = ultraschall.ClearRoutingMatrix(boolean ClearHWOuts, boolean ClearAuxRecvs, boolean ClearTrackMasterSends, boolean ClearMasterTrack, boolean undo)</functioncall>
   <description>
     Clears all routing-matrix-settings or optionally part of them
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, clearing was successful; false, clearing was unsuccessful
@@ -1249,6 +1251,8 @@ function ultraschall.ApplyAllHWOuts(AllHWOuts, option)
       table[tracknumber][HWOutIndex]["automationmode"]  - the automation-mode of this HWOutIndex of tracknumber    
           
       See [GetTrackHWOut](#GetTrackHWOut) for more details on the individual settings, stored in the entries.
+      
+      returns false in case of an error
   </description>
   <parameters>
     table AllHWOuts - a table with all AllHWOut-entries of the current project
@@ -1426,6 +1430,8 @@ function ultraschall.ApplyAllAUXSendReceives(AllAUXSendReceives, option)
       table[tracknumber][AUXSendReceivesIndex]["automation"]        - the automation-mode of this AUXSendReceivesIndex  of tracknumber
       
       See [GetTrackAUXSendReceives](#GetTrackAUXSendReceives) for more details on the individual settings, stored in the entries.
+      
+      returns false in case of an error
   </description>
   <parameters>
     table AllAUXSendReceives - a table with all AllAUXSendReceive-entries of the current project
@@ -1576,6 +1582,8 @@ function ultraschall.ApplyAllMainSendStates(AllMainSendsTable, option)
       Table[tracknumber]["ParentChannels"] - the parent channels of this track
       
       See [GetTrackMainSendState](#GetTrackMainSendState) for more details on the individual settings, stored in the entries.
+      
+      returns false in case of an error
   </description>
   <parameters>
     table AllMainSends - a table with all AllMainSends-entries of the current project
@@ -1622,6 +1630,8 @@ function ultraschall.AreHWOutsTablesEqual(Table1, Table2, option)
     Compares two HWOuts-tables, as returned by [GetAllHWOuts](#GetAllHWOuts) or [GetAllHWOuts2](#GetAllHWOuts)
 
     if option=2 then it will also compare, if the stored track-guids are the equal. Otherwise, it will only check the individual settings, even if the guids are different between the two tables.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, if the two tables are equal HWOuts; false, if not
@@ -1688,6 +1698,8 @@ function ultraschall.AreMainSendsTablesEqual(Table1, Table2, option)
     Compares two AllMainSends-tables, as returned by [GetAllMainSendStates](#GetAllMainSendStates) or [GetAllMainSendStates2](#GetAllMainSendStates2)
 
     if option=2 then it will also compare, if the stored track-guids are the equal. Otherwise, it will only check the individual settings, even if the guids are different between the two tables.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, if the two tables are equal AllMainSends; false, if not
@@ -1743,6 +1755,8 @@ function ultraschall.AreAUXSendReceivesTablesEqual(Table1, Table2, option)
     Compares two AllAUXSendReceives-tables, as returned by [GetAllAUXSendReceives](#GetAllAUXSendReceives) or [GetAllAUXSendReceives2](#GetAllAUXSendReceives2)
     
     if option=2 then it will also compare, if the stored track-guids are the equal. Otherwise, it will only check the individual settings, even if the guids are different between the two tables.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, if the two tables are equal AllMainSends; false, if not

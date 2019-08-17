@@ -2800,7 +2800,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
             
-    Returns nil in case of an error
+    Returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, setting the render-settings was successful; false, it wasn't successful
@@ -2944,7 +2944,7 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
             RenderTable["TailFlag"] - in which bounds is the Tail-checkbox checked? &1, custom time bounds; &2, entire project; &4, time selection; &8, all project regions; &16, selected media items; &32, selected project regions
             RenderTable["TailMS"] - the amount of milliseconds of the tail
             
-    Returns nil in case of an error
+    Returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, setting the render-settings was successful; false, it wasn't successful
@@ -3662,7 +3662,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
      RenderTable["TailMS"] - the amount of milliseconds of the tail; always 0, as this isn't stored in render-presets
      
      
-     Returns false in case of an error
+     Returns nil in case of an error
    </description>
    <parameters>
      string Bounds_Name - the name of the Bounds-render-preset you want to get

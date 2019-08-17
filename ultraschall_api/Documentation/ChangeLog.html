@@ -46,30 +46,63 @@ Ultraschall API Changelog
 <li>Helper Functions: FindPatternsInString - finds all occurrences of a matching-pattern in a string</li>
 <li>Helper Functions: IsWithinTimeRange - returns, if a time is within a start and endtime, takes care of the precision-problem time-positions in Lua have</li>
 <li>EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript</li>
+<li>MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project</li>
 <li>ProjectManagement: GetProjectStateChunk - returns the ProjectStateChunk of the current project(finally working!)</li>
 <li>Trackmanagement: IsSplitAtPosition - returns, if a split/mediaitemend/mediaitemstart exists at a certain position, within certain tracks</li>
 <li>User Interface: GetMediaExplorerHWND - gets the HWND-windowhandler of the Media Explorer</li>
 <li>User Interface: UpdateMediaExplorer - updates the listview of the Media Explorer</li>
-<li>User Interface: MediaExplorer_OnCommand - runs an Media Explorer action(just like Reaper's Main_OnCommand and Midi_OnCommand-functions); runs no scripts yet</li>
+<li>User Interface: MediaExplorer_OnCommand - runs an Media Explorer action(just like Reaper's Main_OnCommand and Midi_OnCommand-functions); runs no scripts yet, only native/extension actions</li>
 </ul>
 <h4>Changes from Beta 2.76 to Beta 2.77</h4>
 <ul>
 <li>API: functions - moved all functions into modules for future modular-concept</li>
+<li>Automation Items: GetProject_CountAutomationItems - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>ColorManagement: RGB2Grayscale - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Configuration Files: CountIniFileExternalState_sec - did count keys instead of sections -&gt; fixed(thanks to rstockm)</li>
+<li>Configuration Files: CountUSExternalState_sec - did count keys instead of sections -&gt; fixed(thanks to rstockm)</li>
+<li>Configuration Files: CountUSExternalState_key - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Configuration Files: DeleteKBIniActions - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Configuration Files: DeleteKBIniScripts - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Configuration Files: DeleteKBIniKeys - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Configuration Files: EnumerateIniFileExternalState_sec - did enumerate keys instead of sections -&gt; fixed(thanks to rstockm)</li>
+<li>Configuration Files: EnumerateKeysByPattern - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Configuration Files: EnumerateSectionsByPattern - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Configuration Files: EnumerateUSExternalState_sec - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Configuration Files: EnumerateUSExternalState_key - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Configuration Files: EnumerateValuesByPattern - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Configuration Files: GetKBIniKeys - enhanced description for osc</li>
+<li>Configuration Files: GetKBIniScripts_ByActionCommandID - changed retval in case of an error to nil, instead of -1. More consistent that way(sorry for any inconvenience)</li>
+<li>Configuration Files: GetKBIniKeys_ByActionCommandID - changed retval in case of an error to nil, instead of -1. More consistent that way(sorry for any inconvenience)</li>
+<li>Configuration Files: SetIniFileExternalState - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Configuration Files: SetKBIniKeys - enhanced description for osc</li>
 <li>Docs: Doc-Engine - had wrong parameters and retvals in numerous functions...fixed(ooops)</li>
 <li>Docs: GetRenderingToFileHWND - had parameters described, that don't exist -&gt; fixed</li>
 <li>Docs: GetTrackSendInfo_Value - fixed Markdown-formatting-problems</li>
 <li>Docs: SetTrackSendInfo_Value - fixed Markdown-formatting-problems</li>
 <li>Docs: print-functions - all print-functions, like sprint, fprint, gfx.printf, etc include now formatting information in the description.</li>
+<li>Docs: Reaper-docs - updated to 5.982</li>
+<li>FileManagement: CountLinesInFile - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>FileManagement: GetLengthOfFile - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>FileManagement: MakeCopyOfFile_Binary - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>FileManagement: ReadValueFromFile - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>FileManagement: ReadBinaryFileUntilPattern - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>FileManagement: ReadBinaryFileFromPattern - didn't return the right retval in case of an error -&gt; fixed</li>
 <li>FXManagement: GetFXStateChunk - had layoutproblem, when the passed StateChunk was taken from a ProjectStateChunk -&gt; fixed(thanks to lossius)</li>
-<li>Configurationfiles: CountUSExternalState_sec - did count keys instead of sections -&gt; fixed(thanks to rstockm)</li>
-<li>Configurationfiles: CountIniFileExternalState_sec - did count keys instead of sections -&gt; fixed(thanks to rstockm)</li>
-<li>Configurationfiles: EnumerateIniFileExternalState_sec - did enumerate keys instead of sections -&gt; fixed(thanks to rstockm)</li>
+<li>Helper Functions: CompareStringWithAsciiValues - returned -1 in case of an error, although boolean should be returned -&gt; fixed</li>
+<li>Helper Functions: ConvertIntegerIntoString2 - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Helper Functions: CSV2IndividualLinesAsArray - didn't return the right retval in case of an error -&gt; fixed</li>
 <li>Helper Functions: GetUserInputs - did change the tables passed as default-retvals -&gt; fixed now</li>
+<li>Helper Functions: GetScriptFilenameFromActionCommandID - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Helper Functions: IsItemInTrack - changed error-retval to nil; didn't return the right retval in case of an error -&gt; fixed</li>
 <li>Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
+<li>Helper Functions: LoadFunctionFromExtState - didn't return the right retval in case of an error -&gt; fixed</li>
 <li>Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>Helper Functions: SecondsToTimeString_hh_mm_ss_mss - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
+<li>Helper Functions: SetIntConfigVar_Bitfield - didn't return the right retval in case of an error -&gt; fixed</li>
 <li>Helper Functions: TimeStringToSeconds_hh_mm_ss_mss - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>Helper Functions: TimeToSeconds - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
+<li>Helper Functions: ToggleStateAction - wrongly stated to return boolean instead of integer in the docs -&gt; fixed</li>
+<li>Helper Functions: ToggleStateButton - wrongly retval-description in the docs -&gt; fixed</li>
 <li>HWND: GetActionsHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
 <li>HWND: GetBatchFileItemConverterHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
 <li>HWND: GetConsolidateTracksHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
@@ -82,9 +115,35 @@ Ultraschall API Changelog
 <li>HWND: GetRenderingToFileHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
 <li>HWND: GetSaveLiveOutputToDiskHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
 <li>HWND: GetVideoHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
+<li>Localize: Localize - docs stated returning false in case of an error, but returns nil -&gt; fixed</li>
+<li>Marker Management: DeleteNormalMarker - returned wrong retval in case of an error -&gt; fixed</li>
+<li>Marker Management: DeleteEditMarker - returned wrong retval in case of an error -&gt; fixed</li>
+<li>Marker Management: EnumerateEditRegion - returned wrong retval in case of an error -&gt; fixed</li>
+<li>Marker Management: SetMarkerByIndex - returned wrong retval in case of an error -&gt; fixed</li>
+<li>MediaItem Management: GetItemFadeIn - stated string as returnvalue in the docs, though number was returned for some retvals -&gt; fixed</li>
+<li>MediaItem Management: GetItemFadeOut - stated string as returnvalue in the docs, though number was returned for some retvals -&gt; fixed</li>
+<li>MediaItem Management: GetItemSpectralConfig - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>MediaItem Management: GetItemSpectralVisibilityState - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>MediaItem Management: GetMediaItemTake - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>MediaItem Management: RippleInsert_MediaItemStateChunks - had inner variable exposed</li>
+<li>MediaItem Management: SetItemLength - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>MediaItem Management: SetItemPosition - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>MediaItem Management: SetItemUSTrackNumber_StateChunk - didn't return in some errorcases, potentially resulting in a Lua-error -&gt; fixed</li>
+<li>MediaItem Management: SplitMediaItems_Position - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Metadata Management: GetProjExtState_AllKeyValues - returns -1 now in case of an error</li>
 <li>Project Management: GetProject_MasterGroupFlagsState - moved to correct docsindex Project Management</li>
 <li>Project Management: SetProject_MasterGroupFlagsState - moved to correct docsindex Project Management</li>
+<li>Rendering: ApplyRenderTable_Project - stated nil as retval in case of an error, though it is false -&gt; fixed</li>
+<li>Rendering: ApplyRenderTable_ProjectFile - stated nil as retval in case of an error, though it is false -&gt; fixed</li>
+<li>Rendering: GetRenderPreset_RenderTable - stated false as retval in case of an error, though it is nil -&gt; fixed</li>
+<li>Track Management: RemoveMediaItem_TrackStateChunk - docs incorrectly stated nil as retval in case of an error -&gt; fixed</li>
+<li>Track Management: RemoveMediaItemByIGUID_TrackStateChunk - docs incorrectly stated nil as retval in case of an error -&gt; fixed</li>
+<li>Track Management: RemoveMediaItemByGUID_TrackStateChunk - docs incorrectly stated nil as retval in case of an error -&gt; fixed</li>
+<li>Track Management: SetMediaItemStateChunk<em>in</em>TrackStateChunk - docs incorrectly stated nil as retval in case of an error -&gt; fixed</li>
 <li>Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs</li>
+<li>User Interface: GetVideoHWND - returned wrong retval in case of an error -&gt; fixed</li>
+<li>Video: VID_Pixels2VideoUIStateCoords - returned wrong retval in case of an error -&gt; fixed</li>
+<li>Video: VID_VideoUIStateCoords2Pixels - returned wrong retval in case of an error -&gt; fixed</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.76: - "The Police - Walking on the Moon" - 20th of July 2019</h3>

@@ -65,6 +65,8 @@ function ultraschall.ZoomVertical_MidiEditor(zoomamt, HWND)
   <functioncall>boolean retval = ultraschall.ZoomVertical_MidiEditor(integer zoomamt, optional HWND midieditor_hwnd)</functioncall>
   <description>
     Zooms within the Midi-Editor vertically.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, if zooming was successful; false, if not
@@ -111,6 +113,8 @@ function ultraschall.ZoomHorizontal_MidiEditor(zoomamt, HWND)
   <functioncall>boolean retval = ultraschall.ZoomHorizontal_MidiEditor(integer zoomamt, optional HWND midieditor_hwnd)</functioncall>
   <description>
     Zooms within the Midi-Editor horizontally.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, if zooming was successful; false, if not
@@ -159,6 +163,8 @@ function ultraschall.OpenItemInMidiEditor(MediaItem)
   <functioncall>boolean retval = ultraschall.OpenItemInMidiEditor(MediaItem MediaItem)</functioncall>
   <description>
     opens a given MediaItem in the MIDI-Editor
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, if opening was successful; false, if not

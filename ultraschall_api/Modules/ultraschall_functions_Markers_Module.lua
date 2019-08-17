@@ -67,6 +67,8 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
     Adds a normal marker. Returns the index of the marker as marker_number.
     
     Normal markers are all markers, that don't include "_Shownote:" or "_Edit" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
+    
+    returns -1 in case of an error
   </description>
   <retvals>
      integer marker_number  - the overall-marker-index, can be used for reaper's own marker-management functions
@@ -111,6 +113,8 @@ function ultraschall.AddPodRangeRegion(startposition, endposition)
   <functioncall>integer marker_number = ultraschall.AddPodRangeRegion(number startposition, number endposition)</functioncall>
   <description>
     Adds a region, which shows the time-range from the beginning to the end of the podcast.
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     integer marker_number  - the overall-marker-index, can be used for reaper's own marker-management functions
@@ -329,7 +333,7 @@ function ultraschall.SetMarkerByIndex(idx, searchisrgn, shown_number, pos, rgnen
   <description>
     Sets the values of a certain marker/region. The numbering of idx is either only for the markers or for regions, depending on what you set with parameter searchisrgn.
     
-    returns nil in case of an error
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, setting the marker/region was successful; false, setting of the marker/region was unsuccessful.
@@ -354,14 +358,14 @@ function ultraschall.SetMarkerByIndex(idx, searchisrgn, shown_number, pos, rgnen
 </US_DocBloc>
 --]]
   -- check parameters
-  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("SetMarkerByIndex", "idx", "must be an integer", -1) return -1 end
-  if type(searchisrgn)~="boolean" then ultraschall.AddErrorMessage("SetMarkerByIndex", "searchisrgn", "must be boolean", -2) return -1 end
-  if math.type(shown_number)~="integer" then ultraschall.AddErrorMessage("SetMarkerByIndex", "shown_number", "must be an integer", -3) return -1 end
-  if type(pos)~="number" then ultraschall.AddErrorMessage("SetMarkerByIndex", "pos", "must be a number", -4) return -1 end
-  if type(rgnend)~="number" then ultraschall.AddErrorMessage("SetMarkerByIndex", "rgnend", "must be a number", -5) return -1 end
-  if type(name)~="string" then ultraschall.AddErrorMessage("SetMarkerByIndex", "name", "must be a string", -5) return -1 end
-  if math.type(color)~="integer" then ultraschall.AddErrorMessage("SetMarkerByIndex", "color", "must be an integer", -6) return -1 end
-  if math.type(flags)~="integer" then ultraschall.AddErrorMessage("SetMarkerByIndex", "flags", "must be an integer", -7) return -1 end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("SetMarkerByIndex", "idx", "must be an integer", -1) return false end
+  if type(searchisrgn)~="boolean" then ultraschall.AddErrorMessage("SetMarkerByIndex", "searchisrgn", "must be boolean", -2) return false end
+  if math.type(shown_number)~="integer" then ultraschall.AddErrorMessage("SetMarkerByIndex", "shown_number", "must be an integer", -3) return false end
+  if type(pos)~="number" then ultraschall.AddErrorMessage("SetMarkerByIndex", "pos", "must be a number", -4) return false end
+  if type(rgnend)~="number" then ultraschall.AddErrorMessage("SetMarkerByIndex", "rgnend", "must be a number", -5) return false end
+  if type(name)~="string" then ultraschall.AddErrorMessage("SetMarkerByIndex", "name", "must be a string", -5) return false end
+  if math.type(color)~="integer" then ultraschall.AddErrorMessage("SetMarkerByIndex", "color", "must be an integer", -6) return false end
+  if math.type(flags)~="integer" then ultraschall.AddErrorMessage("SetMarkerByIndex", "flags", "must be an integer", -7) return false end
 
   -- prepare variable
   local markercount=0
@@ -393,8 +397,8 @@ function ultraschall.SetMarkerByIndex(idx, searchisrgn, shown_number, pos, rgnen
   end
   
   -- if no such marker/region has been found
-  if searchisrgn==true then ultraschall.AddErrorMessage("SetMarkerByIndex", "idx", "no such region", -8) return nil end
-  if searchisrgn==false then ultraschall.AddErrorMessage("SetMarkerByIndex", "idx", "no such marker", -9) return nil end
+  if searchisrgn==true then ultraschall.AddErrorMessage("SetMarkerByIndex", "idx", "no such region", -8) return false end
+  if searchisrgn==false then ultraschall.AddErrorMessage("SetMarkerByIndex", "idx", "no such marker", -9) return false end
   return false
 end
 
@@ -410,6 +414,8 @@ function ultraschall.AddEditMarker(position, shown_number, edittitle)
   <functioncall> integer marker_number = ultraschall.AddEditMarker(number position, integer shown_number, string edittitle)</functioncall>
   <description>
     Adds an Edit marker. Returns the index of the marker as marker_number. 
+    
+    returns -1 in case of an error
   </description>
   <retvals>
      integer marker_number  - the overall-marker-index, can be used for reaper's own marker-management functions
@@ -664,7 +670,9 @@ function ultraschall.EnumerateEditMarkers(number)
   </requires>
   <functioncall> integer retnumber, integer shown_number, number position, string edittitle = ultraschall.EnumerateEditMarkers(integer edit_index)</functioncall>
   <description>
-    Get the data of an edit marker.
+    Gets the data of an edit marker.
+    
+    returns -1 in case of an error
   </description>
   <retvals>
      integer retnumber - overallmarker/regionnumber of marker beginning with 1 for the first marker; ignore the order of first,second,etc creation of
@@ -891,6 +899,8 @@ function ultraschall.SetNormalMarker(number, position, shown_number, markertitle
      Sets values of a normal Marker(no _Chapter:, _Shownote:, etc). Returns true if successful and false if not(i.e. marker doesn't exist)
      
      Normal markers are all markers, that don't include "_Shownote:" or "_Edit" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
+     
+     returns false in case of an error
   </description>
   <parameters>
     integer number - the number of the normal marker
@@ -961,6 +971,8 @@ function ultraschall.SetEditMarker(number, position, shown_number, edittitle)
   <functioncall> boolean retval = ultraschall.SetEditMarker(integer edit_index, number position, integer shown_number, string edittitle)</functioncall>
   <description>
     Sets values of an Edit Marker. Returns true if successful and false if not(i.e. marker doesn't exist)
+    
+    returns false in case of an error
   </description>
   <parameters>
     integer edit_index - the number of the edit marker
@@ -1071,6 +1083,7 @@ function ultraschall.DeletePodRangeRegion()
   <functioncall> integer retval = ultraschall.DeletePodRangeRegion()</functioncall>
   <description>
     deletes the PodRange-Region. 
+    
     Returns false if unsuccessful
   </description>
   <retvals>
@@ -1114,6 +1127,8 @@ function ultraschall.DeleteNormalMarker(number)
     Deletes a Normal-Marker. Returns true if successful and false if not(i.e. marker doesn't exist) Use <a href="#EnumerateNormalMarkers">ultraschall.EnumerateNormalMarkers</a> to get the correct number.
     
     Normal markers are all markers, that don't include "_Shownote:" or "_Edit" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
+    
+    returns -1 in case of an error
   </description>
   <parameters>
     integer number - number of a normal marker
@@ -1131,7 +1146,7 @@ function ultraschall.DeleteNormalMarker(number)
 </US_DocBloc>
 --]]
   -- check parameters
-  if math.type(number)~="integer" then ultraschall.AddErrorMessage("DeleteNormalMarker", "number", "must be a number", -1) return -1 end
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("DeleteNormalMarker", "number", "must be a number", -1) return false end
 
   -- prepare variables
   local c,nummarkers,b=reaper.CountProjectMarkers(0)
@@ -1188,7 +1203,7 @@ function ultraschall.DeleteEditMarker(number)
 </US_DocBloc>
 --]]
   -- check parameters
-  if math.type(number)~="integer" then ultraschall.AddErrorMessage("DeleteEditMarker", "edit_index", "must be integer", -1) return -1 end
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("DeleteEditMarker", "edit_index", "must be integer", -1) return false end
   
   -- prepare variables
   number=number-1
@@ -1297,6 +1312,8 @@ function ultraschall.ExportNormalMarkersToFile(filename_with_path, PodRangeStart
     Export Normal-Markers to filename_with_path. Returns -1 in case of error.
     
     Normal markers are all markers, that don't include "_Shownote:" or "_Edit" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
+    
+    returns -1 in case of an error
   </description>
   <retvals>
      integer retval  - 1 in case of success, -1 if it failed
@@ -1482,6 +1499,8 @@ function ultraschall.MarkerToEditMarker(number)
     Converts a normal-marker to an edit-marker.
     
     Normal markers are all markers, that don't include "_Shownote:" or "_Edit" in the beginning of their name, as well as markers with the color 100,255,0(planned chapter).
+    
+    returns -1 in case of an error
   </description>
   <retvals>
      integer idx - overallmarker/regionnumber of marker beginning with 1 for the first marker; ignore the order of first,second,etc creation of
@@ -1534,6 +1553,8 @@ function ultraschall.EditToMarker(number)
   <functioncall> integer idx, integer shown_number, number position, string markertitle = ultraschall.EditToMarker(integer edit_index)</functioncall>
   <description>
     Converts an edit-marker to a normal marker.
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     integer idx - overallmarker/regionnumber of marker beginning with 1 for the first marker; ignore the order of first,second,etc creation of
@@ -1678,6 +1699,8 @@ function ultraschall.GetMarkerByTime(position, retina)
     
     Returned string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2\n...".
     Returns only markers, no time markers or regions!
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string marker - a string with all markernumbers, markerpositions and markertitles, separated by a newline. 
@@ -1762,6 +1785,8 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition, retina)
   <description>
     returns the regions at a given absolute-x-pixel-position. It sees regions according their graphical representation in the arrange-view, not just their position! Returned string will be "Regionidx\npos\nName\nRegionidx2\npos2\nName2\n...".
     Returns only regions, no time markers or other markers!
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string marker - a string with all regionnumbers, regionpositions and regionnames, separated by a newline. 
@@ -1845,7 +1870,9 @@ function ultraschall.GetRegionByTime(position, retina)
   <functioncall>string markers = ultraschall.GetRegionByTime(number position, boolean retina)</functioncall>
   <description>
     returns the regions at a given absolute-x-pixel-position. It sees regions according their graphical representation in the arrange-view, not just their position! Returned string will be "Regionidx\npos\nName\nRegionidx2\npos2\nName2\n...".
-    Returns only regions, no time markers or other markers!
+    Returns only regions, no timesignature-markers or other markers!
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string marker - a string with all regionnumbers, regionpositions and regionnames, separated by a newline. 
@@ -1930,6 +1957,8 @@ function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition, retina
   <description>
     returns the time-signature/tempo-marker at a given absolute-x-pixel-position. It sees time-signature/tempo-markers according their graphical representation in the arrange-view, not just their position! Returned string will be "tempomarkeridx\npos\ntempomarkeridx2\npos2\n...".
     Returns only time-signature-markers, no regions or other markers!
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string marker - a string with all markernumbers and markerpositions, separated by a newline. 
@@ -2001,6 +2030,8 @@ function ultraschall.GetTimeSignaturesByTime(position, retina)
   <description>
     returns the time-signature/tempo-marker at a given absolute-x-pixel-position. It sees time-signature/tempo-markers according their graphical representation in the arrange-view, not just their position! Returned string will be "tempomarkeridx\npos\ntempomarkeridx2\npos2\n...".
     Returns only time-signature-markers, no other markers or regions!
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string marker - a string with all markernumbers and markerpositions, separated by a newline. 
@@ -2073,6 +2104,8 @@ function ultraschall.IsMarkerEdit(markerid)
   <description>
     returns true, if the marker is an edit-marker, false if not. Returns nil, if markerid is invalid.
     Markerid is the marker-number for all markers, as used by marker-functions from Reaper.
+    
+    returns nil in case of an error
   </description>
   <retvals>
     boolean retval - true, if it's an edit-marker, false if not
@@ -2116,6 +2149,8 @@ function ultraschall.IsMarkerNormal(markerid)
   <description>
     returns true, if the marker is a normal-marker, false if not. Returns nil, if markerid is invalid.
     Markerid is the marker-number for all markers, as used by marker-functions from Reaper.
+    
+    returns nil in case of an error
   </description>
   <retvals>
     boolean retval - true, if it's an normal-marker, false if not
@@ -2158,6 +2193,8 @@ function ultraschall.IsRegionPodrange(markerid)
   <description>
     returns true, if the marker is a Podrange-region, false if not. Returns nil, if markerid is invalid.
     Markerid is the marker-number for all markers, as used by marker-functions from Reaper.
+    
+    returns nil in case of an error
   </description>
   <retvals>
     boolean retval - true, if it's a PodRange-Region, false if not
@@ -2187,7 +2224,6 @@ function ultraschall.IsRegionPodrange(markerid)
   return false
 end
 
-
 function ultraschall.IsRegionEditRegion(markerid)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -2201,6 +2237,8 @@ function ultraschall.IsRegionEditRegion(markerid)
   <description>
     returns true, if the marker is an Edit-region, false if not. Returns nil, if markerid is invalid.
     Markerid is the marker-number for all markers, as used by marker-functions from Reaper.
+    
+    returns nil in case of an error
   </description>
   <retvals>
     boolean retval - true, if it's an Edit-Region, false if not
@@ -2244,6 +2282,7 @@ function ultraschall.AddEditRegion(startposition, endposition, text)
   <description>
     Adds a new edit-region and returns index of the newly created edit-marker-region.
     
+    returns -1 in case of an error
   </description>
   <retvals>
     integer markernr - the number of the newly created region
@@ -2307,6 +2346,8 @@ function ultraschall.SetEditRegion(number, position, endposition, edittitle)
     Sets the values of an already existing edit-region. To retain an already set position, endposition and/or edittitle, use nil.
     Returns true in case of success, false if not.
     Note: if you set the new beginning of the region before another region, the indexnumber of the edit-region changes. So if you want to set an edit-region repeatedly, you should get the indexnumber using <a href="#EnumerateEditRegion">ultraschall.EnumerateEditRegion</a>, or you might accidently change another region!
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     boolean retval - true, in case of success, false if not
@@ -2435,6 +2476,8 @@ function ultraschall.EnumerateEditRegion(number)
   <functioncall>integer retval, number position, number endposition, string title, integer rgnindexnumber = ultraschall.EnumerateEditRegion(integer number)</functioncall>
   <description>
     Returns the values of an edit-region.
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     integer retval - the overall marker-index-number of all markers in the project, -1 in case of error
@@ -2455,7 +2498,7 @@ function ultraschall.EnumerateEditRegion(number)
   <tags>markermanagement, navigation, get, enumerate, edit region, edit, region</tags>
 </US_DocBloc>
 ]]   
-  if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateEditRegion","number", "must be an integer", -1) return false end
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateEditRegion","number", "must be an integer", -1) return -1 end
   
   local c,nummarkers,b=reaper.CountProjectMarkers(0)
   number=tonumber(number)-1
@@ -2534,7 +2577,7 @@ function ultraschall.GetAllMarkersBetween(startposition, endposition)
         markersarray[index][3] - the shown index-number
         markersarray[index][4] - the color of the marker
     
-    returns -1 in case of error    
+    returns -1 in case of error
   </description>
   <retvals>
     integer number_of_allmarkers - the number of markers returned
@@ -2589,6 +2632,7 @@ function ultraschall.GetAllRegions()
         regionarray[index][4] - the shown index-number
         regionarray[index][5] - the color of the region
         
+    returns -1 in case of error
   </description>
   <retvals>
     integer number_of_allregions - the number of regions returned
@@ -2648,7 +2692,8 @@ function ultraschall.GetAllRegionsBetween(startposition, endposition, partial)
         regionarray[index][3] - indexnumber of the region within all markers in the project
         regionarray[index][4] - the shown index-number
         regionarray[index][5] - the color of the region
-        
+    
+    returns -1 in case of error
   </description>
   <retvals>
     integer number_of_allregions - the number of regions returned
@@ -2892,6 +2937,7 @@ function ultraschall.IsMarkerAtPosition(position)
     
     The marker-numbers are numerated by order, not the shown marker-numbers!
     
+    returns false in case of error
   </description>
   <parameters>
     number position - the position to check for markers in seconds; only positive numbers
@@ -2950,6 +2996,7 @@ function ultraschall.IsRegionAtPosition(position)
     
     The region-numbers are numerated by order, not the shown region-numbers!
     
+    returns false in case of error
   </description>
   <parameters>
     number position - the position to check for regions in seconds; only positive numbers

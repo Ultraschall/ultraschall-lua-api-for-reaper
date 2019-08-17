@@ -89,7 +89,7 @@ function ultraschall.SetIniFileExternalState(section, key, value, ini_filename_w
   if type(key)~="string" then ultraschall.AddErrorMessage("SetIniFileExternalState", "key", "must be a string.", -2) return false end
   if type(value)~="string" then ultraschall.AddErrorMessage("SetIniFileExternalState", "value", "must be a string.", -3) return false end
   if type(ini_filename_with_path)~="string" then ultraschall.AddErrorMessage("SetIniFileExternalState", "ini_filename_with_path", "must be a string.", -4) return false end
-  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("SetIniFileExternalState", "ini_filename_with_path", "file can't be accessed.", -5) end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("SetIniFileExternalState", "ini_filename_with_path", "file can't be accessed.", -5) return false end
   if section:match(".*%=.*") then ultraschall.AddErrorMessage("SetIniFileExternalState", "section", "= is not allowed in section", -6) return false end
   if key:match(".*%=.*") then ultraschall.AddErrorMessage("SetIniFileExternalState", "key", "= is not allowed in key.", -7) return false end
 
@@ -551,11 +551,11 @@ function ultraschall.EnumerateSectionsByPattern(pattern, id, ini_filename_with_p
   <tags>configurationmanagement, enumerate, section, pattern, get, ini-files</tags>
 </US_DocBloc>
 ]]
-  if type(pattern)~="string" then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "pattern", "must be a string", -1) return -1 end
-  if ini_filename_with_path==nil then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
-  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "ini_filename_with_path", "file does not exist", -3) return -1 end
-  if math.type(id)~="integer" then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "id", "must be an integer", -4) return -1 end
-  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "pattern", "malformed pattern", -5) return -1 end
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "pattern", "must be a string", -1) return end
+  if ini_filename_with_path==nil then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "ini_filename_with_path", "must be a string", -2) return end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "ini_filename_with_path", "file does not exist", -3) return end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "id", "must be an integer", -4) return end
+  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("EnumerateSectionsByPattern", "pattern", "malformed pattern", -5) return end
   
   local count=0
   for line in io.lines(ini_filename_with_path) do
@@ -607,11 +607,11 @@ function ultraschall.EnumerateKeysByPattern(pattern, section, id, ini_filename_w
   <tags>configurationmanagement, ini-files, enumerate, section, key, pattern, get</tags>
 </US_DocBloc>
 ]]
-  if type(pattern)~="string" then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "pattern", "must be a string", -1) return -1 end
-  if ini_filename_with_path==nil then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
-  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "ini_filename_with_path", "file does not exist", -3) return -1 end
-  if math.type(id)~="integer" then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "id", "must be an integer", -4) return -1 end
-  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "pattern", "malformed pattern", -5) return -1 end
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "pattern", "must be a string", -1) return end
+  if ini_filename_with_path==nil then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "ini_filename_with_path", "must be a string", -2) return end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "ini_filename_with_path", "file does not exist", -3) return end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "id", "must be an integer", -4) return end
+  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("EnumerateKeysByPattern", "pattern", "malformed pattern", -5) return end
   
   local count=0
   local tiff=0
@@ -668,11 +668,11 @@ function ultraschall.EnumerateValuesByPattern(pattern, section, id, ini_filename
   <tags>configurationmanagement, ini-files, enumerate, section, key, value, pattern, get</tags>
 </US_DocBloc>
 ]]
-  if type(pattern)~="string" then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "pattern", "must be a string", -1) return -1 end
-  if ini_filename_with_path==nil then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "ini_filename_with_path", "must be a string", -2) return -1 end
-  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "ini_filename_with_path", "file does not exist", -3) return -1 end
-  if math.type(id)~="integer" then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "id", "must be an integer", -4) return -1 end
-  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "pattern", "malformed pattern", -5) return -1 end
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "pattern", "must be a string", -1) return end
+  if ini_filename_with_path==nil then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "ini_filename_with_path", "must be a string", -2) return end
+  if reaper.file_exists(ini_filename_with_path)==false then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "ini_filename_with_path", "file does not exist", -3) return end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "id", "must be an integer", -4) return end
+  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("EnumerateValuesByPattern", "pattern", "malformed pattern", -5) return end
   
   local count=0
   local tiff=0
@@ -996,7 +996,8 @@ function ultraschall.GetKBIniKeys(filename_with_path, idx)
     For a detailed description in how KEY-entries work, refer to <a href="Reaper-Filetype-Descriptions.html#Reaper-kb.ini">Reaper-Filetype-Descriptions.html#Reaper-kb.ini</a>.
     
     Returns -1, if no such entry or file exists.
-    Doesn't return OSC-bindings!
+    Does not return OSC-keybindings, as they are stored in OSC/reaper-osc-actions.ini !
+    returns -1 in case of an error
   </description>
   <parameters>
     string filename_with_path - path and filename of the reaper-kb.ini
@@ -1105,7 +1106,7 @@ function ultraschall.GetKBIniScripts_ByActionCommandID(filename_with_path, Actio
   <functioncall>string retval = ultraschall.GetKBIniScripts_ByActionCommandID(filename_with_path, ActionCommandID)</functioncall>
   <description>
     Returns the indexnumber(s) of scripts by ActionCommandIDs within a reaper-kb.ini.
-    Returns -1, if no such entry or file exists.
+    Returns nil, if no such entry or file exists.
   </description>
   <parameters>
     string filename_with_path - path and filename of the reaper-kb.ini
@@ -1123,9 +1124,9 @@ function ultraschall.GetKBIniScripts_ByActionCommandID(filename_with_path, Actio
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, scripts, script</tags>
 </US_DocBloc>
 ]]  
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniScripts_ByActionCommandID", "filename_with_path", "must be a string", -1) return -1 end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniScripts_ByActionCommandID", "filename_with_path", "file does not exist", -2) return -1 end
-  if ultraschall.CheckActionCommandIDFormat(ActionCommandID)==false then ultraschall.AddErrorMessage("GetKBIniScripts_ByActionCommandID", "ActionCommandID", "must be a valid ActionCommandID or CommandID", -3) return -1 end
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniScripts_ByActionCommandID", "filename_with_path", "must be a string", -1) return end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniScripts_ByActionCommandID", "filename_with_path", "file does not exist", -2) return end
+  if ultraschall.CheckActionCommandIDFormat(ActionCommandID)==false then ultraschall.AddErrorMessage("GetKBIniScripts_ByActionCommandID", "ActionCommandID", "must be a valid ActionCommandID or CommandID", -3) return end
   
   local idx_string=""
   local consolidate, section, AID, Description, ScriptFile
@@ -1152,7 +1153,7 @@ function ultraschall.GetKBIniKeys_ByActionCommandID(filename_with_path, ActionCo
   <functioncall>string retval = ultraschall.GetKBIniKeys_ByActionCommandID(filename_with_path, ActionCommandID)</functioncall>
   <description>
     Returns the indexnumber(s) of keys by ActionCommandIDs within a reaper-kb.ini.
-    Returns -1, if no such entry or file exists.
+    Returns nil, if no such entry or file exists.
   </description>
   <parameters>
     string filename_with_path - path and filename of the reaper-kb.ini
@@ -1170,9 +1171,9 @@ function ultraschall.GetKBIniKeys_ByActionCommandID(filename_with_path, ActionCo
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, get, keys, key</tags>
 </US_DocBloc>
 ]]  
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniKeys_ByActionCommandID", "filename_with_path", "must be a string", -1) return -1 end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniKeys_ByActionCommandID", "filename_with_path", "file does not exist", -2) return -1 end
-  if ultraschall.CheckActionCommandIDFormat(ActionCommandID)==false then ultraschall.AddErrorMessage("GetKBIniKeys_ByActionCommandID", "ActionCommandID", "must be a valid ActionCommandID or CommandID", -3) return -1 end
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("GetKBIniKeys_ByActionCommandID", "filename_with_path", "must be a string", -1) return end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("GetKBIniKeys_ByActionCommandID", "filename_with_path", "file does not exist", -2) return end
+  if ultraschall.CheckActionCommandIDFormat(ActionCommandID)==false then ultraschall.AddErrorMessage("GetKBIniKeys_ByActionCommandID", "ActionCommandID", "must be a valid ActionCommandID or CommandID", -3) return end
   
   local idx_string=""
   local Keytype, KeyNote, AID, section
@@ -1403,9 +1404,11 @@ function ultraschall.SetKBIniKeys(filename_with_path, KeyType, KeyNote, ActionCo
     
     For a detailed description in how KEY-entries work, refer to <a href="Reaper-Filetype-Descriptions.html#Reaper-kb.ini">Reaper-Filetype-Descriptions.html#Reaper-kb.ini</a>.
     
-    Does not support OSC-keybindings!
+    Does not support OSC-keybindings, as they are stored in OSC/reaper-osc-actions.ini !
     
     Needs a restart of Reaper for this change to take effect!
+    
+    returns false in case of an error
   </description>
   <parameters>
     string filename_with_path - filename with path for the reaper-kb.ini
@@ -1520,9 +1523,9 @@ function ultraschall.DeleteKBIniActions(filename_with_path, idx)
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, delete, action, actions</tags>
 </US_DocBloc>
 ]]  
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("DeleteKBIniActions", "filename_with_path", "must be a string", -1) return -1 end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("DeleteKBIniActions", "filename_with_path", "file does not exist", -2) return -1 end
-  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteKBIniActions", "idx", "must be an integer", -3) return -1 end
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("DeleteKBIniActions", "filename_with_path", "must be a string", -1) return false end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("DeleteKBIniActions", "filename_with_path", "file does not exist", -2) return false end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteKBIniActions", "idx", "must be an integer", -3) return false end
   
   local count=0
   local linecount=0
@@ -1579,9 +1582,9 @@ function ultraschall.DeleteKBIniScripts(filename_with_path, idx)
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, delete, script, scripts</tags>
 </US_DocBloc>
 ]]
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("DeleteKBIniScripts", "filename_with_path", "must be a string", -1) return -1 end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("DeleteKBIniScripts", "filename_with_path", "file does not exist", -2) return -1 end
-  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteKBIniScripts", "idx", "must be an integer", -3) return -1 end
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("DeleteKBIniScripts", "filename_with_path", "must be a string", -1) return false end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("DeleteKBIniScripts", "filename_with_path", "file does not exist", -2) return false end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteKBIniScripts", "idx", "must be an integer", -3) return false end
   
   local count=0
   local linecount=0
@@ -1638,9 +1641,9 @@ function ultraschall.DeleteKBIniKeys(filename_with_path, idx)
   <tags>configurationmanagement, reaper-kb.ini, kb.ini, keybindings, delete, key, keys, keybind</tags>
 </US_DocBloc>
 ]]
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("DeleteKBIniKeys", "filename_with_path", "must be a string", -1) return -1 end
-  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("DeleteKBIniKeys", "filename_with_path", "file does not exist", -2) return -1 end
-  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteKBIniKeys", "idx", "must be an integer", -3) return -1 end
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("DeleteKBIniKeys", "filename_with_path", "must be a string", -1) return false end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("DeleteKBIniKeys", "filename_with_path", "file does not exist", -2) return false end
+  if math.type(idx)~="integer" then ultraschall.AddErrorMessage("DeleteKBIniKeys", "idx", "must be an integer", -3) return false end
   
   local count=0
   local linecount=0

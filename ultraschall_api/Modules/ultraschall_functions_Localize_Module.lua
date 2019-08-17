@@ -187,7 +187,7 @@ function ultraschall.Localize(text, ...)
 
     see [specs for more information](../misc/ultraschall_translation_file_format.USLangPack).
     
-    returns false in case of an error
+    returns nil in case of an error
   </description>
   <retvals>
     string translated_string - the translated string; will be the original_string(with optional substitution), if translation is not possible

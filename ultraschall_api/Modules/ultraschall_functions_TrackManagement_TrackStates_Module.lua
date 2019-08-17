@@ -116,6 +116,8 @@ function ultraschall.GetTrackName(tracknumber, str)
     returns name of the track.
     
     It's the entry NAME
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string trackname  - the name of the track
@@ -168,6 +170,8 @@ function ultraschall.GetTrackPeakColorState(tracknumber, str)
     returns state of the PeakColor-number, which is the trackcolor. Will be returned as string, to avoid losing trailing or preceding zeros.
     
     It's the entry PEAKCOL
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string PeakColorState  - the color of the track
@@ -219,6 +223,8 @@ function ultraschall.GetTrackBeatState(tracknumber, str)
     returns Track-BeatState. 
 
     It's the entry BEAT
+    
+    returns nil in case of an error
   </description>
   <retvals>
     number BeatState  - -1 - Project time base; 0 - Time; 1 - Beats position, length, rate; 2 - Beats position only
@@ -273,6 +279,8 @@ function ultraschall.GetTrackAutoRecArmState(tracknumber, str)
     returns if the track is in AutoRecArm, when selected. Returns nil if not.
 
     It's the entry AUTO_RECARM
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer AutoRecArmState  - state of autorecarm; 1 for set; nil if unset
@@ -327,6 +335,8 @@ function ultraschall.GetTrackMuteSoloState(tracknumber, str)
     returns states of Mute and Solo-Buttons.
     
     It's the entry MUTESOLO
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer Mute - Mute set to 0 - Mute off, 1 - Mute On
@@ -385,6 +395,8 @@ function ultraschall.GetTrackIPhaseState(tracknumber, str)
     returns state of the IPhase. If the Phase-button is pressed, it will return 1, else it will return 0.
     
     It's the entry IPHASE
+    
+    returns nil in case of an error
   </description>
   <retvals>
     number IPhase  - state of the phase-button; 0, normal phase; 1, inverted phase(180°)
@@ -440,6 +452,8 @@ function ultraschall.GetTrackIsBusState(tracknumber, str)
     returns busstate of the track, means: if it's a folder track
     
     It's the entry ISBUS
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer busstate1=0, integer busstate2=0 - track is no folder
@@ -501,6 +515,8 @@ function ultraschall.GetTrackBusCompState(tracknumber, str)
     returns BusCompState, if the tracks in a folder are compacted or not.
     
     It's the entry BUSCOMP
+    
+    returns nil in case of an error
   </description>
   <retvals>
     number BusCompState1 - 0 - no compacting, 1 - compacted tracks, 2 - minimized tracks
@@ -557,6 +573,8 @@ function ultraschall.GetTrackShowInMixState(tracknumber, str)
     returns Show in Mix-state.
     
     It's the entry SHOWINMIX
+    
+    returns nil in case of an error
   </description>
   <retvals>
      integer MCPvisible - 0 invisible, 1 visible
@@ -627,6 +645,8 @@ function ultraschall.GetTrackFreeModeState(tracknumber, str)
     returns if the track has track free item positioning enabled(1) or not(0).
     
     It's the entry FREEMODE
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer FreeModeState  - 1 - enabled, 0 - not enabled
@@ -682,6 +702,8 @@ function ultraschall.GetTrackRecState(tracknumber, str)
     returns Track Rec State.
     
     It's the entry REC
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer ArmState - returns 1(armed) or 0(unarmed)
@@ -791,6 +813,8 @@ function ultraschall.GetTrackVUState(tracknumber, str)
     returns VUState. 
     
     It's the entry VU
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer VUState  - nil if MultiChannelMetering is off, 2 if MultichannelMetering is on, 3 Metering is off
@@ -844,6 +868,8 @@ function ultraschall.GetTrackHeightState(tracknumber, str)
     returns height of the track.
     
     It's the entry TRACKHEIGHT
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer height - 24 up to 443
@@ -887,7 +913,9 @@ function ultraschall.GetTrackHeightState(tracknumber, str)
   if str~=nil then str=str.." " else return nil end
   return tonumber(str:match("%s(.-)%s")),
          tonumber(str:match("%s.-%s(.-)%s")),
-         tonumber(str:match("%s.-%s.-%s(.-)%s"))
+         tonumber(str:match("%s.-%s.-%s(.-)%s")),
+         tonumber(str:match("%s.-%s.-%s.-%s(.-)%s")),
+         tonumber(str:match("%s.-%s.-%s.-%s.-%s(.-)%s"))
 end
     
 --A,B,C=ultraschall.GetTrackHeightState(1)
@@ -906,6 +934,8 @@ function ultraschall.GetTrackINQState(tracknumber, str)
     Gets INQ-state, mostly the quantize-settings for MIDI, as set in the "Track: View track recording settings (MIDI quantize, file format/path) for last touched track"-dialog (action 40604)
     
     It's the entry INQ
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer quantMIDI -  quantize MIDI; 0 or 1
@@ -975,6 +1005,8 @@ function ultraschall.GetTrackNChansState(tracknumber, str)
     returns the number of channels for this track, as set in the routing.
     
     It's the entry NCHAN
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer channelnumber  - number of channels for this track
@@ -1029,6 +1061,8 @@ function ultraschall.GetTrackBypFXState(tracknumber, str)
     returns the off/bypass(0) or nobypass(1) state of the FX-Chain
     
     It's the entry FX
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer FXState - off/bypass(0) or nobypass(1)
@@ -1084,6 +1118,8 @@ function ultraschall.GetTrackPerfState(tracknumber, str)
     returns TrackPerformance-state
     
     It's the entry PERF
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer TrackPerfState  - TrackPerformance-state
@@ -1142,6 +1178,8 @@ function ultraschall.GetTrackMIDIOutState(tracknumber, str)
     returns MIDI_Out-State, as set in the Routing-Settings
     
     It's the entry MIDIOUT
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer MidiOutState  - MIDI_Out-State, as set in the Routing-Settings
@@ -1200,6 +1238,8 @@ function ultraschall.GetTrackMainSendState(tracknumber, str)
     returns, if Main-Send is on(1) or off(0) and the ParentChannels(0-63), as set in the Routing-Settings.
     
     It's the entry MAINSEND
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer MainSendOn - Main-Send is on(1) or off(0)
@@ -1539,6 +1579,8 @@ function ultraschall.GetTrackLockState(tracknumber, str)
     
     It's the entry LOCK
     Only the LOCK within TrackStateChunks, but not MediaItemStateChunks
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer lockedstate  - locked(1) or not(nil)
@@ -1593,6 +1635,8 @@ function ultraschall.GetTrackLayoutNames(tracknumber, str)
     returns the current selected layouts for TrackControlPanel and MixerControlPanel for this track as strings. Returns nil, if default is set.
     
     It's the entry LAYOUTS
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string TCP_Layoutname - name of the TCP-Layoutname
@@ -1658,6 +1702,8 @@ function ultraschall.GetTrackAutomodeState(tracknumber, str)
     returns, if the automation-mode for envelopes of this track
     
     It's the entry AUTOMODE
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer automodestate  - is set to 0 - trim/read, 1 - read, 2 - touch, 3 - write, 4 - latch.
@@ -1711,6 +1757,8 @@ function ultraschall.GetTrackIcon_Filename(tracknumber, str)
     returns the filename with path for the track-icon of the current track. Returns nil, if no trackicon has been set.
     
     It's the entry TRACKIMGFN
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string filename_with_path  - filename with path for the current track-icon.
@@ -1764,6 +1812,8 @@ function ultraschall.GetTrackRecCFG(tracknumber, str)
     returns the Rec-configuration-string, with which recordings are made. Returns nil, if no reccfg exists.
     
     It's the entry <RECCFG
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string reccfg - the string, that encodes the recording configuration of the track.
@@ -1821,6 +1871,8 @@ function ultraschall.GetTrackMidiInputChanMap(tracknumber, str)
     returns the state of the MIDIInputChanMap for the current track, as set in the Input-MIDI->Map Input to Channel menu. 0 for channel 1, 2 for channel 2, etc. Nil, if not existing.
     
     It's the entry MIDI_INPUT_CHANMAP
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer MidiInputChanMap_state  - 0 for channel 1, 1 for channel 2, ... 15 for channel 16; nil, source channel.
@@ -1872,6 +1924,8 @@ function ultraschall.GetTrackMidiCTL(tracknumber, str)
     returns linked to Midi channel and an unknown value. Nil if not existing.
     
     It's the entry MIDICTL
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer LinkedToMidiChannel - linked to midichannel
@@ -1929,6 +1983,8 @@ function ultraschall.GetTrackWidth(tracknumber, str)
     Note for TrackStateChunk-enthusiasts: When set to +100%, it is not stored in the TrackStateChunk
     
     It's the entry WIDTH
+    
+    returns nil in case of an error
   </description>
   <retvals>
     number width - width of the track, from -1(-100%) to 1(+100%)
@@ -1983,6 +2039,8 @@ function ultraschall.GetTrackPanMode(tracknumber, str)
     returns Panmode of the track.
     
     It's the entry PANMODE
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer PanMode - the Panmode of the track
@@ -2041,6 +2099,8 @@ function ultraschall.GetTrackMidiColorMapFn(tracknumber, str)
     returns MidiColorMap-Filename of the track. Nil if not existing.
     
     It's the entry MIDICOLORMAPFN
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string MidiColorMapFn - the MidiColorMap-Filename; nil if not existing
@@ -2092,6 +2152,8 @@ function ultraschall.GetTrackMidiBankProgFn(tracknumber, str)
     returns MidiBankProg-Filename of the track. Nil if not existing.
     
     It's the entry MIDIBANKPROGFN
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string MidiBankProgFn - the MidiBankProg-Filename; nil if not existing
@@ -2145,6 +2207,8 @@ function ultraschall.GetTrackMidiTextStrFn(tracknumber, str)
     returns MidiTextStrFn-Filename of the track. Nil if not existing.
     
     It's the entry MIDIEXTSTRFN
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string MidiTextStrFn - the MidiTextStrFn-Filename; nil if not existing
@@ -2197,6 +2261,8 @@ function ultraschall.GetTrackID(tracknumber, str)
     returns TrackID of the track.
     
     It's the entry TRACKID
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string TrackID - the TrackID as GUID
@@ -2248,6 +2314,8 @@ function ultraschall.GetTrackScore(tracknumber, str)
     returns Score of the track.
     
     It's the entry SCORE
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer Score1 - unknown 
@@ -2307,6 +2375,8 @@ function ultraschall.GetTrackVolPan(tracknumber, str)
     returns Vol and Pan-states of the track.
     
     It's the entry VOLPAN
+    
+    returns nil in case of an error
   </description>
   <retvals>
     number Vol - Volume Settings
@@ -2373,6 +2443,8 @@ function ultraschall.SetTrackName(tracknumber, name, TrackStateChunk)
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackName(integer tracknumber, string name, optional string TrackStateChunk)</functioncall>
   <description>
     Set the name of a track or a trackstatechunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -2438,6 +2510,8 @@ function ultraschall.SetTrackPeakColorState(tracknumber, colorvalue, TrackStateC
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackPeakColorState(integer tracknumber, integer colorvalue, optional string TrackStateChunk)</functioncall>
   <description>
     Set the color of the track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -2507,6 +2581,8 @@ function ultraschall.SetTrackBeatState(tracknumber, beatstate, TrackStateChunk)
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackBeatState(integer tracknumber, integer beatstate, optional string TrackStateChunk)</functioncall>
   <description>
     Set the timebase for a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, if successful, false if unsuccessful
@@ -2573,6 +2649,8 @@ function ultraschall.SetTrackAutoRecArmState(tracknumber, autorecarmstate, Track
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackAutoRecArmState(integer tracknumber, integer autorecarmstate, optional string TrackStateChunk)</functioncall>
   <description>
     Set the AutoRecArmState for a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -2642,6 +2720,8 @@ function ultraschall.SetTrackMuteSoloState(tracknumber, Mute, Solo, SoloDefeat, 
   <description>
     Set the Track Mute/Solo/Solodefeat for a track or a TrackStateChunk.
     Has no real effect on master track.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -2714,6 +2794,8 @@ function ultraschall.SetTrackIPhaseState(tracknumber, iphasestate, TrackStateChu
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackIPhaseState(integer tracknumber, integer iphasestate, optional string TrackStateChunk)</functioncall>
   <description>
     Sets IPhase, the Phase-Buttonstate of the track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -2782,6 +2864,8 @@ function ultraschall.SetTrackIsBusState(tracknumber, busstate1, busstate2, Track
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackIsBusState(integer tracknumber, integer busstate1, integer busstate2, optional string TrackStateChunk)</functioncall>
   <description>
     Sets ISBUS-state of the track or a TrackStateChunk; if it's a folder track.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -2850,6 +2934,8 @@ function ultraschall.SetTrackBusCompState(tracknumber, buscompstate1, buscompsta
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackBusCompState(integer tracknumber, integer buscompstate1, integer buscompstate2, optional string TrackStateChunk)</functioncall>
   <description>
     Sets BUSCOMP-state of the track or a TrackStateChunk; This is the state, if tracks in a folder are compacted or not.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -2916,6 +3002,8 @@ function ultraschall.SetTrackShowInMixState(tracknumber, MCPvisible, MCP_FX_visi
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackShowInMixState(integer tracknumber, integer MCPvisible, number MCP_FX_visible, number MCP_TrackSendsVisible, integer TCPvisible, number ShowInMix5, integer ShowInMix6, integer ShowInMix7, integer ShowInMix8, optional string TrackStateChunk)</functioncall>
   <description>
     Sets SHOWINMIX, that sets visibility of track or TrackStateChunk in MCP and TCP.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -2927,7 +3015,7 @@ function ultraschall.SetTrackShowInMixState(tracknumber, MCPvisible, MCP_FX_visi
     number MCP_FX_visible - 0 visible, 1 FX-Parameters visible, 2 invisible
     number MCPTrackSendsVisible - 0 & 1.1 and higher TrackSends in MCP visible, every other number makes them invisible
     integer TCPvisible - 0 track is invisible in TCP, 1 track is visible in TCP
-    - with Master-Track, 1 shows all active envelopes, 0 hides all active envelopes
+                       - with Master-Track, 1 shows all active envelopes, 0 hides all active envelopes
     number ShowInMix5 - unknown
     integer ShowInMix6 - unknown
     integer ShowInMix7 - unknown
@@ -2999,6 +3087,8 @@ function ultraschall.SetTrackFreeModeState(tracknumber, freemodestate, TrackStat
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackFreeModeState(integer tracknumber, integer freemodestate, optional string TrackStateChunk)</functioncall>
   <description>
     Sets FREEMODE-state of a track or a TrackStateChunk; enables Track-Free Item Positioning.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -3066,6 +3156,8 @@ function ultraschall.SetTrackRecState(tracknumber, ArmState, InputChannel, Monit
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackRecState(integer tracknumber, integer ArmState, integer InputChannel, integer MonitorInput, integer RecInput, integer MonitorWhileRec, integer presPDCdelay, integer RecordingPath, optional string TrackStateChunk)</functioncall>
   <description>
     Sets REC, that sets the Recording-state of the track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -3184,6 +3276,8 @@ function ultraschall.SetTrackVUState(tracknumber, VUState, TrackStateChunk)
     Sets VU-state of a track or a TrackStateChunk; the way metering shows.
     
     Has no real effect on master track.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -3255,6 +3349,8 @@ function ultraschall.SetTrackHeightState(tracknumber, heightstate1, heightstate2
     Sets TRACKHEIGHT-state; the height and compacted state of the track or a TrackStateChunk.
     
     Has no visible effect on the master-track.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -3335,6 +3431,8 @@ function ultraschall.SetTrackINQState(tracknumber, INQ1, INQ2, INQ3, INQ4, INQ5,
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackINQState(integer tracknumber, integer quantMIDI, integer quantPOS, integer quantNoteOffs, number quantToFractBeat, integer quantStrength, integer swingStrength, integer quantRangeMin, integer quantRangeMax, optional string TrackStateChunk)</functioncall>
   <description>
     Sets INQ-state, mostly the quantize-settings for MIDI, of a track or a TrackStateChunk, as set in the "Track: View track recording settings (MIDI quantize, file format/path) for last touched track"-dialog (action 40604)
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -3415,6 +3513,8 @@ function ultraschall.SetTrackNChansState(tracknumber, NChans, TrackStateChunk)
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackNChansState(integer tracknumber, integer NChans, optional string TrackStateChunk)</functioncall>
   <description>
     Sets NCHAN-state; the number of channels in this track or a TrackStateChunk, as set in the routing.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -3483,6 +3583,8 @@ function ultraschall.SetTrackBypFXState(tracknumber, FXBypassState, TrackStateCh
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackBypFXState(integer tracknumber, integer FXBypassState, optional string TrackStateChunk)</functioncall>
   <description>
     Sets FX, FX-Bypass-state of the track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -3551,6 +3653,8 @@ function ultraschall.SetTrackPerfState(tracknumber, Perf, TrackStateChunk)
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackPerfState(integer tracknumber, integer Perf, optional string TrackStateChunk)</functioncall>
   <description>
     Sets PERF, the TrackPerformance-State of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -3623,6 +3727,8 @@ function ultraschall.SetTrackMIDIOutState(tracknumber, MIDIOutState, TrackStateC
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackMIDIOutState(integer tracknumber, integer MIDIOutState, optional string TrackStateChunk)</functioncall>
   <description>
     Sets MIDIOUT, the state of MIDI out for this track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -3695,6 +3801,8 @@ function ultraschall.SetTrackMainSendState(tracknumber, MainSendOn, ParentChanne
   <functioncall>boolean retval, optional string TrackStateChunk = ultraschall.SetTrackMainSendState(integer tracknumber, integer MainSendOn, integer ParentChannels, optional string TrackStateChunk)</functioncall>
   <description>
     Sets MAINSEND, as set in the routing-settings, of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -3767,6 +3875,8 @@ function ultraschall.SetTrackLockState(tracknumber, LockedState, TrackStateChunk
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackLockState(integer tracknumber, integer LockedState, optional string TrackStateChunk)</functioncall>
   <description>
     Sets LOCK-State, as set by the menu entry Lock Track Controls, of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -3834,6 +3944,8 @@ function ultraschall.SetTrackLayoutNames(tracknumber, TCP_Layoutname, MCP_Layout
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackLayoutNames(integer tracknumber, string TCP_Layoutname, string MCP_Layoutname, optional string TrackStateChunk)</functioncall>
   <description>
     Sets LAYOUTS, the MCP and TCP-layout by name of the layout as defined in the theme, of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -3903,6 +4015,8 @@ function ultraschall.SetTrackAutomodeState(tracknumber, automodestate, TrackStat
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackAutomodeState(integer tracknumber, integer automodestate, optional string TrackStateChunk)</functioncall>
   <description>
     Sets AUTOMODE-State, as set by the menu entry Set Track Automation Mode, for a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -3970,6 +4084,8 @@ function ultraschall.SetTrackIcon_Filename(tracknumber, Iconfilename_with_path, 
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackIcon_Filename(integer tracknumber, string Iconfilename_with_path, optional string TrackStateChunk)</functioncall>
   <description>
     Sets TRACKIMGFN, the trackicon-filename with path, of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -4036,6 +4152,8 @@ function ultraschall.SetTrackMidiInputChanMap(tracknumber, InputChanMap, TrackSt
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackMidiInputChanMap(integer tracknumber, integer InputChanMap, optional string TrackStateChunk)</functioncall>
   <description>
     Sets MIDI_INPUT_CHANMAP, as set in the Input-MIDI->Map Input to Channel menu, of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -4103,6 +4221,8 @@ function ultraschall.SetTrackMidiCTL(tracknumber, LinkedToMidiChannel, unknown, 
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackMidiCTL(integer tracknumber, integer LinkedToMidiChannel, integer unknown, optional string TrackStateChunk)</functioncall>
   <description>
     sets MIDICTL-state, the linkage to Midi-Channels of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -4172,6 +4292,8 @@ function ultraschall.SetTrackID(tracknumber, TrackID, TrackStateChunk)
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackID(integer tracknumber, string guid, optional string TrackStateChunk)</functioncall>
   <description>
     sets the track-id, which must be a valid GUID, of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -4242,6 +4364,8 @@ function ultraschall.SetTrackMidiColorMapFn(tracknumber, MIDI_ColorMapFN, TrackS
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackMidiColorMapFn(integer tracknumber, string MIDI_ColorMapFN, optional string TrackStateChunk)</functioncall>
   <description>
     sets the filename+path to the MIDI-ColorMap-graphicsfile of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -4311,6 +4435,8 @@ function ultraschall.SetTrackMidiBankProgFn(tracknumber, MIDIBankProgFn, TrackSt
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackMidiBankProgFn(integer tracknumber, string MIDIBankProgFn, optional string TrackStateChunk)</functioncall>
   <description>
     sets the filename+path to the MIDI-Bank-Prog-file of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -4378,6 +4504,8 @@ function ultraschall.SetTrackMidiTextStrFn(tracknumber, MIDITextStrFn, TrackStat
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackMidiTextStrFn(integer tracknumber, string MIDITextStrFn, optional string TrackStateChunk)</functioncall>
   <description>
     sets the filename+path to the MIDI-Text-Str-file of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -4447,6 +4575,8 @@ function ultraschall.SetTrackPanMode(tracknumber, panmode, TrackStateChunk)
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackPanMode(integer tracknumber, integer panmode, optional string TrackStateChunk)</functioncall>
   <description>
     sets the panmode for a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -4521,6 +4651,8 @@ function ultraschall.SetTrackWidth(tracknumber, width, TrackStateChunk)
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackWidth(integer tracknumber, number width, optional string TrackStateChunk)</functioncall>
   <description>
     sets the width of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -4589,7 +4721,9 @@ function ultraschall.SetTrackScore(tracknumber, unknown1, unknown2, unknown3, un
   <description>
     sets the SCORE of a track or a TrackStateChunk.
     
-    set unknown1 to unknown4 to 0 to remove the entry
+    set unknown1 to unknown4 to 0 to remove the entry from the TrackStateChunk
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -4663,6 +4797,8 @@ function ultraschall.SetTrackVolPan(tracknumber, vol, pan, overridepanlaw, unkno
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackVolPan(integer tracknumber, number Vol, number Pan, number OverridePanLaw, number unknown, number unknown2, optional string TrackStateChunk)</functioncall>
   <description>
     sets the VOLPAN-state of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -4738,6 +4874,8 @@ function ultraschall.SetTrackRecCFG(tracknumber, reccfg_string, reccfg_nr, Track
   <functioncall>boolean retval, string TrackStateChunk = ultraschall.SetTrackRecCFG(integer tracknumber, string reccfg_string, integer reccfg_nr, optional string TrackStateChunk)</functioncall>
   <description>
     sets the RECCFG of a track or a TrackStateChunk.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, if successful, false if unsuccessful
@@ -4810,6 +4948,7 @@ function ultraschall.GetAllLockedTracks()
   <functioncall>string locked_trackstring, string unlocked_trackstring = ultraschall.GetAllLockedTracks()</functioncall>
   <description>
     returns a trackstring with all tracknumbers of tracks, that are locked, as well as one with all tracknumbers of tracks, that are unlocked.
+    
     returns an empty locked_trackstring, if none is locked, returns an empty unlocked_trackstring if all are locked.
   </description>
   <retvals>
@@ -4892,6 +5031,8 @@ function ultraschall.GetTrackSelection_TrackStateChunk(TrackStateChunk)
     It's the entry SEL.
     
     Works only with statechunks stored in ProjectStateChunks, due API-limitations!
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer selection_state - 0, track is unselected; 1, track is selected
@@ -4935,6 +5076,8 @@ function ultraschall.SetTrackSelection_TrackStateChunk(selection_state, TrackSta
     It's the entry SEL.
     
     Works only with statechunks stored in ProjectStateChunks, due API-limitations!
+    
+    returns nil in case of an error
   </description>
   <retvals>
     string alteredTrackStateChunk - the altered TrackStateChunk with the new selection

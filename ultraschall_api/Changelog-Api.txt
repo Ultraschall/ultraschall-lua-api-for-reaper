@@ -1,5 +1,8 @@
 <TODO>
     For 4.00beta2.77
+        - TODO!! GetReaperWindowPosition_Left und GetReaperWindowPosition_Right entweder deprecaten oder neu implementieren
+        - TODO!! ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua 
+            - check ob die retvals für errors mit der Doku und den retvals in der Doku übereinstimmen. Alle anderen Module sind schon gecheckt.
         - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
         - TODO!! XML-generator has problems with spaces and & in filenames; use this to overcome this:
                       tempfile=files_array[i]
@@ -51,6 +54,7 @@
                                                                                             kann auch mit ScriptIdentifier aus anderem Skript heraus gestartet werden, so dass man eine "StartMyEvents" und "StopMyEvents" Action bauen kann.
          - TODO!! GetUserInputs - count doesn't match, if fewer inputboxes are filled than do exist.
                         tested with 9 Inputboxes, 6 Captionboxes. There's somewhere a mismatch...
+                        Is this fixed? Can't reproduce anymore.
          - TODO!! GetUserInputs 
                 - set length of caption-textfields and move inputboxes accordingly, as well as the width of the DialogWindow AND
                   position it correctly centered
@@ -61,7 +65,54 @@
                 - maybe auto_size, using caption length and input-box-default-value length to get the desired widths(needs GetLength of Text working somehow, using
                   JS-extension-plugin)
         - TODO!! reaper.GetLastTouchedFX, reaper.GetFocusedFX - high word/low word-management is too difficult, make new functions of them
-        - TODO!! SetProjectZeug fertig machen
+        - TODO!!  - Get/SetProject-functions for
+                   RENDER_QUEUE-stuff
+                   
+                   as well as
+                  - SetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
+                  - SetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk
+                  - SetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk
+                  - SetProject_MasterPlayspeed - gets the statechunk for all master-playspeed-settings from a project/ProjectStateChunk
+                  - SetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk
+                  - SetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk
+                  - SetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk
+                  - SetProject_GlobalAuto - returns the global automation override-settings of an rpp-file or ProjectStateChunk
+                  - SetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk
+                  - SetProject_Playrate 
+                  - SetProject_MasterAutomode
+                  - SetProject_MasterSel
+                  - SetProject_MasterFXByp
+                  - SetProject_MasterMuteSolo
+                  - SetProject_MasterNChans
+                  - SetProject_MasterTrackHeight
+                  - SetProject_MasterTrackColor
+                  - SetProject_MasterTrackView
+                  - SetProject_CountMasterHWOuts
+                  - SetProject_MasterHWOut
+                  
+                  - SetProject_MasterVolume - 
+                  - SetProject_MasterPanMode - 
+                  - SetProject_MasterWidth - 
+                  - SetProject_MasterGroupFlagsState - 
+                  - SetProject_MasterGroupFlagsHighState - 
+                  - SetProject_GroupDisabled - 
+                  
+                  - SetProject_MasterHWVolEnvStateChunk
+                  - SetProject_MasterFXListStateChunk - 
+                  - SetProject_MasterDualPanEnvStateChunk - 
+                  - SetProject_MasterDualPanEnv2StateChunk - 
+                  - SetProject_MasterDualPanEnvLStateChunk - 
+                  - SetProject_MasterDualPanEnvL2StateChunk - 
+                  - SetProject_MasterVolEnvStateChunk - 
+                  - SetProject_MasterVolEnv2StateChunk - 
+                  - SetProject_MasterVolEnv3StateChunk - 
+                  - SetProject_MasterHWPanEnvStateChunk - 
+                  - SetProject_MasterPanMode_Ex - 
+                  - SetProject_TempoEnv_ExStateChunk
+                  
+               - IsValid-check functions for
+                    - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
+                      MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex   
         - TODO!! Add/Set/DeleteModulation
         - TODO!! ultraschall.RenderProject_Loops()
                 Multipass-rendering
@@ -177,54 +228,7 @@
       TODO!!  - GetAllTakesFromMediaItem - returns an array with all takes from an item, objects as well as info_values
       TODO!!  - Get/SetProjectBay-functions
       TODO!!  - Envelope-StateChunk-functions
-      TODO!!  - Get/SetProject-functions for
-                    RENDER_QUEUE-stuff
-                   
-                   as well as
-                  - SetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
-                  - SetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk
-                  - SetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk
-                  - SetProject_MasterPlayspeed - gets the statechunk for all master-playspeed-settings from a project/ProjectStateChunk
-                  - SetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk
-                  - SetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk
-                  - SetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk
-                  - SetProject_GlobalAuto - returns the global automation override-settings of an rpp-file or ProjectStateChunk
-                  - SetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk
-                  - SetProject_Playrate 
-                  - SetProject_MasterAutomode
-                  - SetProject_MasterSel
-                  - SetProject_MasterFXByp
-                  - SetProject_MasterMuteSolo
-                  - SetProject_MasterNChans
-                  - SetProject_MasterTrackHeight
-                  - SetProject_MasterTrackColor
-                  - SetProject_MasterTrackView
-                  - SetProject_CountMasterHWOuts
-                  - SetProject_MasterHWOut
-                  
-                  - SetProject_MasterVolume - 
-                  - SetProject_MasterPanMode - 
-                  - SetProject_MasterWidth - 
-                  - SetProject_MasterGroupFlagsState - 
-                  - SetProject_MasterGroupFlagsHighState - 
-                  - SetProject_GroupDisabled - 
-                  
-                  - SetProject_MasterHWVolEnvStateChunk
-                  - SetProject_MasterFXListStateChunk - 
-                  - SetProject_MasterDualPanEnvStateChunk - 
-                  - SetProject_MasterDualPanEnv2StateChunk - 
-                  - SetProject_MasterDualPanEnvLStateChunk - 
-                  - SetProject_MasterDualPanEnvL2StateChunk - 
-                  - SetProject_MasterVolEnvStateChunk - 
-                  - SetProject_MasterVolEnv2StateChunk - 
-                  - SetProject_MasterVolEnv3StateChunk - 
-                  - SetProject_MasterHWPanEnvStateChunk - 
-                  - SetProject_MasterPanMode_Ex - 
-                  - SetProject_TempoEnv_ExStateChunk
-                  
-               - IsValid-check functions for
-                    - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
-                      MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex   
+
     For 4.00Beta 2.9:
         registering of defer-using-running scripts into an extstate ultraschall->running_script_instance->
             All ultraschall-API-using scripts will be registered into running_script_instance automatically, when using defer.
@@ -264,29 +268,62 @@ TODO!! buggy function
    - Helper Functions: FindPatternsInString - finds all occurrences of a matching-pattern in a string
    - Helper Functions: IsWithinTimeRange - returns, if a time is within a start and endtime, takes care of the precision-problem time-positions in Lua have
    - EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript
+   - MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project
    - ProjectManagement: GetProjectStateChunk - returns the ProjectStateChunk of the current project(finally working!)
    - Trackmanagement: IsSplitAtPosition - returns, if a split/mediaitemend/mediaitemstart exists at a certain position, within certain tracks
    - User Interface: GetMediaExplorerHWND - gets the HWND-windowhandler of the Media Explorer
    - User Interface: UpdateMediaExplorer - updates the listview of the Media Explorer
-   - User Interface: MediaExplorer\_OnCommand - runs an Media Explorer action(just like Reaper's Main\_OnCommand and Midi\_OnCommand-functions); runs no scripts yet
+   - User Interface: MediaExplorer\_OnCommand - runs an Media Explorer action(just like Reaper's Main\_OnCommand and Midi\_OnCommand-functions); runs no scripts yet, only native/extension actions
 
 #### Changes from Beta 2.76 to Beta 2.77
    - API: functions - moved all functions into modules for future modular-concept
+   - Automation Items: GetProject_CountAutomationItems - didn't return the right retval in case of an error -> fixed
+   - ColorManagement: RGB2Grayscale - didn't return the right retval in case of an error -> fixed 
+   - Configuration Files: CountIniFileExternalState_sec - did count keys instead of sections -> fixed(thanks to rstockm)
+   - Configuration Files: CountUSExternalState_sec - did count keys instead of sections -> fixed(thanks to rstockm)
+   - Configuration Files: CountUSExternalState_key - didn't return the right retval in case of an error -> fixed
+   - Configuration Files: DeleteKBIniActions - didn't return the right retval in case of an error -> fixed
+   - Configuration Files: DeleteKBIniScripts - didn't return the right retval in case of an error -> fixed
+   - Configuration Files: DeleteKBIniKeys - didn't return the right retval in case of an error -> fixed 
+   - Configuration Files: EnumerateIniFileExternalState_sec - did enumerate keys instead of sections -> fixed(thanks to rstockm)
+   - Configuration Files: EnumerateKeysByPattern - didn't return the right retval in case of an error -> fixed
+   - Configuration Files: EnumerateSectionsByPattern - didn't return the right retval in case of an error -> fixed
+   - Configuration Files: EnumerateUSExternalState_sec - didn't return the right retval in case of an error -> fixed
+   - Configuration Files: EnumerateUSExternalState_key - didn't return the right retval in case of an error -> fixed
+   - Configuration Files: EnumerateValuesByPattern - didn't return the right retval in case of an error -> fixed
+   - Configuration Files: GetKBIniKeys - enhanced description for osc
+   - Configuration Files: GetKBIniScripts_ByActionCommandID - changed retval in case of an error to nil, instead of -1. More consistent that way(sorry for any inconvenience)
+   - Configuration Files: GetKBIniKeys_ByActionCommandID - changed retval in case of an error to nil, instead of -1. More consistent that way(sorry for any inconvenience)
+   - Configuration Files: SetIniFileExternalState - didn't return the right retval in case of an error -> fixed
+   - Configuration Files: SetKBIniKeys - enhanced description for osc
    - Docs: Doc-Engine - had wrong parameters and retvals in numerous functions...fixed(ooops)
    - Docs: GetRenderingToFileHWND - had parameters described, that don't exist -> fixed
    - Docs: GetTrackSendInfo_Value - fixed Markdown-formatting-problems
    - Docs: SetTrackSendInfo_Value - fixed Markdown-formatting-problems
    - Docs: print-functions - all print-functions, like sprint, fprint, gfx.printf, etc include now formatting information in the description.
+   - Docs: Reaper-docs - updated to 5.982
+   - FileManagement: CountLinesInFile - didn't return the right retval in case of an error -> fixed
+   - FileManagement: GetLengthOfFile - didn't return the right retval in case of an error -> fixed
+   - FileManagement: MakeCopyOfFile_Binary - didn't return the right retval in case of an error -> fixed
+   - FileManagement: ReadValueFromFile - didn't return the right retval in case of an error -> fixed
+   - FileManagement: ReadBinaryFileUntilPattern - didn't return the right retval in case of an error -> fixed
+   - FileManagement: ReadBinaryFileFromPattern - didn't return the right retval in case of an error -> fixed
    - FXManagement: GetFXStateChunk - had layoutproblem, when the passed StateChunk was taken from a ProjectStateChunk -> fixed(thanks to lossius)
-   - Configurationfiles: CountUSExternalState_sec - did count keys instead of sections -> fixed(thanks to rstockm)
-   - Configurationfiles: CountIniFileExternalState_sec - did count keys instead of sections -> fixed(thanks to rstockm)
-   - Configurationfiles: EnumerateIniFileExternalState_sec - did enumerate keys instead of sections -> fixed(thanks to rstockm)
+   - Helper Functions: CompareStringWithAsciiValues - returned -1 in case of an error, although boolean should be returned -> fixed
+   - Helper Functions: ConvertIntegerIntoString2 - didn't return the right retval in case of an error -> fixed
+   - Helper Functions: CSV2IndividualLinesAsArray - didn't return the right retval in case of an error -> fixed
    - Helper Functions: GetUserInputs - did change the tables passed as default-retvals -> fixed now
+   - Helper Functions: GetScriptFilenameFromActionCommandID - didn't return the right retval in case of an error -> fixed
+   - Helper Functions: IsItemInTrack - changed error-retval to nil; didn't return the right retval in case of an error -> fixed
    - Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -> Data Manipulation
+   - Helper Functions: LoadFunctionFromExtState - didn't return the right retval in case of an error -> fixed
    - Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTimeString\_hh\_mm\_ss\_mss - moved to docs-index API-Helper functions -> Data Manipulation
+   - Helper Functions: SetIntConfigVar\_Bitfield - didn't return the right retval in case of an error -> fixed
    - Helper Functions: TimeStringToSeconds\_hh\_mm\_ss\_mss - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: TimeToSeconds - moved to docs-index API-Helper functions -> Data Manipulation
+   - Helper Functions: ToggleStateAction - wrongly stated to return boolean instead of integer in the docs -> fixed
+   - Helper Functions: ToggleStateButton - wrongly retval-description in the docs -> fixed
    - HWND: GetActionsHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - HWND: GetBatchFileItemConverterHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - HWND: GetConsolidateTracksHWND - moved to docs-index User Interface -> Reaper-Windowhandler
@@ -299,9 +336,35 @@ TODO!! buggy function
    - HWND: GetRenderingToFileHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - HWND: GetSaveLiveOutputToDiskHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - HWND: GetVideoHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - Localize: Localize - docs stated returning false in case of an error, but returns nil -> fixed
+   - Marker Management: DeleteNormalMarker - returned wrong retval in case of an error -> fixed
+   - Marker Management: DeleteEditMarker - returned wrong retval in case of an error -> fixed
+   - Marker Management: EnumerateEditRegion - returned wrong retval in case of an error -> fixed
+   - Marker Management: SetMarkerByIndex - returned wrong retval in case of an error -> fixed
+   - MediaItem Management: GetItemFadeIn - stated string as returnvalue in the docs, though number was returned for some retvals -> fixed
+   - MediaItem Management: GetItemFadeOut - stated string as returnvalue in the docs, though number was returned for some retvals -> fixed
+   - MediaItem Management: GetItemSpectralConfig - didn't return the right retval in case of an error -> fixed
+   - MediaItem Management: GetItemSpectralVisibilityState - didn't return the right retval in case of an error -> fixed
+   - MediaItem Management: GetMediaItemTake - didn't return the right retval in case of an error -> fixed
+   - MediaItem Management: RippleInsert_MediaItemStateChunks - had inner variable exposed
+   - MediaItem Management: SetItemLength - didn't return the right retval in case of an error -> fixed
+   - MediaItem Management: SetItemPosition - didn't return the right retval in case of an error -> fixed
+   - MediaItem Management: SetItemUSTrackNumber_StateChunk - didn't return in some errorcases, potentially resulting in a Lua-error -> fixed
+   - MediaItem Management: SplitMediaItems_Position - didn't return the right retval in case of an error -> fixed
+   - Metadata Management: GetProjExtState_AllKeyValues - returns -1 now in case of an error
    - Project Management: GetProject\_MasterGroupFlagsState - moved to correct docsindex Project Management
    - Project Management: SetProject\_MasterGroupFlagsState - moved to correct docsindex Project Management
+   - Rendering: ApplyRenderTable_Project - stated nil as retval in case of an error, though it is false -> fixed
+   - Rendering: ApplyRenderTable_ProjectFile - stated nil as retval in case of an error, though it is false -> fixed
+   - Rendering: GetRenderPreset_RenderTable - stated false as retval in case of an error, though it is nil -> fixed
+   - Track Management: RemoveMediaItem_TrackStateChunk - docs incorrectly stated nil as retval in case of an error -> fixed
+   - Track Management: RemoveMediaItemByIGUID_TrackStateChunk - docs incorrectly stated nil as retval in case of an error -> fixed
+   - Track Management: RemoveMediaItemByGUID_TrackStateChunk - docs incorrectly stated nil as retval in case of an error -> fixed
+   - Track Management: SetMediaItemStateChunk_in_TrackStateChunk - docs incorrectly stated nil as retval in case of an error -> fixed
    - Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs
+   - User Interface: GetVideoHWND - returned wrong retval in case of an error -> fixed
+   - Video: VID_Pixels2VideoUIStateCoords - returned wrong retval in case of an error -> fixed
+   - Video: VID_VideoUIStateCoords2Pixels - returned wrong retval in case of an error -> fixed
    
    ---
 

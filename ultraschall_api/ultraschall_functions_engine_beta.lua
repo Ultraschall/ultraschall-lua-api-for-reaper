@@ -736,6 +736,8 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x,
     This is a workaround, as the mouse-cursor changes to dragging and can still affect the MediaItem, even though the mouse at this position isn't above a MediaItem anymore.
     To be more strict, set exlude_mousecursorsize to true. That means, it will only detect MediaItems directly beneath the mousecursor. If the mouse isn't above a MediaItem, this function will ignore it, even if the mouse could still affect the MediaItem.
     If you don't understand, what that means: simply omit exlude_mousecursorsize, which should work in almost all use-cases. If it doesn't work as you want, try setting it to true and see, whether it works now.    
+    
+    returns nil in case of an error
   </description>
   <retvals>
     MediaItem MediaItem - the MediaItem at the current mouse-position; nil if not found

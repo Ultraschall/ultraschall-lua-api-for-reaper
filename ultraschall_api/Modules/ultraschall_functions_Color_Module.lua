@@ -141,6 +141,8 @@ function ultraschall.RGB2Grayscale(red,green,blue)
   <functioncall>integer graycolor = ultraschall.RGB2Grayscale(integer red, integer green, integer blue)</functioncall>
   <description>
     converts rgb to a grayscale value. Works native on Mac as well on Windows, no color conversion needed.
+    
+    returns nil in case of an error
   </description>
   <parameters>
     integer red - red-value between 0 and 255.
@@ -163,9 +165,9 @@ function ultraschall.RGB2Grayscale(red,green,blue)
   if math.type(green)~="integer" then ultraschall.AddErrorMessage("RGB2Grayscale","green".."only integer is allowed", -2) return nil end
   if math.type(blue)~="integer" then ultraschall.AddErrorMessage("RGB2Grayscale","blue".."only integer is allowed", -3) return nil end
 
-  if red<0 or red>255 then ultraschall.AddErrorMessage("RGB2Grayscale","red", "must be between 0 and 255", -4) return -1 end
-  if green<0 or green>255 then ultraschall.AddErrorMessage("RGB2Grayscale","green", "must be between 0 and 255", -5) return -1 end
-  if blue<0 or blue>255 then ultraschall.AddErrorMessage("RGB2Grayscale","blue", "must be between 0 and 255", -6) return -1 end
+  if red<0 or red>255 then ultraschall.AddErrorMessage("RGB2Grayscale","red", "must be between 0 and 255", -4) return nil end
+  if green<0 or green>255 then ultraschall.AddErrorMessage("RGB2Grayscale","green", "must be between 0 and 255", -5) return nil end
+  if blue<0 or blue>255 then ultraschall.AddErrorMessage("RGB2Grayscale","blue", "must be between 0 and 255", -6) return nil end
 
   -- do the legend of the grayscale and return it's resulting colorvalue
   local gray=red+green+blue
@@ -301,6 +303,8 @@ function ultraschall.CreateColorTable(startr, startg, startb, endr, endg, endb, 
     The colorvalue for start and end can be 0 to 255 or the other way round 255 to 0
     
     Can be used by [ApplyColorTableToTrackColors](#ApplyColorTableToTrackColors)
+    
+    returns nil in case of an error
   </description>
   <parameters>
     integer startr - start redvalue, between 0 and 255
@@ -445,6 +449,8 @@ function ultraschall.IsValidColorTable(ColorTable)
   <functioncall>boolean retval = ultraschall.IsValidColorTable(array ColorTable)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Checks for valid color-tables.
+    
+    returns false in case of an error
   </description>
   <parameters>
     array ColorTable - a table to check for being a valid ColorTable
@@ -498,6 +504,8 @@ function ultraschall.ApplyColorTableToTrackColors(ColorTable, Spread, StartTrack
     Apply a ColorTable to Tracks, to colorize MediaTracks
     
     ColorTables can be created by [CreateColorTable](#CreateColorTable)
+    
+    returns false in case of an error
   </description>
   <parameters>
     array ColorTable - the ColorTable to apply to the MediaTrackColors
@@ -561,6 +569,8 @@ function ultraschall.ApplyColorTableToItemColors(ColorTable, Spread, MediaItemAr
     Apply a ColorTable to MediaItems in a MediaItemArray, to colorize MediaItems
     
     ColorTables can be created by [CreateColorTable](#CreateColorTable)
+    
+    returns false in case of an error
   </description>
   <parameters>
     array ColorTable - the ColorTable to apply to the MediaItemColors

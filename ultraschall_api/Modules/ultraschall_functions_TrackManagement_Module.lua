@@ -66,6 +66,8 @@ function ultraschall.IsValidTrackString(trackstring)
   <functioncall>boolean valid, integer count, array individual_tracknumbers = ultraschall.IsValidTrackString(string trackstring)</functioncall>
   <description>
     checks, whether a given trackstring is a valid one. Will also return all valid numbers, from trackstring, that can be used as tracknumbers, as an array.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean valid - true, is a valid trackstring; false, is not a valid trackstring
@@ -114,6 +116,8 @@ function ultraschall.IsValidTrackStateChunk(statechunk)
   <functioncall>boolean valid = ultraschall.IsValidTrackStateChunk(string TrackStateChunk)</functioncall>
   <description>
     returns, if a TrackStateChunk is a valid statechunk
+    
+    returns false in case of an error
   </description>
   <parameters>
     string TrackStateChunk - a string to check, if it's a valid TrackStateChunk
@@ -148,6 +152,8 @@ function ultraschall.CreateTrackString(firstnumber, lastnumber, step)
   <description>
     returns a string with the all numbers from firstnumber to lastnumber, separated by a ,
     e.g. firstnumber=4, lastnumber=8 -> 4,5,6,7,8
+    
+    returns nil in case of an error
   </description>
   <parameters>
     integer firstnumber - the number, with which the string starts
@@ -238,7 +244,7 @@ function ultraschall.InsertTrack_TrackStateChunk(trackstatechunk)
   <functioncall>boolean retval, MediaTrack MediaTrack = ultraschall.InsertTrack_TrackStateChunk(string trackstatechunk)</functioncall>
   <description>
     Creates a new track at the end of the project and sets it's trackstate, using the parameter trackstatechunk.
-    Returns, if it succeeded and the newly created MediaTrack.
+    Returns true, if it succeeded and the newly created MediaTrack.
   </description>
   <parameters>
     string trackstatechunk - the rpp-xml-Trackstate-Chunk, as created by reaper.GetTrackStateChunk or <a href="#GetProject_TrackStateChunk">GetProject_TrackStateChunk</a>
@@ -277,7 +283,9 @@ function ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
   <functioncall>integer retval, string trackstring, array trackstringarray, integer number_of_entries = ultraschall.RemoveDuplicateTracksInTrackstring(string trackstring)</functioncall>
   <description>
     Sorts tracknumbers in trackstring and throws out duplicates. It also throws out entries, that are no numbers.
-    Returns the "cleared" trackstring as string and as array, as well as the number of entries. Returns -1 in case of failure.
+    Returns the "cleared" trackstring as string and as array, as well as the number of entries. 
+    
+    Returns -1 in case of failure.
   </description>
   <parameters>
     string trackstring - the tracknumbers, separated by a comma
@@ -331,6 +339,7 @@ function ultraschall.IsTrackObjectTracknumber(MediaTrack, tracknumber)
   <functioncall>boolean retval, integer tracknumber = ultraschall.IsTrackObjectTracknumber(MediaTrack track, integer tracknumber)</functioncall>
   <description>
     returns true, if MediaTrack has the tracknumber "tracknumber"; false if not.
+    
     Returns nil in case of error.
   </description>
   <parameters>
@@ -377,6 +386,7 @@ function ultraschall.InverseTrackstring(trackstring, limit)
   <functioncall>string inv_trackstring = ultraschall.InverseTrackstring(string trackstring, integer limit)</functioncall>
   <description>
     returns a newtrackstring with numbers, that are NOT in trackstring, in the range between 0 and limit
+    
     returns -1 in case of error
   </description>
   <parameters>
@@ -567,7 +577,7 @@ function ultraschall.RemoveMediaItem_TrackStateChunk(trackstatechunk, idx)
   <description>
     Deletes the idx'th item from trackstatechunk and returns this altered trackstatechunk.
     
-    returns nil in case of error
+    returns false in case of error
   </description>
   <parameters>
     string trackstatechunk - a trackstatechunk, as returned by reaper's api function reaper.GetTrackStateChunk
@@ -623,7 +633,7 @@ function ultraschall.RemoveMediaItemByIGUID_TrackStateChunk(trackstatechunk, IGU
   <description>
     Deletes the item with the iguid IGUID from trackstatechunk and returns this altered trackstatechunk.
     
-    returns nil in case of error
+    returns false in case of error
   </description>
   <parameters>
     string trackstatechunk - a trackstatechunk, as returned by reaper's api function reaper.GetTrackStateChunk
@@ -674,7 +684,7 @@ function ultraschall.RemoveMediaItemByGUID_TrackStateChunk(trackstatechunk, GUID
   <description>
     Deletes the item with the guid GUID from trackstatechunk and returns this altered trackstatechunk.
     
-    returns nil in case of error
+    returns false in case of error
   </description>
   <parameters>
     string trackstatechunk - a trackstatechunk, as returned by reaper's api function reaper.GetTrackStateChunk
@@ -832,7 +842,7 @@ function ultraschall.SetMediaItemStateChunk_in_TrackStateChunk(trackstatechunk, 
   <description>
     Overwrites the idx'th item from trackstatechunk with mediaitemstatechunk and returns this altered trackstatechunk.
     
-    returns nil in case of error
+    returns false in case of error
   </description>
   <parameters>
     string trackstatechunk - a trackstatechunk, as returned by reaper's api function reaper.GetTrackStateChunk

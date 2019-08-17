@@ -610,6 +610,8 @@ function ultraschall.CountUSExternalState_key(section)
   <functioncall>integer key_count = ultraschall.CountUSExternalState_key(string section)</functioncall>
   <description>
     returns the number of keys in the given [section] in ultraschall.ini
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     integer key_count  - the number of keys within an ultraschall.ini-section
@@ -627,7 +629,7 @@ function ultraschall.CountUSExternalState_key(section)
 </US_DocBloc>
 --]]
   -- check parameter and existence of ultraschall.ini
-  if type(section)~="string" then ultraschall.AddErrorMessage("CountUSExternalState_key","section", "only string allowed", -1) return false end
+  if type(section)~="string" then ultraschall.AddErrorMessage("CountUSExternalState_key","section", "only string allowed", -1) return -1 end
   if reaper.file_exists(reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini")==false then ultraschall.AddErrorMessage("CountUSExternalState_key","", "ultraschall.ini does not exist", -2) return -1 end
 
   -- prepare variables
@@ -672,7 +674,7 @@ function ultraschall.EnumerateUSExternalState_sec(number)
     integer number - the number of section, whose name you want to know
   </parameters>
   <chapter_context>
-    Ultraschall Specific
+    Configuration-Files Management
     Ultraschall.ini
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
@@ -690,12 +692,11 @@ function ultraschall.EnumerateUSExternalState_sec(number)
   -- look for and return the requested line
   local count=0
   for line in io.lines(reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini") do
-    check=line:match("%[.-%]")
+    local check=line:match("%[.-%]")
     if check~=nil then count=count+1 end
-    if count==number then return line end
+    if count==number then return line:sub(2,-2) end
   end
-end
-
+end 
 --A=ultraschall.EnumerateUSExternalState_sec(10)
 
 function ultraschall.EnumerateUSExternalState_key(section, number)
@@ -729,8 +730,8 @@ function ultraschall.EnumerateUSExternalState_key(section, number)
 </US_DocBloc>
 --]]
   -- check parameter
-  if type(section)~="string" then ultraschall.AddErrorMessage("EnumerateUSExternalState_key", "section", "only string allowed", -1) return false end
-  if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateUSExternalState_key", "number", "only integer allowed", -2) return false end
+  if type(section)~="string" then ultraschall.AddErrorMessage("EnumerateUSExternalState_key", "section", "only string allowed", -1) return nil end
+  if math.type(number)~="integer" then ultraschall.AddErrorMessage("EnumerateUSExternalState_key", "number", "only integer allowed", -2) return nil end
 
   -- prepare variables
   local count=0

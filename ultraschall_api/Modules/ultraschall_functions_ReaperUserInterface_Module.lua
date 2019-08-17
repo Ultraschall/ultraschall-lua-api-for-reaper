@@ -1234,6 +1234,8 @@ function ultraschall.Windows_Find(title, exact)
     Returns all Reaper-window-HWND-handler, with a given title. Can be further used with the JS\_Window\_functions of the JS-function-plugin.
     
     Doesn't return IDE-windows! Use [GetAllReaScriptIDEWindows](#GetAllReaScriptIDEWindows) to get them.
+    
+    returns -1 in case of an error
   </description>
   <parameters>
     integer count_hwnds - the number of windows found
@@ -1415,7 +1417,7 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
   <retvals>
     HWND arrange_view - the HWND-window-handler for the tracklist-area of the arrangeview
     HWND timeline - the HWND-window-handler for the timeline/markerarea of the arrangeview
-    HWND TrackControlPanel - the HWND-window-handler for the track-control-panel(TCP)
+    HWND TrackControlPanel - the HWND-window-handler for the track-control-panel(TCP)(may not work anymore in an upcoming Reaper-release!)
   </retvals>
   <chapter_context>
     User Interface
@@ -1530,16 +1532,19 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
     -- scroll-state-altering of the Arrangeview(which could cause stuck Arrangeviews, when done permanently)
     reaper.SetExtState("ultraschall", "arrangehwnd", reaper.JS_Window_AddressFromHandle(ARHWND), false)
     reaper.SetExtState("ultraschall", "timelinehwnd", reaper.JS_Window_AddressFromHandle(TLHWND), false)
-    reaper.SetExtState("ultraschall", "tcphwnd", reaper.JS_Window_AddressFromHandle(TCPHWND), false)
+    if TCPHWND~=nil then
+        reaper.SetExtState("ultraschall", "tcphwnd", reaper.JS_Window_AddressFromHandle(TCPHWND), false)
+    ultraschall.TLHWND=TCPHWND
+    end
     ultraschall.ARHWND=ARHWND
     ultraschall.TLHWND=TLHWND
-    ultraschall.TLHWND=TCPHWND
   else
     -- if the extstate already has stored the arrangeview-hwnd-address, just convert the one for arrangeview and timeline
     -- it into their handles and return them
     ARHWND=reaper.JS_Window_HandleFromAddress(reaper.GetExtState("ultraschall", "arrangehwnd"))
     TLHWND=reaper.JS_Window_HandleFromAddress(reaper.GetExtState("ultraschall", "timelinehwnd"))
     TCPHWND=reaper.JS_Window_HandleFromAddress(reaper.GetExtState("ultraschall", "tcphwnd"))
+    if TCPHWND=="" then TCPHWND=nil end
   end  
   return ARHWND, TLHWND, TCPHWND
 end
@@ -1940,7 +1945,7 @@ function ultraschall.GetVideoHWND()
     due API-limitations on Mac and Linux: if more than one window called "Video Window" is opened, it will return -1
     I hope to find a workaround for that problem at some point...
     
-    returns nil if the Video Window is closed
+    returns nil if the Video Window is closed or can't be determined
   </description>
   <retvals>
     HWND hwnd - the window-handler of the Video Window
@@ -1969,7 +1974,7 @@ function ultraschall.GetVideoHWND()
       return hwnd_array[1]
     else
       ultraschall.AddErrorMessage("GetVideoHWND", "", "more than one window called Video Window opened. Can't determine the right one...sorry", -1)
-      return -1
+      return nil
     end
   end
   return nil
@@ -2685,7 +2690,7 @@ function ultraschall.GetRenderingToFileHWND()
   </requires>
   <functioncall>HWND rendertofile_dialog = ultraschall.GetRenderingToFileHWND()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Gets the HWND of the Rendering to File-dialog, if Reaper is currently rendering.
+    Gets the HWND of the Rendering to File-dialog, which is displayed while Reaper is rendering.
     
     returns nil in case of an error
   </description>
@@ -2860,6 +2865,8 @@ function ultraschall.ConvertClient2ScreenXCoordinate_ReaperWindow(Xclientcoordin
   <description>
     Converts an x-clientcoordinate from within the main Reaper-window into a x-screencoordinate.
     Due to Api-limitations, if the Reaper-window is too small, the position might be wrong up to about 74 pixels!
+    
+    returns -1 in case of error
   </description>
   <parameters>
     integer Xclientcoordinate - the screen-coordinate, you want to have converted to. Negative, if left of the left edge of the main Reaper-window.

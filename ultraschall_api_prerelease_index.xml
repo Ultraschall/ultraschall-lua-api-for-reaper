@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40550.00" author="Meo Mespotine">
+      <version name="40571.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Changelog-Api.txt</source>
@@ -195,6 +195,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.978.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/reaper5.978.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.979.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/reaper5.979.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.980.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/reaper5.980.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper5.982.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/reaper5.982.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/Reaper_Button.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi</source>
@@ -390,6 +391,8 @@ New features in 4.00beta2.77
     time-positions in Lua have
 -   EventManager: Ultraschall_EventManager.lua - first version of the
     EventManager-backgroundscript
+-   MediaItem Management: GetRecCounter - returns the highest
+    rec-counter of all items/takes in the current project
 -   ProjectManagement: GetProjectStateChunk - returns the
     ProjectStateChunk of the current project(finally working!)
 -   Trackmanagement: IsSplitAtPosition - returns, if a
@@ -401,12 +404,51 @@ New features in 4.00beta2.77
     Media Explorer
 -   User Interface: MediaExplorer_OnCommand - runs an Media Explorer
     action(just like Reaper’s Main_OnCommand and
-    Midi_OnCommand-functions); runs no scripts yet
+    Midi_OnCommand-functions); runs no scripts yet, only
+    native/extension actions
 
 Changes from Beta 2.76 to Beta 2.77
 
 -   API: functions - moved all functions into modules for future
     modular-concept
+-   Automation Items: GetProject_CountAutomationItems - didn’t return
+    the right retval in case of an error -> fixed
+-   ColorManagement: RGB2Grayscale - didn’t return the right retval in
+    case of an error -> fixed
+-   Configuration Files: CountIniFileExternalState_sec - did count keys
+    instead of sections -> fixed(thanks to rstockm)
+-   Configuration Files: CountUSExternalState_sec - did count keys
+    instead of sections -> fixed(thanks to rstockm)
+-   Configuration Files: CountUSExternalState_key - didn’t return the
+    right retval in case of an error -> fixed
+-   Configuration Files: DeleteKBIniActions - didn’t return the right
+    retval in case of an error -> fixed
+-   Configuration Files: DeleteKBIniScripts - didn’t return the right
+    retval in case of an error -> fixed
+-   Configuration Files: DeleteKBIniKeys - didn’t return the right
+    retval in case of an error -> fixed
+-   Configuration Files: EnumerateIniFileExternalState_sec - did
+    enumerate keys instead of sections -> fixed(thanks to rstockm)
+-   Configuration Files: EnumerateKeysByPattern - didn’t return the
+    right retval in case of an error -> fixed
+-   Configuration Files: EnumerateSectionsByPattern - didn’t return the
+    right retval in case of an error -> fixed
+-   Configuration Files: EnumerateUSExternalState_sec - didn’t return
+    the right retval in case of an error -> fixed
+-   Configuration Files: EnumerateUSExternalState_key - didn’t return
+    the right retval in case of an error -> fixed
+-   Configuration Files: EnumerateValuesByPattern - didn’t return the
+    right retval in case of an error -> fixed
+-   Configuration Files: GetKBIniKeys - enhanced description for osc
+-   Configuration Files: GetKBIniScripts_ByActionCommandID - changed
+    retval in case of an error to nil, instead of -1. More consistent
+    that way(sorry for any inconvenience)
+-   Configuration Files: GetKBIniKeys_ByActionCommandID - changed retval
+    in case of an error to nil, instead of -1. More consistent that
+    way(sorry for any inconvenience)
+-   Configuration Files: SetIniFileExternalState - didn’t return the
+    right retval in case of an error -> fixed
+-   Configuration Files: SetKBIniKeys - enhanced description for osc
 -   Docs: Doc-Engine - had wrong parameters and retvals in numerous
     functions…fixed(ooops)
 -   Docs: GetRenderingToFileHWND - had parameters described, that don’t
@@ -416,27 +458,52 @@ Changes from Beta 2.76 to Beta 2.77
 -   Docs: print-functions - all print-functions, like sprint, fprint,
     gfx.printf, etc include now formatting information in the
     description.
+-   Docs: Reaper-docs - updated to 5.982
+-   FileManagement: CountLinesInFile - didn’t return the right retval in
+    case of an error -> fixed
+-   FileManagement: GetLengthOfFile - didn’t return the right retval in
+    case of an error -> fixed
+-   FileManagement: MakeCopyOfFile_Binary - didn’t return the right
+    retval in case of an error -> fixed
+-   FileManagement: ReadValueFromFile - didn’t return the right retval
+    in case of an error -> fixed
+-   FileManagement: ReadBinaryFileUntilPattern - didn’t return the right
+    retval in case of an error -> fixed
+-   FileManagement: ReadBinaryFileFromPattern - didn’t return the right
+    retval in case of an error -> fixed
 -   FXManagement: GetFXStateChunk - had layoutproblem, when the passed
     StateChunk was taken from a ProjectStateChunk -> fixed(thanks to
     lossius)
--   Configurationfiles: CountUSExternalState_sec - did count keys
-    instead of sections -> fixed(thanks to rstockm)
--   Configurationfiles: CountIniFileExternalState_sec - did count keys
-    instead of sections -> fixed(thanks to rstockm)
--   Configurationfiles: EnumerateIniFileExternalState_sec - did
-    enumerate keys instead of sections -> fixed(thanks to rstockm)
+-   Helper Functions: CompareStringWithAsciiValues - returned -1 in case
+    of an error, although boolean should be returned -> fixed
+-   Helper Functions: ConvertIntegerIntoString2 - didn’t return the
+    right retval in case of an error -> fixed
+-   Helper Functions: CSV2IndividualLinesAsArray - didn’t return the
+    right retval in case of an error -> fixed
 -   Helper Functions: GetUserInputs - did change the tables passed as
     default-retvals -> fixed now
+-   Helper Functions: GetScriptFilenameFromActionCommandID - didn’t
+    return the right retval in case of an error -> fixed
+-   Helper Functions: IsItemInTrack - changed error-retval to nil;
+    didn’t return the right retval in case of an error -> fixed
 -   Helper Functions: IsValidMatchingPattern - moved to docs-index
     API-Helper functions -> Data Manipulation
+-   Helper Functions: LoadFunctionFromExtState - didn’t return the right
+    retval in case of an error -> fixed
 -   Helper Functions: SecondsToTime - moved to docs-index API-Helper
     functions -> Data Manipulation
 -   Helper Functions: SecondsToTimeString_hh_mm_ss_mss - moved to
     docs-index API-Helper functions -> Data Manipulation
+-   Helper Functions: SetIntConfigVar_Bitfield - didn’t return the right
+    retval in case of an error -> fixed
 -   Helper Functions: TimeStringToSeconds_hh_mm_ss_mss - moved to
     docs-index API-Helper functions -> Data Manipulation
 -   Helper Functions: TimeToSeconds - moved to docs-index API-Helper
     functions -> Data Manipulation
+-   Helper Functions: ToggleStateAction - wrongly stated to return
+    boolean instead of integer in the docs -> fixed
+-   Helper Functions: ToggleStateButton - wrongly retval-description in
+    the docs -> fixed
 -   HWND: GetActionsHWND - moved to docs-index User Interface ->
     Reaper-Windowhandler
 -   HWND: GetBatchFileItemConverterHWND - moved to docs-index User
@@ -461,12 +528,65 @@ Changes from Beta 2.76 to Beta 2.77
     Interface -> Reaper-Windowhandler
 -   HWND: GetVideoHWND - moved to docs-index User Interface ->
     Reaper-Windowhandler
+-   Localize: Localize - docs stated returning false in case of an
+    error, but returns nil -> fixed
+-   Marker Management: DeleteNormalMarker - returned wrong retval in
+    case of an error -> fixed
+-   Marker Management: DeleteEditMarker - returned wrong retval in case
+    of an error -> fixed
+-   Marker Management: EnumerateEditRegion - returned wrong retval in
+    case of an error -> fixed
+-   Marker Management: SetMarkerByIndex - returned wrong retval in case
+    of an error -> fixed
+-   MediaItem Management: GetItemFadeIn - stated string as returnvalue
+    in the docs, though number was returned for some retvals -> fixed
+-   MediaItem Management: GetItemFadeOut - stated string as returnvalue
+    in the docs, though number was returned for some retvals -> fixed
+-   MediaItem Management: GetItemSpectralConfig - didn’t return the
+    right retval in case of an error -> fixed
+-   MediaItem Management: GetItemSpectralVisibilityState - didn’t return
+    the right retval in case of an error -> fixed
+-   MediaItem Management: GetMediaItemTake - didn’t return the right
+    retval in case of an error -> fixed
+-   MediaItem Management: RippleInsert_MediaItemStateChunks - had inner
+    variable exposed
+-   MediaItem Management: SetItemLength - didn’t return the right retval
+    in case of an error -> fixed
+-   MediaItem Management: SetItemPosition - didn’t return the right
+    retval in case of an error -> fixed
+-   MediaItem Management: SetItemUSTrackNumber_StateChunk - didn’t
+    return in some errorcases, potentially resulting in a Lua-error ->
+    fixed
+-   MediaItem Management: SplitMediaItems_Position - didn’t return the
+    right retval in case of an error -> fixed
+-   Metadata Management: GetProjExtState_AllKeyValues - returns -1 now
+    in case of an error
 -   Project Management: GetProject_MasterGroupFlagsState - moved to
     correct docsindex Project Management
 -   Project Management: SetProject_MasterGroupFlagsState - moved to
     correct docsindex Project Management
+-   Rendering: ApplyRenderTable_Project - stated nil as retval in case
+    of an error, though it is false -> fixed
+-   Rendering: ApplyRenderTable_ProjectFile - stated nil as retval in
+    case of an error, though it is false -> fixed
+-   Rendering: GetRenderPreset_RenderTable - stated false as retval in
+    case of an error, though it is nil -> fixed
+-   Track Management: RemoveMediaItem_TrackStateChunk - docs incorrectly
+    stated nil as retval in case of an error -> fixed
+-   Track Management: RemoveMediaItemByIGUID_TrackStateChunk - docs
+    incorrectly stated nil as retval in case of an error -> fixed
+-   Track Management: RemoveMediaItemByGUID_TrackStateChunk - docs
+    incorrectly stated nil as retval in case of an error -> fixed
+-   Track Management: SetMediaItemStateChunk_in_TrackStateChunk - docs
+    incorrectly stated nil as retval in case of an error -> fixed
 -   Ultraschall: moved ultraschall.ini-related functions to Ultraschall
     Specific-index in the docs
+-   User Interface: GetVideoHWND - returned wrong retval in case of an
+    error -> fixed
+-   Video: VID_Pixels2VideoUIStateCoords - returned wrong retval in case
+    of an error -> fixed
+-   Video: VID_VideoUIStateCoords2Pixels - returned wrong retval in case
+    of an error -> fixed
 
 ------------------------------------------------------------------------
 
@@ -3979,7 +4099,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 985 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40550 from 13.08.2019 13:40:05).}
+a 986 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40571 from 17.08.2019 04:57:47).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -3993,7 +4113,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 985 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 986 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -4117,7 +4237,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 985 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40550 from 13.08.2019 13:40:05).}
+a 986 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40571 from 17.08.2019 04:57:47).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4131,7 +4251,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 985 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 986 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

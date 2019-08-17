@@ -124,7 +124,7 @@ function ultraschall.CheckMediaItemArray(MediaItemArray)
   <tags>mediaitemmanagement, tracks, media, item, check</tags>
 </US_DocBloc>
 ]]
-  if type(MediaItemArray)~="table" then ultraschall.AddErrorMessage("CheckMediaItemArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return false,0,{} end
+  if type(MediaItemArray)~="table" then ultraschall.AddErrorMessage("CheckMediaItemArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return false end
   local count=1
   while MediaItemArray[count]~=nil do
     if reaper.ValidatePtr(MediaItemArray[count],"MediaItem*")==false then table.remove(MediaItemArray,count)
@@ -151,7 +151,7 @@ function ultraschall.IsValidMediaItemArray(MediaItemArray)
     Checks, whether MediaItemArray is valid.
     It throws out all entries, that are not MediaItems and returns the altered array as result.
     
-    returns false in case of error or if it is not a valid MediaItemArray
+    returns false in case of an error or if it is not a valid MediaItemArray
   </description>
   <parameters>
     array MediaItemArray - a MediaItemArray that shall be checked for validity
@@ -170,7 +170,7 @@ function ultraschall.IsValidMediaItemArray(MediaItemArray)
   <tags>mediaitemmanagement, tracks, media, item, check</tags>
 </US_DocBloc>
 ]]
-  if type(MediaItemArray)~="table" then ultraschall.AddErrorMessage("IsValidMediaItemArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return false,0,{} end
+  if type(MediaItemArray)~="table" then ultraschall.AddErrorMessage("IsValidMediaItemArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return false end
   local count=1
   while MediaItemArray[count]~=nil do
     if reaper.ValidatePtr(MediaItemArray[count],"MediaItem*")==false then table.remove(MediaItemArray,count)
@@ -197,7 +197,7 @@ function ultraschall.CheckMediaItemStateChunkArray(MediaItemStateChunkArray)
     Checks, whether MediaItemStateChunkArray is valid.
     It throws out all entries, that are not MediaItemStateChunks and returns the altered array as result.
     
-    returns false in case of error or if it is not a valid MediaItemStateChunkArray
+    returns false in case of an error or if it is not a valid MediaItemStateChunkArray
   </description>
   <parameters>
     array MediaItemStateChunkArray - a MediaItemStateChunkArray that shall be checked for validity
@@ -245,7 +245,7 @@ function ultraschall.IsValidMediaItemStateChunkArray(MediaItemStateChunkArray)
     Checks, whether MediaItemStateChunkArray is valid.
     It throws out all entries, that are not MediaItemStateChunks and returns the altered array as result.
     
-    returns false in case of error or if it is not a valid MediaItemStateChunkArray
+    returns false in case of an error or if it is not a valid MediaItemStateChunkArray
   </description>
   <parameters>
     array MediaItemStateChunkArray - a MediaItemStateChunkArray that shall be checked for validity
@@ -284,7 +284,9 @@ function ultraschall.GetMediaItemsAtPosition(position, trackstring)
   <functioncall>integer number_of_items, array MediaItemArray, array MediaItemStateChunkArray = ultraschall.GetMediaItemsAtPosition(number position, string trackstring)</functioncall>
   <description>
     Gets all Mediaitems at position, from the tracks given by trackstring.
-    Returns a MediaItemArray with the found MediaItems; returns -1 in case of error
+    Returns a MediaItemArray with the found MediaItems
+    
+    returns -1 in case of error
   </description>
   <parameters>
     number position - position in seconds
@@ -351,7 +353,9 @@ function ultraschall.OnlyMediaItemsOfTracksInTrackstring(MediaItemArray, trackst
   <functioncall>integer retval, array MediaItemArray = ultraschall.OnlyMediaItemsOfTracksInTrackstring(array MediaItemArray, string trackstring)</functioncall>
   <description>
     Throws all MediaItems out of the MediaItemArray, that are not within the tracks, as given with trackstring.
-    Returns the "cleared" MediaItemArray; returns -1 in case of error
+    Returns the "cleared" MediaItemArray
+    
+    returns -1 in case of error
   </description>
   <parameters>
     array MediaItemArray - an array with MediaItems; no nil-entries allowed, will be seen as the end of the array
@@ -431,11 +435,11 @@ function ultraschall.SplitMediaItems_Position(position, trackstring, crossfade)
   <tags>mediaitemmanagement, tracks, media, item, split, edit, crossfade</tags>
 </US_DocBloc>
 ]]
-  if type(position)~="number" then ultraschall.AddErrorMessage("SplitMediaItems_Position","position", "must be a number", -1) return -1 end
-  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("SplitMediaItems_Position","trackstring", "must be valid trackstring", -2) return -1 end
+  if type(position)~="number" then ultraschall.AddErrorMessage("SplitMediaItems_Position","position", "must be a number", -1) return false end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("SplitMediaItems_Position","trackstring", "must be valid trackstring", -2) return false end
 
   local A,trackstring,AA,AAA=ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
-  if trackstring==-1 or trackstring=="" then ultraschall.AddErrorMessage("SplitMediaItems_Position","trackstring", "must be valid trackstring", -2) return -1 end
+  if trackstring==-1 or trackstring=="" then ultraschall.AddErrorMessage("SplitMediaItems_Position","trackstring", "must be valid trackstring", -2) return false end
 
   local FadeOut, MediaItem, oldfade, oldlength
   local ReturnMediaItemArray={}
@@ -538,6 +542,8 @@ function ultraschall.DeleteMediaItem(MediaItemObject)
     deletes a MediaItem. Returns true, in case of success, false in case of error.
     
     returns the MediaItemStateChunk of the deleted MediaItem as well, so you can do additional processing with a deleted item.
+  
+    returns false in case of an error
   </description>
   <parameters>
     MediaItem MediaItem - the MediaItem to be deleted
@@ -577,6 +583,8 @@ function ultraschall.DeleteMediaItemsFromArray(MediaItemArray)
   <description>
     deletes the MediaItems from MediaItemArray. Returns true, in case of success, false in case of error.
     In addition, it returns a MediaItemStateChunkArray, that contains the statechunks of all deleted MediaItems
+    
+    returns false in case of an error
   </description>
   <parameters>
     array MediaItemArray - a array with MediaItem-objects to delete; no nil entries allowed
@@ -621,6 +629,8 @@ function ultraschall.DeleteMediaItems_Position(position, trackstring)
   <description>
     Delete the MediaItems at given position, from the tracks as given by trackstring.
     returns, if deleting was successful and an array with all statechunks of all deleted MediaItems
+    
+    returns false in case of an error
   </description>
   <parameters>
     number position - the position in seconds
@@ -770,7 +780,6 @@ end
 
 
 function ultraschall.MoveMediaItemsAfter_By(oldposition, changepositionby, trackstring)
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MoveMediaItemsAfter_By</slug>
@@ -892,7 +901,6 @@ end
 --A=ultraschall.MoveMediaItemsBefore_By(1,1,"1")
 
 function ultraschall.MoveMediaItemsBetween_To(startposition, endposition, newposition, trackstring, inside)
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>MoveMediaItemsBetween_To</slug>
@@ -965,7 +973,6 @@ end
 
 
 function ultraschall.ChangeLengthOfMediaItems_FromArray(MediaItemArray, newlength)
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ChangeLengthOfMediaItems_FromArray</slug>
@@ -1010,7 +1017,6 @@ end
 
 
 function ultraschall.ChangeDeltaLengthOfMediaItems_FromArray(MediaItemArray, deltalength)
-
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ChangeDeltaLengthOfMediaItems_FromArray</slug>
@@ -1138,7 +1144,6 @@ function ultraschall.ChangeDeltaOffsetOfMediaItems_FromArray(MediaItemArray, del
   <tags>mediaitemmanagement, tracks, media, item, offset</tags>
 </US_DocBloc>
 ]]
-
   if ultraschall.IsValidMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("ChangeDeltaOffsetOfMediaItems_FromArray", "MediaItemArray", "must be a valid MediaItemArray", -1) return false end
   if type(delta)~="number" then ultraschall.AddErrorMessage("ChangeDeltaOffsetOfMediaItems_FromArray", "delta", "must be a number", -2) return false end
   
@@ -1231,6 +1236,7 @@ function ultraschall.SectionCut_Inverse(startposition, endposition, trackstring,
     Cuts out all items before(!) startposition and after(!) endposition in the tracks given by trackstring; it keeps all items inbetween startposition and endposition.
     
     Returns number of cut items as well as an array with the mediaitem-statechunks, which can be used with functions as <a href="#InsertMediaItem_MediaItemStateChunk">InsertMediaItem_MediaItemStateChunk</a>, reaper.GetItemStateChunk and reaper.SetItemStateChunk.
+
     Returns -1 in case of failure.
   </description>
   <parameters>
@@ -1300,6 +1306,7 @@ function ultraschall.RippleCut(startposition, endposition, trackstring, moveenve
     Cuts out all items between startposition and endposition in the tracks given by trackstring. After cut, it moves the remaining items after(!) endposition toward projectstart, by the difference between start and endposition.
     
     Returns number of cut items as well as an array with the mediaitem-statechunks, which can be used with functions as <a href="#InsertMediaItem_MediaItemStateChunk">InsertMediaItem_MediaItemStateChunk</a>, reaper.GetItemStateChunk and reaper.SetItemStateChunk.
+  
     Returns -1 in case of failure.
   </description>
   <parameters>
@@ -1380,6 +1387,7 @@ function ultraschall.RippleCut_Reverse(startposition, endposition, trackstring, 
     Cuts out all items between startposition and endposition in the tracks given by trackstring. After cut, it moves the remaining items before(!) startposition toward projectend, by the difference between start and endposition.
     
     Returns number of cut items as well as an array with the mediaitem-statechunks, which can be used with functions as <a href="#InsertMediaItem_MediaItemStateChunk">InsertMediaItem_MediaItemStateChunk</a>, reaper.GetItemStateChunk and reaper.SetItemStateChunk.
+    
     Returns -1 in case of failure.
   </description>
   <parameters>
@@ -2025,7 +2033,6 @@ function ultraschall.RippleInsert_MediaItemStateChunks(position, MediaItemStateC
   <tags>mediaitemmanagement, tracks, media, item, insert, ripple</tags>
 </US_DocBloc>
 ]]
-
   if type(position)~="number" then ultraschall.AddErrorMessage("RippleInsert_MediaItemStateChunks", "position", "must be a number", -1) return -1 end
   if ultraschall.IsValidMediaItemStateChunkArray(MediaItemStateChunkArray)==false then ultraschall.AddErrorMessage("RippleInsert_MediaItemStateChunks", "MediaItemStateChunkArray", "must be a valid MediaItemStateChunkArray", -2) return -1 end
   if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("RippleInsert_MediaItemStateChunks", "trackstring", "must be a valid trackstring", -3) return -1 end
@@ -2069,7 +2076,7 @@ function ultraschall.RippleInsert_MediaItemStateChunks(position, MediaItemStateC
       for a=1,AAA do
         if tonumber(AA[a])==i+1 then
           local MediaTrack=reaper.GetTrack(0,i)
-          retval = ultraschall.MoveTrackEnvelopePointsBy(position, reaper.GetProjectLength()+(ItemEnd-ItemStart), ItemEnd-ItemStart, MediaTrack, true) 
+          local retval = ultraschall.MoveTrackEnvelopePointsBy(position, reaper.GetProjectLength()+(ItemEnd-ItemStart), ItemEnd-ItemStart, MediaTrack, true) 
         end
       end
     end
@@ -2193,7 +2200,6 @@ function ultraschall.SetItemsLockState(MediaItemArray, lockstate)
   <tags>mediaitemmanagement, track, set, item, mediaitem, lock</tags>
 </US_DocBloc>
 ]]
-
   if type(lockstate)~="boolean" then ultraschall.AddErrorMessage("SetItemsLockState", "lockstate", "Must be a boolean.", -1) return false end
   if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("SetItemsLockState", "MediaItemArray", "No valid MediaItemArray.", -2) return false end
   count=1
@@ -2222,7 +2228,9 @@ function ultraschall.AddLockStateToMediaItemStateChunk(MediaItemStateChunk, lock
     
     Does not apply the changes to the MediaItem itself. To do that, use reaper.GetItemStateChunk or <a href="#ApplyStateChunkToItems">ApplyStateChunkToItems</a>!
     
-    returns the changed MediaItemStateChunk; -1 in case of failure
+    returns the changed MediaItemStateChunk
+    
+    returns -1 in case of failure
   </description>
   <parameters>
     string MediaItemStateChunk - the statechunk of the item to be processed, as returned by functions like reaper.GetItemStateChunk
@@ -2388,7 +2396,6 @@ function ultraschall.GetAllLockedItemsFromMediaItemArray(MediaItemArray)
   <tags>mediaitemmanagement, track, set, item, mediaitem, selection, lock, lockstate, locked state, unlock, unlocked state</tags>
 </US_DocBloc>
 ]]
-
   if ultraschall.CheckMediaItemArray(MediaItemArray)==false then ultraschall.AddErrorMessage("GetAllLockedItemsFromMediaItemArray", "MediaItemArray", "Only array with MediaItemObjects as entries is allowed.", -1) return -1 end
   local MediaItemArray_locked={}
   local MediaItemArray_unlocked={}
@@ -2667,7 +2674,6 @@ function ultraschall.EnumerateMediaItemsInTrack(tracknumber, idx)
   <tags>mediaitemmanagement, track, get, item, mediaitem</tags>
 </US_DocBloc>
 ]]
-
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("EnumerateMediaItemsInTrack","tracknumber", "must be an integer", -1) return -1 end
   if math.type(idx)~="integer" then ultraschall.AddErrorMessage("EnumerateMediaItemsInTrack","idx", "must be an integer", -2) return -1 end
   if tracknumber<1 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("EnumerateMediaItemsInTrack","tracknumber", "no such tracknumber", -3) return -1 end
@@ -2692,8 +2698,6 @@ function ultraschall.EnumerateMediaItemsInTrack(tracknumber, idx)
 end
 
 --A,B,C,D,E=ultraschall.EnumerateMediaItemsInTrack(1, 1000)
-
-
 
 
 function ultraschall.GetMediaItemArrayLength(MediaItemArray)
@@ -2728,7 +2732,8 @@ function ultraschall.GetMediaItemArrayLength(MediaItemArray)
 </US_DocBloc>
 ]]
   local retval, count, retMediaItemArray = ultraschall.CheckMediaItemArray(MediaItemArray)
-  if retval==false then ultraschall.AddErrorMessage("GetMediaItemArrayLength", "MediaItemArray", "no valid MediaItemArray", -1) return -1 end  local start=reaper.GetMediaItemInfo_Value(retMediaItemArray[1], "D_POSITION")
+  if retval==false then ultraschall.AddErrorMessage("GetMediaItemArrayLength", "MediaItemArray", "no valid MediaItemArray", -1) return -1 end  
+  local start=reaper.GetMediaItemInfo_Value(retMediaItemArray[1], "D_POSITION")
   local endof=reaper.GetMediaItemInfo_Value(retMediaItemArray[1], "D_POSITION")+reaper.GetMediaItemInfo_Value(retMediaItemArray[1], "D_LENGTH")
   local delta=0
   for i=1, count do
@@ -2846,7 +2851,7 @@ function ultraschall.GetItemSpectralConfig(itemidx, MediaItemStateChunk)
     returns the item-spectral-config, which is the fft-size of the spectral view for this item.
     set itemidx to -1 to use the optional parameter MediaItemStateChunk to alter a MediaItemStateChunk instead of an item directly.
     
-    returns -1 in case of error or if no spectral-config exists(e.g. when no spectral-edit is applied to this item)
+    returns -1 in case of error or nil if no spectral-config exists(e.g. when no spectral-edit is applied to this item)
   </description>
   <parameters>
     integer itemidx - the number of the item, with 1 for the first item, 2 for the second, etc.; -1, to use the parameter MediaItemStateChunk
@@ -2867,7 +2872,7 @@ function ultraschall.GetItemSpectralConfig(itemidx, MediaItemStateChunk)
   -- check parameters
   if math.type(itemidx)~="integer" then ultraschall.AddErrorMessage("GetItemSpectralConfig","itemidx", "only integer allowed", -1) return -1 end
   if itemidx~=-1 and itemidx<1 or itemidx>reaper.CountMediaItems(0) then ultraschall.AddErrorMessage("GetItemSpectralConfig","itemidx", "no such item exists", -2) return -1 end
-  if itemidx==-1 and tostring(MediaItemStateChunk):match("<ITEM.*>")==nil then ultraschall.AddErrorMessage("GetItemSpectralConfig","MediaItemStateChunk", "must be a valid MediaItemStateChunk", -5) return false end
+  if itemidx==-1 and tostring(MediaItemStateChunk):match("<ITEM.*>")==nil then ultraschall.AddErrorMessage("GetItemSpectralConfig","MediaItemStateChunk", "must be a valid MediaItemStateChunk", -5) return -1 end
 
   -- get statechunk, if necessary(itemidx~=-1)
   local _retval
@@ -3131,7 +3136,6 @@ function ultraschall.DeleteItemSpectralEdit(itemidx, spectralidx, MediaItemState
   <tags>mediaitemmanagement, delete, item, spectral edit</tags>
 </US_DocBloc>
 --]]
-
   -- check parameters
   if math.type(itemidx)~="integer" then ultraschall.AddErrorMessage("DeleteItemSpectralEdit","itemidx", "only integer allowed", -1) return false end
   if itemidx~=-1 and itemidx<1 or itemidx>reaper.CountMediaItems(0) then ultraschall.AddErrorMessage("DeleteItemSpectralEdit","itemidx", "no such item exists", -2) return false end
@@ -3503,7 +3507,7 @@ function ultraschall.GetItemSpectralVisibilityState(itemidx, MediaItemStateChunk
   -- check parameters
   if math.type(itemidx)~="integer" then ultraschall.AddErrorMessage("GetItemSpectralVisibilityState","itemidx", "only integer allowed", -1) return -1 end
   if itemidx~=-1 and itemidx<1 or itemidx>reaper.CountMediaItems(0) then ultraschall.AddErrorMessage("GetItemSpectralVisibilityState","itemidx", "no such item exists", -2) return -1 end
-  if itemidx==-1 and tostring(MediaItemStateChunk):match("<ITEM.*>")==nil then ultraschall.AddErrorMessage("GetItemSpectralVisibilityState","MediaItemStateChunk", "must be a valid MediaItemStateChunk", -5) return false end
+  if itemidx==-1 and tostring(MediaItemStateChunk):match("<ITEM.*>")==nil then ultraschall.AddErrorMessage("GetItemSpectralVisibilityState","MediaItemStateChunk", "must be a valid MediaItemStateChunk", -5) return -1 end
 
   -- get statechunk, if necessary(itemidx~=-1)
   local _retval
@@ -4148,6 +4152,7 @@ function ultraschall.PreviewMediaItem(MediaItem, Previewtype)
   <requires>
     Ultraschall=4.00
     Reaper=5.77
+    SWS=2.9.8
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.PreviewMediaItem(MediaItem MediaItem, integer Previewtype)</functioncall>
@@ -4199,6 +4204,7 @@ function ultraschall.StopAnyPreview()
   <requires>
     Ultraschall=4.00
     Reaper=5.77
+    JS=0.986
     Lua=5.3
   </requires>
   <functioncall>ultraschall.StopAnyPreview()</functioncall>
@@ -4230,6 +4236,7 @@ function ultraschall.PreviewMediaFile(filename_with_path, gain, loop)
   <requires>
     Ultraschall=4.00
     Reaper=5.92
+    JS=0.986
     Lua=5.3
   </requires>
   <functioncall>integer retval = ultraschall.PreviewMediaFile(string filename_with_path, optional number gain, optional boolean loop)</functioncall>
@@ -4310,7 +4317,7 @@ function ultraschall.GetMediaItemTake(MediaItem, TakeNr)
 ]]
   if reaper.ValidatePtr2(0, MediaItem, "MediaItem*")==false then ultraschall.AddErrorMessage("GetMediaItemTake", "MediaItem", "must be a valid MediaItem-object", -1) return nil end
   if math.type(TakeNr)~="integer" then ultraschall.AddErrorMessage("GetMediaItemTake", "TakeNr", "must be an integer", -2) return nil end
-  if TakeNr<0 or TakeNr>reaper.CountTakes(MediaItem) then ultraschall.AddErrorMessage("GetMediaItemTake", "TakeNr", "No such take in MediaItem", -3) return -1 end
+  if TakeNr<0 or TakeNr>reaper.CountTakes(MediaItem) then ultraschall.AddErrorMessage("GetMediaItemTake", "TakeNr", "No such take in MediaItem", -3) return nil end
   
   if TakeNr==0 then return reaper.GetActiveTake(MediaItem), reaper.CountTakes(MediaItem)
   else return reaper.GetMediaItemTake(MediaItem, TakeNr-1), reaper.CountTakes(MediaItem) end
@@ -4487,6 +4494,8 @@ function ultraschall.DeleteMediaItemsBetween(startposition, endposition,  tracks
   <description>
     Delete the MediaItems between start- and endposition, from the tracks as given by trackstring.
     Returns also a MediaItemStateChunkArray, that contains the statechunks of all deleted MediaItem
+    
+    returns false in case of an error
   </description>
   <parameters>
     number startposition - the startposition in seconds
@@ -4600,6 +4609,8 @@ function ultraschall.GetMediafileAttributes(filename)
     
     if the mediafile is an rpp-project, this function creates a proxy-file called filename.RPP-PROX, which is a wave-file of the length of the project.
     This file can be deleted safely after that, but would be created again the next time this function is called.    
+    
+    returns -1 in case of an error
   </description>
   <parameters>
     string filename - the file whose attributes you want to have
@@ -4633,7 +4644,6 @@ end
 
 
 --ultraschall.RenderProject_Regions(nil, "c:\\testofon.lol", 1,true, true, true, true, nil)
-
 
 
 function ultraschall.InsertMediaItemFromFile(filename, track, position, endposition, editcursorpos, offset)

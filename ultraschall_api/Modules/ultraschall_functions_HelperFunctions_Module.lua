@@ -180,8 +180,9 @@ function ultraschall.SplitStringAtLineFeedToArray(unsplitstring)
     Splits the string unsplitstring at linefeed/tabs/control characters and puts each of these splitpieces into an array, each splitpiece one array-entry.
     The linefeeds will not(!) be returned in the array's entries.
     Returns the number of entries in the array, as well as the array itself
-    If there are no controlcharacters or linefeeds in the string, the array will have only one entry with unsplitstring in it.
-    returns -1 in case of failure
+    If there are no control characters or linefeeds in the string, the array will have only one entry with unsplitstring in it.
+  
+  returns -1 in case of failure
   </description>
   <parameters>
     string unsplitstring - the string, that shall be split at LineFeed/Tabs/Control Characters. Nil is not allowed.
@@ -358,6 +359,8 @@ function ultraschall.RoundNumber(num)
   <functioncall>integer retval = ultraschall.RoundNumber(number num)</functioncall>
   <description>
     returns a rounded value of the parameter number. %.5 and higher rounds up, lower than %.5 round down.
+    
+    returns nil in case of an error
   </description>
   <retvals>
     integer retval  - the rounded number
@@ -555,7 +558,7 @@ function ultraschall.IsItemInTrack(tracknumber, itemIDX)
   <description>
     checks, whether a given item is part of the track tracknumber
     
-    returns true, if the itemIDX is part of track tracknumber, false if not, -1 if no such itemIDX or Tracknumber available
+    returns true, if the itemIDX is part of track tracknumber, false if not, nil if no such itemIDX or Tracknumber available
   </description>
   <retvals>
     boolean retval - true, if item is in track, false if item isn't in track
@@ -576,8 +579,8 @@ function ultraschall.IsItemInTrack(tracknumber, itemIDX)
   if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("IsItemInTrack","tracknumber", "only integer is allowed", -1) return nil end
   if math.type(itemIDX)~="integer" then ultraschall.AddErrorMessage("IsItemInTrack","itemIDX", "only integer is allowed", -2) return nil end
   
-  if tracknumber>reaper.CountTracks(0) or tracknumber<0 then ultraschall.AddErrorMessage("IsItemInTrack","tracknumber", "no such track in this project", -3) return -1 end
-  if itemIDX>reaper.CountMediaItems(0)-1 or itemIDX<0 then ultraschall.AddErrorMessage("IsItemInTrack","itemIDX", "no such item in this project", -4) return -1 end
+  if tracknumber>reaper.CountTracks(0) or tracknumber<0 then ultraschall.AddErrorMessage("IsItemInTrack","tracknumber", "no such track in this project", -3) return nil end
+  if itemIDX>reaper.CountMediaItems(0)-1 or itemIDX<0 then ultraschall.AddErrorMessage("IsItemInTrack","itemIDX", "no such item in this project", -4) return nil end
   
   -- Get the tracks and items
   local MediaTrack=reaper.GetTrack(0, tracknumber-1) 
@@ -604,6 +607,8 @@ function ultraschall.CheckActionCommandIDFormat(aid)
     Checks, whether an action command id is a valid commandid(which is a number) or a valid _action_command_id (which is a string with an _underscore in the beginning).
     
     Does not check, whether this action_command_id is a useable one, only if it's "syntax" is correct!
+    
+    returns falsein case of an error
   </description>
   <retvals>
     boolean retval  - true, valid action_command_id; false, not a valid action_command_id
@@ -642,6 +647,8 @@ function ultraschall.CheckActionCommandIDFormat2(aid)
     Checks, whether an action command id is a valid commandid(which is a number) or a valid _action_command_id (which is a string with an _underscore in the beginning).
     
     Unlike CheckActionCommandIDFormat, this checks whether an action-command-id-string is an actual registered one(case sensitive!).
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval  - true, valid action_command_id; false, not a valid action_command_id
@@ -676,14 +683,14 @@ function ultraschall.ToggleStateAction(section, actioncommand_id, state)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.ToggleStateAction(integer section, string actioncommand_id, integer state)</functioncall>
+  <functioncall>integer retval = ultraschall.ToggleStateAction(integer section, string actioncommand_id, integer state)</functioncall>
   <description>
     Toggles state of an action using the actioncommand_id(instead of the CommandID-number)
     
     returns current state of the action after toggling or -1 in case of error.
   </description>
   <retvals>
-    boolean retval  - state if the action, after it has been toggled
+    integer retval  - state if the action, after it has been toggled
   </retvals>
   <parameters>
     integer section - the section of the action(see ShowActionlist-dialog)
@@ -725,7 +732,7 @@ function ultraschall.RefreshToolbar_Action(section, actioncommand_id)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall> ultraschall.RefreshToolbar_Action(integer section, string actioncommand_id)</functioncall>
+  <functioncall>ultraschall.RefreshToolbar_Action(integer section, string actioncommand_id)</functioncall>
   <description>
     Refreshes a toolbarbutton with an ActionCommandID(instead of the CommandID-number)
     
@@ -768,14 +775,14 @@ function ultraschall.ToggleStateButton(section, actioncommand_id, state)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.ToggleStateButton(integer section, string actioncommand_id, integer state)</functioncall>
+  <functioncall>integer retval = ultraschall.ToggleStateButton(integer section, string actioncommand_id, integer state)</functioncall>
   <description>
     Toggles state and refreshes the button of an actioncommand_id
     
     returns false in case of error
   </description>
   <retvals>
-    boolean retval  - state of the State-Button, after toggling
+    integer retval  - true, toggling worked; false, toggling didn't work
   </retvals>
   <parameters>
     integer section - the section of the action(see ShowActionlist-dialog)
@@ -1137,7 +1144,7 @@ function ultraschall.CountPatternInString(sourcestring, searchstring, non_case_s
   if non_case_sensitive==true then 
     sourcestring=sourcestring:lower() 
     searchstring=searchstring:lower() 
-    end
+  end
     
   -- now do the searching and create a table with all appearance-positions
   while sourcestring:match(searchstring)~=nil do
@@ -1214,7 +1221,7 @@ function ultraschall.OpenURL(url)
   <description>
     Opens the URI with the standard-browser installed in your system.
     
-    returns -1 in case of error
+    returns -1 in case of an error
   </description>
 <retval>
 integer retval - -1 in case of error
@@ -1230,7 +1237,6 @@ integer retval - -1 in case of error
   <tags>helper functions, string, url, open, browser</tags>
 </US_DocBloc>
 --]]
---  if url:match(".-(://)")==nil then return false end
   if type(url)~="string" then ultraschall.AddErrorMessage("OpenURL","url", "Must be a string.", -1) return -1 end
   local OS=reaper.GetOS()
   url="\""..url.."\""
@@ -1951,7 +1957,7 @@ function ultraschall.SetIntConfigVar_Bitfield(configvar, set_to, ...)
   local count=1
   while Parameters[count]~=nil do
     -- check the bit-parameters
-    if math.log(Parameters[count],2)~=math.floor(math.log(Parameters[count],2)) then ultraschall.AddErrorMessage("SetIntConfigVar_Bitfield","bit", "Bit_"..count.."="..Parameters[count].." isn't a valid bitvalue!", -4) return nil end
+    if math.log(Parameters[count],2)~=math.floor(math.log(Parameters[count],2)) then ultraschall.AddErrorMessage("SetIntConfigVar_Bitfield","bit", "Bit_"..count.."="..Parameters[count].." isn't a valid bitvalue!", -4) return false end
     count=count+1
   end
   
@@ -2082,7 +2088,7 @@ function ultraschall.CompareStringWithAsciiValues(string,...)
     Bytevalues can be either decimal and hexadecimal.
     -1, if you want to skip checking of a specific position in string.
     
-    Returns -1 in case of error
+    Returns false in case of error
   </description>
   <parameters>
     string string - the string to check against the bytevalues
@@ -2101,7 +2107,7 @@ function ultraschall.CompareStringWithAsciiValues(string,...)
   <tags>helper functions, check, compare, string, byte, bytevalues</tags>
 </US_DocBloc>
 --]]
-  if type(string)~="string" then ultraschall.AddErrorMessage("CompareStringWithAsciiValues","string", "Must be a string!", -1) return -1 end  
+  if type(string)~="string" then ultraschall.AddErrorMessage("CompareStringWithAsciiValues","string", "Must be a string!", -1) return false end  
   local length, Table=ultraschall.ConvertStringToAscii_Array(string)
   local AsciiValues={...}
   local NumEntries=ultraschall.CountEntriesInTable_Main(AsciiValues)
@@ -2828,13 +2834,13 @@ function ultraschall.GetScriptFilenameFromActionCommandID(action_command_id)
   <tags>filemanagement, get, scriptfilename, actioncommandid</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.type(action_command_id)~="string" then ultraschall.AddErrorMessage("GetScriptFilenameFromActionCommandID", "action_command_id", "must be a string", -1) return end
-  if ultraschall.CheckActionCommandIDFormat2(action_command_id)==false then ultraschall.AddErrorMessage("GetScriptFilenameFromActionCommandID", "action_command_id", "no such action-command-id", -2) return end
+  if ultraschall.type(action_command_id)~="string" then ultraschall.AddErrorMessage("GetScriptFilenameFromActionCommandID", "action_command_id", "must be a string", -1) return false end
+  if ultraschall.CheckActionCommandIDFormat2(action_command_id)==false then ultraschall.AddErrorMessage("GetScriptFilenameFromActionCommandID", "action_command_id", "no such action-command-id", -2) return false end
   local kb_ini_path = ultraschall.GetKBIniFilepath()
   local kb_ini_file = ultraschall.ReadFullFile(kb_ini_path)
   if action_command_id:sub(1,1)=="_" then action_command_id=action_command_id:sub(2,-1) end
   local L=kb_ini_file:match("( "..action_command_id..".-)\n")
-  if L==nil then ultraschall.AddErrorMessage("GetScriptFilenameFromActionCommandID", "action_command_id", "no such action_command_id associated to a script", -1) return end
+  if L==nil then ultraschall.AddErrorMessage("GetScriptFilenameFromActionCommandID", "action_command_id", "no such action_command_id associated to a script", -1) return false end
   L=L:match(".*%s(.*)")
   if L:sub(1,2)==".." then return reaper.GetResourcePath().."/"..L end
   return L
@@ -3148,6 +3154,8 @@ function ultraschall.SplitStringAtNULLBytes(splitstring)
   <functioncall>integer count, array split_strings = ultraschall.SplitStringAtNULLBytes(string splitstring)</functioncall>
   <description>
     Splits splitstring into individual string at NULL-Bytes.
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     integer count - the number of found strings
@@ -4547,8 +4555,8 @@ function ultraschall.ConvertIntegerIntoString2(Size, ...)
   <tags>helper functions, convert, integer, string</tags>
 </US_DocBloc>
 ]]
-  if math.type(Size)~="integer" then ultraschall.AddErrorMessage("ConvertIntegerIntoString2", "Size", "must be an integer", -1) return -1 end
-  if Size<1 or Size>4 then ultraschall.AddErrorMessage("ConvertIntegerIntoString2", "Size", "must be between 1(for 8 bit) and 4(for 32 bit)", -2) return -1 end
+  if math.type(Size)~="integer" then ultraschall.AddErrorMessage("ConvertIntegerIntoString2", "Size", "must be an integer", -1) return nil end
+  if Size<1 or Size>4 then ultraschall.AddErrorMessage("ConvertIntegerIntoString2", "Size", "must be between 1(for 8 bit) and 4(for 32 bit)", -2) return nil end
   local Table={...}
   local String=""
   local count=1
@@ -5082,10 +5090,10 @@ function ultraschall.LoadFunctionFromExtState(section, key)
   <tags>helper functions, load, function, extstate</tags>
 </US_DocBloc>
 ]]
-  if type(section)~="string" then ultraschall.AddErrorMessage("LoadFunctionFromExtState", "section", "must be a string", -1) return end
-  if type(key)~="string" then ultraschall.AddErrorMessage("LoadFunctionFromExtState", "key", "must be a string", -2) return end
+  if type(section)~="string" then ultraschall.AddErrorMessage("LoadFunctionFromExtState", "section", "must be a string", -1) return false end
+  if type(key)~="string" then ultraschall.AddErrorMessage("LoadFunctionFromExtState", "key", "must be a string", -2) return false end
   local DumpBase64 = reaper.GetExtState(section, key)
-  if DumpBase64=="" or DumpBase64:match("LuaFunc:")==nil then ultraschall.AddErrorMessage("LoadFunctionFromExtState", "", "no function stored in extstate", -3) return end
+  if DumpBase64=="" or DumpBase64:match("LuaFunc:")==nil then ultraschall.AddErrorMessage("LoadFunctionFromExtState", "", "no function stored in extstate", -3) return false end
   local Dump = ultraschall.Base64_Decoder(DumpBase64:sub(9,-1))
   return load(Dump)
 end
@@ -5205,6 +5213,8 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x,
     This is a workaround, as the mouse-cursor changes to dragging and can still affect the MediaItem, even though the mouse at this position isn't above a MediaItem anymore.
     To be more strict, set exlude_mousecursorsize to true. That means, it will only detect MediaItems directly beneath the mousecursor. If the mouse isn't above a MediaItem, this function will ignore it, even if the mouse could still affect the MediaItem.
     If you don't understand, what that means: simply omit exlude_mousecursorsize, which should work in almost all use-cases. If it doesn't work as you want, try setting it to true and see, whether it works now.    
+    
+    returns nil in case of an error
   </description>
   <retvals>
     MediaItem MediaItem - the MediaItem at the current mouse-position; nil if not found
@@ -5416,3 +5426,48 @@ function ultraschall.GetAllActions(section)
 end
 
 --A,B=ultraschall.GetAllActions(0)
+
+
+function ultraschall.GetRecCounter()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetRecCounter</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.981
+    Lua=5.3
+  </requires>
+  <functioncall>integer highest_item_reccount = ultraschall.GetRecCounter()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Takes the RECPASS-counters of all items and takes and returns the highest one, which usually means, the number of items, who have been recorded since the project has been created.
+    
+    Note: a RECPASS-entry can also be part of a copy of a recorded item, so multiple items/takes can share the same RECPASS-entries.
+     
+    returns -1 if no recorded item/take has been found.
+  </description>
+  <retvals>
+    integer highest_item_reccount - the highest reccount of all MediaItems, which usually means, that so many Items have been recorded in this project
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, count, all, mediaitem, take, recpass, counter</tags>
+</US_DocBloc>
+--]]
+  local String=""
+  local recpass=-1
+  local found=0
+  for i=0, reaper.CountTracks()-1 do
+    local retval, str = reaper.GetTrackStateChunk(reaper.GetTrack(0,i), "", false)
+    String=String.."\n"..str
+  end
+  for k in string.gmatch(String, "RECPASS (.-)\n") do
+    found=found+1
+    if recpass<tonumber(k) then 
+      recpass=tonumber(k)
+    end
+ end
+ return recpass, found
+end
