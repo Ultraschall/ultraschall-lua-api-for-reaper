@@ -282,11 +282,21 @@ This is totally my fault, as I had some of them wrong to begin with. My apologie
    - FileManagement: ReadValueFromFile - didn't return the right retval in case of an error -> fixed
    - FileManagement: ReadBinaryFileUntilPattern - didn't return the right retval in case of an error -> fixed
    - FileManagement: ReadBinaryFileFromPattern - didn't return the right retval in case of an error -> fixed
-   - FXManagement: CountParmAlias_FXStateChunk - returns now -1 in case of an error
-   - FXManagement: CountParmLearn_FXStateChunk - returns now -1 in case of an error
-   - FXManagement: CountParmLFOLearn_FXStateChunk - returns now -1 in case of an error
+   - FXManagement: AddParmLFOLearn_FXStateChunk - enhanced doc-description; fixed bug that could cause a LFOLEARN entry to become PARMLEARN(thanks to Justin and Schwa for helping me with that)
+   - FXManagement: AddParmLearn_FXStateChunk - enhanced doc-description; fixed bug that could cause a PARMLEARN entry to become LFOLEARN(thanks to Justin and Schwa for helping me with that)
+   - FXManagement: AddParmAlias_FXStateChunk - enhanced doc-description
+   - FXManagement: CountParmAlias_FXStateChunk - returns now -1 in case of an errorenhanced doc-description
+   - FXManagement: CountParmLearn_FXStateChunk - returns now -1 in case of an error; enhanced doc-description
+   - FXManagement: CountParmLFOLearn_FXStateChunk - returns now -1 in case of an error; enhanced doc-description
+   - FXManagement: DeleteParmAlias_FXStateChunk - enhanced doc-description
+   - FXManagement: DeleteParmLFOLearn_FXStateChunk - enhanced doc-description
+   - FXManagement: GetParmModulationChunk_FXStateChunk - enhanced doc-description
+   - FXManagement: GetParmLFOLearn_MediaTrack - enhanced doc-description
    - FXManagement: GetFXStateChunk - had layoutproblem, when the passed StateChunk was taken from a ProjectStateChunk -> fixed(thanks to lossius)
    - FXManagement: SetFXStateChunk - didn't return the right retval in case of an error -> fixed
+   - FXManagement: SetParmLFOLearn_FXStateChunk - enhanced doc-description; fixed bug that could cause a LFOLEARN entry to become PARMLEARN(thanks to Justin and Schwa for helping me with that)
+   - FXManagement: SetParmLearn_FXStateChunk - enhanced doc-description; fixed bug that could cause a PARMLEARN entry to become LFOLEARN(thanks to Justin and Schwa for helping me with that)
+   - FXManagement: SetParmAlias_FXStateChunk - enhanced doc-description
    - Helper Functions: CompareStringWithAsciiValues - returned -1 in case of an error, although boolean should be returned -> fixed
    - Helper Functions: ConvertIntegerIntoString2 - didn't return the right retval in case of an error -> fixed
    - Helper Functions: GetScriptFilenameFromActionCommandID - didn't return the right retval in case of an error -> fixed
@@ -295,7 +305,7 @@ This is totally my fault, as I had some of them wrong to begin with. My apologie
    - Helper Functions: LoadFunctionFromExtState - didn't return the right retval in case of an error -> fixed
    - Helper Functions: SetIntConfigVar_Bitfield - didn't return the right retval in case of an error -> fixed
    - Helper Functions: ToggleStateAction - wrongly stated to return boolean instead of integer in the docs -> fixed
-   - Helper Functions: ToggleStateButton - wrongly retval-description in the docs -> fixed
+   - Helper Functions: ToggleStateButton - wrong retval-description in the docs -> fixed
    - Marker Management: DeleteNormalMarker - returned wrong retval in case of an error -> fixed
    - Marker Management: DeleteEditMarker - returned wrong retval in case of an error -> fixed
    - Marker Management: EnumerateEditRegion - returned wrong retval in case of an error -> fixed

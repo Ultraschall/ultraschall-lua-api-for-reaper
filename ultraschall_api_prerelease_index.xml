@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40319.00" author="Meo Mespotine">
+      <version name="40322.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.761//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.761//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.761/ultraschall_api/Changelog-Api.txt</source>
@@ -452,17 +452,40 @@ NEW IN THIS RELEASE:
     retval in case of an error -> fixed
 -   FileManagement: ReadBinaryFileFromPattern - didn’t return the right
     retval in case of an error -> fixed
+-   FXManagement: AddParmLFOLearn_FXStateChunk - enhanced
+    doc-description; fixed bug that could cause a LFOLEARN entry to
+    become PARMLEARN(thanks to Justin and Schwa for helping me with
+    that)
+-   FXManagement: AddParmLearn_FXStateChunk - enhanced doc-description;
+    fixed bug that could cause a PARMLEARN entry to become
+    LFOLEARN(thanks to Justin and Schwa for helping me with that)
+-   FXManagement: AddParmAlias_FXStateChunk - enhanced doc-description
 -   FXManagement: CountParmAlias_FXStateChunk - returns now -1 in case
-    of an error
+    of an errorenhanced doc-description
 -   FXManagement: CountParmLearn_FXStateChunk - returns now -1 in case
-    of an error
+    of an error; enhanced doc-description
 -   FXManagement: CountParmLFOLearn_FXStateChunk - returns now -1 in
-    case of an error
+    case of an error; enhanced doc-description
+-   FXManagement: DeleteParmAlias_FXStateChunk - enhanced
+    doc-description
+-   FXManagement: DeleteParmLFOLearn_FXStateChunk - enhanced
+    doc-description
+-   FXManagement: GetParmModulationChunk_FXStateChunk - enhanced
+    doc-description
+-   FXManagement: GetParmLFOLearn_MediaTrack - enhanced doc-description
 -   FXManagement: GetFXStateChunk - had layoutproblem, when the passed
     StateChunk was taken from a ProjectStateChunk -> fixed(thanks to
     lossius)
 -   FXManagement: SetFXStateChunk - didn’t return the right retval in
     case of an error -> fixed
+-   FXManagement: SetParmLFOLearn_FXStateChunk - enhanced
+    doc-description; fixed bug that could cause a LFOLEARN entry to
+    become PARMLEARN(thanks to Justin and Schwa for helping me with
+    that)
+-   FXManagement: SetParmLearn_FXStateChunk - enhanced doc-description;
+    fixed bug that could cause a PARMLEARN entry to become
+    LFOLEARN(thanks to Justin and Schwa for helping me with that)
+-   FXManagement: SetParmAlias_FXStateChunk - enhanced doc-description
 -   Helper Functions: CompareStringWithAsciiValues - returned -1 in case
     of an error, although boolean should be returned -> fixed
 -   Helper Functions: ConvertIntegerIntoString2 - didn’t return the
@@ -479,7 +502,7 @@ NEW IN THIS RELEASE:
     retval in case of an error -> fixed
 -   Helper Functions: ToggleStateAction - wrongly stated to return
     boolean instead of integer in the docs -> fixed
--   Helper Functions: ToggleStateButton - wrongly retval-description in
+-   Helper Functions: ToggleStateButton - wrong retval-description in
     the docs -> fixed
 -   Marker Management: DeleteNormalMarker - returned wrong retval in
     case of an error -> fixed
