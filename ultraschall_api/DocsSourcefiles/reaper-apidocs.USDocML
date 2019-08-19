@@ -3800,12 +3800,12 @@
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>EnumProjects</slug>
         <title>EnumProjects</title>
-        <functioncall prog_lang="cpp">ReaProject* EnumProjects(int idx, char* projfn, int projfn_sz)</functioncall>
-        <functioncall prog_lang="eel">ReaProject EnumProjects(int idx, #projfn)</functioncall>
-        <functioncall prog_lang="lua">ReaProject retval, string projfn = reaper.EnumProjects(integer idx, string projfn)</functioncall>
-        <functioncall prog_lang="python">(ReaProject retval, Int idx, String projfn, Int projfn_sz) = RPR_EnumProjects(idx, projfn, projfn_sz)</functioncall>
+        <functioncall prog_lang="cpp">ReaProject* EnumProjects(int idx, char* projfnOutOptional, int projfnOutOptional_sz)</functioncall>
+        <functioncall prog_lang="eel">ReaProject EnumProjects(int idx, optional #projfn)</functioncall>
+        <functioncall prog_lang="lua">ReaProject retval, optional string projfn = reaper.EnumProjects(integer idx)</functioncall>
+        <functioncall prog_lang="python">(ReaProject retval, Int idx, String projfnOutOptional, Int projfnOutOptional_sz) = RPR_EnumProjects(idx, projfnOutOptional, projfnOutOptional_sz)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.982
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1">
@@ -3816,11 +3816,10 @@
         </description>
         <retvals>
             ReaProject retval - a ReaProject-object of the project you requested
-            string projfn - the path+filename.rpp of the project. returns "" if no filename exists
+            optional string projfn - the path+filename.rpp of the project. returns nil if no filename exists
         </retvals>
         <parameters>
             integer idx - -1 for current project; 0 and higher for the projects; 0x40000000 for currently rendering project, if any.
-            string projfn - unknown
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -4906,6 +4905,44 @@
             Mediaitem Management
         </chapter_context>
         <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>GetEnvelopeInfo_Value</slug>
+        <title>GetEnvelopeInfo_Value</title>
+        <functioncall prog_lang="cpp">double GetEnvelopeInfo_Value(TrackEnvelope* tr, const char* parmname)</functioncall>
+        <functioncall prog_lang="eel">double GetEnvelopeInfo_Value(TrackEnvelope tr, "parmname")</functioncall>
+        <functioncall prog_lang="lua">number retval = reaper.GetEnvelopeInfo_Value(TrackEnvelope tr, string parmname)</functioncall>
+        <functioncall prog_lang="python">Float RPR_GetEnvelopeInfo_Value(TrackEnvelope tr, String parmname)</functioncall>
+        <requires>
+            Reaper=5.982
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            Gets an envelope numerical-value attribute:
+                I_TCPY : int *, Y offset of envelope relative to parent track (may be separate lane or overlap with track contents)
+                I_TCPH : int *, visible height of envelope
+                I_TCPY_USED : int *, Y offset of envelope relative to parent track, exclusive of padding
+                I_TCPH_USED : int *, visible height of envelope, exclusive of padding
+                P_TRACK : MediaTrack *, parent track pointer (if any)
+                P_ITEM : MediaItem *, parent item pointer (if any)
+                P_TAKE : MediaItem_Take *, parent take pointer (if any)
+        </description>
+        <retvals>
+            number retval - the returned value of the attribute
+        </retvals>
+        <parameters>
+            TrackEnvelope tr - the TrackEnvelope, of which you want to retrieve the attribute-value
+            string parmname - the attribute, whose value you want; 
+                            - can be I_TCPY, I_TCPH, I_TCPY_USED, I_TCPH_USED, P_TRACK, P_ITEM, P_TAKE
+                            - see description for more details
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            Envelope Management
+        </chapter_context>
+        <tags>envelope management, get, attribute, value, height, offset, track</tags>
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -6398,7 +6435,7 @@
         <functioncall prog_lang="lua">number retval = reaper.GetMediaTrackInfo_Value(MediaTrack tr, string parmname)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetMediaTrackInfo_Value(MediaTrack tr, String parmname)</functioncall>
         <requires>
-            Reaper=5.974
+            Reaper=5.982
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -6416,7 +6453,9 @@
             I_AUTOMODE : int * : track automation mode (0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
             I_NCHAN : int * : number of track channels, must be 2-64, even
             I_SELECTED : int * : track selected? 0 or 1
-            I_WNDH : int * : current TCP window height (Read-only)
+            I_WNDH : int * : current TCP window height including envelopes (Read-only)
+            I_TCPH : int * : current TCP window height not including envelopes (Read-only)
+            I_TCPY : int * : current TCP window Y position relative to top of arrange view (Read-only)
             I_FOLDERDEPTH : int * : folder depth change (0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
             I_FOLDERCOMPACT : int * : folder compacting (only valid on folders), 0=normal, 1=small, 2=tiny children
             I_MIDIHWOUT : int * : track midi hardware output index (&gt;0 for disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31))
@@ -9349,17 +9388,17 @@
             category is &lt;0 for receives, 0=sends, &gt;0 for hardware outputs
             parameter names:
             
-                B\_MUTE : bool *
-                B\_PHASE : bool *, true to flip phase
-                B\_MONO : bool *
-                D\_VOL : double *, 1.0 = +0dB etc
-                D\_PAN : double *, -1..+1
-                D\_PANLAW : double *,1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
-                I\_SENDMODE : int *, 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
-                I\_AUTOMODE : int * : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
-                I\_SRCCHAN : int *, index,&amp;1024=mono, -1 for none
-                I\_DSTCHAN : int *, index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
-                I\_MIDIFLAGS : int *, low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanP_DESTTRACK : read only, returns MediaTrack *, destination track, only applies for sends/recvs
+                B\_MUTE : bool \*
+                B\_PHASE : bool \*, true to flip phase
+                B\_MONO : bool \*
+                D\_VOL : double \*, 1.0 = +0dB etc
+                D\_PAN : double \*, -1..+1
+                D\_PANLAW : double \*,1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
+                I\_SENDMODE : int \*, 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
+                I\_AUTOMODE : int \* : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
+                I\_SRCCHAN : int \*, index,&amp;1024=mono, -1 for none
+                I\_DSTCHAN : int \*, index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
+                I\_MIDIFLAGS : int \*, low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanP_DESTTRACK : read only, returns MediaTrack *, destination track, only applies for sends/recvs
                 P\_SRCTRACK : read only, returns MediaTrack *, source track, only applies for sends/recvs
                 P\_ENV:&lt;envchunkname : read only, returns TrackEnvelope *. To get a specific TrackEnvelope, call with :&lt;VOLENV, :&lt;PANENV, etc appended.
                 
@@ -14467,7 +14506,7 @@
         <functioncall prog_lang="lua">boolean = reaper.SetMediaTrackInfo_Value(MediaTrack tr, string parmname, number newvalue)</functioncall>
         <functioncall prog_lang="python">Boolean RPR_SetMediaTrackInfo_Value(MediaTrack tr, String parmname, Float newvalue)</functioncall>
         <requires>
-            Reaper=5.974
+            Reaper=5.982
             Lua=5.3
         </requires>
         <description prog_lang="*">
@@ -14485,7 +14524,9 @@
             I_AUTOMODE : int * : track automation mode (0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
             I_NCHAN : int * : number of track channels, must be 2-64, even
             I_SELECTED : int * : track selected? 0 or 1
-            I_WNDH : int * : current TCP window height (Read-only)
+            I_WNDH : int * : current TCP window height including envelopes (Read-only)
+            I_TCPH : int * : current TCP window height not including envelopes (Read-only)
+            I_TCPY : int * : current TCP window Y position relative to top of arrange view (Read-only)
             I_FOLDERDEPTH : int * : folder depth change (0=normal, 1=track is a folder parent, -1=track is the last in the innermost folder, -2=track is the last in the innermost and next-innermost folders, etc
             I_FOLDERCOMPACT : int * : folder compacting (only valid on folders), 0=normal, 1=small, 2=tiny children
             I_MIDIHWOUT : int * : track midi hardware output index (&gt;0 for disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31))
@@ -15255,17 +15296,17 @@
             category is &lt;0 for receives, 0=sends, &gt;0 for hardware outputs
             parameter names:
 
-                B\_MUTE : bool *
-                B\_PHASE : bool *, true to flip phase
-                B\_MONO : bool *
-                D\_VOL : double *, 1.0 = +0dB etc
-                D\_PAN : double *, -1..+1
-                D\_PANLAW : double *,1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
-                I\_SENDMODE : int *, 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
-                I\_AUTOMODE : int * : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
-                I\_SRCCHAN : int *, index,&amp;1024=mono, -1 for none
-                I\_DSTCHAN : int *, index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
-                I\_MIDIFLAGS : int *, low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanSee <a href="#CreateTrackSend">CreateTrackSend</a>, <a href="#RemoveTrackSend">RemoveTrackSend</a>, <a href="#GetTrackNumSends">GetTrackNumSends</a>.
+                B\_MUTE : bool \*
+                B\_PHASE : bool \*, true to flip phase
+                B\_MONO : bool \*
+                D\_VOL : double \*, 1.0 = +0dB etc
+                D\_PAN : double \*, -1..+1
+                D\_PANLAW : double \*,1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc
+                I\_SENDMODE : int \*, 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx
+                I\_AUTOMODE : int \* : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch)
+                I\_SRCCHAN : int \*, index,&amp;1024=mono, -1 for none
+                I\_DSTCHAN : int \*, index, &amp;1024=mono, otherwise stereo pair, hwout:&amp;512=rearoute
+                I\_MIDIFLAGS : int \*, low 5 bits=source channel 0=all, 1-16, next 5 bits=dest channel, 0=orig, 1-16=chanSee <a href="#CreateTrackSend">CreateTrackSend</a>, <a href="#RemoveTrackSend">RemoveTrackSend</a>, <a href="#GetTrackNumSends">GetTrackNumSends</a>.
 
 
             See [CreateTrackSend](#CreateTrackSend), [RemoveTrackSend](#RemoveTrackSend), [GetTrackNumSends](#GetTrackNumSends).
@@ -23414,9 +23455,9 @@
 
             Notes:
 
-            * Re-drawing can also be induced by JS_Window_InvalidateRect.
-            * This function should not be applied directly to top-level windows, but rather to child windows.
-            * Some classes of UI elements, particularly buttons, do not take kindly to being composited, and may crash REAPER.
+            \* Re-drawing can also be induced by JS_Window_InvalidateRect.
+            \* This function should not be applied directly to top-level windows, but rather to child windows.
+            \* Some classes of UI elements, particularly buttons, do not take kindly to being composited, and may crash REAPER.
 
             Returns:
             1 if successful, otherwise -1 = windowHWND is not window, -3 = Could not obtain the original window process, -4 = sysBitmap is not a LICE bitmap, -5 = sysBitmap is not a system bitmap, -6 = Could not obtain the window HDC.
@@ -23619,11 +23660,11 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Parameters:
            
-            * weight: 0 - 1000, with 0 = auto, 400 = normal and 700 = bold.
+            \* weight: 0 - 1000, with 0 = auto, 400 = normal and 700 = bold.
            
-            * angle: the angle, in tenths of degrees, between the text and the x-axis of the device.
+            \* angle: the angle, in tenths of degrees, between the text and the x-axis of the device.
            
-            * fontName: If empty string "", uses first font that matches the other specified attributes.
+            \* fontName: If empty string "", uses first font that matches the other specified attributes.
            
            
            
@@ -23722,7 +23763,7 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Parameters:
            
-            * align: Combination of: "TOP", "VCENTER", "LEFT", "HCENTER", "RIGHT", "BOTTOM", "WORDBREAK", "SINGLELINE", "NOCLIP", "CALCRECT", "NOPREFIX" or "ELLIPSIS"
+            \* align: Combination of: "TOP", "VCENTER", "LEFT", "HCENTER", "RIGHT", "BOTTOM", "WORDBREAK", "SINGLELINE", "NOCLIP", "CALCRECT", "NOPREFIX" or "ELLIPSIS"
 
         </description>
         <retvals>
@@ -24485,9 +24526,9 @@
             Standard LICE modes: "COPY" (default if empty string), "MASK", "ADD", "DODGE", "MUL", "OVERLAY" or "HSVADJ", any of which may be combined with "ALPHA" to enable per-pixel alpha blending.
 
             In addition to the standard LICE modes, LICE_Blit also offers:
-            * "CHANCOPY_XTOY", with X and Y any of the four channels, A, R, G or B. (CHANCOPY_ATOA is similar to MASK mode.)
-            * "BLUR"
-            * "ALPHAMUL", which overwrites the destination with a per-pixel alpha-multiplied copy of the source. (Similar to first clearing the destination with 0x00000000 and then blitting with "COPY,ALPHA".)
+            \* "CHANCOPY_XTOY", with X and Y any of the four channels, A, R, G or B. (CHANCOPY_ATOA is similar to MASK mode.)
+            \* "BLUR"
+            \* "ALPHAMUL", which overwrites the destination with a per-pixel alpha-multiplied copy of the source. (Similar to first clearing the destination with 0x00000000 and then blitting with "COPY,ALPHA".)
         </description>
         <parameters>
            identifier destBitmap - 
@@ -25222,9 +25263,9 @@
             operand: a color in 0xAARRGGBB format.
 
             modes:
-            * "XOR", "OR" or "AND".
-            * "SET_XYZ", with XYZ any combination of A, R, G, and B: copies the specified channels from operand to the bitmap. (Useful for setting the alpha values of a bitmap.)
-            * "ALPHAMUL": Performs alpha pre-multiplication on each pixel in the rect. operand is ignored in this mode. (On WindowsOS, GDI_Blit does not perform alpha multiplication on the fly, and a separate alpha pre-multiplication step is therefore required.)
+            \* "XOR", "OR" or "AND".
+            \* "SET_XYZ", with XYZ any combination of A, R, G, and B: copies the specified channels from operand to the bitmap. (Useful for setting the alpha values of a bitmap.)
+            \* "ALPHAMUL": Performs alpha pre-multiplication on each pixel in the rect. operand is ignored in this mode. (On WindowsOS, GDI_Blit does not perform alpha multiplication on the fly, and a separate alpha pre-multiplication step is therefore required.)
 
             NOTE:
             LICE_Blit and LICE_ScaledBlit are also useful for processing bitmap colors. For example, to multiply all channel values by 1.5:
@@ -25596,8 +25637,8 @@
             Returns the translation of the given US English text, according to the currently loaded Language Pack.
 
             Parameters:
-            * LangPackSection: Language Packs are divided into sections such as "common" or "DLG_102".
-            * In Lua, by default, text of up to 1024 chars can be returned. To increase (or reduce) the default buffer size, a string and size can be included as optional 3rd and 4th arguments.
+            \* LangPackSection: Language Packs are divided into sections such as "common" or "DLG_102".
+            \* In Lua, by default, text of up to 1024 chars can be returned. To increase (or reduce) the default buffer size, a string and size can be included as optional 3rd and 4th arguments.
 
             Example: reaper.JS_Localize("Actions", "common", "", 20)
         </description>
@@ -25632,9 +25673,9 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the addresses of all open MIDI windows (whether docked or not).
            
-            * The addresses are stored in the provided reaper.array.
+            \* The addresses are stored in the provided reaper.array.
            
-            * Each address can be converted to a REAPER object (HWND) by the function JS_Window_HandleFromAddress.
+            \* Each address can be converted to a REAPER object (HWND) by the function JS_Window_HandleFromAddress.
 
         </description>
 
@@ -25664,9 +25705,9 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns a list of HWNDs of all open MIDI windows (whether docked or not).
            
-            * The list is formatted as a comma-separated (and terminated) string of hexadecimal values.
+            \* The list is formatted as a comma-separated (and terminated) string of hexadecimal values.
            
-            * Each value is an address that can be converted to a HWND by the function JS_Window_HandleFromAddress.
+            \* Each value is an address that can be converted to a HWND by the function JS_Window_HandleFromAddress.
 
         </description>
         <retvals>
@@ -25821,7 +25862,7 @@
            
            Parameters:
            
-            * flags, state: The parameter and the return value both use the same format as gfx.mouse_cap. I.e., to get the states of the left mouse button and the ctrl key, use flags = 0b00000101.
+            \* flags, state: The parameter and the return value both use the same format as gfx.mouse_cap. I.e., to get the states of the left mouse button and the ctrl key, use flags = 0b00000101.
             
             use -1 as flags to retrieve the states of all mouse-buttons and modifier
 
@@ -26158,7 +26199,7 @@
             If cutoffTime is negative, it is relative to the current time.
 
             Notes:
-            * Mouse buttons and modifier keys are not (currently) reliably detected, and [JS_Mouse_GetState](#JS_Mouse_GetState) can be used instead.
+            \* Mouse buttons and modifier keys are not (currently) reliably detected, and [JS_Mouse_GetState](#JS_Mouse_GetState) can be used instead.
         </description>
         <retvals>
            boolean retval - 
@@ -26973,12 +27014,12 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns a HWND to a window whose title matches the specified string.
-            * Unlike the Win32 function FindWindow, this function searches top-level as well as child windows, so that the target window can be found irrespective of docked state.
-            * In addition, the function can optionally match substrings of the title.
-            * Matching is not case sensitive.
+            \* Unlike the Win32 function FindWindow, this function searches top-level as well as child windows, so that the target window can be found irrespective of docked state.
+            \* In addition, the function can optionally match substrings of the title.
+            \* Matching is not case sensitive.
 
             Parameters:
-            * exact: Match entire title, or match substring of title.
+            \* exact: Match entire title, or match substring of title.
         </description>
         <retvals>
            identifier  - the identifier of the found window, or nil
@@ -27012,7 +27053,7 @@
            
            Parameters:
            
-            * exact: Match entire title exactly, or match substring of title.
+            \* exact: Match entire title exactly, or match substring of title.
 
         </description>
         <retvals>
@@ -27086,8 +27127,8 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns a handle to a child window whose class and title match the specified strings.
 
-            Parameters: * childWindow: The function searches child windows, beginning with the window *after* the specified child window. If childHWND is equal to parentHWND, the search begins with the first child window of parentHWND.
-            * title: An empty string, "", will match all windows. (Search is not case sensitive.)
+            Parameters: \* childWindow: The function searches child windows, beginning with the window *after* the specified child window. If childHWND is equal to parentHWND, the search begins with the first child window of parentHWND.
+            \* title: An empty string, "", will match all windows. (Search is not case sensitive.)
         </description>
         <parameters>
            identifier parentHWND - the parent hwnd of the child-window to find
@@ -27122,7 +27163,7 @@
             Returns a HWND to a top-level window whose title matches the specified string.
 
             Parameters:
-            * exact: Match entire title length, or match substring of title. In both cases, matching is not case sensitive.
+            \* exact: Match entire title length, or match substring of title. In both cases, matching is not case sensitive.
         </description>
         <parameters>
            string title - the title of the top-level window to find
@@ -27456,13 +27497,13 @@
            
            Parameters:
            
-            * scrollbar: "v" (or "SB\_VERT", or "VERT") for vertical scroll, "h" (or "SB\_HORZ" or "HORZ") for horizontal.
+            \* scrollbar: "v" (or "SB\_VERT", or "VERT") for vertical scroll, "h" (or "SB\_HORZ" or "HORZ") for horizontal.
            
            
            
            Returns:
            
-            * Leftmost or topmost visible pixel position, as well as the visible page size, the range minimum and maximum, and scroll box tracking position.
+            \* Leftmost or topmost visible pixel position, as well as the visible page size, the range minimum and maximum, and scroll box tracking position.
 
         </description>
         <retvals>
@@ -27737,8 +27778,8 @@
             Finds all child windows of the specified parent.
 
             Returns:
-            * retval: The number of windows found; negative if an error occurred.
-            * list: A comma-separated string of hexadecimal values.
+            \* retval: The number of windows found; negative if an error occurred.
+            \* list: A comma-separated string of hexadecimal values.
             Each value is an address that can be converted to a HWND by the function JS_Window_HandleFromAddress.
         </description>
         <retvals>
@@ -27772,8 +27813,8 @@
             Finds all top-level windows.
 
             Returns:
-            * retval: The number of windows found; negative if an error occurred.
-            * list: A comma-separated string of hexadecimal values. Each value is an address that can be converted to a HWND by the function JS_Window_HandleFromAddress.
+            \* retval: The number of windows found; negative if an error occurred.
+            \* list: A comma-separated string of hexadecimal values. Each value is an address that can be converted to a HWND by the function JS_Window_HandleFromAddress.
         </description>
         <retvals>
            integer retval - 
@@ -27803,11 +27844,11 @@
             Finds all windows (whether top-level or child) whose titles match the specified string.
 
             Returns:
-            * retval: The number of windows found; negative if an error occurred.
-            * list: A comma-separated string of hexadecimal values. Each value is an address that can be converted to a HWND by the function JS_Window_HandleFromAddress.
+            \* retval: The number of windows found; negative if an error occurred.
+            \* list: A comma-separated string of hexadecimal values. Each value is an address that can be converted to a HWND by the function JS_Window_HandleFromAddress.
 
             Parameters:
-            * exact: Match entire title exactly, or match substring of title.
+            \* exact: Match entire title exactly, or match substring of title.
         </description>
         <retvals>
             integer retval - 
@@ -27876,9 +27917,9 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Changes the position of the specified window, keeping its size constant.
            
-            * For a top-level window, the position is relative to the upper-left corner of the screen.
+            \* For a top-level window, the position is relative to the upper-left corner of the screen.
            
-            * For a child window, they are relative to the upper-left corner of the parent window's client area.
+            \* For a child window, they are relative to the upper-left corner of the parent window's client area.
 
         </description>
 
@@ -27974,7 +28015,7 @@
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Changes the dimensions of the specified window, keeping the top left corner position constant.
            
-            * If resizing script GUIs, call gfx.update() after resizing.
+            \* If resizing script GUIs, call gfx.update() after resizing.
 
         </description>
 
@@ -28275,7 +28316,7 @@
            
            Parameters:
            
-            * state: Either "SHOW", "SHOWNA", "SHOWMINIMIZED",  or "HIDE".
+            \* state: Either "SHOW", "SHOWNA", "SHOWMINIMIZED",  or "HIDE".
 
         </description>
 
@@ -31470,6 +31511,32 @@
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1">
             Formats a string and writes it to file fp. For more information on format specifiers, see [sprintf()](#eel_sprintf). Returns bytes written to file.
+
+                * %% = %
+                * %s = string from parameter
+                * %d = parameter as integer
+                * %i = parameter as integer
+                * %u = parameter as unsigned integer
+                * %x = parameter as hex (lowercase) integer
+                * %X = parameter as hex (uppercase) integer
+                * %c = parameter as character
+                * %f = parameter as floating point
+                * %e = parameter as floating point (scientific notation, lowercase)
+                * %E = parameter as floating point (scientific notation, uppercase)
+                * %g = parameter as floating point (shortest representation, lowercase)
+                * %G = parameter as floating point (shortest representation, uppercase)
+
+            Many standard C printf() modifiers can be used, including:
+
+                * %.10s = string, but only print up to 10 characters
+                * %-10s = string, left justified to 10 characters
+                * %10s = string, right justified to 10 characters
+                * %+f = floating point, always show sign
+                * %.4f = floating point, minimum of 4 digits after decimal point
+                * %10d = integer, minimum of 10 digits (space padded)
+                * %010f = integer, minimum of 10 digits (zero padded)
+
+            Values for format specifiers can be specified as additional parameters to fprintf, or within {} in the format specifier (such as %{varname}d, in that case a global variable is always used).
         </description>
         <parameters>
             fp - 
@@ -31965,12 +32032,12 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Draws a string at gfx\_x, gfx\_y, and updates gfx\_x/gfx\_y so that subsequent draws will occur in a similar place.
 
-            * If flags, right ,bottom passed in:
-            * flags&amp;1: center horizontally
-            * flags&amp;2: right justify
-            * flags&amp;4: center vertically
-            * flags&amp;8: bottom justify
-            * flags&amp;256: ignore right/bottom, otherwise text is clipped to (gfx\_x, gfx\_y, right, bottom)
+            \* If flags, right ,bottom passed in:
+            \* flags&amp;1: center horizontally
+            \* flags&amp;2: right justify
+            \* flags&amp;4: center vertically
+            \* flags&amp;8: bottom justify
+            \* flags&amp;256: ignore right/bottom, otherwise text is clipped to (gfx\_x, gfx\_y, right, bottom)
         </description>
         <parameters>
             "str" - 
@@ -32000,12 +32067,12 @@
 
             Modified and special keys can also be returned, including:
 
-                * Ctrl/Cmd+A..Ctrl+Z as 1..26
-                * Ctrl/Cmd+Alt+A..Z as 257..282
-                * Alt+A..Z as 'A'+256..'Z'+256
-                * 27 for ESC
-                * 13 for Enter
-                * ' ' for space
+                \* Ctrl/Cmd+A..Ctrl+Z as 1..26
+                \* Ctrl/Cmd+Alt+A..Z as 257..282
+                \* Alt+A..Z as 'A'+256..'Z'+256
+                \* 27 for ESC
+                \* 13 for Enter
+                \* ' ' for space
         </description>
         <parameters>
             char - 
@@ -32301,6 +32368,32 @@
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Formats and draws a string at gfx\_x, gfx\_y, and updates gfx\_x/gfx\_y accordingly (the latter only if the formatted string contains newline). For more information on format strings, see [sprintf()](#eel_sprintf)
+            
+                * %% = %
+                * %s = string from parameter
+                * %d = parameter as integer
+                * %i = parameter as integer
+                * %u = parameter as unsigned integer
+                * %x = parameter as hex (lowercase) integer
+                * %X = parameter as hex (uppercase) integer
+                * %c = parameter as character
+                * %f = parameter as floating point
+                * %e = parameter as floating point (scientific notation, lowercase)
+                * %E = parameter as floating point (scientific notation, uppercase)
+                * %g = parameter as floating point (shortest representation, lowercase)
+                * %G = parameter as floating point (shortest representation, uppercase)
+
+            Many standard C printf() modifiers can be used, including:
+
+                * %.10s = string, but only print up to 10 characters
+                * %-10s = string, left justified to 10 characters
+                * %10s = string, right justified to 10 characters
+                * %+f = floating point, always show sign
+                * %.4f = floating point, minimum of 4 digits after decimal point
+                * %10d = integer, minimum of 10 digits (space padded)
+                * %010f = integer, minimum of 10 digits (zero padded)
+
+            Values for format specifiers can be specified as additional parameters to gfx_printf, or within {} in the format specifier (such as %{varname}d, in that case a global variable is always used).
         </description>
         <parameters>
             "format" - 
@@ -33035,6 +33128,32 @@
         </requires>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Output formatted string to system-specific destination, see [sprintf\(\)](#eel_sprintf) for more information
+            
+                * %% = %
+                * %s = string from parameter
+                * %d = parameter as integer
+                * %i = parameter as integer
+                * %u = parameter as unsigned integer
+                * %x = parameter as hex (lowercase) integer
+                * %X = parameter as hex (uppercase) integer
+                * %c = parameter as character
+                * %f = parameter as floating point
+                * %e = parameter as floating point (scientific notation, lowercase)
+                * %E = parameter as floating point (scientific notation, uppercase)
+                * %g = parameter as floating point (shortest representation, lowercase)
+                * %G = parameter as floating point (shortest representation, uppercase)
+
+            Many standard C printf() modifiers can be used, including:
+
+                * %.10s = string, but only print up to 10 characters
+                * %-10s = string, left justified to 10 characters
+                * %10s = string, right justified to 10 characters
+                * %+f = floating point, always show sign
+                * %.4f = floating point, minimum of 4 digits after decimal point
+                * %10d = integer, minimum of 10 digits (space padded)
+                * %010f = integer, minimum of 10 digits (zero padded)
+
+            Values for format specifiers can be specified as additional parameters to printf, or within {} in the format specifier (such as %{varname}d, in that case a global variable is always used).
         </description>
         <parameters>
             "format" - 
@@ -33363,20 +33482,20 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns the data at byte-offset offset of str. If offset is negative, position is relative to end of string.type defaults to signed char, but can be specified to read raw binary data in other formats (note the single quotes, these are single/multi-byte characters):
 
-                * 'c' - signed char
-                * 'cu' - unsigned char
-                * 's' - signed short
-                * 'S' - signed short, big endian
-                * 'su' - unsigned short
-                * 'Su' - unsigned short, big endian
-                * 'i' - signed int
-                * 'I' - signed int, big endian
-                * 'iu' - unsigned int
-                * 'Iu' - unsigned int, big endian
-                * 'f' - float
-                * 'F' - float, big endian
-                * 'd' - double
-                * 'D' - double, big endian
+                \* 'c' - signed char
+                \* 'cu' - unsigned char
+                \* 's' - signed short
+                \* 'S' - signed short, big endian
+                \* 'su' - unsigned short
+                \* 'Su' - unsigned short, big endian
+                \* 'i' - signed int
+                \* 'I' - signed int, big endian
+                \* 'iu' - unsigned int
+                \* 'Iu' - unsigned int, big endian
+                \* 'f' - float
+                \* 'F' - float, big endian
+                \* 'd' - double
+                \* 'D' - double, big endian
         </description>
         <parameters>
             "str" - 
@@ -34833,6 +34952,32 @@
         </requires>
         <description indent="default">
             Formats and draws a string at gfx.x, gfx.y, and updates gfx.x/gfx.y accordingly (the latter only if the formatted string contains newline). For more information on format strings, see sprintf()
+            
+                * %% = %
+                * %s = string from parameter
+                * %d = parameter as integer
+                * %i = parameter as integer
+                * %u = parameter as unsigned integer
+                * %x = parameter as hex (lowercase) integer
+                * %X = parameter as hex (uppercase) integer
+                * %c = parameter as character
+                * %f = parameter as floating point
+                * %e = parameter as floating point (scientific notation, lowercase)
+                * %E = parameter as floating point (scientific notation, uppercase)
+                * %g = parameter as floating point (shortest representation, lowercase)
+                * %G = parameter as floating point (shortest representation, uppercase)
+
+            Many standard C printf() modifiers can be used, including:
+
+                * %.10s = string, but only print up to 10 characters
+                * %-10s = string, left justified to 10 characters
+                * %10s = string, right justified to 10 characters
+                * %+f = floating point, always show sign
+                * %.4f = floating point, minimum of 4 digits after decimal point
+                * %10d = integer, minimum of 10 digits (space padded)
+                * %010f = integer, minimum of 10 digits (zero padded)
+
+            Values for format specifiers can be specified as additional parameters to gfx.printf, or within {} in the format specifier (such as %{varname}d, in that case a global variable is always used).
         </description>
         <retvals>
             

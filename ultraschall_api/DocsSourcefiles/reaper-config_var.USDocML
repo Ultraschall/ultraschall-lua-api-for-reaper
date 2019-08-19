@@ -3758,7 +3758,7 @@
       <slug>errnowarn</slug>  
       <title>errnowarn</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          Several error-messages, that shall be shown, as set in several dialogs, as well as in Preferences -> Audio and in Preferences -> Recording  
+          Several error-messages, that shall be shown, as set in several dialogs, as well as in Preferences -> Audio and in Preferences -> Recording and Preferences -> Track/Send Defaults
           It's an integer-bitfield  
           
            >&1=0, Warn when unable to open audio devices(Preferences -> Audio)(on) - checked  
@@ -5073,7 +5073,8 @@
            
           For other Snap/Grid-settings, see [projgriddivsnap](#projgriddivsnap), [projshowgrid](#projshowgrid), [projgriddiv](#projgriddiv), [loopgranlen](#loopgranlen), [relsnap](#relsnap), [projgridframe](#projgridframe), [projgridmin](#projgridmin), [projgridswing](#projgridswing),   
                                  [maxsnaptrack](#maxsnaptrack), [snapextraden](#snapextraden), [snapextrad](#snapextrad), [itemsnap](#itemsnap), [projgridsnapmin](#projgridsnapmin)  
-            
+          
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>  
          Config Variables  
@@ -5105,6 +5106,8 @@
            
           For other Snap/Grid-settings, see [projgriddivsnap](#projgriddivsnap), [projshowgrid](#projshowgrid), [projgriddiv](#projgriddiv), [relsnap](#relsnap), [projgridframe](#projgridframe), [projgridmin](#projgridmin), [projgridswing](#projgridswing),  
                                  [loopgran](#loopgran), [maxsnaptrack](#maxsnaptrack), [snapextraden](#snapextraden), [snapextrad](#snapextrad), [itemsnap](#itemsnap), [projgridsnapmin](#projgridsnapmin)  
+                                 
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>  
          Config Variables  
@@ -7302,6 +7305,8 @@
            
           For other Snap/Grid-settings, see [projgriddivsnap](#projgriddivsnap), [projshowgrid](#projshowgrid), [loopgranlen](#loopgranlen), [relsnap](#relsnap), [projgridframe](#projgridframe), [projgridmin](#projgridmin), [projgridswing](#projgridswing),  
                                  [loopgran](#loopgran), [maxsnaptrack](#maxsnaptrack), [snapextraden](#snapextraden), [snapextrad](#snapextrad), [itemsnap](#itemsnap), [projgridsnapmin](#projgridsnapmin)  
+                                 
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>  
          Config Variables  
@@ -7333,6 +7338,8 @@
            
           For other Snap/Grid-settings, see [projshowgrid](#projshowgrid), [projgriddiv](#projgriddiv), [loopgranlen](#loopgranlen), [relsnap](#relsnap), [projgridframe](#projgridframe), [projgridmin](#projgridmin), [projgridswing](#projgridswing),  
                                  [loopgran](#loopgran), [maxsnaptrack](#maxsnaptrack), [snapextraden](#snapextraden), [snapextrad](#snapextrad), [itemsnap](#itemsnap), [projgridsnapmin](#projgridsnapmin)  
+          
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>  
          Config Variables  
@@ -7373,7 +7380,8 @@
            
           For other Snap/Grid-settings, see [projgriddivsnap](#projgriddivsnap), [projshowgrid](#projshowgrid), [projgriddiv](#projgriddiv), [loopgranlen](#loopgranlen), [relsnap](#relsnap), [projgridmin](#projgridmin), [projgridswing](#projgridswing), [loopgran](#loopgran),    
                                  [maxsnaptrack](#maxsnaptrack), [snapextraden](#snapextraden), [snapextrad](#snapextrad), [itemsnap](#itemsnap), [projgridsnapmin](#projgridsnapmin)  
-            
+          
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>  
          Config Variables  
@@ -7392,7 +7400,8 @@
           
           For other Snap/Grid-settings, see [projgriddivsnap](#projgriddivsnap), [projshowgrid](#projshowgrid), [projgriddiv](#projgriddiv), [loopgranlen](#loopgranlen), [relsnap](#relsnap), [projgridframe](#projgridframe), [projgridswing](#projgridswing), [loopgran](#loopgran),    
                                  [maxsnaptrack](#maxsnaptrack), [snapextraden](#snapextraden), [snapextrad](#snapextrad), [itemsnap](#itemsnap), [projgridsnapmin](#projgridsnapmin)  
-            
+          
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>  
          Config Variables  
@@ -7411,7 +7420,8 @@
            
           For other Snap/Grid-settings, see [projgriddivsnap](#projgriddivsnap), [projshowgrid](#projshowgrid), [projgriddiv](#projgriddiv), [relsnap](#relsnap), [projgridframe](#projgridframe), [projgridmin](#projgridmin), [projgridswing](#projgridswing),  
                                  [loopgran](#loopgran), [maxsnaptrack](#maxsnaptrack), [snapextraden](#snapextraden), [snapextrad](#snapextrad), [itemsnap](#itemsnap), [loopgranlen](#loopgranlen)  
-                               
+          
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>  
          Config Variables  
@@ -7430,7 +7440,8 @@
            
           For other Snap/Grid-settings, see [projgridsnapmin](#projgridsnapmin), [projgriddivsnap](#projgriddivsnap), [projshowgrid](#projshowgrid), [projgriddiv](#projgriddiv), [relsnap](#relsnap), [projgridframe](#projgridframe), [projgridmin](#projgridmin),  
                                  [projgridswing](#projgridswing), [loopgran](#loopgran), [maxsnaptrack](#maxsnaptrack), [snapextraden](#snapextraden), [snapextrad](#snapextrad), [itemsnap](#itemsnap), [loopgranlen](#loopgranlen)  
-                               
+          
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>  
          Config Variables  
@@ -8168,7 +8179,8 @@
            
           For other Snap/Grid-settings, see [projgridsnapmin](#projgridsnapmin), [projgriddivsnap](#projgriddivsnap), [projgriddiv](#projgriddiv), [loopgranlen](#loopgranlen), [relsnap](#relsnap), [projgridframe](#projgridframe), [projgridmin](#projgridmin),   
                                  [projgridswing](#projgridswing), [loopgran](#loopgran), [maxsnaptrack](#maxsnaptrack),[snapextraden](#snapextraden), [snapextrad](#snapextrad), [itemsnap](#itemsnap)  
-            
+          
+          Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>  
          Config Variables  
@@ -9459,6 +9471,8 @@
            
            >&16=0, unknown  
            >&16=1, unknown  
+           
+         Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
       <chapter_context>  
          Config Variables  
@@ -11853,7 +11867,7 @@
       <slug>volenvrange</slug>  
       <title>volenvrange</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          The scaling for new envelopes, as set in Preferences -> Editing Behavior -> Envelope Display.
+          The scaling for new envelopes, as set in Preferences -> Editing Behavior -> Envelope Display and Preferences -> Track/Send Defaults.
           It is an integer-bitfield  
           
            >&1 and &4, the Volume envelope range-dropdownlist  
@@ -11862,8 +11876,8 @@
             >> 0 1, -inf..+12dB  
             >> 1 1, -inf..+24dB  
             
-           >&2=0, Amplitude scaling  
-           >&2=1, Volume fader scaling  
+           >&2=0, Amplitude scaling (Preferences -> Track/Send Defaults)
+           >&2=1, Volume fader scaling  (Preferences -> Track/Send Defaults)
            
           For other settings of section Tracks from Preferences -> Track/Send Defaults, see [defautomode](#defautomode), [errnowarn](#errnowarn), [defenvs](#defenvs), [deftrackrecflags](#deftrackrecflags), [deftrackvol](#deftrackvol),  
                                                                 [defvzoom](#defvzoom), [newtflag](#newtflag), [splitautoxfade](#splitautoxfade), [deftrackrecinput](#deftrackrecinput), [vzoom2](#vzoom2)  

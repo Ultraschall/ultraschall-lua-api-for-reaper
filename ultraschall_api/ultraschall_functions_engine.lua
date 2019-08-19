@@ -44905,7 +44905,7 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return "4.00","20th of July 2019", "Beta 2.76", 400.0276,  "\"The Police - Walking on the Moon\"", ultraschall.hotfixdate
+  return "4.00","23rd of August 2019", "Beta 2.761", 400.02761,  "\"Coldplay - Fix You\"", ultraschall.hotfixdate
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
@@ -62041,6 +62041,249 @@ end
 
 --ultraschall.AutoDetectVSTPluginsFolder()
 
+function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender)
+  --[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetProjectStateChunk</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.975
+      SWS=2.10.0.1
+      JS=0.972
+      Lua=5.3
+    </requires>
+    <functioncall>string ProjectStateChunk = ultraschall.GetProjectStateChunk(optional string projectfilename_with_path, optional boolean keepqrender)</functioncall>
+    <description>
+      Gets the ProjectStateChunk of the current active project or a projectfile.
+      
+      Important: when calling it too often in a row, this might fail and result in a timeout-error. 
+      I tried to circumvent this, but best practice is to wait 2-3 seconds inbetween calling this function.
+      This function also eats up a lot of resources, so be sparse with it in general!
+      
+      returns nil if getting the ProjectStateChunk took too long
+    </description>
+    <retvals>
+      string ProjectStateChunk - the ProjectStateChunk of the current project; nil, if getting the ProjectStateChunk took too long
+    </retvals>
+    <parameters>
+      optional string projectfilename_with_path - the filename of an rpp-projectfile, that you want to load as ProjectStateChunk; nil, to get the ProjectStateChunk from the currently active project
+      optional boolean keepqrender - true, keeps the QUEUED_RENDER_OUTFILE and QUEUED_RENDER_ORIGINAL_FILENAME entries in the ProjectStateChunk, if existing; false or nil, remove them
+    </parameters>
+    <chapter_context>
+      Project-Files
+      Helper functions
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>projectmanagement, get, projectstatechunk</tags>
+  </US_DocBloc>
+  ]]  
+    
+  -- This function puts the current project into the render-queue and reads it from there.
+  -- For that, 
+  --    1) it gets all files in the render-queue
+  --    2) it adds the current project to the renderqueue
+  --    3) it waits, until Reaper has added the file to the renderqueue, reads it and deletes the file afterwards
+  -- It also deals with edge-case-stuff to avoid render-dialogs/warnings popping up.
+  --
+  -- In Lua, this has an issue, as sometimes the filelist with EnumerateFiles isn't updated in ReaScript.
+  -- Why that is is mysterious. I hope, it can be curcumvented in C++
 
+
+  -- if a filename is given, read the file and check, whether it's a valid ProjectStateChunk. 
+  -- If yes, return it. Otherwise error.
+  local ProjectStateChunk
+  if projectfilename_with_path~=nil then 
+    ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path)
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProjectStateChunk", "projectfilename_with_path", "must be a valid ReaProject or nil", -1) return nil end
+    return ProjectStateChunk
+  end
+  
+  if ultraschall.LastProjectStateChunk_Time+3>=reaper.time_precise() then
+    local i=0
+    while l==nil do
+      i=i+1
+      if i==10000000
+      then break end
+    end
+  end
+  
+  ultraschall.LastProjectStateChunk_Time=reaper.time_precise()
+  
+  -- get the currently focused hwnd; will be restored after function is done
+  -- this is due Reaper changing the focused hwnd, when adding projects to the render-queue
+  local oldfocushwnd = reaper.JS_Window_GetFocus()
+      
+  -- turn off renderqdelay temporarily, as otherwise this could display a render-queue-delay dialog
+  -- old setting will be restored later
+  local qretval, qlength = ultraschall.GetRender_QueueDelay()
+  local retval = ultraschall.SetRender_QueueDelay(false, qlength)
+      
+  -- turn on auto-increment filename temporarily, to avoid the "filename already exists"-dialog popping up
+  -- old setting will be restored later
+  local old_autoincrement = ultraschall.GetRender_AutoIncrementFilename()
+  ultraschall.SetRender_AutoIncrementFilename(true)  
+  
+  -- get all filenames currently in the render-queue
+  local oldbounds, oldstartpos, oldendpos, prep_changes, files, files2, filecount, filecount2    
+  filecount, files = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."\\QueuedRenders")
+      
+  -- if Projectlength=0 or CountofTracks==0, set render-settings for empty projects(workaround for that edgecase)
+  -- old settings will be restored later
+  if reaper.CountTracks()==0 or reaper.GetProjectLength()==0 then
+    -- get old settings
+    oldbounds   =reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", 0, false)
+    oldstartpos =reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", 0, false)
+    oldendpos   =reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", 1, false)  
+       
+    -- set useful defaults that'll make adding the project to the render-queue possible always
+    reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", 0, true)
+    reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", 0, true)
+    reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", 1, true)
+    
+    -- set prep_changes to true, so we know, we need to reset these settings, later
+    prep_changes=true
+  end
+      
+  -- add current project to render-queue
+  reaper.Main_OnCommand(41823,0)
+     
+  -- wait, until Reaper has added the project to the render-queue and get it's filename
+  -- 
+  -- there's a timeout, to avoid hanging scripts, as ReaScript doesn't always update it's filename-lists
+  -- gettable using reaper.EnumerateFiles(which I'm using in GetAllFilenamesInPath)
+  --
+  -- other workarounds, using ls/dir in console is too slow and has possible problems with filenames 
+  -- containing Unicode
+  local i=0
+  while l==nil do
+    i=i+1
+    filecount2, files2 = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."\\QueuedRenders")
+    if filecount2~=filecount then 
+      break 
+    end
+    if i==100000--00
+      then ultraschall.AddErrorMessage("GetProjectStateChunk", "", "timeout: Getting the ProjectStateChunk took too long for some reasons, please report this as bug to me and include the projectfile with which this happened!", -2) return end
+  end
+  local duplicate_count, duplicate_array, originalscount_array1, originals_array1, originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(files, files2)
+
+   -- read found render-queued-project and delete it
+  local ProjectStateChunk=ultraschall.ReadFullFile(originals_array2[1])
+  os.remove(originals_array2[1])
+  
+  -- reset temporarily changed settings in the current project, as well as in the ProjectStateChunk itself
+  if prep_changes==true then
+    reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", oldbounds, true)
+    reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", oldstartpos, true)
+    reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", oldendpos, true)
+    retval, ProjectStateChunk = ultraschall.SetProject_RenderRange(nil, math.floor(oldbounds), math.floor(oldstartpos), math.floor(oldendpos), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILFLAG", 0, false)), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILMS", 0, false)), ProjectStateChunk)
+  end
+      
+  -- remove QUEUED_RENDER_ORIGINAL_FILENAME and QUEUED_RENDER_OUTFILE-entries, if keepqrender==true
+  if keepqrender~=true then
+    ProjectStateChunk=string.gsub(ProjectStateChunk, "  QUEUED_RENDER_OUTFILE .-%c", "")
+    ProjectStateChunk=string.gsub(ProjectStateChunk, "  QUEUED_RENDER_ORIGINAL_FILENAME .-%c", "")
+  end
+      
+  -- reset old auto-increment-checkbox-state
+  ultraschall.SetRender_AutoIncrementFilename(old_autoincrement)
+      
+  -- reset old hwnd-focus-state 
+  reaper.JS_Window_SetFocus(oldfocushwnd)
+  
+  -- restore old render-qdelay-setting
+  retval = ultraschall.SetRender_QueueDelay(qretval, qlength)
+  
+  -- return the final ProjectStateChunk
+  return ProjectStateChunk
+end
+
+
+function ultraschall.IsSplitAtPosition(trackstring, position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsSplitAtPosition</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsSplitAtPosition(string trackstring, number position)</functioncall>
+  <description>
+    returns, if theres at least one split, MediaItemend or MediaItemstart at position within the tracks given in trackstring.
+     
+    returns false in case of an error
+  </description>
+  <parameters>
+    string trackstring - the tracknumbers, within to search for, as comma separated string. Starting 1 for the first track.
+    number position - the position, at which to check for.
+  </parameters>
+  <retvals>
+    boolean retval - true, there's a split/mediaitemend/mediaitemstart at position; false, it isn't
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitem management, get, split, at position, seconds, mediaitem, mediaitemstart, mediaitemend</tags>
+</US_DocBloc>
+--]]
+  if type(trackstring)~="string" then ultraschall.AddErrorMessage("IsSplitAtPosition", "trackstring", "must be a valid trackstring", -1) return false end
+  if type(position)~="number" then ultraschall.AddErrorMessage("IsSplitAtPosition", "number", "must be a number", -2) return false end
+  local valid, count, individual_tracknumbers = ultraschall.IsValidTrackString(trackstring)
+            
+  if valid==false then ultraschall.AddErrorMessage("IsSplitAtPosition", "trackstring", "no valid trackstring", -3) return false end
+  local count2, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(position-1, position+1, trackstring, false)
+  position=ultraschall.LimitFractionOfFloat(position, 9, true)
+  for i=1, count2 do
+    local pos=ultraschall.LimitFractionOfFloat(reaper.GetMediaItemInfo_Value(MediaItemArray[i], "D_POSITION"), 9, true)
+    local len=ultraschall.LimitFractionOfFloat(reaper.GetMediaItemInfo_Value(MediaItemArray[i], "D_LENGTH"), 9, true)
+    if pos==position then return true end
+  end
+  return false
+end
+
+function ultraschall.ConvertYCoordsMac2Win(ycoord, height)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertYCoordsMac2Win</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer conv_ycoord = ultraschall.ConvertYCoordsMac2Win(integer ycoord, optional integer height)</functioncall>
+  <description>
+    Converts the y-coordinate between Windows/Linux and MacOS-based systems.
+    
+    Note: MacOS y-coordinates begin at the bottom of the screen, while Windows and Linux y-coordinates begin at the top.
+    With this function, you can convert between these two coordinate-systems
+    
+    returns nil in case of error
+  </description>
+  <parameters>
+    integer ycoord - the y-coordinate to convert in pixels
+    optional integer height - the height of the screen in pixels, which is the base for the conversion; nil, uses current screenheight
+  </parameters>
+  <retvals>
+    integer conv_ycoord - the converted coordinate in pixels
+  </retvals>
+  <chapter_context>
+    User Interface
+    Miscellaneous
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, convert, coordinate, mac, windows, linux, y</tags>
+</US_DocBloc>
+--]]
+  if math.type(ycoord)~="integer" then ultraschall.AddErrorMessage("ConvertYCoordsMac2Win", "ycoord", "must be an integer", -1) return end
+  if ycoord<0 then ultraschall.AddErrorMessage("ConvertYCoordsMac2Win", "ycoord", "must be bigger than 0", -2) return end
+  local A,B,C,D
+  if height==nil then A,B,C,height=reaper.my_getViewport(0,0,0,0,0,0,0,0,true) end
+  return (ycoord-height)*-1
+end
 
 ultraschall.ShowLastErrorMessage()
