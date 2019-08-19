@@ -41,6 +41,23 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.00 Beta 2.761: - "Coldplay - Fix You" - 23rd of September 2019</h3>
+<p>Has now 980 functions with 42 new ones!</p>
+<p><strong>IMPORTANT!: This is a massive critical bugfix release. About 60 functions returned wrong returnvalues in case of an error.<br />
+If you use any of the functions listed in <em>Changes</em>, you should check, if your scripts still work.<br />
+This is totally my fault, as I had some of them wrong to begin with. My apologies for any inconvenience.... :/</strong></p>
+<p><strong>New in this release:</strong></p>
+<ul>
+<li><p><strong>GetProjectStateChunk</strong><br />
+gets a full StateChunk of the current project(finally working!)<br />
+Now you can get all states of your project!</p></li>
+<li><p><strong>ConvertYCoordsMac2Win</strong><br />
+Mac-ycoordinates are different from Windows/Linux, meaning, pixel 0 is at the bottom, while Windows/Linux start on top.<br />
+This function converts the y-coordinates between these two coordinate-systems.</p></li>
+<li><p><strong>Critical Bugfixes</strong><br />
+In case of errors, many functions returned wrong returnvalues or had faulty returnvalues stated in the docs. All of them are fixed now.<br />
+Please check, if your scripts use any of the functions listed in Changes for more details.<br />
+Hope this is the last time, stuff like that happened...</p></li>
+</ul>
 <h3>New features in 4.00beta2.761</h3>
 <ul>
 <li>ProjectManagement: GetProjectStateChunk - returns the ProjectStateChunk of the current project(finally working!)</li>
@@ -64,7 +81,13 @@ Ultraschall API Changelog
 <li>Configuration Files: EnumerateUSExternalState_key - didn't return the right retval in case of an error -&gt; fixed</li>
 <li>Configuration Files: EnumerateValuesByPattern - didn't return the right retval in case of an error -&gt; fixed</li>
 <li>Configuration Files: SetIniFileExternalState - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Docs: Doc-Engine - had wrong parameters and retvals in numerous functions...fixed(ooops)</li>
+<li>Docs: Doc-Engine: Docs_ConvertPlainTextToHTML - was missing html-codes in the description due me encoding it wrong</li>
+<li>Docs: GetRenderingToFileHWND - had parameters described, that don't exist -&gt; fixed</li>
 <li>Docs: Reaper Internals - updated to Reaper 5.982</li>
+<li>Docs: Reaper: GetTrackSendInfo_Value - fixed Markdown-formatting-problems</li>
+<li>Docs: Reaper: print-functions - all print-functions, like sprint, fprint, gfx.printf, etc include now formatting information in the description.</li>
+<li>Docs: Reaper: SetTrackSendInfo_Value - fixed Markdown-formatting-problems</li>
 <li>EnvelopeManagement: SetArmState_Envelope - didn't return the right retval in case of an error -&gt; fixed</li>
 <li>FileManagement: CountLinesInFile - didn't return the right retval in case of an error -&gt; fixed</li>
 <li>FileManagement: GetLengthOfFile - didn't return the right retval in case of an error -&gt; fixed</li>
@@ -75,10 +98,12 @@ Ultraschall API Changelog
 <li>FXManagement: CountParmAlias_FXStateChunk - returns now -1 in case of an error</li>
 <li>FXManagement: CountParmLearn_FXStateChunk - returns now -1 in case of an error</li>
 <li>FXManagement: CountParmLFOLearn_FXStateChunk - returns now -1 in case of an error</li>
+<li>FXManagement: GetFXStateChunk - had layoutproblem, when the passed StateChunk was taken from a ProjectStateChunk -&gt; fixed(thanks to lossius)</li>
 <li>FXManagement: SetFXStateChunk - didn't return the right retval in case of an error -&gt; fixed</li>
 <li>Helper Functions: CompareStringWithAsciiValues - returned -1 in case of an error, although boolean should be returned -&gt; fixed</li>
 <li>Helper Functions: ConvertIntegerIntoString2 - didn't return the right retval in case of an error -&gt; fixed</li>
 <li>Helper Functions: GetScriptFilenameFromActionCommandID - didn't return the right retval in case of an error -&gt; fixed</li>
+<li>Helper Functions: GetUserInputs - did change the tables passed as default-retvals -&gt; fixed now</li>
 <li>Helper Functions: IsItemInTrack - changed error-retval to nil; didn't return the right retval in case of an error -&gt; fixed</li>
 <li>Helper Functions: LoadFunctionFromExtState - didn't return the right retval in case of an error -&gt; fixed</li>
 <li>Helper Functions: SetIntConfigVar_Bitfield - didn't return the right retval in case of an error -&gt; fixed</li>
@@ -111,6 +136,7 @@ Ultraschall API Changelog
 <li>Video: VID_Pixels2VideoUIStateCoords - returned wrong retval in case of an error -&gt; fixed</li>
 <li>Video: VID_VideoUIStateCoords2Pixels - returned wrong retval in case of an error -&gt; fixed</li>
 </ul>
+<hr />
 <h3>4.00 Beta 2.76: - "The Police - Walking on the Moon" - 20th of July 2019</h3>
 <p>Has now 977 functions with 42 new ones!</p>
 <p><strong>New in this release:</strong></p>

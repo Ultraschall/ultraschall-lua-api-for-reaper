@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40308.00" author="Meo Mespotine">
+      <version name="40313.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -166,6 +166,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.978.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.978.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.979.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.979.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.980.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.980.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper5.982.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.982.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi</source>
@@ -353,6 +354,34 @@ Ultraschall Framework - Changelog
 
 4.00 Beta 2.761: - “Coldplay - Fix You” - 23rd of September 2019
 
+Has now 980 functions with 42 new ones!
+
+IMPORTANT!: THIS IS A MASSIVE CRITICAL BUGFIX RELEASE. ABOUT 60
+FUNCTIONS RETURNED WRONG RETURNVALUES IN CASE OF AN ERROR.
+IF YOU USE ANY OF THE FUNCTIONS LISTED IN _CHANGES_, YOU SHOULD CHECK,
+IF YOUR SCRIPTS STILL WORK.
+THIS IS TOTALLY MY FAULT, AS I HAD SOME OF THEM WRONG TO BEGIN WITH. MY
+APOLOGIES FOR ANY INCONVENIENCE…. :/
+
+NEW IN THIS RELEASE:
+
+-   GETPROJECTSTATECHUNK
+    gets a full StateChunk of the current project(finally working!)
+    Now you can get all states of your project!
+
+-   CONVERTYCOORDSMAC2WIN
+    Mac-ycoordinates are different from Windows/Linux, meaning, pixel 0
+    is at the bottom, while Windows/Linux start on top.
+    This function converts the y-coordinates between these two
+    coordinate-systems.
+
+-   CRITICAL BUGFIXES
+    In case of errors, many functions returned wrong returnvalues or had
+    faulty returnvalues stated in the docs. All of them are fixed now.
+    Please check, if your scripts use any of the functions listed in
+    Changes for more details.
+    Hope this is the last time, stuff like that happened…
+
 ###New features in 4.00beta2.761
 
 -   ProjectManagement: GetProjectStateChunk - returns the
@@ -395,7 +424,20 @@ Ultraschall Framework - Changelog
     right retval in case of an error -> fixed
 -   Configuration Files: SetIniFileExternalState - didn’t return the
     right retval in case of an error -> fixed
+-   Docs: Doc-Engine - had wrong parameters and retvals in numerous
+    functions…fixed(ooops)
+-   Docs: Doc-Engine: Docs_ConvertPlainTextToHTML - was missing
+    html-codes in the description due me encoding it wrong
+-   Docs: GetRenderingToFileHWND - had parameters described, that don’t
+    exist -> fixed
 -   Docs: Reaper Internals - updated to Reaper 5.982
+-   Docs: Reaper: GetTrackSendInfo_Value - fixed
+    Markdown-formatting-problems
+-   Docs: Reaper: print-functions - all print-functions, like sprint,
+    fprint, gfx.printf, etc include now formatting information in the
+    description.
+-   Docs: Reaper: SetTrackSendInfo_Value - fixed
+    Markdown-formatting-problems
 -   EnvelopeManagement: SetArmState_Envelope - didn’t return the right
     retval in case of an error -> fixed
 -   FileManagement: CountLinesInFile - didn’t return the right retval in
@@ -416,6 +458,9 @@ Ultraschall Framework - Changelog
     of an error
 -   FXManagement: CountParmLFOLearn_FXStateChunk - returns now -1 in
     case of an error
+-   FXManagement: GetFXStateChunk - had layoutproblem, when the passed
+    StateChunk was taken from a ProjectStateChunk -> fixed(thanks to
+    lossius)
 -   FXManagement: SetFXStateChunk - didn’t return the right retval in
     case of an error -> fixed
 -   Helper Functions: CompareStringWithAsciiValues - returned -1 in case
@@ -424,6 +469,8 @@ Ultraschall Framework - Changelog
     right retval in case of an error -> fixed
 -   Helper Functions: GetScriptFilenameFromActionCommandID - didn’t
     return the right retval in case of an error -> fixed
+-   Helper Functions: GetUserInputs - did change the tables passed as
+    default-retvals -> fixed now
 -   Helper Functions: IsItemInTrack - changed error-retval to nil;
     didn’t return the right retval in case of an error -> fixed
 -   Helper Functions: LoadFunctionFromExtState - didn’t return the right
@@ -487,6 +534,8 @@ Ultraschall Framework - Changelog
     of an error -> fixed
 -   Video: VID_VideoUIStateCoords2Pixels - returned wrong retval in case
     of an error -> fixed
+
+------------------------------------------------------------------------
 
 4.00 Beta 2.76: - “The Police - Walking on the Moon” - 20th of July 2019
 
