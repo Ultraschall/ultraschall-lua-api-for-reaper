@@ -3,7 +3,7 @@
       <slug>Introduction</slug>  
       <title>Introduction to Config Variables</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-         List of all Config Variables as of Reaper 5.979 and probably are missing some, but should be fairly complete anyway.  
+         List of all Config Variables as of Reaper 5.982 and probably are missing some, but should be fairly complete anyway.  
          These can be used to set configuration-stuff in the preferences, the project-settings, the render-dialog, many context-menus(like MCP or transport-context-menus) and many others.  
          To change them, you can use the following ReaScript API-functions(requires SWS being installed):
           
@@ -3207,6 +3207,48 @@
     </US_DocBloc>  
   
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>disk_peaks_mmapkb</slug>  
+      <title>disk_peaks_mmapkb</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          only available in pre-releases of Reaper, yet  
+          The Fully-buffer peak files smaller than-inputbox as set in Preferences -> Buffering -> Advanced Disk I/O Settings  
+          It is an integer  
+          
+            >0 to 2147483647 in kilobytes
+           
+          For other settings as set in Preferences -> Buffering -> Advanced Disk I/O options..., see [disk_rdmodeex](#disk_rdmodeex), [disk_rdsizeex](#disk_rdsizeex),   
+                                                      [disk_wrblks](#disk_wrblks), [disk_wrblks2](#disk_wrblks2), [disk_wrmode](#disk_wrmode), [disk_wrsize](#disk_wrsize)  
+                    
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+  
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>disk_peaks_ramkb</slug>  
+      <title>disk_peaks_ramkb</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          only available in pre-releases of Reaper, yet  
+          The Fully-buffer peak files smaller than-inputbox as set in Preferences -> Buffering -> Advanced Disk I/O Settings  
+          It is an integer  
+          
+            >0 to 2147483647 in kilobytes
+           
+          For other settings as set in Preferences -> Buffering -> Advanced Disk I/O options..., see [disk_rdmodeex](#disk_rdmodeex), [disk_rdsizeex](#disk_rdsizeex),   
+                                                      [disk_wrblks](#disk_wrblks), [disk_wrblks2](#disk_wrblks2), [disk_wrmode](#disk_wrmode), [disk_wrsize](#disk_wrsize)  
+                    
+          Stored in reaper.ini under the same name in the section REAPER.  
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+    
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
       <slug>disk_rdblksex</slug>  
       <title>disk_rdblksex</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
@@ -3377,6 +3419,11 @@
            >&32=0, Show recording volume name(off), unchecked  
            >&32=1, Show recording volume name(on), checked  
             
+           set in Preferences -> Buffering -> Advanced Disk I/O Settings!
+           in pre-releases only
+           >&64=1 - Periodially close excess file handles(experimental)-checkbox unchecked
+           >&64=1 - Periodially close excess file handles(experimental)-checkbox checked
+           
           For the megabytes-inputbox(check free disk space on record start), see [diskcheckmb](#diskcheckmb)  
           For other settings set in Preferences -> Recording, see [adjreclat](#adjreclat), [adjrecmanlat](#adjrecmanlat), [adjrecmanlatin](#adjrecmanlatin), [diskcheckmb](#diskcheckmb), [errnowarn](#errnowarn), [manuallat](#manuallat),   
                                                [manuallatin](#manuallatin), [maxrecsize](#maxrecsize), [maxrecsize_use](#maxrecsize_use), [peakrecbm](#peakrecbm), [promptendrec](#promptendrec), [recopts](#recopts), [recfile_wildcards](#recfile_wildcards),  
@@ -5543,8 +5590,9 @@
           MIDI CC touch-replace recording timeout-inputbox, as set in the Preferences -> MIDI Settings  
           It is an integer  
                     
-           >0 to 2147483647;in milliseconds
-                    
+           >0 to 2147483647;in milliseconds  
+           >The highest one that can be entered into the inputfield is 4294967295, which is -1 in the configvar!  
+           
           Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>  
@@ -11717,16 +11765,17 @@
           It is an integer-bitfield.  
           
            >&1 &2 &64 &65536 &131072
-           >> 1 1 0 0 0, Direct Show EVR(recommended)
-           >> 1 0 0 0 0, Direct Show EVR - Force YV12
-           >> 0 1 0 0 0, Direct Show EVR - Force YUY2
-           >> 0 0 0 0 0, Direct Show EVR - Force RGB
-           >> 1 1 1 0 0, Direct Show - Automatic
-           >> 1 0 1 0 0, Direct Show - Force YV12
-           >> 0 1 1 0 0, Direct Show - Force YUY2
-           >> 0 0 1 0 0, Direct Show - Force RGB
-           >> 0 0 1 1 0, BitBlit() nearest-neighbor (slow)
-           >> 0 0 1 1 1, BitBlit() bilinear (slowest)
+           
+           >> 1 1 0 0 0, Direct Show EVR(recommended)  
+           >> 1 0 0 0 0, Direct Show EVR - Force YV12  
+           >> 0 1 0 0 0, Direct Show EVR - Force YUY2  
+           >> 0 0 0 0 0, Direct Show EVR - Force RGB  
+           >> 1 1 1 0 0, Direct Show - Automatic  
+           >> 1 0 1 0 0, Direct Show - Force YV12  
+           >> 0 1 1 0 0, Direct Show - Force YUY2  
+           >> 0 0 1 0 0, Direct Show - Force RGB  
+           >> 0 0 1 1 0, BitBlit() nearest-neighbor (slow)  
+           >> 0 0 1 1 1, BitBlit() bilinear (slowest)  
            
            >&4=0, unknown  
            >&4=1, unknown  
@@ -12174,8 +12223,27 @@
             
                     
           Stored in reaper.ini under the same name in the section REAPER.  
-            
-            
+      </description>  
+      <chapter_context>  
+         Config Variables  
+      </chapter_context>  
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>windowflags</slug>  
+      <title>windowflags</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+          only available in pre-releases of Reaper, yet  
+          It is the Modal window positioning-dropdownlist, as set in Preferences -> General -> Advanced UI/system tweaks  
+          It is an integer
+          
+            >0, Last window position (default)  
+            >1, Center on current screen  
+            >2, Center on mouse cursor  
+            >3, OS positioning  
+          
+          Stored in reaper.ini under the same name in the section REAPER.  
       </description>  
       <chapter_context>  
          Config Variables  
