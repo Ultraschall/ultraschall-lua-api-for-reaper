@@ -274,7 +274,7 @@ function ultraschall.EnumerateIniFileExternalState_sec(number_of_section, ini_fi
   local count=0
   for line in io.lines(ini_filename_with_path) do
     --local check=line:match(".*=.*")
-    check=line:match("%[.*.%]")
+    local check=line:match("%[.*.%]")
     if check==nil then count=count+1 end
     if count==number_of_section then return line:sub(2,-2) end
   end

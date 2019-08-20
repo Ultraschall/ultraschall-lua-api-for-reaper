@@ -775,14 +775,14 @@ function ultraschall.ToggleStateButton(section, actioncommand_id, state)
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.ToggleStateButton(integer section, string actioncommand_id, integer state)</functioncall>
+  <functioncall>boolean retval = ultraschall.ToggleStateButton(integer section, string actioncommand_id, integer state)</functioncall>
   <description>
     Toggles state and refreshes the button of an actioncommand_id
     
     returns false in case of error
   </description>
   <retvals>
-    integer retval  - true, toggling worked; false, toggling didn't work
+    boolean retval  - true, toggling worked; false, toggling didn't work
   </retvals>
   <parameters>
     integer section - the section of the action(see ShowActionlist-dialog)

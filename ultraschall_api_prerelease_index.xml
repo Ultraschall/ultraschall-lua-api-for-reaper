@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40572.00" author="Meo Mespotine">
+      <version name="40576.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Changelog-Api.txt</source>
@@ -393,13 +393,6 @@ New features in 4.00beta2.77
     EventManager-backgroundscript
 -   MediaItem Management: GetRecCounter - returns the highest
     rec-counter of all items/takes in the current project
--   ProjectManagement: GetProjectStateChunk - returns the
-    ProjectStateChunk of the current project(finally working!)
--   Trackmanagement: IsSplitAtPosition - returns, if a
-    split/mediaitemend/mediaitemstart exists at a certain position,
-    within certain tracks
--   User Interface: ConvertYCoordsMac2Win - converts the y-coordinate
-    between the Mac <-> Windows/Linux-style coordinatesystems
 -   User Interface: GetMediaExplorerHWND - gets the HWND-windowhandler
     of the Media Explorer
 -   User Interface: UpdateMediaExplorer - updates the listview of the
@@ -409,10 +402,97 @@ New features in 4.00beta2.77
     Midi_OnCommand-functions); runs no scripts yet, only
     native/extension actions
 
-Changes from Beta 2.76 to Beta 2.77
+Changes from Beta 2.761 to Beta 2.77
 
 -   API: functions - moved all functions into modules for future
     modular-concept
+-   Configuration Files: GetKBIniKeys - enhanced description for osc
+-   Configuration Files: SetKBIniKeys - enhanced description for osc
+-   Helper Functions: IsValidMatchingPattern - moved to docs-index
+    API-Helper functions -> Data Manipulation
+-   Helper Functions: SecondsToTime - moved to docs-index API-Helper
+    functions -> Data Manipulation
+-   Helper Functions: SecondsToTimeString_hh_mm_ss_mss - moved to
+    docs-index API-Helper functions -> Data Manipulation
+-   Helper Functions: TimeStringToSeconds_hh_mm_ss_mss - moved to
+    docs-index API-Helper functions -> Data Manipulation
+-   Helper Functions: TimeToSeconds - moved to docs-index API-Helper
+    functions -> Data Manipulation
+-   HWND: GetActionsHWND - moved to docs-index User Interface ->
+    Reaper-Windowhandler
+-   HWND: GetBatchFileItemConverterHWND - moved to docs-index User
+    Interface -> Reaper-Windowhandler
+-   HWND: GetConsolidateTracksHWND - moved to docs-index User Interface
+    -> Reaper-Windowhandler
+-   HWND: GetExportProjectMIDIHWND - moved to docs-index User Interface
+    -> Reaper-Windowhandler
+-   HWND: GetPreferencesHWND - moved to docs-index User Interface ->
+    Reaper-Windowhandler
+-   HWND: GetProjectDirectoryCleanupHWND - moved to docs-index User
+    Interface -> Reaper-Windowhandler
+-   HWND: GetProjectSettingsHWND - moved to docs-index User Interface ->
+    Reaper-Windowhandler
+-   HWND: GetRenderQueueHWND - moved to docs-index User Interface ->
+    Reaper-Windowhandler
+-   HWND: GetRenderToFileHWND - moved to docs-index User Interface ->
+    Reaper-Windowhandler
+-   HWND: GetRenderingToFileHWND - moved to docs-index User Interface ->
+    Reaper-Windowhandler
+-   HWND: GetSaveLiveOutputToDiskHWND - moved to docs-index User
+    Interface -> Reaper-Windowhandler
+-   HWND: GetVideoHWND - moved to docs-index User Interface ->
+    Reaper-Windowhandler
+-   Project Management: GetProject_MasterGroupFlagsState - moved to
+    correct docsindex Project Management
+-   Project Management: SetProject_MasterGroupFlagsState - moved to
+    correct docsindex Project Management
+-   Ultraschall: moved ultraschall.ini-related functions to Ultraschall
+    Specific-index in the docs
+
+------------------------------------------------------------------------
+
+4.00 Beta 2.761: - “Coldplay - Fix You” - 23rd of September 2019
+
+Has now 980 functions with 42 new ones!
+
+IMPORTANT!: THIS IS A MASSIVE CRITICAL BUGFIX RELEASE. ABOUT 60
+FUNCTIONS RETURNED WRONG RETURNVALUES IN CASE OF AN ERROR.
+IF YOU USE ANY OF THE FUNCTIONS LISTED IN _CHANGES_, YOU SHOULD CHECK,
+IF YOUR SCRIPTS STILL WORK.
+THIS IS TOTALLY MY FAULT, AS I HAD SOME OF THEM WRONG TO BEGIN WITH. MY
+APOLOGIES FOR ANY INCONVENIENCE…. :/
+
+NEW IN THIS RELEASE:
+
+-   GETPROJECTSTATECHUNK
+    gets a full StateChunk of the current project(finally working!)
+    Now you can get all states of your project!
+
+-   CONVERTYCOORDSMAC2WIN
+    Mac-ycoordinates are different from Windows/Linux, meaning, pixel 0
+    is at the bottom, while Windows/Linux start on top.
+    This function converts the y-coordinates between these two
+    coordinate-systems.
+
+-   CRITICAL BUGFIXES
+    In case of errors, many functions returned wrong returnvalues or had
+    faulty returnvalues stated in the docs. All of them are fixed now.
+    Please check, if your scripts use any of the functions listed in
+    Changes for more details.
+    Hope this is the last time, stuff like that happened…
+
+###New features in 4.00beta2.761
+
+-   ProjectManagement: GetProjectStateChunk - returns the
+    ProjectStateChunk of the current project(finally working!)
+-   Trackmanagement: IsSplitAtPosition - returns, if a
+    split/mediaitemend/mediaitemstart exists at a certain position,
+    within certain tracks
+-   User Interface: ConvertYCoordsMac2Win - converts y-coordinates
+    between Windows/Linux and Mac related coordinatesystems
+
+###Changes from Beta 2.76 to Beta 2.761
+
 -   Automation Items: GetProject_CountAutomationItems - didn’t return
     the right retval in case of an error -> fixed
 -   ColorManagement: RGB2Grayscale - didn’t return the right retval in
@@ -441,26 +521,25 @@ Changes from Beta 2.76 to Beta 2.77
     the right retval in case of an error -> fixed
 -   Configuration Files: EnumerateValuesByPattern - didn’t return the
     right retval in case of an error -> fixed
--   Configuration Files: GetKBIniKeys - enhanced description for osc
--   Configuration Files: GetKBIniScripts_ByActionCommandID - changed
-    retval in case of an error to nil, instead of -1. More consistent
-    that way(sorry for any inconvenience)
--   Configuration Files: GetKBIniKeys_ByActionCommandID - changed retval
-    in case of an error to nil, instead of -1. More consistent that
-    way(sorry for any inconvenience)
 -   Configuration Files: SetIniFileExternalState - didn’t return the
     right retval in case of an error -> fixed
--   Configuration Files: SetKBIniKeys - enhanced description for osc
 -   Docs: Doc-Engine - had wrong parameters and retvals in numerous
     functions…fixed(ooops)
+-   Docs: Doc-Engine: Docs_ConvertPlainTextToHTML - was missing
+    html-codes in the description due me encoding it wrong
 -   Docs: GetRenderingToFileHWND - had parameters described, that don’t
     exist -> fixed
--   Docs: GetTrackSendInfo_Value - fixed Markdown-formatting-problems
--   Docs: SetTrackSendInfo_Value - fixed Markdown-formatting-problems
--   Docs: print-functions - all print-functions, like sprint, fprint,
-    gfx.printf, etc include now formatting information in the
+-   Docs: Reaper Internals - updated to Reaper 5.982, added configvars
+    from developer-releases
+-   Docs: Reaper: GetTrackSendInfo_Value - fixed
+    Markdown-formatting-problems
+-   Docs: Reaper: print-functions - all print-functions, like sprint,
+    fprint, gfx.printf, etc include now formatting information in the
     description.
--   Docs: Reaper-docs - updated to 5.982
+-   Docs: Reaper: SetTrackSendInfo_Value - fixed
+    Markdown-formatting-problems
+-   EnvelopeManagement: SetArmState_Envelope - didn’t return the right
+    retval in case of an error -> fixed
 -   FileManagement: CountLinesInFile - didn’t return the right retval in
     case of an error -> fixed
 -   FileManagement: GetLengthOfFile - didn’t return the right retval in
@@ -473,65 +552,58 @@ Changes from Beta 2.76 to Beta 2.77
     retval in case of an error -> fixed
 -   FileManagement: ReadBinaryFileFromPattern - didn’t return the right
     retval in case of an error -> fixed
+-   FXManagement: AddParmLFOLearn_FXStateChunk - enhanced
+    doc-description; fixed bug that could cause a LFOLEARN entry to
+    become PARMLEARN(thanks to Justin and Schwa for helping me with
+    that)
+-   FXManagement: AddParmLearn_FXStateChunk - enhanced doc-description;
+    fixed bug that could cause a PARMLEARN entry to become
+    LFOLEARN(thanks to Justin and Schwa for helping me with that)
+-   FXManagement: AddParmAlias_FXStateChunk - enhanced doc-description
+-   FXManagement: CountParmAlias_FXStateChunk - returns now -1 in case
+    of an errorenhanced doc-description
+-   FXManagement: CountParmLearn_FXStateChunk - returns now -1 in case
+    of an error; enhanced doc-description
+-   FXManagement: CountParmLFOLearn_FXStateChunk - returns now -1 in
+    case of an error; enhanced doc-description
+-   FXManagement: DeleteParmAlias_FXStateChunk - enhanced
+    doc-description
+-   FXManagement: DeleteParmLFOLearn_FXStateChunk - enhanced
+    doc-description
+-   FXManagement: GetParmModulationChunk_FXStateChunk - enhanced
+    doc-description
+-   FXManagement: GetParmLFOLearn_MediaTrack - enhanced doc-description
 -   FXManagement: GetFXStateChunk - had layoutproblem, when the passed
     StateChunk was taken from a ProjectStateChunk -> fixed(thanks to
     lossius)
+-   FXManagement: SetFXStateChunk - didn’t return the right retval in
+    case of an error -> fixed
+-   FXManagement: SetParmLFOLearn_FXStateChunk - enhanced
+    doc-description; fixed bug that could cause a LFOLEARN entry to
+    become PARMLEARN(thanks to Justin and Schwa for helping me with
+    that)
+-   FXManagement: SetParmLearn_FXStateChunk - enhanced doc-description;
+    fixed bug that could cause a PARMLEARN entry to become
+    LFOLEARN(thanks to Justin and Schwa for helping me with that)
+-   FXManagement: SetParmAlias_FXStateChunk - enhanced doc-description
 -   Helper Functions: CompareStringWithAsciiValues - returned -1 in case
     of an error, although boolean should be returned -> fixed
 -   Helper Functions: ConvertIntegerIntoString2 - didn’t return the
     right retval in case of an error -> fixed
--   Helper Functions: CSV2IndividualLinesAsArray - didn’t return the
-    right retval in case of an error -> fixed
--   Helper Functions: GetUserInputs - did change the tables passed as
-    default-retvals -> fixed now
 -   Helper Functions: GetScriptFilenameFromActionCommandID - didn’t
     return the right retval in case of an error -> fixed
+-   Helper Functions: GetUserInputs - did change the tables passed as
+    default-retvals -> fixed now
 -   Helper Functions: IsItemInTrack - changed error-retval to nil;
     didn’t return the right retval in case of an error -> fixed
--   Helper Functions: IsValidMatchingPattern - moved to docs-index
-    API-Helper functions -> Data Manipulation
 -   Helper Functions: LoadFunctionFromExtState - didn’t return the right
     retval in case of an error -> fixed
--   Helper Functions: SecondsToTime - moved to docs-index API-Helper
-    functions -> Data Manipulation
--   Helper Functions: SecondsToTimeString_hh_mm_ss_mss - moved to
-    docs-index API-Helper functions -> Data Manipulation
 -   Helper Functions: SetIntConfigVar_Bitfield - didn’t return the right
     retval in case of an error -> fixed
--   Helper Functions: TimeStringToSeconds_hh_mm_ss_mss - moved to
-    docs-index API-Helper functions -> Data Manipulation
--   Helper Functions: TimeToSeconds - moved to docs-index API-Helper
-    functions -> Data Manipulation
 -   Helper Functions: ToggleStateAction - wrongly stated to return
     boolean instead of integer in the docs -> fixed
--   Helper Functions: ToggleStateButton - wrongly retval-description in
+-   Helper Functions: ToggleStateButton - wrong retval-description in
     the docs -> fixed
--   HWND: GetActionsHWND - moved to docs-index User Interface ->
-    Reaper-Windowhandler
--   HWND: GetBatchFileItemConverterHWND - moved to docs-index User
-    Interface -> Reaper-Windowhandler
--   HWND: GetConsolidateTracksHWND - moved to docs-index User Interface
-    -> Reaper-Windowhandler
--   HWND: GetExportProjectMIDIHWND - moved to docs-index User Interface
-    -> Reaper-Windowhandler
--   HWND: GetPreferencesHWND - moved to docs-index User Interface ->
-    Reaper-Windowhandler
--   HWND: GetProjectDirectoryCleanupHWND - moved to docs-index User
-    Interface -> Reaper-Windowhandler
--   HWND: GetProjectSettingsHWND - moved to docs-index User Interface ->
-    Reaper-Windowhandler
--   HWND: GetRenderQueueHWND - moved to docs-index User Interface ->
-    Reaper-Windowhandler
--   HWND: GetRenderToFileHWND - moved to docs-index User Interface ->
-    Reaper-Windowhandler
--   HWND: GetRenderingToFileHWND - moved to docs-index User Interface ->
-    Reaper-Windowhandler
--   HWND: GetSaveLiveOutputToDiskHWND - moved to docs-index User
-    Interface -> Reaper-Windowhandler
--   HWND: GetVideoHWND - moved to docs-index User Interface ->
-    Reaper-Windowhandler
--   Localize: Localize - docs stated returning false in case of an
-    error, but returns nil -> fixed
 -   Marker Management: DeleteNormalMarker - returned wrong retval in
     case of an error -> fixed
 -   Marker Management: DeleteEditMarker - returned wrong retval in case
@@ -540,10 +612,6 @@ Changes from Beta 2.76 to Beta 2.77
     case of an error -> fixed
 -   Marker Management: SetMarkerByIndex - returned wrong retval in case
     of an error -> fixed
--   MediaItem Management: GetItemFadeIn - stated string as returnvalue
-    in the docs, though number was returned for some retvals -> fixed
--   MediaItem Management: GetItemFadeOut - stated string as returnvalue
-    in the docs, though number was returned for some retvals -> fixed
 -   MediaItem Management: GetItemSpectralConfig - didn’t return the
     right retval in case of an error -> fixed
 -   MediaItem Management: GetItemSpectralVisibilityState - didn’t return
@@ -561,12 +629,14 @@ Changes from Beta 2.76 to Beta 2.77
     fixed
 -   MediaItem Management: SplitMediaItems_Position - didn’t return the
     right retval in case of an error -> fixed
--   Metadata Management: GetProjExtState_AllKeyValues - returns -1 now
-    in case of an error
--   Project Management: GetProject_MasterGroupFlagsState - moved to
-    correct docsindex Project Management
--   Project Management: SetProject_MasterGroupFlagsState - moved to
-    correct docsindex Project Management
+-   Project Management: GetProject_GetRegion - returned wrong retval in
+    case of an error -> fixed
+-   Project Management: GetProject_CountMasterHWOuts - returned wrong
+    retval in case of an error -> fixed
+-   Project Management: GetProject_MasterGroupFlagsState - returned
+    wrong retval in case of an error -> fixed
+-   Project Management: GetProject_MasterGroupFlagsHighState - returned
+    wrong retval in case of an error -> fixed
 -   Rendering: ApplyRenderTable_Project - stated nil as retval in case
     of an error, though it is false -> fixed
 -   Rendering: ApplyRenderTable_ProjectFile - stated nil as retval in
@@ -581,8 +651,6 @@ Changes from Beta 2.76 to Beta 2.77
     incorrectly stated nil as retval in case of an error -> fixed
 -   Track Management: SetMediaItemStateChunk_in_TrackStateChunk - docs
     incorrectly stated nil as retval in case of an error -> fixed
--   Ultraschall: moved ultraschall.ini-related functions to Ultraschall
-    Specific-index in the docs
 -   User Interface: GetVideoHWND - returned wrong retval in case of an
     error -> fixed
 -   Video: VID_Pixels2VideoUIStateCoords - returned wrong retval in case
@@ -4101,7 +4169,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 987 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40572 from 17.08.2019 06:09:13).}
+a 987 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40576 from 20.08.2019 02:21:44).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4239,7 +4307,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 987 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40572 from 17.08.2019 06:09:13).}
+a 987 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40576 from 20.08.2019 02:21:44).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

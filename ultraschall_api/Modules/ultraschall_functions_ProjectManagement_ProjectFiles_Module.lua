@@ -4432,7 +4432,7 @@ function ultraschall.GetProject_QRenderOutFiles(projectfilename_with_path, Proje
   return count-1, QRenderOutFilesList, QRenderOutFilesListGuid, AutoCloseWhenFinished, AutoIncrementFilename, SaveCopyToOutfile
 end
 
-
+ 
 --- Set ---
 
 function ultraschall.SetProject_RippleState(projectfilename_with_path, ripple_state, ProjectStateChunk)
@@ -8469,6 +8469,8 @@ function ultraschall.GetProject_CountMarkersAndRegions(projectfilenamewithpath)
     returns the number of all markers, the number of regions and the number of markers(that are not regions) in the project.
     
     It's the entry MARKER
+    
+    returns -1 in case of an error
   </description>
   <parameters>
     string projectfilename_with_path - the projectfilename in which to count the markers
@@ -8608,7 +8610,7 @@ function ultraschall.GetProject_GetRegion(projectfilenamewithpath, idx)
   <tags>projectfiles, rpp, state, get, region, shown number, name, color, position</tags>
 </US_DocBloc>
 ]]
-  if projectfilenamewithpath==nil or type(projectfilenamewithpath)~="string" then ultraschall.AddErrorMessage("GetProject_GetRegion", "projectfilename_with_path", "Must be a string", -5)  return -1 end
+  if projectfilenamewithpath==nil or type(projectfilenamewithpath)~="string" then ultraschall.AddErrorMessage("GetProject_GetRegion", "projectfilename_with_path", "Must be a string", -5)  return false end
   if reaper.file_exists(projectfilenamewithpath)==false then ultraschall.AddErrorMessage("GetProject_GetRegion", "projectfilenamewithpath", "Projectfile does not exist", -1)  return false end
   idx=tonumber(idx)
   if idx==nil then ultraschall.AddErrorMessage("GetProject_GetRegion", "idx", "No valid value given. Only integer numbers are allowed.", -2)  return false end
@@ -8900,6 +8902,8 @@ function ultraschall.IsValidReaProject(ReaProject)
   <functioncall>boolean retval = ultraschall.IsValidReaProject(ReaProject ReaProject)</functioncall>
   <description>
     Returns, if parameter ReaProject is a valid ReaProject(means, an existing opened project) or not.
+    
+    returns false in case of an error
   </description>
   <retvals>
     boolean retval - true, if parameter ReaProject is a valid ReaProject; false, if parameter ReaProject isn't a valid ReaProject
@@ -10012,11 +10016,11 @@ function ultraschall.GetProject_CountMasterHWOuts(projectfilename_with_path, Pro
 </US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
-  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_CountMasterHWOuts","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return 0 end
-  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_CountMasterHWOuts","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return 0 end
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_CountMasterHWOuts","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_CountMasterHWOuts","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
   if projectfilename_with_path~=nil then
     if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
-    else ultraschall.AddErrorMessage("GetProject_CountMasterHWOuts","projectfilename_with_path", "File does not exist!", -3) return 0
+    else ultraschall.AddErrorMessage("GetProject_CountMasterHWOuts","projectfilename_with_path", "File does not exist!", -3) return nil
     end
     if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_CountMasterHWOuts", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
   end
@@ -10378,13 +10382,13 @@ function ultraschall.GetProject_MasterGroupFlagsState(projectfilename_with_path,
 </US_DocBloc>
 --]]
   -- check parameters and prepare variable ProjectStateChunk
-  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsState","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
-  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsState","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsState","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return -1 end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsState","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return -1 end
   if projectfilename_with_path~=nil then
     if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
-    else ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsState","projectfilename_with_path", "File does not exist!", -3) return nil
+    else ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsState","projectfilename_with_path", "File does not exist!", -3) return -1
     end
-    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsState", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsState", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return -1 end
   end
 
   local Project_TrackGroupFlags=ProjectStateChunk:match("MASTER_GROUP_FLAGS.-%c") 
@@ -10520,13 +10524,13 @@ function ultraschall.GetProject_MasterGroupFlagsHighState(projectfilename_with_p
 </US_DocBloc>
 --]]
   -- check parameters and prepare variable ProjectStateChunk
-  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsHighState","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return nil end
-  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsHighState","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return nil end
+  if projectfilename_with_path~=nil and type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsHighState","projectfilename_with_path", "Must be a string or nil(the latter when using parameter ProjectStateChunk)!", -1) return -1 end
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsHighState","ProjectStateChunk", "No valid ProjectStateChunk!", -2) return -1 end
   if projectfilename_with_path~=nil then
     if reaper.file_exists(projectfilename_with_path)==true then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path, false)
-    else ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsHighState","projectfilename_with_path", "File does not exist!", -3) return nil
+    else ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsHighState","projectfilename_with_path", "File does not exist!", -3) return -1
     end
-    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsHighState", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
+    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_MasterGroupFlagsHighState", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return -1 end
   end
 
   local Project_TrackGroupFlags=ProjectStateChunk:match("MASTER_GROUP_FLAGS_HIGH.-%c") 

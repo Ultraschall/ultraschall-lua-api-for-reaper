@@ -535,6 +535,8 @@ function ultraschall.GetParmModulationChunk_FXStateChunk(FXStateChunk, fxid, id)
     Returns a parameter-modulation-chunk from an FXStateChunk
     An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
     
+    It's the <PROGRAMENV entry
+    
     Returns nil in case of an error
   </description>
   <retvals>
@@ -764,7 +766,7 @@ function ultraschall.GetParmLFOLearn_MediaTrack(MediaTrack, fxid, id)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns a parameter-lfo-learn-setting from a MediaTrack
     
-    It is the PARMLEARN-entry
+    It is the LFOLEARN-entry
     
     Returns nil in case of an error
   </description>
@@ -1283,6 +1285,8 @@ function ultraschall.DeleteParmAlias_FXStateChunk(FXStateChunk, fxid, id)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Deletes a ParmAlias-entry from an FXStateChunk.
     
+    It's the PARMALIAS-entry
+    
     returns false in case of an error
   </description>
   <retvals>
@@ -1333,7 +1337,6 @@ function ultraschall.DeleteParmAlias_FXStateChunk(FXStateChunk, fxid, id)
     return false, FXStateChunk
   end
 end
-
 --ultraschall.DeleteParmAlias_FXStateChunk(FXStateChunk, 1, 1)
 
 function ultraschall.DeleteParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id)
@@ -1348,6 +1351,8 @@ function ultraschall.DeleteParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id)
   <functioncall>boolean retval, string alteredFXStateChunk = ultraschall.DeleteParmLFOLearn_FXStateChunk(string FXStateChunk, integer fxid, integer id)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Deletes a ParmLFO-Learn-entry from an FXStateChunk.
+    
+    It's the LFOLEARN-entry
     
     returns false in case of an error
   </description>
@@ -1415,6 +1420,8 @@ function ultraschall.SetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id, midi_n
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets an already existing ParmLFO-Learn-entry of an FX-plugin from an FXStateChunk.
     
+    It's the LFOLEARN-entry
+    
     returns false in case of an error
   </description>
   <retvals>
@@ -1473,7 +1480,9 @@ function ultraschall.SetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id, midi_n
   
   if osc_message~=nil and midi_note~=0 then ultraschall.AddErrorMessage("SetParmLFOLearn_FXStateChunk", "midi_note", "must be set to 0, when using parameter osc_message", -7) return false end
   if osc_message==nil then osc_message="" end
-    
+  
+  if checkboxflags&8==0 then checkboxflags=checkboxflags+8 end
+  
   local count=0
   local FX, UseFX2, start, stop, UseFX
   for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
@@ -1503,7 +1512,6 @@ function ultraschall.SetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id, midi_n
   --]]
 end
 
-
 function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, midi_note, checkboxflags, osc_message)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1516,6 +1524,8 @@ function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, midi_note
   <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.SetParmLearn_FXStateChunk(string FXStateChunk, integer fxid, integer id, integer midi_note, integer checkboxflags, optional string osc_message)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets an already existing Parm-Learn-entry of an FX-plugin from an FXStateChunk.
+    
+    It's the PARMLEARN-entry
     
     returns false in case of an error
   </description>
@@ -1554,7 +1564,7 @@ function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, midi_note
                           -    3, Soft takeover (absolute mode only)+enable only when track or item is selected
                           -    4, enable only when effect configuration is focused
                           -    20, enable only when effect configuration is visible 
-    optional string osc_message - the osc-message, that triggers the ParmLFOLearn, only when midi_note is set to 0!
+    optional string osc_message - the osc-message, that triggers the ParmLearn, only when midi_note is set to 0!
   </parameters>
   <chapter_context>
     FX-Management
@@ -1575,7 +1585,9 @@ function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, midi_note
   
   if osc_message~=nil and midi_note~=0 then ultraschall.AddErrorMessage("SetParmLearn_FXStateChunk", "midi_note", "must be set to 0, when using parameter osc_message", -7) return false end
   if osc_message==nil then osc_message="" end
-    
+  
+  if checkboxflags&8==8 then checkboxflags=checkboxflags-8 end
+  
   local count=0
   local FX, UseFX2, start, stop, UseFX
   for k in string.gmatch(FXStateChunk, "    BYPASS.-WAK.-\n") do
@@ -1616,6 +1628,8 @@ function ultraschall.SetParmAlias_FXStateChunk(FXStateChunk, fxid, id, parmalias
   <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.SetParmAlias_FXStateChunk(string FXStateChunk, integer fxid, integer id, string parmalias)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Sets an already existing Parm-Learn-entry of an FX-plugin from an FXStateChunk.
+    
+    It's the PARMALIAS-entry
     
     returns false in case of an error
   </description>
@@ -1785,6 +1799,8 @@ function ultraschall.AddParmLFOLearn_FXStateChunk(FXStateChunk, fxid, parmidx, p
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Adds a new Parm-LFOLearn-entry to an FX-plugin from an FXStateChunk.
     
+    It's the LFOLEARN-entry
+    
     returns false in case of an error
   </description>
   <retvals>
@@ -1844,7 +1860,9 @@ function ultraschall.AddParmLFOLearn_FXStateChunk(FXStateChunk, fxid, parmidx, p
   if type(parmname)~="string" then ultraschall.AddErrorMessage("AddParmLFOLearn_FXStateChunk", "parmname", "must be a string, either \"\" or byp or wet", -8) return false 
   elseif parmname~="" then parmname=":"..parmname
   end
-    
+  
+  if checkboxflags&8==0 then checkboxflags=checkboxflags+8 end
+  
   if osc_message~=nil and midi_note~=0 then ultraschall.AddErrorMessage("AddParmLFOLearn_FXStateChunk", "midi_note", "must be set to 0, when using parameter osc_message", -9) return false end
   if osc_message==nil then osc_message="" end
   
@@ -1884,6 +1902,8 @@ function ultraschall.AddParmLearn_FXStateChunk(FXStateChunk, fxid, parmidx, parm
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Adds a new Parm-Learn-entry to an FX-plugin from an FXStateChunk.
     
+    It's the PARMLEARN-entry
+    
     returns false in case of an error
   </description>
   <retvals>
@@ -1922,7 +1942,7 @@ function ultraschall.AddParmLearn_FXStateChunk(FXStateChunk, fxid, parmidx, parm
                           -    3, Soft takeover (absolute mode only)+enable only when track or item is selected
                           -    4, enable only when effect configuration is focused
                           -    20, enable only when effect configuration is visible 
-    optional string osc_message - the osc-message, that triggers the ParmLFOLearn, only when midi_note is set to 0!
+    optional string osc_message - the osc-message, that triggers the ParmLearn, only when midi_note is set to 0!
   </parameters>
   <chapter_context>
     FX-Management
@@ -1943,6 +1963,8 @@ function ultraschall.AddParmLearn_FXStateChunk(FXStateChunk, fxid, parmidx, parm
   if type(parmname)~="string" then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk", "parmname", "must be a string, either \"\" or byp or wet", -8) return false 
   elseif parmname~="" then parmname=":"..parmname
   end
+  
+  if checkboxflags&8==8 then checkboxflags=checkboxflags-8 end
     
   if osc_message~=nil and midi_note~=0 then ultraschall.AddErrorMessage("AddParmLearn_FXStateChunk", "midi_note", "must be set to 0, when using parameter osc_message", -9) return false end
   if osc_message==nil then osc_message="" end
@@ -1969,6 +1991,7 @@ function ultraschall.AddParmLearn_FXStateChunk(FXStateChunk, fxid, parmidx, parm
   end
 end
 
+
 function ultraschall.AddParmAlias_FXStateChunk(FXStateChunk, fxid, parmidx, parmalias)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -1981,6 +2004,8 @@ function ultraschall.AddParmAlias_FXStateChunk(FXStateChunk, fxid, parmidx, parm
   <functioncall>boolean retval, optional string alteredFXStateChunk = ultraschall.AddParmAlias_FXStateChunk(string FXStateChunk, integer fxid, string parmalias)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Adds a new Parm-Alias-entry to an FX-plugin from an FXStateChunk.
+    
+    It's the PARMALIAS-entry
     
     returns false in case of an error
   </description>
@@ -2029,6 +2054,7 @@ function ultraschall.AddParmAlias_FXStateChunk(FXStateChunk, fxid, parmidx, parm
   end
 end
 
+
 function ultraschall.CountParmAlias_FXStateChunk(FXStateChunk, fxid)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -2041,6 +2067,8 @@ function ultraschall.CountParmAlias_FXStateChunk(FXStateChunk, fxid)
   <functioncall>integer count = ultraschall.CountParmAlias_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Counts already existing Parm-Alias-entries of an FX-plugin from an FXStateChunk.
+    
+    It's the PARMALIAS-entry
     
     returns -1 in case of an error
   </description>
@@ -2078,7 +2106,6 @@ function ultraschall.CountParmAlias_FXStateChunk(FXStateChunk, fxid)
   end  
   return count
 end
---]]
 
 function ultraschall.CountParmLearn_FXStateChunk(FXStateChunk, fxid)
 --[[
@@ -2092,6 +2119,8 @@ function ultraschall.CountParmLearn_FXStateChunk(FXStateChunk, fxid)
   <functioncall>integer count = ultraschall.CountParmLearn_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Counts already existing Parm-Learn-entries of an FX-plugin from an FXStateChunk.
+    
+    It's the PARMLEARN-entry
     
     returns -1 in case of an error
   </description>
@@ -2142,6 +2171,8 @@ function ultraschall.CountParmLFOLearn_FXStateChunk(FXStateChunk, fxid)
   <functioncall>integer count = ultraschall.CountParmLFOLearn_FXStateChunk(string FXStateChunk, integer fxid)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Counts already existing Parm-LFOLearn-entries of an FX-plugin from an FXStateChunk.
+    
+    It's the LFOLEARN-entry
     
     returns -1 in case of an error
   </description>
