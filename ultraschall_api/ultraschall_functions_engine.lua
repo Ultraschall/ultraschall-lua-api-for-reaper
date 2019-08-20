@@ -15510,7 +15510,7 @@ function ultraschall.GetProject_DefPitchMode(projectfilename_with_path, ProjectS
     -          131118 - 3ms window, 1ms fade
     -          131119 - 3ms window, 1ms fade
     -      
-    -      Ã©lastique 2.2.8 Pro:
+    -      élastique 2.2.8 Pro:
     -          393216 - Normal
     -          393217 - Preserve Formants (Lowest Pitches)
     -          393218 - Preserve Formants (Lower Pitches)
@@ -15544,19 +15544,19 @@ function ultraschall.GetProject_DefPitchMode(projectfilename_with_path, ProjectS
     -          393246 - Synchronized:  Mid/Side, Preserve Formants (Higher Pitches)
     -          393247 - Synchronized:  Mid/Side, Preserve Formants (Highest Pitches)
     -      
-    -      Ã©lastique 2.2.8 Efficient:
+    -      élastique 2.2.8 Efficient:
     -          458752 - Normal
     -          458753 - Mid/Side
     -          458754 - Synchronized: Normal
     -          458755 - Synchronized: Mid/Side
     -      
-    -      Ã©lastique 2.2.8 Soloist:
+    -      élastique 2.2.8 Soloist:
     -          524288 - Monophonic
     -          524289 - Monophonic [Mid/Side]
     -          524290 - Speech
     -          524291 - Speech [Mid/Side]
     -      
-    -      Ã©lastique 3.3.0 Pro:
+    -      élastique 3.3.0 Pro:
     -          589824 - Normal
     -          589825 - Preserve Formants (Lowest Pitches)
     -          589826 - Preserve Formants (Lower Pitches)
@@ -15590,13 +15590,13 @@ function ultraschall.GetProject_DefPitchMode(projectfilename_with_path, ProjectS
     -          589854 - Synchronized:  Mid/Side, Preserve Formants (Higher Pitches)
     -          589855 - Synchronized:  Mid/Side, Preserve Formants (Highest Pitches)
     -      
-    -      Ã©lastique 3.3.0 Efficient:
+    -      élastique 3.3.0 Efficient:
     -          655360 - Normal
     -          655361 - Mid/Side
     -          655362 - Synchronized: Normal
     -          655363 - Synchronized: Mid/Side
     -      
-    -      Ã©lastique 3.3.0 Soloist:
+    -      élastique 3.3.0 Soloist:
     -          720896 - Monophonic
     -          720897 - Monophonic [Mid/Side]
     -          720898 - Speech
@@ -17850,7 +17850,7 @@ function ultraschall.SetProject_GroupOverride(projectfilename_with_path, group_o
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path, optional string ProjectStateChunk - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
     integer group_override1 - the group-override state
     integer group_override2 - the group-override state
     integer group_override3 - the group-override state
@@ -19901,7 +19901,7 @@ function ultraschall.SetProject_DefPitchMode(projectfilename_with_path, def_pitc
     -          131118 - 3ms window, 1ms fade
     -          131119 - 3ms window, 1ms fade
     -      
-    -      Ã©lastique 2.2.8 Pro:
+    -      élastique 2.2.8 Pro:
     -          393216 - Normal
     -          393217 - Preserve Formants (Lowest Pitches)
     -          393218 - Preserve Formants (Lower Pitches)
@@ -19935,19 +19935,19 @@ function ultraschall.SetProject_DefPitchMode(projectfilename_with_path, def_pitc
     -          393246 - Synchronized:  Mid/Side, Preserve Formants (Higher Pitches)
     -          393247 - Synchronized:  Mid/Side, Preserve Formants (Highest Pitches)
     -      
-    -      Ã©lastique 2.2.8 Efficient:
+    -      élastique 2.2.8 Efficient:
     -          458752 - Normal
     -          458753 - Mid/Side
     -          458754 - Synchronized: Normal
     -          458755 - Synchronized: Mid/Side
     -      
-    -      Ã©lastique 2.2.8 Soloist:
+    -      élastique 2.2.8 Soloist:
     -          524288 - Monophonic
     -          524289 - Monophonic [Mid/Side]
     -          524290 - Speech
     -          524291 - Speech [Mid/Side]
     -      
-    -      Ã©lastique 3.3.0 Pro:
+    -      élastique 3.3.0 Pro:
     -          589824 - Normal
     -          589825 - Preserve Formants (Lowest Pitches)
     -          589826 - Preserve Formants (Lower Pitches)
@@ -19981,13 +19981,13 @@ function ultraschall.SetProject_DefPitchMode(projectfilename_with_path, def_pitc
     -          589854 - Synchronized:  Mid/Side, Preserve Formants (Higher Pitches)
     -          589855 - Synchronized:  Mid/Side, Preserve Formants (Highest Pitches)
     -      
-    -      Ã©lastique 3.3.0 Efficient:
+    -      élastique 3.3.0 Efficient:
     -          655360 - Normal
     -          655361 - Mid/Side
     -          655362 - Synchronized: Normal
     -          655363 - Synchronized: Mid/Side
     -      
-    -      Ã©lastique 3.3.0 Soloist:
+    -      élastique 3.3.0 Soloist:
     -          720896 - Monophonic
     -          720897 - Monophonic [Mid/Side]
     -          720898 - Speech
@@ -22692,7 +22692,7 @@ function ultraschall.MoveMediaItemsBetween_To(startposition, endposition, newpos
   return true
 end
 
---A=ultraschall.MoveMediaItemsBetween_To(1, 3, 100, "Ã¶", false)
+--A=ultraschall.MoveMediaItemsBetween_To(1, 3, 100, "ö", false)
 
 
 
@@ -23381,7 +23381,7 @@ function ultraschall.InsertMediaItemArray(position, MediaItemArray, trackstring)
   while MediaItemArray[count]~=nil do
     local ItemStart_temp=reaper.GetMediaItemInfo_Value(MediaItemArray[count], "D_POSITION")
     local MediaTrack=reaper.GetMediaItem_Track(MediaItemArray[count])
-    --nur einfÃ¼gen, wenn mediaitem aus nem Track stammt, der in trackstring vorkommt
+    --nur einfügen, wenn mediaitem aus nem Track stammt, der in trackstring vorkommt
     i=1
     while individual_values[i]~=nil do
       if reaper.GetTrack(0,individual_values[i]-1)==reaper.GetMediaItem_Track(MediaItemArray[count]) then 
@@ -24789,7 +24789,7 @@ function ultraschall.GetItemPlayRate(MediaItem, statechunk)
     -          131118 - 3ms window, 1ms fade
     -          131119 - 3ms window, 1ms fade
     -      
-    -      Ã©lastique 2.2.8 Pro:
+    -      élastique 2.2.8 Pro:
     -          393216 - Normal
     -          393217 - Preserve Formants (Lowest Pitches)
     -          393218 - Preserve Formants (Lower Pitches)
@@ -24823,19 +24823,19 @@ function ultraschall.GetItemPlayRate(MediaItem, statechunk)
     -          393246 - Synchronized:  Mid/Side, Preserve Formants (Higher Pitches)
     -          393247 - Synchronized:  Mid/Side, Preserve Formants (Highest Pitches)
     -      
-    -      Ã©lastique 2.2.8 Efficient:
+    -      élastique 2.2.8 Efficient:
     -          458752 - Normal
     -          458753 - Mid/Side
     -          458754 - Synchronized: Normal
     -          458755 - Synchronized: Mid/Side
     -      
-    -      Ã©lastique 2.2.8 Soloist:
+    -      élastique 2.2.8 Soloist:
     -          524288 - Monophonic
     -          524289 - Monophonic [Mid/Side]
     -          524290 - Speech
     -          524291 - Speech [Mid/Side]
     -      
-    -      Ã©lastique 3.3.0 Pro:
+    -      élastique 3.3.0 Pro:
     -          589824 - Normal
     -          589825 - Preserve Formants (Lowest Pitches)
     -          589826 - Preserve Formants (Lower Pitches)
@@ -24869,13 +24869,13 @@ function ultraschall.GetItemPlayRate(MediaItem, statechunk)
     -          589854 - Synchronized:  Mid/Side, Preserve Formants (Higher Pitches)
     -          589855 - Synchronized:  Mid/Side, Preserve Formants (Highest Pitches)
     -      
-    -      Ã©lastique 3.3.0 Efficient:
+    -      élastique 3.3.0 Efficient:
     -          655360 - Normal
     -          655361 - Mid/Side
     -          655362 - Synchronized: Normal
     -          655363 - Synchronized: Mid/Side
     -      
-    -      Ã©lastique 3.3.0 Soloist:
+    -      élastique 3.3.0 Soloist:
     -          720896 - Monophonic
     -          720897 - Monophonic [Mid/Side]
     -          720898 - Speech
@@ -39512,7 +39512,7 @@ function ultraschall.ChangeColorContrast(r, g, b, Minimum_r, Maximum_r, Minimum_
     The lower you set Minimum/Maximum, the darker it becomes; the higher, the brighter it becomes.
     The farther away Minimum is from Maximum, the stronger the contrast becomes; the closer Minimum is to Maximum, the weaker the contrast becomes.
     
-    If you only set Minimum_r and Maximum_r, then these values will be applied to g and b too.
+    If you only set Minimum\_r and Maximum\_r, then these values will be applied to g and b too.
     
     If you omit/set to nil a Maximum-value; it's default value will be 255.
     
@@ -44549,8 +44549,8 @@ function ultraschall.SetScriptReturnvalues(script_identifier, ...)
   return true
 end
 
---ultraschall.SetScriptReturnvalues("EmpfÃ¤nger", 9,222,3,4,5,6,7,8,9,10)
---A,B,C,D,E=ultraschall.GetScriptReturnvalues("EmpfÃ¤nger", true)
+--ultraschall.SetScriptReturnvalues("Empf?er", 9,222,3,4,5,6,7,8,9,10)
+--A,B,C,D,E=ultraschall.GetScriptReturnvalues("Empf?er", true)
 
 --ultraschall.ScriptIdentifier="HalloWelt5"
 --ultraschall.SetScriptReturnvalues("HalloWelt5", 9,222,3,4,5,6,7,8,9,10)
@@ -51011,9 +51011,7 @@ function ultraschall.MKVOL2DB(mkvol_value)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Converts an MKVOL-value into a dB-value.
     
-    MKVOL-values are used by the routing-functions for HWOut/AUXSendReceive, specifically for their volume-value.
-    
-    These can't be converted using Reaper's own DB2SLIDER or SLIDER2DB, so this function should help you.
+    MKVOL-values are used by the routing-functions for HWOut/AUXSendReceive, specifically for their volume-value as these can't be converted using Reaper's own DB2SLIDER or SLIDER2DB, so this function should help you.
     
     This function is an adapted one from the function provided in Plugins/reaper\_www\_root/main.js
     
@@ -51056,9 +51054,7 @@ function ultraschall.DB2MKVOL(db_value)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Converts an dB-value into a MKVOL-value.
     
-    MKVOL-values are used by the routing-functions for HWOut/AUXSendReceive, specifically for their volume-value.
-    
-    These can't be converted using Reaper's own DB2SLIDER or SLIDER2DB, so this function should help you.
+    MKVOL-values are used by the routing-functions for HWOut/AUXSendReceive, specifically for their volume-value as these can't be converted using Reaper's own DB2SLIDER or SLIDER2DB, so this function should help you.
     
     See [MKVOL2DB](#MKVOL2DB) to convert a MKVOL-value into it's dB-representation
     
@@ -54501,7 +54497,7 @@ function ultraschall.GetRenderCFG_Settings_WebMVideo(rendercfg)
     <description>
       Returns the settings stored in a render-cfg-string for WEBM_Video.
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -54618,7 +54614,7 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
     <description>
       Returns the settings stored in a render-cfg-string for AVI_Video.
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55201,7 +55197,7 @@ function ultraschall.GetRenderCFG_Settings_MP4Mac_Video(rendercfg)
       Returns the settings stored in a render-cfg-string for MP4 for Mac_Video(stream optimised and non-stream optimised).
       This is Mac-OS only!
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55261,7 +55257,7 @@ function ultraschall.GetRenderCFG_Settings_MOVMac_Video(rendercfg)
       Returns the settings stored in a render-cfg-string for MOV for Mac_Video.
       This is MacOS-only.
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -55333,7 +55329,7 @@ function ultraschall.GetRenderCFG_Settings_M4AMac(rendercfg)
       Returns the settings stored in a render-cfg-string for M4A for Mac_Video(even though this stores only audio-files).
       This is MacOS-only.
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -60020,7 +60016,7 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
     end
   end
   
-  --print2("HÃ¤h?", renderfilename_with_path)
+  --print2("H?", renderfilename_with_path)
 
   if addregionname==true then 
     if addregionnameseparator==nil then addregionnameseparator="" end
@@ -60345,7 +60341,7 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x,
     Lua=5.3
   </requires>
   <functioncall>MediaItem MediaItem, MediaItem_Take MediaItem_Take, MediaItem MediaItem_unlocked, boolean Item_moved, number StartDiffTime, number EndDiffTime, number LengthDiffTime, number OffsetDiffTime = ultraschall.get_action_context_MediaItemDiff(optional boolean exlude_mousecursorsize, optional integer x, optional integer y)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns the currently clicked MediaItem, Take as well as the difference of position, end, length and startoffset since last time calling this function.
     Good for implementing ripple-drag/editing-functions, whose position depends on changes in the currently clicked MediaItem.
     Repeatedly call this (e.g. in a defer-cycle) to get all changes made, during dragging position, length or offset of the MediaItem underneath mousecursor.
@@ -62310,6 +62306,220 @@ function ultraschall.ConvertYCoordsMac2Win(ycoord, height)
   local A,B,C,D
   if height==nil then A,B,C,height=reaper.my_getViewport(0,0,0,0,0,0,0,0,true) end
   return (ycoord-height)*-1
+end
+
+function ultraschall.FindPatternsInString(SourceString, pattern, sort_after_finding)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>FindPatternsInString</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_found_items, array found_items = ultraschall.FindPatternsInString(string SourceString, string pattern, boolean sort_after_finding)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Finds all occurrences of matching-patterns in a string. You can sort them optionally.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer count_found_items - the number of found items in the string; -1, in case of an error
+    array found_items - all occurrences found in the string as an array
+  </retvals>
+  <parameters>
+    string SourceString - the source-string to search for all occurences
+    string pattern - the matching-pattern, with which to search for in the string
+    boolean sort_after_finding - true, sorts the entries; false, doesn't sort the entries
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Analysis
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, find, patterns, string</tags>
+</US_DocBloc>
+--]]
+  if type(SourceString)~="string" then ultraschall.AddErrorMessage("FindPatternsInString", "SourceString", "must be a string", -1) return -1 end
+  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("FindPatternsInString", "pattern", "not a valid matching-pattern", -2) return -1 end
+  if type(sort_after_finding)~="boolean" then ultraschall.AddErrorMessage("FindPatternsInString", "sort_after_finding", "must be a boolean", -3) return -1 end
+  local String={}
+  local counter=1
+  for k in string.gmatch(SourceString, pattern) do
+    String[counter]=k
+    counter=counter+1
+  end
+  
+  if sort_after_finding==true then table.sort(String) end
+  
+  local String2=""
+  for i=1, counter-1 do
+    String2=String2..String[i].."\n"
+  end
+  return counter-1, String, String2
+end
+
+function ultraschall.IsWithinTimeRange(time, start, stop)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsWithinTimeRange</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsWithinTimeRange(number time, number start, number stop)</functioncall>
+  <description>
+    returns if time is between(including) start and stop.
+     
+    returns false in case of an error
+  </description>
+  <parameters>
+    number time - the time in seconds, to check for
+    number start - the starttime in seconds, within to check for
+    number stop - the endtime in seconds, within to check for
+  </parameters>
+  <retvals>
+    boolean retval - true, time is between start and stop; false, it isn't
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, check, is between, start, stop, seconds, time</tags>
+</US_DocBloc>
+--]]
+  time=ultraschall.LimitFractionOfFloat(tonumber(time),5,true)
+  start=ultraschall.LimitFractionOfFloat(tonumber(start),5,true)
+  stop=ultraschall.LimitFractionOfFloat(tonumber(stop),5,true)
+  if time==nil or start==nil or stop==nil then return false end
+  if time>=start and time<=stop then return true else return false end
+end
+
+function ultraschall.GetMediaExplorerHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetMediaExplorerHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetMediaExplorerHWND()</functioncall>
+  <description>
+    returns the HWND of the Media Explorer, if the window is opened.
+    
+    returns nil if Media Explorer is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the Media Explorer
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, media explorer, hwnd, get</tags>
+</US_DocBloc>
+--]]
+
+  local translation=reaper.JS_Localize("Media Explorer", "common")
+  local auto_play=reaper.JS_Localize("Auto play", "explorer_DLG_101")
+  local vol=reaper.JS_Localize("vol", "explorer_DLG_101")
+  local navigate_backwards=reaper.JS_Localize("Navigate backwards", "access")
+
+  
+  --count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find("Render to File", false)
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            auto_play.."\0"..
+                                            vol.."\0"..
+                                            navigate_backwards)==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end 
+
+--A=ultraschall.GetMediaExplorerHWND()
+
+
+function ultraschall.UpdateMediaExplorer()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UpdateMediaExplorer</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.UpdateMediaExplorer()</functioncall>
+  <description>
+    updates the listview of the Media Explorer.
+    
+    returns false if Media Explorer is closed
+  </description>
+  <retvals>
+    boolean retval - true, could update the listview of the Media Explorer; false, couldn't update the listview
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, media explorer, hwnd, update, listview</tags>
+</US_DocBloc>
+--]]
+  local HWND=ultraschall.GetMediaExplorerHWND()
+  if ultraschall.IsValidHWND(HWND)==false then ultraschall.AddErrorMessage("UpdateMediaExplorer", "", "Can't get MediaExplorer-HWND. Is it opened?", -1) return false end
+  return reaper.JS_Window_OnCommand(HWND, 40018)
+end
+
+--ultraschall.UpdateMediaExplorer()
+
+
+function ultraschall.MediaExplorer_OnCommand(actioncommandid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MediaExplorer_OnCommand</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.MediaExplorer_OnCommand(integer actioncommandid)</functioncall>
+  <description>
+    runs a Media Explorer-associated action.
+    Note: Can only run Reaper's native actions currently(all actions having a number as actioncommandid), not scripts!
+    
+    returns false if Media Explorer is closed
+  </description>
+  <retvals>
+    boolean retval - true, could update run the action in the Media Explorer; false, couldn't run it
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, media explorer, hwnd, oncommand, run, command</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.CheckActionCommandIDFormat2(actioncommandid)==false then ultraschall.AddErrorMessage("MediaExplorer_OnCommand", "actioncommandid", "not a valid action-command-id", -1) return false end
+  local HWND=ultraschall.GetMediaExplorerHWND()
+  if ultraschall.IsValidHWND(HWND)==false then ultraschall.AddErrorMessage("MediaExplorer_OnCommand", "", "Can't get MediaExplorer-HWND. Is it opened?", -2) return false end
+  local Actioncommandid=reaper.NamedCommandLookup(actioncommandid)
+  return reaper.JS_Window_OnCommand(HWND, tonumber(Actioncommandid))
 end
 
 ultraschall.ShowLastErrorMessage()
