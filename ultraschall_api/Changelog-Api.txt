@@ -4,6 +4,19 @@
         - TODO!! ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua 
             - check ob die retvals für errors mit der Doku und den retvals in der Doku übereinstimmen. Alle anderen Module sind schon gecheckt.
         - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
+        - TODO!! Docs: parameters sometimes get MarkDown-formatted, though no markdown is given as markup-language..
+                        Huh???
+                        Had this problem with ValidatePtr
+        <parameters>
+            pointer - a pointer to the object to check for. In Lua or Python, you just give the object to check as this parameter.
+            ctypename - the type of project to check for(given as a pointer)
+                -ReaProject*
+                -MediaTrack* 
+                -MediaItem*
+                -MediaItem_Take*
+                -TrackEnvelope*
+                -PCM_source*
+        </parameters>
         - TODO!! XML-generator has problems with spaces and & in filenames; use this to overcome this:
                       tempfile=files_array[i]
                       tempfile2=string.gsub(tempfile, "&", "%%26")
@@ -265,13 +278,8 @@ TODO!! buggy function
 ### 4.00 Beta 2.77: - "Radiohead - Paranoid Android" - 30th of September 2019
  
 #### New features in 4.00beta2.77
-   - Helper Functions: FindPatternsInString - finds all occurrences of a matching-pattern in a string
-   - Helper Functions: IsWithinTimeRange - returns, if a time is within a start and endtime, takes care of the precision-problem time-positions in Lua have
    - EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript
    - MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project
-   - User Interface: GetMediaExplorerHWND - gets the HWND-windowhandler of the Media Explorer
-   - User Interface: UpdateMediaExplorer - updates the listview of the Media Explorer
-   - User Interface: MediaExplorer\_OnCommand - runs an Media Explorer action(just like Reaper's Main\_OnCommand and Midi\_OnCommand-functions); runs no scripts yet, only native/extension actions
 
 #### Changes from Beta 2.761 to Beta 2.77
    - API: functions - moved all functions into modules for future modular-concept
@@ -302,32 +310,45 @@ TODO!! buggy function
 
 ### 4.00 Beta 2.761: - "Coldplay - Fix You" - 23rd of September 2019
 
-Has now 980 functions with 42 new ones!
+Has now 985 functions with 8 new ones!
 
 **IMPORTANT!: This is a massive critical bugfix release. About 60 functions returned wrong returnvalues in case of an error.  
-If you use any of the functions listed in _Changes_, you should check, if your scripts still work.  
-This is totally my fault, as I had some of them wrong to begin with. My apologies for any inconvenience.... :/**  
+If you use any of the functions listed in _Changes from Beta 2.76 to Beta 2.761_, you should check, if your scripts still work.  
+This is totally my fault, as I had some of them wrong to begin with.  
+My apologies for any inconvenience.... :/**  
 
   **New in this release:**
-  
-  - **GetProjectStateChunk**  
-  gets a full StateChunk of the current project(finally working!)  
-  Now you can get all states of your project!  
-  
-  - **ConvertYCoordsMac2Win**  
-  Mac-ycoordinates are different from Windows/Linux, meaning, pixel 0 is at the bottom, while Windows/Linux start on top.  
-  This function converts the y-coordinates between these two coordinate-systems.  
   
   - **Critical Bugfixes**  
   In case of errors, many functions returned wrong returnvalues or had faulty returnvalues stated in the docs. All of them are fixed now.  
   Please check, if your scripts use any of the functions listed in Changes for more details.  
   Hope this is the last time, stuff like that happened...
-
+  
+  - **GetProjectStateChunk**  
+  gets a full StateChunk of the current project(finally working!)  
+  Now you can get all states of your project!  
+  
+  - **MediaExplorer**  
+  Get the HWND(GetMediaExplorerHWND), update the listview(UpdateMediaExplorer) and run an action, associated with the MediaExplorer-section(MediaExplorer\_OnCommand).
+  
+  - **ConvertYCoordsMac2Win**  
+  Y-coordinates on Mac are different from the ones in Windows/Linux, meaning, pixel 0 is at the bottom, while Windows/Linux start on top.  
+  This function converts the y-coordinates between these two coordinate-systems.  
+  
+  - **New version of Config-Vars-displayer-script**
+  Shows changed with doubles without a problem now, is faster, uses the config-var-docs included with the API to get the currently accepted config-vars.
+  I also improved the layout a bit.
+  
 ###New features in 4.00beta2.761
-
+   - Helper functions: FindPatternsInString - finds all occurrences of a matching-pattern in a string
+   - Helper functions: IsWithinTimeRange - returns, if a time is within a start and endtime, takes care of the precision-problem time-positions in Lua have
    - ProjectManagement: GetProjectStateChunk - returns the ProjectStateChunk of the current project(finally working!)
+   - Scripts: ultraschall\_developertool\_Display-Altered-Config-Vars.lua - new version, which solves the faulty-displaying-of-double-issue, faster and improved layout. Uses now ConfigVars-Docfile to read the currently supported ConfigVars.
    - Trackmanagement: IsSplitAtPosition - returns, if a split/mediaitemend/mediaitemstart exists at a certain position, within certain tracks
    - User Interface: ConvertYCoordsMac2Win - converts y-coordinates between Windows/Linux and Mac related coordinatesystems
+   - User Interface: GetMediaExplorerHWND - gets the HWND-windowhandler of the Media Explorer
+   - User Interface: UpdateMediaExplorer - updates the listview of the Media Explorer
+   - User Interface: MediaExplorer\_OnCommand - runs an Media Explorer action(just like Reaper's Main\_OnCommand and Midi\_OnCommand-functions); runs no scripts yet, only native/extension actions
 
 ###Changes from Beta 2.76 to Beta 2.761
 
@@ -346,10 +367,11 @@ This is totally my fault, as I had some of them wrong to begin with. My apologie
    - Configuration Files: EnumerateUSExternalState_key - didn't return the right retval in case of an error -> fixed
    - Configuration Files: EnumerateValuesByPattern - didn't return the right retval in case of an error -> fixed
    - Configuration Files: SetIniFileExternalState - didn't return the right retval in case of an error -> fixed 
+   - Docs: Api-docs - went through all of them and removed MarkDown-issues, though I should do something on this MarkDown-issue. It's a drag...
    - Docs: Doc-Engine - had wrong parameters and retvals in numerous functions...fixed(ooops)
    - Docs: Doc-Engine: Docs_ConvertPlainTextToHTML - was missing html-codes in the description due me encoding it wrong
    - Docs: GetRenderingToFileHWND - had parameters described, that don't exist -> fixed
-   - Docs: Reaper Internals - updated to Reaper 5.982, added configvars from developer-releases
+   - Docs: Reaper Internals - updated to Reaper 5.982, JSextension 0.990 added configvars from developer-releases
    - Docs: Reaper: GetTrackSendInfo_Value - fixed Markdown-formatting-problems
    - Docs: Reaper: print-functions - all print-functions, like sprint, fprint, gfx.printf, etc include now formatting information in the description.
    - Docs: Reaper: SetTrackSendInfo_Value - fixed Markdown-formatting-problems

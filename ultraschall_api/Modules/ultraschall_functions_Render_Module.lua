@@ -931,7 +931,7 @@ function ultraschall.GetRenderCFG_Settings_WebMVideo(rendercfg)
     <description>
       Returns the settings stored in a render-cfg-string for WEBM_Video.
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -970,6 +970,7 @@ function ultraschall.GetRenderCFG_Settings_WebMVideo(rendercfg)
   
   return VidKBPS[1], AudKBPS[1], Width[1], Height[1], FPS, AspectRatio
 end
+
 
 
 
@@ -1048,7 +1049,7 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
     <description>
       Returns the settings stored in a render-cfg-string for AVI_Video.
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -1631,7 +1632,7 @@ function ultraschall.GetRenderCFG_Settings_MP4Mac_Video(rendercfg)
       Returns the settings stored in a render-cfg-string for MP4 for Mac_Video(stream optimised and non-stream optimised).
       This is Mac-OS only!
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -1691,7 +1692,7 @@ function ultraschall.GetRenderCFG_Settings_MOVMac_Video(rendercfg)
       Returns the settings stored in a render-cfg-string for MOV for Mac_Video.
       This is MacOS-only.
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>
@@ -1763,7 +1764,7 @@ function ultraschall.GetRenderCFG_Settings_M4AMac(rendercfg)
       Returns the settings stored in a render-cfg-string for M4A for Mac_Video(even though this stores only audio-files).
       This is MacOS-only.
       
-      You can get this from the current RENDER\_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
+      You can get this from the current RENDER_FORMAT using reaper.GetSetProjectInfo_String or from ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
       
       Returns -1 in case of an error
     </description>

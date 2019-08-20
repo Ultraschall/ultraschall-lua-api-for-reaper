@@ -4446,9 +4446,7 @@ function ultraschall.MKVOL2DB(mkvol_value)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Converts an MKVOL-value into a dB-value.
     
-    MKVOL-values are used by the routing-functions for HWOut/AUXSendReceive, specifically for their volume-value.
-    
-    These can't be converted using Reaper's own DB2SLIDER or SLIDER2DB, so this function should help you.
+    MKVOL-values are used by the routing-functions for HWOut/AUXSendReceive, specifically for their volume-value as these can't be converted using Reaper's own DB2SLIDER or SLIDER2DB, so this function should help you.
     
     This function is an adapted one from the function provided in Plugins/reaper\_www\_root/main.js
     
@@ -4491,9 +4489,7 @@ function ultraschall.DB2MKVOL(db_value)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Converts an dB-value into a MKVOL-value.
     
-    MKVOL-values are used by the routing-functions for HWOut/AUXSendReceive, specifically for their volume-value.
-    
-    These can't be converted using Reaper's own DB2SLIDER or SLIDER2DB, so this function should help you.
+    MKVOL-values are used by the routing-functions for HWOut/AUXSendReceive, specifically for their volume-value as these can't be converted using Reaper's own DB2SLIDER or SLIDER2DB, so this function should help you.
     
     See [MKVOL2DB](#MKVOL2DB) to convert a MKVOL-value into it's dB-representation
     
@@ -4517,6 +4513,7 @@ function ultraschall.DB2MKVOL(db_value)
   if type(db_value)~="number" then ultraschall.AddErrorMessage("DB2MKVOL", "db_value", "must be a number" ,-1) return nil end
   return math.exp(db_value/8.68588963806)
 end
+
 
 runcommand=ultraschall.RunCommand
 
@@ -5194,7 +5191,7 @@ end
 
 
 function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x, y)
--- TODO: nice to have feature: when mouse is above crossfades between two adjacent items, return this state as well as a boolean
+-- TODO:: nice to have feature: when mouse is above crossfades between two adjacent items, return this state as well as a boolean
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>get_action_context_MediaItemDiff</slug>
@@ -5213,8 +5210,6 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x,
     This is a workaround, as the mouse-cursor changes to dragging and can still affect the MediaItem, even though the mouse at this position isn't above a MediaItem anymore.
     To be more strict, set exlude_mousecursorsize to true. That means, it will only detect MediaItems directly beneath the mousecursor. If the mouse isn't above a MediaItem, this function will ignore it, even if the mouse could still affect the MediaItem.
     If you don't understand, what that means: simply omit exlude_mousecursorsize, which should work in almost all use-cases. If it doesn't work as you want, try setting it to true and see, whether it works now.    
-    
-    returns nil in case of an error
   </description>
   <retvals>
     MediaItem MediaItem - the MediaItem at the current mouse-position; nil if not found
@@ -5427,47 +5422,167 @@ end
 
 --A,B=ultraschall.GetAllActions(0)
 
-
-function ultraschall.GetRecCounter()
+function ultraschall.IsWithinTimeRange(time, start, stop)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetRecCounter</slug>
+  <slug>IsWithinTimeRange</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.981
+    Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>integer highest_item_reccount = ultraschall.GetRecCounter()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Takes the RECPASS-counters of all items and takes and returns the highest one, which usually means, the number of items, who have been recorded since the project has been created.
-    
-    Note: a RECPASS-entry can also be part of a copy of a recorded item, so multiple items/takes can share the same RECPASS-entries.
+  <functioncall>boolean retval = ultraschall.IsWithinTimeRange(number time, number start, number stop)</functioncall>
+  <description>
+    returns if time is between(including) start and stop.
      
-    returns -1 if no recorded item/take has been found.
+    returns false in case of an error
   </description>
+  <parameters>
+    number time - the time in seconds, to check for
+    number start - the starttime in seconds, within to check for
+    number stop - the endtime in seconds, within to check for
+  </parameters>
   <retvals>
-    integer highest_item_reccount - the highest reccount of all MediaItems, which usually means, that so many Items have been recorded in this project
+    boolean retval - true, time is between start and stop; false, it isn't
   </retvals>
   <chapter_context>
     API-Helper functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, count, all, mediaitem, take, recpass, counter</tags>
+  <tags>helper functions, check, is between, start, stop, seconds, time</tags>
 </US_DocBloc>
 --]]
-  local String=""
-  local recpass=-1
-  local found=0
-  for i=0, reaper.CountTracks()-1 do
-    local retval, str = reaper.GetTrackStateChunk(reaper.GetTrack(0,i), "", false)
-    String=String.."\n"..str
-  end
-  for k in string.gmatch(String, "RECPASS (.-)\n") do
-    found=found+1
-    if recpass<tonumber(k) then 
-      recpass=tonumber(k)
-    end
- end
- return recpass, found
+  time=ultraschall.LimitFractionOfFloat(tonumber(time),5,true)
+  start=ultraschall.LimitFractionOfFloat(tonumber(start),5,true)
+  stop=ultraschall.LimitFractionOfFloat(tonumber(stop),5,true)
+  if time==nil or start==nil or stop==nil then return false end
+  if time>=start and time<=stop then return true else return false end
 end
+
+function ultraschall.MediaExplorer_OnCommand(actioncommandid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MediaExplorer_OnCommand</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.MediaExplorer_OnCommand(integer actioncommandid)</functioncall>
+  <description>
+    runs a Media Explorer-associated action.
+    Note: Can only run Reaper's native actions currently(all actions having a number as actioncommandid), not scripts!
+    
+    returns false if Media Explorer is closed
+  </description>
+  <retvals>
+    boolean retval - true, could update run the action in the Media Explorer; false, couldn't run it
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, media explorer, hwnd, oncommand, run, command</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.CheckActionCommandIDFormat2(actioncommandid)==false then ultraschall.AddErrorMessage("MediaExplorer_OnCommand", "actioncommandid", "not a valid action-command-id", -1) return false end
+  local HWND=ultraschall.GetMediaExplorerHWND()
+  if ultraschall.IsValidHWND(HWND)==false then ultraschall.AddErrorMessage("MediaExplorer_OnCommand", "", "Can't get MediaExplorer-HWND. Is it opened?", -2) return false end
+  local Actioncommandid=reaper.NamedCommandLookup(actioncommandid)
+  return reaper.JS_Window_OnCommand(HWND, tonumber(Actioncommandid))
+end
+
+function ultraschall.UpdateMediaExplorer()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>UpdateMediaExplorer</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.UpdateMediaExplorer()</functioncall>
+  <description>
+    updates the listview of the Media Explorer.
+    
+    returns false if Media Explorer is closed
+  </description>
+  <retvals>
+    boolean retval - true, could update the listview of the Media Explorer; false, couldn't update the listview
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, media explorer, hwnd, update, listview</tags>
+</US_DocBloc>
+--]]
+  local HWND=ultraschall.GetMediaExplorerHWND()
+  if ultraschall.IsValidHWND(HWND)==false then ultraschall.AddErrorMessage("UpdateMediaExplorer", "", "Can't get MediaExplorer-HWND. Is it opened?", -1) return false end
+  return reaper.JS_Window_OnCommand(HWND, 40018)
+end
+
+function ultraschall.FindPatternsInString(SourceString, pattern, sort_after_finding)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>FindPatternsInString</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_found_items, array found_items = ultraschall.FindPatternsInString(string SourceString, string pattern, boolean sort_after_finding)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Finds all occurrences of matching-patterns in a string. You can sort them optionally.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer count_found_items - the number of found items in the string; -1, in case of an error
+    array found_items - all occurrences found in the string as an array
+  </retvals>
+  <parameters>
+    string SourceString - the source-string to search for all occurences
+    string pattern - the matching-pattern, with which to search for in the string
+    boolean sort_after_finding - true, sorts the entries; false, doesn't sort the entries
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Analysis
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, find, patterns, string</tags>
+</US_DocBloc>
+--]]
+  if type(SourceString)~="string" then ultraschall.AddErrorMessage("FindPatternsInString", "SourceString", "must be a string", -1) return -1 end
+  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("FindPatternsInString", "pattern", "not a valid matching-pattern", -2) return -1 end
+  if type(sort_after_finding)~="boolean" then ultraschall.AddErrorMessage("FindPatternsInString", "sort_after_finding", "must be a boolean", -3) return -1 end
+  local String={}
+  local counter=1
+  for k in string.gmatch(SourceString, pattern) do
+    String[counter]=k
+    counter=counter+1
+  end
+  
+  if sort_after_finding==true then table.sort(String) end
+  
+  local String2=""
+  for i=1, counter-1 do
+    String2=String2..String[i].."\n"
+  end
+  return counter-1, String, String2
+end
+
+--O,P,Q = ultraschall.FindPatternsInString(A, "<slug>(.-)</slug>", false)
+
+
+
+--ultraschall.UpdateMediaExplorer()

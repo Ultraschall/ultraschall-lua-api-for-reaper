@@ -2972,3 +2972,54 @@ function ultraschall.ConvertYCoordsMac2Win(ycoord, height)
   if height==nil then A,B,C,height=reaper.my_getViewport(0,0,0,0,0,0,0,0,true) end
   return (ycoord-height)*-1
 end
+
+function ultraschall.GetMediaExplorerHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetMediaExplorerHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetMediaExplorerHWND()</functioncall>
+  <description>
+    returns the HWND of the Media Explorer, if the window is opened.
+    
+    returns nil if Media Explorer is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the Media Explorer
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, media explorer, hwnd, get</tags>
+</US_DocBloc>
+--]]
+
+  local translation=reaper.JS_Localize("Media Explorer", "common")
+  local auto_play=reaper.JS_Localize("Auto play", "explorer_DLG_101")
+  local vol=reaper.JS_Localize("vol", "explorer_DLG_101")
+  local navigate_backwards=reaper.JS_Localize("Navigate backwards", "access")
+
+  
+  --count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find("Render to File", false)
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            auto_play.."\0"..
+                                            vol.."\0"..
+                                            navigate_backwards)==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end 
+
+--A=ultraschall.GetMediaExplorerHWND()

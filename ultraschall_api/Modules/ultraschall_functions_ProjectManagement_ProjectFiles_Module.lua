@@ -4610,7 +4610,7 @@ function ultraschall.SetProject_GroupOverride(projectfilename_with_path, group_o
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path, optional string ProjectStateChunk - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
     integer group_override1 - the group-override state
     integer group_override2 - the group-override state
     integer group_override3 - the group-override state
@@ -4621,7 +4621,7 @@ function ultraschall.SetProject_GroupOverride(projectfilename_with_path, group_o
     optional string ProjectStateChunk - the altered ProjectStateChunk
   </retvals>
   <chapter_context>
-    Project-Management
+    Project-Files
     RPP-Files Set
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>

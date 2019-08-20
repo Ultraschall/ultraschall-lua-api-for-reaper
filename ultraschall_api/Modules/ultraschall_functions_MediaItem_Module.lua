@@ -4808,3 +4808,49 @@ end
 --ultraschall.CopyMediaItemToDestinationTrack(reaper.GetMediaItem(0,0), reaper.GetTrack(0,2), -10)
 
 
+function ultraschall.IsSplitAtPosition(trackstring, position)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsSplitAtPosition</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsSplitAtPosition(string trackstring, number position)</functioncall>
+  <description>
+    returns, if theres at least one split, MediaItemend or MediaItemstart at position within the tracks given in trackstring.
+     
+    returns false in case of an error
+  </description>
+  <parameters>
+    string trackstring - the tracknumbers, within to search for, as comma separated string. Starting 1 for the first track.
+    number position - the position, at which to check for.
+  </parameters>
+  <retvals>
+    boolean retval - true, there's a split/mediaitemend/mediaitemstart at position; false, it isn't
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitem management, get, split, at position, seconds, mediaitem, mediaitemstart, mediaitemend</tags>
+</US_DocBloc>
+--]]
+  if type(trackstring)~="string" then ultraschall.AddErrorMessage("IsSplitAtPosition", "trackstring", "must be a valid trackstring", -1) return false end
+  if type(position)~="number" then ultraschall.AddErrorMessage("IsSplitAtPosition", "number", "must be a number", -2) return false end
+  local valid, count, individual_tracknumbers = ultraschall.IsValidTrackString(trackstring)
+            
+  if valid==false then ultraschall.AddErrorMessage("IsSplitAtPosition", "trackstring", "no valid trackstring", -3) return false end
+  local count2, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(position-1, position+1, trackstring, false)
+  position=ultraschall.LimitFractionOfFloat(position, 9, true)
+  for i=1, count2 do
+    local pos=ultraschall.LimitFractionOfFloat(reaper.GetMediaItemInfo_Value(MediaItemArray[i], "D_POSITION"), 9, true)
+    local len=ultraschall.LimitFractionOfFloat(reaper.GetMediaItemInfo_Value(MediaItemArray[i], "D_LENGTH"), 9, true)
+    if pos==position then return true end
+  end
+  return false
+end
+

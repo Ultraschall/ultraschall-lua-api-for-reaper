@@ -703,7 +703,7 @@ function ultraschall.ChangeColorContrast(r, g, b, Minimum_r, Maximum_r, Minimum_
     The lower you set Minimum/Maximum, the darker it becomes; the higher, the brighter it becomes.
     The farther away Minimum is from Maximum, the stronger the contrast becomes; the closer Minimum is to Maximum, the weaker the contrast becomes.
     
-    If you only set Minimum_r and Maximum_r, then these values will be applied to g and b too.
+    If you only set Minimum\_r and Maximum\_r, then these values will be applied to g and b too.
     
     If you omit/set to nil a Maximum-value; it's default value will be 255.
     

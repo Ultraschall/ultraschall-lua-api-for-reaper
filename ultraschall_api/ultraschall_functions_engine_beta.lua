@@ -974,60 +974,6 @@ end
 --P=#O
 
 
-function ultraschall.FindPatternsInString(SourceString, pattern, sort_after_finding)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>FindPatternsInString</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.975
-    Lua=5.3
-  </requires>
-  <functioncall>integer count_found_items, array found_items = ultraschall.FindPatternsInString(string SourceString, string pattern, boolean sort_after_finding)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Finds all occurrences of matching-patterns in a string. You can sort them optionally.
-    
-    returns -1 in case of an error
-  </description>
-  <retvals>
-    integer count_found_items - the number of found items in the string; -1, in case of an error
-    array found_items - all occurrences found in the string as an array
-  </retvals>
-  <parameters>
-    string SourceString - the source-string to search for all occurences
-    string pattern - the matching-pattern, with which to search for in the string
-    boolean sort_after_finding - true, sorts the entries; false, doesn't sort the entries
-  </parameters>
-  <chapter_context>
-    API-Helper functions
-    Data Analysis
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, find, patterns, string</tags>
-</US_DocBloc>
---]]
-  if type(SourceString)~="string" then ultraschall.AddErrorMessage("FindPatternsInString", "SourceString", "must be a string", -1) return -1 end
-  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("FindPatternsInString", "pattern", "not a valid matching-pattern", -2) return -1 end
-  if type(sort_after_finding)~="boolean" then ultraschall.AddErrorMessage("FindPatternsInString", "sort_after_finding", "must be a boolean", -3) return -1 end
-  local String={}
-  local counter=1
-  for k in string.gmatch(SourceString, pattern) do
-    String[counter]=k
-    counter=counter+1
-  end
-  
-  if sort_after_finding==true then table.sort(String) end
-  
-  local String2=""
-  for i=1, counter-1 do
-    String2=String2..String[i].."\n"
-  end
-  return counter-1, String, String2
-end
-
---O,P,Q = ultraschall.FindPatternsInString(A, "<slug>(.-)</slug>", false)
-
 function ultraschall.TracksToColorPattern(colorpattern, startingcolor, direction)
 end
 
@@ -1083,164 +1029,7 @@ end
 
 --ultraschall.GetAllTrackHeights()
 
-ultraschall.LastProjectStateChunk_Time=reaper.time_precise()
 
-function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>GetProjectStateChunk</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.975
-      SWS=2.10.0.1
-      JS=0.972
-      Lua=5.3
-    </requires>
-    <functioncall>string ProjectStateChunk = ultraschall.GetProjectStateChunk(optional string projectfilename_with_path, optional boolean keepqrender)</functioncall>
-    <description>
-      Gets the ProjectStateChunk of the current active project or a projectfile.
-      
-      Important: when calling it too often in a row, this might fail and result in a timeout-error. 
-      I tried to circumvent this, but best practice is to wait 2-3 seconds inbetween calling this function.
-      This function also eats up a lot of resources, so be sparse with it in general!
-      
-      returns nil if getting the ProjectStateChunk took too long
-    </description>
-    <retvals>
-      string ProjectStateChunk - the ProjectStateChunk of the current project; nil, if getting the ProjectStateChunk took too long
-    </retvals>
-    <parameters>
-      optional string projectfilename_with_path - the filename of an rpp-projectfile, that you want to load as ProjectStateChunk; nil, to get the ProjectStateChunk from the currently active project
-      optional boolean keepqrender - true, keeps the QUEUED_RENDER_OUTFILE and QUEUED_RENDER_ORIGINAL_FILENAME entries in the ProjectStateChunk, if existing; false or nil, remove them
-    </parameters>
-    <chapter_context>
-      Project-Files
-      Helper functions
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>projectmanagement, get, projectstatechunk</tags>
-  </US_DocBloc>
-  ]]  
-    
-  -- This function puts the current project into the render-queue and reads it from there.
-  -- For that, 
-  --    1) it gets all files in the render-queue
-  --    2) it adds the current project to the renderqueue
-  --    3) it waits, until Reaper has added the file to the renderqueue, reads it and deletes the file afterwards
-  -- It also deals with edge-case-stuff to avoid render-dialogs/warnings popping up.
-  --
-  -- In Lua, this has an issue, as sometimes the filelist with EnumerateFiles isn't updated in ReaScript.
-  -- Why that is is mysterious. I hope, it can be curcumvented in C++
-
-
-  -- if a filename is given, read the file and check, whether it's a valid ProjectStateChunk. 
-  -- If yes, return it. Otherwise error.
-  local ProjectStateChunk
-  if projectfilename_with_path~=nil then 
-    ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path)
-    if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProjectStateChunk", "projectfilename_with_path", "must be a valid ReaProject or nil", -1) return nil end
-    return ProjectStateChunk
-  end
-  
-  if ultraschall.LastProjectStateChunk_Time+3>=reaper.time_precise() then
-    local i=0
-    while l==nil do
-      i=i+1
-      if i==10000000
-      then break end
-    end
-  end
-  
-  ultraschall.LastProjectStateChunk_Time=reaper.time_precise()
-  
-  -- get the currently focused hwnd; will be restored after function is done
-  -- this is due Reaper changing the focused hwnd, when adding projects to the render-queue
-  local oldfocushwnd = reaper.JS_Window_GetFocus()
-      
-  -- turn off renderqdelay temporarily, as otherwise this could display a render-queue-delay dialog
-  -- old setting will be restored later
-  local qretval, qlength = ultraschall.GetRender_QueueDelay()
-  local retval = ultraschall.SetRender_QueueDelay(false, qlength)
-      
-  -- turn on auto-increment filename temporarily, to avoid the "filename already exists"-dialog popping up
-  -- old setting will be restored later
-  local old_autoincrement = ultraschall.GetRender_AutoIncrementFilename()
-  ultraschall.SetRender_AutoIncrementFilename(true)  
-  
-  -- get all filenames currently in the render-queue
-  local oldbounds, oldstartpos, oldendpos, prep_changes, files, files2, filecount, filecount2    
-  filecount, files = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."\\QueuedRenders")
-      
-  -- if Projectlength=0 or CountofTracks==0, set render-settings for empty projects(workaround for that edgecase)
-  -- old settings will be restored later
-  if reaper.CountTracks()==0 or reaper.GetProjectLength()==0 then
-    -- get old settings
-    oldbounds   =reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", 0, false)
-    oldstartpos =reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", 0, false)
-    oldendpos   =reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", 1, false)  
-       
-    -- set useful defaults that'll make adding the project to the render-queue possible always
-    reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", 0, true)
-    reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", 0, true)
-    reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", 1, true)
-    
-    -- set prep_changes to true, so we know, we need to reset these settings, later
-    prep_changes=true
-  end
-      
-  -- add current project to render-queue
-  reaper.Main_OnCommand(41823,0)
-     
-  -- wait, until Reaper has added the project to the render-queue and get it's filename
-  -- 
-  -- there's a timeout, to avoid hanging scripts, as ReaScript doesn't always update it's filename-lists
-  -- gettable using reaper.EnumerateFiles(which I'm using in GetAllFilenamesInPath)
-  --
-  -- other workarounds, using ls/dir in console is too slow and has possible problems with filenames 
-  -- containing Unicode
-  local i=0
-  while l==nil do
-    i=i+1
-    filecount2, files2 = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."\\QueuedRenders")
-    if filecount2~=filecount then 
-      break 
-    end
-    if i==100000--00
-      then ultraschall.AddErrorMessage("GetProjectStateChunk", "", "timeout: Getting the ProjectStateChunk took too long for some reasons, please report this as bug to me and include the projectfile with which this happened!", -2) return end
-  end
-  local duplicate_count, duplicate_array, originalscount_array1, originals_array1, originalscount_array2, originals_array2 = ultraschall.GetDuplicatesFromArrays(files, files2)
-
-   -- read found render-queued-project and delete it
-  local ProjectStateChunk=ultraschall.ReadFullFile(originals_array2[1])
-  os.remove(originals_array2[1])
-  
-  -- reset temporarily changed settings in the current project, as well as in the ProjectStateChunk itself
-  if prep_changes==true then
-    reaper.GetSetProjectInfo(0, "RENDER_BOUNDSFLAG", oldbounds, true)
-    reaper.GetSetProjectInfo(0, "RENDER_STARTPOS", oldstartpos, true)
-    reaper.GetSetProjectInfo(0, "RENDER_ENDPOS", oldendpos, true)
-    retval, ProjectStateChunk = ultraschall.SetProject_RenderRange(nil, math.floor(oldbounds), math.floor(oldstartpos), math.floor(oldendpos), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILFLAG", 0, false)), math.floor(reaper.GetSetProjectInfo(0, "RENDER_TAILMS", 0, false)), ProjectStateChunk)
-  end
-      
-  -- remove QUEUED_RENDER_ORIGINAL_FILENAME and QUEUED_RENDER_OUTFILE-entries, if keepqrender==true
-  if keepqrender~=true then
-    ProjectStateChunk=string.gsub(ProjectStateChunk, "  QUEUED_RENDER_OUTFILE .-%c", "")
-    ProjectStateChunk=string.gsub(ProjectStateChunk, "  QUEUED_RENDER_ORIGINAL_FILENAME .-%c", "")
-  end
-      
-  -- reset old auto-increment-checkbox-state
-  ultraschall.SetRender_AutoIncrementFilename(old_autoincrement)
-      
-  -- reset old hwnd-focus-state 
-  reaper.JS_Window_SetFocus(oldfocushwnd)
-  
-  -- restore old render-qdelay-setting
-  retval = ultraschall.SetRender_QueueDelay(qretval, qlength)
-  
-  -- return the final ProjectStateChunk
-  return ProjectStateChunk
-end
 
 --[[
 A=ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender)
@@ -1308,213 +1097,58 @@ function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
   end
 end
 
-function ultraschall.GetMediaExplorerHWND()
+
+
+
+
+
+
+
+function ultraschall.GetRecCounter()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetMediaExplorerHWND</slug>
+  <slug>GetRecCounter</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.965
-    JS=0.963
+    Reaper=5.981
     Lua=5.3
   </requires>
-  <functioncall>HWND hwnd = ultraschall.GetMediaExplorerHWND()</functioncall>
-  <description>
-    returns the HWND of the Media Explorer, if the window is opened.
+  <functioncall>integer highest_item_reccount = ultraschall.GetRecCounter()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Takes the RECPASS-counters of all items and takes and returns the highest one, which usually means, the number of items, who have been recorded since the project has been created.
     
-    returns nil if Media Explorer is closed
-  </description>
-  <retvals>
-    HWND hwnd - the window-handler of the Media Explorer
-  </retvals>
-  <chapter_context>
-    User Interface
-    Reaper-Windowhandler
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, window, media explorer, hwnd, get</tags>
-</US_DocBloc>
---]]
-
-  local translation=reaper.JS_Localize("Media Explorer", "common")
-  local auto_play=reaper.JS_Localize("Auto play", "explorer_DLG_101")
-  local vol=reaper.JS_Localize("vol", "explorer_DLG_101")
-  local navigate_backwards=reaper.JS_Localize("Navigate backwards", "access")
-
-  
-  --count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find("Render to File", false)
-  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
-  if count_hwnds==0 then return nil
-  else
-    for i=count_hwnds, 1, -1 do
-      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
-                                            auto_play.."\0"..
-                                            vol.."\0"..
-                                            navigate_backwards)==true then return hwnd_array[i] end
-    end
-  end
-  return nil
-end 
-
---A=ultraschall.GetMediaExplorerHWND()
-
-
-function ultraschall.UpdateMediaExplorer()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>UpdateMediaExplorer</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.965
-    JS=0.963
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = ultraschall.UpdateMediaExplorer()</functioncall>
-  <description>
-    updates the listview of the Media Explorer.
-    
-    returns false if Media Explorer is closed
-  </description>
-  <retvals>
-    boolean retval - true, could update the listview of the Media Explorer; false, couldn't update the listview
-  </retvals>
-  <chapter_context>
-    User Interface
-    Reaper-Windowhandler
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, window, media explorer, hwnd, update, listview</tags>
-</US_DocBloc>
---]]
-  local HWND=ultraschall.GetMediaExplorerHWND()
-  if ultraschall.IsValidHWND(HWND)==false then ultraschall.AddErrorMessage("UpdateMediaExplorer", "", "Can't get MediaExplorer-HWND. Is it opened?", -1) return false end
-  return reaper.JS_Window_OnCommand(HWND, 40018)
-end
-
---ultraschall.UpdateMediaExplorer()
-
-
-function ultraschall.MediaExplorer_OnCommand(actioncommandid)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>MediaExplorer_OnCommand</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.965
-    JS=0.963
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = ultraschall.MediaExplorer_OnCommand(integer actioncommandid)</functioncall>
-  <description>
-    runs a Media Explorer-associated action.
-    Note: Can only run Reaper's native actions currently(all actions having a number as actioncommandid), not scripts!
-    
-    returns false if Media Explorer is closed
-  </description>
-  <retvals>
-    boolean retval - true, could update run the action in the Media Explorer; false, couldn't run it
-  </retvals>
-  <chapter_context>
-    User Interface
-    Reaper-Windowhandler
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>user interface, window, media explorer, hwnd, oncommand, run, command</tags>
-</US_DocBloc>
---]]
-  if ultraschall.CheckActionCommandIDFormat2(actioncommandid)==false then ultraschall.AddErrorMessage("MediaExplorer_OnCommand", "actioncommandid", "not a valid action-command-id", -1) return false end
-  local HWND=ultraschall.GetMediaExplorerHWND()
-  if ultraschall.IsValidHWND(HWND)==false then ultraschall.AddErrorMessage("MediaExplorer_OnCommand", "", "Can't get MediaExplorer-HWND. Is it opened?", -2) return false end
-  local Actioncommandid=reaper.NamedCommandLookup(actioncommandid)
-  return reaper.JS_Window_OnCommand(HWND, tonumber(Actioncommandid))
-end
-
-
-function ultraschall.IsWithinTimeRange(time, start, stop)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>IsWithinTimeRange</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.965
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = ultraschall.IsWithinTimeRange(number time, number start, number stop)</functioncall>
-  <description>
-    returns if time is between(including) start and stop.
+    Note: a RECPASS-entry can also be part of a copy of a recorded item, so multiple items/takes can share the same RECPASS-entries.
      
-    returns false in case of an error
+    returns -1 if no recorded item/take has been found.
   </description>
-  <parameters>
-    number time - the time in seconds, to check for
-    number start - the starttime in seconds, within to check for
-    number stop - the endtime in seconds, within to check for
-  </parameters>
   <retvals>
-    boolean retval - true, time is between start and stop; false, it isn't
+    integer highest_item_reccount - the highest reccount of all MediaItems, which usually means, that so many Items have been recorded in this project
   </retvals>
   <chapter_context>
     API-Helper functions
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, check, is between, start, stop, seconds, time</tags>
+  <tags>helper functions, count, all, mediaitem, take, recpass, counter</tags>
 </US_DocBloc>
 --]]
-  time=ultraschall.LimitFractionOfFloat(tonumber(time),5,true)
-  start=ultraschall.LimitFractionOfFloat(tonumber(start),5,true)
-  stop=ultraschall.LimitFractionOfFloat(tonumber(stop),5,true)
-  if time==nil or start==nil or stop==nil then return false end
-  if time>=start and time<=stop then return true else return false end
+  local String=""
+  local recpass=-1
+  local found=0
+  for i=0, reaper.CountTracks()-1 do
+    local retval, str = reaper.GetTrackStateChunk(reaper.GetTrack(0,i), "", false)
+    String=String.."\n"..str
+  end
+  for k in string.gmatch(String, "RECPASS (.-)\n") do
+    found=found+1
+    if recpass<tonumber(k) then 
+      recpass=tonumber(k)
+    end
+ end
+ return recpass, found
 end
 
-function ultraschall.IsSplitAtPosition(trackstring, position)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>IsSplitAtPosition</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.965
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = ultraschall.IsSplitAtPosition(string trackstring, number position)</functioncall>
-  <description>
-    returns, if theres at least one split, MediaItemend or MediaItemstart at position within the tracks given in trackstring.
-     
-    returns false in case of an error
-  </description>
-  <parameters>
-    string trackstring - the tracknumbers, within to search for, as comma separated string. Starting 1 for the first track.
-    number position - the position, at which to check for.
-  </parameters>
-  <retvals>
-    boolean retval - true, there's a split/mediaitemend/mediaitemstart at position; false, it isn't
-  </retvals>
-  <chapter_context>
-    MediaItem Management
-    Assistance functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>mediaitem management, get, split, at position, seconds, mediaitem, mediaitemstart, mediaitemend</tags>
-</US_DocBloc>
---]]
-  if type(trackstring)~="string" then ultraschall.AddErrorMessage("IsSplitAtPosition", "trackstring", "must be a valid trackstring", -1) return false end
-  if type(position)~="number" then ultraschall.AddErrorMessage("IsSplitAtPosition", "number", "must be a number", -2) return false end
-  local valid, count, individual_tracknumbers = ultraschall.IsValidTrackString(trackstring)
-            
-  if valid==false then ultraschall.AddErrorMessage("IsSplitAtPosition", "trackstring", "no valid trackstring", -3) return false end
-  local count2, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllMediaItemsBetween(position-1, position+1, trackstring, false)
-  position=ultraschall.LimitFractionOfFloat(position, 9, true)
-  for i=1, count2 do
-    local pos=ultraschall.LimitFractionOfFloat(reaper.GetMediaItemInfo_Value(MediaItemArray[i], "D_POSITION"), 9, true)
-    local len=ultraschall.LimitFractionOfFloat(reaper.GetMediaItemInfo_Value(MediaItemArray[i], "D_LENGTH"), 9, true)
-    if pos==position then return true end
-  end
-  return false
-end
+
+
 
 ultraschall.ShowLastErrorMessage()
