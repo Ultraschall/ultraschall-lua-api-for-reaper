@@ -278,9 +278,12 @@ TODO!! buggy function
 ### 4.00 Beta 2.77: - "Radiohead - Paranoid Android" - 30th of September 2019
  
 #### New features in 4.00beta2.77
+   - Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point
    - EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript
+   - MediaItem Management: GetMediaItem_ClickState - returns the currently clicked MediaItem
    - MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project
-
+   - Project Management: GetTimeByMouseXPosition - returns projecttime at x-screenposition
+   
 #### Changes from Beta 2.761 to Beta 2.77
    - API: functions - moved all functions into modules for future modular-concept
    - Configuration Files: GetKBIniKeys - enhanced description for osc
