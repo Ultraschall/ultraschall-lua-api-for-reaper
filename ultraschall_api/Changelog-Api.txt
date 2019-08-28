@@ -288,6 +288,7 @@ TODO!! buggy function
    - API: functions - moved all functions into modules for future modular-concept
    - Configuration Files: GetKBIniKeys - enhanced description for osc
    - Configuration Files: SetKBIniKeys - enhanced description for osc
+   - Docs: Reaper Internals - updated to Reaper 5.983
    - Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTimeString\_hh\_mm\_ss\_mss - moved to docs-index API-Helper functions -> Data Manipulation
