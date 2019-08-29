@@ -1733,4 +1733,175 @@ end
 
 --ultraschall.ShowAutomationItemMenu(100,200, nil, 1, HWNDParent)
 
+
+function ultraschall.SetLiceCapExe(PathToLiceCapExecutable)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetLiceCapExe</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetLiceCapExe(string PathToLiceCapExecutable)</functioncall>
+  <description>
+    Sets the path and filename of the LiceCap-executable
+
+    Note: Doesn't work on Linux, as there isn't a Linux-port of LiceCap yet.
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    string SetLiceCapExe - the LiceCap-executable with path
+  </parameters>
+  <retvals>
+    boolean retval - false in case of error; true in case of success
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Set
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, set, licecap, executable</tags>
+</US_DocBloc>
+]]  
+  if type(PathToLiceCapExecutable)~="string" then ultraschall.AddErrorMessage("SetLiceCapExe", "PathToLiceCapExecutable", "Must be a string", -1) return false end
+  if reaper.file_exists(PathToLiceCapExecutable)==false then ultraschall.AddErrorMessage("SetLiceCapExe", "PathToLiceCapExecutable", "file not found", -2) return false end
+  local A,B=reaper.BR_Win32_WritePrivateProfileString("REAPER", "licecap_path", PathToLiceCapExecutable, reaper.get_ini_file())
+  return A
+end
+
+--O=ultraschall.SetLiceCapExe("c:\\Program Files (x86)\\LICEcap\\LiceCap.exe")
+
+function ultraschall.SetupLiceCap(output_filename, title, titlems, x, y, right, bottom, fps, gifloopcount, stopafter, prefs)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetupLiceCap</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    SWS=2.9.7
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetupLiceCap(string output_filename, string title, integer titlems, integer x, integer y, integer right, integer bottom, integer fps, integer gifloopcount, integer stopafter, integer prefs)</functioncall>
+  <description>
+    Sets up an installed LiceCap-instance.
+    
+    To choose the right LiceCap-version, run the action 41298 - Run LICEcap (animated screen capture utility)
+    
+    Note: Doesn't work on Linux, as there isn't a Linux-port of LiceCap yet.
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    string output_filename - the output-file; you can choose whether it shall be a gif or an lcf by giving it the accompanying extension "mylice.gif" or "milice.lcf"; nil, keep the current outputfile
+    string title - the title, which shall be shown at the beginning of the licecap; newlines will be exchanged by spaces, as LiceCap doesn't really support newlines; nil, keep the current title
+    integer titlems - how long shall the title be shown, in milliseconds; nil, keep the current setting
+    integer x - the x-position of the LiceCap-window in pixels; nil, keep the current setting
+    integer y - the y-position of the LiceCap-window in pixels; nil, keep the current setting
+    integer right - the right side-position of the LiceCap-window in pixels; nil, keep the current setting
+    integer bottom - the bottom-position of the LiceCap-window in pixels; nil, keep the current setting
+    integer fps - the maximum frames per seconds, the LiceCap shall have; nil, keep the current setting
+    integer gifloopcount - how often shall the gif be looped?; 0, infinite looping; nil, keep the current setting
+    integer stopafter - stop recording after xxx milliseconds; nil, keep the current setting
+    integer prefs - the preferences-settings of LiceCap, which is a bitfield; nil, keep the current settings
+                  - &1 - display in animation: title frame - checkbox
+                  - &2 - Big font - checkbox
+                  - &4 - display in animation: mouse button press - checkbox
+                  - &8 - display in animation: elapsed time - checkbox
+                  - &16 - Ctrl+Alt+P pauses recording - checkbox
+                  - &32 - Use .GIF transparency for smaller files - checkbox
+                  - &64 - Automatically stop after xx seconds - checkbox           
+  </parameters>
+  <retvals>
+    boolean retval - false in case of error; true in case of success
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Set
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, licecap, setup</tags>
+</US_DocBloc>
+]]  
+  if output_filename~=nil and type(output_filename)~="string" then ultraschall.AddErrorMessage("SetupLiceCap", "output_filename", "Must be a string", -2) return false end
+  if title~=nil and type(title)~="string" then ultraschall.AddErrorMessage("SetupLiceCap", "title", "Must be a string", -3) return false end
+  if titlems~=nil and math.type(titlems)~="integer" then ultraschall.AddErrorMessage("SetupLiceCap", "titlems", "Must be an integer", -4) return false end
+  if x~=nil and math.type(x)~="integer" then ultraschall.AddErrorMessage("SetupLiceCap", "x", "Must be an integer", -5) return false end
+  if y~=nil and math.type(y)~="integer" then ultraschall.AddErrorMessage("SetupLiceCap", "y", "Must be an integer", -6) return false end
+  if right~=nil and math.type(right)~="integer" then ultraschall.AddErrorMessage("SetupLiceCap", "right", "Must be an integer", -7) return false end
+  if bottom~=nil and math.type(bottom)~="integer" then ultraschall.AddErrorMessage("SetupLiceCap", "bottom", "Must be an integer", -8) return false end
+  if fps~=nil and math.type(fps)~="integer" then ultraschall.AddErrorMessage("SetupLiceCap", "fps", "Must be an integer", -9) return false end
+  if gifloopcount~=nil and math.type(gifloopcount)~="integer" then ultraschall.AddErrorMessage("SetupLiceCap", "gifloopcount", "Must be an integer", -10) return false end
+  if stopafter~=nil and math.type(stopafter)~="integer" then ultraschall.AddErrorMessage("SetupLiceCap", "stopafter", "Must be an integer", -11) return false end
+  if prefs~=nil and math.type(prefs)~="integer" then ultraschall.AddErrorMessage("SetupLiceCap", "prefs", "Must be an integer", -12) return false end
+  
+  local CC
+  local A,B=reaper.BR_Win32_GetPrivateProfileString("REAPER", "licecap_path", -1, reaper.get_ini_file())
+  if B=="-1" or reaper.file_exists(B)==false then ultraschall.AddErrorMessage("SetupLiceCap", "", "LiceCap not installed, please run action \"Run LICEcap (animated screen capture utility)\" to set up LiceCap", -1) return false end
+  local Path, File=ultraschall.GetPath(B)
+  if reaper.file_exists(Path.."/".."licecap.ini")==false then ultraschall.AddErrorMessage("SetupLiceCap", "", "Couldn't find licecap.ini in LiceCap-path. Is LiceCap really installed?", -13) return false end
+  if output_filename~=nil then CC=reaper.BR_Win32_WritePrivateProfileString("licecap", "lastfn", output_filename, Path.."/".."licecap.ini") end
+  if title~=nil then CC=reaper.BR_Win32_WritePrivateProfileString("licecap", "title", string.gsub(title,"\n"," "), Path.."/".."licecap.ini") end
+  if titlems~=nil then CC=reaper.BR_Win32_WritePrivateProfileString("licecap", "titlems", titlems, Path.."/".."licecap.ini") end
+  
+  local retval, oldwnd_r=reaper.BR_Win32_GetPrivateProfileString("licecap", "wnd_r", -1, Path.."/".."licecap.ini")  
+  if x==nil then x=oldwnd_r:match("(.-) ") end
+  if y==nil then y=oldwnd_r:match(".- (.-) ") end
+  if right==nil then right=oldwnd_r:match(".- .- (.-) ") end
+  if bottom==nil then bottom=oldwnd_r:match(".- .- .- (.*)") end
+  
+  CC=reaper.BR_Win32_WritePrivateProfileString("licecap", "wnd_r", x.." "..y.." "..right.." "..bottom, Path.."/".."licecap.ini")
+  if fps~=nil then CC=reaper.BR_Win32_WritePrivateProfileString("licecap", "maxfps", fps, Path.."/".."licecap.ini") end
+  if gifloopcount~=nil then CC=reaper.BR_Win32_WritePrivateProfileString("licecap", "gifloopcnt", gifloopcount, Path.."/".."licecap.ini") end
+  if stopafter~=nil then CC=reaper.BR_Win32_WritePrivateProfileString("licecap", "stopafter", stopafter, Path.."/".."licecap.ini") end
+  if prefs~=nil then CC=reaper.BR_Win32_WritePrivateProfileString("licecap", "prefs", prefs, Path.."/".."licecap.ini") end
+  
+  return true
+end
+
+
+function ultraschall.StartLiceCap(autorun)
+  reaper.Main_OnCommand(41298, 0)  
+  O=0
+  while reaper.JS_Window_Find("LICEcap v", false)==nil do
+    O=O+1
+    if O==1000000 then break end
+  end
+  local HWND=reaper.JS_Window_Find("LICEcap v", false)
+  reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(HWND, 1001), "WM_LBUTTONDOWN", 1,0,0,0)
+  reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(HWND, 1001), "WM_LBUTTONUP", 1,0,0,0)
+
+  O=0
+  while reaper.JS_Window_Find("Choose file for recording", false)==nil do
+    O=O+1
+    if O==1000000 then break end
+  end
+  HWNDA=reaper.JS_Window_Find("Choose file for recording", false)
+  TIT=reaper.JS_Window_GetTitle(HWNDA)
+  
+--[[   for i=-1000, 100000 do
+     HWND2=reaper.JS_Window_FindChildByID(HWNDA, i)
+     if HWND2~=nil then
+       print_alt(i, reaper.JS_Window_GetTitle(HWND2), reaper.JS_Window_GetClassName(HWND2))
+     end
+   end
+   --]]
+  
+  HAEH=reaper.JS_Window_FindChildByID(HWNDA, 1)
+  HAEH2=reaper.JS_Window_GetTitle(HAEH, "Puddel")
+  
+  AA=reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(HWNDA, 1), "WM_LBUTTONCLK", 1,0,0,0)
+--  BB=reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(HWNDA, 1), "WM_LBUTTONUP", 1,0,0,0)
+  return HWND
+end
+
+--ultraschall.StartLiceCap(autorun)
+
+--ultraschall.SetupLiceCap("Hula", "Hachgotterl\nahh", 20, 1, 2, 3, 4, 123, 1, 987, 64)
+--ultraschall.SetupLiceCap("Hurtz.lcf")
+
 ultraschall.ShowLastErrorMessage()

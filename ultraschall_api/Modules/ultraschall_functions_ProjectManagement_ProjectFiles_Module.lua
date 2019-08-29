@@ -4450,7 +4450,7 @@ function ultraschall.SetProject_RippleState(projectfilename_with_path, ripple_st
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer ripple_state - 0, no Ripple; 1, Ripple One Track; 2, Ripple All
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -4500,7 +4500,7 @@ function ultraschall.SetProject_RenderQueueDelay(projectfilename_with_path, rend
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer renderqdelay - 0 and higher, sets the checkbox "Delay queued render to allow samples to load and the amount of time to wait in seconds
                          - nil, if you want to turn off render-queue-delay in the project/ProjectStateChunk
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
@@ -4555,7 +4555,7 @@ function ultraschall.SetProject_Selection(projectfilename_with_path, starttime, 
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     number starttime - start of the selection in seconds
     number endtime - end of the selection in seconds
     number starttime2 - start of the second selection in seconds
@@ -4610,7 +4610,7 @@ function ultraschall.SetProject_GroupOverride(projectfilename_with_path, group_o
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer group_override1 - the group-override state
     integer group_override2 - the group-override state
     integer group_override3 - the group-override state
@@ -4664,7 +4664,7 @@ function ultraschall.SetProject_AutoCrossFade(projectfilename_with_path, autocro
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer autocrossfade_state - autocrossfade-state
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -4715,7 +4715,7 @@ function ultraschall.SetProject_EnvAttach(projectfilename_with_path, env_attach,
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer env_attach  - env_attach-state
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -4763,7 +4763,7 @@ function ultraschall.SetProject_MixerUIFlags(projectfilename_with_path, state_bi
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer state_bitfield1 - folders, receives, etc 
     -             0 - Show tracks in folders, Auto arrange tracks in mixer
     -             1 - Show normal top level tracks
@@ -4835,7 +4835,7 @@ function ultraschall.SetProject_PeakGain(projectfilename_with_path, peakgain_sta
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     number peakgain_state  - peak-gain-state
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -4883,7 +4883,7 @@ function ultraschall.SetProject_Feedback(projectfilename_with_path, feedback_sta
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer feedback_state - feedback-state
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -4931,7 +4931,7 @@ function ultraschall.SetProject_PanLaw(projectfilename_with_path, panlaw_state, 
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     number panlaw_state - state of the panlaw, as set in the project-settings->Advanced->Pan law/mode->Pan:law(db). 0.5(-6.02 db) to 1(default +0.0 db)
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -4983,7 +4983,7 @@ function ultraschall.SetProject_ProjOffsets(projectfilename_with_path, start_tim
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     number start_time - the project-start-time in seconds
     integer start_measure - the start-measure; starting with 0, unlike in the Project-Settings-window, where the 0 becomes 1 as startmeasure
     integer base_ruler_marking_off_this_measure - 0, checkbox unchecked; 1, checkbox checked
@@ -5033,7 +5033,7 @@ function ultraschall.SetProject_MaxProjectLength(projectfilename_with_path, limi
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer limit_project_length - checkbox "Limit project length, stop playback/recording at:" - 0 off, 1 on
     number projectlength_limit - projectlength-limit in seconds
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
@@ -5082,7 +5082,7 @@ function ultraschall.SetProject_Grid(projectfilename_with_path, gridstate1, grid
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer gridstate1 - gridstate1
     integer gridstate2 - gridstate2
     number gridstate3 - gridstate3
@@ -5147,7 +5147,7 @@ function ultraschall.SetProject_Timemode(projectfilename_with_path, timemode1, t
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer ruler_timemode - ruler-timemode-state
       - -1, Use ruler time unit
       -  0, Minutes:Seconds
@@ -5219,7 +5219,7 @@ function ultraschall.SetProject_VideoConfig(projectfilename_with_path, preferred
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer preferredVidSizeX - preferred video size, x pixels
     integer preferredVidSizeY - preferred video size, y pixels
     integer settingsBitfield - settings
@@ -5283,7 +5283,7 @@ function ultraschall.SetProject_PanMode(projectfilename_with_path, panmode_state
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer panmode_state - panmode-state - ProjectSettings->Advanced->Pan law/mode->Pan mode
     -             0 reaper 3.x balance (deprecated)
     -             3 Stereo balance / mono pan (default)
@@ -5340,7 +5340,7 @@ function ultraschall.SetProject_CursorPos(projectfilename_with_path, cursorpos, 
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     number cursorpos - editcursorposition in seconds
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -5387,7 +5387,7 @@ function ultraschall.SetProject_HorizontalZoom(projectfilename_with_path, hzoom,
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     number hzoom - HorizontalZoomfactor, 0.007 to 1000000
     integer hzoomscrollpos - horizontalscrollbarposition - 0 - 4294967296
     integer scrollbarfactor - 0 to 500837, counts up, when maximum hzoomscrollpos overflows
@@ -5439,7 +5439,7 @@ function ultraschall.SetProject_VerticalZoom(projectfilename_with_path, vzoom, P
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer vzoom - vertical zoomfactor(0-40)
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -5487,7 +5487,7 @@ function ultraschall.SetProject_UseRecConfig(projectfilename_with_path, rec_cfg,
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer rec_cfg - recording-cfg-state
     -              0 - Automatic .wav (recommended)
     -              1 - Custom (use ultraschall.GetProject_ApplyFXCFG to get recording_cfg_string)
@@ -5538,7 +5538,7 @@ function ultraschall.SetProject_RecMode(projectfilename_with_path, rec_mode, Pro
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer rec_mode - recording mode
                     - 0, Autopunch/Selected Items
                     - 1, normal
@@ -5590,7 +5590,7 @@ function ultraschall.SetProject_SMPTESync(projectfilename_with_path, smptesync_s
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer smptesync_state1 - flag 
     -             0 - external timecode synchronization disabled
     -             1 - external timecode synchronization enabled
@@ -5674,7 +5674,7 @@ function ultraschall.SetProject_Loop(projectfilename_with_path, loopbutton_state
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer loop_mode - loopbutton-state, 0, off; 1, on
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -5722,7 +5722,7 @@ function ultraschall.SetProject_LoopGran(projectfilename_with_path, loopgran_sta
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer loopgran_state1 - loopgran_state1
     number loopgran_state2 - loopgran_state2
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
@@ -5771,7 +5771,7 @@ function ultraschall.SetProject_RecPath(projectfilename_with_path, prim_recpath,
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     string prim_recpath - primary recording path
     string sec_recpath - secondary recording path
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
@@ -5826,7 +5826,7 @@ function ultraschall.SetProject_RecordCFG(projectfilename_with_path, recording_c
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     recording_cfg_string - the record-configuration as encoded string
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -5877,7 +5877,7 @@ function ultraschall.SetProject_RenderCFG(projectfilename_with_path, rendercfg_s
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     rendercfg_string - the render-configuration as encoded string
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -5929,7 +5929,7 @@ function ultraschall.SetProject_ApplyFXCFG(projectfilename_with_path, applyfx_cf
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     string applyfx_cfg_string - the file-format-configuration for fx-appliance as encoded string
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -5980,7 +5980,7 @@ function ultraschall.SetProject_RenderFilename(projectfilename_with_path, render
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk insteadO
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk insteadO
     string render_filename - the filename for rendering, check also <a href="#GetProject_RenderPattern">GetProject_RenderPattern</a>
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -6033,7 +6033,7 @@ function ultraschall.SetProject_RenderFreqNChans(projectfilename_with_path, unkn
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer unknown - unknown number
     integer rendernum_chans - Number_Channels 0-seems default-project-settings(?), 1-Mono, 2-Stereo, ... up to 64 channels
     integer render_frequency - RenderFrequency -2147483647 to 2147483647, except 0, which seems to be default-project-settings-frequency
@@ -6088,7 +6088,7 @@ function ultraschall.SetProject_RenderSpeed(projectfilename_with_path, render_sp
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer render_speed - render_speed 
     -             0-Fullspeed Offline
     -             1-1x Offline
@@ -6144,7 +6144,7 @@ function ultraschall.SetProject_RenderRange(projectfilename_with_path, bounds, t
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer bounds - the bounds of the project to be rendered
     -             0, Custom Time Range
     -             1, Entire Project
@@ -6211,7 +6211,7 @@ function ultraschall.SetProject_RenderResample(projectfilename_with_path, resamp
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer resample_mode - Resample_Mode 
     -             0-medium (64pt Sinc), 
     -             1-Low (Linear Interpolation), 
@@ -6283,7 +6283,7 @@ function ultraschall.SetProject_AddMediaToProjectAfterRender(projectfilename_wit
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer addmedia_after_render_state - 1 - rendered media shall be added to the project afterwards, 0 - don't add
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -6334,7 +6334,7 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer render_stems - the state of Render Stems
     - 0, Source Master Mix, 
     - 1, Source Master mix + stems, 
@@ -6393,7 +6393,7 @@ function ultraschall.SetProject_RenderDitherState(projectfilename_with_path, ren
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer renderdither_state - the state of render dithering
     -             0 - Dither Master Mix, 
     -             1 - Don't Dither Master Mix, 
@@ -6449,7 +6449,7 @@ function ultraschall.SetProject_TimeBase(projectfilename_with_path, timebase, Pr
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer timebase - the timebase for items/envelopes/markers as set in the project settings
     -             0 - Time, 
     -             1 - Beats (position, length, rate), 
@@ -6503,7 +6503,7 @@ function ultraschall.SetProject_TempoTimeSignature(projectfilename_with_path, te
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer tempotimesignature - the timebase for tempo/time-signature as set in the project settings
     -             0 - Time 
     -             1 - Beats
@@ -6605,7 +6605,7 @@ function ultraschall.SetProject_DefPitchMode(projectfilename_with_path, def_pitc
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer def_pitch_mode_state - the default pitch mode
     -      SoundTouch:
     -          0 - Default settings
@@ -8298,7 +8298,7 @@ function ultraschall.SetProject_TakeLane(projectfilename_with_path, take_lane_st
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer take_lane_state - take-lane-state
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
@@ -8354,7 +8354,7 @@ function ultraschall.SetProject_SampleRate(projectfilename_with_path, sample_rat
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer sample_rate - Project Sample Rate in Hz
     integer project_sample_rate - Checkbox: Project Sample Rate
     integer force_tempo_time_sig - Checkbox: Force Project Tempo/Time Signature changes to occur on whole samples 
@@ -8409,7 +8409,7 @@ function ultraschall.SetProject_TrackMixingDepth(projectfilename_with_path, mixi
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     integer mixingdepth - the track mixing depth
                         -   1 - 32 bit float
                         -   2 - 39 bit integer
@@ -9293,7 +9293,15 @@ function ultraschall.GetProject_GlobalAuto(projectfilename_with_path, ProjectSta
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
-    integer globalauto_state - the global automation override-state
+    integer globalauto_state  - the global automation override state, this sets the same automation mode to all tracks!
+                              - -1, No global automation override, automation-mode will be set by track
+                              - 0, trim/read mode
+                              - 1, read mode
+                              - 2, touch mode
+                              - 3, write mode
+                              - 4, latch mode
+                              - 5, latch preview mode
+                              - 6, bypass all automation
   </retvals>
   <chapter_context>
     Project-Management
@@ -9389,10 +9397,10 @@ function ultraschall.GetProject_Playrate(projectfilename_with_path, ProjectState
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
   </parameters>
   <retvals>
-    number playrate - the currently set playrate
-    integer preserve_pitch - 0, don't preserve pitch, when changing playrate; 1, preserve pitch, when chaning playrate
-    number min_playrate - the minimum playrate possible in the project
-    number max_playrate - the maximum playrate possible in the project
+    number playrate - the currently set playrate; 0.01 to 10
+    integer preserve_pitch - 0, don't preserve pitch, when changing playrate; 1, preserve pitch, when changing playrate
+    number min_playrate - the minimum playrate possible in the project; 0.01 to 10
+    number max_playrate - the maximum playrate possible in the project; 0.01 to 10
   </retvals>
   <chapter_context>
     Project-Management
@@ -11053,7 +11061,7 @@ function ultraschall.GetProject_Length(projectfilename_with_path, ProjectStateCh
     Returns -1 in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the project, that you want to know it's length of; nil to use parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the project, that you want to know it's length of; nil, to use Parameter ProjectStateChunk instead
     optional string ProjectStateChunk - a ProjectStateChunk to count the length of; only available when projectfilename_with_path=nil
   </parameters>
   <retvals>
@@ -11221,7 +11229,7 @@ function ultraschall.GetProject_Length(projectfilename_with_path, ProjectStateCh
     Returns -1 in case of an error
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the project, that you want to know it's length of; nil to use parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the project, that you want to know it's length of; nil, to use Parameter ProjectStateChunk instead
     optional string ProjectStateChunk - a ProjectStateChunk to count the length of; only available when projectfilename_with_path=nil
   </parameters>
   <retvals>
@@ -11326,7 +11334,7 @@ function ultraschall.SetProject_RenderPattern(projectfilename_with_path, render_
     Returns -1 in case of error.
   </description>
   <parameters>
-    string projectfilename_with_path - the filename of the projectfile; nil to use Parameter ProjectStateChunk instead
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     string render_pattern - the pattern, with which the rendering-filename will be automatically created. Check also <a href="#GetProject_RenderFilename">GetProject_RenderFilename</a>
   - Capitalizing the first character of the wildcard will capitalize the first letter of the substitution. Capitalizing the first two characters of the wildcard will capitalize all letters.
   - 
@@ -11551,3 +11559,353 @@ function ultraschall.GetProject_GroupName(projectfilename_with_path, idx, Projec
 end
 
 
+function ultraschall.SetProject_Lock(projectfilename_with_path, lock_state, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetProject_Lock</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SetProject_Lock(string projectfilename_with_path, integer lock_state, optional string ProjectStateChunk)</functioncall>
+  <description>
+    Sets the Locked-state of an rpp-projectfile or a ProjectStateChunk.
+    
+    It's the entry LOCK 
+    It is the one before(!) any <TRACK-tags !
+    
+    It is a bitfield, containing numerous settings.
+    
+    Returns -1 in case of error.
+  </description>
+  <parameters>
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
+    integer lock_state - the lock-state, which is a bitfield
+                      - &1     - Time selection
+                      - &2     - Items (full)
+                      - &4     - Track envelopes
+                      - &8     - Markers
+                      - &16    - Regions
+                      - &32    - Time signature markers
+                      - &64    - Items (prevent left/right movement)
+                      - &128   - Items (prevent up/down movement)
+                      - &256   - Item edges
+                      - &512   - Item fade/volume handles
+                      - &1024  - Loop points locked
+                      - &2048  - Item envelopes
+                      - &4096  - Item stretch markers
+                      - &16384 - Enable locking
+    optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
+  </parameters>
+  <retvals>
+    integer retval - -1 in case of error, 1 in case of success
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Set
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, set, lock state</tags>
+</US_DocBloc>
+]]  
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Lock", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
+  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_Lock", "projectfilename_with_path", "File does not exist", -2) return -1 end
+  if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
+  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Lock", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
+  if math.type(lock_state)~="integer" then ultraschall.AddErrorMessage("SetProject_Lock", "lock_state", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Lock", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
+  
+  local ProjectEntry="  LOCK "..lock_state.."\n" 
+
+  ProjectStateChunk=string.gsub(ProjectStateChunk, "\n  LOCK .-%c", "\n"..ProjectEntry)
+  
+  if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
+  else return 1, ProjectStateChunk
+  end  
+end
+
+function ultraschall.SetProject_GlobalAuto(projectfilename_with_path, global_auto_state, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetProject_GlobalAuto</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SetProject_GlobalAuto(string projectfilename_with_path, integer global_auto_state, optional string ProjectStateChunk)</functioncall>
+  <description>
+    Sets the global-auto-override-state of an rpp-projectfile or a ProjectStateChunk.
+    
+    It's the entry GLOBAL_AUTO 
+    
+    This sets the same automation mode to all tracks!
+    
+    Returns -1 in case of error.
+  </description>
+  <parameters>
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
+    integer global_auto_state - the global automation override state, this sets the same automation mode to all tracks!
+                              - -1, No global automation override, automation-mode will be set by track
+                              - 0, trim/read mode
+                              - 1, read mode
+                              - 2, touch mode
+                              - 3, write mode
+                              - 4, latch mode
+                              - 5, latch preview mode
+                              - 6, bypass all automation
+    optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
+  </parameters>
+  <retvals>
+    integer retval - -1 in case of error, 1 in case of success
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Set
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, set, global automation override state</tags>
+</US_DocBloc>
+]]  
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_GlobalAuto", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
+  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_GlobalAuto", "projectfilename_with_path", "File does not exist", -2) return -1 end
+  if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
+  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_GlobalAuto", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
+  if math.type(global_auto_state)~="integer" then ultraschall.AddErrorMessage("SetProject_GlobalAuto", "global_auto_state", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_GlobalAuto", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
+  
+  local ProjectEntry="  GLOBAL_AUTO "..global_auto_state.."\n" 
+
+  ProjectStateChunk=string.gsub(ProjectStateChunk, "\n  GLOBAL_AUTO .-%c", "\n"..ProjectEntry)
+  
+  if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
+  else return 1, ProjectStateChunk
+  end  
+end
+
+function ultraschall.SetProject_Tempo(projectfilename_with_path, bpm, beat, denominator, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetProject_Tempo</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SetProject_Tempo(string projectfilename_with_path, integer bpm, integer beat, integer denominator, optional string ProjectStateChunk)</functioncall>
+  <description>
+    Sets the tempo, bpm, beat, denominator-state of an rpp-projectfile or a ProjectStateChunk.
+    
+    It's the entry TEMPO 
+    
+    They are set in the Project Settings -> "Project BPM" and "Time signature"
+    
+    Returns -1 in case of error.
+  </description>
+  <parameters>
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
+    integer bpm - the tempo of the project in bpm
+    integer beat - the beat of the project 
+    integer denominator - the denominator for the beat 
+    optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
+  </parameters>
+  <retvals>
+    integer retval - -1 in case of error, 1 in case of success
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Set
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, set, tempo, bpm, beat, denominator</tags>
+</US_DocBloc>
+]]  
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Tempo", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
+  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_Tempo", "projectfilename_with_path", "File does not exist", -2) return -1 end
+  if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
+  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Tempo", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Tempo", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
+  if math.type(bpm)~="integer" then ultraschall.AddErrorMessage("SetProject_Tempo", "bpm", "Must be an integer", -6) return -1 end
+  if math.type(beat)~="integer" then ultraschall.AddErrorMessage("SetProject_Tempo", "beat", "Must be an integer", -7) return -1 end
+  if math.type(denominator)~="integer" then ultraschall.AddErrorMessage("SetProject_Tempo", "denominator", "Must be an integer", -8) return -1 end
+  
+  local ProjectEntry="  TEMPO "..bpm.." "..beat.." "..denominator.."\n" 
+
+  ProjectStateChunk=string.gsub(ProjectStateChunk, "\n  TEMPO .-%c", "\n"..ProjectEntry)
+  
+  if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
+  else return 1, ProjectStateChunk
+  end  
+end
+
+function ultraschall.SetProject_Playrate(projectfilename_with_path, playrate, preserve_pitch, min_playrate, max_playrate, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetProject_Playrate</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SetProject_Playrate(string projectfilename_with_path, number playrate, integer preserve_pitch, number min_playrate, number max_playrate, optional string ProjectStateChunk)</functioncall>
+  <description>
+    Sets the playrate of an rpp-projectfile or a ProjectStateChunk.
+    
+    It's the entry PLAYRATE 
+    
+    Returns -1 in case of error.
+  </description>
+  <parameters>
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
+    number playrate - the currently set playrate; 0.01 to 10
+    integer preserve_pitch - 0, don't preserve pitch, when changing playrate; 1, preserve pitch, when chaning playrate 
+    number min_playrate - the minimum playrate possible in the project; 0.01 to 10
+    number max_playrate - the maximum playrate possible in the project; 0.01 to 10
+    optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
+  </parameters>
+  <retvals>
+    integer retval - -1 in case of error, 1 in case of success
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Set
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, set, playrate</tags>
+</US_DocBloc>
+]]  
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Playrate", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
+  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_Playrate", "projectfilename_with_path", "File does not exist", -2) return -1 end
+  if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
+  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Playrate", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_Playrate", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
+  if type(playrate)~="number" then ultraschall.AddErrorMessage("SetProject_Playrate", "playrate", "Must be a number", -6) return -1 end
+  if math.type(preserve_pitch)~="integer" then ultraschall.AddErrorMessage("SetProject_Playrate", "preserve_pitch", "Must be an integer", -7) return -1 end
+  if type(min_playrate)~="number" then ultraschall.AddErrorMessage("SetProject_Playrate", "min_playrate", "Must be a number", -8) return -1 end
+  if type(max_playrate)~="number" then ultraschall.AddErrorMessage("SetProject_Playrate", "max_playrate", "Must be a number", -9) return -1 end
+  if preserve_pitch~=0 and preserve_pitch~=1 then ultraschall.AddErrorMessage("SetProject_Playrate", "preserve_pitch", "Must be either 0(don't preserve) or 1(preserve)", -10) return -1 end
+  
+  local ProjectEntry="  PLAYRATE "..playrate.." "..preserve_pitch.." "..min_playrate.." "..max_playrate.."\n" 
+
+  ProjectStateChunk=string.gsub(ProjectStateChunk, "\n  PLAYRATE .-%c", "\n"..ProjectEntry)
+  
+  if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
+  else return 1, ProjectStateChunk
+  end  
+end
+
+function ultraschall.SetProject_MasterAutomode(projectfilename_with_path, automode, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetProject_MasterAutomode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SetProject_MasterAutomode(string projectfilename_with_path, integer automode, optional string ProjectStateChunk)</functioncall>
+  <description>
+    Sets the automation-mode for the master-track of an rpp-projectfile or a ProjectStateChunk.
+    
+    It's the entry MASTERAUTOMODE 
+    
+    This sets the same automation mode to all tracks!
+    
+    Returns -1 in case of error.
+  </description>
+  <parameters>
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
+    integer automode - the automation mode for the master-track
+                              - 0, trim/read mode
+                              - 1, read mode
+                              - 2, touch mode
+                              - 3, write mode
+                              - 4, latch mode
+                              - 5, latch preview mode
+    optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
+  </parameters>
+  <retvals>
+    integer retval - -1 in case of error, 1 in case of success
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Set
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, set, master track, automation, mode</tags>
+</US_DocBloc>
+]]  
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterAutomode", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
+  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_MasterAutomode", "projectfilename_with_path", "File does not exist", -2) return -1 end
+  if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
+  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterAutomode", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
+  if math.type(automode)~="integer" then ultraschall.AddErrorMessage("SetProject_MasterAutomode", "automode", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterAutomode", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
+  
+  local ProjectEntry="  MASTERAUTOMODE "..automode.."\n" 
+
+  ProjectStateChunk=string.gsub(ProjectStateChunk, "\n  MASTERAUTOMODE .-%c", "\n"..ProjectEntry)
+  
+  if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
+  else return 1, ProjectStateChunk
+  end  
+end
+
+function ultraschall.SetProject_MasterSel(projectfilename_with_path, selection_state, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetProject_MasterSel</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SetProject_MasterSel(string projectfilename_with_path, integer selection_state, optional string ProjectStateChunk)</functioncall>
+  <description>
+    Sets the selection-state for the master-track of an rpp-projectfile or a ProjectStateChunk.
+    
+    It's the entry MASTER_SEL 
+    
+    This sets the same automation mode to all tracks!
+    
+    Returns -1 in case of error.
+  </description>
+  <parameters>
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
+    integer selection_state - the selection-state of the MasterTrack; 0, unselected; 1, selected
+    optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
+  </parameters>
+  <retvals>
+    integer retval - -1 in case of error, 1 in case of success
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Set
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, set, master track, selection</tags>
+</US_DocBloc>
+]]  
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterSel", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
+  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_MasterSel", "projectfilename_with_path", "File does not exist", -2) return -1 end
+  if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
+  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterSel", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
+  if math.type(selection_state)~="integer" then ultraschall.AddErrorMessage("SetProject_MasterSel", "selection_state", "Must be an integer", -4) return -1 end
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterSel", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
+  if selection_state<0 or selection_state>1 then ultraschall.AddErrorMessage("SetProject_MasterSel", "selection_state", "Must be either 1(selected) or 0(unselected)", -6) return -1 end
+  
+  local ProjectEntry="  MASTER_SEL "..selection_state.."\n" 
+
+  ProjectStateChunk=string.gsub(ProjectStateChunk, "\n  MASTER_SEL .-%c", "\n"..ProjectEntry)
+  
+  if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
+  else return 1, ProjectStateChunk
+  end  
+end

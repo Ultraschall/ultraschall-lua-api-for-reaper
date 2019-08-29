@@ -3,24 +3,12 @@
         - TODO!! who requested ? Project Management: CheckForChangedProjectTabs - checks now as well, if projectfilenames have changed, by either loading a project or saving a project under a new filename(requested by ???)
         - TODO!! GetReaperWindowPosition_Left und GetReaperWindowPosition_Right entweder deprecaten oder neu implementieren
         - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
-        - TODO!! Docs: parameters sometimes get MarkDown-formatted, though no markdown is given as markup-language..
-                        Huh???
-                        Had this problem with ValidatePtr
-        <parameters>
-            pointer - a pointer to the object to check for. In Lua or Python, you just give the object to check as this parameter.
-            ctypename - the type of project to check for(given as a pointer)
-                -ReaProject*
-                -MediaTrack* 
-                -MediaItem*
-                -MediaItem_Take*
-                -TrackEnvelope*
-                -PCM_source*
-        </parameters>
         - TODO!! XML-generator has problems with spaces and & in filenames; use this to overcome this:
                       tempfile=files_array[i]
                       tempfile2=string.gsub(tempfile, "&", "%%26")
                       tempfile2=string.gsub(tempfile2, " ", "%%20")
                       Notes: really tempfile2(!)? And, do I need to exchange only on source or also on target-file?
+                      
          - TODO!! Eventmanager - make it working
             Event-System, as defined on the Congress
             -- too difficult to use, needs a better way to deal with it...
@@ -78,21 +66,29 @@
                   JS-extension-plugin)
         - TODO!! reaper.GetLastTouchedFX, reaper.GetFocusedFX - high word/low word-management is too difficult, make new functions of them
         - TODO!!  - Get/SetProject-functions for
-                   RENDER_QUEUE-stuff
-                   
-                   as well as
+        
+                  StateChunks:
                   - SetProject_AutomationItemStateChunk - gets an automation-item from a project/ProjectStateChunk
                   - SetProject_ProjectBay - gets the projectbay from a project/ProjectStateChunk
                   - SetProject_Metronome - gets the statechunk for all metronome-settings from a project/ProjectStateChunk
                   - SetProject_MasterPlayspeed - gets the statechunk for all master-playspeed-settings from a project/ProjectStateChunk
                   - SetProject_Tempo - gets the statechunk for all tempo-settings from a project/ProjectStateChunk
                   - SetProject_Extensions - gets the statechunk for all extension-settings from a project/ProjectStateChunk
-                  - SetProject_Lock - gets the individual lock-settings from a project/ProjectStateChunk
-                  - SetProject_GlobalAuto - returns the global automation override-settings of an rpp-file or ProjectStateChunk
-                  - SetProject_Tempo - returns the tempo-settings of an rpp-file or a ProjectStateChunk
-                  - SetProject_Playrate 
-                  - SetProject_MasterAutomode
-                  - SetProject_MasterSel
+                  - SetProject_MasterHWVolEnvStateChunk
+                  - SetProject_MasterFXListStateChunk - 
+                  - SetProject_MasterDualPanEnvStateChunk - 
+                  - SetProject_MasterDualPanEnv2StateChunk - 
+                  - SetProject_MasterDualPanEnvLStateChunk - 
+                  - SetProject_MasterDualPanEnvL2StateChunk - 
+                  - SetProject_MasterVolEnvStateChunk - 
+                  - SetProject_MasterVolEnv2StateChunk - 
+                  - SetProject_MasterVolEnv3StateChunk - 
+                  - SetProject_MasterHWPanEnvStateChunk - 
+                  - SetProject_MasterPanMode_Ex - 
+                  - SetProject_TempoEnv_ExStateChunk
+                  
+                  States:
+                  -  RENDER_QUEUE-stuff
                   - SetProject_MasterFXByp
                   - SetProject_MasterMuteSolo
                   - SetProject_MasterNChans
@@ -109,18 +105,7 @@
                   - SetProject_MasterGroupFlagsHighState - 
                   - SetProject_GroupDisabled - 
                   
-                  - SetProject_MasterHWVolEnvStateChunk
-                  - SetProject_MasterFXListStateChunk - 
-                  - SetProject_MasterDualPanEnvStateChunk - 
-                  - SetProject_MasterDualPanEnv2StateChunk - 
-                  - SetProject_MasterDualPanEnvLStateChunk - 
-                  - SetProject_MasterDualPanEnvL2StateChunk - 
-                  - SetProject_MasterVolEnvStateChunk - 
-                  - SetProject_MasterVolEnv2StateChunk - 
-                  - SetProject_MasterVolEnv3StateChunk - 
-                  - SetProject_MasterHWPanEnvStateChunk - 
-                  - SetProject_MasterPanMode_Ex - 
-                  - SetProject_TempoEnv_ExStateChunk
+
                   
                - IsValid-check functions for
                     - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
@@ -142,34 +127,8 @@
                         close the projects and return the filename
         - TODO!! Monitor the rendering to file-dialog for queue-renders, to get the rendered filenames, using a background script, if possible at all
         - TODO!! ChildScripts: Run code directly
-                    Folgende Idee:
-                    Ich füge 100 dummy-scripte in Reaper hinzu, die Folgendes in etwa tun(an Beispiel von Skript 1):
-                        MyGuid=reaper.GetExtState("ultraschall", "DummyScript001_Guid")
-                        RunScript=reaper.GetExtState("ultraschall", "DummyScript001_Scriptfile")
-                        
-                        reaper.SetExtState("ultraschall", "DummyScript001_Guid", "", false)
-                        reaper.SetExtState("ultraschall", "DummyScript001_Scriptfile", "", false)
-                        
-                        
-                        dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-                        ultraschall.ScriptIdentifier="BlaBlascriptidentifier"..guid..".luasomething"
-                            
-                        
-                        dofile(RunScript)
-                        
-                   Das Skript kann ich nun per ExtStates befüllen mit den notwendigen Sachen(Guid und Scriptfile), die es braucht um zu laufen und es starten.
-                   In Skriptfile kann ich nun den Code packen, der ausgeführt werden soll, per WriteValueToFile.
-                   Wichtig ist dabei: ich muss, bevor ich ein ChildSkript nutzen kann, checken, ob reaper.GetExtState("ultraschall", "DummyScriptXXX_Guid")=="" ist, sonst muss ich XXX solange höherzählen und checken, bis ich einen freies Skript finde.
-                   Das dient dazu zu verhindern, dass ein Skript doppelt befüllt wird, noch bevor es gestartet werden kann(RaceCondition oder DiningPhilosophers).
-                   
-                   Eventuell: Solche Skripte müssen davon ausgehen, dass sie in Skripts gestartet wurden, sonst finden sie relative-filenamen als Dateien nicht mehr
-                   Eventuell: Muss ich get_action_context mir hacken, damit es das gerunnte Skript anzeigt? Dunno.
-                   
-                   Wichtig: Die US-API muss dann beim initialisiern checken, ob sie schon gestartet wurde und dann das Initialisieren skippen, sonst kanns sein, dass man in diesen ChildSkripten die US-API doppelt reinholt.
-                   Wichtig: Ich muss es irgendwie schaffen, dass die Dummy-Skripte in der kb.ini als Run another instance geführt werden, sonst poppt dieser dumme Dialog auf.
-        
-                   Vielleicht kann ich das auch nutzen, um Skripte allgemein zu starten, aber nur dann, wenn ich das "Wo bin ich"-Relative, Absolute-Pfadproblem vorher löse. Sonst geht das Skript davon aus im Ursprungsverzeichnis zu liegen, nicht in Scripts.
-                   Dunno, wie wichtig das ist zu machen, oder ob das nicht eigentlich egal ist, weil die Standardverzeichnisse von denen Skripte ausgehen ohnehin nur die von Reaper sind(check that plz)
+                   Kann man auch mit RunMe=load(LuaCode) RunMe() machen, ohne kniffliges externes File-gedumsel
+
     For 4.00beta2.8:
       TODO!! Default-Color-Theme-Colortables and loading ColorTable from Theme-functions
               Originally Posted by mespotine  View Post
@@ -191,25 +150,12 @@
                                                                                     funfact - -1:U entry is pan_law, go into a routing-setting and rightclick the pan-slider of a receive to get this dialog
                                                                          AUXRECV_WITHOUT_PANLAW_BOOST - if existing after a AUXRECV, pan_law has the Gain compensation (boost pans)-checkbox set
                                                                                                         go into a routing-setting and rightclick the pan-slider of a receive to get this dialog
-      TODO!! Doccreation: - retvals and parameters don't convert MD2HTML in functions-engine-docconverter
-      TODO!!  - issue with parameters/retvals in USDocML-files: nil-error, when a retval/parameter entry is only 
-                <retvals>
-                    -
-                </retvals> 
-                also has an issue, when an empty line occurs, between numerous - It ends interpretation at that point.
-                like that:
-                   -
-                   
-                   -
-      Maybe rewrite Doccreation from scratch with proper css.
-           
-           
+      TODO!! Rewrite Doccreation from scratch with proper css.
       TODO!! Lua-eigene Funktionen in die ultraschall-Table übernehmen, wie type, tostring, tonumber, etc. Dies könnten vom user überschrieben werden und dann
              produziert die API Fehler.
       TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
                 Needs first functions for activating Envelopes, but they don't exist, until they are displayed.
                 I might have to add non-activated envelopes by adding env-statechunks into TrackStateChunks.
-      TODO!!  - Planned Chapter Marker-functions! insert/set/delete/enumerate/export/import
       TODO!!  - totype(value, string type), converts a value to type and returns it, if impossible, returns nil; includes string, boolean, integer, float, hex, oct, base64, etc
       TODO!!  - SetStateChunk-functions: how to check for ProjectStateChunk/TrackStateChunk/ItemStateChunk/EnvStateChunk, when new parameters are added to the function?
                                          something with ... ? Otherwise, new added parameters will break old scripts...
@@ -279,9 +225,17 @@ TODO!! buggy function
    - Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point
    - Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system
    - EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript
+   - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
+   - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper
    - MediaItem Management: GetMediaItem_ClickState - returns the currently clicked MediaItem
    - MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project
    - Project Management: GetProjectFilename - returns the filename of a currently opened project
+   - Project Management: SetProject\_GlobalAuto - sets global automation override-state a projectfile or a ProjectStateChunk
+   - Project Management: SetProject\_Lock - sets locked-state of a projectfile or a ProjectStateChunk
+   - Project Management: SetProject\_MasterAutomode - sets automation-mode of the mastertrack in a projectfile or a ProjectStateChunk
+   - Project Management: SetProject\_Playrate - sets playrate-state of a projectfile or a ProjectStateChunk
+   - Project Management: SetProject\_MasterSel - sets selection-state of the master-track in a projectfile or a ProjectStateChunk
+   - Project Management: SetProject\_Tempo - sets the tempo settings(bpm, beat, denominator) a projectfile or a ProjectStateChunk
    - User Interface: GetTimeByMouseXPosition - returns projecttime at x-screenposition
    - User Interface: ShowTrackInputMenu - shows a TrackInput-contextmenu
    - User Interface: ShowTrackPanelMenu - shows a TrackPanel-contextmenu
@@ -292,7 +246,7 @@ TODO!! buggy function
    - User Interface: ShowEnvelopeMenu - shows a Track/TakeEnvelope-contextmenu
    - User Interface: ShowEnvelopePointMenu - shows an EnvelopePoint-contextmenu
    - User Interface: ShowEnvelopePointMenu_AutomationItem - shows an EnvelopePoint-contextmenu for Automation Items
-   - User Interface: ShowAutomationItemMenu - shows a AutomationItems-contextmenu
+   - User Interface: ShowAutomationItemMenu - shows an AutomationItems-contextmenu
    
 #### Changes from Beta 2.761 to Beta 2.77
    - API: functions - moved all functions into modules for future modular-concept
@@ -317,8 +271,9 @@ TODO!! buggy function
    - HWND: GetSaveLiveOutputToDiskHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - HWND: GetVideoHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - Project Management: CheckForChangedProjectTabs - checks now as well, if projectfilenames have changed, by either loading a project or saving a project under a new filename(requested by ???)
-   - Project Management: ProjectTabs-check - initialization had a bug, which could cause CheckForChangedProjectTabs to fail at times -> fixed
+   - Project Management: GetProject\_GlobalAuto - added description for global-automation-override_state
    - Project Management: GetProject\_MasterGroupFlagsState - moved to correct docsindex Project Management
+   - Project Management: ProjectTabs-check - initialization had a bug, which could cause CheckForChangedProjectTabs to fail at times -> fixed
    - Project Management: SetProject\_MasterGroupFlagsState - moved to correct docsindex Project Management
    - Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs
    

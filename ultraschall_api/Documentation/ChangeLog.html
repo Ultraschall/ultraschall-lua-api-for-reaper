@@ -46,9 +46,17 @@ Ultraschall API Changelog
 <li>Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point</li>
 <li>Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system</li>
 <li>EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript</li>
+<li>LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper</li>
+<li>LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper</li>
 <li>MediaItem Management: GetMediaItem_ClickState - returns the currently clicked MediaItem</li>
 <li>MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project</li>
 <li>Project Management: GetProjectFilename - returns the filename of a currently opened project</li>
+<li>Project Management: SetProject_GlobalAuto - sets global automation override-state a projectfile or a ProjectStateChunk</li>
+<li>Project Management: SetProject_Lock - sets locked-state of a projectfile or a ProjectStateChunk</li>
+<li>Project Management: SetProject_MasterAutomode - sets automation-mode of the mastertrack in a projectfile or a ProjectStateChunk</li>
+<li>Project Management: SetProject_Playrate - sets playrate-state of a projectfile or a ProjectStateChunk</li>
+<li>Project Management: SetProject_MasterSel - sets selection-state of the master-track in a projectfile or a ProjectStateChunk</li>
+<li>Project Management: SetProject_Tempo - sets the tempo settings(bpm, beat, denominator) a projectfile or a ProjectStateChunk</li>
 <li>User Interface: GetTimeByMouseXPosition - returns projecttime at x-screenposition</li>
 <li>User Interface: ShowTrackInputMenu - shows a TrackInput-contextmenu</li>
 <li>User Interface: ShowTrackPanelMenu - shows a TrackPanel-contextmenu</li>
@@ -59,7 +67,7 @@ Ultraschall API Changelog
 <li>User Interface: ShowEnvelopeMenu - shows a Track/TakeEnvelope-contextmenu</li>
 <li>User Interface: ShowEnvelopePointMenu - shows an EnvelopePoint-contextmenu</li>
 <li>User Interface: ShowEnvelopePointMenu_AutomationItem - shows an EnvelopePoint-contextmenu for Automation Items</li>
-<li>User Interface: ShowAutomationItemMenu - shows a AutomationItems-contextmenu</li>
+<li>User Interface: ShowAutomationItemMenu - shows an AutomationItems-contextmenu</li>
 </ul>
 <h4>Changes from Beta 2.761 to Beta 2.77</h4>
 <ul>
@@ -85,8 +93,9 @@ Ultraschall API Changelog
 <li>HWND: GetSaveLiveOutputToDiskHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
 <li>HWND: GetVideoHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
 <li>Project Management: CheckForChangedProjectTabs - checks now as well, if projectfilenames have changed, by either loading a project or saving a project under a new filename(requested by ???)</li>
-<li>Project Management: ProjectTabs-check - initialization had a bug, which could cause CheckForChangedProjectTabs to fail at times -&gt; fixed</li>
+<li>Project Management: GetProject_GlobalAuto - added description for global-automation-override_state</li>
 <li>Project Management: GetProject_MasterGroupFlagsState - moved to correct docsindex Project Management</li>
+<li>Project Management: ProjectTabs-check - initialization had a bug, which could cause CheckForChangedProjectTabs to fail at times -&gt; fixed</li>
 <li>Project Management: SetProject_MasterGroupFlagsState - moved to correct docsindex Project Management</li>
 <li>Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs</li>
 </ul>
