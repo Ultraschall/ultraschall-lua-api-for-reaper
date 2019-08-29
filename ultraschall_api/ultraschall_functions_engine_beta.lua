@@ -1258,12 +1258,12 @@ function ultraschall.GetTimeByMouseXPosition(xmouseposition)
     integer xposition - the x-position in pixels, from which you would love to have the projectposition
   </parameters>
   <chapter_context>
-    Project-Management
-    Helper functions
+    User Interface
+    Miscellaneous
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>project management, get, projectposition, from x-position</tags>
+  <tags>userinterface, get, projectposition, from x-position</tags>
 </US_DocBloc>
 --]]
   -- TODO: check, if mouse is above arrangeview and return an additional boolean parameter for that.
@@ -1271,5 +1271,466 @@ function ultraschall.GetTimeByMouseXPosition(xmouseposition)
   local Ax,AAx= reaper.GetSet_ArrangeView2(0, false, xmouseposition,xmouseposition+1)
   return Ax
 end
+
+function ultraschall.ShowTrackInputMenu(x, y, MediaTrack, HWNDParent)
+ --[[
+ <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+   <slug>ShowTrackInputMenu</slug>
+   <requires>
+     Ultraschall=4.00
+     Reaper=5.92
+     JS=0.986
+     Lua=5.3
+   </requires>
+   <functioncall>boolean retval = ultraschall.ShowTrackInputMenu(integer x, integer y, optional MediaTrack MediaTrack, optional HWND HWNDParent)</functioncall>
+   <description markup_type="markdown" markup_version="1.0.1" indent="default">
+     Opens a TrackInput-context menu
+     
+     Returns false in case of error.
+   </description>
+   <parameters>
+     integer x - x position of the context-menu in pixels
+     integer y - y position of the context-menu in pixels
+     optional MediaTrack MediaTrack - the MediaTrack, which shall be influenced by the menu-selection of the opened context-menu; nil, use the currently selected one
+     optional HWND HWNDParent - a HWND, in which the context-menu shall be shown in; nil, use Reaper's main window
+   </parameters>
+   <retvals>
+     boolean retval - true, opening the menu worked; false, there was an error
+   </retvals>
+   <chapter_context>
+     User Interface
+     Menu Management
+   </chapter_context>
+   <target_document>US_Api_Documentation</target_document>
+   <source_document>ultraschall_functions_engine.lua</source_document>
+   <tags>userinterface, show, context menu, trackinput</tags>
+ </US_DocBloc>
+ --]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("ShowTrackInputMenu", "x", "must be an integer", -1) return false end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("ShowTrackInputMenu", "y", "must be an integer", -2) return false end
+  if MediaTrack~=nil and ultraschall.type(MediaTrack)~="MediaTrack" then ultraschall.AddErrorMessage("ShowTrackInputMenu", "MediaTrack", "must be nil or a valid MediaTrack", -3) return false end
+  if HWNDParent~=nil and ultraschall.IsValidHWND(HWNDParent)==false then ultraschall.AddErrorMessage("ShowTrackInputMenu", "HWNDParent", "must be nil or a valid HWND", -4) return false end
+  reaper.ShowPopupMenu("track_input", x, y, HWNDParent, MediaTrack)
+  return true
+end
+
+--ultraschall.ShowTrackInputMenu(100,200, MediaTrack, HWNDParent)
+
+function ultraschall.ShowTrackPanelMenu(x, y, MediaTrack, HWNDParent)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ShowTrackPanelMenu</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.92
+    JS=0.986
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ShowTrackPanelMenu(integer x, integer y, optional MediaTrack MediaTrack, optional HWND HWNDParent)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Opens a TrackPanel-context menu
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    integer x - x position of the context-menu in pixels
+    integer y - y position of the context-menu in pixels
+    optional MediaTrack MediaTrack - the MediaTrack, which shall be influenced by the menu-selection of the opened context-menu; nil, use the currently selected one
+    optional HWND HWNDParent - a HWND, in which the context-menu shall be shown in; nil, use Reaper's main window
+  </parameters>
+  <retvals>
+    boolean retval - true, opening the menu worked; false, there was an error
+  </retvals>
+  <chapter_context>
+    User Interface
+    Menu Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, show, context menu, trackpanel</tags>
+</US_DocBloc>
+--]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("ShowTrackPanelMenu", "x", "must be an integer", -1) return false end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("ShowTrackPanelMenu", "y", "must be an integer", -2) return false end
+  if MediaTrack~=nil and ultraschall.type(MediaTrack)~="MediaTrack" then ultraschall.AddErrorMessage("ShowTrackPanelMenu", "MediaTrack", "must be nil or a valid MediaTrack", -3) return false end
+  if HWNDParent~=nil and ultraschall.IsValidHWND(HWNDParent)==false then ultraschall.AddErrorMessage("ShowTrackPanelMenu", "HWNDParent", "must be nil or a valid HWND", -4) return false end
+
+  reaper.ShowPopupMenu("track_panel", x, y, HWNDParent, MediaTrack)
+  return true
+end
+
+--ultraschall.ShowTrackPanelMenu(100,200, MediaTrack, HWNDParent)
+
+function ultraschall.ShowTrackAreaMenu(x, y, HWNDParent)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ShowTrackAreaMenu</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.92
+    JS=0.986
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ShowTrackAreaMenu(integer x, integer y, optional HWND HWNDParent)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Opens a TrackArea-context menu
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    integer x - x position of the context-menu in pixels
+    integer y - y position of the context-menu in pixels
+    optional HWND HWNDParent - a HWND, in which the context-menu shall be shown in; nil, use Reaper's main window
+  </parameters>
+  <retvals>
+    boolean retval - true, opening the menu worked; false, there was an error
+  </retvals>
+  <chapter_context>
+    User Interface
+    Menu Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, show, context menu, trackarea</tags>
+</US_DocBloc>
+--]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("ShowTrackAreaMenu", "x", "must be an integer", -1) return false end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("ShowTrackAreaMenu", "y", "must be an integer", -2) return false end
+  if HWNDParent~=nil and ultraschall.IsValidHWND(HWNDParent)==false then ultraschall.AddErrorMessage("ShowTrackAreaMenu", "HWNDParent", "must be nil or a valid HWND", -3) return false end
+
+  reaper.ShowPopupMenu("track_area", x, y, HWNDParent)
+  return true
+end
+
+--ultraschall.ShowTrackAreaMenu(100,200, HWNDParent)
+
+function ultraschall.ShowTrackRoutingMenu(x, y, MediaTrack, HWNDParent)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ShowTrackRoutingMenu</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.92
+    JS=0.986
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ShowTrackRoutingMenu(integer x, integer y, optional MediaTrack MediaTrack, optional HWND HWNDParent)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Opens a TrackRouting-context menu
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    integer x - x position of the context-menu in pixels
+    integer y - y position of the context-menu in pixels
+    optional MediaTrack MediaTrack - the MediaTrack, which shall be influenced by the menu-selection of the opened context-menu; nil, use the currently selected one
+    optional HWND HWNDParent - a HWND, in which the context-menu shall be shown in; nil, use Reaper's main window
+  </parameters>
+  <retvals>
+    boolean retval - true, opening the menu worked; false, there was an error
+  </retvals>
+  <chapter_context>
+    User Interface
+    Menu Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, show, context menu, trackrouting</tags>
+</US_DocBloc>
+--]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("ShowTrackRoutingMenu", "x", "must be an integer", -1) return false end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("ShowTrackRoutingMenu", "y", "must be an integer", -2) return false end
+  if MediaTrack~=nil and ultraschall.type(MediaTrack)~="MediaTrack" then ultraschall.AddErrorMessage("ShowTrackRoutingMenu", "MediaTrack", "must be nil or a valid MediaTrack", -3) return false end
+  if HWNDParent~=nil and ultraschall.IsValidHWND(HWNDParent)==false then ultraschall.AddErrorMessage("ShowTrackRoutingMenu", "HWNDParent", "must be nil or a valid HWND", -4) return false end
+
+  reaper.ShowPopupMenu("track_routing", x, y, HWNDParent, MediaTrack)
+  return true
+end
+
+--ultraschall.ShowTrackRoutingMenu(100,200, reaper.GetTrack(0,0), HWNDParent)
+
+
+function ultraschall.ShowRulerMenu(x, y, HWNDParent)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ShowRulerMenu</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.92
+    JS=0.986
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ShowRulerMenu(integer x, integer y, optional HWND HWNDParent)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Opens a Ruler-context menu
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    integer x - x position of the context-menu in pixels
+    integer y - y position of the context-menu in pixels
+    optional HWND HWNDParent - a HWND, in which the context-menu shall be shown in; nil, use Reaper's main window
+  </parameters>
+  <retvals>
+    boolean retval - true, opening the menu worked; false, there was an error
+  </retvals>
+  <chapter_context>
+    User Interface
+    Menu Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, show, context menu, ruler</tags>
+</US_DocBloc>
+--]]
+  -- MediaTrack=nil, use selected MediaTrack
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("ShowRulerMenu", "x", "must be an integer", -1) return false end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("ShowRulerMenu", "y", "must be an integer", -2) return false end
+  if HWNDParent~=nil and ultraschall.IsValidHWND(HWNDParent)==false then ultraschall.AddErrorMessage("ShowRulerMenu", "HWNDParent", "must be nil or a valid HWND", -3) return false end
+
+  reaper.ShowPopupMenu("ruler", x, y, HWNDParent, MediaTrack)
+  return true
+end
+
+--ultraschall.ShowRulerMenu(100,200, HWNDParent)
+
+function ultraschall.ShowMediaItemMenu(x, y, MediaItem, HWNDParent)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ShowMediaItemMenu</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.92
+    JS=0.986
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ShowMediaItemMenu(integer x, integer y, optional MediaItem MediaItem, optional HWND HWNDParent)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Opens a MediaItem-context menu
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    integer x - x position of the context-menu in pixels
+    integer y - y position of the context-menu in pixels
+    optional MediaItem MediaItem - the MediaItem, which shall be influenced by the menu-selection of the opened context-menu; nil, use the currently selected one
+    optional HWND HWNDParent - a HWND, in which the context-menu shall be shown in; nil, use Reaper's main window
+  </parameters>
+  <retvals>
+    boolean retval - true, opening the menu worked; false, there was an error
+  </retvals>
+  <chapter_context>
+    User Interface
+    Menu Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, show, context menu, item, mediaitem</tags>
+</US_DocBloc>
+--]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("ShowMediaItemMenu", "x", "must be an integer", -1) return false end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("ShowMediaItemMenu", "y", "must be an integer", -2) return false end
+  if MediaItem~=nil and ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("ShowMediaItemMenu", "MediaItem", "must be nil or a valid MediaItem", -3) return false end
+  if HWNDParent~=nil and ultraschall.IsValidHWND(HWNDParent)==false then ultraschall.AddErrorMessage("ShowMediaItemMenu", "HWNDParent", "must be nil or a valid HWND", -4) return false end
+
+  reaper.ShowPopupMenu("item", x, y, HWNDParent, MediaItem)
+  return true
+end
+
+--ultraschall.ShowMediaItemMenu(100,200, reaper.GetMediaItem(0,0), HWNDParent)
+
+function ultraschall.ShowEnvelopeMenu(x, y, TrackEnvelope, HWNDParent)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ShowEnvelopeMenu</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.92
+    JS=0.986
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ShowEnvelopeMenu(integer x, integer y, optional TrackEnvelope TrackEnvelope, optional HWND HWNDParent)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Opens a Track/TakeEnvelope-context menu
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    integer x - x position of the context-menu in pixels
+    integer y - y position of the context-menu in pixels
+    optional TrackEnvelope TrackEnvelope - the TrackEnvelope/TakeEnvelope, which shall be influenced by the menu-selection of the opened context-menu; nil, use the currently selected TrackEnvelope
+    optional HWND HWNDParent - a HWND, in which the context-menu shall be shown in; nil, use Reaper's main window
+  </parameters>
+  <retvals>
+    boolean retval - true, opening the menu worked; false, there was an error
+  </retvals>
+  <chapter_context>
+    User Interface
+    Menu Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, show, context menu, item, track envelope, take envelope</tags>
+</US_DocBloc>
+--]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("ShowEnvelopeMenu", "x", "must be an integer", -1) return false end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("ShowEnvelopeMenu", "y", "must be an integer", -2) return false end
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("ShowEnvelopeMenu", "TrackEnvelope", "must be nil or a valid TrackEnvelope", -3) return false end
+  if HWNDParent~=nil and ultraschall.IsValidHWND(HWNDParent)==false then ultraschall.AddErrorMessage("ShowEnvelopeMenu", "HWNDParent", "must be nil or a valid HWND", -4) return false end
+
+-- MediaTrack=nil, use selected MediaTrack
+  reaper.ShowPopupMenu("envelope", x, y, HWNDParent, TrackEnvelope)
+  return true
+end
+
+--ultraschall.ShowEnvelopeMenu(100,200, nil, HWNDParent)
+
+function ultraschall.ShowEnvelopePointMenu(x, y, Pointidx, Trackenvelope, HWNDParent)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ShowEnvelopePointMenu</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.92
+    JS=0.986
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ShowEnvelopePointMenu(integer x, integer y, integer Pointidx, optional TrackEnvelope TrackEnvelope, optional HWND HWNDParent)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Opens a Track/TakeEnvelope-Point-context menu
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    integer x - x position of the context-menu in pixels
+    integer y - y position of the context-menu in pixels
+    integer Pointidx - the envelope-point, which shall be influenced by the context-menu
+    optional TrackEnvelope TrackEnvelope - the TrackEnvelope/TakeEnvelope, which shall be influenced by the menu-selection of the opened context-menu; nil, use the currently selected TrackEnvelope
+    optional HWND HWNDParent - a HWND, in which the context-menu shall be shown in; nil, use Reaper's main window
+  </parameters>
+  <retvals>
+    boolean retval - true, opening the menu worked; false, there was an error
+  </retvals>
+  <chapter_context>
+    User Interface
+    Menu Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, show, context menu, item, track envelope, take envelope, envelope point</tags>
+</US_DocBloc>
+--]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("ShowEnvelopePointMenu", "x", "must be an integer", -1) return false end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("ShowEnvelopePointMenu", "y", "must be an integer", -2) return false end
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("ShowEnvelopePointMenu", "TrackEnvelope", "must be nil or a valid TrackEnvelope", -3) return false end
+  if HWNDParent~=nil and ultraschall.IsValidHWND(HWNDParent)==false then ultraschall.AddErrorMessage("ShowEnvelopePointMenu", "HWNDParent", "must be nil or a valid HWND", -4) return false end
+  if math.type(Pointidx)~="integer" then ultraschall.AddErrorMessage("ShowEnvelopePointMenu", "Pointidx", "must be an integer", -5) return false end
+  if Pointidx<0 then ultraschall.AddErrorMessage("ShowEnvelopePointMenu", "Pointidx", "must be bigger than/equal 0", -6) return false end
+
+  reaper.ShowPopupMenu("envelope_point", x, y, HWNDParent, Trackenvelope, Pointidx, 0)
+  return true
+end
+
+--ultraschall.ShowEnvelopePointMenu(100,200, nil, 0, HWNDParent)
+
+function ultraschall.ShowEnvelopePointMenu_AutomationItem(x, y, Pointidx, AutomationIDX, Trackenvelope, HWNDParent)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ShowEnvelopePointMenu_AutomationItem</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.92
+    JS=0.986
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ShowEnvelopePointMenu_AutomationItem(integer x, integer y, integer Pointidx, integer AutomationIDX, optional TrackEnvelope TrackEnvelope, optional HWND HWNDParent)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Opens a Track/TakeEnvelope-Point-context menu for AutomationItems
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    integer x - x position of the context-menu in pixels
+    integer y - y position of the context-menu in pixels
+    integer Pointidx - the envelope-point, which shall be influenced by the context-menu
+    integer AutomationIDX - the automation item-id within this Envelope, beginning with 1 for the first
+    optional TrackEnvelope TrackEnvelope - the TrackEnvelope/TakeEnvelope, which shall be influenced by the menu-selection of the opened context-menu; nil, use the currently selected TrackEnvelope
+    optional HWND HWNDParent - a HWND, in which the context-menu shall be shown in; nil, use Reaper's main window
+  </parameters>
+  <retvals>
+    boolean retval - true, opening the menu worked; false, there was an error
+  </retvals>
+  <chapter_context>
+    User Interface
+    Menu Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, show, context menu, item, track envelope, take envelope, envelope point, automation item</tags>
+</US_DocBloc>
+--]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("ShowEnvelopePointMenu_AutomationItem", "x", "must be an integer", -1) return false end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("ShowEnvelopePointMenu_AutomationItem", "y", "must be an integer", -2) return false end
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("ShowEnvelopePointMenu_AutomationItem", "TrackEnvelope", "must be nil or a valid TrackEnvelope", -3) return false end
+  if HWNDParent~=nil and ultraschall.IsValidHWND(HWNDParent)==false then ultraschall.AddErrorMessage("ShowEnvelopePointMenu_AutomationItem", "HWNDParent", "must be nil or a valid HWND", -4) return false end
+  if math.type(Pointidx)~="integer" then ultraschall.AddErrorMessage("ShowEnvelopePointMenu_AutomationItem", "Pointidx", "must be an integer", -5) return false end
+  if Pointidx<0 then ultraschall.AddErrorMessage("ShowEnvelopePointMenu_AutomationItem", "Pointidx", "must be bigger than/equal 0", -6) return false end
+  if math.type(AutomationIDX)~="integer" then ultraschall.AddErrorMessage("ShowEnvelopePointMenu_AutomationItem", "AutomationIDX", "must be an integer", -7) return false end
+  if AutomationIDX<1 then ultraschall.AddErrorMessage("ShowEnvelopePointMenu_AutomationItem", "AutomationIDX", "must be bigger than 0", -8) return false end
+
+  reaper.ShowPopupMenu("envelope_point", x, y, HWNDParent, Trackenvelope, Pointidx, AutomationIDX)
+  return true
+end
+
+--ultraschall.ShowEnvelopePointMenu_AutomationItem(100,200, nil, 1, 1, HWNDParent)
+
+
+function ultraschall.ShowAutomationItemMenu(x, y, AutomationIDX, Trackenvelope, HWNDParent)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ShowAutomationItemMenu</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.92
+    JS=0.986
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.ShowAutomationItemMenu(integer x, integer y, integer AutomationIDX, optional TrackEnvelope TrackEnvelope, optional HWND HWNDParent)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Opens an AutomationItem-context menu
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    integer x - x position of the context-menu in pixels
+    integer y - y position of the context-menu in pixels
+    integer AutomationIDX - the automation item-id within this Envelope which shall be influenced by the menu-selection of the opened context-menu, beginning with 1 for the first
+    optional TrackEnvelope TrackEnvelope - the TrackEnvelope/TakeEnvelope, which shall be influenced by the menu-selection of the opened context-menu; nil, use the currently selected TrackEnvelope
+    optional HWND HWNDParent - a HWND, in which the context-menu shall be shown in; nil, use Reaper's main window
+  </parameters>
+  <retvals>
+    boolean retval - true, opening the menu worked; false, there was an error
+  </retvals>
+  <chapter_context>
+    User Interface
+    Menu Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, show, context menu, item, track envelope, take envelope, automation item</tags>
+</US_DocBloc>
+--]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("ShowAutomationItemMenu", "x", "must be an integer", -1) return false end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("ShowAutomationItemMenu", "y", "must be an integer", -2) return false end
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("ShowAutomationItemMenu", "TrackEnvelope", "must be nil or a valid TrackEnvelope", -3) return false end
+  if HWNDParent~=nil and ultraschall.IsValidHWND(HWNDParent)==false then ultraschall.AddErrorMessage("ShowAutomationItemMenu", "HWNDParent", "must be nil or a valid HWND", -4) return false end
+  if math.type(AutomationIDX)~="integer" then ultraschall.AddErrorMessage("ShowAutomationItemMenu", "AutomationIDX", "must be an integer", -5) return false end
+  if AutomationIDX<1 then ultraschall.AddErrorMessage("ShowAutomationItemMenu", "AutomationIDX", "must be bigger than 0", -6) return false end
+
+  reaper.ShowPopupMenu("envelope_item", x, y, HWNDParent, Trackenvelope, AutomationIDX)
+  return true
+end
+
+--ultraschall.ShowAutomationItemMenu(100,200, nil, 1, HWNDParent)
 
 ultraschall.ShowLastErrorMessage()

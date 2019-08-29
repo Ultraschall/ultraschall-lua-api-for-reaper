@@ -40,14 +40,26 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.00 Beta 2.77: - "Radiohead - Paranoid Android" - 30th of September 2019</h3>
+<h3>4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 30th of September 2019</h3>
 <h4>New features in 4.00beta2.77</h4>
 <ul>
 <li>Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point</li>
+<li>Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system</li>
 <li>EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript</li>
 <li>MediaItem Management: GetMediaItem_ClickState - returns the currently clicked MediaItem</li>
 <li>MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project</li>
-<li>Project Management: GetTimeByMouseXPosition - returns projecttime at x-screenposition</li>
+<li>Project Management: GetProjectFilename - returns the filename of a currently opened project</li>
+<li>User Interface: GetTimeByMouseXPosition - returns projecttime at x-screenposition</li>
+<li>User Interface: ShowTrackInputMenu - shows a TrackInput-contextmenu</li>
+<li>User Interface: ShowTrackPanelMenu - shows a TrackPanel-contextmenu</li>
+<li>User Interface: ShowTrackAreaMenu - shows a TrackArea-contextmenu</li>
+<li>User Interface: ShowTrackRoutingMenu - shows a TrackRouting-contextmenu</li>
+<li>User Interface: ShowRulerMenu - shows a Ruler-contextmenu</li>
+<li>User Interface: ShowMediaItemMenu - shows a MediaItem-contextmenu</li>
+<li>User Interface: ShowEnvelopeMenu - shows a Track/TakeEnvelope-contextmenu</li>
+<li>User Interface: ShowEnvelopePointMenu - shows an EnvelopePoint-contextmenu</li>
+<li>User Interface: ShowEnvelopePointMenu_AutomationItem - shows an EnvelopePoint-contextmenu for Automation Items</li>
+<li>User Interface: ShowAutomationItemMenu - shows a AutomationItems-contextmenu</li>
 </ul>
 <h4>Changes from Beta 2.761 to Beta 2.77</h4>
 <ul>
@@ -72,6 +84,8 @@ Ultraschall API Changelog
 <li>HWND: GetRenderingToFileHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
 <li>HWND: GetSaveLiveOutputToDiskHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
 <li>HWND: GetVideoHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
+<li>Project Management: CheckForChangedProjectTabs - checks now as well, if projectfilenames have changed, by either loading a project or saving a project under a new filename(requested by ???)</li>
+<li>Project Management: ProjectTabs-check - initialization had a bug, which could cause CheckForChangedProjectTabs to fail at times -&gt; fixed</li>
 <li>Project Management: GetProject_MasterGroupFlagsState - moved to correct docsindex Project Management</li>
 <li>Project Management: SetProject_MasterGroupFlagsState - moved to correct docsindex Project Management</li>
 <li>Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs</li>

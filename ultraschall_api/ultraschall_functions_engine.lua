@@ -99,6 +99,40 @@ function ultraschall.GetEnvelopeStateChunk(TrackEnvelope, str, isundo, usesws)
   return reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
 end
 
+function ultraschall.GetApiVersion()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetApiVersion</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>string version, string date, string beta, number versionnumber, string tagline = ultraschall.GetApiVersion()</functioncall>
+  <description>
+    returns the version, release-date and if it's a beta-version plus the currently installed hotfix
+  </description>
+  <retvals>
+    string version - the current Api-version
+    string date - the release date of this api-version
+    string beta - if it's a beta version, this is the beta-version-number
+    number versionnumber - a number, that you can use for comparisons like, "if requestedversion>versionnumber then"
+    string tagline - the tagline of the current release
+    string hotfix_date - the release-date of the currently installed hotfix ($ResourceFolder/ultraschall_api/ultraschall_hotfixes.lua)
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>version,versionmanagement</tags>
+</US_DocBloc>
+--]]
+  return "4.00","", "Beta 2.77", 400.0277,  "\"Monkeys with Tools - Call the planet doctor\"", ultraschall.hotfixdate
+end
+
+--A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
+
 function ultraschall.IntToDouble(integer, selector)
   if selector==nil then
     for c in io.lines(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/double_to_int.ini") do
@@ -129,6 +163,49 @@ function ultraschall.DoubleToInt(float, selector)
   return tonumber(String)
 end
 
+function ultraschall.SuppressErrorMessages(flag)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SuppressErrorMessages</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SuppressErrorMessages(boolean flag)</functioncall>
+  <description>
+    Allows you to suppress error-messages.
+    If you pass true, all error messages will be suppressed, until you run the function again passing false.
+    
+    Note: You should supress error-messages only temprarily and "unsuppress" them again, after your critical stuff is finished.
+    Otherwise, someone using your functions will have no error-messages to debug with.
+    
+    Returns false, if parameter isn't boolean. Unlike most other function, this will never create an error-message!
+  </description>
+  <parameters>
+    boolean flag - true, suppress error-messages; false, don't suppress error-messages
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was successful; false, you didn't pass a boolean as parameter
+  </retvals>
+  <chapter_context>
+    Developer
+    Error Handling
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>developer, error, suppress, unsuppress, message</tags>
+</US_DocBloc>
+]]
+  if flag==true then
+    ultraschall.SuppressErrorMessagesFlag=true
+    return true
+  elseif flag==false then
+    ultraschall.SuppressErrorMessagesFlag=false
+    return true
+  end
+  return false
+end
 
 
 function ultraschall.AddErrorMessage(functionname, parametername, errormessage, errorcode)
@@ -155,7 +232,7 @@ function ultraschall.AddErrorMessage(functionname, parametername, errormessage, 
   </parameters>
   <retvals>
     boolean retval - true, if it worked; false if it didn't
-    integer errorcount - the number of the errormessage within the Ultraschall-Api-Error-messagesystem
+    integer errorcount - the number of the errormessage within the Ultraschall-Api-Error-messagesystem; nil, if errormessages are suppressed currently
   </retvals>
   <chapter_context>
     Developer
@@ -166,31 +243,35 @@ function ultraschall.AddErrorMessage(functionname, parametername, errormessage, 
   <tags>developer, error, add, message</tags>
 </US_DocBloc>
 ]]
-  -- check parameters
-  if functionname==nil or errormessage==nil then a=false functionname="ultraschall.AddErrorMessage" errormessage="functionname or errormessage is nil. Must contain valid value instead!" end
-  ultraschall.ErrorCounter=ultraschall.ErrorCounter+1
-  if parametername==nil then parametername="" end
-  if type(errorcode)~="number" then errorcode=-1 end
-  
-  -- let's create the new errormessage
-  local ErrorMessage={}
-  ErrorMessage["funcname"]=functionname
-  ErrorMessage["errmsg"]=errormessage
-  ErrorMessage["readstate"]="unread"
-  ErrorMessage["date"]=os.date()
-  ErrorMessage["time"]=os.time()
-  ErrorMessage["parmname"]=parametername
-  ErrorMessage["errcode"]=errorcode
-  
-  -- add it to the error-message-system
-  ultraschall.ErrorMessage[ultraschall.ErrorCounter]=ErrorMessage
-  
-  if ultraschall.ShowErrorInReaScriptConsole==true then print("Function: "..functionname.."\n   Parameter: "..parametername.."\n   Error: "..errorcode.." - \""..errormessage.."\"\n   Errortime: "..ErrorMessage["date"].."\n") end
-  
-  -- terminate script with Lua-errormessage
-  if ultraschall.IDEerror==true then error(functionname..":"..errormessage,3) end
-  if a==false then return false
-  else return true, ultraschall.ErrorCounter
+  if ultraschall.SuppressErrorMessagesFlag~=true then
+      -- check parameters
+      if functionname==nil or errormessage==nil then a=false functionname="ultraschall.AddErrorMessage" errormessage="functionname or errormessage is nil. Must contain valid value instead!" end
+      ultraschall.ErrorCounter=ultraschall.ErrorCounter+1
+      if parametername==nil then parametername="" end
+      if type(errorcode)~="number" then errorcode=-1 end
+      
+      -- let's create the new errormessage
+      local ErrorMessage={}
+      ErrorMessage["funcname"]=functionname
+      ErrorMessage["errmsg"]=errormessage
+      ErrorMessage["readstate"]="unread"
+      ErrorMessage["date"]=os.date()
+      ErrorMessage["time"]=os.time()
+      ErrorMessage["parmname"]=parametername
+      ErrorMessage["errcode"]=errorcode
+      
+      -- add it to the error-message-system
+      ultraschall.ErrorMessage[ultraschall.ErrorCounter]=ErrorMessage
+      
+      if ultraschall.ShowErrorInReaScriptConsole==true then print("Function: "..functionname.."\n   Parameter: "..parametername.."\n   Error: "..errorcode.." - \""..errormessage.."\"\n   Errortime: "..ErrorMessage["date"].."\n") end
+      
+      -- terminate script with Lua-errormessage
+      if ultraschall.IDEerror==true then error(functionname..":"..errormessage,3) end
+      if a==false then return false
+      else return true, ultraschall.ErrorCounter
+      end
+  else
+    return false
   end
 end
 

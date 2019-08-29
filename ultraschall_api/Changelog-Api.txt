@@ -1,8 +1,7 @@
 <TODO>
     For 4.00beta2.77
+        - TODO!! who requested ? Project Management: CheckForChangedProjectTabs - checks now as well, if projectfilenames have changed, by either loading a project or saving a project under a new filename(requested by ???)
         - TODO!! GetReaperWindowPosition_Left und GetReaperWindowPosition_Right entweder deprecaten oder neu implementieren
-        - TODO!! ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua 
-            - check ob die retvals für errors mit der Doku und den retvals in der Doku übereinstimmen. Alle anderen Module sind schon gecheckt.
         - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
         - TODO!! Docs: parameters sometimes get MarkDown-formatted, though no markdown is given as markup-language..
                         Huh???
@@ -226,7 +225,6 @@
                             --1, don't copy files
               boolean add - true, add the scripts to the actionlist; false, remove them from the action-list
       TODO!!  - create HTML-docs from all files in the functions-department of Ultraschall/3rd-party-functions
-      TODO!!  - Show$ContextMenu() - ShowPopupMenu is too complicated to use. Create proper useable functions to address that
       TODO!!  - GFX: virtual screenbuffers(create/remove/blit)
                 - probably useless and tow slow
       TODO!!  - ultraschall.gfx_getkey(integer buffer), allows pipe-ing of UserInput directly into a textbuffer. The textbuffer acts like a invisible textbox, which can be shown using drawstr or something
@@ -275,14 +273,26 @@ TODO!! buggy function
 
 ## Ultraschall Framework - Changelog
 
-### 4.00 Beta 2.77: - "Radiohead - Paranoid Android" - 30th of September 2019
+### 4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 30th of September 2019
  
 #### New features in 4.00beta2.77
    - Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point
+   - Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system
    - EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript
    - MediaItem Management: GetMediaItem_ClickState - returns the currently clicked MediaItem
    - MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project
-   - Project Management: GetTimeByMouseXPosition - returns projecttime at x-screenposition
+   - Project Management: GetProjectFilename - returns the filename of a currently opened project
+   - User Interface: GetTimeByMouseXPosition - returns projecttime at x-screenposition
+   - User Interface: ShowTrackInputMenu - shows a TrackInput-contextmenu
+   - User Interface: ShowTrackPanelMenu - shows a TrackPanel-contextmenu
+   - User Interface: ShowTrackAreaMenu - shows a TrackArea-contextmenu
+   - User Interface: ShowTrackRoutingMenu - shows a TrackRouting-contextmenu
+   - User Interface: ShowRulerMenu - shows a Ruler-contextmenu
+   - User Interface: ShowMediaItemMenu - shows a MediaItem-contextmenu
+   - User Interface: ShowEnvelopeMenu - shows a Track/TakeEnvelope-contextmenu
+   - User Interface: ShowEnvelopePointMenu - shows an EnvelopePoint-contextmenu
+   - User Interface: ShowEnvelopePointMenu_AutomationItem - shows an EnvelopePoint-contextmenu for Automation Items
+   - User Interface: ShowAutomationItemMenu - shows a AutomationItems-contextmenu
    
 #### Changes from Beta 2.761 to Beta 2.77
    - API: functions - moved all functions into modules for future modular-concept
@@ -306,6 +316,8 @@ TODO!! buggy function
    - HWND: GetRenderingToFileHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - HWND: GetSaveLiveOutputToDiskHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - HWND: GetVideoHWND - moved to docs-index User Interface -> Reaper-Windowhandler
+   - Project Management: CheckForChangedProjectTabs - checks now as well, if projectfilenames have changed, by either loading a project or saving a project under a new filename(requested by ???)
+   - Project Management: ProjectTabs-check - initialization had a bug, which could cause CheckForChangedProjectTabs to fail at times -> fixed
    - Project Management: GetProject\_MasterGroupFlagsState - moved to correct docsindex Project Management
    - Project Management: SetProject\_MasterGroupFlagsState - moved to correct docsindex Project Management
    - Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs
