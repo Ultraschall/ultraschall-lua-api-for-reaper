@@ -1904,4 +1904,56 @@ end
 --ultraschall.SetupLiceCap("Hula", "Hachgotterl\nahh", 20, 1, 2, 3, 4, 123, 1, 987, 64)
 --ultraschall.SetupLiceCap("Hurtz.lcf")
 
+function ultraschall.DeleteUSExternalState(section, key)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteUSExternalState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.DeleteUSExternalState(string section, string key)</functioncall>
+  <description>
+    Deletes an external state from the ultraschall.ini
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    string section - the section, in which the to be deleted-key is located
+    string key - the key to delete
+  </parameters>
+  <retvals>
+    boolean retval - false in case of error; true in case of success
+  </retvals>
+  <chapter_context>
+    Ultraschall Specific
+    Ultraschall.ini
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurationmanagement, delete, section, key</tags>
+</US_DocBloc>
+]]  
+  if type(section)~="string" then ultraschall.AddErrorMessage("DeleteUSExternalState", "section", "must be a string", -1) return false end
+  if type(key)~="string" then ultraschall.AddErrorMessage("DeleteUSExternalState", "key", "must be a string", -2) return false end
+  local A,B,C=ultraschall.ReadFullFile(reaper.GetResourcePath().."/ultraschall.ini")
+  if A==nil then ultraschall.AddErrorMessage("DeleteUSExternalState", "", "no ultraschall.ini present", -3) return false end
+  A="\n"..A.."["
+  local Start, Part, EndOf = A:match("()\n(%["..section.."%]\n.-)()\n%[")
+  if Part==nil then ultraschall.AddErrorMessage("DeleteUSExternalState", "section", "no such section "..section.." in ultraschall.ini", -4) return false end
+  local Part=Part.."\n"
+  local Part2=string.gsub(Part, key.."=.-\n", "")
+  if Part2==Part then ultraschall.AddErrorMessage("DeleteUSExternalState", "key", "no such key in section "..section.." in ultraschall.ini", -5) return false end
+  local A2=A:sub(2,Start)..Part2:sub(1,-2)..A:sub(EndOf, -2)
+  if A2~=A then
+    local O=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/ultraschall.ini", A2)
+    if O==-1 then ultraschall.AddErrorMessage("DeleteUSExternalState", "", "nothing deleted", -6) return false end
+  else
+    return false
+  end
+end
+
+--A1=ultraschall.DeleteUSExternalState("hulubuluberg","3")
+
 ultraschall.ShowLastErrorMessage()

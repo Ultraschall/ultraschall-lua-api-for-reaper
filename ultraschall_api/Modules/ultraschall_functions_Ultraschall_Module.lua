@@ -674,7 +674,7 @@ function ultraschall.EnumerateUSExternalState_sec(number)
     integer number - the number of section, whose name you want to know
   </parameters>
   <chapter_context>
-    Configuration-Files Management
+    Ultraschall Specific
     Ultraschall.ini
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>

@@ -190,7 +190,7 @@ function ultraschall.ReadValueFromFile(filename_with_path, value)
   if return_lines_as_array==false then countlines=nil foundlines=nil end
 
   --string contents, string linenumbers, integer numberoflines
-  return contents,linenumbers:sub(1,-2), number_of_lines, countlines
+  return contents, linenumbers:sub(1,-2), number_of_lines, countlines
 end
 
 
