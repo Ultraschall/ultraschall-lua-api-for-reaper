@@ -12679,8 +12679,8 @@
             
       </description>  
       <chapter_context>  
-         Config Variables  
          Reaper Ini-Only
+         reaper_video
       </chapter_context>  
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
@@ -12700,8 +12700,8 @@
             - 3, 4 threads
       </description>  
       <chapter_context>  
-         Config Variables  
          Reaper Ini-Only
+         reaper_video
       </chapter_context>  
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
@@ -12722,8 +12722,8 @@
             
       </description>  
       <chapter_context>  
-         Config Variables  
          Reaper Ini-Only
+         reaper_video
       </chapter_context>  
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
@@ -12747,8 +12747,8 @@
             &4=1, Send MIDI CC control messages [BB xx vv] when mouse dragging in video window - checked
       </description>  
       <chapter_context>  
-         Config Variables  
          Reaper Ini-Only
+         reaper_video
       </chapter_context>  
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
@@ -12768,8 +12768,8 @@
                 0.100, 0.250, 0.500, 1.000(default), 1.500, 2.000
       </description>  
       <chapter_context>  
-         Config Variables  
          Reaper Ini-Only
+         reaper_video
       </chapter_context>  
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
@@ -12790,8 +12790,8 @@
                 3, All media and FX are not cached
       </description>  
       <chapter_context>  
-         Config Variables  
          Reaper Ini-Only
+         reaper_video
       </chapter_context>  
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
@@ -12809,10 +12809,30 @@
 
       </description>  
       <chapter_context>  
-         Config Variables  
          Reaper Ini-Only
+         reaper_video
       </chapter_context>  
       <target_document>Reaper_Config_Variables</target_document>  
     </US_DocBloc>  
-    
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">  
+      <slug>REAPER->pspage_last</slug>  
+      <title>REAPER->pspage_last</title>  
+      <description markup_type="markdown" markup_version="1.0.1" indent="default">  
+            The last selected tab in the Project Settings-Dialog. 
+
+            It is an integer
+                
+               >0, Project Settings-tab
+               >1, Media-tab
+               >2, Video-tab
+               >3, Advanced-tab
+               >4, Notes-tab
+      </description>  
+      <chapter_context>  
+         Reaper Ini-Only
+         REAPER
+      </chapter_context>  
+      <target_document>Reaper_Config_Variables</target_document>  
+    </US_DocBloc>  
 </USDocML>  

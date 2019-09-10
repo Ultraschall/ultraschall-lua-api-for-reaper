@@ -1956,4 +1956,199 @@ end
 
 --A1=ultraschall.DeleteUSExternalState("hulubuluberg","3")
 
+function ultraschall.GetSaveProjectAsHWND()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetSaveProjectAsHWND</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>HWND hwnd = ultraschall.GetSaveProjectAsHWND()</functioncall>
+  <description>
+    returns the HWND of the Save As-dialog, if the window is opened.
+    
+    returns nil if the Save As-dialog is closed
+  </description>
+  <retvals>
+    HWND hwnd - the window-handler of the Save As-dialog
+  </retvals>
+  <chapter_context>
+    User Interface
+    Reaper-Windowhandler
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>user interface, window, hwnd, save as, get</tags>
+</US_DocBloc>
+--]]
+  local translation=reaper.JS_Localize("Save Project", "saveas")
+  local subdirectory=reaper.JS_Localize("Create subdirectory for project", "DLG_185")
+  local copyallmedia=reaper.JS_Localize("Copy all media into project directory, using:", "DLG_185")
+  local convertmedia=reaper.JS_Localize("Convert media", "DLG_185")
+  local format=reaper.JS_Localize("Format...", "DLG_185")
+  
+  local count_hwnds, hwnd_array, hwnd_adresses = ultraschall.Windows_Find(translation, true)
+  if count_hwnds==0 then return nil
+  else
+    for i=count_hwnds, 1, -1 do
+      if ultraschall.HasHWNDChildWindowNames(hwnd_array[i], 
+                                            subdirectory.."\0"..
+                                            copyallmedia.."\0"..
+                                            convertmedia.."\0"..
+                                            format)==true then return hwnd_array[i] end
+    end
+  end
+  return nil
+end
+
+function ultraschall.SaveProjectAs(filename_with_path, fileformat, overwrite, create_subdirectory, copy_all_media, copy_rather_than_move)
+  -- TODO:  - if a file exists already, fileformats like edl and txt may lead to showing of a overwrite-prompt of the savedialog
+  --                this is mostly due Reaper adding the accompanying extension to the filename
+  --                must be treated somehow or the other formats must be removed
+  --        - convert mediafiles into another format(possible at all?)
+  --        - check on Linux and Mac
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SaveProjectAs</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    SWS=2.10.0.1
+    JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string newfilename_with_path = ultraschall.SaveProjectAs(string filename_with_path, integer fileformat, boolean overwrite, boolean create_subdirectory, integer copy_all_media, boolean copy_rather_than_move)</functioncall>
+  <description>
+    Saves the current project under a new filename.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, saving was successful; false, saving wasn't succesful
+    string newfilename_with_path - the new projectfilename with path, helpful if you only gave the filename
+  </retvals>
+  <parameters>
+    string filename_with_path - the new projectfile; omitting the path saves the project in the last used folder
+    integer fileformat - the fileformat, in which you want to save the project
+                       - 0, REAPER Project files (*.RPP)
+                       - 1, EDL TXT (Vegas) files (*.TXT)
+                       - 2, EDL (Samplitude) files (*.EDL)
+    boolean overwrite - true, overwrites the projectfile, if it exists; false, keep an already existing projectfile
+    boolean create_subdirectory - true, create a subdirectory for the project; false, save it into the given folder
+    integer copy_all_media - shall the project's mediafiles be copied or moved or left as they are?
+                           - 0, don't copy/move media
+                           - 1, copy the project's mediafiles into projectdirectory
+                           - 2, move the project's mediafiles into projectdirectory
+    boolean copy_rather_than_move - true, copy rather than move source media if not in old project media path; false, leave the files as they are
+  </parameters>
+  <chapter_context>
+    Project-Management
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>project management, save, project as, edl, rpp, vegas, samplitude</tags>
+</US_DocBloc>
+--]]
+  -- check parameters
+  local A=ultraschall.GetSaveProjectAsHWND()
+  if A~=nil then ultraschall.AddErrorMessage("SaveProjectAs", "", "SaveAs-dialog already open", -1) return false end
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("SaveProjectAs", "filename_with_path", "must be a string", -2) return false end
+  local A,B=reaper.BR_Win32_GetPrivateProfileString("REAPER", "lastprojuiref", "", reaper.get_ini_file())
+  local C,D=ultraschall.GetPath(B)
+  local E,F=ultraschall.GetPath(filename_with_path)
+  
+  if E=="" then filename_with_path=C..filename_with_path end
+  if E~="" and ultraschall.DirectoryExists2(E)==false then 
+    reaper.RecursiveCreateDirectory(E,1)
+    if ultraschall.DirectoryExists2(E)==false then 
+      ultraschall.AddErrorMessage("SaveProjectAs", "filename_with_path", "invalid path", -3)
+      return false
+    end
+  end
+  if type(overwrite)~="boolean" then ultraschall.AddErrorMessage("SaveProjectAs", "overwrite", "must be a boolean", -4) return false end
+  if type(create_subdirectory)~="boolean" then ultraschall.AddErrorMessage("SaveProjectAs", "create_subdirectory", "must be a boolean", -5) return false end
+  if math.type(copy_all_media)~="integer" then ultraschall.AddErrorMessage("SaveProjectAs", "copy_all_media", "must be an integer", -6) return false end
+  if type(copy_rather_than_move)~="boolean" then ultraschall.AddErrorMessage("SaveProjectAs", "copy_rather_than_move", "must be a boolean", -7) return false end
+  if math.type(fileformat)~="integer" then ultraschall.AddErrorMessage("SaveProjectAs", "fileformat", "must be an integer", -8) return false end
+  if fileformat<0 or fileformat>2 then ultraschall.AddErrorMessage("SaveProjectAs", "fileformat", "must be between 0 and 2", -9) return false end
+  if copy_all_media<0 or copy_all_media>2 then ultraschall.AddErrorMessage("SaveProjectAs", "copy_all_media", "must be between 0 and 2", -10) return false end
+  
+  -- management of, if file already exists
+  if overwrite==false and reaper.file_exists(filename_with_path)==true then ultraschall.AddErrorMessage("SaveProjectAs", "filename_with_path", "file already exists", -11) return false end
+  if overwrite==true and reaper.file_exists(filename_with_path)==true then os.remove(filename_with_path) end
+
+  
+  -- create the background-script, which will manage the saveas-dialog and run it
+  ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/saveprojectas.lua", [[
+  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+  num_params, params, caller_script_identifier = ultraschall.GetScriptParameters()
+
+  filename_with_path=params[1]
+  fileformat=tonumber(params[2])
+  create_subdirectory=toboolean(params[3])
+  copy_all_media=params[4]
+  copy_rather_than_move=toboolean(params[5])
+  
+  function main2()
+    --if A~=nil then print2("Hooray") end
+    translation=reaper.JS_Localize("Create subdirectory for project", "DLG_185")
+    PP=reaper.JS_Window_Find("Create subdirectory", false)
+    A2=reaper.JS_Window_GetParent(PP)
+    ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1042), create_subdirectory)
+    if copy_all_media==1 then 
+      ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1043), true)
+      ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1044), false)
+    elseif copy_all_media==2 then 
+      ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1043), false)
+      ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1044), true)
+    else
+      ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1043), false)
+      ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1044), false)
+    end
+    ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1045), copy_rather_than_move)
+    A3=reaper.JS_Window_FindChildByID(A, 0)
+    A3=reaper.JS_Window_FindChildByID(A3, 0)
+    A3=reaper.JS_Window_FindChildByID(A3, 0)
+    A3=reaper.JS_Window_FindChildByID(A3, 0)
+    reaper.JS_Window_SetTitle(A3, filename_with_path)
+    reaper.JS_WindowMessage_Send(A3, "WM_LBUTTONDOWN", 1,1,1,1)
+    reaper.JS_WindowMessage_Send(A3, "WM_LBUTTONUP", 1,1,1,1)
+    
+    XX=reaper.JS_Window_FindChild(A, "REAPER Project files (*.RPP)", true)
+
+    reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONDOWN", 1,1,1,1)
+    reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONUP", 1,1,1,1)
+    reaper.JS_WindowMessage_Send(XX, "CB_SETCURSEL", fileformat,0,0,0)
+    reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONDOWN", 1,1,1,1)
+    reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONUP", 1,1,1,1)
+    
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(A, 1), "WM_LBUTTONDOWN", 1,1,1,1)
+    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(A, 1), "WM_LBUTTONUP", 1,1,1,1)
+  end
+
+  function main1()
+    A=ultraschall.GetSaveProjectAsHWND()
+    if A==nil then reaper.defer(main1) else main2() end
+  end
+  
+  --print("alive")
+  
+  main1()
+  ]])
+  local retval, script_identifier = ultraschall.Main_OnCommandByFilename(ultraschall.API_TempPath.."/saveprojectas.lua", filename_with_path, fileformat, create_subdirectory, copy_all_media, copy_rather_than_move)
+    
+  -- open SaveAs-dialog
+  reaper.Main_SaveProject(0, true)
+  -- remove background-script
+  os.remove(ultraschall.API_TempPath.."/saveprojectas.lua")
+  return true, filename_with_path
+end
+
+--reaper.Main_SaveProject(0, true)
+--ultraschall.SaveProjectAs("Fix it all of that HUUUIII", true, 0, true)
+
 ultraschall.ShowLastErrorMessage()

@@ -1700,7 +1700,7 @@ ChildIDs:
     1637  Slider1                                                       -   REAPERhfader
     
 
-Media Item Properties
+>Media Item Properties
    -1     Position:                         -   Static
     1     OK                                -   Button
     2     Cancel                            -   Button

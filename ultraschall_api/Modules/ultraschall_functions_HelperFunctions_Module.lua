@@ -203,6 +203,7 @@ function ultraschall.SplitStringAtLineFeedToArray(unsplitstring)
   local array={}
   if unsplitstring==nil then ultraschall.AddErrorMessage("SplitStringAtLineFeedToArray", "unsplitstring", "nil is not allowed as value", -1) return -1 end
   unsplitstring=string.gsub (unsplitstring, "\r", "")
+  unsplitstring=unsplitstring.."\n"
   local count=0
   for k in string.gmatch(unsplitstring, "(.-)\n") do
     count=count+1

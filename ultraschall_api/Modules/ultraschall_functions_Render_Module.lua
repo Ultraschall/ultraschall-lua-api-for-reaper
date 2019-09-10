@@ -4815,7 +4815,7 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
     Returns -1 in case of an error
   </description>
   <retvals>
-    integer retval - -1, in case of error; 0, in case of success; -2, if you try to render the currently opened project without saving it first
+    integer retval - -1, in case of error; 0, in case of success
     integer renderfilecount - the number of rendered files
     array MediaItemStateChunkArray - the MediaItemStateChunks of all rendered files, with the one in entry 1 being the rendered master-track(when rendering stems)
     array Filearray - the filenames of the rendered files, including their paths. The filename in entry 1 is the one of the mastered track(when rendering stems)

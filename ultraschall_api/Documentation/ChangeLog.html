@@ -51,6 +51,7 @@ Ultraschall API Changelog
 <li>MediaItem Management: GetMediaItem_ClickState - returns the currently clicked MediaItem</li>
 <li>MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project</li>
 <li>Project Management: GetProjectFilename - returns the filename of a currently opened project</li>
+<li>Project Management: SaveProjectAs - saves the current project under a new filename</li>
 <li>Project Management: SetProject_GlobalAuto - sets global automation override-state a projectfile or a ProjectStateChunk</li>
 <li>Project Management: SetProject_Lock - sets locked-state of a projectfile or a ProjectStateChunk</li>
 <li>Project Management: SetProject_MasterAutomode - sets automation-mode of the mastertrack in a projectfile or a ProjectStateChunk</li>
@@ -73,12 +74,15 @@ Ultraschall API Changelog
 <h4>Changes from Beta 2.761 to Beta 2.77</h4>
 <ul>
 <li>API: functions - moved all functions into modules for future modular-concept</li>
+<li>Configuration Files: CountIniFileExternalState_sec - had inner variable exposed -&gt; fixed</li>
+<li>Configuration Files: EnumerateIniFileExternalState_sec - did return keys instead of sections -&gt; fixed</li>
 <li>Configuration Files: GetKBIniKeys - enhanced description for osc</li>
 <li>Configuration Files: SetKBIniKeys - enhanced description for osc</li>
 <li>Docs: Reaper Internals - updated to Reaper 5.983</li>
 <li>Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>Helper Functions: SecondsToTimeString_hh_mm_ss_mss - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
+<li>Helper Functions: SplitStringAtLineFeedToArray - didn't always return the last entry of the passed string -&gt; fixed (thanks to Aurelien?)</li>
 <li>Helper Functions: TimeStringToSeconds_hh_mm_ss_mss - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>Helper Functions: TimeToSeconds - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>HWND: GetActionsHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
@@ -98,6 +102,7 @@ Ultraschall API Changelog
 <li>Project Management: GetProject_MasterGroupFlagsState - moved to correct docsindex Project Management</li>
 <li>Project Management: ProjectTabs-check - initialization had a bug, which could cause CheckForChangedProjectTabs to fail at times -&gt; fixed</li>
 <li>Project Management: SetProject_MasterGroupFlagsState - moved to correct docsindex Project Management</li>
+<li>Ultraschall: EnumerateUSExternalState_sec - had problems, when ultraschall.ini was stored with CR+LF-lineendings -&gt; fixed (thanks to rstockm)</li>
 <li>Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs</li>
 </ul>
 <hr />

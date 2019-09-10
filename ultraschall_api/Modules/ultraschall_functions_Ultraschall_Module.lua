@@ -692,9 +692,9 @@ function ultraschall.EnumerateUSExternalState_sec(number)
   -- look for and return the requested line
   local count=0
   for line in io.lines(reaper.GetResourcePath()..ultraschall.Separator.."ultraschall.ini") do
-    local check=line:match("%[.-%]")
+    local check=line:match("%[(.-)%]")
     if check~=nil then count=count+1 end
-    if count==number then return line:sub(2,-2) end
+    if count==number then return check end
   end
 end 
 --A=ultraschall.EnumerateUSExternalState_sec(10)
