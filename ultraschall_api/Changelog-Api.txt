@@ -224,6 +224,7 @@ TODO!! buggy function
 ### 4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 30th of September 2019
  
 #### New features in 4.00beta2.77
+   - Defer Management: GetDeferRunState - gets the current runstate of a ultraschall-defer-loop in the current or a specific scriptinstance
    - Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point
    - Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system
    - EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript
@@ -258,7 +259,8 @@ TODO!! buggy function
    - Configuration Files: EnumerateIniFileExternalState_sec - did return keys instead of sections -> fixed
    - Configuration Files: GetKBIniKeys - enhanced description for osc
    - Configuration Files: SetKBIniKeys - enhanced description for osc
-   - Docs: Reaper Internals - updated to Reaper 5.983
+   - Docs: Reaper Internals - updated to Reaper 5.983 and JS-extension 0.991
+   - Defer Management: GetDeferIdentifier - you can optionally pass a script-identifier now, to get the defer-identifier of another scriptinstance(used to support only the current script instance)
    - Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTimeString\_hh\_mm\_ss\_mss - moved to docs-index API-Helper functions -> Data Manipulation

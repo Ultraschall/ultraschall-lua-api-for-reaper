@@ -52,7 +52,7 @@ if type(ultraschall)~="table" then
   ultraschall.API_TempPath=reaper.GetResourcePath().."/UserPlugins/ultraschall_api/temp/"
 end
 
-function ultraschall.GetDeferIdentifier(deferinstance)
+function ultraschall.GetDeferIdentifier(deferinstance, scriptidentifier)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>GetDeferIdentifier</slug>
@@ -61,11 +61,12 @@ function ultraschall.GetDeferIdentifier(deferinstance)
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>string defer_identifier = ultraschall.GetDeferIdentifier(integer deferinstance)</functioncall>
+    <functioncall>string defer_identifier = ultraschall.GetDeferIdentifier(integer deferinstance, optional string scriptidentifier)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       returns the identifier for a specific ultraschall-defer-function.
       
-      This can be used to stop this defer-loop from the in- and outside of the script.
+      This defer-indentifier can be used to stop this defer-loop from the in- and outside of the script.
+      Be aware: This returns the defer-identifier even if the defer-loop in question isn't running currently!
       
       returns nil in case of an error.
     </description>
@@ -76,6 +77,7 @@ function ultraschall.GetDeferIdentifier(deferinstance)
     </retvals>
     <parameters>
       integer deferinstance - the defer-instance, whose identifier you want; 1 to 20
+      optional string scriptidentifier - you can pass a script-identifier for a specific scriptinstance to get the defer-identifiers of that script-instance; nil, to get the defer-identifiers of the current scriptinstance
     </parameter>
     <chapter_context>
       Defer-Management
@@ -87,13 +89,84 @@ function ultraschall.GetDeferIdentifier(deferinstance)
   ]]
   if math.type(deferinstance)~="integer" then ultraschall.AddErrorMessage("GetDeferIdentifier", "deferinstance", "must be an integer", -1) return nil end
   if deferinstance<1 or deferinstance>20 then ultraschall.AddErrorMessage("GetDeferIdentifier", "deferinstance", "must be between 1 and 20", -2) return nil end
+  if scriptidentifier~=nil and type(scriptidentifier)~="string" then
+    ultraschall.AddErrorMessage("GetDeferIdentifier", "scriptidentifier", "must be a string", -3) 
+    return nil
+  end
+  if scriptidentifier~=nil and scriptidentifier:match("ScriptIdentifier:.-%-%{........%-....%-....%-....%-............%}%....")==nil then 
+    ultraschall.AddErrorMessage("GetDeferIdentifier", "scriptidentifier", "must be a valid Scriptidentifier", -4) 
+    return nil 
+  end
   if deferinstance<10 then zero="0" else zero="" end
-  return ultraschall.GetScriptIdentifier()..".defer_script"..zero..deferinstance
+  if scriptidentifier~=nil then 
+    return scriptidentifier..".defer_script"..zero..deferinstance
+  else
+    return ultraschall.GetScriptIdentifier()..".defer_script"..zero..deferinstance
+  end
 end
+
 
 --A=ultraschall.GetDeferIdentifier(2)
 
 --reaper.CF_SetClipboard(A)
+
+function ultraschall.GetDeferRunState(deferinstance, scriptidentifier)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>GetDeferRunState</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>string defer_identifier = ultraschall.GetDeferRunState(integer deferinstance, optional string scriptidentifier)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns the run-state of a Ultraschall-defer-loop in a specific scriptinstance
+      
+      returns nil in case of an error.
+    </description>
+    <retvals>
+      string defer_identifier - a specific and unique defer-identifier for this script-instance, of the format:
+                               - ScriptIdentifier: scriptfilename-guid.ext.deferXX
+                               - where XX is the defer-function-number. XX is between 1 and 20
+    </retvals>
+    <parameters>
+      integer deferinstance - the defer-instance, whose identifier you want; 1 to 20
+      optional string scriptidentifier - a script-identifier of a specific script-instance; nil, for the current script-instance
+    </parameter>
+    <chapter_context>
+      Defer-Management
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>defermanagement, get, defer, runstate, defer_identifier</tags>
+  </US_DocBloc>
+  ]]
+  if math.type(deferinstance)~="integer" then ultraschall.AddErrorMessage("GetDeferRunState", "deferinstance", "must be an integer", -1) return nil end
+  if deferinstance<1 or deferinstance>20 then ultraschall.AddErrorMessage("GetDeferRunState", "deferinstance", "must be between 1 and 20", -2) return nil end
+  if scriptidentifier~=nil and type(scriptidentifier)~="string" then
+    ultraschall.AddErrorMessage("GetDeferRunState", "scriptidentifier", "must be a string", -3) 
+    return nil
+  end
+  if scriptidentifier~=nil and scriptidentifier:match("ScriptIdentifier:.-%-%{........%-....%-....%-....%-............%}%....")==nil then 
+    ultraschall.AddErrorMessage("GetDeferRunState", "scriptidentifier", "must be a valid Scriptidentifier", -4) 
+    return nil 
+  end
+  if deferinstance<10 then zero="0" else zero="" end
+  if scriptidentifier~=nil then 
+    if reaper.GetExtState("ultraschall", scriptidentifier..".defer_script"..zero..deferinstance) == "running" then
+      return true
+    else
+      return false
+    end
+  else
+    if reaper.GetExtState("ultraschall", ultraschall.GetScriptIdentifier()..".defer_script"..zero..deferinstance) == "running" then
+      return true
+    else
+      return false
+    end
+  end
+end
 
 function ultraschall.Defer1(func, mode, timer_counter)
   --[[
@@ -181,8 +254,6 @@ function ultraschall.Defer1(func, mode, timer_counter)
   return true, ultraschall.ScriptIdentifier..".defer_script01"
 end
 
-
-
 function ultraschall.StopDeferCycle(identifier)
   --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -222,7 +293,6 @@ function ultraschall.StopDeferCycle(identifier)
     return false
   end
 end
-
 
 function ultraschall.Defer2(func, mode, timer_counter)
   --[[

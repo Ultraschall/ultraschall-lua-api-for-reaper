@@ -43,6 +43,7 @@ Ultraschall API Changelog
 <h3>4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 30th of September 2019</h3>
 <h4>New features in 4.00beta2.77</h4>
 <ul>
+<li>Defer Management: GetDeferRunState - gets the current runstate of a ultraschall-defer-loop in the current or a specific scriptinstance</li>
 <li>Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point</li>
 <li>Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system</li>
 <li>EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript</li>
@@ -78,7 +79,8 @@ Ultraschall API Changelog
 <li>Configuration Files: EnumerateIniFileExternalState_sec - did return keys instead of sections -&gt; fixed</li>
 <li>Configuration Files: GetKBIniKeys - enhanced description for osc</li>
 <li>Configuration Files: SetKBIniKeys - enhanced description for osc</li>
-<li>Docs: Reaper Internals - updated to Reaper 5.983</li>
+<li>Docs: Reaper Internals - updated to Reaper 5.983 and JS-extension 0.991</li>
+<li>Defer Management: GetDeferIdentifier - you can optionally pass a script-identifier now, to get the defer-identifier of another scriptinstance(used to support only the current script instance)</li>
 <li>Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>Helper Functions: SecondsToTimeString_hh_mm_ss_mss - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
