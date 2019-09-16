@@ -1875,28 +1875,69 @@ function ultraschall.StartLiceCap(autorun)
   reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(HWND, 1001), "WM_LBUTTONDOWN", 1,0,0,0)
   reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(HWND, 1001), "WM_LBUTTONUP", 1,0,0,0)
 
+  HWNDA0=reaper.JS_Window_Find("Choose file for recording", false)
+
+--[[    
   O=0
   while reaper.JS_Window_Find("Choose file for recording", false)==nil do
     O=O+1
-    if O==1000000 then break end
+    if O==100 then break end
   end
+
   HWNDA=reaper.JS_Window_Find("Choose file for recording", false)
   TIT=reaper.JS_Window_GetTitle(HWNDA)
   
---[[   for i=-1000, 100000 do
-     HWND2=reaper.JS_Window_FindChildByID(HWNDA, i)
-     if HWND2~=nil then
-       print_alt(i, reaper.JS_Window_GetTitle(HWND2), reaper.JS_Window_GetClassName(HWND2))
-     end
-   end
-   --]]
+  for i=-1000, 10000 do
+    if reaper.JS_Window_FindChildByID(HWNDA, i)~=nil then
+      print_alt(i, reaper.JS_Window_GetTitle(reaper.JS_Window_FindChildByID(HWNDA, i)))
+    end
+  end
+
+  print(reaper.JS_Window_GetTitle(reaper.JS_Window_FindChildByID(HWNDA, 1)))
+
+  for i=0, 100000 do
+    AA=reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(HWNDA, 1), "WM_LBUTTONDOWN", 1,0,0,0)
+    BB=reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(HWNDA, 1), "WM_LBUTTONUP", 1,0,0,0)
+  end
   
-  HAEH=reaper.JS_Window_FindChildByID(HWNDA, 1)
-  HAEH2=reaper.JS_Window_GetTitle(HAEH, "Puddel")
-  
-  AA=reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(HWNDA, 1), "WM_LBUTTONCLK", 1,0,0,0)
---  BB=reaper.JS_WindowMessage_Post(reaper.JS_Window_FindChildByID(HWNDA, 1), "WM_LBUTTONUP", 1,0,0,0)
   return HWND
+  --]]
+  
+  ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/LiceCapSave.lua", [[
+    dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+    P=0
+    
+    function main3()
+      LiceCapWinPreRoll=reaper.JS_Window_Find(" [stopped]", false)
+      LiceCapWinPreRoll2=reaper.JS_Window_Find("LICEcap", false)
+      
+      if LiceCapWinPreRoll~=nil and LiceCapWinPreRoll2~=nil and LiceCapWinPreRoll2==LiceCapWinPreRoll then
+        reaper.JS_Window_Destroy(LiceCapWinPreRoll)
+        print("HuiTja", reaper.JS_Window_GetTitle(LiceCapWinPreRoll))
+      else
+        reaper.defer(main3)
+      end
+    end
+    
+    function main2()
+      print("HUI:", P)
+      A=reaper.JS_Window_Find("Choose file for recording", false)
+      if A~=nil and P<20 then  
+        P=P+1
+        print_alt(reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(A, 1), "WM_LBUTTONDOWN", 1,1,1,1))
+        print_alt(reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(A, 1), "WM_LBUTTONUP", 1,1,1,1))
+        reaper.defer(main2)
+      elseif P~=0 and A==nil then
+        reaper.defer(main3)
+      else
+        reaper.defer(main2)
+      end
+    end
+    
+    
+    main2()
+    ]])
+    local retval, script_identifier = ultraschall.Main_OnCommandByFilename(ultraschall.API_TempPath.."/LiceCapSave.lua")
 end
 
 --ultraschall.StartLiceCap(autorun)
@@ -2083,63 +2124,63 @@ function ultraschall.SaveProjectAs(filename_with_path, fileformat, overwrite, cr
 
   
   -- create the background-script, which will manage the saveas-dialog and run it
-  ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/saveprojectas.lua", [[
-  dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
-  num_params, params, caller_script_identifier = ultraschall.GetScriptParameters()
+      ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/saveprojectas.lua", [[
+      dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+      num_params, params, caller_script_identifier = ultraschall.GetScriptParameters()
 
-  filename_with_path=params[1]
-  fileformat=tonumber(params[2])
-  create_subdirectory=toboolean(params[3])
-  copy_all_media=params[4]
-  copy_rather_than_move=toboolean(params[5])
-  
-  function main2()
-    --if A~=nil then print2("Hooray") end
-    translation=reaper.JS_Localize("Create subdirectory for project", "DLG_185")
-    PP=reaper.JS_Window_Find("Create subdirectory", false)
-    A2=reaper.JS_Window_GetParent(PP)
-    ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1042), create_subdirectory)
-    if copy_all_media==1 then 
-      ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1043), true)
-      ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1044), false)
-    elseif copy_all_media==2 then 
-      ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1043), false)
-      ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1044), true)
-    else
-      ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1043), false)
-      ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1044), false)
-    end
-    ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1045), copy_rather_than_move)
-    A3=reaper.JS_Window_FindChildByID(A, 0)
-    A3=reaper.JS_Window_FindChildByID(A3, 0)
-    A3=reaper.JS_Window_FindChildByID(A3, 0)
-    A3=reaper.JS_Window_FindChildByID(A3, 0)
-    reaper.JS_Window_SetTitle(A3, filename_with_path)
-    reaper.JS_WindowMessage_Send(A3, "WM_LBUTTONDOWN", 1,1,1,1)
-    reaper.JS_WindowMessage_Send(A3, "WM_LBUTTONUP", 1,1,1,1)
-    
-    XX=reaper.JS_Window_FindChild(A, "REAPER Project files (*.RPP)", true)
+      filename_with_path=params[1]
+      fileformat=tonumber(params[2])
+      create_subdirectory=toboolean(params[3])
+      copy_all_media=params[4]
+      copy_rather_than_move=toboolean(params[5])
+      
+      function main2()
+        --if A~=nil then print2("Hooray") end
+        translation=reaper.JS_Localize("Create subdirectory for project", "DLG_185")
+        PP=reaper.JS_Window_Find("Create subdirectory", false)
+        A2=reaper.JS_Window_GetParent(PP)
+        ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1042), create_subdirectory)
+        if copy_all_media==1 then 
+          ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1043), true)
+          ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1044), false)
+        elseif copy_all_media==2 then 
+          ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1043), false)
+          ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1044), true)
+        else
+          ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1043), false)
+          ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1044), false)
+        end
+        ultraschall.SetCheckboxState(reaper.JS_Window_FindChildByID(A2, 1045), copy_rather_than_move)
+        A3=reaper.JS_Window_FindChildByID(A, 0)
+        A3=reaper.JS_Window_FindChildByID(A3, 0)
+        A3=reaper.JS_Window_FindChildByID(A3, 0)
+        A3=reaper.JS_Window_FindChildByID(A3, 0)
+        reaper.JS_Window_SetTitle(A3, filename_with_path)
+        reaper.JS_WindowMessage_Send(A3, "WM_LBUTTONDOWN", 1,1,1,1)
+        reaper.JS_WindowMessage_Send(A3, "WM_LBUTTONUP", 1,1,1,1)
+        
+        XX=reaper.JS_Window_FindChild(A, "REAPER Project files (*.RPP)", true)
 
-    reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONDOWN", 1,1,1,1)
-    reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONUP", 1,1,1,1)
-    reaper.JS_WindowMessage_Send(XX, "CB_SETCURSEL", fileformat,0,0,0)
-    reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONDOWN", 1,1,1,1)
-    reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONUP", 1,1,1,1)
-    
-    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(A, 1), "WM_LBUTTONDOWN", 1,1,1,1)
-    reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(A, 1), "WM_LBUTTONUP", 1,1,1,1)
-  end
+        reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONDOWN", 1,1,1,1)
+        reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONUP", 1,1,1,1)
+        reaper.JS_WindowMessage_Send(XX, "CB_SETCURSEL", fileformat,0,0,0)
+        reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONDOWN", 1,1,1,1)
+        reaper.JS_WindowMessage_Send(XX, "WM_LBUTTONUP", 1,1,1,1)
+        
+        reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(A, 1), "WM_LBUTTONDOWN", 1,1,1,1)
+        reaper.JS_WindowMessage_Send(reaper.JS_Window_FindChildByID(A, 1), "WM_LBUTTONUP", 1,1,1,1)
+      end
 
-  function main1()
-    A=ultraschall.GetSaveProjectAsHWND()
-    if A==nil then reaper.defer(main1) else main2() end
-  end
-  
-  --print("alive")
-  
-  main1()
-  ]])
-  local retval, script_identifier = ultraschall.Main_OnCommandByFilename(ultraschall.API_TempPath.."/saveprojectas.lua", filename_with_path, fileformat, create_subdirectory, copy_all_media, copy_rather_than_move)
+      function main1()
+        A=ultraschall.GetSaveProjectAsHWND()
+        if A==nil then reaper.defer(main1) else main2() end
+      end
+      
+      --print("alive")
+      
+      main1()
+      ]])
+      local retval, script_identifier = ultraschall.Main_OnCommandByFilename(ultraschall.API_TempPath.."/saveprojectas.lua", filename_with_path, fileformat, create_subdirectory, copy_all_media, copy_rather_than_move)
     
   -- open SaveAs-dialog
   reaper.Main_SaveProject(0, true)
@@ -2150,5 +2191,49 @@ end
 
 --reaper.Main_SaveProject(0, true)
 --ultraschall.SaveProjectAs("Fix it all of that HUUUIII", true, 0, true)
+
+function ultraschall.GetMediaItemNumber(MediaItem)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetMediaItemNumber</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer itemidx = ultraschall.GetMediaItemNumber(MediaItem MediaItem)</functioncall>
+  <description>
+    returns the indexnumber of a MediaItem-object
+    
+    Can be helpful with Reaper's own API-functions, like reaper.GetMediaItem(ReaProject proj, integer itemidx)
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose itemidx you want to have
+  </parameters>
+  <retvals>
+    integer itemidx - the indexnumber of the MediaItem, zero based. 
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitem management, get, itemindex, itemidx</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("GetMediaItemNumber", "MediaItem", "must be a valid MediaItem-object", -1) return -1 end
+  local MediaTrack = reaper.GetMediaItem_Track(MediaItem)
+  local ItemNr = reaper.GetMediaItemInfo_Value(MediaItem, "IP_ITEMNUMBER")
+  local TrackNumber=reaper.GetMediaTrackInfo_Value(MediaTrack, "IP_TRACKNUMBER")
+  local Count=0
+  for i=1, TrackNumber-1 do
+    Count=Count+reaper.GetTrackNumMediaItems(reaper.GetTrack(0,i-1))
+  end
+  Count=Count+ItemNr
+  return math.tointeger(Count)
+end
 
 ultraschall.ShowLastErrorMessage()

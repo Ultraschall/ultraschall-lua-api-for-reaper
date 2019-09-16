@@ -121,6 +121,13 @@ function ultraschall.IsTrackSoundboard(tracknumber)
   if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("IsTrackSoundboard", "tracknumber", "no such track; must be between 1 and "..reaper.CountTracks(0).." for the current project. 0, for master-track.", -2) return false end
   if tracknumber==0 then track=reaper.GetMasterTrack(0) else track=reaper.GetTrack(0,tracknumber-1) end
   if track~=nil then
+    if reaper.TrackFX_GetByName(track, "Ultraschall: Soundboard", false)~=-1 or
+      reaper.TrackFX_GetByName(track, "Soundboard (Ultraschall)", false)~=-1 then
+      return true
+    else
+      return false
+    end
+    --[[
     local count=0
     while reaper.TrackFX_GetFXName(track, count, "")~="" do
       local retval, buf = reaper.TrackFX_GetFXName(track, count, "")
@@ -131,6 +138,8 @@ function ultraschall.IsTrackSoundboard(tracknumber)
     end
   end
   return false
+  --]]
+  end
 end
 
 --A=ultraschall.IsTrackSoundboard(33)
@@ -171,6 +180,13 @@ function ultraschall.IsTrackStudioLink(tracknumber)
   if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("IsTrackStudioLink", "tracknumber", "no such track; must be between 1 and "..reaper.CountTracks(0).." for the current project. 0, for master-track.", -2) return false end
   if tracknumber==0 then track=reaper.GetMasterTrack(0) else track=reaper.GetTrack(0,tracknumber-1) end
   if track~=nil then
+    if reaper.TrackFX_GetByName(track, "StudioLink (IT-Service Sebastian Reimers)", false)~=-1 or
+      reaper.TrackFX_GetByName(track, "ITSR: StudioLink", false)~=-1 then
+      return true
+    else
+      return false
+    end
+  --[[
     local count=0
     while reaper.TrackFX_GetFXName(track, count, "")~="" do
       local retval, buf = reaper.TrackFX_GetFXName(track, count, "")
@@ -181,6 +197,8 @@ function ultraschall.IsTrackStudioLink(tracknumber)
     end
   end
   return false
+  --]]
+  end
 end
 
 --A=ultraschall.IsTrackStudioLink(3)
@@ -222,16 +240,25 @@ function ultraschall.IsTrackStudioLinkOnAir(tracknumber)
   if tracknumber<0 or tracknumber>reaper.CountTracks(0) then ultraschall.AddErrorMessage("IsTrackStudioLinkOnAir", "tracknumber", "no such track; must be between 1 and "..reaper.CountTracks(0).." for the current project. 0, for master-track.", -2) return false end
   if tracknumber==0 then track=reaper.GetMasterTrack(0) else track=reaper.GetTrack(0,tracknumber-1) end
   if track~=nil then
+    if reaper.TrackFX_GetByName(track, "StudioLinkOnAir (IT-Service Sebastian Reimers)", false)~=-1 or
+      reaper.TrackFX_GetByName(track, "StudioLinkOnAir (ITSR)", false)~=-1 then
+      return true
+    else
+      return false
+    end
+    
+    --[[
     local count=0
     while reaper.TrackFX_GetFXName(track, count, "")~="" do
       local retval, buf = reaper.TrackFX_GetFXName(track, count, "")
-      if buf=="ITSR: StudioLinkOnAir" then return true, count end -- Mac-check
+      if buf=="AU: StudioLinkOnAir (ITSR)" then return true, count end -- Mac-check
       if buf=="VST: StudioLinkOnAir (IT-Service Sebastian Reimers)" then return true, count end -- Windows-check
       if buf=="" then return false end
       count=count+1
     end
+    --]]
   end
-  return false
+  --return false
 end
 
 

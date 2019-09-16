@@ -44,12 +44,14 @@ Ultraschall API Changelog
 <h4>New features in 4.00beta2.77</h4>
 <ul>
 <li>Defer Management: GetDeferRunState - gets the current runstate of a ultraschall-defer-loop in the current or a specific scriptinstance</li>
+<li>Docs: Ultraschall-API - index was malformed due bug in doc-generator-scripts -&gt; fixed</li>
 <li>Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point</li>
 <li>Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system</li>
 <li>EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript</li>
 <li>LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper</li>
 <li>LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper</li>
 <li>MediaItem Management: GetMediaItem_ClickState - returns the currently clicked MediaItem</li>
+<li>MediaItem Management: GetMediaItemNumber - returns the itemnumber of a MediaItem within a project</li>
 <li>MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project</li>
 <li>Project Management: GetProjectFilename - returns the filename of a currently opened project</li>
 <li>Project Management: SaveProjectAs - saves the current project under a new filename</li>
@@ -104,7 +106,13 @@ Ultraschall API Changelog
 <li>Project Management: GetProject_MasterGroupFlagsState - moved to correct docsindex Project Management</li>
 <li>Project Management: ProjectTabs-check - initialization had a bug, which could cause CheckForChangedProjectTabs to fail at times -&gt; fixed</li>
 <li>Project Management: SetProject_MasterGroupFlagsState - moved to correct docsindex Project Management</li>
+<li>SpectralEdit: AddItemSpectralEdit - parameter end_pos was actually length -&gt; fixed (thanks to XRaym)</li>
+<li>SpectralEdit: GetItemSpectralEdit - retval end_pos was actually length -&gt; fixed (thanks to XRaym)</li>
+<li>SpectralEdit: SetItemSpectralEdit - parameter end_pos was actually length -&gt; fixed (thanks to XRaym)</li>
 <li>Ultraschall: EnumerateUSExternalState_sec - had problems, when ultraschall.ini was stored with CR+LF-lineendings -&gt; fixed (thanks to rstockm)</li>
+<li>Ultraschall: IsTrackSoundboard - sped up execution by removing useless loop</li>
+<li>Ultraschall: IsTrackStudioLink - sped up execution by removing useless loop</li>
+<li>Ultraschall: IsTrackStudioLinkOnAir - sped up execution by removing useless loop; didn't work correctly on Mac -&gt; fixed</li>
 <li>Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs</li>
 </ul>
 <hr />

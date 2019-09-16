@@ -3021,7 +3021,7 @@ function ultraschall.GetItemSpectralEdit(itemidx, spectralidx, MediaItemStateChu
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>number start_pos, number end_pos, number gain, number fade, number freq_fade, number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, number n, number o, number fade2, number freq_fade2 = ultraschall.GetItemSpectralEdit(integer itemidx, integer spectralidx, optional string MediaItemStateChunk)</functioncall>
+  <functioncall>number start_pos, number length, number gain, number fade, number freq_fade, number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, number n, number o, number fade2, number freq_fade2 = ultraschall.GetItemSpectralEdit(integer itemidx, integer spectralidx, optional string MediaItemStateChunk)</functioncall>
   <description>
     returns the settings of a specific SPECTRAL_EDIT in a given MediaItem/MediaItemStateChunk.
     The SPECTRAL_EDITs are the individual edit-boundary-boxes in the spectral-view.
@@ -3036,7 +3036,7 @@ function ultraschall.GetItemSpectralEdit(itemidx, spectralidx, MediaItemStateChu
   </parameters>
   <retvals>
     number start_pos - the startposition of the spectral-edit-region in seconds
-    number end_pos - the endposition of the spectral-edit-region in seconds
+    number length - the length of the spectral-edit-region in seconds
     number gain - the gain as slider-value; 0(-224dB) to 98350.1875(99.68dB); 1 for 0dB
     number fade - 0(0%)-0.5(100%); adjusting this affects also parameter fade2!
     number freq_fade - 0(0%)-0.5(100%); adjusting this affects also parameter freq_fade2!
@@ -3229,7 +3229,7 @@ function ultraschall.SetItemSpectralVisibilityState(item, state, statechunk)
 end
 
 
-function ultraschall.SetItemSpectralEdit(itemidx, spectralidx, start_pos, end_pos, gain, fade, freq_fade, freq_range_bottom, freq_range_top, h, byp_solo, gate_thres, gate_floor, comp_thresh, comp_exp_ratio, n, o, fade2, freq_fade2, statechunk)
+function ultraschall.SetItemSpectralEdit(itemidx, spectralidx, start_pos, length, gain, fade, freq_fade, freq_range_bottom, freq_range_top, h, byp_solo, gate_thres, gate_floor, comp_thresh, comp_exp_ratio, n, o, fade2, freq_fade2, statechunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetItemSpectralEdit</slug>
@@ -3238,7 +3238,7 @@ function ultraschall.SetItemSpectralEdit(itemidx, spectralidx, start_pos, end_po
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>string MediaItemStateChunk = ultraschall.SetItemSpectralEdit(integer itemidx, integer spectralidx, number start_pos, number end_pos, number gain, number fade, number freq_fade, number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, optional string MediaItemStateChunk)</functioncall>
+  <functioncall>string MediaItemStateChunk = ultraschall.SetItemSpectralEdit(integer itemidx, integer spectralidx, number start_pos, number length, number gain, number fade, number freq_fade, number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, optional string MediaItemStateChunk)</functioncall>
   <description>
     Sets a spectral-edit-instance in a MediaItem or MediaItemStateChunk.
     
@@ -3251,7 +3251,7 @@ function ultraschall.SetItemSpectralEdit(itemidx, spectralidx, start_pos, end_po
     integer itemidx - the number of the item in the project; use -1 to use MediaItemStateChunk instead
     integer spectralidx - the number of the spectral-edit-instance, that you want to set
     number start_pos - the startposition of the spectral-edit-region in seconds
-    number end_pos - the endposition of the spectral-edit-region in seconds
+    number length - the length of the spectral-edit-region in seconds
     number gain - the gain as slider-value; 0(-224dB) to 98350.1875(99.68dB); 1 for 0dB
     number fade - 0(0%)-0.5(100%); adjusting this affects also parameter fade2!
     number freq_fade - 0(0%)-0.5(100%); adjusting this affects also parameter freq_fade2!
@@ -3290,7 +3290,7 @@ function ultraschall.SetItemSpectralEdit(itemidx, spectralidx, start_pos, end_po
   if itemidx~=-1 then itemidx=reaper.GetMediaItem(0,itemidx-1) _bool, statechunk=reaper.GetItemStateChunk(itemidx,"",false) end
   if math.type(spectralidx)~="integer" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "spectralidx", "Must be an integer", -7) return -1 end
   if type(start_pos)~="number" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "start_pos", "Must be a number", -8) return -1 end
-  if type(end_pos)~="number" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "end_pos", "Must be a number", -9) return -1 end
+  if type(length)~="number" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "length", "Must be a number", -9) return -1 end
   if type(gain)~="number" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "gain", "Must be a number", -10) return -1 end
   if type(fade)~="number" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "fade", "Must be a number", -11) return -1 end
   if type(freq_fade)~="number" then ultraschall.AddErrorMessage("SetItemSpectralEdit", "freq_fade", "Must be a number", -12) return -1 end
@@ -3310,7 +3310,7 @@ function ultraschall.SetItemSpectralEdit(itemidx, spectralidx, start_pos, end_po
   count = ultraschall.CountItemSpectralEdits(item2, statechunk)
   if spectralidx>count then ultraschall.AddErrorMessage("SetItemSpectralEdit", "spectralidx", "No such spectral edit available", -25) return -1 end
   
-  local new_entry="SPECTRAL_EDIT "..start_pos.." "..end_pos.." "..gain.." "..fade.." "..freq_fade.." "..freq_range_bottom.." "..freq_range_top.." "..h.." "..byp_solo.." "..gate_thres.." "..gate_floor.." "..comp_thresh.." "..comp_exp_ratio.." "..n.." "..o.." "..fade2.." "..freq_fade2
+  local new_entry="SPECTRAL_EDIT "..start_pos.." "..length.." "..gain.." "..fade.." "..freq_fade.." "..freq_range_bottom.." "..freq_range_top.." "..h.." "..byp_solo.." "..gate_thres.." "..gate_floor.." "..comp_thresh.." "..comp_exp_ratio.." "..n.." "..o.." "..fade2.." "..freq_fade2
   local part1, part2=statechunk:match("(.-)(SPECTRAL_EDIT.*)")
   
   for i=1, spectralidx-1 do
@@ -3378,7 +3378,7 @@ end
 --MediaItem=reaper.GetMediaItem(0,1)
 --A,A2,A3 = ultraschall.GetItemSourceFile_Take(MediaItem, -1)
 
-function ultraschall.AddItemSpectralEdit(itemidx, start_pos, end_pos, gain, fade, freq_fade, freq_range_bottom, freq_range_top, h, byp_solo, gate_thres, gate_floor, comp_thresh, comp_exp_ratio, n, o, fade2, freq_fade2, MediaItemStateChunk)
+function ultraschall.AddItemSpectralEdit(itemidx, start_pos, length, gain, fade, freq_fade, freq_range_bottom, freq_range_top, h, byp_solo, gate_thres, gate_floor, comp_thresh, comp_exp_ratio, n, o, fade2, freq_fade2, MediaItemStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AddItemSpectralEdit</slug>
@@ -3387,7 +3387,7 @@ function ultraschall.AddItemSpectralEdit(itemidx, start_pos, end_pos, gain, fade
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, MediaItemStateChunk statechunk = ultraschall.AddItemSpectralEdit(integer itemidx, number start_pos, number end_pos, number gain, number fade, number freq_fade, number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, optional string MediaItemStateChunk)</functioncall>
+  <functioncall>boolean retval, MediaItemStateChunk statechunk = ultraschall.AddItemSpectralEdit(integer itemidx, number start_pos, number length, number gain, number fade, number freq_fade, number freq_range_bottom, number freq_range_top, integer h, integer byp_solo, number gate_thres, number gate_floor, number comp_thresh, number comp_exp_ratio, number n, number o, number fade2, number freq_fade2, optional string MediaItemStateChunk)</functioncall>
   <description>
     Adds a new SPECTRAL_EDIT-entry in a given MediaItem/MediaItemStateChunk.
     The SPECTRAL_EDITs are the individual edit-boundary-boxes in the spectral-view.
@@ -3398,7 +3398,7 @@ function ultraschall.AddItemSpectralEdit(itemidx, start_pos, end_pos, gain, fade
   <parameters>
     integer itemidx - the MediaItem to add to another spectral-edit-entry; -1, to use the parameter MediaItemStateChunk instead
     number start_pos - the startposition of the spectral-edit-region in seconds
-    number end_pos - the endposition of the spectral-edit-region in seconds
+    number length - the length of the spectral-edit-region in seconds
     number gain - the gain as slider-value; 0(-224dB) to 98350.1875(99.68dB); 1 for 0dB
     number fade - 0(0%)-0.5(100%); adjusting this affects also parameter fade2!
     number freq_fade - 0(0%)-0.5(100%); adjusting this affects also parameter freq_fade2!
@@ -3432,7 +3432,7 @@ function ultraschall.AddItemSpectralEdit(itemidx, start_pos, end_pos, gain, fade
   -- check parameters
   if math.type(itemidx)~="integer" then ultraschall.AddErrorMessage("AddItemSpectralEdit", "itemidx", "must be an integer", -18) return false end
   if type(start_pos)~="number" then ultraschall.AddErrorMessage("AddItemSpectralEdit", "start_pos", "must be a number", -1) return false end
-  if type(end_pos)~="number" then ultraschall.AddErrorMessage("AddItemSpectralEdit", "end_pos", "must be a number", -2) return false end
+  if type(length)~="number" then ultraschall.AddErrorMessage("AddItemSpectralEdit", "length", "must be a number", -2) return false end
   if type(gain)~="number" then ultraschall.AddErrorMessage("AddItemSpectralEdit", "gain", "must be a number", -3) return false end
   if type(fade)~="number" then ultraschall.AddErrorMessage("AddItemSpectralEdit", "fade", "must be a number", -4) return false end
   if type(freq_fade)~="number" then ultraschall.AddErrorMessage("AddItemSpectralEdit", "freq_fade", "must be a number", -5) return false end
@@ -3461,7 +3461,7 @@ function ultraschall.AddItemSpectralEdit(itemidx, start_pos, end_pos, gain, fade
 
   -- add new Spectral-Edit-entry
   MediaItemStateChunk=MediaItemStateChunk:match("(.*)>")..
-                       "SPECTRAL_EDIT "..start_pos.." "..end_pos.." "..gain.." "..fade.." "..freq_fade.." "..freq_range_bottom.." "..freq_range_top.." "..h.." "..
+                       "SPECTRAL_EDIT "..start_pos.." "..length.." "..gain.." "..fade.." "..freq_fade.." "..freq_range_bottom.." "..freq_range_top.." "..h.." "..
                        byp_solo.." "..gate_thres.." "..gate_floor.." "..comp_thresh.." "..comp_exp_ratio.." "..n.." "..o.." "..fade2.." "..freq_fade2.."\n>"
                        
   -- add changed statechunk to the item, if necessary
