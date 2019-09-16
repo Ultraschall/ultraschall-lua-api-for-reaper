@@ -2236,4 +2236,58 @@ function ultraschall.GetMediaItemNumber(MediaItem)
   return math.tointeger(Count)
 end
 
+function ultraschall.RunLuaSourceCode(code)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RunLuaSourceCode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.RunLuaSourceCode(string code)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    runs the Lua-code stored in the parameter code
+    
+    Does not check for validity and syntaxerrors in the code!
+    
+    You can also add new callable functions that way. Just put function-declarations in the parameter code.
+    
+    For instance from the following code:
+    
+      code=function main()
+             reaper.MB("I'm only run, when my parent function main is called", "", 0)
+           end
+           
+           reaper.MB("I'm run immediately", "", 0)"
+    
+    when called by 
+    
+        ultraschall.RunLuaSourceCode(code)
+    
+    only the line reaper.MB("I'm run immediately", "", 0) will be run immediately.
+    If you want to run the function main as well, you need to explicitly call it with main()
+    
+    returns false in case of an error; nil, in case of an syntax/lua-error in the code itself
+  </description>
+  <parameters>
+    string code - the code, that you want to execute; you can also add new functions that way
+  </parameters>
+  <retvals>
+    boolean retval - true, code was run successfully; false, code wasn't successfully; nil, code had an error in it, probably syntax error
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, run, lua code, directly</tags>
+</US_DocBloc>
+--]]
+  if type(code)~="string" then ultraschall.AddErrorMessage("RunLuaSourceCode", "code", "must be a string of Lua code", -1) return false end
+  local RunMe=load(code)
+  RunMe()
+  return true
+end
+
 ultraschall.ShowLastErrorMessage()

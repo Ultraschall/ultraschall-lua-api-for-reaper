@@ -2738,7 +2738,9 @@ function ultraschall.GetReaperWindowPosition_Left()
     Lua=5.3
   </requires>
   <functioncall>integer leftwindowposition = ultraschall.GetReaperWindowPosition_Left()</functioncall>
-  <description>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    This is deprecated! Use [GetReaperWindowAttributes](#GetReaperWindowAttributes) instead!
+    
     Returns pixel-position of the left side of the main Reaper window. Due to Api-limitations, when the Reaper-window is too small, it returns a wrong value with up to +72 pixels difference!
   </description>
   <retvals>
@@ -2782,7 +2784,9 @@ function ultraschall.GetReaperWindowPosition_Right()
     Lua=5.3
   </requires>
   <functioncall>integer rightwindowposition = ultraschall.GetReaperWindowPosition_Right()</functioncall>
-  <description>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    This is deprecated! Use [GetReaperWindowAttributes](#GetReaperWindowAttributes) instead!
+    
     Returns pixel-position of the right side of the main Reaper window.
   </description>
   <retvals>

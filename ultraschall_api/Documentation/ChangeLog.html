@@ -43,15 +43,15 @@ Ultraschall API Changelog
 <h3>4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 30th of September 2019</h3>
 <h4>New features in 4.00beta2.77</h4>
 <ul>
-<li>Defer Management: GetDeferRunState - gets the current runstate of a ultraschall-defer-loop in the current or a specific scriptinstance</li>
-<li>Docs: Ultraschall-API - index was malformed due bug in doc-generator-scripts -&gt; fixed</li>
+<li>Defer Management: GetDeferRunState - gets the current runstate of a ultraschall-defer-loop in the current or a specific scriptinstance(requested by rstockm)</li>
 <li>Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point</li>
 <li>Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system</li>
 <li>EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript</li>
+<li>Helper functions: RunLuaSourceCode - runs Lua-code directly from a string</li>
 <li>LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper</li>
 <li>LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper</li>
 <li>MediaItem Management: GetMediaItem_ClickState - returns the currently clicked MediaItem</li>
-<li>MediaItem Management: GetMediaItemNumber - returns the itemnumber of a MediaItem within a project</li>
+<li>MediaItem Management: GetMediaItemNumber - returns the itemnumber of a MediaItem within a project(requested by XRaym)</li>
 <li>MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project</li>
 <li>Project Management: GetProjectFilename - returns the filename of a currently opened project</li>
 <li>Project Management: SaveProjectAs - saves the current project under a new filename</li>
@@ -61,7 +61,7 @@ Ultraschall API Changelog
 <li>Project Management: SetProject_Playrate - sets playrate-state of a projectfile or a ProjectStateChunk</li>
 <li>Project Management: SetProject_MasterSel - sets selection-state of the master-track in a projectfile or a ProjectStateChunk</li>
 <li>Project Management: SetProject_Tempo - sets the tempo settings(bpm, beat, denominator) a projectfile or a ProjectStateChunk</li>
-<li>Ultraschall: DeleteUSExternalState - deletes an extstate from the ultraschall.ini</li>
+<li>Ultraschall: DeleteUSExternalState - deletes an extstate from the ultraschall.ini(requested by rstockm)</li>
 <li>User Interface: GetTimeByMouseXPosition - returns projecttime at x-screenposition</li>
 <li>User Interface: ShowTrackInputMenu - shows a TrackInput-contextmenu</li>
 <li>User Interface: ShowTrackPanelMenu - shows a TrackPanel-contextmenu</li>
@@ -82,6 +82,7 @@ Ultraschall API Changelog
 <li>Configuration Files: GetKBIniKeys - enhanced description for osc</li>
 <li>Configuration Files: SetKBIniKeys - enhanced description for osc</li>
 <li>Docs: Reaper Internals - updated to Reaper 5.983 and JS-extension 0.991</li>
+<li>Docs: Ultraschall-API - index was malformed due bug in doc-generator-scripts -&gt; fixed</li>
 <li>Defer Management: GetDeferIdentifier - you can optionally pass a script-identifier now, to get the defer-identifier of another scriptinstance(used to support only the current script instance)</li>
 <li>Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
@@ -101,7 +102,9 @@ Ultraschall API Changelog
 <li>HWND: GetRenderingToFileHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
 <li>HWND: GetSaveLiveOutputToDiskHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
 <li>HWND: GetVideoHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>
-<li>Project Management: CheckForChangedProjectTabs - checks now as well, if projectfilenames have changed, by either loading a project or saving a project under a new filename(requested by ???)</li>
+<li>Media Explorer: MediaExplorer_OnCommand - moved function in docs to index Media Explorer</li>
+<li>Media Explorer: UpdateMediaExplorer - moved function in docs to index Media Explorer</li>
+<li>Project Management: CheckForChangedProjectTabs - checks now as well, if projectfilenames have changed, by either loading a project or saving a project under a new filename(requested by lexaproductions)</li>
 <li>Project Management: GetProject_GlobalAuto - added description for global-automation-override_state</li>
 <li>Project Management: GetProject_MasterGroupFlagsState - moved to correct docsindex Project Management</li>
 <li>Project Management: ProjectTabs-check - initialization had a bug, which could cause CheckForChangedProjectTabs to fail at times -&gt; fixed</li>
@@ -110,10 +113,12 @@ Ultraschall API Changelog
 <li>SpectralEdit: GetItemSpectralEdit - retval end_pos was actually length -&gt; fixed (thanks to XRaym)</li>
 <li>SpectralEdit: SetItemSpectralEdit - parameter end_pos was actually length -&gt; fixed (thanks to XRaym)</li>
 <li>Ultraschall: EnumerateUSExternalState_sec - had problems, when ultraschall.ini was stored with CR+LF-lineendings -&gt; fixed (thanks to rstockm)</li>
-<li>Ultraschall: IsTrackSoundboard - sped up execution by removing useless loop</li>
-<li>Ultraschall: IsTrackStudioLink - sped up execution by removing useless loop</li>
-<li>Ultraschall: IsTrackStudioLinkOnAir - sped up execution by removing useless loop; didn't work correctly on Mac -&gt; fixed</li>
+<li>Ultraschall: IsTrackSoundboard - sped up execution by removing useless loop(thanks rstockm)</li>
+<li>Ultraschall: IsTrackStudioLink - sped up execution by removing useless loop(thanks rstockm)</li>
+<li>Ultraschall: IsTrackStudioLinkOnAir - sped up execution by removing useless loop; didn't work correctly on Mac -&gt; fixed(thanks rstockm)</li>
 <li>Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs</li>
+<li>User Interface: GetReaperWindowPosition_Left - deprecated</li>
+<li>User Interface: GetReaperWindowPosition_Right - deprecated</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.761: - "Coldplay - Fix You" - 23rd of September 2019</h3>

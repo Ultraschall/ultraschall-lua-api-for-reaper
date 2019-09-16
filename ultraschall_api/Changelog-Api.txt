@@ -1,10 +1,7 @@
 <TODO>
     For 4.00beta2.77
-        - TODO!! for some reason, the index of the US-API-indexes is messed up, with the first entry being moved to be the second one
-                    -> probably due the SplitLinefeedToArray-bugfix!
+        - TODO!! MB and GetUserInputs not working on Mac due unknown bug. Maybe bug in JS-extension?
         - TODO!! index of config-vars is only one level
-        - TODO!! who requested ? Project Management: CheckForChangedProjectTabs - checks now as well, if projectfilenames have changed, by either loading a project or saving a project under a new filename(requested by ???)
-        - TODO!! GetReaperWindowPosition_Left und GetReaperWindowPosition_Right entweder deprecaten oder neu implementieren
         - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
         - TODO!! XML-generator has problems with spaces and & in filenames; use this to overcome this:
                       tempfile=files_array[i]
@@ -108,8 +105,6 @@
                   - SetProject_MasterGroupFlagsHighState - 
                   - SetProject_GroupDisabled - 
                   
-
-                  
                - IsValid-check functions for
                     - AutomationItems, ProjectBay, Metronome, MasterPlayspeed, Tempo, Extensions, MasterHWVolEnv, MasterFXList, MasterDualPanEnv
                       MasterDualPanEnv2, MasterDualPanEnvL, MasterDualPanEnvL2, MasterVolEnv, MasterVolEnv2, MasterVolEnv3, MasterHWPanEnv, TempoEnv_Ex   
@@ -128,11 +123,10 @@
                         Render that out into a new file
                         Delete the temp-rendered-files
                         close the projects and return the filename
-        - TODO!! Monitor the rendering to file-dialog for queue-renders, to get the rendered filenames, using a background script, if possible at all
-        - TODO!! ChildScripts: Run code directly
-                   Kann man auch mit RunMe=load(LuaCode) RunMe() machen, ohne kniffliges externes File-gedumsel
+
 
     For 4.00beta2.8:
+    - TODO!! Monitor the rendering to file-dialog for queue-renders, to get the rendered filenames, using a background script, if possible at all
       TODO!! Default-Color-Theme-Colortables and loading ColorTable from Theme-functions
               Originally Posted by mespotine  View Post
               A second action focusing on only random-strong colors would be useful, I think. Should be scriptable as well though.
@@ -225,15 +219,15 @@ TODO!! buggy function
 ### 4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 30th of September 2019
  
 #### New features in 4.00beta2.77
-   - Defer Management: GetDeferRunState - gets the current runstate of a ultraschall-defer-loop in the current or a specific scriptinstance
-   - Docs: Ultraschall-API - index was malformed due bug in doc-generator-scripts -> fixed
+   - Defer Management: GetDeferRunState - gets the current runstate of a ultraschall-defer-loop in the current or a specific scriptinstance(requested by rstockm)
    - Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point
    - Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system
    - EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript
+   - Helper functions: RunLuaSourceCode - runs Lua-code directly from a string
    - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
    - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper
    - MediaItem Management: GetMediaItem_ClickState - returns the currently clicked MediaItem
-   - MediaItem Management: GetMediaItemNumber - returns the itemnumber of a MediaItem within a project
+   - MediaItem Management: GetMediaItemNumber - returns the itemnumber of a MediaItem within a project(requested by XRaym)
    - MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project
    - Project Management: GetProjectFilename - returns the filename of a currently opened project
    - Project Management: SaveProjectAs - saves the current project under a new filename
@@ -243,7 +237,7 @@ TODO!! buggy function
    - Project Management: SetProject\_Playrate - sets playrate-state of a projectfile or a ProjectStateChunk
    - Project Management: SetProject\_MasterSel - sets selection-state of the master-track in a projectfile or a ProjectStateChunk
    - Project Management: SetProject\_Tempo - sets the tempo settings(bpm, beat, denominator) a projectfile or a ProjectStateChunk
-   - Ultraschall: DeleteUSExternalState - deletes an extstate from the ultraschall.ini
+   - Ultraschall: DeleteUSExternalState - deletes an extstate from the ultraschall.ini(requested by rstockm)
    - User Interface: GetTimeByMouseXPosition - returns projecttime at x-screenposition
    - User Interface: ShowTrackInputMenu - shows a TrackInput-contextmenu
    - User Interface: ShowTrackPanelMenu - shows a TrackPanel-contextmenu
@@ -263,6 +257,7 @@ TODO!! buggy function
    - Configuration Files: GetKBIniKeys - enhanced description for osc
    - Configuration Files: SetKBIniKeys - enhanced description for osc
    - Docs: Reaper Internals - updated to Reaper 5.983 and JS-extension 0.991
+   - Docs: Ultraschall-API - index was malformed due bug in doc-generator-scripts -> fixed
    - Defer Management: GetDeferIdentifier - you can optionally pass a script-identifier now, to get the defer-identifier of another scriptinstance(used to support only the current script instance)
    - Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -> Data Manipulation
@@ -282,7 +277,9 @@ TODO!! buggy function
    - HWND: GetRenderingToFileHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - HWND: GetSaveLiveOutputToDiskHWND - moved to docs-index User Interface -> Reaper-Windowhandler
    - HWND: GetVideoHWND - moved to docs-index User Interface -> Reaper-Windowhandler
-   - Project Management: CheckForChangedProjectTabs - checks now as well, if projectfilenames have changed, by either loading a project or saving a project under a new filename(requested by ???)
+   - Media Explorer: MediaExplorer_OnCommand - moved function in docs to index Media Explorer
+   - Media Explorer: UpdateMediaExplorer - moved function in docs to index Media Explorer
+   - Project Management: CheckForChangedProjectTabs - checks now as well, if projectfilenames have changed, by either loading a project or saving a project under a new filename(requested by lexaproductions)
    - Project Management: GetProject\_GlobalAuto - added description for global-automation-override_state
    - Project Management: GetProject\_MasterGroupFlagsState - moved to correct docsindex Project Management
    - Project Management: ProjectTabs-check - initialization had a bug, which could cause CheckForChangedProjectTabs to fail at times -> fixed
@@ -291,10 +288,12 @@ TODO!! buggy function
    - SpectralEdit: GetItemSpectralEdit - retval end_pos was actually length -> fixed (thanks to XRaym)
    - SpectralEdit: SetItemSpectralEdit - parameter end_pos was actually length -> fixed (thanks to XRaym)
    - Ultraschall: EnumerateUSExternalState_sec - had problems, when ultraschall.ini was stored with CR+LF-lineendings -> fixed (thanks to rstockm)
-   - Ultraschall: IsTrackSoundboard - sped up execution by removing useless loop
-   - Ultraschall: IsTrackStudioLink - sped up execution by removing useless loop
-   - Ultraschall: IsTrackStudioLinkOnAir - sped up execution by removing useless loop; didn't work correctly on Mac -> fixed
+   - Ultraschall: IsTrackSoundboard - sped up execution by removing useless loop(thanks rstockm)
+   - Ultraschall: IsTrackStudioLink - sped up execution by removing useless loop(thanks rstockm)
+   - Ultraschall: IsTrackStudioLinkOnAir - sped up execution by removing useless loop; didn't work correctly on Mac -> fixed(thanks rstockm)
    - Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs
+   - User Interface: GetReaperWindowPosition_Left - deprecated
+   - User Interface: GetReaperWindowPosition_Right - deprecated
    
    ---
 

@@ -5450,8 +5450,7 @@ function ultraschall.MediaExplorer_OnCommand(actioncommandid)
     boolean retval - true, could update run the action in the Media Explorer; false, couldn't run it
   </retvals>
   <chapter_context>
-    User Interface
-    Reaper-Windowhandler
+    Media Explorer
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -5485,8 +5484,7 @@ function ultraschall.UpdateMediaExplorer()
     boolean retval - true, could update the listview of the Media Explorer; false, couldn't update the listview
   </retvals>
   <chapter_context>
-    User Interface
-    Reaper-Windowhandler
+    Media Explorer
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
