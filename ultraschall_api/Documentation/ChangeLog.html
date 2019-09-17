@@ -46,6 +46,8 @@ Ultraschall API Changelog
 <li>Defer Management: GetDeferRunState - gets the current runstate of a ultraschall-defer-loop in the current or a specific scriptinstance(requested by rstockm)</li>
 <li>Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point</li>
 <li>Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system</li>
+<li>EventManager: EventManager_AddEvent - registers a new event to the EvenManager-checkingqueue</li>
+<li>Eventmanager: Eventmanager_RemoveEvent - removes an event from the EvenManager-checkingqueue</li>
 <li>EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript</li>
 <li>Helper functions: RunLuaSourceCode - runs Lua-code directly from a string</li>
 <li>LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper</li>
@@ -82,7 +84,6 @@ Ultraschall API Changelog
 <li>Configuration Files: GetKBIniKeys - enhanced description for osc</li>
 <li>Configuration Files: SetKBIniKeys - enhanced description for osc</li>
 <li>Docs: Reaper Internals - updated to Reaper 5.983 and JS-extension 0.991</li>
-<li>Docs: Ultraschall-API - index was malformed due bug in doc-generator-scripts -&gt; fixed</li>
 <li>Defer Management: GetDeferIdentifier - you can optionally pass a script-identifier now, to get the defer-identifier of another scriptinstance(used to support only the current script instance)</li>
 <li>Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
@@ -119,6 +120,8 @@ Ultraschall API Changelog
 <li>Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs</li>
 <li>User Interface: GetReaperWindowPosition_Left - deprecated</li>
 <li>User Interface: GetReaperWindowPosition_Right - deprecated</li>
+<li>User Interface: GetUserInputs - only working on Windows, currently. Working on fixing it.</li>
+<li>User Interface: MB - only working on Windows, currently. Working on fixing it.</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.761: - "Coldplay - Fix You" - 23rd of September 2019</h3>

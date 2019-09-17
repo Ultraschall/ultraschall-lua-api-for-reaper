@@ -1,6 +1,5 @@
 <TODO>
     For 4.00beta2.77
-        - TODO!! MB and GetUserInputs not working on Mac due unknown bug. Maybe bug in JS-extension?
         - TODO!! index of config-vars is only one level
         - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
         - TODO!! XML-generator has problems with spaces and & in filenames; use this to overcome this:
@@ -52,18 +51,6 @@
                         ultraschall.Eventmanager_GetAllEvents() - returns all events with all attributes currently managed by the eventmanager
                         ultraschall.Eventmanager_Stop(optional string ScriptIdentifier) - stops the eventmanager, means, all events you've registered will be removed. Should be used in atexit-functions of defer-scripts.
                                                                                             kann auch mit ScriptIdentifier aus anderem Skript heraus gestartet werden, so dass man eine "StartMyEvents" und "StopMyEvents" Action bauen kann.
-         - TODO!! GetUserInputs - count doesn't match, if fewer inputboxes are filled than do exist.
-                        tested with 9 Inputboxes, 6 Captionboxes. There's somewhere a mismatch...
-                        Is this fixed? Can't reproduce anymore.
-         - TODO!! GetUserInputs 
-                - set length of caption-textfields and move inputboxes accordingly, as well as the width of the DialogWindow AND
-                  position it correctly centered
-                - Captions ending with \n shall be the full width of the window(for full readability of the caption), where the 
-                  associated inputbox is moved into the next line,which means, that all lines must be moved downwards properly 
-                  and height must be adjusted accordingly
-                - additional parameters, x,y, to set a position of the GetUserInput-window
-                - maybe auto_size, using caption length and input-box-default-value length to get the desired widths(needs GetLength of Text working somehow, using
-                  JS-extension-plugin)
         - TODO!! reaper.GetLastTouchedFX, reaper.GetFocusedFX - high word/low word-management is too difficult, make new functions of them
         - TODO!!  - Get/SetProject-functions for
         
@@ -126,6 +113,20 @@
 
 
     For 4.00beta2.8:
+         - TODO!! MB and GetUserInputs not working on Mac due unknown bug. 
+                 Can't find ID of the buttons anymore. Changes in Reaper in recent versions?
+         - TODO!! GetUserInputs - count doesn't match, if fewer inputboxes are filled than do exist.
+                        tested with 9 Inputboxes, 6 Captionboxes. There's somewhere a mismatch...
+                        Is this fixed? Can't reproduce anymore.
+         - TODO!! GetUserInputs 
+                - set length of caption-textfields and move inputboxes accordingly, as well as the width of the DialogWindow AND
+                  position it correctly centered
+                - Captions ending with \n shall be the full width of the window(for full readability of the caption), where the 
+                  associated inputbox is moved into the next line,which means, that all lines must be moved downwards properly 
+                  and height must be adjusted accordingly
+                - additional parameters, x,y, to set a position of the GetUserInput-window
+                - maybe auto_size, using caption length and input-box-default-value length to get the desired widths(needs GetLength of Text working somehow, using
+                  JS-extension-plugin)
     - TODO!! Monitor the rendering to file-dialog for queue-renders, to get the rendered filenames, using a background script, if possible at all
       TODO!! Default-Color-Theme-Colortables and loading ColorTable from Theme-functions
               Originally Posted by mespotine  View Post
@@ -222,6 +223,8 @@ TODO!! buggy function
    - Defer Management: GetDeferRunState - gets the current runstate of a ultraschall-defer-loop in the current or a specific scriptinstance(requested by rstockm)
    - Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point
    - Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system
+   - EventManager: EventManager_AddEvent - registers a new event to the EvenManager-checkingqueue
+   - Eventmanager: Eventmanager_RemoveEvent - removes an event from the EvenManager-checkingqueue
    - EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript
    - Helper functions: RunLuaSourceCode - runs Lua-code directly from a string
    - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
@@ -257,7 +260,6 @@ TODO!! buggy function
    - Configuration Files: GetKBIniKeys - enhanced description for osc
    - Configuration Files: SetKBIniKeys - enhanced description for osc
    - Docs: Reaper Internals - updated to Reaper 5.983 and JS-extension 0.991
-   - Docs: Ultraschall-API - index was malformed due bug in doc-generator-scripts -> fixed
    - Defer Management: GetDeferIdentifier - you can optionally pass a script-identifier now, to get the defer-identifier of another scriptinstance(used to support only the current script instance)
    - Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -> Data Manipulation
@@ -294,6 +296,8 @@ TODO!! buggy function
    - Ultraschall: moved ultraschall.ini-related functions to Ultraschall Specific-index in the docs
    - User Interface: GetReaperWindowPosition_Left - deprecated
    - User Interface: GetReaperWindowPosition_Right - deprecated
+   - User Interface: GetUserInputs - only working on Windows, currently. Working on fixing it.
+   - User Interface: MB - only working on Windows, currently. Working on fixing it.
    
    ---
 

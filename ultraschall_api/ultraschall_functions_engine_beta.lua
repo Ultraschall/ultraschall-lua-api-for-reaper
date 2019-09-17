@@ -229,127 +229,6 @@ end
 --  O=ultraschall.ResolveRenderPattern("I would find a way $day")
 --end
 
-
-
-
---Event Manager
-function ultraschall.ResetEvent(Event_Section)
-  if Event_Section==nil and Ultraschall_Event_Section~=nil then 
-    Event_Section=Ultraschall_Event_Section 
-  end
-  if type(Event_Section)~="string" then ultraschall.AddErrorMessage("ResetEvent", "Event_Section", "must be a string", -1) return false end
-  local A=reaper.GetExtState(Event_Section, "NumEvents")
-  if A~="" then 
-    for i=1, A do
-      reaper.DeleteExtState(Event_Section, "Event"..i, false)
-    end
-  end
-  reaper.DeleteExtState(Event_Section, "NumEvents", false)
-  reaper.DeleteExtState(Event_Section, "Old", false)
-  reaper.DeleteExtState(Event_Section, "New", false)
-  reaper.DeleteExtState(Event_Section, "ScriptIdentifier", false)
-end
-
-
-function ultraschall.RegisterEvent(Event_Section, Event)
-  if type(Event_Section)~="string" then ultraschall.AddErrorMessage("RegisterEvent", "Event_Section", "must be a string", -1) return false end
-  if type(Event)~="string" then ultraschall.AddErrorMessage("RegisterEvent", "Event", "must be a string", -2) return false end
-  local A=reaper.GetExtState(Event_Section, "NumEvents")
-  if A=="" then A=0 else A=tonumber(A) end
-  reaper.SetExtState(Event_Section, "ScriptIdentifier", ultraschall.ScriptIdentifier, false)
-  reaper.SetExtState(Event_Section, "NumEvents", A+1, false)
-  reaper.SetExtState(Event_Section, "Event"..A+1, Event, false)
-end
-
-function ultraschall.SetEventState(Event_Section, OldEvent, NewEvent)
-  if type(Event_Section)~="string" then ultraschall.AddErrorMessage("RegisterEvent", "Event_Section", "must be a string", -1) return false end
-  OldEvent=tostring(OldEvent)
-  NewEvent=tostring(NewEvent)
-  reaper.SetExtState(Event_Section, "Old", OldEvent, false)
-  reaper.SetExtState(Event_Section, "New", NewEvent, false)
-  reaper.SetExtState(Event_Section, "ScriptIdentifier", ultraschall.ScriptIdentifier, false)
-end
-
-function ultraschall.RegisterEventAction(eventconditions, action)
-  -- eventconditions is an array of the following structure
-  -- eventconditions[idx][1] - oldstate
-  -- eventconditions[idx][2] - newstate
-  -- eventconditions[idx][3] - comparison 
-  --                                fixed events: ! for not and = for equal
-  --                                unfixed events(numbers): < = >
-  -- if all these conditions are met, the eventmanager will run the action, otherwise it does nothing
-end
-
-function ultraschall.GetAllAvailableEvents()
-  return ultraschall.SplitStringAtLineFeedToArray(reaper.GetExtState("ultraschall_event_manager", "allevents"))
-end
-
---A,B=ultraschall.GetAllAvailableEvents()
-
-function ultraschall.GetAllEventStates()
-  local count, array = ultraschall.SplitStringAtLineFeedToArray(reaper.GetExtState("ultraschall_event_manager", "eventstates"))
-  if array[1]~="" then
-    return reaper.GetExtState("ultraschall_event_manager", "event"), count, array
-  else
-    return "", 0, {}
-  end
-end
-
---A,B,C=ultraschall.GetAllEventStates()
-
-function ultraschall.SetAlterableEvent(Event)
-  if type(Event)~="string" then ultraschall.AddErrorMessage("SetAlterableEvent", "Event", "must be a string", -1) return end
-  reaper.SetExtState("ultraschall_event_manager", "event", Event, false)
-end
-
---ultraschall.SetAlterableEvent("LoopState")
-
-function ultraschall.SetEvent(command)
-  if type(command)~="string" then ultraschall.AddErrorMessage("SetEvent", "command", "must be a string", -1) return end
-  reaper.SetExtState("ultraschall_event_manager", "do_command", command, false)
-end
-
---ultraschall.SetEvent("start")
-
-function ultraschall.UpdateEventList()
-  reaper.SetExtState("ultraschall_event_manager", "do_command", "update", false)
-end
-
---ultraschall.UpdateEventList()
-
-function ultraschall.GetCurrentEventTransition()
-  local event=reaper.GetExtState("ultraschall_event_manager", "event")
-  return event, reaper.GetExtState(event, "Old"), reaper.GetExtState(event, "New")
-end
-
---A,B,C=ultraschall.GetCurrentEventTransition()
-
-
-function ultraschall.StartAllEventListeners()
-  reaper.SetExtState("ultraschall_event_manager", "do_command", "startall", false)
-end
-
---A,B,C=ultraschall.StartAllEventListeners()
-
-function ultraschall.StopAllEventListeners()
-  reaper.SetExtState("ultraschall_event_manager", "do_command", "stopall", false)
-end
-
---A,B,C=ultraschall.StopAllEventListeners()
-
-function ultraschall.StopEventManager()
-  reaper.SetExtState("ultraschall_event_manager", "do_command", "stop_eventlistener", false)
-end
-
-function ultraschall.StartEventManager()
-  ultraschall.Main_OnCommandByFilename(ultraschall.Api_Path.."/Scripts/ultraschall_EventManager.lua")
-end
-
---ultraschall.StartEventManager()
---A,B,C=ultraschall.StartAllEventListeners()
-
-
-
 ultraschall.ShowLastErrorMessage()
 
 
@@ -2287,6 +2166,143 @@ function ultraschall.RunLuaSourceCode(code)
   if type(code)~="string" then ultraschall.AddErrorMessage("RunLuaSourceCode", "code", "must be a string of Lua code", -1) return false end
   local RunMe=load(code)
   RunMe()
+  return true
+end
+
+--EventManager
+function ultraschall.EventManager_AddEvent(EventName, CheckAllXSeconds, CheckForXSeconds, StartActionsOnceDuringTrue, EventPaused, CheckFunction, Actions)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_AddEvent</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>string event_identifier = ultraschall.EventManager_AddEvent(string EventName, integer CheckAllXSeconds, integer CheckForXSeconds, boolean StartActionsOnceDuringTrue, boolean EventPaused, function CheckFunction, table Actions)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Adds a new event to the Ultraschall Event Manager-checking-queue.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string EventName - a name for the event, which you can choose freely; duplicated eventnames are allowed
+    integer CheckAllXSeconds - only check all x seconds; -1, for constant checking
+                             - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
+                             - This is due general limitations with backgroundscripts.
+    integer CheckForXSeconds - only check for x seconds; -1, check until the event is removed
+                             - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
+                             - This is due general limitations with backgroundscripts.
+    boolean StartActionsOnceDuringTrue - if the event occurred: 
+                                       -    true, run the actions only once; 
+                                       -    false, run until the CheckFunction returns false again
+    boolean EventPaused - false, register the event and check for it immediately; true, register the event but don't check for it yet
+    function CheckFunction - the function, which shall check if the event occurred
+                           - this function must return true if the event occurred and false, if not
+                           - No global variables allowed! Instead, the eventmanager will pass to it as first parameter a table which can be used for storing information
+    table Actions - a table which holds all actions and their accompanying sections, who shall be run when the event occurred
+                  - each entry of the table must be of the format "actioncommandid,section", e.g.:
+                  - 
+                  - Actions[1]="1007,0"
+                  - Actions[2]="1012,0"
+                  -
+                  - You can have as many actions as you like, but be aware, that running too many actions may delay further eventchecking!
+  </parameters>
+  <retvals>
+    string event_identifier - the unique identifier for this registered event, which can be used later for setting, deleting, etc
+  </retvals>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, add, new, event, function, actions, section, action</tags>
+</US_DocBloc>
+--]]
+  if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("EventManager_AddEvent", "", "Eventmanager not started yet", -1) return end
+  if type(EventName)~="string" then ultraschall.AddErrorMessage("EventManager_AddEvent", "EventName", "must be a string", -2) return end
+  if math.type(CheckAllXSeconds)~="integer" then ultraschall.AddErrorMessage("EventManager_AddEvent", "CheckAllXSeconds", "must be an integer; -1 for constant checking", -3) return end
+  if math.type(CheckForXSeconds)~="integer" then ultraschall.AddErrorMessage("EventManager_AddEvent", "CheckForXSeconds", "must be an integer; -1 for infinite checking", -4) return end
+  if type(StartActionsOnceDuringTrue)~="boolean" then ultraschall.AddErrorMessage("EventManager_AddEvent", "StartActionsOnceDuringTrue", "must be a boolean", -5) return end
+  if type(EventPaused)~="boolean" then ultraschall.AddErrorMessage("EventManager_AddEvent", "EventPaused", "must be a boolean", -6) return end
+  if type(CheckFunction)~="function" then ultraschall.AddErrorMessage("EventManager_AddEvent", "CheckFunction", "must be a function", -7) return end
+  if type(Actions)~="table" then ultraschall.AddErrorMessage("EventManager_AddEvent", "Actions", "must be a table", -8) return end
+  
+
+  local EventStateChunk=""  
+  local EventIdentifier="Ultraschall_Eventidentifier: "..reaper.genGuid()
+  
+  local ActionsCount = ultraschall.CountEntriesInTable_Main(Actions)
+  local EventStateChunk2=[[
+
+Eventname: ]]..EventName..[[
+
+EventIdentifier: ]]..EventIdentifier..[[
+
+SourceScriptIdentifier: ScriptIdentifier-]]..ultraschall.ScriptIdentifier..[[
+
+CheckAllXSeconds: ]]..CheckAllXSeconds..[[
+
+CheckForXSeconds: ]]..CheckForXSeconds..[[
+
+StartActionsOnceDuringTrue: ]]..tostring(StartActionsOnceDuringTrue)..[[
+
+Paused: ]]..tostring(EventPaused)..[[
+
+Function: ]]..ultraschall.Base64_Encoder(string.dump(CheckFunction))..[[
+
+CountOfActions: ]]..ActionsCount.."\n"
+
+  for i=1, ActionsCount do
+    local Action, Section=Actions[i]:match("(.-),(.*)")
+    if math.type(tonumber(Action))~="integer" or 
+       math.type(tonumber(Section))~="integer" then
+       ultraschall.AddErrorMessage("EventManager_AddEvent", "Actions", "Entry number "..i.." must be contain valid integers for \"action,section\" (e.g. \"1007,0\").", -10) return nil
+    else
+      EventStateChunk2=EventStateChunk2.."Action: "..Action.."\nSection: "..Section.."\n"
+    end
+  end
+
+  EventStateChunk2=EventStateChunk2.."EndEvent\n"
+  
+  local StateRegister=reaper.GetExtState("ultraschall_eventmanager", "eventregister")
+  reaper.SetExtState("ultraschall_eventmanager", "eventregister", StateRegister..EventStateChunk2, false)
+  return EventIdentifier
+end
+
+function ultraschall.Eventmanager_RemoveEvent(EventIdentifier)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Eventmanager_RemoveEvent</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Eventmanager_RemoveEvent(string event_identifier)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Removes a new event to the Ultraschall Event Manager-checking-queue.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    string event_identifier - the unique identifier of the registered event, which you want to remove from the EventManager
+  </parameters>
+  <retvals>
+    boolean retval - true, removing was successful; false, removing was unsuccessful
+  </retvals>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, remove, event</tags>
+</US_DocBloc>
+--]]
+  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("Eventmanager_RemoveEvent", "EventIdentifier", "must be a string", -1) return false end
+  if EventIdentifier:match("Ultraschall_Eventidentifier: %{........%-....%-....%-....%-............%}")==nil then ultraschall.AddErrorMessage("Eventmanager_RemoveEvent", "EventIdentifier", "must be a valid Event Identifier", -2) return false end
+  local OldRemoves=reaper.GetExtState("ultraschall_eventmanager", "eventremove")
+  reaper.SetExtState("ultraschall_eventmanager", "eventremove", OldRemoves..EventIdentifier.."\n", false)
   return true
 end
 
