@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40612.00" author="Meo Mespotine">
+      <version name="40622.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Changelog-Api.txt</source>
@@ -388,19 +388,28 @@ Ultraschall Framework - Changelog
 New features in 4.00beta2.77
 
 -   Defer Management: GetDeferRunState - gets the current runstate of a
-    ultraschall-defer-loop in the current or a specific scriptinstance
+    ultraschall-defer-loop in the current or a specific
+    scriptinstance(requested by rstockm)
 -   Envelope Management: GetTrackEnvelope_ClickState - returns the
     currently clicked TrackEnvelope-Point
 -   Error Messaging System: SuppressErrorMessages - suppresses and
     unsuppresses error-messages of the error messaging system
+-   EventManager: EventManager_AddEvent - registers a new event to the
+    EvenManager-checkingqueue
+-   Eventmanager: Eventmanager_RemoveEvent - removes an event from the
+    EvenManager-checkingqueue
 -   EventManager: Ultraschall_EventManager.lua - first version of the
     EventManager-backgroundscript
+-   Helper functions: RunLuaSourceCode - runs Lua-code directly from a
+    string
 -   LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be
     used by Reaper
 -   LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of
     the currently chosen LiceCap-executable in Reaper
 -   MediaItem Management: GetMediaItem_ClickState - returns the
     currently clicked MediaItem
+-   MediaItem Management: GetMediaItemNumber - returns the itemnumber of
+    a MediaItem within a project(requested by XRaym)
 -   MediaItem Management: GetRecCounter - returns the highest
     rec-counter of all items/takes in the current project
 -   Project Management: GetProjectFilename - returns the filename of a
@@ -420,7 +429,7 @@ New features in 4.00beta2.77
 -   Project Management: SetProject_Tempo - sets the tempo settings(bpm,
     beat, denominator) a projectfile or a ProjectStateChunk
 -   Ultraschall: DeleteUSExternalState - deletes an extstate from the
-    ultraschall.ini
+    ultraschall.ini(requested by rstockm)
 -   User Interface: GetTimeByMouseXPosition - returns projecttime at
     x-screenposition
 -   User Interface: ShowTrackInputMenu - shows a TrackInput-contextmenu
@@ -491,9 +500,13 @@ Changes from Beta 2.761 to Beta 2.77
     Interface -> Reaper-Windowhandler
 -   HWND: GetVideoHWND - moved to docs-index User Interface ->
     Reaper-Windowhandler
+-   Media Explorer: MediaExplorer_OnCommand - moved function in docs to
+    index Media Explorer
+-   Media Explorer: UpdateMediaExplorer - moved function in docs to
+    index Media Explorer
 -   Project Management: CheckForChangedProjectTabs - checks now as well,
     if projectfilenames have changed, by either loading a project or
-    saving a project under a new filename(requested by ???)
+    saving a project under a new filename(requested by lexaproductions)
 -   Project Management: GetProject_GlobalAuto - added description for
     global-automation-override_state
 -   Project Management: GetProject_MasterGroupFlagsState - moved to
@@ -503,11 +516,29 @@ Changes from Beta 2.761 to Beta 2.77
     fixed
 -   Project Management: SetProject_MasterGroupFlagsState - moved to
     correct docsindex Project Management
+-   SpectralEdit: AddItemSpectralEdit - parameter end_pos was actually
+    length -> fixed (thanks to XRaym)
+-   SpectralEdit: GetItemSpectralEdit - retval end_pos was actually
+    length -> fixed (thanks to XRaym)
+-   SpectralEdit: SetItemSpectralEdit - parameter end_pos was actually
+    length -> fixed (thanks to XRaym)
 -   Ultraschall: EnumerateUSExternalState_sec - had problems, when
     ultraschall.ini was stored with CR+LF-lineendings -> fixed (thanks
     to rstockm)
+-   Ultraschall: IsTrackSoundboard - sped up execution by removing
+    useless loop(thanks rstockm)
+-   Ultraschall: IsTrackStudioLink - sped up execution by removing
+    useless loop(thanks rstockm)
+-   Ultraschall: IsTrackStudioLinkOnAir - sped up execution by removing
+    useless loop; didn’t work correctly on Mac -> fixed(thanks rstockm)
 -   Ultraschall: moved ultraschall.ini-related functions to Ultraschall
     Specific-index in the docs
+-   User Interface: GetReaperWindowPosition_Left - deprecated
+-   User Interface: GetReaperWindowPosition_Right - deprecated
+-   User Interface: GetUserInputs - only working on Windows, currently.
+    Working on fixing it.
+-   User Interface: MB - only working on Windows, currently. Working on
+    fixing it.
 
 ------------------------------------------------------------------------
 
@@ -4252,7 +4283,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1014 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40612 from 12.09.2019 04:37:51).}
+a 1018 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40622 from 17.09.2019 02:42:11).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4266,7 +4297,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1014 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1018 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -4390,7 +4421,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1014 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40612 from 12.09.2019 04:37:51).}
+a 1018 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40622 from 17.09.2019 02:42:11).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4404,7 +4435,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1014 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1018 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
