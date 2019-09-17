@@ -223,9 +223,13 @@ TODO!! buggy function
    - Defer Management: GetDeferRunState - gets the current runstate of a ultraschall-defer-loop in the current or a specific scriptinstance(requested by rstockm)
    - Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point
    - Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system
-   - EventManager: EventManager_AddEvent - registers a new event to the EvenManager-checkingqueue
-   - Eventmanager: Eventmanager_RemoveEvent - removes an event from the EvenManager-checkingqueue
-   - EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript
+   - EventManager: EventManager\_AddEvent - registers a new event to the EvenManager-checkingqueue
+   - EventManager: EventManager\_CountRegisteredEvents - counts the number of registered events
+   - EventManager: EventManager\_EnumerateEvents - returns attributes of specific registered events
+   - EventManager: EventManager\_IsValidEventIdentifier - checks, if an EventIdentifier is a valid and currently registered one
+   - EventManager: EventManager\_SetEvent - sets an already existing event in the EvenManager-checkingqueue
+   - Eventmanager: Eventmanager\_RemoveEvent - removes an event from the EvenManager-checkingqueue
+   - EventManager: Ultraschall\_EventManager.lua - first version of the EventManager-backgroundscript
    - Helper functions: RunLuaSourceCode - runs Lua-code directly from a string
    - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
    - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper
