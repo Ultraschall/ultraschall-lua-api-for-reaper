@@ -188,6 +188,14 @@ function GetIDFromEventIdentifier(EventIdentifier)
   return -1
 end
 
+function PauseEvent(id)
+  EventTable[id]["Paused"]=true
+end
+
+function ResumeEvent(id)
+  EventTable[id]["Paused"]=false
+end
+
 function AddEvent(EventStateChunk)
 --  print2(EventStateChunk)
   local EventName=EventStateChunk:match("Eventname: (.-)\n")
@@ -210,7 +218,7 @@ function AddEvent(EventStateChunk)
      StartActionsOnceDuringTrue==nil or
      Function==nil or
      CountOfActions==nil then
-      print2("An error happened, while adding the event to the eventmanager. Please report this as a bug to me: \n\n\t\tultraschall.fm/api \n\nPlease include the following lines in your bugreport(screenshot is sufficient): \n\n"..EventStateChunk)
+      print("An error happened, while adding the event to the eventmanager. Please report this as a bug to me: \n\n\t\tultraschall.fm/api \n\nPlease include the following lines in your bugreport(screenshot is sufficient): \n\n"..EventStateChunk)
       return
   end
   local actions=EventStateChunk:sub(offset,-1)
@@ -222,8 +230,8 @@ function AddEvent(EventStateChunk)
     ActionsTable[i]["action"]=tonumber(ActionsTable[i]["action"])
     ActionsTable[i]["section"]=tonumber(ActionsTable[i]["section"])
     if ActionsTable[i]["section"]==nil or ActionsTable[i]["action"]==nil then
-      print2(ActionsTable[i]["section"], ActionsTable[i]["action"])
-      print2("An error happened, while adding the event to the eventmanager. Please report this as a bug to me: \n\n\t\tultraschall.fm/api \n\nPlease include the following lines in your bugreport(screenshot is sufficient): \n\n"..EventStateChunk)
+      print(ActionsTable[i]["section"], ActionsTable[i]["action"])
+      print("An error happened, while adding the event to the eventmanager. Please report this as a bug to me: \n\n\t\tultraschall.fm/api \n\nPlease include the following lines in your bugreport(screenshot is sufficient): \n\n"..EventStateChunk)
     end
     actions=actions:sub(offset,-1)
   end
@@ -275,7 +283,7 @@ function SetEvent(EventStateChunk)
      StartActionsOnceDuringTrue==nil or
      Function==nil or
      CountOfActions==nil then
-      print2("An error happened, while setting the event in the eventmanager. Please report this as a bug to me: \n\n\t\tultraschall.fm/api \n\nPlease include the following lines in your bugreport(screenshot is sufficient): \n\n"..EventStateChunk)
+      print("An error happened, while setting the event in the eventmanager. Please report this as a bug to me: \n\n\t\tultraschall.fm/api \n\nPlease include the following lines in your bugreport(screenshot is sufficient): \n\n"..EventStateChunk)
       return
   end
   local actions=EventStateChunk:sub(offset,-1)
@@ -287,8 +295,8 @@ function SetEvent(EventStateChunk)
     ActionsTable[i]["action"]=tonumber(ActionsTable[i]["action"])
     ActionsTable[i]["section"]=tonumber(ActionsTable[i]["section"])
     if ActionsTable[i]["section"]==nil or ActionsTable[i]["action"]==nil then
-      print2(ActionsTable[i]["section"], ActionsTable[i]["action"])
-      print2("An error happened, while setting the event in the eventmanager. Please report this as a bug to me: \n\n\t\tultraschall.fm/api \n\nPlease include the following lines in your bugreport(screenshot is sufficient): \n\n"..EventStateChunk)
+      print(ActionsTable[i]["section"], ActionsTable[i]["action"])
+      print("An error happened, while setting the event in the eventmanager. Please report this as a bug to me: \n\n\t\tultraschall.fm/api \n\nPlease include the following lines in your bugreport(screenshot is sufficient): \n\n"..EventStateChunk)
     end
     actions=actions:sub(offset,-1)
   end
@@ -386,60 +394,66 @@ function main()
   for i=1, CountOfEvents do
     if EventTable[i]["Paused"]==false then
     --print2(i, EventTable[i]["Paused"])
-      current_state=EventTable[i]["Function"](EventTable[i]["UserSpace"])
-      doit=false
-      -- check every x second
-      if EventTable[i]["CheckAllXSeconds"]~=-1 and EventTable[i]["CheckAllXSeconds_current"]==nil then
-        -- set timer to the time, when the check shall be done
-        EventTable[i]["CheckAllXSeconds_current"]=reaper.time_precise()+EventTable[i]["CheckAllXSeconds"]
         doit=false
-      elseif EventTable[i]["CheckAllXSeconds_current"]~=nil 
-            and EventTable[i]["CheckAllXSeconds"]~=-1 and 
-            EventTable[i]["CheckAllXSeconds_current"]<reaper.time_precise()-deferoffset then
-        -- if timer is up, start the check
-        EventTable[i]["CheckAllXSeconds_current"]=nil
-        doit=true
-      elseif EventTable[i]["CheckAllXSeconds"]==-1 then
-        -- if no timer is set at all for this event, run all actions
-        doit=true
-      end
-  
-      -- let's run the actions, if requested
-      if current_state==true and doit==true then
-          if EventTable[i]["StartActionsOnceDuringTrue"]==false then
-            -- if actions shall be only run as long as the event happens
-            for a=1, EventTable[i]["CountOfActions"] do
-              A=reaper.time_precise()
-              if EventTable[i]["sec"..a]==0 then
-                reaper.Main_OnCommand(EventTable[i][a],0)
-              elseif EventTable[i]["sec"..a]==32063 then
-                retval = ultraschall.MediaExplorer_OnCommand(EventTable[i][a])
+        -- check every x second
+        if EventTable[i]["CheckAllXSeconds"]~=-1 and EventTable[i]["CheckAllXSeconds_current"]==nil then
+          -- set timer to the time, when the check shall be done
+          EventTable[i]["CheckAllXSeconds_current"]=reaper.time_precise()+EventTable[i]["CheckAllXSeconds"]
+          doit=false
+        elseif EventTable[i]["CheckAllXSeconds_current"]~=nil 
+              and EventTable[i]["CheckAllXSeconds"]~=-1 and 
+              EventTable[i]["CheckAllXSeconds_current"]<reaper.time_precise()-deferoffset then
+          -- if timer is up, start the check
+          EventTable[i]["CheckAllXSeconds_current"]=nil
+          doit=true
+        elseif EventTable[i]["CheckAllXSeconds"]==-1 then
+          -- if no timer is set at all for this event, run all actions
+          doit=true
+        end
+      if doit==true then
+        state_retval, current_state=pcall(EventTable[i]["Function"], EventTable[i]["UserSpace"])
+        if state_retval==false then 
+          PauseEvent(i)
+          print("Error in eventchecking-function", "Event: "..EventTable[i]["EventName"], EventTable[i]["EventIdentifier"], "Error: "..current_state, "Eventchecking for this event paused", " ")
+        else     
+          -- let's run the actions, if requested
+          if current_state==true and doit==true then
+              if EventTable[i]["StartActionsOnceDuringTrue"]==false then
+                -- if actions shall be only run as long as the event happens
+                for a=1, EventTable[i]["CountOfActions"] do
+                  A=reaper.time_precise()
+                  if EventTable[i]["sec"..a]==0 then
+                    reaper.Main_OnCommand(EventTable[i][a],0)
+                  elseif EventTable[i]["sec"..a]==32063 then
+                    retval = ultraschall.MediaExplorer_OnCommand(EventTable[i][a])
+                  end
+                end
+              elseif EventTable[i]["StartActionsOnceDuringTrue"]==true and EventTable[i]["StartActionsOnceDuringTrue_laststate"]==false then
+                -- if actions shall be only run once, when event-statechange happens
+                for a=1, EventTable[i]["CountOfActions"] do
+                  A=reaper.time_precise()
+                  if EventTable[i]["sec"..a]==0 then
+                    reaper.Main_OnCommand(EventTable[i][a],0)
+                  elseif EventTable[i]["sec"..a]==32063 then
+                    retval = ultraschall.MediaExplorer_OnCommand(EventTable[i][a])
+                  end
+                end
               end
-            end
-          elseif EventTable[i]["StartActionsOnceDuringTrue"]==true and EventTable[i]["StartActionsOnceDuringTrue_laststate"]==false then
-            -- if actions shall be only run once, when event-statechange happens
-            for a=1, EventTable[i]["CountOfActions"] do
-              A=reaper.time_precise()
-              if EventTable[i]["sec"..a]==0 then
-                reaper.Main_OnCommand(EventTable[i][a],0)
-              elseif EventTable[i]["sec"..a]==32063 then
-                retval = ultraschall.MediaExplorer_OnCommand(EventTable[i][a])
-              end
-            end
+              EventTable[i]["StartActionsOnceDuringTrue_laststate"]=true        
+          else
+            -- if no event shall be run, set laststate of StartActionsOnceDuringTrue_laststate to false
+            EventTable[i]["StartActionsOnceDuringTrue_laststate"]=false
+          end    
+          
+          -- check for x seconds, then remove the event from the list
+          if EventTable[i]["CheckForXSeconds"]~=-1 and EventTable[i]["CheckForXSeconds_current"]==nil then
+            -- set timer, for when the checking shall be finished and the event being removed
+            EventTable[i]["CheckForXSeconds_current"]=reaper.time_precise()+EventTable[i]["CheckForXSeconds"]
+          elseif EventTable[i]["CheckForXSeconds_current"]~=nil and EventTable[i]["CheckForXSeconds"]~=-1 and EventTable[i]["CheckForXSeconds_current"]<=reaper.time_precise()-deferoffset then
+            -- if the timer for checking for this event is up, remove the event
+            RemoveEvent_ID(i)
           end
-          EventTable[i]["StartActionsOnceDuringTrue_laststate"]=true        
-      else
-        -- if no event shall be run, set laststate of StartActionsOnceDuringTrue_laststate to false
-        EventTable[i]["StartActionsOnceDuringTrue_laststate"]=false
-      end    
-      
-      -- check for x seconds, then remove the event from the list
-      if EventTable[i]["CheckForXSeconds"]~=-1 and EventTable[i]["CheckForXSeconds_current"]==nil then
-        -- set timer, for when the checking shall be finished and the event being removed
-        EventTable[i]["CheckForXSeconds_current"]=reaper.time_precise()+EventTable[i]["CheckForXSeconds"]
-      elseif EventTable[i]["CheckForXSeconds_current"]~=nil and EventTable[i]["CheckForXSeconds"]~=-1 and EventTable[i]["CheckForXSeconds_current"]<=reaper.time_precise()-deferoffset then
-        -- if the timer for checking for this event is up, remove the event
-        RemoveEvent_ID(i)
+        end
       end
     end
   end
