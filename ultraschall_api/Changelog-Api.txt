@@ -228,8 +228,9 @@ TODO!! buggy function
    - EventManager: EventManager\_EnumerateEvents - returns attributes of specific registered events
    - EventManager: EventManager\_IsValidEventIdentifier - checks, if an EventIdentifier is a valid and currently registered one
    - EventManager: EventManager\_SetEvent - sets an already existing event in the EvenManager-checkingqueue
-   - Eventmanager: Eventmanager\_RemoveEvent - removes an event from the EvenManager-checkingqueue
+   - EventManager: Eventmanager\_RemoveEvent - removes an event from the EvenManager-checkingqueue
    - EventManager: Ultraschall\_EventManager.lua - first version of the EventManager-backgroundscript
+   - Helper functions: Main\_OnCommand\_LuaCode - runs Luacode in a temporary new script, without the need to create it first
    - Helper functions: RunLuaSourceCode - runs Lua-code directly from a string
    - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
    - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper
@@ -264,6 +265,8 @@ TODO!! buggy function
    - Configuration Files: GetKBIniKeys - enhanced description for osc
    - Configuration Files: SetKBIniKeys - enhanced description for osc
    - Docs: Reaper Internals - updated to Reaper 5.983 and JS-extension 0.991
+   - DocEngine: Docs\_GetUSDocBloc\_ChapterContext - returned an additional empty non-existant chapter -> fixed
+   - DocEngine: Docs\_GetUSDocBloc\_Requires - could produce a Lua-error -> fixed
    - Defer Management: GetDeferIdentifier - you can optionally pass a script-identifier now, to get the defer-identifier of another scriptinstance(used to support only the current script instance)
    - Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -> Data Manipulation

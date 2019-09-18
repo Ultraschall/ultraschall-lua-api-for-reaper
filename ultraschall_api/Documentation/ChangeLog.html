@@ -51,8 +51,9 @@ Ultraschall API Changelog
 <li>EventManager: EventManager_EnumerateEvents - returns attributes of specific registered events</li>
 <li>EventManager: EventManager_IsValidEventIdentifier - checks, if an EventIdentifier is a valid and currently registered one</li>
 <li>EventManager: EventManager_SetEvent - sets an already existing event in the EvenManager-checkingqueue</li>
-<li>Eventmanager: Eventmanager_RemoveEvent - removes an event from the EvenManager-checkingqueue</li>
+<li>EventManager: Eventmanager_RemoveEvent - removes an event from the EvenManager-checkingqueue</li>
 <li>EventManager: Ultraschall_EventManager.lua - first version of the EventManager-backgroundscript</li>
+<li>Helper functions: Main_OnCommand_LuaCode - runs Luacode in a temporary new script, without the need to create it first</li>
 <li>Helper functions: RunLuaSourceCode - runs Lua-code directly from a string</li>
 <li>LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper</li>
 <li>LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper</li>
@@ -88,6 +89,8 @@ Ultraschall API Changelog
 <li>Configuration Files: GetKBIniKeys - enhanced description for osc</li>
 <li>Configuration Files: SetKBIniKeys - enhanced description for osc</li>
 <li>Docs: Reaper Internals - updated to Reaper 5.983 and JS-extension 0.991</li>
+<li>DocEngine: Docs_GetUSDocBloc_ChapterContext - returned an additional empty non-existant chapter -&gt; fixed</li>
+<li>DocEngine: Docs_GetUSDocBloc_Requires - could produce a Lua-error -&gt; fixed</li>
 <li>Defer Management: GetDeferIdentifier - you can optionally pass a script-identifier now, to get the defer-identifier of another scriptinstance(used to support only the current script instance)</li>
 <li>Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>

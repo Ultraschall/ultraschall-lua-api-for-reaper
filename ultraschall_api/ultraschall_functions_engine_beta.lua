@@ -2552,4 +2552,52 @@ function ultraschall.EventManager_CountRegisteredEvents()
   return count
 end
 
+function ultraschall.Main_OnCommand_LuaCode(Code, ...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Main_OnCommand_LuaCode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string script_identifier = ultraschall.Main_OnCommand_LuaCode(string Code, string ...)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Runs LuaCode as new temporary script-instance. It internally registers the code as a file temporarily as command, runs it and unregisters it again.
+    This is especially helpful, when you want to run a command for sure without possible command-id-number-problems.
+    
+    It returns a unique script-identifier for this script, which can be used to communicate with this script-instance.
+    The started script gets its script-identifier using [GetScriptIdentifier](#GetScriptIdentifier).
+    You can use this script-identifier e.g. as extstate.
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if running it was successful; false, if not
+    string script_identifier - a unique script-identifier, which can be used as extstate to communicate with the started code
+  </retvals>
+  <parameters>
+    string Code - the Lua-code, which shall be run; will not be checked vor validity!
+    string ... - parameters that shall be passed over to the script
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Child Scripts
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, run code, scriptidentifier, scriptparameters</tags>
+</US_DocBloc>
+]]
+  if type(Code)~="string" then ultraschall.AddErrorMessage("Main_OnCommand_LuaCode", "Code", "must be a string", -1) return false end
+  local guid=reaper.genGuid("")
+  local params={...}
+  ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/"..guid..".lua", Code)
+  retval, script_identifier = ultraschall.Main_OnCommandByFilename(ultraschall.API_TempPath.."/"..guid..".lua", params)
+  os.remove(ultraschall.API_TempPath.."/"..guid..".lua")
+  return retval, script_identifier
+end
+
+--P,Q=ultraschall.Main_OnCommand_LuaCode(true, "reaper.MB(\"Juchhu\",\"\",0)",1,2,3,4,5)
+
 ultraschall.ShowLastErrorMessage()
