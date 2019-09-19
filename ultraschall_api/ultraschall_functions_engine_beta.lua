@@ -2337,8 +2337,8 @@ function ultraschall.Eventmanager_RemoveEvent(EventIdentifier)
   <tags>event manager, remove, event</tags>
 </US_DocBloc>
 --]]
-  if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("Eventmanager_RemoveEvent", "", "Eventmanager not started yet", -1) return end
-  if ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)==false then ultraschall.AddErrorMessage("Eventmanager_RemoveEvent", "EventIdentifier", "must be a valid and used EventIdentifier", -2) return end
+  if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("Eventmanager_RemoveEvent", "", "Eventmanager not started yet", -1) return false end
+  if ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)==false then ultraschall.AddErrorMessage("Eventmanager_RemoveEvent", "EventIdentifier", "must be a valid and used EventIdentifier", -2) return false end
   local OldRemoves=reaper.GetExtState("ultraschall_eventmanager", "eventremove")
   reaper.SetExtState("ultraschall_eventmanager", "eventremove", OldRemoves..EventIdentifier.."\n", false)
   return true
@@ -2593,11 +2593,158 @@ function ultraschall.Main_OnCommand_LuaCode(Code, ...)
   local guid=reaper.genGuid("")
   local params={...}
   ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/"..guid..".lua", Code)
-  retval, script_identifier = ultraschall.Main_OnCommandByFilename(ultraschall.API_TempPath.."/"..guid..".lua", params)
+  local retval, script_identifier = ultraschall.Main_OnCommandByFilename(ultraschall.API_TempPath.."/"..guid..".lua", params)
   os.remove(ultraschall.API_TempPath.."/"..guid..".lua")
   return retval, script_identifier
 end
 
 --P,Q=ultraschall.Main_OnCommand_LuaCode(true, "reaper.MB(\"Juchhu\",\"\",0)",1,2,3,4,5)
+
+function ultraschall.EventManager_PauseEvent(EventIdentfier)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_PauseEvent</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.EventManager_PauseEvent(string event_identifier)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Pauses a registered event in the Ultraschall Event Manager-checking-queue.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    string event_identifier - the unique identifier of the registered event, which you want to pause in the EventManager
+  </parameters>
+  <retvals>
+    boolean retval - true, pausing was successful; false, pausing was unsuccessful
+  </retvals>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, pause, event</tags>
+</US_DocBloc>
+--]]
+  if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("EventManager_PauseEvent", "", "Eventmanager not started yet", -1) return false end
+  if ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)==false then ultraschall.AddErrorMessage("EventManager_PauseEvent", "EventIdentifier", "must be a valid and used EventIdentifier", -2) return false end
+
+  local OldPauses=reaper.GetExtState("ultraschall_eventmanager", "eventpause")
+  reaper.SetExtState("ultraschall_eventmanager", "eventpause", OldPauses..EventIdentifier.."\n", false)
+  return true
+end
+
+function ultraschall.EventManager_ResumeEvent(EventIdentfier)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_ResumeEvent</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.EventManager_ResumeEvent(string event_identifier)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Resumes a registered and paused event in the Ultraschall Event Manager-checking-queue.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    string event_identifier - the unique identifier of the registered event, which you want to resume in the EventManager
+  </parameters>
+  <retvals>
+    boolean retval - true, resuming was successful; false, resuming was unsuccessful
+  </retvals>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, resume, event</tags>
+</US_DocBloc>
+--]]
+  if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("EventManager_ResumeEvent", "", "Eventmanager not started yet", -1) return false end
+  if ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)==false then ultraschall.AddErrorMessage("EventManager_ResumeEvent", "EventIdentifier", "must be a valid and used EventIdentifier", -2) return false end
+
+  local OldResumes=reaper.GetExtState("ultraschall_eventmanager", "eventresume")
+  reaper.SetExtState("ultraschall_eventmanager", "eventresume", OldResumes..EventIdentifier.."\n", false)
+  return true
+end
+
+function ultraschall.EventManager_Start()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_Start</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.EventManager_Start()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Starts the Ultraschall-EventManager, if it has not been started yet.
+  </description>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, start</tags>
+</US_DocBloc>
+--]]
+  if reaper.HasExtState("ultraschall_eventmanager", "running")==false then
+    local P=reaper.AddRemoveReaScript(true, 0, ultraschall.Api_Path.."/Scripts/ultraschall_EventManager.lua", true)
+    reaper.Main_OnCommand(P,0)
+  end
+  local Registered=reaper.GetExtState("ultraschall_eventmanager", "registered_scripts")
+  if Registered:match(ultraschall.ScriptIdentifier)==nil then
+    Registered=Registered..ultraschall.ScriptIdentifier.."\n"
+  end
+  reaper.SetExtState("ultraschall_eventmanager", "registered_scripts", Registered, false)
+end
+
+--ultraschall.ScriptIdentifier=reaper.CF_GetClipboard("")
+
+function ultraschall.EventManager_End(force)
+-- Still missing: if a script unregisters with this function, all events added by this script should be deleted this function automatically
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_End</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>ultraschall.EventManager_End(boolean force)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Unregisters the current script; will stop the EventManager if no scripts are registered anymore to the EventManager.
+    
+    You can use the parameter force to force stopping of the EventManager immediately.
+  </description>
+  <parameters>
+    boolean force - true, stops the EventManager, even if other scripts have registered events to it; false or nil, don't force stop
+  </parameters>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, stop</tags>
+</US_DocBloc>
+--]]
+  if force==true then 
+    reaper.DeleteExtState("ultraschall_eventmanager", "running", false)
+  else
+    local Registered=reaper.GetExtState("ultraschall_eventmanager", "registered_scripts")
+    if Registered=="" then
+      reaper.DeleteExtState("ultraschall_eventmanager", "running", false)
+    elseif Registered:match(ultraschall.ScriptIdentifier)~=nil then
+      reaper.SetExtState("ultraschall_eventmanager", "registered_scripts", string.gsub(Registered, ultraschall.ScriptIdentifier.."\n", ""), false)
+    end
+  end
+end
 
 ultraschall.ShowLastErrorMessage()

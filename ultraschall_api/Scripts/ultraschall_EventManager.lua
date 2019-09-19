@@ -1,41 +1,42 @@
--- Event Manager - Prototype
+-- Event Manager - Alpha
 -- Meo Mespotine
 --
--- ToDo: SetEvent, PauseEvent
---       Managen, dass nur ein Eventmanager gestartet wird
+-- Issues: Api functions don't recognize registered EventIdentifiers who weren't processed yet by the EventManager.
+--         Must be fixed
+-- ToDo: Managen, dass nur ein Eventmanager gestartet wird
 --       Es sollte möglich sein Actions in verschiedenen Sections zu starten, zumindest Main und MediaExplorer(beide drin), Midi wäre auch nice
 --
 -- Api eigene Funktionen:
---      StartEventManager, StopEventManager, AddEvent, SetEvent, DeleteEvent, GetEventManagerParameters(Funktion außerhalb des Eventmanagers, eher in der API selbst beheimatet)
---      GetEventStateChunk, PauseEvent
+--      StartEventManager, StopEventManager, GetEventStateChunk, PauseEvent
 
 --[[
 EventStateChunk-specs:
 
   Eventname: Textoneliner; 
-      a name for this event for better identification later on
+             a name for this event for better identification later on
   EventIdentifier: identifier-oneliner-guid; 
-      a unique identifier for this event
+                   a unique identifier for this event
   SourceScriptIdentifier: identifier-guid; 
-      the Scriptidentifier of the script, which added the event
+                          the Scriptidentifier of the script, which added the event
   CheckAllXSeconds: number; 
-      the number of seconds inbetween checks; -1, check every defercycle
+                    the number of seconds inbetween checks; -1, check every defercycle
   CheckForXSeconds: number; 
-      the number of seconds to check for this event; -1, until stopped
+                    the number of seconds to check for this event; -1, until stopped
   StartActionsOnceDuringTrue: boolean;  
-      true, run the actions only once when event occured(checkfunction=true); false, run the actions again and again until eventcheck returns false
+                              true, run the actions only once when event occured(checkfunction=true); 
+                              false, run the actions again and again until eventcheck returns false
   Paused: boolean, 
-      if the eventcheck is currently paused or not
+          if the eventcheck is currently paused or not
   Function: Base64string-oneliner
-      the Lua-binary-function as BASE64-encoded string
+            the Lua-binary-function as BASE64-encoded string
   CountOfActions: number; 
-      number of actions to run if event happens
+                  number of actions to run if event happens
 
 The following as often as CountOfActions says
   Action: number; 
-      the action command number of the action to run
+          the action command number of the action to run
   Section: number; 
-      the section of the action to run
+           the section of the action to run
 
 Example:
 
@@ -57,127 +58,24 @@ deferoffset=0.130 -- the offset of delay, introduced by the defer-management of 
 
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
--- testfunction
-function IsPlayStatePlay(UserSpace)
-  if reaper.GetPlayState()==1 then 
-    return true
-  else
-    return false
-  end
-end
-
 EventTable={}
 CountOfEvents=0
 
---[[
--- testevents
-EventTable[1]={}
-  -- Attributes
-  EventTable[1]["EventName"]="Event1"                         -- drin
-  EventTable[1]["Function"]=IsPlayStatePlay                   -- drin
-  EventTable[1]["CheckAllXSeconds"]=2                         -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; -1, checke jeden defer-cycle(~30 times per second)
-  EventTable[1]["CheckAllXSeconds_current"]=nil               -- CheckZeit an dem Event gecheckt wird; wird gesetzt durch EventManager
-  EventTable[1]["CheckForXSeconds"]=-1                        -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; -1, checke bis auf Widerruf
-  EventTable[1]["CheckForXSeconds_current"]=nil               -- StopZeit ab wann Event nicht mehr gecheckt wird; wird gesetzt durch EventManager
-  EventTable[1]["StartActionsOnceDuringTrue"]=false           -- drin
-  EventTable[1]["StartActionsOnceDuringTrue_laststate"]=false -- drin
-  EventTable[1]["ScriptIdentifier"]=""                        -- script-identifier, damit alle events des scripts beendet werden können
-  EventTable[1]["EventIdentifier"]=""                              -- eindeutiger identifier für dieses Event
-  EventTable[1]["CountOfActions"]=5                           -- drin
-  EventTable[1]["Paused"]==false                              -- true, wenn der Event temporär nicht gecheckt werden soll(pausiert), sonst checken
-  EventTable[1]["UserSpace"]                                  -- eine Table, in der sich die Checkfunktion Sachen zwischenspeichern kann. Jedes Event hat seine eigene UserSpace-Table.
+function atexit()
+  reaper.DeleteExtState("ultraschall_eventmanager", "running", false)
+  reaper.DeleteExtState("ultraschall_eventmanager", "eventregister", false)
+  reaper.DeleteExtState("ultraschall_eventmanager", "eventremove", false)
+  reaper.DeleteExtState("ultraschall_eventmanager", "eventset", false)
+  reaper.DeleteExtState("ultraschall_eventmanager", "eventpause", false)
+  reaper.DeleteExtState("ultraschall_eventmanager", "eventresume", false)
+  reaper.DeleteExtState("ultraschall_eventmanager", "state", false)
+  reaper.DeleteExtState("ultraschall_eventmanager", "registered_scripts", false)
+  
+end
 
-  -- Actions
-  EventTable[1][1]=40105                                      -- drin
-  EventTable[1]["sec"..1]=0                                   -- section
-  EventTable[1][2]=40105                                      -- drin
-  EventTable[1]["sec"..2]=0                                   -- section
-  EventTable[1][3]=40105                                      -- drin
-  EventTable[1]["sec"..3]=0                                   -- section
-  EventTable[1][4]=40105                                      -- drin
-  EventTable[1]["sec"..4]=0                                   -- section
-  EventTable[1][5]=40105                                      -- drin
-  EventTable[1]["sec"..5]=0                                   -- section
-  EventTable[1][6]=40105                                      -- drin
-  EventTable[1]["sec"..6]=0                                   -- section
-  EventTable[1][7]=40105                                      -- drin
-  EventTable[1]["sec"..7]=0                                   -- section
-  EventTable[1][8]=40105                                      -- drin
-  EventTable[1]["sec"..8]=0                                   -- section
-  EventTable[1][9]=40105--40016                               -- drin
-  EventTable[1]["sec"..9]=0                                   -- sections
+reaper.atexit(atexit)
 
-  
-  EventTable[2]={}
-  EventTable[2]["EventName"]="Event2"                         -- drin
-  EventTable[2]["Function"]=IsPlayStatePlay                   -- drin
-  EventTable[2]["CheckAllXSeconds"]=1                         -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; -1, checke jeden defer-cycle(~30 times per second)
-  EventTable[2]["CheckAllXSeconds_current"]=nil               -- CheckZeit an dem Event gecheckt wird; wird gesetzt durch EventManager
-  EventTable[2]["CheckForXSeconds"]=-1                        -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; -1, checke bis auf Widerruf
-  EventTable[2]["CheckForXSeconds_current"]=nil               -- StopZeit ab wann Event nicht mehr gecheckt wird; wird gesetzt durch EventManager
-  EventTable[2]["StartActionsOnceDuringTrue"]=false           -- drin
-  EventTable[2]["StartActionsOnceDuringTrue_laststate"]=false -- drin
-  EventTable[2]["ScriptIdentifier"]=""                        -- script-identifier, damit alle events des scripts beendet werden können
-  EventTable[2]["EventIdentifier"]=""                              -- eindeutiger identifier für dieses Event
-  EventTable[2]["CountOfActions"]=1                           -- drin
-  EventTable[2]["Paused"]==false                              -- true, wenn der Event temporär nicht gecheckt werden soll(pausiert), sonst checken
-  EventTable[2]["UserSpace"]                                  -- eine Table, in der sich die Checkfunktion Sachen zwischenspeichern kann. Jedes Event hat seine eigene UserSpace-Table.
-  
-  EventTable[2][1]=41666                                      -- drin
-  EventTable[2]["sec"..1]=0                                   -- sections
-  EventTable[2][2]=41666                                      -- drin
-  EventTable[2]["sec"..2]=0                                   -- sections
-  EventTable[2][3]=41666                                      -- drin
-  EventTable[2]["sec"..3]=0                                   -- sections
-  EventTable[2][4]=40105                                      -- drin
-  EventTable[2]["sec"..4]=0                                   -- sections
-  EventTable[2][5]=40105                                      -- drin
-  EventTable[2]["sec"..5]=0                                   -- sections
-  EventTable[2][6]=40105                                      -- drin
-  EventTable[2]["sec"..6]=0                                   -- sections
-  EventTable[2][7]=40105                                      -- drin
-  EventTable[2]["sec"..7]=0                                   -- sections
-  EventTable[2][8]=40105                                      -- drin
-  EventTable[2]["sec"..8]=0                                   -- sections
-  EventTable[2][9]=40105--40016                               -- drin
-  EventTable[2]["sec"..9]=0                                   -- sections
-  
-  
-  EventTable[3]={}
-  EventTable[3]["EventName"]="Event3"                         -- drin
-  EventTable[3]["Function"]=IsPlayStatePlay                   -- drin
-  EventTable[3]["CheckAllXSeconds"]=1                         -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; -1, checke jeden defer-cycle(~30 times per second)
-  EventTable[3]["CheckAllXSeconds_current"]=nil               -- CheckZeit an dem Event gecheckt wird; wird gesetzt durch EventManager
-  EventTable[3]["CheckForXSeconds"]=10                        -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; -1, checke bis auf Widerruf
-  EventTable[3]["CheckForXSeconds_current"]=nil               -- StopZeit ab wann Event nicht mehr gecheckt wird; wird gesetzt durch EventManager
-  EventTable[3]["StartActionsOnceDuringTrue"]=false           -- drin
-  EventTable[3]["StartActionsOnceDuringTrue_laststate"]=false -- drin
-  EventTable[3]["ScriptIdentifier"]=""                        -- script-identifier, damit alle events des scripts beendet werden können
-  EventTable[3]["EventIdentifier"]=""                              -- eindeutiger identifier für dieses Event
-  EventTable[3]["Paused"]==false                              -- true, wenn der Event temporär nicht gecheckt werden soll(pausiert), sonst checken
-  EventTable[3]["CountOfActions"]=3                           -- drin
-  EventTable[3]["UserSpace"]                                  -- eine Table, in der sich die Checkfunktion Sachen zwischenspeichern kann. Jedes Event hat seine eigene UserSpace-Table.
-  
-  EventTable[3][1]=1068                                       -- drin
-  EventTable[3]["sec"..1]=0                                   -- sections
-  EventTable[3][2]=41666                                      -- drin
-  EventTable[3]["sec"..2]=0                                   -- sections
-  EventTable[3][3]=41666                                      -- drin
-  EventTable[3]["sec"..3]=0                                   -- sections
-  EventTable[3][4]=40105                                      -- drin
-  EventTable[3]["sec"..4]=0                                   -- sections
-  EventTable[3][5]=40105                                      -- drin
-  EventTable[3]["sec"..5]=0                                   -- sections
-  EventTable[3][6]=40105                                      -- drin
-  EventTable[3]["sec"..6]=0                                   -- sections
-  EventTable[3][7]=40105                                      -- drin
-  EventTable[3]["sec"..7]=0                                   -- sections
-  EventTable[3][8]=40105                                      -- drin
-  EventTable[3]["sec"..8]=0                                   -- sections
-  EventTable[3][9]=40016                                      -- drin
-  EventTable[3]["sec"..9]=0                                   -- sections
-
---]]
+OPO = reaper.SetExtState("ultraschall_eventmanager", "running", "true", false)
 
 function GetIDFromEventIdentifier(EventIdentifier)
   for i=1, CountOfEvents do
@@ -190,11 +88,34 @@ end
 
 function PauseEvent(id)
   EventTable[id]["Paused"]=true
+  UpdateEventList_ExtState()
 end
 
 function ResumeEvent(id)
   EventTable[id]["Paused"]=false
+  UpdateEventList_ExtState()
 end
+
+function PauseEvent_Identifier(identifier)
+-- pause event by identifier
+  for i=1, CountOfEvents do
+    if EventTable[i]["EventIdentifier"]==identifier then
+      PauseEvent(i)
+      break
+    end
+  end
+end
+
+function ResumeEvent_Identifier(identifier)
+-- remove event by identifier
+  for i=1, CountOfEvents do
+    if EventTable[i]["EventIdentifier"]==identifier then
+      ResumeEvent(i)
+      break
+    end
+  end
+end
+
 
 function AddEvent(EventStateChunk)
 --  print2(EventStateChunk)
@@ -385,6 +306,25 @@ function GetNewEventsFromEventRegisterExtstate()
     end
     reaper.SetExtState("ultraschall_eventmanager", "eventset", "", false)
   end
+  
+  -- Pause Events
+  if reaper.GetExtState("ultraschall_eventmanager", "eventpause")~="" then
+    StateRegister=reaper.GetExtState("ultraschall_eventmanager", "eventpause")
+    for k in string.gmatch(StateRegister, "(.-)\n") do
+      PauseEvent_Identifier(k)
+    end
+    reaper.SetExtState("ultraschall_eventmanager", "eventpause", "", false)
+  end
+  
+  -- Resume Events
+  if reaper.GetExtState("ultraschall_eventmanager", "eventresume")~="" then
+    StateRegister=reaper.GetExtState("ultraschall_eventmanager", "eventresume")
+    for k in string.gmatch(StateRegister, "(.-)\n") do
+      ResumeEvent_Identifier(k)
+    end
+    reaper.SetExtState("ultraschall_eventmanager", "eventresume", "", false)
+  end  
+  
 end
 
 
@@ -462,7 +402,7 @@ function main()
 
   if enditall~=true then 
     -- if StopEvent hasn't been called yet, keep the eventmanager going
-    reaper.defer(main) 
+    if reaper.HasExtState("ultraschall_eventmanager", "running")==true then reaper.defer(main) end
     --UpdateEventList_ExtState() 
   end
 end
@@ -500,48 +440,4 @@ end
 
 UpdateEventList_ExtState() -- debugline, shall be put into add/setevents-functions later
 main()
-
-
-
-
-local EventStateChunk=[[
-Eventname: Tudelu
-EventIdentifier: ]]..reaper.genGuid()..[[
-
-SourceScriptIdentifier: ScriptIdentifier-]]..reaper.genGuid()..[[
-
-CheckAllXSeconds: 1
-CheckForXSeconds: -1
-StartActionsOnceDuringTrue: true
-Paused: false
-Function: ]]..ultraschall.Base64_Encoder(string.dump(IsPlayStatePlay))..[[
-
-CountOfActions: 1
-Action: 40105
-Section: 0
-]]
-
-local EventStateChunk2=[[
-Eventname: Tudelu2
-EventIdentifier: ]]..reaper.genGuid()..[[
-
-SourceScriptIdentifier: ScriptIdentifier-]]..reaper.genGuid()..[[
-
-CheckAllXSeconds: 1
-CheckForXSeconds: -1
-StartActionsOnceDuringTrue: true
-Paused: false
-Function: ]]..ultraschall.Base64_Encoder(string.dump(IsPlayStatePlay))..[[
-
-CountOfActions: 1
-Action: 1011
-Section: 32063
-]]
-
-
---A=ultraschall.Base64_Encoder(string.dump(IsPlayStatePlay))
---print3(A)
---print3(EventStateChunk)
---AddEvent(EventStateChunk)
---AddEvent(EventStateChunk2)
 
