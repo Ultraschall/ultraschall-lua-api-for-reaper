@@ -55,7 +55,7 @@
 
               By default, all functions listed in this file are loaded. This means that an older version
               of REAPER may not succeed in loading, and also it may bloat your plug-in. If you wish to only load
-              needed functions, #define REAPERAPI\_MINIMAL and various #define REAPERAPI\_WANT_<functionname> lines
+              needed functions, #define REAPERAPI\_MINIMAL and various #define REAPERAPI\_WANT_&lt;functionname&gt; lines
               before including this file. You must put these definitions where REAPERAPI\_IMPLEMENT is defined
               and you can optionally put them elsewhere (to detect needed REAPERAPI\_WANT\_xxx lines at compile-
               time rather than link-time).

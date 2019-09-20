@@ -95,6 +95,17 @@ function ResumeEvent(id)
   UpdateEventList_ExtState()
 end
 
+function RemoveEvent_ScriptIdentifier2(ScriptIdentifier)
+  for i=CountOfEvents, 1, -1 do
+    if ScriptIdentifier==EventTable[i]["ScriptIdentifier"] then
+      print(ScriptIdentifier,EventTable[i]["ScriptIdentifier"])
+      table.remove(EventTable, i)
+      CountOfEvents=CountOfEvents-1
+    end
+  end
+  UpdateEventList_ExtState()
+end
+
 function PauseEvent_Identifier(identifier)
 -- pause event by identifier
   for i=1, CountOfEvents do
@@ -267,7 +278,7 @@ end
 
 function RemoveEvent_ScriptIdentifier(script_identifier)
 -- remove event by script_identifier
-  for i=1, CountOfEvents do
+  for i=CountOfEvents, 1, -1 do
     if EventTable[i]["ScriptIdentifier"]==script_identifier then
       table.remove(EventTable,i)
       CountOfEvents=CountOfEvents-1
@@ -322,6 +333,17 @@ function GetNewEventsFromEventRegisterExtstate()
       ResumeEvent_Identifier(k)
     end
     reaper.SetExtState("ultraschall_eventmanager", "eventresume", "", false)
+  end  
+  
+  -- Remove all Events registered by a certain ScriptIdentifier
+  
+  if reaper.GetExtState("ultraschall_eventmanager", "eventremove_scriptidentifier")~="" then
+    StateRegister=reaper.GetExtState("ultraschall_eventmanager", "eventremove_scriptidentifier")
+    for k in string.gmatch(StateRegister, "(.-)\n") do
+      --print2(k)
+      RemoveEvent_ScriptIdentifier(k)
+    end
+    reaper.SetExtState("ultraschall_eventmanager", "eventremove_scriptidentifier", "", false)
   end  
   
 end
@@ -437,7 +459,7 @@ function StopAction()
 end
 
 
---UpdateEventList_ExtState() -- debugline, shall be put into add/setevents-functions later
+UpdateEventList_ExtState()
 
 function InitialiseStartupEvents()
   StartUp=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")

@@ -230,7 +230,8 @@ TODO!! buggy function
    - EventManager: EventManager\_EnumerateEvents2 - enumerates attributes of an event by EventIdentifier
    - EventManager: EventManager\_IsValidEventIdentifier - checks, if an EventIdentifier is a valid and currently registered one
    - EventManager: EventManager\_PauseEvent - pauses a registered event in the EventManager
-   - EventManager: Eventmanager\_RemoveEvent - removes an event from the EvenManager-checkingqueue
+   - EventManager: EventManager\_RemoveAllEvents\_Script - removes all events, registered by a script with a certain ScriptIdentifier
+   - EventManager: EventManager\_RemoveEvent - removes an event from the EvenManager-checkingqueue
    - EventManager: EventManager\_RemoveStartupEvent - removes a registered-at-startup-event for the EventManager
    - EventManager: EventManager\_RemoveStartupEvent2 - removes a registered-at-startup-event for the EventManager by EventIdentifier
    - EventManager: EventManager\_ResumeEvent - resumes a paused and registered event in the EventManager
