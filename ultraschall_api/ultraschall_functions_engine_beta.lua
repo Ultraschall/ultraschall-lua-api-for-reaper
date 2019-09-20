@@ -2279,9 +2279,9 @@ function ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
     Reaper=5.982
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.EventManager_IsValidEventIdentifier(string event_identifier)</functioncall>
+  <functioncall>boolean valid, boolean valid_inuse = ultraschall.EventManager_IsValidEventIdentifier(string event_identifier)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Checks, if a string is a valid EventIdentifier and currently registered with an event in the Ultraschall-EventManager-checking-queue.
+    Checks, if a string is a valid EventIdentifier (valid) and currently registered with an event(valid_inuse) in the Ultraschall-EventManager-checking-queue.
     
     returns false in case of an error
   </description>
@@ -2289,7 +2289,8 @@ function ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
     string event_identifier - the unique identifier of the registered event, that you want to check
   </parameters>
   <retvals>
-    boolean retval - true, valid EventIdentifier; false, no valid EventIdentifier
+    boolean valid - true, valid EventIdentifier; false, no valid EventIdentifier
+    boolean valid_inuse - true, valid EventIdentifier, which is currently registered and in use by the EventManager; false, no currently registered EventIdentifier
   </retvals>
   <chapter_context>
     Event Manager
@@ -2299,13 +2300,18 @@ function ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
   <tags>event manager, check, eventidentifier</tags>
 </US_DocBloc>
 --]]
-  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_IsValidEventIdentifier", "EventIdentifier", "must be a string", -1) return false end
-  if EventIdentifier:match("Ultraschall_Eventidentifier: %{........%-....%-....%-....%-............%}")==nil then ultraschall.AddErrorMessage("EventIdentifier", "EventIdentifier", "must be a valid Event Identifier", -2) return false end
+  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_IsValidEventIdentifier", "EventIdentifier", "must be a string", -1) return false, false end
+  if EventIdentifier:match("Ultraschall_Eventidentifier: %{........%-....%-....%-....%-............%}")==nil then ultraschall.AddErrorMessage("EventIdentifier", "EventIdentifier", "must be a valid Event Identifier", -2) return false, false end
+  local retval1=true
   local States=reaper.GetExtState("ultraschall_eventmanager", "state")
-  for k in string.gmatch(States, "EventIdentifier: (.-)\n") do
-    if k==EventIdentifier then return true end
+  if States~="" then
+    for k in string.gmatch(States, "EventIdentifier: (.-)\n") do
+        if k==EventIdentifier then return true, true end
+    end
+  else
+    return true, false
   end
-  return false
+  return retval1, false
 end
 
 function ultraschall.Eventmanager_RemoveEvent(EventIdentifier)
@@ -2338,7 +2344,8 @@ function ultraschall.Eventmanager_RemoveEvent(EventIdentifier)
 </US_DocBloc>
 --]]
   if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("Eventmanager_RemoveEvent", "", "Eventmanager not started yet", -1) return false end
-  if ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)==false then ultraschall.AddErrorMessage("Eventmanager_RemoveEvent", "EventIdentifier", "must be a valid and used EventIdentifier", -2) return false end
+  local A,B=ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
+  if B==false then ultraschall.AddErrorMessage("Eventmanager_RemoveEvent", "EventIdentifier", "must be a valid and used EventIdentifier", -2) return false end
   local OldRemoves=reaper.GetExtState("ultraschall_eventmanager", "eventremove")
   reaper.SetExtState("ultraschall_eventmanager", "eventremove", OldRemoves..EventIdentifier.."\n", false)
   return true
@@ -2402,7 +2409,8 @@ function ultraschall.EventManager_SetEvent(EventIdentifier, EventName, CheckAllX
   if type(EventPaused)~="boolean" then ultraschall.AddErrorMessage("EventManager_SetEvent", "EventPaused", "must be a boolean", -6) return false end
   if type(CheckFunction)~="function" then ultraschall.AddErrorMessage("EventManager_SetEvent", "CheckFunction", "must be a function", -7) return false end
   if type(Actions)~="table" then ultraschall.AddErrorMessage("EventManager_SetEvent", "Actions", "must be a table", -8) return false end
-  if ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)==false then ultraschall.AddErrorMessage("EventManager_SetEvent", "EventIdentifier", "must be a valid and used EventIdentifier", -9) return false end
+  local A,B=ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
+  if B==false then ultraschall.AddErrorMessage("EventManager_SetEvent", "EventIdentifier", "must be a valid and used EventIdentifier", -9) return false end
 
   local EventStateChunk=""  
   
@@ -2413,7 +2421,7 @@ Eventname: ]]..EventName..[[
 
 EventIdentifier: ]]..EventIdentifier..[[
 
-SourceScriptIdentifier: ScriptIdentifier-]]..ultraschall.ScriptIdentifier..[[
+SourceScriptIdentifier: ]]..ultraschall.ScriptIdentifier..[[
 
 CheckAllXSeconds: ]]..CheckAllXSeconds..[[
 
@@ -2500,6 +2508,83 @@ function ultraschall.EventManager_EnumerateEvents(id)
   for k in string.gmatch(States, "(Event #.-EndEvent)") do
     count=count+1
     if count==id then
+      local actionlist=k:match("Number of Actions.-\n(.-\n)EndEvent")
+      for l in string.gmatch(actionlist, "(.-)\n") do
+        actioncounter=actioncounter+1
+        actions[actioncounter]=l:match(".-action: (.*)")..","..l:match(".- section: (.-) ")
+      end
+      
+      return k:match("EventIdentifier: (.-)\n"),
+             k:match("EventName: (.-)\n"),
+             k:match("StartedByScript: (.-)\n"),
+             tonumber(k:match("CheckAllXSeconds: (.-)\n")),
+             tonumber(k:match("CheckForXSeconds: (.-)\n")),
+             toboolean(k:match("StartActionsOnlyOnceDuringTrue: (.-)\n")),
+             toboolean(k:match("EventPaused: (.-)\n")),
+             k:match("Function: (.-)\n"),
+             tonumber(k:match("Number of Actions: (.-)\n")),
+             actions
+    end
+  end
+end
+
+function ultraschall.EventManager_EnumerateEvents2(EventIdentifier)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_EnumerateEvents2</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>string EventIdentifier, string EventName, string CallerScriptIdentifier, integer CheckAllXSeconds, integer CheckForXSeconds, boolean StartActionsOnceDuringTrue, boolean EventPaused, function CheckFunction, integer NumberOfActions, table Actions = ultraschall.EventManager_EnumerateEvents2(string EventIdentifier)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Gets the attributes of an already added event in the Ultraschall Event Manager-checking-queue.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string Eventidentifier - the id of the currently registered event, of which you want to have the attributes; starting with 1 for the first
+  </parameters>
+  <retvals>
+    string EventIdentifier - the EventIdentifier of the registered event
+    string EventName - the name of the event
+    string CallerScriptIdentifier - the ScriptIdentifier of the script, who registered the event
+    integer CheckAllXSeconds - only check all x seconds; -1, for constant checking
+                             - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
+                             - This is due general limitations with backgroundscripts.
+    integer CheckForXSeconds - only check for x seconds; -1, check until the event is removed
+                             - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
+                             - This is due general limitations with backgroundscripts.
+    boolean StartActionsOnceDuringTrue - if the event occurred: 
+                                       -    true, run the actions only once
+                                       -    false, run until the CheckFunction returns false again
+    boolean EventPaused - true, eventcheck is currently paused; false, eventcheck is currently running
+    function CheckFunction - the function, which shall check if the event occurred, as Base64-encoded string
+    integer NumberOfActions - the number of actions currently registered with this event
+    table Actions - a table which holds all actions and their accompanying sections, who are run when the event occurred
+                  - each entry of the table is of the format "actioncommandid,section", e.g.:
+                  - 
+                  - Actions[1]="1007,0"
+                  - Actions[2]="1012,0"
+  </retvals>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, get, event, attributes</tags>
+</US_DocBloc>
+--]]
+  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_EnumerateEvents2", "EventIdentifier", "must be a string", -1) return nil end
+  local A,B=ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
+  if B==false then ultraschall.AddErrorMessage("EventManager_EnumerateEvents2", "EventIdentifier", "must be a valid and used EventIdentifier", -2) return false end
+  
+  local States=reaper.GetExtState("ultraschall_eventmanager", "state")
+  local actioncounter=0
+  local actions={}
+  for k in string.gmatch(States, "(Event #.-EndEvent)") do
+    if EventIdentifier==k:match("EventIdentifier: (.-)\n") then
       local actionlist=k:match("Number of Actions.-\n(.-\n)EndEvent")
       for l in string.gmatch(actionlist, "(.-)\n") do
         actioncounter=actioncounter+1
@@ -2630,7 +2715,8 @@ function ultraschall.EventManager_PauseEvent(EventIdentfier)
 </US_DocBloc>
 --]]
   if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("EventManager_PauseEvent", "", "Eventmanager not started yet", -1) return false end
-  if ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)==false then ultraschall.AddErrorMessage("EventManager_PauseEvent", "EventIdentifier", "must be a valid and used EventIdentifier", -2) return false end
+  local A,B=ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
+  if B==false then ultraschall.AddErrorMessage("EventManager_PauseEvent", "EventIdentifier", "must be a valid and used EventIdentifier", -2) return false end
 
   local OldPauses=reaper.GetExtState("ultraschall_eventmanager", "eventpause")
   reaper.SetExtState("ultraschall_eventmanager", "eventpause", OldPauses..EventIdentifier.."\n", false)
@@ -2667,8 +2753,9 @@ function ultraschall.EventManager_ResumeEvent(EventIdentfier)
 </US_DocBloc>
 --]]
   if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("EventManager_ResumeEvent", "", "Eventmanager not started yet", -1) return false end
-  if ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)==false then ultraschall.AddErrorMessage("EventManager_ResumeEvent", "EventIdentifier", "must be a valid and used EventIdentifier", -2) return false end
-
+  local A,B=ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
+  if B==false then ultraschall.AddErrorMessage("EventManager_ResumeEvent", "EventIdentifier", "must be a valid and used EventIdentifier", -2) return false end
+  
   local OldResumes=reaper.GetExtState("ultraschall_eventmanager", "eventresume")
   reaper.SetExtState("ultraschall_eventmanager", "eventresume", OldResumes..EventIdentifier.."\n", false)
   return true
@@ -2745,6 +2832,195 @@ function ultraschall.EventManager_End(force)
       reaper.SetExtState("ultraschall_eventmanager", "registered_scripts", string.gsub(Registered, ultraschall.ScriptIdentifier.."\n", ""), false)
     end
   end
+end
+
+function ultraschall.EventManager_AddStartupEvent(EventName, CheckAllXSeconds, CheckForXSeconds, StartActionsOnceDuringTrue, EventPaused, CheckFunction, Actions)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_AddEvent</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>string event_identifier = ultraschall.EventManager_AddEvent(string EventName, integer CheckAllXSeconds, integer CheckForXSeconds, boolean StartActionsOnceDuringTrue, boolean EventPaused, function CheckFunction, table Actions)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Adds a new event, that shall be automatically registered at startup of the Ultraschall Event Manager.
+    
+    That means, if you start the EventManager, it will be added automatically to the EventManager-checking-queue, without the need of registering it by hand.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string EventName - a name for the event, which you can choose freely; duplicated eventnames are allowed
+    integer CheckAllXSeconds - only check all x seconds; -1, for constant checking
+                             - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
+                             - This is due general limitations with backgroundscripts.
+    integer CheckForXSeconds - only check for x seconds; -1, check until the event is removed
+                             - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
+                             - This is due general limitations with backgroundscripts.
+    boolean StartActionsOnceDuringTrue - if the event occurred: 
+                                       -    true, run the actions only once; 
+                                       -    false, run until the CheckFunction returns false again
+    boolean EventPaused - false, register the event and check for it immediately; true, register the event but don't check for it yet
+    function CheckFunction - the function, which shall check if the event occurred
+                           - this function must return true if the event occurred and false, if not
+                           - No global variables allowed! Instead, the eventmanager will pass to it as first parameter a table which can be used for storing information
+    table Actions - a table which holds all actions and their accompanying sections, who shall be run when the event occurred
+                  - each entry of the table must be of the format "actioncommandid,section", e.g.:
+                  - 
+                  - Actions[1]="1007,0"
+                  - Actions[2]="1012,0"
+                  -
+                  - You can have as many actions as you like, but be aware, that running too many actions may delay further eventchecking!
+  </parameters>
+  <retvals>
+    string event_identifier - the unique identifier for this registered event, which can be used later for setting, deleting, etc
+  </retvals>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, add, startup, new, event, function, actions, section, action</tags>
+</US_DocBloc>
+--]]
+  --if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "", "Eventmanager not started yet", -1) return end
+  if type(EventName)~="string" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "EventName", "must be a string", -2) return end
+  if math.type(CheckAllXSeconds)~="integer" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "CheckAllXSeconds", "must be an integer; -1 for constant checking", -3) return end
+  if math.type(CheckForXSeconds)~="integer" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "CheckForXSeconds", "must be an integer; -1 for infinite checking", -4) return end
+  if type(StartActionsOnceDuringTrue)~="boolean" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "StartActionsOnceDuringTrue", "must be a boolean", -5) return end
+  if type(EventPaused)~="boolean" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "EventPaused", "must be a boolean", -6) return end
+  if type(CheckFunction)~="function" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "CheckFunction", "must be a function", -7) return end
+  if type(Actions)~="table" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "Actions", "must be a table", -8) return end
+  
+
+  local EventStateChunk=""  
+  local EventIdentifier="Ultraschall_Eventidentifier: "..reaper.genGuid()
+  
+  local ActionsCount = ultraschall.CountEntriesInTable_Main(Actions)
+  local EventStateChunk2=[[
+Eventname: ]]..EventName..[[
+
+EventIdentifier: ]]..EventIdentifier..[[
+
+SourceScriptIdentifier: ]]..ultraschall.ScriptIdentifier..[[
+
+CheckAllXSeconds: ]]..CheckAllXSeconds..[[
+
+CheckForXSeconds: ]]..CheckForXSeconds..[[
+
+StartActionsOnceDuringTrue: ]]..tostring(StartActionsOnceDuringTrue)..[[
+
+Paused: ]]..tostring(EventPaused)..[[
+
+Function: ]]..ultraschall.Base64_Encoder(string.dump(CheckFunction))..[[
+
+CountOfActions: ]]..ActionsCount.."\n"
+
+  for i=1, ActionsCount do
+    local Action, Section=Actions[i]:match("(.-),(.*)")
+    if math.type(tonumber(Action))~="integer" or 
+       math.type(tonumber(Section))~="integer" then
+       ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "Actions", "Entry number "..i.." must be contain valid integers for \"action,section\" (e.g. \"1007,0\").", -10) return nil
+    else
+      EventStateChunk2=EventStateChunk2.."Action: "..Action.."\nSection: "..Section.."\n"
+    end
+  end
+
+  EventStateChunk2=EventStateChunk2.."EndEvent\n"
+  
+  local OldEvents=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
+  ultraschall.WriteValueToFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini", OldEvents.."\n"..EventStateChunk2)
+end
+
+function ultraschall.EventManager_RemoveStartupEvent(id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_RemoveStartupEvent</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.Eventmanager_RemoveEvent(integer id)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Removes a startup-event from the config-file of the Ultraschall Event Manager.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    string event_identifier - the unique identifier of the startup event, which you want to remove from the EventManager-startup-procedure
+  </parameters>
+  <retvals>
+    boolean retval - true, removing was successful; false, removing was unsuccessful
+  </retvals>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, remove, startup, event</tags>
+</US_DocBloc>
+--]]
+   if math.type(id)~="integer" then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent", "id", "must be an integer", -1) return false end
+   local OldEvents=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
+   local count=0
+   local NewEvents=""
+   for k in string.gmatch(OldEvents, "(.-EndEvent)") do
+     count=count+1
+     if count~=id then
+       NewEvents=NewEvents..k
+     end
+   end
+   if NewEvents==OldEvents then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent", "EventIdentifier", "so such Event", -2) return false end
+   ultraschall.WriteValueToFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini", NewEvents)
+end
+
+function ultraschall.EventManager_RemoveStartupEvent2(EventIdentifier)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_RemoveStartupEvent2</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.EventManager_RemoveStartupEvent2(string event_identifier)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Removes a startup-event from the config-file of the Ultraschall Event Manager.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    string event_identifier - the unique identifier of the startup event, which you want to remove from the EventManager-startup-procedure
+  </parameters>
+  <retvals>
+    boolean retval - true, removing was successful; false, removing was unsuccessful
+  </retvals>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, startup, remove, event</tags>
+</US_DocBloc>
+--]]
+  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "must be a string", -1) return false end
+  local A,B=ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
+  if A==false then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "must be a valid EventIdentifier", -2) return false end
+  
+  local OldEvents=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
+  local count=0
+  local NewEvents=""
+  for k in string.gmatch(OldEvents, "(.-EndEvent)") do
+    if k:match("EventIdentifier: (.-)\n")~=EventIdentifier~=id then
+      NewEvents=NewEvents..k
+    end
+  end
+  if NewEvents==OldEvents then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "so such Event", -3) return false end
+  ultraschall.WriteValueToFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini", NewEvents)
+  return true
 end
 
 ultraschall.ShowLastErrorMessage()

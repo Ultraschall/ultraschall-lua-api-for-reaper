@@ -7214,7 +7214,7 @@
         <retvals>
             string buf - the returned path
         </retvals>
-        <parmeters>
+        <parameters>
             string buf - a string-buffer needed by the function, just give "" in Lua
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>

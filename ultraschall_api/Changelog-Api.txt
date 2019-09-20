@@ -224,11 +224,19 @@ TODO!! buggy function
    - Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point
    - Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system
    - EventManager: EventManager\_AddEvent - registers a new event to the EvenManager-checkingqueue
+   - EventManager: EventManager\_AddStartupEvent - adds an event into the ini-file of the EventManager, to be registered at startup of the ini-file
    - EventManager: EventManager\_CountRegisteredEvents - counts the number of registered events
    - EventManager: EventManager\_EnumerateEvents - returns attributes of specific registered events
+   - EventManager: EventManager\_EnumerateEvents2 - enumerates attributes of an event by EventIdentifier
    - EventManager: EventManager\_IsValidEventIdentifier - checks, if an EventIdentifier is a valid and currently registered one
-   - EventManager: EventManager\_SetEvent - sets an already existing event in the EvenManager-checkingqueue
+   - EventManager: EventManager\_PauseEvent - pauses a registered event in the EventManager
    - EventManager: Eventmanager\_RemoveEvent - removes an event from the EvenManager-checkingqueue
+   - EventManager: EventManager\_RemoveStartupEvent - removes a registered-at-startup-event for the EventManager
+   - EventManager: EventManager\_RemoveStartupEvent2 - removes a registered-at-startup-event for the EventManager by EventIdentifier
+   - EventManager: EventManager\_ResumeEvent - resumes a paused and registered event in the EventManager
+   - EventManager: EventManager\_SetEvent - sets an already existing event in the EvenManager-checkingqueue
+   - EventManager: EventManager\_Start - starts the EventManager
+   - EventManager: EventManager\_Stop - stops the EventManager, if all scripts who have registered events have used this function
    - EventManager: Ultraschall\_EventManager.lua - first version of the EventManager-backgroundscript
    - Helper functions: Main\_OnCommand\_LuaCode - runs Luacode in a temporary new script, without the need to create it first
    - Helper functions: RunLuaSourceCode - runs Lua-code directly from a string

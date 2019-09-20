@@ -2558,7 +2558,9 @@ Note: the C++ pure virtual interfaces used require the MSVC-compatible C++ ABI o
 <div class="p_func"><span class='all_view'>Python: </span><code>(<i style="color:#0000ff;">String</i> buf, <i style="color:#0000ff;">Int</i> buf_sz) = RPR_GetProjectPath(buf, buf_sz)</code><br><br></div></b></div>
 
 <u>Description:</u><br><div style="padding-left:4%;">Get the path of the project. Will return the defaults project-path's recording-folder, when the project hasn't been saved yet; when the project has been saved, it will return the path to the recording-folder.<br> <br> If you need the filename of the path+projectfile itself, use <a href="#EnumProjects">EnumProjects</a> instead. <br> <br>
-</div></table>
+</div>
+<table style="border-collapse: separate;border-spacing: 0px 0px;"><tr><td><u>Parameters:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><i style="color:#0000ff;">string</i> buf</i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; ">a string-buffer needed by the function, just give "" in Lua
+</td></tr></table>
 <table><tr><td><u>Returnvalues:</u></td></tr><tr><td style="vertical-align:top; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><i style="color:#0000ff;">string</i> buf</i></td><td style="vertical-align:top; "><i> - </i></td><td style="vertical-align:top; ">the returned path
 </td></tr></table><br><hr><a id="GetProjectPathEx"></a>
   <a href="#GetProjectPathEx"> ^</a> <img width="3%" src="gfx/reaper5.62.png" alt="Reaper version 5.62"><img width="3%" src="gfx/lua5.3.png" alt="Lua version 5.3"> <b  ><u>GetProjectPathEx</u></b><p><u>Functioncall:</u><div style="padding-left:4%;font-size:104%">

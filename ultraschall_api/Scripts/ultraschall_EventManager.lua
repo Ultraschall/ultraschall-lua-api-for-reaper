@@ -70,7 +70,6 @@ function atexit()
   reaper.DeleteExtState("ultraschall_eventmanager", "eventresume", false)
   reaper.DeleteExtState("ultraschall_eventmanager", "state", false)
   reaper.DeleteExtState("ultraschall_eventmanager", "registered_scripts", false)
-  
 end
 
 reaper.atexit(atexit)
@@ -438,6 +437,18 @@ function StopAction()
 end
 
 
-UpdateEventList_ExtState() -- debugline, shall be put into add/setevents-functions later
+--UpdateEventList_ExtState() -- debugline, shall be put into add/setevents-functions later
+
+function InitialiseStartupEvents()
+  StartUp=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
+  for k in string.gmatch(StartUp, "(.-EndEvent)") do
+    AddEvent(k)
+  end
+  
+end
+
+
+
+InitialiseStartupEvents()
 main()
 
