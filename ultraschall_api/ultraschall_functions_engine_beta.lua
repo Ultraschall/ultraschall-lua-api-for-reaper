@@ -2255,9 +2255,9 @@ CountOfActions: ]]..ActionsCount.."\n"
 
   for i=1, ActionsCount do
     local Action, Section=Actions[i]:match("(.-),(.*)")
-    if math.type(tonumber(Action))~="integer" or 
-       math.type(tonumber(Section))~="integer" then
-       ultraschall.AddErrorMessage("EventManager_AddEvent", "Actions", "Entry number "..i.." must be contain valid integers for \"action,section\" (e.g. \"1007,0\").", -10) return nil
+    if math.type(tonumber(Section))~="integer" or 
+       (Action:sub(1,1)~="_" and math.type(tonumber(Action))~="integer") then
+       ultraschall.AddErrorMessage("EventManager_AddEvent", "Actions", "Entry number "..i.." must be contain valid _ActionCommandID-string/CommandID-integer,integer section for \"action,section\" (e.g. \"1007,0\" or \"_BR_PREV_ITEM_CURSOR,0\").", -10) return nil
     else
       EventStateChunk2=EventStateChunk2.."Action: "..Action.."\nSection: "..Section.."\n"
     end
@@ -2476,9 +2476,9 @@ CountOfActions: ]]..ActionsCount.."\n"
 
   for i=1, ActionsCount do
     local Action, Section=Actions[i]:match("(.-),(.*)")
-    if math.type(tonumber(Action))~="integer" or 
-       math.type(tonumber(Section))~="integer" then
-       ultraschall.AddErrorMessage("EventManager_SetEvent", "Actions", "Entry number "..i.." must be contain valid integers for \"action,section\" (e.g. \"1007,0\").", -10) return false 
+    if math.type(tonumber(Section))~="integer" or 
+       (Action:sub(1,1)~="_" and math.type(tonumber(Action))~="integer") then
+       ultraschall.AddErrorMessage("EventManager_AddEvent", "Actions", "Entry number "..i.." must be contain valid _ActionCommandID-string/CommandID-integer,integer section for \"action,section\" (e.g. \"1007,0\" or \"_BR_PREV_ITEM_CURSOR,0\").", -10) return nil
     else
       EventStateChunk2=EventStateChunk2.."Action: "..Action.."\nSection: "..Section.."\n"
     end
@@ -2955,9 +2955,9 @@ CountOfActions: ]]..ActionsCount.."\n"
 
   for i=1, ActionsCount do
     local Action, Section=Actions[i]:match("(.-),(.*)")
-    if math.type(tonumber(Action))~="integer" or 
-       math.type(tonumber(Section))~="integer" then
-       ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "Actions", "Entry number "..i.." must be contain valid integers for \"action,section\" (e.g. \"1007,0\").", -10) return nil
+    if math.type(tonumber(Section))~="integer" or 
+       (Action:sub(1,1)~="_" and math.type(tonumber(Action))~="integer") then
+       ultraschall.AddErrorMessage("EventManager_AddEvent", "Actions", "Entry number "..i.." must be contain valid _ActionCommandID-string/CommandID-integer,integer section for \"action,section\" (e.g. \"1007,0\" or \"_BR_PREV_ITEM_CURSOR,0\").", -10) return nil
     else
       EventStateChunk2=EventStateChunk2.."Action: "..Action.."\nSection: "..Section.."\n"
     end

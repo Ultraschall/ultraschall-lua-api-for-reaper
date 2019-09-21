@@ -175,6 +175,9 @@ function AddEvent(EventStateChunk)
   for i=1, CountOfActions do
     ActionsTable[i]={}
     ActionsTable[i]["action"], ActionsTable[i]["section"], offset=actions:match("Action: (.-)\nSection: (.-)\n()")
+    if ActionsTable[i]["action"]:sub(1,1)=="_" then
+      ActionsTable[i]["action"]=reaper.NamedCommandLookup(ActionsTable[i]["action"])
+    end
     ActionsTable[i]["action"]=tonumber(ActionsTable[i]["action"])
     ActionsTable[i]["section"]=tonumber(ActionsTable[i]["section"])
     if ActionsTable[i]["section"]==nil or ActionsTable[i]["action"]==nil then
