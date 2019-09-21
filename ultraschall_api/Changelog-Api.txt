@@ -1,5 +1,10 @@
 <TODO>
     For 4.00beta2.77
+        - TODO!! in the eventmanager-script: 
+            - Code vom Eventmanager muss kommentiert werden!!!
+            - Ich brauch noch ein paar StartUp-functions, um das besser managen zu können(Count, Enumerate).
+            - EventManager_SetEvent muss es ermöglichen, dass man Parameter auf nil setzen kann, die man nicht ändern will(Ausnahme: ActionList-table)!
+            
         - TODO!! index of config-vars is only one level
         - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
         - TODO!! XML-generator has problems with spaces and & in filenames; use this to overcome this:

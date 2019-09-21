@@ -983,7 +983,7 @@ function ultraschall.GetRecCounter()
   <slug>GetRecCounter</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.981
+    Reaper=5.982
     Lua=5.3
   </requires>
   <functioncall>integer highest_item_reccount = ultraschall.GetRecCounter()</functioncall>
@@ -2864,12 +2864,8 @@ function ultraschall.EventManager_End(force)
   if force==true then 
     reaper.DeleteExtState("ultraschall_eventmanager", "running", false)
   else
-    local Registered=reaper.GetExtState("ultraschall_eventmanager", "registered_scripts")
-    if Registered=="" then
-      reaper.DeleteExtState("ultraschall_eventmanager", "running", false)
-    elseif Registered:match(ultraschall.ScriptIdentifier)~=nil then
-      reaper.SetExtState("ultraschall_eventmanager", "registered_scripts", string.gsub(Registered, ultraschall.ScriptIdentifier.."\n", ""), false)
-    end
+    local Registered=reaper.GetExtState("ultraschall_eventmanager", "eventstop_scriptidentifier")
+    reaper.SetExtState("ultraschall_eventmanager", "eventstop_scriptidentifier", Registered..ultraschall.ScriptIdentifier.."\n", false)
   end
 end
 

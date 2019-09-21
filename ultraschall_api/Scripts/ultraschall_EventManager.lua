@@ -96,10 +96,27 @@ function ResumeEvent(id)
 end
 
 function RemoveEvent_ScriptIdentifier2(ScriptIdentifier)
+  -- TODO:
+  -- diese hier aufrufen, wenn User den Eventmanager beenden will
+  -- Hier kommt auch der "Wenn CountOfEvents==0 dann EventManager beenden"-code rein.
+  --   reaper.DeletetExtState("ultraschall_eventmanager", "running", false)
   for i=CountOfEvents, 1, -1 do
     if ScriptIdentifier==EventTable[i]["ScriptIdentifier"] then
-      print(ScriptIdentifier,EventTable[i]["ScriptIdentifier"])
+      --print(ScriptIdentifier,EventTable[i]["ScriptIdentifier"])
       table.remove(EventTable, i)
+      CountOfEvents=CountOfEvents-1
+    end
+  end
+  if CountOfEvents==0 then reaper.DeleteExtState("ultraschall_eventmanager", "running", false) end
+  UpdateEventList_ExtState()
+end
+
+function RemoveEvent_ScriptIdentifier(script_identifier)
+-- remove event by script_identifier
+-- diese hier aufrugen, wenn User nur seine Events beenden will aber nicht den EventManager
+  for i=CountOfEvents, 1, -1 do
+    if EventTable[i]["ScriptIdentifier"]==script_identifier then
+      table.remove(EventTable,i)
       CountOfEvents=CountOfEvents-1
     end
   end
@@ -288,7 +305,7 @@ function RemoveEvent_ScriptIdentifier(script_identifier)
 end
 
 
-function GetNewEventsFromEventRegisterExtstate()
+function CheckCommandsForEventManager()
   -- Add Events
   if reaper.GetExtState("ultraschall_eventmanager", "eventregister")~="" then
     StateRegister=reaper.GetExtState("ultraschall_eventmanager", "eventregister")
@@ -336,7 +353,6 @@ function GetNewEventsFromEventRegisterExtstate()
   end  
   
   -- Remove all Events registered by a certain ScriptIdentifier
-  
   if reaper.GetExtState("ultraschall_eventmanager", "eventremove_scriptidentifier")~="" then
     StateRegister=reaper.GetExtState("ultraschall_eventmanager", "eventremove_scriptidentifier")
     for k in string.gmatch(StateRegister, "(.-)\n") do
@@ -346,6 +362,15 @@ function GetNewEventsFromEventRegisterExtstate()
     reaper.SetExtState("ultraschall_eventmanager", "eventremove_scriptidentifier", "", false)
   end  
   
+  -- Stop Eventmanager for a certain SciptIdentifier, Remove all Events registered by a certain ScriptIdentifier
+  if reaper.GetExtState("ultraschall_eventmanager", "eventstop_scriptidentifier")~="" then
+    StateRegister=reaper.GetExtState("ultraschall_eventmanager", "eventstop_scriptidentifier")
+    for k in string.gmatch(StateRegister, "(.-)\n") do
+      RemoveEvent_ScriptIdentifier2(k)
+    end
+    reaper.SetExtState("ultraschall_eventmanager", "eventstop_scriptidentifier", "", false)
+  end  
+
 end
 
 
@@ -419,7 +444,7 @@ function main()
     end
   end
   
-  GetNewEventsFromEventRegisterExtstate()
+  CheckCommandsForEventManager()
 
   if enditall~=true then 
     -- if StopEvent hasn't been called yet, keep the eventmanager going
@@ -470,7 +495,7 @@ function InitialiseStartupEvents()
 end
 
 
-
+reaper.DeleteExtState("ultraschall_eventmanager", "eventstop_scriptidentifier", false)
 InitialiseStartupEvents()
 main()
 
