@@ -19,9 +19,9 @@ EventStateChunk-specs:
   SourceScriptIdentifier: identifier-guid; 
                           the Scriptidentifier of the script, which added the event
   CheckAllXSeconds: number; 
-                    the number of seconds inbetween checks; -1, check every defercycle
+                    the number of seconds inbetween checks; 0, check every defercycle
   CheckForXSeconds: number; 
-                    the number of seconds to check for this event; -1, until stopped
+                    the number of seconds to check for this event; 0, until stopped
   StartActionsOnceDuringTrue: boolean;  
                               true, run the actions only once when event occured(checkfunction=true); 
                               false, run the actions again and again until eventcheck returns false
@@ -193,9 +193,9 @@ function AddEvent(EventStateChunk)
   EventTable[CountOfEvents]["EventName"]=EventName
   EventTable[CountOfEvents]["Function"]=load(ultraschall.Base64_Decoder(Function))
   EventTable[CountOfEvents]["FunctionOrg"]=Function
-  EventTable[CountOfEvents]["CheckAllXSeconds"]=CheckAllXSeconds                         -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; -1, checke jeden defer-cycle(~30 times per second)
+  EventTable[CountOfEvents]["CheckAllXSeconds"]=CheckAllXSeconds                         -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; 0, checke jeden defer-cycle(~30 times per second)
   EventTable[CountOfEvents]["CheckAllXSeconds_current"]=nil               -- CheckZeit an dem Event gecheckt wird; wird gesetzt durch EventManager
-  EventTable[CountOfEvents]["CheckForXSeconds"]=CheckForXSeconds                        -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; -1, checke bis auf Widerruf
+  EventTable[CountOfEvents]["CheckForXSeconds"]=CheckForXSeconds                        -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; 0, checke bis auf Widerruf
   EventTable[CountOfEvents]["CheckForXSeconds_current"]=nil               -- StopZeit ab wann Event nicht mehr gecheckt wird; wird gesetzt durch EventManager
   EventTable[CountOfEvents]["StartActionsOnceDuringTrue"]=StartActionsOnceDuringTrue           -- drin
   EventTable[CountOfEvents]["StartActionsOnceDuringTrue_laststate"]=false -- drin
@@ -258,9 +258,9 @@ function SetEvent(EventStateChunk)
   -- Attributes
   EventTable[EventID]["EventName"]=EventName
   EventTable[EventID]["Function"]=load(ultraschall.Base64_Decoder(Function))
-  EventTable[EventID]["CheckAllXSeconds"]=CheckAllXSeconds                         -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; -1, checke jeden defer-cycle(~30 times per second)
+  EventTable[EventID]["CheckAllXSeconds"]=CheckAllXSeconds                         -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; 0, checke jeden defer-cycle(~30 times per second)
   EventTable[EventID]["CheckAllXSeconds_current"]=nil               -- CheckZeit an dem Event gecheckt wird; wird gesetzt durch EventManager
-  EventTable[EventID]["CheckForXSeconds"]=CheckForXSeconds                        -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; -1, checke bis auf Widerruf
+  EventTable[EventID]["CheckForXSeconds"]=CheckForXSeconds                        -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; 0, checke bis auf Widerruf
   EventTable[EventID]["CheckForXSeconds_current"]=nil               -- StopZeit ab wann Event nicht mehr gecheckt wird; wird gesetzt durch EventManager
   EventTable[EventID]["StartActionsOnceDuringTrue"]=StartActionsOnceDuringTrue           -- drin
   EventTable[EventID]["StartActionsOnceDuringTrue_laststate"]=false -- drin
@@ -385,17 +385,17 @@ function main()
     --print2(i, EventTable[i]["Paused"])
         doit=false
         -- check every x second
-        if EventTable[i]["CheckAllXSeconds"]~=-1 and EventTable[i]["CheckAllXSeconds_current"]==nil then
+        if EventTable[i]["CheckAllXSeconds"]~=0 and EventTable[i]["CheckAllXSeconds_current"]==nil then
           -- set timer to the time, when the check shall be done
           EventTable[i]["CheckAllXSeconds_current"]=reaper.time_precise()+EventTable[i]["CheckAllXSeconds"]
           doit=false
         elseif EventTable[i]["CheckAllXSeconds_current"]~=nil 
-              and EventTable[i]["CheckAllXSeconds"]~=-1 and 
+              and EventTable[i]["CheckAllXSeconds"]~=0 and 
               EventTable[i]["CheckAllXSeconds_current"]<reaper.time_precise()-deferoffset then
           -- if timer is up, start the check
           EventTable[i]["CheckAllXSeconds_current"]=nil
           doit=true
-        elseif EventTable[i]["CheckAllXSeconds"]==-1 then
+        elseif EventTable[i]["CheckAllXSeconds"]==0 then
           -- if no timer is set at all for this event, run all actions
           doit=true
         end
@@ -435,10 +435,10 @@ function main()
           end    
           
           -- check for x seconds, then remove the event from the list
-          if EventTable[i]["CheckForXSeconds"]~=-1 and EventTable[i]["CheckForXSeconds_current"]==nil then
+          if EventTable[i]["CheckForXSeconds"]~=0 and EventTable[i]["CheckForXSeconds_current"]==nil then
             -- set timer, for when the checking shall be finished and the event being removed
             EventTable[i]["CheckForXSeconds_current"]=reaper.time_precise()+EventTable[i]["CheckForXSeconds"]
-          elseif EventTable[i]["CheckForXSeconds_current"]~=nil and EventTable[i]["CheckForXSeconds"]~=-1 and EventTable[i]["CheckForXSeconds_current"]<=reaper.time_precise()-deferoffset then
+          elseif EventTable[i]["CheckForXSeconds_current"]~=nil and EventTable[i]["CheckForXSeconds"]~=0 and EventTable[i]["CheckForXSeconds_current"]<=reaper.time_precise()-deferoffset then
             -- if the timer for checking for this event is up, remove the event
             RemoveEvent_ID(i)
           end

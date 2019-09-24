@@ -2,8 +2,11 @@
     For 4.00beta2.77
         - TODO!! in the eventmanager-script: 
             - Code vom Eventmanager muss kommentiert werden!!!
-            - Ich brauch noch ein paar StartUp-functions, um das besser managen zu können(Count, Enumerate).
+            - Ich brauch noch ein paar StartUp-functions, um das besser managen zu können(Enumerate).
+                Set sollte es möglich machen Sachen optional zu ändern: pass nil and keep old setting
             - EventManager_SetEvent muss es ermöglichen, dass man Parameter auf nil setzen kann, die man nicht ändern will(Ausnahme: ActionList-table)!
+            - CheckEveryXSeconds: mach Wert 0 zu permanent und negative Werte zu EveryXDeferCycle-Werten für mehr Kontrolle darüber(letzteres Kür)
+            - CheckForXSeconds: mach Wert 0 zu dauerhaft und evtl negative Werte für Anzahl Defer-Cycles, die gecheckt werden soll(letzteres Kür)
             
         - TODO!! index of config-vars is only one level
         - TODO!! concepts-documentation, autoupdate the download-link on Introduction_002_How_to_Use-chapter
@@ -231,6 +234,7 @@ TODO!! buggy function
    - EventManager: EventManager\_AddEvent - registers a new event to the EvenManager-checkingqueue
    - EventManager: EventManager\_AddStartupEvent - adds an event into the ini-file of the EventManager, to be registered at startup of the ini-file
    - EventManager: EventManager\_CountRegisteredEvents - counts the number of registered events
+   - EventManager: EventManager\_CountStartupEvents - counts the number of currently available startup-events for the EventManager
    - EventManager: EventManager\_EnumerateEvents - returns attributes of specific registered events
    - EventManager: EventManager\_EnumerateEvents2 - enumerates attributes of an event by EventIdentifier
    - EventManager: EventManager\_IsValidEventIdentifier - checks, if an EventIdentifier is a valid and currently registered one
@@ -241,10 +245,12 @@ TODO!! buggy function
    - EventManager: EventManager\_RemoveStartupEvent2 - removes a registered-at-startup-event for the EventManager by EventIdentifier
    - EventManager: EventManager\_ResumeEvent - resumes a paused and registered event in the EventManager
    - EventManager: EventManager\_SetEvent - sets an already existing event in the EvenManager-checkingqueue
+   - EventManager: EventManager\_SetStartupEvent - sets an event in the ini-file of the EventManager, which will be registered at startup of the ini-file
    - EventManager: EventManager\_Start - starts the EventManager
    - EventManager: EventManager\_Stop - stops the EventManager, if all scripts who have registered events have used this function
-   - EventManager: Ultraschall\_EventManager.lua - first version of the EventManager-backgroundscript
+   - EventManager: Ultraschall\_EventManager.lua - the backgroundscript for the EventManager
    - Helper functions: Main\_OnCommand\_LuaCode - runs Luacode in a temporary new script, without the need to create it first
+   - Helper functions: ReplacePatternInString - replaces a certain occurence(and only that one) of a pattern in a string with a replacement
    - Helper functions: RunLuaSourceCode - runs Lua-code directly from a string
    - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
    - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper

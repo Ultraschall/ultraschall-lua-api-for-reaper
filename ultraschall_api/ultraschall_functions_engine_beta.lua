@@ -2187,10 +2187,10 @@ function ultraschall.EventManager_AddEvent(EventName, CheckAllXSeconds, CheckFor
   </description>
   <parameters>
     string EventName - a name for the event, which you can choose freely; duplicated eventnames are allowed
-    integer CheckAllXSeconds - only check all x seconds; -1, for constant checking
+    integer CheckAllXSeconds - only check all x seconds; 0, for constant checking
                              - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
                              - This is due general limitations with backgroundscripts.
-    integer CheckForXSeconds - only check for x seconds; -1, check until the event is removed
+    integer CheckForXSeconds - only check for x seconds; 0, check until the event is removed
                              - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
                              - This is due general limitations with backgroundscripts.
     boolean StartActionsOnceDuringTrue - if the event occurred: 
@@ -2221,8 +2221,8 @@ function ultraschall.EventManager_AddEvent(EventName, CheckAllXSeconds, CheckFor
 --]]
   if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("EventManager_AddEvent", "", "Eventmanager not started yet", -1) return end
   if type(EventName)~="string" then ultraschall.AddErrorMessage("EventManager_AddEvent", "EventName", "must be a string", -2) return end
-  if math.type(CheckAllXSeconds)~="integer" then ultraschall.AddErrorMessage("EventManager_AddEvent", "CheckAllXSeconds", "must be an integer; -1 for constant checking", -3) return end
-  if math.type(CheckForXSeconds)~="integer" then ultraschall.AddErrorMessage("EventManager_AddEvent", "CheckForXSeconds", "must be an integer; -1 for infinite checking", -4) return end
+  if math.type(CheckAllXSeconds)~="integer" then ultraschall.AddErrorMessage("EventManager_AddEvent", "CheckAllXSeconds", "must be an integer; 0 for constant checking", -3) return end
+  if math.type(CheckForXSeconds)~="integer" then ultraschall.AddErrorMessage("EventManager_AddEvent", "CheckForXSeconds", "must be an integer; 0 for infinite checking", -4) return end
   if type(StartActionsOnceDuringTrue)~="boolean" then ultraschall.AddErrorMessage("EventManager_AddEvent", "StartActionsOnceDuringTrue", "must be a boolean", -5) return end
   if type(EventPaused)~="boolean" then ultraschall.AddErrorMessage("EventManager_AddEvent", "EventPaused", "must be a boolean", -6) return end
   if type(CheckFunction)~="function" then ultraschall.AddErrorMessage("EventManager_AddEvent", "CheckFunction", "must be a function", -7) return end
@@ -2254,6 +2254,7 @@ Function: ]]..ultraschall.Base64_Encoder(string.dump(CheckFunction))..[[
 CountOfActions: ]]..ActionsCount.."\n"
 
   for i=1, ActionsCount do
+    if type(Actions[i])~="string" then ultraschall.AddErrorMessage("EventManager_AddEvent", "Actions", "Entry number "..i.." must be contain valid _ActionCommandID-string/CommandID-integer,integer section for \"action,section\" (e.g. \"1007,0\" or \"_BR_PREV_ITEM_CURSOR,0\").", -10) return nil end
     local Action, Section=Actions[i]:match("(.-),(.*)")
     if math.type(tonumber(Section))~="integer" or 
        (Action:sub(1,1)~="_" and math.type(tonumber(Action))~="integer") then
@@ -2408,10 +2409,10 @@ function ultraschall.EventManager_SetEvent(EventIdentifier, EventName, CheckAllX
   <parameters>
     string EventIdentifier - the EventIdentifier of the registered event, which you want to set
     string EventName - a name for the event, which you can choose freely; duplicated eventnames are allowed
-    integer CheckAllXSeconds - only check all x seconds; -1, for constant checking
+    integer CheckAllXSeconds - only check all x seconds; 0, for constant checking
                              - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
                              - This is due general limitations with backgroundscripts.
-    integer CheckForXSeconds - only check for x seconds; -1, check until the event is removed
+    integer CheckForXSeconds - only check for x seconds; 0, check until the event is removed
                              - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
                              - This is due general limitations with backgroundscripts.
     boolean StartActionsOnceDuringTrue - if the event occurred: 
@@ -2420,7 +2421,7 @@ function ultraschall.EventManager_SetEvent(EventIdentifier, EventName, CheckAllX
     boolean EventPaused - false, register the event and check for it immediately; true, register the event but don't check for it yet
     function CheckFunction - the function, which shall check if the event occurred
                            - this function must return true if the event occurred and false, if not
-                           - No global variables allowed! Instead, the eventmanager will pass to it as first parameter a table which can be used for storing information
+                           - No global variables allowed! Instead, the eventmanager will pass to the function as first parameter a table which can be used for storing information
     table Actions - a table which holds all actions and their accompanying sections, who shall be run when the event occurred
                   - each entry of the table must be of the format "actioncommandid,section", e.g.:
                   - 
@@ -2513,10 +2514,10 @@ function ultraschall.EventManager_EnumerateEvents(id)
     string EventIdentifier - the EventIdentifier of the registered event
     string EventName - the name of the event
     string CallerScriptIdentifier - the ScriptIdentifier of the script, who registered the event
-    integer CheckAllXSeconds - only check all x seconds; -1, for constant checking
+    integer CheckAllXSeconds - only check all x seconds; 0, for constant checking
                              - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
                              - This is due general limitations with backgroundscripts.
-    integer CheckForXSeconds - only check for x seconds; -1, check until the event is removed
+    integer CheckForXSeconds - only check for x seconds; 0, check until the event is removed
                              - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
                              - This is due general limitations with backgroundscripts.
     boolean StartActionsOnceDuringTrue - if the event occurred: 
@@ -2589,10 +2590,10 @@ function ultraschall.EventManager_EnumerateEvents2(EventIdentifier)
     string EventIdentifier - the EventIdentifier of the registered event
     string EventName - the name of the event
     string CallerScriptIdentifier - the ScriptIdentifier of the script, who registered the event
-    integer CheckAllXSeconds - only check all x seconds; -1, for constant checking
+    integer CheckAllXSeconds - only check all x seconds; 0, for constant checking
                              - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
                              - This is due general limitations with backgroundscripts.
-    integer CheckForXSeconds - only check for x seconds; -1, check until the event is removed
+    integer CheckForXSeconds - only check for x seconds; 0, check until the event is removed
                              - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
                              - This is due general limitations with backgroundscripts.
     boolean StartActionsOnceDuringTrue - if the event occurred: 
@@ -2872,13 +2873,13 @@ end
 function ultraschall.EventManager_AddStartupEvent(EventName, CheckAllXSeconds, CheckForXSeconds, StartActionsOnceDuringTrue, EventPaused, CheckFunction, Actions)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>EventManager_AddEvent</slug>
+  <slug>EventManager_AddStartupEvent</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.982
     Lua=5.3
   </requires>
-  <functioncall>string event_identifier = ultraschall.EventManager_AddEvent(string EventName, integer CheckAllXSeconds, integer CheckForXSeconds, boolean StartActionsOnceDuringTrue, boolean EventPaused, function CheckFunction, table Actions)</functioncall>
+  <functioncall>string event_identifier = ultraschall.EventManager_AddStartupEvent(string EventName, integer CheckAllXSeconds, integer CheckForXSeconds, boolean StartActionsOnceDuringTrue, boolean EventPaused, function CheckFunction, table Actions)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Adds a new event, that shall be automatically registered at startup of the Ultraschall Event Manager.
     
@@ -2888,10 +2889,10 @@ function ultraschall.EventManager_AddStartupEvent(EventName, CheckAllXSeconds, C
   </description>
   <parameters>
     string EventName - a name for the event, which you can choose freely; duplicated eventnames are allowed
-    integer CheckAllXSeconds - only check all x seconds; -1, for constant checking
+    integer CheckAllXSeconds - only check all x seconds; 0, for constant checking
                              - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
                              - This is due general limitations with backgroundscripts.
-    integer CheckForXSeconds - only check for x seconds; -1, check until the event is removed
+    integer CheckForXSeconds - only check for x seconds; 0, check until the event is removed
                              - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
                              - This is due general limitations with backgroundscripts.
     boolean StartActionsOnceDuringTrue - if the event occurred: 
@@ -2900,7 +2901,7 @@ function ultraschall.EventManager_AddStartupEvent(EventName, CheckAllXSeconds, C
     boolean EventPaused - false, register the event and check for it immediately; true, register the event but don't check for it yet
     function CheckFunction - the function, which shall check if the event occurred
                            - this function must return true if the event occurred and false, if not
-                           - No global variables allowed! Instead, the eventmanager will pass to it as first parameter a table which can be used for storing information
+                           - No global variables allowed! Instead, the eventmanager will pass to the function as first parameter a table which can be used for storing information
     table Actions - a table which holds all actions and their accompanying sections, who shall be run when the event occurred
                   - each entry of the table must be of the format "actioncommandid,section", e.g.:
                   - 
@@ -2952,12 +2953,14 @@ Paused: ]]..tostring(EventPaused)..[[
 Function: ]]..ultraschall.Base64_Encoder(string.dump(CheckFunction))..[[
 
 CountOfActions: ]]..ActionsCount.."\n"
-
   for i=1, ActionsCount do
+    if type(Actions[i])~="string" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "Actions", "Entry number "..i.." must be contain valid _ActionCommandID-string/CommandID-integer,integer section for \"action,section\" (e.g. \"1007,0\" or \"_BR_PREV_ITEM_CURSOR,0\").", -10) return nil end
+    --Actions[i]=tostring(Actions[i])
     local Action, Section=Actions[i]:match("(.-),(.*)")
+    
     if math.type(tonumber(Section))~="integer" or 
        (Action:sub(1,1)~="_" and math.type(tonumber(Action))~="integer") then
-       ultraschall.AddErrorMessage("EventManager_AddEvent", "Actions", "Entry number "..i.." must be contain valid _ActionCommandID-string/CommandID-integer,integer section for \"action,section\" (e.g. \"1007,0\" or \"_BR_PREV_ITEM_CURSOR,0\").", -10) return nil
+       ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "Actions", "Entry number "..i.." must be contain valid _ActionCommandID-string/CommandID-integer,integer section for \"action,section\" (e.g. \"1007,0\" or \"_BR_PREV_ITEM_CURSOR,0\").", -11) return nil
     else
       EventStateChunk2=EventStateChunk2.."Action: "..Action.."\nSection: "..Section.."\n"
     end
@@ -3056,6 +3059,221 @@ function ultraschall.EventManager_RemoveStartupEvent2(EventIdentifier)
   if NewEvents==OldEvents then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "so such Event", -3) return false end
   ultraschall.WriteValueToFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini", NewEvents)
   return true
+end
+
+function ultraschall.ReplacePatternInString(OriginalString, pattern, replacestring, index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ReplacePatternInString</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>string altered_string, boolean replaced = ultraschall.ReplacePatternInString(string OriginalString, string pattern, string replacestring, integer index)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Replaces the index'th occurrence of pattern in OriginalString with replacepattern.
+    
+    Unlike string.gsub, this replaces only the selected pattern!
+    
+    returns nil, false in case of an error
+  </description>
+  <parameters>
+    string OriginalString - the string, from which you want to replace a specific occurence of a matching pattern
+    string pattern - the pattern to look for
+    string replacestring - the string, which shall replace the found pattern
+    integer index - the number of found occurence of the pattern in the string, which shall be replaced
+  </parameters>
+  <retvals>
+    string altered_string - the altered string, where the n'th occurence of the pattern has been replaced
+    boolean replaced - true, there has been a replacement; false, no replacement has happened
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, replace, pattern in string, index, occurrence</tags>
+</US_DocBloc>
+--]]
+  if type(OriginalString)~="string" then ultraschall.AddErrorMessage("ReplacePatternInString", "OriginalString", "must be a string", -1) return nil, false end  
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("ReplacePatternInString", "pattern", "must be a string", -2) return nil, false end  
+  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("ReplacePatternInString", "pattern", "must be a valid Lua-matching-pattern", -3) return nil, false end
+  if type(replacestring)~="string" then ultraschall.AddErrorMessage("ReplacePatternInString", "replacestring", "must be a string", -4) return nil, false end  
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("ReplacePatternInString", "index", "must be an integer", -5) return nil, false end  
+  local OriginalString2=OriginalString
+  local LEN=0
+  for i=1, index do 
+    local Offset1, Offset2=OriginalString2:match("()"..pattern.."()")
+    if Offset1==nil or Offset2==nil then return OriginalString, false end
+    if i<index then
+      LEN=LEN+Offset2-1
+      OriginalString2=OriginalString2:sub(Offset2,-1)
+    else
+      LEN=LEN+Offset1-1
+      OriginalString2=OriginalString2:sub(Offset1,-1)
+    end
+  end
+  
+  return OriginalString:sub(1,LEN)..string.gsub(OriginalString2, pattern, replacestring, 1), true
+end
+
+function ultraschall.EventManager_CountStartupEvents()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_CountStartupEvents</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_startup_events = ultraschall.EventManager_CountStartupEvents()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Counts the currently available startup-events
+  </description>
+  <retvals>
+    integer count_startup_events - the number of currently available start-up-events for the EventManager
+  </retvals>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, startup, count, event</tags>
+</US_DocBloc>
+--]]
+  local EventsIniFile=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
+  local count=0
+  for k in string.gmatch(EventsIniFile, "Eventname%:(.-)EndEvent") do
+    count=count+1
+  end
+  return count
+end
+
+function ultraschall.EventManager_SetStartupEvent(EventIdentifier, EventName, CheckAllXSeconds, CheckForXSeconds, StartActionsOnceDuringTrue, EventPaused, CheckFunction, Actions)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_SetStartupEvent</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>string event_identifier = ultraschall.EventManager_SetStartupEvent(string EventIdentifier, string EventName, integer CheckAllXSeconds, integer CheckForXSeconds, boolean StartActionsOnceDuringTrue, boolean EventPaused, function CheckFunction, table Actions)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets an already existing startupevent, that shall be automatically run at startup of the Ultraschall Event Manager.
+    
+    That means, if you start the EventManager, it will be started automatically to the EventManager-checking-queue, without the need of registering it by hand.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string EventIdentifier - the EventIdentifier of the startup-event, which you want to set
+    string EventName - a name for the event, which you can choose freely; duplicated eventnames are allowed
+    integer CheckAllXSeconds - only check all x seconds; 0, for constant checking
+                             - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
+                             - This is due general limitations with backgroundscripts.
+    integer CheckForXSeconds - only check for x seconds; 0, check until the event is removed
+                             - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
+                             - This is due general limitations with backgroundscripts.
+    boolean StartActionsOnceDuringTrue - if the event occurred: 
+                                       -    true, run the actions only once; 
+                                       -    false, run until the CheckFunction returns false again
+    boolean EventPaused - false, register the event and check for it immediately; true, register the event but don't check for it yet
+    function CheckFunction - the function, which shall check if the event occurred
+                           - this function must return true if the event occurred and false, if not
+                           - No global variables allowed! Instead, the eventmanager will pass to the function as first parameter a table which can be used for storing information
+    table Actions - a table which holds all actions and their accompanying sections, who shall be run when the event occurred
+                  - each entry of the table must be of the format "actioncommandid,section", e.g.:
+                  - 
+                  - Actions[1]="1007,0"
+                  - Actions[2]="1012,0"
+                  -
+                  - You can have as many actions as you like, but be aware, that running too many actions may delay further eventchecking!
+  </parameters>
+  <retvals>
+    string event_identifier - the unique identifier for this registered event, which can be used later for setting, deleting, etc
+  </retvals>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, set, startup, event, function, actions, section, action</tags>
+</US_DocBloc>
+--]]
+  --if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "", "Eventmanager not started yet", -1) return end
+  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_SetStartupEvent", "EventIdentifier", "must be a string", -1) return end
+  if type(EventName)~="string" then ultraschall.AddErrorMessage("EventManager_SetStartupEvent", "EventName", "must be a string", -2) return end
+  if math.type(CheckAllXSeconds)~="integer" then ultraschall.AddErrorMessage("EventManager_SetStartupEvent", "CheckAllXSeconds", "must be an integer; -1 for constant checking", -3) return end
+  if math.type(CheckForXSeconds)~="integer" then ultraschall.AddErrorMessage("EventManager_SetStartupEvent", "CheckForXSeconds", "must be an integer; -1 for infinite checking", -4) return end
+  if type(StartActionsOnceDuringTrue)~="boolean" then ultraschall.AddErrorMessage("EventManager_SetStartupEvent", "StartActionsOnceDuringTrue", "must be a boolean", -5) return end
+  if type(EventPaused)~="boolean" then ultraschall.AddErrorMessage("EventManager_SetStartupEvent", "EventPaused", "must be a boolean", -6) return end
+  if type(CheckFunction)~="function" then ultraschall.AddErrorMessage("EventManager_SetStartupEvent", "CheckFunction", "must be a function", -7) return end
+  if type(Actions)~="table" then ultraschall.AddErrorMessage("EventManager_SetStartupEvent", "Actions", "must be a table", -8) return end
+  
+  local EventsIniFile=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
+  
+  local Entries={}
+  local EntriesCount=0
+  local replace
+  EventIdentifier=string.gsub(EventIdentifier, "-", "%%-")
+  for k in string.gmatch(EventsIniFile, "Eventname: .-EndEvent") do
+    EntriesCount=EntriesCount+1
+    Entries[EntriesCount]=k
+    
+    if k:match(EventIdentifier)~=nil then replace=EntriesCount end
+  end
+  
+
+  local EventStateChunk=""  
+  local EventIdentifier="Ultraschall_Eventidentifier: "..reaper.genGuid()
+  
+  local ActionsCount = ultraschall.CountEntriesInTable_Main(Actions)
+  local EventStateChunk2=[[
+Eventname: ]]..EventName..[[
+
+EventIdentifier: ]]..EventIdentifier..[[
+
+SourceScriptIdentifier: ]]..ultraschall.ScriptIdentifier..[[
+
+CheckAllXSeconds: ]]..CheckAllXSeconds..[[
+
+CheckForXSeconds: ]]..CheckForXSeconds..[[
+
+StartActionsOnceDuringTrue: ]]..tostring(StartActionsOnceDuringTrue)..[[
+
+Paused: ]]..tostring(EventPaused)..[[
+
+Function: ]]..ultraschall.Base64_Encoder(string.dump(CheckFunction))..[[
+
+CountOfActions: ]]..ActionsCount.."\n"
+  for i=1, ActionsCount do
+    if type(Actions[i])~="string" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "Actions", "Entry number "..i.." must be contain valid _ActionCommandID-string/CommandID-integer,integer section for \"action,section\" (e.g. \"1007,0\" or \"_BR_PREV_ITEM_CURSOR,0\").", -10) return nil end
+    --Actions[i]=tostring(Actions[i])
+    local Action, Section=Actions[i]:match("(.-),(.*)")
+    
+    if math.type(tonumber(Section))~="integer" or 
+       (Action:sub(1,1)~="_" and math.type(tonumber(Action))~="integer") then
+       ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "Actions", "Entry number "..i.." must be contain valid _ActionCommandID-string/CommandID-integer,integer section for \"action,section\" (e.g. \"1007,0\" or \"_BR_PREV_ITEM_CURSOR,0\").", -11) return nil
+    else
+      EventStateChunk2=EventStateChunk2.."Action: "..Action.."\nSection: "..Section.."\n"
+    end
+  end
+
+  EventStateChunk2=EventStateChunk2.."EndEvent\n"
+  
+  local OldEvents=""
+  
+  for i=1, EntriesCount do
+    if i~=replace then OldEvents=OldEvents..Entries[i].."\n\n"
+    else OldEvents=OldEvents..EventStateChunk2.."\n"
+    end
+  end
+
+  ultraschall.WriteValueToFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini", OldEvents)
+  return EventIdentifier
 end
 
 ultraschall.ShowLastErrorMessage()
