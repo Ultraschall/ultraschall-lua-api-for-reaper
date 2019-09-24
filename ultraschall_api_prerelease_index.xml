@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40630.00" author="Meo Mespotine">
+      <version name="40643.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Changelog-Api.txt</source>
@@ -65,6 +65,7 @@
 	<source file="/ultraschall_api/IniFiles/double_to_int.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/double_to_int.ini</source>
 	<source file="/ultraschall_api/IniFiles/double_to_int_24bit.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/double_to_int_24bit.ini</source>
 	<source file="/ultraschall_api/IniFiles/Euro.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/Euro.txt</source>
+	<source file="/ultraschall_api/IniFiles/EventManager_Startup.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/EventManager_Startup.ini</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-ActionList_v5_96.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/Reaper-ActionList_v5_96.ini</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-factory-default-KEY-Codes_for_reaper-kb_ini.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/Reaper-factory-default-KEY-Codes_for_reaper-kb_ini.ini</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-Gfx.GetKey_Codes_and_their_associated_character.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/Reaper-Gfx.GetKey_Codes_and_their_associated_character.ini</source>
@@ -196,6 +197,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.978.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/reaper5.978.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.979.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/reaper5.979.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.980.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/reaper5.980.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper5.981.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/reaper5.981.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.982.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/reaper5.982.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.983.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/reaper5.983.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/Reaper_Button.png</source>
@@ -396,20 +398,52 @@ New features in 4.00beta2.77
     unsuppresses error-messages of the error messaging system
 -   EventManager: EventManager_AddEvent - registers a new event to the
     EvenManager-checkingqueue
+-   EventManager: EventManager_AddStartupEvent - adds an event into the
+    ini-file of the EventManager, to be registered at startup of the
+    ini-file
 -   EventManager: EventManager_CountRegisteredEvents - counts the number
     of registered events
+-   EventManager: EventManager_CountStartupEvents - counts the number of
+    currently available startup-events for the EventManager
 -   EventManager: EventManager_EnumerateEvents - returns attributes of
     specific registered events
+-   EventManager: EventManager_EnumerateEvents2 - enumerates attributes
+    of an event by EventIdentifier
+-   EventManager: EventManager_EnumerateStartupEvents - enumerates
+    attributes of a startup-event
 -   EventManager: EventManager_IsValidEventIdentifier - checks, if an
     EventIdentifier is a valid and currently registered one
+-   EventManager: EventManager_PauseEvent - pauses a registered event in
+    the EventManager
+-   EventManager: EventManager_RemoveAllEvents_Script - removes all
+    events, registered by a script with a certain ScriptIdentifier
+-   EventManager: EventManager_RemoveEvent - removes an event from the
+    EvenManager-checkingqueue
+-   EventManager: EventManager_RemoveStartupEvent - removes a
+    registered-at-startup-event for the EventManager
+-   EventManager: EventManager_RemoveStartupEvent2 - removes a
+    registered-at-startup-event for the EventManager by EventIdentifier
+-   EventManager: EventManager_ResumeEvent - resumes a paused and
+    registered event in the EventManager
 -   EventManager: EventManager_SetEvent - sets an already existing event
     in the EvenManager-checkingqueue
--   EventManager: Eventmanager_RemoveEvent - removes an event from the
-    EvenManager-checkingqueue
--   EventManager: Ultraschall_EventManager.lua - first version of the
-    EventManager-backgroundscript
+-   EventManager: EventManager_SetStartupEvent - sets an event in the
+    ini-file of the EventManager, which will be registered at startup of
+    the ini-file
+-   EventManager: EventManager_Start - starts the EventManager
+-   EventManager: EventManager_Stop - stops the EventManager, if all
+    scripts who have registered events have used this function
+-   EventManager: Ultraschall_EventManager.lua - the backgroundscript
+    for the EventManager
+-   Helper Functions: ConvertFunction_FromBase64String - loads a
+    function from a BASE64-string
+-   Helper Functions: ConvertFunction_ToBase64String - converts a
+    function into a BASE64-string
 -   Helper functions: Main_OnCommand_LuaCode - runs Luacode in a
     temporary new script, without the need to create it first
+-   Helper functions: ReplacePatternInString - replaces a certain
+    occurence(and only that one) of a pattern in a string with a
+    replacement
 -   Helper functions: RunLuaSourceCode - runs Lua-code directly from a
     string
 -   LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be
@@ -591,10 +625,10 @@ NEW IN THIS RELEASE:
     This function converts the y-coordinates between these two
     coordinate-systems.
 
--   NEW VERSION OF CONFIG-VARS-DISPLAYER-SCRIPT Shows changed with
-    doubles without a problem now, is faster, uses the config-var-docs
-    included with the API to get the currently accepted config-vars. I
-    also improved the layout a bit.
+-   NEW VERSION OF CONFIG-VARS-DISPLAYER-SCRIPT
+    Shows changes with doubles without a problem now, is faster, uses
+    the config-var-docs included with the API to get the currently
+    accepted config-vars. I also improved the layout a bit.
 
 ###New features in 4.00beta2.761 - Helper functions:
 FindPatternsInString - finds all occurrences of a matching-pattern in a
@@ -4297,7 +4331,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1027 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40630 from 19.09.2019 02:57:02).}
+a 1037 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40643 from 24.09.2019 13:46:12).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4311,7 +4345,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1027 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1037 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -4435,7 +4469,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1027 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40630 from 19.09.2019 02:57:02).}
+a 1037 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40643 from 24.09.2019 13:46:12).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4449,7 +4483,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1027 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1037 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
