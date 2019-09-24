@@ -2561,7 +2561,7 @@ function ultraschall.EventManager_EnumerateEvents(id)
              tonumber(k:match("CheckForXSeconds: (.-)\n")),
              toboolean(k:match("StartActionsOnlyOnceDuringTrue: (.-)\n")),
              toboolean(k:match("EventPaused: (.-)\n")),
-             k:match("Function: (.-)\n"),
+             ultraschall.ConvertFunction_FromBase64String(k:match("Function: (.-)\n")),
              tonumber(k:match("Number of Actions: (.-)\n")),
              actions
     end
@@ -2638,7 +2638,7 @@ function ultraschall.EventManager_EnumerateEvents2(EventIdentifier)
              tonumber(k:match("CheckForXSeconds: (.-)\n")),
              toboolean(k:match("StartActionsOnlyOnceDuringTrue: (.-)\n")),
              toboolean(k:match("EventPaused: (.-)\n")),
-             k:match("Function: (.-)\n"),
+             ultraschall.ConvertFunction_FromBase64String(k:match("Function: (.-)\n")),
              tonumber(k:match("Number of Actions: (.-)\n")),
              actions
     end
@@ -3274,6 +3274,86 @@ CountOfActions: ]]..ActionsCount.."\n"
 
   ultraschall.WriteValueToFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini", OldEvents)
   return EventIdentifier
+end
+
+function ultraschall.ConvertFunction_ToBase64String(to_convert_function, debug)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertFunction_ToBase64String</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string BASE64_functionstring = ultraschall.ConvertFunction_ToBase64String(function to_convert_function, boolean debug)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Converts a function into a BASE64-string.
+    
+    To load a function from a BASE64-string, use [ConvertFunction_FromBase64String](#ConvertFunction_FromBase64String)
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string BASE64_functionstring - the function, stored as BASE64-string
+  </retvals>
+  <parameters>
+    function to_convert_function - the function, that you want to convert
+    boolean debug - true, store debug-information as well; false, only store function
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, function, base64</tags>
+</US_DocBloc>
+]]
+  if type(to_convert_function)~="function" then ultraschall.AddErrorMessage("ConvertFunction_ToBase64String", "to_convert_function", "must be a function", -1) return end
+  
+  local Dump=string.dump (to_convert_function, debug)
+  local DumpBase64 = ultraschall.Base64_Encoder(Dump)
+  
+  return DumpBase64
+end
+
+function ultraschall.ConvertFunction_FromBase64String(BASE64_functionstring)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertFunction_FromBase64String</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>function function = ultraschall.ConvertFunction_FromBase64String(string BASE64_functionstring)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Loads a function from a BASE64-string.
+    
+    To convert a function into a BASE64-string, use [ConvertFunction_ToBase64String](#ConvertFunction_ToBase64String)
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    function func - the loaded function
+  </retvals>
+  <parameters>
+    string BASE64_functionstring - the function, stored as BASE64-string
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, load, function, base64</tags>
+</US_DocBloc>
+]]
+  if type(BASE64_functionstring)~="string" then ultraschall.AddErrorMessage("ConvertFunction_FromBase64String", "BASE64_functionstring", "must be a string", -1) return end
+
+  local Dump = ultraschall.Base64_Decoder(BASE64_functionstring)
+  if Dump==nil then ultraschall.AddErrorMessage("ConvertFunction_FromBase64String", "BASE64_functionstring", "no valid Base64-string", -2) return false end
+  local function2=load(Dump)
+  if type(function2)~="function" then ultraschall.AddErrorMessage("ConvertFunction_FromBase64String", "BASE64_functionstring", "no function found", -3) return end
+  return function2
 end
 
 ultraschall.ShowLastErrorMessage()

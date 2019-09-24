@@ -52,6 +52,7 @@ Ultraschall API Changelog
 <li>EventManager: EventManager_CountStartupEvents - counts the number of currently available startup-events for the EventManager</li>
 <li>EventManager: EventManager_EnumerateEvents - returns attributes of specific registered events</li>
 <li>EventManager: EventManager_EnumerateEvents2 - enumerates attributes of an event by EventIdentifier</li>
+<li>EventManager: EventManager_EnumerateStartupEvents - enumerates attributes of a startup-event</li>
 <li>EventManager: EventManager_IsValidEventIdentifier - checks, if an EventIdentifier is a valid and currently registered one</li>
 <li>EventManager: EventManager_PauseEvent - pauses a registered event in the EventManager</li>
 <li>EventManager: EventManager_RemoveAllEvents_Script - removes all events, registered by a script with a certain ScriptIdentifier</li>
@@ -64,6 +65,8 @@ Ultraschall API Changelog
 <li>EventManager: EventManager_Start - starts the EventManager</li>
 <li>EventManager: EventManager_Stop - stops the EventManager, if all scripts who have registered events have used this function</li>
 <li>EventManager: Ultraschall_EventManager.lua - the backgroundscript for the EventManager</li>
+<li>Helper Functions: ConvertFunction_FromBase64String - loads a function from a BASE64-string</li>
+<li>Helper Functions: ConvertFunction_ToBase64String - converts a function into a BASE64-string</li>
 <li>Helper functions: Main_OnCommand_LuaCode - runs Luacode in a temporary new script, without the need to create it first</li>
 <li>Helper functions: ReplacePatternInString - replaces a certain occurence(and only that one) of a pattern in a string with a replacement</li>
 <li>Helper functions: RunLuaSourceCode - runs Lua-code directly from a string</li>

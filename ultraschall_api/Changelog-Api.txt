@@ -237,6 +237,7 @@ TODO!! buggy function
    - EventManager: EventManager\_CountStartupEvents - counts the number of currently available startup-events for the EventManager
    - EventManager: EventManager\_EnumerateEvents - returns attributes of specific registered events
    - EventManager: EventManager\_EnumerateEvents2 - enumerates attributes of an event by EventIdentifier
+   - EventManager: EventManager\_EnumerateStartupEvents - enumerates attributes of a startup-event
    - EventManager: EventManager\_IsValidEventIdentifier - checks, if an EventIdentifier is a valid and currently registered one
    - EventManager: EventManager\_PauseEvent - pauses a registered event in the EventManager
    - EventManager: EventManager\_RemoveAllEvents\_Script - removes all events, registered by a script with a certain ScriptIdentifier
@@ -249,6 +250,8 @@ TODO!! buggy function
    - EventManager: EventManager\_Start - starts the EventManager
    - EventManager: EventManager\_Stop - stops the EventManager, if all scripts who have registered events have used this function
    - EventManager: Ultraschall\_EventManager.lua - the backgroundscript for the EventManager
+   - Helper Functions: ConvertFunction\_FromBase64String - loads a function from a BASE64-string
+   - Helper Functions: ConvertFunction\_ToBase64String - converts a function into a BASE64-string
    - Helper functions: Main\_OnCommand\_LuaCode - runs Luacode in a temporary new script, without the need to create it first
    - Helper functions: ReplacePatternInString - replaces a certain occurence(and only that one) of a pattern in a string with a replacement
    - Helper functions: RunLuaSourceCode - runs Lua-code directly from a string
