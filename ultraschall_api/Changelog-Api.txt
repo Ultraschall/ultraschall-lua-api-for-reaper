@@ -355,8 +355,8 @@ My apologies for any inconvenience.... :/**
   Y-coordinates on Mac are different from the ones in Windows/Linux, meaning, pixel 0 is at the bottom, while Windows/Linux start on top.  
   This function converts the y-coordinates between these two coordinate-systems.  
   
-  - **New version of Config-Vars-displayer-script**
-  Shows changed with doubles without a problem now, is faster, uses the config-var-docs included with the API to get the currently accepted config-vars.
+  - **New version of Config-Vars-displayer-script**  
+  Shows changes with doubles without a problem now, is faster, uses the config-var-docs included with the API to get the currently accepted config-vars.
   I also improved the layout a bit.
   
 ###New features in 4.00beta2.761

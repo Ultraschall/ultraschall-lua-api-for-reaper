@@ -96,10 +96,7 @@ function ResumeEvent(id)
 end
 
 function RemoveEvent_ScriptIdentifier2(ScriptIdentifier)
-  -- TODO:
   -- diese hier aufrufen, wenn User den Eventmanager beenden will
-  -- Hier kommt auch der "Wenn CountOfEvents==0 dann EventManager beenden"-code rein.
-  --   reaper.DeletetExtState("ultraschall_eventmanager", "running", false)
   for i=CountOfEvents, 1, -1 do
     if ScriptIdentifier==EventTable[i]["ScriptIdentifier"] then
       --print(ScriptIdentifier,EventTable[i]["ScriptIdentifier"])
@@ -410,7 +407,7 @@ function main()
               if EventTable[i]["StartActionsOnceDuringTrue"]==false then
                 -- if actions shall be only run as long as the event happens
                 for a=1, EventTable[i]["CountOfActions"] do
-                  A=reaper.time_precise()
+                  --A=reaper.time_precise()
                   if EventTable[i]["sec"..a]==0 then
                     reaper.Main_OnCommand(EventTable[i][a],0)
                   elseif EventTable[i]["sec"..a]==32063 then
@@ -441,6 +438,7 @@ function main()
           elseif EventTable[i]["CheckForXSeconds_current"]~=nil and EventTable[i]["CheckForXSeconds"]~=0 and EventTable[i]["CheckForXSeconds_current"]<=reaper.time_precise()-deferoffset then
             -- if the timer for checking for this event is up, remove the event
             RemoveEvent_ID(i)
+            break
           end
         end
       end
