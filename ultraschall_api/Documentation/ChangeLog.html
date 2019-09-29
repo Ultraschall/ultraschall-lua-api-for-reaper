@@ -41,10 +41,32 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 30th of September 2019</h3>
+<p>Has now 1026 functions with 41 new ones! Yes, I crossed the thousand!</p>
+<p><strong>New in this release:</strong></p>
+<ul>
+<li><p><strong>Event Manager</strong><br />
+The EventManager allows you to run actions, when certain states occur/statechanges occur.<br />
+That way you can automatise running actions under certain circumstances without having to run your own defer-script for that.</p></li>
+<li><p><strong>ShowXXXInputMenu</strong><br />
+Shows different Context-menus, like TrackInput, TrackPanel, TrackArea, TrackRouting, Ruler, MediaItem, Track/TakeEnvelope,<br />
+EnvelopePoint, EnvelopePoint for Automation Items, AutomationItems-contextmenu.<br />
+Reaper's own function ShowPopupMenu is quite difficult to use, so I made some, who make it easier.</p></li>
+<li><p><strong>RunLuaSourceCode</strong><br />
+Runs Luacode directly without having to create a script for it.</p></li>
+<li><p><strong>Main_OnCommand_LuaCode</strong><br />
+Runs Luacode as child-script directly without having to create a script for it.</p></li>
+<li><p><strong>GetTimeByMouseXPosition</strong><br />
+returns projecttime at x-screenposition</p></li>
+<li><p><strong>ReplacePatternInString</strong><br />
+Like Lua's string.gsub(), this replaces a pattern within a string with a replacement string, but you can choose,<br />
+which one shall be replaced. And unlike string.gsub() only that one will be replaced, not the occurences after that.</p></li>
+<li><p><strong>Bugfixes and optimzations</strong><br />
+Optimized and bugfixed tons of other stuff, thanks to many bugreports and a lot of feedback from many of you.<br />
+Big thanks for that :)</p></li>
+</ul>
 <h4>New features in 4.00beta2.77</h4>
 <ul>
 <li>Defer Management: GetDeferRunState - gets the current runstate of a ultraschall-defer-loop in the current or a specific scriptinstance(requested by rstockm)</li>
-<li>Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point</li>
 <li>Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system</li>
 <li>EventManager: EventManager_AddEvent - registers a new event to the EvenManager-checkingqueue</li>
 <li>EventManager: EventManager_AddStartupEvent - adds an event into the ini-file of the EventManager, to be registered at startup of the ini-file</li>
@@ -70,14 +92,10 @@ Ultraschall API Changelog
 <li>Helper Functions: ConvertFunction_ToBase64String - converts a function into a BASE64-string</li>
 <li>Helper functions: Main_OnCommand_LuaCode - runs Luacode in a temporary new script, without the need to create it first</li>
 <li>Helper functions: ReplacePatternInString - replaces a certain occurence(and only that one) of a pattern in a string with a replacement</li>
-<li>Helper functions: RunLuaSourceCode - runs Lua-code directly from a string</li>
-<li>LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper</li>
-<li>LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper</li>
-<li>MediaItem Management: GetMediaItem_ClickState - returns the currently clicked MediaItem</li>
+<li>Helper functions: RunLuaSourceCode - runs Lua-code directly from a string<br />
+</li>
 <li>MediaItem Management: GetMediaItemNumber - returns the itemnumber of a MediaItem within a project(requested by XRaym)</li>
-<li>MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project</li>
 <li>Project Management: GetProjectFilename - returns the filename of a currently opened project</li>
-<li>Project Management: SaveProjectAs - saves the current project under a new filename</li>
 <li>Project Management: SetProject_GlobalAuto - sets global automation override-state a projectfile or a ProjectStateChunk</li>
 <li>Project Management: SetProject_Lock - sets locked-state of a projectfile or a ProjectStateChunk</li>
 <li>Project Management: SetProject_MasterAutomode - sets automation-mode of the mastertrack in a projectfile or a ProjectStateChunk</li>
@@ -111,7 +129,7 @@ Ultraschall API Changelog
 <li>Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>Helper Functions: SecondsToTimeString_hh_mm_ss_mss - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
-<li>Helper Functions: SplitStringAtLineFeedToArray - didn't always return the last entry of the passed string -&gt; fixed (thanks to Aurelien?)</li>
+<li>Helper Functions: SplitStringAtLineFeedToArray - didn't always return the last entry of the passed string -&gt; fixed (thanks to Aurelien)</li>
 <li>Helper Functions: TimeStringToSeconds_hh_mm_ss_mss - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>Helper Functions: TimeToSeconds - moved to docs-index API-Helper functions -&gt; Data Manipulation</li>
 <li>HWND: GetActionsHWND - moved to docs-index User Interface -&gt; Reaper-Windowhandler</li>

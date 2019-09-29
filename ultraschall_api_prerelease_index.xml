@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40645.00" author="Meo Mespotine">
+      <version name="40652.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Changelog-Api.txt</source>
@@ -388,13 +388,50 @@ Ultraschall Framework - Changelog
 
 4.00 Beta 2.77: - “Monkeys with Tools - Call the planet doctor” - 30th of September 2019
 
+Has now 1026 functions with 41 new ones! Yes, I crossed the thousand!
+
+NEW IN THIS RELEASE:
+
+-   EVENT MANAGER
+    The EventManager allows you to run actions, when certain states
+    occur/statechanges occur.
+    That way you can automatise running actions under certain
+    circumstances without having to run your own defer-script for that.
+
+-   SHOWXXXINPUTMENU
+    Shows different Context-menus, like TrackInput, TrackPanel,
+    TrackArea, TrackRouting, Ruler, MediaItem, Track/TakeEnvelope,
+    EnvelopePoint, EnvelopePoint for Automation Items,
+    AutomationItems-contextmenu.
+    Reaper’s own function ShowPopupMenu is quite difficult to use, so I
+    made some, who make it easier.
+
+-   RUNLUASOURCECODE
+    Runs Luacode directly without having to create a script for it.
+
+-   MAIN_ONCOMMAND_LUACODE
+    Runs Luacode as child-script directly without having to create a
+    script for it.
+
+-   GETTIMEBYMOUSEXPOSITION
+    returns projecttime at x-screenposition
+
+-   REPLACEPATTERNINSTRING
+    Like Lua’s string.gsub(), this replaces a pattern within a string
+    with a replacement string, but you can choose,
+    which one shall be replaced. And unlike string.gsub() only that one
+    will be replaced, not the occurences after that.
+
+-   BUGFIXES AND OPTIMZATIONS
+    Optimized and bugfixed tons of other stuff, thanks to many
+    bugreports and a lot of feedback from many of you.
+    Big thanks for that :)
+
 New features in 4.00beta2.77
 
 -   Defer Management: GetDeferRunState - gets the current runstate of a
     ultraschall-defer-loop in the current or a specific
     scriptinstance(requested by rstockm)
--   Envelope Management: GetTrackEnvelope_ClickState - returns the
-    currently clicked TrackEnvelope-Point
 -   Error Messaging System: SuppressErrorMessages - suppresses and
     unsuppresses error-messages of the error messaging system
 -   EventManager: EventManager_AddEvent - registers a new event to the
@@ -449,20 +486,10 @@ New features in 4.00beta2.77
     replacement
 -   Helper functions: RunLuaSourceCode - runs Lua-code directly from a
     string
--   LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be
-    used by Reaper
--   LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of
-    the currently chosen LiceCap-executable in Reaper
--   MediaItem Management: GetMediaItem_ClickState - returns the
-    currently clicked MediaItem
 -   MediaItem Management: GetMediaItemNumber - returns the itemnumber of
     a MediaItem within a project(requested by XRaym)
--   MediaItem Management: GetRecCounter - returns the highest
-    rec-counter of all items/takes in the current project
 -   Project Management: GetProjectFilename - returns the filename of a
     currently opened project
--   Project Management: SaveProjectAs - saves the current project under
-    a new filename
 -   Project Management: SetProject_GlobalAuto - sets global automation
     override-state a projectfile or a ProjectStateChunk
 -   Project Management: SetProject_Lock - sets locked-state of a
@@ -522,7 +549,7 @@ Changes from Beta 2.761 to Beta 2.77
     docs-index API-Helper functions -> Data Manipulation
 -   Helper Functions: SplitStringAtLineFeedToArray - didn’t always
     return the last entry of the passed string -> fixed (thanks to
-    Aurelien?)
+    Aurelien)
 -   Helper Functions: TimeStringToSeconds_hh_mm_ss_mss - moved to
     docs-index API-Helper functions -> Data Manipulation
 -   Helper Functions: TimeToSeconds - moved to docs-index API-Helper
@@ -4334,7 +4361,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1039 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40645 from 29.09.2019 22:18:20).}
+a 1026 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4348,7 +4375,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1039 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1026 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -4472,7 +4499,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1039 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40645 from 29.09.2019 22:18:20).}
+a 1026 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4486,7 +4513,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1039 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1026 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

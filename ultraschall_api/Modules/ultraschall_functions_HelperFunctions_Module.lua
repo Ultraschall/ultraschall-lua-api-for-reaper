@@ -5550,6 +5550,249 @@ end
 
 --O,P,Q = ultraschall.FindPatternsInString(A, "<slug>(.-)</slug>", false)
 
+function ultraschall.RunLuaSourceCode(code)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RunLuaSourceCode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.RunLuaSourceCode(string code)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    runs the Lua-code stored in the parameter code
+    
+    Does not check for validity and syntaxerrors in the code!
+    
+    You can also add new callable functions that way. Just put function-declarations in the parameter code.
+    
+    For instance from the following code:
+    
+      code=function main()
+             reaper.MB("I'm only run, when my parent function main is called", "", 0)
+           end
+           
+           reaper.MB("I'm run immediately", "", 0)"
+    
+    when called by 
+    
+        ultraschall.RunLuaSourceCode(code)
+    
+    only the line reaper.MB("I'm run immediately", "", 0) will be run immediately.
+    If you want to run the function main as well, you need to explicitly call it with main()
+    
+    returns false in case of an error; nil, in case of an syntax/lua-error in the code itself
+  </description>
+  <parameters>
+    string code - the code, that you want to execute; you can also add new functions that way
+  </parameters>
+  <retvals>
+    boolean retval - true, code was run successfully; false, code wasn't successfully; nil, code had an error in it, probably syntax error
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, run, lua code, directly</tags>
+</US_DocBloc>
+--]]
+  if type(code)~="string" then ultraschall.AddErrorMessage("RunLuaSourceCode", "code", "must be a string of Lua code", -1) return false end
+  local RunMe=load(code)
+  RunMe()
+  return true
+end
+
+
+
+function ultraschall.Main_OnCommand_LuaCode(Code, ...)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Main_OnCommand_LuaCode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.95
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string script_identifier = ultraschall.Main_OnCommand_LuaCode(string Code, string ...)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Runs LuaCode as new temporary script-instance. It internally registers the code as a file temporarily as command, runs it and unregisters it again.
+    This is especially helpful, when you want to run a command for sure without possible command-id-number-problems.
+    
+    It returns a unique script-identifier for this script, which can be used to communicate with this script-instance.
+    The started script gets its script-identifier using [GetScriptIdentifier](#GetScriptIdentifier).
+    You can use this script-identifier e.g. as extstate.
+    
+    Returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, if running it was successful; false, if not
+    string script_identifier - a unique script-identifier, which can be used as extstate to communicate with the started code
+  </retvals>
+  <parameters>
+    string Code - the Lua-code, which shall be run; will not be checked vor validity!
+    string ... - parameters that shall be passed over to the script
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Child Scripts
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, run code, scriptidentifier, scriptparameters</tags>
+</US_DocBloc>
+]]
+  if type(Code)~="string" then ultraschall.AddErrorMessage("Main_OnCommand_LuaCode", "Code", "must be a string", -1) return false end
+  local guid=reaper.genGuid("")
+  local params={...}
+  ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/"..guid..".lua", Code)
+  local retval, script_identifier = ultraschall.Main_OnCommandByFilename(ultraschall.API_TempPath.."/"..guid..".lua", params)
+  os.remove(ultraschall.API_TempPath.."/"..guid..".lua")
+  return retval, script_identifier
+end
+
+--P,Q=ultraschall.Main_OnCommand_LuaCode(true, "reaper.MB(\"Juchhu\",\"\",0)",1,2,3,4,5)
+
+
+function ultraschall.ReplacePatternInString(OriginalString, pattern, replacestring, index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ReplacePatternInString</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>string altered_string, boolean replaced = ultraschall.ReplacePatternInString(string OriginalString, string pattern, string replacestring, integer index)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Replaces the index'th occurrence of pattern in OriginalString with replacepattern.
+    
+    Unlike string.gsub, this replaces only the selected pattern!
+    
+    returns nil, false in case of an error
+  </description>
+  <parameters>
+    string OriginalString - the string, from which you want to replace a specific occurence of a matching pattern
+    string pattern - the pattern to look for
+    string replacestring - the string, which shall replace the found pattern
+    integer index - the number of found occurence of the pattern in the string, which shall be replaced
+  </parameters>
+  <retvals>
+    string altered_string - the altered string, where the n'th occurence of the pattern has been replaced
+    boolean replaced - true, there has been a replacement; false, no replacement has happened
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, replace, pattern in string, index, occurrence</tags>
+</US_DocBloc>
+--]]
+  if type(OriginalString)~="string" then ultraschall.AddErrorMessage("ReplacePatternInString", "OriginalString", "must be a string", -1) return nil, false end  
+  if type(pattern)~="string" then ultraschall.AddErrorMessage("ReplacePatternInString", "pattern", "must be a string", -2) return nil, false end  
+  if ultraschall.IsValidMatchingPattern(pattern)==false then ultraschall.AddErrorMessage("ReplacePatternInString", "pattern", "must be a valid Lua-matching-pattern", -3) return nil, false end
+  if type(replacestring)~="string" then ultraschall.AddErrorMessage("ReplacePatternInString", "replacestring", "must be a string", -4) return nil, false end  
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("ReplacePatternInString", "index", "must be an integer", -5) return nil, false end  
+  local OriginalString2=OriginalString
+  local LEN=0
+  for i=1, index do 
+    local Offset1, Offset2=OriginalString2:match("()"..pattern.."()")
+    if Offset1==nil or Offset2==nil then return OriginalString, false end
+    if i<index then
+      LEN=LEN+Offset2-1
+      OriginalString2=OriginalString2:sub(Offset2,-1)
+    else
+      LEN=LEN+Offset1-1
+      OriginalString2=OriginalString2:sub(Offset1,-1)
+    end
+  end
+  
+  return OriginalString:sub(1,LEN)..string.gsub(OriginalString2, pattern, replacestring, 1), true
+end
+
+
+function ultraschall.ConvertFunction_ToBase64String(to_convert_function, debug)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertFunction_ToBase64String</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string BASE64_functionstring = ultraschall.ConvertFunction_ToBase64String(function to_convert_function, boolean debug)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Converts a function into a BASE64-string.
+    
+    To load a function from a BASE64-string, use [ConvertFunction_FromBase64String](#ConvertFunction_FromBase64String)
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string BASE64_functionstring - the function, stored as BASE64-string
+  </retvals>
+  <parameters>
+    function to_convert_function - the function, that you want to convert
+    boolean debug - true, store debug-information as well; false, only store function
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, function, base64</tags>
+</US_DocBloc>
+]]
+  if type(to_convert_function)~="function" then ultraschall.AddErrorMessage("ConvertFunction_ToBase64String", "to_convert_function", "must be a function", -1) return end
+  
+  local Dump=string.dump (to_convert_function, debug)
+  local DumpBase64 = ultraschall.Base64_Encoder(Dump)
+  
+  return DumpBase64
+end
+
+function ultraschall.ConvertFunction_FromBase64String(BASE64_functionstring)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertFunction_FromBase64String</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>function function = ultraschall.ConvertFunction_FromBase64String(string BASE64_functionstring)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Loads a function from a BASE64-string.
+    
+    To convert a function into a BASE64-string, use [ConvertFunction_ToBase64String](#ConvertFunction_ToBase64String)
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    function func - the loaded function
+  </retvals>
+  <parameters>
+    string BASE64_functionstring - the function, stored as BASE64-string
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, load, function, base64</tags>
+</US_DocBloc>
+]]
+  if type(BASE64_functionstring)~="string" then ultraschall.AddErrorMessage("ConvertFunction_FromBase64String", "BASE64_functionstring", "must be a string", -1) return end
+
+  local Dump = ultraschall.Base64_Decoder(BASE64_functionstring)
+  if Dump==nil then ultraschall.AddErrorMessage("ConvertFunction_FromBase64String", "BASE64_functionstring", "no valid Base64-string", -2) return false end
+  local function2=load(Dump)
+  if type(function2)~="function" then ultraschall.AddErrorMessage("ConvertFunction_FromBase64String", "BASE64_functionstring", "no function found", -3) return end
+  return function2
+end
 
 
 --ultraschall.UpdateMediaExplorer()

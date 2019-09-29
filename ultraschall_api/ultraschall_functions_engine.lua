@@ -1269,33 +1269,63 @@ end
 
 ultraschall.OperationHoHoHo()
 
-dofile(script_path .. "Modules/ultraschall_functions_Render_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Clipboard_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_AutomationItems_Module.lua")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 dofile(script_path .. "Modules/ultraschall_functions_AudioManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Ultraschall_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_AutomationItems_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_Clipboard_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_Color_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_ConfigurationFiles_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_ConfigurationSettings_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_DeferManagement_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_Envelope_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_EventManager.lua")
+dofile(script_path .. "Modules/ultraschall_functions_FileManagement_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_FXManagement_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_HelperFunctions_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_Localize_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_Markers_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_MediaItem_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_MetaData_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_MIDIManagement_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_Muting_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_Navigation_Module.lua")
 dofile(script_path .. "Modules/ultraschall_functions_ProjectManagement_Module.lua")
 dofile(script_path .. "Modules/ultraschall_functions_ProjectManagement_ProjectFiles_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_MediaItem_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_MediaItem_MediaItemStates_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_HelperFunctions_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ReaperUserInterface_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_DeferManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Muting_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Color_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ConfigurationSettings_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_FileManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Markers_Module.lua")
 dofile(script_path .. "Modules/ultraschall_functions_ReaMote_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Navigation_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_FXManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_ConfigurationFiles_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Localize_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_MIDIManagement_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_MetaData_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_Envelope_Module.lua")
-dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_ReaperUserInterface_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_Render_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_Module.lua")
 dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_Routing_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_TrackManagement_TrackStates_Module.lua")
+dofile(script_path .. "Modules/ultraschall_functions_Ultraschall_Module.lua")
 
 ultraschall.ShowLastErrorMessage()

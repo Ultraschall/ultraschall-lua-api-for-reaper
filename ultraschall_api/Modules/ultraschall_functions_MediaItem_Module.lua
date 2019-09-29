@@ -4854,3 +4854,47 @@ function ultraschall.IsSplitAtPosition(trackstring, position)
   return false
 end
 
+function ultraschall.GetMediaItemNumber(MediaItem)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetMediaItemNumber</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer itemidx = ultraschall.GetMediaItemNumber(MediaItem MediaItem)</functioncall>
+  <description>
+    returns the indexnumber of a MediaItem-object
+    
+    Can be helpful with Reaper's own API-functions, like reaper.GetMediaItem(ReaProject proj, integer itemidx)
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose itemidx you want to have
+  </parameters>
+  <retvals>
+    integer itemidx - the indexnumber of the MediaItem, zero based. 
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitem management, get, itemindex, itemidx</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("GetMediaItemNumber", "MediaItem", "must be a valid MediaItem-object", -1) return -1 end
+  local MediaTrack = reaper.GetMediaItem_Track(MediaItem)
+  local ItemNr = reaper.GetMediaItemInfo_Value(MediaItem, "IP_ITEMNUMBER")
+  local TrackNumber=reaper.GetMediaTrackInfo_Value(MediaTrack, "IP_TRACKNUMBER")
+  local Count=0
+  for i=1, TrackNumber-1 do
+    Count=Count+reaper.GetTrackNumMediaItems(reaper.GetTrack(0,i-1))
+  end
+  Count=Count+ItemNr
+  return math.tointeger(Count)
+end
+

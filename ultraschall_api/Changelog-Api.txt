@@ -1,9 +1,17 @@
 <TODO>
-    For 4.00beta2.77
+    For 4.00beta2.78
+
+Additions:
+   - Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point
+   - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
+   - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper
+   - MediaItem Management: GetMediaItem_ClickState - returns the currently clicked MediaItem
+   - MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project
+   - Project Management: SaveProjectAs - saves the current project under a new filename
+
+        - TODO!! XML-versions of the USDOCML-docsfiles
         - TODO!! in the eventmanager-script: 
-            - Code vom Eventmanager muss kommentiert werden!!!
-            - Ich brauch noch ein paar StartUp-functions, um das besser managen zu können(Enumerate).
-                Set sollte es möglich machen Sachen optional zu ändern: pass nil and keep old setting
+            - Set sollte es möglich machen Sachen optional zu ändern: pass nil and keep old setting
             - EventManager_SetEvent muss es ermöglichen, dass man Parameter auf nil setzen kann, die man nicht ändern will(Ausnahme: ActionList-table)!
             - CheckEveryXSeconds: mach Wert 0 zu permanent und negative Werte zu EveryXDeferCycle-Werten für mehr Kontrolle darüber(letzteres Kür)
             - CheckForXSeconds: mach Wert 0 zu dauerhaft und evtl negative Werte für Anzahl Defer-Cycles, die gecheckt werden soll(letzteres Kür)
@@ -16,49 +24,6 @@
                       tempfile2=string.gsub(tempfile2, " ", "%%20")
                       Notes: really tempfile2(!)? And, do I need to exchange only on source or also on target-file?
                       
-         - TODO!! Eventmanager - make it working
-            Event-System, as defined on the Congress
-            -- too difficult to use, needs a better way to deal with it...
-            maybe by passing functions to the event-manager:
-                You write a function, which in a very efficient/ressourcefriendly way returns "true" under certain conditions.
-                You pass it to the eventmanager and tell it to run script/action xyz, maybe with parameters like returned returnvalues by the passed function.
-                
-                Needs more research, though much easier and more flexible than my previous attempt.
-                
-                Use the following approach:
-                    Der Eventmanager wird gestartet und geht eine Table durch, in der lauter Funktionen drin stehn.
-                    Jede dieser Funktionen wird gestartet und wenn die Funktion true zurückgibt, startet sie die dazu gehörigen Action(s) in den jeweiligen Sections(Main und MediaExplorer am Anfang)
-                    Jede dieser Funktionen kann nun noch vier weitere Attribute haben:
-                        - nur alle x Sekunden ausführen
-                        - nur x-mal checken(0-bis auf Widerruf)
-                        - wenn true erreicht, starte die Actions nur einmal oder starte die Actions mehrfach
-                        - ein Identifier, mit dem man das Event beenden/bearbeiten kann
-                        - der Scriptidentifier des Scripts, das das Event hinzugefügt hat(um später alles wieder beenden zu können)
-                    Der Eventmanager erlaubt nun alle derzeitig vorhandenen Events zu requesten und zurückzugeben(evtl sollen sie in nem extstate sofort eingetragen werden, dass sie jederzeit abgerufen werden können?), so dass man sehen kann, welche Events sind gesetzt mit welchen Attributen und Actions
-                    Der Eventmanager erlaubt das hinzufügen, getten/setten und beenden solcher Events
-                    Mehr kann und soll er nicht können.
-                    
-                    Um nun eine Funktion dort einzubringen, schreibt man ein Skript, in welchem man eine Funktion unterbringt, die das Event abfragen kann.
-                    Diese Funktion muss(!) als Erstes true oder false zurückgeben, darf optional noch ein weiteren Retval zurückgeben, der requested werden kann. Weitere werden ignoriert.
-                    Dann startet man den Event-Manager mit ultraschall.EventManager_Start(), egal, ob er schon gestartet ist oder nicht.
-                    Man übergibt nun die Funktion mit event_identifier = ultraschall.Eventmanager_AddNewEvent(function, seconds_to_live, check_every_x_seconds, actions_csv)
-                        Diese Funktion erstellt auch den identifier.
-                    Mit ultraschall.Eventmanager_StopEvent(identifier) kann man das Event beenden und entfernen.
-                    Identifier kann man auch als Nummer übergeben, dann wird der Reihenfolge in der Eventtable im Eventmanager nachgegangen.
-                    
-                    Wichtig:
-                    Jede Funktion, welche man in den Eventmanager schiebt, bekommt eine Table als Parameter übergeben, den sogenannten UserSpace, in welcher man sich seine wichtigsten Daten zwischenspeichern kann.
-                    Diese Table ist an das Event gebunden, sprich: selbst wenn man die gleiche Check-Funktion für zwei verschiedene Events nutzt, so hat man zwei UserSpace-Tables, eine für jeden Event.
-                    Diese Table wird als erster Parameter übergeben und kann als solcher ausgelesen und genutzt werden(muss aber nicht).
-                    
-                    Weitere Funktionen:
-                        ultraschall.Eventmanager_GetEventAttributes(identifier) - identifier kann auch eine Nummer sein, so dass man alle EventAttributes der Reihenfolge nach bekommen kann.
-                        ultraschall.Eventmanager_CountEvents() - gibt die Anzahl an vorhandenen Events zurück
-                        ultraschall.Eventmanager_SetEventAttributes(identifier, function, seconds_to_live, check_every_x_seconds, actions_csv) - nil als parameter bedeutet, keine Änderung an diesem Attribut
-                        ultraschall.Eventmanager_RemoveEvent(identifier) - identifier kann auch eine Nummer sein, so dass man alle EventAttributes der Reihenfolge nach bekommen kann.
-                        ultraschall.Eventmanager_GetAllEvents() - returns all events with all attributes currently managed by the eventmanager
-                        ultraschall.Eventmanager_Stop(optional string ScriptIdentifier) - stops the eventmanager, means, all events you've registered will be removed. Should be used in atexit-functions of defer-scripts.
-                                                                                            kann auch mit ScriptIdentifier aus anderem Skript heraus gestartet werden, so dass man eine "StartMyEvents" und "StopMyEvents" Action bauen kann.
         - TODO!! reaper.GetLastTouchedFX, reaper.GetFocusedFX - high word/low word-management is too difficult, make new functions of them
         - TODO!!  - Get/SetProject-functions for
         
@@ -226,10 +191,39 @@ TODO!! buggy function
 ## Ultraschall Framework - Changelog
 
 ### 4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 30th of September 2019
+
+Has now 1026 functions with 41 new ones! Yes, I crossed the thousand!  
+
+  **New in this release:**
+  
+  - **Event Manager**  
+  The EventManager allows you to run actions, when certain states occur/statechanges occur.  
+  That way you can automatise running actions under certain circumstances without having to run your own defer-script for that.  
+  
+  - **ShowXXXInputMenu**  
+  Shows different Context-menus, like TrackInput, TrackPanel, TrackArea, TrackRouting, Ruler, MediaItem, Track/TakeEnvelope,  
+  EnvelopePoint, EnvelopePoint for Automation Items, AutomationItems-contextmenu.  
+  Reaper's own function ShowPopupMenu is quite difficult to use, so I made some, who make it easier.  
+
+  - **RunLuaSourceCode**  
+  Runs Luacode directly without having to create a script for it.  
  
+  - **Main\_OnCommand\_LuaCode**  
+  Runs Luacode as child-script directly without having to create a script for it.  
+  
+  - **GetTimeByMouseXPosition**  
+  returns projecttime at x-screenposition  
+  
+  - **ReplacePatternInString**  
+  Like Lua's string.gsub(), this replaces a pattern within a string with a replacement string, but you can choose,  
+  which one shall be replaced. And unlike string.gsub() only that one will be replaced, not the occurences after that.  
+
+  - **Bugfixes and optimzations**  
+  Optimized and bugfixed tons of other stuff, thanks to many bugreports and a lot of feedback from many of you.  
+  Big thanks for that :)  
+  
 #### New features in 4.00beta2.77
    - Defer Management: GetDeferRunState - gets the current runstate of a ultraschall-defer-loop in the current or a specific scriptinstance(requested by rstockm)
-   - Envelope Management: GetTrackEnvelope_ClickState - returns the currently clicked TrackEnvelope-Point
    - Error Messaging System: SuppressErrorMessages - suppresses and unsuppresses error-messages of the error messaging system
    - EventManager: EventManager\_AddEvent - registers a new event to the EvenManager-checkingqueue
    - EventManager: EventManager\_AddStartupEvent - adds an event into the ini-file of the EventManager, to be registered at startup of the ini-file
@@ -255,14 +249,9 @@ TODO!! buggy function
    - Helper Functions: ConvertFunction\_ToBase64String - converts a function into a BASE64-string
    - Helper functions: Main\_OnCommand\_LuaCode - runs Luacode in a temporary new script, without the need to create it first
    - Helper functions: ReplacePatternInString - replaces a certain occurence(and only that one) of a pattern in a string with a replacement
-   - Helper functions: RunLuaSourceCode - runs Lua-code directly from a string
-   - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
-   - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper
-   - MediaItem Management: GetMediaItem_ClickState - returns the currently clicked MediaItem
+   - Helper functions: RunLuaSourceCode - runs Lua-code directly from a string   
    - MediaItem Management: GetMediaItemNumber - returns the itemnumber of a MediaItem within a project(requested by XRaym)
-   - MediaItem Management: GetRecCounter - returns the highest rec-counter of all items/takes in the current project
    - Project Management: GetProjectFilename - returns the filename of a currently opened project
-   - Project Management: SaveProjectAs - saves the current project under a new filename
    - Project Management: SetProject\_GlobalAuto - sets global automation override-state a projectfile or a ProjectStateChunk
    - Project Management: SetProject\_Lock - sets locked-state of a projectfile or a ProjectStateChunk
    - Project Management: SetProject\_MasterAutomode - sets automation-mode of the mastertrack in a projectfile or a ProjectStateChunk
@@ -295,7 +284,7 @@ TODO!! buggy function
    - Helper Functions: IsValidMatchingPattern - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTime - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: SecondsToTimeString\_hh\_mm\_ss\_mss - moved to docs-index API-Helper functions -> Data Manipulation
-   - Helper Functions: SplitStringAtLineFeedToArray - didn't always return the last entry of the passed string -> fixed (thanks to Aurelien?)
+   - Helper Functions: SplitStringAtLineFeedToArray - didn't always return the last entry of the passed string -> fixed (thanks to Aurelien)
    - Helper Functions: TimeStringToSeconds\_hh\_mm\_ss\_mss - moved to docs-index API-Helper functions -> Data Manipulation
    - Helper Functions: TimeToSeconds - moved to docs-index API-Helper functions -> Data Manipulation
    - HWND: GetActionsHWND - moved to docs-index User Interface -> Reaper-Windowhandler
