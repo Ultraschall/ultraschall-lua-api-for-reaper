@@ -3356,4 +3356,172 @@ function ultraschall.ConvertFunction_FromBase64String(BASE64_functionstring)
   return function2
 end
 
+function ultraschall.EventManager_EnumerateStartupEvents(index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_EnumerateStartupEvents</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>string EventIdentifier, string Eventname, string CallerScriptIdentifier, number CheckAllXSeconds, number CheckForXSeconds, boolean StartActionsOnceDuringTrue, function CheckFunction, number NumberOfActions, table Actions = ultraschall.EventManager_EnumerateStartupEvents(integer index)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Enumerates already existing startupevents, that shall be automatically run at startup of the Ultraschall Event Manager.
+    
+    That means, if you start the EventManager, it will be started automatically to the EventManager-checking-queue, without the need of registering it by hand.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    integer index - the index of the StartUp-event, whose attributes you want to get; 1 for the first, etc
+  </parameters>
+  <retvals>
+    string EventIdentifier - the EventIdentifier of the startup-event
+    string EventName - a name for the startupevent
+    string CallerScriptIdentifier - the ScriptIdentifier of the script, which added this event to the StartUpEvents
+    integer CheckAllXSeconds - only check all x seconds; 0, for constant checking
+                             - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
+                             - This is due general limitations with backgroundscripts.
+    integer CheckForXSeconds - only check for x seconds; 0, check until the event is removed
+                             - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
+                             - This is due general limitations with backgroundscripts.
+    boolean StartActionsOnceDuringTrue - if the event occurred: 
+                                       -    true, run the actions only once; 
+                                       -    false, run until the CheckFunction returns false again
+    function CheckFunction - the function, which shall check if the event occurred
+    integer NumberOfActions - the number of actions currently registered with this event
+    table Actions - a table which holds all actions and their accompanying sections, who are run when the event occurred
+                  - each entry of the table is of the format "actioncommandid,section", e.g.:
+                  - 
+                  - Actions[1]="1007,0"
+                  - Actions[2]="1012,0"
+  </retvals>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, enumerate, startup, event, function, actions, section, action</tags>
+</US_DocBloc>
+--]]
+  --if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "", "Eventmanager not started yet", -1) return end
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("EventManager_EnumerateStartupEvents", "index", "must be an integer", -1) return end
+  if index<=0 then ultraschall.AddErrorMessage("EventManager_EnumerateStartupEvents", "index", "must be higher than 0", -2) return end
+  
+  local EventsIniFile=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
+  
+  local Entries={}
+  local EntriesCount=0
+  local replace
+
+  for k in string.gmatch(EventsIniFile, "Eventname: .-EndEvent") do    
+    EntriesCount=EntriesCount+1
+    if EntriesCount==index then 
+      local actions={}
+      local actionlist=k:match("CountOfActions.-\n(.-\n)EndEvent")
+      local actioncounter=0
+      for l in string.gmatch(actionlist, "(Action:.-\nSection:.-)\n") do
+        actioncounter=actioncounter+1
+        actions[actioncounter]=l:match("Action: (.-)\n")..","..l:match("\nSection: (.*)")
+      end
+      return k:match("EventIdentifier: (.-)\n"),
+             k:match("Eventname: (.-)\n"),
+             k:match("SourceScriptIdentifier: (.-)\n"),
+             tonumber(k:match("CheckAllXSeconds: (.-)\n")),
+             tonumber(k:match("CheckForXSeconds: (.-)\n")),
+             toboolean(k:match("StartActionsOnceDuringTrue: (.-)\n")),
+             ultraschall.ConvertFunction_FromBase64String(k:match("Function: (.-)\n")),
+             tonumber(k:match("CountOfActions: (.-)\n")),
+             actions
+    end
+  end
+end
+
+function ultraschall.EventManager_EnumerateStartupEvents2(EventIdentifier)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_EnumerateStartupEvents2</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>integer index, string EventIdentifier, string Eventname, string CallerScriptIdentifier, number CheckAllXSeconds, number CheckForXSeconds, boolean StartActionsOnceDuringTrue, function CheckFunction, number NumberOfActions, table Actions = ultraschall.EventManager_EnumerateStartupEvents2(string EventIdentifier)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Enumerates already existing startupevents by an EventIdentifier. 
+    
+    StartupEvents are events, that shall be automatically run at startup of the Ultraschall Event Manager.
+    That means, if you start the EventManager, it will be started automatically to the EventManager-checking-queue, without the need of registering it by hand.
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string EventIdentifier - the identifier of the StartupEvent, that you want to enumerate
+  </parameters>
+  <retvals>
+    integer index - the index of the StartUp-event, whose attributes you want to get; 1 for the first, etc
+    string EventIdentifier - the EventIdentifier of the startup-event
+    string EventName - a name for the startupevent
+    string CallerScriptIdentifier - the ScriptIdentifier of the script, which added this event to the StartUpEvents
+    integer CheckAllXSeconds - only check all x seconds; 0, for constant checking
+                             - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
+                             - This is due general limitations with backgroundscripts.
+    integer CheckForXSeconds - only check for x seconds; 0, check until the event is removed
+                             - this value will be used as approximate time, not necessarily exact. That means, 2 seconds given may be 2.5 in some cases!
+                             - This is due general limitations with backgroundscripts.
+    boolean StartActionsOnceDuringTrue - if the event occurred: 
+                                       -    true, run the actions only once; 
+                                       -    false, run until the CheckFunction returns false again
+    function CheckFunction - the function, which shall check if the event occurred
+    integer NumberOfActions - the number of actions currently registered with this event
+    table Actions - a table which holds all actions and their accompanying sections, who are run when the event occurred
+                  - each entry of the table is of the format "actioncommandid,section", e.g.:
+                  - 
+                  - Actions[1]="1007,0"
+                  - Actions[2]="1012,0"
+  </retvals>
+  <chapter_context>
+    Event Manager
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>event manager, enumerate, startup, event, function, actions, section, action</tags>
+</US_DocBloc>
+--]]
+  --if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "", "Eventmanager not started yet", -1) return end
+  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_EnumerateStartupEvents2", "string", "must be a string", -1) return end
+  if EventIdentifier:match("Ultraschall_Eventidentifier: %{........%-....%-....%-....%-............%}")==nil then ultraschall.AddErrorMessage("EventIdentifier", "EventIdentifier", "must be a valid Event Identifier", -2) return false, false end
+  
+  local EventsIniFile=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
+  
+  local Entries={}
+  local EntriesCount=0
+  local replace
+  EventIdentifier=string.gsub(EventIdentifier, "-", "%%-")
+  
+  for k in string.gmatch(EventsIniFile, "Eventname: .-EndEvent") do 
+    EntriesCount=EntriesCount+1
+    if k:match(EventIdentifier)~=nil then 
+      local actions={}
+      local actionlist=k:match("CountOfActions.-\n(.-\n)EndEvent")
+      local actioncounter=0
+      for l in string.gmatch(actionlist, "(Action:.-\nSection:.-)\n") do
+        actioncounter=actioncounter+1
+        actions[actioncounter]=l:match("Action: (.-)\n")..","..l:match("\nSection: (.*)")
+      end
+      return EntriesCount, 
+             k:match("EventIdentifier: (.-)\n"),
+             k:match("Eventname: (.-)\n"),
+             k:match("SourceScriptIdentifier: (.-)\n"),
+             tonumber(k:match("CheckAllXSeconds: (.-)\n")),
+             tonumber(k:match("CheckForXSeconds: (.-)\n")),
+             toboolean(k:match("StartActionsOnceDuringTrue: (.-)\n")),
+             ultraschall.ConvertFunction_FromBase64String(k:match("Function: (.-)\n")),
+             tonumber(k:match("CountOfActions: (.-)\n")),
+             actions
+    end
+  end
+end
+
 ultraschall.ShowLastErrorMessage()

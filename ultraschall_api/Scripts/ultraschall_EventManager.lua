@@ -3,11 +3,6 @@
 --
 -- Issues: Api functions don't recognize registered EventIdentifiers who weren't processed yet by the EventManager.
 --         Must be fixed
--- ToDo: Managen, dass nur ein Eventmanager gestartet wird
---       Es sollte möglich sein Actions in verschiedenen Sections zu starten, zumindest Main und MediaExplorer(beide drin), Midi wäre auch nice
---
--- Api eigene Funktionen:
---      StartEventManager, StopEventManager, GetEventStateChunk, PauseEvent
 
 --[[
 EventStateChunk-specs:
@@ -62,6 +57,7 @@ EventTable={}
 CountOfEvents=0
 
 function atexit()
+  -- reset EventManager-extstates, when EventManager is stopped
   reaper.DeleteExtState("ultraschall_eventmanager", "running", false)
   reaper.DeleteExtState("ultraschall_eventmanager", "eventregister", false)
   reaper.DeleteExtState("ultraschall_eventmanager", "eventremove", false)
@@ -77,6 +73,7 @@ reaper.atexit(atexit)
 OPO = reaper.SetExtState("ultraschall_eventmanager", "running", "true", false)
 
 function GetIDFromEventIdentifier(EventIdentifier)
+  -- get the ID in the EventTable, from an EventIdentifier
   for i=1, CountOfEvents do
     if EventTable[i]["EventIdentifier"]==EventIdentifier then
       return i
@@ -86,17 +83,20 @@ function GetIDFromEventIdentifier(EventIdentifier)
 end
 
 function PauseEvent(id)
+  -- pauses an event by ID of a EventTable
   EventTable[id]["Paused"]=true
   UpdateEventList_ExtState()
 end
 
 function ResumeEvent(id)
+  -- resumes an event by ID of a EventTable
   EventTable[id]["Paused"]=false
   UpdateEventList_ExtState()
 end
 
 function RemoveEvent_ScriptIdentifier2(ScriptIdentifier)
-  -- diese hier aufrufen, wenn User den Eventmanager beenden will
+  -- removes all events, started by a specific Script with a specific ScriptIdentifier
+  -- if number of available events is 0 then this stops the EventManager as well.
   for i=CountOfEvents, 1, -1 do
     if ScriptIdentifier==EventTable[i]["ScriptIdentifier"] then
       --print(ScriptIdentifier,EventTable[i]["ScriptIdentifier"])
@@ -109,8 +109,7 @@ function RemoveEvent_ScriptIdentifier2(ScriptIdentifier)
 end
 
 function RemoveEvent_ScriptIdentifier(script_identifier)
--- remove event by script_identifier
--- diese hier aufrugen, wenn User nur seine Events beenden will aber nicht den EventManager
+  -- removes all events, started by a specific Script with a specific ScriptIdentifier
   for i=CountOfEvents, 1, -1 do
     if EventTable[i]["ScriptIdentifier"]==script_identifier then
       table.remove(EventTable,i)
@@ -121,7 +120,7 @@ function RemoveEvent_ScriptIdentifier(script_identifier)
 end
 
 function PauseEvent_Identifier(identifier)
--- pause event by identifier
+-- pause event by EventIdentifier
   for i=1, CountOfEvents do
     if EventTable[i]["EventIdentifier"]==identifier then
       PauseEvent(i)
@@ -131,7 +130,7 @@ function PauseEvent_Identifier(identifier)
 end
 
 function ResumeEvent_Identifier(identifier)
--- remove event by identifier
+-- remove event by EventIdentifier
   for i=1, CountOfEvents do
     if EventTable[i]["EventIdentifier"]==identifier then
       ResumeEvent(i)
@@ -142,7 +141,9 @@ end
 
 
 function AddEvent(EventStateChunk)
---  print2(EventStateChunk)
+  -- Adds a new event to the EventTable from an EventStateChunk
+  
+  -- parse EventStateChunk
   local EventName=EventStateChunk:match("Eventname: (.-)\n")
   local EventIdentifier=EventStateChunk:match("EventIdentifier: (.-)\n")
   local SourceScriptIdentifier=EventStateChunk:match("SourceScriptIdentifier: (.-)\n")
@@ -155,6 +156,7 @@ function AddEvent(EventStateChunk)
   local CountOfActions,offset=EventStateChunk:match("CountOfActions: (.-)\n()")  
   local CountOfActions=tonumber(CountOfActions)
   
+  -- if EventStateChunk is missing stuff, throw an error and don't try to add the event further
   if EventName==nil or
      EventIdentifier==nil or
      SourceScriptIdentifier==nil or
@@ -168,50 +170,64 @@ function AddEvent(EventStateChunk)
   end
   local actions=EventStateChunk:sub(offset,-1)
   
+  -- parse actionlist from the EventStateChunk
+  -- if there's an invalid entry, throw an error and don't try to add the event further
   local ActionsTable={}
   for i=1, CountOfActions do
     ActionsTable[i]={}
     ActionsTable[i]["action"], ActionsTable[i]["section"], offset=actions:match("Action: (.-)\nSection: (.-)\n()")
     if ActionsTable[i]["action"]:sub(1,1)=="_" then
-      ActionsTable[i]["action"]=reaper.NamedCommandLookup(ActionsTable[i]["action"])
+      temp=reaper.NamedCommandLookup(ActionsTable[i]["action"])      
+      if temp==0 then 
+        print("This action is not registered currently in Reaper:"..ActionsTable[i]["section"].." - "..ActionsTable[i]["action"].."\nEvent not added.\n")
+        return
+      else
+        ActionsTable[i]["action"]=temp
+      end
     end
     ActionsTable[i]["action"]=tonumber(ActionsTable[i]["action"])
     ActionsTable[i]["section"]=tonumber(ActionsTable[i]["section"])
+    --print2(ActionsTable[i]["action"].." hiu")
     if ActionsTable[i]["section"]==nil or ActionsTable[i]["action"]==nil then
       print(ActionsTable[i]["section"], ActionsTable[i]["action"])
       print("An error happened, while adding the event to the eventmanager. Please report this as a bug to me: \n\n\t\tultraschall.fm/api \n\nPlease include the following lines in your bugreport(screenshot is sufficient): \n\n"..EventStateChunk)
+      return
     end
     actions=actions:sub(offset,-1)
   end
   
+  
+  -- add the event to the EventManager-table
   CountOfEvents=CountOfEvents+1
   EventTable[CountOfEvents]={}
   -- Attributes
-  EventTable[CountOfEvents]["EventName"]=EventName
-  EventTable[CountOfEvents]["Function"]=load(ultraschall.Base64_Decoder(Function))
-  EventTable[CountOfEvents]["FunctionOrg"]=Function
-  EventTable[CountOfEvents]["CheckAllXSeconds"]=CheckAllXSeconds                         -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; 0, checke jeden defer-cycle(~30 times per second)
-  EventTable[CountOfEvents]["CheckAllXSeconds_current"]=nil               -- CheckZeit an dem Event gecheckt wird; wird gesetzt durch EventManager
-  EventTable[CountOfEvents]["CheckForXSeconds"]=CheckForXSeconds                        -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; 0, checke bis auf Widerruf
-  EventTable[CountOfEvents]["CheckForXSeconds_current"]=nil               -- StopZeit ab wann Event nicht mehr gecheckt wird; wird gesetzt durch EventManager
-  EventTable[CountOfEvents]["StartActionsOnceDuringTrue"]=StartActionsOnceDuringTrue           -- drin
-  EventTable[CountOfEvents]["StartActionsOnceDuringTrue_laststate"]=false -- drin
-  EventTable[CountOfEvents]["ScriptIdentifier"]=SourceScriptIdentifier                        -- script-identifier, damit alle events des scripts beendet werden können
-  EventTable[CountOfEvents]["EventIdentifier"]=EventIdentifier                              -- eindeutiger identifier für dieses Event
-  EventTable[CountOfEvents]["CountOfActions"]=CountOfActions                           -- drin
-  EventTable[CountOfEvents]["Paused"]=Paused
-  EventTable[CountOfEvents]["UserSpace"]={}
+  EventTable[CountOfEvents]["EventName"]=EventName                                  -- the name of the event, can happen multiple times
+  EventTable[CountOfEvents]["Function"]=load(ultraschall.Base64_Decoder(Function))  -- the checking function
+  EventTable[CountOfEvents]["FunctionOrg"]=Function                                 -- the Base64-encoded version of the checking-function
+  EventTable[CountOfEvents]["CheckAllXSeconds"]=CheckAllXSeconds                    -- check all X seconds; 0 for constant checking; only approximate time due API restrictions
+  EventTable[CountOfEvents]["CheckAllXSeconds_current"]=nil                         -- current checking time(internal value), to check agains if CheckAllXSeconds has been reached
+  EventTable[CountOfEvents]["CheckForXSeconds"]=CheckForXSeconds                    -- check for X seconds; 0 for unlimited checking; only approximate time due API restrictions
+  EventTable[CountOfEvents]["CheckForXSeconds_current"]=nil                         -- current stop-timeout-time(internal value), to check agains if CheckForXSeconds has been reached
+  EventTable[CountOfEvents]["StartActionsOnceDuringTrue"]=StartActionsOnceDuringTrue-- shall the actions run only once(true) or constantly while checkfunction returns true(false)
+  EventTable[CountOfEvents]["StartActionsOnceDuringTrue_laststate"]=false           -- StartActionsOnceDuringTrue laststate(internal value); for state-transitions
+  EventTable[CountOfEvents]["ScriptIdentifier"]=SourceScriptIdentifier              -- ScriptIdentifier of the script, which added the Event; to stop all events of a specific script if needed
+  EventTable[CountOfEvents]["EventIdentifier"]=EventIdentifier                      -- unique identifier for this event
+  EventTable[CountOfEvents]["CountOfActions"]=CountOfActions                        -- number of actions that shall be run by this event
+  EventTable[CountOfEvents]["Paused"]=Paused                                        -- paused-state; true, event is not checked currently; false, event is checked currently
+  EventTable[CountOfEvents]["UserSpace"]={}                                         -- the userspace for the checking-function, into which the checking-function can add temporary information
   
-  
+  -- add the actions and sections
   for i=1, CountOfActions do
     EventTable[CountOfEvents][i]=ActionsTable[i]["action"]
     EventTable[CountOfEvents]["sec"..i]=ActionsTable[i]["section"]
   end
-  UpdateEventList_ExtState()
+  UpdateEventList_ExtState() -- update the EventList-extstate, which is used by Enumerate-functions of the EventManager-API-functions
 end
 
 function SetEvent(EventStateChunk)
---  print2(EventStateChunk)
+  -- sets attributes of an already existing event by an EventStateChunk
+  
+  -- parse the EventStateChunk
   local EventName=EventStateChunk:match("Eventname: (.-)\n")
   local EventIdentifier=EventStateChunk:match("EventIdentifier: (.-)\n")
   local SourceScriptIdentifier=EventStateChunk:match("SourceScriptIdentifier: (.-)\n")
@@ -223,6 +239,7 @@ function SetEvent(EventStateChunk)
   local CountOfActions,offset=EventStateChunk:match("CountOfActions: (.-)\n()")  
   local CountOfActions=tonumber(CountOfActions)
   
+  -- if any attribute is missing, throw an error and stop setting this event
   if EventName==nil or
      EventIdentifier==nil or
      SourceScriptIdentifier==nil or
@@ -235,16 +252,28 @@ function SetEvent(EventStateChunk)
       return
   end
   local actions=EventStateChunk:sub(offset,-1)
-  
+
+  -- parse actions and accompanying sections for this event from the EventStateChunk 
+  -- if any action is invalid, throw an error and stop setting this event
   local ActionsTable={}
   for i=1, CountOfActions do
     ActionsTable[i]={}
     ActionsTable[i]["action"], ActionsTable[i]["section"], offset=actions:match("Action: (.-)\nSection: (.-)\n()")
+    if ActionsTable[i]["action"]:sub(1,1)=="_" then
+      temp=reaper.NamedCommandLookup(ActionsTable[i]["action"])      
+      if temp==0 then 
+        print("This action is not registered currently in Reaper:"..ActionsTable[i]["section"].." - "..ActionsTable[i]["action"].."\nEvent not added.\n")
+        return
+      else
+        ActionsTable[i]["action"]=temp
+      end
+    end
     ActionsTable[i]["action"]=tonumber(ActionsTable[i]["action"])
     ActionsTable[i]["section"]=tonumber(ActionsTable[i]["section"])
     if ActionsTable[i]["section"]==nil or ActionsTable[i]["action"]==nil then
       print(ActionsTable[i]["section"], ActionsTable[i]["action"])
       print("An error happened, while setting the event in the eventmanager. Please report this as a bug to me: \n\n\t\tultraschall.fm/api \n\nPlease include the following lines in your bugreport(screenshot is sufficient): \n\n"..EventStateChunk)
+      return
     end
     actions=actions:sub(offset,-1)
   end
@@ -253,36 +282,37 @@ function SetEvent(EventStateChunk)
   EventID=GetIDFromEventIdentifier(EventIdentifier)
   if EventID==-1 then return end
   -- Attributes
-  EventTable[EventID]["EventName"]=EventName
-  EventTable[EventID]["Function"]=load(ultraschall.Base64_Decoder(Function))
-  EventTable[EventID]["CheckAllXSeconds"]=CheckAllXSeconds                         -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; 0, checke jeden defer-cycle(~30 times per second)
-  EventTable[EventID]["CheckAllXSeconds_current"]=nil               -- CheckZeit an dem Event gecheckt wird; wird gesetzt durch EventManager
-  EventTable[EventID]["CheckForXSeconds"]=CheckForXSeconds                        -- drin, kann nicht 100% präzise angegeben werden, wegen defer-Management-lag; 0, checke bis auf Widerruf
-  EventTable[EventID]["CheckForXSeconds_current"]=nil               -- StopZeit ab wann Event nicht mehr gecheckt wird; wird gesetzt durch EventManager
-  EventTable[EventID]["StartActionsOnceDuringTrue"]=StartActionsOnceDuringTrue           -- drin
-  EventTable[EventID]["StartActionsOnceDuringTrue_laststate"]=false -- drin
-  EventTable[EventID]["ScriptIdentifier"]=SourceScriptIdentifier                        -- script-identifier, damit alle events des scripts beendet werden können
-  EventTable[EventID]["CountOfActions"]=CountOfActions                           -- drin
-  EventTable[EventID]["Paused"]=Paused
-  EventTable[EventID]["UserSpace"]={}
+  EventTable[EventID]["EventName"]=EventName                                    -- the name of the event, can happen multiple times
+  EventTable[EventID]["Function"]=load(ultraschall.Base64_Decoder(Function))    -- the checking function
+  EventTable[EventID]["FunctionOrg"]=Function                                   -- the Base64-encoded version of the checking-function
+  EventTable[EventID]["CheckAllXSeconds"]=CheckAllXSeconds                      -- check all X seconds; 0 for constant checking; only approximate time due API restrictions
+  EventTable[EventID]["CheckAllXSeconds_current"]=nil                           -- current checking time(internal value), to check agains if CheckAllXSeconds has been reached
+  EventTable[EventID]["CheckForXSeconds"]=CheckForXSeconds                      -- check for X seconds; 0 for unlimited checking; only approximate time due API restrictions        
+  EventTable[EventID]["CheckForXSeconds_current"]=nil                           -- current stop-timeout-time(internal value), to check agains if CheckForXSeconds has been reached
+  EventTable[EventID]["StartActionsOnceDuringTrue"]=StartActionsOnceDuringTrue  -- shall the actions run only once(true) or constantly while checkfunction returns true(false) 
+  EventTable[EventID]["StartActionsOnceDuringTrue_laststate"]=false             -- StartActionsOnceDuringTrue laststate(internal value); for state-transitions
+  EventTable[EventID]["ScriptIdentifier"]=SourceScriptIdentifier                -- ScriptIdentifier of the script, which added the Event; to stop all events of a specific script if needed
+  EventTable[EventID]["CountOfActions"]=CountOfActions                          -- number of actions that shall be run by this event
+  EventTable[EventID]["Paused"]=Paused                                          -- paused-state; true, event is not checked currently; false, event is checked currently
+  EventTable[EventID]["UserSpace"]={}                                           -- the userspace for the checking-function, into which the checking-function can add temporary information
   
-  
+  -- add the actions and sections  
   for i=1, CountOfActions do
     EventTable[EventID][i]=ActionsTable[i]["action"]
     EventTable[EventID]["sec"..i]=ActionsTable[i]["section"]
   end
-  UpdateEventList_ExtState()
+  UpdateEventList_ExtState() -- update the EventList-extstate, which is used by Enumerate-functions of the EventManager-API-functions
 end
 
 function RemoveEvent_ID(id)
--- remove event by id
+-- remove event by id in the EventTable
   table.remove(EventTable, id)
   CountOfEvents=CountOfEvents-1
   UpdateEventList_ExtState()
 end
 
 function RemoveEvent_Identifier(identifier)
--- remove event by identifier
+-- remove event by EventIdentifier
   for i=1, CountOfEvents do
     if EventTable[i]["EventIdentifier"]==identifier then
       table.remove(EventTable,i)
@@ -306,6 +336,8 @@ end
 
 
 function CheckCommandsForEventManager()
+  -- check for commands, send to the EventManager by multiple scripts
+
   -- Add Events
   if reaper.GetExtState("ultraschall_eventmanager", "eventregister")~="" then
     StateRegister=reaper.GetExtState("ultraschall_eventmanager", "eventregister")
@@ -375,6 +407,8 @@ end
 
 
 function main()
+  -- main event-checking-loop
+  -- this is, were all the magix happens
   current_state=nil  
   
   for i=1, CountOfEvents do
@@ -458,6 +492,7 @@ function UpdateEventList_ExtState()
   -- puts all current events and their attributes into an extstate, which can be read from other scripts
   local String="EventManager State\nLast update: "..os.date().."\nNumber of Events: "..CountOfEvents.."\n\n"
   for i=1, CountOfEvents do
+--    print2(String)
     String=String.."Event #:"..i..
         "\nEventName: "..EventTable[i]["EventName"]..
         "\nEventIdentifier: "..EventTable[i]["EventIdentifier"]..
@@ -469,7 +504,14 @@ function UpdateEventList_ExtState()
         "\nFunction: ".. EventTable[CountOfEvents]["FunctionOrg"]..
         "\nNumber of Actions: "..EventTable[i]["CountOfActions"].."\n"
         for a=1, EventTable[i]["CountOfActions"] do
-          String=String..a.." - ".." section: "..EventTable[i]["sec"..a].." action: "..EventTable[i][a].."\n"
+          String=String..
+                  a..
+                  " - "..
+                  " section: "..
+                  EventTable[i]["sec"..a]..
+                  " action: "..
+                  EventTable[i][a]..
+                  "\n"
         end
         String=String.."EndEvent".."\n"
   end
@@ -485,9 +527,9 @@ function StopAction()
 end
 
 
-UpdateEventList_ExtState()
 
 function InitialiseStartupEvents()
+  -- load events stored in the EventManager_Startup.ini, who will be started immediately at startup of the EventManager
   StartUp=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
   for k in string.gmatch(StartUp, "(.-EndEvent)") do
     AddEvent(k)
@@ -495,8 +537,10 @@ function InitialiseStartupEvents()
   
 end
 
-
-reaper.DeleteExtState("ultraschall_eventmanager", "eventstop_scriptidentifier", false)
-InitialiseStartupEvents()
-main()
+reaper.DeleteExtState("ultraschall_eventmanager", "eventstop_scriptidentifier", false) -- reset eventstop_scriptidentifier, 
+                                                                                       -- as otherwise, if this is set at startup of the EventManager, 
+                                                                                       -- it is stopped immediately again
+InitialiseStartupEvents()  -- load StartUp Events
+UpdateEventList_ExtState() -- update the EventList-extstate, which is used by Enumerate-functions of the EventManager-API-functions
+main()                     -- start the checking
 
