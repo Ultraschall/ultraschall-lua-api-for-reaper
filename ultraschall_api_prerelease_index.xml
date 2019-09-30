@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40656.00" author="Meo Mespotine">
+      <version name="40659.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Changelog-Api.txt</source>
@@ -393,8 +393,8 @@ Has now 1029 functions with 44 new ones! Yes, I crossed the thousand!
 NEW IN THIS RELEASE:
 
 -   EVENT MANAGER
-    Killer Feature Time and long requested by many of you! The
-    EventManager allows you to run actions, when certain states
+    Killer Feature Time and long requested by many of you!
+    The EventManager allows you to run actions, when certain states
     occur/statechanges occur.
     That way you can automatise running actions under certain
     circumstances without having to run your own defer-script for that.
@@ -491,8 +491,9 @@ New features in 4.00beta2.77
     the ini-file
 -   EventManager: EventManager_Start - starts the EventManager
 -   EventManager: EventManager_Stop - removes all events registered by
-    the current script; stops the EventManager, if all scripts who have
-    registered events have used this function
+    the current script/a specific ScriptIdentifier; stops the
+    EventManager, if all scripts who have registered events have used
+    this function
 -   EventManager: Ultraschall_EventManager.lua - the backgroundscript
     for the EventManager
 -   Helper Functions: ConvertFunction_FromBase64String - loads a

@@ -194,7 +194,7 @@ Has now 1029 functions with 44 new ones! Yes, I crossed the thousand!
   **New in this release:**
   
   - **Event Manager**  
-  Killer Feature Time and long requested by many of you!
+  Killer Feature Time and long requested by many of you!  
   The EventManager allows you to run actions, when certain states occur/statechanges occur.  
   That way you can automatise running actions under certain circumstances without having to run your own defer-script for that.  
   
@@ -252,7 +252,7 @@ Has now 1029 functions with 44 new ones! Yes, I crossed the thousand!
    - EventManager: EventManager\_SetEvent - sets an already existing event in the EvenManager-checkingqueue
    - EventManager: EventManager\_SetStartupEvent - sets an event in the ini-file of the EventManager, which will be registered at startup of the ini-file
    - EventManager: EventManager\_Start - starts the EventManager
-   - EventManager: EventManager\_Stop - removes all events registered by the current script; stops the EventManager, if all scripts who have registered events have used this function
+   - EventManager: EventManager\_Stop - removes all events registered by the current script/a specific ScriptIdentifier; stops the EventManager, if all scripts who have registered events have used this function
    - EventManager: Ultraschall\_EventManager.lua - the backgroundscript for the EventManager
    - Helper Functions: ConvertFunction\_FromBase64String - loads a function from a BASE64-string
    - Helper Functions: ConvertFunction\_ToBase64String - converts a function into a BASE64-string

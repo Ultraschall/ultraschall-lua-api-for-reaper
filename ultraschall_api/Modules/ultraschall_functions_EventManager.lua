@@ -838,38 +838,39 @@ end
 
 --ultraschall.ScriptIdentifier=reaper.CF_GetClipboard("")
 
-function ultraschall.EventManager_End(force)
--- Still missing: if a script unregisters with this function, all events added by this script should be deleted this function automatically
+function ultraschall.EventManager_Stop(force, ScriptIdentifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>EventManager_End</slug>
+  <slug>EventManager_Stop</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.982
     Lua=5.3
   </requires>
-  <functioncall>ultraschall.EventManager_End(boolean force)</functioncall>
+  <functioncall>ultraschall.EventManager_Stop(optional boolean force, optional string ScriptIdentifier)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Unregisters the current script; will stop the EventManager if no scripts are registered anymore to the EventManager.
     
     You can use the parameter force to force stopping of the EventManager immediately.
   </description>
   <parameters>
-    boolean force - true, stops the EventManager, even if other scripts have registered events to it; false or nil, don't force stop
+    optional boolean force - true, stops the EventManager, even if other scripts have registered events to it; false or nil, don't force stop
+    optional string ScriptIdentifier - if you want to unregister events from a different script, pass here the ScriptIdentifier of this script; nil, use the ScriptIdentifier of the current script
   </parameters>
   <chapter_context>
     Event Manager
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>event manager, stop</tags>
+  <tags>event manager, stop, ScriptIdentifier</tags>
 </US_DocBloc>
 --]]
+  if ScriptIdentifier==nil then ScriptIdentifier=ultraschall.ScriptIdentifier end
   if force==true then 
     reaper.DeleteExtState("ultraschall_eventmanager", "running", false)
   else
     local Registered=reaper.GetExtState("ultraschall_eventmanager", "eventstop_scriptidentifier")
-    reaper.SetExtState("ultraschall_eventmanager", "eventstop_scriptidentifier", Registered..ultraschall.ScriptIdentifier.."\n", false)
+    reaper.SetExtState("ultraschall_eventmanager", "eventstop_scriptidentifier", Registered..ScriptIdentifier.."\n", false)
   end
 end
 
