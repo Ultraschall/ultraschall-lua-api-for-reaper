@@ -531,6 +531,7 @@ end
 function InitialiseStartupEvents()
   -- load events stored in the EventManager_Startup.ini, who will be started immediately at startup of the EventManager
   StartUp=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
+  if StartUp==nil then StartUp="" end
   for k in string.gmatch(StartUp, "(.-EndEvent)") do
     AddEvent(k)
   end

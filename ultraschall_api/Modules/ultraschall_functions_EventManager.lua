@@ -105,7 +105,9 @@ function ultraschall.EventManager_EnumerateStartupEvents(index)
   if math.type(index)~="integer" then ultraschall.AddErrorMessage("EventManager_EnumerateStartupEvents", "index", "must be an integer", -1) return end
   if index<=0 then ultraschall.AddErrorMessage("EventManager_EnumerateStartupEvents", "index", "must be higher than 0", -2) return end
   
+  if reaper.file_exists(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")==false then return end
   local EventsIniFile=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
+  
   
   local Entries={}
   local EntriesCount=0
@@ -189,6 +191,7 @@ function ultraschall.EventManager_EnumerateStartupEvents2(EventIdentifier)
   if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_EnumerateStartupEvents2", "string", "must be a string", -1) return end
   if EventIdentifier:match("Ultraschall_Eventidentifier: %{........%-....%-....%-....%-............%}")==nil then ultraschall.AddErrorMessage("EventIdentifier", "EventIdentifier", "must be a valid Event Identifier", -2) return false, false end
   
+  if reaper.file_exists(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")==false then return end
   local EventsIniFile=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
   
   local Entries={}
@@ -972,7 +975,11 @@ CountOfActions: ]]..ActionsCount.."\n"
 
   EventStateChunk2=EventStateChunk2.."EndEvent\n"
   
-  local OldEvents=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
+  
+  local OldEvents=""
+  
+  if reaper.file_exists(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")==true then ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini") end
+  
   ultraschall.WriteValueToFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini", OldEvents.."\n"..EventStateChunk2)
 end
 
@@ -1006,7 +1013,11 @@ function ultraschall.EventManager_RemoveStartupEvent(id)
 </US_DocBloc>
 --]]
    if math.type(id)~="integer" then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent", "id", "must be an integer", -1) return false end
+   
+   if reaper.file_exists(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")==false then return false end
+   
    local OldEvents=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
+   if OldEvents==nil then OldEvents="" end
    local count=0
    local NewEvents=""
    for k in string.gmatch(OldEvents, "(.-EndEvent)") do
@@ -1050,17 +1061,20 @@ function ultraschall.EventManager_RemoveStartupEvent2(EventIdentifier)
 --]]
   if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "must be a string", -1) return false end
   local A,B=ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
-  if A==false then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "must be a valid EventIdentifier", -2) return false end
+  if A==false then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "must be a valid EventIdentifier", -3) return false end
+  if reaper.file_exists(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")==false then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "so such Event", -2) return false end
   
   local OldEvents=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
   local count=0
   local NewEvents=""
   for k in string.gmatch(OldEvents, "(.-EndEvent)") do
-    if k:match("EventIdentifier: (.-)\n")~=EventIdentifier~=id then
+    
+    if k:match("EventIdentifier: (.-)\n")~=EventIdentifier then
       NewEvents=NewEvents..k
     end
   end
-  if NewEvents==OldEvents then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "so such Event", -3) return false end
+  
+  if NewEvents==OldEvents then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "so such Event", -4) return false end
   ultraschall.WriteValueToFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini", NewEvents)
   return true
 end
@@ -1089,11 +1103,13 @@ function ultraschall.EventManager_CountStartupEvents()
   <tags>event manager, startup, count, event</tags>
 </US_DocBloc>
 --]]
+  if reaper.file_exists(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")==false then return 0 end
   local EventsIniFile=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
   local count=0
   for k in string.gmatch(EventsIniFile, "Eventname%:(.-)EndEvent") do
     count=count+1
   end
+  
   return count
 end
 
@@ -1159,22 +1175,24 @@ function ultraschall.EventManager_SetStartupEvent(EventIdentifier, EventName, Ch
   if type(CheckFunction)~="function" then ultraschall.AddErrorMessage("EventManager_SetStartupEvent", "CheckFunction", "must be a function", -7) return end
   if type(Actions)~="table" then ultraschall.AddErrorMessage("EventManager_SetStartupEvent", "Actions", "must be a table", -8) return end
   
+  if reaper.file_exists(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")==false then ultraschall.AddErrorMessage("EventManager_SetStartupEvent", "EventIdentifier", "no such event", -9) return end
+  
   local EventsIniFile=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
   
   local Entries={}
   local EntriesCount=0
   local replace
-  EventIdentifier=string.gsub(EventIdentifier, "-", "%%-")
+  local NewEventIdentifier=string.gsub(EventIdentifier, "-", "%%-")
   for k in string.gmatch(EventsIniFile, "Eventname: .-EndEvent") do
     EntriesCount=EntriesCount+1
     Entries[EntriesCount]=k
     
-    if k:match(EventIdentifier)~=nil then replace=EntriesCount end
+    if k:match(NewEventIdentifier)~=nil then replace=EntriesCount end
   end
   
+  if replace==nil then ultraschall.AddErrorMessage("EventManager_SetStartupEvent", "EventIdentifier", "no such event", -12) return end
 
   local EventStateChunk=""  
-  local EventIdentifier="Ultraschall_Eventidentifier: "..reaper.genGuid()
   
   local ActionsCount = ultraschall.CountEntriesInTable_Main(Actions)
   local EventStateChunk2=[[
@@ -1197,7 +1215,6 @@ Function: ]]..ultraschall.Base64_Encoder(string.dump(CheckFunction))..[[
 CountOfActions: ]]..ActionsCount.."\n"
   for i=1, ActionsCount do
     if type(Actions[i])~="string" then ultraschall.AddErrorMessage("EventManager_AddStartupEvent", "Actions", "Entry number "..i.." must be contain valid _ActionCommandID-string/CommandID-integer,integer section for \"action,section\" (e.g. \"1007,0\" or \"_BR_PREV_ITEM_CURSOR,0\").", -10) return nil end
-    --Actions[i]=tostring(Actions[i])
     local Action, Section=Actions[i]:match("(.-),(.*)")
     
     if math.type(tonumber(Section))~="integer" or 
@@ -1214,7 +1231,8 @@ CountOfActions: ]]..ActionsCount.."\n"
   
   for i=1, EntriesCount do
     if i~=replace then OldEvents=OldEvents..Entries[i].."\n\n"
-    else OldEvents=OldEvents..EventStateChunk2.."\n"
+    else 
+        OldEvents=OldEvents..EventStateChunk2.."\n"
     end
   end
 

@@ -197,6 +197,7 @@ Has now 1029 functions with 44 new ones! Yes, I crossed the thousand!
   Killer Feature Time and long requested by many of you!  
   The EventManager allows you to run actions, when certain states occur/statechanges occur.  
   That way you can automatise running actions under certain circumstances without having to run your own defer-script for that.  
+  Kudos to @fernsehmuell, who was essential in the initial designs of it!
   
   - **ShowXXXInputMenu**  
   Shows different Context-menus, like TrackInput, TrackPanel, TrackArea, TrackRouting, Ruler, MediaItem, Track/TakeEnvelope,  
