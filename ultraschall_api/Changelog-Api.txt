@@ -187,7 +187,7 @@ TODO!! buggy function
 
 ## Ultraschall Framework - Changelog
 
-### 4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 30th of September 2019
+### 4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 1st of October 2019
 
 Has now 1029 functions with 44 new ones! Yes, I crossed the thousand!  
 
@@ -335,7 +335,7 @@ Has now 1029 functions with 44 new ones! Yes, I crossed the thousand!
    
    ---
 
-### 4.00 Beta 2.761: - "Coldplay - Fix You" - 23rd of September 2019
+### 4.00 Beta 2.761: - "Coldplay - Fix You" - 23rd of August 2019
 
 Has now 985 functions with 8 new ones!
 

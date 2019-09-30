@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40670.00" author="Meo Mespotine">
+      <version name="40672.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Changelog-Api.txt</source>
@@ -386,7 +386,7 @@
 <changelog><![CDATA[
 Ultraschall Framework - Changelog
 
-4.00 Beta 2.77: - “Monkeys with Tools - Call the planet doctor” - 30th of September 2019
+4.00 Beta 2.77: - “Monkeys with Tools - Call the planet doctor” - 1st of October 2019
 
 Has now 1029 functions with 44 new ones! Yes, I crossed the thousand!
 
@@ -652,7 +652,7 @@ Changes from Beta 2.761 to Beta 2.77
 
 ------------------------------------------------------------------------
 
-4.00 Beta 2.761: - “Coldplay - Fix You” - 23rd of September 2019
+4.00 Beta 2.761: - “Coldplay - Fix You” - 23rd of August 2019
 
 Has now 985 functions with 8 new ones!
 
