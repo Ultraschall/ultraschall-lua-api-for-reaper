@@ -1,11 +1,5 @@
 <TODO>
     For 4.00beta2.78
-
-Additions:
-   - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
-   - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper
-   - Project Management: SaveProjectAs - saves the current project under a new filename
-
         - TODO!! XML-versions of the USDOCML-docsfiles
         - TODO!! in the eventmanager-script: 
             - Set sollte es möglich machen Sachen optional zu ändern: pass nil and keep old setting
@@ -186,6 +180,17 @@ TODO!! buggy function
 </TODO>
 
 ## Ultraschall Framework - Changelog
+
+### 4.00 Beta 2.78: - " - " - 1st of November 2019
+
+#### New features in 4.00beta2.78
+   - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
+   - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper
+   - Project Management: SaveProjectAs - saves the current project under a new filename
+   
+#### Changes from Beta 2.77 to Beta 2.78
+
+---
 
 ### 4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 1st of October 2019
 
