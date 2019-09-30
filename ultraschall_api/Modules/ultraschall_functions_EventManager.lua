@@ -983,16 +983,16 @@ CountOfActions: ]]..ActionsCount.."\n"
   ultraschall.WriteValueToFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini", OldEvents.."\n"..EventStateChunk2)
 end
 
-function ultraschall.EventManager_RemoveStartupEvent(id)
+function ultraschall.EventManager_RemoveStartupEvent2(id)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>EventManager_RemoveStartupEvent</slug>
+  <slug>EventManager_RemoveStartupEvent2</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.982
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.Eventmanager_RemoveEvent(integer id)</functioncall>
+  <functioncall>boolean retval = ultraschall.Eventmanager_RemoveEvent2(integer id)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Removes a startup-event from the config-file of the Ultraschall Event Manager.
     
@@ -1012,7 +1012,7 @@ function ultraschall.EventManager_RemoveStartupEvent(id)
   <tags>event manager, remove, startup, event</tags>
 </US_DocBloc>
 --]]
-   if math.type(id)~="integer" then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent", "id", "must be an integer", -1) return false end
+   if math.type(id)~="integer" then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "id", "must be an integer", -1) return false end
    
    if reaper.file_exists(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")==false then return false end
    
@@ -1026,20 +1026,20 @@ function ultraschall.EventManager_RemoveStartupEvent(id)
        NewEvents=NewEvents..k
      end
    end
-   if NewEvents==OldEvents then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent", "EventIdentifier", "so such Event", -2) return false end
+   if NewEvents==OldEvents then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "so such Event", -2) return false end
    ultraschall.WriteValueToFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini", NewEvents)
 end
 
-function ultraschall.EventManager_RemoveStartupEvent2(EventIdentifier)
+function ultraschall.EventManager_RemoveStartupEvent(EventIdentifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>EventManager_RemoveStartupEvent2</slug>
+  <slug>EventManager_RemoveStartupEvent</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.982
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.EventManager_RemoveStartupEvent2(string event_identifier)</functioncall>
+  <functioncall>boolean retval = ultraschall.EventManager_RemoveStartupEvent(string event_identifier)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Removes a startup-event from the config-file of the Ultraschall Event Manager.
     
@@ -1059,9 +1059,9 @@ function ultraschall.EventManager_RemoveStartupEvent2(EventIdentifier)
   <tags>event manager, startup, remove, event</tags>
 </US_DocBloc>
 --]]
-  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "must be a string", -1) return false end
+  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent", "EventIdentifier", "must be a string", -1) return false end
   local A,B=ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
-  if A==false then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "must be a valid EventIdentifier", -3) return false end
+  if A==false then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent", "EventIdentifier", "must be a valid EventIdentifier", -3) return false end
   if reaper.file_exists(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")==false then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "so such Event", -2) return false end
   
   local OldEvents=ultraschall.ReadFullFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini")
@@ -1074,7 +1074,7 @@ function ultraschall.EventManager_RemoveStartupEvent2(EventIdentifier)
     end
   end
   
-  if NewEvents==OldEvents then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent2", "EventIdentifier", "so such Event", -4) return false end
+  if NewEvents==OldEvents then ultraschall.AddErrorMessage("EventManager_RemoveStartupEvent", "EventIdentifier", "so such Event", -4) return false end
   ultraschall.WriteValueToFile(ultraschall.Api_Path.."/IniFiles/EventManager_Startup.ini", NewEvents)
   return true
 end

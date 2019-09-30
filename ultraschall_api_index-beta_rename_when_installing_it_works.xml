@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40660.00" author="Meo Mespotine">
+      <version name="40666.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -396,7 +396,7 @@ NEW IN THIS RELEASE:
     Killer Feature Time and long requested by many of you!
     The EventManager allows you to run actions, when certain states
     occur/statechanges occur.
-    That way you can automatise running actions under certain
+    That way you can automatize running actions under certain
     circumstances without having to run your own defer-script for that.
     Kudos to @fernsehmuell, who was essential in the initial designs of
     it!
@@ -451,6 +451,8 @@ New features in 4.00beta2.77
 -   Defer Management: GetDeferRunState - gets the current runstate of a
     ultraschall-defer-loop in the current or a specific
     scriptinstance(requested by rstockm)
+-   Docs: EventManager - added concepts docs for detailed description,
+    on how to use and code the EventManager
 -   Envelope Management: GetTrackEnvelope_ClickState - returns the
     currently clicked TrackEnvelope-Point
 -   Error Messaging System: SuppressErrorMessages - suppresses and
@@ -481,9 +483,9 @@ New features in 4.00beta2.77
 -   EventManager: EventManager_RemoveEvent - removes an event from the
     EvenManager-checkingqueue
 -   EventManager: EventManager_RemoveStartupEvent - removes a
-    registered-at-startup-event for the EventManager
--   EventManager: EventManager_RemoveStartupEvent2 - removes a
     registered-at-startup-event for the EventManager by EventIdentifier
+-   EventManager: EventManager_RemoveStartupEvent2 - removes a
+    registered-at-startup-event for the EventManager
 -   EventManager: EventManager_ResumeEvent - resumes a paused and
     registered event in the EventManager
 -   EventManager: EventManager_SetEvent - sets an already existing event
