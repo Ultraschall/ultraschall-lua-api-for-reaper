@@ -291,7 +291,7 @@ Has now 1029 functions with 44 new ones! Yes, I crossed the thousand!
    - Configuration Files: EnumerateIniFileExternalState_sec - did return keys instead of sections -> fixed
    - Configuration Files: GetKBIniKeys - enhanced description for osc
    - Configuration Files: SetKBIniKeys - enhanced description for osc
-   - Docs: Reaper Internals - updated to Reaper 5.983 and JS-extension 0.991
+   - Docs: Reaper Internals - updated to Reaper 5.983 and JS-extension 0.992
    - DocEngine: Docs\_GetUSDocBloc\_ChapterContext - returned an additional empty non-existant chapter -> fixed
    - DocEngine: Docs\_GetUSDocBloc\_Requires - could produce a Lua-error -> fixed
    - Defer Management: GetDeferIdentifier - you can optionally pass a script-identifier now, to get the defer-identifier of another scriptinstance(used to support only the current script instance)

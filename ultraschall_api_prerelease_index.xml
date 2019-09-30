@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40666.00" author="Meo Mespotine">
+      <version name="40670.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Changelog-Api.txt</source>
@@ -65,7 +65,6 @@
 	<source file="/ultraschall_api/IniFiles/double_to_int.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/double_to_int.ini</source>
 	<source file="/ultraschall_api/IniFiles/double_to_int_24bit.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/double_to_int_24bit.ini</source>
 	<source file="/ultraschall_api/IniFiles/Euro.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/Euro.txt</source>
-	<source file="/ultraschall_api/IniFiles/EventManager_Startup.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/EventManager_Startup.ini</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-ActionList_v5_96.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/Reaper-ActionList_v5_96.ini</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-factory-default-KEY-Codes_for_reaper-kb_ini.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/Reaper-factory-default-KEY-Codes_for_reaper-kb_ini.ini</source>
 	<source file="/ultraschall_api/IniFiles/Reaper-Gfx.GetKey_Codes_and_their_associated_character.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/IniFiles/Reaper-Gfx.GetKey_Codes_and_their_associated_character.ini</source>
@@ -165,6 +164,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.989.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/JS_0.989.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.990.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/JS_0.990.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.991.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/JS_0.991.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/JS_0.992.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/JS_0.992.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0_951.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/JS_0_951.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.77/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png</source>
@@ -565,7 +565,7 @@ Changes from Beta 2.761 to Beta 2.77
 -   Configuration Files: GetKBIniKeys - enhanced description for osc
 -   Configuration Files: SetKBIniKeys - enhanced description for osc
 -   Docs: Reaper Internals - updated to Reaper 5.983 and JS-extension
-    0.991
+    0.992
 -   DocEngine: Docs_GetUSDocBloc_ChapterContext - returned an additional
     empty non-existant chapter -> fixed
 -   DocEngine: Docs_GetUSDocBloc_Requires - could produce a Lua-error ->
