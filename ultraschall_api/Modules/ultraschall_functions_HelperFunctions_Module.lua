@@ -5305,11 +5305,6 @@ end
 
 
 function ultraschall.GetAllActions(section)
--- ToDo:
--- pattern matching through the actions, so you can filter them
--- return the consolidate-state of actions 
--- and the consolidate/terminate running-script-state of scripts as well
--- Bonus: maybe returning shortcuts as well, but maybe, this fits better in it's own function
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllActions</slug>
@@ -5321,24 +5316,32 @@ function ultraschall.GetAllActions(section)
   </requires>
   <functioncall>integer number_of_actions, table actiontable = ultraschall.GetAllActions(integer section)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns all actions from a specific section as a handy table
+    Returns all actions and accompanying attributes from a specific section as a handy table
     
     The table is of the following format:
 
-            actiontable[index]["commandid"]       - the command-id-number of the action
-            actiontable[index]["actioncommandid"] - the action-command-id-string of the action, if it's a named command(usually scripts or extensions), otherwise empty string
-            actiontable[index]["name"]            - the name of command
-            actiontable[index]["scriptfilename"]  - the filename+path of a command, that is a ReaScript, otherwise empty string
+            actiontable[index]["commandid"]       - the command-id-number of the action  
+            actiontable[index]["actioncommandid"] - the action-command-id-string of the action, if it's a named command(usually scripts or extensions), otherwise empty string  
+            actiontable[index]["name"]            - the name of command  
+            actiontable[index]["scriptfilename"]  - the filename+path of a command, that is a ReaScript, otherwise empty string  
+            actiontable[index]["termination"]     - the termination-state of the action  
+                                                      -1  - not available  
+                                                      4   - Dialogwindow appears(Terminate, New Instance, Abort), if another instance of a given script is started, that's already running  
+                                                      260 - always Terminate All(!) Instances, if you try to run another instance of a script, that's already running. When no instance is running, it simply starts the script.  
+                                                      516 - always start a New Instance of the script, that's already running  
+            actiontable[index]["consolidate"]     - the consolidate-state of custom actions; 1 consolidate undo points, 2 show in Actions-Menu, 3 consolidate undo points AND show in Actions Menu; -1, if not available  
+            actiontable[index]["actiontype"]      - the type of the action; "native action", "extension action", "custom action", "script"  
      
     returns -1 in case of an error.
   </description>
   <retvals>
     integer number_of_actions - the number of actions found; -1 in case of an error
-    table actiontable - a table, which holds all attributes of an action
+    table actiontable - a table, which holds all attributes of an action(see description for more details)
   </retvals>
   <parameters>
     integer sections - the section, whose actions you want to retrieve
                      - 0, Main=0
+                     - 1, invisible actions(shown but not runnable actions)
                      - 100, Main (alt recording)
                      - 32060, MIDI Editor=32060
                      - 32061, MIDI Event List Editor
@@ -5350,44 +5353,89 @@ function ultraschall.GetAllActions(section)
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, get, all, actions</tags>
+  <tags>helper functions, actions, get all, scriptfilename, actiontype, consolidate, termination</tags>
 </US_DocBloc>
 --]]
-  if section~=0 and section~=100 and section~=32060 and section~=32061 and section~=32062 and section~=32063 then
+  if section~=0 and section~=1 and section~=100 and section~=32060 and section~=32061 and section~=32062 and section~=32063 then
     ultraschall.AddErrorMessage("GetAllActions", "section", "no valid section, must be a number for one of the following sections: Main=0, Main (alt recording)=100, MIDI Editor=32060, MIDI Event List Editor=32061, MIDI Inline Editor=32062, Media Explorer=32063", -1) 
     return -1 
   end
 
-  local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-kb.ini").."\n"
-  local B=""
-  for k in string.gmatch(A, "SCR.-\n") do
-    B=B..k
+  local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-kb.ini") -- read the kb.ini-file
+  A=string.gsub(A.."\n", "KEY .-\n", "") -- remove all keyboard-shortcuts
+  local ATable={}
+  local Acount=0
+  for k in string.gmatch(A, "(.-)\n") do
+    if k:len()>0 then
+      Acount=Acount+1
+      ATable[Acount]={}
+      ATable[Acount]["Consolidate"] = tonumber(k:match("... (%d-) "))
+      ATable[Acount]["AID"] = k:match("... .- .- (.-) ")
+      ATable[Acount]["AID"]=string.gsub(ATable[Acount]["AID"], "\"", "")
+  
+      if k:sub(1,3)=="SCR" then
+        ATable[Acount]["Scriptfilename"]=k:match(".- \".-\" (.*)")
+        ATable[Acount]["Scriptfilename"]=string.gsub(ATable[Acount]["Scriptfilename"], "\"", "")
+      else
+        ATable[Acount]["Scriptfilename"]=""
+      end
+    end
   end
   
   local Table={}
-  local counter=1
-  for i=0, 65555 do
-    counter=counter+1
+  local counter=0
+
+  -- let's enumerate all actions in this section
+  for i=0, 65536 do
+    -- let's check, whether an action still exists; if not break the loop, if yes, add it to Table
     local retval, name = reaper.CF_EnumerateActions(section, i, "")
     if retval==0 then break end
+    counter=counter+1
+--    if reaper.ReverseNamedCommandLookup(retval)~=nil and name:find("SWS") then -- debugline
+    
+    -- add action to table
     Table[counter]={}
     Table[counter]["commandid"]=retval
     Table[counter]["name"]=name
     Table[counter]["actioncommandid"]=reaper.ReverseNamedCommandLookup(retval)
-    if Table[counter]["actioncommandid"]~=nil then
-      Table[counter]["scriptfilename"]=B:match(""..Table[counter]["actioncommandid"]..".*%s(.-)\n")
-      if Table[counter]["scriptfilename"]~=nil and reaper.file_exists(Table[counter]["scriptfilename"])==false then 
-        Table[counter]["scriptfilename"]=reaper.GetResourcePath()..ultraschall.Separator.."Scripts"..ultraschall.Separator..Table[counter]["scriptfilename"]
+    
+    if name:sub(1,8)=="Script: " then
+      for i=1, Acount do
+        if Table[counter]["actioncommandid"]==ATable[i]["AID"] then
+          Table[counter]["scriptfilename"]=ATable[i]["Scriptfilename"]
+          Table[counter]["termination"]=ATable[i]["Consolidate"]
+          Table[counter]["consolidate"]=-1
+          Table[counter]["actiontype"]="script"
+          break
+        end
       end
-    --  if Table[counter]["scriptfilename"]~=nil then print3(Table[counter]["scriptfilename"]) end
-    --else
-    --  counter=counter-1
+    elseif Table[counter]["actioncommandid"]~=nil and reaper.NamedCommandLookup("_"..Table[counter]["actioncommandid"]) then
+      for i=1, Acount do
+        if Table[counter]["actioncommandid"]==ATable[i]["AID"] then
+          Table[counter]["scriptfilename"]=ATable[i]["Scriptfilename"]
+          Table[counter]["consolidate"]=ATable[i]["Consolidate"]
+          Table[counter]["termination"]=-1
+          Table[counter]["actiontype"]="custom action"
+          break
+        end
+      end
+      Table[counter]["scriptfilename"]=""
+      Table[counter]["consolidate"]=-1
+      Table[counter]["termination"]=-1
+      Table[counter]["actiontype"]="extension action"
+    else
+      Table[counter]["scriptfilename"]=""
+      Table[counter]["consolidate"]=-1
+      Table[counter]["termination"]=-1
+      Table[counter]["actiontype"]="native action"
     end
-    if Table[counter]["actioncommandid"]==nil then Table[counter]["actioncommandid"]="" end
-    if Table[counter]["scriptfilename"]==nil then Table[counter]["scriptfilename"]="" end
+    
+--    end -- debugline
   end
+
   return counter-1, Table
 end
+
 
 --A,B=ultraschall.GetAllActions(0)
 

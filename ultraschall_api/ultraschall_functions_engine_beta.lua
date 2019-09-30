@@ -507,93 +507,6 @@ for i=-1000, 10 do
 end
 --]]
 
-function ultraschall.GetAllActions(section)
--- ToDo:
--- pattern matching through the actions, so you can filter them
--- return the consolidate-state of actions 
--- and the consolidate/terminate running-script-state of scripts as well
--- Bonus: maybe returning shortcuts as well, but maybe, this fits better in it's own function
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetAllActions</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.977
-    SWS=2.10.0.1
-    Lua=5.3
-  </requires>
-  <functioncall>integer number_of_actions, table actiontable = ultraschall.GetAllActions(integer section)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns all actions from a specific section as a handy table
-    
-    The table is of the following format:
-
-            actiontable[index]["commandid"]       - the command-id-number of the action
-            actiontable[index]["actioncommandid"] - the action-command-id-string of the action, if it's a named command(usually scripts or extensions), otherwise empty string
-            actiontable[index]["name"]            - the name of command
-            actiontable[index]["scriptfilename"]  - the filename+path of a command, that is a ReaScript, otherwise empty string
-     
-    returns -1 in case of an error.
-  </description>
-  <retvals>
-    integer number_of_actions - the number of actions found; -1 in case of an error
-    table actiontable - a table, which holds all attributes of an action
-  </retvals>
-  <parameters>
-    integer sections - the section, whose actions you want to retrieve
-                     - 0, Main=0
-                     - 100, Main (alt recording)
-                     - 32060, MIDI Editor=32060
-                     - 32061, MIDI Event List Editor
-                     - 32062, MIDI Inline Editor
-                     - 32063, Media Explorer=32063
-  </parameters>
-  <chapter_context>
-    User Interface
-    Dialogs
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>userinterface, dialog, get, user input</tags>
-</US_DocBloc>
---]]
-  if section~=0 and section~=100 and section~=32060 and section~=32061 and section~=32062 and section~=32063 then
-    ultraschall.AddErrorMessage("GetAllActions", "section", "no valid section, must be a number for one of the following sections: Main=0, Main (alt recording)=100, MIDI Editor=32060, MIDI Event List Editor=32061, MIDI Inline Editor=32062, Media Explorer=32063", -1) 
-    return -1 
-  end
-
-  local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-kb.ini").."\n"
-  local B=""
-  for k in string.gmatch(A, "SCR.-\n") do
-    B=B..k
-  end
-  
-  local Table={}
-  local counter=1
-  for i=0, 65555 do
-    counter=counter+1
-    local retval, name = reaper.CF_EnumerateActions(section, i, "")
-    if retval==0 then break end
-    Table[counter]={}
-    Table[counter]["commandid"]=retval
-    Table[counter]["name"]=name
-    Table[counter]["actioncommandid"]=reaper.ReverseNamedCommandLookup(retval)
-    if Table[counter]["actioncommandid"]~=nil then
-      Table[counter]["scriptfilename"]=B:match(""..Table[counter]["actioncommandid"]..".*%s(.-)\n")
-      if Table[counter]["scriptfilename"]~=nil and reaper.file_exists(Table[counter]["scriptfilename"])==false then 
-        Table[counter]["scriptfilename"]=reaper.GetResourcePath()..ultraschall.Separator.."Scripts"..ultraschall.Separator..Table[counter]["scriptfilename"]
-      end
-    --  if Table[counter]["scriptfilename"]~=nil then print3(Table[counter]["scriptfilename"]) end
-    --else
-    --  counter=counter-1
-    end
-    if Table[counter]["actioncommandid"]==nil then Table[counter]["actioncommandid"]="" end
-    if Table[counter]["scriptfilename"]==nil then Table[counter]["scriptfilename"]="" end
-  end
-  return counter-1, Table
-end
-
---A,B=ultraschall.GetAllActions(0)
 
 function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x, y)
 -- TODO:: nice to have feature: when mouse is above crossfades between two adjacent items, return this state as well as a boolean
@@ -977,64 +890,21 @@ function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
 end
 
 
-function ultraschall.GetRecCounter()
+function ultraschall.GetItem_ClickState()
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetRecCounter</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.982
-    Lua=5.3
-  </requires>
-  <functioncall>integer highest_item_reccount = ultraschall.GetRecCounter()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Takes the RECPASS-counters of all items and takes and returns the highest one, which usually means, the number of items, who have been recorded since the project has been created.
-    
-    Note: a RECPASS-entry can also be part of a copy of a recorded item, so multiple items/takes can share the same RECPASS-entries.
-     
-    returns -1 if no recorded item/take has been found.
-  </description>
-  <retvals>
-    integer highest_item_reccount - the highest reccount of all MediaItems, which usually means, that so many Items have been recorded in this project
-  </retvals>
-  <chapter_context>
-    API-Helper functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>helper functions, count, all, mediaitem, take, recpass, counter</tags>
-</US_DocBloc>
---]]
-  local String=""
-  local recpass=-1
-  local found=0
-  for i=0, reaper.CountTracks()-1 do
-    local retval, str = reaper.GetTrackStateChunk(reaper.GetTrack(0,i), "", false)
-    String=String.."\n"..str
-  end
-  for k in string.gmatch(String, "RECPASS (.-)\n") do
-    found=found+1
-    if recpass<tonumber(k) then 
-      recpass=tonumber(k)
-    end
- end
- return recpass, found
-end
-
-
-function ultraschall.GetMediaItem_ClickState()
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetMediaItem_ClickState</slug>
+  <slug>GetItem_ClickState</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.981
     SWS=2.10.0.1
     Lua=5.3
   </requires>
-  <functioncall>boolean clickstate, number position, MediaItem item, MediaItem_Take take = ultraschall.GetMediaItem_ClickState()</functioncall>
+  <functioncall>boolean clickstate, number position, MediaItem item, MediaItem_Take take = ultraschall.GetItem_ClickState()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns the currently clicked item and take, as well as the current timeposition.
+    
+    Works only, if the mouse is above the MediaItem while having clicked!
     
     Returns false, if no item is clicked at
   </description>
@@ -1078,6 +948,8 @@ function ultraschall.GetTrackEnvelope_ClickState()
   <functioncall>boolean clickstate, number position, MediaTrack track, TrackEnvelope envelope, integer EnvelopePointIDX = ultraschall.GetTrackEnvelope_ClickState()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns the currently clicked Envelopepoint and TrackEnvelope, as well as the current timeposition.
+    
+    Works only, if the mouse is above the EnvelopePoint while having it clicked!
     
     Returns false, if no envelope is clicked at
   </description>

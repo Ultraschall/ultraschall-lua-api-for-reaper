@@ -1142,3 +1142,53 @@ function ultraschall.SetArmState_Envelope(TrackEnvelope, state, EnvelopeStateChu
 end
 
 
+function ultraschall.GetTrackEnvelope_ClickState()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTrackEnvelope_ClickState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.981
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean clickstate, number position, MediaTrack track, TrackEnvelope envelope, integer EnvelopePointIDX = ultraschall.GetTrackEnvelope_ClickState()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the currently clicked Envelopepoint and TrackEnvelope, as well as the current timeposition.
+    
+    Works only, if the mouse is above the EnvelopePoint while having it clicked!
+    
+    Returns false, if no envelope is clicked at
+  </description>
+  <retvals>
+    boolean clickstate - true, an envelopepoint has been clicked; false, no envelopepoint has been clicked
+    number position - the position, at which the mouse has clicked
+    MediaTrack track - the track, from which the envelope and it's corresponding point is taken from
+    TrackEnvelope envelope - the TrackEnvelope, in which the clicked envelope-point lies
+    integer EnvelopePointIDX - the id of the clicked EnvelopePoint
+  </retvals>
+  <chapter_context>
+    Envelope Management
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>envelope management, get, clicked, envelope, envelopepoint</tags>
+</US_DocBloc>
+--]]
+  -- TODO: Has an issue, if the mousecursor drags the item, but moves above or underneath the item(if item is in first or last track).
+  --       Even though the item is still clicked, it isn't returned as such.
+  --       The ConfigVar uiscale supports dragging information, but the information which item has been clicked gets lost somehow
+  local B=reaper.SNM_GetDoubleConfigVar("uiscale", -999)
+  local X,Y=reaper.GetMousePosition()
+  local Track, Info = reaper.GetTrackFromPoint(X,Y)
+  if tostring(B)=="-1.#QNAN" or Info==0 then
+    return false
+  end
+  reaper.BR_GetMouseCursorContext()
+  local TrackEnvelope, TakeEnvelope = reaper.BR_GetMouseCursorContext_Envelope()
+  if TakeEnvelope==true or TrackEnvelope==nil then return false end
+  local TimePosition=ultraschall.GetTimeByMouseXPosition(reaper.GetMousePosition())
+  local EnvelopePoint=reaper.GetEnvelopePointByTime(TrackEnvelope, TimePosition)
+  return true, TimePosition, Track, TrackEnvelope, EnvelopePoint
+end

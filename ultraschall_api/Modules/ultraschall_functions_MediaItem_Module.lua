@@ -4854,16 +4854,16 @@ function ultraschall.IsSplitAtPosition(trackstring, position)
   return false
 end
 
-function ultraschall.GetMediaItemNumber(MediaItem)
+function ultraschall.GetItem_Number(MediaItem)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetMediaItemNumber</slug>
+  <slug>GetItem_Number</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>integer itemidx = ultraschall.GetMediaItemNumber(MediaItem MediaItem)</functioncall>
+  <functioncall>integer itemidx = ultraschall.GetItem_Number(MediaItem MediaItem)</functioncall>
   <description>
     returns the indexnumber of a MediaItem-object
     
@@ -4886,7 +4886,7 @@ function ultraschall.GetMediaItemNumber(MediaItem)
   <tags>mediaitem management, get, itemindex, itemidx</tags>
 </US_DocBloc>
 --]]
-  if ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("GetMediaItemNumber", "MediaItem", "must be a valid MediaItem-object", -1) return -1 end
+  if ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("GetItem_Number", "MediaItem", "must be a valid MediaItem-object", -1) return -1 end
   local MediaTrack = reaper.GetMediaItem_Track(MediaItem)
   local ItemNr = reaper.GetMediaItemInfo_Value(MediaItem, "IP_ITEMNUMBER")
   local TrackNumber=reaper.GetMediaTrackInfo_Value(MediaTrack, "IP_TRACKNUMBER")
@@ -4898,3 +4898,94 @@ function ultraschall.GetMediaItemNumber(MediaItem)
   return math.tointeger(Count)
 end
 
+function ultraschall.GetItem_HighestRecCounter()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetItem_HighestRecCounter</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.982
+    Lua=5.3
+  </requires>
+  <functioncall>integer highest_item_reccount, integer found = ultraschall.GetItem_HighestRecCounter()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Takes the RECPASS-counters of all items and takes and returns the highest one, which usually means, the number of items, who have been recorded since the project has been created.
+    
+    Note: a RECPASS-entry can also be part of a copy of a recorded item, so multiple items/takes can share the same RECPASS-entries with the same counter.
+    Means: the highest number can be of multiple items
+     
+    returns -1 if no recorded item/take has been found.
+  </description>
+  <retvals>
+    integer highest_item_reccount - the highest reccount of all MediaItems, which usually means, that so many Items have been recorded in this project
+    integer found - the number of MediaItems, who have a recpass-entry in their StateChunk, means, who have been recorded.    
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitem management, count, all, mediaitem, take, recpass, counter</tags>
+</US_DocBloc>
+--]]
+  local String=""
+  local recpass=-1
+  local found=0
+  for i=0, reaper.CountTracks()-1 do
+    local retval, str = reaper.GetTrackStateChunk(reaper.GetTrack(0,i), "", false)
+    String=String.."\n"..str
+  end
+  for k in string.gmatch(String, "RECPASS (.-)\n") do
+    found=found+1
+    if recpass<tonumber(k) then 
+      recpass=tonumber(k)
+    end
+ end
+ return recpass, found
+end
+
+function ultraschall.GetItem_ClickState()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetItem_ClickState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.981
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean clickstate, number position, MediaItem item, MediaItem_Take take = ultraschall.GetItem_ClickState()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the currently clicked item and take, as well as the current timeposition.
+    
+    Works only, if the mouse is above the MediaItem while having clicked!
+    
+    Returns false, if no item is clicked at
+  </description>
+  <retvals>
+    boolean clickstate - true, item is clicked on; false, item isn't clicked on
+    number position - the position, at which the item is currently clicked at
+    MediaItem item - the Item, which is currently clicked at
+    MediaItem_Take take - the take found at clickposition
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitem management, get, clicked, item</tags>
+</US_DocBloc>
+--]]
+  -- TODO: Has an issue, if the mousecursor drags the item, but moves above or underneath the item(if item is in first or last track).
+  --       Even though the item is still clicked, it isn't returned as such.
+  --       The ConfigVar uiscale supports dragging information, but the information which item has been clicked gets lost somehow
+  local B=reaper.SNM_GetDoubleConfigVar("uiscale", -999)
+  local X,Y=reaper.GetMousePosition()
+  local Item, ItemTake = reaper.GetItemFromPoint(X,Y, true)
+  if tostring(B)=="-1.#QNAN" or Item==nil then
+    return false
+  end
+  return true, ultraschall.GetTimeByMouseXPosition(reaper.GetMousePosition()), Item, ItemTake
+end
