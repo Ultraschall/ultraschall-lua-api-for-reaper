@@ -95,7 +95,6 @@ cd ultraschall_api
 
 ..\zip.exe c:\Ultraschall-Api-Git-Repo\Ultraschall-Api-for-Reaper\Reaper-Internals-Ultraschall-Api-Docs.zip Documentation\* Reaper-Internals-readme.txt c:\Reaper-Internal-Docs-Miscellaneous_Maybe_Helpful_Files -r
 del Reaper-Internals-readme.txt
-
 del Scripts\Tools\batter.bat
 ]]
 

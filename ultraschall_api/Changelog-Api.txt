@@ -1,6 +1,26 @@
 <TODO>
     For 4.00beta2.78
+        - TODO!! ein EventManager-script, welches von normalen Usern benutzt werden kann:
+                    1. Es erlaubt Funktionen zu pasten, welche Andere für Einen geschrieben haben(eventuell auch editieren?).
+                    2. Es erlaubt Actions auszuwählen(inklusive Filter) und ne Liste zu erstellen.
+                    3. Es erlaubt das Ganze als Event/Startup Event hinzuzufügen.
+                    
+                 Darüberhinaus sollte das Script folgendes können:
+                    Events als Watchlist anzeigen
+                        Diese erlaubt es auch Events hinzuzufügen.
+                        Diese erlaubt es auch Events zu exportieren/importieren.
+                        Diese erlaubt es auch bestehende Events als StartUp-Events hinzuzufügen.
+                        Diese erlaubt es auch Events zu bearbeiten und Attribute zu ändern.
+                        Diese erlaubt es auch Events in ihrer Reihenfolge zu bearbeiten.
+                        Diese erlaubt es auch Events zu beenden, auch filterbar(Eventname, Eventidentifier, ScriptIdentifier).
+                        Diese erlaubt es auch den EventManager zu starten und zu beenden.
+                        
+        - TODO!! Event Manager: 
+                        - Eventreihenfolge sollte änderbar sein
+                        - Funktionen anstelle von Actions sollten auch hinzufügbar sein. Diese haben auch Zugriff auf den UserSpace
+                          des Events.
         - TODO!! XML-versions of the USDOCML-docsfiles
+        - TODO!! Text to XML-compatible characters-function, for < > & etc
         - TODO!! in the eventmanager-script: 
             - Set sollte es möglich machen Sachen optional zu ändern: pass nil and keep old setting
             - EventManager_SetEvent muss es ermöglichen, dass man Parameter auf nil setzen kann, die man nicht ändern will(Ausnahme: ActionList-table)!
