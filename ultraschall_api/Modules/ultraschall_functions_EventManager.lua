@@ -829,7 +829,7 @@ function ultraschall.EventManager_Start()
 </US_DocBloc>
 --]]
   if reaper.HasExtState("ultraschall_eventmanager", "running")==false then
-    local P=reaper.AddRemoveReaScript(true, 0, ultraschall.Api_Path.."/Scripts/ultraschall_EventManager.lua", true)
+    local P=reaper.AddRemoveReaScript(true, 0, ultraschall.Api_Path.."/Scripts/Ultraschall_EventManager.lua", true)
     reaper.Main_OnCommand(P,0)
   end
   local Registered=reaper.GetExtState("ultraschall_eventmanager", "registered_scripts")
