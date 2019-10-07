@@ -1,5 +1,7 @@
 <TODO>
     For 4.00beta2.78
+        - TODO!! Base64-Encode ist buggy!! Versuch mal A und B zu encoden. Oder AAAA und AAAB.
+                 Kommt nur Grütze bei rum, bzw gleicher String.
         - TODO!! ein EventManager-script, welches von normalen Usern benutzt werden kann:
                     1. Es erlaubt Funktionen zu pasten, welche Andere für Einen geschrieben haben(eventuell auch editieren?).
                     2. Es erlaubt Actions auszuwählen(inklusive Filter) und ne Liste zu erstellen.
@@ -19,6 +21,8 @@
                         - Eventreihenfolge sollte änderbar sein
                         - Funktionen anstelle von Actions sollten auch hinzufügbar sein. Diese haben auch Zugriff auf den UserSpace
                           des Events.
+        - DOcEngine: Retval und Parms-parsefkts haben Probleme, wenn zwischen parameter/retvalname und - kein Leerzeichen ist.
+                        "parametername- Text"
         - TODO!! XML-versions of the USDOCML-docsfiles
         - TODO!! Text to XML-compatible characters-function, for < > & etc
         - TODO!! in the eventmanager-script: 
@@ -204,12 +208,18 @@ TODO!! buggy function
 ### 4.00 Beta 2.78: - " - " - 1st of November 2019
 
 #### New features in 4.00beta2.78
+   - DeferManagement: Defer - runs a deferred loop; you can decide how often it runs; allows you to give it a unique identifier to access, watch and stop it from anywhere!
+                              better than Defer1 through Defer20!
+                              Use this one, when in doubt!
    - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
    - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper
    - Project Management: SaveProjectAs - saves the current project under a new filename
    
 #### Changes from Beta 2.77 to Beta 2.78
-
+   - DeferManagement: GetDeferRunState - gets now Defer-cycles-runstate, of deferred-functions started by the new function Defer, as well
+   - DeferManagement: StopDeferCycle - stops now Defer-cycles started by the new function Defer as well
+   
+    
 ---
 
 ### 4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 1st of October 2019

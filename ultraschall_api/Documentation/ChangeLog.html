@@ -43,11 +43,16 @@ Ultraschall API Changelog
 <h3>4.00 Beta 2.78: - " - " - 1st of November 2019</h3>
 <h4>New features in 4.00beta2.78</h4>
 <ul>
+<li>DeferManagement: Defer - runs a deferred loop; you can decide how often it runs; allows you to give it a unique identifier to access, watch and stop it from anywhere! better than Defer1 through Defer20! Use this one, when in doubt!</li>
 <li>LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper</li>
 <li>LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper</li>
 <li>Project Management: SaveProjectAs - saves the current project under a new filename</li>
 </ul>
 <h4>Changes from Beta 2.77 to Beta 2.78</h4>
+<ul>
+<li>DeferManagement: GetDeferRunState - gets now Defer-cycles-runstate, of deferred-functions started by the new function Defer, as well</li>
+<li>DeferManagement: StopDeferCycle - stops now Defer-cycles started by the new function Defer as well</li>
+</ul>
 <hr />
 <h3>4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 1st of October 2019</h3>
 <p>Has now 1029 functions with 44 new ones! Yes, I crossed the thousand!</p>

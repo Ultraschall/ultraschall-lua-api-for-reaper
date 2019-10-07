@@ -19,7 +19,7 @@
             
             The IDE in Reaper has some limitations, as every line must not exceed 4095 characters, or they will be split when the script is loaded the next time.
             
-            The base-directory for ReaScript can be read from the reaper.ini -> [REAPER] -> lastcwd=
+            The base-directory for files created from ReaScript can be read from the reaper.ini -> [REAPER] -> lastcwd=
             That means, if you create a new file without giving it a path, it will be created in the path set in lastcwd.
         </description>
         <target_document>ReaperApiFunctionsReference</target_document>
@@ -6007,7 +6007,7 @@
             Get the number of takes in a MediaItem-object.
         </description>
         <retvals>
-            integer itemnumtakes- the number of takes within the MediaItem-object
+            integer itemnumtakes - the number of takes within the MediaItem-object
         </retvals>
         <parameters>
             MediaItem item - the MediaItem-object, whose number of takes you want to know.
@@ -6868,7 +6868,7 @@
             Get the parent MediaTrack, if a MediaTrack is a track of a foldered track.
         </description>
         <retvals>
-            MediaTrack parenttrack- the returned parent MediaTrack of a foldered MediaTrack
+            MediaTrack parenttrack - the returned parent MediaTrack of a foldered MediaTrack
         </retvals>
         <parameters>
             MediaTrack track - the MediaTrack in a folder, whose parent MediaTrack you want
@@ -8752,7 +8752,7 @@
         <parameters>
             section_id - the section, in which the action lies
                         -0, Main
-                        -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+                        -100, Main (alt recording)
                         -32060, MIDI Editor
                         -32061, MIDI Event List Editor
                         -32062, MIDI Inline Editor
@@ -13566,7 +13566,7 @@
         <parameters>
             section_id - the section, in which the action lies
                         0, Main
-                        100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+                        100, Main (alt recording)
                         32060, MIDI Editor
                         32061, MIDI Event List Editor
                         32062, MIDI Inline Editor
@@ -26166,13 +26166,15 @@
         <functioncall prog_lang="python">(Float cutoffTime, String stateOutNeedBig, Int stateOutNeedBig_sz) = JS_VKeys_GetDown(cutoffTime, stateOutNeedBig, stateOutNeedBig_sz)</functioncall>
         <requires>
             Reaper=5.965
-            JS=0.986
+            JS=0.993
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Returns a 255-byte array that specifies which virtual keys, from 0x01 to 0xFF, have sent KEYDOWN messages since cutoffTime.
 
-            Note: Mouse buttons and modifier keys are not (currently) reliably detected, and JS\_Mouse\_GetState can be used instead.
+            Notes:
+            * Mouse buttons and modifier keys are not (currently) reliably detected, and JS\_Mouse\_GetState can be used instead.
+            * Auto-repeated KEYDOWN messages are ignored.
         </description>
         <retvals>
            string state - 
@@ -26247,7 +26249,7 @@
         <functioncall prog_lang="python">(Boolean retval, String stateOutNeedBig, Int stateOutNeedBig_sz) = JS_VKeys_GetState(stateOutNeedBig, stateOutNeedBig_sz)</functioncall>
         <requires>
             Reaper=5.965
-            JS=0.986
+            JS=0.993
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -26258,7 +26260,9 @@
             If cutoffTime is negative, it is relative to the current time.
 
             Notes:
-            \* Mouse buttons and modifier keys are not (currently) reliably detected, and [JS\_Mouse\_GetState](#JS_Mouse_GetState) can be used instead.
+            Notes:
+            * Mouse buttons and modifier keys are not (currently) reliably detected, and JS\_Mouse\_GetState can be used instead.
+            * Auto-repeated KEYDOWN messages are ignored.
         </description>
         <retvals>
            boolean retval - 
@@ -27026,7 +27030,8 @@
             NOTE: On Linux and macOS, the window contents are only updated \*between\* defer cycles, so the window cannot be animated by for/while loops within a single defer cycle.
         </description>
         <retvals>
-            identifier retval, optional string style
+            identifier retval - 
+            optional string style - 
         </retvals>
         <parameters>
            string title - 
@@ -28013,17 +28018,18 @@
         <functioncall prog_lang="python">JS_Window_Move(void windowHWND, Int left, Int top)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.991
+            JS=0.993
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Changes the position of the specified window, keeping its size constant.
-           
-            \* For a top-level window, the position is relative to the upper-left corner of the screen.
-           
-            \* For a child window, they are relative to the upper-left corner of the parent window's client area.
 
-            \* Equivalent to calling [JS\_Window\_SetPosition](#JS_Window_SetPosition) with NOSIZE, NOZORDER, NOACTIVATE and NOOWNERZORDER flags set.
+            NOTES:
+            * For top-level windows, position is relative to the primary display.
+            * On Windows and Linux, position is calculated as the coordinates of the upper left corner of the window, relative to upper left corner of the primary display, and the positive Y-axis points downward.
+            * On macOS, position is calculated as the coordinates of the bottom left corner of the window, relative to bottom left corner of the display, and the positive Y-axis points upward.
+            * For a child window, on all platforms, position is relative to the upper-left corner of the parent window's client area.
+            * Equivalent to calling [JS\_Window\_SetPosition](#JS_Window_SetPosition) with NOSIZE, NOZORDER, NOACTIVATE and NOOWNERZORDER flags set.
         </description>
         <parameters>
            identifier windowHWND - 
@@ -28111,15 +28117,15 @@
         <functioncall prog_lang="python">JS_Window_Resize(void windowHWND, Int width, Int height)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.991
+            JS=0.993
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Changes the dimensions of the specified window, keeping the top left corner position constant.
            
-            \* If resizing script GUIs, call gfx.update() after resizing.
+            * If resizing script GUIs, call gfx.update() after resizing.
             
-            \* Equivalent to calling JS_Window_SetPosition with NOMOVE, NOZORDER, NOACTIVATE and NOOWNERZORDER flags set.
+            * Equivalent to calling [JS\_Window\_SetPosition](#JS_Window_SetPosition) with NOMOVE, NOZORDER, NOACTIVATE and NOOWNERZORDER flags set.
         </description>
 
         <parameters>
@@ -31856,6 +31862,8 @@
             Returns true if a new value has been updated.
             val will be set to a relative or absolute value depending on mode (=0: absolute mode, >0: relative modes). resolution=127 for 7-bit resolution, =16383 for 14-bit resolution.
             Notes: sectionID, and cmdID will be set to -1 if the script is not part of the action list. mode, resolution and val will be set to -1 if the script was not triggered via MIDI/OSC.
+            
+            For relative mode bindings, calling get_action_context() will return the accumulated relative value in decoded form (not 65 or 63, but +1/-1 etc), and clear the internal state. So if you call it multiple times, the first one will return the accumulated value, and the second will always return 0.
         </description>
         <parameters>
             #filename - 
@@ -31901,6 +31909,7 @@
                     16: Alt key
                     32: Windows key
                     64: middle mouse button
+                Note: Mousebuttons will be returned after gfx_init(), the other keyboard-modifier only when using gfx_getchar()!
         </description>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -34316,6 +34325,8 @@
         </requires>
         <description indent="default">
             Returns contextual information about the script, typically MIDI/OSC input values.val will be set to a relative or absolute value depending on mode (=0: absolute mode, &gt;0: relative modes). resolution=127 for 7-bit resolution, =16383 for 14-bit resolution.Notes: sectionID, and cmdID will be set to -1 if the script is not part of the action list. mode, resolution and val will be set to -1 if the script was not triggered via MIDI/OSC.
+            
+            For relative mode bindings, calling get_action_context() will return the accumulated relative value in decoded form (not 65 or 63, but +1/-1 etc), and clear the internal state. So if you call it multiple times, the first one will return the accumulated value, and the second will always return 0.
         </description>
         <retvals>
             boolean is_new_value - 
@@ -34363,6 +34374,7 @@
                 16: Alt key
                 32: Windows key
                 64: middle mouse button
+            Note: Mousebuttons will be returned after gfx.init(), the other keyboard-modifier only when using gfx.getchar()!
         </description>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
@@ -35161,9 +35173,6 @@
 
             Values for format specifiers can be specified as additional parameters to gfx.printf, or within {} in the format specifier (such as %{varname}d, in that case a global variable is always used).
         </description>
-        <retvals>
-            
-        </retvals>
         <parameters>
             "format" - 
             ... - 
@@ -36342,7 +36351,7 @@
         <parameters>
             section - the section, in which the action lies
                     -0, Main
-                    -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+                    -100, Main (alt recording)
                     -32060, MIDI Editor
                     -32061, MIDI Event List Editor
                     -32062, MIDI Inline Editor
@@ -36476,7 +36485,7 @@
         <parameters>
             section - the section, to which this action belongs to
                         -0, Main
-                    -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+                    -100, Main (alt recording)
                     -32060, MIDI Editor
                     -32061, MIDI Event List Editor
                     -32062, MIDI Inline Editor
@@ -36667,7 +36676,7 @@
         <parameters>
             section - the section of the action
                         -0, Main
-                    -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+                    -100, Main (alt recording)
                     -32060, MIDI Editor
                     -32061, MIDI Event List Editor
                     -32062, MIDI Inline Editor
@@ -37192,7 +37201,7 @@
         <parameters>
             section - the section, in which the action appears in
             -0, Main
-            -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+            -100, Main (alt recording)
             -32060, MIDI Editor
             -32061, MIDI Event List Editor
             -32062, MIDI Inline Editor
@@ -37320,7 +37329,7 @@
         <parameters>
             section - the section, in which the action exists
             -0, Main
-            -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+            -100, Main (alt recording)
             -32060, MIDI Editor
             -32061, MIDI Event List Editor
             -32062, MIDI Inline Editor
@@ -37382,7 +37391,7 @@
             s - 
             section - the section, in which the action exists
             -0, Main
-            -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+            -100, Main (alt recording)
             -32060, MIDI Editor
             -32061, MIDI Event List Editor
             -32062, MIDI Inline Editor
@@ -37414,7 +37423,7 @@
             cmd - 
             section - the section, in which the action exists
             -0, Main
-            -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+            -100, Main (alt recording)
             -32060, MIDI Editor
             -32061, MIDI Event List Editor
             -32062, MIDI Inline Editor
@@ -37498,7 +37507,7 @@
             menu - 
             section - the section, in which the action exists
             -0, Main
-            -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+            -100, Main (alt recording)
             -32060, MIDI Editor
             -32061, MIDI Event List Editor
             -32062, MIDI Inline Editor
@@ -37530,7 +37539,7 @@
             evt - 
             section - the section, in which the action exists
             -0, Main
-            -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+            -100, Main (alt recording)
             -32060, MIDI Editor
             -32061, MIDI Event List Editor
             -32062, MIDI Inline Editor
@@ -37563,7 +37572,7 @@
             menu - 
             section - the section, in which the action exists
             -0, Main
-            -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+            -100, Main (alt recording)
             -32060, MIDI Editor
             -32061, MIDI Event List Editor
             -32062, MIDI Inline Editor
@@ -37594,7 +37603,7 @@
         <parameters>
             section - the section, in which the action exists
             -0, Main
-            -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+            -100, Main (alt recording)
             -32060, MIDI Editor
             -32061, MIDI Event List Editor
             -32062, MIDI Inline Editor
@@ -37634,7 +37643,7 @@
             msg - 
             section - the section, in which the action exists
             -0, Main
-            -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+            -100, Main (alt recording)
             -32060, MIDI Editor
             -32061, MIDI Event List Editor
             -32062, MIDI Inline Editor
@@ -38553,7 +38562,7 @@
             void -
         </retvals>
         <parameters>
-            dest- 
+            dest - 
             cx - 
             cy -
             r -
@@ -38648,7 +38657,7 @@
             void -
         </retvals>
         <parameters>
-            dest- 
+            dest - 
             x1a - 
             x1b - 
             y1 - 
@@ -39928,7 +39937,7 @@
         <parameters>
             section - the section, in which the action exists
                 -0, Main
-                -100, Main (alt recording) Note: If you already added to main(section 0), this function automatically adds the script to Main(alt) as well.
+                -100, Main (alt recording)
                 -32060, MIDI Editor
                 -32061, MIDI Event List Editor
                 -32062, MIDI Inline Editor

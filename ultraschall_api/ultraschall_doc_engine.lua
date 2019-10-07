@@ -617,6 +617,8 @@ function ultraschall.Docs_GetUSDocBloc_Params(String, unindent_description, inde
       Parmcount=Parmcount+1
       Params[Parmcount]={}
       Params[Parmcount][1], Params[Parmcount][2]=split_string[i]:match("(.-)%-(.*)")
+      Params[Parmcount][1]=Params[Parmcount][1].."\0"
+      Params[Parmcount][1]=Params[Parmcount][1]:match("(.*) %s*\0")
     else
       Params[Parmcount][2]=Params[Parmcount][2].."\n"..split_string[i]:sub(2,-1)
     end
@@ -715,6 +717,8 @@ function ultraschall.Docs_GetUSDocBloc_Retvals(String, unindent_description, ind
       Parmcount=Parmcount+1
       Params[Parmcount]={}
       Params[Parmcount][1], Params[Parmcount][2]=split_string[i]:match("(.-)%-(.*)")
+      Params[Parmcount][1]=Params[Parmcount][1].."\0"
+      Params[Parmcount][1]=Params[Parmcount][1]:match("(.*) %s*\0")
     else
       Params[Parmcount][2]=Params[Parmcount][2].."\n"..split_string[i]:sub(2,-1)
     end
