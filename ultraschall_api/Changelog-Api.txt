@@ -4,6 +4,11 @@
                          - registering of defer-using-running scripts into an extstate ultraschall->running_script_instance-> for monitoring purposes
                          - need setting-functions
                          - Defer -> identifier management must be more stable, without possible nameconflicts
+                         - Um zu verhindern, dass ein Name doppelt verwendet wird:
+                                check mal den ScriptIdentifier des bereits registrierten Namens, 
+                                wenn die Defer-Funktion aufgerufen wird. 
+                                Wenn der unterschiedlich ist: Fehlermeldung "Identifier Namenskonflikt".
+                                Wenn der identisch ist: Supi, weitermachen.
 
         - TODO!! Base64-Encode ist buggy!! Versuch mal A und B zu encoden. Oder AAAA und AAAB.
                  Kommt nur Grütze bei rum, bzw gleicher String.

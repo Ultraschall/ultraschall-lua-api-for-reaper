@@ -1426,7 +1426,7 @@ function ultraschall.Defer(func, deferidentifier, mode, timer_counter)
   end
   
   
-  function internaldefer()
+  local function internaldefer()
     -- nested defer-function, who does the whole defer-management.
     if (mode==0 or mode==nil) and reaper.GetExtState("ultraschall-defer", deferidentifier)=="running" then 
       -- regular defer
