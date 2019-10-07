@@ -1360,7 +1360,7 @@ function ultraschall.Defer(func, deferidentifier, mode, timer_counter)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
-      You can set, how often this script shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier you have given.
+      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier you have given.
       
       Important: make the deferidentifier as unique as possible(using guids or similar stuff) to avoid naming conflicts with other defer-cycles using the same identifier.
       

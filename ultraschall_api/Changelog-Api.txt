@@ -211,6 +211,7 @@ TODO!! buggy function
    - DeferManagement: Defer - runs a deferred loop; you can decide how often it runs; allows you to give it a unique identifier to access, watch and stop it from anywhere!
                               better than Defer1 through Defer20!
                               Use this one, when in doubt!
+   - Examplescript: US_Api_Examples_EventManager_HowTo.lua - en example on how to add an event to the EventManager
    - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
    - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper
    - Project Management: SaveProjectAs - saves the current project under a new filename
