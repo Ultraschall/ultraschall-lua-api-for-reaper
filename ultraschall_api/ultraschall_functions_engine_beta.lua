@@ -1450,4 +1450,368 @@ function ultraschall.Defer(func, deferidentifier, mode, timer_counter)
   return internaldefer()
 end
 
+function ultraschall.Soundboard_StopAllSounds()
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Soundboard_StopAllSounds</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.Soundboard_StopAllSounds()</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Stops all sounds currently playing in the Ultraschall-SoundBoard
+    </description>
+    <chapter_context>
+      Ultraschall Specific
+      Soundboard
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>ultraschall, soundboard, stop all sounds</tags>
+  </US_DocBloc>
+  ]]  
+  for i=0, 23 do
+    reaper.StuffMIDIMessage(0, 144,72+i,0)
+  end
+end
+
+function ultraschall.SoundBoard_TogglePlayPause(playerindex)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SoundBoard_TogglePlayPause</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.SoundBoard_TogglePlayPause(integer playerindex)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Toggles between Play and Pause of a certain player in the Ultraschall-SoundBoard
+    </description>
+    <parameters>
+      integer playerindex - the player of the SoundBoard; from 1-24
+    </parameters>
+    <chapter_context>
+      Ultraschall Specific
+      Soundboard
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>ultraschall, soundboard, play, pause, toggle</tags>
+  </US_DocBloc>
+  ]]  
+  if math.type(playerindex)~="integer" then ultraschall.AddErrorMessage("SoundBoard_TogglePlayPause", "playerindex", "must be an integer", -1) return false end
+  if playerindex<1 or playerindex>24 then ultraschall.AddErrorMessage("SoundBoard_TogglePlayPause", "playerindex", "must be between 1 and 24", -2) return false end
+  local mode=0            -- set to virtual keyboard of Reaper
+  local MIDIModifier=144  -- set to MIDI-Note
+  local Note=24+playerindex-1
+  local Velocity=1  
+      
+  reaper.StuffMIDIMessage(mode, MIDIModifier, Note, Velocity)
+end
+
+--ultraschall.SoundBoard_TogglePlayPause(1)
+
+function ultraschall.SoundBoard_TogglePlayStop(playerindex)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SoundBoard_TogglePlayStop</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.SoundBoard_TogglePlayStop(integer playerindex)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Toggles between Play and Stop of a certain player in the Ultraschall-SoundBoard
+    </description>
+    <parameters>
+      integer playerindex - the player of the SoundBoard; from 1-24
+    </parameters>
+    <chapter_context>
+      Ultraschall Specific
+      Soundboard
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>ultraschall, soundboard, play, stop, toggle</tags>
+  </US_DocBloc>
+  ]]  
+  if math.type(playerindex)~="integer" then ultraschall.AddErrorMessage("SoundBoard_TogglePlayStop", "playerindex", "must be an integer", -1) return false end
+  if playerindex<1 or playerindex>24 then ultraschall.AddErrorMessage("SoundBoard_TogglePlayStop", "playerindex", "must be between 1 and 24", -2) return false end
+  local mode=0            -- set to virtual keyboard of Reaper
+  local MIDIModifier=144  -- set to MIDI-Note
+  local Note=playerindex-1
+  local Velocity=1  
+    
+    reaper.StuffMIDIMessage(mode, MIDIModifier, Note, Velocity)
+end
+
+--ultraschall.SoundBoard_TogglePlayStop(1)
+
+function ultraschall.SoundBoard_Play(playerindex)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SoundBoard_Play</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.SoundBoard_Play(integer playerindex)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Starts playing of a certain player in the Ultraschall-SoundBoard
+    </description>
+    <parameters>
+      integer playerindex - the player of the SoundBoard; from 1-24
+    </parameters>
+    <chapter_context>
+      Ultraschall Specific
+      Soundboard
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>ultraschall, soundboard, play</tags>
+  </US_DocBloc>
+  ]]  
+  if math.type(playerindex)~="integer" then ultraschall.AddErrorMessage("SoundBoard_Play", "playerindex", "must be an integer", -1) return false end
+  if playerindex<1 or playerindex>24 then ultraschall.AddErrorMessage("SoundBoard_Play", "playerindex", "must be between 1 and 24", -2) return false end    
+  local mode=0            -- set to virtual keyboard of Reaper
+  local MIDIModifier=144  -- set to MIDI-Note
+  local Note=72+playerindex-1
+  local Velocity=1  
+    
+  reaper.StuffMIDIMessage(mode, MIDIModifier, Note, Velocity)
+end
+
+--ultraschall.SoundBoard_Play(1)
+
+function ultraschall.SoundBoard_Stop(playerindex)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SoundBoard_Stop</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.SoundBoard_Stop(integer playerindex)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Stops playing of a certain player in the Ultraschall-SoundBoard
+    </description>
+    <parameters>
+      integer playerindex - the player of the SoundBoard; from 1-24
+    </parameters>
+    <chapter_context>
+      Ultraschall Specific
+      Soundboard
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>ultraschall, soundboard, stop</tags>
+  </US_DocBloc>
+  ]]  
+  if math.type(playerindex)~="integer" then ultraschall.AddErrorMessage("SoundBoard_Stop", "playerindex", "must be an integer", -1) return false end
+  if playerindex<1 or playerindex>24 then ultraschall.AddErrorMessage("SoundBoard_Stop", "playerindex", "must be between 1 and 24", -2) return false end    
+  local mode=0            -- set to virtual keyboard of Reaper
+  local mode=0            -- set to virtual keyboard of Reaper
+  local MIDIModifier=144  -- set to MIDI-Note
+  local Note=72+playerindex-1
+  local Velocity=0
+    
+  reaper.StuffMIDIMessage(mode, MIDIModifier, Note, Velocity)
+end
+
+--ultraschall.SoundBoard_Stop(1)
+
+function ultraschall.SoundBoard_TogglePlay_FadeOutStop(playerindex)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SoundBoard_TogglePlay_FadeOutStop</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.SoundBoard_TogglePlay_FadeOutStop(integer playerindex)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Toggles between Play and FadeOut with Stop of a certain player in the Ultraschall-SoundBoard
+    </description>
+    <parameters>
+      integer playerindex - the player of the SoundBoard; from 1-24
+    </parameters>
+    <chapter_context>
+      Ultraschall Specific
+      Soundboard
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>ultraschall, soundboard, fadeout, play, stop</tags>
+  </US_DocBloc>
+  ]]  
+  if math.type(playerindex)~="integer" then ultraschall.AddErrorMessage("SoundBoard_TogglePlay_FadeOutStop", "playerindex", "must be an integer", -1) return false end
+  if playerindex<1 or playerindex>24 then ultraschall.AddErrorMessage("SoundBoard_TogglePlay_FadeOutStop", "playerindex", "must be between 1 and 24", -2) return false end    
+  local mode=0            -- set to virtual keyboard of Reaper
+  local MIDIModifier=144  -- set to MIDI-Note
+  local Note=48+playerindex-1
+  local Velocity=1
+    
+  reaper.StuffMIDIMessage(mode, MIDIModifier, Note, Velocity)
+end
+
+--ultraschall.SoundBoard_Play_FadeOutStop(1)
+
+function ultraschall.SoundBoard_PlayList_CurrentIndex()
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SoundBoard_PlayList_CurrentIndex</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>integer current_playlist_position = ultraschall.SoundBoard_PlayList_CurrentIndex()</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Returns the position within the playlist of the Ultraschall Soundboard.
+      
+      Playlist means, the player within all players of the Ultraschall-Soundboard.
+      
+      For other playlist-related functions, see also [SoundBoard_PlayList_SetIndex](#SoundBoard_PlayList_SetIndex), [SoundBoard_PlayList_Next](#SoundBoard_PlayList_Next) and [SoundBoard_PlayList_Previous](#SoundBoard_PlayList_Previous)      
+    </description>
+    <retvals>
+      integer current_playlist_position - the position in the playlist
+    </retvals>
+    <chapter_context>
+      Ultraschall Specific
+      Soundboard
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>ultraschall, soundboard, playlist, current position</tags>
+  </US_DocBloc>
+  ]]  
+  local retval, Position=reaper.GetProjExtState(0, "ultraschall_soundboard", "playlistindex")
+  if tonumber(Position)==-1 then Position=0 end
+  return tonumber(math.tointeger(Position))
+end
+
+--A=ultraschall.SoundBoard_PlayList_CurrentIndex()
+
+function ultraschall.SoundBoard_PlayList_SetIndex(playerindex, play, stop_all_others)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SoundBoard_PlayList_SetIndex</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.SoundBoard_PlayList_SetIndex(integer playerindex, optional boolean play, optional boolean stop_all_others)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      sets a new playerindex within the playlist of the Ultraschall-Soundboard.
+      
+      You can optionally start the player and stop all others currently playing.
+    </description>
+    <parameters>
+      integer playerindex - the player of the SoundBoard; from 1-24
+      optional boolean play - true, start playing of this player immediately; nil or false, don't start playing
+      optional boolean stop_all_others - true, stop all other players currently playing; nil or false, don't stop anything
+    </parameters>
+    <chapter_context>
+      Ultraschall Specific
+      Soundboard
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>ultraschall, soundboard, playlist, set, playerindex, play, stop all others</tags>
+  </US_DocBloc>
+  ]]  
+  if math.type(playerindex)~="integer" then ultraschall.AddErrorMessage("SoundBoard_PlayList_SetIndex", "playerindex", "must be an integer", -1) return false end
+  if playerindex<1 or playerindex>24 then ultraschall.AddErrorMessage("SoundBoard_PlayList_SetIndex", "playerindex", "must be between 1 and 24", -2) return false end
+  local retval, Position=reaper.GetProjExtState(0, "ultraschall_soundboard", "playlistindex")
+  local retval = reaper.SetProjExtState(0, "ultraschall_soundboard", "playlistindex", playerindex-1)
+  if tonumber(Position)==-1 then Position=0 end
+  if stop_all_others==true then
+    ultraschall.Soundboard_StopAllSounds()
+  end
+  if play==true then 
+    ultraschall.SoundBoard_Play(playerindex)
+  end
+  return tonumber(math.tointeger(Position))
+end
+
+--A=ultraschall.SoundBoard_PlayList_SetIndex(9, true, true)
+--A1=ultraschall.SoundBoard_PlayList_CurrentIndex()
+
+function ultraschall.SoundBoard_PlayList_Next()
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SoundBoard_PlayList_Next</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.SoundBoard_PlayList_Next()</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Stops current player and starts the next player within the playlist of the Ultraschall-Soundboard.
+    </description>
+    <chapter_context>
+      Ultraschall Specific
+      Soundboard
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>ultraschall, soundboard, playlist, next, playerindex, play</tags>
+  </US_DocBloc>
+  ]]  
+  local retval, Position=reaper.GetProjExtState(0, "ultraschall_soundboard", "playlistindex")
+  if tonumber(Position)>24 then P=1 return end
+  
+  reaper.StuffMIDIMessage(0, 144,72+Position,0)
+  reaper.StuffMIDIMessage(0, 144,72+Position+1,1)
+  
+  if tonumber(Position)+1>24 then Position=24 end
+  reaper.SetProjExtState(0, "ultraschall_soundboard", "playlistindex", Position+1)
+end
+
+--ultraschall.SoundBoard_PlayList_Next()
+
+function ultraschall.SoundBoard_PlayList_Previous()
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>SoundBoard_PlayList_Previous</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.SoundBoard_PlayList_Previous()</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Stops current player and starts the previous player within the playlist of the Ultraschall-Soundboard.
+      
+      When the previous would be before the first, it will not do anything.
+    </description>
+    <chapter_context>
+      Ultraschall Specific
+      Soundboard
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>ultraschall, soundboard, playlist, next, playerindex, play</tags>
+  </US_DocBloc>
+  ]]  
+  local retval, Position=reaper.GetProjExtState(0, "ultraschall_soundboard", "playlistindex")
+  if tonumber(Position)==-1 then return end
+  
+  reaper.StuffMIDIMessage(0, 144,72+Position,0)
+  reaper.StuffMIDIMessage(0, 144,72+Position-1,1)
+  
+  reaper.SetProjExtState(0, "ultraschall_soundboard", "playlistindex", Position-1) 
+end
+
+--ultraschall.SoundBoard_PlayList_Previous()
+
 ultraschall.ShowLastErrorMessage()
