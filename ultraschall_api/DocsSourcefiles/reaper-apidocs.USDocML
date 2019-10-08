@@ -15798,9 +15798,9 @@
         </description>
         <parameters>
             mode - 
-            msg1 - 
-            msg2 - 
-            msg3 - 
+            msg1 - modifier
+            msg2 - note/keyname
+            msg3 - velocity
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
