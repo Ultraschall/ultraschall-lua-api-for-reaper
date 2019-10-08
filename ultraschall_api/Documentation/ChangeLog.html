@@ -44,14 +44,22 @@ Ultraschall API Changelog
 <h4>New features in 4.00beta2.78</h4>
 <ul>
 <li>DeferManagement: Defer - runs a deferred loop; you can decide how often it runs; allows you to give it a unique identifier to access, watch and stop it from anywhere! better than Defer1 through Defer20! Use this one, when in doubt!</li>
-<li>Examplescript: US<em>Api</em>Examples<em>EventManager</em>HowTo.lua - en example on how to add an event to the EventManager</li>
+<li>EventManager: EventManager_DebugMode - toggles debugmode, which allows you to get some internal states for debugging purposes</li>
+<li>EventManager: EventManager_DebugMode_LastCheckFunctionStates - returns the last checkfunction-returnstates, if debugmode is on</li>
+<li>EventManager: EventManager_GetLastUpdateTime - returns the last time, when any event got updated</li>
+<li>Examplescript: US_Api_Examples_EventManager_HowTo.lua - en example on how to add an event to the EventManager</li>
 <li>LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper</li>
 <li>LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper</li>
+<li>MIDIManagement: MIDI_SendMidiCC - sends a MIDI-CC-message to a device or virtual keyboard</li>
+<li>MIDIManagement: MIDI_SendMidiNote - sends a MIDI-note to a device or virtual keyboard</li>
+<li>MIDIManagement: MIDI_SendMidiPC - sends a MIDI-PC-message to a device or virtual keyboard</li>
+<li>MIDIManagement: MIDI_SendMidiPitch - sends a MIDI-Pitchbend-message to a device or virtual keyboard</li>
 <li>Project Management: SaveProjectAs - saves the current project under a new filename</li>
 <li>UltraschallSoundboard: SoundBoard_Play - starts playing a certain player within the Ultraschall Soundboard</li>
-<li>UltraschallSoundboard: SoundBoard_PlayList_Previous -</li>
-<li>UltraschallSoundboard: SoundBoard_PlayList_SetIndex -</li>
-<li>UltraschallSoundboard: SoundBoard_PlayList_CurrentIndex -</li>
+<li>UltraschallSoundboard: SoundBoard_PlayList_Next - starts the next Soundboard-player-slot</li>
+<li>UltraschallSoundboard: SoundBoard_PlayList_Previous - starts the previous Soundboard-player-slot</li>
+<li>UltraschallSoundboard: SoundBoard_PlayList_SetIndex - sets the current Soundboard-player-slot, optionally starts playing it</li>
+<li>UltraschallSoundboard: SoundBoard_PlayList_CurrentIndex - returns the current Soundboard-player-slot</li>
 <li>UltraschallSoundboard: SoundBoard_Stop - stops playing a certain player within the Ultraschall Soundboard</li>
 <li>UltraschallSoundboard: Soundboard_StopAllSounds - stops all player within the Ultraschall Soundboard</li>
 <li>UltraschallSoundboard: SoundBoard_TogglePlay_FadeOutStop - toggles playing and stop with fadeout of a certain player within the Ultraschall Soundboard</li>
@@ -62,6 +70,8 @@ Ultraschall API Changelog
 <ul>
 <li>DeferManagement: GetDeferRunState - gets now Defer-cycles-runstate, of deferred-functions started by the new function Defer, as well</li>
 <li>DeferManagement: StopDeferCycle - stops now Defer-cycles started by the new function Defer as well</li>
+<li>EventManager: EventManager_Start - didn't unregister the EventManager-script again, after it was run -&gt; fixed</li>
+<li>EventManager: Eventmanager-script - includes now a debugmode and returns the reaper.time_precise() time as last-updated time as well</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 1st of October 2019</h3>

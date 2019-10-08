@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40762.00" author="Meo Mespotine">
+      <version name="40765.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/Changelog-Api.txt</source>
@@ -392,19 +392,38 @@ New features in 4.00beta2.78
     often it runs; allows you to give it a unique identifier to access,
     watch and stop it from anywhere! better than Defer1 through Defer20!
     Use this one, when in doubt!
+-   EventManager: EventManager_DebugMode - toggles debugmode, which
+    allows you to get some internal states for debugging purposes
+-   EventManager: EventManager_DebugMode_LastCheckFunctionStates -
+    returns the last checkfunction-returnstates, if debugmode is on
+-   EventManager: EventManager_GetLastUpdateTime - returns the last
+    time, when any event got updated
 -   Examplescript: US_Api_Examples_EventManager_HowTo.lua - en example
     on how to add an event to the EventManager
 -   LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be
     used by Reaper
 -   LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of
     the currently chosen LiceCap-executable in Reaper
+-   MIDIManagement: MIDI_SendMidiCC - sends a MIDI-CC-message to a
+    device or virtual keyboard
+-   MIDIManagement: MIDI_SendMidiNote - sends a MIDI-note to a device or
+    virtual keyboard
+-   MIDIManagement: MIDI_SendMidiPC - sends a MIDI-PC-message to a
+    device or virtual keyboard
+-   MIDIManagement: MIDI_SendMidiPitch - sends a MIDI-Pitchbend-message
+    to a device or virtual keyboard
 -   Project Management: SaveProjectAs - saves the current project under
     a new filename
 -   UltraschallSoundboard: SoundBoard_Play - starts playing a certain
     player within the Ultraschall Soundboard
--   UltraschallSoundboard: SoundBoard_PlayList_Previous -
--   UltraschallSoundboard: SoundBoard_PlayList_SetIndex -
--   UltraschallSoundboard: SoundBoard_PlayList_CurrentIndex -
+-   UltraschallSoundboard: SoundBoard_PlayList_Next - starts the next
+    Soundboard-player-slot
+-   UltraschallSoundboard: SoundBoard_PlayList_Previous - starts the
+    previous Soundboard-player-slot
+-   UltraschallSoundboard: SoundBoard_PlayList_SetIndex - sets the
+    current Soundboard-player-slot, optionally starts playing it
+-   UltraschallSoundboard: SoundBoard_PlayList_CurrentIndex - returns
+    the current Soundboard-player-slot
 -   UltraschallSoundboard: SoundBoard_Stop - stops playing a certain
     player within the Ultraschall Soundboard
 -   UltraschallSoundboard: Soundboard_StopAllSounds - stops all player
@@ -423,6 +442,10 @@ Changes from Beta 2.77 to Beta 2.78
     of deferred-functions started by the new function Defer, as well
 -   DeferManagement: StopDeferCycle - stops now Defer-cycles started by
     the new function Defer as well
+-   EventManager: EventManager_Start - didn’t unregister the
+    EventManager-script again, after it was run -> fixed
+-   EventManager: Eventmanager-script - includes now a debugmode and
+    returns the reaper.time_precise() time as last-updated time as well
 
 ------------------------------------------------------------------------
 
@@ -4433,7 +4456,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1051 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40762 from 08.10.2019 02:07:51).}
+a 1058 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40765 from 08.10.2019 04:04:36).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4447,7 +4470,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1051 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1058 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -4571,7 +4594,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1051 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40762 from 08.10.2019 02:07:51).}
+a 1058 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40765 from 08.10.2019 04:04:36).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4585,7 +4608,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1051 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1058 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

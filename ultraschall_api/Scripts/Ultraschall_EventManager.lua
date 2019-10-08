@@ -24,7 +24,7 @@
   ################################################################################
   --]]
 
--- Event Manager - 1.0
+-- Event Manager - 1.0.1
 -- Meo Mespotine
 --
 -- Issues: Api functions don't recognize registered EventIdentifiers who weren't processed yet by the EventManager.
@@ -81,6 +81,19 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 EventTable={}
 CountOfEvents=0
+
+function DebugDummy()
+end
+
+function DebugRun(current_state, eventnumber)
+  if eventnumber==1 then
+    reaper.SetExtState("ultraschall_eventmanager", "checkstates", "", false)
+  end
+  local A=reaper.GetExtState("ultraschall_eventmanager", "checkstates")
+  reaper.SetExtState("ultraschall_eventmanager", "checkstates", A..eventnumber..": "..tostring(current_state).."\n", false)
+end
+
+Debug=DebugDummy
 
 function atexit()
   -- reset EventManager-extstates, when EventManager is stopped
@@ -429,6 +442,16 @@ function CheckCommandsForEventManager()
     reaper.SetExtState("ultraschall_eventmanager", "eventstop_scriptidentifier", "", false)
   end  
 
+-- debug-functions
+  if reaper.GetExtState("ultraschall_eventmanager", "debugmode")=="doit" then
+    StateRegister=reaper.GetExtState("ultraschall_eventmanager", "debugmode")
+    Debug=DebugRun
+    reaper.SetExtState("ultraschall_eventmanager", "debugmode", "", false)
+  elseif reaper.GetExtState("ultraschall_eventmanager", "debugmode")=="stopit" then
+    reaper.SetExtState("ultraschall_eventmanager", "checkstates", "", false)
+    Debug=DebugDummy
+    reaper.SetExtState("ultraschall_eventmanager", "debugmode", "", false)
+  end  
 end
 
 
@@ -458,6 +481,7 @@ function main()
         end
       if doit==true then
         state_retval, current_state=pcall(EventTable[i]["Function"], EventTable[i]["UserSpace"])
+        Debug(current_state,i)
         if state_retval==false then 
           PauseEvent(i)
           print("Error in eventchecking-function", "Event: "..EventTable[i]["EventName"], EventTable[i]["EventIdentifier"], "Error: "..current_state, "Eventchecking for this event paused", " ")
@@ -516,7 +540,7 @@ end
 
 function UpdateEventList_ExtState()
   -- puts all current events and their attributes into an extstate, which can be read from other scripts
-  local String="EventManager State\nLast update: "..os.date().."\nNumber of Events: "..CountOfEvents.."\n\n"
+  local String="EventManager State\nLast update: "..os.date().." - "..reaper.time_precise().."\nNumber of Events: "..CountOfEvents.."\n\n"
   for i=1, CountOfEvents do
 --    print2(String)
     String=String.."Event #:"..i..

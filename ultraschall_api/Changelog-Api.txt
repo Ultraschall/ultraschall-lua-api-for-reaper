@@ -217,14 +217,22 @@ TODO!! buggy function
    - DeferManagement: Defer - runs a deferred loop; you can decide how often it runs; allows you to give it a unique identifier to access, watch and stop it from anywhere!
                               better than Defer1 through Defer20!
                               Use this one, when in doubt!
-   - Examplescript: US_Api_Examples_EventManager_HowTo.lua - en example on how to add an event to the EventManager
+   - EventManager: EventManager\_DebugMode - toggles debugmode, which allows you to get some internal states for debugging purposes
+   - EventManager: EventManager\_DebugMode_LastCheckFunctionStates - returns the last checkfunction-returnstates, if debugmode is on
+   - EventManager: EventManager\_GetLastUpdateTime - returns the last time, when any event got updated
+   - Examplescript: US\_Api\_Examples\_EventManager\_HowTo.lua - en example on how to add an event to the EventManager
    - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
    - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper
+   - MIDIManagement: MIDI\_SendMidiCC - sends a MIDI-CC-message to a device or virtual keyboard
+   - MIDIManagement: MIDI\_SendMidiNote - sends a MIDI-note to a device or virtual keyboard
+   - MIDIManagement: MIDI\_SendMidiPC - sends a MIDI-PC-message to a device or virtual keyboard
+   - MIDIManagement: MIDI\_SendMidiPitch - sends a MIDI-Pitchbend-message to a device or virtual keyboard
    - Project Management: SaveProjectAs - saves the current project under a new filename
    - UltraschallSoundboard: SoundBoard\_Play - starts playing a certain player within the Ultraschall Soundboard
-   - UltraschallSoundboard: SoundBoard\_PlayList\_Previous - 
-   - UltraschallSoundboard: SoundBoard\_PlayList\_SetIndex - 
-   - UltraschallSoundboard: SoundBoard\_PlayList\_CurrentIndex - 
+   - UltraschallSoundboard: SoundBoard\_PlayList\_Next - starts the next Soundboard-player-slot
+   - UltraschallSoundboard: SoundBoard\_PlayList\_Previous - starts the previous Soundboard-player-slot
+   - UltraschallSoundboard: SoundBoard\_PlayList\_SetIndex - sets the current Soundboard-player-slot, optionally starts playing it
+   - UltraschallSoundboard: SoundBoard\_PlayList\_CurrentIndex - returns the current Soundboard-player-slot
    - UltraschallSoundboard: SoundBoard\_Stop - stops playing a certain player within the Ultraschall Soundboard
    - UltraschallSoundboard: Soundboard\_StopAllSounds - stops all player within the Ultraschall Soundboard
    - UltraschallSoundboard: SoundBoard\_TogglePlay\_FadeOutStop - toggles playing and stop with fadeout of a certain player within the Ultraschall Soundboard
@@ -234,7 +242,8 @@ TODO!! buggy function
 #### Changes from Beta 2.77 to Beta 2.78
    - DeferManagement: GetDeferRunState - gets now Defer-cycles-runstate, of deferred-functions started by the new function Defer, as well
    - DeferManagement: StopDeferCycle - stops now Defer-cycles started by the new function Defer as well
-   
+   - EventManager: EventManager\_Start - didn't unregister the EventManager-script again, after it was run -> fixed
+   - EventManager: Eventmanager-script - includes now a debugmode and returns the reaper.time\_precise() time as last-updated time as well
     
 ---
 
