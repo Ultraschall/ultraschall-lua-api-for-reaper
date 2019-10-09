@@ -1453,7 +1453,7 @@ end
 function ultraschall.Soundboard_StopAllSounds()
 --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Soundboard_StopAllSounds</slug>
+    <slug>SoundBoard_StopAllSounds</slug>
     <requires>
       Ultraschall=4.00
       Reaper=5.965
@@ -1462,6 +1462,10 @@ function ultraschall.Soundboard_StopAllSounds()
     <functioncall>ultraschall.Soundboard_StopAllSounds()</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Stops all sounds currently playing in the Ultraschall-SoundBoard
+      
+      Needs ultraschall-Soundboard installed to be useable!
+      
+      Track(s) who hold the soundboard must be recarmed and recinput set to MIDI or VKB.
     </description>
     <chapter_context>
       Ultraschall Specific
@@ -1477,7 +1481,7 @@ function ultraschall.Soundboard_StopAllSounds()
   end
 end
 
-function ultraschall.SoundBoard_TogglePlayPause(playerindex)
+function ultraschall.Soundboard_TogglePlayPause(playerindex)
 --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>SoundBoard_TogglePlayPause</slug>
@@ -1486,9 +1490,13 @@ function ultraschall.SoundBoard_TogglePlayPause(playerindex)
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>ultraschall.SoundBoard_TogglePlayPause(integer playerindex)</functioncall>
+    <functioncall>ultraschall.Soundboard_TogglePlayPause(integer playerindex)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Toggles between Play and Pause of a certain player in the Ultraschall-SoundBoard
+      
+      Needs ultraschall-Soundboard installed to be useable!
+      
+      Track(s) who hold the soundboard must be recarmed and recinput set to MIDI or VKB.
     </description>
     <parameters>
       integer playerindex - the player of the SoundBoard; from 1-24
@@ -1512,9 +1520,9 @@ function ultraschall.SoundBoard_TogglePlayPause(playerindex)
   reaper.StuffMIDIMessage(mode, MIDIModifier, Note, Velocity)
 end
 
---ultraschall.SoundBoard_TogglePlayPause(1)
+--ultraschall.Soundboard_TogglePlayPause(1)
 
-function ultraschall.SoundBoard_TogglePlayStop(playerindex)
+function ultraschall.Soundboard_TogglePlayStop(playerindex)
 --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>SoundBoard_TogglePlayStop</slug>
@@ -1523,9 +1531,13 @@ function ultraschall.SoundBoard_TogglePlayStop(playerindex)
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>ultraschall.SoundBoard_TogglePlayStop(integer playerindex)</functioncall>
+    <functioncall>ultraschall.Soundboard_TogglePlayStop(integer playerindex)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Toggles between Play and Stop of a certain player in the Ultraschall-SoundBoard
+      
+      Needs ultraschall-Soundboard installed to be useable!
+      
+      Track(s) who hold the soundboard must be recarmed and recinput set to MIDI or VKB.
     </description>
     <parameters>
       integer playerindex - the player of the SoundBoard; from 1-24
@@ -1549,9 +1561,9 @@ function ultraschall.SoundBoard_TogglePlayStop(playerindex)
     reaper.StuffMIDIMessage(mode, MIDIModifier, Note, Velocity)
 end
 
---ultraschall.SoundBoard_TogglePlayStop(1)
+--ultraschall.Soundboard_TogglePlayStop(1)
 
-function ultraschall.SoundBoard_Play(playerindex)
+function ultraschall.Soundboard_Play(playerindex)
 --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>SoundBoard_Play</slug>
@@ -1560,9 +1572,13 @@ function ultraschall.SoundBoard_Play(playerindex)
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>ultraschall.SoundBoard_Play(integer playerindex)</functioncall>
+    <functioncall>ultraschall.Soundboard_Play(integer playerindex)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Starts playing of a certain player in the Ultraschall-SoundBoard
+      
+      Needs ultraschall-Soundboard installed to be useable!
+      
+      Track(s) who hold the soundboard must be recarmed and recinput set to MIDI or VKB.
     </description>
     <parameters>
       integer playerindex - the player of the SoundBoard; from 1-24
@@ -1586,9 +1602,9 @@ function ultraschall.SoundBoard_Play(playerindex)
   reaper.StuffMIDIMessage(mode, MIDIModifier, Note, Velocity)
 end
 
---ultraschall.SoundBoard_Play(1)
+--ultraschall.Soundboard_Play(1)
 
-function ultraschall.SoundBoard_Stop(playerindex)
+function ultraschall.Soundboard_Stop(playerindex)
 --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>SoundBoard_Stop</slug>
@@ -1597,9 +1613,13 @@ function ultraschall.SoundBoard_Stop(playerindex)
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>ultraschall.SoundBoard_Stop(integer playerindex)</functioncall>
+    <functioncall>ultraschall.Soundboard_Stop(integer playerindex)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Stops playing of a certain player in the Ultraschall-SoundBoard
+      
+      Needs ultraschall-Soundboard installed to be useable!
+      
+      Track(s) who hold the soundboard must be recarmed and recinput set to MIDI or VKB.
     </description>
     <parameters>
       integer playerindex - the player of the SoundBoard; from 1-24
@@ -1624,9 +1644,9 @@ function ultraschall.SoundBoard_Stop(playerindex)
   reaper.StuffMIDIMessage(mode, MIDIModifier, Note, Velocity)
 end
 
---ultraschall.SoundBoard_Stop(1)
+--ultraschall.Soundboard_Stop(1)
 
-function ultraschall.SoundBoard_TogglePlay_FadeOutStop(playerindex)
+function ultraschall.Soundboard_TogglePlay_FadeOutStop(playerindex)
 --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>SoundBoard_TogglePlay_FadeOutStop</slug>
@@ -1635,9 +1655,13 @@ function ultraschall.SoundBoard_TogglePlay_FadeOutStop(playerindex)
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>ultraschall.SoundBoard_TogglePlay_FadeOutStop(integer playerindex)</functioncall>
+    <functioncall>ultraschall.Soundboard_TogglePlay_FadeOutStop(integer playerindex)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Toggles between Play and FadeOut with Stop of a certain player in the Ultraschall-SoundBoard
+      
+      Needs ultraschall-Soundboard installed to be useable!
+      
+      Track(s) who hold the soundboard must be recarmed and recinput set to MIDI or VKB.
     </description>
     <parameters>
       integer playerindex - the player of the SoundBoard; from 1-24
@@ -1661,9 +1685,9 @@ function ultraschall.SoundBoard_TogglePlay_FadeOutStop(playerindex)
   reaper.StuffMIDIMessage(mode, MIDIModifier, Note, Velocity)
 end
 
---ultraschall.SoundBoard_Play_FadeOutStop(1)
+--ultraschall.Soundboard_Play_FadeOutStop(1)
 
-function ultraschall.SoundBoard_PlayList_CurrentIndex()
+function ultraschall.Soundboard_PlayList_CurrentIndex()
 --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>SoundBoard_PlayList_CurrentIndex</slug>
@@ -1672,11 +1696,15 @@ function ultraschall.SoundBoard_PlayList_CurrentIndex()
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>integer current_playlist_position = ultraschall.SoundBoard_PlayList_CurrentIndex()</functioncall>
+    <functioncall>integer current_playlist_position = ultraschall.Soundboard_PlayList_CurrentIndex()</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the position within the playlist of the Ultraschall Soundboard.
       
       Playlist means, the player within all players of the Ultraschall-Soundboard.
+      
+      Needs ultraschall-Soundboard installed to be useable!
+      
+      Track(s) who hold the soundboard must be recarmed and recinput set to MIDI or VKB.
       
       For other playlist-related functions, see also [SoundBoard_PlayList_SetIndex](#SoundBoard_PlayList_SetIndex), [SoundBoard_PlayList_Next](#SoundBoard_PlayList_Next) and [SoundBoard_PlayList_Previous](#SoundBoard_PlayList_Previous)      
     </description>
@@ -1697,9 +1725,9 @@ function ultraschall.SoundBoard_PlayList_CurrentIndex()
   return tonumber(math.tointeger(Position))
 end
 
---A=ultraschall.SoundBoard_PlayList_CurrentIndex()
+--A=ultraschall.Soundboard_PlayList_CurrentIndex()
 
-function ultraschall.SoundBoard_PlayList_SetIndex(playerindex, play, stop_all_others)
+function ultraschall.Soundboard_PlayList_SetIndex(playerindex, play, stop_all_others)
 --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>SoundBoard_PlayList_SetIndex</slug>
@@ -1708,11 +1736,17 @@ function ultraschall.SoundBoard_PlayList_SetIndex(playerindex, play, stop_all_ot
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>ultraschall.SoundBoard_PlayList_SetIndex(integer playerindex, optional boolean play, optional boolean stop_all_others)</functioncall>
+    <functioncall>ultraschall.Soundboard_PlayList_SetIndex(integer playerindex, optional boolean play, optional boolean stop_all_others)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       sets a new playerindex within the playlist of the Ultraschall-Soundboard.
       
       You can optionally start the player and stop all others currently playing.
+      
+      Needs ultraschall-Soundboard installed to be useable!
+      
+      Track(s) who hold the soundboard must be recarmed and recinput set to MIDI or VKB.
+      
+      For other playlist-related functions, see also [Soundboard_PlayList_CurrentIndex](#Soundboard_PlayList_CurrentIndex), [SoundBoard_PlayList_Next](#SoundBoard_PlayList_Next) and [SoundBoard_PlayList_Previous](#SoundBoard_PlayList_Previous) 
     </description>
     <parameters>
       integer playerindex - the player of the SoundBoard; from 1-24
@@ -1737,15 +1771,15 @@ function ultraschall.SoundBoard_PlayList_SetIndex(playerindex, play, stop_all_ot
     ultraschall.Soundboard_StopAllSounds()
   end
   if play==true then 
-    ultraschall.SoundBoard_Play(playerindex)
+    ultraschall.Soundboard_Play(playerindex)
   end
   return tonumber(math.tointeger(Position))
 end
 
---A=ultraschall.SoundBoard_PlayList_SetIndex(9, true, true)
---A1=ultraschall.SoundBoard_PlayList_CurrentIndex()
+--A=ultraschall.Soundboard_PlayList_SetIndex(9, true, true)
+--A1=ultraschall.Soundboard_PlayList_CurrentIndex()
 
-function ultraschall.SoundBoard_PlayList_Next()
+function ultraschall.Soundboard_PlayList_Next()
 --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>SoundBoard_PlayList_Next</slug>
@@ -1754,9 +1788,15 @@ function ultraschall.SoundBoard_PlayList_Next()
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>ultraschall.SoundBoard_PlayList_Next()</functioncall>
+    <functioncall>ultraschall.Soundboard_PlayList_Next()</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Stops current player and starts the next player within the playlist of the Ultraschall-Soundboard.
+      
+      Needs ultraschall-Soundboard installed to be useable!
+      
+      Track(s) who hold the soundboard must be recarmed and recinput set to MIDI or VKB.
+    
+      For other playlist-related functions, see also [Soundboard_PlayList_CurrentIndex](#Soundboard_PlayList_CurrentIndex), [SoundBoard_PlayList_SetIndex](#SoundBoard_PlayList_SetIndex) and [SoundBoard_PlayList_Previous](#SoundBoard_PlayList_Previous)      
     </description>
     <chapter_context>
       Ultraschall Specific
@@ -1777,9 +1817,9 @@ function ultraschall.SoundBoard_PlayList_Next()
   reaper.SetProjExtState(0, "ultraschall_soundboard", "playlistindex", Position+1)
 end
 
---ultraschall.SoundBoard_PlayList_Next()
+--ultraschall.Soundboard_PlayList_Next()
 
-function ultraschall.SoundBoard_PlayList_Previous()
+function ultraschall.Soundboard_PlayList_Previous()
 --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>SoundBoard_PlayList_Previous</slug>
@@ -1788,11 +1828,17 @@ function ultraschall.SoundBoard_PlayList_Previous()
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>ultraschall.SoundBoard_PlayList_Previous()</functioncall>
+    <functioncall>ultraschall.Soundboard_PlayList_Previous()</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Stops current player and starts the previous player within the playlist of the Ultraschall-Soundboard.
       
       When the previous would be before the first, it will not do anything.
+      
+      Needs ultraschall-Soundboard installed to be useable!
+      
+      Track(s) who hold the soundboard must be recarmed and recinput set to MIDI or VKB.
+      
+      For other playlist-related functions, see also [Soundboard_PlayList_CurrentIndex](#Soundboard_PlayList_CurrentIndex), [SoundBoard_PlayList_SetIndex](#SoundBoard_PlayList_SetIndex) and [SoundBoard_PlayList_Next](#SoundBoard_PlayList_Next).
     </description>
     <chapter_context>
       Ultraschall Specific
@@ -1812,7 +1858,7 @@ function ultraschall.SoundBoard_PlayList_Previous()
   reaper.SetProjExtState(0, "ultraschall_soundboard", "playlistindex", Position-1) 
 end
 
---ultraschall.SoundBoard_PlayList_Previous()
+--ultraschall.Soundboard_PlayList_Previous()
 
 function ultraschall.MIDI_SendMidiNote(Channel, Note, Velocity, Mode)
 --[[

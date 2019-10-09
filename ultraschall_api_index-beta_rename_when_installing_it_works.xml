@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40820.00" author="Meo Mespotine">
+      <version name="40823.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -402,7 +402,7 @@ New features in 4.00beta2.78
     on(requested by rstockm)
 -   EventManager: EventManager_GetLastCheckfunctionState - returns the
     last state of the checkfunction of a certain event, by numbered
-    itdrequested by rstockm)
+    id(requested by rstockm)
 -   EventManager: EventManager_GetLastCheckfunctionState2 - returns the
     last state of the checkfunction of a certain event, by
     EventIdentifier(requested by rstockm)
@@ -431,26 +431,26 @@ New features in 4.00beta2.78
     to a device or virtual keyboard or Reaper itself as shortcut
 -   Project Management: SaveProjectAs - saves the current project under
     a new filename
--   UltraschallSoundboard: SoundBoard_Play - starts playing a certain
+-   UltraschallSoundboard: Soundboard_Play - starts playing a certain
     player within the Ultraschall Soundboard
--   UltraschallSoundboard: SoundBoard_PlayList_Next - starts the next
+-   UltraschallSoundboard: Soundboard_PlayList_Next - starts the next
     Soundboard-player-slot
--   UltraschallSoundboard: SoundBoard_PlayList_Previous - starts the
+-   UltraschallSoundboard: Soundboard_PlayList_Previous - starts the
     previous Soundboard-player-slot
--   UltraschallSoundboard: SoundBoard_PlayList_SetIndex - sets the
+-   UltraschallSoundboard: Soundboard_PlayList_SetIndex - sets the
     current Soundboard-player-slot, optionally starts playing it
--   UltraschallSoundboard: SoundBoard_PlayList_CurrentIndex - returns
+-   UltraschallSoundboard: Soundboard_PlayList_CurrentIndex - returns
     the current Soundboard-player-slot
--   UltraschallSoundboard: SoundBoard_Stop - stops playing a certain
+-   UltraschallSoundboard: Soundboard_Stop - stops playing a certain
     player within the Ultraschall Soundboard
 -   UltraschallSoundboard: Soundboard_StopAllSounds - stops all player
     within the Ultraschall Soundboard
--   UltraschallSoundboard: SoundBoard_TogglePlay_FadeOutStop - toggles
+-   UltraschallSoundboard: Soundboard_TogglePlay_FadeOutStop - toggles
     playing and stop with fadeout of a certain player within the
     Ultraschall Soundboard
--   UltraschallSoundboard: SoundBoard_TogglePlayStop - toggles play-stop
+-   UltraschallSoundboard: Soundboard_TogglePlayStop - toggles play-stop
     of a certain player within the Ultraschall Soundboard
--   UltraschallSoundboard: SoundBoard_TogglePlayPause - toggles
+-   UltraschallSoundboard: Soundboard_TogglePlayPause - toggles
     play-pause of a certain player within the Ultraschall Soundboard
 
 Changes from Beta 2.77 to Beta 2.78
@@ -4475,7 +4475,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1064 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40820 from 10.10.2019 00:20:34).}
+a 1064 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40823 from 10.10.2019 00:43:39).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4613,7 +4613,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1064 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40820 from 10.10.2019 00:20:34).}
+a 1064 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40823 from 10.10.2019 00:43:39).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
