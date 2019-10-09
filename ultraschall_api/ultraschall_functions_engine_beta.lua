@@ -2103,7 +2103,7 @@ function ultraschall.EventManager_GetPausedState(id)
     </requires>
     <functioncall>boolean paused_state = ultraschall.EventManager_GetPausedState(integer id)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      returns, is a certain event, currently registered in the EventManager, is paused(true) or not(false)
+      returns, if a certain event, currently registered in the EventManager, is paused(true) or not(false)
       State is requested by number-id, with 1 for the first event, 2 for the second, etc.
       
       returns nil in case of an error
@@ -2149,7 +2149,7 @@ function ultraschall.EventManager_GetLastCheckfunctionState(id)
       returns the last state the eventcheck-function returned the last time it was called; of a certein registered event in the EventManager.
       State is requested by number-id, with 1 for the first event, 2 for the second, etc.
       
-      returns nil in case of an error
+      returns nil in case of an error; nil and time, if the EventCheck-function didn't return a boolean
     </description>
     <retval>
       boolean paused_state - true, eventcheck-function returned true; false, eventcheck-function returned false; nil, an error occured
@@ -2170,7 +2170,10 @@ function ultraschall.EventManager_GetLastCheckfunctionState(id)
   if id<1 then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState", "id", "must be greater than 0", -2) return end
   if id>ultraschall.EventManager_CountRegisteredEvents() then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState", "id", "no such event registered", -3) return end
   local A=reaper.GetExtState("ultraschall_eventmanager", "checkfunction_returnstate"..id)
-  return toboolean(A:match("(.-)\n")), tonumber(A:match(".-\n(.*)"))
+  local A1=toboolean(A:match("(.-)\n"))
+  local A2=tonumber(A:match(".-\n(.*)"))
+  if A1==nil then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState", "", "EventCheckFunction returned invalid returnvalue: "..A:match("(.-)\n").."\nMust be either true or false!", -4) end
+  return A1, A2
 end
 
 function ultraschall.EventManager_GetRegisteredEventID(EventIdentifier)
@@ -2228,7 +2231,7 @@ function ultraschall.EventManager_GetLastCheckfunctionState2(EventIdentifier)
       returns the last state the eventcheck-function returned the last time it was called; of a certein registered event in the EventManager.
       State is requested by EventIdentifier
       
-      returns nil in case of an error
+      returns nil in case of an error; nil and time, if the EventCheck-function didn't return a boolean
     </description>
     <retval>
       boolean paused_state - true, eventcheck-function returned true; false, eventcheck-function returned false; nil, an error occured
@@ -2253,7 +2256,11 @@ function ultraschall.EventManager_GetLastCheckfunctionState2(EventIdentifier)
   local id=tonumber(reaper.GetExtState("ultraschall_eventmanager", "state"):match(".*Event #:(.-)\n.-EventIdentifier: "..EventIdentifier.."\n.-EndEvent"))
 
   local A=reaper.GetExtState("ultraschall_eventmanager", "checkfunction_returnstate"..id)
-  return toboolean(A:match("(.-)\n")), tonumber(A:match(".-\n(.*)"))
+  local A1=toboolean(A:match("(.-)\n"))
+  local A2=tonumber(A:match(".-\n(.*)"))
+  if A1==nil then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState2", "", "EventCheckFunction returned invalid returnvalue: "..A:match("(.-)\n").."\nMust be either true or false!", -4) end
+  
+  return A1, A2
 end
 
 --print(reaper.GetExtState("ultraschall_eventmanager", "state"))
