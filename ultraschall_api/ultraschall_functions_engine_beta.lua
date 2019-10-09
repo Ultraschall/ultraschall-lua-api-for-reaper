@@ -2245,10 +2245,10 @@ function ultraschall.EventManager_GetLastCheckfunctionState2(EventIdentifier)
     <tags>eventmanager, get, eventcheck function, state, eventidentifier, count</tags>
   </US_DocBloc>
   ]]  
-  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_GetRegisteredEventID", "EventIdentifier", "must be a string", -1) return end
+  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState2", "EventIdentifier", "must be a string", -1) return end
   local isvalid, inuse = ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
-  if isvalid==false then ultraschall.AddErrorMessage("EventManager_GetRegisteredEventID", "EventIdentifier", "not a valid EventIdentifier", -2) return end
-  if inuse==false then ultraschall.AddErrorMessage("EventManager_GetRegisteredEventID", "EventIdentifier", "not a registered EventIdentifier", -3) return end
+  if isvalid==false then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState2", "EventIdentifier", "not a valid EventIdentifier", -2) return end
+  if inuse==false then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState2", "EventIdentifier", "not a registered EventIdentifier", -3) return end
   EventIdentifier=string.gsub(EventIdentifier, "%-", "%%-")
   local id=tonumber(reaper.GetExtState("ultraschall_eventmanager", "state"):match(".*Event #:(.-)\n.-EventIdentifier: "..EventIdentifier.."\n.-EndEvent"))
 
