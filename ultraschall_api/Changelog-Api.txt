@@ -218,8 +218,6 @@ TODO!! buggy function
                               better than Defer1 through Defer20!
                               Use this one, when in doubt! (requested by rstockm)
    - ErrorMessagingSystem: SLEM - this works like ultraschall.ShowLastErrorMessage() but is easier to type.
-   - EventManager: EventManager\_DebugMode - toggles debugmode, which allows you to get some internal states for debugging purposes(requested by rstockm)
-   - EventManager: EventManager\_DebugMode\_LastCheckFunctionStates - returns the last checkfunction-returnstates, if debugmode is on(requested by rstockm)
    - EventManager: EventManager\_GetLastCheckfunctionState - returns the last state of the checkfunction of a certain event, by numbered id(requested by rstockm)
    - EventManager: EventManager\_GetLastCheckfunctionState2 - returns the last state of the checkfunction of a certain event, by EventIdentifier(requested by rstockm)
    - EventManager: EventManager\_GetLastUpdateTime - returns the last time, when any event got updated(requested by rstockm)
