@@ -2002,4 +2002,214 @@ function ultraschall.MIDI_SendMidiPitch(Channel, Pitch, Mode)
   reaper.StuffMIDIMessage(Mode, MIDIModifier, 0, Pitch)
 end
 
+function ultraschall.EventManager_GetPausedState2(EventIdentifier)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>EventManager_GetPausedState2</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>boolean paused_state = ultraschall.EventManager_GetPausedState2(string EventIdentifier)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns, if a certain event, currently registered in the EventManager, is paused(true) or not(false).
+      State is requested by EventIdentifier.
+      
+      returns nil in case of an error
+    </description>
+    <retval>
+      boolean paused_state - true, event is currently paused; false, event isn't paused currently; nil, an error occured
+    </retval>
+    <parameters>
+      string EventIdentifier - the identifier of the registered event, whose pause state you want to retrieve
+    </parameters>
+    <chapter_context>
+      Event Manager
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>eventmanager, get, paused, state, eventidentifier</tags>
+  </US_DocBloc>
+  ]]  
+  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_GetPausedState2", "EventIdentifier", "must be a string", -1) return end
+  local isvalid, inuse = ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
+  if isvalid==false then ultraschall.AddErrorMessage("EventManager_GetPausedState2", "EventIdentifier", "not a valid EventIdentifier", -2) return end
+  if inuse==false then ultraschall.AddErrorMessage("EventManager_GetPausedState2", "EventIdentifier", "not a registered EventIdentifier", -3) return end
+  EventIdentifier=string.gsub(EventIdentifier, "%-", "%%-")
+  local A=reaper.GetExtState("ultraschall_eventmanager", "state")
+  local B=A:match("Event #:.-EventIdentifier: "..EventIdentifier.."\n.-EventPaused: (.-)\n.-EndEvent")
+  if B==nil then ultraschall.AddErrorMessage("EventManager_GetPausedState2", "EventIdentifier", "not a registered EventIdentifier", -4) return end
+  return toboolean(B)
+end
+
+
+--OLOL=ultraschall.EventManager_GetPausedState2("Ultraschall_Eventidentifier: {7C1D6F4A-A745-4DBF-9428-B67DB3BDB953}")
+
+function ultraschall.EventManager_GetPausedState(id)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>EventManager_GetPausedState</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>boolean paused_state = ultraschall.EventManager_GetPausedState(integer id)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns, is a certain event, currently registered in the EventManager, is paused(true) or not(false)
+      State is requested by number-id, with 1 for the first event, 2 for the second, etc.
+      
+      returns nil in case of an error
+    </description>
+    <retval>
+      boolean paused_state - true, event is currently paused; false, event isn't paused currently; nil, an error occured
+    </retval>
+    <parameters>
+      integer id - the id of the event, whose paused-state you want to retrieve; 1, the first event; 2, the second event, etc
+    </parameters>
+    <chapter_context>
+      Event Manager
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>eventmanager, get, paused, state, id, count</tags>
+  </US_DocBloc>
+  ]]  
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("EventManager_GetPausedState", "id", "must be an integer", -1) return end
+  if id<1 then ultraschall.AddErrorMessage("EventManager_GetPausedState", "id", "must be greater than 0", -2) return end
+  local A=reaper.GetExtState("ultraschall_eventmanager", "state")
+  local count=0
+  for k in string.gmatch(A, "Event #:.-EventPaused: (.-)\n.-EndEvent") do
+    count=count+1
+    if count==id then return toboolean(k) end
+  end
+  ultraschall.AddErrorMessage("EventManager_GetPausedState", "id", "no such event registered", -3)
+end
+
+--AA=ultraschall.EventManager_GetPausedState(5)
+
+function ultraschall.EventManager_GetLastCheckfunctionState(id)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>EventManager_GetLastCheckfunctionState</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>boolean paused_state, number last_statechange_precise_time = ultraschall.EventManager_GetLastCheckfunctionState(integer id)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns the last state the eventcheck-function returned the last time it was called; of a certein registered event in the EventManager.
+      State is requested by number-id, with 1 for the first event, 2 for the second, etc.
+      
+      returns nil in case of an error
+    </description>
+    <retval>
+      boolean paused_state - true, eventcheck-function returned true; false, eventcheck-function returned false; nil, an error occured
+      number last_statechange_precise_time - the last time the state had been changed from true to false or false to true; the time is like the one returned by reaper.time_precise()
+    </retval>
+    <parameters>
+      integer id - the id of the event, whose paused-state you want to retrieve; 1, the first event; 2, the second event, etc
+    </parameters>
+    <chapter_context>
+      Event Manager
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>eventmanager, get, eventcheck function, state, id, count</tags>
+  </US_DocBloc>
+  ]]  
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState", "id", "must be an integer", -1) return end
+  if id<1 then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState", "id", "must be greater than 0", -2) return end
+  if id>ultraschall.EventManager_CountRegisteredEvents() then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState", "id", "no such event registered", -3) return end
+  local A=reaper.GetExtState("ultraschall_eventmanager", "checkfunction_returnstate"..id)
+  return toboolean(A:match("(.-)\n")), tonumber(A:match(".-\n(.*)"))
+end
+
+function ultraschall.EventManager_GetRegisteredEventID(EventIdentifier)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>EventManager_GetRegisteredEventID</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>integer id = ultraschall.EventManager_GetRegisteredEventID(string EventIdentifier)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns the id of a registered event, meaning 1, if it's the first event, 2 if it's the second, etc
+      
+      It is the position within all events currently registered within the EventManager.
+      
+      returns nil in case of an error
+    </description>
+    <retval>
+      integer id - the id of the event; 1, for the first; 2, for the second, etc
+    </retval>
+    <parameters>
+      string EventIdentifier - the EventIdentifier of the event, whose id you want to retrieve
+    </parameters>
+    <chapter_context>
+      Event Manager
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>eventmanager, get, id, event, eventidentifier</tags>
+  </US_DocBloc>
+  ]]  
+  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_GetRegisteredEventID", "EventIdentifier", "must be a string", -1) return end
+  local isvalid, inuse = ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
+  if isvalid==false then ultraschall.AddErrorMessage("EventManager_GetRegisteredEventID", "EventIdentifier", "not a valid EventIdentifier", -2) return end
+  if inuse==false then ultraschall.AddErrorMessage("EventManager_GetRegisteredEventID", "EventIdentifier", "not a registered EventIdentifier", -3) return end
+  EventIdentifier=string.gsub(EventIdentifier, "%-", "%%-")
+  return tonumber(reaper.GetExtState("ultraschall_eventmanager", "state"):match(".*Event #:(.-)\n.-EventIdentifier: "..EventIdentifier.."\n.-EndEvent"))
+end
+
+--AA=ultraschall.EventManager_GetRegisteredEventID("Ultraschall_Eventidentifier: {D0679278-6A20-4BA6-98C5-10576207BE28}")
+
+function ultraschall.EventManager_GetLastCheckfunctionState2(EventIdentifier)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>EventManager_GetLastCheckfunctionState2</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>boolean paused_state, number last_statechange_precise_time = ultraschall.EventManager_GetLastCheckfunctionState2(string EventIdentifier)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns the last state the eventcheck-function returned the last time it was called; of a certein registered event in the EventManager.
+      State is requested by EventIdentifier
+      
+      returns nil in case of an error
+    </description>
+    <retval>
+      boolean paused_state - true, eventcheck-function returned true; false, eventcheck-function returned false; nil, an error occured
+      number last_statechange_precise_time - the last time the state had been changed from true to false or false to true; the time is like the one returned by reaper.time_precise()
+    </retval>
+    <parameters>
+      string EventIdentifier - the EventIdentifier of the event, whose last checkfunction-state you want to retrieve
+    </parameters>
+    <chapter_context>
+      Event Manager
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>eventmanager, get, eventcheck function, state, eventidentifier, count</tags>
+  </US_DocBloc>
+  ]]  
+  if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_GetRegisteredEventID", "EventIdentifier", "must be a string", -1) return end
+  local isvalid, inuse = ultraschall.EventManager_IsValidEventIdentifier(EventIdentifier)
+  if isvalid==false then ultraschall.AddErrorMessage("EventManager_GetRegisteredEventID", "EventIdentifier", "not a valid EventIdentifier", -2) return end
+  if inuse==false then ultraschall.AddErrorMessage("EventManager_GetRegisteredEventID", "EventIdentifier", "not a registered EventIdentifier", -3) return end
+  EventIdentifier=string.gsub(EventIdentifier, "%-", "%%-")
+  local id=tonumber(reaper.GetExtState("ultraschall_eventmanager", "state"):match(".*Event #:(.-)\n.-EventIdentifier: "..EventIdentifier.."\n.-EndEvent"))
+
+  local A=reaper.GetExtState("ultraschall_eventmanager", "checkfunction_returnstate"..id)
+  return toboolean(A:match("(.-)\n")), tonumber(A:match(".-\n(.*)"))
+end
+
+--print(reaper.GetExtState("ultraschall_eventmanager", "state"))
+
 ultraschall.ShowLastErrorMessage()

@@ -24,7 +24,7 @@
   ################################################################################
   --]]
 
--- Event Manager - 1.0.1
+-- Event Manager - 1.1
 -- Meo Mespotine
 --
 -- Issues: Api functions don't recognize registered EventIdentifiers who weren't processed yet by the EventManager.
@@ -105,6 +105,9 @@ function atexit()
   reaper.DeleteExtState("ultraschall_eventmanager", "eventresume", false)
   reaper.DeleteExtState("ultraschall_eventmanager", "state", false)
   reaper.DeleteExtState("ultraschall_eventmanager", "registered_scripts", false)
+  for i=1, CountOfEvents do
+    reaper.DeleteExtState("ultraschall_eventmanager", "checkfunction_returnstate"..i, false)
+  end
 end
 
 reaper.atexit(atexit)
@@ -131,6 +134,13 @@ function ResumeEvent(id)
   -- resumes an event by ID of a EventTable
   EventTable[id]["Paused"]=false
   UpdateEventList_ExtState()
+end
+
+function CheckAndSetRetvalOfCheckFunction(id, state)
+  if EventTable[id]["eventstate"]~=state then
+    EventTable[id]["eventstate"]=state
+    reaper.SetExtState("ultraschall_eventmanager", "checkfunction_returnstate"..id, tostring(state).."\n"..reaper.time_precise(), false)
+  end
 end
 
 function RemoveEvent_ScriptIdentifier2(ScriptIdentifier)
@@ -260,6 +270,7 @@ function AddEvent(EventStateChunk)
     EventTable[CountOfEvents][i]=ActionsTable[i]["action"]
     EventTable[CountOfEvents]["sec"..i]=ActionsTable[i]["section"]
   end
+  CheckAndSetRetvalOfCheckFunction(CountOfEvents, false)
   UpdateEventList_ExtState() -- update the EventList-extstate, which is used by Enumerate-functions of the EventManager-API-functions
 end
 
@@ -482,6 +493,7 @@ function main()
       if doit==true then
         state_retval, current_state=pcall(EventTable[i]["Function"], EventTable[i]["UserSpace"])
         Debug(current_state,i)
+        CheckAndSetRetvalOfCheckFunction(i, current_state)
         if state_retval==false then 
           PauseEvent(i)
           print("Error in eventchecking-function", "Event: "..EventTable[i]["EventName"], EventTable[i]["EventIdentifier"], "Error: "..current_state, "Eventchecking for this event paused", " ")

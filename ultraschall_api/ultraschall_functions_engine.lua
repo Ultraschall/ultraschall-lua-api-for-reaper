@@ -770,7 +770,31 @@ function ultraschall.ShowLastErrorMessage()
   end
 end
 
-
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SLEM</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>SLEM()</functioncall>
+  <description>
+    Displays the last error message in a messagebox, if existing and unread.
+    
+    Like ultraschall.ShowLastErrorMessage() but this is easier to type.
+    Note: written without ultraschall. in the beginning!
+  </description>
+  <chapter_context>
+    Developer
+    Error Handling
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>developer, error, show, message</tags>
+</US_DocBloc>
+--]]
+SLEM=ultraschall.ShowLastErrorMessage
 
 function ultraschall.ApiFunctionTest()
   ultraschall.functions_works="on"
