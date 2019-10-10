@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40828.00" author="Meo Mespotine">
+      <version name="40829.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/Changelog-Api.txt</source>
@@ -78,7 +78,6 @@
 	<source file="/ultraschall_api/misc/silence.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/silence.flac</source>
 	<source file="/ultraschall_api/misc/SnM_Marker.cpp-Marker_Region_Update_Stuff" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/SnM_Marker.cpp-Marker_Region_Update_Stuff</source>
 	<source file="/ultraschall_api/misc/tempproject.RPP" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/tempproject.RPP</source>
-	<source file="/ultraschall_api/misc/tempproject.RPP-bak" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/tempproject.RPP-bak</source>
 	<source file="/ultraschall_api/misc/ultraschall_translation_file_format.USLangPack" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/ultraschall_translation_file_format.USLangPack</source>
 	<source file="/ultraschall_api/misc/USDocML-Specs1_0_version2.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/USDocML-Specs1_0_version2.txt</source>
 	<source file="/ultraschall_api/misc/USDocML-Specs1_0_version3.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/USDocML-Specs1_0_version3.txt</source>
@@ -453,14 +452,17 @@ Changes from Beta 2.77 to Beta 2.78
     of deferred-functions, started by the new function Defer, as well
 -   DeferManagement: StopDeferCycle - stops now Defer-cycles, started by
     the new function Defer, as well
--   EventManager: EventManager_Start - didn’t unregister the
-    EventManager-script again, after it was run -> fixed(thanks to
-    rstockm)
+-   EventManager: EventManager_Start - checks now, if
+    EventManager-script exists and returns false if not; didn’t
+    unregister the EventManager-script again, after it was run ->
+    fixed(thanks to rstockm)
 -   EventManager: Eventmanager-script - includes now a debugmode and
     returns the reaper.time_precise() time as last-updated time as well;
     returns now the current event-check-function’s state
+-   
 
-------------------------------------------------------------------------
+
+    RenderManagement: RenderProject_RenderTable - didn’t return filearray -> fixed
 
 4.00 Beta 2.77: - “Monkeys with Tools - Call the planet doctor” - 1st of October 2019
 
@@ -4469,7 +4471,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1062 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40828 from 10.10.2019 01:17:44).}
+a 1062 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40829 from 10.10.2019 14:08:36).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4607,7 +4609,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1062 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40828 from 10.10.2019 01:17:44).}
+a 1062 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40829 from 10.10.2019 14:08:36).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

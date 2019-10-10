@@ -246,9 +246,9 @@ TODO!! buggy function
 #### Changes from Beta 2.77 to Beta 2.78
    - DeferManagement: GetDeferRunState - gets now Defer-cycles-runstate, of deferred-functions, started by the new function Defer, as well
    - DeferManagement: StopDeferCycle - stops now Defer-cycles, started by the new function Defer, as well
-   - EventManager: EventManager\_Start - didn't unregister the EventManager-script again, after it was run -> fixed(thanks to rstockm)
+   - EventManager: EventManager\_Start - checks now, if EventManager-script exists and returns false if not; didn't unregister the EventManager-script again, after it was run -> fixed(thanks to rstockm)
    - EventManager: Eventmanager-script - includes now a debugmode and returns the reaper.time\_precise() time as last-updated time as well; returns now the current event-check-function's state
-    
+   - RenderManagement: RenderProject\_RenderTable - didn't return filearray -> fixed
 ---
 
 ### 4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 1st of October 2019

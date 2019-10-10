@@ -846,10 +846,13 @@ function ultraschall.EventManager_Start()
     Reaper=5.982
     Lua=5.3
   </requires>
-  <functioncall>ultraschall.EventManager_Start()</functioncall>
+  <functioncall>boolean retval = ultraschall.EventManager_Start()</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Starts the Ultraschall-EventManager, if it has not been started yet.
   </description>
+  <retvals>
+    boolean retval - true, EventManager has been started successfully; false, EventManager couldn't be started
+  </retvals>
   <chapter_context>
     Event Manager
   </chapter_context>
@@ -859,6 +862,10 @@ function ultraschall.EventManager_Start()
 </US_DocBloc>
 --]]
   if reaper.HasExtState("ultraschall_eventmanager", "running")==false then
+    if reaper.file_exists(ultraschall.Api_Path.."/Scripts/ultraschall_EventManager.lua")==false then
+        ultraschall.AddErrorMessage("EventManager_Start", "", "Critical Error: Couldn't find "..ultraschall.Api_Path.."/Scripts/ultraschall_EventManager.lua\n\nPlease contact Ultraschall-API-developers!", -1) 
+        return false
+    end
     local P=reaper.AddRemoveReaScript(true, 0, ultraschall.Api_Path.."/Scripts/ultraschall_EventManager.lua", true)
     reaper.Main_OnCommand(P,0)
     local P=reaper.AddRemoveReaScript(false, 0, ultraschall.Api_Path.."/Scripts/ultraschall_EventManager.lua", true)
@@ -868,6 +875,7 @@ function ultraschall.EventManager_Start()
     Registered=Registered..ultraschall.ScriptIdentifier.."\n"
   end
   reaper.SetExtState("ultraschall_eventmanager", "registered_scripts", Registered, false)
+  return true
 end
 
 --ultraschall.ScriptIdentifier=reaper.CF_GetClipboard("")

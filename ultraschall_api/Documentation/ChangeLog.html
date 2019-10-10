@@ -74,10 +74,10 @@ Ultraschall API Changelog
 <ul>
 <li>DeferManagement: GetDeferRunState - gets now Defer-cycles-runstate, of deferred-functions, started by the new function Defer, as well</li>
 <li>DeferManagement: StopDeferCycle - stops now Defer-cycles, started by the new function Defer, as well</li>
-<li>EventManager: EventManager_Start - didn't unregister the EventManager-script again, after it was run -&gt; fixed(thanks to rstockm)</li>
+<li>EventManager: EventManager_Start - checks now, if EventManager-script exists and returns false if not; didn't unregister the EventManager-script again, after it was run -&gt; fixed(thanks to rstockm)</li>
 <li>EventManager: Eventmanager-script - includes now a debugmode and returns the reaper.time_precise() time as last-updated time as well; returns now the current event-check-function's state</li>
+<li><h2>RenderManagement: RenderProject_RenderTable - didn't return filearray -&gt; fixed</h2></li>
 </ul>
-<hr />
 <h3>4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 1st of October 2019</h3>
 <p>Has now 1029 functions with 44 new ones! Yes, I crossed the thousand!</p>
 <p><strong>New in this release:</strong></p>
