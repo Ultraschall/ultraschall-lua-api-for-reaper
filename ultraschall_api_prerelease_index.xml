@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40761.00" author="Meo Mespotine">
+      <version name="40830.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/Changelog-Api.txt</source>
@@ -78,7 +78,6 @@
 	<source file="/ultraschall_api/misc/silence.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/silence.flac</source>
 	<source file="/ultraschall_api/misc/SnM_Marker.cpp-Marker_Region_Update_Stuff" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/SnM_Marker.cpp-Marker_Region_Update_Stuff</source>
 	<source file="/ultraschall_api/misc/tempproject.RPP" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/tempproject.RPP</source>
-	<source file="/ultraschall_api/misc/tempproject.RPP-bak" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/tempproject.RPP-bak</source>
 	<source file="/ultraschall_api/misc/ultraschall_translation_file_format.USLangPack" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/ultraschall_translation_file_format.USLangPack</source>
 	<source file="/ultraschall_api/misc/USDocML-Specs1_0_version2.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/USDocML-Specs1_0_version2.txt</source>
 	<source file="/ultraschall_api/misc/USDocML-Specs1_0_version3.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/USDocML-Specs1_0_version3.txt</source>
@@ -292,10 +291,6 @@
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak</source>
-	<source file="/ultraschall_api/Scripts/Events/EditCursorPosition.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/Scripts/Events/EditCursorPosition.lua</source>
-	<source file="/ultraschall_api/Scripts/Events/EventProgrammingNotes.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/Scripts/Events/EventProgrammingNotes.txt</source>
-	<source file="/ultraschall_api/Scripts/Events/LoopState.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/Scripts/Events/LoopState.lua</source>
-	<source file="/ultraschall_api/Scripts/Events/PlayState.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/Scripts/Events/PlayState.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_cursorposition.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_cursorposition.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_loopstate.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_loopstate.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_playstate.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_playstate.lua</source>
@@ -395,38 +390,77 @@ New features in 4.00beta2.78
 -   DeferManagement: Defer - runs a deferred loop; you can decide how
     often it runs; allows you to give it a unique identifier to access,
     watch and stop it from anywhere! better than Defer1 through Defer20!
-    Use this one, when in doubt!
--   Examplescript: US_Api_Examples_EventManager_HowTo.lua - en example
-    on how to add an event to the EventManager
+    Use this one, when in doubt! (requested by rstockm)
+-   ErrorMessagingSystem: SLEM - this works like
+    ultraschall.ShowLastErrorMessage() but is easier to type.
+-   EventManager: EventManager_GetLastCheckfunctionState - returns the
+    last state of the checkfunction of a certain event, by numbered
+    id(requested by rstockm)
+-   EventManager: EventManager_GetLastCheckfunctionState2 - returns the
+    last state of the checkfunction of a certain event, by
+    EventIdentifier(requested by rstockm)
+-   EventManager: EventManager_GetLastUpdateTime - returns the last
+    time, when any event got updated(requested by rstockm)
+-   EventManager: EventManager_GetPausedState - returns, if a certain
+    event is paused or not, by numbered id(requested by rstockm)
+-   EventManager: EventManager_GetPausedState2 - returns, if a certain
+    event is paused or not, by EventIdentifier(requested by rstockm)
+-   EventManager: EventManager_GetRegisteredEventID - returns the id of
+    a certain event by EventManager, which is the position within all
+    currently registered events
+-   Examplescript: US_Api_Examples_EventManager_HowTo.lua - an example
+    on how to add an event to the EventManager(requested by rstockm)
 -   LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be
     used by Reaper
 -   LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of
     the currently chosen LiceCap-executable in Reaper
+-   MIDIManagement: MIDI_SendMidiCC - sends a MIDI-CC-message to a
+    device or virtual keyboard or Reaper itself as shortcut
+-   MIDIManagement: MIDI_SendMidiNote - sends a MIDI-note to a device or
+    virtual keyboard or Reaper itself as shortcut
+-   MIDIManagement: MIDI_SendMidiPC - sends a MIDI-PC-message to a
+    device or virtual keyboard or Reaper itself as shortcut
+-   MIDIManagement: MIDI_SendMidiPitch - sends a MIDI-Pitchbend-message
+    to a device or virtual keyboard or Reaper itself as shortcut
 -   Project Management: SaveProjectAs - saves the current project under
     a new filename
--   UltraschallSoundboard: SoundBoard_Play - starts playing a certain
+-   UltraschallSoundboard: Soundboard_Play - starts playing a certain
     player within the Ultraschall Soundboard
--   UltraschallSoundboard: SoundBoard_PlayList_Previous -
--   UltraschallSoundboard: SoundBoard_PlayList_SetIndex -
--   UltraschallSoundboard: SoundBoard_PlayList_CurrentIndex -
--   UltraschallSoundboard: SoundBoard_Stop - stops playing a certain
+-   UltraschallSoundboard: Soundboard_PlayList_Next - starts the next
+    Soundboard-player-slot
+-   UltraschallSoundboard: Soundboard_PlayList_Previous - starts the
+    previous Soundboard-player-slot
+-   UltraschallSoundboard: Soundboard_PlayList_SetIndex - sets the
+    current Soundboard-player-slot, optionally starts playing it
+-   UltraschallSoundboard: Soundboard_PlayList_CurrentIndex - returns
+    the current Soundboard-player-slot
+-   UltraschallSoundboard: Soundboard_Stop - stops playing a certain
     player within the Ultraschall Soundboard
 -   UltraschallSoundboard: Soundboard_StopAllSounds - stops all player
     within the Ultraschall Soundboard
--   UltraschallSoundboard: SoundBoard_TogglePlay_FadeOutStop - toggles
+-   UltraschallSoundboard: Soundboard_TogglePlay_FadeOutStop - toggles
     playing and stop with fadeout of a certain player within the
     Ultraschall Soundboard
--   UltraschallSoundboard: SoundBoard_TogglePlayStop - toggles play-stop
+-   UltraschallSoundboard: Soundboard_TogglePlayStop - toggles play-stop
     of a certain player within the Ultraschall Soundboard
--   UltraschallSoundboard: SoundBoard_TogglePlayPause - toggles
+-   UltraschallSoundboard: Soundboard_TogglePlayPause - toggles
     play-pause of a certain player within the Ultraschall Soundboard
 
 Changes from Beta 2.77 to Beta 2.78
 
 -   DeferManagement: GetDeferRunState - gets now Defer-cycles-runstate,
-    of deferred-functions started by the new function Defer, as well
--   DeferManagement: StopDeferCycle - stops now Defer-cycles started by
-    the new function Defer as well
+    of deferred-functions, started by the new function Defer, as well
+-   DeferManagement: StopDeferCycle - stops now Defer-cycles, started by
+    the new function Defer, as well
+-   EventManager: EventManager_Start - checks now, if
+    EventManager-script exists and returns false if not; didn’t
+    unregister the EventManager-script again, after it was run ->
+    fixed(thanks to rstockm)
+-   EventManager: Eventmanager-script - includes now a debugmode and
+    returns the reaper.time_precise() time as last-updated time as well;
+    returns now the current event-check-function’s state
+-   RenderManagement: RenderProject_RenderTable - didn’t return
+    filearray -> fixed
 
 ------------------------------------------------------------------------
 
@@ -4437,7 +4471,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1051 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40761 from 07.10.2019 03:55:17).}
+a 1062 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40830 from 10.10.2019 14:13:21).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4451,7 +4485,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1051 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1062 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -4575,7 +4609,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1051 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40761 from 07.10.2019 03:55:17).}
+a 1062 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40830 from 10.10.2019 14:13:21).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4589,7 +4623,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1051 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1062 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
