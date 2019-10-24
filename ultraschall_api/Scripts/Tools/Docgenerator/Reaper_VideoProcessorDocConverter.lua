@@ -32,7 +32,7 @@ Infilename=ultraschall.Api_Path.."/DocsSourcefiles/reaper-videoprocessor-docs.US
 --Infilename="c:\\test.usdocml"
 Outfile=ultraschall.Api_Path.."/Documentation/Reaper_API_Video_Documentation.html" 
 
-usversion,usdate,usbeta,usD,usTagline,usF,usG=ultraschall.GetApiVersion()
+usD,usversion,usdate,usbeta,usTagline,usF,usG=ultraschall.GetApiVersion()
 
   local retval, string3 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Docs-ReaperApi", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
   local retval, string2 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")

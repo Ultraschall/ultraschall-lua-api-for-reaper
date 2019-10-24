@@ -26,7 +26,7 @@
 
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
-version, date, beta, versionnumber, tagline = ultraschall.GetApiVersion()
+versionnumber, version, date, beta, tagline = ultraschall.GetApiVersion()
 majorversion, subversion, bits, Os, portable = ultraschall.GetReaperAppVersion()
 
 SWS=reaper.CF_GetSWSVersion("")

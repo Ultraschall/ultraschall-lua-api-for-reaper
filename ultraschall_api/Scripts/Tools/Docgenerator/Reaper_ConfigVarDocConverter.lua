@@ -40,7 +40,7 @@ temp, build=reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "AP
 beta="Beta 2.7 - "
 date="15th of October 2018"
 
-usversion,usdate,usbeta,usD,usTagline,usF,usG=ultraschall.GetApiVersion()
+usD,usversion,usdate,usbeta,usTagline,usF,usG=ultraschall.GetApiVersion()
 
 function ultraschall.SplitUSDocBlocs(String)
   local Table={}

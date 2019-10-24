@@ -67,9 +67,9 @@ for i=1, found_files do
   os.remove(files_array[i])
 end
 
-C,C1,C2,C3,C4,C5,C6,C7=ultraschall.GetApiVersion()
+C3,C,C1,C2,C4,C5,C6,C7=ultraschall.GetApiVersion()
 
-version, date, beta, versionnumber, tagline = ultraschall.GetApiVersion()
+versionnumber, version, date, beta, tagline = ultraschall.GetApiVersion()
 majorversion, subversion, bits, Os, portable = ultraschall.GetReaperAppVersion()
 
 SWS=reaper.CF_GetSWSVersion("")

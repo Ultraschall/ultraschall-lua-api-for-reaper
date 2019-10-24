@@ -42,7 +42,7 @@ local FunctionList2=""
 
 temp, build=reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", ultraschall.Api_Path.."/IniFiles/ultraschall_api.ini")
 
-version,date,beta,D,Tagline,F,G=ultraschall.GetApiVersion()
+D,version,date,beta,Tagline,F,G=ultraschall.GetApiVersion()
 
 --if LLLLLL2==nil then return end
 

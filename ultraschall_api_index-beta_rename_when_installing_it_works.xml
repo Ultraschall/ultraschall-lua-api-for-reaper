@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40830.00" author="Meo Mespotine">
+      <version name="40835.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -383,7 +383,7 @@
 <changelog><![CDATA[
 Ultraschall Framework - Changelog
 
-4.00 Beta 2.78: - " - " - 1st of November 2019
+4.00 Beta 2.78: - “The Roger Webb Sound - Moon Bird” - 20th of October 2019
 
 New features in 4.00beta2.78
 
@@ -452,6 +452,14 @@ Changes from Beta 2.77 to Beta 2.78
     of deferred-functions, started by the new function Defer, as well
 -   DeferManagement: StopDeferCycle - stops now Defer-cycles, started by
     the new function Defer, as well
+-   DeveloperTools: StateInspector - supports now displaying gmem-states
+    as well(hit g or look in the menu)
+-   DocEngine: Docs_GetUSDocBloc_Description - didn’t return right
+    markup-type and version -> fixed
+-   EventManager: EventManager_PauseEvent - had typo in parameter-name,
+    so it was ignored -> fixed(thanks to rstockm)
+-   EventManager: EventManager_ResumeEvent - had typo in parameter-name,
+    so it was ignored -> fixed(thanks to rstockm)
 -   EventManager: EventManager_Start - checks now, if
     EventManager-script exists and returns false if not; didn’t
     unregister the EventManager-script again, after it was run ->
@@ -459,6 +467,9 @@ Changes from Beta 2.77 to Beta 2.78
 -   EventManager: Eventmanager-script - includes now a debugmode and
     returns the reaper.time_precise() time as last-updated time as well;
     returns now the current event-check-function’s state
+-   Helper Functions: GetApiVersion - put retval “number versionnumber”
+    as first returnvalue, for easier versioncomparison(sorry for any
+    inconvenience)
 -   RenderManagement: RenderProject_RenderTable - didn’t return
     filearray -> fixed
 
@@ -4471,7 +4482,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1062 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40830 from 10.10.2019 14:13:21).}
+a 1062 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40835 from 24.10.2019 06:13:27).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4609,7 +4620,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1062 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40830 from 10.10.2019 14:13:21).}
+a 1062 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40835 from 24.10.2019 06:13:27).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

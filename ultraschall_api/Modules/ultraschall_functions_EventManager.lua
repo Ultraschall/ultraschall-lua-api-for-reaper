@@ -761,7 +761,7 @@ function ultraschall.EventManager_GetLastUpdateTime()
   return A, tonumber(B)
 end
 
-function ultraschall.EventManager_PauseEvent(EventIdentfier)
+function ultraschall.EventManager_PauseEvent(EventIdentifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EventManager_PauseEvent</slug>
@@ -799,7 +799,7 @@ function ultraschall.EventManager_PauseEvent(EventIdentfier)
   return true
 end
 
-function ultraschall.EventManager_ResumeEvent(EventIdentfier)
+function ultraschall.EventManager_ResumeEvent(EventIdentifier)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EventManager_ResumeEvent</slug>
