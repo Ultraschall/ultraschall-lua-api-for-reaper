@@ -249,12 +249,16 @@ TODO!! buggy function
    - DeferManagement: StopDeferCycle - stops now Defer-cycles, started by the new function Defer, as well
    - DeveloperTools: StateInspector - supports now displaying gmem-states as well(hit g or look in the menu)
    - DocEngine: Docs\_GetUSDocBloc\_Description - didn't return right markup-type and version -> fixed
+   - EventManager: EventManager\_EnumerateStartupEvents - was missing retval paused -> fixed
+   - EventManager: EventManager\_EnumerateStartupEvents2 - was missing retval paused -> fixed
    - EventManager: EventManager\_PauseEvent - had typo in parameter-name, so it was ignored -> fixed(thanks to rstockm)
    - EventManager: EventManager\_RemoveStartupEvent2 - had wrong functionname in docs -> fixed
    - EventManager: EventManager\_ResumeEvent - had typo in parameter-name, so it was ignored -> fixed(thanks to rstockm)
+   - EventManager: EventManager\_SetEvent - you can now pass nil for parameters, who you don't want to change
+   - EventManager: EventManager\_SetStartupEvent - you can now pass nil for parameters, who you don't want to change
    - EventManager: EventManager\_Start - checks now, if EventManager-script exists and returns false if not; didn't unregister the EventManager-script again, after it was run -> fixed(thanks to rstockm)
    - EventManager: StartupEvent-functions - had to rewrite the function-encoding, so StartupEvents must be re-registered by you to work, sorry for that
-   - EventManager: Eventmanager-script - includes now a debugmode and returns the reaper.time\_precise() time as last-updated time as well; returns now the current event-check-function's state
+   - EventManager: EventManager-script - returns now the current event-check-function's state
    - Helper Functions: Base64\_Encoder - was completely broken due "improvements" -> fixed now
    - Helper Functions: GetApiVersion - put retval "number versionnumber" as first returnvalue, for easier versioncomparison(sorry for any inconvenience)
    - RenderManagement: RenderProject\_RenderTable - didn't return filearray -> fixed

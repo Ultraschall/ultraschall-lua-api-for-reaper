@@ -79,12 +79,16 @@ Ultraschall API Changelog
 <li>DeferManagement: StopDeferCycle - stops now Defer-cycles, started by the new function Defer, as well</li>
 <li>DeveloperTools: StateInspector - supports now displaying gmem-states as well(hit g or look in the menu)</li>
 <li>DocEngine: Docs_GetUSDocBloc_Description - didn't return right markup-type and version -&gt; fixed</li>
+<li>EventManager: EventManager_EnumerateStartupEvents - was missing retval paused -&gt; fixed</li>
+<li>EventManager: EventManager_EnumerateStartupEvents2 - was missing retval paused -&gt; fixed</li>
 <li>EventManager: EventManager_PauseEvent - had typo in parameter-name, so it was ignored -&gt; fixed(thanks to rstockm)</li>
 <li>EventManager: EventManager_RemoveStartupEvent2 - had wrong functionname in docs -&gt; fixed</li>
 <li>EventManager: EventManager_ResumeEvent - had typo in parameter-name, so it was ignored -&gt; fixed(thanks to rstockm)</li>
+<li>EventManager: EventManager_SetEvent - you can now pass nil for parameters, who you don't want to change</li>
+<li>EventManager: EventManager_SetStartupEvent - you can now pass nil for parameters, who you don't want to change</li>
 <li>EventManager: EventManager_Start - checks now, if EventManager-script exists and returns false if not; didn't unregister the EventManager-script again, after it was run -&gt; fixed(thanks to rstockm)</li>
 <li>EventManager: StartupEvent-functions - had to rewrite the function-encoding, so StartupEvents must be re-registered by you to work, sorry for that</li>
-<li>EventManager: Eventmanager-script - includes now a debugmode and returns the reaper.time_precise() time as last-updated time as well; returns now the current event-check-function's state</li>
+<li>EventManager: EventManager-script - returns now the current event-check-function's state</li>
 <li>Helper Functions: Base64_Encoder - was completely broken due "improvements" -&gt; fixed now</li>
 <li>Helper Functions: GetApiVersion - put retval "number versionnumber" as first returnvalue, for easier versioncomparison(sorry for any inconvenience)</li>
 <li>RenderManagement: RenderProject_RenderTable - didn't return filearray -&gt; fixed</li>
