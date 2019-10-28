@@ -2135,6 +2135,45 @@ end
 
 --AA=ultraschall.EventManager_GetPausedState(5)
 
+function ultraschall.EventManager_GetEventIdentifier(id)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>EventManager_GetEventIdentifier</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>string event_identifier = ultraschall.EventManager_GetEventIdentifier(integer id)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      returns the EventIdentifier of a registered event, by id
+      event is requested by number-id, with 1 for the first event, 2 for the second, etc.
+      
+      returns nil in case of an error
+    </description>
+    <retval>
+      string event_identifier - the EventIdentifier of the requested event
+    </retval>
+    <parameters>
+      integer id - the id of the event, whose EventIdenrifier you want to retrieve; 1, the first event; 2, the second event, etc
+    </parameters>
+    <chapter_context>
+      Event Manager
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>eventmanager, get, eventidentifier, id, count</tags>
+  </US_DocBloc>
+  ]]  
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState", "id", "must be an integer", -1) return end
+  if id<1 then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState", "id", "must be greater than 0", -2) return end
+  if id>ultraschall.EventManager_CountRegisteredEvents() then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState", "id", "no such event registered", -3) return end
+  local A=reaper.GetExtState("ultraschall_eventmanager", "checkfunction_returnstate"..id)
+  local A1=A:match(".*\n(.*)")
+  if A1==nil then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState", "", "EventCheckFunction returned invalid returnvalue: "..A:match("(.-)\n").."\nMust be either true or false!", -4) end
+  return A1, A2
+end
+
 function ultraschall.EventManager_GetLastCheckfunctionState(id)
 --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -2144,19 +2183,19 @@ function ultraschall.EventManager_GetLastCheckfunctionState(id)
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>boolean paused_state, number last_statechange_precise_time = ultraschall.EventManager_GetLastCheckfunctionState(integer id)</functioncall>
+    <functioncall>boolean check_state, number last_statechange_precise_time = ultraschall.EventManager_GetLastCheckfunctionState(integer id)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      returns the last state the eventcheck-function returned the last time it was called; of a certein registered event in the EventManager.
+      returns the last state the eventcheck-function returned the last time it was called; of a certain registered event in the EventManager.
       State is requested by number-id, with 1 for the first event, 2 for the second, etc.
       
       returns nil in case of an error; nil and time, if the EventCheck-function didn't return a boolean
     </description>
     <retval>
-      boolean paused_state - true, eventcheck-function returned true; false, eventcheck-function returned false; nil, an error occured
+      boolean check_state - true, eventcheck-function returned true; false, eventcheck-function returned false; nil, an error occured
       number last_statechange_precise_time - the last time the state had been changed from true to false or false to true; the time is like the one returned by reaper.time_precise()
     </retval>
     <parameters>
-      integer id - the id of the event, whose paused-state you want to retrieve; 1, the first event; 2, the second event, etc
+      integer id - the id of the event, whose eventcheckfunction-retval you want to retrieve; 1, the first event; 2, the second event, etc
     </parameters>
     <chapter_context>
       Event Manager
@@ -2171,7 +2210,7 @@ function ultraschall.EventManager_GetLastCheckfunctionState(id)
   if id>ultraschall.EventManager_CountRegisteredEvents() then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState", "id", "no such event registered", -3) return end
   local A=reaper.GetExtState("ultraschall_eventmanager", "checkfunction_returnstate"..id)
   local A1=toboolean(A:match("(.-)\n"))
-  local A2=tonumber(A:match(".-\n(.*)"))
+  A2=tonumber(A:match(".-\n(.-)\n"))
   if A1==nil then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState", "", "EventCheckFunction returned invalid returnvalue: "..A:match("(.-)\n").."\nMust be either true or false!", -4) end
   return A1, A2
 end
@@ -2226,15 +2265,15 @@ function ultraschall.EventManager_GetLastCheckfunctionState2(EventIdentifier)
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>boolean paused_state, number last_statechange_precise_time = ultraschall.EventManager_GetLastCheckfunctionState2(string EventIdentifier)</functioncall>
+    <functioncall>boolean check_state, number last_statechange_precise_time = ultraschall.EventManager_GetLastCheckfunctionState2(string EventIdentifier)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      returns the last state the eventcheck-function returned the last time it was called; of a certein registered event in the EventManager.
+      returns the last state the eventcheck-function returned the last time it was called; of a certain registered event in the EventManager.
       State is requested by EventIdentifier
       
       returns nil in case of an error; nil and time, if the EventCheck-function didn't return a boolean
     </description>
     <retval>
-      boolean paused_state - true, eventcheck-function returned true; false, eventcheck-function returned false; nil, an error occured
+      boolean check_state - true, eventcheck-function returned true; false, eventcheck-function returned false; nil, an error occured
       number last_statechange_precise_time - the last time the state had been changed from true to false or false to true; the time is like the one returned by reaper.time_precise()
     </retval>
     <parameters>
@@ -2245,7 +2284,7 @@ function ultraschall.EventManager_GetLastCheckfunctionState2(EventIdentifier)
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
     <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>eventmanager, get, eventcheck function, state, eventidentifier, count</tags>
+    <tags>eventmanager, get, eventcheck function, state, eventidentifier</tags>
   </US_DocBloc>
   ]]  
   if type(EventIdentifier)~="string" then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState2", "EventIdentifier", "must be a string", -1) return end
@@ -2257,7 +2296,7 @@ function ultraschall.EventManager_GetLastCheckfunctionState2(EventIdentifier)
 
   local A=reaper.GetExtState("ultraschall_eventmanager", "checkfunction_returnstate"..id)
   local A1=toboolean(A:match("(.-)\n"))
-  local A2=tonumber(A:match(".-\n(.*)"))
+  local A2=tonumber(A:match(".-\n(.-)\n"))
   if A1==nil then ultraschall.AddErrorMessage("EventManager_GetLastCheckfunctionState2", "", "EventCheckFunction returned invalid returnvalue: "..A:match("(.-)\n").."\nMust be either true or false!", -4) end
   
   return A1, A2
@@ -2336,5 +2375,107 @@ function ultraschall.EventManager_DebugMode_LastCheckFunctionStates()
   end
   return count, Table
 end
+
+function ultraschall.ConvertFunction_ToHexString(to_convert_function, debug)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertFunction_ToHexString</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>string HEX_functionstring = ultraschall.ConvertFunction_ToHexString(function to_convert_function, boolean debug)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Converts a function into a HEX-string.
+    
+    To load a function from a HEX-string, use [ConvertFunction_FromHexString](#ConvertFunction_FromHexString)
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    string HEX_functionstring - the function, stored as HEX-string
+  </retvals>
+  <parameters>
+    function to_convert_function - the function, that you want to convert
+    boolean debug - true, store debug-information as well; false, only store function
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, function, hexstring</tags>
+</US_DocBloc>
+]]
+  if type(to_convert_function)~="function" then ultraschall.AddErrorMessage("ConvertFunction_ToHexString", "to_convert_function", "must be a function", -1) return end
+  
+  local Dump=string.dump (to_convert_function, debug)
+  local HexDump = ultraschall.ConvertAscii2Hex(Dump)
+  
+  return HexDump,Dump
+end
+
+--A,A1=ultraschall.ConvertFunction_ToHexString(print, true)
+
+
+function ultraschall.ConvertFunction_FromHexString(HEX_functionstring)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertFunction_FromHexString</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>function function = ultraschall.ConvertFunction_FromHexString(string HEX_functionstring)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Loads a function from a HEX-string.
+    
+    To convert a function into a HEX-string, use [ConvertFunction_ToHexString](#ConvertFunction_ToHexString)
+    
+    Returns nil in case of an error
+  </description>
+  <retvals>
+    function func - the loaded function
+  </retvals>
+  <parameters>
+    string HEX_functionstring - the function, stored as HEX-string
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, load, function, hexstring</tags>
+</US_DocBloc>
+]]
+  if type(HEX_functionstring)~="string" then ultraschall.AddErrorMessage("ConvertFunction_FromHexString", "HEX_functionstring", "must be a string", -1) return end
+
+  local Dump = ultraschall.ConvertHex2Ascii(HEX_functionstring)
+  if Dump==nil then ultraschall.AddErrorMessage("ConvertFunction_FromHexString", "HEX_functionstring", "no valid HEX-string", -2) return false end
+  local function2=load(Dump)
+  if type(function2)~="function" then ultraschall.AddErrorMessage("ConvertFunction_FromHexString", "HEX_functionstring", "no function found", -3) return end
+  return function2,Dump
+end
+
+--B,B2=ultraschall.ConvertFunction_FromHexString(A)
+
+
+function ultraschall.TransientDetection_Set(Sensitivity, Threshold, ZeroCrossings)
+  -- needs to take care of faulty parametervalues AND of correct value-entering into an already opened
+  -- 41208 - Transient detection sensitivity/threshold: Adjust... - dialog
+  reaper.SNM_SetDoubleConfigVar("transientsensitivity", Sensitivity) -- 0.0 to 1.0
+  reaper.SNM_SetDoubleConfigVar("transientthreshold", Threshold) -- -60 to 0
+  local val=reaper.SNM_GetIntConfigVar("tabtotransflag", -999)
+  if val&2==2 and ZeroCrossings==false then
+    reaper.SNM_SetIntConfigVar("tabtotransflag", val-2)
+  elseif val&2==0 and ZeroCrossings==true then
+    reaper.SNM_SetIntConfigVar("tabtotransflag", val+2)
+  end
+end
+
+--ultraschall.TransientDetection_Set(0.1, -9, false)
+
 
 ultraschall.ShowLastErrorMessage()

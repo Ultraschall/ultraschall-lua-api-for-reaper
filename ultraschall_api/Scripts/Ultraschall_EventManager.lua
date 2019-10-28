@@ -24,11 +24,18 @@
   ################################################################################
   --]]
 
--- Event Manager - 1.1
+-- Event Manager - 1.15
 -- Meo Mespotine
 --
 -- Issues: Api functions don't recognize registered EventIdentifiers who weren't processed yet by the EventManager.
 --         Must be fixed
+--         Lua functions, who are stored as binary-chunks, are ot crossplatform-compatible. Important for StartUp-Events!
+--
+-- ToDo: 1) Allow getting event-states and attributes within EventManager using internal functions, instead of "official" functions
+--          That way, checkfunctions can be "meta-functions" who react to multiple event-check-state-combinations with better performance
+--       2) Use functions instead of actions, for quick state-changes for whom using actions would be overkill
+--       3) Allow using sourcecode-functions, not only binary chunks
+
 
 --[[
 EventStateChunk-specs:
@@ -48,8 +55,8 @@ EventStateChunk-specs:
                               false, run the actions again and again until eventcheck returns false
   Paused: boolean, 
           if the eventcheck is currently paused or not
-  Function: Base64string-oneliner
-            the Lua-binary-function as BASE64-encoded string
+  Function: Hexstring-oneliner
+            the Lua-binary-function as Hex-encoded string
   CountOfActions: number; 
                   number of actions to run if event happens
 
@@ -137,9 +144,19 @@ function ResumeEvent(id)
 end
 
 function CheckAndSetRetvalOfCheckFunction(id, state)
+ -- store the current eventcheck-function-returnstate in extstate, if it changes
+ -- also stores the EventIdentifier
   if EventTable[id]["eventstate"]~=state then
     EventTable[id]["eventstate"]=state
-    reaper.SetExtState("ultraschall_eventmanager", "checkfunction_returnstate"..id, tostring(state).."\n"..reaper.time_precise(), false)
+    reaper.SetExtState("ultraschall_eventmanager", "checkfunction_returnstate"..id, tostring(state).."\n"..reaper.time_precise().."\n"..EventTable[id]["EventIdentifier"], false)
+  end
+end
+
+function ClearAllCheckfunctionRetvals()
+  -- resets all checkstates, so the checkstates in the extstate "ultraschall_eventmanager", "checkfunction_returnstate"..id 
+  -- are updated properly
+  for i=1, CountOfEvents do
+    EventTable[i]["eventstate"]=nil
   end
 end
 
@@ -154,6 +171,7 @@ function RemoveEvent_ScriptIdentifier2(ScriptIdentifier)
     end
   end
   if CountOfEvents==0 then reaper.DeleteExtState("ultraschall_eventmanager", "running", false) end
+  ClearAllCheckfunctionRetvals()
   UpdateEventList_ExtState()
 end
 
@@ -165,6 +183,7 @@ function RemoveEvent_ScriptIdentifier(script_identifier)
       CountOfEvents=CountOfEvents-1
     end
   end
+  ClearAllCheckfunctionRetvals()
   UpdateEventList_ExtState()
 end
 
@@ -251,8 +270,8 @@ function AddEvent(EventStateChunk)
   EventTable[CountOfEvents]={}
   -- Attributes
   EventTable[CountOfEvents]["EventName"]=EventName                                  -- the name of the event, can happen multiple times
-  EventTable[CountOfEvents]["Function"]=load(ultraschall.Base64_Decoder(Function))  -- the checking function
-  EventTable[CountOfEvents]["FunctionOrg"]=Function                                 -- the Base64-encoded version of the checking-function
+  EventTable[CountOfEvents]["Function"]=load(ultraschall.ConvertHex2Ascii(Function))-- the checking function
+  EventTable[CountOfEvents]["FunctionOrg"]=Function                                 -- the Hex-encoded version of the checking-function
   EventTable[CountOfEvents]["CheckAllXSeconds"]=CheckAllXSeconds                    -- check all X seconds; 0 for constant checking; only approximate time due API restrictions
   EventTable[CountOfEvents]["CheckAllXSeconds_current"]=nil                         -- current checking time(internal value), to check agains if CheckAllXSeconds has been reached
   EventTable[CountOfEvents]["CheckForXSeconds"]=CheckForXSeconds                    -- check for X seconds; 0 for unlimited checking; only approximate time due API restrictions
@@ -333,8 +352,8 @@ function SetEvent(EventStateChunk)
   if EventID==-1 then return end
   -- Attributes
   EventTable[EventID]["EventName"]=EventName                                    -- the name of the event, can happen multiple times
-  EventTable[EventID]["Function"]=load(ultraschall.Base64_Decoder(Function))    -- the checking function
-  EventTable[EventID]["FunctionOrg"]=Function                                   -- the Base64-encoded version of the checking-function
+  EventTable[EventID]["Function"]=load(ultraschall.ConvertHex2Ascii(Function))  -- the checking function
+  EventTable[EventID]["FunctionOrg"]=Function                                   -- the Hex-encoded version of the checking-function
   EventTable[EventID]["CheckAllXSeconds"]=CheckAllXSeconds                      -- check all X seconds; 0 for constant checking; only approximate time due API restrictions
   EventTable[EventID]["CheckAllXSeconds_current"]=nil                           -- current checking time(internal value), to check agains if CheckAllXSeconds has been reached
   EventTable[EventID]["CheckForXSeconds"]=CheckForXSeconds                      -- check for X seconds; 0 for unlimited checking; only approximate time due API restrictions        
@@ -358,6 +377,7 @@ function RemoveEvent_ID(id)
 -- remove event by id in the EventTable
   table.remove(EventTable, id)
   CountOfEvents=CountOfEvents-1
+  ClearAllCheckfunctionRetvals()
   UpdateEventList_ExtState()
 end
 
@@ -370,6 +390,7 @@ function RemoveEvent_Identifier(identifier)
       break
     end
   end
+  ClearAllCheckfunctionRetvals()
   UpdateEventList_ExtState()
 end
 
@@ -381,6 +402,7 @@ function RemoveEvent_ScriptIdentifier(script_identifier)
       CountOfEvents=CountOfEvents-1
     end
   end
+  ClearAllCheckfunctionRetvals()
   UpdateEventList_ExtState()
 end
 

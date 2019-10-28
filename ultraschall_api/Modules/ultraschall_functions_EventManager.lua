@@ -129,7 +129,7 @@ function ultraschall.EventManager_EnumerateStartupEvents(index)
              tonumber(k:match("CheckAllXSeconds: (.-)\n")),
              tonumber(k:match("CheckForXSeconds: (.-)\n")),
              toboolean(k:match("StartActionsOnceDuringTrue: (.-)\n")),
-             ultraschall.ConvertFunction_FromBase64String(k:match("Function: (.-)\n")),
+             ultraschall.ConvertFunction_FromHexString(k:match("Function: (.-)\n")),
              tonumber(k:match("CountOfActions: (.-)\n")),
              actions
     end
@@ -216,7 +216,7 @@ function ultraschall.EventManager_EnumerateStartupEvents2(EventIdentifier)
              tonumber(k:match("CheckAllXSeconds: (.-)\n")),
              tonumber(k:match("CheckForXSeconds: (.-)\n")),
              toboolean(k:match("StartActionsOnceDuringTrue: (.-)\n")),
-             ultraschall.ConvertFunction_FromBase64String(k:match("Function: (.-)\n")),
+             ultraschall.ConvertFunction_FromHexString(k:match("Function: (.-)\n")),
              tonumber(k:match("CountOfActions: (.-)\n")),
              actions
     end
@@ -273,6 +273,7 @@ function ultraschall.EventManager_AddEvent(EventName, CheckAllXSeconds, CheckFor
   <tags>event manager, add, new, event, function, actions, section, action</tags>
 </US_DocBloc>
 --]]
+
   if reaper.GetExtState("ultraschall_eventmanager", "state")=="" then ultraschall.AddErrorMessage("EventManager_AddEvent", "", "Eventmanager not started yet", -1) return end
   if type(EventName)~="string" then ultraschall.AddErrorMessage("EventManager_AddEvent", "EventName", "must be a string", -2) return end
   if math.type(CheckAllXSeconds)~="integer" then ultraschall.AddErrorMessage("EventManager_AddEvent", "CheckAllXSeconds", "must be an integer; 0 for constant checking", -3) return end
@@ -281,7 +282,6 @@ function ultraschall.EventManager_AddEvent(EventName, CheckAllXSeconds, CheckFor
   if type(EventPaused)~="boolean" then ultraschall.AddErrorMessage("EventManager_AddEvent", "EventPaused", "must be a boolean", -6) return end
   if type(CheckFunction)~="function" then ultraschall.AddErrorMessage("EventManager_AddEvent", "CheckFunction", "must be a function", -7) return end
   if type(Actions)~="table" then ultraschall.AddErrorMessage("EventManager_AddEvent", "Actions", "must be a table", -8) return end
-  
 
   local EventStateChunk=""  
   local EventIdentifier="Ultraschall_Eventidentifier: "..reaper.genGuid()
@@ -303,7 +303,7 @@ StartActionsOnceDuringTrue: ]]..tostring(StartActionsOnceDuringTrue)..[[
 
 Paused: ]]..tostring(EventPaused)..[[
 
-Function: ]]..ultraschall.Base64_Encoder(string.dump(CheckFunction))..[[
+Function: ]]..ultraschall.ConvertAscii2Hex(string.dump(CheckFunction))..[[
 
 CountOfActions: ]]..ActionsCount.."\n"
 
@@ -322,6 +322,7 @@ CountOfActions: ]]..ActionsCount.."\n"
   
   local StateRegister=reaper.GetExtState("ultraschall_eventmanager", "eventregister")
   reaper.SetExtState("ultraschall_eventmanager", "eventregister", StateRegister..EventStateChunk2, false)
+  
   return EventIdentifier
 end
 
@@ -525,7 +526,7 @@ StartActionsOnceDuringTrue: ]]..tostring(StartActionsOnceDuringTrue)..[[
 
 Paused: ]]..tostring(EventPaused)..[[
 
-Function: ]]..ultraschall.Base64_Encoder(string.dump(CheckFunction))..[[
+Function: ]]..ultraschall.ConvertAscii2Hex(string.dump(CheckFunction))..[[
 
 CountOfActions: ]]..ActionsCount.."\n"
 
@@ -578,7 +579,7 @@ function ultraschall.EventManager_EnumerateEvents(id)
                                        -    true, run the actions only once
                                        -    false, run until the CheckFunction returns false again
     boolean EventPaused - true, eventcheck is currently paused; false, eventcheck is currently running
-    function CheckFunction - the function, which shall check if the event occurred, as Base64-encoded string
+    function CheckFunction - the function, which shall check if the event occurred
     integer NumberOfActions - the number of actions currently registered with this event
     table Actions - a table which holds all actions and their accompanying sections, who are run when the event occurred
                   - each entry of the table is of the format "actioncommandid,section", e.g.:
@@ -615,7 +616,7 @@ function ultraschall.EventManager_EnumerateEvents(id)
              tonumber(k:match("CheckForXSeconds: (.-)\n")),
              toboolean(k:match("StartActionsOnlyOnceDuringTrue: (.-)\n")),
              toboolean(k:match("EventPaused: (.-)\n")),
-             ultraschall.ConvertFunction_FromBase64String(k:match("Function: (.-)\n")),
+             ultraschall.ConvertFunction_FromHexString(k:match("Function: (.-)\n")),
              tonumber(k:match("Number of Actions: (.-)\n")),
              actions
     end
@@ -654,7 +655,7 @@ function ultraschall.EventManager_EnumerateEvents2(EventIdentifier)
                                        -    true, run the actions only once
                                        -    false, run until the CheckFunction returns false again
     boolean EventPaused - true, eventcheck is currently paused; false, eventcheck is currently running
-    function CheckFunction - the function, which shall check if the event occurred, as Base64-encoded string
+    function CheckFunction - the function, which shall check if the event occurred
     integer NumberOfActions - the number of actions currently registered with this event
     table Actions - a table which holds all actions and their accompanying sections, who are run when the event occurred
                   - each entry of the table is of the format "actioncommandid,section", e.g.:
@@ -692,7 +693,7 @@ function ultraschall.EventManager_EnumerateEvents2(EventIdentifier)
              tonumber(k:match("CheckForXSeconds: (.-)\n")),
              toboolean(k:match("StartActionsOnlyOnceDuringTrue: (.-)\n")),
              toboolean(k:match("EventPaused: (.-)\n")),
-             ultraschall.ConvertFunction_FromBase64String(k:match("Function: (.-)\n")),
+             ultraschall.ConvertFunction_FromHexString(k:match("Function: (.-)\n")),
              tonumber(k:match("Number of Actions: (.-)\n")),
              actions
     end
@@ -996,7 +997,7 @@ StartActionsOnceDuringTrue: ]]..tostring(StartActionsOnceDuringTrue)..[[
 
 Paused: ]]..tostring(EventPaused)..[[
 
-Function: ]]..ultraschall.Base64_Encoder(string.dump(CheckFunction))..[[
+Function: ]]..ultraschall.ConvertAscii2Hex(string.dump(CheckFunction))..[[
 
 CountOfActions: ]]..ActionsCount.."\n"
   for i=1, ActionsCount do
@@ -1031,7 +1032,7 @@ function ultraschall.EventManager_RemoveStartupEvent2(id)
     Reaper=5.982
     Lua=5.3
   </requires>
-  <functioncall>boolean retval = ultraschall.Eventmanager_RemoveEvent2(integer id)</functioncall>
+  <functioncall>boolean retval = ultraschall.EventManager_RemoveStartupEvent2(integer id)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Removes a startup-event from the config-file of the Ultraschall Event Manager.
     
@@ -1249,7 +1250,7 @@ StartActionsOnceDuringTrue: ]]..tostring(StartActionsOnceDuringTrue)..[[
 
 Paused: ]]..tostring(EventPaused)..[[
 
-Function: ]]..ultraschall.Base64_Encoder(string.dump(CheckFunction))..[[
+Function: ]]..ultraschall.ConvertAscii2Hex(string.dump(CheckFunction))..[[
 
 CountOfActions: ]]..ActionsCount.."\n"
   for i=1, ActionsCount do
