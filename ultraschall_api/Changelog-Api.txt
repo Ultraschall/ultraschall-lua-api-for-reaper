@@ -233,6 +233,7 @@ TODO!! buggy function
    - MIDIManagement: MIDI\_SendMidiPC - sends a MIDI-PC-message to a device or virtual keyboard or Reaper itself as shortcut
    - MIDIManagement: MIDI\_SendMidiPitch - sends a MIDI-Pitchbend-message to a device or virtual keyboard or Reaper itself as shortcut
    - Project Management: SaveProjectAs - saves the current project under a new filename
+   - TrackManagement: AnyTrackRecarmed - returns, if any track is recarmed
    - UltraschallSoundboard: Soundboard\_Play - starts playing a certain player within the Ultraschall Soundboard
    - UltraschallSoundboard: Soundboard\_PlayList\_Next - starts the next Soundboard-player-slot
    - UltraschallSoundboard: Soundboard\_PlayList\_Previous - starts the previous Soundboard-player-slot

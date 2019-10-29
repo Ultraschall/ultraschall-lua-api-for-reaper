@@ -2477,5 +2477,35 @@ end
 
 --ultraschall.TransientDetection_Set(0.1, -9, false)
 
+function ultraschall.AnyTrackRecarmed()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>AnyTrackRecarmed</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.AnyTrackRecarmed()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns true, if any track is recarmed.
+  </description>
+  <retvals>
+    boolean retval - true, at least one track is recarmed; false, no track is recarmed
+  </retvals>
+  <chapter_context>
+    Track Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, load, function, hexstring</tags>
+</US_DocBloc>
+]]
+  for i=0, reaper.CountTracks(0)-1 do
+    if reaper.GetMediaTrackInfo_Value(reaper.GetTrack(0,i), "I_RECARM")~=0 then return true end
+  end
+  return false
+end
 
 ultraschall.ShowLastErrorMessage()
