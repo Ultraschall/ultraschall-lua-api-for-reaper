@@ -246,6 +246,7 @@ TODO!! buggy function
    - DeferManagement: GetDeferRunState - gets now Defer-cycles-runstate, of deferred-functions, started by the new function Defer, as well
    - DeferManagement: StopDeferCycle - stops now Defer-cycles, started by the new function Defer, as well
    - DeveloperTools: StateInspector - supports now displaying gmem-states as well(hit g or look in the menu)
+   - Docs: Reaper-Internals - updated JS-extension to 0.995
    - DocEngine: Docs\_GetUSDocBloc\_Description - didn't return right markup-type and version -> fixed
    - EventManager: EventManager\_EnumerateStartupEvents - was missing retval paused -> fixed
    - EventManager: EventManager\_EnumerateStartupEvents2 - was missing retval paused -> fixed
@@ -256,7 +257,7 @@ TODO!! buggy function
    - EventManager: EventManager\_SetStartupEvent - you can now pass nil for parameters, who you don't want to change
    - EventManager: EventManager\_Start - checks now, if EventManager-script exists and returns false if not; didn't unregister the EventManager-script again, after it was run -> fixed(thanks to rstockm)
    - EventManager: StartupEvent-functions - had to rewrite the function-encoding, so StartupEvents must be re-registered by you to work, sorry for that
-   - EventManager: EventManager-script - returns now the current event-check-function's state
+   - EventManager: EventManager-script - returns now the current event-check-function's state and a debugmode
    - Helper Functions: Base64\_Encoder - was completely broken due "improvements" -> fixed now
    - Helper Functions: GetApiVersion - put retval "number versionnumber" as first returnvalue, for easier versioncomparison(sorry for any inconvenience)
    - RenderManagement: RenderProject\_RenderTable - didn't return filearray -> fixed
