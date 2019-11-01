@@ -26,7 +26,6 @@
                         Diese erlaubt es auch den EventManager zu starten und zu beenden.
                         
         - TODO!! Event Manager: 
-                        - Eventreihenfolge sollte änderbar sein
                         - Funktionen anstelle von Actions sollten auch hinzufügbar sein. Diese haben auch Zugriff auf den UserSpace
                           des Events.
         - DOcEngine: Retval und Parms-parsefkts haben Probleme, wenn zwischen parameter/retvalname und - kein Leerzeichen ist.
@@ -34,8 +33,6 @@
         - TODO!! XML-versions of the USDOCML-docsfiles
         - TODO!! Text to XML-compatible characters-function, for < > & etc
         - TODO!! in the eventmanager-script: 
-            - Set sollte es möglich machen Sachen optional zu ändern: pass nil and keep old setting
-            - EventManager_SetEvent muss es ermöglichen, dass man Parameter auf nil setzen kann, die man nicht ändern will(Ausnahme: ActionList-table)!
             - CheckEveryXSeconds: mach Wert 0 zu permanent und negative Werte zu EveryXDeferCycle-Werten für mehr Kontrolle darüber(letzteres Kür)
             - CheckForXSeconds: mach Wert 0 zu dauerhaft und evtl negative Werte für Anzahl Defer-Cycles, die gecheckt werden soll(letzteres Kür)
             
@@ -72,15 +69,10 @@
                   
                   States:
                   -  RENDER_QUEUE-stuff
-                  - SetProject_MasterFXByp
-                  - SetProject_MasterMuteSolo
-                  - SetProject_MasterNChans
-                  - SetProject_MasterTrackHeight
                   - SetProject_MasterTrackColor
                   - SetProject_MasterTrackView
                   - SetProject_CountMasterHWOuts
                   - SetProject_MasterHWOut
-                  
                   - SetProject_MasterVolume - 
                   - SetProject_MasterPanMode - 
                   - SetProject_MasterWidth - 
@@ -216,6 +208,8 @@ TODO!! buggy function
                               better than Defer1 through Defer20!
                               Use this one, when in doubt! (requested by rstockm)
    - ErrorMessagingSystem: SLEM - this works like ultraschall.ShowLastErrorMessage() but is easier to type.
+   - EventManager: EventManager\_DebugMode - starts/stops the debug-mode of the EventManager, which adds additional debugging features
+   - EventManager: EventManager\_DebugMode\_UserSpace - allows getting the contents of the userspace as used by a registered eventcheck-function, for debugging purposes(DebugMode must be set to on)
    - EventManager: EventManager\_GetEventIdentifier - returns the EventIdentifier of a registered event, by id
    - EventManager: EventManager\_GetLastCheckfunctionState - returns the last state of the checkfunction of a certain event, by numbered id(requested by rstockm)
    - EventManager: EventManager\_GetLastCheckfunctionState2 - returns the last state of the checkfunction of a certain event, by EventIdentifier(requested by rstockm)
@@ -233,6 +227,9 @@ TODO!! buggy function
    - MIDIManagement: MIDI\_SendMidiPC - sends a MIDI-PC-message to a device or virtual keyboard or Reaper itself as shortcut
    - MIDIManagement: MIDI\_SendMidiPitch - sends a MIDI-Pitchbend-message to a device or virtual keyboard or Reaper itself as shortcut
    - Project Management: SaveProjectAs - saves the current project under a new filename
+   - Project Management: SetProject\_MasterFXByp - sets the fx-bypass-state of the master-track in a projectfile or a ProjectStateChunk
+   - Project Management: SetProject\_MasterMuteSolo - sets the mute-solo-state of the master-track in a projectfile or a ProjectStateChunk
+   - Project Management: SetProject\_MasterNChans - sets the number of channels and vu-metering-settings of the mastertrack in a projectfile or a ProjectStateChunk
    - TrackManagement: AnyTrackRecarmed - returns, if any track is recarmed
    - UltraschallSoundboard: Soundboard\_Play - starts playing a certain player within the Ultraschall Soundboard
    - UltraschallSoundboard: Soundboard\_PlayList\_Next - starts the next Soundboard-player-slot

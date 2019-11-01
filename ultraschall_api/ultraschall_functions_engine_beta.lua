@@ -1396,7 +1396,7 @@ function ultraschall.Defer(func, deferidentifier, mode, timer_counter)
   if reaper.GetExtState("ultraschall-defer", deferidentifier)~="running" then
     function cleanupdefer()
         reaper.DeleteExtState("ultraschall-defer", deferidentifier, false)
-        reaper.DeleteExtState("ultraschall-defer", deferidentifier.."-ScriptIdentifier", false)    
+        reaper.DeleteExtState("ultraschall-defer", deferidentifier.."-ScriptIdentifier", false)
         reaper.DeleteExtState("ultraschall-defer", deferidentifier.."-LastCallTime", false)
     end
     reaper.atexit(cleanupdefer)
@@ -2306,7 +2306,7 @@ end
 
 function ultraschall.EventManager_DebugMode(toggle)
 --[[
-</US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>EventManager_DebugMode</slug>
   <requires>
     Ultraschall=4.00
@@ -2317,7 +2317,7 @@ function ultraschall.EventManager_DebugMode(toggle)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Starts Debugmode of the EventManager, which returns additional internal states.
     
-    Allows you to get the last checkfunction-states, see [EventManager\_DebugMode\_LastCheckFunctionStates](#EventManager_DebugMode_LastCheckFunctionStates).
+    Allows you to get the contents of the UserSpace of a certain checkfunction of a registered event, see [EventManager_DebugMode_UserSpace](#EventManager_DebugMode_UserSpace).
     
     Note: Debugmode is not for productive usecases, as it costs resources. Please turn it off again, after you've finished debugging.
   </description>
@@ -2330,50 +2330,75 @@ function ultraschall.EventManager_DebugMode(toggle)
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>event manager, toggle, debug, debugmode</tags>
-<//US_DocBloc>
+</US_DocBloc>
 --]]
   if toggle==true then toggle="doit" else toggle="stopit" end
   reaper.SetExtState("ultraschall_eventmanager", "debugmode", toggle, false)
 end
 
-function ultraschall.EventManager_DebugMode_LastCheckFunctionStates()
+function ultraschall.EventManager_DebugMode_UserSpace(index)
 --[[
-</US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>EventManager_DebugMode_LastCheckFunctionStates</slug>
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EventManager_DebugMode_UserSpace</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.982
     Lua=5.3
   </requires>
-  <functioncall>integer count_of_events, table checkstates = ultraschall.EventManager_DebugMode_LastCheckFunctionStates()</functioncall>
+  <functioncall>integer userspace_count, table userspace = ultraschall.EventManager_DebugMode_UserSpace(integer index)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns the last checkstates of all checkfunctions currently registered with the EventManager.
-    Needs Debugmode turned on. See [EventManager\_DebugMode](#EventManager_DebugMode).
+    Returns the current contents of the UserSpace, as stored by the checkfunction of a registered event in the EventManager.
     
-    returns -1, if debugmode is off
+    The table is of the format:
+        
+            userspace[index]["index"]    - the name of the index
+            userspace[index]["datatype"] - the datatype of the value in this userspace-index
+            userspace[index]["value"]    - the value in this userspace-index
+    
+    Note: Debugmode is not for productive usecases, as it costs resources. Please turn it off again, after you've finished debugging.
+    See [EventManager\_DebugMode](#EventManager_DebugMode) for more details on stopping DebugMode.
   </description>
+  <parameters>
+    integer index - the index of the event, whose UserSpace you want to retrieve
+  </parameters>
   <retvals>
-    integer count_of_events - the number of events currently available
-    table checkstates - a table with all true/false-checkstates of the last defer-cycle; if it contains anything else than true/false, then the checkfunction returns the wrong returnvalue -> Go fix it!
+    integer userspace_count - the number of values within the userspace
+    table userspace - the contents of the userspace as a handy table
   </retvals>
   <chapter_context>
     Event Manager
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>event manager, get, eventcheckfunction, checkstate, debug, debugmode</tags>
-<//US_DocBloc>
+  <tags>event manager, toggle, debug, debugmode, userspace</tags>
+</US_DocBloc>
 --]]
-  local A=reaper.GetExtState("ultraschall_eventmanager", "checkstates")
-  local Table={}
+  
+  local Value=reaper.GetExtState("ultraschall_eventmanager", "UserSpaces_"..index)
   local count=0
-  for k in string.gmatch(A, "(.-)\n") do
-    --print(A)
+  local count2=1
+  local Values={}
+  local V
+  Values[count2]={}
+  for k in string.gmatch(Value, "(.-)\n") do
     count=count+1
-    local a=k:match(".-: (.*)")
-    Table[count]={toboolean(b)}
+    if count==1 then
+      Values[count2]["index"]=k:match("index:(.*)")
+    end
+    if count==2 then
+      Values[count2]["datatype"]=k:match("datatype:(.*)")
+    end
+    if count==3 then
+      V=string.gsub(k, "\\\\n", "\0")
+      V=string.gsub(V, "\\n", "\n")
+      V=string.gsub(V, "\0", "\\n")
+      Values[count2]["value"]=V:match("value:(.*)")
+    end
+    if count==4 then count=0 count2=count2+1 Values[count2]={} end
   end
-  return count, Table
+  Values[count2]=nil
+  if count2==1 then Values=nil end
+  return count2-1, Values
 end
 
 function ultraschall.ConvertFunction_ToHexString(to_convert_function, debug)
