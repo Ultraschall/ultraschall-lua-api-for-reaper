@@ -69,12 +69,11 @@
                   
                   States:
                   -  RENDER_QUEUE-stuff
-                  - SetProject_MasterTrackColor
                   - SetProject_MasterTrackView
                   - SetProject_CountMasterHWOuts
                   - SetProject_MasterHWOut
                   - SetProject_MasterVolume - 
-                  - SetProject_MasterPanMode - 
+                - SetProject_MasterPanMode - 
                   - SetProject_MasterWidth - 
                   - SetProject_MasterGroupFlagsState - 
                   - SetProject_MasterGroupFlagsHighState - 
@@ -216,6 +215,7 @@ Additions:
    - DeferManagement: Defer - runs a deferred loop; you can decide how often it runs; allows you to give it a unique identifier to access, watch and stop it from anywhere!
                               better than Defer1 through Defer20!
                               Use this one, when in doubt! (requested by rstockm)
+   - Debug: PingMe - shows a message with the current scriptfilename and linenumbers of execution for debugging purposes, like hooks but "lighter"
    - ErrorMessagingSystem: SLEM - this works like ultraschall.ShowLastErrorMessage() but is easier to type.
    - EventManager: EventManager\_DebugMode - starts/stops the debug-mode of the EventManager, which adds additional debugging features
    - EventManager: EventManager\_DebugMode\_UserSpace - allows getting the contents of the userspace as used by a registered eventcheck-function, for debugging purposes(DebugMode must be set to on)
@@ -236,6 +236,7 @@ Additions:
    - Project Management: SetProject\_MasterFXByp - sets the fx-bypass-state of the master-track in a projectfile or a ProjectStateChunk
    - Project Management: SetProject\_MasterMuteSolo - sets the mute-solo-state of the master-track in a projectfile or a ProjectStateChunk
    - Project Management: SetProject\_MasterNChans - sets the number of channels and vu-metering-settings of the mastertrack in a projectfile or a ProjectStateChunk
+   - Project Management: SetProject\_MasterTrackColor - sets the color of the track
    - TrackManagement: AnyTrackFreeItemPositioningMode - returns, if any track has free item positioning mode activated
    - TrackManagement: AnyTrackFXBypass - returns, if any track has fx-bypass activated(optionally with master-track)
    - TrackManagement: AnyTrackHiddenTCP - returns, if any track is hidden in TCP(optionally with master-track)

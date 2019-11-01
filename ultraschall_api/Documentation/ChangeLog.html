@@ -44,6 +44,7 @@ Ultraschall API Changelog
 <h4>New features in 4.00beta2.78</h4>
 <ul>
 <li>DeferManagement: Defer - runs a deferred loop; you can decide how often it runs; allows you to give it a unique identifier to access, watch and stop it from anywhere! better than Defer1 through Defer20! Use this one, when in doubt! (requested by rstockm)</li>
+<li>Debug: PingMe - shows a message with the current scriptfilename and linenumbers of execution for debugging purposes, like hooks but "lighter"</li>
 <li>ErrorMessagingSystem: SLEM - this works like ultraschall.ShowLastErrorMessage() but is easier to type.</li>
 <li>EventManager: EventManager_DebugMode - starts/stops the debug-mode of the EventManager, which adds additional debugging features</li>
 <li>EventManager: EventManager_DebugMode_UserSpace - allows getting the contents of the userspace as used by a registered eventcheck-function, for debugging purposes(DebugMode must be set to on)</li>
@@ -64,6 +65,7 @@ Ultraschall API Changelog
 <li>Project Management: SetProject_MasterFXByp - sets the fx-bypass-state of the master-track in a projectfile or a ProjectStateChunk</li>
 <li>Project Management: SetProject_MasterMuteSolo - sets the mute-solo-state of the master-track in a projectfile or a ProjectStateChunk</li>
 <li>Project Management: SetProject_MasterNChans - sets the number of channels and vu-metering-settings of the mastertrack in a projectfile or a ProjectStateChunk</li>
+<li>Project Management: SetProject_MasterTrackColor - sets the color of the track</li>
 <li>TrackManagement: AnyTrackFreeItemPositioningMode - returns, if any track has free item positioning mode activated</li>
 <li>TrackManagement: AnyTrackFXBypass - returns, if any track has fx-bypass activated(optionally with master-track)</li>
 <li>TrackManagement: AnyTrackHiddenTCP - returns, if any track is hidden in TCP(optionally with master-track)</li>

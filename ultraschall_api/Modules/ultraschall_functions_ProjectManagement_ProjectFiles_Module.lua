@@ -12081,7 +12081,7 @@ function ultraschall.SetProject_MasterTrackHeight(projectfilename_with_path, hei
     Reaper=5.975
     Lua=5.3
   </requires>
-  <functioncall>integer retval = ultraschall.SetProject_MasterTrackHeight(string projectfilename_with_path, integer number_of_channels, integer peak_metering, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval = ultraschall.SetProject_MasterTrackHeight(string projectfilename_with_path, integer height_state, integer height_lock, optional string ProjectStateChunk)</functioncall>
   <description>
     Sets the trackheight for the master-track of an rpp-projectfile or a ProjectStateChunk.
     
@@ -12124,4 +12124,123 @@ function ultraschall.SetProject_MasterTrackHeight(projectfilename_with_path, hei
   else return 1, ProjectStateChunk
   end  
 end
+
+function ultraschall.SetProject_MasterTrackColor(projectfilename_with_path, color, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetProject_MasterTrackColor</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SetProject_MasterTrackColor(string projectfilename_with_path, integer color, integer peak_metering, optional string ProjectStateChunk)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the color for the master-track of an rpp-projectfile or a ProjectStateChunk.
+    
+    To generate the correct color-value, use [ConvertColor](#ConvertColor).
+    Note: This color reverses red and blue component on Mac, so it looks different on Mac compared to Windows and Linux!
+    
+    It's the entry MASTERPEAKCOL 
+    
+    Returns -1 in case of error.
+  </description>
+  <parameters>
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
+    integer color - the color-value of the MasterTrack
+    optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
+  </parameters>
+  <retvals>
+    integer retval - -1 in case of error, 1 in case of success
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Set
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, set, master track, color</tags>
+</US_DocBloc>
+]]  
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterTrackColor", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
+  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_MasterTrackColor", "projectfilename_with_path", "File does not exist", -2) return -1 end
+  if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
+  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterTrackColor", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
+  if math.type(color)~="integer" then ultraschall.AddErrorMessage("SetProject_MasterTrackColor", "color", "Must be an integer", -4) return -1 end
+  
+  
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterTrackHeight", "projectfilename_with_path", "No valid RPP-Projectfile!", -6) return -1 end
+  
+  local ProjectEntry="  MASTERPEAKCOL "..color.."\n" 
+
+  local ProjectStateChunk=string.gsub(ProjectStateChunk, "\n  MASTERPEAKCOL .-%c", "\n"..ProjectEntry)
+
+  if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
+  else return 1, ProjectStateChunk
+  end  
+end
+
+function ultraschall.SetProject_MasterPanMode(projectfilename_with_path, panmode, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetProject_MasterPanMode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SetProject_MasterPanMode(string projectfilename_with_path, integer panmode, integer peak_metering, optional string ProjectStateChunk)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Sets the panmode for the master-track of an rpp-projectfile or a ProjectStateChunk.
+    
+    It's the entry MASTER_PANMODE 
+    
+    Returns -1 in case of error.
+  </description>
+  <parameters>
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
+    integer panmode - the panmode for the master-track;
+                    -  -1, Project default (Stereo balance)
+                    -   3, Stereo balance  / mono pan(default)
+                    -   5, Stereo Pan
+                    -   6, Dual Pan
+                    -   nil, REAPER 3.x balance(deprecated)
+    optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
+  </parameters>
+  <retvals>
+    integer retval - -1 in case of error, 1 in case of success
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Set
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, set, master track, panmode</tags>
+</US_DocBloc>
+]]  
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterPanMode", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
+  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_MasterPanMode", "projectfilename_with_path", "File does not exist", -2) return -1 end
+  if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
+  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterPanMode", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
+  if panmode~=nil and math.type(panmode)~="integer" then ultraschall.AddErrorMessage("SetProject_MasterPanMode", "panmode", "Must be an integer or nil(for Reaper 3.x-behavior)", -4) return -1 end
+
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_MasterPanMode", "projectfilename_with_path", "No valid RPP-Projectfile!", -6) return -1 end
+  
+  local ProjectEntry=""
+  if panmode~=nil then
+    ProjectEntry="  MASTER_PANMODE "..panmode.."\n" 
+  end
+
+  if ProjectStateChunk:match("MASTER_PANMODE")~=nil then
+    ProjectStateChunk=string.gsub(ProjectStateChunk, "\n  MASTER_PANMODE .-%c", "\n"..ProjectEntry)
+  else
+    ProjectStateChunk=ProjectStateChunk:match("(.*)  MASTER_FX")..ProjectEntry..ProjectStateChunk:match("(  MASTER_FX.*)")
+  end
+
+  if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
+  else return 1, ProjectStateChunk
+  end  
+end
+
 
