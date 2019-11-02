@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40856.00" author="Meo Mespotine">
+      <version name="40867.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/Changelog-Api.txt</source>
@@ -386,7 +386,44 @@
 <changelog><![CDATA[
 Ultraschall Framework - Changelog
 
-4.00 Beta 2.78: - “V for Vendetta track” - 5th of November 2019
+4.00 Beta 2.78: - “Tchaikovski - Overture 1812” - 5th of November 2019
+
+Has now 1070 functions, with 41 new ones
+
+NEW IN THIS RELEASE:
+
+-   EVENT MANAGER
+    Additional functions and features to improve handling, development,
+    monitoring and debugging of events.
+    Fixed some bugs, that need startup-events to be readded again. Sorry
+    for that.
+
+-   SLEM
+    like ultraschall.ShowLastErrorMessage() but faster to type. I should
+    have added this much more earlier.
+
+-   MIDI-NOTES
+    Now you can send easily Midi: notes, cc-messages, pc and pitchbends.
+
+-   DEFER
+    One Defer-function to rule them all. You can set, how often to run
+    the defer-cycle and give it an identifier.
+    With that identifier, you can stop that specific defer-cycle from
+    the outside!
+    Way better than killing all scripts with the action “ReaScript:
+    Close all running reaScripts”.
+
+-   PINGME
+    Puts out a message including linenumber and function, in which the
+    PingMe-function was executed.
+    You can output the message in the ReaScript-console, as messagebox
+    and into the clipboard, even retaining old clipboard-contents.
+    This can be used as simpler version of hooks to monitor internal
+    behavior.
+
+-   STATEINSPECTOR SUPPORTS GMEM
+    You can monitor now gmem-states as well, which is handy for
+    developers of JSFX and Video-Processor-related scripts.
 
 New features in 4.00beta2.78
 
@@ -397,6 +434,8 @@ New features in 4.00beta2.78
 -   Debug: PingMe - shows a message with the current scriptfilename and
     linenumbers of execution for debugging purposes, like hooks but
     “lighter”
+-   Docs: Concepts - added chapters EventManager_The_Basic_Concept,
+    EventManager_AlterRetrieve and EventManager_Debugging
 -   ErrorMessagingSystem: SLEM - this works like
     ultraschall.ShowLastErrorMessage() but is easier to type.
 -   EventManager: EventManager_DebugMode - starts/stops the debug-mode
@@ -447,6 +486,8 @@ New features in 4.00beta2.78
 -   Project Management: SetProject_MasterNChans - sets the number of
     channels and vu-metering-settings of the mastertrack in a
     projectfile or a ProjectStateChunk
+-   Project Management: SetProject_MasterPanMode - sets the panmode of
+    the track
 -   Project Management: SetProject_MasterTrackColor - sets the color of
     the track
 -   TrackManagement: AnyTrackFreeItemPositioningMode - returns, if any
@@ -457,10 +498,10 @@ New features in 4.00beta2.78
     in TCP(optionally with master-track)
 -   TrackManagement: AnyTrackHiddenMCP - returns, if any track is hidden
     in MCP(optionally with master-track)
--   TrackManagement: AnyTrackRecarmed - returns, if any track is
-    recarmed
 -   TrackManagement: AnyTrackPhased - returns, if any track is
     phase-inverted
+-   TrackManagement: AnyTrackRecarmed - returns, if any track is
+    recarmed
 -   TrackManagement: AnyTrackRecMonitored - returns, if any track is
     rec-monitored
 -   UltraschallSoundboard: Soundboard_Play - starts playing a certain

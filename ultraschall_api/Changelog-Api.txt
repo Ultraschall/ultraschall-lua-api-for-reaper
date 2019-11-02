@@ -209,13 +209,41 @@ Additions:
 
 ## Ultraschall Framework - Changelog
 
-### 4.00 Beta 2.78: - "V for Vendetta track" - 5th of November 2019
+### 4.00 Beta 2.78: - "Tchaikovski - Overture 1812" - 5th of November 2019
 
+Has now 1070 functions, with 41 new ones
+
+  **New in this release:**
+  
+  - **Event Manager**  
+  Additional functions and features to improve handling, development, monitoring and debugging of events.  
+  Fixed some bugs, that need startup-events to be readded again. Sorry for that.
+  
+  - **SLEM**  
+  like ultraschall.ShowLastErrorMessage() but faster to type. I should have added this much more earlier.  
+  
+  - **MIDI-notes**  
+  Now you can send easily Midi: notes, cc-messages, pc and pitchbends.
+  
+  - **Defer**  
+  One Defer-function to rule them all. You can set, how often to run the defer-cycle and give it an identifier.  
+  With that identifier, you can stop that specific defer-cycle from the outside!  
+  Way better than killing all scripts with the action "ReaScript: Close all running reaScripts".
+  
+  - **PingMe**  
+  Puts out a message including linenumber and function, in which the PingMe-function was executed.  
+  You can output the message in the ReaScript-console, as messagebox and into the clipboard, even retaining old clipboard-contents.  
+  This can be used as simpler version of hooks to monitor internal behavior.  
+  
+  - **StateInspector supports gmem**  
+  You can monitor now gmem-states as well, which is handy for developers of JSFX and Video-Processor-related scripts.  
+  
 #### New features in 4.00beta2.78
    - DeferManagement: Defer - runs a deferred loop; you can decide how often it runs; allows you to give it a unique identifier to access, watch and stop it from anywhere!
                               better than Defer1 through Defer20!
                               Use this one, when in doubt! (requested by rstockm)
    - Debug: PingMe - shows a message with the current scriptfilename and linenumbers of execution for debugging purposes, like hooks but "lighter"
+   - Docs: Concepts - added chapters EventManager\_The\_Basic\_Concept, EventManager\_AlterRetrieve and EventManager\_Debugging
    - ErrorMessagingSystem: SLEM - this works like ultraschall.ShowLastErrorMessage() but is easier to type.
    - EventManager: EventManager\_DebugMode - starts/stops the debug-mode of the EventManager, which adds additional debugging features
    - EventManager: EventManager\_DebugMode\_UserSpace - allows getting the contents of the userspace as used by a registered eventcheck-function, for debugging purposes(DebugMode must be set to on)
@@ -236,13 +264,14 @@ Additions:
    - Project Management: SetProject\_MasterFXByp - sets the fx-bypass-state of the master-track in a projectfile or a ProjectStateChunk
    - Project Management: SetProject\_MasterMuteSolo - sets the mute-solo-state of the master-track in a projectfile or a ProjectStateChunk
    - Project Management: SetProject\_MasterNChans - sets the number of channels and vu-metering-settings of the mastertrack in a projectfile or a ProjectStateChunk
+   - Project Management: SetProject\_MasterPanMode - sets the panmode of the track
    - Project Management: SetProject\_MasterTrackColor - sets the color of the track
    - TrackManagement: AnyTrackFreeItemPositioningMode - returns, if any track has free item positioning mode activated
    - TrackManagement: AnyTrackFXBypass - returns, if any track has fx-bypass activated(optionally with master-track)
    - TrackManagement: AnyTrackHiddenTCP - returns, if any track is hidden in TCP(optionally with master-track)
    - TrackManagement: AnyTrackHiddenMCP - returns, if any track is hidden in MCP(optionally with master-track)
-   - TrackManagement: AnyTrackRecarmed - returns, if any track is recarmed
    - TrackManagement: AnyTrackPhased - returns, if any track is phase-inverted
+   - TrackManagement: AnyTrackRecarmed - returns, if any track is recarmed
    - TrackManagement: AnyTrackRecMonitored - returns, if any track is rec-monitored
    - UltraschallSoundboard: Soundboard\_Play - starts playing a certain player within the Ultraschall Soundboard
    - UltraschallSoundboard: Soundboard\_PlayList\_Next - starts the next Soundboard-player-slot
