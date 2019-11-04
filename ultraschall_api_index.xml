@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40672.00" author="Meo Mespotine">
+      <version name="40871.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -132,6 +132,7 @@
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_A_Simple_EventManager_with_Backgroundhelpers_and_Defer01.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/US_Api_Examples_A_Simple_EventManager_with_Backgroundhelpers_and_Defer01.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Colors_ColorTables_ColorCycler.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/US_Api_Examples_Colors_ColorTables_ColorCycler.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Colors_Example.lua.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/US_Api_Examples_Colors_Example.lua.lua</source>
+	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_EventManager_HowTo.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/US_Api_Examples_EventManager_HowTo.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_GFX_SimpleDrawingTool.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/US_Api_Examples_GFX_SimpleDrawingTool.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Helpers_ProgressBar_Example.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/US_Api_Examples_Helpers_ProgressBar_Example.lua</source>
 	<source file="/ultraschall_api/Scripts_Examples/US_Api_Examples_Markers_DisplayMarkersRegions_underneath_Mouse.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts_Examples/US_Api_Examples_Markers_DisplayMarkersRegions_underneath_Mouse.lua</source>
@@ -166,6 +167,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.991.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.991.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.992.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.992.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0_951.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0_951.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/JS_0_995.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0_995.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_2_8_8.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_2_8_8.pfi</source>
@@ -194,6 +196,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.972.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.972.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.974.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.974.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.975.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.975.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper5.976.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.976.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.977.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.977.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.978.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.978.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.979.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.979.png</source>
@@ -290,10 +293,6 @@
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak</source>
-	<source file="/ultraschall_api/Scripts/Events/EditCursorPosition.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Events/EditCursorPosition.lua</source>
-	<source file="/ultraschall_api/Scripts/Events/EventProgrammingNotes.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Events/EventProgrammingNotes.txt</source>
-	<source file="/ultraschall_api/Scripts/Events/LoopState.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Events/LoopState.lua</source>
-	<source file="/ultraschall_api/Scripts/Events/PlayState.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Events/PlayState.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_cursorposition.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_cursorposition.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_loopstate.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_loopstate.lua</source>
 	<source file="/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_playstate.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/HelperDeferScripts/ultraschall_track_old_playstate.lua</source>
@@ -385,6 +384,214 @@
 	<source main="true" file="/ultraschall_Remove_Developertools_From_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua</source>
 <changelog><![CDATA[
 Ultraschall Framework - Changelog
+
+4.00 Beta 2.78: - “Tchaikovski - Overture 1812” - 5th of November 2019
+
+Has now 1070 functions, with 41 new ones
+
+NEW IN THIS RELEASE:
+
+-   EVENT MANAGER
+    Additional functions and features to improve handling, development,
+    monitoring and debugging of events.
+    Fixed some bugs, that need startup-events to be readded again. Sorry
+    for that.
+
+-   SLEM
+    like ultraschall.ShowLastErrorMessage() but faster to type. I should
+    have added this much more earlier.
+
+-   MIDI-NOTES
+    Now you can send easily Midi: notes, cc-messages, pc and pitchbends.
+
+-   DEFER
+    One Defer-function to rule them all. You can set, how often to run
+    the defer-cycle and give it an identifier.
+    With that identifier, you can stop that specific defer-cycle from
+    the outside!
+    Way better than killing all scripts with the action “ReaScript:
+    Close all running reaScripts”.
+
+-   PINGME
+    Puts out a message including linenumber and function, in which the
+    PingMe-function was executed.
+    You can output the message in the ReaScript-console, as messagebox
+    and into the clipboard, even retaining old clipboard-contents.
+    This can be used as simpler version of hooks to monitor internal
+    behavior.
+
+-   STATEINSPECTOR SUPPORTS GMEM
+    You can monitor now gmem-states as well, which is handy for
+    developers of JSFX and Video-Processor-related scripts.
+
+New features in 4.00beta2.78
+
+-   DeferManagement: Defer - runs a deferred loop; you can decide how
+    often it runs; allows you to give it a unique identifier to access,
+    watch and stop it from anywhere! better than Defer1 through Defer20!
+    Use this one, when in doubt! (requested by rstockm)
+-   Debug: PingMe - shows a message with the current scriptfilename and
+    linenumbers of execution for debugging purposes, like hooks but
+    “lighter”
+-   Docs: Concepts - added chapters EventManager_The_Basic_Concept,
+    EventManager_AlterRetrieve and EventManager_Debugging
+-   ErrorMessagingSystem: SLEM - this works like
+    ultraschall.ShowLastErrorMessage() but is easier to type.
+-   EventManager: EventManager_DebugMode - starts/stops the debug-mode
+    of the EventManager, which adds additional debugging features
+-   EventManager: EventManager_DebugMode_UserSpace - allows getting the
+    contents of the userspace as used by a registered
+    eventcheck-function, for debugging purposes(DebugMode must be set to
+    on)
+-   EventManager: EventManager_GetEventIdentifier - returns the
+    EventIdentifier of a registered event, by id
+-   EventManager: EventManager_GetLastCheckfunctionState - returns the
+    last state of the checkfunction of a certain event, by numbered
+    id(requested by rstockm)
+-   EventManager: EventManager_GetLastCheckfunctionState2 - returns the
+    last state of the checkfunction of a certain event, by
+    EventIdentifier(requested by rstockm)
+-   EventManager: EventManager_GetLastUpdateTime - returns the last
+    time, when any event got updated(requested by rstockm)
+-   EventManager: EventManager_GetPausedState - returns, if a certain
+    event is paused or not, by numbered id(requested by rstockm)
+-   EventManager: EventManager_GetPausedState2 - returns, if a certain
+    event is paused or not, by EventIdentifier(requested by rstockm)
+-   EventManager: EventManager_GetRegisteredEventID - returns the id of
+    a certain event by EventIdentifier, which is the position within all
+    currently registered events
+-   Examplescript: US_Api_Examples_EventManager_HowTo.lua - an example
+    on how to add an event to the EventManager(requested by rstockm)
+-   Helper Functions: ConvertFunction_FromHexString - converts and loads
+    a function from hexstring as generated by function
+    ConvertFunction_ToHexString
+-   Helper Functions: ConvertFunction_ToHexString - converts a function
+    into a hexstring which can be reconverted into a function by
+    function ConvertFunction_FromHexString
+-   MIDIManagement: MIDI_SendMidiCC - sends a MIDI-CC-message to a
+    device or virtual keyboard or Reaper itself as shortcut
+-   MIDIManagement: MIDI_SendMidiNote - sends a MIDI-note to a device or
+    virtual keyboard or Reaper itself as shortcut
+-   MIDIManagement: MIDI_SendMidiPC - sends a MIDI-PC-message to a
+    device or virtual keyboard or Reaper itself as shortcut
+-   MIDIManagement: MIDI_SendMidiPitch - sends a MIDI-Pitchbend-message
+    to a device or virtual keyboard or Reaper itself as shortcut
+-   Project Management: SetProject_MasterFXByp - sets the
+    fx-bypass-state of the master-track in a projectfile or a
+    ProjectStateChunk
+-   Project Management: SetProject_MasterMuteSolo - sets the
+    mute-solo-state of the master-track in a projectfile or a
+    ProjectStateChunk
+-   Project Management: SetProject_MasterNChans - sets the number of
+    channels and vu-metering-settings of the mastertrack in a
+    projectfile or a ProjectStateChunk
+-   Project Management: SetProject_MasterPanMode - sets the panmode of
+    the track
+-   Project Management: SetProject_MasterTrackColor - sets the color of
+    the track
+-   TrackManagement: AnyTrackFreeItemPositioningMode - returns, if any
+    track has free item positioning mode activated
+-   TrackManagement: AnyTrackFXBypass - returns, if any track has
+    fx-bypass activated(optionally with master-track)
+-   TrackManagement: AnyTrackHiddenTCP - returns, if any track is hidden
+    in TCP(optionally with master-track)
+-   TrackManagement: AnyTrackHiddenMCP - returns, if any track is hidden
+    in MCP(optionally with master-track)
+-   TrackManagement: AnyTrackPhased - returns, if any track is
+    phase-inverted
+-   TrackManagement: AnyTrackRecarmed - returns, if any track is
+    recarmed
+-   TrackManagement: AnyTrackRecMonitored - returns, if any track is
+    rec-monitored
+-   UltraschallSoundboard: Soundboard_Play - starts playing a certain
+    player within the Ultraschall Soundboard
+-   UltraschallSoundboard: Soundboard_PlayList_Next - starts the next
+    Soundboard-player-slot
+-   UltraschallSoundboard: Soundboard_PlayList_Previous - starts the
+    previous Soundboard-player-slot
+-   UltraschallSoundboard: Soundboard_PlayList_SetIndex - sets the
+    current Soundboard-player-slot, optionally starts playing it
+-   UltraschallSoundboard: Soundboard_PlayList_CurrentIndex - returns
+    the current Soundboard-player-slot
+-   UltraschallSoundboard: Soundboard_Stop - stops playing a certain
+    player within the Ultraschall Soundboard
+-   UltraschallSoundboard: Soundboard_StopAllSounds - stops all player
+    within the Ultraschall Soundboard
+-   UltraschallSoundboard: Soundboard_TogglePlay_FadeOutStop - toggles
+    playing and stop with fadeout of a certain player within the
+    Ultraschall Soundboard
+-   UltraschallSoundboard: Soundboard_TogglePlayStop - toggles play-stop
+    of a certain player within the Ultraschall Soundboard
+-   UltraschallSoundboard: Soundboard_TogglePlayPause - toggles
+    play-pause of a certain player within the Ultraschall Soundboard
+
+Changes from Beta 2.77 to Beta 2.78
+
+-   Configuration Management: GetIniFileExternalState - was missing
+    retval in the docs
+-   DeferManagement: GetDeferRunState - gets now Defer-cycles-runstate,
+    of deferred-functions, started by the new function Defer, as well
+-   DeferManagement: StopDeferCycle - stops now Defer-cycles, started by
+    the new function Defer, as well
+-   DeveloperTools: StateInspector - supports now displaying gmem-states
+    as well(hit g or look in the menu)
+-   Docs: Reaper-Internals - updated JS-extension to 0.995
+-   DocEngine: Docs_GetUSDocBloc_Description - didn’t return right
+    markup-type and version -> fixed
+-   EventManager: EventManager_EnumerateStartupEvents - was missing
+    retval paused -> fixed
+-   EventManager: EventManager_EnumerateStartupEvents2 - was missing
+    retval paused -> fixed
+-   EventManager: EventManager_PauseEvent - had typo in parameter-name,
+    so it was ignored -> fixed(thanks to rstockm)
+-   EventManager: EventManager_RemoveStartupEvent2 - had wrong
+    functionname in docs -> fixed
+-   EventManager: EventManager_ResumeEvent - had typo in parameter-name,
+    so it was ignored -> fixed(thanks to rstockm)
+-   EventManager: EventManager_SetEvent - you can now pass nil for
+    parameters, who you don’t want to change
+-   EventManager: EventManager_SetStartupEvent - you can now pass nil
+    for parameters, who you don’t want to change
+-   EventManager: EventManager_Start - checks now, if
+    EventManager-script exists and returns false if not; didn’t
+    unregister the EventManager-script again, after it was run ->
+    fixed(thanks to rstockm)
+-   EventManager: StartupEvent-functions - had to rewrite the
+    function-encoding, so StartupEvents must be re-registered by you to
+    work, sorry for that
+-   EventManager: EventManager-script - returns now the current
+    event-check-function’s state and a debugmode
+-   Helper Functions: Base64_Encoder - was completely broken due
+    “improvements” -> fixed now
+-   Helper Functions: GetApiVersion - put retval “number versionnumber”
+    as first returnvalue, for easier versioncomparison(sorry for any
+    inconvenience)
+-   RenderManagement: RenderProject_RenderTable - didn’t return
+    filearray -> fixed
+-   TrackManagement: AnyTrackMute - hadn’t parameter master documented
+    -> fixed
+-   Ultraschall.ini: CountUSExternalState_key - allows now to set a
+    different filename within the Ressource-folder, other than
+    ultraschall.ini
+-   Ultraschall.ini: CountUSExternalState_sec - allows now to set a
+    different filename within the Ressource-folder, other than
+    ultraschall.ini
+-   Ultraschall.ini: DeleteUSExternalState - allows now to set a
+    different filename within the Ressource-folder, other than
+    ultraschall.ini; didn’t work for the last key in the ini-file ->
+    fixed
+-   Ultraschall.ini: EnumerateUSExternalState_key - allows now to set a
+    different filename within the Ressource-folder, other than
+    ultraschall.ini
+-   Ultraschall.ini: EnumerateUSExternalState_sec - allows now to set a
+    different filename within the Ressource-folder, other than
+    ultraschall.ini
+-   Ultraschall.ini: GetUSExternalState - allows now to set a different
+    filename within the Ressource-folder, other than ultraschall.ini
+-   Ultraschall.ini: SetUSExternalState - allows now to set a different
+    filename within the Ressource-folder, other than ultraschall.ini
+
+------------------------------------------------------------------------
 
 4.00 Beta 2.77: - “Monkeys with Tools - Call the planet doctor” - 1st of October 2019
 
@@ -4393,7 +4600,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1029 Lua-functions library for Reaper.}
+a 1070 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4407,7 +4614,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1029 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1070 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -4531,7 +4738,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1029 Lua-functions library for Reaper.}
+a 1070 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4545,7 +4752,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1029 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1070 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
