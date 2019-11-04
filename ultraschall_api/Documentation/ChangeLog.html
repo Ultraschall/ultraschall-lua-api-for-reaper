@@ -109,6 +109,7 @@ You can monitor now gmem-states as well, which is handy for developers of JSFX a
 </ul>
 <h4>Changes from Beta 2.77 to Beta 2.78</h4>
 <ul>
+<li>Configuration Management: GetIniFileExternalState - was missing retval in the docs</li>
 <li>DeferManagement: GetDeferRunState - gets now Defer-cycles-runstate, of deferred-functions, started by the new function Defer, as well</li>
 <li>DeferManagement: StopDeferCycle - stops now Defer-cycles, started by the new function Defer, as well</li>
 <li>DeveloperTools: StateInspector - supports now displaying gmem-states as well(hit g or look in the menu)</li>
@@ -128,6 +129,13 @@ You can monitor now gmem-states as well, which is handy for developers of JSFX a
 <li>Helper Functions: GetApiVersion - put retval "number versionnumber" as first returnvalue, for easier versioncomparison(sorry for any inconvenience)</li>
 <li>RenderManagement: RenderProject_RenderTable - didn't return filearray -&gt; fixed</li>
 <li>TrackManagement: AnyTrackMute - hadn't parameter master documented -&gt; fixed</li>
+<li>Ultraschall.ini: CountUSExternalState_key - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini</li>
+<li>Ultraschall.ini: CountUSExternalState_sec - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini</li>
+<li>Ultraschall.ini: DeleteUSExternalState - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini; didn't work for the last key in the ini-file -&gt; fixed</li>
+<li>Ultraschall.ini: EnumerateUSExternalState_key - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini</li>
+<li>Ultraschall.ini: EnumerateUSExternalState_sec - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini</li>
+<li>Ultraschall.ini: GetUSExternalState - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini</li>
+<li>Ultraschall.ini: SetUSExternalState - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.77: - "Monkeys with Tools - Call the planet doctor" - 1st of October 2019</h3>

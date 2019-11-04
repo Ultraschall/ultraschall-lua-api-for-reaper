@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40867.00" author="Meo Mespotine">
+      <version name="40871.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.78/ultraschall_api/Changelog-Api.txt</source>
@@ -528,6 +528,8 @@ New features in 4.00beta2.78
 
 Changes from Beta 2.77 to Beta 2.78
 
+-   Configuration Management: GetIniFileExternalState - was missing
+    retval in the docs
 -   DeferManagement: GetDeferRunState - gets now Defer-cycles-runstate,
     of deferred-functions, started by the new function Defer, as well
 -   DeferManagement: StopDeferCycle - stops now Defer-cycles, started by
@@ -569,6 +571,26 @@ Changes from Beta 2.77 to Beta 2.78
     filearray -> fixed
 -   TrackManagement: AnyTrackMute - hadn’t parameter master documented
     -> fixed
+-   Ultraschall.ini: CountUSExternalState_key - allows now to set a
+    different filename within the Ressource-folder, other than
+    ultraschall.ini
+-   Ultraschall.ini: CountUSExternalState_sec - allows now to set a
+    different filename within the Ressource-folder, other than
+    ultraschall.ini
+-   Ultraschall.ini: DeleteUSExternalState - allows now to set a
+    different filename within the Ressource-folder, other than
+    ultraschall.ini; didn’t work for the last key in the ini-file ->
+    fixed
+-   Ultraschall.ini: EnumerateUSExternalState_key - allows now to set a
+    different filename within the Ressource-folder, other than
+    ultraschall.ini
+-   Ultraschall.ini: EnumerateUSExternalState_sec - allows now to set a
+    different filename within the Ressource-folder, other than
+    ultraschall.ini
+-   Ultraschall.ini: GetUSExternalState - allows now to set a different
+    filename within the Ressource-folder, other than ultraschall.ini
+-   Ultraschall.ini: SetUSExternalState - allows now to set a different
+    filename within the Ressource-folder, other than ultraschall.ini
 
 ------------------------------------------------------------------------
 

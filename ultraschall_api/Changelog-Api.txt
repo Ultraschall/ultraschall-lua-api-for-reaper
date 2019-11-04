@@ -285,6 +285,7 @@ Has now 1070 functions, with 41 new ones
    - UltraschallSoundboard: Soundboard\_TogglePlayPause - toggles play-pause of a certain player within the Ultraschall Soundboard
    
 #### Changes from Beta 2.77 to Beta 2.78
+   - Configuration Management: GetIniFileExternalState - was missing retval in the docs
    - DeferManagement: GetDeferRunState - gets now Defer-cycles-runstate, of deferred-functions, started by the new function Defer, as well
    - DeferManagement: StopDeferCycle - stops now Defer-cycles, started by the new function Defer, as well
    - DeveloperTools: StateInspector - supports now displaying gmem-states as well(hit g or look in the menu)
@@ -304,7 +305,13 @@ Has now 1070 functions, with 41 new ones
    - Helper Functions: GetApiVersion - put retval "number versionnumber" as first returnvalue, for easier versioncomparison(sorry for any inconvenience)
    - RenderManagement: RenderProject\_RenderTable - didn't return filearray -> fixed
    - TrackManagement: AnyTrackMute - hadn't parameter master documented -> fixed
-   
+   - Ultraschall.ini: CountUSExternalState_key - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini
+   - Ultraschall.ini: CountUSExternalState_sec - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini
+   - Ultraschall.ini: DeleteUSExternalState - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini; didn't work for the last key in the ini-file -> fixed
+   - Ultraschall.ini: EnumerateUSExternalState_key - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini
+   - Ultraschall.ini: EnumerateUSExternalState_sec - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini
+   - Ultraschall.ini: GetUSExternalState - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini
+   - Ultraschall.ini: SetUSExternalState - allows now to set a different filename within the Ressource-folder, other than ultraschall.ini
    
 ---
 
