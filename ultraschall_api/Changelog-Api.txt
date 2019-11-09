@@ -1,5 +1,5 @@
 <TODO>
-    For 4.00beta2.78
+    For 4.00beta2.79
         - TODO!! Defer - - make defer-loops protected, so they can't be influenced from the outside, neither changed or stopped.
                          - registering of defer-using-running scripts into an extstate ultraschall->running_script_instance-> for monitoring purposes
                          - need setting-functions
@@ -196,18 +196,26 @@
 
 TODO!! buggy function
         the line "reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)" seems to be the problem due WM_SETFONT
-        
-Additions:
+</TODO>
+
+## Ultraschall Framework - Changelog
+
+### 4.00 Beta 2.79: - "Yes - Owner of a lonely heart" - 
+
+#### readded from earlier development-builds
    - Developer: SetReaScriptConsole_FontStyle - sets the style of the font in the ReaConsole
    - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
    - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper
    - ProjectManagement: SaveProjectAs - saves the current project under a new filename
-   - RenderManagement: GetProject_RenderOutputPath - gets the render-output-
+   - RenderManagement: GetProject_RenderOutputPath - gets the render-output-path
    - RenderManagement: ResolveRenderPattern - resolves the render-pattern into its actual filename
 
-</TODO>
+#### New features in 4.00beta2.79
+   
+   
+#### Changes from Beta 2.78 to Beta 2.79
 
-## Ultraschall Framework - Changelog
+---
 
 ### 4.00 Beta 2.78: - "Tchaikovski - Overture 1812" - 5th of November 2019
 
