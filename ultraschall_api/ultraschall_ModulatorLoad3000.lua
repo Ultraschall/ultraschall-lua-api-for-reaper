@@ -2282,14 +2282,6 @@ else
     ultraschall.LM(20)
     return ultraschall.SetLoopState(table.unpack({...}))
   end
-  function ultraschall.CountProjectTabs(...)
-    ultraschall.LM(21)
-    return ultraschall.CountProjectTabs(table.unpack({...}))
-  end
-  function ultraschall.GetProject_Tabs(...)
-    ultraschall.LM(21)
-    return ultraschall.GetProject_Tabs(table.unpack({...}))
-  end
   function ultraschall.GetProjectFilename(...)
     ultraschall.LM(21)
     return ultraschall.GetProjectFilename(table.unpack({...}))
@@ -4158,6 +4150,5 @@ else
     ultraschall.LM(29)
     return ultraschall.SoundBoard_PlayList_Previous(table.unpack({...}))
   end
-
 end
 collectgarbage("collect")

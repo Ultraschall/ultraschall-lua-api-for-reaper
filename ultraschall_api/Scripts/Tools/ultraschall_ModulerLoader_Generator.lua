@@ -104,7 +104,7 @@ for i=1, found_files do
 end
 
 
-OutPutFile=OutPutFile.."\nend\ncollectgarbage(\"collect\")"
+OutPutFile=OutPutFile.."end\ncollectgarbage(\"collect\")"
 
 ultraschall.WriteValueToFile(ultraschall.Api_Path.."/ultraschall_ModulatorLoad3000.lua", OutPutFile)
 
