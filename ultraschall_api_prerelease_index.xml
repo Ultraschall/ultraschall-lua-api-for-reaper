@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40874.00" author="Meo Mespotine">
+      <version name="40875.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Changelog-Api.txt</source>
@@ -20,6 +20,7 @@
 	<source file="/ultraschall_api/ultraschall_gui_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/ultraschall_gui_engine_beta.lua</source>
 	<source file="/ultraschall_api/ultraschall_gui_engine_server.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/ultraschall_gui_engine_server.lua</source>
 	<source file="/ultraschall_api/ultraschall_hotfixes.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/ultraschall_hotfixes.lua</source>
+	<source file="/ultraschall_api/ultraschall_ModulatorLoad3000.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/ultraschall_ModulatorLoad3000.lua</source>
 	<source file="/ultraschall_api/ultraschall_network_engine.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/ultraschall_network_engine.lua</source>
 	<source file="/ultraschall_api/ultraschall_network_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/ultraschall_network_engine_beta.lua</source>
 	<source file="/ultraschall_api/ultraschall_sound_engine.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/ultraschall_sound_engine.lua</source>
@@ -310,6 +311,7 @@
 	<source file="/ultraschall_api/Scripts/Tools/RenderCodeReset.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Scripts/Tools/RenderCodeReset.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Ultraschall-LiveEdit.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Scripts/Tools/Ultraschall-LiveEdit.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/ultraschall_Find_Valid_ConfigVariables_In_String.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Scripts/Tools/ultraschall_Find_Valid_ConfigVariables_In_String.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/ultraschall_ModulerLoader_Generator.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Scripts/Tools/ultraschall_ModulerLoader_Generator.lua</source>
 	<source file="/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NameMuteToggle_template.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NameMuteToggle_template.lua</source>
 	<source file="/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NameMute_template.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NameMute_template.lua</source>
 	<source file="/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NamePatternMuteToggle_template.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NamePatternMuteToggle_template.lua</source>
@@ -403,6 +405,10 @@ readded from earlier development-builds
     into its actual filename
 
 New features in 4.00beta2.79
+
+-   API: loadspeed - sped up loading speed by 86%, as API will now only
+    load functions, actually needed, not all of them; memory need is
+    only 44% of older approach
 
 Changes from Beta 2.78 to Beta 2.79
 
