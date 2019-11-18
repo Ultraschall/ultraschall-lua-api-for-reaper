@@ -323,42 +323,7 @@ function ultraschall.GetPartialString(str,sep1,sep2)
   return result
 end
   
-function ultraschall.RunCommand(actioncommand_id)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>RunCommand</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.40
-    Lua=5.3
-  </requires>
-  <functioncall>integer retval = ultraschall.RunCommand(string actioncommand_id)  </functioncall>
-  <description>
-    runs a command by its ActionCommandID(instead of the CommandID-number)
-    
-    returns -1 in case of error
-  </description>
-  <retvals>
-    integer retval - -1, in case of error
-  </retvals>
-  <parameters>
-    string actioncommand_id - the ActionCommandID of the Command/Script/Action you want to run; must be either a number or the ActionCommandID beginning with an underscore _
-  </parameters>
-  <chapter_context>
-    API-Helper functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>command,commandid,actioncommandid,action,run</tags>
-</US_DocBloc>
---]]
-  -- check parameter
-  if ultraschall.CheckActionCommandIDFormat(actioncommand_id)==false then ultraschall.AddErrorMessage("RunCommand", "actioncommand_id", "must be a command-number or start with an _underscore", -1) return -1 end
-  
-  -- run the command
-  local command_id = reaper.NamedCommandLookup(actioncommand_id)
-  reaper.Main_OnCommand(command_id,0)
-end
+
 
 function ultraschall.Notes2CSV()
 --[[
@@ -4285,10 +4250,6 @@ function ultraschall.DB2MKVOL(db_value)
   if type(db_value)~="number" then ultraschall.AddErrorMessage("DB2MKVOL", "db_value", "must be a number" ,-1) return nil end
   return math.exp(db_value/8.68588963806)
 end
-
-
-runcommand=ultraschall.RunCommand
-
 
 function ultraschall.ConvertIntegerIntoString2(Size, ...)
 --[[

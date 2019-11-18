@@ -1677,8 +1677,88 @@ function print_update(...)
   print(...)
 end
 
+function ultraschall.CheckActionCommandIDFormat(aid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CheckActionCommandIDFormat</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.CheckActionCommandIDFormat(action_command_id)</functioncall>
+  <description>
+    Checks, whether an action command id is a valid commandid(which is a number) or a valid _action_command_id (which is a string with an _underscore in the beginning).
+    
+    Does not check, whether this action_command_id is a useable one, only if it's "syntax" is correct!
+    
+    returns falsein case of an error
+  </description>
+  <retvals>
+    boolean retval  - true, valid action_command_id; false, not a valid action_command_id
+  </retvals>
+  <parameters>
+    actioncommand_id - the ActionCommandID you want to check; either a number or an action_command_id with an underscore at the beginning
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>command, commandid, actioncommandid, check, validity</tags>
+</US_DocBloc>
+--]]
+  -- check parameter
+  if math.type(aid)~="integer" and type(aid)~="string" then ultraschall.AddErrorMessage("CheckActionCommandIDFormat", "action_command_id", "must be an integer or a string", -1) return false end
+  
+  if type(aid)=="number" and tonumber(aid)==math.floor(tonumber(aid)) and tonumber(aid)<=65535 and tonumber(aid)>=0 then return true -- is it a valid number?
+  elseif type(aid)=="string" and aid:sub(1,1)=="_" and aid:len()>1 then return true -- is it a valid string, formatted right=
+  else return false -- if neither, return false
+  end
+end
 
 
+function ultraschall.RunCommand(actioncommand_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RunCommand</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.RunCommand(string actioncommand_id)  </functioncall>
+  <description>
+    runs a command by its ActionCommandID(instead of the CommandID-number)
+    
+    returns -1 in case of error
+  </description>
+  <retvals>
+    integer retval - -1, in case of error
+  </retvals>
+  <parameters>
+    string actioncommand_id - the ActionCommandID of the Command/Script/Action you want to run; must be either a number or the ActionCommandID beginning with an underscore _
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>command,commandid,actioncommandid,action,run</tags>
+</US_DocBloc>
+--]]
+--reaper.MB("Hui","",0)
+  -- check parameter
+  if ultraschall.CheckActionCommandIDFormat(actioncommand_id)==false then ultraschall.AddErrorMessage("RunCommand", "actioncommand_id", "must be a command-number or start with an _underscore", -1) return -1 end
+--reaper.MB("Hui2","",0)  
+  -- run the command
+  local command_id = reaper.NamedCommandLookup(actioncommand_id)
+  --reaper.MB("Hui3","",0)  
+  reaper.Main_OnCommand(command_id,0)
+  --reaper.MB("Hui4","",0)  
+end
+
+runcommand=ultraschall.RunCommand
 
 
 

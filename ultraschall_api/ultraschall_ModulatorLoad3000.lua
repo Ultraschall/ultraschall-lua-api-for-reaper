@@ -942,10 +942,6 @@ else
     ultraschall.LM(12)
     return ultraschall.GetPartialString(table.unpack({...}))
   end
-  function ultraschall.RunCommand(...)
-    ultraschall.LM(12)
-    return ultraschall.RunCommand(table.unpack({...}))
-  end
   function ultraschall.Notes2CSV(...)
     ultraschall.LM(12)
     return ultraschall.Notes2CSV(table.unpack({...}))
