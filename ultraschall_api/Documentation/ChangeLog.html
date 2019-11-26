@@ -40,7 +40,7 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.00 Beta 2.79: - "Yes - Owner of a lonely heart" -</h3>
+<h3>4.00 Beta 2.79: - "Yes - Owner of a lonely heart"</h3>
 <h4>readded from earlier development-builds</h4>
 <ul>
 <li>Developer: SetReaScriptConsole_FontStyle - sets the style of the font in the ReaConsole</li>
@@ -53,9 +53,15 @@ Ultraschall API Changelog
 <h4>New features in 4.00beta2.79</h4>
 <ul>
 <li>API: loadspeed - sped up loading speed by 86%, as API will now only load functions, actually needed, not all of them; memory need is only 44% of older approach</li>
+<li>Scrubbing: Scrubbing<em>MoveCursor</em>GetToggleState - gets the current toggle-state for when scrubbing using an action/surface</li>
+<li>Scrubbing: Scrubbing<em>MoveCursor</em>Toggle - toggles the state for when scrubbing using an action/surface</li>
 </ul>
 <h4>Changes from Beta 2.78 to Beta 2.79</h4>
-<hr />
+<ul>
+<li>ConfigurationManagement: CountValuesByPattern - didn't count at all(for some reason) -&gt; fixed(thanks to reapero)</li>
+<li>Developer: ultraschall<em>developertool</em>Display-Altered-Config-Vars.lua - didn't work with rc-pre-releases of Reaper -&gt; fixed</li>
+<li><h2>Marker Management: MoveRegionsBy - still had debug-code in it, which could display messageboxes and overwrite global variables -&gt; fixes (sorry for that)</h2></li>
+</ul>
 <h3>4.00 Beta 2.78: - "Tchaikovski - Overture 1812" - 5th of November 2019</h3>
 <p>Has now 1070 functions, with 41 new ones</p>
 <p><strong>New in this release:</strong></p>

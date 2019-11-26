@@ -501,15 +501,17 @@ function ultraschall.CountValuesByPattern(pattern, ini_filename_with_path)
   local tiff=0
   local temppattern=nil
   for line in io.lines(ini_filename_with_path) do
-    if line:match("%[.*%]") then temppattern=line tiff=1 end--:match("%[(.*)%]") tiff=1 end-- reaper.MB(temppattern,"",0) end
-    if line:match("%[.*%]")==nil and line:match(".*=("..pattern..")") then count=count+1 
-        if tiff==1 then retpattern=retpattern..temppattern.."," end 
-        retpattern=retpattern..line:match(".*=")..","
-        retpattern=retpattern..line:match(".*=("..pattern..")")..","
-        tiff=0 
+    if line:match("%[.-%]")~=nil then temppattern=line end
+    if line:match(".-=")~=nil then
+        local A,B=line:match("(.-)=(.*)")
+        if B:match(pattern)~=nil then
+            count=count+1
+            retpattern=retpattern..","..temppattern..","..A.."=,"..B
+        end
     end
   end
-  return count, retpattern:sub(1,-2)
+
+  return count, retpattern:sub(2,-1)
 end
 
 function ultraschall.EnumerateSectionsByPattern(pattern, id, ini_filename_with_path)

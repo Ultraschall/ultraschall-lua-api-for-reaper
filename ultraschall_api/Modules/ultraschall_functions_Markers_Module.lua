@@ -3500,8 +3500,8 @@ function ultraschall.MoveRegionsBy(startposition, endposition, moveby, cut_at_bo
   
   for i=start, stop, step do
     local sretval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, i)
-
-    reaper.MB("Pos:"..pos.." - Start:"..startposition.."  End: "..endposition.." "..tostring(isrgn),"",0)
+    -- debug line
+    --reaper.MB("Pos:"..pos.." - Start:"..startposition.."  End: "..endposition.." "..tostring(isrgn),"",0)
     
     if isrgn==true and (pos>=startposition and pos<=endposition) then
       -- only regions within start and endposition
@@ -3511,16 +3511,16 @@ function ultraschall.MoveRegionsBy(startposition, endposition, moveby, cut_at_bo
           -- when regions would move after endposition, put it into the markerdelete-array
           markerdeleter[count]=markrgnindexnumber
           count=count+1
-          reaper.MB("","0",0)
+          --reaper.MB("","0",0)
         elseif pos+moveby<startposition and rgnend+moveby<startposition then
           -- when regions would move before startposition, put it into the markerdelete-array
           markerdeleter[count]=markrgnindexnumber
           count=count+1
-          reaper.MB("","1",0)
+          --reaper.MB("","1",0)
         elseif pos+moveby<startposition and rgnend+moveby>=startposition and rgnend+moveby<=endposition then
           -- when start of the region is before startposition and end of the region is within start and endposition,
           -- set start of the region to startposition and only move regionend by moveby
-          reaper.MB("","2",0)
+          --reaper.MB("","2",0)
           boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, startposition, rgnend+moveby, name)
 --        elseif rgnend+moveby<endposition and pos+moveby>=startposition and pos+moveby<=endposition then
           -- when end of the region is BEFORE endposition and start of the region is within start and endposition,
@@ -3528,12 +3528,12 @@ function ultraschall.MoveRegionsBy(startposition, endposition, moveby, cut_at_bo
         elseif rgnend+moveby>endposition and pos+moveby>=startposition and pos+moveby<=endposition then
           -- when end of the region is after endposition and start of the region is within start and endposition,
           -- set end of the region to endposition and only move regionstart(pos) by moveby
-          reaper.MB("","2",0)
+          --reaper.MB("","2",0)
           boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos+moveby, endposition, name)
         else
           -- move the region by moveby
           boolean=reaper.SetProjectMarker(markrgnindexnumber, isrgn, pos+moveby, rgnend+moveby, name)
-          reaper.MB("","3",0)
+          --reaper.MB("","3",0)
         end
       else
         -- move the region by moveby
@@ -3542,7 +3542,7 @@ function ultraschall.MoveRegionsBy(startposition, endposition, moveby, cut_at_bo
     end
   end
   for i=0, count-1 do
-    Aboolean=reaper.DeleteProjectMarker(0, markerdeleter[i], true)
+    reaper.DeleteProjectMarker(0, markerdeleter[i], true)
   end
   return 1
 end
