@@ -30,6 +30,7 @@ dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 --if l==nil then return end
 
+
 timer=reaper.time_precise()
 Tempfile=ultraschall.Api_Path.."temp/"
 ChangeLogFile="Changelog-Api.txt"
@@ -93,7 +94,9 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 ]]
 
-reaper.ShowConsoleMsg("Creating ChangeLog\n")
+ultraschall.Main_OnCommandByFilename(reaper.GetResourcePath().."/UserPlugins/ultraschall_api/Scripts/Tools/ultraschall_ModulerLoader_Generator.lua")
+
+print_update("Creating ChangeLog\n")
 
 A,B,C=ultraschall.ReadFileAsLines_Array(ultraschall.Api_Path..ChangeLogFile,1,-1)
 
