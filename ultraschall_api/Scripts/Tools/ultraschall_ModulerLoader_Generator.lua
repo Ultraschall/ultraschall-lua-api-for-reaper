@@ -1,14 +1,18 @@
+dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+
+--[[
 A=reaper.time_precise()
 for i=1, 100 do
   dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 end
 B=reaper.time_precise()
 C=B-A
-
+--]]
 Path=ultraschall.Api_Path.."Modules"
 
 A1=type(Path)
 
+print_update("Creating Moduleloader\nGet All Files")
 found_dirs, dirs_array, found_files, files_array = ultraschall.GetAllRecursiveFilesAndSubdirectories(Path)
 
 SLEM()
@@ -18,11 +22,13 @@ AAA3=collectgarbage("count")
 
 --if kuddel==nil then return end
 
+print_update("Creating Moduleloader\nParse Modules")
 ModulesList=""
 for i=1, found_files do
   ModulesList=ModulesList.."\""..files_array[i]:match(".*/(.*)").."\",\n"
 end
 
+print_update("Creating Moduleloader\nModule Number")
 function GetModuleNumber(name)
   for i=1, found_files do
     if files_array[i]:match(name) then return i end
@@ -88,7 +94,8 @@ else
 ]]
 
 
-    
+print_update("Creating Moduleloader\nCreate Moduleloader")
+
 for i=1, found_files do
   Files_Contents=ultraschall.ReadFullFile(files_array[i])
   for k in string.gmatch(Files_Contents, "<slug>(.-)</slug>") do
@@ -105,6 +112,8 @@ end
 
 
 OutPutFile=OutPutFile.."end\ncollectgarbage(\"collect\")"
+
+print_update("Creating Moduleloader\nWrite Moduleloader")
 
 ultraschall.WriteValueToFile(ultraschall.Api_Path.."/ultraschall_ModulatorLoad3000.lua", OutPutFile)
 

@@ -218,6 +218,7 @@ TODO!! buggy function
    - Scrubbing: Scrubbing_MoveCursor_Toggle - toggles the state for when scrubbing using an action/surface
    
 #### Changes from Beta 2.78 to Beta 2.79
+   - API: Reapack-API-xml-generator.lua - didn't correctly create zip-archive of the API stored in GitHub -> fixed
    - ConfigurationManagement: CountValuesByPattern - didn't count at all(for some reason) -> fixed(thanks to reapero)
    - Developer: ultraschall_developertool_Display-Altered-Config-Vars.lua - didn't work with rc-pre-releases of Reaper -> fixed
    - Marker Management: MoveRegionsBy - still had debug-code in it, which could display messageboxes and overwrite global variables -> fixes (sorry for that)
