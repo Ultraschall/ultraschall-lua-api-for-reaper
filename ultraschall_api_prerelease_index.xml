@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40892.00" author="Meo Mespotine">
+      <version name="40895.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Changelog-Api.txt</source>
@@ -205,6 +205,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.981.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Documentation/gfx/reaper5.981.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.982.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Documentation/gfx/reaper5.982.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.983.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Documentation/gfx/reaper5.983.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper5.987.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Documentation/gfx/reaper5.987.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Documentation/gfx/Reaper_Button.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.79/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi</source>
@@ -409,6 +410,7 @@ New features in 4.00beta2.79
 -   API: loadspeed - sped up loading speed by 86%, as API will now only
     load functions, actually needed, not all of them; memory need is
     only 44% of older approach
+-   Docs: Reaper Internals - updated to Reaper 5.987
 -   Scrubbing: Scrubbing_MoveCursor_GetToggleState - gets the current
     toggle-state for when scrubbing using an action/surface
 -   Scrubbing: Scrubbing_MoveCursor_Toggle - toggles the state for when
@@ -426,7 +428,7 @@ Changes from Beta 2.78 to Beta 2.79
 -   
 
 
-    Marker Management: MoveRegionsBy - still had debug-code in it, which could display messageboxes and overwrite global variables -> fixes (sorry for that)
+    Marker Management: MoveRegionsBy - still had debug-code in it, which could display messageboxes and overwrite global variables -> fixed (sorry for that)
 
 4.00 Beta 2.78: - “Tchaikovski - Overture 1812” - 5th of November 2019
 
@@ -4643,7 +4645,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1084 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40892 from 27.11.2019 04:02:06).}
+a 1084 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40895 from 28.11.2019 05:28:22).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4781,7 +4783,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1084 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40892 from 27.11.2019 04:02:06).}
+a 1084 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 40895 from 28.11.2019 05:28:22).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

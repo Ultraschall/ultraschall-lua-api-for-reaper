@@ -3973,11 +3973,18 @@
         <functioncall prog_lang="lua">integer retval, optional number value, optional number dVdS, optional number ddVdS, optional number dddVdS = reaper.Envelope_Evaluate(TrackEnvelope envelope, number time, number samplerate, integer samplesRequested)</functioncall>
         <functioncall prog_lang="python">(Int retval, TrackEnvelope envelope, Float time, Float samplerate, Int samplesRequested, Float valueOutOptional, Float dVdSOutOptional, Float ddVdSOutOptional, Float dddVdSOutOptional) = RPR_Envelope_Evaluate(envelope, time, samplerate, samplesRequested, valueOutOptional, dVdSOutOptional, ddVdSOutOptional, dddVdSOutOptional)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=5.987
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
-            Get the effective envelope value at a given time position. samplesRequested is how long the caller expects until the next call to Envelope_Evaluate (often, the buffer block size). The return value is how many samples beyond that time position that the returned values are valid. 
+            Get the effective envelope value at a given time position. 
+            
+            samplesRequested is how long the caller expects until the next call to Envelope_Evaluate (often, the buffer block size). 
+            
+            The return value is how many samples beyond that time position that the returned values are valid. 
+            
+            dVdS is the change in value per sample (first derivative), ddVdS is the second derivative, dddVdS is the third derivative. 
+            
             See [GetEnvelopeScalingMode](#GetEnvelopeScalingMode).
         </description>
         <retvals>
