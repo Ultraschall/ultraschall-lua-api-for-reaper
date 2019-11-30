@@ -220,6 +220,9 @@ TODO!! buggy function
    
 #### Changes from Beta 2.78 to Beta 2.79
    - API: Reapack-API-xml-generator.lua - didn't correctly create zip-archive of the API stored in GitHub -> fixed
+   - ArrangeView Snapshots: DeleteArrangeviewSnapshot - deleted all Arrangeview-Snapshots instead of the slot-one and didn't check for valid value for parameter slot -> fixed
+   - ArrangeView Snapshots: IsValidArrangeviewSnapshot - regression, didn't return false, if no snapshot was available in a certain slot -> fixed
+   - ArrangeView Snapshots: RetrieveArrangeviewSnapshot - had inner variable exposed -> fixed
    - ConfigurationManagement: CountValuesByPattern - didn't count at all(for some reason) -> fixed(thanks to reapero)
    - Developer: ultraschall_developertool_Display-Altered-Config-Vars.lua - didn't work with rc-pre-releases of Reaper -> fixed
    - Marker Management: MoveRegionsBy - still had debug-code in it, which could display messageboxes and overwrite global variables -> fixed (sorry for that)
