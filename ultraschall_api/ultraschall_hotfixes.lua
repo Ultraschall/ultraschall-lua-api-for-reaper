@@ -45,7 +45,7 @@
 --
 -- If you have new functions to contribute, you can use this file as well. Keep in mind, that I will probably change them to work
 -- with the error-messaging-system as well as adding information for the API-documentation.
-ultraschall.hotfixdate="26_November_2019"
+ultraschall.hotfixdate="01_December_2019"
 
 --ultraschall.ShowLastErrorMessage()
 
@@ -213,3 +213,160 @@ function ultraschall.MoveRegionsBy(startposition, endposition, moveby, cut_at_bo
   end
   return 1
 end
+
+function ultraschall.DeleteArrangeviewSnapshot(slot)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteArrangeviewSnapshot</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.DeleteArrangeviewSnapshot(integer slot)</functioncall>
+  <description>
+    Deletes an ArrangeviewSnapshot-slot.
+    
+    Returns -1 if the slot is unset or slot is an invalid value.
+  </description>
+  <parameters>
+    integer slot - the slot for arrangeview-snapshot
+  </parameters>            
+  <retvals>
+    integer retval - -1 in case of an error; 0 in case of success
+  </retvals>
+  <chapter_context>
+    User Interface
+    Arrangeview Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, delete, arrangeview, snapshot, startposition, endposition, verticalzoom</tags>
+</US_DocBloc>
+--]]
+  if math.type(slot)~="integer" then ultraschall.AddErrorMessage("DeleteArrangeviewSnapshot","slot", "Must be an integer!", -1) return -1 end
+
+  reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_start","","")
+  reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_end","","")
+  reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_description","","")
+  reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom","","")
+  reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom","","")
+  reaper.SetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll","","")
+  return 1
+end
+
+function ultraschall.IsValidArrangeviewSnapshot(slot)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsValidArrangeviewSnapshot</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsValidArrangeviewSnapshot(integer slot)</functioncall>
+  <description>
+    Checks, if an Arrangeview-snapshot-slot is valid(means set).
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    integer slot - the slot for arrangeview-snapshot
+  </parameters>
+  <retvals>
+    boolean retval - true, if Arrangeview-Snapshot is valid; false, if Arrangeview-Snapshot is not existing
+  </retvals>
+  <chapter_context>
+    User Interface
+    Arrangeview Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, check, arrangeview, snapshot</tags>
+</US_DocBloc>
+--]]  
+  -- check parameters
+  if math.type(slot)~="integer" then ultraschall.AddErrorMessage("IsValidArrangeviewSnapshot","slot", "Must be an integer", -1) return false end
+  if slot<0 then ultraschall.AddErrorMessage("IsValidArrangeviewSnapshot","slot", "Must be bigger than 0", -2) return false end
+  
+  -- prepare variable
+  slot=tostring(slot)
+  
+  -- check, whether there is valid information to retrieve from the Arrange-view-snapshot-slot
+  if reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_start")~=0 or
+     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_end")~=0 or
+     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_description")~=0 or
+     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom")~=0 or
+     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")~=0 or
+     reaper.GetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll")~=0 then
+     return true
+  else
+    return false
+  end
+end
+
+function ultraschall.RetrieveArrangeviewSnapshot(slot)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RetrieveArrangeviewSnapshot</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, string description, number startposition, number endposition, integer vzoomfactor, number hzoomfactor, number vertical_scroll = ultraschall.RetrieveArrangeviewSnapshot(integer slot)</functioncall>
+  <description>
+    Retrieves an Arrangeview-snapshot and returns the startposition, endposition and vertical and horizontal zoom-factor as well as the number vertical-scroll-factor..
+    
+    Returns false in case of error.
+  </description>
+  <parameters>
+    integer slot - the slot for arrangeview-snapshot
+  </parameters>
+  <retvals>
+    boolean retval - false, in case of error; true, in case of success
+    string description - a description for this arrangeview-snapshot
+    number startposition - the startposition of the arrangeview
+    number endposition - the endposition of the arrangeview
+    integer vzoom - the vertical-zoomfactor(0-40)
+    number hzoomfactor - the horizontal zoomfactor
+    number vertical_scroll - the vertical scroll-value
+  </retvals>
+  <chapter_context>
+    User Interface
+    Arrangeview Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, get, arrangeview, snapshot, startposition, endposition, verticalzoom, horizontal zoom, vertical scroll</tags>
+</US_DocBloc>
+--]]
+  -- check parameters
+  if math.type(slot)~="integer" then ultraschall.AddErrorMessage("RetrieveArrangeviewSnapshot","slot", "Must be an integer", -1) return false end
+  if slot<0 then ultraschall.AddErrorMessage("RetrieveArrangeviewSnapshot","slot", "Must be bigger than 0", -2) return false end
+  if ultraschall.IsValidArrangeviewSnapshot(slot)==false then ultraschall.AddErrorMessage("RetrieveArrangeviewSnapshot", "slot", "No such slot available", -3) return false end
+
+  -- prepare variables
+  slot=tostring(slot)
+  local _l, start, ende, description, vzoom, hzoom, vscroll
+  
+  -- get information from arrangeview-snapshot-slot and return it, if existing
+  if reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_start")~=0 or
+     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_end")~=0 or
+     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_description")~=0 or
+     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom")~=0 or
+     reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")~=0 or
+     reaper.GetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll")~="" then
+     
+     _l, start=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_start")
+     _l, ende=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_end")
+     _l, description=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_description")
+     _l, vzoom=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_vzoom")
+     _l, hzoom=reaper.GetProjExtState(0,"Ultraschall", "ArrangeViewSnapShot_"..slot.."_hzoom")
+     _l, vscroll=reaper.GetProjExtState(0, "Ultraschall", "ArrangeViewSnapShot_"..slot.."_vscroll")
+     return true, description, tonumber(start), tonumber(ende), tonumber(vzoom), tonumber(hzoom), tonumber(vscroll)
+  else
+    return false
+  end
+end
+
