@@ -7585,7 +7585,7 @@
         <title>GetSet_ArrangeView2</title>
         <functioncall prog_lang="cpp">void GetSet_ArrangeView2(ReaProject* proj, bool isSet, int screen_x_start, int screen_x_end, double* start_timeOut, double* end_timeOut)</functioncall>
         <functioncall prog_lang="eel">GetSet_ArrangeView2(ReaProject proj, bool isSet, int screen_x_start, int screen_x_end, &amp;start_time, &amp;end_time)</functioncall>
-        <functioncall prog_lang="lua">number start_time retval, number end_time = reaper.GetSet_ArrangeView2(ReaProject proj, boolean isSet, integer screen_x_start, integer screen_x_end)</functioncall>
+        <functioncall prog_lang="lua">number start_time retval, number end_time = reaper.GetSet_ArrangeView2(ReaProject proj, boolean isSet, integer screen_x_start, integer screen_x_end, number start_time, number end_time)</functioncall>
         <functioncall prog_lang="python">(ReaProject proj, Boolean isSet, Int screen_x_start, Int screen_x_end, Float start_timeOut, Float end_timeOut) = RPR_GetSet_ArrangeView2(proj, isSet, screen_x_start, screen_x_end, start_timeOut, end_timeOut)</functioncall>
         <requires>
             Reaper=5.62
@@ -7595,14 +7595,16 @@
             Gets or sets the arrange view start/end time for screen coordinates. use screen_x_start=screen_x_end=0 to use the full arrange view's start/end time
         </description>
         <retvals>
-            start_time retval - 
-            end_time - 
+            number start_time retval - 
+            number end_time - 
         </retvals>
         <parameters markup_type="markdown" markup_version="1.0.1">
-            proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
-            isSet - 
-            screen_x_start - 
-            screen_x_end - 
+            ReaProject proj - the project-number. 0 for the current project. Can also be a ReaProject-object, as returned by [EnumProjects](#EnumProjects)
+            boolean isSet - 
+            integer screen_x_start - 
+            integer screen_x_end - 
+            number start_time - 
+            number end_time - 
         </parameters>
         <target_document>ReaperApiFunctionsReference</target_document>
         <source_document></source_document>
