@@ -214,18 +214,24 @@ TODO!! buggy function
 
 #### New features in 4.00beta2.79
    - API: loadspeed - sped up loading speed by 86%, as API will now only load functions, actually needed, not all of them; memory need is only 44% of older approach
-   - Docs: Reaper Internals - updated to Reaper 5.987
-   - Scrubbing: Scrubbing_MoveCursor_GetToggleState - gets the current toggle-state for when scrubbing using an action/surface
-   - Scrubbing: Scrubbing_MoveCursor_Toggle - toggles the state for when scrubbing using an action/surface
+   - Docs: Reaper Internals - updated to Reaper 6.01
+   - Helper Functions: ConvertStringToBits - converts a string into its bit-representation
+   - Scrubbing: Scrubbing\_MoveCursor\_GetToggleState - gets the current toggle-state for when scrubbing using an action/surface
+   - Scrubbing: Scrubbing\_MoveCursor\_Toggle - toggles the state for when scrubbing using an action/surface
+   - Subtitles: ReadSubtitles_VTT - imports a webvtt-subtitlefile
+   - Subtitles: ReadSubtitles_SRT - imports a SubRip-srt-subtitlefile
    
 #### Changes from Beta 2.78 to Beta 2.79
    - API: Reapack-API-xml-generator.lua - didn't correctly create zip-archive of the API stored in GitHub -> fixed
    - ArrangeView Snapshots: DeleteArrangeviewSnapshot - deleted all Arrangeview-Snapshots instead of the slot-one and didn't check for valid value for parameter slot -> fixed
    - ArrangeView Snapshots: IsValidArrangeviewSnapshot - regression, didn't return false, if no snapshot was available in a certain slot -> fixed
    - ArrangeView Snapshots: RetrieveArrangeviewSnapshot - had inner variable exposed -> fixed
-   - ConfigurationManagement: CountValuesByPattern - didn't count at all(for some reason) -> fixed(thanks to reapero)
-   - Developer: ultraschall_developertool_Display-Altered-Config-Vars.lua - didn't work with rc-pre-releases of Reaper -> fixed
+   - ConfigurationManagement: CountValuesByPattern - didn't count at all(for some reason), errors in docs -> fixed(thanks to reapero)
+   - Developer: ultraschall\_developertool\_Display-Altered-Config-Vars.lua - didn't work with rc-pre-releases of Reaper -> fixed
+   - Marker Management: AddCustomRegion - was expecting length, although declared as regionend in the docs -> fixed
    - Marker Management: MoveRegionsBy - still had debug-code in it, which could display messageboxes and overwrite global variables -> fixed (sorry for that)
+   - Marker Management: SetCustomRegion - had docs of AddCustomRegion -> fixed
+   
 ---
 
 ### 4.00 Beta 2.78: - "Tchaikovski - Overture 1812" - 5th of November 2019

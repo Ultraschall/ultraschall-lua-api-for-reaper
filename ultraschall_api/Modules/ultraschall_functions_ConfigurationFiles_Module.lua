@@ -61,6 +61,7 @@ function ultraschall.SetIniFileExternalState(section, key, value, ini_filename_w
   <requires>
     Ultraschall=4.00
     Reaper=5.40
+    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.SetIniFileExternalState(string section, string key, string value, string ini_filename_with_path)</functioncall>
@@ -103,6 +104,7 @@ function ultraschall.GetIniFileExternalState(section, key, ini_filename_with_pat
   <requires>
     Ultraschall=4.00
     Reaper=5.40
+    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>string value = ultraschall.GetIniFileExternalState(string section, string key, string ini_filename_with_path)</functioncall>
@@ -146,7 +148,6 @@ function ultraschall.CountIniFileExternalState_sec(ini_filename_with_path)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>integer sectioncount = ultraschall.CountIniFileExternalState_sec(string ini_filename_with_path)</functioncall>
@@ -188,7 +189,6 @@ function ultraschall.CountIniFileExternalState_key(section, ini_filename_with_pa
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>integer keyscount = ultraschall.CountIniFileExternalState_key(string section, string ini_filename_with_path)</functioncall>
@@ -238,7 +238,6 @@ function ultraschall.EnumerateIniFileExternalState_sec(number_of_section, ini_fi
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>string sectionname = ultraschall.EnumerateIniFileExternalState_sec(integer number_of_section, string ini_filename_with_path)</functioncall>
@@ -287,7 +286,6 @@ function ultraschall.EnumerateIniFileExternalState_key(section, number, ini_file
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>string keyname = ultraschall.EnumerateIniFileExternalState_key(string section, integer number, string ini_filename_with_path)</functioncall>
@@ -343,7 +341,6 @@ function ultraschall.CountSectionsByPattern(pattern, ini_filename_with_path)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>integer number_of_sections, string sectionnames = ultraschall.CountSectionsByPattern(string pattern, string ini_filename_with_path)</functioncall>
@@ -396,7 +393,6 @@ function ultraschall.CountKeysByPattern(pattern, ini_filename_with_path)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
   <functioncall>integer number_of_keys, string sections_and_keys = ultraschall.CountKeysByPattern(string pattern, string ini_filename_with_path)</functioncall>
@@ -458,10 +454,9 @@ function ultraschall.CountValuesByPattern(pattern, ini_filename_with_path)
   <requires>
     Ultraschall=4.00
     Reaper=5.40
-    SWS=2.8.8
     Lua=5.3
   </requires>
-  <functioncall>integer number_of_keys, string sections_and_keys = ultraschall.CountValuesByPattern(string pattern, string ini_filename_with_path)</functioncall>
+  <functioncall>integer number_of_values, string sections_and_keys = ultraschall.CountValuesByPattern(string pattern, string ini_filename_with_path)</functioncall>
   <description>
     Counts the number of values within an ini-file, that fit a specific pattern.
     

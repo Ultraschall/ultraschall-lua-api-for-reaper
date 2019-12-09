@@ -4278,7 +4278,7 @@ function ultraschall.AddCustomMarker(custom_marker_name, pos, name, shown_number
     returns false in case of an error
   </description>
   <parameters>
-    string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"
+    string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"; nil, adds a normal marker
     number pos - the position of the marker in seconds
     string name - the name of the marker, exluding the custom-marker-name
     integer shown_number - the markernumber, that is displayed in the timeline of the arrangeview
@@ -4297,13 +4297,15 @@ function ultraschall.AddCustomMarker(custom_marker_name, pos, name, shown_number
 </US_DocBloc>
 ]]
   -- ToDo: return the index of the newly added marker, if that is useful
-  if type(custom_marker_name)~="string" then ultraschall.AddErrorMessage("AddCustomMarker", "custom_marker_name", "must be a string", -1) return false end
+  if custom_marker_name~=nil and type(custom_marker_name)~="string" then ultraschall.AddErrorMessage("AddCustomMarker", "custom_marker_name", "must be a string", -1) return false end
   if type(pos)~="number" then ultraschall.AddErrorMessage("AddCustomMarker", "pos", "must be a number", -2) return false end
   if type(name)~="string" then ultraschall.AddErrorMessage("AddCustomMarker", "name", "must be a string", -3) return false end
   if math.type(shown_number)~="integer" then ultraschall.AddErrorMessage("AddCustomMarker", "shown_number", "must be an integer", -4) return false end
   if math.type(color)~="integer" then ultraschall.AddErrorMessage("AddCustomMarker", "color", "must be an integer; 0, for default color", -5) return false end  
   
-  reaper.AddProjectMarker2(0, false, pos, 0, "_"..custom_marker_name..": "..name, shown_number, color)
+  if custom_marker_name==nil then custom_marker_name=name else custom_marker_name="_"..custom_marker_name..": "..name end
+  
+  reaper.AddProjectMarker2(0, false, pos, 0, custom_marker_name, shown_number, color)
   return true
 end
 --A,B,C=ultraschall.AddCustomMarker("vanillachief", 1, "Hulahoop", 987, 9865)
@@ -4341,7 +4343,7 @@ function ultraschall.AddCustomRegion(custom_region_name, pos, regionend, name, s
     returns false in case of an error
   </description>
   <parameters>
-    string custom_marker_name - the name of the custom-region. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-region is called "__CustomRegion::"
+    string custom_marker_name - the name of the custom-region. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-region is called "__CustomRegion::"; nil, make it a normal regionname
     number pos - the position of the region in seconds
     number regionend - the endposition of the region in seconds
     string name - the name of the region, exluding the custom-region-name
@@ -4362,14 +4364,16 @@ function ultraschall.AddCustomRegion(custom_region_name, pos, regionend, name, s
 </US_DocBloc>
 ]]
   -- ToDo: return the index of the newly added marker, if that is useful
-  if type(custom_region_name)~="string" then ultraschall.AddErrorMessage("AddCustomRegion", "custom_region_name", "must be a string", -1) return false end
+  if custom_region_name~=nil and type(custom_region_name)~="string" then ultraschall.AddErrorMessage("AddCustomRegion", "custom_region_name", "must be a string", -1) return false end
   if type(pos)~="number" then ultraschall.AddErrorMessage("AddCustomRegion", "pos", "must be a number", -2) return false end
-  if type(length)~="number" then ultraschall.AddErrorMessage("AddCustomRegion", "length", "must be a number", -6) return false end
+  if type(regionend)~="number" then ultraschall.AddErrorMessage("AddCustomRegion", "regionend", "must be a number", -6) return false end
   if type(name)~="string" then ultraschall.AddErrorMessage("AddCustomRegion", "name", "must be a string", -3) return false end
   if math.type(shown_number)~="integer" then ultraschall.AddErrorMessage("AddCustomRegion", "shown_number", "must be an integer", -4) return false end
   if math.type(color)~="integer" then ultraschall.AddErrorMessage("AddCustomRegion", "color", "must be an integer; 0, for default color", -5) return false end  
   
-  local shown_number=reaper.AddProjectMarker2(0, true, pos, length, "_"..custom_region_name..": "..name, shown_number, color)
+  if custom_region_name==nil then custom_region_name=name else custom_region_name="_"..custom_region_name..": "..name end
+  
+  local shown_number=reaper.AddProjectMarker2(0, true, pos, regionend, custom_region_name, shown_number, color)
   return true, shown_number
 end
 
@@ -4408,7 +4412,7 @@ function ultraschall.SetCustomMarker(custom_marker_name, idx, pos, name, shown_n
     returns false in case of an error
   </description>
   <parameters>
-    string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"
+    string custom_marker_name - the name of the custom-marker. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-marker is called "__CustomMarker::"; nil, make it a normal marker
     integer idx - the index-number of the custom-marker within all custom-markers
     number pos - the position of the marker in seconds
     string name - the name of the marker, exluding the custom-marker-name
@@ -4438,7 +4442,9 @@ function ultraschall.SetCustomMarker(custom_marker_name, idx, pos, name, shown_n
   
   if retval==false then ultraschall.AddErrorMessage("SetCustomMarker", "idx", "no such custom-marker", -7) return false end
   
-  return reaper.SetProjectMarkerByIndex2(0, markerindex, false, pos, 0, shown_number, "_"..custom_marker_name..": "..name, color, 0)
+  custom_marker_name="_"..custom_marker_name..": "..name
+  
+  return reaper.SetProjectMarkerByIndex2(0, markerindex, false, pos, 0, shown_number, custom_marker_name, color, 0)
 end
 
 --A,B,C=ultraschall.SetCustomMarker("vanillachief", -3, 30, "Hulahoop9", 48787, 12)
@@ -4447,15 +4453,15 @@ end
 function ultraschall.SetCustomRegion(custom_region_name, idx, pos, regionend, name, shown_number, color)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>AddCustomRegion</slug>
+  <slug>SetCustomRegion</slug>
   <requires>
     Ultraschall=4.00
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, integer shown_number = ultraschall.AddCustomRegion(string custom_region_name, number pos, string name, integer shown_number, integer color)</functioncall>
+  <functioncall>boolean retval, integer shown_number = ultraschall.SetCustomRegion(string custom_region_name, integer idx, number pos, number regionend, string name, integer shown_number, integer color)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Will add new custom-region with a certain name.
+    Will set an already existing custom-region with a certain name.
     
     A custom-region has the naming-scheme 
         
@@ -4477,6 +4483,7 @@ function ultraschall.SetCustomRegion(custom_region_name, idx, pos, regionend, na
   </description>
   <parameters>
     string custom_marker_name - the name of the custom-region. Don't include the _ at the beginning and the : at the end, or it might not be found. Exception: Your custom-region is called "__CustomRegion::"
+    integer idx - the index of the custom region to change
     number pos - the position of the region in seconds
     string name - the name of the region, exluding the custom-region-name
     integer shown_number - the regionnumber, that is displayed in the timeline of the arrangeview
@@ -4507,7 +4514,9 @@ function ultraschall.SetCustomRegion(custom_region_name, idx, pos, regionend, na
   
   if retval==false then ultraschall.AddErrorMessage("SetCustomRegion", "idx", "no such custom-region", -7) return false end
   
-  return reaper.SetProjectMarkerByIndex2(0, markerindex, true, pos, regionend, shown_number, "_"..custom_region_name..": "..name, color, 0)
+  custom_region_name="_"..custom_region_name..": "..name
+  
+  return reaper.SetProjectMarkerByIndex2(0, markerindex, true, pos, regionend, shown_number, custom_region_name, color, 0)
 end
 --A,B,C=ultraschall.SetCustomRegion("vanillachief", 0, 10, 20, "HudelDudel", 2, 0)
 

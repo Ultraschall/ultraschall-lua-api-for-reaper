@@ -1642,9 +1642,9 @@ else
     ultraschall.LM(14)
     return ultraschall.SetCustomMarker(table.unpack({...}))
   end
-  function ultraschall.AddCustomRegion(...)
+  function ultraschall.SetCustomRegion(...)
     ultraschall.LM(14)
-    return ultraschall.AddCustomRegion(table.unpack({...}))
+    return ultraschall.SetCustomRegion(table.unpack({...}))
   end
   function ultraschall.GetNextFreeRegionIndex(...)
     ultraschall.LM(14)
