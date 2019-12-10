@@ -1591,28 +1591,59 @@ function ultraschall.ReadSubtitles_SRT(filename_with_path)
 --]]
   if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("ReadSubtitles_SRT", "filename_with_path", "must be a string", -1) return end
   if reaper.file_exists(filename_with_path)=="false" then ultraschall.AddErrorMessage("ReadSubtitles_SRT", "filename_with_path", "must be a string", -2) return end
-  local A, Type, Offset, Kind, Language, Subs, Subs_Counter, i
+  local A, Type, Offset, Kind, Language, Subs, Subs_Counter, i, line
+  line=0
+  
   Subs={}
   Subs_Counter=0
   A=ultraschall.ReadFullFile(filename_with_path)
   i=0
+  local caption=""
+  if A:match("(.-)\n"):len()>0 then A="\n"..A line=-1 else line=0 end
+  A=A.."\n"
+  
   for k in string.gmatch(A, "(.-)\n") do
-    i=i+1
-    if i==2 then 
-      Subs_Counter=Subs_Counter+1
-      Subs[Subs_Counter]={} 
+    line=line+1
+
+    if i==3 and k~="" then
+      -- get the captions
+      caption=caption..k.."\n"
+    elseif i==3 and k=="" then
+      -- put the captions into the Subs-table
+      if caption=="" then caption="" end
+      Subs[Subs_Counter]["caption"]=caption:sub(1,-2)
+      caption=""
+      i=0
+    end
+    if i==2 and k:match("%-%-%>")~=nil then 
+      -- get the start and endtime
       Subs[Subs_Counter]["start"], Subs[Subs_Counter]["end"] = k:match("(.-) --> (.*)")
-      if Subs[Subs_Counter]["start"]==nil or Subs[Subs_Counter]["end"]==nil then ultraschall.AddErrorMessage("ReadSubtitles_SRT", "filename_with_path", "can't parse the file; probably invalid", -3) return end
+      if Subs[Subs_Counter]["start"]==nil or Subs[Subs_Counter]["end"]==nil then ultraschall.AddErrorMessage("ReadSubtitles_SRT", "filename_with_path", "can't parse the time in line: "..line, -3) return end
       Subs[Subs_Counter]["start"]=reaper.parse_timestr(Subs[Subs_Counter]["start"])
       Subs[Subs_Counter]["end"]=reaper.parse_timestr(Subs[Subs_Counter]["end"])
-    elseif i==3 then 
-      Subs[Subs_Counter]["caption"]=k
-      if Subs[Subs_Counter]["caption"]==nil then ultraschall.AddErrorMessage("ReadSubtitles_SRT", "filename_with_path", "can't parse the file; probably invalid", -4) return end
+      i=3
+    elseif i==2 then 
+      -- if the time is not the expected start and endtime, stop with an error-message
+      ultraschall.AddErrorMessage("ReadSubtitles_SRT", "filename_with_path", "can't parse the time in line: "..line, -4) 
+      return
     end
-    if i==4 then i=0 end
+    if i==1 and tonumber(k)==nil then 
+      -- if the caption-index isn't there, we have a faulty srt, so stop with an error-message
+      ultraschall.AddErrorMessage("ReadSubtitles_SRT", "filename_with_path", "can't parse the caption-index in line: "..line, -5) 
+      return 
+    elseif i==1 and tonumber(k)~=nil then
+      i=2
+    end
+    if i==0 and k=="" then 
+      -- if an empty line occurs, add a new entry to sub-table, into which we put the next caption
+      i=1
+      Subs_Counter=Subs_Counter+1
+      Subs[Subs_Counter]={}
+    end
   end
   
-  
+  Subs[Subs_Counter]["caption"]=caption:sub(1,-2)
+  if Subs[Subs_Counter]["start"]==nil then Subs[Subs_Counter]=nil Subs_Counter=Subs_Counter-1 end
   return Subs_Counter, Subs
 end
 
