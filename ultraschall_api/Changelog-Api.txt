@@ -215,11 +215,16 @@ TODO!! buggy function
 #### New features in 4.00beta2.79
    - API: loadspeed - sped up loading speed by 86%, as API will now only load functions, actually needed, not all of them; memory need is only 44% of older approach
    - Docs: Reaper Internals - updated to Reaper 6.01
+   - ExtStateManagement: GetMarkerExtState - gets an extstate from a specific marker/region
+   - ExtStateManagement: SetMarkerExtState - sets an extstate for a specific marker/region
    - Helper Functions: ConvertStringToBits - converts a string into its bit-representation
+   - Markermanagement: GetMarkerIDFromGuid - get the markerid from a guid
+   - Markermanagement: GetGuidFromMarkerID - get the guid from a marker
    - Scrubbing: Scrubbing\_MoveCursor\_GetToggleState - gets the current toggle-state for when scrubbing using an action/surface
    - Scrubbing: Scrubbing\_MoveCursor\_Toggle - toggles the state for when scrubbing using an action/surface
-   - Subtitles: ReadSubtitles_VTT - imports a webvtt-subtitlefile
-   - Subtitles: ReadSubtitles_SRT - imports a SubRip-srt-subtitlefile
+   - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
+   - Subtitles: ReadSubtitles\_SRT - imports a SubRip-srt-subtitlefile
+   - Subtitles: SaveSubtitles\_SRT - export a SubRip-srt-subtitlefile
    
 #### Changes from Beta 2.78 to Beta 2.79
    - API: Reapack-API-xml-generator.lua - didn't correctly create zip-archive of the API stored in GitHub -> fixed

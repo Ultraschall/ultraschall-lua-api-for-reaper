@@ -1647,4 +1647,240 @@ function ultraschall.ReadSubtitles_SRT(filename_with_path)
   return Subs_Counter, Subs
 end
 
+function ultraschall.SetMarkerExtState(index, key, value)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetMarkerExtState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.1
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SetMarkerExtState(integer index, string key, string value)</functioncall>
+  <description>
+    Stores an Extstate for a specific marker/region.
+    
+    The index is for all markers and regions, inclusive and 1-based
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - -1, in case of an error; 1, in case of success
+  </retvals>
+  <parameters>
+    integer index - the marker/region-index, for which to store an extstate; starting with 1 for first marker/region, 2 for second marker/region
+    string key - the key, into which the marker-extstate shall be stored
+    string value - the value, which you want to store into the marker-extstate
+  </parameters>
+  <chapter_context>
+    Metadata Management
+    Markers
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>extstate management, marker, region, set, extstate</tags>
+</US_DocBloc>
+--]]
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("SetMarkerExtState", "index", "must be an integer", -1) return -1 end
+  if index<1 or index>reaper.CountProjectMarkers(0) then ultraschall.AddErrorMessage("SetMarkerExtState", "index", "must be between 1 and "..reaper.CountProjectMarkers(0), -2) return -1 end
+  if type(key)~="string" then ultraschall.AddErrorMessage("SetMarkerExtState", "key", "must be a string", -3) return -1 end
+  if type(value)~="string" then ultraschall.AddErrorMessage("SetMarkerExtState", "value", "must be an integer", -4) return -1 end
+  local A,B=reaper.GetSetProjectInfo_String(0, "MARKER_GUID:"..(index-1), 1, false)
+  return ultraschall.SetGuidExtState("MarkerExtState_"..B, key, value, 0, true, true)
+end
+
+--A1,B1,C1=ultraschall.SetMarkerExtState(2, "Keyt", "marker 2")
+--SLEM()
+
+function ultraschall.GetMarkerExtState(index, key)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetMarkerExtState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.1
+    Lua=5.3
+  </requires>
+  <functioncall>string value = ultraschall.GetMarkerExtState(integer index, string key)</functioncall>
+  <description>
+    Retrieves an Extstate for a specific marker/region.
+    
+    The index is for all markers and regions, inclusive and 1-based
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string value - the value, that has been stored into the marker-extstate; nil, in case of an error
+  </retvals>
+  <parameters>
+    integer index - the marker/region-index, for which an extstate has been stored; starting with 1 for first marker/region, 2 for second marker/region
+    string key - the key, in which the marker-extstate is stored
+  </parameters>
+  <chapter_context>
+    Metadata Management
+    Markers
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>extstate management, marker, region, get, extstate</tags>
+</US_DocBloc>
+--]]
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("GetMarkerExtState", "index", "must be an integer", -1) return end
+  if index<1 or index>reaper.CountProjectMarkers(0) then ultraschall.AddErrorMessage("GetMarkerExtState", "index", "must be between 1 and "..reaper.CountProjectMarkers(0), -2) return end
+  if type(key)~="string" then ultraschall.AddErrorMessage("GetMarkerExtState", "key", "must be a string", -3) return end
+  local A,B=reaper.GetSetProjectInfo_String(0, "MARKER_GUID:"..(index-1), 1, false)
+  local A1,B1=ultraschall.GetGuidExtState("MarkerExtState_"..B, key, 0, true)
+  return B1
+end
+
+--A1,B1,C1=ultraschall.GetMarkerExtState(2, "Keyt", "123")
+
+
+function ultraschall.GetMarkerIDFromGuid(guid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetMarkerIDFromGuid</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.1
+    Lua=5.3
+  </requires>
+  <functioncall>integer index = ultraschall.GetMarkerIDFromGuid(string guid)</functioncall>
+  <description>
+    Gets the corresponding indexnumber of a marker-guid
+    
+    The index is for all markers and regions, inclusive and 1-based
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer index - the index of the marker/region, whose guid you have passed to this function
+  </retvals>
+  <parameters>
+    string guid - the guid of the marker/region, whose index-number you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>marker management, get, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if type(guid)~="string" then ultraschall.AddErrorMessage("GetMarkerIDFromGuid", "guid", "must be a string", -1) return -1 end
+  if ultraschall.IsValidGuid(guid, true)==false then ultraschall.AddErrorMessage("GetMarkerIDFromGuid", "guid", "must be a valid guid", -2) return -1 end
+  for i=0, reaper.CountProjectMarkers(0) do
+    local A,B=reaper.GetSetProjectInfo_String(0, "MARKER_GUID:"..(i-1), 1, false)
+    if B==guid then return i end
+  end
+  return -1
+end
+
+--A,guid=reaper.GetSetProjectInfo_String(0, "MARKER_GUID:1", 1, false)
+--O=ultraschall.GetMarkerIDFromGuid(guid)
+
+function ultraschall.GetGuidFromMarkerID(index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetGuidFromMarkerID</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.1
+    Lua=5.3
+  </requires>
+  <functioncall>string guid = ultraschall.GetGuidFromMarkerID(integer index)</functioncall>
+  <description>
+    Gets the corresponding marker-guid of a marker with a specific index 
+    
+    The index is for all markers and regions, inclusive and 1-based
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    string guid - the guid of the marker/region of the marker with a specific index
+  </retvals>
+  <parameters>
+    integer index - the index of the marker/region, whose guid you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>marker management, get, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("GetGuidFromMarkerID", "index", "must be an integer", -1) return -1 end
+  if index<1 or index>reaper.CountProjectMarkers(0) then ultraschall.AddErrorMessage("GetGuidFromMarkerID", "index", "must be between 1 and "..reaper.CountProjectMarkers(0), -2) return -1 end
+  local A,B=reaper.GetSetProjectInfo_String(0, "MARKER_GUID:"..(index-1), 1, false)
+  return B
+end
+
+--guid2=ultraschall.GetGuidFromMarkerID(3)
+
+function ultraschall.SaveSubtitles_SRT(subtitle_filename_with_path, subtitle_table)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SaveSubtitles_SRT</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.99
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SaveSubtitles_SRT(string subtitle_filename_with_path, table subtitle_table)</functioncall>
+  <description>
+    saves the subtitles from the subtitle-table.
+    
+    The subtitles-table is expected to be of the following format:
+    
+        subtitle_table[subtitle_index]["start"]   = starttime in seconds
+        subtitle_table[subtitle_index]["end"]     = endtime in seconds
+        subtitle_table[subtitle_index]["caption"] = the caption, which shall be shown from start to end-time
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    string guid - the guid of the marker/region of the marker with a specific index
+  </retvals>
+  <parameters>
+    string subtitle_filename_with_path - the filename of the subtitle-file, into which you want to store the subtitles
+    table Table - the subtitle-table, which holds all captions and the start- and endtimes of displaying the caption
+  </parameters>
+  <chapter_context>
+    File Management
+    Write Files
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>file management, save, write, subtitles, srt, subrip, export</tags>
+</US_DocBloc>
+--]]
+  if type(subtitle_filename_with_path)~="string" then ultraschall.AddErrorMessage("SaveSubtitles_SRT", "subtitle_filename_with_path", "must be a string", -1) return -1 end
+  if type(subtitle_table)~="table" then ultraschall.AddErrorMessage("SaveSubtitles_SRT", "subtitle_table", "must be a table", -2) return -1 end
+  local String=""
+  local i=1
+  while type(subtitle_table[i])=="table" do
+    if subtitle_table[i]["start"]==nil 
+    or subtitle_table[i]["end"]==nil 
+    or subtitle_table[i]["caption"]==nil then
+      ultraschall.AddErrorMessage("SaveSubtitles_SRT", "subtitle_table", "entry "..i.." is missing information!", -3)
+      return -1
+    end
+    String=String..i.."\n"..
+    string.gsub(ultraschall.SecondsToTimeString_hh_mm_ss_mss(subtitle_table[i]["start"]),"%.",",").." --> "..
+    string.gsub(ultraschall.SecondsToTimeString_hh_mm_ss_mss(subtitle_table[i]["end"]),"%.",",").."\n"..
+    subtitle_table[i]["caption"].."\n\n"
+    i=i+1
+  end
+  if String~="" then
+    return ultraschall.WriteValueToFile(subtitle_filename_with_path, String:sub(1,-3))
+  else
+    ultraschall.AddErrorMessage("SaveSubtitles_SRT", "subtitle_table", "no subtitles available", -4)
+    return -1
+  end
+end
+
+
 ultraschall.ShowLastErrorMessage()
