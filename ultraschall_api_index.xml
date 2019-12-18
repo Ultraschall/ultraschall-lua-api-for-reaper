@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40871.02" author="Meo Mespotine">
+      <version name="40927.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -20,6 +20,7 @@
 	<source file="/ultraschall_api/ultraschall_gui_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/ultraschall_gui_engine_beta.lua</source>
 	<source file="/ultraschall_api/ultraschall_gui_engine_server.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/ultraschall_gui_engine_server.lua</source>
 	<source file="/ultraschall_api/ultraschall_hotfixes.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/ultraschall_hotfixes.lua</source>
+	<source file="/ultraschall_api/ultraschall_ModulatorLoad3000.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/ultraschall_ModulatorLoad3000.lua</source>
 	<source file="/ultraschall_api/ultraschall_network_engine.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/ultraschall_network_engine.lua</source>
 	<source file="/ultraschall_api/ultraschall_network_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/ultraschall_network_engine_beta.lua</source>
 	<source file="/ultraschall_api/ultraschall_sound_engine.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/ultraschall_sound_engine.lua</source>
@@ -204,6 +205,12 @@
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.981.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.981.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.982.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.982.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/reaper5.983.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.983.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper5.987.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.987.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper5.99.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper5.99.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper6.00.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper6.00.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper6.01.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper6.01.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper6.02.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper6.02.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/reaper6.10.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/reaper6.10.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Button_Un.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/Reaper_Internals.pfi</source>
@@ -309,7 +316,9 @@
 	<source file="/ultraschall_api/Scripts/Tools/RenderCodeIterator.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/RenderCodeIterator.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/RenderCodeReset.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/RenderCodeReset.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/Ultraschall-LiveEdit.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Ultraschall-LiveEdit.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/Ultraschall_API-UnitTest.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/Ultraschall_API-UnitTest.lua</source>
 	<source file="/ultraschall_api/Scripts/Tools/ultraschall_Find_Valid_ConfigVariables_In_String.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/ultraschall_Find_Valid_ConfigVariables_In_String.lua</source>
+	<source file="/ultraschall_api/Scripts/Tools/ultraschall_ModulerLoader_Generator.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/Tools/ultraschall_ModulerLoader_Generator.lua</source>
 	<source file="/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NameMuteToggle_template.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NameMuteToggle_template.lua</source>
 	<source file="/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NameMute_template.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NameMute_template.lua</source>
 	<source file="/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NamePatternMuteToggle_template.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Scripts/UltraschallTemplates/Ultraschall_NamePatternMuteToggle_template.lua</source>
@@ -384,6 +393,117 @@
 	<source main="true" file="/ultraschall_Remove_Developertools_From_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua</source>
 <changelog><![CDATA[
 Ultraschall Framework - Changelog
+
+4.00 Beta 2.79: - “Yes - Owner of a lonely heart”
+
+Has now 1082 functions, with 12 new ones
+
+NEW IN THIS RELEASE:
+
+NOTE: There are some new features, who make use of Reaper v6-features.
+Please update soon, as Reaper 6 will be a requirement soon!
+
+-   SPEEDUP WHEN LOADING US-API
+    I made a modules-system, which speeds up loading and initalization
+    as well as memory-use of the Ultraschall-API by magnitudes.
+    This approach loads only the functions needed by your script(used to
+    load all functions in earlier versions).
+    The loading is now about 86% faster and memoryuse if 56% less.
+    And what do you need to do to make use of the modules approach?
+    Well, nothing. The Ultraschall-API does it for you! (requested by
+    many, so hope, this helps you a lot).
+
+-   MARKER/REGION EXTSTATES
+    Reaper 6.02 added some new features, which gives a unique guid for a
+    marker. This again, helped me adding a feature I wanted to have for
+    a long time: Marker/Region Extstates. They work like regular
+    ProjectExtStates, but have the benefit, that they allow saving
+    additional key-value stores associated with a certain marker/region.
+    And even if you change the whole order of the markers, the extstates
+    will still be attached to the marker of your choice.
+    Possible usecase: storing the render-format-settings as
+    region-extstates for region-rendering or simply adding additional
+    metadata to markers/regions, that are needed but would spam the
+    markertitle shown in the arrangeview.
+    Experiment with it, you’ll quickly get the idea and ideas for
+    practical usecases!
+
+-   BLITTING AN IMAGE CENTERED
+    Sometimes, you want to blit an image into gfx-windows centered.
+    Problem is: it’s not easy to do. Until now, as I added the function
+    GFX_BlitImageCentered, which does exactly that.
+    That means, you can pass to the function the position of the center
+    of the image and change rotate/scale. This makes zooming in and out
+    of images much more easier, as they stay at their position.
+
+-   SUBTITLES SRT-IMPORT/EXPORT
+    You can import and export now SRT-files for subtitles. This should
+    allow you to use regions as subtitle-feature.
+
+-   CONVERTSTRINGTOBITS AND CONVERTBITSTOSTRING
+    This can be helpful, if you have a string, which represents a
+    binary-number: Just convert it with this function and voila, you can
+    work with the bits themselves.
+    And if you need to do it the other direction, use
+    ConvertBitsToString. That way, you can work easily on a bitlevel, if
+    fiddling with bitshifting is too difficult for you.
+
+-   BUGFIXES WITH ARRANGEVIEWSNAPSHOTS, MARKERS
+    Should now work like a charm.
+
+New features in 4.00beta2.79
+
+-   API: loadspeed - sped up loading speed by 86%, as API will now only
+    load functions, actually needed, not all of them; memory need is
+    reduced by about 56%.
+-   Docs: Reaper Internals - updated to Reaper 6.02
+-   ExtStateManagement: GetMarkerExtState - gets an extstate from a
+    specific marker/region
+-   ExtStateManagement: SetMarkerExtState - sets an extstate for a
+    specific marker/region
+-   GFX: GFX_BlitImageCentered - blits an image centered at a given
+    position, to make “zooming”-effects easy to produce
+-   Helper Functions: ConvertBitsToString - converts a table with
+    bits(entries with 0 or 1) into its string-representation
+-   Helper Functions: ConvertStringToBits - converts a string into its
+    bit-representation
+-   Markermanagement: GetMarkerIDFromGuid - get the markerid from a guid
+-   Markermanagement: GetGuidFromMarkerID - get the guid from a marker
+-   Scrubbing: Scrubbing_MoveCursor_GetToggleState - gets the current
+    toggle-state for when scrubbing using an action/surface
+-   Scrubbing: Scrubbing_MoveCursor_Toggle - toggles the state for when
+    scrubbing using an action/surface
+-   Subtitles: ReadSubtitles_SRT - imports a SubRip-srt-subtitlefile
+-   Subtitles: SaveSubtitles_SRT - export a SubRip-srt-subtitlefile
+
+Changes from Beta 2.78 to Beta 2.79
+
+-   API: Reapack-API-xml-generator.lua - didn’t correctly create
+    zip-archive of the API stored in GitHub -> fixed
+-   ArrangeView Snapshots: DeleteArrangeviewSnapshot - deleted all
+    Arrangeview-Snapshots instead of the slot-one and didn’t check for
+    valid value for parameter slot -> fixed
+-   ArrangeView Snapshots: IsValidArrangeviewSnapshot - regression,
+    didn’t return false, if no snapshot was available in a certain slot
+    -> fixed
+-   ArrangeView Snapshots: RetrieveArrangeviewSnapshot - had inner
+    variable exposed -> fixed
+-   ConfigurationManagement: CountValuesByPattern - didn’t count at
+    all(for some reason), errors in docs -> fixed(thanks to reapero)
+-   Developer:
+    ultraschall_developertool_Display-Altered-Config-Vars.lua - didn’t
+    work with rc-pre-releases of Reaper -> fixed
+-   Marker Management: AddCustomRegion - was expecting length, although
+    declared as regionend in the docs -> fixed
+-   Marker Management: MoveRegionsBy - still had debug-code in it, which
+    could display messageboxes and overwrite global variables -> fixed
+    (sorry for that)
+-   Marker Management: SetCustomRegion - had docs of AddCustomRegion ->
+    fixed
+-   Project Management: GetProject_MarkersAndRegions - supports now
+    guids of markers and regions, as introduced in Reaper 6.02
+
+------------------------------------------------------------------------
 
 4.00 Beta 2.78: - “Tchaikovski - Overture 1812” - 5th of November 2019
 
@@ -899,27 +1019,34 @@ NEW IN THIS RELEASE:
     the config-var-docs included with the API to get the currently
     accepted config-vars. I also improved the layout a bit.
 
-###New features in 4.00beta2.761 - Helper functions:
-FindPatternsInString - finds all occurrences of a matching-pattern in a
-string - Helper functions: IsWithinTimeRange - returns, if a time is
-within a start and endtime, takes care of the precision-problem
-time-positions in Lua have - ProjectManagement: GetProjectStateChunk -
-returns the ProjectStateChunk of the current project(finally working!) -
-Scripts: ultraschall_developertool_Display-Altered-Config-Vars.lua - new
-version, which solves the faulty-displaying-of-double-issue, faster and
-improved layout. Uses now ConfigVars-Docfile to read the currently
-supported ConfigVars. - Trackmanagement: IsSplitAtPosition - returns, if
-a split/mediaitemend/mediaitemstart exists at a certain position, within
-certain tracks - User Interface: ConvertYCoordsMac2Win - converts
-y-coordinates between Windows/Linux and Mac related coordinatesystems -
-User Interface: GetMediaExplorerHWND - gets the HWND-windowhandler of
-the Media Explorer - User Interface: UpdateMediaExplorer - updates the
-listview of the Media Explorer - User Interface: MediaExplorer_OnCommand
-- runs an Media Explorer action(just like Reaper’s Main_OnCommand and
-Midi_OnCommand-functions); runs no scripts yet, only native/extension
-actions
+New features in 4.00beta2.761
 
-###Changes from Beta 2.76 to Beta 2.761
+-   Helper functions: FindPatternsInString - finds all occurrences of a
+    matching-pattern in a string
+-   Helper functions: IsWithinTimeRange - returns, if a time is within a
+    start and endtime, takes care of the precision-problem
+    time-positions in Lua have
+-   ProjectManagement: GetProjectStateChunk - returns the
+    ProjectStateChunk of the current project(finally working!)
+-   Scripts: ultraschall_developertool_Display-Altered-Config-Vars.lua -
+    new version, which solves the faulty-displaying-of-double-issue,
+    faster and improved layout. Uses now ConfigVars-Docfile to read the
+    currently supported ConfigVars.
+-   Trackmanagement: IsSplitAtPosition - returns, if a
+    split/mediaitemend/mediaitemstart exists at a certain position,
+    within certain tracks
+-   User Interface: ConvertYCoordsMac2Win - converts y-coordinates
+    between Windows/Linux and Mac related coordinatesystems
+-   User Interface: GetMediaExplorerHWND - gets the HWND-windowhandler
+    of the Media Explorer
+-   User Interface: UpdateMediaExplorer - updates the listview of the
+    Media Explorer
+-   User Interface: MediaExplorer_OnCommand - runs an Media Explorer
+    action(just like Reaper’s Main_OnCommand and
+    Midi_OnCommand-functions); runs no scripts yet, only
+    native/extension actions
+
+Changes from Beta 2.76 to Beta 2.761
 
 -   Automation Items: GetProject_CountAutomationItems - didn’t return
     the right retval in case of an error -> fixed
@@ -4600,7 +4727,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1070 Lua-functions library for Reaper.}
+a 1082 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4614,7 +4741,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1070 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1082 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -4738,7 +4865,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1070 Lua-functions library for Reaper.}
+a 1082 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4752,7 +4879,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1070 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1082 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
