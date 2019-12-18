@@ -794,6 +794,14 @@ else
     ultraschall.LM(10)
     return ultraschall.GetAllRecursiveFilesAndSubdirectories(table.unpack({...}))
   end
+  function ultraschall.SaveSubtitles_SRT(...)
+    ultraschall.LM(10)
+    return ultraschall.SaveSubtitles_SRT(table.unpack({...}))
+  end
+  function ultraschall.ReadSubtitles_SRT(...)
+    ultraschall.LM(10)
+    return ultraschall.ReadSubtitles_SRT(table.unpack({...}))
+  end
   function ultraschall.IsValidFXStateChunk(...)
     ultraschall.LM(11)
     return ultraschall.IsValidFXStateChunk(table.unpack({...}))
@@ -1658,6 +1666,14 @@ else
     ultraschall.LM(14)
     return ultraschall.IsRegionValidCustomRegion(table.unpack({...}))
   end
+  function ultraschall.GetMarkerIDFromGuid(...)
+    ultraschall.LM(14)
+    return ultraschall.GetMarkerIDFromGuid(table.unpack({...}))
+  end
+  function ultraschall.GetGuidFromMarkerID(...)
+    ultraschall.LM(14)
+    return ultraschall.GetGuidFromMarkerID(table.unpack({...}))
+  end
   function ultraschall.GetItemPosition(...)
     ultraschall.LM(15)
     return ultraschall.GetItemPosition(table.unpack({...}))
@@ -2126,6 +2142,14 @@ else
     ultraschall.LM(17)
     return ultraschall.GetGuidExtState(table.unpack({...}))
   end
+  function ultraschall.SetMarkerExtState(...)
+    ultraschall.LM(17)
+    return ultraschall.SetMarkerExtState(table.unpack({...}))
+  end
+  function ultraschall.GetMarkerExtState(...)
+    ultraschall.LM(17)
+    return ultraschall.GetMarkerExtState(table.unpack({...}))
+  end
   function ultraschall.ZoomVertical_MidiEditor(...)
     ultraschall.LM(18)
     return ultraschall.ZoomVertical_MidiEditor(table.unpack({...}))
@@ -2277,6 +2301,14 @@ else
   function ultraschall.SetLoopState(...)
     ultraschall.LM(20)
     return ultraschall.SetLoopState(table.unpack({...}))
+  end
+  function ultraschall.Scrubbing_MoveCursor_GetToggleState(...)
+    ultraschall.LM(20)
+    return ultraschall.Scrubbing_MoveCursor_GetToggleState(table.unpack({...}))
+  end
+  function ultraschall.Scrubbing_MoveCursor_Toggle(...)
+    ultraschall.LM(20)
+    return ultraschall.Scrubbing_MoveCursor_Toggle(table.unpack({...}))
   end
   function ultraschall.GetProjectFilename(...)
     ultraschall.LM(21)

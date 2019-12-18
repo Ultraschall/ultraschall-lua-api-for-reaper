@@ -4658,3 +4658,84 @@ end
 --C=ultraschall.IsRegionValidCustomRegion("vanillachief", 1)
 
 
+function ultraschall.GetMarkerIDFromGuid(guid)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetMarkerIDFromGuid</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer index = ultraschall.GetMarkerIDFromGuid(string guid)</functioncall>
+  <description>
+    Gets the corresponding indexnumber of a marker-guid
+    
+    The index is for all markers and regions, inclusive and 1-based
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer index - the index of the marker/region, whose guid you have passed to this function
+  </retvals>
+  <parameters>
+    string guid - the guid of the marker/region, whose index-number you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>marker management, get, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if type(guid)~="string" then ultraschall.AddErrorMessage("GetMarkerIDFromGuid", "guid", "must be a string", -1) return -1 end
+  if ultraschall.IsValidGuid(guid, true)==false then ultraschall.AddErrorMessage("GetMarkerIDFromGuid", "guid", "must be a valid guid", -2) return -1 end
+  for i=0, reaper.CountProjectMarkers(0) do
+    local A,B=reaper.GetSetProjectInfo_String(0, "MARKER_GUID:"..(i-1), 1, false)
+    if B==guid then return i end
+  end
+  return -1
+end
+
+--A,guid=reaper.GetSetProjectInfo_String(0, "MARKER_GUID:1", 1, false)
+--O=ultraschall.GetMarkerIDFromGuid(guid)
+
+function ultraschall.GetGuidFromMarkerID(index)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetGuidFromMarkerID</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string guid = ultraschall.GetGuidFromMarkerID(integer index)</functioncall>
+  <description>
+    Gets the corresponding marker-guid of a marker with a specific index 
+    
+    The index is for all markers and regions, inclusive and 1-based
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    string guid - the guid of the marker/region of the marker with a specific index
+  </retvals>
+  <parameters>
+    integer index - the index of the marker/region, whose guid you want to retrieve
+  </parameters>
+  <chapter_context>
+    Markers
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>marker management, get, markerid, guid</tags>
+</US_DocBloc>
+--]]
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("GetGuidFromMarkerID", "index", "must be an integer", -1) return -1 end
+  if index<1 or index>reaper.CountProjectMarkers(0) then ultraschall.AddErrorMessage("GetGuidFromMarkerID", "index", "must be between 1 and "..reaper.CountProjectMarkers(0), -2) return -1 end
+  local A,B=reaper.GetSetProjectInfo_String(0, "MARKER_GUID:"..(index-1), 1, false)
+  return B
+end

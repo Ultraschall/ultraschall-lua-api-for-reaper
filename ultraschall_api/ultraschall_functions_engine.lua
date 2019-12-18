@@ -1762,8 +1762,102 @@ runcommand=ultraschall.RunCommand
 
 
 
+function ultraschall.ConvertStringToBits(message)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertStringToBits</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>integer number_of_bits, array bitarray = ultraschall.ConvertStringToBits(string message)</functioncall>
+  <description>
+    converts a string into its bit-representation and returns that as a handy table
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer number_of_bits - the number of bits in the string, -1, in case of an error
+    array bitarray - the individual bits as a handy table
+  </retvals>
+  <parameters>
+    string message - the string, which you want to convert into its bit representation
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, string, to bits</tags>
+</US_DocBloc>
+--]]
+  if type(message)~="string" then ultraschall.AddErrorMessage("ConvertStringToBits", "message", "must be a string", -1) return -1 end
+  local Bitarray={}
+  local Bitarray_counter=0
+  for i=1, message:len() do
+    local Q=string.byte(message:sub(i,i))
+    for i=1, 8 do
+      Bitarray_counter=Bitarray_counter+1
+      Bitarray[Bitarray_counter]=Q&1
+      Q=Q>>1
+    end
+  end
+  return Bitarray_counter, Bitarray
+end
 
-
+function ultraschall.ConvertBitsToString(bitarray)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ConvertBitsToString</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.965
+    Lua=5.3
+  </requires>
+  <functioncall>string message = ultraschall.ConvertBitsToString(array bitarray)</functioncall>
+  <description>
+    converts a table of bit-representation into a string
+    
+    Every entry in the table must be either 0 or 1. If there are too few bits to fill up a byte, the missing bits will be seen as trailing 0-bits.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string message - the converted bits as string-representation
+  </retvals>
+  <parameters>
+    array bitarray - the individual bits in a table, which will be converted into a string-representation
+                   - each entry in the table must be either 0 or 1; missing bits at the end(usually nil) will be seen as 0
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, convert, to string, bits</tags>
+</US_DocBloc>
+--]]
+  local bitcounter=0
+  local Result=""
+  local byte
+  for i=1, #bitarray, 8 do
+    byte=0
+    if bitarray[bitcounter+1]==1 then byte=byte+1 elseif bitarray[bitcounter+1]==0 then elseif bitarray[bitcounter+1]==nil then else ultraschall.AddErrorMessage("ConvertBitsToString", "bitarray entry "..bitcounter+1, "must be 1, 0 or nil(for padding zeros)", -2) return end
+    if bitarray[bitcounter+2]==1 then byte=byte+2 elseif bitarray[bitcounter+2]==0 then elseif bitarray[bitcounter+2]==nil then else ultraschall.AddErrorMessage("ConvertBitsToString", "bitarray entry "..bitcounter+2, "must be 1, 0 or nil(for padding zeros)", -2) return end
+    if bitarray[bitcounter+3]==1 then byte=byte+4 elseif bitarray[bitcounter+3]==0 then elseif bitarray[bitcounter+3]==nil then else ultraschall.AddErrorMessage("ConvertBitsToString", "bitarray entry "..bitcounter+3, "must be 1, 0 or nil(for padding zeros)", -2) return end
+    if bitarray[bitcounter+4]==1 then byte=byte+8 elseif bitarray[bitcounter+4]==0 then elseif bitarray[bitcounter+4]==nil then else ultraschall.AddErrorMessage("ConvertBitsToString", "bitarray entry "..bitcounter+4, "must be 1, 0 or nil(for padding zeros)", -2) return end
+    if bitarray[bitcounter+5]==1 then byte=byte+16 elseif bitarray[bitcounter+5]==0 then elseif bitarray[bitcounter+5]==nil then else ultraschall.AddErrorMessage("ConvertBitsToString", "bitarray entry "..bitcounter+5, "must be 1, 0 or nil(for padding zeros)", -2) return end
+    if bitarray[bitcounter+6]==1 then byte=byte+32 elseif bitarray[bitcounter+6]==0 then elseif bitarray[bitcounter+6]==nil then else ultraschall.AddErrorMessage("ConvertBitsToString", "bitarray entry "..bitcounter+6, "must be 1, 0 or nil(for padding zeros)", -2) return end
+    if bitarray[bitcounter+7]==1 then byte=byte+64 elseif bitarray[bitcounter+7]==0 then elseif bitarray[bitcounter+7]==nil then else ultraschall.AddErrorMessage("ConvertBitsToString", "bitarray entry "..bitcounter+7, "must be 1, 0 or nil(for padding zeros)", -2) return end
+    if bitarray[bitcounter+8]==1 then byte=byte+128 elseif bitarray[bitcounter+8]==0 then elseif bitarray[bitcounter+8]==nil then else ultraschall.AddErrorMessage("ConvertBitsToString", "bitarray entry "..bitcounter+8, "must be 1, 0 or nil(for padding zeros)", -2) return end
+    bitcounter=bitcounter+8
+    Result=Result..string.char(byte)
+  end
+  return Result
+end
 
 
 

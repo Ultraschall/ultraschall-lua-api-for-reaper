@@ -3329,6 +3329,37 @@
     </US_DocBloc>
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+        <slug>DockGetPosition</slug>
+        <title>DockGetPosition</title>
+        <functioncall prog_lang="cpp">int DockGetPosition(int whichDock)</functioncall>
+        <functioncall prog_lang="eel">int DockGetPosition(int whichDock)</functioncall>
+        <functioncall prog_lang="lua">integer reaper.DockGetPosition(integer whichDock)</functioncall>
+        <functioncall prog_lang="python">Int RPR_DockGetPosition(Int whichDock)</functioncall>
+        <requires>
+            Reaper=6.02
+            Lua=5.3
+        </requires>
+        <description prog_lang="*">
+            returns the position of docker whichDock
+        </description>
+        <parameters>
+            integer whichDock - the docker, whose position you want to get
+                              - -1, not found
+                              - 0, bottom
+                              - 1, left
+                              - 2, top
+                              - 3, right
+                              - 4, floating
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document></source_document>
+        <chapter_context>
+            User Interface
+        </chapter_context>
+        <tags></tags>
+    </US_DocBloc>
+
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
         <slug>DockIsChildOfDock</slug>
         <title>DockIsChildOfDock</title>
         <functioncall prog_lang="cpp">int DockIsChildOfDock(HWND hwnd, bool* isFloatingDockerOut)</functioncall>
@@ -8139,7 +8170,8 @@
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
             Get or set project information.
-
+            
+            MARKER\_GUID:X : get the GUID (unique ID) of the marker or region with index X, where X is the index passed to EnumProjectMarkers, not necessarily the displayed number
             RECORD\_PATH: recording directory -- may be blank or a relative path, to get the effective path see [GetProjectPathEx](#GetProjectPathEx)
             RENDER\_FILE: render directory
             RENDER\_PATTERN: render file name (may contain wildcards)
@@ -36950,6 +36982,36 @@
         <tags>cpp, get, icon, theme, pointer</tags>
     </US_DocBloc>
     
+    <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
+        <slug>// GetIconThemePointerForDPI</slug>
+        <title>GetIconThemePointerForDPI</title>
+        <functioncall prog_lang="cpp">  void* (*GetIconThemePointerForDPI)(const char* name, int dpisc);</functioncall>
+        <requires>
+            Reaper=6.02
+        </requires>
+        <description indent="default">
+            returns a named icontheme entry for a given DPI-scaling (256=1:1). 
+            
+            Note: the return value should not be stored, it should be queried at each paint! 
+            Querying name=NULL returns the start of the structure
+        </description>
+        <retvals>
+            void* -
+        </retvals>
+        <parameters>
+            name - 
+            dpisc - 
+        </parameters>
+        <target_document>ReaperApiFunctionsReference</target_document>
+        <source_document>reaper_plugin.h</source_document>
+        <chapter_context>
+            Additional C++ Functions
+            reaper_plugin_functions.h
+        </chapter_context>
+        <tags>cpp, get, icon, theme, pointer, dpi</tags>
+    </US_DocBloc>
+
+
 
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
         <slug>GetIconThemeStruct</slug>
@@ -37263,12 +37325,13 @@
         <title>GetSetTrackMIDISupportFile</title>
         <functioncall prog_lang="cpp">const char* (*GetSetTrackMIDISupportFile)(ReaProject* proj, MediaTrack* track, int which, const char* filename)</functioncall>
         <requires>
-            Reaper=5.62
+            Reaper=6.02
         </requires>
         <description indent="default">
-            Get or set the filename for storage of various track MIDI characteristics. 
-
-            If fn != NULL, a new track MIDI storage file will be set; otherwise the existing track MIDI storage file will be returned.
+            Get or set the filename for storage of the MIDI bank/program select file. 
+            "which" must be 1. 
+            
+            If fn != NULL, a new track MIDI storage file will be set; otherwise the existing track MIDI storage file will be returned. 
         </description>
         <retvals>
             char* -
