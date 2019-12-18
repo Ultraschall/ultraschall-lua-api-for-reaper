@@ -187,6 +187,13 @@
 TODO!! buggy function
         the line "reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)" seems to be the problem due WM_SETFONT
 
+
+</TODO>
+
+## Ultraschall Framework - Changelog
+
+### 4.00 Beta 2.80: - "Starsailor - Four to the Floor"
+
 #### readded from earlier development-builds
    - Developer: SetReaScriptConsole_FontStyle - sets the style of the font in the ReaConsole
    - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
@@ -195,9 +202,12 @@ TODO!! buggy function
    - RenderManagement: GetProject_RenderOutputPath - gets the render-output-path
    - RenderManagement: ResolveRenderPattern - resolves the render-pattern into its actual filename
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
-</TODO>
 
-## Ultraschall Framework - Changelog
+#### New features in 4.00beta2.80
+   
+#### Changes from Beta 2.79 to Beta 2.80
+
+---
 
 ### 4.00 Beta 2.79: - "Yes - Owner of a lonely heart"
 
