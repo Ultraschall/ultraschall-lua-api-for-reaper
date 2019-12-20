@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40930.00" author="Meo Mespotine">
+      <version name="40931.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/Changelog-Api.txt</source>
@@ -289,14 +289,19 @@
 	<source file="/ultraschall_api/misc/gfx/ultraschall4.00.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/gfx/ultraschall4.00.png</source>
 	<source file="/ultraschall_api/misc/gfx/us.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/gfx/us.png</source>
 	<source file="/ultraschall_api/misc/misc_docs/Envelope-StateChunk-Doku.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/Envelope-StateChunk-Doku.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/Jumping_FX_Button_in_TCP-demo.zip" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/Jumping_FX_Button_in_TCP-demo.zip</source>
 	<source file="/ultraschall_api/misc/misc_docs/LiceCap_ini_doku.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/LiceCap_ini_doku.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/MediaItemStateChunk-Doku.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/MediaItemStateChunk-Doku.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/ParmLearnDocs.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/ParmLearnDocs.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-ActionList.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/Reaper-ActionList.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/Reaper-ProjectDefault-ConfigSettings.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/Reaper-ProjectDefault-ConfigSettings.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-Render-Strings-docs_Jul2018.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/Reaper-Render-Strings-docs_Jul2018.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/Reaper-StuffMidiMessage-Codes(engl_shortlist).txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/Reaper-StuffMidiMessage-Codes(engl_shortlist).txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-Windows-ChildIDs.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/Reaper-Windows-ChildIDs.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/render-codes-decoded-base64-strings.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/render-codes-decoded-base64-strings.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/RenderPreset-Configfile.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/RenderPreset-Configfile.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/StuffMidiMessage-docs.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/misc_docs/StuffMidiMessage-docs.txt</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak</source>
@@ -414,7 +419,24 @@ readded from earlier development-builds
 
 New features in 4.00beta2.80
 
+-   Reaper Internals: Jumping_FX_Button_in_TCP-demo.zip - demos, how
+    Set/GetLayout-functions work; includes a demo theme and a script,
+    that influences it, including comments
+-   Reaper Internals: RenderPreset-Configfile.txt - documentation of the
+    Render-Presets of Reaper
+-   Reaper Internals: Reaper-ProjectDefault-ConfigSettings.txt -
+    documents all reaper.ini-entries, responsible for default project
+    settings
+-   Reaper Internals:
+    Reaper-StuffMidiMessage-Codes(engl_shortlist).txt - holds all
+    messages and their meaning for StuffMIDIMessage
+-   Reaper Internals: StuffMidiMessage-docs.txt - describes the usage of
+    the StuffMIDIMessage-function
+
 Changes from Beta 2.79 to Beta 2.80
+
+-   Reaper Internals: render-codes-decoded-base64-strings.txt - added
+    new settings for AIFF
 
 ------------------------------------------------------------------------
 

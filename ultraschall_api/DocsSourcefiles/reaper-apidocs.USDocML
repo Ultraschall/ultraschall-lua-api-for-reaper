@@ -36983,9 +36983,9 @@
     </US_DocBloc>
     
     <US_DocBloc version="1.0" spok_lang="en" prog_lang="cpp">
-        <slug>// GetIconThemePointerForDPI</slug>
+        <slug>GetIconThemePointerForDPI</slug>
         <title>GetIconThemePointerForDPI</title>
-        <functioncall prog_lang="cpp">  void* (*GetIconThemePointerForDPI)(const char* name, int dpisc);</functioncall>
+        <functioncall prog_lang="cpp">void* (*GetIconThemePointerForDPI)(const char* name, int dpisc);</functioncall>
         <requires>
             Reaper=6.02
         </requires>
