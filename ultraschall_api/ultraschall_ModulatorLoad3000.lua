@@ -386,97 +386,13 @@ else
     ultraschall.LM(6)
     return ultraschall.SetStartNewFileRecSizeState(table.unpack({...}))
   end
-  function ultraschall.GetDeferIdentifier(...)
-    ultraschall.LM(7)
-    return ultraschall.GetDeferIdentifier(table.unpack({...}))
-  end
   function ultraschall.GetDeferRunState(...)
     ultraschall.LM(7)
     return ultraschall.GetDeferRunState(table.unpack({...}))
   end
-  function ultraschall.Defer1(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer1(table.unpack({...}))
-  end
   function ultraschall.StopDeferCycle(...)
     ultraschall.LM(7)
     return ultraschall.StopDeferCycle(table.unpack({...}))
-  end
-  function ultraschall.Defer2(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer2(table.unpack({...}))
-  end
-  function ultraschall.Defer3(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer3(table.unpack({...}))
-  end
-  function ultraschall.Defer4(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer4(table.unpack({...}))
-  end
-  function ultraschall.Defer5(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer5(table.unpack({...}))
-  end
-  function ultraschall.Defer6(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer6(table.unpack({...}))
-  end
-  function ultraschall.Defer7(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer7(table.unpack({...}))
-  end
-  function ultraschall.Defer8(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer8(table.unpack({...}))
-  end
-  function ultraschall.Defer9(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer9(table.unpack({...}))
-  end
-  function ultraschall.Defer10(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer10(table.unpack({...}))
-  end
-  function ultraschall.Defer11(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer11(table.unpack({...}))
-  end
-  function ultraschall.Defer12(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer12(table.unpack({...}))
-  end
-  function ultraschall.Defer13(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer13(table.unpack({...}))
-  end
-  function ultraschall.Defer14(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer14(table.unpack({...}))
-  end
-  function ultraschall.Defer15(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer15(table.unpack({...}))
-  end
-  function ultraschall.Defer16(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer16(table.unpack({...}))
-  end
-  function ultraschall.Defer17(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer17(table.unpack({...}))
-  end
-  function ultraschall.Defer18(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer18(table.unpack({...}))
-  end
-  function ultraschall.Defer19(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer19(table.unpack({...}))
-  end
-  function ultraschall.Defer20(...)
-    ultraschall.LM(7)
-    return ultraschall.Defer20(table.unpack({...}))
   end
   function ultraschall.Defer(...)
     ultraschall.LM(7)
@@ -3137,14 +3053,6 @@ else
   function ultraschall.GetRenderingToFileHWND(...)
     ultraschall.LM(24)
     return ultraschall.GetRenderingToFileHWND(table.unpack({...}))
-  end
-  function ultraschall.GetReaperWindowPosition_Left(...)
-    ultraschall.LM(24)
-    return ultraschall.GetReaperWindowPosition_Left(table.unpack({...}))
-  end
-  function ultraschall.GetReaperWindowPosition_Right(...)
-    ultraschall.LM(24)
-    return ultraschall.GetReaperWindowPosition_Right(table.unpack({...}))
   end
   function ultraschall.ConvertScreen2ClientXCoordinate_ReaperWindow(...)
     ultraschall.LM(24)

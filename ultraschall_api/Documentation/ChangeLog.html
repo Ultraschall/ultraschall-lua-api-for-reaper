@@ -53,7 +53,7 @@ Ultraschall API Changelog
 </ul>
 <h4>New features in 4.00beta2.80</h4>
 <ul>
-<li>Reaper Internals: Jumping<em>FX</em>Button<em>in</em>TCP-demo.zip - demos, how Set/GetLayout-functions work; includes a demo theme and a script, that influences it, including comments</li>
+<li>Reaper Internals: Jumping_FX_Button_in_TCP-demo.zip - demos, how Set/GetLayout-functions work; includes a demo theme and a script, that influences it, including comments</li>
 <li>Reaper Internals: RenderPreset-Configfile.txt - documentation of the Render-Presets of Reaper</li>
 <li>Reaper Internals: Reaper-ProjectDefault-ConfigSettings.txt - documents all reaper.ini-entries, responsible for default project settings</li>
 <li>Reaper Internals: Reaper-StuffMidiMessage-Codes(engl_shortlist).txt - holds all messages and their meaning for StuffMIDIMessage</li>
@@ -61,11 +61,18 @@ Ultraschall API Changelog
 </ul>
 <h4>Changes from Beta 2.79 to Beta 2.80</h4>
 <ul>
+<li>Defer Management: GetDeferIdentifier - removed</li>
+<li>Defer Management: GetDeferRunState - removed Defer01-Defer20 management</li>
+<li>Defer Management: Defer1 through Defer20 - removed</li>
 <li>Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte in every string(except DDP), as it was faulty</li>
+<li>Docs: DeferScripts_004_Working_with_Defer_Identifiers - removed</li>
+<li>Docs: Defer - reworked docs and removed all references to Defer1 through Defer20</li>
 <li>Helper functions: Base64_Decoder - removed small bug, which added a nullbyte at end of strings</li>
 <li>Reaper Internals: render-codes-decoded-base64-strings.txt - added new settings for AIFF</li>
 <li>Render Management: GetRenderCFG_Settings_AIFF - returns Embed Beat Length-checkbox, as included with Reaper 6</li>
 <li>Render Management: CreateRenderCFG_AIFF - added Embed Beat Length-checkbox, as included with Reaper 6</li>
+<li>User Interface: GetReaperWindowPosition_Left - removed</li>
+<li>User Interface: GetReaperWindowPosition_Right - removed</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.79: - "Yes - Owner of a lonely heart"</h3>

@@ -204,18 +204,25 @@ TODO!! buggy function
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
 
 #### New features in 4.00beta2.80
-   - Reaper Internals: Jumping_FX_Button_in_TCP-demo.zip - demos, how Set/GetLayout-functions work; includes a demo theme and a script, that influences it, including comments
+   - Reaper Internals: Jumping\_FX\_Button\_in\_TCP-demo.zip - demos, how Set/GetLayout-functions work; includes a demo theme and a script, that influences it, including comments
    - Reaper Internals: RenderPreset-Configfile.txt - documentation of the Render-Presets of Reaper
    - Reaper Internals: Reaper-ProjectDefault-ConfigSettings.txt - documents all reaper.ini-entries, responsible for default project settings
    - Reaper Internals: Reaper-StuffMidiMessage-Codes(engl_shortlist).txt - holds all messages and their meaning for StuffMIDIMessage
    - Reaper Internals: StuffMidiMessage-docs.txt - describes the usage of the StuffMIDIMessage-function
    
 #### Changes from Beta 2.79 to Beta 2.80
+   - Defer Management: GetDeferIdentifier - removed
+   - Defer Management: GetDeferRunState - removed Defer01-Defer20 management
+   - Defer Management: Defer1 through Defer20 - removed
    - Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte in every string(except DDP), as it was faulty
+   - Docs: DeferScripts\_004\_Working\_with\_Defer\_Identifiers - removed
+   - Docs: Defer - reworked docs and removed all references to Defer1 through Defer20
    - Helper functions: Base64\_Decoder - removed small bug, which added a nullbyte at end of strings
    - Reaper Internals: render-codes-decoded-base64-strings.txt - added new settings for AIFF
    - Render Management: GetRenderCFG\_Settings\_AIFF - returns Embed Beat Length-checkbox, as included with Reaper 6
    - Render Management: CreateRenderCFG\_AIFF - added Embed Beat Length-checkbox, as included with Reaper 6
+   - User Interface: GetReaperWindowPosition\_Left - removed
+   - User Interface: GetReaperWindowPosition\_Right - removed
 
 ---
 

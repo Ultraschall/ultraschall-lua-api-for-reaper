@@ -53,41 +53,6 @@ if type(ultraschall)~="table" then
 end
 
 function ultraschall.GetDeferIdentifier(deferinstance, scriptidentifier)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>GetDeferIdentifier</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>string defer_identifier = ultraschall.GetDeferIdentifier(integer deferinstance, optional string scriptidentifier)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      returns the identifier for a specific ultraschall-defer-function.
-      Only for Defer1 through Defer20!
-      
-      This defer-indentifier can be used to stop this defer-loop from the in- and outside of the script.
-      Be aware: This returns the defer-identifier even if the defer-loop in question isn't running currently!
-      
-      returns nil in case of an error.
-    </description>
-    <retvals>
-      string defer_identifier - a specific and unique defer-identifier for this script-instance, of the format:
-                               - ScriptIdentifier: scriptfilename-guid.ext.deferXX
-                               - where XX is the defer-function-number. XX is between 1 and 20
-    </retvals>
-    <parameters>
-      integer deferinstance - the defer-instance, whose identifier you want; 1 to 20
-      optional string scriptidentifier - you can pass a script-identifier for a specific scriptinstance to get the defer-identifiers of that script-instance; nil, to get the defer-identifiers of the current scriptinstance
-    </parameter>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, get, defer_identifier</tags>
-  </US_DocBloc>
-  ]]
   if math.type(deferinstance)~="integer" then ultraschall.AddErrorMessage("GetDeferIdentifier", "deferinstance", "must be an integer", -1) return nil end
   if deferinstance<1 or deferinstance>20 then ultraschall.AddErrorMessage("GetDeferIdentifier", "deferinstance", "must be between 1 and 20", -2) return nil end
   if scriptidentifier~=nil and type(scriptidentifier)~="string" then
@@ -124,7 +89,7 @@ function ultraschall.GetDeferRunState(deferinstance, identifier)
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       returns the run-state of a Ultraschall-defer-loop in a specific scriptinstance
       
-      You can either request the runstate of a [Defer](#Defer)-deferred-function(set parameter deferinstance to 0) or the runstate of the [Defer1](#Defer1) through [Defer20](#Defer20)-deferfunctions (deferinstance 1 through 20).
+      You can either request the runstate of a [Defer](#Defer)-deferred-function(set parameter deferinstance to 0).
       
       returns nil in case of an error.
     </description>
@@ -132,7 +97,7 @@ function ultraschall.GetDeferRunState(deferinstance, identifier)
       boolean retval - true, defer-instance is running; false, defer-instance isn't running
     </retvals>
     <parameters>
-      integer deferinstance - the defer-instance, whose identifier you want; 1 to 20
+      integer deferinstance - 0, to use the parameter identifier
       optional string identifier - when deferinstance>0 (for Defer1 through Defer20-defer-cycles):a script-identifier of a specific script-instance; nil, for the current script-instance
                                  - when deferinstance=0 (when using the Defer-function): the identifier of the defer-cycle, you've started with Defer
     </parameter>
@@ -176,56 +141,6 @@ function ultraschall.GetDeferRunState(deferinstance, identifier)
 end
 
 function ultraschall.Defer1(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer1</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer1(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]
   if type(func)~="function" and type(ultraschall.deferfunc1)~="function" then 
     ultraschall.AddErrorMessage("Defer1", "func", "must be a function", -1)
     return false 
@@ -273,7 +188,7 @@ function ultraschall.StopDeferCycle(identifier)
     <functioncall>boolean retval = ultraschall.StopDeferCycle(string defer_identifier)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Stops a running ultraschall.Defer-instance of a script-instance.
-      
+            
       returns false in case of an error
     </description>
     <parameters>
@@ -292,7 +207,6 @@ function ultraschall.StopDeferCycle(identifier)
   ]]
   if type(identifier)~="string" then ultraschall.AddErrorMessage("StopDeferCycle", "identifier", "must be a string", -1) return false end
   local IdentifierPattern="ScriptIdentifier:.-%-{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x}.defer_script%d%d"
---  if identifier:match(IdentifierPattern)==nil then ultraschall.AddErrorMessage("StopDeferCycle", "identifier", "no valid defer-identifier", -2) return false end  
   if reaper.HasExtState("ultraschall-defer", identifier)==true then
     reaper.DeleteExtState("ultraschall-defer", identifier, false)
     return true
@@ -302,56 +216,6 @@ function ultraschall.StopDeferCycle(identifier)
 end
 
 function ultraschall.Defer2(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer2</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer2(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc2)~="function" then 
     ultraschall.AddErrorMessage("Defer2", "func", "must be a function", -1)
     return false 
@@ -389,56 +253,6 @@ end
 
 
 function ultraschall.Defer3(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer3</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer3(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc3)~="function" then 
     ultraschall.AddErrorMessage("Defer3", "func", "must be a function", -1)
     return false 
@@ -476,56 +290,6 @@ end
 
 
 function ultraschall.Defer4(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer4</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer4(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc4)~="function" then 
     ultraschall.AddErrorMessage("Defer4", "func", "must be a function", -1)
     return false 
@@ -563,56 +327,6 @@ end
 
 
 function ultraschall.Defer5(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer5</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer5(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc5)~="function" then 
     ultraschall.AddErrorMessage("Defer5", "func", "must be a function", -1)
     return false 
@@ -650,56 +364,6 @@ end
 
 
 function ultraschall.Defer6(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer6</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer6(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc6)~="function" then 
     ultraschall.AddErrorMessage("Defer6", "func", "must be a function", -1)
     return false 
@@ -737,56 +401,6 @@ end
 
 
 function ultraschall.Defer7(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer7</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer7(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc7)~="function" then 
     ultraschall.AddErrorMessage("Defer7", "func", "must be a function", -1)
     return false 
@@ -824,56 +438,6 @@ end
 
 
 function ultraschall.Defer8(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer8</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer8(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc8)~="function" then 
     ultraschall.AddErrorMessage("Defer8", "func", "must be a function", -1)
     return false 
@@ -911,56 +475,6 @@ end
 
 
 function ultraschall.Defer9(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer9</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer9(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc9)~="function" then 
     ultraschall.AddErrorMessage("Defer9", "func", "must be a function", -1)
     return false 
@@ -998,56 +512,6 @@ end
 
 
 function ultraschall.Defer10(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer10</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer10(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc10)~="function" then 
     ultraschall.AddErrorMessage("Defer10", "func", "must be a function", -1)
     return false 
@@ -1085,56 +549,6 @@ end
 
 
 function ultraschall.Defer11(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer11</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer11(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc11)~="function" then 
     ultraschall.AddErrorMessage("Defer11", "func", "must be a function", -1)
     return false 
@@ -1172,56 +586,6 @@ end
 
 
 function ultraschall.Defer12(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer12</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer12(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc12)~="function" then 
     ultraschall.AddErrorMessage("Defer12", "func", "must be a function", -1)
     return false 
@@ -1259,56 +623,6 @@ end
 
 
 function ultraschall.Defer13(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer13</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer13(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc13)~="function" then 
     ultraschall.AddErrorMessage("Defer13", "func", "must be a function", -1)
     return false 
@@ -1346,56 +660,6 @@ end
 
 
 function ultraschall.Defer14(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer14</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer14(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc14)~="function" then 
     ultraschall.AddErrorMessage("Defer14", "func", "must be a function", -1)
     return false 
@@ -1433,56 +697,6 @@ end
 
 
 function ultraschall.Defer15(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer15</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer15(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc15)~="function" then 
     ultraschall.AddErrorMessage("Defer15", "func", "must be a function", -1)
     return false 
@@ -1520,56 +734,6 @@ end
 
 
 function ultraschall.Defer16(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer16</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer16(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc16)~="function" then 
     ultraschall.AddErrorMessage("Defer16", "func", "must be a function", -1)
     return false 
@@ -1607,56 +771,6 @@ end
 
 
 function ultraschall.Defer17(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer17</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer17(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc17)~="function" then 
     ultraschall.AddErrorMessage("Defer17", "func", "must be a function", -1)
     return false 
@@ -1694,56 +808,6 @@ end
 
 
 function ultraschall.Defer18(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer18</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer18(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc18)~="function" then 
     ultraschall.AddErrorMessage("Defer18", "func", "must be a function", -1)
     return false 
@@ -1781,56 +845,6 @@ end
 
 
 function ultraschall.Defer19(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer19</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer19(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc19)~="function" then 
     ultraschall.AddErrorMessage("Defer19", "func", "must be a function", -1)
     return false 
@@ -1868,56 +882,6 @@ end
 
 
 function ultraschall.Defer20(func, mode, timer_counter)
-  --[[
-  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-    <slug>Defer20</slug>
-    <requires>
-      Ultraschall=4.00
-      Reaper=5.965
-      Lua=5.3
-    </requires>
-    <functioncall>boolean retval, string defer_identifier = ultraschall.Defer20(function func, optional integer mode, optional number timer_counter)</functioncall>
-    <description markup_type="markdown" markup_version="1.0.1" indent="default">
-      runs a custom-defer-cycle, which can be individualized.
-      
-      You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier.
-      
-      Don't run this twice in your script. It you need more than one such defer-cycle, use 
-
-        [Defer1](#Defer1), [Defer2](#Defer2), [Defer3](#Defer3), [Defer4](#Defer4), [Defer5](#Defer5), [Defer6](#Defer6), [Defer7](#Defer7), [Defer8](#Defer8), [Defer9](#Defer9), [Defer10](#Defer10),
-        [Defer11](#Defer11), [Defer12](#Defer12), [Defer13](#Defer13), [Defer14](#Defer14), [Defer15](#Defer15), [Defer16](#Defer16), [Defer17](#Defer17), [Defer18](#Defer18), [Defer19](#Defer19), [Defer20](#Defer20)
-
-      where every such defer-instance can be controlled individually, including stopping it.      
-      It will return, if the defer-cycle could be started and a defer-identifier, which can be used to stop it from the in/outside of the script-instance.
-      
-      When this defer-instance is stopped, it will return true, nil, otherwise it will return true, defer\_identifier
-      
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
-      
-      returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
-    </description>
-    <parameters>
-      function func - the function, you would love to defer to
-      optional integer mode - 0 or nil, just run as regular defer-cycle
-                            - 1, run the defer-cycle only every timer_counter-cycle
-                            - 2, run the defer-cycle only every timer_counter-seconds
-      optional number timer_counter - the timer for the defer-cycle
-                                    -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
-                                    -               30 cycles are approximately 1 second.
-                                    -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
-    </parameters>
-    <retvals>
-      boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
-      string defer_identifier - an identifier-string, that can be used to stop the defer-cycle
-    </retvals>
-    <chapter_context>
-      Defer-Management
-    </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>defermanagement, defer, timer, defer-cycles, wait, seconds</tags>
-  </US_DocBloc>
-  ]]  
   if type(func)~="function" and type(ultraschall.deferfunc20)~="function" then 
     ultraschall.AddErrorMessage("Defer20", "func", "must be a function", -1)
     return false 
@@ -1968,9 +932,9 @@ function ultraschall.Defer(func, deferidentifier, mode, timer_counter)
       
       You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier you have given.
       
-      Important: make the deferidentifier as unique as possible(using guids or similar stuff) to avoid naming conflicts with other defer-cycles using the same identifier.
-      
       To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
+      **Important:** make the deferidentifier as unique as possible(using guids or similar stuff) to avoid naming conflicts with other defer-cycles using the same identifier.
+                 Otherwise, you risk stopping multiple such defer-loops, when using [StopDeferCycle](#StopDeferCycle)!
       
       returns false in case of an error (e.g. already 1024 defer-cycles are running in the current script-instance)
     </description>
