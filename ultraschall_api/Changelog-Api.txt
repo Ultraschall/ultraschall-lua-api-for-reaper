@@ -211,7 +211,11 @@ TODO!! buggy function
    - Reaper Internals: StuffMidiMessage-docs.txt - describes the usage of the StuffMIDIMessage-function
    
 #### Changes from Beta 2.79 to Beta 2.80
+   - Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte in every string(except DDP), as it was faulty
+   - Helper functions: Base64\_Decoder - removed small bug, which added a nullbyte at end of strings
    - Reaper Internals: render-codes-decoded-base64-strings.txt - added new settings for AIFF
+   - Render Management: GetRenderCFG\_Settings\_AIFF - returns Embed Beat Length-checkbox, as included with Reaper 6
+   - Render Management: CreateRenderCFG\_AIFF - added Embed Beat Length-checkbox, as included with Reaper 6
 
 ---
 

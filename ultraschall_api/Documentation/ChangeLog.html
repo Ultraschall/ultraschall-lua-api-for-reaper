@@ -61,7 +61,11 @@ Ultraschall API Changelog
 </ul>
 <h4>Changes from Beta 2.79 to Beta 2.80</h4>
 <ul>
+<li>Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte in every string(except DDP), as it was faulty</li>
+<li>Helper functions: Base64_Decoder - removed small bug, which added a nullbyte at end of strings</li>
 <li>Reaper Internals: render-codes-decoded-base64-strings.txt - added new settings for AIFF</li>
+<li>Render Management: GetRenderCFG_Settings_AIFF - returns Embed Beat Length-checkbox, as included with Reaper 6</li>
+<li>Render Management: CreateRenderCFG_AIFF - added Embed Beat Length-checkbox, as included with Reaper 6</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.79: - "Yes - Owner of a lonely heart"</h3>

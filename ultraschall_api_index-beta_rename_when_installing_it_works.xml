@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40931.00" author="Meo Mespotine">
+      <version name="40932.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -435,8 +435,16 @@ New features in 4.00beta2.80
 
 Changes from Beta 2.79 to Beta 2.80
 
+-   Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte
+    in every string(except DDP), as it was faulty
+-   Helper functions: Base64_Decoder - removed small bug, which added a
+    nullbyte at end of strings
 -   Reaper Internals: render-codes-decoded-base64-strings.txt - added
     new settings for AIFF
+-   Render Management: GetRenderCFG_Settings_AIFF - returns Embed Beat
+    Length-checkbox, as included with Reaper 6
+-   Render Management: CreateRenderCFG_AIFF - added Embed Beat
+    Length-checkbox, as included with Reaper 6
 
 ------------------------------------------------------------------------
 

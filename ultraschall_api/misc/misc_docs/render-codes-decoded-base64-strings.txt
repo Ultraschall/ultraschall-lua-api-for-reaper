@@ -54,7 +54,6 @@ WAVE:
                 
             When Byte 06 &2 is set to force:
                 0, Force WAV
-    08: unused - value 0
 
     
 AIFF:
@@ -71,7 +70,6 @@ AIFF:
         0, unchecked
         32, checked
     07: unused - value 0
-    08: unused - value 0
 
     
 Audio CD:
@@ -106,7 +104,6 @@ Audio CD:
     22: unused - value 0
     23: unused - value 0
     24: unused - value 0
-    25: unused - value 0
     
     
 DDP:
@@ -147,8 +144,6 @@ FLAC:
     10: unused - value 0
     11: unused - value 0
     12: unused - value 0
-    13: unused - value 0
-    
     
     
 MP3:
@@ -253,7 +248,6 @@ MP3:
             8,   8  kbps 
     31: unused - value 0
     32: unused - value 0
-    33: unused - value 0
     
     
 OGG Vorbis:
@@ -386,7 +380,6 @@ OGG Vorbis:
     23: ABR - max-bitrate(0 to 4294967295)
     24: ABR - max-bitrate(0 to 4294967295)
     25: ABR - max-bitrate(0 to 4294967295) - highest byte
-    26: unused - value 0
     
     
 OGG-Opus:
@@ -416,7 +409,6 @@ OGG-Opus:
     15: unused - value 0
     16: unused - value 0
     17: unused - value 0
-    18: unused - value 0
     
     
 Video(ffmpeg/libav encoder)
@@ -493,7 +485,6 @@ Video(ffmpeg/libav encoder)
     42: MJPEG quality(0 to 2147483647)
     43: MJPEG quality(0 to 2147483647)
     44: MJPEG quality(0 to 2147483647) - highest byte
-    45: unused - value 0
     
 
 Video(MPEG-4/MOV (macOS 10.7+ AVFoundation))
@@ -561,7 +552,6 @@ Video(MPEG-4/MOV (macOS 10.7+ AVFoundation))
     42: MJPEG quality(0 to 2147483647)
     43: MJPEG quality(0 to 2147483647)
     44: MJPEG quality(0 to 2147483647) - highest byte
-    45: unused - value 0
     
     
 Video(GIF):
@@ -593,7 +583,6 @@ Video(GIF):
                 7 -> 14
                 etc.
              Add 1 to set the encode transparency-checkbox to checked.
-    19: unknown - value 0
     
 
 Video (LCF):
@@ -617,7 +606,7 @@ Video (LCF):
             0, checkbox unchecked
             1, checkbox checked
     18: unused
-    19 to 82: - the contents of the LCF options tweak-entryfield as a human-readable string of 63 bytes
+    19 to 81: - the contents of the LCF options tweak-entryfield as a human-readable string of 62 bytes
                 usually contains "t20 x128 y16" by default
     
     
@@ -670,4 +659,3 @@ WAVPACK:
     18: unused - value 0
     19: unused - value 0
     20: unused - value 0
-    21: unused - value 0

@@ -103,10 +103,10 @@ function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
     <slug>GetRenderCFG_Settings_AIFF</slug>
     <requires>
       Ultraschall=4.00
-      Reaper=5.975
+      Reaper=6.02
       Lua=5.3
     </requires>
-    <functioncall>integer bitdepth = ultraschall.GetRenderCFG_Settings_AIFF(string rendercfg)</functioncall>
+    <functioncall>integer bitdepth, boolean EmbedBeatLength = ultraschall.GetRenderCFG_Settings_AIFF(string rendercfg)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Returns the settings stored in a render-cfg-string for aiff.
 
@@ -116,6 +116,7 @@ function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
     </description>
     <retvals>
       integer bitdepth - the bitdepth of the AIFF-file(8, 16, 24, 32)
+      boolean EmbedBeatLength - Embed beat length if exact-checkbox; true, checked; false, unchecked
     </retvals>
     <parameters>
       string render_cfg - the render-cfg-string, that contains the aiff-settings
@@ -126,13 +127,14 @@ function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
     </chapter_context>
     <target_document>US_Api_Documentation</target_document>
     <source_document>ultraschall_functions_engine.lua</source_document>
-    <tags>render management, get, settings, rendercfg, renderstring, aiff, bitdepth</tags>
+    <tags>render management, get, settings, rendercfg, renderstring, aiff, bitdepth, beat length</tags>
   </US_DocBloc>
   ]]
   if type(rendercfg)~="string" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AIFF", "rendercfg", "must be a string", -1) return -1 end
   local Decoded_string = ultraschall.Base64_Decoder(rendercfg)
   if Decoded_string:sub(1,4)~="ffia" then ultraschall.AddErrorMessage("GetRenderCFG_Settings_AIFF", "rendercfg", "not a render-cfg-string of the format aiff", -2) return -1 end
-  return string.byte(Decoded_string:sub(5,5))
+  
+  return string.byte(Decoded_string:sub(5,5)), string.byte(Decoded_string:sub(6,6))==32
 end
 
 --C=ultraschall.GetRenderCFG_Settings_AIFF(B)
@@ -5538,7 +5540,7 @@ function ultraschall.IsReaperRendering()
   end
 end
 
-function ultraschall.CreateRenderCFG_AIFF(bits)
+function ultraschall.CreateRenderCFG_AIFF(bits, EmbedBeatLength)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateRenderCFG_AIFF</slug>
@@ -5547,7 +5549,7 @@ function ultraschall.CreateRenderCFG_AIFF(bits)
     Reaper=5.77
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_AIFF(integer bits)</functioncall>
+  <functioncall>string render_cfg_string = ultraschall.CreateRenderCFG_AIFF(integer bits, optional boolean EmbedBeatLength)</functioncall>
   <description>
     Returns the render-cfg-string for the AIFF-format. You can use this in ProjectStateChunks, RPP-Projectfiles and reaper-render.ini
     
@@ -5558,6 +5560,7 @@ function ultraschall.CreateRenderCFG_AIFF(bits)
   </retvals>
   <parameters>
     integer bits - the bitdepth of the aiff-file; 8, 16, 24 and 32 are supported
+    optional boolean EmbedBeatLength - Embed beat length if exact-checkbox; true, checked; false or nil, unchecked
   </parameters>
   <chapter_context>
     Rendering Projects
@@ -5569,13 +5572,13 @@ function ultraschall.CreateRenderCFG_AIFF(bits)
 </US_DocBloc>
 ]]
   if math.type(bits)~="integer" then ultraschall.AddErrorMessage("CreateRenderCFG_AIFF", "bits", "must be an integer", -1) return nil end
-  local renderstring="ZmZpY..AAA=="
-  if bits==8 then renderstring=string.gsub(renderstring, "%.%.", "Qg")
-  elseif bits==16 then renderstring=string.gsub(renderstring, "%.%.", "RA")
-  elseif bits==24 then renderstring=string.gsub(renderstring, "%.%.", "Rg")
-  elseif bits==32 then renderstring=string.gsub(renderstring, "%.%.", "SA")
-  else ultraschall.AddErrorMessage("CreateRenderCFG_AIFF", "bits", "only 8, 16, 24 and 32 are supported by AIFF", -2) return nil
-  end
+  if bits~=8 and bits~=16 and bits~=24 and bits~=32 then ultraschall.AddErrorMessage("CreateRenderCFG_AIFF", "bits", "only 8, 16, 24 and 32 are supported by AIFF", -2) return nil end
+  if EmbedBeatLength~=nil and type(EmbedBeatLength)~="boolean" then ultraschall.AddErrorMessage("CreateRenderCFG_AIFF", "EmbedBeatLength", "must be a boolean", -3) return nil end  
+  if EmbedBeatLength==nil or EmbedBeatLength==false then EmbedBeatLength=0 else EmbedBeatLength=32 end
+  
+  local renderstring="ffia"..string.char(bits)..string.char(EmbedBeatLength)..string.char(0)
+  renderstring=ultraschall.Base64_Encoder(renderstring)
+
   return renderstring
 end
 
