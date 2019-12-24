@@ -211,6 +211,7 @@ TODO!! buggy function
    - Reaper Internals: StuffMidiMessage-docs.txt - describes the usage of the StuffMIDIMessage-function
    
 #### Changes from Beta 2.79 to Beta 2.80
+   - API: deprecated - allows showing a warning message, if a script uses a deprecated function in a script; will be shown only once until Reaper restarts, so scripts are stil useable
    - Defer Management: GetDeferIdentifier - removed
    - Defer Management: GetDeferRunState - removed Defer01-Defer20 management
    - Defer Management: Defer1 through Defer20 - removed

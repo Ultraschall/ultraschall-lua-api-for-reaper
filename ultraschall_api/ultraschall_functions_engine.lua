@@ -1859,8 +1859,55 @@ function ultraschall.ConvertBitsToString(bitarray)
   return Result
 end
 
-
-
+function ultraschall.deprecated(functionname)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>deprecated</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.deprecated(string functionname)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      If you have a 3rd-party function added to Ultraschall-API, which you want to deprecate, use this 
+      function to show a warning message, if that function is used.
+      
+      It will be shown once when running the script, after (re-)start of Reaper.
+      
+      That way, you can tell scripters, whether they need to update their scripts using newer/better functions.
+      This is probably shown first to the user, who knows that way a potential problem and can tell the scripter about that.
+      
+      If there is a line "Author: authorname" in the file(as usual for ReaPack-compatible scripts), it will show the scripter's name in the dialog.
+      
+    </description>
+    <retvals>
+      boolean retval - true, defer-instance is running; false, defer-instance isn't running
+    </retvals>
+    <parameters>
+      integer deferinstance - 0, to use the parameter identifier
+      optional string identifier - when deferinstance>0 (for Defer1 through Defer20-defer-cycles):a script-identifier of a specific script-instance; nil, for the current script-instance
+                                 - when deferinstance=0 (when using the Defer-function): the identifier of the defer-cycle, you've started with Defer
+    </parameter>
+    <chapter_context>
+      API-Helper functions
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>helperfunctions, deprecated, show, status</tags>
+  </US_DocBloc>
+  ]]
+  if type(functionname)~="string" then ultraschall.AddErrorMessage("deprecated", "functionname", "must be a string", -1) return end 
+  local A,B,C,D,E,F,G=reaper.get_action_context()
+  local B1,B2=ultraschall.GetPath(B)
+  if reaper.HasExtState("ultraschall_"..B2, functionname)==false then
+    local Script=ultraschall.ReadFullFile(B)
+    local Author=Script:match("%*.-Author%:(.-)%c")
+    if Author==nil then Author="author of this script" end
+    reaper.MB("The script \n\n    "..B2.." \n\nuses Ultraschall-API deprecated function \n\n    "..functionname..". \n\nPlease contact "..Author.." to fix this. Otherwise, this script will stop working in the future.", "Ultraschall-API: Issue with this script!", 0)
+    reaper.SetExtState("ultraschall_"..B2, functionname, "Ping", false)
+  end
+end
 
 
 
