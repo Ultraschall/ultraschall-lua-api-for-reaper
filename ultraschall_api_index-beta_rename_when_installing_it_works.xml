@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40938.00" author="Meo Mespotine">
+      <version name="40941.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -169,6 +169,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.992.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.992.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0_951.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0_951.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0_995.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0_995.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/JS_0_997.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0_997.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_2_8_8.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_2_8_8.pfi</source>
@@ -442,11 +443,12 @@ Changes from Beta 2.79 to Beta 2.80
 -   Defer Management: GetDeferRunState - removed Defer01-Defer20
     management
 -   Defer Management: Defer1 through Defer20 - removed
--   Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte
-    in every string(except DDP), as it was faulty
 -   Docs: DeferScripts_004_Working_with_Defer_Identifiers - removed
 -   Docs: Defer - reworked docs and removed all references to Defer1
     through Defer20
+-   Docs: JS-Extension - updated to 0.997
+-   Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte
+    in every string(except DDP), as it was faulty
 -   Event Manager: Eventmanager_RemoveEvent - couldn’t be found due typo
     in new module-loader -> fixed (thanks to rstockm)
 -   Event Manager: EventManager_RemoveAllEvents_Script - couldn’t be
