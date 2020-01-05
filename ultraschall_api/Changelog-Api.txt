@@ -218,6 +218,8 @@ TODO!! buggy function
    - Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte in every string(except DDP), as it was faulty
    - Docs: DeferScripts\_004\_Working\_with\_Defer\_Identifiers - removed
    - Docs: Defer - reworked docs and removed all references to Defer1 through Defer20
+   - Event Manager: Eventmanager\_RemoveEvent - couldn't be found due typo in new module-loader -> fixed (thanks to rstockm)
+   - Event Manager: EventManager\_RemoveAllEvents\_Script - couldn't be found due typo in new module-loader -> fixed 
    - Helper functions: Base64\_Decoder - removed small bug, which added a nullbyte at end of strings
    - Reaper Internals: render-codes-decoded-base64-strings.txt - added new settings for AIFF
    - Render Management: GetRenderCFG\_Settings\_AIFF - returns Embed Beat Length-checkbox, as included with Reaper 6

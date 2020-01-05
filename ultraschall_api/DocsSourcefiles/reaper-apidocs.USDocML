@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ## ReaScript API as of Reaper 6.01
+            ## ReaScript API as of Reaper 6.02
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -26694,12 +26694,13 @@
         <functioncall prog_lang="python">Int  JS_WindowMessage_PassThrough(void windowHWND, String message, Boolean passThrough)</functioncall>
         <requires>
             Reaper=5.95
-            JS=0.951
+            JS=0.997
             Lua=5.3
         </requires>
         <description indent="default" markup_type="markdown" markup_version="1.0.1" indent="default">
             Changes the passthrough setting of a message type that is already being intercepted.
 
+            Returns 1 if successful, 0 if the message type is not yet being intercepted, or -2 if the argument could not be parsed.
         </description>
         <retvals>
            integer  - 
@@ -32949,6 +32950,8 @@
             Use idx to get a specific filename, that has been dropped into the gfx_init()-window.
             
             Does NOT support mediaitems/takes or other Reaper-objects!
+            
+            It MUST be called BEFORE calling gfx_update, as gfx_update flushes the filelist accessible with gfx_getdropfile.
         </description>
         <retvals>
             integer retval - 0, if droppped-filename with indexnumber idx doesn't exist; 1, if it exists; hints, if you already read all dropped filenames.
@@ -34992,6 +34995,8 @@
             Use idx to get a specific filename, that has been dropped into the gfx.init()-window.
             
             Does NOT support mediaitems/takes or other Reaper-objects!
+            
+            It MUST be called BEFORE calling gfx.update, as gfx.update flushes the filelist accessible with gfx.getdropfile.
         </description>
         <retvals>
             integer retval - 0, if droppped-filename with indexnumber idx doesn't exist; 1, if it exists; hints, if you already reached the last filename dropped.

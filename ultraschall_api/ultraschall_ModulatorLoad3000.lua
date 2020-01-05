@@ -502,13 +502,13 @@ else
     ultraschall.LM(9)
     return ultraschall.EventManager_IsValidEventIdentifier(table.unpack({...}))
   end
-  function ultraschall.Eventmanager_RemoveEvent(...)
+  function ultraschall.EventManager_RemoveEvent(...)
     ultraschall.LM(9)
-    return ultraschall.Eventmanager_RemoveEvent(table.unpack({...}))
+    return ultraschall.EventManager_RemoveEvent(table.unpack({...}))
   end
-  function ultraschall.Eventmanager_RemoveAllEvents_Script(...)
+  function ultraschall.EventManager_RemoveAllEvents_Script(...)
     ultraschall.LM(9)
-    return ultraschall.Eventmanager_RemoveAllEvents_Script(table.unpack({...}))
+    return ultraschall.EventManager_RemoveAllEvents_Script(table.unpack({...}))
   end
   function ultraschall.EventManager_SetEvent(...)
     ultraschall.LM(9)

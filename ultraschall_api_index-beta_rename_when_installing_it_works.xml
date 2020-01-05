@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40935.00" author="Meo Mespotine">
+      <version name="40938.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -447,6 +447,10 @@ Changes from Beta 2.79 to Beta 2.80
 -   Docs: DeferScripts_004_Working_with_Defer_Identifiers - removed
 -   Docs: Defer - reworked docs and removed all references to Defer1
     through Defer20
+-   Event Manager: Eventmanager_RemoveEvent - couldn’t be found due typo
+    in new module-loader -> fixed (thanks to rstockm)
+-   Event Manager: EventManager_RemoveAllEvents_Script - couldn’t be
+    found due typo in new module-loader -> fixed
 -   Helper functions: Base64_Decoder - removed small bug, which added a
     nullbyte at end of strings
 -   Reaper Internals: render-codes-decoded-base64-strings.txt - added
