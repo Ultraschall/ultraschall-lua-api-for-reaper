@@ -58,6 +58,8 @@ Ultraschall API Changelog
 <li>Reaper Internals: Reaper-ProjectDefault-ConfigSettings.txt - documents all reaper.ini-entries, responsible for default project settings</li>
 <li>Reaper Internals: Reaper-StuffMidiMessage-Codes(engl_shortlist).txt - holds all messages and their meaning for StuffMIDIMessage</li>
 <li>Reaper Internals: StuffMidiMessage-docs.txt - describes the usage of the StuffMIDIMessage-function</li>
+<li>Render Management: GetRender_EmbedStretchMarkers - gets the current state of the Embed stretch markers/transient guides"-checkbox from the Render to File dialog</li>
+<li>Render Management: SetRender_EmbedStretchMarkers - sets the current state of the Embed stretch markers/transient guides"-checkbox from the Render to File dialog</li>
 </ul>
 <h4>Changes from Beta 2.79 to Beta 2.80</h4>
 <ul>
@@ -68,7 +70,7 @@ Ultraschall API Changelog
 <li>Docs: DeferScripts_004_Working_with_Defer_Identifiers - removed</li>
 <li>Docs: Defer - reworked docs and removed all references to Defer1 through Defer20</li>
 <li>Docs: JS-Extension - updated to 0.997</li>
-<li>Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte in every string(except DDP), as it was faulty</li>
+<li>Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte in every string(except DDP), as it was wrongly there</li>
 <li>Event Manager: Eventmanager_RemoveEvent - couldn't be found due typo in new module-loader -&gt; fixed (thanks to rstockm)</li>
 <li>Event Manager: EventManager_RemoveAllEvents_Script - couldn't be found due typo in new module-loader -&gt; fixed</li>
 <li>Helper functions: Base64_Decoder - removed small bug, which added a nullbyte at end of strings</li>

@@ -209,6 +209,8 @@ TODO!! buggy function
    - Reaper Internals: Reaper-ProjectDefault-ConfigSettings.txt - documents all reaper.ini-entries, responsible for default project settings
    - Reaper Internals: Reaper-StuffMidiMessage-Codes(engl_shortlist).txt - holds all messages and their meaning for StuffMIDIMessage
    - Reaper Internals: StuffMidiMessage-docs.txt - describes the usage of the StuffMIDIMessage-function
+   - Render Management: GetRender_EmbedStretchMarkers - gets the current state of the Embed stretch markers/transient guides"-checkbox  from the Render to File dialog
+   - Render Management: SetRender_EmbedStretchMarkers - sets the current state of the Embed stretch markers/transient guides"-checkbox  from the Render to File dialog
    
 #### Changes from Beta 2.79 to Beta 2.80
    - API: deprecated - allows showing a warning message, if a script uses a deprecated function in a script; will be shown only once until Reaper restarts, so scripts are stil useable
@@ -218,7 +220,7 @@ TODO!! buggy function
    - Docs: DeferScripts\_004\_Working\_with\_Defer\_Identifiers - removed
    - Docs: Defer - reworked docs and removed all references to Defer1 through Defer20
    - Docs: JS-Extension - updated to 0.997
-   - Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte in every string(except DDP), as it was faulty
+   - Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte in every string(except DDP), as it was wrongly there
    - Event Manager: Eventmanager\_RemoveEvent - couldn't be found due typo in new module-loader -> fixed (thanks to rstockm)
    - Event Manager: EventManager\_RemoveAllEvents\_Script - couldn't be found due typo in new module-loader -> fixed 
    - Helper functions: Base64\_Decoder - removed small bug, which added a nullbyte at end of strings
