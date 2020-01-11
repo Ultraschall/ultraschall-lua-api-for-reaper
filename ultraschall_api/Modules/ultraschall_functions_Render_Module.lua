@@ -2039,7 +2039,7 @@ function ultraschall.GetRenderTable_Project()
   <slug>GetRenderTable_Project</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.975
+    Reaper=6.02
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
@@ -2053,6 +2053,7 @@ function ultraschall.GetRenderTable_Project()
             RenderTable["Channels"] - the number of channels in the rendered file; 1, mono; 2, stereo; higher, the number of channels
             RenderTable["CloseAfterRender"] - true, closes rendering to file-dialog after render; false, doesn't close it
             RenderTable["Dither"] - &1, dither master mix; &2, noise shaping master mix; &4, dither stems; &8, dither noise shaping
+            RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides; true, checked; false, unchecked
             RenderTable["Endposition"] - the endposition of the rendering selection in seconds
             RenderTable["MultiChannelFiles"] - Multichannel tracks to multichannel files-checkbox; true, checked; false, unchecked
             RenderTable["OfflineOnlineRendering"] - Offline/Online rendering-dropdownlist; 0, Full-speed Offline; 1, 1x Offline; 2, Online Render; 3, Online Render(Idle); 4, Offline Render(Idle)
@@ -2132,6 +2133,8 @@ function ultraschall.GetRenderTable_Project()
   _temp, RenderTable["RenderFile"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FILE", "", false)
   _temp, RenderTable["RenderPattern"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", "", false)
   _temp, RenderTable["RenderString"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", "", false)
+  RenderTable["EmbedStretchMarkers"]=ultraschall.GetRender_EmbedStretchMarkers()
+            
   if reaper.SNM_GetIntConfigVar("renderclosewhendone", -111)&16==0 then
     RenderTable["CloseAfterRender"]=false
   else
@@ -2709,7 +2712,7 @@ function ultraschall.IsValidRenderTable(RenderTable)
   <slug>IsValidRenderTable</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.975
+    Reaper=6.02
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.IsValidRenderTable(RenderTable RenderTable)</functioncall>
@@ -2758,7 +2761,7 @@ function ultraschall.IsValidRenderTable(RenderTable)
   if math.type(RenderTable["TailMS"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"TailMS\"] must be an integer", -23) return false end
   if math.type(RenderTable["RenderQueueDelaySeconds"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"RenderQueueDelaySeconds\"] must be an integer", -24) return false end
   if type(RenderTable["CloseAfterRender"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"CloseAfterRender\"] must be a boolean", -25) return false end
-    
+  if type(RenderTable["EmbedStretchMarkers"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"EmbedStretchMarkers\"] must be a boolean", -26) return false end
   return true
 end
 
@@ -3024,16 +3027,16 @@ end
 
 function ultraschall.CreateNewRenderTable(Source, Bounds, Startposition, Endposition, TailFlag, TailMS, RenderFile, RenderPattern,
 SampleRate, Channels, OfflineOnlineRendering, ProjectSampleRateFXProcessing, RenderResample, OnlyMonoMedia, MultiChannelFiles,
-Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, RenderQueueDelay, RenderQueueDelaySeconds, CloseAfterRender)
+Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, RenderQueueDelay, RenderQueueDelaySeconds, CloseAfterRender, EmbedStretchMarkers)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateNewRenderTable</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.975
+    Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>RenderTable RenderTable = ultraschall.IsValidRenderTable(integer Source, integer Bounds, number Startposition, number Endposition, integer TailFlag, integer TailMS, string RenderFile, string RenderPattern, integer SampleRate, integer Channels, integer OfflineOnlineRendering, boolean ProjectSampleRateFXProcessing, integer RenderResample, boolean OnlyMonoMedia, boolean MultiChannelFiles, integer Dither, string RenderString, boolean SilentlyIncrementFilename, boolean AddToProj, boolean SaveCopyOfProject, boolean RenderQueueDelay, integer RenderQueueDelaySeconds, boolean CloseAfterRender)</functioncall>
+  <functioncall>RenderTable RenderTable = ultraschall.IsValidRenderTable(integer Source, integer Bounds, number Startposition, number Endposition, integer TailFlag, integer TailMS, string RenderFile, string RenderPattern, integer SampleRate, integer Channels, integer OfflineOnlineRendering, boolean ProjectSampleRateFXProcessing, integer RenderResample, boolean OnlyMonoMedia, boolean MultiChannelFiles, integer Dither, string RenderString, boolean SilentlyIncrementFilename, boolean AddToProj, boolean SaveCopyOfProject, boolean RenderQueueDelay, integer RenderQueueDelaySeconds, boolean CloseAfterRender, optional boolean EmbedStretchMarkers)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Creates a new RenderTable.
     
@@ -3049,6 +3052,7 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
                    - 3, Stems (selected tracks)
                    - 8, Region render matrix
                    - 32, Selected media items
+                   - 256, Embed stretch markers/transient guides-checkbox=on; optional, as parameter EmbedStretchMarkers is meant for that
     integer Bounds - The Bounds-dropdownlist
                    - 0, Custom time range
                    - 1, Entire project
@@ -3098,6 +3102,7 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
                    - &2, noise shaping master mix
                    - &4, dither stems
                    - &8, dither noise shaping
+                   
     string RenderString - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
     boolean SilentlyIncrementFilename - Silently increment filenames to avoid overwriting-checkbox; ignored, as this can't be stored in projectfiles
     boolean AddToProj - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
@@ -3105,6 +3110,7 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
     boolean RenderQueueDelay - Delay queued render to allow samples to load-checkbox; ignored, as this can't be stored in projectfiles
     integer RenderQueueDelaySeconds - the amount of seconds for the render-queue-delay
     boolean CloseAfterRender - true, closes rendering to file-dialog after render; false, doesn't close it
+    optional boolean EmbedStretchMarkers - true, Embed stretch markers/transient guides-checkbox=on; false or nil, Embed stretch markers/transient guides"-checkbox=off
   </parameters>
   <chapter_context>
     Rendering Projects
@@ -3137,7 +3143,10 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
   if math.type(TailFlag)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "TailFlag", "must be an integer", -22) return end    
   if math.type(TailMS)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "TailMS", "must be an integer", -23) return end    
   if math.type(RenderQueueDelaySeconds)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderQueueDelaySeconds", "must be an integer", -24) return end
-  if math.type(CloseAfterRender)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "CloseAfterRender", "must be a boolean", -25) return end
+ 
+  if type(CloseAfterRender)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "CloseAfterRender", "must be a boolean", -25) return end
+  if EmbedStretchMarkers~=nil and type(EmbedStretchMarkers)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "EmbedStretchMarkers", "must be nil or boolean", -26) return end
+  if EmbedStretchMarkers==nil then EmbedStretchMarkers=false end
   
   local RenderTable={}
   RenderTable["AddToProj"]=AddToProj
@@ -3164,6 +3173,7 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
   RenderTable["TailFlag"]=TailFlag
   RenderTable["TailMS"]=TailMS
   RenderTable["CloseAfterRender"]=CloseAfterRender
+  RenderTable["EmbedStretchMarkers"]=EmbedStretchMarkers
   return RenderTable
 end
 

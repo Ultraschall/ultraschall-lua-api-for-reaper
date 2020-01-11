@@ -209,8 +209,8 @@ TODO!! buggy function
    - Reaper Internals: Reaper-ProjectDefault-ConfigSettings.txt - documents all reaper.ini-entries, responsible for default project settings
    - Reaper Internals: Reaper-StuffMidiMessage-Codes(engl_shortlist).txt - holds all messages and their meaning for StuffMIDIMessage
    - Reaper Internals: StuffMidiMessage-docs.txt - describes the usage of the StuffMIDIMessage-function
-   - Render Management: GetRender_EmbedStretchMarkers - gets the current state of the Embed stretch markers/transient guides"-checkbox  from the Render to File dialog
-   - Render Management: SetRender_EmbedStretchMarkers - sets the current state of the Embed stretch markers/transient guides"-checkbox  from the Render to File dialog
+   - Render Management: GetRender_EmbedStretchMarkers - gets the current state of the "Embed stretch markers/transient guides"-checkbox  from the Render to File dialog
+   - Render Management: SetRender_EmbedStretchMarkers - sets the current state of the "Embed stretch markers/transient guides"-checkbox  from the Render to File dialog
    
 #### Changes from Beta 2.79 to Beta 2.80
    - API: deprecated - allows showing a warning message, if a script uses a deprecated function in a script; will be shown only once until Reaper restarts, so scripts are stil useable
@@ -225,8 +225,11 @@ TODO!! buggy function
    - Event Manager: EventManager\_RemoveAllEvents\_Script - couldn't be found due typo in new module-loader -> fixed 
    - Helper functions: Base64\_Decoder - removed small bug, which added a nullbyte at end of strings
    - Reaper Internals: render-codes-decoded-base64-strings.txt - added new settings for AIFF
-   - Render Management: GetRenderCFG\_Settings\_AIFF - returns Embed Beat Length-checkbox, as included with Reaper 6
    - Render Management: CreateRenderCFG\_AIFF - added Embed Beat Length-checkbox, as included with Reaper 6
+   - Render Management: CreateNewRenderTable - added new "Embed stretch markers/transient guides"-settings as of Reaper 6; CloseAfterRender wasn't accepted as boolean -> fixed
+   - Render Management: GetRenderCFG\_Settings\_AIFF - returns Embed Beat Length-checkbox, as included with Reaper 6
+   - Render Management: GetRenderTable\_Project - supports now "Embed stretch markers/transient guides"-settings as of Reaper 6
+   - Render Management: IsValidRenderTable - checks now as well new "Embed stretch markers/transient guides"-settings as of Reaper 6
    - User Interface: GetReaperWindowPosition\_Left - removed
    - User Interface: GetReaperWindowPosition\_Right - removed
 
