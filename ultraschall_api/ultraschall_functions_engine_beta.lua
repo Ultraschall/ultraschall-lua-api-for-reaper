@@ -834,52 +834,6 @@ H=ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender)
 --]]
 
 
-function ultraschall.GetItem_ClickState()
--- how to get the connection to clicked item, when mouse moves away from the item while retaining click(moving underneath the item for dragging)
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetItem_ClickState</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.981
-    SWS=2.10.0.1
-    Lua=5.3
-  </requires>
-  <functioncall>boolean clickstate, number position, MediaItem item, MediaItem_Take take = ultraschall.GetItem_ClickState()</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns the currently clicked item and take, as well as the current timeposition.
-    
-    Works only, if the mouse is above the MediaItem while having clicked!
-    
-    Returns false, if no item is clicked at
-  </description>
-  <retvals>
-    boolean clickstate - true, item is clicked on; false, item isn't clicked on
-    number position - the position, at which the item is currently clicked at
-    MediaItem item - the Item, which is currently clicked at
-    MediaItem_Take take - the take found at clickposition
-  </retvals>
-  <chapter_context>
-    MediaItem Management
-    Assistance functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>mediaitem management, get, clicked, item</tags>
-</US_DocBloc>
---]]
-  -- TODO: Has an issue, if the mousecursor drags the item, but moves above or underneath the item(if item is in first or last track).
-  --       Even though the item is still clicked, it isn't returned as such.
-  --       The ConfigVar uiscale supports dragging information, but the information which item has been clicked gets lost somehow
-  local B=reaper.SNM_GetDoubleConfigVar("uiscale", -999)
-  local X,Y=reaper.GetMousePosition()
-  local Item, ItemTake = reaper.GetItemFromPoint(X,Y, true)
-  if tostring(B)=="-1.#QNAN" or Item==nil then
-    return false
-  end
-  return true, ultraschall.GetTimeByMouseXPosition(reaper.GetMousePosition()), Item, ItemTake
-end
-
 function ultraschall.GetTrackEnvelope_ClickState()
 -- how to get the connection to clicked envelopepoint, when mouse moves away from the item while retaining click(moving underneath the item for dragging)
 --[[
@@ -1549,6 +1503,52 @@ function ultraschall.SetProject_MasterTrackView(projectfilename_with_path, tcp_v
   end
 end
 
-
+function ultraschall.GetItem_ClickState()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetItem_ClickState</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.981
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean clickstate, number position, MediaItem item, MediaItem_Take take = ultraschall.GetItem_ClickState()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the currently clicked item and take, as well as the current timeposition.
+    
+    Mostly useful in defer-scripts.
+    
+    Returns false, if no item is clicked at
+  </description>
+  <retvals>
+    boolean clickstate - true, item is clicked on; false, item isn't clicked on
+    number position - the position, at which the item is currently clicked at
+    MediaItem item - the Item, which is currently clicked at
+    MediaItem_Take take - the take found at clickposition
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitem management, get, clicked, item</tags>
+</US_DocBloc>
+--]]
+  local B=reaper.SNM_GetDoubleConfigVar("uiscale", -999)
+  local X,Y=reaper.GetMousePosition()
+  local Item, ItemTake = reaper.GetItemFromPoint(X,Y, true)
+  if Item==nil then Item=ultraschall.ItemClickState_OldItem end
+  if Item~=nil then ultraschall.ItemClickState_OldItem=Item end
+  if ItemTake==nil then ItemTake=ultraschall.ItemClickState_OldTake end
+  if ItemTake~=nil then ultraschall.ItemClickState_OldTake=ItemTake end
+  if tostring(B)=="-1.#QNAN" or Item==nil then
+    ultraschall.ItemClickState_OldTake=nil
+    ultraschall.ItemClickState_OldItem=nil
+    return false
+  end
+  return true, ultraschall.GetTimeByMouseXPosition(reaper.GetMousePosition()), Item, ItemTake
+end
 
 ultraschall.ShowLastErrorMessage()

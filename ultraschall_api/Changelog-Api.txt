@@ -301,6 +301,7 @@ TODO!! buggy function
    - TakeManagement: SetFXStateChunk - docs were unclear, that only setting NOT inserting is possible; could crash, if no FXStateChunk for setting could be found -> fixed(thanks to XRaym)
    - User Interface: GetReaperWindowPosition\_Left - removed
    - User Interface: GetReaperWindowPosition\_Right - removed
+   - User Interface: GetItem_ClickState - remembers now the dragged item+take, even if mouse-cursor is not above it anymore
 
 ---
 
