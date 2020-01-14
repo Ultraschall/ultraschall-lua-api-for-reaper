@@ -2246,6 +2246,10 @@ else
     ultraschall.LM(21)
     return ultraschall.EnumProjects(table.unpack({...}))
   end
+  function ultraschall.GetProjectState_NumbersOnly(...)
+    ultraschall.LM(22)
+    return ultraschall.GetProjectState_NumbersOnly(table.unpack({...}))
+  end
   function ultraschall.GetProject_ReaperVersion(...)
     ultraschall.LM(22)
     return ultraschall.GetProject_ReaperVersion(table.unpack({...}))
@@ -2269,6 +2273,10 @@ else
   function ultraschall.GetProject_EnvAttach(...)
     ultraschall.LM(22)
     return ultraschall.GetProject_EnvAttach(table.unpack({...}))
+  end
+  function ultraschall.GetProject_PooledEnvAttach(...)
+    ultraschall.LM(22)
+    return ultraschall.GetProject_PooledEnvAttach(table.unpack({...}))
   end
   function ultraschall.GetProject_MixerUIFlags(...)
     ultraschall.LM(22)

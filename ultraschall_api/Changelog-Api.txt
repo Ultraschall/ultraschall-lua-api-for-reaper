@@ -1,4 +1,9 @@
 <TODO>
+
+    InsertFXIntoFXStateChunk
+    RemoveFXFromFXStateChunk
+    CountFXInFXStateChunk
+    
     For 4.01betas:
         RunCommand und andere US-LegacyCommands funzen net mehr...
         - TODO!! Defer - - make defer-loops protected, so they can't be influenced from the outside, neither changed or stopped.
@@ -65,7 +70,10 @@
                   - SetProject_TempoEnv_ExStateChunk
                   
                   States:
+                  - 
+                  
                   -  RENDER_QUEUE-stuff
+                  - SetProject_POOLEDENVATTACH
                   - SetProject_MasterTrackView
                   - SetProject_CountMasterHWOuts
                   - SetProject_MasterHWOut
@@ -211,6 +219,9 @@ TODO!! buggy function
    - Reaper Internals: StuffMidiMessage-docs.txt - describes the usage of the StuffMIDIMessage-function
    - Render Management: GetRender_EmbedStretchMarkers - gets the current state of the "Embed stretch markers/transient guides"-checkbox  from the Render to File dialog
    - Render Management: SetRender_EmbedStretchMarkers - sets the current state of the "Embed stretch markers/transient guides"-checkbox  from the Render to File dialog
+   - ProjectManagement: GetProjectState\_NumbersOnly - returns all numerical values, associated with a certain state
+   - ProjectManagement: GetProject\_PooledEnvAttach - gets the pooled-envattach-state
+
    
 #### Changes from Beta 2.79 to Beta 2.80
    - API: deprecated - allows showing a warning message, if a script uses a deprecated function in a script; will be shown only once until Reaper restarts, so scripts are stil useable
@@ -224,12 +235,70 @@ TODO!! buggy function
    - Event Manager: Eventmanager\_RemoveEvent - couldn't be found due typo in new module-loader -> fixed (thanks to rstockm)
    - Event Manager: EventManager\_RemoveAllEvents\_Script - couldn't be found due typo in new module-loader -> fixed 
    - Helper functions: Base64\_Decoder - removed small bug, which added a nullbyte at end of strings
+   - ProjectManagement: GetProject\_AddMediaToProjectAfterRender - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_AutoCrossFade - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_CursorPos - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_DefPitchMode - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_EnvAttach - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_Feedback - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_GlobalAuto - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_Grid - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_GroupDisabled - simplified implementation, future values added by Reaper-devs will now be returned properly; didn't return anything, when no groups were disabled -> fixed
+   - ProjectManagement: GetProject\_GroupOverride - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_HorizontalZoom - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_ItemMixBehavior - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_Lock - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_Loop - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_LoopGran - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_MasterAutomode - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_MasterFXByp - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_MasterMuteSolo - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_MasterNChans - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_MasterPanMode - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_MasterSel - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_MasterTrackColor - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_MasterTrackHeight - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_MasterTrackView - didn't return the new values added in recent Reaper-versions -> fixed and stabilized
+   - ProjectManagement: GetProject\_MasterTrackView - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_MasterVolume - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_MasterWidth - simplified implementation, future values added by Reaper-devs will now be returned properly; didn't return 1 in case of +100 width -> fixed
+   - ProjectManagement: GetProject\_MaxProjectLength - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_MixerUIFlags - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_PanLaw - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_PanMode - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_PeakGain - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_Playrate - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_ProjOffsets - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_RecMode - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_RenderDitherState - simplified implementation, future values added by Reaper-devs will now be returned properly; updated docs with new options like embed stretch markers
+   - ProjectManagement: GetProject\_RenderFreqNChans - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_RenderRange - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_RenderResample - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_RenderSpeed - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_RenderStems - simplified implementation, future values added by Reaper-devs will now be returned properly; updated docs with new rendering selected tracks/media through master-options
+   - ProjectManagement: GetProject\_RippleState - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_SMPTESync - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_SampleRate - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_Selection - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_TakeLane - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_Tempo - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_TempoTimeSignature - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_TimeBase - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_Timemode - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_TrackMixingDepth - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_UseRecConfig - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_VerticalZoom - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: GetProject\_VideoConfig - simplified implementation, future values added by Reaper-devs will now be returned properly
+   - ProjectManagement: SetProject\_RenderDitherState - updated docs with new options like embed stretch markers
+   - ProjectManagement: SetProject\_RenderStems - updated docs with new rendering selected tracks/media through master-options
    - Reaper Internals: render-codes-decoded-base64-strings.txt - added new settings for AIFF
    - Render Management: CreateRenderCFG\_AIFF - added Embed Beat Length-checkbox, as included with Reaper 6
    - Render Management: CreateNewRenderTable - added new "Embed stretch markers/transient guides"-settings as of Reaper 6; CloseAfterRender wasn't accepted as boolean -> fixed
    - Render Management: GetRenderCFG\_Settings\_AIFF - returns Embed Beat Length-checkbox, as included with Reaper 6
    - Render Management: GetRenderTable\_Project - supports now "Embed stretch markers/transient guides"-settings as of Reaper 6
    - Render Management: IsValidRenderTable - checks now as well new "Embed stretch markers/transient guides"-settings as of Reaper 6
+   - TakeManagement: GetFXStateChunk - parameter TakeFXChain_id wasn't optional due typo -> fixed(thanks to XRaym)
+   - TakeManagement: SetFXStateChunk - docs were unclear, that only setting NOT inserting is possible; could crash, if no FXStateChunk for setting could be found -> fixed(thanks to XRaym)
    - User Interface: GetReaperWindowPosition\_Left - removed
    - User Interface: GetReaperWindowPosition\_Right - removed
 

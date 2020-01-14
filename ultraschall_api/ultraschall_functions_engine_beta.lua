@@ -833,60 +833,6 @@ G=ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender)
 H=ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender)
 --]]
 
-function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
--- Why is this still in here?
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetFXStateChunk</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.975
-    Lua=5.3
-  </requires>
-  <functioncall>string FXStateChunk = ultraschall.GetFXStateChunk(string StateChunk, optional integer TakeFXChain_id)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Returns an FXStateChunk from a TrackStateChunk or a MediaItemStateChunk.
-    
-    An FXStateChunk holds all FX-plugin-settings for a specific MediaTrack or MediaItem.
-    
-    Returns nil in case of an error or if no FXStateChunk has been found.
-  </description>
-  <retvals>
-    string FXStateChunk - the FXStateChunk, stored in the StateChunk
-  </retvals>
-  <parameters>
-    string StateChunk - the StateChunk, from which you want to retrieve the FXStateChunk
-    optional integer TakeFXChain_id - when using MediaItemStateChunks, this allows you to choose the take of which you want the FXChain; default is 1
-  </parameters>
-  <chapter_context>
-    FX-Management
-    Assistance functions
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>fxmanagement, get, fxstatechunk, trackstatechunk, mediaitemstatechunk</tags>
-</US_DocBloc>
-]]
-  if ultraschall.IsValidTrackStateChunk(StateChunk)==false and ultraschall.IsValidMediaItemStateChunk(StateChunk)==false then ultraschall.AddErrorMessage("GetFXStateChunk", "StateChunk", "no valid Track/ItemStateChunk", -1) return end
-  if TakeFXChain_id~=nil and math.type(TakeFXChain_id)~="integer" then ultraschall.AddErrorMessage("GetFXStateChunk", "TakeFXChain_id", "must be an integer", -2) return end
-  if TakeFXChain_id==nil then TakeFXChain=1 end
-  
-  if string.find(StateChunk, "\n  ")==nil then
-    StateChunk=ultraschall.StateChunkLayouter(StateChunk)
-  end
-  for w in string.gmatch(StateChunk, " <FXCHAIN.-\n  >") do
-    return string.gsub("\n"..w, "\n      ", "\n    "):sub(2,-1)
-    --return w
-  end
-  local count=0
-  for w in string.gmatch(StateChunk, " <TAKEFX.-\n  >") do
-    count=count+1
-    if TakeFXChain_id==count then
-      return string.gsub("\n"..w, "\n      ", "\n    "):sub(2,-1)
-    end
-  end
-end
-
 
 function ultraschall.GetItem_ClickState()
 -- how to get the connection to clicked item, when mouse moves away from the item while retaining click(moving underneath the item for dragging)
@@ -1540,6 +1486,68 @@ end
 
 --A=ultraschall.SetRender_EmbedStretchMarkers(false)
 
+function ultraschall.SetProject_MasterTrackView(projectfilename_with_path, tcp_visibility, state2, state3, state4, state5, state6, state7, ProjectStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetProject_MasterTrackView</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_MasterTrackView(string projectfilename_with_path, integer tcp_visibility, number state2, number state3, number state4, integer state5, integer state6, integer state7, optional string ProjectStatechunk)</functioncall>
+  <description>
+    Sets the master-view-state of the master-track of the project or a ProjectStateChunk.
+    
+    It is the entry: MASTERTRACKVIEW
+    
+    Returns -1 in case of error.
+  </description>
+  <parameters>
+    string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
+    integer tcp_visibility - 0, Master-track is invisible in MCP; 1, Master-track is visible in MCP
+    number state2 - unknown
+    number state3 - unknown
+    number state4 - unknown
+    integer state5 - unknown
+    integer state6 - unknown
+    integer state7 - unknown
+    integer state8 - unknown
+    integer state9 - unknown
+    integer state10 - unknown
+    optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
+  </parameters>
+  <retvals>
+    integer retval - -1 in case of error, 1 in case of success
+    optional string ProjectStateChunk - the altered ProjectStateChunk
+  </retvals>
+  <chapter_context>
+    Project-Management
+    RPP-Files Set
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>projectfiles, rpp, state, set, ripple, all, one</tags>
+</US_DocBloc>
+]]
+  if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RippleState", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
+  if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RippleState", "projectfilename_with_path", "File does not exist", -2) return -1 end
+  if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
+  if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RippleState", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
+  
+  if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RippleState", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
+--tcp_visibility, state2, state3, state4, state5, state6, state7
+  if math.type(tcp_visibility)~="integer" then ultraschall.AddErrorMessage("SetProject_RippleState", "tcp_visibility", "Must be an integer", -4) return -1 end
+  
+  
+  local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RIPPLE%s).-%c.-<RECORD_CFG.*")
+  local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RIPPLE%s.-%c(.-<RECORD_CFG.*)")
+  
+  ProjectStateChunk=FileStart..ripple_state.."\n"..FileEnd
+  if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
+  else return 1, ProjectStateChunk
+  end
+end
 
 
 

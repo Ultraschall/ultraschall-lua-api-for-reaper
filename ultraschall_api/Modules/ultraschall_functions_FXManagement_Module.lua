@@ -77,7 +77,7 @@ function ultraschall.IsValidFXStateChunk(StateChunk)
   </parameters>
   <chapter_context>
     FX-Management
-    Assistance functions
+    FXStateChunks
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -120,7 +120,7 @@ function ultraschall.GetFXFromFXStateChunk(FXStateChunk, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Assistance functions
+    FXStateChunks
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1694,9 +1694,9 @@ function ultraschall.SetFXStateChunk(StateChunk, FXStateChunk, TakeFXChain_id)
     Reaper=5.979
     Lua=5.3
   </requires>
-  <functioncall>boolean retval, optional string alteredStateChunk = ultraschall.SetFXStateChunk(string StateChunk, string FXStateChunk)</functioncall>
+  <functioncall>boolean retval, optional string alteredStateChunk = ultraschall.SetFXStateChunk(string StateChunk, string FXStateChunk, optional integer TakeFXChain_id)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Sets an FXStateChunk into a TrackStateChunk or a MediaItemStateChunk.
+    Sets an already existing FXStateChunk in a TrackStateChunk or a MediaItemStateChunk.
     
     returns false in case of an error
   </description>
@@ -1711,7 +1711,7 @@ function ultraschall.SetFXStateChunk(StateChunk, FXStateChunk, TakeFXChain_id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    FXStateChunks
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1723,13 +1723,13 @@ function ultraschall.SetFXStateChunk(StateChunk, FXStateChunk, TakeFXChain_id)
   if TakeFXChain_id~=nil and math.type(TakeFXChain_id)~="integer" then ultraschall.AddErrorMessage("SetFXStateChunk", "TakeFXChain_id", "must be an integer", -3) return false end
   if TakeFXChain_id==nil then TakeFXChain_id=1 end
   local OldFXStateChunk=ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
+  if OldFXStateChunk==nil then ultraschall.AddErrorMessage("SetFXStateChunk", "TakeFXChain_id", "no FXStateChunk found", -4) return false end
   OldFXStateChunk=string.gsub(OldFXStateChunk, "\n%s*", "\n")  
   OldFXStateChunk=string.gsub(OldFXStateChunk, "^%s*", "")
   
   local Start, Stop = string.find(StateChunk, OldFXStateChunk, 0, true)
   StateChunk=StateChunk:sub(1,Start-1)..FXStateChunk:sub(2,-1)..StateChunk:sub(Stop+1,-1)
   StateChunk=string.gsub(StateChunk, "\n%s*", "\n")
-  --print3(StateChunk)
   return true, StateChunk
 end
 
@@ -1759,7 +1759,7 @@ function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
   </parameters>
   <chapter_context>
     FX-Management
-    Assistance functions
+    FXStateChunks
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1768,7 +1768,7 @@ function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
 ]]
   if ultraschall.IsValidTrackStateChunk(StateChunk)==false and ultraschall.IsValidMediaItemStateChunk(StateChunk)==false then ultraschall.AddErrorMessage("GetFXStateChunk", "StateChunk", "no valid Track/ItemStateChunk", -1) return end
   if TakeFXChain_id~=nil and math.type(TakeFXChain_id)~="integer" then ultraschall.AddErrorMessage("GetFXStateChunk", "TakeFXChain_id", "must be an integer", -2) return end
-  if TakeFXChain_id==nil then TakeFXChain=1 end
+  if TakeFXChain_id==nil then TakeFXChain_id=1 end
   
   if string.find(StateChunk, "\n  ")==nil then
     StateChunk=ultraschall.StateChunkLayouter(StateChunk)
@@ -1777,6 +1777,7 @@ function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
     return w
   end
   local count=0
+  
   for w in string.gmatch(StateChunk, " <TAKEFX.-\n  >") do
     count=count+1
     if TakeFXChain_id==count then
