@@ -10520,7 +10520,9 @@ function ultraschall.GetProject_Length(projectfilename_with_path, ProjectStateCh
   <description>
     Returns the projectlength of an rpp-project-file.
     
-    It's eturning the position of the overall length, as well as the position of the last itemedge/regionedge/marker/time-signature-marker of the project.
+    It's returning the position of the overall length, as well as the position of the last itemedge/regionedge/marker/time-signature-marker of the project.
+    
+    To do the same for currently opened projects, use: [GetProjectLength](#GetProjectLength)
     
     Returns -1 in case of an error
   </description>
@@ -10540,7 +10542,7 @@ function ultraschall.GetProject_Length(projectfilename_with_path, ProjectStateCh
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>project management, get, length of project, marker, region, timesignature, lengt, item, edge</tags>
+  <tags>project management, get, length of project, marker, region, timesignature, length, item, edge</tags>
 </US_DocBloc>
 ]]
 

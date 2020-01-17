@@ -872,18 +872,68 @@ function ultraschall.GetTrackEnvelope_ClickState()
   -- TODO: Has an issue, if the mousecursor drags the item, but moves above or underneath the item(if item is in first or last track).
   --       Even though the item is still clicked, it isn't returned as such.
   --       The ConfigVar uiscale supports dragging information, but the information which item has been clicked gets lost somehow
-  local B=reaper.SNM_GetDoubleConfigVar("uiscale", -999)
-  local X,Y=reaper.GetMousePosition()
-  local Track, Info = reaper.GetTrackFromPoint(X,Y)
-  if tostring(B)=="-1.#QNAN" or Info==0 then
-    return false
+  --local B, Track, Info, TrackEnvelope, TakeEnvelope, X, Y
+  
+  B=reaper.SNM_GetDoubleConfigVar("uiscale", -999)
+  if tostring(B)=="-1.#QNAN" then
+    ultraschall.EnvelopeClickState_OldTrack=nil
+    ultraschall.EnvelopeClickState_OldInfo=nil
+    ultraschall.EnvelopeClickState_OldTrackEnvelope=nil
+    ultraschall.EnvelopeClickState_OldTakeEnvelope=nil
+    return 1
+  else
+    Track=ultraschall.EnvelopeClickState_OldTrack
+    Info=ultraschall.EnvelopeClickState_OldInfo
+    TrackEnvelope=ultraschall.EnvelopeClickState_OldTrackEnvelope
+    TakeEnvelope=ultraschall.EnvelopeClickState_OldTakeEnvelope
   end
+  
+  if Track==nil then
+    X,Y=reaper.GetMousePosition()
+    Track, Info = reaper.GetTrackFromPoint(X,Y)
+    ultraschall.EnvelopeClickState_OldTrack=Track
+    ultraschall.EnvelopeClickState_OldInfo=Info
+  end
+  
+  -- BUggy, til the end
+  -- Ich will hier mir den alten Take auch noch merken, und danach herausfinden, welcher EnvPoint im Envelope existiert, der
+  --   a) an der Zeit existiert und
+  --   b) selektiert ist
+  -- damit könnte ich eventuell es schaffen, die Info zurückzugeben, welcher Envelopepoint gerade beklickt wird.
+  if TrackEnvelope==nil then
+    reaper.BR_GetMouseCursorContext()
+    TrackEnvelope = reaper.BR_GetMouseCursorContext_Envelope()
+    ultraschall.EnvelopeClickState_OldTrackEnvelope=TrackEnvelope
+  end
+  
+  if TakeEnvelope==nil then
+    reaper.BR_GetMouseCursorContext()
+    TakeEnvelope = reaper.BR_GetMouseCursorContext_Envelope()
+    ultraschall.EnvelopeClickState_OldTakeEnvelope=TakeEnvelope
+  end
+  --[[
+  
+  
+  
   reaper.BR_GetMouseCursorContext()
   local TrackEnvelope, TakeEnvelope = reaper.BR_GetMouseCursorContext_Envelope()
+  
+  if Track==nil then Track=ultraschall.EnvelopeClickState_OldTrack end
+  if Track~=nil then ultraschall.EnvelopeClickState_OldTrack=Track end
+  if TrackEnvelope~=nil then ultraschall.EnvelopeClickState_OldTrackEnvelope=TrackEnvelope end
+  if TrackEnvelope==nil then TrackEnvelope=ultraschall.EnvelopeClickState_OldTrackEnvelope end
+  if TakeEnvelope~=nil then ultraschall.EnvelopeClickState_OldTakeEnvelope=TakeEnvelope end
+  if TakeEnvelope==nil then TakeEnvelope=ultraschall.EnvelopeClickState_OldTakeEnvelope end
+  
+  --]]
+  --[[
   if TakeEnvelope==true or TrackEnvelope==nil then return false end
   local TimePosition=ultraschall.GetTimeByMouseXPosition(reaper.GetMousePosition())
-  local EnvelopePoint=reaper.GetEnvelopePointByTime(TrackEnvelope, TimePosition)
+  local EnvelopePoint=
   return true, TimePosition, Track, TrackEnvelope, EnvelopePoint
+  --]]
+  if TrackEnvelope==nil then TrackEnvelope=TakeEnvelope end
+  return true, ultraschall.GetTimeByMouseXPosition(reaper.GetMousePosition()), Track, TrackEnvelope--, reaper.GetEnvelopePointByTime(TrackEnvelope, TimePosition)
 end
 
 
@@ -1549,6 +1599,207 @@ function ultraschall.GetItem_ClickState()
     return false
   end
   return true, ultraschall.GetTimeByMouseXPosition(reaper.GetMousePosition()), Item, ItemTake
+end
+
+function ultraschall.GetProjectLength(items, markers_regions, timesig_markers)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetProjectLength</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>number project_length, number last_itemedge, number last_regionedgepos, number last_markerpos, number last_timesigmarker = ultraschall.GetProjectLength(optional boolean return_last_itemedge, optional boolean return_last_markerpos, optional boolean return_lat_timesigmarkerpos)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the position of the last itemedge, regionend, marker, time-signature-marker in the project.
+    
+    It will return -1, if no such elements are found, means: last_markerpos=-1 if no marker has been found
+    Exception when no items are found, it will return nil for last_itemedge
+    
+    You can optimise the speed of the function, by setting the appropriate parameters to false.
+    So if you don't need the last itemedge, setting return_last_itemedge=false speeds up execution massively.
+    
+    To do the same for projectfiles, use: [GetProject_Length](#GetProject_Length)
+  </description>
+  <retvals>
+    number length_of_project - the overall length of the project, including markers, regions, itemedges and time-signature-markers
+    number last_itemedge - the position of the last itemedge in the project; nil, if not found
+    number last_regionedgepos - the position of the last regionend in the project; -1, if not found
+    number last_markerpos - the position of the last marker in the project; -1, if not found 
+    number last_timesigmarker - the position of the last timesignature-marker in the project; -1, if not found
+  </retvals>
+  <parameters>
+    optional boolean return_last_itemedge - true or nil, return the last itemedge; false, don't return it
+    optional boolean return_last_markerpos - true or nil, return the last marker/regionend-position; false, don't return it 
+    optional boolean return_lat_timesigmarkerpos - true or nil, return the last timesignature-marker-position; false, don't return it
+  </parameters>
+  <chapter_context>
+    Project-Management
+    Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>project management, get, last, position, length of project, marker, regionend, itemend, timesignaturemarker</tags>
+</US_DocBloc>
+--]]
+  local Longest=-10000000000 -- this is a hack for MediaItems, who are stuck before ProjectStart; I hate it
+  if items~=false then
+    local Position, Length
+    for i=0, reaper.CountMediaItems(0)-1 do
+      Position=reaper.GetMediaItemInfo_Value(reaper.GetMediaItem(0,i), "D_POSITION")
+      Length=reaper.GetMediaItemInfo_Value(reaper.GetMediaItem(0,i), "D_LENGTH")
+      if Position+Length>Longest then Longest=Position+Length end
+    end
+  end
+  if Longest==-10000000000 then Longest=nil end -- same hack for MediaItems, who are stuck before ProjectStart; I hate it...
+  local Regionend=-1
+  local Markerend=-1
+  if markers_regions~=false then
+    for i=0, reaper.CountProjectMarkers(0)-1 do
+      local retval, isrgn, pos, rgnend, name, markrgnindexnumber = reaper.EnumProjectMarkers(i)
+      if isrgn==true then
+        if rgnend>Regionend then Regionend=rgnend end
+      else
+        if pos>Markerend then Markerend=pos end
+      end
+    end
+  end
+  local TimeSigEnd=-1
+  if timesig_markers~=false then
+    for i=0, reaper.CountTempoTimeSigMarkers(0)-1 do
+      local retval, timepos, measurepos, beatpos, bpm, timesig_num, timesig_denom, lineartempo = reaper.GetTempoTimeSigMarker(0, i)
+      if timepos>TimeSigEnd then TimeSigEnd=timepos end
+    end
+  end
+  return reaper.GetProjectLength(), Longest, Regionend, Markerend, TimeSigEnd
+end
+
+function ultraschall.GetEndOfItem(MediaItem)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetEndOfItem</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>number end_of_item_position = ultraschall.GetEndOfItem(MediaItem MediaItem)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the endposition of MediaItem
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    number end_of_item_position - the position of the ending edge of the MediaItem
+  </retvals>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose ending-position you want to know
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitem management, get, end of mediaitem, position</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("GetEndOfItem", "MediaItem", "must be a valid MediaItem", -1) return end
+  return reaper.GetMediaItemInfo_Value(MediaItem, "D_POSITION")-reaper.GetMediaItemInfo_Value(MediaItem, "D_LENGTH")
+end
+
+function ultraschall.GetAllMediaItemAttributes_Table(MediaItem)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllMediaItemAttributes_Table</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.40
+    Lua=5.3
+  </requires>
+  <functioncall>table AttributeTable = ultraschall.GetAllMediaItemAttributes_Table(MediaItem MediaItem)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns all attributes of MediaItem as a handy table.
+    
+    The returned table is of the following scheme:
+        AttributeTable["B_MUTE"] - bool * : muted
+        AttributeTable["B_LOOPSRC"] - bool * : loop source
+        AttributeTable["B_ALLTAKESPLAY"] - bool * : all takes play
+        AttributeTable["B_UISEL"] - bool * : selected in arrange view
+        AttributeTable["C_BEATATTACHMODE"] - char * : item timebase, -1=track or project default, 1=beats (position, length, rate), 2=beats (position only). for auto-stretch timebase: C_BEATATTACHMODE=1, C_AUTOSTRETCH=1
+        AttributeTable["C_AUTOSTRETCH:"] - char * : auto-stretch at project tempo changes, 1=enabled, requires C_BEATATTACHMODE=1
+        AttributeTable["C_LOCK"] - char * : locked, &1=locked
+        AttributeTable["D_VOL"] - double * : item volume, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc
+        AttributeTable["D_POSITION"] - double * : item position in seconds
+        AttributeTable["D_LENGTH"] - double * : item length in seconds
+        AttributeTable["D_SNAPOFFSET"] - double * : item snap offset in seconds
+        AttributeTable["D_FADEINLEN"] - double * : item manual fadein length in seconds
+        AttributeTable["D_FADEOUTLEN"] - double * : item manual fadeout length in seconds
+        AttributeTable["D_FADEINDIR"] - double * : item fadein curvature, -1..1
+        AttributeTable["D_FADEOUTDIR"] - double * : item fadeout curvature, -1..1
+        AttributeTable["D_FADEINLEN_AUTO"] - double * : item auto-fadein length in seconds, -1=no auto-fadein
+        AttributeTable["D_FADEOUTLEN_AUTO"] - double * : item auto-fadeout length in seconds, -1=no auto-fadeout
+        AttributeTable["C_FADEINSHAPE"] - int * : fadein shape, 0..6, 0=linear
+        AttributeTable["C_FADEOUTSHAPE"] - int * : fadeout shape, 0..6, 0=linear
+        AttributeTable["I_GROUPID"] - int * : group ID, 0=no group
+        AttributeTable["I_LASTY"] - int * : Y-position of track in pixels (read-only)
+        AttributeTable["I_LASTH"] - int * : height in track in pixels (read-only)
+        AttributeTable["I_CUSTOMCOLOR"] - int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color anyway)
+        AttributeTable["I_CURTAKE"] - int * : active take number
+        AttributeTable["IP_ITEMNUMBER"] - int, item number on this track (read-only, returns the item number directly)
+        AttributeTable["F_FREEMODE_Y"] - float * : free item positioning Y-position, 0=top of track, 1=bottom of track (will never be 1)
+        AttributeTable["F_FREEMODE_H"] - float * : free item positioning height, 0=no height, 1=full height of track (will never be 0)
+        AttributeTable["P_TRACK"] - MediaTrack * (read-only)
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    table AttributeTable - a table with all attributes of a MediaItem
+  </retvals>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose attributes you want to retrieve
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitem management, get, all, attributes of mediaitem</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("GetAllMediaItemAttributes_Table", "MediaItem", "must be a valid MediaItem", -1) return end
+  local Attributes={}
+  Attributes["B_MUTE"]=reaper.GetMediaItemInfo_Value(MediaItem, "B_MUTE")
+  Attributes["B_LOOPSRC"]=reaper.GetMediaItemInfo_Value(MediaItem, "B_LOOPSRC")
+  Attributes["B_ALLTAKESPLAY"]=reaper.GetMediaItemInfo_Value(MediaItem, "B_ALLTAKESPLAY")
+  Attributes["B_UISEL"]=reaper.GetMediaItemInfo_Value(MediaItem, "B_UISEL")
+  Attributes["C_BEATATTACHMODE"]=reaper.GetMediaItemInfo_Value(MediaItem, "C_BEATATTACHMODE")
+  Attributes["C_AUTOSTRETCH"]=reaper.GetMediaItemInfo_Value(MediaItem, "C_AUTOSTRETCH")
+  Attributes["C_LOCK"]=reaper.GetMediaItemInfo_Value(MediaItem, "C_LOCK")
+  Attributes["D_VOL"]=reaper.GetMediaItemInfo_Value(MediaItem, "D_VOL")
+  Attributes["D_POSITION"]=reaper.GetMediaItemInfo_Value(MediaItem, "D_POSITION")
+  Attributes["D_LENGTH"]=reaper.GetMediaItemInfo_Value(MediaItem, "D_LENGTH")
+  Attributes["D_SNAPOFFSET"]=reaper.GetMediaItemInfo_Value(MediaItem, "D_SNAPOFFSET")
+  Attributes["D_FADEINLEN"]=reaper.GetMediaItemInfo_Value(MediaItem, "D_FADEINLEN")
+  Attributes["D_FADEOUTLEN"]=reaper.GetMediaItemInfo_Value(MediaItem, "D_FADEOUTLEN")
+  Attributes["D_FADEINDIR"]=reaper.GetMediaItemInfo_Value(MediaItem, "D_FADEINDIR")
+  Attributes["D_FADEOUTDIR"]=reaper.GetMediaItemInfo_Value(MediaItem, "D_FADEOUTDIR")
+  Attributes["D_FADEINLEN_AUTO"]=reaper.GetMediaItemInfo_Value(MediaItem, "D_FADEINLEN_AUTO")
+  Attributes["D_FADEOUTLEN_AUTO"]=reaper.GetMediaItemInfo_Value(MediaItem, "D_FADEOUTLEN_AUTO")
+  Attributes["C_FADEINSHAPE"]=reaper.GetMediaItemInfo_Value(MediaItem, "C_FADEINSHAPE")
+  Attributes["C_FADEOUTSHAPE"]=reaper.GetMediaItemInfo_Value(MediaItem, "C_FADEOUTSHAPE")
+  Attributes["I_GROUPID"]=reaper.GetMediaItemInfo_Value(MediaItem, "I_GROUPID")
+  Attributes["I_LASTY"]=reaper.GetMediaItemInfo_Value(MediaItem, "I_LASTY")
+  Attributes["I_LASTH"]=reaper.GetMediaItemInfo_Value(MediaItem, "I_LASTH")
+  Attributes["I_CUSTOMCOLOR"]=reaper.GetMediaItemInfo_Value(MediaItem, "I_CUSTOMCOLOR")
+  Attributes["I_CURTAKE"]=reaper.GetMediaItemInfo_Value(MediaItem, "I_CURTAKE")
+  Attributes["IP_ITEMNUMBER"]=reaper.GetMediaItemInfo_Value(MediaItem, "IP_ITEMNUMBER")
+  Attributes["F_FREEMODE_Y"]=reaper.GetMediaItemInfo_Value(MediaItem, "F_FREEMODE_Y")
+  Attributes["F_FREEMODE_H"]=reaper.GetMediaItemInfo_Value(MediaItem, "F_FREEMODE_H")
+  Attributes["P_TRACK"]=reaper.GetMediaItemInfo_Value(MediaItem, "P_TRACK")
+  return Attributes
 end
 
 ultraschall.ShowLastErrorMessage()
