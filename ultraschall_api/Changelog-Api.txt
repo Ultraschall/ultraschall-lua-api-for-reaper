@@ -1,11 +1,10 @@
 <TODO>
 
-    InsertFXIntoFXStateChunk
-    RemoveFXFromFXStateChunk
-    CountFXInFXStateChunk
+    InsertFXStateChunkIntoStateChunk
+    RemoveFXStateChunkFromFXStateChunk
     
     For 4.01betas:
-        RunCommand und andere US-LegacyCommands funzen net mehr...
+        StateChunkLayouter - support different "target"-statechunks, so you can layout a statechunk for direct usage within ProjectStateChunks, etc
         - TODO!! Defer - - make defer-loops protected, so they can't be influenced from the outside, neither changed or stopped.
                             which means: no stopping-feature available using StopDefer-function in such cases
                          - registering of defer-using-running scripts into an extstate ultraschall->running_script_instance-> for monitoring purposes
@@ -212,9 +211,12 @@ TODO!! buggy function
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
 
 #### New features in 4.00beta2.80
+   - FXManagement: CountFXStateChunksInStateChunk - counts the FXStateChunks within a Project-/Track-/ItemStateChunk
+   - FXManagement: RemoveFXStateChunkFromTrackStateChunk - removes a FXStateChunk from a TrackStateChunk
    - MediaItems: GetEndOfItem - returns the endposition of a MediaItem
-   - MediaItems: GetAllMediaItemAttributes_Table - returns all attributes of a MediaItem as a handy table
-   - Reaper Internals: Jumping\_FX\_Button\_in\_TCP-demo.zip - demos, how Set/GetLayout-functions work; includes a demo theme and a script, that influences it, including comments
+   - MediaItems: GetAllMediaItemAttributes\_Table - returns all attributes of a MediaItem as a handy table
+   - MediaItems: SetAllMediaItemAttributes\_Table - sets all attributes of a MediaItems using an attributes table, like the one returned by GetAllMediaItemAttributes_Table
+   - Reaper Internals: Jumping\_FX\_Button\_in\_TCP-demo.zip - demoes, how Set/GetLayout-functions work; includes a demo theme and a script, that influences it, including comments
    - Reaper Internals: RenderPreset-Configfile.txt - documentation of the Render-Presets of Reaper
    - Reaper Internals: Reaper-ProjectDefault-ConfigSettings.txt - documents all reaper.ini-entries, responsible for default project settings
    - Reaper Internals: Reaper-StuffMidiMessage-Codes(engl_shortlist).txt - holds all messages and their meaning for StuffMIDIMessage

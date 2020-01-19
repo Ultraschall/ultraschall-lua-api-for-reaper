@@ -1496,7 +1496,7 @@ function ultraschall.SetProject_MasterTrackView(projectfilename_with_path, tcp_v
   <slug>SetProject_MasterTrackView</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.02
+    Reaper=6.02
     Lua=5.3
   </requires>
   <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_MasterTrackView(string projectfilename_with_path, integer tcp_visibility, number state2, number state3, number state4, integer state5, integer state6, integer state7, optional string ProjectStatechunk)</functioncall>
@@ -1614,13 +1614,13 @@ function ultraschall.GetProjectLength(items, markers_regions, timesig_markers)
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Returns the position of the last itemedge, regionend, marker, time-signature-marker in the project.
     
-    It will return -1, if no such elements are found, means: last_markerpos=-1 if no marker has been found
-    Exception when no items are found, it will return nil for last_itemedge
+    It will return -1, if no such elements are found, means: last\_markerpos=-1 if no marker has been found
+    Exception when no items are found, it will return nil for last\_itemedge
     
     You can optimise the speed of the function, by setting the appropriate parameters to false.
-    So if you don't need the last itemedge, setting return_last_itemedge=false speeds up execution massively.
+    So if you don't need the last itemedge, setting return\_last\_itemedge=false speeds up execution massively.
     
-    To do the same for projectfiles, use: [GetProject_Length](#GetProject_Length)
+    To do the same for projectfiles, use: [GetProject\_Length](#GetProject_Length)
   </description>
   <retvals>
     number length_of_project - the overall length of the project, including markers, regions, itemedges and time-signature-markers
@@ -1715,11 +1715,11 @@ function ultraschall.GetAllMediaItemAttributes_Table(MediaItem)
   <slug>GetAllMediaItemAttributes_Table</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.02
     Lua=5.3
   </requires>
   <functioncall>table AttributeTable = ultraschall.GetAllMediaItemAttributes_Table(MediaItem MediaItem)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+  <description>
     Returns all attributes of MediaItem as a handy table.
     
     The returned table is of the following scheme:
@@ -1800,6 +1800,168 @@ function ultraschall.GetAllMediaItemAttributes_Table(MediaItem)
   Attributes["F_FREEMODE_H"]=reaper.GetMediaItemInfo_Value(MediaItem, "F_FREEMODE_H")
   Attributes["P_TRACK"]=reaper.GetMediaItemInfo_Value(MediaItem, "P_TRACK")
   return Attributes
+end
+
+function ultraschall.SetAllMediaItemAttributes_Table(MediaItem, AttributeTable)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetAllMediaItemAttributes_Table</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetAllMediaItemAttributes_Table(MediaItem MediaItem, table AttributeTable)</functioncall>
+  <description>
+    Sets all attributes of MediaItem using a AttributeTable, which holds all the new settings for the MediaItem.
+    
+    The expected table is of the following scheme:
+        AttributeTable["B_MUTE"] - bool * : muted
+        AttributeTable["B_LOOPSRC"] - bool * : loop source
+        AttributeTable["B_ALLTAKESPLAY"] - bool * : all takes play
+        AttributeTable["B_UISEL"] - bool * : selected in arrange view
+        AttributeTable["C_BEATATTACHMODE"] - char * : item timebase, -1=track or project default, 1=beats (position, length, rate), 2=beats (position only). for auto-stretch timebase: C_BEATATTACHMODE=1, C_AUTOSTRETCH=1
+        AttributeTable["C_AUTOSTRETCH:"] - char * : auto-stretch at project tempo changes, 1=enabled, requires C_BEATATTACHMODE=1
+        AttributeTable["C_LOCK"] - char * : locked, &1=locked
+        AttributeTable["D_VOL"] - double * : item volume, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc
+        AttributeTable["D_POSITION"] - double * : item position in seconds
+        AttributeTable["D_LENGTH"] - double * : item length in seconds
+        AttributeTable["D_SNAPOFFSET"] - double * : item snap offset in seconds
+        AttributeTable["D_FADEINLEN"] - double * : item manual fadein length in seconds
+        AttributeTable["D_FADEOUTLEN"] - double * : item manual fadeout length in seconds
+        AttributeTable["D_FADEINDIR"] - double * : item fadein curvature, -1..1
+        AttributeTable["D_FADEOUTDIR"] - double * : item fadeout curvature, -1..1
+        AttributeTable["D_FADEINLEN_AUTO"] - double * : item auto-fadein length in seconds, -1=no auto-fadein
+        AttributeTable["D_FADEOUTLEN_AUTO"] - double * : item auto-fadeout length in seconds, -1=no auto-fadeout
+        AttributeTable["C_FADEINSHAPE"] - int * : fadein shape, 0..6, 0=linear
+        AttributeTable["C_FADEOUTSHAPE"] - int * : fadeout shape, 0..6, 0=linear
+        AttributeTable["I_GROUPID"] - int * : group ID, 0=no group
+        AttributeTable["I_LASTY"] - int * : Y-position of track in pixels (read-only)
+        AttributeTable["I_LASTH"] - int * : height in track in pixels (read-only)
+        AttributeTable["I_CUSTOMCOLOR"] - int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color anyway)
+        AttributeTable["I_CURTAKE"] - int * : active take number
+        AttributeTable["IP_ITEMNUMBER"] - int, item number on this track (read-only, returns the item number directly)
+        AttributeTable["F_FREEMODE_Y"] - float * : free item positioning Y-position, 0=top of track, 1=bottom of track (will never be 1)
+        AttributeTable["F_FREEMODE_H"] - float * : free item positioning height, 0=no height, 1=full height of track (will never be 0)
+        AttributeTable["P_TRACK"] - MediaTrack * (read-only)
+    
+    returns false in case of an error or if some of the attributes could not be set.
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting attributes failed
+  </retvals>
+  <parameters>
+    MediaItem MediaItem - the MediaItem, whose attributes you want to set
+    table AttributeTable - a table which holds all settings, that you want to set
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitem management, set, all, attributes of mediaitem</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.type(MediaItem)~="MediaItem" then ultraschall.AddErrorMessage("SetAllMediaItemAttributes_Table", "MediaItem", "must be a MediaItem", -1) return false end
+  if type(AttributeTable)~="table" then ultraschall.AddErrorMessage("SetAllMediaItemAttributes_Table", "AttributeTable", "must be a table", -2) return false end
+  local FailedAttributes=""
+  for i,v in pairs(AttributeTable) do
+    if i~="P_TRACK" and type(v)=="number" then
+      if (reaper.SetMediaItemInfo_Value(MediaItem, i, v))==false then
+        FailedAttributes=FailedAttributes..i.."\n"
+      end
+    elseif i~="P_TRACK" then
+        FailedAttributes=FailedAttributes..i.."\n"
+    end
+  end
+  if FailedAttributes~="" then ultraschall.AddErrorMessage("SetAllMediaItemAttributes_Table", "AttributeTable", "Could not set the following attributes: \n"..FailedAttributes:sub(1,-2), -3) return false end
+  reaper.UpdateArrange()
+  return true
+end
+
+function ultraschall.CountFXStateChunksInStateChunk(StateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CountFXStateChunksInStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_of_takefx_statechunks, integer count_of_trackfx_statechunks = ultraschall.CountFXStateChunksInStateChunk(string StateChunk)</functioncall>
+  <description>
+    Counts all FXStateChunks within a StateChunk.
+    You can pass ItemStateChunks, TrackStateChunks and ProjectStateChunks.
+    
+    returns -1 in case of an error.
+  </description>
+  <retvals>
+    integer count_of_takefx_statechunks - the number of take-fx-StateChunks within the StateChunk. When passing Track/ProjectStateChunks, it returns number of all FXStateChunks from all Takes within the StateChunk
+    integer count_of_trackfx_statechunks - the number of TrackFX-StateChunks; each track alawys has a single one, so it should match the number of tracks within the StateChunk; 0, if you pass a ItemStateChunk
+  </retvals>
+  <parameters>
+    string StateChunk - the StateChunk, whose count of FXStateChunks you want to retrieve
+  </parameters>
+  <chapter_context>
+    FX-Management
+    FXStateChunks
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, count, all, fxstatechunk</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.IsValidMediaItemStateChunk(StateChunk)==false and
+     ultraschall.IsValidTrackStateChunk(StateChunk)==false and
+     ultraschall.IsValidProjectStateChunk(StateChunk)==false then
+     ultraschall.AddErrorMessage("CountFXStateChunksInStateChunk", "StateChunk", "Must be a valid Project/Track/ItemStateChunk", -1) return -1
+  end
+  local TrackFX=0
+  local TakeFX=0
+  for k in string.gmatch(StateChunk, "(.-)\n") do
+    if k:match("%s*<FXCHAIN")~=nil then
+      TrackFX=TrackFX+1
+    elseif k:match("%s*<TAKEFX")~=nil then
+      TakeFX=TakeFX+1
+    end
+  end
+  return TakeFX, TrackFX
+end 
+
+function ultraschall.RemoveFXStateChunkFromTrackStateChunk(TrackStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RemoveFXStateChunkFromTrackStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string altered_TrackStateChunk = ultraschall.RemoveFXStateChunkFromTrackStateChunk(string TrackStateChunk)</functioncall>
+  <description>
+    Clears the FXChain from a TrackStateChunk
+    
+    returns nil in case of an error.
+  </description>
+  <retvals>
+    string altered_TrackStateChunk - the TrackStateChunk, cleared of the Track-FXStateChunk
+  </retvals>
+  <parameters>
+    string TrackStateChunk - the TrackStateChunk, whose FXStateChunk you want to remove
+  </parameters>
+  <chapter_context>
+    FX-Management
+    FXStateChunks
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, remove, all, fxstatechunk, trackstatechunk</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.IsValidTrackStateChunk(TrackStateChunk)==false then ultraschall.AddErrorMessage("RemoveFXStateChunkFromTrackStateChunk", "TrackStateChunk", "Must be a valid TrackStateChunk", -1) return end
+  TrackStateChunk=ultraschall.StateChunkLayouter(TrackStateChunk)
+  return string.gsub(TrackStateChunk, "(  <FXCHAIN.-\n  >\n", "")
 end
 
 ultraschall.ShowLastErrorMessage()
