@@ -5,10 +5,7 @@
     
     For 4.01betas:
         StateChunkLayouter - support different "target"-statechunks, so you can layout a statechunk for direct usage within ProjectStateChunks, etc
-        - TODO!! Defer - - make defer-loops protected, so they can't be influenced from the outside, neither changed or stopped.
-                            which means: no stopping-feature available using StopDefer-function in such cases
-                         - registering of defer-using-running scripts into an extstate ultraschall->running_script_instance-> for monitoring purposes
-                         - need setting-functions
+        - TODO!! Defer   - registering of defer-using-running scripts into an extstate ultraschall->running_script_instance-> for monitoring purposes
                          - Defer -> identifier management must be more stable, without possible nameconflicts
                          - Um zu verhindern, dass ein Name doppelt verwendet wird:
                                 check mal den ScriptIdentifier des bereits registrierten Namens, 
@@ -68,9 +65,7 @@
                   - SetProject_MasterPanMode_Ex - 
                   - SetProject_TempoEnv_ExStateChunk
                   
-                  States:
-                  - 
-                  
+                  States:                  
                   -  RENDER_QUEUE-stuff
                   - SetProject_POOLEDENVATTACH
                   - SetProject_MasterTrackView
@@ -211,6 +206,8 @@ TODO!! buggy function
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
 
 #### New features in 4.00beta2.80
+   - DeferManagement: GetDeferCycleSettings - allows getting mode and timer-settings of running ultraschall.Defer-cycles at runtime and even from the outside of the deferred script   
+   - DeferManagement: SetDeferCycleSettings - allows setting mode and timer-settings of running ultraschall.Defer-cycles at runtime and even from the outside of the deferred script
    - FXManagement: CountFXStateChunksInStateChunk - counts the FXStateChunks within a Project-/Track-/ItemStateChunk(requested by XRaym)
    - FXManagement: RemoveFXStateChunkFromTrackStateChunk - removes a FXStateChunk from a TrackStateChunk(requested by XRaym)
    - MediaItems: GetEndOfItem - returns the endposition of a MediaItem(thanks to fernsehmuell)
@@ -233,9 +230,10 @@ TODO!! buggy function
    - API: ultraschall-table - made it local, so loading ultraschall-API is even more faster than it used to be; should also affect usage of Ultraschall-API-functions within scripts(thanks to lokasenna)
    - API: deprecated - allows showing a warning message, if a script uses a deprecated function in a script; will be shown only once until Reaper restarts, so scripts are stil useable
    - Defer Management: GetDeferIdentifier - removed
-   - Defer Management: GetDeferRunState - removed Defer01-Defer20 management
+   - Defer Management: GetDeferRunState - removed Defer01-Defer20 management; threw Lua-error, when passing nonstring as identifier -> fixed
    - Defer Management: Defer1 through Defer20 - removed
-   - Defer Management: Defer - can now be protected from stopping it from the outside; couldn't be stopped from the outside when mode~=2 -> fixed
+   - Defer Management: Defer - mode and timer can also be set now from the outside of the defer-cycle; can now be protected from stopping it from the outside; couldn't be stopped from the outside when mode~=2 -> fixed
+   - Defer Management: GetDeferRunState - was missing parameters in the docs due typo -> fixed
    - Defer Management: StopDeferCycle - didn't work, when mode=2 of a Defer-cycle -> fixed
    - Docs: DeferScripts\_004\_Working\_with\_Defer\_Identifiers - removed
    - Docs: Defer - reworked docs and removed all references to Defer1 through Defer20

@@ -2021,4 +2021,101 @@ function ultraschall.GetAllSelectedMediaItemsBetween(startposition, endposition,
   return A,B,C
 end
 
+function ultraschall.SetDeferCycleSettings(deferidentifier, mode, timer_counter)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetDeferCycleSettings</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetDeferCycleSettings(string deferidentifier, optional integer mode, optional number timer_counter)</functioncall>
+  <description>
+    Sets the mode and timing settings of a running ultraschall.Defer-instance. You can set its mode and the timer/counter-values, even from a script, which does not run the defer-instance!
+    
+    Returns false in case of failure.
+  </description>
+  <parameters>
+     string deferidentifier - an identifier, under which you can access this defer-cycle; make it unique using guids in the name, to avoid name-conflicts! 
+     optional integer mode - the timing mode, in which the defer-cycle runs
+                           - nil, reset to the default-settings of the Defer-Cycle
+                           - 0, just run as regular defer-cycle
+                           - 1, run the defer-cycle only every timer_counter-cycle
+                           - 2, run the defer-cycle only every timer_counter-seconds 
+     optional number timer_counter - the timer for the defer-cycle
+                                   - mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
+                                   -              30 cycles are approximately 1 second.
+                                   - mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time. 
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <chapter_context>
+    Defer-Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>defermanagement, set, defer, cycle, mode, timer, counter</tags>
+</US_DocBloc>
+]]
+  if type(deferidentifier)~="string" then ultraschall.AddErrorMessage("SetDeferCycleSettings", "deferidentifier", "must be a string", -2) return false end
+  if mode==nil then reaper.DeleteExtState("ultraschall-defer", deferidentifier.."_set", false) return end
+  if math.type(mode)~="integer" then ultraschall.AddErrorMessage("SetDeferCycleSettings", "mode", "must be an integer", -2) return false end
+  if mode~=0 and math.type(timer_counter)~="integer" then ultraschall.AddErrorMessage("SetDeferCycleSettings", "timer_counter", "must be an integer", -3) return false end
+  if mode==0 then timer_counter=0 end
+  if mode<0 or mode>2 then ultraschall.AddErrorMessage("SetDeferCycleSettings", "mode", "must be between 0 and 2", -4) return false end
+  reaper.SetExtState("ultraschall-defer", deferidentifier.."_set", "2,"..mode..","..timer_counter, false)
+  return true
+end
+
+function ultraschall.GetDeferCycleSettings(deferidentifier)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetDeferCycleSettings</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer mode, integer timer_counter = ultraschall.GetDeferCycleSettings(string deferidentifier)</functioncall>
+  <description>
+    Gets a the mode and timing-settings of a currently running ultraschall.Defer()-cycle
+    
+    Returns nil in case of failure.
+  </description>
+  <parameters>
+     string deferidentifier - an identifier, under which you can access this defer-cycle; make it unique using guids in the name, to avoid name-conflicts! 
+  </parameters>
+  <retvals>
+    integer mode - the timing mode, in which the defer-cycle runs
+                 - 0, just run as regular defer-cycle
+                 - 1, run the defer-cycle only every timer_counter-cycle
+                 - 2, run the defer-cycle only every timer_counter-seconds 
+    number timer_counter - the timer for the defer-cycle
+                         - mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
+                         -              30 cycles are approximately 1 second.
+                         - mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time. 
+  </retvals>
+  <chapter_context>
+    Defer-Management
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>defermanagement, get, settings, defer, cycle, mode, timer, counter</tags>
+</US_DocBloc>
+]]
+  if type(deferidentifier)~="string" then ultraschall.AddErrorMessage("GetDeferCycleSettings", "deferidentifier", "must be a string", -2) return end
+  if ultraschall.GetDeferRunState(0, deferidentifier)==false then ultraschall.AddErrorMessage("GetDeferCycleSettings", "deferidentifier", "no such defer-instance running currently", -1) return end
+  local Mode, TimerCounter
+  if reaper.HasExtState("ultraschall-defer", deferidentifier.."_set")==true then
+    Mode,TimerCounter=reaper.GetExtState("ultraschall-defer", deferidentifier.."_set"):match(".-,(.-),(.*)")
+  else
+    Mode,TimerCounter=reaper.GetExtState("ultraschall-defer", deferidentifier.."_setdefault"):match(".-,(.-),(.*)")
+  end
+  return tonumber(Mode), tonumber(TimerCounter)
+end
+--A,B=ultraschall.GetDeferCycleSettings("Tudelu1")
+
+
 ultraschall.ShowLastErrorMessage()

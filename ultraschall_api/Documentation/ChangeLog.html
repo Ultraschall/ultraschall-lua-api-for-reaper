@@ -53,6 +53,9 @@ Ultraschall API Changelog
 </ul>
 <h4>New features in 4.00beta2.80</h4>
 <ul>
+<li>DeferManagement: GetDeferCycleSettings - allows getting mode and timer-settings of running ultraschall.Defer-cycles at runtime and even from the outside of the deferred script<br />
+</li>
+<li>DeferManagement: SetDeferCycleSettings - allows setting mode and timer-settings of running ultraschall.Defer-cycles at runtime and even from the outside of the deferred script</li>
 <li>FXManagement: CountFXStateChunksInStateChunk - counts the FXStateChunks within a Project-/Track-/ItemStateChunk(requested by XRaym)</li>
 <li>FXManagement: RemoveFXStateChunkFromTrackStateChunk - removes a FXStateChunk from a TrackStateChunk(requested by XRaym)</li>
 <li>MediaItems: GetEndOfItem - returns the endposition of a MediaItem(thanks to fernsehmuell)</li>
@@ -75,9 +78,10 @@ Ultraschall API Changelog
 <li>API: ultraschall-table - made it local, so loading ultraschall-API is even more faster than it used to be; should also affect usage of Ultraschall-API-functions within scripts(thanks to lokasenna)</li>
 <li>API: deprecated - allows showing a warning message, if a script uses a deprecated function in a script; will be shown only once until Reaper restarts, so scripts are stil useable</li>
 <li>Defer Management: GetDeferIdentifier - removed</li>
-<li>Defer Management: GetDeferRunState - removed Defer01-Defer20 management</li>
+<li>Defer Management: GetDeferRunState - removed Defer01-Defer20 management; threw Lua-error, when passing nonstring as identifier -&gt; fixed</li>
 <li>Defer Management: Defer1 through Defer20 - removed</li>
-<li>Defer Management: Defer - can now be protected from stopping it from the outside; couldn't be stopped from the outside when mode~=2 -&gt; fixed</li>
+<li>Defer Management: Defer - mode and timer can also be set now from the outside of the defer-cycle; can now be protected from stopping it from the outside; couldn't be stopped from the outside when mode~=2 -&gt; fixed</li>
+<li>Defer Management: GetDeferRunState - was missing parameters in the docs due typo -&gt; fixed</li>
 <li>Defer Management: StopDeferCycle - didn't work, when mode=2 of a Defer-cycle -&gt; fixed</li>
 <li>Docs: DeferScripts_004_Working_with_Defer_Identifiers - removed</li>
 <li>Docs: Defer - reworked docs and removed all references to Defer1 through Defer20</li>

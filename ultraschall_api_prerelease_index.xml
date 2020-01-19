@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="41537.00" author="Meo Mespotine">
+      <version name="41916.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/Changelog-Api.txt</source>
@@ -421,6 +421,12 @@ readded from earlier development-builds
 
 New features in 4.00beta2.80
 
+-   DeferManagement: GetDeferCycleSettings - allows getting mode and
+    timer-settings of running ultraschall.Defer-cycles at runtime and
+    even from the outside of the deferred script
+-   DeferManagement: SetDeferCycleSettings - allows setting mode and
+    timer-settings of running ultraschall.Defer-cycles at runtime and
+    even from the outside of the deferred script
 -   FXManagement: CountFXStateChunksInStateChunk - counts the
     FXStateChunks within a Project-/Track-/ItemStateChunk(requested by
     XRaym)
@@ -473,11 +479,15 @@ Changes from Beta 2.79 to Beta 2.80
     Reaper restarts, so scripts are stil useable
 -   Defer Management: GetDeferIdentifier - removed
 -   Defer Management: GetDeferRunState - removed Defer01-Defer20
-    management
--   Defer Management: Defer1 through Defer20 - removed
--   Defer Management: Defer - can now be protected from stopping it from
-    the outside; couldn’t be stopped from the outside when mode~=2 ->
+    management; threw Lua-error, when passing nonstring as identifier ->
     fixed
+-   Defer Management: Defer1 through Defer20 - removed
+-   Defer Management: Defer - mode and timer can also be set now from
+    the outside of the defer-cycle; can now be protected from stopping
+    it from the outside; couldn’t be stopped from the outside when
+    mode~=2 -> fixed
+-   Defer Management: GetDeferRunState - was missing parameters in the
+    docs due typo -> fixed
 -   Defer Management: StopDeferCycle - didn’t work, when mode=2 of a
     Defer-cycle -> fixed
 -   Docs: DeferScripts_004_Working_with_Defer_Identifiers - removed
