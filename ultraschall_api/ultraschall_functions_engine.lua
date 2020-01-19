@@ -975,7 +975,7 @@ function progresscounter(state)
     A=A..ultraschall.ReadFullFile(files[i]).."\n"
   end
 
-if ultraschall.US_BetaFunctions=="ON" then
+if ultraschall.US_BetaFunctions==true then
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_functions_engine_beta.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gfx_engine_beta.lua")
   A=A..ultraschall.ReadFullFile(ultraschall.Api_Path.."/ultraschall_gui_engine_beta.lua")

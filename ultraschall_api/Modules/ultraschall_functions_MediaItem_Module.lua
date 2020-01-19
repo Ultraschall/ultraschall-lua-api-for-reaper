@@ -707,7 +707,7 @@ function ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackst
     boolean inside - true, only items that are completely within selection; false, include items that are partially within selection
   </parameters>
   <retvals>
-    integer count - the number of selected items
+    integer count - the number of found items
     array MediaItemArray - an array with all the found MediaItems
     array MediaItemStateChunkArray - an array with the MediaItemStateChunks, that can be used to create new items with <a href="#InsertMediaItem_MediaItemStateChunk">InsertMediaItem_MediaItemStateChunk</a>
   </retvals>
@@ -2463,10 +2463,10 @@ function ultraschall.GetSelectedMediaItemsAtPosition(position, trackstring)
   <slug>GetSelectedMediaItemsAtPosition</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>integer count, array MediaItemArray = ultraschall.GetSelectedMediaItemsAtPosition(number position, string trackstring)</functioncall>
+  <functioncall>integer count, array MediaItemArray, array MediaItemStateChunkArray = ultraschall.GetSelectedMediaItemsAtPosition(number position, string trackstring)</functioncall>
   <description>
     Returns all selected items at position in the tracks as given by trackstring, as MediaItemArray. Empty MediaItemAray if none is found.
     
@@ -2489,20 +2489,17 @@ function ultraschall.GetSelectedMediaItemsAtPosition(position, trackstring)
   <tags>mediaitemmanagement, tracks, media, item, get, selected, selection</tags>
 </US_DocBloc>
 ]]
-  if type(position)~="number" then ultraschall.AddErrorMessage("GetSelectedMediaItemsAtPosition", "position", "must be a number", -1) return -1 end
-  local retval, trackstring, trackstringarray, number_of_entries = ultraschall.RemoveDuplicateTracksInTrackstring(trackstring)
-  if retval==-1 then ultraschall.AddErrorMessage("GetSelectedMediaItemsAtPosition", "trackstring", "not a valid value. Must be a string with numbers,separated by commas, e.g. \"1,2,4,6,8\"", -2) return -1 end
-  local Number_of_items, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetMediaItemsAtPosition(position, trackstring)
-  if Number_of_items==-1 then ultraschall.AddErrorMessage("GetSelectedMediaItemsAtPosition", "trackstring", "not a valid value. Must be a string with numbers,separated by commas, e.g. \"1,2,4,6,8\"", -3) return -1 end
-  local SelectedMediaItemArray={}
-  local count=0
-  for i=1,Number_of_items do
-    if reaper.GetMediaItemInfo_Value(MediaItemArray[i], "B_UISEL")==1 then 
-      count=count+1 
-      SelectedMediaItemArray[count]=MediaItemArray[i] 
+  if type(position)~="number" then ultraschall.AddErrorMessage("GetSelectedMediaItemsAtPosition","position", "must be a number", -1) return -1 end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("GetSelectedMediaItemsAtPosition","trackstring", "must be a valid trackstring", -2) return -1 end
+  local A,B,C=ultraschall.GetMediaItemsAtPosition(position, trackstring)
+  for i=A, 1, -1 do
+    if reaper.IsMediaItemSelected(B[i])==false then
+      table.remove(B,i)
+      table.remove(C,i)
+      A=A-1
     end
   end
-  return count, SelectedMediaItemArray
+  return A,B,C
 end
 
 function ultraschall.GetSelectedMediaItemsBetween(startposition, endposition, trackstring, inside)

@@ -1964,4 +1964,61 @@ function ultraschall.RemoveFXStateChunkFromTrackStateChunk(TrackStateChunk)
   return string.gsub(TrackStateChunk, "(  <FXCHAIN.-\n  >\n", "")
 end
 
+
+
+function ultraschall.GetAllSelectedMediaItemsBetween(startposition, endposition, trackstring, inside)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllSelectedMediaItemsBetween</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer count, array MediaItemArray, array MediaItemStateChunkArray = ultraschall.GetAllSelectedMediaItemsBetween(number startposition, number endposition, string trackstring, boolean inside)</functioncall>
+  <description>
+    Gets all selected MediaItems between startposition and endposition from the tracks as given by trackstring. 
+    Set inside to true to get only items, that are fully within the start and endposition, set it to false, if you also want items, that are just partially inside(end or just the beginning of the item).
+    
+    Returns the number of selected items, an array with all the selected MediaItems and an array with all the MediaItemStateChunks of the selected items, as used by functions as <a href="#InsertMediaItem_MediaItemStateChunk">InsertMediaItem_MediaItemStateChunk</a>, reaper.GetItemStateChunk and reaper.SetItemStateChunk.
+    The statechunks include a new element "ULTRASCHALL_TRACKNUMBER", which contains the tracknumber of where the item originally was in; important, if you delete the items as you'll otherwise loose this information!
+    Returns -1 in case of failure.
+  </description>
+  <parameters>
+    number startposition - startposition in seconds
+    number endposition - endposition in seconds
+    string trackstring - the tracknumbers, separated by a comma
+    boolean inside - true, only items that are completely within selection; false, include items that are partially within selection
+  </parameters>
+  <retvals>
+    integer count - the number of selected items
+    array MediaItemArray - an array with all the found and selected MediaItems
+    array MediaItemStateChunkArray - an array with the MediaItemStateChunks, that can be used to create new items with <a href="#InsertMediaItem_MediaItemStateChunk">InsertMediaItem_MediaItemStateChunk</a>
+  </retvals>
+  <chapter_context>
+    MediaItem Management
+    Get MediaItems
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>mediaitemmanagement, tracks, selected, media, item, selection, position, statechunk, rppxml</tags>
+</US_DocBloc>
+]]
+  if type(startposition)~="number" then ultraschall.AddErrorMessage("GetAllSelectedMediaItemsBetween", "startposition", "must be a number", -1) return -1 end
+  if type(endposition)~="number" then ultraschall.AddErrorMessage("GetAllSelectedMediaItemsBetween", "endposition", "must be a number", -2) return -1 end
+  if startposition>endposition then ultraschall.AddErrorMessage("GetAllSelectedMediaItemsBetween", "endposition", "must be bigger than startposition", -3) return -1 end
+  if ultraschall.IsValidTrackString(trackstring)==false then ultraschall.AddErrorMessage("GetAllSelectedMediaItemsBetween", "trackstring", "must be a valid trackstring", -4) return -1 end
+  if type(inside)~="boolean" then ultraschall.AddErrorMessage("GetAllSelectedMediaItemsBetween", "inside", "must be a boolean", -5) return -1 end
+   
+  local A,B,C=ultraschall.GetAllMediaItemsBetween(startposition, endposition, trackstring, inside)
+  for i=A, 1, -1 do
+    if reaper.IsMediaItemSelected(B[i])==false then
+      table.remove(B,i)
+      table.remove(C,i)
+      A=A-1
+    end
+  end
+  return A,B,C
+end
+
 ultraschall.ShowLastErrorMessage()

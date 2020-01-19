@@ -1,7 +1,7 @@
 <TODO>
-
     InsertFXStateChunkIntoStateChunk
     RemoveFXStateChunkFromFXStateChunk
+    EmbedStretchmarker-checkbox into Rendering-functions
     
     For 4.01betas:
         StateChunkLayouter - support different "target"-statechunks, so you can layout a statechunk for direct usage within ProjectStateChunks, etc
@@ -211,11 +211,12 @@ TODO!! buggy function
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
 
 #### New features in 4.00beta2.80
-   - FXManagement: CountFXStateChunksInStateChunk - counts the FXStateChunks within a Project-/Track-/ItemStateChunk
-   - FXManagement: RemoveFXStateChunkFromTrackStateChunk - removes a FXStateChunk from a TrackStateChunk
-   - MediaItems: GetEndOfItem - returns the endposition of a MediaItem
-   - MediaItems: GetAllMediaItemAttributes\_Table - returns all attributes of a MediaItem as a handy table
-   - MediaItems: SetAllMediaItemAttributes\_Table - sets all attributes of a MediaItems using an attributes table, like the one returned by GetAllMediaItemAttributes_Table
+   - FXManagement: CountFXStateChunksInStateChunk - counts the FXStateChunks within a Project-/Track-/ItemStateChunk(requested by XRaym)
+   - FXManagement: RemoveFXStateChunkFromTrackStateChunk - removes a FXStateChunk from a TrackStateChunk(requested by XRaym)
+   - MediaItems: GetEndOfItem - returns the endposition of a MediaItem(thanks to fernsehmuell)
+   - MediaItems: GetAllMediaItemAttributes\_Table - returns all attributes of a MediaItem as a handy table(requested by fernsehmuell)
+   - MediaItems: GetAllSelectedMediaItemsBetween - returns all selected MediaItems between start- and endposition within certain tracks of your choice(requested by fernsehmuell)
+   - MediaItems: SetAllMediaItemAttributes\_Table - sets all attributes of a MediaItems using an attributes table, like the one returned by GetAllMediaItemAttributes_Table(requested by fernsehmuell)
    - Reaper Internals: Jumping\_FX\_Button\_in\_TCP-demo.zip - demoes, how Set/GetLayout-functions work; includes a demo theme and a script, that influences it, including comments
    - Reaper Internals: RenderPreset-Configfile.txt - documentation of the Render-Presets of Reaper
    - Reaper Internals: Reaper-ProjectDefault-ConfigSettings.txt - documents all reaper.ini-entries, responsible for default project settings
@@ -225,14 +226,17 @@ TODO!! buggy function
    - Render Management: SetRender_EmbedStretchMarkers - sets the current state of the "Embed stretch markers/transient guides"-checkbox  from the Render to File dialog
    - ProjectManagement: GetProjectState\_NumbersOnly - returns all numerical values, associated with a certain state
    - ProjectManagement: GetProject\_PooledEnvAttach - gets the pooled-envattach-state
-   - ProjectManagement: GetProjectLength - gets the length of the current active project, as well as the position of the last itemedge, regionend, marker, time-sig-marker
+   - ProjectManagement: GetProjectLength - gets the length of the current active project, as well as the position of the last itemedge, regionend, marker, time-sig-marker(requested by rstockm)
 
    
 #### Changes from Beta 2.79 to Beta 2.80
+   - API: ultraschall-table - made it local, so loading ultraschall-API is even more faster than it used to be; should also affect usage of Ultraschall-API-functions within scripts(thanks to lokasenna)
    - API: deprecated - allows showing a warning message, if a script uses a deprecated function in a script; will be shown only once until Reaper restarts, so scripts are stil useable
    - Defer Management: GetDeferIdentifier - removed
    - Defer Management: GetDeferRunState - removed Defer01-Defer20 management
    - Defer Management: Defer1 through Defer20 - removed
+   - Defer Management: Defer - can now be protected from stopping it from the outside; couldn't be stopped from the outside when mode~=2 -> fixed
+   - Defer Management: StopDeferCycle - didn't work, when mode=2 of a Defer-cycle -> fixed
    - Docs: DeferScripts\_004\_Working\_with\_Defer\_Identifiers - removed
    - Docs: Defer - reworked docs and removed all references to Defer1 through Defer20
    - Docs: JS-Extension - updated to 0.997
@@ -240,6 +244,7 @@ TODO!! buggy function
    - Event Manager: Eventmanager\_RemoveEvent - couldn't be found due typo in new module-loader -> fixed (thanks to rstockm)
    - Event Manager: EventManager\_RemoveAllEvents\_Script - couldn't be found due typo in new module-loader -> fixed 
    - Helper functions: Base64\_Decoder - removed small bug, which added a nullbyte at end of strings
+   - MediaItems: GetSelectedMediaItemsAtPosition - sped up a little; returns now a MediaItemStateChunkArray as well
    - ProjectManagement: GetProject\_AddMediaToProjectAfterRender - simplified implementation, future values added by Reaper-devs will now be returned properly
    - ProjectManagement: GetProject\_AutoCrossFade - simplified implementation, future values added by Reaper-devs will now be returned properly
    - ProjectManagement: GetProject\_CursorPos - simplified implementation, future values added by Reaper-devs will now be returned properly

@@ -208,7 +208,8 @@ function ultraschall.StopDeferCycle(identifier)
   if type(identifier)~="string" then ultraschall.AddErrorMessage("StopDeferCycle", "identifier", "must be a string", -1) return false end
   local IdentifierPattern="ScriptIdentifier:.-%-{%x%x%x%x%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%-%x%x%x%x%x%x%x%x%x%x%x%x}.defer_script%d%d"
   if reaper.HasExtState("ultraschall-defer", identifier)==true then
-    reaper.DeleteExtState("ultraschall-defer", identifier, false)
+    --reaper.DeleteExtState("ultraschall-defer", identifier, false)
+    reaper.SetExtState("ultraschall-defer", identifier.."_stop", "1", false)
     return true
   else
     return false
@@ -917,22 +918,22 @@ function ultraschall.Defer20(func, mode, timer_counter)
   return true, ultraschall.ScriptIdentifier..".defer_script20"
 end
 
-function ultraschall.Defer(func, deferidentifier, mode, timer_counter)
+function ultraschall.Defer(func, deferidentifier, mode, timer_counter, protected)
 --[[
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>Defer</slug>
     <requires>
       Ultraschall=4.00
-      Reaper=5.965
+      Reaper=6.02
       Lua=5.3
     </requires>
-    <functioncall>boolean retval = ultraschall.Defer(function func, string deferidentifier, optional integer mode, optional number timer_counter)</functioncall>
+    <functioncall>boolean retval = ultraschall.Defer(function func, string deferidentifier, optional integer mode, optional number timer_counter, optional boolean protected)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       runs a custom-defer-cycle, which can be individualized.
       
       You can set, how often this defer-cycle shall be run(every x defer-cycle or every x seconds) and even stop the defer-cycle from in- and outside of the script, using the defer\_identifier you have given.
       
-      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle)
+      To stop such a defer-cycle, use [StopDeferCycle](#StopDeferCycle), as long as parameter protected is not set to true!
       **Important:** make the deferidentifier as unique as possible(using guids or similar stuff) to avoid naming conflicts with other defer-cycles using the same identifier.
                  Otherwise, you risk stopping multiple such defer-loops, when using [StopDeferCycle](#StopDeferCycle)!
       
@@ -948,6 +949,7 @@ function ultraschall.Defer(func, deferidentifier, mode, timer_counter)
                                     -   mode=1: 1 and higher, the next defer-cycle that shall be used by function func. Use 1 for every cycle, 2 for every second cycle.
                                     -               30 cycles are approximately 1 second.
                                     -   mode=2: 0 and higher, the amount of seconds to wait, until the function func is run the next time.
+      optional boolean protected - true, this defer-cycle is protected from being stopped by StopDeferCycle(); false or nil, you can stop this defer-cycle using StopDeferCycle()
     </parameters>
     <retvals>
       boolean retval - true, running this defer-cycle was successful; false, it wasn't successful
@@ -962,6 +964,14 @@ function ultraschall.Defer(func, deferidentifier, mode, timer_counter)
   ]]  
   if type(deferidentifier)~="string" then ultraschall.AddErrorMessage("Defer", "deferidentifier", "must be a string", -4) return false end
   if deferidentifier:len()==0 then ultraschall.AddErrorMessage("Defer", "deferidentifier", "must be a string with at least one character", -5) return false end
+  
+  local StopMe=reaper.GetExtState("ultraschall-defer", deferidentifier.."_stop")
+  if StopMe=="1" then 
+    reaper.SetExtState("ultraschall-defer", deferidentifier.."_stop", "", false) 
+    if protected~=true then
+      return 
+    end
+  end
   
   if reaper.GetExtState("ultraschall-defer", deferidentifier)~="running" then
     function cleanupdefer()
@@ -995,7 +1005,6 @@ function ultraschall.Defer(func, deferidentifier, mode, timer_counter)
     reaper.SetExtState("ultraschall-defer", deferidentifier.."-LastCallTime", reaper.time_precise(), false)
   end
   
-  
   local function internaldefer()
     -- nested defer-function, who does the whole defer-management.
     if (mode==0 or mode==nil) and reaper.GetExtState("ultraschall-defer", deferidentifier)=="running" then 
@@ -1008,9 +1017,6 @@ function ultraschall.Defer(func, deferidentifier, mode, timer_counter)
     elseif mode==2 and reaper.GetExtState("ultraschall-defer", deferidentifier)=="running" then
       -- only defer every nth second
       if defertimer>reaper.time_precise() then reaper.defer(internaldefer) else defertimer=reaper.time_precise()+timer_counter return reaper.defer(func) end
-    elseif reaper.GetExtState("ultraschall-defer", deferidentifier)~="running" then
-      -- stop defer-cycle, if requested from the outside
-      return true
     else 
       -- no such mode available
       ultraschall.AddErrorMessage("Defer", "mode", "no such mode, must be between 0 and 2 or nil", -3)

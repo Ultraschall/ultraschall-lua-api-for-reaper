@@ -53,11 +53,12 @@ Ultraschall API Changelog
 </ul>
 <h4>New features in 4.00beta2.80</h4>
 <ul>
-<li>FXManagement: CountFXStateChunksInStateChunk - counts the FXStateChunks within a Project-/Track-/ItemStateChunk</li>
-<li>FXManagement: RemoveFXStateChunkFromTrackStateChunk - removes a FXStateChunk from a TrackStateChunk</li>
-<li>MediaItems: GetEndOfItem - returns the endposition of a MediaItem</li>
-<li>MediaItems: GetAllMediaItemAttributes_Table - returns all attributes of a MediaItem as a handy table</li>
-<li>MediaItems: SetAllMediaItemAttributes_Table - sets all attributes of a MediaItems using an attributes table, like the one returned by GetAllMediaItemAttributes_Table</li>
+<li>FXManagement: CountFXStateChunksInStateChunk - counts the FXStateChunks within a Project-/Track-/ItemStateChunk(requested by XRaym)</li>
+<li>FXManagement: RemoveFXStateChunkFromTrackStateChunk - removes a FXStateChunk from a TrackStateChunk(requested by XRaym)</li>
+<li>MediaItems: GetEndOfItem - returns the endposition of a MediaItem(thanks to fernsehmuell)</li>
+<li>MediaItems: GetAllMediaItemAttributes_Table - returns all attributes of a MediaItem as a handy table(requested by fernsehmuell)</li>
+<li>MediaItems: GetAllSelectedMediaItemsBetween - returns all selected MediaItems between start- and endposition within certain tracks of your choice(requested by fernsehmuell)</li>
+<li>MediaItems: SetAllMediaItemAttributes_Table - sets all attributes of a MediaItems using an attributes table, like the one returned by GetAllMediaItemAttributes_Table(requested by fernsehmuell)</li>
 <li>Reaper Internals: Jumping_FX_Button_in_TCP-demo.zip - demoes, how Set/GetLayout-functions work; includes a demo theme and a script, that influences it, including comments</li>
 <li>Reaper Internals: RenderPreset-Configfile.txt - documentation of the Render-Presets of Reaper</li>
 <li>Reaper Internals: Reaper-ProjectDefault-ConfigSettings.txt - documents all reaper.ini-entries, responsible for default project settings</li>
@@ -67,14 +68,17 @@ Ultraschall API Changelog
 <li>Render Management: SetRender_EmbedStretchMarkers - sets the current state of the "Embed stretch markers/transient guides"-checkbox from the Render to File dialog</li>
 <li>ProjectManagement: GetProjectState_NumbersOnly - returns all numerical values, associated with a certain state</li>
 <li>ProjectManagement: GetProject_PooledEnvAttach - gets the pooled-envattach-state</li>
-<li>ProjectManagement: GetProjectLength - gets the length of the current active project, as well as the position of the last itemedge, regionend, marker, time-sig-marker</li>
+<li>ProjectManagement: GetProjectLength - gets the length of the current active project, as well as the position of the last itemedge, regionend, marker, time-sig-marker(requested by rstockm)</li>
 </ul>
 <h4>Changes from Beta 2.79 to Beta 2.80</h4>
 <ul>
+<li>API: ultraschall-table - made it local, so loading ultraschall-API is even more faster than it used to be; should also affect usage of Ultraschall-API-functions within scripts(thanks to lokasenna)</li>
 <li>API: deprecated - allows showing a warning message, if a script uses a deprecated function in a script; will be shown only once until Reaper restarts, so scripts are stil useable</li>
 <li>Defer Management: GetDeferIdentifier - removed</li>
 <li>Defer Management: GetDeferRunState - removed Defer01-Defer20 management</li>
 <li>Defer Management: Defer1 through Defer20 - removed</li>
+<li>Defer Management: Defer - can now be protected from stopping it from the outside; couldn't be stopped from the outside when mode~=2 -&gt; fixed</li>
+<li>Defer Management: StopDeferCycle - didn't work, when mode=2 of a Defer-cycle -&gt; fixed</li>
 <li>Docs: DeferScripts_004_Working_with_Defer_Identifiers - removed</li>
 <li>Docs: Defer - reworked docs and removed all references to Defer1 through Defer20</li>
 <li>Docs: JS-Extension - updated to 0.997</li>
@@ -82,6 +86,7 @@ Ultraschall API Changelog
 <li>Event Manager: Eventmanager_RemoveEvent - couldn't be found due typo in new module-loader -&gt; fixed (thanks to rstockm)</li>
 <li>Event Manager: EventManager_RemoveAllEvents_Script - couldn't be found due typo in new module-loader -&gt; fixed</li>
 <li>Helper functions: Base64_Decoder - removed small bug, which added a nullbyte at end of strings</li>
+<li>MediaItems: GetSelectedMediaItemsAtPosition - sped up a little; returns now a MediaItemStateChunkArray as well</li>
 <li>ProjectManagement: GetProject_AddMediaToProjectAfterRender - simplified implementation, future values added by Reaper-devs will now be returned properly</li>
 <li>ProjectManagement: GetProject_AutoCrossFade - simplified implementation, future values added by Reaper-devs will now be returned properly</li>
 <li>ProjectManagement: GetProject_CursorPos - simplified implementation, future values added by Reaper-devs will now be returned properly</li>

@@ -59,7 +59,7 @@ ultraschall.Modules_List={"ultraschall_functions_AudioManagement_Module.lua",
 "ultraschall_functions_TrackManagement_TrackStates_Module.lua",
 "ultraschall_functions_Ultraschall_Module.lua"}
 
-if ultraschall.US_BetaFunctions=="ON" then
+if ultraschall.US_BetaFunctions==true then
   -- if beta-functions are available, load all functions from all modules
   local found_files=0
   local files_array2={}
