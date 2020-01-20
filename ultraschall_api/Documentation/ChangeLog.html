@@ -58,6 +58,7 @@ Ultraschall API Changelog
 <li>DeferManagement: SetDeferCycleSettings - allows setting mode and timer-settings of running ultraschall.Defer-cycles at runtime and even from the outside of the deferred script</li>
 <li>FXManagement: CountFXStateChunksInStateChunk - counts the FXStateChunks within a Project-/Track-/ItemStateChunk(requested by XRaym)</li>
 <li>FXManagement: RemoveFXStateChunkFromTrackStateChunk - removes a FXStateChunk from a TrackStateChunk(requested by XRaym)</li>
+<li>FXManagement: RemoveFXStateChunkFromItemStateChunk - removes a certain FXStateChunk from an ItemStateChunk(requested by XRaym)</li>
 <li>MediaItems: GetEndOfItem - returns the endposition of a MediaItem(thanks to fernsehmuell)</li>
 <li>MediaItems: GetAllMediaItemAttributes_Table - returns all attributes of a MediaItem as a handy table(requested by fernsehmuell)</li>
 <li>MediaItems: GetAllSelectedMediaItemsBetween - returns all selected MediaItems between start- and endposition within certain tracks of your choice(requested by fernsehmuell)</li>
@@ -72,6 +73,7 @@ Ultraschall API Changelog
 <li>ProjectManagement: GetProjectState_NumbersOnly - returns all numerical values, associated with a certain state</li>
 <li>ProjectManagement: GetProject_PooledEnvAttach - gets the pooled-envattach-state</li>
 <li>ProjectManagement: GetProjectLength - gets the length of the current active project, as well as the position of the last itemedge, regionend, marker, time-sig-marker(requested by rstockm)</li>
+<li>TrackManagement: GetTrackState_NumbersOnly - returns all numerical values, associated with a certain state</li>
 </ul>
 <h4>Changes from Beta 2.79 to Beta 2.80</h4>
 <ul>
@@ -155,6 +157,31 @@ Ultraschall API Changelog
 <li>Render Management: IsValidRenderTable - checks now as well new "Embed stretch markers/transient guides"-settings as of Reaper 6</li>
 <li>TakeManagement: GetFXStateChunk - parameter TakeFXChain_id wasn't optional due typo -&gt; fixed(thanks to XRaym)</li>
 <li>TakeManagement: SetFXStateChunk - docs were unclear, that only setting NOT inserting is possible; could crash, if no FXStateChunk for setting could be found -&gt; fixed(thanks to XRaym)</li>
+<li>TrackManagement: GetTrackPeakColorState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackBeatState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackAutoRecArmState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackMuteSoloState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackIPhaseState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackIsBusState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackBusCompState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackShowInMixState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackFreeModeState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackRecState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackVUState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackHeightState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackINQState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackNChansState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackBypFXState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackPerfState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackMIDIOutState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackMainSendState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackLockState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackAutomodeState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackMidiCTL - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackWidth - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackPanMode - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackScore - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
+<li>TrackManagement: GetTrackVolPan - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
 <li>User Interface: GetReaperWindowPosition_Left - removed</li>
 <li>User Interface: GetReaperWindowPosition_Right - removed</li>
 <li>User Interface: GetItem_ClickState - remembers now the dragged item+take, even if mouse-cursor is not above it anymore</li>

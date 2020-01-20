@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="41916.00" author="Meo Mespotine">
+      <version name="42215.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -432,6 +432,8 @@ New features in 4.00beta2.80
     XRaym)
 -   FXManagement: RemoveFXStateChunkFromTrackStateChunk - removes a
     FXStateChunk from a TrackStateChunk(requested by XRaym)
+-   FXManagement: RemoveFXStateChunkFromItemStateChunk - removes a
+    certain FXStateChunk from an ItemStateChunk(requested by XRaym)
 -   MediaItems: GetEndOfItem - returns the endposition of a
     MediaItem(thanks to fernsehmuell)
 -   MediaItems: GetAllMediaItemAttributes_Table - returns all attributes
@@ -468,6 +470,8 @@ New features in 4.00beta2.80
 -   ProjectManagement: GetProjectLength - gets the length of the current
     active project, as well as the position of the last itemedge,
     regionend, marker, time-sig-marker(requested by rstockm)
+-   TrackManagement: GetTrackState_NumbersOnly - returns all numerical
+    values, associated with a certain state
 
 Changes from Beta 2.79 to Beta 2.80
 
@@ -671,6 +675,81 @@ Changes from Beta 2.79 to Beta 2.80
 -   TakeManagement: SetFXStateChunk - docs were unclear, that only
     setting NOT inserting is possible; could crash, if no FXStateChunk
     for setting could be found -> fixed(thanks to XRaym)
+-   TrackManagement: GetTrackPeakColorState - improved implementation,
+    it returns now new values as well, who are added by the Reaper-devs
+    and aren’t documented yet
+-   TrackManagement: GetTrackBeatState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackAutoRecArmState - improved implementation,
+    it returns now new values as well, who are added by the Reaper-devs
+    and aren’t documented yet
+-   TrackManagement: GetTrackMuteSoloState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackIPhaseState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackIsBusState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackBusCompState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackShowInMixState - improved implementation,
+    it returns now new values as well, who are added by the Reaper-devs
+    and aren’t documented yet
+-   TrackManagement: GetTrackFreeModeState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackRecState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackVUState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackHeightState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackINQState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackNChansState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackBypFXState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackPerfState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackMIDIOutState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackMainSendState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackLockState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackAutomodeState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackMidiCTL - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackWidth - improved implementation, it returns
+    now new values as well, who are added by the Reaper-devs and aren’t
+    documented yet
+-   TrackManagement: GetTrackPanMode - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackScore - improved implementation, it returns
+    now new values as well, who are added by the Reaper-devs and aren’t
+    documented yet
+-   TrackManagement: GetTrackVolPan - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
 -   User Interface: GetReaperWindowPosition_Left - removed
 -   User Interface: GetReaperWindowPosition_Right - removed
 -   User Interface: GetItem_ClickState - remembers now the dragged
@@ -5011,7 +5090,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1062 Lua-functions library for Reaper.}
+a 1063 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -5025,7 +5104,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1062 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1063 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -5149,7 +5228,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1062 Lua-functions library for Reaper.}
+a 1063 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -5163,7 +5242,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1062 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1063 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

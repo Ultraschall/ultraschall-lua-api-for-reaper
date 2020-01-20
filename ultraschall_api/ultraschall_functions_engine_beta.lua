@@ -2117,5 +2117,45 @@ function ultraschall.GetDeferCycleSettings(deferidentifier)
 end
 --A,B=ultraschall.GetDeferCycleSettings("Tudelu1")
 
+function ultraschall.RemoveFXStateChunkFromItemStateChunk(ItemStateChunk, take_id)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>RemoveFXStateChunkFromItemStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string alteredItemStateChunk = ultraschall.RemoveFXStateChunkFromItemStateChunk(string ItemStateChunk, integer take_id)</functioncall>
+  <description>
+    Removes a certain Take-FXStateChunk from an ItemStateChunk.
+    
+    Returns nil in case of failure.
+  </description>
+  <parameters>
+     string ItemStateChunk - the ItemStateChunk, from which you want to remove an FXStateChunk
+     integer take_id - the take, whose FXStateChunk you want to remove
+  </parameters>
+  <retvals>
+    string alteredItemStateChunk - the StateChunk, from which the FXStateChunk was removed
+  </retvals>
+  <chapter_context>
+    FX-Management
+    FXStateChunks
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fxmanagement, remove, fxstatechunk, statechunk</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidItemStateChunk(ItemStateChunk)==false then ultraschall.AddErrorMessage("RemoveFXStateChunkFromItemStateChunk", "ItemStateChunk", "Must be a valid ItemStateChunk!", -1) return nil end
+  if math.type(take_id)~="integer" then ultraschall.AddErrorMessage("RemoveFXStateChunkFromItemStateChunk", "take_id", "Must be an integer", -2) return nil end
+  ItemStateChunk=ultraschall.StateChunkLayouter(ItemStateChunk)
+  
+  local altered_string, replaced = ultraschall.ReplacePatternInString(ItemStateChunk, "  <TAKEFX.-\n  >\n", "", take_id)
+  if replaced==false then ultraschall.AddErrorMessage("RemoveFXStateChunkFromItemStateChunk", "take_id", "no such id found", -3) end
+  return altered_string
+end
+
 
 ultraschall.ShowLastErrorMessage()

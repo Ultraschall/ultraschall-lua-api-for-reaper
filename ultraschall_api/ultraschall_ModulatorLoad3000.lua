@@ -3670,6 +3670,10 @@ else
     ultraschall.LM(28)
     return ultraschall.GetTrackStateChunk_Tracknumber(table.unpack({...}))
   end
+  function ultraschall.GetTrackState_NumbersOnly(...)
+    ultraschall.LM(28)
+    return ultraschall.GetTrackState_NumbersOnly(table.unpack({...}))
+  end
   function ultraschall.GetTrackName(...)
     ultraschall.LM(28)
     return ultraschall.GetTrackName(table.unpack({...}))

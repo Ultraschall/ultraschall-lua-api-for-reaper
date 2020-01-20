@@ -63,7 +63,7 @@ function ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, stat
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>table values = ultraschall.GetProjectState_NumbersOnly(string projectfilename_with_path, optional string ProjectStateChunk, optional boolean numbertoggle)</functioncall>
+  <functioncall>table values = ultraschall.GetProjectState_NumbersOnly(string projectfilename_with_path, string state, optional string ProjectStateChunk, optional boolean numbertoggle)</functioncall>
   <description>
     returns a state of the project or a ProjectStateChunk.
     
@@ -74,6 +74,7 @@ function ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, stat
   </description>
   <parameters>
     string projectfilename_with_path - the projectfile+path, from which to get the states; nil to use ProjectStateChunk
+    string state - the state, whose attributes you want to retrieve
     optional string ProjectStateChunk - a statechunk of a project, usually the contents of a rpp-project-file
     optional string functionname - if this function is used within specific getprojectstate-functions, pass here the "host"-functionname, so error-messages will reflect that
     optional boolean numbertoggle - true or nil; converts all values to numbers; false, keep them as string versions
