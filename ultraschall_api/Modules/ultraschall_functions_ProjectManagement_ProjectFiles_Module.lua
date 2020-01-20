@@ -248,7 +248,7 @@ function ultraschall.GetProject_RippleState(projectfilename_with_path, ProjectSt
   <tags>projectfiles, rpp, state, get, ripple, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RIPPLE", nil, "GetProject_RippleState")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RIPPLE", ProjectStateChunk, "GetProject_RippleState")
 end
 
 function ultraschall.GetProject_GroupOverride(projectfilename_with_path, ProjectStateChunk)
@@ -287,7 +287,7 @@ function ultraschall.GetProject_GroupOverride(projectfilename_with_path, Project
 </US_DocBloc>
 ]]
   -- check parameters and prepare variable ProjectStateChunk
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "GROUPOVERRIDE", nil, "GetProject_GroupOverride")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "GROUPOVERRIDE", ProjectStateChunk, "GetProject_GroupOverride")
 end
 
 function ultraschall.GetProject_AutoCrossFade(projectfilename_with_path, ProjectStateChunk)
@@ -323,7 +323,7 @@ function ultraschall.GetProject_AutoCrossFade(projectfilename_with_path, Project
   <tags>projectfiles, rpp, state, get, crossfade, state, auto, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "AUTOXFADE", nil, "GetProject_AutoCrossFade")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "AUTOXFADE", ProjectStateChunk, "GetProject_AutoCrossFade")
 end
 
 function ultraschall.GetProject_EnvAttach(projectfilename_with_path, ProjectStateChunk)
@@ -359,7 +359,7 @@ function ultraschall.GetProject_EnvAttach(projectfilename_with_path, ProjectStat
   <tags>projectfiles, rpp, state, get, envattach</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "ENVATTACH", nil, "GetProject_EnvAttach")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "ENVATTACH", ProjectStateChunk, "GetProject_EnvAttach")
 end
 
 function ultraschall.GetProject_PooledEnvAttach(projectfilename_with_path, ProjectStateChunk)
@@ -395,7 +395,7 @@ function ultraschall.GetProject_PooledEnvAttach(projectfilename_with_path, Proje
   <tags>projectfiles, rpp, state, get, pooledenvattach</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "POOLEDENVATTACH", nil, "GetProject_PooledEnvAttach")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "POOLEDENVATTACH", ProjectStateChunk, "GetProject_PooledEnvAttach")
 end
 
 function ultraschall.GetProject_MixerUIFlags(projectfilename_with_path, ProjectStateChunk)
@@ -453,7 +453,7 @@ function ultraschall.GetProject_MixerUIFlags(projectfilename_with_path, ProjectS
   <tags>projectfiles, rpp, state, get, mixer, ui, flags</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MIXERUIFLAGS", nil, "GetProject_MixerUIFlags")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MIXERUIFLAGS", ProjectStateChunk, "GetProject_MixerUIFlags")
 end
 
 --A,AA=ultraschall.GetProject_MixerUIFlags("c:\\tt.rpp")
@@ -491,7 +491,7 @@ function ultraschall.GetProject_PeakGain(projectfilename_with_path, ProjectState
   <tags>projectfiles, rpp, state, get, mixer, peakgain, peak, gain</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "PEAKGAIN", nil, "GetProject_PeakGain")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "PEAKGAIN", ProjectStateChunk, "GetProject_PeakGain")
 end
 
 --A=ultraschall.GetProject_PeakGain("c:\\tt.rpp")
@@ -531,7 +531,7 @@ function ultraschall.GetProject_Feedback(projectfilename_with_path, ProjectState
   <tags>projectfiles, rpp, state, get, mixer, feedback</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "FEEDBACK", nil, "GetProject_Feedback")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "FEEDBACK", ProjectStateChunk, "GetProject_Feedback")
 end
 
 --A=ultraschall.GetProject_Feedback("c:\\tt.rpp")
@@ -569,7 +569,7 @@ function ultraschall.GetProject_PanLaw(projectfilename_with_path, ProjectStateCh
   <tags>projectfiles, rpp, state, get, mixer, panlaw, pan</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "PANLAW", nil, "GetProject_PanLaw")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "PANLAW", ProjectStateChunk, "GetProject_PanLaw")
 end
 
 --A=ultraschall.GetProject_PanLaw("c:\\tt.rpp")
@@ -610,7 +610,7 @@ function ultraschall.GetProject_ProjOffsets(projectfilename_with_path, ProjectSt
   <tags>projectfiles, rpp, state, get, project, offset, start, starttime</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "PROJOFFS", nil, "GetProject_ProjOffsets")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "PROJOFFS", ProjectStateChunk, "GetProject_ProjOffsets")
 end
 
 --BB,B=reaper.EnumProjects(-1,"")
@@ -651,7 +651,7 @@ function ultraschall.GetProject_MaxProjectLength(projectfilename_with_path, Proj
   <tags>projectfiles, rpp, state, get, project, end, length, limit</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MAXPROJLEN", nil, "GetProject_MaxProjectLength")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MAXPROJLEN", ProjectStateChunk, "GetProject_MaxProjectLength")
 end
 
 --A,AA=ultraschall.GetProject_MaxProjectLength("c:\\tt.rpp")
@@ -695,7 +695,7 @@ function ultraschall.GetProject_Grid(projectfilename_with_path, ProjectStateChun
   <tags>projectfiles, rpp, state, get, grid</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "GRID", nil, "GetProject_Grid")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "GRID", ProjectStateChunk, "GetProject_Grid")
 end
 
 function ultraschall.GetProject_Timemode(projectfilename_with_path, ProjectStateChunk)
@@ -753,7 +753,7 @@ function ultraschall.GetProject_Timemode(projectfilename_with_path, ProjectState
   <tags>projectfiles, rpp, state, get, timemode</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "TIMEMODE", nil, "GetProject_Timemode")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "TIMEMODE", ProjectStateChunk, "GetProject_Timemode")
 end
 
 function ultraschall.GetProject_VideoConfig(projectfilename_with_path, ProjectStateChunk)
@@ -802,7 +802,7 @@ function ultraschall.GetProject_VideoConfig(projectfilename_with_path, ProjectSt
   <tags>projectfiles, rpp, state, get, video, videoconfig</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "VIDEO_CONFIG", nil, "GetProject_VideoConfig")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "VIDEO_CONFIG", ProjectStateChunk, "GetProject_VideoConfig")
 end
 
 function ultraschall.GetProject_PanMode(projectfilename_with_path, ProjectStateChunk)
@@ -842,7 +842,7 @@ function ultraschall.GetProject_PanMode(projectfilename_with_path, ProjectStateC
   <tags>projectfiles, rpp, state, get, panmode</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "PANMODE", nil, "GetProject_PanMode")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "PANMODE", ProjectStateChunk, "GetProject_PanMode")
 end
 
 
@@ -880,7 +880,7 @@ function ultraschall.GetProject_CursorPos(projectfilename_with_path, ProjectStat
   <tags>projectfiles, rpp, state, get, cursor, position, cursorposition, editcursor, edit</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "CURSOR", nil, "GetProject_CursorPos")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "CURSOR", ProjectStateChunk, "GetProject_CursorPos")
 end
 
 --A=ultraschall.GetProject_CursorPos("c:\\tt.rpp")
@@ -922,7 +922,7 @@ function ultraschall.GetProject_HorizontalZoom(projectfilename_with_path, Projec
   <tags>projectfiles, rpp, state, get, zoom, horizontal, scrollbar, factor</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "ZOOM", nil, "GetProject_HorizontalZoom")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "ZOOM", ProjectStateChunk, "GetProject_HorizontalZoom")
 end
 
 --A1,AA,AAA=ultraschall.GetProject_HorizontalZoom("c:\\tt.rpp")
@@ -960,7 +960,7 @@ function ultraschall.GetProject_VerticalZoom(projectfilename_with_path, ProjectS
   <tags>projectfiles, rpp, state, get, zoom, vertical, scrollbar, factor</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "VZOOMEX", nil, "GetProject_VerticalZoom")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "VZOOMEX", ProjectStateChunk, "GetProject_VerticalZoom")
 end
 
 --A=ultraschall.GetProject_VerticalZoom("c:\\tt.rpp")
@@ -1001,7 +1001,7 @@ function ultraschall.GetProject_UseRecConfig(projectfilename_with_path, ProjectS
   <tags>projectfiles, rpp, state, get, recording, rec, config</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "USE_REC_CFG", nil, "GetProject_UseRecConfig")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "USE_REC_CFG", ProjectStateChunk, "GetProject_UseRecConfig")
 end
 
 --A=ultraschall.GetProject_UseRecConfig("c:\\tt.rpp")
@@ -1042,7 +1042,7 @@ function ultraschall.GetProject_RecMode(projectfilename_with_path, ProjectStateC
   <tags>projectfiles, rpp, state, get, recording, rec, mode</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RECMODE", nil, "GetProject_RecMode")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RECMODE", ProjectStateChunk, "GetProject_RecMode")
 end
 
 --A=ultraschall.GetProject_RecMode("c:\\tt.rpp")
@@ -1105,7 +1105,7 @@ function ultraschall.GetProject_SMPTESync(projectfilename_with_path, ProjectStat
   <tags>projectfiles, rpp, state, get, smpte, sync</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "SMPTESYNC", nil, "GetProject_SMPTESync")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "SMPTESYNC", ProjectStateChunk, "GetProject_SMPTESync")
 end
 
 --A,AA,AAA,AAAA,AAAAA,AAAAAA,AAAAAAA,AAAAAAAA,AAAAAAAAA,AL,AM=ultraschall.GetProject_SMPTESync("c:\\tt.rpp")
@@ -1143,7 +1143,7 @@ function ultraschall.GetProject_Loop(projectfilename_with_path, ProjectStateChun
   <tags>projectfiles, rpp, state, get, loop, button</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "LOOP", nil, "GetProject_Loop")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "LOOP", ProjectStateChunk, "GetProject_Loop")
 end
 
 --A=ultraschall.GetProject_Loop("c:\\tt.rpp")
@@ -1182,7 +1182,7 @@ function ultraschall.GetProject_LoopGran(projectfilename_with_path, ProjectState
   <tags>projectfiles, rpp, state, get, loop, gran</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "LOOPGRAN", nil, "GetProject_LoopGran")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "LOOPGRAN", ProjectStateChunk, "GetProject_LoopGran")
 end
 
 --A,AA=ultraschall.GetProject_LoopGran("c:\\tt.rpp")
@@ -1494,7 +1494,7 @@ function ultraschall.GetProject_RenderFreqNChans(projectfilename_with_path, Proj
   <tags>projectfiles, rpp, state, get, render, frequency, num channels, channels</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_FMT", nil, "GetProject_RenderFreqNChans")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_FMT", ProjectStateChunk, "GetProject_RenderFreqNChans")
 end
 
 -- A,AA,AAA=ultraschall.GetProject_RenderFreqNChans("c:\\tt.rpp")
@@ -1536,7 +1536,7 @@ function ultraschall.GetProject_RenderSpeed(projectfilename_with_path, ProjectSt
   <tags>projectfiles, rpp, state, get, render, speed</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_1X", nil, "GetProject_RenderSpeed")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_1X", ProjectStateChunk, "GetProject_RenderSpeed")
 end
 
 --A=ultraschall.GetProject_RenderSpeed("c:\\tt.rpp")
@@ -1589,7 +1589,7 @@ function ultraschall.GetProject_RenderRange(projectfilename_with_path, ProjectSt
   <tags>projectfiles, rpp, state, get, render, timestart, timeend, range, tail, bounds</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_RANGE", nil, "GetProject_RenderRange")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_RANGE", ProjectStateChunk, "GetProject_RenderRange")
 end
 
 --A,AA,AAA,AAAA,AAAAA=ultraschall.GetProject_RenderRange("c:\\tt.rpp")
@@ -1649,7 +1649,7 @@ function ultraschall.GetProject_RenderResample(projectfilename_with_path, Projec
   <tags>projectfiles, rpp, state, get, render, resample, playback, mixing, fx, synth</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_RESAMPLE", nil, "GetProject_RenderResample")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_RESAMPLE", ProjectStateChunk, "GetProject_RenderResample")
 end
 
 --A,AA,AAA,AAAA,AAAAA=ultraschall.GetProject_RenderResample("c:\\tt.rpp")
@@ -1686,7 +1686,7 @@ function ultraschall.GetProject_AddMediaToProjectAfterRender(projectfilename_wit
   <tags>projectfiles, rpp, state, get, render, add, media, after, project</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_ADDTOPROJ", nil, "GetProject_AddMediaToProjectAfterRender")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_ADDTOPROJ", ProjectStateChunk, "GetProject_AddMediaToProjectAfterRender")
 end
 
 --A=ultraschall.GetProject_AddMediaToProjectAfterRender("c:\\tt.rpp")
@@ -1723,6 +1723,7 @@ function ultraschall.GetProject_RenderStems(projectfilename_with_path, ProjectSt
     - 32, Selected Media Items(in combination with RENDER_RANGE->Bounds->4, refer to <a href="#GetProject_RenderRange">GetProject_RenderRange</a> to get RENDER_RANGE)
     - 64,  Selected media items via master
     - 128, Selected tracks via master
+    - &256, Embed stretch markers/transient guides-checkbox
   </retvals>
   <chapter_context>
     Project-Management
@@ -1733,7 +1734,7 @@ function ultraschall.GetProject_RenderStems(projectfilename_with_path, ProjectSt
   <tags>projectfiles, rpp, state, get, render, stems, multichannel</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_STEMS", nil, "GetProject_RenderStems")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_STEMS", ProjectStateChunk, "GetProject_RenderStems")
 end
 
 --A=ultraschall.GetProject_RenderStems("c:\\tt.rpp")
@@ -1776,7 +1777,7 @@ function ultraschall.GetProject_RenderDitherState(projectfilename_with_path, Pro
   <tags>projectfiles, rpp, state, get, render, dither, state, master, noise shaping</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_DITHER", nil, "GetProject_RenderDitherState")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "RENDER_DITHER", ProjectStateChunk, "GetProject_RenderDitherState")
 end
 
 --A=ultraschall.GetProject_RenderDitherState("c:\\tt.rpp")
@@ -1817,7 +1818,7 @@ function ultraschall.GetProject_TimeBase(projectfilename_with_path, ProjectState
   <tags>projectfiles, rpp, state, get, timebase, time, beats, items, envelopes, markers</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "TIMELOCKMODE", nil, "GetProject_TimeBase")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "TIMELOCKMODE", ProjectStateChunk, "GetProject_TimeBase")
 end
 
 --A=ultraschall.GetProject_TimeBase("c:\\tt.rpp")
@@ -1858,7 +1859,7 @@ function ultraschall.GetProject_TempoTimeSignature(projectfilename_with_path, Pr
   <tags>projectfiles, rpp, state, get, timebase, time, beats, tempo, signature</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "TEMPOENVLOCKMODE", nil, "GetProject_TempoTimeSignature")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "TEMPOENVLOCKMODE", ProjectStateChunk, "GetProject_TempoTimeSignature")
 end
 
 --A=ultraschall.GetProject_TempoTimeSignature("c:\\tt.rpp")
@@ -1898,7 +1899,7 @@ function ultraschall.GetProject_ItemMixBehavior(projectfilename_with_path, Proje
   <tags>projectfiles, rpp, state, get, item, mix</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "ITEMMIX", nil, "GetProject_ItemMixBehavior")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "ITEMMIX", ProjectStateChunk, "GetProject_ItemMixBehavior")
 end
 
 --A=ultraschall.GetProject_ItemMixBehavior("c:\\tt.rpp")
@@ -3578,7 +3579,7 @@ function ultraschall.GetProject_DefPitchMode(projectfilename_with_path, ProjectS
   <tags>projectfiles, rpp, state, get, default, pitch mode, pitch, stretch marker mode</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "DEFPITCHMODE", nil, "GetProject_DefPitchMode")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "DEFPITCHMODE", ProjectStateChunk, "GetProject_DefPitchMode")
 end
 
 --A,B=ultraschall.GetProject_DefPitchMode("c:\\pitchshifter.rpp")
@@ -3617,7 +3618,7 @@ function ultraschall.GetProject_TakeLane(projectfilename_with_path, ProjectState
   <tags>projectfiles, rpp, state, get, take, lane</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "TAKELANE", nil, "GetProject_TakeLane")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "TAKELANE", ProjectStateChunk, "GetProject_TakeLane")
 end
 
 --A=ultraschall.GetProject_TakeLane("c:\\tt.rpp")
@@ -3657,7 +3658,7 @@ function ultraschall.GetProject_SampleRate(projectfilename_with_path, ProjectSta
   <tags>projectfiles, rpp, state, get, sample, rate, samplerate, tempo, time, signature</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "SAMPLERATE", nil, "GetProject_SampleRate")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "SAMPLERATE", ProjectStateChunk, "GetProject_SampleRate")
 end
 
 --A,AA,AAA=ultraschall.GetProject_SampleRate("c:\\tt.rpp")
@@ -3701,7 +3702,7 @@ function ultraschall.GetProject_TrackMixingDepth(projectfilename_with_path, Proj
   <tags>projectfiles, rpp, state, get, track, mixing, depth</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "INTMIXMODE", nil, "GetProject_TrackMixingDepth")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "INTMIXMODE", ProjectStateChunk, "GetProject_TrackMixingDepth")
 end
 
 --A=ultraschall.GetProject_TrackMixingDepth("c:\\tt.rpp")
@@ -3859,8 +3860,8 @@ function ultraschall.GetProject_Selection(projectfilename_with_path, ProjectStat
   <tags>projectfiles, rpp, state, get, selection, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  local A,B=ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "SELECTION", nil, "GetProject_Selection")
-  local C,D=ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "SELECTION2", nil, "GetProject_Selection")
+  local A,B=ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "SELECTION", ProjectStateChunk, "GetProject_Selection")
+  local C,D=ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "SELECTION2", ProjectStateChunk, "GetProject_Selection")
   return A,B,C,D
 end
 
@@ -8873,7 +8874,7 @@ function ultraschall.GetProject_Lock(projectfilename_with_path, ProjectStateChun
   <tags>projectmanagement, get, lock, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "\n  LOCK", nil, "GetProject_Lock")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "\n  LOCK", ProjectStateChunk, "GetProject_Lock")
 end
 
 --reaper.MB(B,"",0)
@@ -8919,7 +8920,7 @@ function ultraschall.GetProject_GlobalAuto(projectfilename_with_path, ProjectSta
   <tags>projectmanagement, get, global automation, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "GLOBAL_AUTO", nil, "GetProject_GlobalAuto")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "GLOBAL_AUTO", ProjectStateChunk, "GetProject_GlobalAuto")
 end
 
 
@@ -8958,7 +8959,7 @@ function ultraschall.GetProject_Tempo(projectfilename_with_path, ProjectStateChu
   <tags>projectmanagement, get, beat, tempo, denominator, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "TEMPO", nil, "GetProject_Tempo")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "TEMPO", ProjectStateChunk, "GetProject_Tempo")
 end
 
 
@@ -8999,7 +9000,7 @@ function ultraschall.GetProject_Playrate(projectfilename_with_path, ProjectState
   <tags>projectmanagement, get, playrate, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "PLAYRATE", nil, "GetProject_Playrate")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "PLAYRATE", ProjectStateChunk, "GetProject_Playrate")
 end
 
 --A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
@@ -9044,7 +9045,7 @@ function ultraschall.GetProject_MasterAutomode(projectfilename_with_path, Projec
   <tags>projectmanagement, get, automation mode, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTERAUTOMODE", nil, "GetProject_MasterAutomode")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTERAUTOMODE", ProjectStateChunk, "GetProject_MasterAutomode")
 end
 
 --A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
@@ -9084,7 +9085,7 @@ function ultraschall.GetProject_MasterSel(projectfilename_with_path, ProjectStat
   <tags>projectmanagement, get, selected, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTER_SEL", nil, "GetProject_MasterSel")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTER_SEL", ProjectStateChunk, "GetProject_MasterSel")
 end
 
 --A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
@@ -9124,7 +9125,7 @@ function ultraschall.GetProject_MasterFXByp(projectfilename_with_path, ProjectSt
   <tags>projectmanagement, get, fx, bypass, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTER_FX", nil, "GetProject_MasterFXByp")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTER_FX", ProjectStateChunk, "GetProject_MasterFXByp")
 end
 
 --A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
@@ -9171,7 +9172,7 @@ function ultraschall.GetProject_MasterMuteSolo(projectfilename_with_path, Projec
   <tags>projectmanagement, get, mute, solo, mono, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTERMUTESOLO", nil, "GetProject_MasterMuteSolo")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTERMUTESOLO", ProjectStateChunk, "GetProject_MasterMuteSolo")
 end
 
 --A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
@@ -9211,7 +9212,7 @@ function ultraschall.GetProject_MasterNChans(projectfilename_with_path, ProjectS
   <tags>projectmanagement, get, number of channels, master track, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTER_NCH", nil, "GetProject_MasterNChans")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTER_NCH", ProjectStateChunk, "GetProject_MasterNChans")
 end
 
 --A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
@@ -9251,7 +9252,7 @@ function ultraschall.GetProject_MasterTrackHeight(projectfilename_with_path, Pro
   <tags>projectmanagement, get, trackheight, trackheightlock, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTERTRACKHEIGHT", nil, "GetProject_MasterTrackHeight")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTERTRACKHEIGHT", ProjectStateChunk, "GetProject_MasterTrackHeight")
 end
 
 --A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
@@ -9290,7 +9291,7 @@ function ultraschall.GetProject_MasterTrackColor(projectfilename_with_path, Proj
   <tags>projectmanagement, get, color, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTERPEAKCOL", nil, "GetProject_MasterTrackColor")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTERPEAKCOL", ProjectStateChunk, "GetProject_MasterTrackColor")
 end
 
 --A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
@@ -9339,7 +9340,7 @@ function ultraschall.GetProject_MasterTrackView(projectfilename_with_path, Proje
   <tags>projectmanagement, get, view, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTERTRACKVIEW", nil, "GetProject_MasterTrackView")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTERTRACKVIEW", ProjectStateChunk, "GetProject_MasterTrackView")
 end
 
  
@@ -9514,7 +9515,7 @@ function ultraschall.GetProject_MasterVolume(projectfilename_with_path, ProjectS
   <tags>projectmanagement, get, mastervolume, pan, volume, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTER_VOLUME", nil, "GetProject_MasterVolume")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTER_VOLUME", ProjectStateChunk, "GetProject_MasterVolume")
 end
 
 --A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")
@@ -9558,7 +9559,7 @@ function ultraschall.GetProject_MasterPanMode(projectfilename_with_path, Project
   <tags>projectmanagement, get, panmode, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTER_PANMODE", nil, "GetProject_MasterPanMode")
+  return ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTER_PANMODE", ProjectStateChunk, "GetProject_MasterPanMode")
 end
 
 --B,B2,B3,B4,B5,B6,B7,B8=ultraschall.GetProject_MasterPanMode("c:\\automitem\\automitem.RPP", A)
@@ -9597,7 +9598,7 @@ function ultraschall.GetProject_MasterWidth(projectfilename_with_path, ProjectSt
   <tags>projectmanagement, get, pan knob two, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  local A=ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTER_WIDTH", nil, "GetProject_MasterWidth")
+  local A=ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "MASTER_WIDTH", ProjectStateChunk, "GetProject_MasterWidth")
   if A==nil then return 1 else return A end
 end
 
@@ -9921,7 +9922,7 @@ function ultraschall.GetProject_GroupDisabled(projectfilename_with_path, Project
   <tags>projectmanagement, get, group, disabled, projectstatechunk</tags>
 </US_DocBloc>
 ]]
-  local A,B=ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "GROUPS_DISABLED", nil, "GetProject_GroupDisabled")
+  local A,B=ultraschall.GetProjectState_NumbersOnly(projectfilename_with_path, "GROUPS_DISABLED", ProjectStateChunk, "GetProject_GroupDisabled")
   if A==nil then A=0 end
   if B==nil then B=0 end
   return A,B

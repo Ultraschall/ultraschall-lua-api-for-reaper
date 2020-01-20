@@ -1,42 +1,36 @@
 Render-Presets-docs as of Reaper 6.02
 
-compiled by Meo Mespotine, 20th of December 2019
+compiled by Meo Mespotine, 20th of January 2019
 licensed under creative-commons cc-by-license
 
 The render-presets are stored into reaper-render.ini in the resources-folder of Reaper.
 Depending on what you chose for storing a preset, when hitting the Presets-button in the Render to File-dialog, the following entries
 are added into that file.
 
+!Note for Reaper 5 users: Reaper 6 changed the format of the reaper-render.ini, so some various-checkboxes moved to various_checkboxes2, the latter wasn't present before.
+
 When selecting "Options and format" or "All settings":
-    <RENDERPRESET string presetname  integer SampleRate  integer channels  integer offline_online_dropdownlist  integer useprojectsamplerate_checkbox  integer resamplemode_dropdownlist  integer various_checkboxes
+    <RENDERPRESET string presetname  integer SampleRate  integer channels  integer offline_online_dropdownlist  integer useprojectsamplerate_checkbox  integer resamplemode_dropdownlist  integer various_checkboxes integer various_checkboxes2
       string rendercfg
     >
 
 When selecting "Bounds and Outputpattern filename" or "All settings":
     RENDERPRESET_OUTPUT  string presetname  integer bounds_dropdownlist  number start_position  number endposition  integer source_dropdownlist_and_checkboxes  integer unknown  string outputfilename_renderpattern  integer tail_checkbox
 
-As mentioned, Preset, who who are stored with by the menu "All settings" have both of these entried with the same presetname, all others only one of them.
+As mentioned, Preset, who who are stored with by the menu "All settings" have both of these entries with the same presetname, all others only one of them.
 
 Parameters:
-source_dropdownlist_and_checkboxes - keeps: Source dropdownlist in RENDERPRESET_OUTPUT
-                                   0,  Master mix
-                                   1,  Master mix + stems
-                                   3,  Stems (selected tracks)
-                                   &4, Multichannel tracks to multichannel files(this must be added/subtracted, if checking/unchecking this checkbox)
-                                   8,  Region render matrix
-                                   &16, Tracks with only mono media to mono files(this must be added/subtracted, if checking/unchecking this checkbox)
-                                   32,  Selected media items
-                                   64,  Selected media items via master
-                                   128, Selected tracks via master
-                                            
-                                            
 various_checkboxes - keeps various checkboxes in <RENDERPRESET
-                                   &1,   Dither Master mix
-                                   &2,   Noise shaping Master mix
-                                   &4,   Dither Stems
-                                   &8,   Noise shaping Stems
+                                   &1, Dither Master
+                                   &2, Noise shape master
+                                   &4, Dither Stems
+                                   &8, Noise shape stems
+                                   
+various_checkboxes2 - more various checkboxes in <RENDERPRESET
+                                   &4,  Multichannel tracks to multichannel files
+                                   &16, Tracks with only mono media to mono files
                                    &256, Embed stretch markers/transient guides
-
+                                   
 offline_online_dropdownlist - keeps the offline/online-dropdownlist in <RENDERPRESET
                                    0, Full-speed Offline
                                    1, 1x Offline
@@ -63,7 +57,16 @@ bounds_dropdownlist - keeps the settings in the bounds-dropdownlist in RENDERPRE
                                    3, Project regions
                                    5, Selected regions
                              
-                             
+source_dropdownlist_and_checkboxes - keeps: Source dropdownlist in RENDERPRESET_OUTPUT
+                                   0,  Master mix
+                                   1,  Master mix + stems
+                                   3,  Stems (selected tracks)
+                                   8,  Region render matrix
+                                   32,  Selected media items
+                                   64,  Selected media items via master
+                                   128, Selected tracks via master
+
+
 Some general notes on the Render-Presets:
     - any changes in this file will be used by Reaper immediately, the next time the Presets-Button is 
       hit in the Render to File dialog

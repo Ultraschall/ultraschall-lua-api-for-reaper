@@ -238,7 +238,7 @@ TODO!! buggy function
    - Defer Management: Defer1 through Defer20 - removed
    - Defer Management: Defer - mode and timer can also be set now from the outside of the defer-cycle; can now be protected from stopping it from the outside; couldn't be stopped from the outside when mode~=2 -> fixed
    - Defer Management: GetDeferRunState - was missing parameters in the docs due typo -> fixed
-   - Defer Management: StopDeferCycle - didn't work, when mode=2 of a Defer-cycle -> fixed
+   - Defer Management: StopDeferCycle - didn't work, when mode=2 of a ultraschall.Defer-cycle -> fixed
    - Docs: DeferScripts\_004\_Working\_with\_Defer\_Identifiers - removed
    - Docs: Defer - reworked docs and removed all references to Defer1 through Defer20
    - Docs: JS-Extension - updated to 0.997
@@ -308,6 +308,8 @@ TODO!! buggy function
    - Render Management: CreateNewRenderTable - added new "Embed stretch markers/transient guides"-settings as of Reaper 6; CloseAfterRender wasn't accepted as boolean -> fixed
    - Render Management: GetRenderCFG\_Settings\_AIFF - returns Embed Beat Length-checkbox, as included with Reaper 6
    - Render Management: GetRenderTable\_Project - supports now "Embed stretch markers/transient guides"-settings as of Reaper 6
+   - Render Management: GetRenderTable\_ProjectFile - supports now "Embed stretch markers/transient guides"-settings as of Reaper 6
+   - Render Management: GetRenderPreset\_RenderTable - reimplemented due changed reaper-render.ini-format in Reaper 6, should be more stable now
    - Render Management: IsValidRenderTable - checks now as well new "Embed stretch markers/transient guides"-settings as of Reaper 6
    - TakeManagement: GetFXStateChunk - parameter TakeFXChain_id wasn't optional due typo -> fixed(thanks to XRaym)
    - TakeManagement: SetFXStateChunk - docs were unclear, that only setting NOT inserting is possible; could crash, if no FXStateChunk for setting could be found -> fixed(thanks to XRaym)

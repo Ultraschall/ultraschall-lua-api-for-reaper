@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="42344.00" author="Meo Mespotine">
+      <version name="42567.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -497,7 +497,7 @@ Changes from Beta 2.79 to Beta 2.80
 -   Defer Management: GetDeferRunState - was missing parameters in the
     docs due typo -> fixed
 -   Defer Management: StopDeferCycle - didn’t work, when mode=2 of a
-    Defer-cycle -> fixed
+    ultraschall.Defer-cycle -> fixed
 -   Docs: DeferScripts_004_Working_with_Defer_Identifiers - removed
 -   Docs: Defer - reworked docs and removed all references to Defer1
     through Defer20
@@ -672,6 +672,11 @@ Changes from Beta 2.79 to Beta 2.80
     Length-checkbox, as included with Reaper 6
 -   Render Management: GetRenderTable_Project - supports now “Embed
     stretch markers/transient guides”-settings as of Reaper 6
+-   Render Management: GetRenderTable_ProjectFile - supports now “Embed
+    stretch markers/transient guides”-settings as of Reaper 6
+-   Render Management: GetRenderPreset_RenderTable - reimplemented due
+    changed reaper-render.ini-format in Reaper 6, should be more stable
+    now
 -   Render Management: IsValidRenderTable - checks now as well new
     “Embed stretch markers/transient guides”-settings as of Reaper 6
 -   TakeManagement: GetFXStateChunk - parameter TakeFXChain_id wasn’t
