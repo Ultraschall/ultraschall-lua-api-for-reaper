@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="42567.00" author="Meo Mespotine">
+      <version name="42722.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -663,6 +663,10 @@ Changes from Beta 2.79 to Beta 2.80
     rendering selected tracks/media through master-options
 -   Reaper Internals: render-codes-decoded-base64-strings.txt - added
     new settings for AIFF
+-   Render Management: AddRenderPreset - supports now embed stretch
+    markers-checkbox; works only with render-presets as of Reaper 6; has
+    no issues anymore with presetnames and the renderpattern with
+    spaces.
 -   Render Management: CreateRenderCFG_AIFF - added Embed Beat
     Length-checkbox, as included with Reaper 6
 -   Render Management: CreateNewRenderTable - added new “Embed stretch

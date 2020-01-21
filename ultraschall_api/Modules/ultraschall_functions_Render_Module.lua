@@ -3699,66 +3699,92 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
    <tags>render management, get, render preset, names</tags>
  </US_DocBloc>
  ]]
- 
--- !!TODO: presetname with spaces in them are included with "preset name", so I need to check for that somehow.
---         due the fact, that Reaper's " and ' management is quite inconsistent at some point, there's probably no perfectly stable way to do it
- 
   if type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Bounds_Name", "must be a string", -1) return end
   if type(Options_and_Format_Name)~="string" then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Options_and_Format_Name", "must be a string", -2) return end
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
   if A==nil then A="" end
   local RenderTable={}
-  
+
   local Presetname, SampleRate, Channels, Offline_online_dropdownlist
   local Useprojectsamplerate_checkbox, Resamplemode_dropdownlist, Various_checkboxes, Various_checkboxes2, k1
   local rendercfg, Presetname
   local Presetname2, Bounds_dropdownlist2, Start_position2, Endposition2
   local Source_dropdownlist_and_checkboxes2, Unknown2, Outputfilename_renderpattern2
-  local Tail_checkbox2
-      
-  for k in string.gmatch(A, "<RENDERPRESET.->") do
-    k1=k:match("<RENDERPRESET (.-)\n").." "
-    rendercfg=k:match(".-\n%s*(.-)\n")
-    Presetname, SampleRate, Channels, Offline_online_dropdownlist, 
-    Useprojectsamplerate_checkbox, Resamplemode_dropdownlist, Various_checkboxes, Various_checkboxes2
-    =k1:match("(.-) (.-) (.-) (.-) (.-) (.-) (.-) (.-) ")
-    if Presetname==Options_and_Format_Name then break end
-  end
+  local Tail_checkbox2, Quote
+  local B, _temp
 
-  for k in string.gmatch(A, "RENDERPRESET_OUTPUT (.-)\n") do
-    k=k.." "
-    Presetname2, Bounds_dropdownlist2, Start_position2, Endposition2,
-    Source_dropdownlist_and_checkboxes2, Unknown2, Outputfilename_renderpattern2,
+  for A in string.gmatch(A, "(RENDERPRESET_OUTPUT .-)\n") do
+    Quote=A:sub(21,21)
+    if Quote=="\"" then
+      Presetname2=A:match(" [\"](.-)[\"]")
+    else
+      Quote=""
+      Presetname2=A:match("%s(.-)%s")
+    end
+  
+    B=string.gsub(A,Quote..Presetname2..Quote, "A")
+    --RenderPattern=A:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.*)")
+    if B:match("\"")~=nil then
+      Outputfilename_renderpattern2=B:match("\"(.-)\"")
+    else
+      Outputfilename_renderpattern2=B:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-(.-)%s")
+    end
+    B=string.gsub(B, Quote..Outputfilename_renderpattern2..Quote, "A").." "
+
+    _temp, Bounds_dropdownlist2, Start_position2, Endposition2,
+    Source_dropdownlist_and_checkboxes2, Unknown2, _temp,
     Tail_checkbox2 = 
-    k:match("(.-) (.-) (.-) (.-) (.-) (.-) (.-) (.-) ")
+    B:match(".- (.-) (.-) (.-) (.-) (.-) (.-) (.-) (.-) ")
     if Presetname2==Bounds_Name then break end
   end
+
+
+  for A2 in string.gmatch(A, "<RENDERPRESET.->") do
+    A2=A2.." "
+    rendercfg=A2:match(".-\n%s*(.-)\n")
+    Quote=A2:sub(15,15)
+    if Quote=="\"" then
+      Presetname=A2:match(" [\"](.-)[\"]")
+    else
+      Quote=""
+      Presetname=A2:match("%s(.-)%s")
+    end
+    A2=string.gsub(A2, Quote..Presetname..Quote, "A")
   
-     RenderTable["AddToProj"]=false
-     RenderTable["Bounds"]=tonumber(Bounds_dropdownlist2)
-     RenderTable["Channels"]=tonumber(Channels)
-     RenderTable["CloseAfterRender"]=true
-     RenderTable["Endposition"]=tonumber(Endposition2)
-     RenderTable["OfflineOnlineRendering"]=tonumber(Offline_online_dropdownlist)
-     RenderTable["ProjectSampleRateFXProcessing"]=useprojectsamplerate_checkbox==1
-     RenderTable["RenderFile"]=""
-     RenderTable["RenderPattern"]=Outputfilename_renderpattern2
-     RenderTable["RenderQueueDelay"]=false
-     RenderTable["RenderQueueDelaySeconds"]=0
-     RenderTable["RenderResample"]=tonumber(Resamplemode_dropdownlist)
-     RenderTable["RenderString"]=rendercfg
-     RenderTable["RenderTable"]=true
-     RenderTable["SampleRate"]=tonumber(SampleRate)
-     RenderTable["SaveCopyOfProject"]=false
-     RenderTable["SilentlyIncrementFilename"]=true
-     RenderTable["Startposition"]=tonumber(Start_position2)
-     RenderTable["TailFlag"]=Tail_checkbox2==1
-     RenderTable["TailMS"]=0
-     RenderTable["MultiChannelFiles"]=tonumber(Various_checkboxes2)&4==4
-     RenderTable["OnlyMonoMedia"]=tonumber(Various_checkboxes2)&16==16
-     RenderTable["EmbedStretchMarkers"]=tonumber(Various_checkboxes2)&256==256
-     RenderTable["Source"]=tonumber(Source_dropdownlist_and_checkboxes2)
-     RenderTable["Dither"]=tonumber(Various_checkboxes)
+    _temp, SampleRate, Channels, Offline_online_dropdownlist, 
+    Useprojectsamplerate_checkbox, Resamplemode_dropdownlist, Various_checkboxes, Various_checkboxes2
+    =A2:match(".- (.-) (.-) (.-) (.-) (.-) (.-) (.-) (.-) ")
+    
+    if Presetname==Options_and_Format_Name then break end
+  end
+  if Presetname==nil then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Options_and_Format_Name", "no such preset", -3) return end
+  if Presetname2==nil then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Bounds_Name", "no such preset", -4) return end
+  
+  RenderTable["AddToProj"]=false
+  RenderTable["Bounds"]=tonumber(Bounds_dropdownlist2)
+  RenderTable["Channels"]=tonumber(Channels)
+  RenderTable["CloseAfterRender"]=true
+  RenderTable["Endposition"]=tonumber(Endposition2)
+  RenderTable["OfflineOnlineRendering"]=tonumber(Offline_online_dropdownlist)
+  RenderTable["ProjectSampleRateFXProcessing"]=useprojectsamplerate_checkbox==1
+  RenderTable["RenderFile"]=""
+  RenderTable["RenderPattern"]=Outputfilename_renderpattern2
+  RenderTable["RenderQueueDelay"]=false
+  RenderTable["RenderQueueDelaySeconds"]=0
+  RenderTable["RenderResample"]=tonumber(Resamplemode_dropdownlist)
+  RenderTable["RenderString"]=rendercfg
+  RenderTable["RenderTable"]=true
+  RenderTable["SampleRate"]=tonumber(SampleRate)
+  RenderTable["SaveCopyOfProject"]=false
+  RenderTable["SilentlyIncrementFilename"]=true
+  RenderTable["Startposition"]=tonumber(Start_position2)
+  RenderTable["TailFlag"]=Tail_checkbox2==1
+  RenderTable["TailMS"]=0
+  RenderTable["MultiChannelFiles"]=tonumber(Various_checkboxes2)&4==4
+  RenderTable["OnlyMonoMedia"]=tonumber(Various_checkboxes2)&16==16
+  RenderTable["EmbedStretchMarkers"]=tonumber(Various_checkboxes2)&256==256
+  RenderTable["Source"]=tonumber(Source_dropdownlist_and_checkboxes2)
+  RenderTable["Dither"]=tonumber(Various_checkboxes)
 
   return RenderTable
 end
@@ -3868,7 +3894,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
    <slug>AddRenderPreset</slug>
    <requires>
      Ultraschall=4.00
-     Reaper=5.975
+     Reaper=6.02
      Lua=5.3
    </requires>
    <functioncall>boolean retval = ultraschall.AddRenderPreset(string Bounds_Name, string Options_and_Format_Name, RenderTable RenderTable)</functioncall>
@@ -3891,13 +3917,11 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       5, Selected regions 
               RenderTable["Startposition"] - the startposition of the render
               RenderTable["Endposition"] - the endposition of the render
-              RenderTable["Source"]+RenderTable["MultiChannelFiles"]+RenderTable["OnlyMonoMedia"] - the source dropdownlist, includes 
+              RenderTable["Source"] - the source dropdownlist, includes 
                                       0, Master mix 
                                       1, Master mix + stems
                                       3, Stems (selected tracks)
-                                      &4, Multichannel tracks to multichannel files
                                       8, Region render matrix
-                                      &16, Tracks with only mono media to mono files
                                       32, Selected media items
                                       64, selected media items via master
                                       128, selected tracks via master
@@ -3937,6 +3961,9 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       &2, noise shaping master mix
                                       &4, dither stems
                                       &8, dither noise shaping stems
+              RenderTable["MultiChannelFiles"] - multichannel-files-checkbox
+              RenderTable["OnlyMonoMedia"] - only mono media-checkbox
+              RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides-checkbox
               RenderTable["RenderString"] - the render-cfg-string, which holds the render-outformat-settings
       
      Returns false in case of an error
@@ -3967,9 +3994,11 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
   if A==nil then A="" end
   
-  Source=RenderTable["Source"]
-  if RenderTable["MultiChannelFiles"]==true then Source=Source+4 end
-  if RenderTable["OnlyMonoMedia"]==true then Source=Source+16 end
+  CheckBoxes=0
+  if RenderTable["MultiChannelFiles"]==true then CheckBoxes=CheckBoxes+4 end
+  if RenderTable["OnlyMonoMedia"]==true then CheckBoxes=CheckBoxes+16 end
+  if RenderTable["EmbedStretchMarkers"]==true then CheckBoxes=CheckBoxes+256 end
+  
   if RenderTable["ProjectSampleRateFXProcessing"]==true then ProjectSampleRateFXProcessing=1 else ProjectSampleRateFXProcessing=0 end
   if RenderTable["RenderPattern"]=="" or RenderTable["RenderPattern"]:match("%s")~=nil then
     RenderPattern="\""..RenderTable["RenderPattern"].."\""
@@ -3983,19 +4012,23 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
   if Bounds_Name~=nil and ("\n"..A):match("\nRENDERPRESET_OUTPUT "..Bounds_Name)~=nil then ultraschall.AddErrorMessage("AddRenderPreset", "Bounds_Name", "bounds-preset already exists", -4) return false end
   if Options_and_Format_Name~=nil and ("\n"..A):match("\n<RENDERPRESET "..Options_and_Format_Name)~=nil then ultraschall.AddErrorMessage("AddRenderPreset", "Options_and_Format_Name", "renderformat/options-preset already exists", -5) return false end
 
+  if RenderPattern:match("%s") and RenderPattern:match("\"")==nil then RenderPattern="\""..RenderPattern.."\"" end
+  if Options_and_Format_Name:match("%s") and Options_and_Format_Name:match("\"")==nil then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
+  if Bounds_Name:match("%s") and Bounds_Name:match("\"")==nil then Bounds_Name="\""..Bounds_Name.."\"" end
+
   -- add Bounds-preset, if given
   if Bounds_Name~=nil then 
     String="\nRENDERPRESET_OUTPUT "..Bounds_Name.." "..RenderTable["Bounds"]..
            " "..RenderTable["Startposition"]..
            " "..RenderTable["Endposition"]..
-           " "..Source..
+           " "..RenderTable["Source"]..
            " ".."0"..
            " "..RenderPattern..
            " "..RenderTable["TailFlag"].."\n"
     A=A..String
   end
   
-  -- add Formar-options-preset, if given
+  -- add Format-options-preset, if given
   if Options_and_Format_Name~=nil then 
       String="<RENDERPRESET "..Options_and_Format_Name..
              " "..RenderTable["SampleRate"]..
@@ -4004,6 +4037,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
              " "..ProjectSampleRateFXProcessing..
              " "..RenderTable["RenderResample"]..
              " "..RenderTable["Dither"]..
+             " "..CheckBoxes..
              "\n  "..RenderTable["RenderString"].."\n>"
       A=A..String
   end
