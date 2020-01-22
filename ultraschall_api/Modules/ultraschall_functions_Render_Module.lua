@@ -3754,6 +3754,14 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
     _temp, SampleRate, Channels, Offline_online_dropdownlist, 
     Useprojectsamplerate_checkbox, Resamplemode_dropdownlist, Various_checkboxes, Various_checkboxes2
     =A2:match(".- (.-) (.-) (.-) (.-) (.-) (.-) (.-) (.-) ")
+    if Various_checkboxes2=="" then
+      -- management of old Reaper5-render-presets; hopefully, I can remove that code one day...sigh
+      _temp, SampleRate, Channels, Offline_online_dropdownlist, 
+      Useprojectsamplerate_checkbox, Resamplemode_dropdownlist, Various_checkboxes, Various_checkboxes2
+      =A2:match(".- (.-) (.-) (.-) (.-) (.-) (.-) (.-) ")
+      Various_checkboxes2=Source_dropdownlist_and_checkboxes2
+      Source_dropdownlist_and_checkboxes2=Source_dropdownlist_and_checkboxes2&4-Various_checkboxes2
+    end
     
     if Presetname==Options_and_Format_Name then break end
   end
@@ -3766,7 +3774,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   RenderTable["CloseAfterRender"]=true
   RenderTable["Endposition"]=tonumber(Endposition2)
   RenderTable["OfflineOnlineRendering"]=tonumber(Offline_online_dropdownlist)
-  RenderTable["ProjectSampleRateFXProcessing"]=useprojectsamplerate_checkbox==1
+  RenderTable["ProjectSampleRateFXProcessing"]=useprojectsamplerate_checkbox~=1
   RenderTable["RenderFile"]=""
   RenderTable["RenderPattern"]=Outputfilename_renderpattern2
   RenderTable["RenderQueueDelay"]=false
@@ -3778,7 +3786,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   RenderTable["SaveCopyOfProject"]=false
   RenderTable["SilentlyIncrementFilename"]=true
   RenderTable["Startposition"]=tonumber(Start_position2)
-  RenderTable["TailFlag"]=Tail_checkbox2==1
+  RenderTable["TailFlag"]=tonumber(Tail_checkbox2)
   RenderTable["TailMS"]=0
   RenderTable["MultiChannelFiles"]=tonumber(Various_checkboxes2)&4==4
   RenderTable["OnlyMonoMedia"]=tonumber(Various_checkboxes2)&16==16
@@ -3797,7 +3805,7 @@ function ultraschall.DeleteRenderPreset_Bounds(Bounds_Name)
    <slug>DeleteRenderPreset_Bounds</slug>
    <requires>
      Ultraschall=4.00
-     Reaper=5.975
+     Reaper=6.02
      Lua=5.3
    </requires>
    <functioncall>boolean retval = ultraschall.DeleteRenderPreset_Bounds(string Bounds_Name)</functioncall>
@@ -3830,6 +3838,7 @@ function ultraschall.DeleteRenderPreset_Bounds(Bounds_Name)
   local A,B
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
   if A==nil then A="" end
+  if Bounds_Name:match("%s") then Bounds_Name="\""..Bounds_Name.."\"" end
   B=string.gsub(A, "RENDERPRESET_OUTPUT "..Bounds_Name.." (.-)\n", "")
   if A==B then ultraschall.AddErrorMessage("DeleteRenderPreset_Bounds", "Bounds_Name", "no such Bounds-preset", -2) return false end
   A=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/reaper-render.ini", B)
@@ -3878,6 +3887,7 @@ function ultraschall.DeleteRenderPreset_FormatOptions(Options_and_Format_Name)
   local A,B
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
   if A==nil then A="" end
+  if Options_and_Format_Name:match("%s") then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
   B=string.gsub(A, "<RENDERPRESET "..Options_and_Format_Name.." (.-\n>)\n", "")
   if A==B then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "Options_and_Format_Name", "no such Bounds-preset", -2) return false end
   A=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/reaper-render.ini", B)
@@ -4058,7 +4068,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
    <slug>SetRenderPreset</slug>
    <requires>
      Ultraschall=4.00
-     Reaper=5.975
+     Reaper=6.02
      Lua=5.3
    </requires>
    <functioncall>boolean retval = ultraschall.SetRenderPreset(string Bounds_Name, string Options_and_Format_Name, RenderTable RenderTable)</functioncall>
@@ -4153,13 +4163,18 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
   if Bounds_Name~=nil and type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("SetRenderPreset", "Bounds_Name", "must be a string", -2) return false end
   if Options_and_Format_Name~=nil and type(Options_and_Format_Name)~="string" then ultraschall.AddErrorMessage("SetRenderPreset", "Options_and_Format_Name", "must be a string", -3) return false end
   
+  if Bounds_Name:match("%s") then Bounds_Name="\""..Bounds_Name.."\"" end
+  if Options_and_Format_Name:match("%s") then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
   local A,B, Source, RenderPattern, ProjectSampleRateFXProcessing, String, Bounds, RenderFormatOptions
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
   if A==nil then A="" end
   
   Source=RenderTable["Source"]
-  if RenderTable["MultiChannelFiles"]==true then Source=Source+4 end
-  if RenderTable["OnlyMonoMedia"]==true then Source=Source+16 end
+  MonoMultichannelEmbed=0
+  if RenderTable["MultiChannelFiles"]==true then MonoMultichannelEmbed=MonoMultichannelEmbed+4 end
+  if RenderTable["OnlyMonoMedia"]==true then MonoMultichannelEmbed=MonoMultichannelEmbed+16 end
+  if RenderTable["EmbedStretchMarkers"]==true then MonoMultichannelEmbed=MonoMultichannelEmbed+256 end
+  
   if RenderTable["ProjectSampleRateFXProcessing"]==true then ProjectSampleRateFXProcessing=1 else ProjectSampleRateFXProcessing=0 end
   if RenderTable["RenderPattern"]=="" or RenderTable["RenderPattern"]:match("%s")~=nil then
     RenderPattern="\""..RenderTable["RenderPattern"].."\""
@@ -4167,9 +4182,6 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
     RenderPattern=RenderTable["RenderPattern"]
   end
 
-  if Bounds_Name~=nil and (Bounds_Name:match("%s")~=nil or Bounds_Name=="") then Bounds_Name="\""..Bounds_Name.."\"" end
-  if Options_and_Format_Name~=nil and (Options_and_Format_Name:match("%s")~=nil or Options_and_Format_Name=="") then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
-  
   if Bounds_Name~=nil and ("\n"..A):match("\nRENDERPRESET_OUTPUT "..Bounds_Name)==nil then ultraschall.AddErrorMessage("SetRenderPreset", "Bounds_Name", "no bounds-preset with that name", -4) return false end
   if Options_and_Format_Name~=nil and ("\n"..A):match("\n<RENDERPRESET "..Options_and_Format_Name)==nil then ultraschall.AddErrorMessage("SetRenderPreset", "Options_and_Format_Name", "no renderformat/options-preset with that name", -5) return false end
 
@@ -4188,14 +4200,15 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
 
   -- set Format-options-preset, if given
   if Options_and_Format_Name~=nil then 
-      RenderFormatOptions=A:match("\n<RENDERPRESET "..Options_and_Format_Name..".->")
-      String="\n<RENDERPRESET "..Options_and_Format_Name..
+      RenderFormatOptions=A:match("<RENDERPRESET "..Options_and_Format_Name..".->")
+      String="<RENDERPRESET "..Options_and_Format_Name..
              " "..RenderTable["SampleRate"]..
              " "..RenderTable["Channels"]..
              " "..RenderTable["OfflineOnlineRendering"]..
              " "..ProjectSampleRateFXProcessing..
              " "..RenderTable["RenderResample"]..
              " "..RenderTable["Dither"]..
+             " "..MonoMultichannelEmbed..
              "\n  "..RenderTable["RenderString"].."\n>"
     A=string.gsub(A, RenderFormatOptions, String)
   end
@@ -4285,6 +4298,8 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
   if SilentlyIncrementFilename~=nil and type(SilentlyIncrementFilename)~="boolean" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "SilentlyIncrementFilename", "must be nil or boolean", -12) return -1 end
 
   if RenderTable==nil then norendertable=true end
+
+  
 
   local tempfilename, retval, oldcloseafterrender, oldCopyOfProject, aborted, oldSaveOpts, Count, MediaItemArray, MediaItemStateChunkArray, trackstring
   if projectfilename_with_path==nil then

@@ -17,7 +17,9 @@ When selecting "Options and format" or "All settings":
 When selecting "Bounds and Outputpattern filename" or "All settings":
     RENDERPRESET_OUTPUT  string presetname  integer bounds_dropdownlist  number start_position  number end_position  integer source_dropdownlist_and_checkboxes  integer unknown  string outputfilename_renderpattern  integer tail_checkbox
 
-As mentioned, Preset, who who are stored with by the menu "All settings" have both of these entries with the same presetname, all others only one of them.
+As mentioned, Presets, who who are stored with by the menu "All settings" have both of these entries with the same presetname, all others only one of them.
+They will be shown in the Render-preset-menu accordingly.
+As soon, as they are in the reaper-render.ini, they will be shown the next time you click the Render-preset-button in the Render to File-dialog.
 
 Parameters:
 various_checkboxes - keeps various checkboxes in <RENDERPRESET

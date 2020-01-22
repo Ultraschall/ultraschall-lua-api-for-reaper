@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="42738.00" author="Meo Mespotine">
+      <version name="42798.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -664,9 +664,8 @@ Changes from Beta 2.79 to Beta 2.80
 -   Reaper Internals: render-codes-decoded-base64-strings.txt - added
     new settings for AIFF
 -   Render Management: AddRenderPreset - supports now embed stretch
-    markers-checkbox; works only with render-presets as of Reaper 6; has
-    no issues anymore with presetnames and the renderpattern with
-    spaces.
+    markers-checkbox; works only with render-presets as of Reaper 6;
+    supports now presetnames with spaces in it
 -   Render Management: CreateRenderCFG_AIFF - added Embed Beat
     Length-checkbox, as included with Reaper 6
 -   Render Management: CreateNewRenderTable - added new “Embed stretch
@@ -682,9 +681,16 @@ Changes from Beta 2.79 to Beta 2.80
     stretch markers/transient guides”-settings as of Reaper 6
 -   Render Management: GetRenderPreset_RenderTable - reimplemented due
     changed reaper-render.ini-format in Reaper 6, should be more stable
-    now
+    now; backwards compatible to old Reaper 5 presets
+-   Render Management: DeleteRenderPreset_Bounds - supports now
+    presetnames with spaces in it
+-   Render Management: DeleteRenderPreset_FormatOptions - supports now
+    presetnames with spaces in it
 -   Render Management: IsValidRenderTable - checks now as well new
     “Embed stretch markers/transient guides”-settings as of Reaper 6
+-   Render Management: SetRenderPreset - supports now new Embed stretch
+    markers/transient guides-checkbox as of Reaper 6; supports now
+    spaces in preset-names as well
 -   TakeManagement: GetFXStateChunk - parameter TakeFXChain_id wasn’t
     optional due typo -> fixed(thanks to XRaym)
 -   TakeManagement: SetFXStateChunk - docs were unclear, that only

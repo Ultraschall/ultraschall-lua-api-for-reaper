@@ -153,15 +153,18 @@ Ultraschall API Changelog
 <li>ProjectManagement: SetProject_RenderDitherState - updated docs with new options like embed stretch markers</li>
 <li>ProjectManagement: SetProject_RenderStems - updated docs with new rendering selected tracks/media through master-options</li>
 <li>Reaper Internals: render-codes-decoded-base64-strings.txt - added new settings for AIFF</li>
-<li>Render Management: AddRenderPreset - supports now embed stretch markers-checkbox; works only with render-presets as of Reaper 6; has no issues anymore with presetnames and the renderpattern with spaces.</li>
+<li>Render Management: AddRenderPreset - supports now embed stretch markers-checkbox; works only with render-presets as of Reaper 6; supports now presetnames with spaces in it</li>
 <li>Render Management: CreateRenderCFG_AIFF - added Embed Beat Length-checkbox, as included with Reaper 6</li>
 <li>Render Management: CreateNewRenderTable - added new "Embed stretch markers/transient guides"-settings as of Reaper 6; CloseAfterRender wasn't accepted as boolean -&gt; fixed</li>
 <li>Render Management: GetRenderCFG_Settings_AIFF - returns Embed Beat Length-checkbox, as included with Reaper 6</li>
 <li>Render Management: GetRenderPreset_Names - reimplemented; supports now presetnames with spaces in them as well</li>
 <li>Render Management: GetRenderTable_Project - supports now "Embed stretch markers/transient guides"-settings as of Reaper 6</li>
 <li>Render Management: GetRenderTable_ProjectFile - supports now "Embed stretch markers/transient guides"-settings as of Reaper 6</li>
-<li>Render Management: GetRenderPreset_RenderTable - reimplemented due changed reaper-render.ini-format in Reaper 6, should be more stable now</li>
+<li>Render Management: GetRenderPreset_RenderTable - reimplemented due changed reaper-render.ini-format in Reaper 6, should be more stable now; backwards compatible to old Reaper 5 presets</li>
+<li>Render Management: DeleteRenderPreset_Bounds - supports now presetnames with spaces in it</li>
+<li>Render Management: DeleteRenderPreset_FormatOptions - supports now presetnames with spaces in it</li>
 <li>Render Management: IsValidRenderTable - checks now as well new "Embed stretch markers/transient guides"-settings as of Reaper 6</li>
+<li>Render Management: SetRenderPreset - supports now new Embed stretch markers/transient guides-checkbox as of Reaper 6; supports now spaces in preset-names as well</li>
 <li>TakeManagement: GetFXStateChunk - parameter TakeFXChain_id wasn't optional due typo -&gt; fixed(thanks to XRaym)</li>
 <li>TakeManagement: SetFXStateChunk - docs were unclear, that only setting NOT inserting is possible; could crash, if no FXStateChunk for setting could be found -&gt; fixed(thanks to XRaym)</li>
 <li>TrackManagement: GetTrackPeakColorState - improved implementation, it returns now new values as well, who are added by the Reaper-devs and aren't documented yet</li>
