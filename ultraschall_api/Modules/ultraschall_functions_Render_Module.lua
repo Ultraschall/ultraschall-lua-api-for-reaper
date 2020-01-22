@@ -3572,7 +3572,7 @@ function ultraschall.GetRenderPreset_Names()
    <slug>GetRenderPreset_Names</slug>
    <requires>
      Ultraschall=4.00
-     Reaper=5.975
+     Reaper=6.02
      Lua=5.3
    </requires>
    <functioncall>integer bounds_presets, table bounds_names, integer options_format_presets, table options_format_names, integer both_presets, table both_names = ultraschall.GetRenderPreset_Names()</functioncall>
@@ -3596,40 +3596,40 @@ function ultraschall.GetRenderPreset_Names()
    <tags>render management, get, render preset, names</tags>
  </US_DocBloc>
  ]]
-  local A, Count, Lines, Output_Preset_Counter, Output_Preset, Preset_Counter, Preset, temp
-  A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
+  local Output_Preset_Counter=0
+  local Output_Preset={}
+  local Preset_Counter=0
+  local Preset={}
+  local Presetname, Presetname2, Quote
+ 
+  local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
   if A==nil then A="" end
-  Count, Lines=ultraschall.SplitStringAtLineFeedToArray(A)
-  Output_Preset_Counter=0
-  Output_Preset={}
-  Preset_Counter=0
-  Preset={}
-  
-  for i=1, Count do
-    if Lines[i]:match("^<RENDERPRESET ") then 
-      Preset_Counter=Preset_Counter+1 
-      temp=Lines[i]:match("^<RENDERPRESET (.)")
-      if temp=="\"" then 
-        Preset[Preset_Counter]=Lines[i]:match("^<RENDERPRESET \"(.-)\"")
-      else
-        Preset[Preset_Counter]=Lines[i]:match("^<RENDERPRESET (.-) ")
-      end
-    elseif Lines[i]:match("^RENDERPRESET_OUTPUT ") then 
-      Output_Preset_Counter=Output_Preset_Counter+1 
-      temp=Lines[i]:match("^RENDERPRESET_OUTPUT (.)")
-      if temp=="\"" then 
-        Output_Preset[Output_Preset_Counter]=Lines[i]:match("^RENDERPRESET_OUTPUT \"(.-)\"")
-      else
-        Output_Preset[Output_Preset_Counter]=Lines[i]:match("^RENDERPRESET_OUTPUT (.-) ")
-      end
+   for A in string.gmatch(A, "(RENDERPRESET_OUTPUT .-)\n") do
+    Quote=A:sub(21,21)
+    if Quote=="\"" then
+      Presetname2=A:match(" [\"](.-)[\"]")
+    else
+      Quote=""
+      Presetname2=A:match("%s(.-)%s")
     end
+    Output_Preset_Counter=Output_Preset_Counter+1
+    Output_Preset[Output_Preset_Counter]=Presetname2
+  end
+
+  for A2 in string.gmatch(A, "<RENDERPRESET.->") do
+    Quote=A2:sub(15,15)
+    if Quote=="\"" then
+      Presetname=A2:match(" [\"](.-)[\"]")
+    else
+      Quote=""
+      Presetname=A2:match("%s(.-)%s")
+    end
+    Preset_Counter=Preset_Counter+1
+    Preset[Preset_Counter]=Presetname
   end
   
-  local duplicate_count, duplicate_array, originalscount_array1, originals_array1, 
-                                          originalscount_array2, originals_array2 
-                      = ultraschall.GetDuplicatesFromArrays(Output_Preset, Preset)
-  
-  return Output_Preset_Counter, Output_Preset, Preset_Counter, Preset, duplicate_count, duplicate_array
+  local duplicate_count, duplicate_array = ultraschall.GetDuplicatesFromArrays(Preset, Output_Preset)
+  return Output_Preset_Counter, Output_Preset, Preset_Counter, Preset, duplicate_count, duplicate_array 
 end
 
 --A,B,C,D,E,F,G=ultraschall.GetRender_AllPresetNames()

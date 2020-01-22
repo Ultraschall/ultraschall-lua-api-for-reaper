@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="42722.00" author="Meo Mespotine">
+      <version name="42738.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/Changelog-Api.txt</source>
@@ -674,6 +674,8 @@ Changes from Beta 2.79 to Beta 2.80
     wasn’t accepted as boolean -> fixed
 -   Render Management: GetRenderCFG_Settings_AIFF - returns Embed Beat
     Length-checkbox, as included with Reaper 6
+-   Render Management: GetRenderPreset_Names - reimplemented; supports
+    now presetnames with spaces in them as well
 -   Render Management: GetRenderTable_Project - supports now “Embed
     stretch markers/transient guides”-settings as of Reaper 6
 -   Render Management: GetRenderTable_ProjectFile - supports now “Embed
