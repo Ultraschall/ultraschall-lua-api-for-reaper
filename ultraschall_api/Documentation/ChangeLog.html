@@ -45,18 +45,25 @@ Ultraschall API Changelog
 <p>Has now 1079 functions, with 20 new ones and 23 deprecated ones removed</p>
 <p><strong>new in this release:</strong></p>
 <ul>
-<li><p><strong>Improved Defer Management</strong> Ultraschall.Defer allows you now to set and get the timer-settings of a given ultraschall.Defer-cycle.<br />
+<li><p><strong>Improved Defer Management</strong><br />
+Ultraschall.Defer allows you now to set and get the timer-settings of a given ultraschall.Defer-cycle.<br />
 You can even do this from the outside of the deferred script!<br />
 You can also protect now ultraschall.Defer-cycles from being stopped from the outside.</p></li>
-<li><p><strong>Rendering functions</strong> The RenderPreset-functions do work again, after some changes in the way Reaper stores render-presets since Reaper 6.02.<br />
+<li><p><strong>Rendering functions</strong><br />
+The RenderPreset-functions do work again, after some changes in the way Reaper stores render-presets since Reaper 6.02.<br />
 They also allow you to use: preset-names with spaces. (I know, this should have been in there from the beginning... ;) )</p></li>
-<li><p><strong>GetItem_ClickState</strong> Is now fully functional. That means, if you call this function in every defer-cycle of a script, you can actually monitor clicked and dragged MediaItems.<br />
+<li><p><strong>GetItem_ClickState</strong><br />
+Is now fully functional. That means, if you call this function in every defer-cycle of a script, you can actually monitor clicked and dragged MediaItems.<br />
 This will open up new ways of editing and item-manipulation, like RippleDrag, etc.</p></li>
-<li><p><strong>FXStateChunk</strong> They can now be counted, added, removed and gotten. Means: I added the missing functions for working with them, so you can fully work with FXStateChunks now.<br />
+<li><p><strong>FXStateChunk</strong><br />
+They can now be counted, added, removed and gotten. Means: I added the missing functions for working with them, so you can fully work with FXStateChunks now.<br />
 XRaym will love that :D</p></li>
-<li><p><strong>GetProjectLength</strong> unlike Reaper's own API-function GetProjectLength, this one returns the end of the last itemedge, the last regionedge, marker and time-sigmarker</p></li>
-<li><p><strong>Easy Clipboarding</strong> FromClip and ToClip allow you now to get/put strings from/to the clipboard without having to type gazillions of characters.</p></li>
-<li><p><strong>GetProject and GetTrackState-functions</strong> I completely reworked most of them, so they will now return all values, even those, which I haven't put into the docs yet.<br />
+<li><p><strong>GetProjectLength</strong><br />
+unlike Reaper's own API-function GetProjectLength, this one returns the end of the last itemedge, the last regionedge, marker and time-sigmarker</p></li>
+<li><p><strong>Easy Clipboarding</strong><br />
+FromClip and ToClip allow you now to get/put strings from/to the clipboard without having to type gazillions of characters.</p></li>
+<li><p><strong>GetProject and GetTrackState-functions</strong><br />
+I completely reworked most of them, so they will now return all values, even those, which I haven't put into the docs yet.<br />
 That means, if the devs add new values, you can retrieve them right away, without being dependent on me to add them.<br />
 Will do the same with the Set-functions in the future.</p></li>
 </ul>
