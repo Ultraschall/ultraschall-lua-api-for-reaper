@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="42567.00" author="Meo Mespotine">
+      <version name="42927.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/Changelog-Api.txt</source>
@@ -171,6 +171,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_0_951.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/Documentation/gfx/JS_0_951.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0_995.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/Documentation/gfx/JS_0_995.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0_997.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/Documentation/gfx/JS_0_997.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/JS_0_998.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/Documentation/gfx/JS_0_998.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_2_8_8.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.80/ultraschall_api/Documentation/gfx/JS_Logo_2_8_8.pfi</source>
@@ -403,26 +404,56 @@ Ultraschall Framework - Changelog
 
 4.00 Beta 2.80: - “Starsailor - Four to the Floor”
 
-readded from earlier development-builds
+Note: Ultraschall-API needs now Reaper 6.02 or higher. Please update to
+Reaper 6. It’s worth it!
 
--   Developer: SetReaScriptConsole_FontStyle - sets the style of the
-    font in the ReaConsole
--   LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be
-    used by Reaper
--   LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of
-    the currently chosen LiceCap-executable in Reaper
--   ProjectManagement: SaveProjectAs - saves the current project under a
-    new filename
--   RenderManagement: GetProject_RenderOutputPath - gets the
-    render-output-path
--   RenderManagement: ResolveRenderPattern - resolves the render-pattern
-    into its actual filename
--   Subtitles: ReadSubtitles_VTT - imports a webvtt-subtitlefile
+Has now 1079 functions, with 20 new ones and 23 deprecated ones removed
+
+NEW IN THIS RELEASE:
+
+-   IMPROVED DEFER MANAGEMENT Ultraschall.Defer allows you now to set
+    and get the timer-settings of a given ultraschall.Defer-cycle.
+    You can even do this from the outside of the deferred script!
+    You can also protect now ultraschall.Defer-cycles from being stopped
+    from the outside.
+
+-   RENDERING FUNCTIONS The RenderPreset-functions do work again, after
+    some changes in the way Reaper stores render-presets since Reaper
+    6.02.
+    They also allow you to use: preset-names with spaces. (I know, this
+    should have been in there from the beginning… ;) )
+
+-   GETITEM_CLICKSTATE Is now fully functional. That means, if you call
+    this function in every defer-cycle of a script, you can actually
+    monitor clicked and dragged MediaItems.
+    This will open up new ways of editing and item-manipulation, like
+    RippleDrag, etc.
+
+-   FXSTATECHUNK They can now be counted, added, removed and gotten.
+    Means: I added the missing functions for working with them, so you
+    can fully work with FXStateChunks now.
+    XRaym will love that :D
+
+-   GETPROJECTLENGTH unlike Reaper’s own API-function GetProjectLength,
+    this one returns the end of the last itemedge, the last regionedge,
+    marker and time-sigmarker
+
+-   EASY CLIPBOARDING FromClip and ToClip allow you now to get/put
+    strings from/to the clipboard without having to type gazillions of
+    characters.
+
+-   GETPROJECT AND GETTRACKSTATE-FUNCTIONS I completely reworked most of
+    them, so they will now return all values, even those, which I
+    haven’t put into the docs yet.
+    That means, if the devs add new values, you can retrieve them right
+    away, without being dependent on me to add them.
+    Will do the same with the Set-functions in the future.
 
 New features in 4.00beta2.80
 
 -   Helper functions: FloatCompare - compares two float-numbers, with
-    the a chance to set a precision to compare against
+    the a chance to set a precision to compare against(thanks to
+    fernsehmuell)
 -   Helper functions: FromClip - gets a string from the clipboard
 -   Helper functions: ToClip - puts a string into the clipboard
 -   DeferManagement: GetDeferCycleSettings - allows getting mode and
@@ -479,9 +510,6 @@ New features in 4.00beta2.80
 
 Changes from Beta 2.79 to Beta 2.80
 
--   API: ultraschall-table - made it local, so loading ultraschall-API
-    is even more faster than it used to be; should also affect usage of
-    Ultraschall-API-functions within scripts(thanks to lokasenna)
 -   API: deprecated - allows showing a warning message, if a script uses
     a deprecated function in a script; will be shown only once until
     Reaper restarts, so scripts are stil useable
@@ -501,7 +529,8 @@ Changes from Beta 2.79 to Beta 2.80
 -   Docs: DeferScripts_004_Working_with_Defer_Identifiers - removed
 -   Docs: Defer - reworked docs and removed all references to Defer1
     through Defer20
--   Docs: JS-Extension - updated to 0.997
+-   Docs: JS-Extension - updated to 0.998
+-   Docs: Reaper - updated to Reaper 6.03
 -   Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte
     in every string(except DDP), as it was wrongly there
 -   Event Manager: Eventmanager_RemoveEvent - couldn’t be found due typo
@@ -663,6 +692,13 @@ Changes from Beta 2.79 to Beta 2.80
     rendering selected tracks/media through master-options
 -   Reaper Internals: render-codes-decoded-base64-strings.txt - added
     new settings for AIFF
+-   Render Management: AddRenderPreset - supports now embed stretch
+    markers-checkbox; works only with render-presets as of Reaper 6;
+    supports now presetnames with spaces in it
+-   Render Management: ApplyRenderTable_Project - supports now embed
+    stretch markers-checkbox as of Reaper 6
+-   Render Management: ApplyRenderTable_ProjectFile - supports now embed
+    stretch markers-checkbox as of Reaper 6
 -   Render Management: CreateRenderCFG_AIFF - added Embed Beat
     Length-checkbox, as included with Reaper 6
 -   Render Management: CreateNewRenderTable - added new “Embed stretch
@@ -670,15 +706,26 @@ Changes from Beta 2.79 to Beta 2.80
     wasn’t accepted as boolean -> fixed
 -   Render Management: GetRenderCFG_Settings_AIFF - returns Embed Beat
     Length-checkbox, as included with Reaper 6
+-   Render Management: GetRenderPreset_Names - reimplemented; supports
+    now presetnames with spaces in them as well
 -   Render Management: GetRenderTable_Project - supports now “Embed
     stretch markers/transient guides”-settings as of Reaper 6
 -   Render Management: GetRenderTable_ProjectFile - supports now “Embed
     stretch markers/transient guides”-settings as of Reaper 6
 -   Render Management: GetRenderPreset_RenderTable - reimplemented due
     changed reaper-render.ini-format in Reaper 6, should be more stable
-    now
+    now; backwards compatible to old Reaper 5 presets
+-   Render Management: DeleteRenderPreset_Bounds - supports now
+    presetnames with spaces in it
+-   Render Management: DeleteRenderPreset_FormatOptions - supports now
+    presetnames with spaces in it
 -   Render Management: IsValidRenderTable - checks now as well new
     “Embed stretch markers/transient guides”-settings as of Reaper 6
+-   Render Management: RenderProject_RenderTable - supports now new
+    Embed stretch markers/transient guides-checkbox as of Reaper 6
+-   Render Management: SetRenderPreset - supports now new Embed stretch
+    markers/transient guides-checkbox as of Reaper 6; supports now
+    spaces in preset-names as well
 -   TakeManagement: GetFXStateChunk - parameter TakeFXChain_id wasn’t
     optional due typo -> fixed(thanks to XRaym)
 -   TakeManagement: SetFXStateChunk - docs were unclear, that only
@@ -5099,7 +5146,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1063 Lua-functions library for Reaper.}
+a 1079 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -5113,7 +5160,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1063 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1079 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -5237,7 +5284,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1063 Lua-functions library for Reaper.}
+a 1079 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -5251,7 +5298,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1063 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1079 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
