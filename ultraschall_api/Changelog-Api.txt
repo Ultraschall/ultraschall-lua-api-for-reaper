@@ -206,7 +206,7 @@ TODO!! buggy function
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
 
 #### New features in 4.00beta2.80
-   - Helper functions: FloatCompare - compares two float-numbers, with the a chance to set a precision to compare against
+   - Helper functions: FloatCompare - compares two float-numbers, with the a chance to set a precision to compare against(thanks to fernsehmuell)
    - Helper functions: FromClip - gets a string from the clipboard
    - Helper functions: ToClip - puts a string into the clipboard
    - DeferManagement: GetDeferCycleSettings - allows getting mode and timer-settings of running ultraschall.Defer-cycles at runtime and even from the outside of the deferred script   
@@ -231,7 +231,6 @@ TODO!! buggy function
    - TrackManagement: GetTrackState_NumbersOnly - returns all numerical values, associated with a certain state
    
 #### Changes from Beta 2.79 to Beta 2.80
-   - API: ultraschall-table - made it local, so loading ultraschall-API is even more faster than it used to be; should also affect usage of Ultraschall-API-functions within scripts(thanks to lokasenna)
    - API: deprecated - allows showing a warning message, if a script uses a deprecated function in a script; will be shown only once until Reaper restarts, so scripts are stil useable
    - Defer Management: GetDeferIdentifier - removed
    - Defer Management: GetDeferRunState - removed Defer01-Defer20 management; threw Lua-error, when passing nonstring as identifier -> fixed
@@ -305,6 +304,8 @@ TODO!! buggy function
    - ProjectManagement: SetProject\_RenderStems - updated docs with new rendering selected tracks/media through master-options
    - Reaper Internals: render-codes-decoded-base64-strings.txt - added new settings for AIFF
    - Render Management: AddRenderPreset - supports now embed stretch markers-checkbox; works only with render-presets as of Reaper 6; supports now presetnames with spaces in it
+   - Render Management: ApplyRenderTable\_Project - supports now embed stretch markers-checkbox as of Reaper 6
+   - Render Management: ApplyRenderTable\_ProjectFile - supports now embed stretch markers-checkbox as of Reaper 6
    - Render Management: CreateRenderCFG\_AIFF - added Embed Beat Length-checkbox, as included with Reaper 6
    - Render Management: CreateNewRenderTable - added new "Embed stretch markers/transient guides"-settings as of Reaper 6; CloseAfterRender wasn't accepted as boolean -> fixed
    - Render Management: GetRenderCFG\_Settings\_AIFF - returns Embed Beat Length-checkbox, as included with Reaper 6
@@ -315,6 +316,7 @@ TODO!! buggy function
    - Render Management: DeleteRenderPreset\_Bounds - supports now presetnames with spaces in it
    - Render Management: DeleteRenderPreset\_FormatOptions - supports now presetnames with spaces in it
    - Render Management: IsValidRenderTable - checks now as well new "Embed stretch markers/transient guides"-settings as of Reaper 6
+   - Render Management: RenderProject_RenderTable - supports now new Embed stretch markers/transient guides-checkbox as of Reaper 6
    - Render Management: SetRenderPreset - supports now new Embed stretch markers/transient guides-checkbox as of Reaper 6; supports now spaces in preset-names as well
    - TakeManagement: GetFXStateChunk - parameter TakeFXChain_id wasn't optional due typo -> fixed(thanks to XRaym)
    - TakeManagement: SetFXStateChunk - docs were unclear, that only setting NOT inserting is possible; could crash, if no FXStateChunk for setting could be found -> fixed(thanks to XRaym)

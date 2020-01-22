@@ -1697,7 +1697,7 @@ function ultraschall.GetProject_RenderStems(projectfilename_with_path, ProjectSt
   <slug>GetProject_RenderStems</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.02
     Lua=5.3
   </requires>
   <functioncall>integer render_stems = ultraschall.GetProject_RenderStems(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
@@ -1745,7 +1745,7 @@ function ultraschall.GetProject_RenderDitherState(projectfilename_with_path, Pro
   <slug>GetProject_RenderDitherState</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.02
     Lua=5.3
   </requires>
   <functioncall>integer renderdither_state = ultraschall.GetProject_RenderDitherState(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
@@ -1766,7 +1766,6 @@ function ultraschall.GetProject_RenderDitherState(projectfilename_with_path, Pro
     - &2,   Noise shaping Master mix
     - &4,   Dither Stems
     - &8,   Noise shaping Stems
-    - &256, Embed stretch markers/transient guides
   </retvals>
   <chapter_context>
     Project-Management
@@ -5936,7 +5935,7 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
   <slug>SetProject_RenderStems</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.02
     Lua=5.3
   </requires>
   <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderStems(string projectfilename_with_path, integer render_stems, optional string ProjectStateChunk)</functioncall>
@@ -5956,6 +5955,7 @@ function ultraschall.SetProject_RenderStems(projectfilename_with_path, render_st
     - 32, Selected Media Items(in combination with RENDER_RANGE->Bounds->4, refer to <a href="#GetProject_RenderRange">GetProject_RenderRange</a> to get RENDER_RANGE)
     - 64, Selected media items via master
     - 128, Selected tracks via master
+    - &256, Embed stretch markers/transient guides-checkbox 
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>
@@ -6012,7 +6012,6 @@ function ultraschall.SetProject_RenderDitherState(projectfilename_with_path, ren
     - &2,   Noise shaping Master mix
     - &4,   Dither Stems
     - &8,   Noise shaping Stems
-    - &256, Embed stretch markers/transient guides
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>

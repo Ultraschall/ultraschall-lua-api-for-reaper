@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="42798.00" author="Meo Mespotine">
+      <version name="42919.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -422,7 +422,8 @@ readded from earlier development-builds
 New features in 4.00beta2.80
 
 -   Helper functions: FloatCompare - compares two float-numbers, with
-    the a chance to set a precision to compare against
+    the a chance to set a precision to compare against(thanks to
+    fernsehmuell)
 -   Helper functions: FromClip - gets a string from the clipboard
 -   Helper functions: ToClip - puts a string into the clipboard
 -   DeferManagement: GetDeferCycleSettings - allows getting mode and
@@ -479,9 +480,6 @@ New features in 4.00beta2.80
 
 Changes from Beta 2.79 to Beta 2.80
 
--   API: ultraschall-table - made it local, so loading ultraschall-API
-    is even more faster than it used to be; should also affect usage of
-    Ultraschall-API-functions within scripts(thanks to lokasenna)
 -   API: deprecated - allows showing a warning message, if a script uses
     a deprecated function in a script; will be shown only once until
     Reaper restarts, so scripts are stil useable
@@ -666,6 +664,10 @@ Changes from Beta 2.79 to Beta 2.80
 -   Render Management: AddRenderPreset - supports now embed stretch
     markers-checkbox; works only with render-presets as of Reaper 6;
     supports now presetnames with spaces in it
+-   Render Management: ApplyRenderTable_Project - supports now embed
+    stretch markers-checkbox as of Reaper 6
+-   Render Management: ApplyRenderTable_ProjectFile - supports now embed
+    stretch markers-checkbox as of Reaper 6
 -   Render Management: CreateRenderCFG_AIFF - added Embed Beat
     Length-checkbox, as included with Reaper 6
 -   Render Management: CreateNewRenderTable - added new “Embed stretch
@@ -688,6 +690,8 @@ Changes from Beta 2.79 to Beta 2.80
     presetnames with spaces in it
 -   Render Management: IsValidRenderTable - checks now as well new
     “Embed stretch markers/transient guides”-settings as of Reaper 6
+-   Render Management: RenderProject_RenderTable - supports now new
+    Embed stretch markers/transient guides-checkbox as of Reaper 6
 -   Render Management: SetRenderPreset - supports now new Embed stretch
     markers/transient guides-checkbox as of Reaper 6; supports now
     spaces in preset-names as well
@@ -5111,7 +5115,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1063 Lua-functions library for Reaper.}
+a 1090 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -5125,7 +5129,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1063 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1090 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -5249,7 +5253,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1063 Lua-functions library for Reaper.}
+a 1090 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -5263,7 +5267,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1063 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1090 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

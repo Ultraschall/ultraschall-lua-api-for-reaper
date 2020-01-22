@@ -42,13 +42,13 @@ if reaper.JS_ReaScriptAPI_Version==nil or reaper.JS_ReaScriptAPI_Version()<0.986
 
 --if type(ultraschall)~="table" then ultraschall={} end
 
-local ultraschall={}
+ultraschall={}
 
 ultraschall.temp, ultraschall.Script_Context=reaper.get_action_context()
 
 
 -- Beta-Functions On
-ultraschall.US_BetaFunctions=true
+
 
 ultraschall.temp1,ultraschall.temp=reaper.get_action_context()
 ultraschall.temp=string.gsub(ultraschall.temp,"\\","/")
@@ -61,12 +61,13 @@ if ultraschall.temp1 == ultraschall.temp then
   reaper.BR_Win32_WritePrivateProfileString("Ultraschall-Api-Build", "API-Build", string2, reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")    
 end
 
+
 if reaper.GetOS() == "Win32" or reaper.GetOS() == "Win64" then
     ultraschall.Separator = "\\"
 else
     ultraschall.Separator = "/"
 end
-
+ultraschall.US_BetaFunctions=true
 local info = debug.getinfo(1,'S');
 --ultraschall.Script_Path = info.source:match[[^@?(.*[\/])[^\/]-$]]
   ultraschall.Script_Path = reaper.GetResourcePath().."/Scripts/"-- ultraschall.info.source:match[[^@?(.*[\/])[^\/]-$]]
