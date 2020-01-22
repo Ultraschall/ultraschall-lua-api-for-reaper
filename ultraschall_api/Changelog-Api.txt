@@ -266,7 +266,8 @@ Has now 1079 functions, with 20 new ones and 23 deprecated ones removed
    - Defer Management: StopDeferCycle - didn't work, when mode=2 of a ultraschall.Defer-cycle -> fixed
    - Docs: DeferScripts\_004\_Working\_with\_Defer\_Identifiers - removed
    - Docs: Defer - reworked docs and removed all references to Defer1 through Defer20
-   - Docs: JS-Extension - updated to 0.997
+   - Docs: JS-Extension - updated to 0.998
+   - Docs: Reaper - updated to Reaper 6.03
    - Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte in every string(except DDP), as it was wrongly there
    - Event Manager: Eventmanager\_RemoveEvent - couldn't be found due typo in new module-loader -> fixed (thanks to rstockm)
    - Event Manager: EventManager\_RemoveAllEvents\_Script - couldn't be found due typo in new module-loader -> fixed 
