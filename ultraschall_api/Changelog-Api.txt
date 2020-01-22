@@ -196,14 +196,40 @@ TODO!! buggy function
 
 ### 4.00 Beta 2.80: - "Starsailor - Four to the Floor"
 
-#### readded from earlier development-builds
-   - Developer: SetReaScriptConsole_FontStyle - sets the style of the font in the ReaConsole
-   - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
-   - LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper
-   - ProjectManagement: SaveProjectAs - saves the current project under a new filename
-   - RenderManagement: GetProject_RenderOutputPath - gets the render-output-path
-   - RenderManagement: ResolveRenderPattern - resolves the render-pattern into its actual filename
-   - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
+Note: Ultraschall-API needs now Reaper 6.02 or higher. Please update to Reaper 6. It's worth it!  
+
+Has now 1079 functions, with 20 new ones and 23 deprecated ones removed
+
+**new in this release:**
+
+  - **Improved Defer Management**
+  Ultraschall.Defer allows you now to set and get the timer-settings of a given ultraschall.Defer-cycle.  
+  You can even do this from the outside of the deferred script!  
+  You can also protect now ultraschall.Defer-cycles from being stopped from the outside.
+  
+  - **Rendering functions**
+  The RenderPreset-functions do work again, after some changes in the way Reaper stores render-presets since Reaper 6.02.  
+  They also allow you to use: preset-names with spaces. (I know, this should have been in there from the beginning... ;) )  
+  
+  - **GetItem\_ClickState**
+  Is now fully functional. That means, if you call this function in every defer-cycle of a script, you can actually monitor clicked and dragged MediaItems.  
+  This will open up new ways of editing and item-manipulation, like RippleDrag, etc.
+  
+  - **FXStateChunk**
+  They can now be counted, added, removed and gotten. Means: I added the missing functions for working with them, so you can fully work with FXStateChunks now.  
+  XRaym will love that :D
+  
+  - **GetProjectLength**
+  unlike Reaper's own API-function GetProjectLength, this one returns the end of the last itemedge, the last regionedge, marker and time-sigmarker
+
+  - **Easy Clipboarding**
+  FromClip and ToClip allow you now to get/put strings from/to the clipboard without having to type gazillions of characters.  
+  
+  - **GetProject and GetTrackState-functions**
+  I completely reworked most of them, so they will now return all values, even those, which I haven't put into the docs yet.  
+  That means, if the devs add new values, you can retrieve them right away, without being dependent on me to add them.  
+  Will do the same with the Set-functions in the future.
+
 
 #### New features in 4.00beta2.80
    - Helper functions: FloatCompare - compares two float-numbers, with the a chance to set a precision to compare against(thanks to fernsehmuell)

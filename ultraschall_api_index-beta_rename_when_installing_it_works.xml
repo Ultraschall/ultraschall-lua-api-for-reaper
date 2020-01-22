@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="42919.00" author="Meo Mespotine">
+      <version name="42924.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -403,21 +403,50 @@ Ultraschall Framework - Changelog
 
 4.00 Beta 2.80: - “Starsailor - Four to the Floor”
 
-readded from earlier development-builds
+Note: Ultraschall-API needs now Reaper 6.02 or higher. Please update to
+Reaper 6. It’s worth it!
 
--   Developer: SetReaScriptConsole_FontStyle - sets the style of the
-    font in the ReaConsole
--   LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be
-    used by Reaper
--   LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of
-    the currently chosen LiceCap-executable in Reaper
--   ProjectManagement: SaveProjectAs - saves the current project under a
-    new filename
--   RenderManagement: GetProject_RenderOutputPath - gets the
-    render-output-path
--   RenderManagement: ResolveRenderPattern - resolves the render-pattern
-    into its actual filename
--   Subtitles: ReadSubtitles_VTT - imports a webvtt-subtitlefile
+Has now 1079 functions, with 20 new ones and 23 deprecated ones removed
+
+NEW IN THIS RELEASE:
+
+-   IMPROVED DEFER MANAGEMENT Ultraschall.Defer allows you now to set
+    and get the timer-settings of a given ultraschall.Defer-cycle.
+    You can even do this from the outside of the deferred script!
+    You can also protect now ultraschall.Defer-cycles from being stopped
+    from the outside.
+
+-   RENDERING FUNCTIONS The RenderPreset-functions do work again, after
+    some changes in the way Reaper stores render-presets since Reaper
+    6.02.
+    They also allow you to use: preset-names with spaces. (I know, this
+    should have been in there from the beginning… ;) )
+
+-   GETITEM_CLICKSTATE Is now fully functional. That means, if you call
+    this function in every defer-cycle of a script, you can actually
+    monitor clicked and dragged MediaItems.
+    This will open up new ways of editing and item-manipulation, like
+    RippleDrag, etc.
+
+-   FXSTATECHUNK They can now be counted, added, removed and gotten.
+    Means: I added the missing functions for working with them, so you
+    can fully work with FXStateChunks now.
+    XRaym will love that :D
+
+-   GETPROJECTLENGTH unlike Reaper’s own API-function GetProjectLength,
+    this one returns the end of the last itemedge, the last regionedge,
+    marker and time-sigmarker
+
+-   EASY CLIPBOARDING FromClip and ToClip allow you now to get/put
+    strings from/to the clipboard without having to type gazillions of
+    characters.
+
+-   GETPROJECT AND GETTRACKSTATE-FUNCTIONS I completely reworked most of
+    them, so they will now return all values, even those, which I
+    haven’t put into the docs yet.
+    That means, if the devs add new values, you can retrieve them right
+    away, without being dependent on me to add them.
+    Will do the same with the Set-functions in the future.
 
 New features in 4.00beta2.80
 
@@ -5115,7 +5144,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1090 Lua-functions library for Reaper.}
+a 1079 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -5129,7 +5158,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1090 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1079 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -5253,7 +5282,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1090 Lua-functions library for Reaper.}
+a 1079 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -5267,7 +5296,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1090 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1079 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3

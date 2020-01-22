@@ -398,6 +398,14 @@ else
     ultraschall.LM(7)
     return ultraschall.Defer(table.unpack({...}))
   end
+  function ultraschall.SetDeferCycleSettings(...)
+    ultraschall.LM(7)
+    return ultraschall.SetDeferCycleSettings(table.unpack({...}))
+  end
+  function ultraschall.GetDeferCycleSettings(...)
+    ultraschall.LM(7)
+    return ultraschall.GetDeferCycleSettings(table.unpack({...}))
+  end
   function ultraschall.IsValidEnvStateChunk(...)
     ultraschall.LM(8)
     return ultraschall.IsValidEnvStateChunk(table.unpack({...}))
@@ -841,6 +849,18 @@ else
   function ultraschall.AutoDetectVSTPluginsFolder(...)
     ultraschall.LM(11)
     return ultraschall.AutoDetectVSTPluginsFolder(table.unpack({...}))
+  end
+  function ultraschall.CountFXStateChunksInStateChunk(...)
+    ultraschall.LM(11)
+    return ultraschall.CountFXStateChunksInStateChunk(table.unpack({...}))
+  end
+  function ultraschall.RemoveFXStateChunkFromTrackStateChunk(...)
+    ultraschall.LM(11)
+    return ultraschall.RemoveFXStateChunkFromTrackStateChunk(table.unpack({...}))
+  end
+  function ultraschall.RemoveFXStateChunkFromItemStateChunk(...)
+    ultraschall.LM(11)
+    return ultraschall.RemoveFXStateChunkFromItemStateChunk(table.unpack({...}))
   end
   function ultraschall.SplitStringAtLineFeedToArray(...)
     ultraschall.LM(12)
@@ -2042,6 +2062,22 @@ else
     ultraschall.LM(16)
     return ultraschall.GetItem_ClickState(table.unpack({...}))
   end
+  function ultraschall.GetEndOfItem(...)
+    ultraschall.LM(16)
+    return ultraschall.GetEndOfItem(table.unpack({...}))
+  end
+  function ultraschall.GetAllMediaItemAttributes_Table(...)
+    ultraschall.LM(16)
+    return ultraschall.GetAllMediaItemAttributes_Table(table.unpack({...}))
+  end
+  function ultraschall.SetAllMediaItemAttributes_Table(...)
+    ultraschall.LM(16)
+    return ultraschall.SetAllMediaItemAttributes_Table(table.unpack({...}))
+  end
+  function ultraschall.GetAllSelectedMediaItemsBetween(...)
+    ultraschall.LM(16)
+    return ultraschall.GetAllSelectedMediaItemsBetween(table.unpack({...}))
+  end
   function ultraschall.DeleteProjExtState_Section(...)
     ultraschall.LM(17)
     return ultraschall.DeleteProjExtState_Section(table.unpack({...}))
@@ -2245,6 +2281,10 @@ else
   function ultraschall.EnumProjects(...)
     ultraschall.LM(21)
     return ultraschall.EnumProjects(table.unpack({...}))
+  end
+  function ultraschall.GetProjectLength(...)
+    ultraschall.LM(21)
+    return ultraschall.GetProjectLength(table.unpack({...}))
   end
   function ultraschall.GetProjectState_NumbersOnly(...)
     ultraschall.LM(22)
@@ -2874,6 +2914,10 @@ else
     ultraschall.LM(22)
     return ultraschall.SetProject_MasterPanMode(table.unpack({...}))
   end
+  function ultraschall.SetProject_MasterTrackView(...)
+    ultraschall.LM(22)
+    return ultraschall.SetProject_MasterTrackView(table.unpack({...}))
+  end
   function ultraschall.AutoSearchReaMoteSlaves(...)
     ultraschall.LM(23)
     return ultraschall.AutoSearchReaMoteSlaves(table.unpack({...}))
@@ -3425,6 +3469,14 @@ else
   function ultraschall.CreateRenderCFG_AudioCD(...)
     ultraschall.LM(25)
     return ultraschall.CreateRenderCFG_AudioCD(table.unpack({...}))
+  end
+  function ultraschall.GetRender_EmbedStretchMarkers(...)
+    ultraschall.LM(25)
+    return ultraschall.GetRender_EmbedStretchMarkers(table.unpack({...}))
+  end
+  function ultraschall.SetRender_EmbedStretchMarkers(...)
+    ultraschall.LM(25)
+    return ultraschall.SetRender_EmbedStretchMarkers(table.unpack({...}))
   end
   function ultraschall.IsValidTrackString(...)
     ultraschall.LM(26)

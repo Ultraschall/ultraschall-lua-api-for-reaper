@@ -1910,6 +1910,101 @@ function ultraschall.deprecated(functionname)
 end
 
 
+function ultraschall.FloatCompare(a,b,precision)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>FloatCompare</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, number diff = ultraschall.FloatCompare(number a, number b, number precision)</functioncall>
+  <description>
+    Compares two floatvalues and allows to set the precision to copmare against.
+    
+    So, if you want to compare 5.1 and 5.2, using precision=0.2 returns true(is equal), precision=0.1 returns false(isn't equal).
+    
+    Returns nil in case of failure.
+  </description>
+  <parameters>
+    number a - the first float-number to compare
+    number b - the second float-number to compare
+    number precision - the precision of the fraction, like 0.1 or 0.0063
+  </parameters>
+  <retvals>
+    boolean retval - true, numbers are equal; false, numbers aren't equal
+    number diff - the difference between numbers a and b
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helperfunction, compare, precision, float</tags>
+</US_DocBloc>
+]]
+  if type(a)~="number" then ultraschall.AddErrorMessage("FloatCompare", "a", "Must be a number", -1) return nil end
+  if type(b)~="number" then ultraschall.AddErrorMessage("FloatCompare", "b", "Must be a number", -2) return nil end
+  if type(precision)~="number" then ultraschall.AddErrorMessage("FloatCompare", "precision", "Must be a number", -3) return nil end
+  return math.abs(a-b)<precision, math.abs(a-b)
+end
+
+function ToClip(toclipstring)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ToClip</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>ToClip(string toclipstring)</functioncall>
+  <description>
+    Puts a string into clipboard.
+  </description>
+  <parameters>
+    string toclipstring - the string, which you want to put into the clipboard
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helperfunction, set, string, to clipboard</tags>
+</US_DocBloc>
+]]
+  reaper.CF_SetClipboard(toclipstring)
+end
+
+function FromClip()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>FromClip</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>string clipboard_string = FromClip()</functioncall>
+  <description>
+    Gets a string from clipboard.
+  </description>
+  <retvals>
+    string clipboard_string - the string-content from the clipboard
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helperfunction, get, string, from clipboard</tags>
+</US_DocBloc>
+]]
+  return ultraschall.GetStringFromClipboard_SWS()
+end
 
 
 

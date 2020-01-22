@@ -41,15 +41,24 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.00 Beta 2.80: - "Starsailor - Four to the Floor"</h3>
-<h4>readded from earlier development-builds</h4>
+<p>Note: Ultraschall-API needs now Reaper 6.02 or higher. Please update to Reaper 6. It's worth it!</p>
+<p>Has now 1079 functions, with 20 new ones and 23 deprecated ones removed</p>
+<p><strong>new in this release:</strong></p>
 <ul>
-<li>Developer: SetReaScriptConsole_FontStyle - sets the style of the font in the ReaConsole</li>
-<li>LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper</li>
-<li>LiceCap: SetupLiceCap - sets up the LiceCap-executable settings of the currently chosen LiceCap-executable in Reaper</li>
-<li>ProjectManagement: SaveProjectAs - saves the current project under a new filename</li>
-<li>RenderManagement: GetProject_RenderOutputPath - gets the render-output-path</li>
-<li>RenderManagement: ResolveRenderPattern - resolves the render-pattern into its actual filename</li>
-<li>Subtitles: ReadSubtitles_VTT - imports a webvtt-subtitlefile</li>
+<li><p><strong>Improved Defer Management</strong> Ultraschall.Defer allows you now to set and get the timer-settings of a given ultraschall.Defer-cycle.<br />
+You can even do this from the outside of the deferred script!<br />
+You can also protect now ultraschall.Defer-cycles from being stopped from the outside.</p></li>
+<li><p><strong>Rendering functions</strong> The RenderPreset-functions do work again, after some changes in the way Reaper stores render-presets since Reaper 6.02.<br />
+They also allow you to use: preset-names with spaces. (I know, this should have been in there from the beginning... ;) )</p></li>
+<li><p><strong>GetItem_ClickState</strong> Is now fully functional. That means, if you call this function in every defer-cycle of a script, you can actually monitor clicked and dragged MediaItems.<br />
+This will open up new ways of editing and item-manipulation, like RippleDrag, etc.</p></li>
+<li><p><strong>FXStateChunk</strong> They can now be counted, added, removed and gotten. Means: I added the missing functions for working with them, so you can fully work with FXStateChunks now.<br />
+XRaym will love that :D</p></li>
+<li><p><strong>GetProjectLength</strong> unlike Reaper's own API-function GetProjectLength, this one returns the end of the last itemedge, the last regionedge, marker and time-sigmarker</p></li>
+<li><p><strong>Easy Clipboarding</strong> FromClip and ToClip allow you now to get/put strings from/to the clipboard without having to type gazillions of characters.</p></li>
+<li><p><strong>GetProject and GetTrackState-functions</strong> I completely reworked most of them, so they will now return all values, even those, which I haven't put into the docs yet.<br />
+That means, if the devs add new values, you can retrieve them right away, without being dependent on me to add them.<br />
+Will do the same with the Set-functions in the future.</p></li>
 </ul>
 <h4>New features in 4.00beta2.80</h4>
 <ul>
