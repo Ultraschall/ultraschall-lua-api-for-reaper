@@ -1777,11 +1777,17 @@ function ultraschall.GetFXStateChunk(StateChunk, TakeFXChain_id)
     return w
   end
   local count=0
-  
-  for w in string.gmatch(StateChunk, " <TAKEFX.-\n  >") do
+  local FXStateChunk
+      
+  StateChunk=string.gsub(StateChunk, "TAKE\n", "TAKEend\n  TAKE\n")
+  StateChunk="  TAKE\n"..StateChunk.."\n  TAKEend\n"
+
+  for w in string.gmatch(StateChunk, "(  TAKE\n.-)\n  TAKEend\n") do
     count=count+1
     if TakeFXChain_id==count then
-      return w
+      FXStateChunk=w:match("  <TAKEFX.-\n  >")
+      if FXStateChunk==nil then ultraschall.AddErrorMessage("GetFXStateChunk", "TakeFXChain_id", "No FXChain in this take available", -3) end
+      return FXStateChunk
     end
   end
 end
@@ -2441,10 +2447,10 @@ function ultraschall.RemoveFXStateChunkFromItemStateChunk(ItemStateChunk, take_i
 ]]
   if ultraschall.IsValidItemStateChunk(ItemStateChunk)==false then ultraschall.AddErrorMessage("RemoveFXStateChunkFromItemStateChunk", "ItemStateChunk", "Must be a valid ItemStateChunk!", -1) return nil end
   if math.type(take_id)~="integer" then ultraschall.AddErrorMessage("RemoveFXStateChunkFromItemStateChunk", "take_id", "Must be an integer", -2) return nil end
-  ItemStateChunk=ultraschall.StateChunkLayouter(ItemStateChunk)
+  local OldFXStateChunk=ultraschall.GetFXStateChunk(ItemStateChunk, take_id)
+  if OldFXStateChunk==nil then ultraschall.AddErrorMessage("RemoveFXStateChunkFromItemStateChunk", "take_id", "No FXChain in this take available", -3) return nil end
   
-  local altered_string, replaced = ultraschall.ReplacePatternInString(ItemStateChunk, "  <TAKEFX.-\n  >\n", "", take_id)
-  if replaced==false then ultraschall.AddErrorMessage("RemoveFXStateChunkFromItemStateChunk", "take_id", "no such id found", -3) end
-  return altered_string
+  ItemStateChunk=ultraschall.StateChunkLayouter(ItemStateChunk)
+  local Startpos, Endpos = string.find (ItemStateChunk, OldFXStateChunk, 1, true)
+  return string.gsub(ItemStateChunk:sub(1, Startpos)..ItemStateChunk:sub(Endpos+1, -1), "\n%s-\n", "\n")
 end
-
