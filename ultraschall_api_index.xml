@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="40927.01" author="Meo Mespotine">
+      <version name="42927.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -73,6 +73,7 @@
 	<source file="/ultraschall_api/IniFiles/Reaper-Menu-Only-Actions.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/Reaper-Menu-Only-Actions.ini</source>
 	<source file="/ultraschall_api/IniFiles/ultraschall_api.ini" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/IniFiles/ultraschall_api.ini</source>
 	<source file="/ultraschall_api/misc/Developer_Reaper5965.ReaperLangPack" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/Developer_Reaper5965.ReaperLangPack</source>
+	<source file="/ultraschall_api/misc/Developer_Reaper6_02rc1.ReaperLangPack" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/Developer_Reaper6_02rc1.ReaperLangPack</source>
 	<source file="/ultraschall_api/misc/Markdown_Newspeak-1.0-draft" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/Markdown_Newspeak-1.0-draft</source>
 	<source file="/ultraschall_api/misc/Reaper-All_ConfigVars_as_toggled_by_Actions.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/Reaper-All_ConfigVars_as_toggled_by_Actions.txt</source>
 	<source file="/ultraschall_api/misc/Reaper_Internals.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/Reaper_Internals.pfi</source>
@@ -169,6 +170,8 @@
 	<source file="/ultraschall_api/Documentation/gfx/JS_0.992.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0.992.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0_951.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0_951.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_0_995.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0_995.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/JS_0_997.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0_997.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/JS_0_998.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_0_998.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_0_951.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_0_962.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/JS_Logo_2_8_8.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Documentation/gfx/JS_Logo_2_8_8.pfi</source>
@@ -289,14 +292,19 @@
 	<source file="/ultraschall_api/misc/gfx/ultraschall4.00.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/gfx/ultraschall4.00.png</source>
 	<source file="/ultraschall_api/misc/gfx/us.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/gfx/us.png</source>
 	<source file="/ultraschall_api/misc/misc_docs/Envelope-StateChunk-Doku.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/Envelope-StateChunk-Doku.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/Jumping_FX_Button_in_TCP-demo.zip" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/Jumping_FX_Button_in_TCP-demo.zip</source>
 	<source file="/ultraschall_api/misc/misc_docs/LiceCap_ini_doku.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/LiceCap_ini_doku.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/MediaItemStateChunk-Doku.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/MediaItemStateChunk-Doku.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/ParmLearnDocs.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/ParmLearnDocs.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-ActionList.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/Reaper-ActionList.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/Reaper-ProjectDefault-ConfigSettings.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/Reaper-ProjectDefault-ConfigSettings.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-Render-Strings-docs_Jul2018.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/Reaper-Render-Strings-docs_Jul2018.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/Reaper-StuffMidiMessage-Codes(engl_shortlist).txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/Reaper-StuffMidiMessage-Codes(engl_shortlist).txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/Reaper-Windows-ChildIDs.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/Reaper-Windows-ChildIDs.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/render-codes-decoded-base64-strings.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/render-codes-decoded-base64-strings.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/RenderPreset-Configfile.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/RenderPreset-Configfile.txt</source>
 	<source file="/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/ShowVars_Toggle-5_90pre2_formatted.txt</source>
+	<source file="/ultraschall_api/misc/misc_docs/StuffMidiMessage-docs.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/misc_docs/StuffMidiMessage-docs.txt</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.flac</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP</source>
 	<source file="/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/misc/US_Notification_Sound/US_Notification_Sound.RPP-bak</source>
@@ -393,6 +401,417 @@
 	<source main="true" file="/ultraschall_Remove_Developertools_From_Reaper.lua" type="script">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api/Scripts/ultraschall_Remove_Developertools_From_Reaper.lua</source>
 <changelog><![CDATA[
 Ultraschall Framework - Changelog
+
+4.00 Beta 2.80: - “Starsailor - Four to the Floor”
+
+Note: Ultraschall-API needs now Reaper 6.02 or higher. Please update to
+Reaper 6. It’s worth it!
+
+Has now 1079 functions, with 20 new ones and 23 deprecated ones removed
+
+NEW IN THIS RELEASE:
+
+-   IMPROVED DEFER MANAGEMENT Ultraschall.Defer allows you now to set
+    and get the timer-settings of a given ultraschall.Defer-cycle.
+    You can even do this from the outside of the deferred script!
+    You can also protect now ultraschall.Defer-cycles from being stopped
+    from the outside.
+
+-   RENDERING FUNCTIONS The RenderPreset-functions do work again, after
+    some changes in the way Reaper stores render-presets since Reaper
+    6.02.
+    They also allow you to use: preset-names with spaces. (I know, this
+    should have been in there from the beginning… ;) )
+
+-   GETITEM_CLICKSTATE Is now fully functional. That means, if you call
+    this function in every defer-cycle of a script, you can actually
+    monitor clicked and dragged MediaItems.
+    This will open up new ways of editing and item-manipulation, like
+    RippleDrag, etc.
+
+-   FXSTATECHUNK They can now be counted, added, removed and gotten.
+    Means: I added the missing functions for working with them, so you
+    can fully work with FXStateChunks now.
+    XRaym will love that :D
+
+-   GETPROJECTLENGTH unlike Reaper’s own API-function GetProjectLength,
+    this one returns the end of the last itemedge, the last regionedge,
+    marker and time-sigmarker
+
+-   EASY CLIPBOARDING FromClip and ToClip allow you now to get/put
+    strings from/to the clipboard without having to type gazillions of
+    characters.
+
+-   GETPROJECT AND GETTRACKSTATE-FUNCTIONS I completely reworked most of
+    them, so they will now return all values, even those, which I
+    haven’t put into the docs yet.
+    That means, if the devs add new values, you can retrieve them right
+    away, without being dependent on me to add them.
+    Will do the same with the Set-functions in the future.
+
+New features in 4.00beta2.80
+
+-   Helper functions: FloatCompare - compares two float-numbers, with
+    the a chance to set a precision to compare against(thanks to
+    fernsehmuell)
+-   Helper functions: FromClip - gets a string from the clipboard
+-   Helper functions: ToClip - puts a string into the clipboard
+-   DeferManagement: GetDeferCycleSettings - allows getting mode and
+    timer-settings of running ultraschall.Defer-cycles at runtime and
+    even from the outside of the deferred script
+-   DeferManagement: SetDeferCycleSettings - allows setting mode and
+    timer-settings of running ultraschall.Defer-cycles at runtime and
+    even from the outside of the deferred script
+-   FXManagement: CountFXStateChunksInStateChunk - counts the
+    FXStateChunks within a Project-/Track-/ItemStateChunk(requested by
+    XRaym)
+-   FXManagement: RemoveFXStateChunkFromTrackStateChunk - removes a
+    FXStateChunk from a TrackStateChunk(requested by XRaym)
+-   FXManagement: RemoveFXStateChunkFromItemStateChunk - removes a
+    certain FXStateChunk from an ItemStateChunk(requested by XRaym)
+-   MediaItems: GetEndOfItem - returns the endposition of a
+    MediaItem(thanks to fernsehmuell)
+-   MediaItems: GetAllMediaItemAttributes_Table - returns all attributes
+    of a MediaItem as a handy table(requested by fernsehmuell)
+-   MediaItems: GetAllSelectedMediaItemsBetween - returns all selected
+    MediaItems between start- and endposition within certain tracks of
+    your choice(requested by fernsehmuell)
+-   MediaItems: SetAllMediaItemAttributes_Table - sets all attributes of
+    a MediaItems using an attributes table, like the one returned by
+    GetAllMediaItemAttributes_Table(requested by fernsehmuell)
+-   Reaper Internals: Jumping_FX_Button_in_TCP-demo.zip - demoes, how
+    Set/GetLayout-functions work; includes a demo theme and a script,
+    that influences it, including comments
+-   Reaper Internals: RenderPreset-Configfile.txt - documentation of the
+    Render-Presets of Reaper
+-   Reaper Internals: Reaper-ProjectDefault-ConfigSettings.txt -
+    documents all reaper.ini-entries, responsible for default project
+    settings
+-   Reaper Internals:
+    Reaper-StuffMidiMessage-Codes(engl_shortlist).txt - holds all
+    messages and their meaning for StuffMIDIMessage
+-   Reaper Internals: StuffMidiMessage-docs.txt - describes the usage of
+    the StuffMIDIMessage-function
+-   Render Management: GetRender_EmbedStretchMarkers - gets the current
+    state of the “Embed stretch markers/transient guides”-checkbox from
+    the Render to File dialog
+-   Render Management: SetRender_EmbedStretchMarkers - sets the current
+    state of the “Embed stretch markers/transient guides”-checkbox from
+    the Render to File dialog
+-   ProjectManagement: GetProjectState_NumbersOnly - returns all
+    numerical values, associated with a certain state
+-   ProjectManagement: GetProject_PooledEnvAttach - gets the
+    pooled-envattach-state
+-   ProjectManagement: GetProjectLength - gets the length of the current
+    active project, as well as the position of the last itemedge,
+    regionend, marker, time-sig-marker(requested by rstockm)
+-   TrackManagement: GetTrackState_NumbersOnly - returns all numerical
+    values, associated with a certain state
+
+Changes from Beta 2.79 to Beta 2.80
+
+-   API: deprecated - allows showing a warning message, if a script uses
+    a deprecated function in a script; will be shown only once until
+    Reaper restarts, so scripts are stil useable
+-   Defer Management: GetDeferIdentifier - removed
+-   Defer Management: GetDeferRunState - removed Defer01-Defer20
+    management; threw Lua-error, when passing nonstring as identifier ->
+    fixed
+-   Defer Management: Defer1 through Defer20 - removed
+-   Defer Management: Defer - mode and timer can also be set now from
+    the outside of the defer-cycle; can now be protected from stopping
+    it from the outside; couldn’t be stopped from the outside when
+    mode~=2 -> fixed
+-   Defer Management: GetDeferRunState - was missing parameters in the
+    docs due typo -> fixed
+-   Defer Management: StopDeferCycle - didn’t work, when mode=2 of a
+    ultraschall.Defer-cycle -> fixed
+-   Docs: DeferScripts_004_Working_with_Defer_Identifiers - removed
+-   Docs: Defer - reworked docs and removed all references to Defer1
+    through Defer20
+-   Docs: JS-Extension - updated to 0.998
+-   Docs: Reaper - updated to Reaper 6.03
+-   Docs: render-codes-decoded-base64-strings.txt - removed last 00-byte
+    in every string(except DDP), as it was wrongly there
+-   Event Manager: Eventmanager_RemoveEvent - couldn’t be found due typo
+    in new module-loader -> fixed (thanks to rstockm)
+-   Event Manager: EventManager_RemoveAllEvents_Script - couldn’t be
+    found due typo in new module-loader -> fixed
+-   Helper functions: Base64_Decoder - removed small bug, which added a
+    nullbyte at end of strings
+-   MediaItems: GetSelectedMediaItemsAtPosition - sped up a little;
+    returns now a MediaItemStateChunkArray as well
+-   ProjectManagement: GetProject_AddMediaToProjectAfterRender -
+    simplified implementation, future values added by Reaper-devs will
+    now be returned properly
+-   ProjectManagement: GetProject_AutoCrossFade - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_CursorPos - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_DefPitchMode - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_EnvAttach - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_Feedback - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_GlobalAuto - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_Grid - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_GroupDisabled - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly; didn’t return anything, when no groups were
+    disabled -> fixed
+-   ProjectManagement: GetProject_GroupOverride - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_HorizontalZoom - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_ItemMixBehavior - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_Lock - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_Loop - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_LoopGran - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_MasterAutomode - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_MasterFXByp - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_MasterMuteSolo - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_MasterNChans - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_MasterPanMode - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_MasterSel - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_MasterTrackColor - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_MasterTrackHeight - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_MasterTrackView - didn’t return the
+    new values added in recent Reaper-versions -> fixed and stabilized
+-   ProjectManagement: GetProject_MasterTrackView - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_MasterVolume - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_MasterWidth - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly; didn’t return 1 in case of +100 width -> fixed
+-   ProjectManagement: GetProject_MaxProjectLength - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_MixerUIFlags - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_PanLaw - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_PanMode - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_PeakGain - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_Playrate - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_ProjOffsets - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_RecMode - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_RenderDitherState - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly; updated docs with new options like embed stretch
+    markers
+-   ProjectManagement: GetProject_RenderFreqNChans - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_RenderRange - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_RenderResample - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_RenderSpeed - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_RenderStems - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly; updated docs with new rendering selected
+    tracks/media through master-options
+-   ProjectManagement: GetProject_RippleState - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_SMPTESync - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_SampleRate - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_Selection - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_TakeLane - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_Tempo - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_TempoTimeSignature - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_TimeBase - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_Timemode - simplified implementation,
+    future values added by Reaper-devs will now be returned properly
+-   ProjectManagement: GetProject_TrackMixingDepth - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_UseRecConfig - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_VerticalZoom - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: GetProject_VideoConfig - simplified
+    implementation, future values added by Reaper-devs will now be
+    returned properly
+-   ProjectManagement: SetProject_RenderDitherState - updated docs with
+    new options like embed stretch markers
+-   ProjectManagement: SetProject_RenderStems - updated docs with new
+    rendering selected tracks/media through master-options
+-   Reaper Internals: render-codes-decoded-base64-strings.txt - added
+    new settings for AIFF
+-   Render Management: AddRenderPreset - supports now embed stretch
+    markers-checkbox; works only with render-presets as of Reaper 6;
+    supports now presetnames with spaces in it
+-   Render Management: ApplyRenderTable_Project - supports now embed
+    stretch markers-checkbox as of Reaper 6
+-   Render Management: ApplyRenderTable_ProjectFile - supports now embed
+    stretch markers-checkbox as of Reaper 6
+-   Render Management: CreateRenderCFG_AIFF - added Embed Beat
+    Length-checkbox, as included with Reaper 6
+-   Render Management: CreateNewRenderTable - added new “Embed stretch
+    markers/transient guides”-settings as of Reaper 6; CloseAfterRender
+    wasn’t accepted as boolean -> fixed
+-   Render Management: GetRenderCFG_Settings_AIFF - returns Embed Beat
+    Length-checkbox, as included with Reaper 6
+-   Render Management: GetRenderPreset_Names - reimplemented; supports
+    now presetnames with spaces in them as well
+-   Render Management: GetRenderTable_Project - supports now “Embed
+    stretch markers/transient guides”-settings as of Reaper 6
+-   Render Management: GetRenderTable_ProjectFile - supports now “Embed
+    stretch markers/transient guides”-settings as of Reaper 6
+-   Render Management: GetRenderPreset_RenderTable - reimplemented due
+    changed reaper-render.ini-format in Reaper 6, should be more stable
+    now; backwards compatible to old Reaper 5 presets
+-   Render Management: DeleteRenderPreset_Bounds - supports now
+    presetnames with spaces in it
+-   Render Management: DeleteRenderPreset_FormatOptions - supports now
+    presetnames with spaces in it
+-   Render Management: IsValidRenderTable - checks now as well new
+    “Embed stretch markers/transient guides”-settings as of Reaper 6
+-   Render Management: RenderProject_RenderTable - supports now new
+    Embed stretch markers/transient guides-checkbox as of Reaper 6
+-   Render Management: SetRenderPreset - supports now new Embed stretch
+    markers/transient guides-checkbox as of Reaper 6; supports now
+    spaces in preset-names as well
+-   TakeManagement: GetFXStateChunk - parameter TakeFXChain_id wasn’t
+    optional due typo -> fixed(thanks to XRaym)
+-   TakeManagement: SetFXStateChunk - docs were unclear, that only
+    setting NOT inserting is possible; could crash, if no FXStateChunk
+    for setting could be found -> fixed(thanks to XRaym)
+-   TrackManagement: GetTrackPeakColorState - improved implementation,
+    it returns now new values as well, who are added by the Reaper-devs
+    and aren’t documented yet
+-   TrackManagement: GetTrackBeatState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackAutoRecArmState - improved implementation,
+    it returns now new values as well, who are added by the Reaper-devs
+    and aren’t documented yet
+-   TrackManagement: GetTrackMuteSoloState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackIPhaseState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackIsBusState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackBusCompState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackShowInMixState - improved implementation,
+    it returns now new values as well, who are added by the Reaper-devs
+    and aren’t documented yet
+-   TrackManagement: GetTrackFreeModeState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackRecState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackVUState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackHeightState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackINQState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackNChansState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackBypFXState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackPerfState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackMIDIOutState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackMainSendState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackLockState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackAutomodeState - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackMidiCTL - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackWidth - improved implementation, it returns
+    now new values as well, who are added by the Reaper-devs and aren’t
+    documented yet
+-   TrackManagement: GetTrackPanMode - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   TrackManagement: GetTrackScore - improved implementation, it returns
+    now new values as well, who are added by the Reaper-devs and aren’t
+    documented yet
+-   TrackManagement: GetTrackVolPan - improved implementation, it
+    returns now new values as well, who are added by the Reaper-devs and
+    aren’t documented yet
+-   User Interface: GetReaperWindowPosition_Left - removed
+-   User Interface: GetReaperWindowPosition_Right - removed
+-   User Interface: GetItem_ClickState - remembers now the dragged
+    item+take, even if mouse-cursor is not above it anymore
+
+------------------------------------------------------------------------
 
 4.00 Beta 2.79: - “Yes - Owner of a lonely heart”
 
@@ -4727,7 +5146,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1082 Lua-functions library for Reaper.}
+a 1079 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4741,7 +5160,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1082 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1079 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
@@ -4865,7 +5284,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1082 Lua-functions library for Reaper.}
+a 1079 Lua-functions library for Reaper.}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -4879,7 +5298,7 @@ The Ultraschall-Framework itself is intended to include a set of Lua-functions, 
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
-This API was to be used within Ultraschall only, but quickly evolved into a huge 1082 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
+This API was to be used within Ultraschall only, but quickly evolved into a huge 1079 function-library, that many 3rd-party programmers and scripters may find use in, with many useful features, like:}
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\loch\fs24\loch\f3
 }
 \par \pard\plain \s18\sb0\sa120{\b0\afs24\ab0\rtlch \ltrch\fs24\loch\f3
