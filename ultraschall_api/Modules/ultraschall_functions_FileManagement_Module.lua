@@ -759,17 +759,20 @@ function ultraschall.GetAllFilenamesInPath(path)
   -- prepare variables
   local Files={}
   local count=1
-  local string=""
+  local String=""
   
   if path:sub(-1,-1)~="/" or path:sub(-1,-1)~="\\" then path=path.."/" end
   
   -- get all filenames in path
-  while string~=nil do
-    string=reaper.EnumerateFiles(path, count-1)
-    if string~=nil then Files[count]=path..string end
-    count=count+1
+  while String~=nil do
+    String=reaper.EnumerateFiles(path, count-1)
+    if String~=nil then Files[count]=path..String end
+    if Files[count]~=nil then
+        Files[count]=string.gsub(Files[count], "//", "/")
+        Files[count]=string.gsub(Files[count], "\\", "/")
+     end
+     count=count+1
   end
-  
   -- return results
   return count-2, Files
 end
@@ -1282,7 +1285,7 @@ function ultraschall.WriteValueToFile(filename_with_path, value, binarymode, app
 </US_DocBloc>
 --]]
   -- check parameters
-  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("WriteValueToFile","filename_with_path", "invalid filename "..filename_with_path, -1) return -1 end
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("WriteValueToFile","filename_with_path", "invalid filename "..tostring(filename_with_path), -1) return -1 end
   --if type(value)~="string" then ultraschall.AddErrorMessage("WriteValueToFile","value", "must be string; convert with tostring(value), if necessary.", -2) return -1 end
   value=tostring(value)
   

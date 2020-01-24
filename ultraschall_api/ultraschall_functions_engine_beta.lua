@@ -1395,6 +1395,137 @@ end
 
 -- These seem to work:
 
+function ultraschall.LoadFXStateChunkFromRFXChainFile(filename, trackfx_or_takefx)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>LoadFXStateChunkFromRFXChainFile</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string FXStateChunk = ultraschall.LoadFXStateChunkFromRFXChainFile(string filename, integer trackfx_or_takefx)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Loads an FXStateChunk from an RFXChain-file.
+    
+    If you don't give a path, it will try to load the file from the folder ResourcePath()/FXChains.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string FXStateChunk - the loaded FXStateChunk; nil, in case of an error
+  </retvals>
+  <parameters>
+    string filename - the filename of the RFXChain-file(must include ".RfxChain"); omit the path to load it from the folder ResourcePath()/FXChains
+    integer trackfx_or_takefx - 0, return the FXStateChunk as Track-FXStateChunk; 1, return the FXStateChunk as Take-FXStateChunk
+  </parameters>
+  <chapter_context>
+    FX-Management
+    FXStateChunks
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, load, fxstatechunk, trackfx, itemfx, takefx, rfxchain</tags>
+</US_DocBloc>
+]]
+  if type(filename)~="string" then ultraschall.AddErrorMessage("LoadFXStateChunkFromRFXChainFile", "filename", "must be a string", -1) return end
+  if reaper.file_exists(filename)==false and reaper.file_exists(reaper.GetResourcePath().."/FXChains/"..filename)==false then
+    ultraschall.AddErrorMessage("LoadFXStateChunkFromRFXChainFile", "filename", "file not found", -2) return
+  end
+  if math.type(trackfx_or_takefx)~="integer" then ultraschall.AddErrorMessage("LoadFXStateChunkFromRFXChainFile", "trackfx_or_takefx", "must be an integer", -3) return end
+  if trackfx_or_takefx~=0 and trackfx_or_takefx~=1 then ultraschall.AddErrorMessage("LoadFXStateChunkFromRFXChainFile", "trackfx_or_takefx", "must be either 0(TrackFX) or 1 (TakeFX)", -4) return end
+  ultraschall.SuppressErrorMessages(true)
+  local FXStateChunk=ultraschall.ReadFullFile(filename)
+  if FXStateChunk==nil then FXStateChunk=ultraschall.ReadFullFile(reaper.GetResourcePath().."/FXChains/"..filename) end
+  ultraschall.SuppressErrorMessages(false)
+  if FXStateChunk:sub(1,6)~="BYPASS" then ultraschall.AddErrorMessage("LoadFXStateChunkFromRFXChainFile", "filename", "no FXStateChunk found or RFXChain-file is empty", -5) return end
+  if trackfx_or_takefx==0 then 
+    FXStateChunk="<FXCHAIN\n"..FXStateChunk
+  else 
+    FXStateChunk="<TAKEFX\n"..FXStateChunk
+  end
+  return ultraschall.StateChunkLayouter(FXStateChunk)..">"
+end
 
+function ultraschall.SaveFXStateChunkAsRFXChainfile(filename, FXStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SaveFXStateChunkAsRFXChainfile</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.SaveFXStateChunkAsRFXChainfile(string filename, string FXStateChunk)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Loads an FXStateChunk from an RFXChain-file.
+    
+    If you don't give a path, it will try to load the file from the folder ResourcePath/FXChains.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer retval - -1 in case of failure, 1 in case of success
+  </retvals>
+  <parameters>
+    string filename - the filename of the output-RFXChain-file(must include ".RfxChain"); omit the path to save it into the folder ResourcePath/FXChains
+    string FXStateChunk - the FXStateChunk, which you want to set into the TrackStateChunk
+  </parameters>
+  <chapter_context>
+    FX-Management
+    FXStateChunks
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, save, fxstatechunk, trackfx, itemfx, takefx, rfxchain</tags>
+</US_DocBloc>
+]]
+  if type(filename)~="string" then ultraschall.AddErrorMessage("SaveFXStateChunkAsRFXChainfile", "FXStateChunk", "Must be a string.", -1) return -1 end
+  if ultraschall.IsValidFXStateChunk(FXStateChunk)==false then ultraschall.AddErrorMessage("SaveFXStateChunkAsRFXChainfile", "FXStateChunk", "Not a valid FXStateChunk.", -2) return -1 end
+  if filename:match("/")==nil and filename:match("\\")==nil then filename=reaper.GetResourcePath().."/FXChains/"..filename end
+  local New=FXStateChunk:match(".-\n(.*)>")
+  local New2=""
+  if New:sub(1,2)=="  " then
+    for k in string.gmatch(New, "(.-)\n") do
+      New2=New2..k:sub(3,-1).."\n"
+    end
+    New=New2:sub(1,-2)
+  end
+  return ultraschall.WriteValueToFile(filename, New)
+end
+
+function ultraschall.GetAllRFXChainfilenames()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllRFXChainfilenames</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer count_of_RFXChainfiles, array RFXChainfiles = ultraschall.GetAllRFXChainfilenames()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns all available RFXChainfiles in the folder ResourcePath/FXChains
+  </description>
+  <retvals>
+    integer count_of_RFXChainfiles - the number of available RFXChainFiles
+    array RFXChainfiles - the filenames of the RFXChainfiles
+  </retvals>
+  <chapter_context>
+    FX-Management
+    FXStateChunks
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>fx management, get, trackfx, itemfx, takefx, rfxchain, all, filenames, fxchains</tags>
+</US_DocBloc>
+]]
+  local A,B=ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."/FXChains/")
+  local C=(reaper.GetResourcePath().."/FXChains/"):len()
+  for i=1, A do
+    B[i]=B[i]:sub(C+1, -1)
+  end
+  return A,B
+end
 
 ultraschall.ShowLastErrorMessage()

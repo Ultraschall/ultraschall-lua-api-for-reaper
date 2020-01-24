@@ -202,9 +202,14 @@ TODO!! buggy function
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
 
 #### New features in 4.00beta2.9   
-
-
+   - FXManagement: GetAllRFXChainfiles - returns all RFXChainfiles currently available in ResourcePath/FXChains
+   - FXManagement: LoadFXStateChunkFromRFXChainFile - loads an FXStateChunk from an RFXChain-file
+   - FXManagement: SaveFXStateChunkAsRFXChainfile - writes an FXStateChunk from an RFXChain-file
+   - Scripts: US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua - example of working with FXChainStateChunks
+   
 #### Changes from Beta 2.8 to Beta 2.9
+   - FileManagement: GetAllFilenamesInPath - returns now the paths with / as separator only
+   - FileManagement: WriteValueToFile - produced Lua-error when passing a nil-value as filename_with_path -> fixed
    - FXManagement: GetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -> fixed
    - FXManagement: RemoveFXStateChunkFromItemStateChunk - counted FXStateChunks, not Takes by parameter take_id -> fixed
    - FXManagement: SetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -> fixed
