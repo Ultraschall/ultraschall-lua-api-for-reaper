@@ -215,6 +215,11 @@ TODO!! buggy function
 
 #### New features in 4.00beta2.9   
    - API: StuffMidiMessage-AllMessages\_Englisch\_Windows.ini - contains all names for all potential StuffMIDIMessage-messages
+   - Envelope Management: GetEnvelopeState\_Act - returns the values of the ACT-entry of a TrackEnvelope/EnvelopeStateChunk
+   - Envelope Management: GetEnvelopeState\_DefShape - returns the values of the DEFSHAPE-entry of a TrackEnvelope/EnvelopeStateChunk
+   - Envelope Management: GetEnvelopeState\_LaneHeight - returns the values of the LANEHEIGHT-entry of a TrackEnvelope/EnvelopeStateChunk
+   - Envelope Management: GetEnvelopeState\_NumbersOnly - returns all values of a parameter from an EnvelopeStateChunk, including the undocumented ones when the devs add them
+   - Envelope Management: GetEnvelopeState\_Vis - returns the values of the VIS-entry of a TrackEnvelope/EnvelopeStateChunk
    - FXManagement: GetAllRFXChainfiles - returns all RFXChainfiles currently available in ResourcePath/FXChains
    - FXManagement: GetRecentFX - returns the recent fx-list
    - FXManagement: LoadFXStateChunkFromRFXChainFile - loads an FXStateChunk from an RFXChain-file
@@ -228,6 +233,7 @@ TODO!! buggy function
    
 #### Changes from Beta 2.8 to Beta 2.9
    - ConfigurationManagement: GetIniFileValue - checks now, if the ini-file exists in the first place
+   - Envelope Management: GetArmState_Envelope - reimplemented, should now return future parameters as well, when added by the Reaper-devs
    - FileManagement: GetAllFilenamesInPath - returns now the paths with / as separator only
    - FileManagement: WriteValueToFile - produced Lua-error when passing a nil-value as filename_with_path -> fixed
    - FXManagement: GetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -> fixed
@@ -258,6 +264,10 @@ TODO!! buggy function
    - Marker Management: GetRegionByTime - retina will now be automatically set; parameter retina removed(please update your scripts!)
    - Marker Management: GetTimesignaturesByScreenCoordinates - retina will now be automatically set; parameter retina removed(please update your scripts!)
    - Marker Management: GetTimeSignaturesByTime - retina will now be automatically set; parameter retina removed(please update your scripts!)
+   - ParmAlias: GetParmAlias_MediaTrack - had wrong functionname in error-messages -> fixed
+   - ParmAlias: Docs - all functions ParmLearn-function in the docs move to proper subchapters for clearer index-navigation
+   - Track Management: GetTrackState_NumbersOnly - had wrong description in the docs -> fixed
+  
    
    
 

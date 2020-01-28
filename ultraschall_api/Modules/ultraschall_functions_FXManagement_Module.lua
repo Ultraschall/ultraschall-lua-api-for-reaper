@@ -207,7 +207,7 @@ function ultraschall.GetParmLearn_FXStateChunk(FXStateChunk, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping Learn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -304,7 +304,7 @@ function ultraschall.GetParmLearn_MediaItem(MediaItem, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping Learn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -379,7 +379,7 @@ function ultraschall.GetParmLearn_MediaTrack(MediaTrack, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping Learn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -432,7 +432,7 @@ function ultraschall.GetParmAlias_FXStateChunk(FXStateChunk, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping Alias
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -502,19 +502,19 @@ function ultraschall.GetParmAlias_MediaTrack(MediaTrack, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping Alias
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>fxmanagement, get, parameter, alias, mediatrack</tags>
 </US_DocBloc>
 ]]
-  if ultraschall.type(MediaTrack)~="MediaTrack" then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "MediaTrack", "Not a valid MediaTrack", -1) return nil end
-  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "id", "must be an integer", -2) return nil end
-  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "fxid", "must be an integer", -3) return nil end
+  if ultraschall.type(MediaTrack)~="MediaTrack" then ultraschall.AddErrorMessage("GetParmAlias_MediaTrack", "MediaTrack", "Not a valid MediaTrack", -1) return nil end
+  if math.type(id)~="integer" then ultraschall.AddErrorMessage("GetParmAlias_MediaTrack", "id", "must be an integer", -2) return nil end
+  if math.type(fxid)~="integer" then ultraschall.AddErrorMessage("GetParmAlias_MediaTrack", "fxid", "must be an integer", -3) return nil end
   local _temp, A=reaper.GetTrackStateChunk(MediaTrack, "", false)
   A=ultraschall.GetFXStateChunk(A, 1)
-  if A==nil then ultraschall.AddErrorMessage("GetParmLearn_MediaTrack", "MediaTrack", "Has no FX-chain", -4) return nil end
+  if A==nil then ultraschall.AddErrorMessage("GetParmAlias_MediaTrack", "MediaTrack", "Has no FX-chain", -4) return nil end
   
   return ultraschall.GetParmAlias_FXStateChunk(A, fxid, id)
 end
@@ -637,7 +637,7 @@ function ultraschall.GetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping LFOLearn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -734,7 +734,7 @@ function ultraschall.GetParmLFOLearn_MediaItem(MediaItem, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping LFOLearn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -809,7 +809,7 @@ function ultraschall.GetParmLFOLearn_MediaTrack(MediaTrack, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping LFOLearn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1236,7 +1236,7 @@ function ultraschall.DeleteParmLearn_FXStateChunk(FXStateChunk, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping Learn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1300,7 +1300,7 @@ function ultraschall.DeleteParmAlias_FXStateChunk(FXStateChunk, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping Alias
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1367,7 +1367,7 @@ function ultraschall.DeleteParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping LFOLearn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1463,7 +1463,7 @@ function ultraschall.SetParmLFOLearn_FXStateChunk(FXStateChunk, fxid, id, midi_n
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping LFOLearn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1568,7 +1568,7 @@ function ultraschall.SetParmLearn_FXStateChunk(FXStateChunk, fxid, id, midi_note
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping Learn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1645,7 +1645,7 @@ function ultraschall.SetParmAlias_FXStateChunk(FXStateChunk, fxid, id, parmalias
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping Alias
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1850,7 +1850,7 @@ function ultraschall.AddParmLFOLearn_FXStateChunk(FXStateChunk, fxid, parmidx, p
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping LFOLearn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -1953,7 +1953,7 @@ function ultraschall.AddParmLearn_FXStateChunk(FXStateChunk, fxid, parmidx, parm
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping Learn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -2028,7 +2028,7 @@ function ultraschall.AddParmAlias_FXStateChunk(FXStateChunk, fxid, parmidx, parm
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping Alias
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -2088,7 +2088,7 @@ function ultraschall.CountParmAlias_FXStateChunk(FXStateChunk, fxid)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping Alias
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -2140,7 +2140,7 @@ function ultraschall.CountParmLearn_FXStateChunk(FXStateChunk, fxid)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping Learn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
@@ -2192,7 +2192,7 @@ function ultraschall.CountParmLFOLearn_FXStateChunk(FXStateChunk, fxid)
   </parameters>
   <chapter_context>
     FX-Management
-    Parameter Mapping
+    Parameter Mapping LFOLearn
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>

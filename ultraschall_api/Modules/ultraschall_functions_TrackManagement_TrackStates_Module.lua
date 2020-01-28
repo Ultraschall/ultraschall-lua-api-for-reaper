@@ -107,9 +107,9 @@ function ultraschall.GetTrackState_NumbersOnly(state, TrackStateChunk, functionn
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>table values = ultraschall.GetProjectState_NumbersOnly(string projectfilename_with_path, string state, optional string ProjectStateChunk, optional boolean numbertoggle)</functioncall>
+  <functioncall>table values = ultraschall.GetTrackState_NumbersOnly(string state, optional string TrackStateChunk, optional string functionname, optional boolean numbertoggle)</functioncall>
   <description>
-    returns a state of the project or a TrackStateChunk.
+    returns a state of a TrackStateChunk.
     
     It only supports single-entry-states with numbers/integers, separated by spaces!
     All other values will be set to nil and strings with spaces will produce weird results!

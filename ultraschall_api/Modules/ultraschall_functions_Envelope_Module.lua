@@ -1054,12 +1054,14 @@ function ultraschall.GetArmState_Envelope(TrackEnvelope, EnvelopeStateChunk)
   <slug>GetArmState_Envelope</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.95
+    Reaper=6.02
     Lua=5.3
   </requires>
   <functioncall>integer retval = ultraschall.GetArmState_Envelope(TrackEnvelope TrackEnvelope, optional string EnvelopeStateChunk)</functioncall>
   <description>
     Returns the current armed-state of a TrackEnvelope-object.
+    
+    It is the entry ARM
     
     returns nil in case of error
   </description>
@@ -1087,7 +1089,7 @@ function ultraschall.GetArmState_Envelope(TrackEnvelope, EnvelopeStateChunk)
   else
     retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
   end
-  return tonumber(str:match("ARM (%d*)"))
+  return ultraschall.GetEnvelopeState_NumbersOnly("ARM", str, "GetArmState_Envelope")
 end
 
 

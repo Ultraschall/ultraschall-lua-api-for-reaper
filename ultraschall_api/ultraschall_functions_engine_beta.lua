@@ -1691,4 +1691,303 @@ function ultraschall.GetAllThemeLayoutParameters()
   return i-1, ParamsIdx
 end
 
+
+function ultraschall.GetEnvelopeState_NumbersOnly(state, EnvelopeStateChunk, functionname, numbertoggle)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetEnvelopeState_NumbersOnly</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>table values = ultraschall.GetEnvelopeState_NumbersOnly(string state, optional string EnvelopeStateChunk, optional string functionname, optional boolean numbertoggle)</functioncall>
+  <description>
+    returns a state from an EnvelopeStateChunk.
+    
+    It only supports single-entry-states with numbers/integers, separated by spaces!
+    All other values will be set to nil and strings with spaces will produce weird results!
+    
+    returns nil in case of an error
+  </description>
+  <parameters>
+    string state - the state, whose attributes you want to retrieve
+    string TrackStateChunk - a statechunk of an envelope
+    optional string functionname - if this function is used within specific gettrackstate-functions, pass here the "host"-functionname, so error-messages will reflect that
+    optional boolean numbertoggle - true or nil; converts all values to numbers; false, keep them as string versions
+  </parameters>
+  <retvals>
+    table values - all values found as numerical indexed array
+  </retvals>
+  <chapter_context>
+    Envelope Management
+    Get Envelope States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>envelopemanagement, get, state, envelopestatechunk, envelope</tags>
+</US_DocBloc>
+]]
+  if functionname~=nil and type(functionname)~="string" then ultraschall.AddErrorMessage(functionname,"functionname", "Must be a string or nil!", -6) return nil end
+  if functionname==nil then functionname="GetEnvelopeState_NumbersOnly" end
+  if type(state)~="string" then ultraschall.AddErrorMessage(functionname, "state", "Must be a string", -7) return nil end
+  if projectfilename_with_path==nil and ultraschall.IsValidEnvStateChunk(EnvelopeStateChunk)==false then ultraschall.AddErrorMessage(functionname,"TrackStateChunk", "No valid TrackStateChunk!", -2) return nil end
+  
+  EnvelopeStateChunk=EnvelopeStateChunk:match(state.." (.-)\n")
+  if EnvelopeStateChunk==nil then return end
+  local count, individual_values = ultraschall.CSV2IndividualLinesAsArray(EnvelopeStateChunk, " ")
+  if numbertoggle~=false then
+    for i=1, count do
+      individual_values[i]=tonumber(individual_values[i])
+    end
+  end
+  return table.unpack(individual_values)
+end
+
+function ultraschall.GetEnvelopeState_Act(TrackEnvelope, EnvelopeStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetEnvelopeState_Act</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer act, integer automation_settings = ultraschall.GetEnvelopeState_Act(TrackEnvelope TrackEnvelope, optional string EnvelopeStateChunk)</functioncall>
+  <description>
+    Returns the current act-state of a TrackEnvelope-object or EnvelopeStateChunk.
+    
+    It is the state entry ACT
+    
+    returns nil in case of error
+  </description>
+  <retvals>
+    integer act - 0, bypass on
+                - 1, no bypass
+    integer automation_settings - automation item-options for this envelope
+                                - -1, project default behavior, outside of automation items
+                                - 0, automation items do not attach underlying envelope
+                                - 1, automation items attach to the underlying envelope on the right side
+                                - 2, automation items attach to the underlying envelope on both sides
+                                - 3, no automation item-options for this envelope
+                                - 4, bypass underlying envelope outside of automation items
+  </retvals>
+  <parameters>
+    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose state you want to know; nil, to use parameter EnvelopeStateChunk instead
+    optional string EnvelopeStateChunk - if TrackEnvelope is set to nil, you can pass an EnvelopeStateChunk into this parameter, to get that armed state
+  </parameters>
+  <chapter_context>
+    Envelope Management
+    Get Envelope States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>envelope states, get, act, envelopestatechunk</tags>
+</US_DocBloc>
+]]  
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("GetEnvelopeState_Act", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return end
+  if TrackEnvelope==nil and ultraschall.IsValidEnvStateChunk(EnvelopeStateChunk)==false then ultraschall.AddErrorMessage("GetEnvelopeState_Act", "EnvelopeStateChunk", "Must be a valid EnvelopeStateChunk", -2) return end
+  local retval, str
+  if TrackEnvelope==nil then 
+    str=EnvelopeStateChunk
+  else
+    retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+  end
+  return ultraschall.GetEnvelopeState_NumbersOnly("ACT", str, "GetEnvelopeState_Act")
+end
+
+function ultraschall.GetEnvelopeState_Vis(TrackEnvelope, EnvelopeStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetEnvelopeState_Vis</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer visible, integer lane, integer unknown = ultraschall.GetEnvelopeState_Vis(TrackEnvelope TrackEnvelope, optional string EnvelopeStateChunk)</functioncall>
+  <description>
+    Returns the current visibility-state of a TrackEnvelope-object or EnvelopeStateChunk.
+    
+    It is the state entry VIS
+    
+    returns nil in case of error
+  </description>
+  <retvals>
+    integer visible - 1, envelope is visible
+                    - 0, envelope is not visible
+    integer lane - 1, envelope is in it's own lane 
+                 - 0, envelope is in media-lane
+    integer unknown - unknown; default=1
+  </retvals>
+  <parameters>
+    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose state you want to know; nil, to use parameter EnvelopeStateChunk instead
+    optional string EnvelopeStateChunk - if TrackEnvelope is set to nil, you can pass an EnvelopeStateChunk into this parameter, to get that armed state
+  </parameters>
+  <chapter_context>
+    Envelope Management
+    Get Envelope States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>envelope states, get, vis, envelopestatechunk</tags>
+</US_DocBloc>
+]]  
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("GetEnvelopeState_Vis", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return end
+  if TrackEnvelope==nil and ultraschall.IsValidEnvStateChunk(EnvelopeStateChunk)==false then ultraschall.AddErrorMessage("GetEnvelopeState_Vis", "EnvelopeStateChunk", "Must be a valid EnvelopeStateChunk", -2) return end
+  local retval, str
+  if TrackEnvelope==nil then 
+    str=EnvelopeStateChunk
+  else
+    retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+  end
+  return ultraschall.GetEnvelopeState_NumbersOnly("VIS", str, "GetEnvelopeState_Vis")
+end
+
+function ultraschall.GetEnvelopeState_LaneHeight(TrackEnvelope, EnvelopeStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetEnvelopeState_LaneHeight</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer height, integer compacted = ultraschall.GetEnvelopeState_LaneHeight(TrackEnvelope TrackEnvelope, optional string EnvelopeStateChunk)</functioncall>
+  <description>
+    Returns the current laneheight-state of a TrackEnvelope-object or EnvelopeStateChunk.
+    
+    It is the state entry LANEHEIGHT
+    
+    returns nil in case of error
+  </description>
+  <retvals>
+    integer height - the height of this envelope in pixels; 24 - 263 pixels
+    integer compacted - 1, envelope-lane is compacted("normal" height is not shown but still stored in height); 
+                      - 0, envelope-lane is "normal" height
+  </retvals>
+  <parameters>
+    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose state you want to know; nil, to use parameter EnvelopeStateChunk instead
+    optional string EnvelopeStateChunk - if TrackEnvelope is set to nil, you can pass an EnvelopeStateChunk into this parameter, to get that armed state
+  </parameters>
+  <chapter_context>
+    Envelope Management
+    Get Envelope States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>envelope states, get, laneheight, envelopestatechunk</tags>
+</US_DocBloc>
+]]  
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("GetEnvelopeState_LaneHeight", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return end
+  if TrackEnvelope==nil and ultraschall.IsValidEnvStateChunk(EnvelopeStateChunk)==false then ultraschall.AddErrorMessage("GetEnvelopeState_LaneHeight", "EnvelopeStateChunk", "Must be a valid EnvelopeStateChunk", -2) return end
+  local retval, str
+  if TrackEnvelope==nil then 
+    str=EnvelopeStateChunk
+  else
+    retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+  end
+  return ultraschall.GetEnvelopeState_NumbersOnly("LANEHEIGHT", str, "GetEnvelopeState_LaneHeight")
+end
+
+function ultraschall.GetEnvelopeState_DefShape(TrackEnvelope, EnvelopeStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetEnvelopeState_DefShape</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer shape, integer b, integer c = ultraschall.GetEnvelopeState_DefShape(TrackEnvelope TrackEnvelope, optional string EnvelopeStateChunk)</functioncall>
+  <description>
+    Returns the current default-shape-state of a TrackEnvelope-object or EnvelopeStateChunk.
+    
+    It is the state entry DEFSHAPE
+    
+    returns nil in case of error
+  </description>
+  <retvals>
+   integer shape - 0, linear
+                 - 1, square
+                 - 2, slow start/end
+                 - 3, fast start
+                 - 4, fast end
+                 - 5, bezier
+   integer b - unknown; default value is -1; probably pitch/snap
+             - -1, unknown
+             -  2, unknown                        
+   integer c - unknown; default value is -1; probably pitch/snap
+             - -1, unknown
+             -  2, unknown 
+  </retvals>
+  <parameters>
+    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose state you want to know; nil, to use parameter EnvelopeStateChunk instead
+    optional string EnvelopeStateChunk - if TrackEnvelope is set to nil, you can pass an EnvelopeStateChunk into this parameter, to get that armed state
+  </parameters>
+  <chapter_context>
+    Envelope Management
+    Get Envelope States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>envelope states, get, defshape, envelopestatechunk</tags>
+</US_DocBloc>
+]]  
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("GetEnvelopeState_DefShape", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return end
+  if TrackEnvelope==nil and ultraschall.IsValidEnvStateChunk(EnvelopeStateChunk)==false then ultraschall.AddErrorMessage("GetEnvelopeState_DefShape", "EnvelopeStateChunk", "Must be a valid EnvelopeStateChunk", -2) return end
+  local retval, str
+  if TrackEnvelope==nil then 
+    str=EnvelopeStateChunk
+  else
+    retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+  end
+  return ultraschall.GetEnvelopeState_NumbersOnly("DEFSHAPE", str, "GetEnvelopeState_DefShape")
+end
+
+function ultraschall.GetEnvelopeState_Voltype(TrackEnvelope, EnvelopeStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetEnvelopeState_Voltype</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer voltype = ultraschall.GetEnvelopeState_Voltype(TrackEnvelope TrackEnvelope, optional string EnvelopeStateChunk)</functioncall>
+  <description>
+    Returns the current voltype-state of a TrackEnvelope-object or EnvelopeStateChunk.
+    
+    It is the state entry VOLTYPE
+    
+    returns nil in case of error
+  </description>
+  <retvals>
+   integer voltype - 1, default volume-type is fader-scaling; if VOLTYPE-entry is not existing, default volume-type is amplitude-scaling
+  </retvals>
+  <parameters>
+    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose state you want to know; nil, to use parameter EnvelopeStateChunk instead
+    optional string EnvelopeStateChunk - if TrackEnvelope is set to nil, you can pass an EnvelopeStateChunk into this parameter, to get that armed state
+  </parameters>
+  <chapter_context>
+    Envelope Management
+    Get Envelope States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>envelope states, get, voltype, envelopestatechunk</tags>
+</US_DocBloc>
+]]  
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("GetEnvelopeState_Voltype", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return end
+  if TrackEnvelope==nil and ultraschall.IsValidEnvStateChunk(EnvelopeStateChunk)==false then ultraschall.AddErrorMessage("GetEnvelopeState_Voltype", "EnvelopeStateChunk", "Must be a valid EnvelopeStateChunk", -2) return end
+  local retval, str
+  if TrackEnvelope==nil then 
+    str=EnvelopeStateChunk
+  else
+    retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+  end
+  local A={ultraschall.GetEnvelopeState_NumbersOnly("VOLTYPE", str, "GetEnvelopeState_Voltype")}
+  if A[1]==nil then return 0 else return table.unpack(A) end
+end
+
 ultraschall.ShowLastErrorMessage()

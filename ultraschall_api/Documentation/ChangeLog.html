@@ -54,6 +54,11 @@ Ultraschall API Changelog
 <h4>New features in 4.00beta2.9</h4>
 <ul>
 <li>API: StuffMidiMessage-AllMessages_Englisch_Windows.ini - contains all names for all potential StuffMIDIMessage-messages</li>
+<li>Envelope Management: GetEnvelopeState_Act - returns the values of the ACT-entry of a TrackEnvelope/EnvelopeStateChunk</li>
+<li>Envelope Management: GetEnvelopeState_DefShape - returns the values of the DEFSHAPE-entry of a TrackEnvelope/EnvelopeStateChunk</li>
+<li>Envelope Management: GetEnvelopeState_LaneHeight - returns the values of the LANEHEIGHT-entry of a TrackEnvelope/EnvelopeStateChunk</li>
+<li>Envelope Management: GetEnvelopeState_NumbersOnly - returns all values of a parameter from an EnvelopeStateChunk, including the undocumented ones when the devs add them</li>
+<li>Envelope Management: GetEnvelopeState_Vis - returns the values of the VIS-entry of a TrackEnvelope/EnvelopeStateChunk</li>
 <li>FXManagement: GetAllRFXChainfiles - returns all RFXChainfiles currently available in ResourcePath/FXChains</li>
 <li>FXManagement: GetRecentFX - returns the recent fx-list</li>
 <li>FXManagement: LoadFXStateChunkFromRFXChainFile - loads an FXStateChunk from an RFXChain-file</li>
@@ -68,6 +73,7 @@ Ultraschall API Changelog
 <h4>Changes from Beta 2.8 to Beta 2.9</h4>
 <ul>
 <li>ConfigurationManagement: GetIniFileValue - checks now, if the ini-file exists in the first place</li>
+<li>Envelope Management: GetArmState_Envelope - reimplemented, should now return future parameters as well, when added by the Reaper-devs</li>
 <li>FileManagement: GetAllFilenamesInPath - returns now the paths with / as separator only</li>
 <li>FileManagement: WriteValueToFile - produced Lua-error when passing a nil-value as filename<em>with</em>path -&gt; fixed</li>
 <li>FXManagement: GetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -&gt; fixed</li>
@@ -98,6 +104,9 @@ Ultraschall API Changelog
 <li>Marker Management: GetRegionByTime - retina will now be automatically set; parameter retina removed(please update your scripts!)</li>
 <li>Marker Management: GetTimesignaturesByScreenCoordinates - retina will now be automatically set; parameter retina removed(please update your scripts!)</li>
 <li>Marker Management: GetTimeSignaturesByTime - retina will now be automatically set; parameter retina removed(please update your scripts!)</li>
+<li>ParmAlias: GetParmAlias_MediaTrack - had wrong functionname in error-messages -&gt; fixed</li>
+<li>ParmAlias: Docs - all functions ParmLearn-function in the docs move to proper subchapters for clearer index-navigation</li>
+<li>Track Management: GetTrackState_NumbersOnly - had wrong description in the docs -&gt; fixed</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.80: - "Starsailor - Four to the Floor"</h3>
