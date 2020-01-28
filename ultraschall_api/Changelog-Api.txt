@@ -223,6 +223,8 @@ TODO!! buggy function
    - MIDI-Management: QueryMIDIMessageNameByID - returns the midi-message-name of a midi-message as sendable using StuffMIDIMessage
    - Project Management: GetRecentProjects - gets the last x recent projectfilenames, as listed in the recent projects-menu
    - Scripts: US\_Api\_Examples\_Working\_with\_FXStateChunks\_and\_MediaItems.lua - example of working with FXChainStateChunks
+   - Themeing: GetAllThemeLayoutNames - returns all layout-names and values of the current theme
+   - Themeing: GetAllThemeLayoutParameters - returns all theme-layout-parameter attributes of the current theme
    
 #### Changes from Beta 2.8 to Beta 2.9
    - ConfigurationManagement: GetIniFileValue - checks now, if the ini-file exists in the first place
