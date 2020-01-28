@@ -71,13 +71,21 @@ Ultraschall API Changelog
 <li>FXManagement: GetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -&gt; fixed</li>
 <li>FXManagement: RemoveFXStateChunkFromItemStateChunk - counted FXStateChunks, not Takes by parameter take_id -&gt; fixed</li>
 <li>FXManagement: SetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -&gt; fixed</li>
+<li>Marker Management: AddCustomMarker - returns now the indexnumber and guid of the newly added marker as well</li>
 <li>Marker Management: AddEditMarker - returns now the guid of the marker; did not return the correct marker-id, but rather the shown id; did not add a : after _edit -&gt; fixed</li>
+<li>Marker Management: AddEditRegion - returns now the guid of the region; did not return the correct marker-id, but rather the shown id -&gt; fixed</li>
 <li>Marker Management: AddNormalMarker - returns now the guid of the marker; did not return the correct marker-id, but rather the shown id -&gt; fixed</li>
-<li>Marker Management: AddPodRangeRegion - returns now the guid of the marker; did not return the correct marker-id, but rather the shown id -&gt; fixed</li>
+<li>Marker Management: AddPodRangeRegion - returns now the guid of the region; did not return the correct marker-id, but rather the shown id -&gt; fixed</li>
+<li>Marker Management: EnumerateCustomMarkers - returns now the guid of the marker as well</li>
 <li>Marker Management: EnumerateEditMarkers - returns now the guid of the marker as well</li>
+<li>Marker Management: EnumerateEditRegion - returns now the guid of the region as well</li>
 <li>Marker Management: EnumerateNormalMarkers - returns now the guid of the marker as well</li>
+<li>Marker Management: GetAllCustomMarkers - returns now the guid of the marker as well</li>
 <li>Marker Management: GetAllEditMarkers - returns now the guid of the editmarkers as well</li>
+<li>Marker Management: GetAllMarkersBetween - returns now the guid of the markers as well</li>
 <li>Marker Management: GetAllNormalMarkers - returns now the guid of the markers as well</li>
+<li>Marker Management: GetAllRegions - returns now the guid of the regions as well</li>
+<li>Marker Management: GetAllRegionsBetween - returns now the guid of the regions as well</li>
 <li>Marker Management: GetMarkerByName - returns now an array of guids as well; returned marker-numbers weren't useable with Reaper's own marker-functions due off by 1-error -&gt; fixed</li>
 <li>Marker Management: GetMarkerByName_Pattern - returns now an array of guids as well; returned marker-numbers weren't useable with Reaper's own marker-functions due off by 1-error -&gt; fixed</li>
 <li>Marker Management: GetMarkerAndRegionsByIndex - returns now the guid of the found marker as well</li>

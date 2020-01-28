@@ -4083,12 +4083,13 @@
             
             >**[AddEditMarker](usdocml://AddEditMarker)**
             
-                                  integer marker_number = ultraschall.AddEditMarker(number position, integer shown_number, string edittitle)
+                                  integer marker_number, string guid = ultraschall.AddEditMarker(number position, integer shown_number, string edittitle)
                                   
             >This adds a new edit-marker. Give it a position, the shown number and an edittitle, which should hint at the reason of having to edit later.  
             >The title will be shown in the marker as "\_edit: Title". You can change it manually in Reaper, but should retain "\_edit: ", as this signals the  
             >Ultraschall-API, if this is an edit-marker. The editmarker also is red (255 0 0).  
-            >It will return the marker-number, which is the index of all markers in the project, means: markers and regions.  
+            >It will return the marker-number, which is the index of all markers in the project, means: markers and regions, as well as a unique guid for this marker, which
+            >can be used for ExtStates, etc.
             
             >**[SetEditMarker](usdocml://SetEditMarker)**
             
@@ -4108,10 +4109,10 @@
             
             >**[EnumerateEditMarkers](usdocml://EnumerateEditMarkers)**
             
-                                  integer retnumber, integer shown_number, number position, string edittitle = ultraschall.EnumerateEditMarkers(integer edit_index)
+                                  integer retnumber, integer shown_number, number position, string edittitle, string guid = ultraschall.EnumerateEditMarkers(integer edit_index)
                                   
             >This enumerates an edit-marker and all of it's attributes. Just pass over to it the edit-index-number and it will return the overall marker-index-number(markers and regions)  
-            >the shown-number as well as it's position and the title of the edit(without the \_edit: ).
+            >the shown-number as well as it's position and the title of the edit(without the \_edit: ) and the guid of the edit-marker.
             
             >**[CountEditMarkers](usdocml://CountEditMarkers)**
             
@@ -4238,7 +4239,7 @@
             
             Let's take the example above with foobar and use ultraschall-functions for adding such a marker.
             
-                        retval = ultraschall.AddCustomMarker("foobar", 20, "I am the text of this marker", 1, 0)
+                        retval, markernumber, guid = ultraschall.AddCustomMarker("foobar", 20, "I am the text of this marker", 1, 0)
                     
             This would produce a custom-marker at position 20. And it's markertext would look like:
             

@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="42949.00" author="Meo Mespotine">
+      <version name="42951.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.9//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.9//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.9/ultraschall_api/Changelog-Api.txt</source>
@@ -459,23 +459,40 @@ Changes from Beta 2.8 to Beta 2.9
     FXStateChunks, not Takes by parameter take_id -> fixed
 -   FXManagement: SetFXStateChunk - counted FXStateChunks, not Takes by
     parameter TakeFXChain_id -> fixed
+-   Marker Management: AddCustomMarker - returns now the indexnumber and
+    guid of the newly added marker as well
 -   Marker Management: AddEditMarker - returns now the guid of the
     marker; did not return the correct marker-id, but rather the shown
     id; did not add a : after _edit -> fixed
+-   Marker Management: AddEditRegion - returns now the guid of the
+    region; did not return the correct marker-id, but rather the shown
+    id -> fixed
 -   Marker Management: AddNormalMarker - returns now the guid of the
     marker; did not return the correct marker-id, but rather the shown
     id -> fixed
 -   Marker Management: AddPodRangeRegion - returns now the guid of the
-    marker; did not return the correct marker-id, but rather the shown
+    region; did not return the correct marker-id, but rather the shown
     id -> fixed
+-   Marker Management: EnumerateCustomMarkers - returns now the guid of
+    the marker as well
 -   Marker Management: EnumerateEditMarkers - returns now the guid of
     the marker as well
+-   Marker Management: EnumerateEditRegion - returns now the guid of the
+    region as well
 -   Marker Management: EnumerateNormalMarkers - returns now the guid of
     the marker as well
+-   Marker Management: GetAllCustomMarkers - returns now the guid of the
+    marker as well
 -   Marker Management: GetAllEditMarkers - returns now the guid of the
     editmarkers as well
+-   Marker Management: GetAllMarkersBetween - returns now the guid of
+    the markers as well
 -   Marker Management: GetAllNormalMarkers - returns now the guid of the
     markers as well
+-   Marker Management: GetAllRegions - returns now the guid of the
+    regions as well
+-   Marker Management: GetAllRegionsBetween - returns now the guid of
+    the regions as well
 -   Marker Management: GetMarkerByName - returns now an array of guids
     as well; returned marker-numbers weren’t useable with Reaper’s own
     marker-functions due off by 1-error -> fixed
