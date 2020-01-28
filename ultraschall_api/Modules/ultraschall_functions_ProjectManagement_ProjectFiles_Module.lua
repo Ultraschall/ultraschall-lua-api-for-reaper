@@ -8617,7 +8617,7 @@ function ultraschall.GetProject_ProjectBay(projectfilename_with_path, ProjectSta
     end
   if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("GetProject_ProjectBay", "projectfilename_with_path", "No valid RPP-Projectfile!", -4) return nil end
   end
-  return ProjectStateChunk:match("<PROJBAY.-  >")
+  return ProjectStateChunk:match("<PROJBAY.-\n  >")
 end
 
 --A=ultraschall.ReadFullFile("c:\\automitem\\automitem.rpp")

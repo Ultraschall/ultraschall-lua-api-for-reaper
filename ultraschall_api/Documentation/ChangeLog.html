@@ -67,6 +67,8 @@ Ultraschall API Changelog
 <li>FXManagement: SaveFXStateChunkAsRFXChainfile - writes an FXStateChunk into an RFXChain-file</li>
 <li>KB.ini-Management: QueryKeyboardShortcutByKeyID - returns the actual shortcutname as stpred by the modifier-key-values in reaper-kb.ini's KEY-entries</li>
 <li>MIDI-Management: QueryMIDIMessageNameByID - returns the midi-message-name of a midi-message as sendable using StuffMIDIMessage</li>
+<li>Project Bay: IsValidProjectBayStateChunk - checks, if a ProjectBayStateChunk is a valid one</li>
+<li>Project Bay: GetAllMediaItems_FromProjectBayStateChunk - returns all items from a ProjectBayStateChunk as MediaItemStateChunkArray</li>
 <li>Project Management: GetRecentProjects - gets the last x recent projectfilenames, as listed in the recent projects-menu</li>
 <li>Scripts: US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua - example of working with FXChainStateChunks</li>
 <li>Themeing: GetAllThemeLayoutNames - returns all layout-names and values of the current theme</li>
@@ -108,6 +110,7 @@ Ultraschall API Changelog
 <li>Marker Management: GetTimeSignaturesByTime - retina will now be automatically set; parameter retina removed(please update your scripts!)</li>
 <li>ParmAlias: GetParmAlias_MediaTrack - had wrong functionname in error-messages -&gt; fixed</li>
 <li>ParmAlias: Docs - all functions ParmLearn-function in the docs move to proper subchapters for clearer index-navigation</li>
+<li>Project Management: GetAllMediaItems_FromProjectBayStateChunk - didn't return ProjectBayStateChunk properly -&gt; fixed</li>
 <li>Track Management: GetTrackState_NumbersOnly - had wrong description in the docs -&gt; fixed</li>
 </ul>
 <hr />

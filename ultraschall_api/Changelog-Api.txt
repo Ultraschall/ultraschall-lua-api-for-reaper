@@ -174,7 +174,7 @@
       TODO!!  - Get/SetProjectBay-functions
       TODO!!  - Envelope-StateChunk-functions
 
-        TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
+      TODO!!  - Mix-Snapshots, who store/retrieve the current/a former mix
 
       TODO!! SaveProjectAs(ReaProject project, newfilename, relative_sourcefilenames, ProjectStateChunk)
                  params:
@@ -228,6 +228,8 @@ TODO!! buggy function
    - FXManagement: SaveFXStateChunkAsRFXChainfile - writes an FXStateChunk into an RFXChain-file
    - KB.ini-Management: QueryKeyboardShortcutByKeyID - returns the actual shortcutname as stpred by the modifier-key-values in reaper-kb.ini's KEY-entries
    - MIDI-Management: QueryMIDIMessageNameByID - returns the midi-message-name of a midi-message as sendable using StuffMIDIMessage
+   - Project Bay: IsValidProjectBayStateChunk - checks, if a ProjectBayStateChunk is a valid one
+   - Project Bay: GetAllMediaItems\_FromProjectBayStateChunk - returns all items from a ProjectBayStateChunk as MediaItemStateChunkArray
    - Project Management: GetRecentProjects - gets the last x recent projectfilenames, as listed in the recent projects-menu
    - Scripts: US\_Api\_Examples\_Working\_with\_FXStateChunks\_and\_MediaItems.lua - example of working with FXChainStateChunks
    - Themeing: GetAllThemeLayoutNames - returns all layout-names and values of the current theme
@@ -268,6 +270,7 @@ TODO!! buggy function
    - Marker Management: GetTimeSignaturesByTime - retina will now be automatically set; parameter retina removed(please update your scripts!)
    - ParmAlias: GetParmAlias_MediaTrack - had wrong functionname in error-messages -> fixed
    - ParmAlias: Docs - all functions ParmLearn-function in the docs move to proper subchapters for clearer index-navigation
+   - Project Management: GetAllMediaItems_FromProjectBayStateChunk - didn't return ProjectBayStateChunk properly -> fixed
    - Track Management: GetTrackState_NumbersOnly - had wrong description in the docs -> fixed
   
    
