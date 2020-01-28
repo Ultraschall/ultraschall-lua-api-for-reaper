@@ -53,20 +53,35 @@ Ultraschall API Changelog
 </ul>
 <h4>New features in 4.00beta2.9</h4>
 <ul>
+<li>API: StuffMidiMessage-AllMessages_Englisch_Windows.ini - contains all names for all potential StuffMIDIMessage-messages</li>
 <li>FXManagement: GetAllRFXChainfiles - returns all RFXChainfiles currently available in ResourcePath/FXChains</li>
 <li>FXManagement: GetRecentFX - returns the recent fx-list</li>
 <li>FXManagement: LoadFXStateChunkFromRFXChainFile - loads an FXStateChunk from an RFXChain-file</li>
-<li>FXManagement: SaveFXStateChunkAsRFXChainfile - writes an FXStateChunk from an RFXChain-file</li>
+<li>FXManagement: SaveFXStateChunkAsRFXChainfile - writes an FXStateChunk into an RFXChain-file</li>
+<li>KB.ini-Management: QueryKeyboardShortcutByKeyID - returns the actual shortcutname as stpred by the modifier-key-values in reaper-kb.ini's KEY-entries</li>
+<li>MIDI-Management: QueryMIDIMessageNameByID - returns the midi-message-name of a midi-message as sendable using StuffMIDIMessage</li>
 <li>Project Management: GetRecentProjects - gets the last x recent projectfilenames, as listed in the recent projects-menu</li>
 <li>Scripts: US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua - example of working with FXChainStateChunks</li>
 </ul>
 <h4>Changes from Beta 2.8 to Beta 2.9</h4>
 <ul>
+<li>ConfigurationManagement: GetIniFileValue - checks now, if the ini-file exists in the first place</li>
 <li>FileManagement: GetAllFilenamesInPath - returns now the paths with / as separator only</li>
 <li>FileManagement: WriteValueToFile - produced Lua-error when passing a nil-value as filename<em>with</em>path -&gt; fixed</li>
 <li>FXManagement: GetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -&gt; fixed</li>
 <li>FXManagement: RemoveFXStateChunkFromItemStateChunk - counted FXStateChunks, not Takes by parameter take_id -&gt; fixed</li>
 <li>FXManagement: SetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -&gt; fixed</li>
+<li>Marker Management: AddEditMarker - returns now the guid of the marker; did not return the correct marker-id, but rather the shown id; did not add a : after _edit -&gt; fixed</li>
+<li>Marker Management: AddNormalMarker - returns now the guid of the marker; did not return the correct marker-id, but rather the shown id -&gt; fixed</li>
+<li>Marker Management: AddPodRangeRegion - returns now the guid of the marker; did not return the correct marker-id, but rather the shown id -&gt; fixed</li>
+<li>Marker Management: EnumerateEditMarkers - returns now the guid of the marker as well</li>
+<li>Marker Management: EnumerateNormalMarkers - returns now the guid of the marker as well</li>
+<li>Marker Management: GetAllEditMarkers - returns now the guid of the editmarkers as well</li>
+<li>Marker Management: GetAllNormalMarkers - returns now the guid of the markers as well</li>
+<li>Marker Management: GetMarkerByName - returns now an array of guids as well; returned marker-numbers weren't useable with Reaper's own marker-functions due off by 1-error -&gt; fixed</li>
+<li>Marker Management: GetMarkerByName_Pattern - returns now an array of guids as well; returned marker-numbers weren't useable with Reaper's own marker-functions due off by 1-error -&gt; fixed</li>
+<li>Marker Management: GetMarkerAndRegionsByIndex - returns now the guid of the found marker as well</li>
+<li>Marker Management: GetPodRangeRegion - returns now the guid of the podrangeregion as well</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.80: - "Starsailor - Four to the Floor"</h3>

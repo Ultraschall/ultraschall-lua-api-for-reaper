@@ -1,4 +1,6 @@
 <TODO>
+    GetKeyboardShortcutByKeyID (KEY-Einträge umwandeln in String in dem drin steht, welcher Taste das entspricht.)
+    
     For 4.01betas:
         StateChunkLayouter - support different "target"-statechunks, so you can layout a statechunk for direct usage within ProjectStateChunks, etc
         - TODO!! Defer   - registering of defer-using-running scripts into an extstate ultraschall->running_script_instance-> for monitoring purposes
@@ -202,19 +204,36 @@ TODO!! buggy function
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
 
 #### New features in 4.00beta2.9   
+   - API: StuffMidiMessage-AllMessages\_Englisch\_Windows.ini - contains all names for all potential StuffMIDIMessage-messages
    - FXManagement: GetAllRFXChainfiles - returns all RFXChainfiles currently available in ResourcePath/FXChains
    - FXManagement: GetRecentFX - returns the recent fx-list
    - FXManagement: LoadFXStateChunkFromRFXChainFile - loads an FXStateChunk from an RFXChain-file
-   - FXManagement: SaveFXStateChunkAsRFXChainfile - writes an FXStateChunk from an RFXChain-file
+   - FXManagement: SaveFXStateChunkAsRFXChainfile - writes an FXStateChunk into an RFXChain-file
+   - KB.ini-Management: QueryKeyboardShortcutByKeyID - returns the actual shortcutname as stpred by the modifier-key-values in reaper-kb.ini's KEY-entries
+   - MIDI-Management: QueryMIDIMessageNameByID - returns the midi-message-name of a midi-message as sendable using StuffMIDIMessage
    - Project Management: GetRecentProjects - gets the last x recent projectfilenames, as listed in the recent projects-menu
    - Scripts: US\_Api\_Examples\_Working\_with\_FXStateChunks\_and\_MediaItems.lua - example of working with FXChainStateChunks
    
 #### Changes from Beta 2.8 to Beta 2.9
+   - ConfigurationManagement: GetIniFileValue - checks now, if the ini-file exists in the first place
    - FileManagement: GetAllFilenamesInPath - returns now the paths with / as separator only
    - FileManagement: WriteValueToFile - produced Lua-error when passing a nil-value as filename_with_path -> fixed
    - FXManagement: GetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -> fixed
    - FXManagement: RemoveFXStateChunkFromItemStateChunk - counted FXStateChunks, not Takes by parameter take_id -> fixed
    - FXManagement: SetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -> fixed
+   - Marker Management: AddEditMarker - returns now the guid of the marker; did not return the correct marker-id, but rather the shown id; did not add a : after _edit -> fixed
+   - Marker Management: AddNormalMarker - returns now the guid of the marker; did not return the correct marker-id, but rather the shown id -> fixed
+   - Marker Management: AddPodRangeRegion - returns now the guid of the marker; did not return the correct marker-id, but rather the shown id -> fixed
+   - Marker Management: EnumerateEditMarkers - returns now the guid of the marker as well
+   - Marker Management: EnumerateNormalMarkers - returns now the guid of the marker as well
+   - Marker Management: GetAllEditMarkers - returns now the guid of the editmarkers as well
+   - Marker Management: GetAllNormalMarkers - returns now the guid of the markers as well
+   - Marker Management: GetMarkerByName - returns now an array of guids as well; returned marker-numbers weren't useable with Reaper's own marker-functions due off by 1-error -> fixed
+   - Marker Management: GetMarkerByName_Pattern - returns now an array of guids as well; returned marker-numbers weren't useable with Reaper's own marker-functions due off by 1-error -> fixed
+   - Marker Management: GetMarkerAndRegionsByIndex - returns now the guid of the found marker as well
+   - Marker Management: GetPodRangeRegion - returns now the guid of the podrangeregion as well
+
+   
 
 ---
 
