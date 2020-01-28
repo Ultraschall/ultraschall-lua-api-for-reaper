@@ -2,6 +2,16 @@
     Docs: DeferScripts_004_Manipulating and Protecting Defer-loops
     
     For 4.01betas:
+    
+    Add range before and after the position, so you can get markers, who aren't at the exact position
+    Use GetAllMarkersBetween/GetAllRegionsBetween to get them.
+       GetMarkerByScreenCoordinates 
+       GetMarkerByTime 
+       GetRegionByScreenCoordinates 
+       GetRegionByTime 
+       GetTimesignaturesByScreenCoordinates 
+       GetTimeSignaturesByTime 
+   
         StateChunkLayouter - support different "target"-statechunks, so you can layout a statechunk for direct usage within ProjectStateChunks, etc
         - TODO!! Defer   - registering of defer-using-running scripts into an extstate ultraschall->running_script_instance-> for monitoring purposes
                          - Defer -> identifier management must be more stable, without possible nameconflicts
@@ -236,11 +246,17 @@ TODO!! buggy function
    - Marker Management: GetAllNormalMarkers - returns now the guid of the markers as well
    - Marker Management: GetAllRegions - returns now the guid of the regions as well
    - Marker Management: GetAllRegionsBetween - returns now the guid of the regions as well
+   - Marker Management: GetMarkerAndRegionsByIndex - returns now the guid of the found marker as well
    - Marker Management: GetMarkerByName - returns now an array of guids as well; returned marker-numbers weren't useable with Reaper's own marker-functions due off by 1-error -> fixed
    - Marker Management: GetMarkerByName_Pattern - returns now an array of guids as well; returned marker-numbers weren't useable with Reaper's own marker-functions due off by 1-error -> fixed
-   - Marker Management: GetMarkerAndRegionsByIndex - returns now the guid of the found marker as well
+   - Marker Management: GetMarkerByScreenCoordinates - retina will now be automatically set; parameter retina removed(please update your scripts!)
+   - Marker Management: GetMarkerByTime - retina will now be automatically set; parameter retina removed(please update your scripts!)
    - Marker Management: GetPodRangeRegion - returns now the guid of the podrangeregion as well
-
+   - Marker Management: GetRegionByScreenCoordinates - retina will now be automatically set; parameter retina removed(please update your scripts!)
+   - Marker Management: GetRegionByTime - retina will now be automatically set; parameter retina removed(please update your scripts!)
+   - Marker Management: GetTimesignaturesByScreenCoordinates - retina will now be automatically set; parameter retina removed(please update your scripts!)
+   - Marker Management: GetTimeSignaturesByTime - retina will now be automatically set; parameter retina removed(please update your scripts!)
+   
    
 
 ---

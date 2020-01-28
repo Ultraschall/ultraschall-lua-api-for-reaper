@@ -1652,18 +1652,20 @@ function ultraschall.EditToMarker(number)
   return idx, shownmarker, position, markername
 end
 
-function ultraschall.GetMarkerByScreenCoordinates(xmouseposition, retina)
+function ultraschall.GetMarkerByScreenCoordinates(xmouseposition)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetMarkerByScreenCoordinates</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>string marker = ultraschall.GetMarkerByScreenCoordinates(integer xmouseposition, boolean retina)</functioncall>
+  <functioncall>string marker = ultraschall.GetMarkerByScreenCoordinates(integer xmouseposition)</functioncall>
   <description>
     returns the markers at a given absolute-x-pixel-position. It sees markers according their graphical representation in the arrange-view, not just their position! Returned string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2\n...".
+    Will return "", if no marker has been found.
+    
     Returns only markers, no time markers or regions!
     
     returns nil in case of an error
@@ -1674,7 +1676,6 @@ function ultraschall.GetMarkerByScreenCoordinates(xmouseposition, retina)
   </retvals>
   <parameters>
     integer xmouseposition - the absolute x-screen-position, like current mouse-position
-    boolean retina - if the screen-resolution is retina or hidpi, turn this true, else false
   </parameters>
   <chapter_context>
     Markers
@@ -1686,30 +1687,21 @@ function ultraschall.GetMarkerByScreenCoordinates(xmouseposition, retina)
 </US_DocBloc>
 ]]
   if math.type(xmouseposition)~="integer" then ultraschall.AddErrorMessage("GetMarkerByScreenCoordinates", "xmouseposition", "must be an integer", -1) return nil end
-  local one,two,three,four,five,six,seven,eight,nine,ten
-  if retina==false then
-    ten=84
-    nine=76
-    eight=68
-    seven=60
-    six=52
-    five=44
-    four=36
-    three=28
-    two=20
-    one=12
-  else
-    ten=84*2
-    nine=76*2
-    eight=68*2
-    seven=60*2
-    six=52*2
-    five=44*2
-    four=36*2
-    three=28*2
-    two=20*2
-    one=12*2
-  end
+  local one,two,three,four,five,six,seven,eight,nine,ten,scale
+  local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
+
+  if dpi=="512" then scale=2 else scale=1 end 
+  ten=84*scale
+  nine=76*scale
+  eight=68*scale
+  seven=60*scale
+  six=52*scale
+  five=44*scale
+  four=36*scale
+  three=28*scale
+  two=20*scale
+  one=12*scale
+  
   local retstring=""
   local temp
   
@@ -1736,22 +1728,24 @@ function ultraschall.GetMarkerByScreenCoordinates(xmouseposition, retina)
   return retstring--:match("(.-)%c.-%c")), tonumber(retstring:match(".-%c(.-)%c")), retstring:match(".-%c.-%c(.*)")
 end
 
-function ultraschall.GetMarkerByTime(position, retina)
+function ultraschall.GetMarkerByTime(position)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetMarkerByTime</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>string markers = ultraschall.GetMarkerByTime(number position, boolean retina)</functioncall>
+  <functioncall>string markers = ultraschall.GetMarkerByTime(number position)</functioncall>
   <description>
     returns the markers at a given project-position in seconds. 
     It sees markers according their actual graphical representation in the arrange-view, not just their position. 
     If, for example, you pass to it the current playposition, the function will return the marker as long as the playcursor is behind the marker-graphics.
     
     Returned string will be "Markeridx\npos\nName\nMarkeridx2\npos2\nName2\n...".
+    Will return "", if no marker has been found.
+    
     Returns only markers, no time markers or regions!
     
     returns nil in case of an error
@@ -1762,7 +1756,6 @@ function ultraschall.GetMarkerByTime(position, retina)
   </retvals>
   <parameters>
     number position - the time-position in seconds
-    boolean retina - if the screen-resolution is retina or hidpi, turn this true, else false
   </parameters>
   <chapter_context>
     Markers
@@ -1774,30 +1767,20 @@ function ultraschall.GetMarkerByTime(position, retina)
 </US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("GetMarkerByTime", "position", "must be a number", -1) return nil end
-  local one,two,three,four,five,six,seven,eight,nine,ten
-  if retina==false then
-    ten=84
-    nine=76
-    eight=68
-    seven=60
-    six=52
-    five=44
-    four=36
-    three=28
-    two=20
-    one=12
-  else
-    ten=84*2
-    nine=76*2
-    eight=68*2
-    seven=60*2
-    six=52*2
-    five=44*2
-    four=36*2
-    three=28*2
-    two=20*2
-    one=12*2
-  end
+  local one,two,three,four,five,six,seven,eight,nine,ten,scale
+  local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
+
+  if dpi=="512" then scale=2 else scale=1 end 
+  ten=84*scale
+  nine=76*scale
+  eight=68*scale
+  seven=60*scale
+  six=52*scale
+  five=44*scale
+  four=36*scale
+  three=28*scale
+  two=20*scale
+  one=12*scale
   local retstring=""
   local temp
   
@@ -1826,20 +1809,21 @@ function ultraschall.GetMarkerByTime(position, retina)
 end
 
 
-function ultraschall.GetRegionByScreenCoordinates(xmouseposition, retina)
+function ultraschall.GetRegionByScreenCoordinates(xmouseposition)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetRegionByScreenCoordinates</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>string markers = ultraschall.GetRegionByScreenCoordinates(integer xmouseposition, boolean retina)</functioncall>
+  <functioncall>string markers = ultraschall.GetRegionByScreenCoordinates(integer xmouseposition)</functioncall>
   <description>
     returns the regions at a given absolute-x-pixel-position. It sees regions according their graphical representation in the arrange-view, not just their position! Returned string will be "Regionidx\npos\nName\nRegionidx2\npos2\nName2\n...".
     Returns only regions, no time markers or other markers!
-    
+    Will return "", if no region has been found.
+        
     returns nil in case of an error
   </description>
   <retvals>
@@ -1848,7 +1832,6 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition, retina)
   </retvals>
   <parameters>
     integer xmouseposition - the absolute x-screen-position, like current mouse-position
-    boolean retina - if the screen-resolution is retina or hidpi, turn this true, else false
   </parameters>
   <chapter_context>
     Markers
@@ -1860,31 +1843,21 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition, retina)
 </US_DocBloc>
 ]]
   if math.type(xmouseposition)~="integer" then ultraschall.AddErrorMessage("GetRegionByScreenCoordinates", "xmouseposition", "must be an integer", -1) return nil end
+  local one,two,three,four,five,six,seven,eight,nine,ten,scale
+  local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
+
+  if dpi=="512" then scale=2 else scale=1 end 
+  ten=84*scale
+  nine=76*scale
+  eight=68*scale
+  seven=60*scale
+  six=52*scale
+  five=44*scale
+  four=36*scale
+  three=28*scale
+  two=20*scale
+  one=12*scale
   
-  local one,two,three,four,five,six,seven,eight,nine,ten
-  if retina==false then
-    ten=84
-    nine=76
-    eight=68
-    seven=60
-    six=52
-    five=44
-    four=36
-    three=28
-    two=20
-    one=12
-  else
-    ten=84*2
-    nine=76*2
-    eight=68*2
-    seven=60*2
-    six=52*2
-    five=44*2
-    four=36*2
-    three=28*2
-    two=20*2
-    one=12*2
-  end
   local retstring=""
   local temp
   local retval, num_markers, num_regions = reaper.CountProjectMarkers(0)
@@ -1912,19 +1885,20 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition, retina)
   return retstring
 end
 
-function ultraschall.GetRegionByTime(position, retina)
+function ultraschall.GetRegionByTime(position)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetRegionByTime</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>string markers = ultraschall.GetRegionByTime(number position, boolean retina)</functioncall>
+  <functioncall>string markers = ultraschall.GetRegionByTime(number position)</functioncall>
   <description>
     returns the regions at a given absolute-x-pixel-position. It sees regions according their graphical representation in the arrange-view, not just their position! Returned string will be "Regionidx\npos\nName\nRegionidx2\npos2\nName2\n...".
     Returns only regions, no timesignature-markers or other markers!
+    Will return "", if no region has been found.
     
     returns nil in case of an error
   </description>
@@ -1934,7 +1908,6 @@ function ultraschall.GetRegionByTime(position, retina)
   </retvals>
   <parameters>
     number position - position in seconds
-    boolean retina - if the screen-resolution is retina or hidpi, turn this true, else false
   </parameters>
   <chapter_context>
     Markers
@@ -1946,30 +1919,21 @@ function ultraschall.GetRegionByTime(position, retina)
 </US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("GetRegionByTime", "position", "must be a number", -1) return nil end
-  local one,two,three,four,five,six,seven,eight,nine,ten
-  if retina==false then
-    ten=84
-    nine=76
-    eight=68
-    seven=60
-    six=52
-    five=44
-    four=36
-    three=28
-    two=20
-    one=12
-  else
-    ten=84*2
-    nine=76*2
-    eight=68*2
-    seven=60*2
-    six=52*2
-    five=44*2
-    four=36*2
-    three=28*2
-    two=20*2
-    one=12*2
-  end
+  local one,two,three,four,five,six,seven,eight,nine,ten,scale
+  local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
+
+  if dpi=="512" then scale=2 else scale=1 end 
+  ten=84*scale
+  nine=76*scale
+  eight=68*scale
+  seven=60*scale
+  six=52*scale
+  five=44*scale
+  four=36*scale
+  three=28*scale
+  two=20*scale
+  one=12*scale
+  
   local retstring=""
   local temp
   local retval, num_markers, num_regions = reaper.CountProjectMarkers(0)
@@ -1998,20 +1962,21 @@ function ultraschall.GetRegionByTime(position, retina)
   return retstring
 end
 
-function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition, retina)
+function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTimesignaturesByScreenCoordinates</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>string markers = ultraschall.GetTimesignaturesByScreenCoordinates(integer xmouseposition, boolean retina)</functioncall>
+  <functioncall>string markers = ultraschall.GetTimesignaturesByScreenCoordinates(integer xmouseposition)</functioncall>
   <description>
     returns the time-signature/tempo-marker at a given absolute-x-pixel-position. It sees time-signature/tempo-markers according their graphical representation in the arrange-view, not just their position! Returned string will be "tempomarkeridx\npos\ntempomarkeridx2\npos2\n...".
     Returns only time-signature-markers, no regions or other markers!
-    
+    Will return "", if no timesig-marker has been found.
+        
     returns nil in case of an error
   </description>
   <retvals>
@@ -2020,7 +1985,6 @@ function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition, retina
   </retvals>
   <parameters>
     integer xmouseposition - the absolute x-screen-position, like current mouse-position
-    boolean retina - if the screen-resolution is retina or hidpi, turn this true, else false
   </parameters>
   <chapter_context>
     Markers
@@ -2032,30 +1996,21 @@ function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition, retina
 </US_DocBloc>
 ]]
   if math.type(xmouseposition)~="integer" then ultraschall.AddErrorMessage("GetTimesignaturesByScreenCoordinates", "xmouseposition", "must be an integer", -1) return nil end
-  local one,two,three,four,five,six,seven,eight,nine,ten
-  if retina==false then
-    ten=84
-    nine=76
-    eight=68
-    seven=60
-    six=52
-    five=44
-    four=36
-    three=28
-    two=20
-    one=12
-  else
-    ten=84*2
-    nine=76*2
-    eight=68*2
-    seven=60*2
-    six=52*2
-    five=44*2
-    four=36*2
-    three=28*2
-    two=20*2
-    one=12*2
-  end
+  local one,two,three,four,five,six,seven,eight,nine,ten,scale
+  local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
+
+  if dpi=="512" then scale=2 else scale=1 end 
+  ten=84*scale
+  nine=76*scale
+  eight=68*scale
+  seven=60*scale
+  six=52*scale
+  five=44*scale
+  four=36*scale
+  three=28*scale
+  two=20*scale
+  one=12*scale
+  
   local retstring=""
   local temp
   
@@ -2071,19 +2026,20 @@ function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition, retina
   return retstring
 end
 
-function ultraschall.GetTimeSignaturesByTime(position, retina)
+function ultraschall.GetTimeSignaturesByTime(position)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTimeSignaturesByTime</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>string markers = ultraschall.GetTimeSignaturesByTime(number position, boolean retina)</functioncall>
+  <functioncall>string markers = ultraschall.GetTimeSignaturesByTime(number position)</functioncall>
   <description>
     returns the time-signature/tempo-marker at a given absolute-x-pixel-position. It sees time-signature/tempo-markers according their graphical representation in the arrange-view, not just their position! Returned string will be "tempomarkeridx\npos\ntempomarkeridx2\npos2\n...".
     Returns only time-signature-markers, no other markers or regions!
+    Will return "", if no timesig-marker has been found.
     
     returns nil in case of an error
   </description>
@@ -2093,7 +2049,6 @@ function ultraschall.GetTimeSignaturesByTime(position, retina)
   </retvals>
   <parameters>
     number position - position in seconds
-    boolean retina - if the screen-resolution is retina or hidpi, turn this true, else false
   </parameters>
   <chapter_context>
     Markers
@@ -2105,30 +2060,21 @@ function ultraschall.GetTimeSignaturesByTime(position, retina)
 </US_DocBloc>
 ]]
   if type(position)~="number" then ultraschall.AddErrorMessage("GetTimeSignaturesByTime", "position", "must be a number", -1) return nil end
-  local one,two,three,four,five,six,seven,eight,nine,ten
-  if retina==false then
-    ten=84
-    nine=76
-    eight=68
-    seven=60
-    six=52
-    five=44
-    four=36
-    three=28
-    two=20
-    one=12
-  else
-    ten=84*2
-    nine=76*2
-    eight=68*2
-    seven=60*2
-    six=52*2
-    five=44*2
-    four=36*2
-    three=28*2
-    two=20*2
-    one=12*2
-  end
+  local one,two,three,four,five,six,seven,eight,nine,ten,scale
+  local retval, dpi = reaper.ThemeLayout_GetLayout("tcp", -3)
+
+  if dpi=="512" then scale=2 else scale=1 end 
+  ten=84*scale
+  nine=76*scale
+  eight=68*scale
+  seven=60*scale
+  six=52*scale
+  five=44*scale
+  four=36*scale
+  three=28*scale
+  two=20*scale
+  one=12*scale
+  
   local retstring=""
   local temp
   
