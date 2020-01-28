@@ -1990,4 +1990,170 @@ function ultraschall.GetEnvelopeState_Voltype(TrackEnvelope, EnvelopeStateChunk)
   if A[1]==nil then return 0 else return table.unpack(A) end
 end
 
+function ultraschall.GetEnvelopeState_PooledEnvInstance(index, TrackEnvelope, EnvelopeStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetEnvelopeState_PooledEnvInstance</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer id, number position, number length, number start_offset, number playrate, integer selected, number baseline, integer loopsource, integer i, number j, integer pool_id, integer mute = ultraschall.GetEnvelopeState_PooledEnvInstance(integer index, TrackEnvelope TrackEnvelope, optional string EnvelopeStateChunk)</functioncall>
+  <description>
+    Returns the current state of a certain automation-item within a TrackEnvelope-object or EnvelopeStateChunk.
+    
+    It is the state entry POOLEDENVINST
+    
+    returns nil in case of error
+  </description>
+  <retvals>
+    integer id - counter of automation-items; 1-based
+    number position - position in seconds
+    number length - length in seconds
+    number start_offset - offset in seconds
+    number playrate - playrate; minimum value is 0.001; default is 1.000
+    integer selected - 1, automation item is selected; 0, automation item isn't selected
+    number baseline - 0(-100) to 1(+100); default 0.5(0)
+    number amplitude - -2(-200) to 2(+200); default 1 (100)
+    integer loopsource - Loop Source; 0 and 1 are allowed settings; 1 is default
+    integer i - unknown; 0 is default
+    number j - unknown; 0 is default
+    integer pool_id - counts the automation-item-instances in this project, including deleted ones; 1-based
+    integer mute - 1, mute automation-item; 0, unmute automation-item
+  </retvals>
+  <parameters>
+    integer index - the index-number of the automation-item, whose states you want to have
+    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose state you want to know; nil, to use parameter EnvelopeStateChunk instead
+    optional string EnvelopeStateChunk - if TrackEnvelope is set to nil, you can pass an EnvelopeStateChunk into this parameter, to get that armed state
+  </parameters>
+  <chapter_context>
+    Envelope Management
+    Get Envelope States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>envelope states, get, pooled env instance, automation items, envelopestatechunk</tags>
+</US_DocBloc>
+]]  
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("GetEnvelopeState_PooledEnvInstance", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return end
+  if TrackEnvelope==nil and ultraschall.IsValidEnvStateChunk(EnvelopeStateChunk)==false then ultraschall.AddErrorMessage("GetEnvelopeState_PooledEnvInstance", "EnvelopeStateChunk", "Must be a valid EnvelopeStateChunk", -2) return end
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("GetEnvelopeState_PooledEnvInstance", "index", "Must be an integer", -3) return end
+  local retval, str
+  if TrackEnvelope==nil then 
+    str=EnvelopeStateChunk
+  else
+    retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+  end
+  
+  local count, individual_values, found
+  count=0
+  found=false
+  
+  for k in string.gmatch(str, "(POOLEDENVINST.-)\n") do
+    count=count+1
+    if index==count then
+      k=k.." "
+      count, individual_values = ultraschall.CSV2IndividualLinesAsArray(k, " ")
+      found=true
+      break
+    end
+  end
+  
+  if found==false then 
+    ultraschall.AddErrorMessage("GetEnvelopeState_PooledEnvInstance", "index", "no such automation-item available", -4)
+    return 
+  else 
+    for i=1, count do
+      individual_values[i]=tonumber(individual_values[i])
+    end
+    return table.unpack(individual_values)
+  end
+end
+
+function ultraschall.GetEnvelopeState_PT(index, TrackEnvelope, EnvelopeStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetEnvelopeState_PT</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>number position, integer volume, integer point_shape_1, integer point_shape_2, integer selected, number bezier_tens1, number bezier_tens2 = ultraschall.GetEnvelopeState_PT(TrackEnvelope TrackEnvelope, optional string EnvelopeStateChunk)</functioncall>
+  <description>
+    Returns the current state of a certain envelope-point within a TrackEnvelope-object or EnvelopeStateChunk.
+    
+    It is the state entry PT
+    
+    returns nil in case of error
+  </description>
+  <retvals>
+    number position - position of the point in seconds
+    integer volume - volume as fader-value
+    integer point_shape - may disappear with certain shapes, when point is unselected
+                        - the values for point_shape_1 and point_shape_2 are:
+                        - 0 0, linear
+                        - 1 0, square
+                        - 2 0, slow start/end
+                        - 3 0, fast start
+                        - 4 0, fast end
+                        - 5 1, bezier
+    integer selected - 1, selected; disappearing, unselected
+    number unknown - disappears, if no bezier is set
+    number bezier_tens2 - disappears, if no bezier is set; -1 to 1 
+                        - 0, for no bezier tension
+                        - -0.5, for fast-start-beziertension
+                        - 0.5, for fast-end-beziertension
+                        - 1, for square-tension
+  </retvals>
+  <parameters>
+    integer index - the index-number of the envelope-point, whose states you want to have
+    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose state you want to know; nil, to use parameter EnvelopeStateChunk instead
+    optional string EnvelopeStateChunk - if TrackEnvelope is set to nil, you can pass an EnvelopeStateChunk into this parameter, to get that armed state
+  </parameters>
+  <chapter_context>
+    Envelope Management
+    Get Envelope States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>envelope states, get, pt, envelope point, envelopestatechunk</tags>
+</US_DocBloc>
+]]  
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("GetEnvelopeState_PT", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return end
+  if TrackEnvelope==nil and ultraschall.IsValidEnvStateChunk(EnvelopeStateChunk)==false then ultraschall.AddErrorMessage("GetEnvelopeState_PT", "EnvelopeStateChunk", "Must be a valid EnvelopeStateChunk", -2) return end
+  if math.type(index)~="integer" then ultraschall.AddErrorMessage("GetEnvelopeState_PT", "index", "Must be an integer", -3) return end
+  local retval, str
+  if TrackEnvelope==nil then 
+    str=EnvelopeStateChunk
+  else
+    retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+  end
+  
+  local count, individual_values, found
+  count=0
+  found=false
+  
+  for k in string.gmatch(str, "(PT .-)\n") do
+    count=count+1
+    if index==count then
+      k=k.." "
+      count, individual_values = ultraschall.CSV2IndividualLinesAsArray(k, " ")
+      found=true
+      break
+    end
+  end
+  
+  if found==false then 
+    ultraschall.AddErrorMessage("GetEnvelopeState_PT", "index", "no such automation-item available", -4)
+    return 
+  else 
+    for i=1, count do
+      individual_values[i]=tonumber(individual_values[i])
+    end
+    return table.unpack(individual_values)
+  end
+end
+
 ultraschall.ShowLastErrorMessage()

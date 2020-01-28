@@ -219,6 +219,8 @@ TODO!! buggy function
    - Envelope Management: GetEnvelopeState\_DefShape - returns the values of the DEFSHAPE-entry of a TrackEnvelope/EnvelopeStateChunk
    - Envelope Management: GetEnvelopeState\_LaneHeight - returns the values of the LANEHEIGHT-entry of a TrackEnvelope/EnvelopeStateChunk
    - Envelope Management: GetEnvelopeState\_NumbersOnly - returns all values of a parameter from an EnvelopeStateChunk, including the undocumented ones when the devs add them
+   - Envelope Management: GetEnvelopeState\_PooledEnvInstance - returns the attributes of an automation-item within an EnvelopeStateChunk, including the undocumented ones when the devs add them
+   - Envelope Management: GetEnvelopeState\_PT - returns the attributes of an envelope-point within an EnvelopeStateChunk, including the undocumented ones when the devs add them
    - Envelope Management: GetEnvelopeState\_Vis - returns the values of the VIS-entry of a TrackEnvelope/EnvelopeStateChunk
    - FXManagement: GetAllRFXChainfiles - returns all RFXChainfiles currently available in ResourcePath/FXChains
    - FXManagement: GetRecentFX - returns the recent fx-list
