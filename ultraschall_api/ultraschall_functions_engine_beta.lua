@@ -2156,4 +2156,231 @@ function ultraschall.GetEnvelopeState_PT(index, TrackEnvelope, EnvelopeStateChun
   end
 end
 
+function ultraschall.IsValidProjectBayStateChunk(ProjectBayStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsValidProjectBayStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsValidProjectBayStateChunk(string ProjectBayStateChunk)</functioncall>
+  <description>
+    checks, if ProjectBayStateChunk is a valid ProjectBayStateChunk
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    string ProjectBayStateChunk - a string, that you want to check for being a valid ProjectBayStateChunk
+  </parameters>
+  <retvals>
+    boolean retval - true, valid ProjectBayStateChunk; false, not a valid ProjectBayStateChunk
+  </retvals>
+  <chapter_context>
+    Project-Management
+    ProjectBay
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>project management, check, projectbaystatechunk, is valid</tags>
+</US_DocBloc>
+]]
+  if type(ProjectBayStateChunk)~="string" then ultraschall.AddErrorMessage("IsValidProjectBayStateChunk", "ProjectBayStateChunk", "must be a string", -1) return false end
+  if ProjectBayStateChunk:match("<PROJBAY.-\n  >")==nil then return false else return true end
+end
+
+
+function ultraschall.GetAllMediaItems_FromProjectBayStateChunk(ProjectBayStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetAllMediaItems_FromProjectBayStateChunk</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer count, array MediaItemStateChunkArray = ultraschall.GetAllMediaItems_FromProjectBayStateChunk(string ProjectBayStateChunk)</functioncall>
+  <description>
+    returns all items from a ProjectBayStateChunk as MediaItemStateChunkArray
+    
+    returns -1 in case of an error
+  </description>
+  <parameters>
+    string ProjectBayStateChunk - a string, that you want to check for being a valid ProjectBayStateChunk
+  </parameters>
+  <retvals>
+    integer count - the number of items found in the ProjectBayStateChunk
+    array MediaitemStateChunkArray - all items as ItemStateChunks in a handy array
+  </retvals>
+  <chapter_context>
+    Project-Management
+    ProjectBay
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>project management, get, projectbaystatechunk, all items, mediaitemstatechunkarray</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidProjectBayStateChunk(ProjectBayStateChunk)==false then ultraschall.AddErrorMessage("GetAllMediaItems_FromProjectBayStateChunk", "ProjectBayStateChunk", "must be a valid ProjectBayStateChunk", -1) return -1 end
+  local MediaItemStateChunkArray={}
+  local count=0
+  for k in string.gmatch(ProjectBayStateChunk, "    <DATA.-\n    >") do
+    count=count+1
+    MediaItemStateChunkArray[count]=string.gsub(string.gsub(k, "    <DATA", "<ITEM"),"\n%s*", "\n").."\n"
+  end
+  return count, MediaItemStateChunkArray
+end
+
+function ultraschall.SetHelpDisplayMode(helpcontent, mouseediting)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetHelpDisplayMode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetHelpDisplayMode(integer helpcontent, boolean mouseediting)</functioncall>
+  <description>
+    sets the help-display-mode, as shown in the area beneath the track control panels.
+    
+    returns false in case of an error
+  </description>
+  <parameters>
+    integer helpcontent - 0, No information display  
+                        - 1, Reaper tips  
+                        - 2, Track/item count  
+                        - 3, selected track/item/envelope details  
+                        - 4, CPU/RAM use, time since last save  
+    boolean mouseediting - true, show mouse editing-help; false, don't show mouse editing-help
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <chapter_context>
+    User Interface
+    misc
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, set, show, help, helpcontent, mouseediting, tips</tags>
+</US_DocBloc>
+]]
+  if math.type(helpcontent)~="integer" then ultraschall.AddErrorMessage("SetHelpDisplayMode", "mode", "must be an integer", -1) return false end
+  if helpcontent<0 or helpcontent>4 then ultraschall.AddErrorMessage("SetHelpDisplayMode", "mode", "must be between 0 and 4", -2) return false end
+  if mouseediting==false then helpcontent=helpcontent+65536 end
+  if type(mouseediting)~="boolean" then ultraschall.AddErrorMessage("SetHelpDisplayMode", "mouseediting", "must be a boolean", -3) return false end
+  return reaper.SNM_SetIntConfigVar("help", helpcontent)
+end
+
+function ultraschall.GetHelpDisplayMode()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetHelpDisplayMode</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>integer helpcontent, boolean mouseediting = ultraschall.GetHelpDisplayMode()</functioncall>
+  <description>
+    gets the current help-display-mode, as shown in the area beneath the track control panels.
+  </description>
+  <retvals>
+    integer helpcontent - 0, No information display  
+                        - 1, Reaper tips  
+                        - 2, Track/item count  
+                        - 3, selected track/item/envelope details  
+                        - 4, CPU/RAM use, time since last save  
+    boolean mouseediting - true, show mouse editing-help; false, don't show mouse editing-help
+  </retvals>
+  <chapter_context>
+    User Interface
+    misc
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, get, show, help, helpcontent, mouseediting, tips</tags>
+</US_DocBloc>
+]]
+  local A1,B1=reaper.SNM_GetIntConfigVar("help", -999)
+  local mouse_editing=A1&65536~=0
+  A1=A1-65536
+  return A1, mouse_editing
+end
+
+function ultraschall.WiringDiagram_SetOptions(show_send_wires, show_routing_controls, show_hardware_outputs)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>WiringDiagram_SetOptions</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.WiringDiagram_SetOptions(boolean show_send_wires, boolean show_routing_controls, boolean show_hardware_outputs)</functioncall>
+  <description>
+    sets the current wiring-display-options
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was not successful
+  </retvals>
+  <parameters>
+    boolean show_send_wires - only show send wires on track mouseover; true, it's set; false, it's unset
+    boolean show_routing_controls - show routing controls when creating send/hardware output; true, it's set; false, it's unset
+    boolean show_hardware_outputs - only show hardware output/input wires on track mouseover; true, it's set; false, it's unset
+  </parameters>
+  <chapter_context>
+    User Interface
+    misc
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, set, wiring display, options</tags>
+</US_DocBloc>
+]]
+  local mode=0
+  if show_send_wires==true then mode=mode+1 end
+  if show_routing_controls==true then mode=mode+8 end
+  if show_hardware_outputs==true then mode=mode+16 end
+  return reaper.SNM_SetIntConfigVar("wiring_options", mode)
+end
+
+function ultraschall.WiringDiagram_GetOptions()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>WiringDiagram_GetOptions</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>boolean show_send_wires, boolean show_routing_controls, boolean show_hardware_outputs = ultraschall.WiringDiagram_GetOptions()</functioncall>
+  <description>
+    gets the current wiring-display-options
+  </description>
+  <retvals>
+    boolean show_send_wires - only show send wires on track mouseover; true, it's set; false, it's unset
+    boolean show_routing_controls - show routing controls when creating send/hardware output; true, it's set; false, it's unset
+    boolean show_hardware_outputs - only show hardware output/input wires on track mouseover; true, it's set; false, it's unset
+  </retvals>
+  <chapter_context>
+    User Interface
+    misc
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, get, wiring display, options</tags>
+</US_DocBloc>
+]]
+  local mode=reaper.SNM_GetIntConfigVar("wiring_options", -99)
+  return mode&1==1, mode&8==8, mode&16==16
+end
+
+
 ultraschall.ShowLastErrorMessage()

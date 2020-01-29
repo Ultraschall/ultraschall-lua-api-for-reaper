@@ -3431,6 +3431,7 @@
            >&32=1, Show recording volume name(on), checked  
             
            set in Preferences -> Buffering -> Advanced Disk I/O Settings!  
+      
            >&64=1 - Periodially close excess file handles(experimental)-checkbox unchecked  
            >&64=1 - Periodially close excess file handles(experimental)-checkbox checked  
            
@@ -4361,14 +4362,14 @@
       <title>help</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
           Stores the settings for the help-information-display under the TCP, as set in it's accompanying context-menu.  
-          It is an integer-bitfield.  
+          It is an integer/integer-bitfield.  
           
            >Only one of the following can be set:  
-             &0=1, No information display  
-             &1=1, Reaper tips  
-             &2=1, Track/item count  
-             &3=1, selected track/item/envelope details  
-             &4=1, CPU/RAM use, time since last save   
+             0, No information display  
+             1, Reaper tips  
+             2, Track/item count  
+             3, selected track/item/envelope details  
+             4, CPU/RAM use, time since last save   
            
            >This one can be set all the times:  
              &65536=0, Show mouse editing-help(on), checked  
@@ -6052,9 +6053,12 @@
            >&16=0, Master track -> Show in separate window(off) - unchecked  
            >&16=1, Master track -> Show in separate window(on) - checked  
            
-          also for  
+          &16 is also for  
+          
            >&16=0, Master track -> Show in docker(off) - unchecked  
            >&16=1, Master track -> Show in docker(on) - checked  
+           
+          so you can really decide, which setting to use
             
           For other mixer-context-menu-settings, see [showctinmix](#showctinmix), [mixrowflags](#mixrowflags) and [mixeruiflag](#mixeruiflag)  
             
@@ -12424,8 +12428,8 @@
            >&1=0, only show send wires on track mouseover - unchecked   
            >&1=1, only show send wires on track mouseover - checked   
             
-           >&16=0, show routing controls when creating send/hardware output - unchecked   
-           >&16=1, show routing controls when creating send/hardware output - checked   
+           >&8=0, show routing controls when creating send/hardware output - unchecked   
+           >&8=1, show routing controls when creating send/hardware output - checked   
             
            >&16=0, only show hardware output/input wires on track mouseover - unchecked   
            >&16=1, only show hardware output/input wires on track mouseover - checked   

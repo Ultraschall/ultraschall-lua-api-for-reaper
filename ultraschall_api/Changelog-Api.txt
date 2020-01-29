@@ -234,6 +234,10 @@ TODO!! buggy function
    - Scripts: US\_Api\_Examples\_Working\_with\_FXStateChunks\_and\_MediaItems.lua - example of working with FXChainStateChunks
    - Themeing: GetAllThemeLayoutNames - returns all layout-names and values of the current theme
    - Themeing: GetAllThemeLayoutParameters - returns all theme-layout-parameter attributes of the current theme
+   - User Interface: GetHelpDisplayMode - returns the current help-display-mode
+   - User Interface: SetHelpDisplayMode - sets the current help-display-mode
+   - User Interface: WiringDiagram_GetOptions - gets the current wiring-diagram-options
+   - User Interface: WiringDiagram_SetOptions - sets the wiring-diagram-options
    
 #### Changes from Beta 2.8 to Beta 2.9
    - ConfigurationManagement: GetIniFileValue - checks now, if the ini-file exists in the first place
