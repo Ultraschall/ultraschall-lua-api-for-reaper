@@ -876,7 +876,7 @@ function ultraschall.CheckForValidFileFormats(filename_with_path)
   --print2(content:sub(13,14))
   -- check for a specific imagefile supported by Reaper
   if     content:match("JFIF")~=nil then return "JPG", true, "Image"
-  elseif content:sub(7,14)=="Exif\0\0MM" then return "JPG", true, "Image"
+  elseif content:sub(1,3)=="ÿØÿ" then return "JPG", true, "Image"
   elseif content:sub(2,4)=="PNG" then return "PNG", true, "Image"
   elseif content:sub(1,2)=="BM" then return "BMP", true, "Image"
   elseif content:sub(1,3)=="GIF" then return "GIF", true, "Image"

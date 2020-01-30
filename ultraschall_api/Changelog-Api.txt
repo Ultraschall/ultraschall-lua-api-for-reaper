@@ -226,6 +226,7 @@ TODO!! buggy function
    - FXManagement: GetRecentFX - returns the recent fx-list
    - FXManagement: LoadFXStateChunkFromRFXChainFile - loads an FXStateChunk from an RFXChain-file
    - FXManagement: SaveFXStateChunkAsRFXChainfile - writes an FXStateChunk into an RFXChain-file
+   - Image Handling: ResizePNG - resizes a png-file into a new file
    - KB.ini-Management: QueryKeyboardShortcutByKeyID - returns the actual shortcutname as stpred by the modifier-key-values in reaper-kb.ini's KEY-entries
    - Metadata-Management: ProjExtState_CountAllKeys - counts the number of keys within a section of a ProjectExtState
    - MIDI-Management: QueryMIDIMessageNameByID - returns the midi-message-name of a midi-message as sendable using StuffMIDIMessage

@@ -2426,4 +2426,80 @@ function ultraschall.ProjExtState_CountAllKeys(section)
 end  
 
 
+function ultraschall.ResizePNG(filename_with_path, outputfilename_with_path, aspectratio, width, height)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ResizePNG</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    JS=0.997
+    Lua=5.3
+  </requires>
+  <functioncall>integer count = ultraschall.ResizePNG(string filename_with_path, string outputfilename_with_path, boolean aspectratio, integer width, integer height)</functioncall>
+  <description>
+    resizes a png-file. It will stretch/shrink the picture by that. That means you can't crop or enhance pngs with this function.
+    
+    If you set aspectratio=true, then the image will be resized with correct aspect-ratio. However, it will use the value from parameter width as maximum size for each side of the picture.
+    So if the height of the png is bigger than the width, the height will get the size and width will be shrinked accordingly.
+    
+    When making pngs bigger, pixelation will occur. No pixel-filtering within this function!
+    
+    returns false in case of an error 
+  </description>
+  <parameters>
+    string filename_with_path - the png-file, that you want to resize
+    string outputfilename_with_path - the output-file, where to store the resized png
+    boolean aspectratio - true, keep aspect-ratio(use size of param width as base); false, don't keep aspect-ratio
+    integer width - the width of the newly created png in pixels
+    integer height - the height of the newly created png in pixels
+  </parameters>
+  <retvals>
+    boolean retval - true, resizing was successful; false, resizing was unsuccessful
+  </retvals>
+  <chapter_context>
+    Image File Handling
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>image file handling, resize, png, image, graphics</tags>
+</US_DocBloc>
+]]
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("ResizePNG", "filename_with_path", "must be a string", -1) return false end
+  if type(outputfilename_with_path)~="string" then ultraschall.AddErrorMessage("ResizePNG", "outputfilename_with_path", "must be a string", -2) return false end
+  if reaper.file_exists(filename_with_path)==false then ultraschall.AddErrorMessage("ResizePNG", "filename_with_path", "file can not be opened", -3) return false end
+  if type(aspectratio)~="boolean" then ultraschall.AddErrorMessage("ResizePNG", "aspectratio", "must be a boolean", -4) return false end
+  if math.type(width)~="integer" then ultraschall.AddErrorMessage("ResizePNG", "width", "must be an integer", -5) return false end
+  if aspectratio==false and math.type(height)~="integer" then ultraschall.AddErrorMessage("ResizePNG", "height", "must be an integer, when aspectratio==false", -6) return false end
+  
+  local Identifier, Identifier2, squaresize, NewWidth, NewHeight, Height, Width, Retval
+  Identifier=reaper.JS_LICE_LoadPNG(filename_with_path)
+  Width=reaper.JS_LICE_GetWidth(Identifier)
+  Height=reaper.JS_LICE_GetHeight(Identifier)
+  if aspectratio==true then
+    squaresize=width
+    if Width>Height then 
+      NewWidth=squaresize
+      NewHeight=((100/Width)*Height)
+      NewHeight=NewHeight/100
+      NewHeight=math.floor(squaresize*NewHeight)
+    else
+      NewHeight=squaresize
+      NewWidth=((100/Height)*Width)
+      NewWidth=NewWidth/100
+      NewWidth=math.floor(squaresize*NewWidth)
+    end
+  else
+    NewHeight=height
+    NewWidth=width
+  end
+  
+  Identifier2=reaper.JS_LICE_CreateBitmap(true, NewWidth, NewHeight)
+  reaper.JS_LICE_ScaledBlit(Identifier2, 0, 0, NewWidth, NewHeight, Identifier, 0, 0, Width, Height, 1, "COPY")
+  Retval=reaper.JS_LICE_WritePNG(outputfilename_with_path, Identifier2, true)
+  reaper.JS_LICE_DestroyBitmap(Identifier)
+  reaper.JS_LICE_DestroyBitmap(Identifier2)
+  if Retval==false then ultraschall.AddErrorMessage("ResizePNG", "outputfilename_with_path", "Can't write outputfile", -7) return false end
+end
+
 ultraschall.ShowLastErrorMessage()
