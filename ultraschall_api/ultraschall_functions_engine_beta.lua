@@ -2382,5 +2382,48 @@ function ultraschall.WiringDiagram_GetOptions()
   return mode&1==1, mode&8==8, mode&16==16
 end
 
+function ultraschall.ProjExtState_CountAllKeys(section)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ProjExtState_CountAllKeys</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer count = ultraschall.ProjExtState_CountAllKeys(string section)</functioncall>
+  <description>
+    Counts all keys stored within a certain ProjExtState-section.
+    
+    Be aware: if you want to enumerate them using reaper.EnumProjExtState, the first key is indexed 0, the second 1, etc!
+    
+    returns -1 in case of an error 
+  </description>
+  <parameters>
+    string section - the section, of which you want to count all keys
+  </parameters>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was unsuccessful
+  </retvals>
+  <chapter_context>
+    Metadata Management
+    Extension States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>metadate management, projextstate, project, extstate, count</tags>
+</US_DocBloc>
+]]
+  if type(section)~="string" then ultraschall.AddErrorMessage("ProjExtState_CountAllKeys", "section", "must be a string", -1) return -1 end
+  local dingo=1
+  local stringer
+  while dingo~=0 do
+    stringer=reaper.genGuid("")..reaper.genGuid("")..reaper.genGuid("")..reaper.genGuid("")..reaper.genGuid("")..reaper.genGuid("")..reaper.genGuid("")..reaper.genGuid("")
+    dingo=reaper.GetProjExtState(0, section, stringer)
+  end
+  
+  return reaper.SetProjExtState(0, section, stringer, "")
+end  
+
 
 ultraschall.ShowLastErrorMessage()

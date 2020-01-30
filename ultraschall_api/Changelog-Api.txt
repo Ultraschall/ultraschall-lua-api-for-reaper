@@ -227,6 +227,7 @@ TODO!! buggy function
    - FXManagement: LoadFXStateChunkFromRFXChainFile - loads an FXStateChunk from an RFXChain-file
    - FXManagement: SaveFXStateChunkAsRFXChainfile - writes an FXStateChunk into an RFXChain-file
    - KB.ini-Management: QueryKeyboardShortcutByKeyID - returns the actual shortcutname as stpred by the modifier-key-values in reaper-kb.ini's KEY-entries
+   - Metadata-Management: ProjExtState_CountAllKeys - counts the number of keys within a section of a ProjectExtState
    - MIDI-Management: QueryMIDIMessageNameByID - returns the midi-message-name of a midi-message as sendable using StuffMIDIMessage
    - Project Bay: IsValidProjectBayStateChunk - checks, if a ProjectBayStateChunk is a valid one
    - Project Bay: GetAllMediaItems\_FromProjectBayStateChunk - returns all items from a ProjectBayStateChunk as MediaItemStateChunkArray
@@ -243,6 +244,7 @@ TODO!! buggy function
    - ConfigurationManagement: GetIniFileValue - checks now, if the ini-file exists in the first place
    - Envelope Management: GetArmState_Envelope - reimplemented, should now return future parameters as well, when added by the Reaper-devs
    - FileManagement: GetAllFilenamesInPath - returns now the paths with / as separator only
+   - FileManagement: GetMediafileAttributes - did not recognize jpgs with exif-data -> should be fixed now
    - FileManagement: WriteValueToFile - produced Lua-error when passing a nil-value as filename_with_path -> fixed
    - FXManagement: GetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -> fixed
    - FXManagement: RemoveFXStateChunkFromItemStateChunk - counted FXStateChunks, not Takes by parameter take_id -> fixed

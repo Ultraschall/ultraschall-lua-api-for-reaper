@@ -66,6 +66,7 @@ Ultraschall API Changelog
 <li>FXManagement: LoadFXStateChunkFromRFXChainFile - loads an FXStateChunk from an RFXChain-file</li>
 <li>FXManagement: SaveFXStateChunkAsRFXChainfile - writes an FXStateChunk into an RFXChain-file</li>
 <li>KB.ini-Management: QueryKeyboardShortcutByKeyID - returns the actual shortcutname as stpred by the modifier-key-values in reaper-kb.ini's KEY-entries</li>
+<li>Metadata-Management: ProjExtState_CountAllKeys - counts the number of keys within a section of a ProjectExtState</li>
 <li>MIDI-Management: QueryMIDIMessageNameByID - returns the midi-message-name of a midi-message as sendable using StuffMIDIMessage</li>
 <li>Project Bay: IsValidProjectBayStateChunk - checks, if a ProjectBayStateChunk is a valid one</li>
 <li>Project Bay: GetAllMediaItems_FromProjectBayStateChunk - returns all items from a ProjectBayStateChunk as MediaItemStateChunkArray</li>
@@ -83,6 +84,7 @@ Ultraschall API Changelog
 <li>ConfigurationManagement: GetIniFileValue - checks now, if the ini-file exists in the first place</li>
 <li>Envelope Management: GetArmState_Envelope - reimplemented, should now return future parameters as well, when added by the Reaper-devs</li>
 <li>FileManagement: GetAllFilenamesInPath - returns now the paths with / as separator only</li>
+<li>FileManagement: GetMediafileAttributes - did not recognize jpgs with exif-data -&gt; should be fixed now</li>
 <li>FileManagement: WriteValueToFile - produced Lua-error when passing a nil-value as filename<em>with</em>path -&gt; fixed</li>
 <li>FXManagement: GetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -&gt; fixed</li>
 <li>FXManagement: RemoveFXStateChunkFromItemStateChunk - counted FXStateChunks, not Takes by parameter take_id -&gt; fixed</li>
