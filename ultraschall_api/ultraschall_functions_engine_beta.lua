@@ -2502,4 +2502,136 @@ function ultraschall.ResizePNG(filename_with_path, outputfilename_with_path, asp
   if Retval==false then ultraschall.AddErrorMessage("ResizePNG", "outputfilename_with_path", "Can't write outputfile", -7) return false end
 end
 
+function ultraschall.CaptureScreenAreaAsPNG(filename_with_path, x, y, w, h)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CaptureScreenAreaAsPNG</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    JS=0.997
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.CaptureScreenAreaAsPNG(string filename_with_path, integer x, integer y, integer w, integer h)</functioncall>
+  <description>
+    captures an area of the screen and writes it as png-file.
+    
+    returns false in case of an error 
+  </description>
+  <parameters>
+    string filename_with_path - the filename with path of the png-file to write
+    integer x - the x-position of the area to capture
+    integer y - the y-position of the area to capture
+    integer w - the width of the area to capture
+    integer h - the height of the area to capture
+  </parameters>
+  <retvals>
+    boolean retval - true, capturing was successful; false, capturing was unsuccessful
+  </retvals>
+  <chapter_context>
+    Image File Handling
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>image file handling, capturing, capture, screen, png, image, graphics</tags>
+</US_DocBloc>
+]]
+  if math.type(x)~="integer" then ultraschall.AddErrorMessage("CaptureScreenAreaAsPNG", "x", "must be an integer", -1) return false end
+  if math.type(y)~="integer" then ultraschall.AddErrorMessage("CaptureScreenAreaAsPNG", "y", "must be an integer", -2) return false end
+  if math.type(w)~="integer" then ultraschall.AddErrorMessage("CaptureScreenAreaAsPNG", "w", "must be an integer", -3) return false end
+  if math.type(h)~="integer" then ultraschall.AddErrorMessage("CaptureScreenAreaAsPNG", "h", "must be an integer", -4) return false end
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("CaptureScreenAreaAsPNG", "filename_with_path", "must be a string", -5) return false end
+  -- written by Edgemeal. Big thanks for that!
+  local sourceHDC = reaper.JS_GDI_GetScreenDC()
+  local destBmp = reaper.JS_LICE_CreateBitmap(true,w,h)
+  local destDC = reaper.JS_LICE_GetDC(destBmp)
+  reaper.JS_GDI_Blit(destDC, 0, 0, sourceHDC, x, y, w, h)
+  local writeable=reaper.JS_LICE_WritePNG(filename_with_path, destBmp, false)
+  reaper.JS_LICE_DestroyBitmap(destBmp)
+  reaper.JS_GDI_ReleaseDC(sourceHDC, sourceHDC)
+  if writeable==false then ultraschall.AddErrorMessage("CaptureScreenAreaAsPNG", "filename_with_path", "can not write png-file", -6) return false end
+  return writeable
+end
+
+function ultraschall.CaptureWindowAsPNG(windowTitle, filename_with_path, x, y, w, h, win10)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CaptureWindowAsPNG</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    JS=0.997
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.CaptureWindowAsPNG(identifier window_or_windowtitle, string filename_with_path, integer x, integer y, integer w, integer h, boolean win10)</functioncall>
+  <description>
+    captures a window and stores it as png-file.
+    
+    Keep in mind, that even if you choose a dedicated window, if it's located behind other windows, these might be captured as well.
+    
+    returns false in case of an error 
+  </description>
+  <parameters>
+    identifier window_or_windowtitle - either a hwnd or the exact windowtitle of the window, which you want to capture
+    string filename_with_path - the filename with path of the output-file
+    integer x - the x-position within the window to capture; nil, to use the left side of the window
+    integer y - the y-position within the window to capture; nil, to use the top side of the window
+    integer w - the width of the capture-area; nil, to use the width of the window
+    integer h - the height of the capture-area; nil, to use the height of the window
+    boolean win10 - true, use the workaround for invisible window-borders on windows 10; false, just capture the window
+  </parameters>
+  <retvals>
+    boolean retval - true, capturing was successful; false, capturing was unsuccessful
+  </retvals>
+  <chapter_context>
+    Image File Handling
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>image file handling, capturing, capture, window, png, image, graphics</tags>
+</US_DocBloc>
+]]
+  -- written by Edgemeal. Big thanks for that!
+  local window
+  ultraschall.SuppressErrorMessages(true)
+  if ultraschall.IsValidHWND(windowTitle)==true then 
+    ultraschall.SuppressErrorMessages(false)
+    window=windowTitle
+  else
+    window = reaper.JS_Window_FindTop(windowTitle, true)
+    if ultraschall.IsValidHWND(window)==false then ultraschall.AddErrorMessage("CaptureWindowAsPNG", "windowTitle", "can not find such a window", -1) return 1 end
+  end
+  
+  ultraschall.SuppressErrorMessages(false)
+
+  if type(filename_with_path)~="string" then ultraschall.AddErrorMessage("CaptureWindowAsPNG", "filename_with_path", "must be a string", -2) return 2 end
+  if x~=nil and math.type(x)~="integer" then ultraschall.AddErrorMessage("CaptureWindowAsPNG", "x", "must be an integer", -3) return 3 end
+  if y~=nil and math.type(y)~="integer" then ultraschall.AddErrorMessage("CaptureWindowAsPNG", "y", "must be an integer", -4) return 4 end
+  if w~=nil and math.type(w)~="integer" then ultraschall.AddErrorMessage("CaptureWindowAsPNG", "w", "must be an integer", -5) return 5 end
+  if h~=nil and math.type(h)~="integer" then ultraschall.AddErrorMessage("CaptureWindowAsPNG", "h", "must be an integer", -6) return 6 end
+  if type(win10) ~="boolean" then ultraschall.AddErrorMessage("CaptureWindowAsPNG", "win10", "must be a boolean", -7) return 7 end
+  
+  local sourceHDC = reaper.JS_GDI_GetWindowDC(window)
+  
+  local _, Aleft, Atop, Aright, Abottom = reaper.JS_Window_GetRect(window)
+  Aright=Aright-Aleft
+  Abottom=Abottom-Atop
+  if x==nil then x=0 end
+  if y==nil then y=0 end
+  if w==nil then w=Aright end
+  if h==nil then h=Abottom end
+  
+  if win10 then srcx=7 w=w-14 h=h-7 end -- workaround for invisible Win10 borders.
+  local dest_bmp = reaper.JS_LICE_CreateBitmap(true,w,h)
+  local destDC = reaper.JS_LICE_GetDC(dest_bmp)
+  -- copy source to dest & write PNG
+  reaper.JS_GDI_Blit(destDC, 0, 0, sourceHDC, x, y, w, h)
+  local writeable = reaper.JS_LICE_WritePNG(filename_with_path, dest_bmp, false)
+  -- clean up resources
+  reaper.JS_GDI_ReleaseDC(window, sourceHDC)
+  reaper.JS_LICE_DestroyBitmap(dest_bmp)
+  if writeable==false then ultraschall.AddErrorMessage("CaptureWindowAsPNG", "filename_with_path", "can not write png-file", -8) return 8 end
+  return writeable
+end
+
 ultraschall.ShowLastErrorMessage()

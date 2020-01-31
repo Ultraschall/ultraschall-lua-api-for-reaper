@@ -65,6 +65,8 @@ Ultraschall API Changelog
 <li>FXManagement: GetRecentFX - returns the recent fx-list</li>
 <li>FXManagement: LoadFXStateChunkFromRFXChainFile - loads an FXStateChunk from an RFXChain-file</li>
 <li>FXManagement: SaveFXStateChunkAsRFXChainfile - writes an FXStateChunk into an RFXChain-file</li>
+<li>Image Handling: CaptureScreenAreaAsPNG - captures a screenarea and writes it as png-file(written by edgemeal, big thanks for that!)</li>
+<li>Image Handling: CaptureWindowAsPNG - captures a window-area and writes it as a png-file(written by edgemeal, big thanks for that!)</li>
 <li>Image Handling: ResizePNG - resizes a png-file into a new file</li>
 <li>KB.ini-Management: QueryKeyboardShortcutByKeyID - returns the actual shortcutname as stpred by the modifier-key-values in reaper-kb.ini's KEY-entries</li>
 <li>Metadata-Management: ProjExtState_CountAllKeys - counts the number of keys within a section of a ProjectExtState</li>
@@ -90,6 +92,7 @@ Ultraschall API Changelog
 <li>FXManagement: GetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -&gt; fixed</li>
 <li>FXManagement: RemoveFXStateChunkFromItemStateChunk - counted FXStateChunks, not Takes by parameter take_id -&gt; fixed</li>
 <li>FXManagement: SetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -&gt; fixed</li>
+<li>GFX: GFX_Init - when x and/or y position are set to nil, the window will be centered now</li>
 <li>Marker Management: AddCustomMarker - returns now the indexnumber and guid of the newly added marker as well</li>
 <li>Marker Management: AddEditMarker - returns now the guid of the marker; did not return the correct marker-id, but rather the shown id; did not add a : after _edit -&gt; fixed</li>
 <li>Marker Management: AddEditRegion - returns now the guid of the region; did not return the correct marker-id, but rather the shown id -&gt; fixed</li>

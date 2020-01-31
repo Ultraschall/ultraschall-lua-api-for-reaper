@@ -544,8 +544,8 @@ function ultraschall.GFX_Init(...)
     optional integer width -  the width of the window; minmum is 50
     optional integer height -  the height of the window; minimum is 16
     optional integer dockstate - &1=0, undocked; &1=1, docked
-    optional integer xpos - x-position of the window in pixels; minimum is -80
-    optional integer ypos - y-position of the window in pixels; minimum is -15
+    optional integer xpos - x-position of the window in pixels; minimum is -80; nil, to center it horizontally
+    optional integer ypos - y-position of the window in pixels; minimum is -15; nil, to center it vertically
   </parameters>
   <retvals>
     number retval  -  1.0, if window is opened
@@ -580,6 +580,15 @@ function ultraschall.GFX_Init(...)
     -- use that found, unused windowtitle as temporary windowtitle
     parms[1]=parms[1]..freeslot
     
+    local A1,B,C,D=reaper.my_getViewport(0,0,0,0, 0,0,0,0, false)
+    
+    if parms[5]==nil then
+      parms[5]=(C-parms[2])/2
+    end
+    if parms[6]==nil then
+      parms[6]=(D-parms[3])/2
+    end
+
     -- open window  
     retval=gfx.init(table.unpack(parms))
     

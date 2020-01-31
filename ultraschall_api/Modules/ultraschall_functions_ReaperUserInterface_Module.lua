@@ -833,7 +833,7 @@ function ultraschall.IsValidHWND(HWND)
   <tags>window, hwnd, is valid, check</tags>
 </US_DocBloc>
 ]]
-  if reaper.ValidatePtr(HWND, "HWND*")==false then ultraschall.AddErrorMessage("IsValidHWND", "HWND", "Not a valid HWND.", -2) return false end
+  if reaper.ValidatePtr(HWND, "HWND")==false then ultraschall.AddErrorMessage("IsValidHWND", "HWND", "Not a valid HWND.", -2) return false end
   if pcall(reaper.JS_Window_GetTitle, HWND, "")==false then ultraschall.AddErrorMessage("IsValidHWND", "HWND", "Not a valid HWND.", -1) return false end
   return true
 end
