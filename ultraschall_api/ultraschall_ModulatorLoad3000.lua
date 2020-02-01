@@ -1426,9 +1426,9 @@ else
     ultraschall.LM(14)
     return ultraschall.GetRegionByTime(table.unpack({...}))
   end
-  function ultraschall.GetTimesignaturesByScreenCoordinates(...)
+  function ultraschall.GetTimeSignaturesByScreenCoordinates(...)
     ultraschall.LM(14)
-    return ultraschall.GetTimesignaturesByScreenCoordinates(table.unpack({...}))
+    return ultraschall.GetTimeSignaturesByScreenCoordinates(table.unpack({...}))
   end
   function ultraschall.GetTimeSignaturesByTime(...)
     ultraschall.LM(14)

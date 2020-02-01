@@ -4590,7 +4590,7 @@ function ultraschall.PrintProgressBar(show, length, maximumvalue, currentvalue, 
       Reaper=5.965
       Lua=5.3
     </requires>
-    <functioncall>boolean retval = ultraschall.PrintProgressBar(boolean show, integer length, integer maximumvalue, integer currentvalue, boolean percentage, integer offset, optional string toptext, optional string bottomtext)</functioncall>
+    <functioncall>boolean retval, string ProgressString, integer percentage, integer progress_position = ultraschall.PrintProgressBar(boolean show, integer length, integer maximumvalue, integer currentvalue, boolean percentage, integer offset, optional string toptext, optional string bottomtext)</functioncall>
     <description markup_type="markdown" markup_version="1.0.1" indent="default">
       Calculate a simple progressbar, which can be optionally displayed in the ReaScript console; Will clear the console before displaying the next updated progressbar.
 
@@ -4682,12 +4682,16 @@ function ultraschall.PrintProgressBar(show, length, maximumvalue, currentvalue, 
       Percentage=tostring(math.ceil((100/maximumvalue)*currentvalue)).." %"
       if Percentage:len()==4 then Percentage=" "..Percentage end
       if Percentage:len()==3 then Percentage="  "..Percentage end
+      Percentage=tonumber(Percentage:sub(1,-2))
+      if Percentage>100 then Percentage=100 end
       if math.ceil((100/maximumvalue)*currentvalue)<100 then
         ProgressString=String_offset..ProgressString:sub(1,math.ceil(ProgressString:len()/2-3))..Percentage..ProgressString:sub(math.ceil(ProgressString:len()/2+3),-1)
       else
         ProgressString=String_progress:sub(0,status)
         ProgressString=String_offset..ProgressString:sub(1,math.ceil(ProgressString:len()/2-3))..Percentage..ProgressString:sub(math.ceil(ProgressString:len()/2+2),-1)
       end
+    else
+      Percentage=nil
     end
     if remaining_time~=nil then ProgressString=ProgressString.."\n"..remaining_time end
     if toptext~=nil then ProgressString=toptext.."\n"..ProgressString end
@@ -4703,7 +4707,7 @@ function ultraschall.PrintProgressBar(show, length, maximumvalue, currentvalue, 
     ultraschall.lasttoptext=toptext
     ultraschall.progressbar_lastbottomtext=bottomtext
   end
-  return true, ProgressString, tonumber(Percentage:sub(1,-2)), status
+  return true, ProgressString, Percentage, status
 end
 
 

@@ -1962,16 +1962,16 @@ function ultraschall.GetRegionByTime(position)
   return retstring
 end
 
-function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition)
+function ultraschall.GetTimeSignaturesByScreenCoordinates(xmouseposition)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>GetTimesignaturesByScreenCoordinates</slug>
+  <slug>GetTimeSignaturesByScreenCoordinates</slug>
   <requires>
     Ultraschall=4.00
     Reaper=6.02
     Lua=5.3
   </requires>
-  <functioncall>string markers = ultraschall.GetTimesignaturesByScreenCoordinates(integer xmouseposition)</functioncall>
+  <functioncall>string markers = ultraschall.GetTimeSignaturesByScreenCoordinates(integer xmouseposition)</functioncall>
   <description>
     returns the time-signature/tempo-marker at a given absolute-x-pixel-position. It sees time-signature/tempo-markers according their graphical representation in the arrange-view, not just their position! Returned string will be "tempomarkeridx\npos\ntempomarkeridx2\npos2\n...".
     Returns only time-signature-markers, no regions or other markers!
@@ -2025,6 +2025,11 @@ function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition)
   end
   return retstring
 end
+
+function ultraschall.GetTimesignaturesByScreenCoordinates(xmouseposition)
+  return ultraschall.GetTimeSignaturesByScreenCoordinates(xmouseposition)
+end
+
 
 function ultraschall.GetTimeSignaturesByTime(position)
 --[[

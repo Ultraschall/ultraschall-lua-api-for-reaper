@@ -2433,7 +2433,7 @@ function ultraschall.ResizePNG(filename_with_path, outputfilename_with_path, asp
   <requires>
     Ultraschall=4.00
     Reaper=6.02
-    JS=0.997
+    JS=0.998
     Lua=5.3
   </requires>
   <functioncall>integer count = ultraschall.ResizePNG(string filename_with_path, string outputfilename_with_path, boolean aspectratio, integer width, integer height)</functioncall>
@@ -2509,7 +2509,7 @@ function ultraschall.CaptureScreenAreaAsPNG(filename_with_path, x, y, w, h)
   <requires>
     Ultraschall=4.00
     Reaper=6.02
-    JS=0.997
+    JS=0.998
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.CaptureScreenAreaAsPNG(string filename_with_path, integer x, integer y, integer w, integer h)</functioncall>
@@ -2560,13 +2560,14 @@ function ultraschall.CaptureWindowAsPNG(windowTitle, filename_with_path, x, y, w
   <requires>
     Ultraschall=4.00
     Reaper=6.02
-    JS=0.997
+    JS=0.998
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.CaptureWindowAsPNG(identifier window_or_windowtitle, string filename_with_path, integer x, integer y, integer w, integer h, boolean win10)</functioncall>
   <description>
     captures a window and stores it as png-file.
     
+    Note for Windows-users with no Windows 10:
     Keep in mind, that even if you choose a dedicated window, if it's located behind other windows, these might be captured as well.
     
     returns false in case of an error 
@@ -2632,6 +2633,45 @@ function ultraschall.CaptureWindowAsPNG(windowTitle, filename_with_path, x, y, w
   reaper.JS_LICE_DestroyBitmap(dest_bmp)
   if writeable==false then ultraschall.AddErrorMessage("CaptureWindowAsPNG", "filename_with_path", "can not write png-file", -8) return 8 end
   return writeable
+end
+
+function ultraschall.MoveFileOrFolder(file_foldername, oldpath, newpath)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MoveFileOrFolder</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.MoveFileOrFolder(string file_foldername, string oldpath, string newpath)</functioncall>
+  <description>
+    Moves a file or folder from oldpath to newpath.
+    
+    returns false in case of an error 
+  </description>
+  <parameters>
+    string file_foldername - the folder- or filename, which you want to move
+    string oldpath - the old path, in which the file or folder is located
+    string newpath - the new path, into which the file or folder shall be moved
+  </parameters>
+  <retvals>
+    boolean retval - true, moving was successful; false, moving was unsuccessful
+  </retvals>
+  <chapter_context>
+    Manipulate Files
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>filemanagement, move, folder, directory, file, sourcepath, oldpath, newpath, targetpath</tags>
+</US_DocBloc>
+]]
+  if type(file_foldername)~="string" then ultraschall.AddErrorMessage("MoveFileOrFolder",  "file_foldername", "must be a string", -1) return false end
+  if type(oldpath)~="string" then ultraschall.AddErrorMessage("MoveFileOrFolder",  "oldpath", "must be a string", -2) return false end
+  if type(newpath)~="string" then ultraschall.AddErrorMessage("MoveFileOrFolder",  "newpath", "must be a string", -3) return false end
+  if ultraschall.DirectoryExists(oldpath, file_foldername)==false and reaper.file_exists(oldpath.."/"..file_foldername)==false then ultraschall.AddErrorMessage("MoveFileOrFolder",  "file_foldername", "no such sourcefile or directory", -4) return false end
+  if ultraschall.DirectoryExists(newpath, file_foldername)==true or reaper.file_exists(newpath.."/"..file_foldername)==true then ultraschall.AddErrorMessage("MoveFileOrFolder",  "file_foldername", "target-file or -directory already exists", -5) return false end
+  return os.rename(oldpath.."/"..file_foldername, newpath.."/"..file_foldername)
 end
 
 ultraschall.ShowLastErrorMessage()
