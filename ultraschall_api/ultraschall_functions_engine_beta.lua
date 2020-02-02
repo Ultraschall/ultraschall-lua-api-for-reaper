@@ -2674,4 +2674,117 @@ function ultraschall.MoveFileOrFolder(file_foldername, oldpath, newpath)
   return os.rename(oldpath.."/"..file_foldername, newpath.."/"..file_foldername)
 end
 
+function ultraschall.Render_Loop(RenderTable, RenderFilename, AutoIncrement, FirstStart, FirstEnd, SecondStart, SecondEnd, FadeIn, FadeOut, FadeInShape, FadeOutShape)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>Render_Loop</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    SWS=2.10.0.1
+    JS=0.998
+    Lua=5.3
+  </requires>
+  <functioncall>integer count, array MediaItemStateChunkArray, array Filearray = ultraschall.Render_Loop(table RenderTable, string RenderFilename, boolean AutoIncrement, number FirstStart, number FirstEnd, number SecondStart, number SecondEnd, number FadeIn, number FadeOut, integer FadeInShape, integer FadeOutShape)</functioncall>
+  <description>
+    Renders a part of a project using 2 passes. Good for rendering loops, including wetloops.
+    
+    The first pass will be set by FirstStart and FirstStart. This is the one for possible fx-buildups(reverbs, etc).
+    The second pass will be set by SecondStart and SecondEnd. This is the one, which "crops" the first-pass to its correct length.
+    
+    You can also influence the second pass by setting fadein and fadeout, including the fadein/fadeout-shape. 
+    That way, you can control, how the beginning and the end of the loop-item sounds.
+    
+    SecondStart and SecondEnd are in relation of the original source project. SecondStart is from the beginning of the source-project, NOT FirstStart!
+    
+    returns -1 in case of an error 
+  </description>
+  <parameters>
+    table RenderTable - the RenderTable, which holds the render-settings for the second pass
+    string RenderFilename - the filename with path of the final rendered file
+    boolean AutoIncrement - true, autoincrement the filename(if it already exists); false, ask before rendering(if file already exists)
+    number FirstStart - the beginning of the first-pass-render in seconds
+    number FirstEnd - the end of the first-pass-render in seconds
+    number SecondStart - the beginning of the second-pass-render in seconds
+    number SecondEnd - the end of the second-pass-render in seconds
+    number FadeIn - the length of the fade-in in the second-pass-render and therefore the final rendered file in seconds
+    number FadeOut - the length of the fade-out in the second-pass-render and therefore the final rendered file in seconds
+    integer FadeInShape - the shape of the fade-in-curve; fadein shape, 0..6, 0=linear
+    integer FadeOutShape - the shape of the fade-out-curve; fadeout shape, 0..6, 0=linear
+  </parameters>
+  <retvals>
+    integer count - the number of rendered files
+    array MediaItemStateChunkArray - all MediaItemStateChunks within an array
+    array Filearray - all rendered filenames including path
+  </retvals>
+  <chapter_context>
+    Rendering Projects
+    Rendering any Outputformat
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>render management, render, loop, first pass, second pass</tags>
+</US_DocBloc>
+]]
+  if ultraschall.IsValidRenderTable(RenderTable)==false then ultraschall.AddErrorMessage("Render_Loop", "RenderTable", "Not a valid RenderTable", -1) return -1 end
+  if type(RenderFilename)~="string" then ultraschall.AddErrorMessage("Render_Loop", "RenderFilename", "Must be a string", -2) return -1 end
+  if type(AutoIncrement)~="boolean" then ultraschall.AddErrorMessage("Render_Loop", "AutoIncrement", "Must be a boolean", -3) return -1 end
+  if type(FirstStart)~="number" then ultraschall.AddErrorMessage("Render_Loop", "FirstStart", "Must be a number", -4) return -1 end
+  if type(FirstEnd)~="number" then ultraschall.AddErrorMessage("Render_Loop", "FirstEnd", "Must be a number", -5) return -1 end
+  if type(SecondStart)~="number" then ultraschall.AddErrorMessage("Render_Loop", "SecondStart", "Must be a number", -6) return -1 end
+  if type(SecondEnd)~="number" then ultraschall.AddErrorMessage("Render_Loop", "SecondEnd", "Must be a number", -7) return -1 end
+
+  if type(FadeIn)~="number" then ultraschall.AddErrorMessage("Render_Loop", "FadeIn", "Must be a number", -8) return -1 end
+  if type(FadeOut)~="number" then ultraschall.AddErrorMessage("Render_Loop", "FadeOut", "Must be a number", -9) return -1 end
+  
+  if math.type(FadeInShape)~="integer" then ultraschall.AddErrorMessage("Render_Loop", "FadeInShape", "Must be an integer", -10) return -1 end
+  if math.type(FadeOutShape)~="integer" then ultraschall.AddErrorMessage("Render_Loop", "FadeOutShape", "Must be an integer", -11) return -1 end
+  
+  local RenderFilename2=ultraschall.Api_Path.."/temp/LoopRender/"..reaper.genGuid("")..".wav"
+  local RenderFilenamepath, RenderFilenamefilename = ultraschall.GetPath(RenderFilename2)
+  local RenderFilenamepath2, RenderFilenamefilename2 = ultraschall.GetPath(RenderFilename)
+  
+  local ThirdStart=SecondStart-FirstStart
+  local ThirdEnd=SecondEnd-FirstStart
+  
+  local render_cfg_string = ultraschall.CreateRenderCFG_WAV(4, 0, 0, 0, false)
+  
+  local RenderTable2 = ultraschall.CreateNewRenderTable(0, 0, FirstStart, FirstEnd, 1, 0, RenderFilenamepath, RenderFilenamefilename, 192000, 2, 0, true, 0, false, false, 0, render_cfg_string, false, false, false, false, 0, true, false)
+  
+  local count, MediaItemStateChunkArray, Filearray = ultraschall.RenderProject_RenderTable(nil, RenderTable2, false, true, false)
+  if count==-1 then 
+    ultraschall.AddErrorMessage("Render_Loop", "", "First Pass-Render has been cancelled", -12) 
+    local dircount, dirs, filecount, files = ultraschall.GetAllRecursiveFilesAndSubdirectories(ultraschall.Api_Path.."/temp/LoopRender/")
+    for i=1, filecount do
+      os.remove(files[i])
+    end
+    return -1 
+  end
+  local O=ultraschall.ReadFullFile(ultraschall.Api_Path.."/misc/tempproject.RPP")
+  local newproject = ultraschall.NewProjectTab(true)
+  reaper.Main_openProject("noprompt:"..ultraschall.Api_Path.."/misc/tempproject.RPP")
+  local retval, item, endposition, numchannels, Samplerate, Filetype, editcursorposition, track = ultraschall.InsertMediaItemFromFile(RenderFilename2, 1, 0, -1, 0)
+  reaper.SetMediaItemInfo_Value(item, "D_FADEINLEN", FadeIn)
+  reaper.SetMediaItemInfo_Value(item, "D_FADEOUTLEN", FadeOut)
+  reaper.SetMediaItemInfo_Value(item, "C_FADEINSHAPE", FadeInShape)
+  reaper.SetMediaItemInfo_Value(item, "C_FADEOUTSHAPE", FadeOutShape)
+  reaper.UpdateArrange()
+  RenderTable["Startposition"]=ThirdStart
+  RenderTable["Endposition"]=ThirdEnd
+  RenderTable["RenderFile"]=RenderFilenamepath2
+  RenderTable["RenderPattern"]=RenderFilenamefilename2
+  local count, MediaItemStateChunkArray, Filearray = ultraschall.RenderProject_RenderTable(nil, RenderTable, false, true, AutoIncrement)
+  reaper.Main_SaveProject(0,false)
+  reaper.Main_OnCommand(40860,0)
+  ultraschall.WriteValueToFile(ultraschall.Api_Path.."/misc/tempproject.RPP",O)
+  os.remove(RenderFilename2)
+  
+  local dircount, dirs, filecount, files = ultraschall.GetAllRecursiveFilesAndSubdirectories(ultraschall.Api_Path.."/temp/LoopRender/")
+  for i=1, filecount do
+    os.remove(files[i])
+  end
+  if count==-1 then ultraschall.AddErrorMessage("Render_Loop", "", "Second Pass-Render has been cancelled", -13) return -1 end
+  return count, MediaItemStateChunkArray, Filearray
+end
+
 ultraschall.ShowLastErrorMessage()

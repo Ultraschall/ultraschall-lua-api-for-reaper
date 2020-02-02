@@ -3053,7 +3053,7 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
     Reaper=6.04
     Lua=5.3
   </requires>
-  <functioncall>RenderTable RenderTable = ultraschall.IsValidRenderTable(integer Source, integer Bounds, number Startposition, number Endposition, integer TailFlag, integer TailMS, string RenderFile, string RenderPattern, integer SampleRate, integer Channels, integer OfflineOnlineRendering, boolean ProjectSampleRateFXProcessing, integer RenderResample, boolean OnlyMonoMedia, boolean MultiChannelFiles, integer Dither, string RenderString, boolean SilentlyIncrementFilename, boolean AddToProj, boolean SaveCopyOfProject, boolean RenderQueueDelay, integer RenderQueueDelaySeconds, boolean CloseAfterRender, optional boolean EmbedStretchMarkers, optional string RenderString2)</functioncall>
+  <functioncall>RenderTable RenderTable = ultraschall.CreateNewRenderTable(integer Source, integer Bounds, number Startposition, number Endposition, integer TailFlag, integer TailMS, string RenderFile, string RenderPattern, integer SampleRate, integer Channels, integer OfflineOnlineRendering, boolean ProjectSampleRateFXProcessing, integer RenderResample, boolean OnlyMonoMedia, boolean MultiChannelFiles, integer Dither, string RenderString, boolean SilentlyIncrementFilename, boolean AddToProj, boolean SaveCopyOfProject, boolean RenderQueueDelay, integer RenderQueueDelaySeconds, boolean CloseAfterRender, optional boolean EmbedStretchMarkers, optional string RenderString2)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Creates a new RenderTable.
     

@@ -1,7 +1,7 @@
 <TODO>
     leftpanewid
-    looprendering
     Soundboard-FadeIn
+
     ultraschall.MoveFileOrFolder(file_foldername, oldpath, newpath)
         Man kann damit Dateien UND Ordner verschieben(at least unter Windows)
         Check mal, ob das auch unter Linux und MacOS geht!
@@ -251,6 +251,7 @@ TODO!! buggy function
    - Project Bay: IsValidProjectBayStateChunk - checks, if a ProjectBayStateChunk is a valid one
    - Project Bay: GetAllMediaItems\_FromProjectBayStateChunk - returns all items from a ProjectBayStateChunk as MediaItemStateChunkArray
    - Project Management: GetRecentProjects - gets the last x recent projectfilenames, as listed in the recent projects-menu
+   - Rendering: Render_Loop - renders a part of a project for later use as loop; supports also the creation of "wetloops" like ones with reverb(requested by klangfarben)
    - Scripts: US\_Api\_Examples\_Working\_with\_FXStateChunks\_and\_MediaItems.lua - example of working with FXChainStateChunks
    - Themeing: GetAllThemeLayoutNames - returns all layout-names and values of the current theme
    - Themeing: GetAllThemeLayoutParameters - returns all theme-layout-parameter attributes of the current theme
@@ -302,7 +303,7 @@ TODO!! buggy function
    - Project Management: SetProject_RenderCFG - allows now setting of secondary render-format as well; backwards compatible with old scripts, who set only primary rendering format in ProjectStateChunks
    - Rendering: AddRenderPreset - allows now adding the render-cfg-string for secondary renderformat as well; had inner variable exposed -> fixed
    - Rendering: ApplyRenderTable_Project - allows now setting the render-cfg-string for secondary renderformat as well
-   - Rendering: CreateNewRenderTable - allows now adding the render-cfg-string for secondary renderformat as well
+   - Rendering: CreateNewRenderTable - allows now adding the render-cfg-string for secondary renderformat as well; had wrong functionname in docs -> fixed
    - Rendering: DeleteRenderPreset_FormatOptions - deletes now the render-cfg-string for secondary renderformat, if existing
    - Rendering: GetRenderPreset_RenderTable - returns now possible render-cfg-string for secondary renderformat as well; some error-messages didn't work -> fixed
    - Rendering: GetRenderTable_Project - returns now a render-cfg-string for secondary renderformat

@@ -75,6 +75,7 @@ Ultraschall API Changelog
 <li>Project Bay: IsValidProjectBayStateChunk - checks, if a ProjectBayStateChunk is a valid one</li>
 <li>Project Bay: GetAllMediaItems_FromProjectBayStateChunk - returns all items from a ProjectBayStateChunk as MediaItemStateChunkArray</li>
 <li>Project Management: GetRecentProjects - gets the last x recent projectfilenames, as listed in the recent projects-menu</li>
+<li>Rendering: Render_Loop - renders a part of a project for later use as loop; supports also the creation of "wetloops" like ones with reverb(requested by klangfarben)</li>
 <li>Scripts: US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua - example of working with FXChainStateChunks</li>
 <li>Themeing: GetAllThemeLayoutNames - returns all layout-names and values of the current theme</li>
 <li>Themeing: GetAllThemeLayoutParameters - returns all theme-layout-parameter attributes of the current theme</li>
@@ -127,7 +128,7 @@ Ultraschall API Changelog
 <li>Project Management: SetProject_RenderCFG - allows now setting of secondary render-format as well; backwards compatible with old scripts, who set only primary rendering format in ProjectStateChunks</li>
 <li>Rendering: AddRenderPreset - allows now adding the render-cfg-string for secondary renderformat as well; had inner variable exposed -&gt; fixed</li>
 <li>Rendering: ApplyRenderTable_Project - allows now setting the render-cfg-string for secondary renderformat as well</li>
-<li>Rendering: CreateNewRenderTable - allows now adding the render-cfg-string for secondary renderformat as well</li>
+<li>Rendering: CreateNewRenderTable - allows now adding the render-cfg-string for secondary renderformat as well; had wrong functionname in docs -&gt; fixed</li>
 <li>Rendering: DeleteRenderPreset_FormatOptions - deletes now the render-cfg-string for secondary renderformat, if existing</li>
 <li>Rendering: GetRenderPreset_RenderTable - returns now possible render-cfg-string for secondary renderformat as well; some error-messages didn't work -&gt; fixed</li>
 <li>Rendering: GetRenderTable_Project - returns now a render-cfg-string for secondary renderformat</li>
