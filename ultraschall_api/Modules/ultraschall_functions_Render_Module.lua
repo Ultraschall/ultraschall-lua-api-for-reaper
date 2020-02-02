@@ -2039,7 +2039,7 @@ function ultraschall.GetRenderTable_Project()
   <slug>GetRenderTable_Project</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=6.02
+    Reaper=6.04
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
@@ -2064,7 +2064,8 @@ function ultraschall.GetRenderTable_Project()
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
-            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
+            RenderTable["RenderString2"] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked
@@ -2133,6 +2134,7 @@ function ultraschall.GetRenderTable_Project()
   _temp, RenderTable["RenderFile"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FILE", "", false)
   _temp, RenderTable["RenderPattern"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", "", false)
   _temp, RenderTable["RenderString"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", "", false)
+  _temp, RenderTable["RenderString2"]=reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT2", "", false)
   RenderTable["EmbedStretchMarkers"]=ultraschall.GetRender_EmbedStretchMarkers()
             
   if reaper.SNM_GetIntConfigVar("renderclosewhendone", -111)&16==0 then
@@ -2163,7 +2165,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
   <slug>GetRenderTable_ProjectFile</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=6.02
+    Reaper=6.04
     Lua=5.3
   </requires>
   <functioncall>table RenderTable = ultraschall.GetRenderTable_ProjectFile(string projectfilename_with_path)</functioncall>
@@ -2186,7 +2188,8 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checkbox is checked; false, checkbox is unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
-            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
+            RenderTable["RenderString2"] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; always true(checked), as this isn't stored in projectfiles
@@ -2230,7 +2233,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
   local render_pattern = ultraschall.GetProject_RenderPattern(nil, ProjectStateChunk)
   if render_pattern==nil then render_pattern="" end
   local render_filename = ultraschall.GetProject_RenderFilename(nil, ProjectStateChunk)
-  local render_cfg = ultraschall.GetProject_RenderCFG(nil, ProjectStateChunk)
+  local render_cfg, render_cfg2 = ultraschall.GetProject_RenderCFG(nil, ProjectStateChunk)
 
   local resample_mode, playback_resample_mode, project_smplrate4mix_and_fx = ultraschall.GetProject_RenderResample(projectfilename_with_path, ProjectStateChunk)
   
@@ -2264,6 +2267,7 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
   RenderTable["RenderFile"]=render_filename
   RenderTable["RenderPattern"]=render_pattern
   RenderTable["RenderString"]=render_cfg 
+  RenderTable["RenderString2"]=render_cfg2
   RenderTable["SaveCopyOfProject"]=false
   RenderTable["CloseAfterRender"]=true
   
@@ -2718,7 +2722,7 @@ function ultraschall.IsValidRenderTable(RenderTable)
   <slug>IsValidRenderTable</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=6.02
+    Reaper=6.04
     Lua=5.3
   </requires>
   <functioncall>boolean retval = ultraschall.IsValidRenderTable(RenderTable RenderTable)</functioncall>
@@ -2768,6 +2772,7 @@ function ultraschall.IsValidRenderTable(RenderTable)
   if math.type(RenderTable["RenderQueueDelaySeconds"])~="integer" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"RenderQueueDelaySeconds\"] must be an integer", -24) return false end
   if type(RenderTable["CloseAfterRender"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"CloseAfterRender\"] must be a boolean", -25) return false end
   if type(RenderTable["EmbedStretchMarkers"])~="boolean" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"EmbedStretchMarkers\"] must be a boolean", -26) return false end
+  if type(RenderTable["RenderString2"])~="string" then ultraschall.AddErrorMessage("IsValidRenderTable", "RenderTable", "RenderTable[\"RenderString2\"] must be a string", -17) return false end 
   return true
 end
 
@@ -2777,7 +2782,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
   <slug>ApplyRenderTable_Project</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=6.02
+    Reaper=6.04
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
@@ -2803,7 +2808,8 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
-            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
+            RenderTable["RenderString2"] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked
@@ -2876,6 +2882,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
   reaper.GetSetProjectInfo_String(ReaProject, "RENDER_PATTERN", RenderTable["RenderPattern"], true)
   if apply_rendercfg_string~=false then
     reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT", RenderTable["RenderString"], true)
+    reaper.GetSetProjectInfo_String(ReaProject, "RENDER_FORMAT2", RenderTable["RenderString2"], true)
   end
   
   if RenderTable["SaveCopyOfProject"]==true then SaveCopyOfProject=1 else SaveCopyOfProject=0 end
@@ -2912,7 +2919,7 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
   <slug>ApplyRenderTable_ProjectFile</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=6.02
+    Reaper=6.04
     Lua=5.3
   </requires>
   <functioncall>boolean retval, string ProjectStateChunk = ultraschall.ApplyRenderTable_ProjectFile(RenderTable RenderTable, string projectfilename_with_path, optional boolean apply_rendercfg_string, optional string ProjectStateChunk)</functioncall>
@@ -2936,7 +2943,8 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
-            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
+            RenderTable["RenderString2"] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; ignored, as this can't be stored in projectfiles
@@ -3014,7 +3022,7 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
   end
   
   if apply_rendercfg_string==true or apply_rendercfg_string==nil then
-    retval, ProjectStateChunk = ultraschall.SetProject_RenderCFG(nil, RenderTable["RenderString"], ProjectStateChunk)
+    retval, ProjectStateChunk = ultraschall.SetProject_RenderCFG(nil, RenderTable["RenderString"], RenderTable["RenderString2"], ProjectStateChunk)
   end
   
   if projectfilename_with_path~=nil then ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk) return true, ProjectStateChunk
@@ -3036,16 +3044,16 @@ end
 
 function ultraschall.CreateNewRenderTable(Source, Bounds, Startposition, Endposition, TailFlag, TailMS, RenderFile, RenderPattern,
 SampleRate, Channels, OfflineOnlineRendering, ProjectSampleRateFXProcessing, RenderResample, OnlyMonoMedia, MultiChannelFiles,
-Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, RenderQueueDelay, RenderQueueDelaySeconds, CloseAfterRender, EmbedStretchMarkers)
+Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, RenderQueueDelay, RenderQueueDelaySeconds, CloseAfterRender, EmbedStretchMarkers, RenderString2)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CreateNewRenderTable</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=6.02
+    Reaper=6.04
     Lua=5.3
   </requires>
-  <functioncall>RenderTable RenderTable = ultraschall.IsValidRenderTable(integer Source, integer Bounds, number Startposition, number Endposition, integer TailFlag, integer TailMS, string RenderFile, string RenderPattern, integer SampleRate, integer Channels, integer OfflineOnlineRendering, boolean ProjectSampleRateFXProcessing, integer RenderResample, boolean OnlyMonoMedia, boolean MultiChannelFiles, integer Dither, string RenderString, boolean SilentlyIncrementFilename, boolean AddToProj, boolean SaveCopyOfProject, boolean RenderQueueDelay, integer RenderQueueDelaySeconds, boolean CloseAfterRender, optional boolean EmbedStretchMarkers)</functioncall>
+  <functioncall>RenderTable RenderTable = ultraschall.IsValidRenderTable(integer Source, integer Bounds, number Startposition, number Endposition, integer TailFlag, integer TailMS, string RenderFile, string RenderPattern, integer SampleRate, integer Channels, integer OfflineOnlineRendering, boolean ProjectSampleRateFXProcessing, integer RenderResample, boolean OnlyMonoMedia, boolean MultiChannelFiles, integer Dither, string RenderString, boolean SilentlyIncrementFilename, boolean AddToProj, boolean SaveCopyOfProject, boolean RenderQueueDelay, integer RenderQueueDelaySeconds, boolean CloseAfterRender, optional boolean EmbedStretchMarkers, optional string RenderString2)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Creates a new RenderTable.
     
@@ -3112,7 +3120,7 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
                    - &4, dither stems
                    - &8, dither noise shaping stems
                    
-    string RenderString - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+    string RenderString - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
     boolean SilentlyIncrementFilename - Silently increment filenames to avoid overwriting-checkbox; ignored, as this can't be stored in projectfiles
     boolean AddToProj - Add rendered items to new tracks in project-checkbox; true, checked; false, unchecked
     boolean SaveCopyOfProject - the "Save copy of project to outfile.wav.RPP"-checkbox; ignored, as this can't be stored in projectfiles
@@ -3120,6 +3128,7 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
     integer RenderQueueDelaySeconds - the amount of seconds for the render-queue-delay
     boolean CloseAfterRender - true, closes rendering to file-dialog after render; false, doesn't close it
     optional boolean EmbedStretchMarkers - true, Embed stretch markers/transient guides-checkbox=on; false or nil, Embed stretch markers/transient guides"-checkbox=off
+    optional string RenderString2 - the render-string for the secondary rendering
   </parameters>
   <chapter_context>
     Rendering Projects
@@ -3130,32 +3139,33 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
   <tags>render, is valid, check, rendertable</tags>
 </US_DocBloc>
 ]]
-  if type(AddToProj)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "AddToProj", "must be a boolean", -3) return end
-  if math.type(Bounds)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Bounds", "must be an integer", -4) return end
-  if math.type(Channels)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Channels", "must be an integer", -5) return end
-  if math.type(Dither)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Dither", "must be an integer", -6) return end
-  if type(Endposition)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Endposition", "must be an integer", -7) return end
-  if type(MultiChannelFiles)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "MultiChannelFiles", "must be a boolean", -8) return end
-  if math.type(OfflineOnlineRendering)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "OfflineOnlineRendering", "must be an integer", -9) return end
-  if type(OnlyMonoMedia)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "OnlyMonoMedia", "must be a boolean", -10) return end 
-  if type(ProjectSampleRateFXProcessing)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "ProjectSampleRateFXProcessing", "must be a boolean", -11) return end 
-  if type(RenderFile)~="string" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderFile", "must be a string", -12) return end 
-  if type(RenderPattern)~="string" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderPattern", "must be a string", -13) return end 
-  if type(RenderQueueDelay)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderQueueDelay", "must be a boolean", -14) return end
-  if math.type(RenderResample)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderResample", "must be an integer", -15) return end
-  if type(RenderString)~="string" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderString", "must be a string", -16) return end 
-  if math.type(SampleRate)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "SampleRate", "must be an integer", -17) return end
-  if type(SaveCopyOfProject)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "SaveCopyOfProject", "must be a boolean", -18) return end
-  if type(SilentlyIncrementFilename)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "SilentlyIncrementFilename", "must be a boolean", -19) return end
   if math.type(Source)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Source", "must be an integer", -20) return end    
+  if math.type(Bounds)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Bounds", "must be an integer", -4) return end
   if type(Startposition)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Startposition", "must be an integer", -21) return end
+  if type(Endposition)~="number" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Endposition", "must be an integer", -7) return end
   if math.type(TailFlag)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "TailFlag", "must be an integer", -22) return end    
   if math.type(TailMS)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "TailMS", "must be an integer", -23) return end    
+  if type(RenderFile)~="string" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderFile", "must be a string", -12) return end 
+  if type(RenderPattern)~="string" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderPattern", "must be a string", -13) return end 
+  if math.type(SampleRate)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "SampleRate", "must be an integer", -17) return end
+  if math.type(Channels)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Channels", "must be an integer", -5) return end
+  if math.type(OfflineOnlineRendering)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "OfflineOnlineRendering", "must be an integer", -9) return end
+  if type(ProjectSampleRateFXProcessing)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "ProjectSampleRateFXProcessing", "must be a boolean", -11) return end 
+  if math.type(RenderResample)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderResample", "must be an integer", -15) return end
+  if type(OnlyMonoMedia)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "OnlyMonoMedia", "must be a boolean", -10) return end 
+  if type(MultiChannelFiles)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "MultiChannelFiles", "must be a boolean", -8) return end
+  if math.type(Dither)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "Dither", "must be an integer", -6) return end
+  if type(RenderString)~="string" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderString", "must be a string", -16) return end 
+  if type(SilentlyIncrementFilename)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "SilentlyIncrementFilename", "must be a boolean", -19) return end
+  if type(AddToProj)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "AddToProj", "must be a boolean", -3) return end
+  if type(SaveCopyOfProject)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "SaveCopyOfProject", "must be a boolean", -18) return end
+  if type(RenderQueueDelay)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderQueueDelay", "must be a boolean", -14) return end
   if math.type(RenderQueueDelaySeconds)~="integer" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderQueueDelaySeconds", "must be an integer", -24) return end
- 
   if type(CloseAfterRender)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "CloseAfterRender", "must be a boolean", -25) return end
   if EmbedStretchMarkers~=nil and type(EmbedStretchMarkers)~="boolean" then ultraschall.AddErrorMessage("CreateNewRenderTable", "EmbedStretchMarkers", "must be nil or boolean", -26) return end
+  if RenderString2~=nil and type(RenderString2)~="string" then ultraschall.AddErrorMessage("CreateNewRenderTable", "RenderString2", "must be nil or string", -27) return end
   if EmbedStretchMarkers==nil then EmbedStretchMarkers=false end
+  if RenderString2==nil then RenderString2="" end
   
   local RenderTable={}
   RenderTable["AddToProj"]=AddToProj
@@ -3173,6 +3183,7 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
   RenderTable["RenderQueueDelaySeconds"]=RenderQueueDelaySeconds
   RenderTable["RenderResample"]=RenderResample
   RenderTable["RenderString"]=RenderString
+  RenderTable["RenderString2"]=RenderString2
   RenderTable["RenderTable"]=true 
   RenderTable["SampleRate"]=SampleRate
   RenderTable["SaveCopyOfProject"]=SaveCopyOfProject
@@ -3674,7 +3685,8 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
      RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; always false, as this isn't stored in render-presets
      RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay; always 0, as this isn't stored in render-presets
      RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
-     RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+     RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
+     RenderTable["RenderString2"] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
      RenderTable["RenderTable"]=true - signals, this is a valid render-table
      RenderTable["SampleRate"] - the samplerate of the rendered file(s)
      RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; always false, as this isn't stored in render-presets
@@ -3709,9 +3721,9 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   if A==nil then A="" end
   local RenderTable={}
 
-  local Presetname, SampleRate, Channels, Offline_online_dropdownlist
+  local Presetname, SampleRate, Channels, Offline_online_dropdownlist, found
   local Useprojectsamplerate_checkbox, Resamplemode_dropdownlist, Various_checkboxes, Various_checkboxes2, k1
-  local rendercfg, Presetname
+  local rendercfg, Presetname, rendercfg2
   local Presetname2, Bounds_dropdownlist2, Start_position2, Endposition2
   local Source_dropdownlist_and_checkboxes2, Unknown2, Outputfilename_renderpattern2
   local Tail_checkbox2, Quote
@@ -3727,7 +3739,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
     end
   
     B=string.gsub(A,Quote..Presetname2..Quote, "A")
-    --RenderPattern=A:match("%s.-%s.-%s.-%s.-%s.-%s.-%s.-%s(.*)")
+    
     if B:match("\"")~=nil then
       Outputfilename_renderpattern2=B:match("\"(.-)\"")
     else
@@ -3739,9 +3751,11 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
     Source_dropdownlist_and_checkboxes2, Unknown2, _temp,
     Tail_checkbox2 = 
     B:match(".- (.-) (.-) (.-) (.-) (.-) (.-) (.-) (.-) ")
-    if Presetname2==Bounds_Name then break end
+    if Presetname2==Bounds_Name then found=true break end
   end
 
+  if found~=true then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Bounds_Name", "no such preset", -3) return end
+  found=nil
 
   for A2 in string.gmatch(A, "<RENDERPRESET.->") do
     A2=A2.." "
@@ -3767,10 +3781,32 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
       Source_dropdownlist_and_checkboxes2=Source_dropdownlist_and_checkboxes2&4-Various_checkboxes2
     end
     
-    if Presetname==Options_and_Format_Name then break end
+    if Presetname==Options_and_Format_Name then found=true break end
   end
-  if Presetname==nil then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Options_and_Format_Name", "no such preset", -3) return end
-  if Presetname2==nil then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Bounds_Name", "no such preset", -4) return end
+  
+  
+  if found~=true then ultraschall.AddErrorMessage("GetRenderPreset_RenderTable", "Options_and_Format_Name", "no such preset", -4) return end
+  found=nil
+  
+  Presetname=nil
+  
+  for A2 in string.gmatch(A, "<RENDERPRESET2.->") do
+    A2=A2.." "
+    rendercfg2=A2:match(".-\n%s*(.-)\n")
+    Quote=A2:sub(15,15)
+    if Quote=="\"" then
+      Presetname=A2:match(" [\"](.-)[\"]")
+    else
+      Quote=""
+      Presetname=A2:match("%s(.-)%s")
+    end
+    if Presetname==Options_and_Format_Name then found=true break end
+  end
+  
+  
+  if found~=true then rendercfg2="" end
+  
+  if rendercfg2==nil then rendercfg2="" end
   
   RenderTable["AddToProj"]=false
   RenderTable["Bounds"]=tonumber(Bounds_dropdownlist2)
@@ -3785,6 +3821,7 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
   RenderTable["RenderQueueDelaySeconds"]=0
   RenderTable["RenderResample"]=tonumber(Resamplemode_dropdownlist)
   RenderTable["RenderString"]=rendercfg
+  RenderTable["RenderString2"]=rendercfg2
   RenderTable["RenderTable"]=true
   RenderTable["SampleRate"]=tonumber(SampleRate)
   RenderTable["SaveCopyOfProject"]=false
@@ -3893,7 +3930,8 @@ function ultraschall.DeleteRenderPreset_FormatOptions(Options_and_Format_Name)
   if A==nil then A="" end
   if Options_and_Format_Name:match("%s") then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
   B=string.gsub(A, "<RENDERPRESET "..Options_and_Format_Name.." (.-\n>)\n", "")
-  if A==B then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "Options_and_Format_Name", "no such Bounds-preset", -2) return false end
+  B=string.gsub(B, "<RENDERPRESET2 "..Options_and_Format_Name.."(.-\n>)\n", "")
+  if A==B then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "Options_and_Format_Name", "no such Options and Format-preset", -2) return false end
   A=ultraschall.WriteValueToFile(reaper.GetResourcePath().."/reaper-render.ini", B)
   if A==-1 then ultraschall.AddErrorMessage("DeleteRenderPreset_FormatOptions", "", "can't access "..reaper.GetResourcePath().."/reaper-render.ini", -3) return false end
   return true
@@ -3979,6 +4017,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
               RenderTable["OnlyMonoMedia"] - only mono media-checkbox
               RenderTable["EmbedStretchMarkers"] - Embed stretch markers/transient guides-checkbox
               RenderTable["RenderString"] - the render-cfg-string, which holds the render-outformat-settings
+              RenderTable["RenderString2"] - the render-cfg-string, which holds the secondary render-outformat-settings
       
      Returns false in case of an error
    </description>
@@ -4004,11 +4043,11 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
   if Bounds_Name~=nil and type(Bounds_Name)~="string" then ultraschall.AddErrorMessage("AddRenderPreset", "Bounds_Name", "must be a string", -2) return false end
   if Options_and_Format_Name~=nil and type(Options_and_Format_Name)~="string" then ultraschall.AddErrorMessage("AddRenderPreset", "Options_and_Format_Name", "must be a string", -3) return false end
   
-  local A,B, Source, RenderPattern, ProjectSampleRateFXProcessing, String
+  local A,B, Source, RenderPattern, ProjectSampleRateFXProcessing, String, String2, Checkboxes
   local A=ultraschall.ReadFullFile(reaper.GetResourcePath().."/reaper-render.ini")
   if A==nil then A="" end
   
-  CheckBoxes=0
+  local CheckBoxes=0
   if RenderTable["MultiChannelFiles"]==true then CheckBoxes=CheckBoxes+4 end
   if RenderTable["OnlyMonoMedia"]==true then CheckBoxes=CheckBoxes+16 end
   if RenderTable["EmbedStretchMarkers"]==true then CheckBoxes=CheckBoxes+256 end
@@ -4029,7 +4068,7 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
   if RenderPattern:match("%s") and RenderPattern:match("\"")==nil then RenderPattern="\""..RenderPattern.."\"" end
   if Options_and_Format_Name:match("%s") and Options_and_Format_Name:match("\"")==nil then Options_and_Format_Name="\""..Options_and_Format_Name.."\"" end
   if Bounds_Name:match("%s") and Bounds_Name:match("\"")==nil then Bounds_Name="\""..Bounds_Name.."\"" end
-
+  
   -- add Bounds-preset, if given
   if Bounds_Name~=nil then 
     String="\nRENDERPRESET_OUTPUT "..Bounds_Name.." "..RenderTable["Bounds"]..
@@ -4053,7 +4092,13 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
              " "..RenderTable["Dither"]..
              " "..CheckBoxes..
              "\n  "..RenderTable["RenderString"].."\n>"
-      A=A..String
+             
+      if RenderTable["RenderString2"]~="" then
+        String2="\n<RENDERPRESET2 "..Options_and_Format_Name..
+             "\n  "..RenderTable["RenderString2"].."\n>"
+      else String2=""
+      end
+      A=A..String..String2
   end
     
   
@@ -4072,7 +4117,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
    <slug>SetRenderPreset</slug>
    <requires>
      Ultraschall=4.00
-     Reaper=6.02
+     Reaper=6.04
      Lua=5.3
    </requires>
    <functioncall>boolean retval = ultraschall.SetRenderPreset(string Bounds_Name, string Options_and_Format_Name, RenderTable RenderTable)</functioncall>
@@ -4142,6 +4187,7 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
                                       &4, dither stems
                                       &8, dither noise shaping stems
               RenderTable["RenderString"] - the render-cfg-string, which holds the render-outformat-settings
+              RenderTable["RenderString2"] - the render-cfg-string, which holds the secondary render-outformat-settings; "" to remove it from this preset
       
      Returns false in case of an error
    </description>
@@ -4215,6 +4261,22 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
              " "..MonoMultichannelEmbed..
              "\n  "..RenderTable["RenderString"].."\n>"
     A=string.gsub(A, RenderFormatOptions, String)
+    
+    if RenderTable["RenderString2"]~="" then
+      RenderFormatOptions=A:match("<RENDERPRESET2 "..Options_and_Format_Name..".->")
+      String="<RENDERPRESET2 "..Options_and_Format_Name..
+             "\n  "..RenderTable["RenderString2"].."\n>"
+      if RenderFormatOptions~=nil then       
+        A=string.gsub(A, RenderFormatOptions, String)
+      else
+        A=A.."\n"..String
+      end
+    else
+      RenderFormatOptions=A:match("<RENDERPRESET2 "..Options_and_Format_Name..".->")
+      if RenderFormatOptions~=nil then
+        A=string.gsub(A, RenderFormatOptions, "")
+      end
+    end
   end
     
   
@@ -4234,7 +4296,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
   <slug>RenderProject_RenderTable</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=6.02
+    Reaper=6.04
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
@@ -4260,7 +4322,8 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
             RenderTable["RenderQueueDelay"] - Delay queued render to allow samples to load-checkbox; true, checked; false, unchecked
             RenderTable["RenderQueueDelaySeconds"] - the amount of seconds for the render-queue-delay
             RenderTable["RenderResample"] - Resample mode-dropdownlist; 0, Medium (64pt Sinc); 1, Low (Linear Interpolation); 2, Lowest (Point Sampling); 3, Good (192pt Sinc); 4, Better (348 pt Sinc); 5, Fast (IIR + Linear Interpolation); 6, Fast (IIRx2 + Linear Interpolation); 7, Fast (16pt Sinc); 8, HQ (512 pt); 9, Extreme HQ(768pt HQ Sinc)
-            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-ouput-format as BASE64 string
+            RenderTable["RenderString"] - the render-cfg-string, that holds all settings of the currently set render-output-format as BASE64 string
+            RenderTable["RenderString2"] - the render-cfg-string, that holds all settings of the currently set secondary-render-output-format as BASE64 string
             RenderTable["RenderTable"]=true - signals, this is a valid render-table
             RenderTable["SampleRate"] - the samplerate of the rendered file(s)
             RenderTable["SaveCopyOfProject"] - the "Save copy of project to outfile.wav.RPP"-checkbox; true, checked; false, unchecked
@@ -4304,8 +4367,6 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
 
   if RenderTable==nil then norendertable=true end
 
-  
-
   local tempfilename, retval, oldcloseafterrender, oldCopyOfProject, aborted, oldSaveOpts, Count, MediaItemArray, MediaItemStateChunkArray, trackstring
   if projectfilename_with_path==nil then
     -- if user wants to render the currently opened file
@@ -4344,7 +4405,7 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
     
     -- get the current settings as rendertable and apply the RenderTable the user passed to us
     local OldRenderTable=ultraschall.GetRenderTable_Project()
-    ultraschall.ApplyRenderTable_Project(RenderTable, true) -- here the bug happens
+    ultraschall.ApplyRenderTable_Project(RenderTable, true) -- here the bug happens(Which bug, Meo? Which Bug? Forgot about me, Meo? - Yours sincerely Meo)
     ultraschall.ShowLastErrorMessage()
     
     -- change back the entries in RenderTable so the user does not have my temporary changes in it
@@ -4411,6 +4472,8 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
     local retval2, oldSaveOpts
     if type(projectfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject_RenderTable", "projectfilename_with_path", "must be a string", -3) return -1 end
     if reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProject_RenderTable", "projectfilename_with_path", "no such file", -4) return -1 end
+    local length, content = ultraschall.ReadBinaryFile_Offset(projectfilename_with_path, 0, 16)
+    if content~="<REAPER_PROJECT " then ultraschall.AddErrorMessage("RenderProject_RenderTable", "projectfilename_with_path", "no rpp-projectfile", -6) return -1 end
         
     -- let's create a copy of the projectfile, which we will modify (Never use the original! Never!)
     tempfilename = ultraschall.CreateValidTempFile(projectfilename_with_path, true, "", true)
@@ -4711,21 +4774,21 @@ end
 
 --ultraschall.RenderProject_RenderQueue(2)
 
-function ultraschall.RenderProject(projectfilename_with_path, renderfilename_with_path, startposition, endposition, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg)
+function ultraschall.RenderProject(projectfilename_with_path, renderfilename_with_path, startposition, endposition, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg, rendercfg2)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RenderProject</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.975
+    Reaper=6.04
     SWS=2.10.0.1
     JS=0.972
     Lua=5.3
   </requires>
-  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg)</functioncall>
+  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject(string projectfilename_with_path, string renderfilename_with_path, number startposition, number endposition, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, optional string rendercfg, optional string rendercfg2)</functioncall>
   <description>
     Renders a project, using a specific render-cfg-string.
-    To get render-cfg-strings, see functions starting with CreateRenderCFG_, like<a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, etc.
+    To get render-cfg-strings, see functions starting with CreateRenderCFG_, like <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, etc.
     
     Will use the render-settings currently set in projectfilename_with_path/the currently active project, except bound(set to Custom time range), render file and render-pattern, as they are set by this function!
     
@@ -4752,11 +4815,12 @@ function ultraschall.RenderProject(projectfilename_with_path, renderfilename_wit
                                      - works only, when renderfilename_with_path has the right extension given and when not using wildcards(due API-limitations)!
     boolean renderclosewhendone - true, automatically close the render-window after rendering; false, keep rendering window open after rendering; nil, use current settings
     boolean filenameincrease - true, silently increase filename, if it already exists; false, ask before overwriting an already existing outputfile; nil, use current settings
-    string rendercfg         - the rendercfg-string, that contains all render-settings for an output-format
-                             - To get render-cfg-strings, see CreateRenderCFG_xxx-functions, like: <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a>
-                             - 
-                             - If you want to render the current project, you can use a four-letter-version of the render-string; will use the default settings for that format. Not available with projectfiles!
-                             - "evaw" for wave, "ffia" for aiff, " iso" for audio-cd, " pdd" for ddp, "calf" for flac, "l3pm" for mp3, "vggo" for ogg, "SggO" for Opus, "PMFF" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, " FIG" for Gif, " FCL" for LCF, "kpvw" for wavepack 
+    optional string rendercfg - the rendercfg-string, that contains all render-settings for an output-format
+                              - To get render-cfg-strings, see CreateRenderCFG_xxx-functions, like: <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>, <a href="#CreateRenderCFG_WAVPACK">CreateRenderCFG_WAVPACK</a>, <a href="#CreateRenderCFG_WebMVideo">CreateRenderCFG_WebMVideo</a>
+                              - 
+                              - If you want to render the current project, you can use a four-letter-version of the render-string; will use the default settings for that format. Not available with projectfiles!
+                              - "evaw" for wave, "ffia" for aiff, " iso" for audio-cd, " pdd" for ddp, "calf" for flac, "l3pm" for mp3, "vggo" for ogg, "SggO" for Opus, "PMFF" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, " FIG" for Gif, " FCL" for LCF, "kpvw" for wavepack 
+    optional string rendercfg2 - just like rendercfg, but for the secondary render-format
   </parameters>
   <chapter_context>
     Rendering Projects
@@ -4780,9 +4844,12 @@ function ultraschall.RenderProject(projectfilename_with_path, renderfilename_wit
   
   if projectfilename_with_path~=nil then
     if type(projectfilename_with_path)~="string" or reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("RenderProject", "projectfilename_with_path", "File does not exist.", -6) return -1 end
+    local length, content = ultraschall.ReadBinaryFile_Offset(projectfilename_with_path, 0, 16)
+    if content~="<REAPER_PROJECT " then ultraschall.AddErrorMessage("RenderProject", "projectfilename_with_path", "no rpp-projectfile", -19) return -1 end
   end
   if type(renderfilename_with_path)~="string" then ultraschall.AddErrorMessage("RenderProject", "renderfilename_with_path", "Must be a string.", -7) return -1 end  
   if rendercfg==nil or (ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil or ultraschall.GetOutputFormat_RenderCfg(rendercfg)=="Unknown") then ultraschall.AddErrorMessage("RenderProject", "rendercfg", "No valid render_cfg-string.", -9) return -1 end
+  if rendercfg2==nil or (ultraschall.GetOutputFormat_RenderCfg(rendercfg2)==nil or ultraschall.GetOutputFormat_RenderCfg(rendercfg2)=="Unknown") then ultraschall.AddErrorMessage("RenderProject", "rendercfg2", "No valid render_cfg-string.", -18) return -1 end
   if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProject", "overwrite_without_asking", "Must be boolean", -10) return -1 end
   if filenameincrease~=nil and type(filenameincrease)~="boolean" then ultraschall.AddErrorMessage("RenderProject", "filenameincrease", "Must be either nil or boolean", -13) return -1 end
   if renderclosewhendone~=nil and type(renderclosewhendone)~="boolean" then ultraschall.AddErrorMessage("RenderProject", "renderclosewhendone", "Must be either nil or a boolean", -12) return -1 end
@@ -4801,6 +4868,7 @@ function ultraschall.RenderProject(projectfilename_with_path, renderfilename_wit
 
     -- get rendercfg from current project, if not already given
     if rendercfg==nil then temp, rendercfg = reaper.GetSetProjectInfo_String(0, "RENDER_FORMAT", "", false) end 
+    if rendercfg2==nil then temp, rendercfg = reaper.GetSetProjectInfo_String(0, "RENDER_FORMAT2", "", false) end 
     -- get rendersettings from current project
     RenderTable=ultraschall.GetRenderTable_Project()
 
@@ -4894,16 +4962,16 @@ function ultraschall.RenderProject_RenderCFG(...)
 end
 
 
-function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfilename_with_path, region, addregionname, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg, addregionnameseparator)
+function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfilename_with_path, region, addregionname, overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg, addregionnameseparator, rendercfg2)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>RenderProject_Regions</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.965
+    Reaper=6.04
     Lua=5.3
   </requires>
-  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject_Regions(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, string rendercfg, optional string addregionnameseparator)</functioncall>
+  <functioncall>integer retval, integer renderfilecount, array MediaItemStateChunkArray, array Filearray = ultraschall.RenderProject_Regions(string projectfilename_with_path, string renderfilename_with_path, integer region, boolean addregionname, boolean overwrite_without_asking, boolean renderclosewhendone, boolean filenameincrease, string rendercfg, optional string addregionnameseparator, optional string rendercfg2)</functioncall>
   <description>
     Renders a region of a project, using a specific render-cfg-string.
     To get render-cfg-strings, see <a href="#CreateRenderCFG_AIFF">CreateRenderCFG_AIFF</a>, <a href="#CreateRenderCFG_DDP">CreateRenderCFG_DDP</a>, <a href="#CreateRenderCFG_FLAC">CreateRenderCFG_FLAC</a>, <a href="#CreateRenderCFG_OGG">CreateRenderCFG_OGG</a>, <a href="#CreateRenderCFG_Opus">CreateRenderCFG_Opus</a>
@@ -4934,6 +5002,7 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
     optional string addregionnameseparator - when addregionname==true, this parameter allows you to set a separator between renderfilename_with_path and regionname. 
                                            - Also allows / or \\ to use renderfilename_with_path as only path as folder, into which the files are stored having the regionnames only.
                                            - Default is an empty string.
+    optional string rendercfg2 - the render-cfg-string for secondary render-format
   </parameters>
   <chapter_context>
     Rendering Projects
@@ -4953,6 +5022,7 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
   if rendercfg==nil or ultraschall.GetOutputFormat_RenderCfg(rendercfg)==nil or ultraschall.GetOutputFormat_RenderCfg(rendercfg)=="Unknown" then ultraschall.AddErrorMessage("RenderProject_Regions", "rendercfg", "No valid render_cfg-string.", -5) return -1 end
   if type(overwrite_without_asking)~="boolean" then ultraschall.AddErrorMessage("RenderProject_Regions", "overwrite_without_asking", "Must be boolean", -6) return -1 end
   if addregionnameseparator~=nil and type(addregionnameseparator)~="string" then ultraschall.AddErrorMessage("RenderProject_Regions", "addregionnameseparator", "Must be a string or nil", -9) return -1 end
+  if rendercfg2~=nil and (ultraschall.GetOutputFormat_RenderCfg(rendercfg2)==nil or ultraschall.GetOutputFormat_RenderCfg(rendercfg2)=="Unknown") then ultraschall.AddErrorMessage("RenderProject_Regions", "rendercfg2", "No valid render_cfg-string.", -10) return -1 end
 
   local countmarkers, nummarkers, numregions, markertable, markertable_temp, countregions
   markertable={}
@@ -5016,7 +5086,7 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
   end
 --      print2(renderfilename_with_path, "Ach")  
 
-  return ultraschall.RenderProject(projectfilename_with_path, renderfilename_with_path, tonumber(markertable[region][2]), tonumber(markertable[region][3]), overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg, RenderTable)
+  return ultraschall.RenderProject(projectfilename_with_path, renderfilename_with_path, tonumber(markertable[region][2]), tonumber(markertable[region][3]), overwrite_without_asking, renderclosewhendone, filenameincrease, rendercfg, rendercfg2)
 end
 
 function ultraschall.RenderProjectRegions_RenderCFG(...)

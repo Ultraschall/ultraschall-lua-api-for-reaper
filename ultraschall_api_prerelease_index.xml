@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="42982.00" author="Meo Mespotine">
+      <version name="42983.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.9//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.9//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.9/ultraschall_api/Changelog-Api.txt</source>
@@ -578,6 +578,38 @@ Changes from Beta 2.8 to Beta 2.9
     to proper subchapters for clearer index-navigation
 -   Project Management: GetAllMediaItems_FromProjectBayStateChunk -
     didn’t return ProjectBayStateChunk properly -> fixed
+-   Project Management: GetProject_RenderCFG - returns now the
+    render-cfg-string for the secondary renderformat as well
+-   Project Management: SetProject_RenderCFG - allows now setting of
+    secondary render-format as well; backwards compatible with old
+    scripts, who set only primary rendering format in ProjectStateChunks
+-   Rendering: AddRenderPreset - allows now adding the render-cfg-string
+    for secondary renderformat as well; had inner variable exposed ->
+    fixed
+-   Rendering: ApplyRenderTable_Project - allows now setting the
+    render-cfg-string for secondary renderformat as well
+-   Rendering: CreateNewRenderTable - allows now adding the
+    render-cfg-string for secondary renderformat as well
+-   Rendering: DeleteRenderPreset_FormatOptions - deletes now the
+    render-cfg-string for secondary renderformat, if existing
+-   Rendering: GetRenderPreset_RenderTable - returns now possible
+    render-cfg-string for secondary renderformat as well; some
+    error-messages didn’t work -> fixed
+-   Rendering: GetRenderTable_Project - returns now a render-cfg-string
+    for secondary renderformat
+-   Rendering: GetRenderTable_ProjectFile - returns now a
+    render-cfg-string for secondary renderformat
+-   Rendering: IsValidRenderTable - checks now for the render-cfg-string
+    for secondary renderformat as well
+-   Rendering: RenderProject - allows now setting the render-cfg-string
+    for secondary renderformat as well; checks now, if projectfilename
+    is a valid project
+-   Rendering: RenderProject_RenderTable - allows now setting the
+    render-cfg-string for secondary renderformat as well; checks now, if
+    projectfilename is a valid project
+-   Rendering: SetRenderPreset - allows now setting the
+    render-cfg-string for secondary renderformat as well; set
+    RenderString2="" to remove the secondary renderformat
 -   Track Management: GetTrackState_NumbersOnly - had wrong description
     in the docs -> fixed
 

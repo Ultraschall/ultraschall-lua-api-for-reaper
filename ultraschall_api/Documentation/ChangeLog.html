@@ -123,6 +123,19 @@ Ultraschall API Changelog
 <li>ParmAlias: GetParmAlias_MediaTrack - had wrong functionname in error-messages -&gt; fixed</li>
 <li>ParmAlias: Docs - all functions ParmLearn-function in the docs move to proper subchapters for clearer index-navigation</li>
 <li>Project Management: GetAllMediaItems_FromProjectBayStateChunk - didn't return ProjectBayStateChunk properly -&gt; fixed</li>
+<li>Project Management: GetProject_RenderCFG - returns now the render-cfg-string for the secondary renderformat as well</li>
+<li>Project Management: SetProject_RenderCFG - allows now setting of secondary render-format as well; backwards compatible with old scripts, who set only primary rendering format in ProjectStateChunks</li>
+<li>Rendering: AddRenderPreset - allows now adding the render-cfg-string for secondary renderformat as well; had inner variable exposed -&gt; fixed</li>
+<li>Rendering: ApplyRenderTable_Project - allows now setting the render-cfg-string for secondary renderformat as well</li>
+<li>Rendering: CreateNewRenderTable - allows now adding the render-cfg-string for secondary renderformat as well</li>
+<li>Rendering: DeleteRenderPreset_FormatOptions - deletes now the render-cfg-string for secondary renderformat, if existing</li>
+<li>Rendering: GetRenderPreset_RenderTable - returns now possible render-cfg-string for secondary renderformat as well; some error-messages didn't work -&gt; fixed</li>
+<li>Rendering: GetRenderTable_Project - returns now a render-cfg-string for secondary renderformat</li>
+<li>Rendering: GetRenderTable_ProjectFile - returns now a render-cfg-string for secondary renderformat</li>
+<li>Rendering: IsValidRenderTable - checks now for the render-cfg-string for secondary renderformat as well</li>
+<li>Rendering: RenderProject - allows now setting the render-cfg-string for secondary renderformat as well; checks now, if projectfilename is a valid project</li>
+<li>Rendering: RenderProject_RenderTable - allows now setting the render-cfg-string for secondary renderformat as well; checks now, if projectfilename is a valid project</li>
+<li>Rendering: SetRenderPreset - allows now setting the render-cfg-string for secondary renderformat as well; set RenderString2="" to remove the secondary renderformat</li>
 <li>Track Management: GetTrackState_NumbersOnly - had wrong description in the docs -&gt; fixed</li>
 </ul>
 <hr />

@@ -171,12 +171,12 @@ function ultraschall.GetProject_RenderCFG(projectfilename_with_path, ProjectStat
   <slug>GetProject_RenderCFG</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.04
     Lua=5.3
   </requires>
-  <functioncall>string render_cfg = ultraschall.GetProject_RenderCFG(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
+  <functioncall>string render_cfg, string render_cfg2 = ultraschall.GetProject_RenderCFG(string projectfilename_with_path, optional string ProjectStateChunk)</functioncall>
   <description>
-    Returns the render-cfg-string, that contains all render-settings of a project from an RPP-Projectfile or a ProjectStateChunk.
+    Returns the render-cfg-string2, that contains all render-settings for primary and secondary render-settings of a project from an RPP-Projectfile or a ProjectStateChunk.
     
     It's the entry &lt;RENDER_CFG
     
@@ -188,6 +188,7 @@ function ultraschall.GetProject_RenderCFG(projectfilename_with_path, ProjectStat
   </parameters>
   <retvals>
     string render_cfg - the renderstring, which contains all render-settings for a project/projectstatechunk
+    string render_cfg2 - the renderstring, which contains all secondary-render-settings for a project/projectstatechunk
   </retvals>
   <chapter_context>
     Project-Management
@@ -210,7 +211,9 @@ function ultraschall.GetProject_RenderCFG(projectfilename_with_path, ProjectStat
   -- get the values and return them
   local retval=ProjectStateChunk:match("<RENDER_CFG.-\n%s*(.-)\n")
   if retval==">" then ultraschall.AddErrorMessage("GetProject_RenderCFG", "projectfilename_with_path", "No Render-CFG-code available!", -5) return nil end
-  return retval
+  retval2=ProjectStateChunk:match("<RENDER_CFG2.-\n%s*(.-)\n")
+  if retval2==">" or retval2==nil then ultraschall.AddErrorMessage("GetProject_RenderCFG", "projectfilename_with_path", "No secondary Render-CFG-code available!", -6) retval2="" end
+  return retval, retval2
 end
 
 function ultraschall.GetProject_RippleState(projectfilename_with_path, ProjectStateChunk)
@@ -5471,24 +5474,25 @@ end
 
 
 
-function ultraschall.SetProject_RenderCFG(projectfilename_with_path, rendercfg_string, ProjectStateChunk)
+function ultraschall.SetProject_RenderCFG(projectfilename_with_path, rendercfg_string, rendercfg_string2, ProjectStateChunk)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetProject_RenderCFG</slug>
   <requires>
     Ultraschall=4.00
-    Reaper=5.40
+    Reaper=6.04
     Lua=5.3
   </requires>
-  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderCFG(string projectfilename_with_path, string rendercfg_string, optional string ProjectStateChunk)</functioncall>
+  <functioncall>integer retval, optional string ProjectStateChunk = ultraschall.SetProject_RenderCFG(string projectfilename_with_path, string rendercfg_string, string rendercfg_string2, optional string ProjectStateChunk)</functioncall>
   <description>
-    Sets the render-configuration as encoded string in an RPP-Projectfile or a ProjectStateChunk, as set in Render-Settings
+    Sets the primary and secondary render-configuration as encoded string in an RPP-Projectfile or a ProjectStateChunk, as set in Render-Settings
     
     Returns -1 in case of error.
   </description>
   <parameters>
     string projectfilename_with_path - the filename of the projectfile; nil, to use Parameter ProjectStateChunk instead
     rendercfg_string - the render-configuration as encoded string
+    rendercfg_string2 - the secondary render-configuration as encoded string; use "" or nil to not set it
     optional string ProjectStateChunk - a projectstatechunk, that you want to be changed
   </parameters>
   <retvals>
@@ -5504,17 +5508,30 @@ function ultraschall.SetProject_RenderCFG(projectfilename_with_path, rendercfg_s
   <tags>projectfiles, rpp, state, set, render, configuration</tags>
 </US_DocBloc>
 ]]
+  if ultraschall.IsValidProjectStateChunk(rendercfg_string2)==true then ProjectStateChunk=rendercfg_string2 rendercfg_string2="" end
   if projectfilename_with_path==nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderCFG", "ProjectStateChunk", "Must be a valid ProjectStateChunk", -1) return -1 end
   if projectfilename_with_path~=nil and reaper.file_exists(projectfilename_with_path)==false then ultraschall.AddErrorMessage("SetProject_RenderCFG", "projectfilename_with_path", "File does not exist", -2) return -1 end
   if projectfilename_with_path~=nil then ProjectStateChunk=ultraschall.ReadFullFile(projectfilename_with_path) end
   if projectfilename_with_path~=nil and ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderCFG", "projectfilename_with_path", "File is no valid RPP-Projectfile", -3) return -1 end
-  if type(rendercfg_string)~="string" then ultraschall.AddErrorMessage("SetProject_RenderCFG", "rendercfg_string", "Must be an integer", -4) return -1 end
+  if type(rendercfg_string)~="string" then ultraschall.AddErrorMessage("SetProject_RenderCFG", "rendercfg_string", "Must be an string", -4) return -1 end
+  if rendercfg_string2~=nil and type(rendercfg_string2)~="string" then ultraschall.AddErrorMessage("SetProject_RenderCFG", "rendercfg_string2", "Must be an string", -6) return -1 end
   if ultraschall.IsValidProjectStateChunk(ProjectStateChunk)==false then ultraschall.AddErrorMessage("SetProject_RenderCFG", "projectfilename_with_path", "No valid RPP-Projectfile!", -5) return -1 end
-
-  local FileStart=ProjectStateChunk:match("(<REAPER_PROJECT.-RENDER_CFG%c%s*).-%c.->.*")
-  local FileEnd=ProjectStateChunk:match("<REAPER_PROJECT.-RENDER_CFG%c%s*.-(%c.->.*)")
-
-  ProjectStateChunk=FileStart..rendercfg_string..FileEnd
+  
+  if rendercfg_string2==nil or rendercfg_string2=="" then rendercfg_string2="" else rendercfg_string2="    "..rendercfg_string2.."\n" end
+  if rendercfg_string=="" then else rendercfg_string="    "..rendercfg_string.."\n" end
+  
+  local FileStart, FileEnd=ProjectStateChunk:match("(.-\n)  <RENDER_CFG.-\n(  LOCK.*)")
+  local NewString=[[
+  <RENDER_CFG
+]]..rendercfg_string..[[
+  >
+  <RENDER_CFG2
+]]..rendercfg_string2..[[
+  >
+]]
+  
+  ProjectStateChunk=FileStart..NewString..FileEnd
+  
   if projectfilename_with_path~=nil then return ultraschall.WriteValueToFile(projectfilename_with_path, ProjectStateChunk), ProjectStateChunk
     else return 1, ProjectStateChunk
   end  
