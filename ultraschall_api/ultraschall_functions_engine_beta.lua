@@ -2787,4 +2787,154 @@ function ultraschall.Render_Loop(RenderTable, RenderFilename, AutoIncrement, Fir
   return count, MediaItemStateChunkArray, Filearray
 end
 
+function ultraschall.GetEnvelopeState_EnvName(TrackEnvelope, EnvelopeStateChunk)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetEnvelopeState_EnvName</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>string envelopename, optional integer fx_env_id, optional string wet_byp, optional number minimum_range, optional number maximum_range, optional number unknown = ultraschall.GetEnvelopeState_EnvName(TrackEnvelope TrackEnvelope, optional string EnvelopeStateChunk)</functioncall>
+  <description>
+    Returns the current envelope-name-state of a TrackEnvelope-object or EnvelopeStateChunk.
+    
+    It is the opening <-tag of the EnvelopeStateChunk
+    
+    returns nil in case of error
+  </description>
+  <retvals>
+    string envelopename - the name of the envelope, usually:
+                        -   VOLENV2 - for Volume-envelope
+                        -   PANENV2 - for Pan-envelope
+                        -   WIDTHENV2 - for Width-envelope
+                        -   VOLEN - for Pre-FX-Volume-envelope
+                        -   PANENV - for Pre-FX-Pan-envelope
+                        -   WIDTHENV - for Pre-FX-Width-envelope
+                        -   MUTEENV - for Mute-envelope
+                        -   VOLENV3 - for Trim-Volume-envelope
+                        -   PARMENV - an envelope for an FX-plugin
+    optional integer fx_env_id - fx_env is the id of the envelope, as provided by this fx; beginning with 1 for the first
+    optional string wet_byp - wet_byp is either "" if not existing, wet or bypass
+    optional number minimum_range - the minimum value, accepted by this envelope; 6 digits-precision
+    optional number maximum_range - the maximum-value, accepted by this envelope; 6 digits-precision
+    optional number unknown - unknown
+  </retvals>
+  <parameters>
+    TrackEnvelope TrackEnvelope - the TrackEnvelope, whose state you want to know; nil, to use parameter EnvelopeStateChunk instead
+    optional string EnvelopeStateChunk - if TrackEnvelope is set to nil, you can pass an EnvelopeStateChunk into this parameter, to get that armed state
+  </parameters>
+  <chapter_context>
+    Envelope Management
+    Get Envelope States
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>envelope states, get, envelopename, name, minimum, maximum, range, wet, bypass, envelopestatechunk</tags>
+</US_DocBloc>
+]]  
+  if TrackEnvelope~=nil and ultraschall.type(TrackEnvelope)~="TrackEnvelope" then ultraschall.AddErrorMessage("GetEnvelopeState_EnvName", "TrackEnvelope", "Must be a valid TrackEnvelope-object", -1) return end
+  if TrackEnvelope==nil and ultraschall.IsValidEnvStateChunk(EnvelopeStateChunk)==false then ultraschall.AddErrorMessage("GetEnvelopeState_EnvName", "EnvelopeStateChunk", "Must be a valid EnvelopeStateChunk", -2) return end
+  local retval, str
+  if TrackEnvelope==nil then 
+    str=EnvelopeStateChunk
+  else
+    retval, str = reaper.GetEnvelopeStateChunk(TrackEnvelope, "", false)
+  end
+  
+  local Line=str:match("<(.-)\n")
+  local Count, Individual_values = ultraschall.CSV2IndividualLinesAsArray(Line, " ")
+  for i=3,Count do
+    Individual_values[i]=tonumber(Individual_values[i])
+  end
+  if Count>1 then
+    if tonumber(Individual_values[2])~=nil then
+      table.insert(Individual_values, 3, "")
+      Individual_values[2]=tonumber(Individual_values[2])
+    else
+      table.insert(Individual_values, 3, Individual_values[2]:match(":(.*)"))
+      Individual_values[2]=tonumber(Individual_values[2]:match("(.-):"))
+    end
+  end
+  return table.unpack(Individual_values)
+end
+
+function ultraschall.GetTCPWidth()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTCPWidth</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    JS=0.998
+    Lua=5.3
+  </requires>
+  <functioncall>integer width = ultraschall.GetTCPWidth()</functioncall>
+  <description>
+    Returns the current width of the TrackControlPanel.
+  </description>
+  <retvals>
+    integer width - the width of the TCP
+  </retvals>
+  <chapter_context>
+    User Interface
+    Track Control Panel(TCP)
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>userinterface, get, width, tcp, track control panel</tags>
+</US_DocBloc>
+]]  
+  -- gets the hwnd of the help-display-area, which is beneath the TCP,
+  -- and has the same width as the TCP. So this is, where we get out
+  -- TCP-width from.
+  -- Hope the devs will not make position of the helpdisplay customizeable.
+  local Retval, Width, Height = reaper.JS_Window_GetClientSize(reaper.JS_Window_FindChildByID(reaper.GetMainHwnd(), 1259))
+  return Width
+end
+
+--A=ultraschall.GetTCPWidth()
+
+function ultraschall.Soundboard_PlayFadeIn(playerindex)
+--[[
+  <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+    <slug>Soundboard_PlayFadeIn</slug>
+    <requires>
+      Ultraschall=4.00
+      Reaper=5.965
+      Lua=5.3
+    </requires>
+    <functioncall>ultraschall.Soundboard_PlayFadeIn(integer playerindex)</functioncall>
+    <description markup_type="markdown" markup_version="1.0.1" indent="default">
+      Starts a sound with a fade-in of a certain player in the Ultraschall-SoundBoard
+      
+      Needs ultraschall-Soundboard installed to be useable!
+      
+      Track(s) who hold the soundboard must be recarmed and recinput set to MIDI or VKB.
+    </description>
+    <parameters>
+      integer playerindex - the player of the SoundBoard; from 1-24
+    </parameters>
+    <chapter_context>
+      Ultraschall Specific
+      Soundboard
+    </chapter_context>
+    <target_document>US_Api_Documentation</target_document>
+    <source_document>ultraschall_functions_engine.lua</source_document>
+    <tags>ultraschall, soundboard, play, fadein</tags>
+  </US_DocBloc>
+  ]]  
+  print2("THIS ISN'T WORKING YET!")
+  
+  if math.type(playerindex)~="integer" then ultraschall.AddErrorMessage("Soundboard_PlayFadeIn", "playerindex", "must be an integer", -1) return false end
+  if playerindex<1 or playerindex>24 then ultraschall.AddErrorMessage("Soundboard_PlayFadeIn", "playerindex", "must be between 1 and 24", -2) return false end
+  local mode=0            -- set to virtual keyboard of Reaper
+  local MIDIModifier=144  -- set to MIDI-Note
+  local Note=24+playerindex-1
+  local Velocity=1  
+      
+  reaper.StuffMIDIMessage(mode, MIDIModifier, Note, Velocity)
+end 
+
 ultraschall.ShowLastErrorMessage()

@@ -1432,7 +1432,7 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
   </retvals>
   <chapter_context>
     User Interface
-    Window Management
+    Reaper-Windowhandler
   </chapter_context>
   <target_document>US_Api_Documentation</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>

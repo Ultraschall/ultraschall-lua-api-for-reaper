@@ -4,7 +4,7 @@
 
     ultraschall.MoveFileOrFolder(file_foldername, oldpath, newpath)
         Man kann damit Dateien UND Ordner verschieben(at least unter Windows)
-        Check mal, ob das auch unter Linux und MacOS geht!
+        Check mal, ob das auch unter Linux geht!
             A,B=os.rename("c:/temp/TudeluTEst", "c:/TudeluTEst") -- Ordner
             A,B=os.rename("c:/temp/TudeluTEst.txt", "c:/TudeluTEst.txt") -- Ordner
     
@@ -233,6 +233,7 @@ TODO!! buggy function
    - Envelope Management: GetEnvelopeState\_Act - returns the values of the ACT-entry of a TrackEnvelope/EnvelopeStateChunk
    - Envelope Management: GetEnvelopeState\_DefShape - returns the values of the DEFSHAPE-entry of a TrackEnvelope/EnvelopeStateChunk
    - Envelope Management: GetEnvelopeState\_LaneHeight - returns the values of the LANEHEIGHT-entry of a TrackEnvelope/EnvelopeStateChunk
+   - Envelope Management: GetEnvelopeState\_EnvName - returns the envelope-name and possible additional values, if it's an FX-envelope
    - Envelope Management: GetEnvelopeState\_NumbersOnly - returns all values of a parameter from an EnvelopeStateChunk, including the undocumented ones when the devs add them
    - Envelope Management: GetEnvelopeState\_PooledEnvInstance - returns the attributes of an automation-item within an EnvelopeStateChunk, including the undocumented ones when the devs add them
    - Envelope Management: GetEnvelopeState\_PT - returns the attributes of an envelope-point within an EnvelopeStateChunk, including the undocumented ones when the devs add them
@@ -245,17 +246,18 @@ TODO!! buggy function
    - Image Handling: CaptureScreenAreaAsPNG - captures a screenarea and writes it as png-file(written by edgemeal, big thanks for that!)
    - Image Handling: CaptureWindowAsPNG - captures a window-area and writes it as a png-file(written by edgemeal, big thanks for that!)
    - Image Handling: ResizePNG - resizes a png-file into a new file
-   - KB.ini-Management: QueryKeyboardShortcutByKeyID - returns the actual shortcutname as stpred by the modifier-key-values in reaper-kb.ini's KEY-entries
+   - KB.ini-Management: QueryKeyboardShortcutByKeyID - returns the actual shortcutname as stored by the modifier-key-values in reaper-kb.ini's KEY-entries
    - Metadata-Management: ProjExtState_CountAllKeys - counts the number of keys within a section of a ProjectExtState
    - MIDI-Management: QueryMIDIMessageNameByID - returns the midi-message-name of a midi-message as sendable using StuffMIDIMessage
    - Project Bay: IsValidProjectBayStateChunk - checks, if a ProjectBayStateChunk is a valid one
    - Project Bay: GetAllMediaItems\_FromProjectBayStateChunk - returns all items from a ProjectBayStateChunk as MediaItemStateChunkArray
    - Project Management: GetRecentProjects - gets the last x recent projectfilenames, as listed in the recent projects-menu
-   - Rendering: Render_Loop - renders a part of a project for later use as loop; supports also the creation of "wetloops" like ones with reverb(requested by klangfarben)
+   - Rendering: Render_Loop - renders a part of a project for later use as loop; supports also the creation of "wetloops" like ones with reverb(requested by musicbynumbers)
    - Scripts: US\_Api\_Examples\_Working\_with\_FXStateChunks\_and\_MediaItems.lua - example of working with FXChainStateChunks
    - Themeing: GetAllThemeLayoutNames - returns all layout-names and values of the current theme
    - Themeing: GetAllThemeLayoutParameters - returns all theme-layout-parameter attributes of the current theme
    - User Interface: GetHelpDisplayMode - returns the current help-display-mode
+   - User Interface: GetTCPWidth - gets the current width of the TCP(requested by nofish)
    - User Interface: SetHelpDisplayMode - sets the current help-display-mode
    - User Interface: WiringDiagram_GetOptions - gets the current wiring-diagram-options
    - User Interface: WiringDiagram_SetOptions - sets the wiring-diagram-options
@@ -265,7 +267,7 @@ TODO!! buggy function
    - Envelope Management: GetArmState_Envelope - reimplemented, should now return future parameters as well, when added by the Reaper-devs
    - FileManagement: GetAllFilenamesInPath - returns now the paths with / as separator only
    - FileManagement: GetMediafileAttributes - did not recognize jpgs with exif-data -> should be fixed now(thanks to rstockm)
-   - FileManagement: WriteValueToFile - produced Lua-error when passing a nil-value as filename_with_path -> fixed
+   - FileManagement: WriteValueToFile - produced Lua-error when passing a nil-value as filename\_with\_path -> fixed
    - FXManagement: GetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -> fixed
    - FXManagement: RemoveFXStateChunkFromItemStateChunk - counted FXStateChunks, not Takes by parameter take_id -> fixed
    - FXManagement: SetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -> fixed
@@ -313,6 +315,7 @@ TODO!! buggy function
    - Rendering: RenderProject_RenderTable - allows now setting the render-cfg-string for secondary renderformat as well; checks now, if projectfilename is a valid project
    - Rendering: SetRenderPreset - allows now setting the render-cfg-string for secondary renderformat as well; set RenderString2="" to remove the secondary renderformat
    - Track Management: GetTrackState_NumbersOnly - had wrong description in the docs -> fixed
+   - User Interface: GetHWND_ArrangeViewAndTimeLine - moved to User Interface -> Reaper-Windowhandler in the index of the docs
    
    
 

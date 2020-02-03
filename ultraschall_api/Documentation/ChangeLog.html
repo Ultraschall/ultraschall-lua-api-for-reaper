@@ -57,6 +57,7 @@ Ultraschall API Changelog
 <li>Envelope Management: GetEnvelopeState_Act - returns the values of the ACT-entry of a TrackEnvelope/EnvelopeStateChunk</li>
 <li>Envelope Management: GetEnvelopeState_DefShape - returns the values of the DEFSHAPE-entry of a TrackEnvelope/EnvelopeStateChunk</li>
 <li>Envelope Management: GetEnvelopeState_LaneHeight - returns the values of the LANEHEIGHT-entry of a TrackEnvelope/EnvelopeStateChunk</li>
+<li>Envelope Management: GetEnvelopeState_EnvName - returns the envelope-name and possible additional values, if it's an FX-envelope</li>
 <li>Envelope Management: GetEnvelopeState_NumbersOnly - returns all values of a parameter from an EnvelopeStateChunk, including the undocumented ones when the devs add them</li>
 <li>Envelope Management: GetEnvelopeState_PooledEnvInstance - returns the attributes of an automation-item within an EnvelopeStateChunk, including the undocumented ones when the devs add them</li>
 <li>Envelope Management: GetEnvelopeState_PT - returns the attributes of an envelope-point within an EnvelopeStateChunk, including the undocumented ones when the devs add them</li>
@@ -69,17 +70,18 @@ Ultraschall API Changelog
 <li>Image Handling: CaptureScreenAreaAsPNG - captures a screenarea and writes it as png-file(written by edgemeal, big thanks for that!)</li>
 <li>Image Handling: CaptureWindowAsPNG - captures a window-area and writes it as a png-file(written by edgemeal, big thanks for that!)</li>
 <li>Image Handling: ResizePNG - resizes a png-file into a new file</li>
-<li>KB.ini-Management: QueryKeyboardShortcutByKeyID - returns the actual shortcutname as stpred by the modifier-key-values in reaper-kb.ini's KEY-entries</li>
+<li>KB.ini-Management: QueryKeyboardShortcutByKeyID - returns the actual shortcutname as stored by the modifier-key-values in reaper-kb.ini's KEY-entries</li>
 <li>Metadata-Management: ProjExtState_CountAllKeys - counts the number of keys within a section of a ProjectExtState</li>
 <li>MIDI-Management: QueryMIDIMessageNameByID - returns the midi-message-name of a midi-message as sendable using StuffMIDIMessage</li>
 <li>Project Bay: IsValidProjectBayStateChunk - checks, if a ProjectBayStateChunk is a valid one</li>
 <li>Project Bay: GetAllMediaItems_FromProjectBayStateChunk - returns all items from a ProjectBayStateChunk as MediaItemStateChunkArray</li>
 <li>Project Management: GetRecentProjects - gets the last x recent projectfilenames, as listed in the recent projects-menu</li>
-<li>Rendering: Render_Loop - renders a part of a project for later use as loop; supports also the creation of "wetloops" like ones with reverb(requested by klangfarben)</li>
+<li>Rendering: Render_Loop - renders a part of a project for later use as loop; supports also the creation of "wetloops" like ones with reverb(requested by musicbynumbers)</li>
 <li>Scripts: US_Api_Examples_Working_with_FXStateChunks_and_MediaItems.lua - example of working with FXChainStateChunks</li>
 <li>Themeing: GetAllThemeLayoutNames - returns all layout-names and values of the current theme</li>
 <li>Themeing: GetAllThemeLayoutParameters - returns all theme-layout-parameter attributes of the current theme</li>
 <li>User Interface: GetHelpDisplayMode - returns the current help-display-mode</li>
+<li>User Interface: GetTCPWidth - gets the current width of the TCP(requested by nofish)</li>
 <li>User Interface: SetHelpDisplayMode - sets the current help-display-mode</li>
 <li>User Interface: WiringDiagram_GetOptions - gets the current wiring-diagram-options</li>
 <li>User Interface: WiringDiagram_SetOptions - sets the wiring-diagram-options</li>
@@ -90,7 +92,7 @@ Ultraschall API Changelog
 <li>Envelope Management: GetArmState_Envelope - reimplemented, should now return future parameters as well, when added by the Reaper-devs</li>
 <li>FileManagement: GetAllFilenamesInPath - returns now the paths with / as separator only</li>
 <li>FileManagement: GetMediafileAttributes - did not recognize jpgs with exif-data -&gt; should be fixed now(thanks to rstockm)</li>
-<li>FileManagement: WriteValueToFile - produced Lua-error when passing a nil-value as filename<em>with</em>path -&gt; fixed</li>
+<li>FileManagement: WriteValueToFile - produced Lua-error when passing a nil-value as filename_with_path -&gt; fixed</li>
 <li>FXManagement: GetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -&gt; fixed</li>
 <li>FXManagement: RemoveFXStateChunkFromItemStateChunk - counted FXStateChunks, not Takes by parameter take_id -&gt; fixed</li>
 <li>FXManagement: SetFXStateChunk - counted FXStateChunks, not Takes by parameter TakeFXChain_id -&gt; fixed</li>
@@ -138,6 +140,7 @@ Ultraschall API Changelog
 <li>Rendering: RenderProject_RenderTable - allows now setting the render-cfg-string for secondary renderformat as well; checks now, if projectfilename is a valid project</li>
 <li>Rendering: SetRenderPreset - allows now setting the render-cfg-string for secondary renderformat as well; set RenderString2="" to remove the secondary renderformat</li>
 <li>Track Management: GetTrackState_NumbersOnly - had wrong description in the docs -&gt; fixed</li>
+<li>User Interface: GetHWND_ArrangeViewAndTimeLine - moved to User Interface -&gt; Reaper-Windowhandler in the index of the docs</li>
 </ul>
 <hr />
 <h3>4.00 Beta 2.80: - "Starsailor - Four to the Floor"</h3>
