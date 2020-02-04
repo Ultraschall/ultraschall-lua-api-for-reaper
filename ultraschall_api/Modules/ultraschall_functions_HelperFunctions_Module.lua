@@ -3123,6 +3123,7 @@ function ultraschall.Main_OnCommandByFilename(filename, ...)
   os.remove(filename2)
   
   -- return true and the script-identifier of the started script
+  --print2(string.gsub("ScriptIdentifier:"..filename2, "\\", "/"))
   return true, string.gsub("ScriptIdentifier:"..filename2, "\\", "/")
 end
 
@@ -3232,6 +3233,8 @@ function ultraschall.GetScriptParameters(script_identifier, remove)
   <functioncall>integer num_params, array params, string caller_script_identifier = ultraschall.GetScriptParameters(optional string script_identifier, optional boolean remove)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
     Gets the parameters stored for a specific script_identifier.
+    
+    returns -1 in case of an error
   </description>
   <retvals>
     integer num_params - the number of parameters available
@@ -3254,7 +3257,7 @@ function ultraschall.GetScriptParameters(script_identifier, remove)
 ]]
   if script_identifier==nil or type(script_identifier)~="string" then script_identifier=ultraschall.ScriptIdentifier end
   
-  
+  if reaper.GetExtState(script_identifier, "parm_count")=="" then ultraschall.AddErrorMessage("GetScriptParameters", "", "no parameters found", -1) return -1 end
   local counter=1
   local parms={}
   --while reaper.GetExtState(script_identifier, "parm_"..counter)~="" do
@@ -3266,6 +3269,7 @@ function ultraschall.GetScriptParameters(script_identifier, remove)
     counter=counter+1
   end
   local caller_script=reaper.GetExtState(script_identifier, "parm_0")
+  --print2(caller_script)
   
   if remove==true or remove==nil then reaper.DeleteExtState(script_identifier, "parm_0", false) end
   return counter-1, parms, caller_script
@@ -3332,9 +3336,9 @@ function ultraschall.GetScriptReturnvalues(script_identifier, remove)
     Reaper=5.965
     Lua=5.3
   </requires>
-  <functioncall>integer num_params, array retvals = ultraschall.GetScriptReturnvalues(sender_script_identifier, optional boolean remove)</functioncall>
+  <functioncall>integer num_params, array retvals = ultraschall.GetScriptReturnvalues(string sender_script_identifier, optional boolean remove)</functioncall>
   <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Gets the return-values which a specific sender_script_identifier sent to the current script.
+    Gets the return-values which a specific sender\_script\_identifier sent to the current script.
     
     If you have started numerous child-scripts and want to know, which child-script sent you return-values, see [GetScriptReturnvalues_Sender](#GetScriptReturnvalues_Sender)
     
@@ -3345,7 +3349,7 @@ function ultraschall.GetScriptReturnvalues(script_identifier, remove)
     array params - the values of the return-values as an array
   </retvals>
   <parameters>
-    optional string sender_script_identifier - the script-identifier, that sent the return-values to your script
+    string sender_script_identifier - the script-identifier, that sent the return-values to your script
     optional boolean remove - true or nil, remove the stored retval-extstates; false, keep them for later retrieval
   </parameters>
   <chapter_context>
@@ -3360,10 +3364,10 @@ function ultraschall.GetScriptReturnvalues(script_identifier, remove)
   if type(script_identifier)~="string" then ultraschall.AddErrorMessage("GetScriptReturnvalues", "script_identifier", "must be a string", -1) return -1 end
   local counter=1
   local retvals={}
+  --print2("Häh?")
+  if tonumber(reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retvalcount"))==nil then ultraschall.AddErrorMessage("GetScriptReturnvalues", "", "no retvals found", -2) return -1 end
 
---  while reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter)~="" do
-  for i=1, tonumber(reaper.SetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retvalcount")) do
-    --print(reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter))
+  for i=1, tonumber(reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retvalcount")) do
     retvals[counter]=reaper.GetExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter)
     if remove==true or remove==nil then
       reaper.DeleteExtState(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter, false)
@@ -3372,6 +3376,9 @@ function ultraschall.GetScriptReturnvalues(script_identifier, remove)
       if retval_identifier:match(ultraschall.ScriptIdentifier)==nil then
         reaper.SetExtState(script_identifier, "retval_sender_identifier", retval_identifier, false)
       end
+    end
+    if remove==true or remove==nil then
+      reaper.DeleteExtState(ultraschall.ScriptIdentifier, script_identifier.."_retvalcount", false)
     end
     counter=counter+1
   end
@@ -3422,6 +3429,7 @@ function ultraschall.SetScriptReturnvalues(script_identifier, ...)
   
   while retvals[counter]~=nil do
     reaper.SetExtState(script_identifier, ultraschall.ScriptIdentifier.."_retval_"..counter, tostring(retvals[counter]), false)
+    --print2(ultraschall.ScriptIdentifier, script_identifier.."_retval_"..counter, tostring(retvals[counter]), false)
     counter=counter+1
   end
   reaper.SetExtState(script_identifier, ultraschall.ScriptIdentifier.."_retvalcount", counter, false)

@@ -259,6 +259,8 @@ TODO!! buggy function
    - Web Interface: WebInterface_GetInstalledInterfaces - returns all installed webinterfaces(webrc) of the current Reaper installation, custom and Reaper-defaults
    
 #### Changes from Beta 2.8 to Beta 2.9
+   - ChildScripts: GetScriptParameters - produced Lua-error when no parameter was existing -> fixed
+   - ChildScripts: GetScriptReturnvalues - docs fixed; didn't reset returnvalue-counter; produced Lua-error when no parameter was existing; had another stupid bug in it that I don't wanna mention... :/ -> fixed
    - ConfigurationManagement: GetIniFileValue - checks now, if the ini-file exists in the first place
    - Envelope Management: GetArmState_Envelope - reimplemented, should now return future parameters as well, when added by the Reaper-devs
    - FileManagement: GetAllFilenamesInPath - returns now the paths with / as separator only

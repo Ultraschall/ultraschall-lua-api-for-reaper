@@ -89,6 +89,8 @@ Ultraschall API Changelog
 </ul>
 <h4>Changes from Beta 2.8 to Beta 2.9</h4>
 <ul>
+<li>ChildScripts: GetScriptParameters - produced Lua-error when no parameter was existing -&gt; fixed</li>
+<li>ChildScripts: GetScriptReturnvalues - docs fixed; didn't reset returnvalue-counter; produced Lua-error when no parameter was existing; had another stupid bug in it that I don't wanna mention... :/ -&gt; fixed</li>
 <li>ConfigurationManagement: GetIniFileValue - checks now, if the ini-file exists in the first place</li>
 <li>Envelope Management: GetArmState_Envelope - reimplemented, should now return future parameters as well, when added by the Reaper-devs</li>
 <li>FileManagement: GetAllFilenamesInPath - returns now the paths with / as separator only</li>

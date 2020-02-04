@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="42990.00" author="Meo Mespotine">
+      <version name="42991.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/master/ultraschall_api/Changelog-Api.txt</source>
@@ -503,6 +503,12 @@ New features in 4.00beta2.9
 
 Changes from Beta 2.8 to Beta 2.9
 
+-   ChildScripts: GetScriptParameters - produced Lua-error when no
+    parameter was existing -> fixed
+-   ChildScripts: GetScriptReturnvalues - docs fixed; didn’t reset
+    returnvalue-counter; produced Lua-error when no parameter was
+    existing; had another stupid bug in it that I don’t wanna mention…
+    :/ -> fixed
 -   ConfigurationManagement: GetIniFileValue - checks now, if the
     ini-file exists in the first place
 -   Envelope Management: GetArmState_Envelope - reimplemented, should
