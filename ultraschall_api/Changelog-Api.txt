@@ -1,6 +1,7 @@
 <TODO>
     BUG REPORT: MB and GetUserInputs: Can't find ID of the buttons anymore. Changes in Reaper in recent versions?
-
+    Checke Themeing und WebInterface-Funktionen, Image, ob sie noch funzen wenn beta=false
+    
     Soundboard-FadeIn
     
     Docs: DeferScripts_004_Manipulating and Protecting Defer-loops

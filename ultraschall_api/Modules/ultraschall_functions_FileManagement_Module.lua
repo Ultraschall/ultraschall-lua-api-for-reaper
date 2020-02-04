@@ -1740,3 +1740,43 @@ function ultraschall.ReadSubtitles_SRT(filename_with_path)
   return Subs_Counter, Subs
 end
 
+function ultraschall.MoveFileOrFolder(file_foldername, oldpath, newpath)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MoveFileOrFolder</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.MoveFileOrFolder(string file_foldername, string oldpath, string newpath)</functioncall>
+  <description>
+    Moves a file or folder from oldpath to newpath.
+    
+    returns false in case of an error 
+  </description>
+  <parameters>
+    string file_foldername - the folder- or filename, which you want to move
+    string oldpath - the old path, in which the file or folder is located
+    string newpath - the new path, into which the file or folder shall be moved
+  </parameters>
+  <retvals>
+    boolean retval - true, moving was successful; false, moving was unsuccessful
+  </retvals>
+  <chapter_context>
+    Manipulate Files
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>filemanagement, move, folder, directory, file, sourcepath, oldpath, newpath, targetpath</tags>
+</US_DocBloc>
+]]
+  if type(file_foldername)~="string" then ultraschall.AddErrorMessage("MoveFileOrFolder",  "file_foldername", "must be a string", -1) return false end
+  if type(oldpath)~="string" then ultraschall.AddErrorMessage("MoveFileOrFolder",  "oldpath", "must be a string", -2) return false end
+  if type(newpath)~="string" then ultraschall.AddErrorMessage("MoveFileOrFolder",  "newpath", "must be a string", -3) return false end
+  if ultraschall.DirectoryExists(oldpath, file_foldername)==false and reaper.file_exists(oldpath.."/"..file_foldername)==false then ultraschall.AddErrorMessage("MoveFileOrFolder",  "file_foldername", "no such sourcefile or directory", -4) return false end
+  if ultraschall.DirectoryExists(newpath, file_foldername)==true or reaper.file_exists(newpath.."/"..file_foldername)==true then ultraschall.AddErrorMessage("MoveFileOrFolder",  "file_foldername", "target-file or -directory already exists", -5) return false end
+  return os.rename(oldpath.."/"..file_foldername, newpath.."/"..file_foldername)
+end
+
+

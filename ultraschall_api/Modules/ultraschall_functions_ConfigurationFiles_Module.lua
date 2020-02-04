@@ -1761,3 +1761,49 @@ end
 
 --A1=ultraschall.SetIniFileValue(file:match("(.-)REAPER.ini").."lula.ini", "ultrascshall_update", "D", "1")
 
+function ultraschall.QueryKeyboardShortcutByKeyID(modifier, key)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>QueryKeyboardShortcutByKeyID</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=6.02
+    SWS=2.10.0.1
+    Lua=5.3
+  </requires>
+  <functioncall>string Shortcutname = ultraschall.QueryKeyboardShortcutByKeyID(integer modifier, integer key)</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+    Returns the name of the shortcut of the modifier-key-values, as stored in the KEY-entries within the reaper-kb.ini
+    
+    That way, you can take a KEY-entry from the reaper-kb.ini, like
+     
+          KEY 1 65 _Ultraschall_Play_From_Editcursor_Position 0
+          
+    Extract the modifier and key-values(1 and 65 in the example) and pass them to this function.
+    You will get returned "A" as 1 and 65 is the keyboard-shortcut-code for the A-key.
+    
+    Only necessary for those, who try to read keyboard-shortcuts directly from the reaper-kb.ini to display them in some way.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string Shortcutname - the actual name of the shortcut, like "A" or "F1" or "Ctrl+Alt+Shift+Win+PgUp".
+  </retvals>
+  <parameters>
+    integer modifier - the modifier value, which is the first one after KEY in a KEY-entry in the reaper-kb.ini-file
+    integer key - the key value, which is the second one after KEY in a KEY-entry in the reaper-kb.ini-file
+  </parameters>
+  <chapter_context>
+    Configuration-Files Management
+    Reaper-kb.ini
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>configurations management, key, shortcut, name, query, get</tags>
+</US_DocBloc>
+]]
+  if math.type(modifier)~="integer" then ultraschall.AddErrorMessage("QueryKeyboardShortcutByKeyID", "modifier", "must be an integer", -1) return nil end
+  if math.type(key)~="integer" then ultraschall.AddErrorMessage("QueryKeyboardShortcutByKeyID", "key", "must be an integer", -2) return nil end
+  local length_of_value, value = ultraschall.GetIniFileValue("Code", modifier.."_"..key, -999, ultraschall.Api_Path.."/IniFiles/Reaper-KEY-Codes_for_reaper-kb_ini.ini")
+  return value
+end
