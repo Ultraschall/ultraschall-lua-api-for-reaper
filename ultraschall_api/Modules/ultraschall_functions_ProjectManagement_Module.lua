@@ -80,8 +80,8 @@ function ultraschall.GetProjectFilename(proj)
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_ProjectManagement_Module.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_Module.lua</source_document>
   <tags>helperfunctions, projectfiles, get, projecttab, filename</tags>
 </US_DocBloc>
 ]]
@@ -129,8 +129,8 @@ function ultraschall.CheckForChangedProjectTabs(update)
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_ProjectManagement_Module.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_Module.lua</source_document>
   <tags>helperfunctions, projectfiles, check, projecttab, change, order, new, closed, close</tags>
 </US_DocBloc>
 ]]
@@ -238,8 +238,8 @@ function ultraschall.IsValidProjectStateChunk(ProjectStateChunk)
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_ProjectManagement_Module.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_Module.lua</source_document>
   <tags>projectfiles, rpp, projectstatechunk, statechunk, check, valid</tags>
 </US_DocBloc>
 ]]  
@@ -281,8 +281,8 @@ function ultraschall.GetProjectStateChunk(projectfilename_with_path, keepqrender
       Project-Files
       Helper functions
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_ProjectManagement_Module.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_ProjectManagement_Module.lua</source_document>
     <tags>projectmanagement, get, projectstatechunk</tags>
   </US_DocBloc>
   ]]  
@@ -434,8 +434,8 @@ function ultraschall.EnumProjects(idx)
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_ProjectManagement_Module.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_Module.lua</source_document>
   <tags>helperfunctions, projectfiles, get, filename, project, reaproject, rendering, opened</tags>
 </US_DocBloc>
 --]]
@@ -485,8 +485,8 @@ function ultraschall.GetProjectLength(items, markers_regions, timesig_markers)
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_ProjectManagement_Module.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_Module.lua</source_document>
   <tags>project management, get, last, position, length of project, marker, regionend, itemend, timesignaturemarker</tags>
 </US_DocBloc>
 --]]
@@ -544,8 +544,8 @@ function ultraschall.GetRecentProjects()
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_ProjectManagement_Module.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_Module.lua</source_document>
   <tags>projectmanagement, get, all, recent, projects, filenames, rpp</tags>
 </US_DocBloc>
 ]]
@@ -585,8 +585,8 @@ function ultraschall.IsValidProjectBayStateChunk(ProjectBayStateChunk)
     Project-Management
     ProjectBay
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_Module.lua</source_document>
   <tags>project management, check, projectbaystatechunk, is valid</tags>
 </US_DocBloc>
 ]]
@@ -620,8 +620,8 @@ function ultraschall.GetAllMediaItems_FromProjectBayStateChunk(ProjectBayStateCh
     Project-Management
     ProjectBay
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ProjectManagement_Module.lua</source_document>
   <tags>project management, get, projectbaystatechunk, all items, mediaitemstatechunkarray</tags>
 </US_DocBloc>
 ]]

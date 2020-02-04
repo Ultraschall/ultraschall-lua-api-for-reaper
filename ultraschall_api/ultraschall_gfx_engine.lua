@@ -84,7 +84,7 @@ function ultraschall.GFX_DrawThickRoundRect(x,y,w,h,thickness, roundness, antial
   <chapter_context>
     Basic Shapes
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
+  <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, gfx, draw, thickness, round rectangle</tags>
 </US_DocBloc>
@@ -142,7 +142,7 @@ function ultraschall.GFX_BlitFramebuffer(framebufferidx, showidx)
   <chapter_context>
     Blitting
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
+  <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, gfx, blit, framebuffer</tags>
 </US_DocBloc>
@@ -554,7 +554,7 @@ function ultraschall.GFX_Init(...)
   <chapter_context>
     Window Handling
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
+  <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, gfx, init, window, create, hwnd</tags>
 </US_DocBloc>
@@ -627,7 +627,7 @@ function ultraschall.GFX_GetWindowHWND()
   <chapter_context>
     Window Handling
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
+  <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, gfx, init, window, get, hwnd</tags>
 </US_DocBloc>
@@ -702,7 +702,7 @@ function ultraschall.GFX_GetMouseCap(doubleclick_wait, drag_wait)
   <chapter_context>
     Mouse Handling
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
+  <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, mouse, mouse cap, leftclick, rightclick, doubleclick, drag, wheel, mousewheel, horizontal mousewheel</tags>
 </US_DocBloc>
@@ -848,7 +848,7 @@ function ultraschall.GFX_SetFont(fontindex, font, size, flagStr)
   <chapter_context>
     Font Handling
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
+  <target_document>US_Api_GFX</target_document>
   <source_document>ultraschall_gfx_engine.lua</source_document>
   <tags>gfx, functions, font, set, mac, windows</tags>
 </US_DocBloc>

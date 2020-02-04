@@ -79,8 +79,8 @@ function ultraschall.ZoomVertical_MidiEditor(zoomamt, HWND)
     MIDI Management
     MIDI Editor
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
   <tags>midimanagement, zoom, midieditor, vertically</tags>
 </US_DocBloc>
 ]]
@@ -127,8 +127,8 @@ function ultraschall.ZoomHorizontal_MidiEditor(zoomamt, HWND)
     MIDI Management
     MIDI Editor
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
   <tags>midimanagement, zoom, midieditor, horizontally</tags>
 </US_DocBloc>
 ]]
@@ -176,8 +176,8 @@ function ultraschall.OpenItemInMidiEditor(MediaItem)
     MIDI Management
     MIDI Editor
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
   <tags>midimanagement, open, item, midieditor</tags>
 </US_DocBloc>
 ]]
@@ -215,8 +215,8 @@ function ultraschall.MIDI_SendMidiNote(Channel, Note, Velocity, Mode)
       MIDI Management
       Notes
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
     <tags>midi management, send, note</tags>
   </US_DocBloc>
   ]]  
@@ -263,8 +263,8 @@ function ultraschall.MIDI_SendMidiCC(Channel, Note, Velocity, Mode)
       MIDI Management
       Notes
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
     <tags>midi management, send, cc</tags>
   </US_DocBloc>
   ]]  
@@ -311,8 +311,8 @@ function ultraschall.MIDI_SendMidiPC(Channel, Note, Velocity, Mode)
       MIDI Management
       Notes
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
     <tags>midi management, send, pc</tags>
   </US_DocBloc>
   ]]  
@@ -358,8 +358,8 @@ function ultraschall.MIDI_SendMidiPitch(Channel, Pitch, Mode)
       MIDI Management
       Notes
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
     <tags>midi management, send, pitch, bend</tags>
   </US_DocBloc>
   ]]  
@@ -409,8 +409,8 @@ function ultraschall.QueryMIDIMessageNameByID(modifier, key)
     MIDI Management
     Notes
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MIDIManagement_Module.lua</source_document>
   <tags>configurations management, key, shortcut, name, query, get</tags>
 </US_DocBloc>
 ]]

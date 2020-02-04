@@ -76,8 +76,8 @@ function ultraschall.GetVerticalZoom()
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, get, vertical, zoom, factor</tags>
 </US_DocBloc>
 --]]
@@ -122,8 +122,8 @@ function ultraschall.SetVerticalZoom(vertical_zoom_factor)
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, set, vertical, zoom, factor</tags>
 </US_DocBloc>
 --]]
@@ -170,8 +170,8 @@ function ultraschall.StoreArrangeviewSnapshot(slot, description, position, vzoom
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, set, arrangeview, snapshot</tags>
 </US_DocBloc>
 --]]
@@ -250,8 +250,8 @@ function ultraschall.IsValidArrangeviewSnapshot(slot)
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, check, arrangeview, snapshot</tags>
 </US_DocBloc>
 --]]  
@@ -308,8 +308,8 @@ function ultraschall.RetrieveArrangeviewSnapshot(slot)
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, get, arrangeview, snapshot, startposition, endposition, verticalzoom, horizontal zoom, vertical scroll</tags>
 </US_DocBloc>
 --]]
@@ -387,8 +387,8 @@ function ultraschall.RestoreArrangeviewSnapshot(slot, position, vzoom, hcentermo
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, set, arrangeview, snapshot, startposition, endposition, verticalzoom, horizontalzoom</tags>
 </US_DocBloc>
 --]]
@@ -459,8 +459,8 @@ function ultraschall.DeleteArrangeviewSnapshot(slot)
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, delete, arrangeview, snapshot, startposition, endposition, verticalzoom</tags>
 </US_DocBloc>
 --]]
@@ -502,8 +502,8 @@ function ultraschall.SetIDEFontSize(fontsize)
     User Interface
     Miscellaneous
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, ide, fontsize, set</tags>
 </US_DocBloc>
 --]]
@@ -534,8 +534,8 @@ function ultraschall.GetIDEFontSize()
     User Interface
     Miscellaneous
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, ide, fontsize, get</tags>
 </US_DocBloc>
 --]]
@@ -570,8 +570,8 @@ function ultraschall.GetPlayCursorWidth()
     User Interface
     Transport
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, get, playcursor, width</tags>
 </US_DocBloc>
 --]]
@@ -610,8 +610,8 @@ function ultraschall.SetPlayCursorWidth(play_cursor_width, persist)
     User Interface
     Transport
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, set, playcursor, width</tags>
 </US_DocBloc>
 --]]
@@ -659,8 +659,8 @@ function ultraschall.GetScreenWidth(want_workarea)
     User Interface
     Screen Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, get, screen, width</tags>
 </US_DocBloc>
 --]]
@@ -696,8 +696,8 @@ function ultraschall.GetScreenHeight(want_workarea)
     User Interface
     Screen Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, get, screen, height</tags>
 </US_DocBloc>
 --]]
@@ -770,8 +770,8 @@ function ultraschall.ShowMenu(Title,Entries,x,y)
     User Interface
     Context Menus
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, create, menu, contextmenu</tags>
 </US_DocBloc>
 ]]
@@ -828,8 +828,8 @@ function ultraschall.IsValidHWND(HWND)
     User Interface
     Window Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>window, hwnd, is valid, check</tags>
 </US_DocBloc>
 ]]
@@ -881,8 +881,8 @@ function ultraschall.BrowseForOpenFiles(windowTitle, initialFolder, initialFile,
     User Interface
     Dialogs
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, dialog, file, chooser, multiple</tags>
 </US_DocBloc>
 ]]
@@ -940,8 +940,8 @@ function ultraschall.HasHWNDChildWindowNames(HWND, childwindownames)
     User Interface
     Window Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>window, check, childhwnd, hwnd, windows</tags>
 </US_DocBloc>
 ]]
@@ -991,8 +991,8 @@ function ultraschall.CloseReaScriptConsole()
     User Interface
     Window Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>window, reaconsole, close</tags>
 </US_DocBloc>
 ]]
@@ -1063,8 +1063,8 @@ function ultraschall.MB(caption, title, mbtype, button1_caption, button2_caption
     User Interface
     Dialogs
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, user, interface, input, dialog, messagebox</tags>
 </US_DocBloc>
 --]]
@@ -1137,8 +1137,8 @@ function ultraschall.GetTopmostHWND(hwnd)
     User Interface
     Window Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>window, hwnd, topmost, parent hwnd, get, count</tags>
 </US_DocBloc>
 ]]
@@ -1197,8 +1197,8 @@ function ultraschall.GetReaperWindowAttributes()
     User Interface
     Window Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>window, hwnd, reaper, main window, position, active, visible, child-hwnds</tags>
 </US_DocBloc>
 ]]
@@ -1261,8 +1261,8 @@ function ultraschall.Windows_Find(title, exact)
     User Interface
     Window Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>window, find, hwnd, windows, reaper</tags>
 </US_DocBloc>
 ]]
@@ -1319,8 +1319,8 @@ function ultraschall.GetAllReaScriptIDEWindows()
     User Interface
     Window Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>window, get, hwnd, windows, reaper, ide</tags>
 </US_DocBloc>
 ]]
@@ -1382,8 +1382,8 @@ function ultraschall.GetReaScriptConsoleWindow()
     User Interface
     Window Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>window, get, hwnd, windows, reaper, console</tags>
 </US_DocBloc>
 ]]
@@ -1434,8 +1434,8 @@ function ultraschall.GetHWND_ArrangeViewAndTimeLine()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, get, hwnd, arrangeview, timeline, trackview, tcp, track control panel</tags>
 </US_DocBloc>
 --]]
@@ -1582,8 +1582,8 @@ function ultraschall.GetVerticalScroll()
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>arrangeviewmanagement, get, vertical, scroll factor</tags>
 </US_DocBloc>
 --]]
@@ -1622,8 +1622,8 @@ function ultraschall.SetVerticalScroll(scrollposition)
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>arrangeviewmanagement, set, vertical, scroll factor</tags>
 </US_DocBloc>
 --]]
@@ -1662,8 +1662,8 @@ function ultraschall.SetVerticalRelativeScroll(relative_scrollposition)
     User Interface
     Arrangeview Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>arrangeviewmanagement, set, relative, vertical, scroll factor</tags>
 </US_DocBloc>
 --]]
@@ -1741,8 +1741,8 @@ function ultraschall.GetUserInputs(title, caption_names, default_retvals, values
     User Interface
     Dialogs
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, dialog, get, user input</tags>
 </US_DocBloc>
 --]]
@@ -1859,8 +1859,8 @@ function ultraschall.GetRenderToFileHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, window, render to file, hwnd, get</tags>
 </US_DocBloc>
 --]]
@@ -1915,8 +1915,8 @@ function ultraschall.GetActionsHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, window, hwnd, actions, get</tags>
 </US_DocBloc>
 --]]
@@ -1968,8 +1968,8 @@ function ultraschall.GetVideoHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, window, hwnd, video, get</tags>
 </US_DocBloc>
 --]]
@@ -2019,8 +2019,8 @@ function ultraschall.GetRenderQueueHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, window, hwnd, render queue, get</tags>
 </US_DocBloc>
 --]]
@@ -2070,8 +2070,8 @@ function ultraschall.GetProjectSettingsHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, window, hwnd, project settings, get</tags>
 </US_DocBloc>
 --]]
@@ -2122,8 +2122,8 @@ function ultraschall.GetPreferencesHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, window, hwnd, preferences, get</tags>
 </US_DocBloc>
 --]]
@@ -2174,8 +2174,8 @@ function ultraschall.GetSaveLiveOutputToDiskHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, window, hwnd, bounce, save live output to disk, get</tags>
 </US_DocBloc>
 --]]
@@ -2225,8 +2225,8 @@ function ultraschall.GetConsolidateTracksHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, window, hwnd, bounce, consolidate tracks, get</tags>
 </US_DocBloc>
 --]]
@@ -2276,8 +2276,8 @@ function ultraschall.GetExportProjectMIDIHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, window, hwnd, bounce, export project midi, get</tags>
 </US_DocBloc>
 --]]
@@ -2328,8 +2328,8 @@ function ultraschall.GetProjectDirectoryCleanupHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, window, hwnd, bounce, project directory cleanup, get</tags>
 </US_DocBloc>
 --]]
@@ -2381,8 +2381,8 @@ function ultraschall.GetBatchFileItemConverterHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, window, hwnd, bounce, batch file item converter, get</tags>
 </US_DocBloc>
 --]]
@@ -2462,8 +2462,8 @@ function ultraschall.SetReaScriptConsole_FontStyle(style)
       User Interface
       Miscellaneous
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
     <tags>user interface, reascript, console, font, style</tags>
   <\/US_DocBloc>
 --  ]]
@@ -2528,8 +2528,8 @@ function ultraschall.MoveChildWithinParentHWND(parenthwnd, childhwnd, relative, 
       User Interface
       Window Management
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
     <tags>user interface, move, childhwnd, hwnd, parenthwnd, relative, absolute, top, left, bottom, right, width, height</tags>
   </US_DocBloc>
   ]]
@@ -2597,8 +2597,8 @@ function ultraschall.GetChildSizeWithinParentHWND(parenthwnd, childhwnd)
       User Interface
       Window Management
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
     <tags>user interface, get, childhwnd, hwnd, parenthwnd, relative, top, left, width, height</tags>
   </US_DocBloc>
   ]]
@@ -2640,8 +2640,8 @@ function ultraschall.GetCheckboxState(hwnd)
     User Interface
     UI-Elements
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, get, state, checkbox</tags>
 </US_DocBloc>
 ]]
@@ -2678,8 +2678,8 @@ function ultraschall.SetCheckboxState(hwnd, state)
     User Interface
     UI-Elements
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, set, state, checkbox</tags>
 </US_DocBloc>
 ]]
@@ -2715,8 +2715,8 @@ function ultraschall.GetRenderingToFileHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>render, get, hwnd, render to file, dialog</tags>
 </US_DocBloc>
 ]]
@@ -2805,8 +2805,8 @@ function ultraschall.ConvertScreen2ClientXCoordinate_ReaperWindow(Xscreencoordin
     Reaper Element Positions
     Reaper Window
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>reaper, window, position, pixels, convert, screen, client</tags>
 </US_DocBloc>
 ]]
@@ -2845,8 +2845,8 @@ function ultraschall.ConvertClient2ScreenXCoordinate_ReaperWindow(Xclientcoordin
     Reaper Element Positions
     Reaper Window
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>reaper, window, position, pixels, convert, screen, client</tags>
 </US_DocBloc>
 ]]
@@ -2886,8 +2886,8 @@ function ultraschall.SetReaperWindowToSize(x,y)
     Reaper Element Positions
     Reaper Window
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>reaper, window, width, height, set</tags>
 </US_DocBloc>
 --]]
@@ -2928,8 +2928,8 @@ function ultraschall.ConvertYCoordsMac2Win(ycoord, height)
     User Interface
     Miscellaneous
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, convert, coordinate, mac, windows, linux, y</tags>
 </US_DocBloc>
 --]]
@@ -2963,8 +2963,8 @@ function ultraschall.GetMediaExplorerHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, window, media explorer, hwnd, get</tags>
 </US_DocBloc>
 --]]
@@ -3018,8 +3018,8 @@ function ultraschall.GetTimeByMouseXPosition(xmouseposition)
     User Interface
     Miscellaneous
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, get, projectposition, from x-position</tags>
 </US_DocBloc>
 --]]
@@ -3059,8 +3059,8 @@ function ultraschall.ShowTrackInputMenu(x, y, MediaTrack, HWNDParent)
      User Interface
      Menu Management
    </chapter_context>
-   <target_document>US_Api_Documentation</target_document>
-   <source_document>ultraschall_functions_engine.lua</source_document>
+   <target_document>US_Api_Functions</target_document>
+   <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
    <tags>userinterface, show, context menu, trackinput</tags>
  </US_DocBloc>
  --]]
@@ -3103,8 +3103,8 @@ function ultraschall.ShowTrackPanelMenu(x, y, MediaTrack, HWNDParent)
     User Interface
     Menu Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, show, context menu, trackpanel</tags>
 </US_DocBloc>
 --]]
@@ -3147,8 +3147,8 @@ function ultraschall.ShowTrackAreaMenu(x, y, HWNDParent)
     User Interface
     Menu Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, show, context menu, trackarea</tags>
 </US_DocBloc>
 --]]
@@ -3191,8 +3191,8 @@ function ultraschall.ShowTrackRoutingMenu(x, y, MediaTrack, HWNDParent)
     User Interface
     Menu Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, show, context menu, trackrouting</tags>
 </US_DocBloc>
 --]]
@@ -3236,8 +3236,8 @@ function ultraschall.ShowRulerMenu(x, y, HWNDParent)
     User Interface
     Menu Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, show, context menu, ruler</tags>
 </US_DocBloc>
 --]]
@@ -3281,8 +3281,8 @@ function ultraschall.ShowMediaItemMenu(x, y, MediaItem, HWNDParent)
     User Interface
     Menu Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, show, context menu, item, mediaitem</tags>
 </US_DocBloc>
 --]]
@@ -3326,8 +3326,8 @@ function ultraschall.ShowEnvelopeMenu(x, y, TrackEnvelope, HWNDParent)
     User Interface
     Menu Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, show, context menu, item, track envelope, take envelope</tags>
 </US_DocBloc>
 --]]
@@ -3373,8 +3373,8 @@ function ultraschall.ShowEnvelopePointMenu(x, y, Pointidx, Trackenvelope, HWNDPa
     User Interface
     Menu Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, show, context menu, item, track envelope, take envelope, envelope point</tags>
 </US_DocBloc>
 --]]
@@ -3422,8 +3422,8 @@ function ultraschall.ShowEnvelopePointMenu_AutomationItem(x, y, Pointidx, Automa
     User Interface
     Menu Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, show, context menu, item, track envelope, take envelope, envelope point, automation item</tags>
 </US_DocBloc>
 --]]
@@ -3473,8 +3473,8 @@ function ultraschall.ShowAutomationItemMenu(x, y, AutomationIDX, Trackenvelope, 
     User Interface
     Menu Management
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, show, context menu, item, track envelope, take envelope, automation item</tags>
 </US_DocBloc>
 --]]
@@ -3514,8 +3514,8 @@ function ultraschall.GetSaveProjectAsHWND()
     User Interface
     Reaper-Windowhandler
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>user interface, window, hwnd, save as, get</tags>
 </US_DocBloc>
 --]]
@@ -3570,8 +3570,8 @@ function ultraschall.SetHelpDisplayMode(helpcontent, mouseediting)
     User Interface
     misc
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, set, show, help, helpcontent, mouseediting, tips</tags>
 </US_DocBloc>
 ]]
@@ -3608,8 +3608,8 @@ function ultraschall.GetHelpDisplayMode()
     User Interface
     misc
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, get, show, help, helpcontent, mouseediting, tips</tags>
 </US_DocBloc>
 ]]
@@ -3645,8 +3645,8 @@ function ultraschall.WiringDiagram_SetOptions(show_send_wires, show_routing_cont
     User Interface
     misc
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, set, wiring display, options</tags>
 </US_DocBloc>
 ]]
@@ -3680,8 +3680,8 @@ function ultraschall.WiringDiagram_GetOptions()
     User Interface
     misc
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, get, wiring display, options</tags>
 </US_DocBloc>
 ]]
@@ -3710,8 +3710,8 @@ function ultraschall.GetTCPWidth()
     User Interface
     Track Control Panel(TCP)
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
   <tags>userinterface, get, width, tcp, track control panel</tags>
 </US_DocBloc>
 ]]  

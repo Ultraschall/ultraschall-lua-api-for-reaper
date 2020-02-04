@@ -80,8 +80,8 @@ function ultraschall.GetAllThemeLayoutNames()
   <chapter_context>
     Themeing
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
   <tags>theme management, get, all, parameters</tags>
 </US_DocBloc>
 ]]
@@ -135,8 +135,8 @@ function ultraschall.GetAllThemeLayoutParameters()
   <chapter_context>
     Themeing
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Themeing_Module.lua</source_document>
   <tags>theme management, get, all, parameters</tags>
 </US_DocBloc>
 ]]

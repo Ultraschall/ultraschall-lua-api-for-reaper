@@ -83,8 +83,8 @@ function ultraschall.AddNormalMarker(position, shown_number, markertitle)
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, add, normal marker, guid</tags>
 </US_DocBloc>
 --]]
@@ -134,8 +134,8 @@ function ultraschall.AddPodRangeRegion(startposition, endposition)
     Markers
     PodRange Region
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, add, podrange, region, guid</tags>
 </US_DocBloc>
 --]]
@@ -204,8 +204,8 @@ function ultraschall.GetMarkerByName(searchname, searchisrgn)
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, get, marker, region, name, guid</tags>
 </US_DocBloc>
 --]]
@@ -263,8 +263,8 @@ function ultraschall.GetMarkerByName_Pattern(searchname, searchisrgn)
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, get, marker, region, pattern, guid</tags>
 </US_DocBloc>
 --]]
@@ -326,8 +326,8 @@ function ultraschall.GetMarkerAndRegionsByIndex(idx, searchisrgn)
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, get, marker, region, index, color, name, position, regionend, shownnumber, shown, guid</tags>
 </US_DocBloc>
 --]]
@@ -380,8 +380,8 @@ function ultraschall.SetMarkerByIndex(idx, searchisrgn, shown_number, pos, rgnen
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, set, marker, region, index, color, name, position, regionend, shownnumber, shown</tags>
 </US_DocBloc>
 --]]
@@ -460,8 +460,8 @@ function ultraschall.AddEditMarker(position, shown_number, edittitle)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, add, edit, marker, guid</tags>
 </US_DocBloc>
 --]]
@@ -515,8 +515,8 @@ function ultraschall.CountNormalMarkers()
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, normal marker, marker, count</tags>
 </US_DocBloc>
 --]]
@@ -557,8 +557,8 @@ function ultraschall.CountEditMarkers()
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, count, edit markers, edit</tags>
 </US_DocBloc>
 --]]
@@ -599,8 +599,8 @@ function ultraschall.GetPodRangeRegion()
     Markers
     PodRange Region
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, enumerate, podrange region, podrange, region, guid</tags>
 </US_DocBloc>
 --]]
@@ -659,8 +659,8 @@ function ultraschall.EnumerateNormalMarkers(number)
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, normal, normal marker, enumerate, guid</tags>
 </US_DocBloc>
 --]]
@@ -734,8 +734,8 @@ function ultraschall.EnumerateEditMarkers(number)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, enumerate, edit, edit marker, guid</tags>
 </US_DocBloc>
 --]]
@@ -803,8 +803,8 @@ function ultraschall.GetAllEditMarkers()
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, get, get all, edit, edit marker, guid</tags>
 </US_DocBloc>
 --]]
@@ -858,8 +858,8 @@ function ultraschall.GetAllNormalMarkers()
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, get, get all, normal, normal marker, guid</tags>
 </US_DocBloc>
 --]]
@@ -914,8 +914,8 @@ function ultraschall.GetAllMarkers()
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, get, get all, guid</tags>
 </US_DocBloc>
 --]]
@@ -969,8 +969,8 @@ function ultraschall.SetNormalMarker(number, position, shown_number, markertitle
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, set, set normal, normal marker</tags>
 </US_DocBloc>
 --]]
@@ -1041,8 +1041,8 @@ function ultraschall.SetEditMarker(number, position, shown_number, edittitle)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, set, set edit, edit marker</tags>
 </US_DocBloc>
 --]]
@@ -1115,8 +1115,8 @@ function ultraschall.SetPodRangeRegion(startposition, endposition)
     Markers
     PodRange Region
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, set, set podrange, podrange region, region</tags>
 </US_DocBloc>
 --]]
@@ -1147,8 +1147,8 @@ function ultraschall.DeletePodRangeRegion()
     Markers
     PodRange Region
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, delete, delete podrange, podrange region, region</tags>
 </US_DocBloc>
 --]]
@@ -1194,8 +1194,8 @@ function ultraschall.DeleteNormalMarker(number)
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, delete, normal marker, normal</tags>
 </US_DocBloc>
 --]]
@@ -1251,8 +1251,8 @@ function ultraschall.DeleteEditMarker(number)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, delete, edit marker, edit</tags>
 </US_DocBloc>
 --]]
@@ -1314,8 +1314,8 @@ function ultraschall.ExportEditMarkersToFile(filename_with_path, PodRangeStart, 
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, export, file, edit</tags>
 </US_DocBloc>
 --]]
@@ -1381,8 +1381,8 @@ function ultraschall.ExportNormalMarkersToFile(filename_with_path, PodRangeStart
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, export, file, normal</tags>
 </US_DocBloc>
 --]]
@@ -1444,8 +1444,8 @@ function ultraschall.ImportEditFromFile(filename_with_path,PodRangeStart)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, import, file, edit</tags>
 </US_DocBloc>
 --]]
@@ -1505,8 +1505,8 @@ function ultraschall.ImportMarkersFromFile(filename_with_path,PodRangeStart)
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, import, file</tags>
 </US_DocBloc>
 --]]
@@ -1571,8 +1571,8 @@ function ultraschall.MarkerToEditMarker(number)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, convert, edit, normal</tags>
 </US_DocBloc>
 --]]
@@ -1625,8 +1625,8 @@ function ultraschall.EditToMarker(number)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, convert, normal, edit</tags>
 </US_DocBloc>
 --]]
@@ -1681,8 +1681,8 @@ function ultraschall.GetMarkerByScreenCoordinates(xmouseposition)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, get marker, position, marker</tags>
 </US_DocBloc>
 ]]
@@ -1761,8 +1761,8 @@ function ultraschall.GetMarkerByTime(position)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, get marker, position, marker</tags>
 </US_DocBloc>
 ]]
@@ -1837,8 +1837,8 @@ function ultraschall.GetRegionByScreenCoordinates(xmouseposition)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, get region, position, region</tags>
 </US_DocBloc>
 ]]
@@ -1913,8 +1913,8 @@ function ultraschall.GetRegionByTime(position)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, get region, position, region</tags>
 </US_DocBloc>
 ]]
@@ -1990,8 +1990,8 @@ function ultraschall.GetTimeSignaturesByScreenCoordinates(xmouseposition)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, get region, position, time signature, tempo, marker, tempo marker</tags>
 </US_DocBloc>
 ]]
@@ -2059,8 +2059,8 @@ function ultraschall.GetTimeSignaturesByTime(position)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, get region, position, time signature, tempo, marker, tempo marker</tags>
 </US_DocBloc>
 ]]
@@ -2122,8 +2122,8 @@ function ultraschall.IsMarkerEdit(markerid)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, check, edit marker, edit</tags>
 </US_DocBloc>
 ]]
@@ -2167,8 +2167,8 @@ function ultraschall.IsMarkerNormal(markerid)
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, check, normal marker, normal</tags>
 </US_DocBloc>
 ]]
@@ -2211,8 +2211,8 @@ function ultraschall.IsRegionPodrange(markerid)
     Markers
     PodRange Region
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, check, podrangeregion, podrange, region</tags>
 </US_DocBloc>
 ]]
@@ -2255,8 +2255,8 @@ function ultraschall.IsRegionEditRegion(markerid)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, check, edit region, edit, region</tags>
 </US_DocBloc>
 ]]
@@ -2301,8 +2301,8 @@ function ultraschall.AddEditRegion(startposition, endposition, text)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, add, edit region, edit, region, guid</tags>
 </US_DocBloc>
 ]]
@@ -2374,8 +2374,8 @@ function ultraschall.SetEditRegion(number, position, endposition, edittitle)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, set, edit region, edit, region</tags>
 </US_DocBloc>
 ]]
@@ -2449,8 +2449,8 @@ function ultraschall.DeleteEditRegion(number)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, delete, edit region, edit, region</tags>
 </US_DocBloc>
 ]]   
@@ -2507,8 +2507,8 @@ function ultraschall.EnumerateEditRegion(number)
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, get, enumerate, edit region, edit, region, guid</tags>
 </US_DocBloc>
 ]]   
@@ -2554,8 +2554,8 @@ function ultraschall.CountEditRegions()
     Markers
     Edit Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, navigation, count, edit region, edit, region</tags>
 </US_DocBloc>
 ]]  
@@ -2606,8 +2606,8 @@ function ultraschall.GetAllMarkersBetween(startposition, endposition)
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, get, get all between, guid</tags>
 </US_DocBloc>
 --]]
@@ -2659,8 +2659,8 @@ function ultraschall.GetAllRegions()
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, region, get, get all, guid</tags>
 </US_DocBloc>
 --]]
@@ -2727,8 +2727,8 @@ function ultraschall.GetAllRegionsBetween(startposition, endposition, partial)
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, region, get, get all, guid</tags>
 </US_DocBloc>
 --]]
@@ -2799,8 +2799,8 @@ function ultraschall.ParseMarkerString(markerstring, strict)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, import, parse</tags>
 </US_DocBloc>
 ]]
@@ -2867,8 +2867,8 @@ function ultraschall.RenumerateMarkers(colorvalue, startingnumber)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, numerate, shown number</tags>
 </US_DocBloc>
 ]]
@@ -2915,8 +2915,8 @@ function ultraschall.CountNormalMarkers_NumGap()
     Markers
     Normal Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, marker, count, gap, position</tags>
 </US_DocBloc>
 ]]
@@ -2971,8 +2971,8 @@ function ultraschall.IsMarkerAtPosition(position)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, get, marker, position</tags>
 </US_DocBloc>
 --]]
@@ -3030,8 +3030,8 @@ function ultraschall.IsRegionAtPosition(position)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, get, region, position</tags>
 </US_DocBloc>
 --]]
@@ -3082,8 +3082,8 @@ function ultraschall.CountMarkersAndRegions()
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, count, marker, region</tags>
 </US_DocBloc>
 --]]
@@ -3126,8 +3126,8 @@ function ultraschall.GetLastMarkerPosition()
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, get, last, marker, position, markeridx</tags>
 </US_DocBloc>
 --]]
@@ -3170,8 +3170,8 @@ function ultraschall.GetLastRegion()
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, get, last, region, position, regionidx</tags>
 </US_DocBloc>
 --]]
@@ -3216,8 +3216,8 @@ function ultraschall.GetLastTimeSigMarkerPosition()
     Markers
     Time Signature Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, get, last, timesig, time signature, position, timesigidx, measure, beat</tags>
 </US_DocBloc>
 --]]
@@ -3254,8 +3254,8 @@ function ultraschall.GetMarkerUpdateCounter()
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markers, update, counter, get</tags>
 </US_DocBloc>
 --]]
@@ -3296,8 +3296,8 @@ function ultraschall.MoveTimeSigMarkersBy(startposition, endposition, moveby, cu
     Markers
     Time Signature Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, move, moveby, timesignature</tags>
 </US_DocBloc>
 ]]
@@ -3372,8 +3372,8 @@ function ultraschall.GetAllTimeSigMarkers()
     Markers
     Time Signature Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, time signature, get, all</tags>
 </US_DocBloc>
 ]]
@@ -3423,8 +3423,8 @@ function ultraschall.MoveMarkersBy(startposition, endposition, moveby, cut_at_bo
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, move, moveby, marker</tags>
 </US_DocBloc>
 ]]
@@ -3497,8 +3497,8 @@ function ultraschall.MoveRegionsBy(startposition, endposition, moveby, cut_at_bo
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>markermanagement, move, moveby, marker</tags>
 </US_DocBloc>
 ]]
@@ -3607,8 +3607,8 @@ function ultraschall.RippleCut_Regions(startposition, endposition)
     Markers
     General Markers and Regions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, ripple, cut, regions</tags>
 </US_DocBloc>
 ]]
@@ -3744,8 +3744,8 @@ function ultraschall.GetAllCustomMarkers(custom_marker_name)
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, get, all, custom markers, color, name, position, shown_number, index, guid</tags>
 </US_DocBloc>
 ]]
@@ -3824,8 +3824,8 @@ function ultraschall.GetAllCustomRegions(custom_region_name)
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, get, all, custom regions, color, name, position, shown_number, index, guid</tags>
 </US_DocBloc>
 ]]
@@ -3895,8 +3895,8 @@ function ultraschall.CountAllCustomMarkers(custom_marker_name)
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, count, all, custom markers</tags>
 </US_DocBloc>
 ]]
@@ -3958,8 +3958,8 @@ function ultraschall.CountAllCustomRegions(custom_region_name)
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, count, all, custom regions</tags>
 </US_DocBloc>
 ]]
@@ -4028,8 +4028,8 @@ function ultraschall.EnumerateCustomMarkers(custom_marker_name, idx)
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, enumerate, custom markers, color, name, position, shown_number, index, guid</tags>
 </US_DocBloc>
 ]]
@@ -4102,8 +4102,8 @@ function ultraschall.EnumerateCustomRegions(custom_region_name, idx)
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, enumerate, custom regions, color, name, position, shown_number, index</tags>
 </US_DocBloc>
 ]]
@@ -4173,8 +4173,8 @@ function ultraschall.DeleteCustomMarkers(custom_marker_name, idx)
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, delete, custom markers, color, name, position, shown_number, index</tags>
 </US_DocBloc>
 ]]
@@ -4248,8 +4248,8 @@ function ultraschall.DeleteCustomRegions(custom_region_name, idx)
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, delete, custom regions, color, name, position, shown_number, index</tags>
 </US_DocBloc>
 ]]
@@ -4320,8 +4320,8 @@ function ultraschall.AddCustomMarker(custom_marker_name, pos, name, shown_number
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, add, custom markers, color, name, position, shown_number, index, guid</tags>
 </US_DocBloc>
 ]]
@@ -4396,8 +4396,8 @@ function ultraschall.AddCustomRegion(custom_region_name, pos, regionend, name, s
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, add, custom region, color, name, position, shown_number, index, guid</tags>
 </US_DocBloc>
 ]]
@@ -4475,8 +4475,8 @@ function ultraschall.SetCustomMarker(custom_marker_name, idx, pos, name, shown_n
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, set, custom markers, color, name, position, shown_number, index</tags>
 </US_DocBloc>
 ]]
@@ -4546,8 +4546,8 @@ function ultraschall.SetCustomRegion(custom_region_name, idx, pos, regionend, na
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, set, custom region, color, name, position, shown_number, index</tags>
 </US_DocBloc>
 ]]
@@ -4590,8 +4590,8 @@ function ultraschall.GetNextFreeRegionIndex()
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, get, free, region, index</tags>
 </US_DocBloc>
 ]]
@@ -4643,8 +4643,8 @@ function ultraschall.IsMarkerValidCustomMarker(custom_marker_name, markeridx)
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, isvalid, custom-marker</tags>
 </US_DocBloc>
 ]]
@@ -4689,8 +4689,8 @@ function ultraschall.IsRegionValidCustomRegion(custom_region_name, markeridx)
     Markers
     Custom Markers
   </chapter_context>
-  <target_document>USApiGfxReference</target_document>
-  <source_document>ultraschall_gfx_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, isvalid, custom-region</tags>
 </US_DocBloc>
 ]]
@@ -4734,8 +4734,8 @@ function ultraschall.GetMarkerIDFromGuid(guid)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, get, markerid, guid</tags>
 </US_DocBloc>
 --]]
@@ -4778,8 +4778,8 @@ function ultraschall.GetGuidFromMarkerID(index)
     Markers
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Markers_Module.lua</source_document>
   <tags>marker management, get, markerid, guid</tags>
 </US_DocBloc>
 --]]

@@ -77,8 +77,8 @@ function ultraschall.DeleteProjExtState_Section(section)
     Metadata Management
     Extension States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MetaData_Module.lua</source_document>
   <tags>metadatamanagement, project, delete, extension, state, section</tags>
 </US_DocBloc>
 --]]
@@ -113,8 +113,8 @@ function ultraschall.DeleteProjExtState_Key(section, key)
     Metadata Management
     Extension States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MetaData_Module.lua</source_document>
   <tags>metadatamanagement, project, delete, extension, state, key</tags>
 </US_DocBloc>
 --]]
@@ -152,8 +152,8 @@ function ultraschall.GetProjExtState_AllKeyValues(section)
     Metadata Management
     Extension States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MetaData_Module.lua</source_document>
   <tags>metadatamanagement, project, extension, state, get, all, key, values, section</tags>
 </US_DocBloc>
 --]]
@@ -213,8 +213,8 @@ function ultraschall.GetGuidExtState(guid, key, savelocation)
     Metadata Management
     Extension States(Guid)
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MetaData_Module.lua</source_document>
   <tags>metadatamanagement, project, extension, state, get, guid, key, values</tags>
 </US_DocBloc>
 --]]
@@ -302,8 +302,8 @@ function ultraschall.SetMarkerExtState(index, key, value)
     Metadata Management
     Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MetaData_Module.lua</source_document>
   <tags>extstate management, marker, region, set, extstate</tags>
 </US_DocBloc>
 --]]
@@ -346,8 +346,8 @@ function ultraschall.GetMarkerExtState(index, key)
     Metadata Management
     Markers
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MetaData_Module.lua</source_document>
   <tags>extstate management, marker, region, get, extstate</tags>
 </US_DocBloc>
 --]]
@@ -389,8 +389,8 @@ function ultraschall.ProjExtState_CountAllKeys(section)
     Metadata Management
     Extension States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MetaData_Module.lua</source_document>
   <tags>metadate management, projextstate, project, extstate, count</tags>
 </US_DocBloc>
 ]]

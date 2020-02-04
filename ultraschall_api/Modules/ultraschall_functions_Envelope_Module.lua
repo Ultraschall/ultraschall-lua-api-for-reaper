@@ -78,8 +78,8 @@ function ultraschall.IsValidEnvStateChunk(statechunk)
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, check, validity, envelope, statechunk, valid</tags>
 </US_DocBloc>
 --]]
@@ -120,8 +120,8 @@ function ultraschall.MoveTrackEnvelopePointsBy(startposition, endposition, moveb
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, move, moveby</tags>
 </US_DocBloc>
 ]]
@@ -201,8 +201,8 @@ function ultraschall.GetEnvelopePoint(Tracknumber, EnvelopeName, idx)
     Envelope Management
     Get Envelope
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, get, db, time, value, envelopepointobject</tags>
 </US_DocBloc>
 ]]
@@ -264,8 +264,8 @@ function ultraschall.GetClosestEnvelopePointIDX_ByTime(Tracknumber, EnvelopeName
     Envelope Management
     Get Envelope
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, get, idx, closest, previous, following, envelopepointobject</tags>
 </US_DocBloc>
 ]]
@@ -329,8 +329,8 @@ function ultraschall.GetEnvelopePointIDX_Between(Tracknumber, EnvelopeName, star
     Envelope Management
     Get Envelope
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, get, idx, selection, envelopepointobject, envelopepointarray</tags>
 </US_DocBloc>
 ]]
@@ -402,8 +402,8 @@ function ultraschall.CheckEnvelopePointObject(EnvelopePointObject)
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, check, envelopepointobject</tags>
 </US_DocBloc>
 ]]
@@ -446,8 +446,8 @@ function ultraschall.IsValidEnvelopePointObject(EnvelopePointObject)
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, check, envelopepointobject</tags>
 </US_DocBloc>
 ]]
@@ -486,8 +486,8 @@ function ultraschall.SetEnvelopePoints_EnvelopePointObject(EnvelopePointObject, 
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, set, envelopepointobject</tags>
 </US_DocBloc>
 ]]
@@ -523,8 +523,8 @@ function ultraschall.SetEnvelopePoints_EnvelopePointArray(EnvelopePointArray, so
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, set, envelopepointobject, envelopepointarray</tags>
 </US_DocBloc>
 ]]
@@ -568,8 +568,8 @@ function ultraschall.DeleteEnvelopePoints_EnvelopePointObject(EnvelopePointObjec
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, delete, envelopepointobject</tags>
 </US_DocBloc>
 ]]
@@ -605,8 +605,8 @@ function ultraschall.DeleteEnvelopePoints_EnvelopePointArray(EnvelopePointArray)
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, delete, envelopepointobject, envelopepointarray</tags>
 </US_DocBloc>
 ]]
@@ -653,8 +653,8 @@ function ultraschall.AddEnvelopePoints_EnvelopePointObject(EnvelopePointObject, 
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, add, envelopepointobject</tags>
 </US_DocBloc>
 ]]
@@ -688,8 +688,8 @@ function ultraschall.AddEnvelopePoints_EnvelopePointArray(EnvelopePointObjectArr
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, add, envelopepointobject, envelopepointarray</tags>
 </US_DocBloc>
 ]]
@@ -751,8 +751,8 @@ function ultraschall.CreateEnvelopePointObject(TrackEnvelope, idx, time, value, 
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, create, db, time, value, envelopepointobject</tags>
 </US_DocBloc>
 ]]
@@ -803,8 +803,8 @@ function ultraschall.CountEnvelopePoints(Tracknumber, EnvelopeName)
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, count</tags>
 </US_DocBloc>
 ]]
@@ -856,8 +856,8 @@ function ultraschall.SetEnvelopeHeight(Height, Compacted, TrackEnvelope, TrackEn
     Envelope Management
     Set Envelope
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>trackmanagement, trackenvelopestatechunk, set, height, compactible</tags>
 </US_DocBloc>
 ]]
@@ -919,8 +919,8 @@ function ultraschall.GetAllTrackEnvelopes()
     Envelope Management
     Get Envelope
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>trackmanagement, trackenvelope, get, envelope</tags>
 </US_DocBloc>
 ]]
@@ -980,8 +980,8 @@ function ultraschall.IsValidEnvelopePointArray(EnvelopePointArray)
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, check, envelopepointarray</tags>
 </US_DocBloc>
 --]]
@@ -1033,8 +1033,8 @@ function ultraschall.GetLastEnvelopePoint_TrackEnvelope(Envelope)
     Envelope Management
     Get Envelope
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, envelope, point, envelope point, get, db, time, value</tags>
 </US_DocBloc>
 ]]
@@ -1076,8 +1076,8 @@ function ultraschall.GetArmState_Envelope(TrackEnvelope, EnvelopeStateChunk)
     Envelope Management
     Get Envelope States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelope states, get, arm, envelopestatechunk</tags>
 </US_DocBloc>
 ]]  
@@ -1127,8 +1127,8 @@ function ultraschall.SetArmState_Envelope(TrackEnvelope, state, EnvelopeStateChu
     Envelope Management
     Set Envelope States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelope states, set, arm, envelopestatechunk</tags>
 </US_DocBloc>
 ]]  
@@ -1173,8 +1173,8 @@ function ultraschall.GetTrackEnvelope_ClickState()
     Envelope Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelope management, get, clicked, envelope, envelopepoint</tags>
 </US_DocBloc>
 --]]
@@ -1226,8 +1226,8 @@ function ultraschall.GetEnvelopeState_NumbersOnly(state, EnvelopeStateChunk, fun
     Envelope Management
     Get Envelope States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelopemanagement, get, state, envelopestatechunk, envelope</tags>
 </US_DocBloc>
 ]]
@@ -1283,8 +1283,8 @@ function ultraschall.GetEnvelopeState_Act(TrackEnvelope, EnvelopeStateChunk)
     Envelope Management
     Get Envelope States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelope states, get, act, envelopestatechunk</tags>
 </US_DocBloc>
 ]]  
@@ -1331,8 +1331,8 @@ function ultraschall.GetEnvelopeState_Vis(TrackEnvelope, EnvelopeStateChunk)
     Envelope Management
     Get Envelope States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelope states, get, vis, envelopestatechunk</tags>
 </US_DocBloc>
 ]]  
@@ -1377,8 +1377,8 @@ function ultraschall.GetEnvelopeState_LaneHeight(TrackEnvelope, EnvelopeStateChu
     Envelope Management
     Get Envelope States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelope states, get, laneheight, envelopestatechunk</tags>
 </US_DocBloc>
 ]]  
@@ -1432,8 +1432,8 @@ function ultraschall.GetEnvelopeState_DefShape(TrackEnvelope, EnvelopeStateChunk
     Envelope Management
     Get Envelope States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelope states, get, defshape, envelopestatechunk</tags>
 </US_DocBloc>
 ]]  
@@ -1476,8 +1476,8 @@ function ultraschall.GetEnvelopeState_Voltype(TrackEnvelope, EnvelopeStateChunk)
     Envelope Management
     Get Envelope States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelope states, get, voltype, envelopestatechunk</tags>
 </US_DocBloc>
 ]]  
@@ -1534,8 +1534,8 @@ function ultraschall.GetEnvelopeState_PooledEnvInstance(index, TrackEnvelope, En
     Envelope Management
     Get Envelope States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelope states, get, pooled env instance, automation items, envelopestatechunk</tags>
 </US_DocBloc>
 ]]  
@@ -1619,8 +1619,8 @@ function ultraschall.GetEnvelopeState_PT(index, TrackEnvelope, EnvelopeStateChun
     Envelope Management
     Get Envelope States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelope states, get, pt, envelope point, envelopestatechunk</tags>
 </US_DocBloc>
 ]]  
@@ -1701,8 +1701,8 @@ function ultraschall.GetEnvelopeState_EnvName(TrackEnvelope, EnvelopeStateChunk)
     Envelope Management
     Get Envelope States
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Envelope_Module.lua</source_document>
   <tags>envelope states, get, envelopename, name, minimum, maximum, range, wet, bypass, envelopestatechunk</tags>
 </US_DocBloc>
 ]]  

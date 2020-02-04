@@ -86,8 +86,8 @@ function ultraschall.ResizePNG(filename_with_path, outputfilename_with_path, asp
   <chapter_context>
     Image File Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Imagefile_Module.lua</source_document>
   <tags>image file handling, resize, png, image, graphics</tags>
 </US_DocBloc>
 ]]
@@ -157,8 +157,8 @@ function ultraschall.CaptureScreenAreaAsPNG(filename_with_path, x, y, w, h)
   <chapter_context>
     Image File Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Imagefile_Module.lua</source_document>
   <tags>image file handling, capturing, capture, screen, png, image, graphics</tags>
 </US_DocBloc>
 ]]
@@ -213,8 +213,8 @@ function ultraschall.CaptureWindowAsPNG(windowTitle, filename_with_path, x, y, w
   <chapter_context>
     Image File Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Imagefile_Module.lua</source_document>
   <tags>image file handling, capturing, capture, window, png, image, graphics</tags>
 </US_DocBloc>
 ]]

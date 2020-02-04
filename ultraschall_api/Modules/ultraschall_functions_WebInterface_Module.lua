@@ -78,8 +78,8 @@ function ultraschall.WebInterface_GetInstalledInterfaces()
   <chapter_context>
     Web Interface
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_WebInterface_Module.lua</source_document>
   <tags>web interface, get, all, installed, webrc, filename, title</tags>
 </US_DocBloc>
 ]]  

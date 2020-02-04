@@ -81,8 +81,8 @@ function ultraschall.GetRenderCFG_Settings_FLAC(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, flac, encoding depth, compression</tags>
   </US_DocBloc>
   ]]
@@ -125,8 +125,8 @@ function ultraschall.GetRenderCFG_Settings_AIFF(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, aiff, bitdepth, beat length</tags>
   </US_DocBloc>
   ]]
@@ -176,8 +176,8 @@ function ultraschall.GetRenderCFG_Settings_AudioCD(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, audiocd, leadin silence, tracks, burn cd, image, markers as hashes</tags>
   </US_DocBloc>
   ]]
@@ -246,8 +246,8 @@ function ultraschall.GetRenderCFG_Settings_MP3(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, mp3, vbr, cbr, tbr, max quality</tags>
   </US_DocBloc>
   ]]
@@ -312,8 +312,8 @@ function ultraschall.GetRenderCFG_Settings_MP3MaxQuality(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, mp3, max quality</tags>
   </US_DocBloc>
   ]]
@@ -365,8 +365,8 @@ function ultraschall.GetRenderCFG_Settings_MP3CBR(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, mp3, cbr</tags>
   </US_DocBloc>
   ]]
@@ -428,8 +428,8 @@ function ultraschall.GetRenderCFG_Settings_MP3VBR(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, mp3, vbr</tags>
   </US_DocBloc>
   ]]
@@ -510,8 +510,8 @@ function ultraschall.GetRenderCFG_Settings_MP3ABR(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, mp3, abr</tags>
   </US_DocBloc>
   ]]
@@ -567,8 +567,8 @@ function ultraschall.GetRenderCFG_Settings_OGG(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, ogg, vbr, cbr, tbr, max quality</tags>
   </US_DocBloc>
   ]]
@@ -620,8 +620,8 @@ function ultraschall.GetRenderCFG_Settings_OPUS(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, opus, vbr, cbr, cvbr</tags>
   </US_DocBloc>
   ]]
@@ -674,8 +674,8 @@ function ultraschall.GetRenderCFG_Settings_GIF(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, gif, width, height, framerate, transparency, aspect ratio</tags>
   </US_DocBloc>
   ]]
@@ -730,8 +730,8 @@ function ultraschall.GetRenderCFG_Settings_LCF(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, lcf, width, height, framerate, aspect ratio, tweak settings</tags>
   </US_DocBloc>
   ]]
@@ -811,8 +811,8 @@ function ultraschall.GetRenderCFG_Settings_WAV(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, wav</tags>
   </US_DocBloc>
   ]]
@@ -895,8 +895,8 @@ function ultraschall.GetRenderCFG_Settings_WAVPACK(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, wavpack</tags>
   </US_DocBloc>
   ]]
@@ -952,8 +952,8 @@ function ultraschall.GetRenderCFG_Settings_WebMVideo(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, webm, video</tags>
   </US_DocBloc>
   ]]
@@ -1015,8 +1015,8 @@ function ultraschall.GetRenderCFG_Settings_MKV_Video(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, mkv, video</tags>
   </US_DocBloc>
   ]]
@@ -1078,8 +1078,8 @@ function ultraschall.GetRenderCFG_Settings_AVI_Video(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, avi, video</tags>
   </US_DocBloc>
   ]]
@@ -1136,8 +1136,8 @@ function ultraschall.GetRenderCFG_Settings_QTMOVMP4_Video(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, mov, qt, mp4, video</tags>
   </US_DocBloc>
   ]]
@@ -1185,8 +1185,8 @@ function ultraschall.GetRenderCFG_Settings_DDP(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, ddp</tags>
   </US_DocBloc>
   ]]
@@ -1224,8 +1224,8 @@ function ultraschall.CreateRenderCFG_GIF(Width, Height, MaxFPS, AspectRatio, Ign
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, gif</tags>
 </US_DocBloc>
 ]]
@@ -1284,8 +1284,8 @@ function ultraschall.CreateRenderCFG_LCF(Width, Height, MaxFPS, AspectRatio, LCF
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, lcf</tags>
 </US_DocBloc>
 ]]
@@ -1347,8 +1347,8 @@ function ultraschall.CreateRenderCFG_WebMVideo(VIDKBPS, AUDKBPS, WIDTH, HEIGHT, 
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, webm</tags>
 </US_DocBloc>
 ]]
@@ -1421,8 +1421,8 @@ function ultraschall.CreateRenderCFG_MKV_Video(VideoCodec, MJPEG_quality, AudioC
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, mkv</tags>
 </US_DocBloc>
 ]]
@@ -1498,8 +1498,8 @@ function ultraschall.CreateRenderCFG_QTMOVMP4_Video(VideoCodec, MJPEG_quality, A
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, mp4, qt, mov</tags>
 </US_DocBloc>
 ]]
@@ -1578,8 +1578,8 @@ function ultraschall.CreateRenderCFG_AVI_Video(VideoCodec, MJPEG_quality, AudioC
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, avi</tags>
 </US_DocBloc>
 ]]
@@ -1654,8 +1654,8 @@ function ultraschall.GetRenderCFG_Settings_MP4Mac_Video(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, mp4, mac, stream, video</tags>
   </US_DocBloc>
   ]]
@@ -1724,8 +1724,8 @@ function ultraschall.GetRenderCFG_Settings_MOVMac_Video(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, mov, mac, video</tags>
   </US_DocBloc>
   ]]
@@ -1784,8 +1784,8 @@ function ultraschall.GetRenderCFG_Settings_M4AMac(rendercfg)
       Rendering Projects
       Analyzing Renderstrings
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
-    <source_document>ultraschall_functions_engine.lua</source_document>
+    <target_document>US_Api_Functions</target_document>
+    <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
     <tags>render management, get, settings, rendercfg, renderstring, m4a, audio, mac, video</tags>
   </US_DocBloc>
   ]]
@@ -1843,8 +1843,8 @@ function ultraschall.CreateRenderCFG_MP4MAC_Video(Stream, VIDKBPS, AUDKBPS, WIDT
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, mp4, stream, mac</tags>
 </US_DocBloc>
 ]]
@@ -1911,8 +1911,8 @@ function ultraschall.CreateRenderCFG_M4AMAC(AUDKBPS, WIDTH, HEIGHT, FPS, AspectR
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, m4a, audio, mac</tags>
 </US_DocBloc>
 ]]
@@ -1988,8 +1988,8 @@ function ultraschall.CreateRenderCFG_MOVMAC_Video(VideoCodec, VIDKBPS, MJPEG_qua
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, mov, mac</tags>
 </US_DocBloc>
 ]]
@@ -2088,8 +2088,8 @@ function ultraschall.GetRenderTable_Project()
     Rendering Projects
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, get, project, rendertable</tags>
 </US_DocBloc>
 ]]
@@ -2211,8 +2211,8 @@ function ultraschall.GetRenderTable_ProjectFile(projectfilename_with_path, Proje
     Rendering Projects
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, get, projectfile, rendertable</tags>
 </US_DocBloc>
 ]]
@@ -2310,8 +2310,8 @@ function ultraschall.GetOutputFormat_RenderCfg(Renderstring, ReaProject)
     Rendering Projects
     Analyzing Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, get, render, outputformat, reaproject, projecttab</tags>
 </US_DocBloc>
 ]]
@@ -2395,8 +2395,8 @@ function ultraschall.CreateRenderCFG_Opus(Mode, Kbps, Complexity, channel_audio,
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, opus</tags>
 </US_DocBloc>
 ]]
@@ -2462,8 +2462,8 @@ function ultraschall.CreateRenderCFG_OGG(Mode, VBR_Quality, CBR_KBPS, ABR_KBPS, 
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, ogg</tags>
 </US_DocBloc>
 ]]
@@ -2522,8 +2522,8 @@ function ultraschall.CreateRenderCFG_DDP()
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, ddp</tags>
 </US_DocBloc>
 ]]
@@ -2569,8 +2569,8 @@ function ultraschall.CreateRenderCFG_FLAC(Bitrate, EncSpeed)
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, flac</tags>
 </US_DocBloc>
 ]]
@@ -2655,8 +2655,8 @@ function ultraschall.CreateRenderCFG_WAVPACK(Mode, Bitdepth, Writemarkers, Write
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, wavpack</tags>
 </US_DocBloc>
 ]]
@@ -2741,8 +2741,8 @@ function ultraschall.IsValidRenderTable(RenderTable)
     Rendering Projects
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render, is valid, check, rendertable</tags>
 </US_DocBloc>
 ]]
@@ -2832,8 +2832,8 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
     Rendering Projects
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, set, project, rendertable</tags>
 </US_DocBloc>
 ]]
@@ -2970,8 +2970,8 @@ function ultraschall.ApplyRenderTable_ProjectFile(RenderTable, projectfilename_w
     Rendering Projects
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, set, projectfile, rendertable</tags>
 </US_DocBloc>
 ]]
@@ -3134,8 +3134,8 @@ Dither, RenderString, SilentlyIncrementFilename, AddToProj, SaveCopyOfProject, R
     Rendering Projects
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render, is valid, check, rendertable</tags>
 </US_DocBloc>
 ]]
@@ -3235,8 +3235,8 @@ function ultraschall.GetRender_SaveCopyOfProject()
     Configuration Settings
     Render to File
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render, get, checkbox, render, save copy of project</tags>
 </US_DocBloc>
 ]]
@@ -3281,8 +3281,8 @@ function ultraschall.SetRender_SaveCopyOfProject(state)
     Configuration Settings
     Render to File
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render, set, checkbox, render, save copy of project</tags>
 </US_DocBloc>
 ]]
@@ -3332,8 +3332,8 @@ function ultraschall.SetRender_QueueDelay(state, length)
     Configuration Settings
     Render to File
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render, set, checkbox, render, delay queued render</tags>
 </US_DocBloc>
 ]]
@@ -3381,8 +3381,8 @@ function ultraschall.GetRender_QueueDelay()
     Configuration Settings
     Render to File
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render, get, checkbox, render, delay queued render</tags>
 </US_DocBloc>
 ]]
@@ -3432,8 +3432,8 @@ function ultraschall.SetRender_ProjectSampleRateForMix(state)
     Configuration Settings
     Render to File
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render, set, checkbox, render, use project sample rate for mixing</tags>
 </US_DocBloc>
 ]]
@@ -3474,8 +3474,8 @@ function ultraschall.GetRender_ProjectSampleRateForMix()
     Configuration Settings
     Render to File
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render, get, checkbox, render, use project sample rate for mixing</tags>
 </US_DocBloc>
 ]]
@@ -3519,8 +3519,8 @@ function ultraschall.SetRender_AutoIncrementFilename(state)
     Configuration Settings
     Render to File
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render, get, checkbox, render, auto increment filenames</tags>
 </US_DocBloc>
 ]]
@@ -3562,8 +3562,8 @@ function ultraschall.GetRender_AutoIncrementFilename()
     Configuration Settings
     Render to File
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render, get, checkbox, render, auto increment filenames</tags>
 </US_DocBloc>
 ]]
@@ -3606,8 +3606,8 @@ function ultraschall.GetRenderPreset_Names()
       Rendering Projects
       Render Presets
    </chapter_context>
-   <target_document>US_Api_Documentation</target_document>
-   <source_document>ultraschall_functions_engine.lua</source_document>
+   <target_document>US_Api_Functions</target_document>
+   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
    <tags>render management, get, render preset, names</tags>
  </US_DocBloc>
  ]]
@@ -3710,8 +3710,8 @@ function ultraschall.GetRenderPreset_RenderTable(Bounds_Name, Options_and_Format
       Rendering Projects
       Render Presets
    </chapter_context>
-   <target_document>US_Api_Documentation</target_document>
-   <source_document>ultraschall_functions_engine.lua</source_document>
+   <target_document>US_Api_Functions</target_document>
+   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
    <tags>render management, get, render preset, names</tags>
  </US_DocBloc>
  ]]
@@ -3870,8 +3870,8 @@ function ultraschall.DeleteRenderPreset_Bounds(Bounds_Name)
       Rendering Projects
       Render Presets
    </chapter_context>
-   <target_document>US_Api_Documentation</target_document>
-   <source_document>ultraschall_functions_engine.lua</source_document>
+   <target_document>US_Api_Functions</target_document>
+   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
    <tags>render management, delete, render preset, names, bounds</tags>
  </US_DocBloc>
  ]]
@@ -3919,8 +3919,8 @@ function ultraschall.DeleteRenderPreset_FormatOptions(Options_and_Format_Name)
       Rendering Projects
       Render Presets
    </chapter_context>
-   <target_document>US_Api_Documentation</target_document>
-   <source_document>ultraschall_functions_engine.lua</source_document>
+   <target_document>US_Api_Functions</target_document>
+   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
    <tags>render management, delete, render preset, names, format options</tags>
  </US_DocBloc>
  ]]
@@ -4033,8 +4033,8 @@ function ultraschall.AddRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
       Rendering Projects
       Render Presets
    </chapter_context>
-   <target_document>US_Api_Documentation</target_document>
-   <source_document>ultraschall_functions_engine.lua</source_document>
+   <target_document>US_Api_Functions</target_document>
+   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
    <tags>render management, add, render preset, names, format options, bounds, rendertable</tags>
  </US_DocBloc>
  ]]
@@ -4203,8 +4203,8 @@ function ultraschall.SetRenderPreset(Bounds_Name, Options_and_Format_Name, Rende
       Rendering Projects
       Render Presets
    </chapter_context>
-   <target_document>US_Api_Documentation</target_document>
-   <source_document>ultraschall_functions_engine.lua</source_document>
+   <target_document>US_Api_Functions</target_document>
+   <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
    <tags>render management, set, render preset, names, format options, bounds, rendertable</tags>
  </US_DocBloc>
  ]]
@@ -4355,8 +4355,8 @@ function ultraschall.RenderProject_RenderTable(projectfilename_with_path, Render
     Rendering Projects
     Rendering any Outputformat
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, render, output, file, rendertable</tags>
 </US_DocBloc>
 ]]
@@ -4620,8 +4620,8 @@ function ultraschall.GetRenderQueuedProjects()
     Rendering Projects
     RenderQueue
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, get, count, files, projects, render, queue, renderqueue</tags>
 </US_DocBloc>
 ]]
@@ -4665,8 +4665,8 @@ function ultraschall.AddProjectFileToRenderQueue(projectfilename_with_path)
     Rendering Projects
     RenderQueue
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, add, project, render, queue, renderqueue</tags>
 </US_DocBloc>
 ]]
@@ -4746,8 +4746,8 @@ function ultraschall.RenderProject_RenderQueue(index)
     Rendering Projects
     RenderQueue
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectmanagement, renderqueue, render</tags>
 </US_DocBloc>
 ]]  
@@ -4826,8 +4826,8 @@ function ultraschall.RenderProject(projectfilename_with_path, renderfilename_wit
     Rendering Projects
     Rendering any Outputformat
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, render, output, file</tags>
 </US_DocBloc>
 ]]
@@ -5008,8 +5008,8 @@ function ultraschall.RenderProject_Regions(projectfilename_with_path, renderfile
     Rendering Projects
     Rendering any Outputformat
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, render, output, file, region</tags>
 </US_DocBloc>
 ]]
@@ -5132,8 +5132,8 @@ function ultraschall.AddSelectedItemsToRenderQueue(render_items_individually, re
     Rendering Projects
     RenderQueue
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, add, mediaitem, item, items, selected, render, queue, renderqueue</tags>
 </US_DocBloc>
 ]]
@@ -5202,8 +5202,8 @@ function ultraschall.CreateRenderCFG_MP3MaxQuality()
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, mp3 high quality, mp3</tags>
 </US_DocBloc>
 ]]
@@ -5246,8 +5246,8 @@ function ultraschall.CreateRenderCFG_MP3VBR(vbr_quality, quality, no_joint_stere
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, mp3 vbr, mp3</tags>
 </US_DocBloc>
 ]]
@@ -5336,8 +5336,8 @@ function ultraschall.CreateRenderCFG_MP3ABR(bitrate, quality, no_joint_stereo, w
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, mp3 abr, mp3</tags>
 </US_DocBloc>
 ]]
@@ -5425,8 +5425,8 @@ function ultraschall.CreateRenderCFG_MP3CBR(bitrate, quality, no_joint_stereo, w
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, mp3 cbr, mp3</tags>
 </US_DocBloc>
 ]]
@@ -5517,8 +5517,8 @@ function ultraschall.CreateRenderCFG_WAV(BitDepth, LargeFiles, BWFChunk, Include
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, wav</tags>
 </US_DocBloc>
 ]]
@@ -5612,8 +5612,8 @@ function ultraschall.GetLastUsedRenderPatterns()
     Rendering Projects
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render management, get, last, used, renderpattern</tags>
 </US_DocBloc>
 ]]
@@ -5648,8 +5648,8 @@ function ultraschall.GetLastRenderPaths()
     Rendering Projects
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render management, get, last, used, renderoutput, path</tags>
 </US_DocBloc>
 ]]
@@ -5688,8 +5688,8 @@ function ultraschall.IsReaperRendering()
     Rendering Projects
     Assistance functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>rendering, get, current, renderstate, queued</tags>
 </US_DocBloc>
 ]]
@@ -5727,8 +5727,8 @@ function ultraschall.CreateRenderCFG_AIFF(bits, EmbedBeatLength)
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, aiff</tags>
 </US_DocBloc>
 ]]
@@ -5775,8 +5775,8 @@ function ultraschall.CreateRenderCFG_AudioCD(trackmode, only_markers_starting_wi
     Rendering Projects
     Creating Renderstrings
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>projectfiles, create, render, outputformat, audiocd, cd, image, burn cd</tags>
 </US_DocBloc>
 ]]
@@ -5827,8 +5827,8 @@ function ultraschall.GetRender_EmbedStretchMarkers()
     Configuration Settings
     Render to File
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render, get, checkbox, render, embed stretch markers, transient guides</tags>
 </US_DocBloc>
 ]]
@@ -5872,8 +5872,8 @@ function ultraschall.SetRender_EmbedStretchMarkers(state)
     Configuration Settings
     Render to File
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render, set, checkbox, render, embed stretch markers, transient guides</tags>
 </US_DocBloc>
 ]]
@@ -5947,8 +5947,8 @@ function ultraschall.Render_Loop(RenderTable, RenderFilename, AutoIncrement, Fir
     Rendering Projects
     Rendering any Outputformat
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_Render_Module.lua</source_document>
   <tags>render management, render, loop, first pass, second pass</tags>
 </US_DocBloc>
 ]]
