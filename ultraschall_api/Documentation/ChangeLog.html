@@ -85,6 +85,7 @@ Ultraschall API Changelog
 <li>User Interface: SetHelpDisplayMode - sets the current help-display-mode</li>
 <li>User Interface: WiringDiagram_GetOptions - gets the current wiring-diagram-options</li>
 <li>User Interface: WiringDiagram_SetOptions - sets the wiring-diagram-options</li>
+<li>Web Interface: WebInterface_GetInstalledInterfaces - returns all installed webinterfaces(webrc) of the current Reaper installation, custom and Reaper-defaults</li>
 </ul>
 <h4>Changes from Beta 2.8 to Beta 2.9</h4>
 <ul>
@@ -123,6 +124,7 @@ Ultraschall API Changelog
 <li>Marker Management: GetRegionByTime - retina will now be automatically set; parameter retina removed(please update your scripts!)</li>
 <li>Marker Management: GetTimeSignaturesByScreenCoordinates - had typo in functionname, which I corrected(old scripts will still run);retina will now be automatically set; parameter retina removed(please update your scripts!)</li>
 <li>Marker Management: GetTimeSignaturesByTime - retina will now be automatically set; parameter retina removed(please update your scripts!)</li>
+<li>Miscellaneous: WinterlySnowflakes - did produce Lua-error, when number of snowflakes was &gt;5000; limited to 5000 now</li>
 <li>ParmAlias: GetParmAlias_MediaTrack - had wrong functionname in error-messages -&gt; fixed</li>
 <li>ParmAlias: Docs - all functions ParmLearn-function in the docs move to proper subchapters for clearer index-navigation</li>
 <li>Project Management: GetAllMediaItems_FromProjectBayStateChunk - didn't return ProjectBayStateChunk properly -&gt; fixed</li>

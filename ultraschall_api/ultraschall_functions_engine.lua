@@ -1286,7 +1286,11 @@ function ultraschall.US_snowmain()
       if ultraschall.snowwindoffset>ultraschall.snowsnowfactor then ultraschall.snowwindoffset=1 end
       
       -- calculate the movement toward the bottom, influenced by speed and wind
-      ultraschall.snowTemp=ultraschall.snowSnowflakes[i][2]+(ultraschall.snowSnowflakes[i][3]*ultraschall.snowspeed)-(ultraschall.snowWindtable[ultraschall.snowwindoffset]/4*ultraschall.snowSnowflakes[i][4])
+      ultraschall.snowTemp=
+        ultraschall.snowSnowflakes[i][2]+
+        (ultraschall.snowSnowflakes[i][3]*ultraschall.snowspeed)-
+        (ultraschall.snowWindtable[ultraschall.snowwindoffset]/4*
+        ultraschall.snowSnowflakes[i][4])
       if ultraschall.snowTemp>=ultraschall.snowSnowflakes[i][2] then ultraschall.snowSnowflakes[i][2]=ultraschall.snowTemp end -- prevent backwards flying snow
       -- calculate the movement toward left/right, influenced by wind
       ultraschall.snowSnowflakes[i][1]=ultraschall.snowSnowflakes[i][1]+(ultraschall.snowSnowflakes[i][4]+ultraschall.snowWindtable[ultraschall.snowwindoffset]/4*ultraschall.snowSnowflakes[i][4])
@@ -1358,6 +1362,7 @@ function ultraschall.WinterlySnowflakes(toggle, falling_speed, number_snowflakes
 ]]  
   if type(falling_speed)~="number" then ultraschall.AddErrorMessage("WinterlySnowflakes", "falling_speed", "must be a number", -1) return -1 end
   if math.type(number_snowflakes)~="integer" then ultraschall.AddErrorMessage("WinterlySnowflakes", "number_snowflakes", "must be an integer", -2) return -1 end
+  if number_snowflakes<1 or number_snowflakes>5000 then ultraschall.AddErrorMessage("WinterlySnowflakes", "number_snowflakes", "must be between 1 and 5000", -3) return -1 end
   if ultraschall.snowheight==nil then ultraschall.SnowInit() end
   ultraschall.snowspeed=falling_speed           -- the falling speed of the snowflakes
   ultraschall.snowsnowfactor=number_snowflakes  -- the number of snowflakes
