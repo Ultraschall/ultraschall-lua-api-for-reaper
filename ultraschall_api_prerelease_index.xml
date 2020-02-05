@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="42996.00" author="Meo Mespotine">
+      <version name="42998.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.9//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.9//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.9/ultraschall_api/Changelog-Api.txt</source>
@@ -543,6 +543,8 @@ New features in 4.00beta2.9
     values of the current theme
 -   Themeing: GetAllThemeLayoutParameters - returns all
     theme-layout-parameter attributes of the current theme
+-   Ultraschall Soundboard: Soundboard_PlayFadeIn - starts a sound with
+    fadein, when having the Ultraschall4.00-Soundboard installed
 -   User Interface: GetHelpDisplayMode - returns the current
     help-display-mode
 -   User Interface: GetTCPWidth - gets the current width of the
@@ -553,9 +555,6 @@ New features in 4.00beta2.9
     wiring-diagram-options
 -   User Interface: WiringDiagram_SetOptions - sets the
     wiring-diagram-options
--   Web Interface: WebInterface_GetInstalledInterfaces - returns all
-    installed webinterfaces(webrc) of the current Reaper installation,
-    custom and Reaper-defaults
 
 Changes from Beta 2.8 to Beta 2.9
 
