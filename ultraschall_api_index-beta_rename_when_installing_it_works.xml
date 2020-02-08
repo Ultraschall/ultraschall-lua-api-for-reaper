@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43004.00" author="Meo Mespotine">
+      <version name="43006.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.9//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.9//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.00-beta2.9/ultraschall_api/Changelog-Api.txt</source>
@@ -416,6 +416,10 @@ Ultraschall Framework - Changelog
 Changes from Beta 2.9 to Final
 
 -   API: GetApiVersion - returns now the build-number as well
+-   API: Reapack-API-xml-generator.lua - fixed filename-creation for
+    non-beta-versions
+-   FileManagement: CheckForValidFileFormats - improved check for jpg
+    and jpg with exif-metadata
 -   FXManagement: SetFXStateChunk - allows now adding FXStateChunks to
     StateChunks with no existing FXStateChunk as well; didn’t add
     FXStateChunks correctly under some circumstances -> fixed(thanks to

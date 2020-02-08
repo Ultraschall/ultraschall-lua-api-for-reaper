@@ -223,6 +223,8 @@ TODO!! buggy function
 
 #### Changes from Beta 2.9 to Final
    - API: GetApiVersion - returns now the build-number as well
+   - API: Reapack-API-xml-generator.lua - fixed filename-creation for non-beta-versions
+   - FileManagement: CheckForValidFileFormats - improved check for jpg and jpg with exif-metadata
    - FXManagement: SetFXStateChunk - allows now adding FXStateChunks to StateChunks with no existing FXStateChunk as well; didn't add FXStateChunks correctly under some circumstances -> fixed(thanks to XRaym)
    - Image Handling: CaptureScreenAreaAsPNG - doesn't work on Mac under some still unknown circumstances
    - Image Handling: CaptureWindowAsPNG - doesn't work on Mac under some still unknown circumstances
