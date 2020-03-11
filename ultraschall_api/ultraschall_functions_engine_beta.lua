@@ -651,116 +651,6 @@ end
 
 --a,b,c,d,e,f,g,h,i=ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x, y)
 
-function ultraschall.Localize_UseFile(filename, section, language)
--- TODO: getting the currently installed language for the case, that language = set to nil
---       I think, filename as place for the language is better: XRaym_de.USLangPack, XRaym_us.USLangPack, XRaym_fr.USLangPack or something
---       
---       Maybe I should force to use the extension USLangPack...
---[[
-<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
-  <slug>Localize_UseFile</slug>
-  <requires>
-    Ultraschall=4.00
-    Reaper=5.975
-    Lua=5.3
-  </requires>
-  <functioncall>boolean retval = ultraschall.Localize_UseFile(string filename, string section, string language)</functioncall>
-  <description markup_type="markdown" markup_version="1.0.1" indent="default">
-    Sets the localize-file and the section to use in the localize-file.
-    If file cannot be found, the function will also look into resource-path/LangPack/ as well to find it.
-    
-    The file is of the format:
-    ;comment
-    ;another comment
-    [section]
-    original text=translated text
-    More Text with\nNewlines and %s - substitution=Translated Text with\nNewlines and %s - substitution
-    A third\=example with escaped equal\=in it = translated text with escaped\=equaltext
-    
-    see [specs for more information](../misc/ultraschall_translation_file_format.USLangPack).
-    
-    returns false in case of an error
-  </description>
-  <retvals>
-    boolean retval - true, translation-file has been found and set successfully; false, translation-file hasn't been found
-  </retvals>
-  <parameters>
-    string filename - the filename with path to the translationfile; if no path is given, it will look in resource-folder/LangPack for the translation-file
-    string section - the section of the translation-file, from which to read the translated strings
-    string language - the language, which will be put after filename and before extension, like mylangpack_de.USLangPack; 
-                    - us, usenglish
-                    - es, spanish
-                    - fr, french
-                    - de, german
-                    - jp, japanese
-                    - etc
-  </parameters>
-  <chapter_context>
-    Localization
-  </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
-  <source_document>ultraschall_functions_engine.lua</source_document>
-  <tags>localization, use, set, translationfile, section, filename</tags>
-</US_DocBloc>
---]]
-  if type(filename)~="string" then ultraschall.AddErrorMessage("Localize_UseFile", "filename", "must be a string", -1) return false end
-  if type(section)~="string" then ultraschall.AddErrorMessage("Localize_UseFile", "section", "must be a string", -2) return false end
-  local filenamestart, filenamsendof=ultraschall.GetPath(filename)
-  local filenamext=filenamsendof:match(".*(%..*)")
-  if language==nil then language="" end
-  local filename2=filename
-  if filenamext==nil or filenamsendof==nil then 
-    filename=filename.."_"..language
-  else
-    filename=filenamestart..filenamsendof:sub(1, -filenamext:len()-1).."_"..language..filenamext
-  end
-  
-  if reaper.file_exists(filename)==false then
-    if reaper.file_exists(reaper.GetResourcePath().."/LangPack/"..filename)==false then
-      ultraschall.AddErrorMessage("Localize_UseFile", "filename", "file does not exist", -3) return false
-    else
-      ultraschall.Localize_Filename=reaper.GetResourcePath().."/LangPack/"..filename2
-      ultraschall.Localize_Section=section
-      ultraschall.Localize_Language=language
-    end
-  else
-    ultraschall.Localize_Filename=filename2
-    ultraschall.Localize_Section=section
-    ultraschall.Localize_Language=language
-  end
-  ultraschall.Localize_File=ultraschall.ReadFullFile(filename).."\n["
-  ultraschall.Localize_File=ultraschall.Localize_File:match(section.."%]\n(.-)%[")
-  ultraschall.Localize_File_Content={}
-  for k in string.gmatch(ultraschall.Localize_File, "(.-)\n") do
-    k=string.gsub(k, "\\n", "\n")
-    k=string.gsub(k, "=", "\0")
-    k=string.gsub(k, "\\\0", "=")
-    local left, right=k:match("(.-)\0(.*)")
-    --print2(left, "======", right)
-    ultraschall.Localize_File_Content[left]=right
-  end
-  
-  
---  ultraschall.Localize_File2=string.gsub(ultraschall.Localize_File, "\n;.-\n", "\n")
-  
-  while ultraschall.Localize_File~=ultraschall.Localize_File2 do
-    ultraschall.Localize_File2=ultraschall.Localize_File
-    ultraschall.Localize_File=string.gsub(ultraschall.Localize_File2, "\n;.-\n", "\n")
-  end
-  
-  ultraschall.Localize_File=string.gsub(ultraschall.Localize_File, "\n\n", "\n")
-  
-  --print2("9"..ultraschall.Localize_File)
-  --print3(ultraschall.Localize_File)
-  
-  return true
-end
-
---O=ultraschall.Localize_UseFile(reaper.GetResourcePath().."/LangPack/ultraschall.USLangPack", "Export Assistant", "de")
-
-
---O={1,2,3}
---P=#O
 
 
 function ultraschall.TracksToColorPattern(colorpattern, startingcolor, direction)
@@ -1395,6 +1285,222 @@ end
 
 -- These seem to work:
 
+function ultraschall.WebInterface_GetInstalledInterfaces()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>WebInterface_GetInstalledInterfaces</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer reapers_count_of_webinterface, array reapers_webinterface_filenames_with_path, array reapers_webinterface_titles, integer users_count_of_webinterface, array users_webinterface_filenames_with_path, array users_webinterface_titles = ultraschall.WebInterface_GetInstalledInterfaces()</functioncall>
+  <description>
+    Returns the currently installed web-interface-pages.
+    
+    Will return Reaper's default ones(resources-folder/Plugins/reaper_www_root/) as well as your customized ones(resources-folder/reaper_www_root/)
+  </description>
+  <retvals>
+    integer reapers_count_of_webinterface - the number of factory-default webinterfaces, installed by Reaper
+    array reapers_webinterface_filenames_with_path - the filenames with path of the webinterfaces(can be .htm or .html)
+    array reapers_webinterface_titles - the titles of the webinterfaces, as shown in the titlebar of the browser
+    integer users_count_of_webinterface - the number of user-customized webinterfaces
+    array users_webinterface_filenames_with_path - the filenames with path of the webinterfaces(can be .htm or .html)
+    array users_webinterface_titles - the titles of the webinterfaces, as shown in the titlebar of the browser
+  </retvals>
+  <chapter_context>
+    Web Interface
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_WebInterface_Module.lua</source_document>
+  <tags>web interface, get, all, installed, webrc, filename, title</tags>
+</US_DocBloc>
+]]  
+  local filecount, files = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."/Plugins/reaper_www_root")
+  local files_WEBRC_names={}
+  for i=filecount, 1, -1 do
+    if files[i]:sub(-5,-1):match("%.htm")==nil then
+      table.remove(files, i)
+      filecount=filecount-1
+    end
+  end
+  for i=1, filecount do
+    local A=ultraschall.ReadFullFile(files[i])
+    local start, ende=A:lower():match("<title>().-()</title>")
+    files_WEBRC_names[i]=A:sub(start, ende-1)
+  end
 
+  local filecount2, files2 = ultraschall.GetAllFilenamesInPath(reaper.GetResourcePath().."/reaper_www_root")
+  local files_WEBRC_names2={}
+  for i=filecount2, 1, -1 do
+    if files2[i]:sub(-5,-1):match("%.htm")==nil then
+      table.remove(files2, i)
+      filecount2=filecount2-1
+    end
+  end
+  for i=1, filecount2 do
+    local A=ultraschall.ReadFullFile(files2[i])
+    local start, ende=A:lower():match("<title>().-()</title>")
+    files_WEBRC_names2[i]=A:sub(start, ende-1)
+  end
+  
+  return filecount, files, files_WEBRC_names, filecount2, files2, files_WEBRC_names2
+end
+
+
+function ultraschall.MediaItems_Outtakes_AddSelectedItems(TargetProject)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MediaItems_Outtakes_AddSelectedItems</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer number_of_items = ultraschall.MediaItems_Outtakes_AddSelectedItems(ReaProject TargetProject)</functioncall>
+  <description>
+    Adds selected MediaItems to the outtakes-vault of a given project.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer number_of_items - the number of items, added to the outtakes-vault
+  </retvals>
+  <parameters>
+    ReaProject TargetProject - the project, into whose outtakes-vault the selected items shall be added to; 0 or nil, for the current project
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    Outtakes Vault
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+  <tags>mediaitem, add, selected, items, outtakes, vault</tags>
+</US_DocBloc>
+]]  
+  if TargetProject~=0 and TargetProject~=nil and ultraschall.type(TargetProject)~="ReaProject" then ultraschall.AddErrorMessage("MediaItems_Outtakes_AddSelectedItems", "TargetProject", "The target-project must be a valid ReaProject or 0/nil for current project", -1) return -1 end
+  if TargetProject==nil then TargetProject=0 end
+  local count, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllSelectedMediaItems()
+  local temp, Value = reaper.GetProjExtState(TargetProject, "Ultraschall_Outtakes", "Count")
+  if math.tointeger(Value)==nil then Value=0 else Value=math.tointeger(Value) end
+  for i=1, count do
+    Value=Value+1
+    reaper.SetProjExtState(TargetProject, "Ultraschall_Outtakes", "Outtake_"..Value, MediaItemStateChunkArray[i])
+  end
+  reaper.SetProjExtState(TargetProject, "Ultraschall_Outtakes", "Count", Value)
+  return Value
+end
+
+--A=ultraschall.MediaItems_Outtakes_AddSelectedItems(0)
+
+function ultraschall.MediaItems_Outtakes_GetAllItems(TargetProject, EachItemsAfterAnother)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MediaItems_Outtakes_GetAllItems</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer number_of_items, array MediaItemStateChunkArray = ultraschall.MediaItems_Outtakes_GetAllItems(ReaProject TargetProject, optional boolean EachItemsAfterAnother)</functioncall>
+  <description>
+    Returns all MediaItems stored in the outtakes-vault of a given project.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer number_of_items - the number of items, added to the outtakes-vault
+    array MediaItemStateChunkArray - all the MediaItemStateChunks of the stored MediaItems in the outtakes vault
+  </retvals>
+  <parameters>
+    ReaProject TargetProject - the project, into whose outtakes-vault the selected items shall be added to; 0 or nil, for the current project
+    optional boolean EachItemsAfterAnother - position the MediaItems one after the next, so if you import them, they would be stored one after another
+                                           - true, position the startposition of the MediaItems one after another
+                                           - false, keep old startpositions
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    Outtakes Vault
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+  <tags>mediaitem, get, all, items, outtakes, vault</tags>
+</US_DocBloc>
+]]  
+  if TargetProject~=0 and TargetProject~=nil and ultraschall.type(TargetProject)~="ReaProject" then ultraschall.AddErrorMessage("MediaItems_Outtakes_GetAllItems", "TargetProject", "The target-project must be a valid ReaProject or 0/nil for current project", -1) return -1 end
+  if TargetProject==nil then TargetProject=0 end
+  local temp, Value = reaper.GetProjExtState(TargetProject, "Ultraschall_Outtakes", "Count")
+  if math.tointeger(Value)==nil then Value=0 else Value=math.tointeger(Value) end
+  local temp
+  local MediaItemStateChunkArray={}
+  local TempPosition=0
+  local Length=0
+  for i=1, Value do
+    temp, MediaItemStateChunkArray[i]=reaper.GetProjExtState(TargetProject, "Ultraschall_Outtakes", "Outtake_"..i)
+    if EachItemsAfterAnother==true then
+      Length   = ultraschall.GetItemLength(nil, MediaItemStateChunkArray[i])
+      MediaItemStateChunkArray[i] = ultraschall.SetItemPosition(nil, TempPosition, MediaItemStateChunkArray[i])
+      TempPosition=TempPosition+Length
+    end
+  end
+  return Value, MediaItemStateChunkArray
+end
+
+--B,C=ultraschall.MediaItems_Outtakes_GetAllItems(TargetProject, false)
+
+
+function ultraschall.MediaItems_Outtakes_InsertAllItems(TargetProject, tracknumber, Startposition)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MediaItems_Outtakes_InsertAllItems</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer number_of_items, array MediaItemArray = ultraschall.MediaItems_Outtakes_InsertAllItems(ReaProject TargetProject, integer tracknumber, number Startposition)</functioncall>
+  <description>
+    Inserts all MediaItems from the outtakes-vault into a certain track, with one item after the other, back to back.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, adding was successful; false, adding was unsuccessful
+    integer number_of_items - the number of added items
+    array MediaItemArray - all the inserted MediaItems
+  </retvals>
+  <parameters>
+    ReaProject TargetProject - the project, into whose outtakes-vault the selected items shall be added to; 0 or nil, for the current project
+    integer tracknumber - the tracknumber, into which to insert all items from the outtakes-vault
+    number Startposition - the position, at which to insert the first MediaItem; nil, startposition=0
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    Outtakes Vault
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+  <tags>mediaitem, insert, all, items, outtakes, vault</tags>
+</US_DocBloc>
+]]  
+  if TargetProject~=0 and TargetProject~=nil and ultraschall.type(TargetProject)~="ReaProject" then ultraschall.AddErrorMessage("MediaItems_Outtakes_InsertAllItems", "TargetProject", "The target-project must be a valid ReaProject or 0/nil for current project", -1) return false end
+  if TargetProject==nil then TargetProject=0 end
+    
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("MediaItems_Outtakes_InsertAllItems", "tracknumber", "must be an integer", -2) return false end
+  if tracknumber<0 or reaper.CountTracks(0)<tracknumber then ultraschall.AddErrorMessage("MediaItems_Outtakes_InsertAllItems", "tracknumber", "no such track", -3) return false end
+
+  if Startposition~=nil and type(Startposition)~="number" then ultraschall.AddErrorMessage("MediaItems_Outtakes_InsertAllItems", "Startposition", "must be a number or nil for default-startposition 0", -4) return false end
+  if Startposition==nil then Startposition=0 end
+  
+  local Count, MediaItemStateChunk = ultraschall.MediaItems_Outtakes_GetAllItems(TargetProject, true)
+  local MediaItems={}
+  local Position=Startposition
+  local retval, startposition, endposition
+  for i=1, Count do
+    retval, MediaItems[i], startposition, endposition = ultraschall.InsertMediaItem_MediaItemStateChunk(Position, MediaItemStateChunk[i], reaper.GetTrack(0,tracknumber-1))
+    Position=endposition
+  end  
+  return true, Count, MediaItems
+end
 
 ultraschall.ShowLastErrorMessage()

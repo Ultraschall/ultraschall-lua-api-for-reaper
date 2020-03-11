@@ -189,7 +189,7 @@ function ultraschall.GetApiVersion()
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>number versionnumber, string version, string date, string beta, string tagline = ultraschall.GetApiVersion()</functioncall>
+  <functioncall>number versionnumber, string version, string date, string beta, string tagline, string buildnumber = ultraschall.GetApiVersion()</functioncall>
   <description>
     returns the version, release-date and if it's a beta-version plus the currently installed hotfix
   </description>
@@ -200,6 +200,7 @@ function ultraschall.GetApiVersion()
     string beta - if it's a beta version, this is the beta-version-number
     string tagline - the tagline of the current release
     string hotfix_date - the release-date of the currently installed hotfix ($ResourceFolder/ultraschall_api/ultraschall_hotfixes.lua)
+    string buildnumber - the build-number of the current release
   </retvals>
   <chapter_context>
     API-Helper functions
@@ -209,7 +210,8 @@ function ultraschall.GetApiVersion()
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
 --]]
-  return 400.0280, "4.00","", "Beta 2.80",  "\"Starsailor - Four to the Floor\"", ultraschall.hotfixdate
+  local retval, string2 = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
+  return 410.100, "4.1","30th of April 2020", "",  "\"\"", ultraschall.hotfixdate, string2
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()
@@ -1286,7 +1288,11 @@ function ultraschall.US_snowmain()
       if ultraschall.snowwindoffset>ultraschall.snowsnowfactor then ultraschall.snowwindoffset=1 end
       
       -- calculate the movement toward the bottom, influenced by speed and wind
-      ultraschall.snowTemp=ultraschall.snowSnowflakes[i][2]+(ultraschall.snowSnowflakes[i][3]*ultraschall.snowspeed)-(ultraschall.snowWindtable[ultraschall.snowwindoffset]/4*ultraschall.snowSnowflakes[i][4])
+      ultraschall.snowTemp=
+        ultraschall.snowSnowflakes[i][2]+
+        (ultraschall.snowSnowflakes[i][3]*ultraschall.snowspeed)-
+        (ultraschall.snowWindtable[ultraschall.snowwindoffset]/4*
+        ultraschall.snowSnowflakes[i][4])
       if ultraschall.snowTemp>=ultraschall.snowSnowflakes[i][2] then ultraschall.snowSnowflakes[i][2]=ultraschall.snowTemp end -- prevent backwards flying snow
       -- calculate the movement toward left/right, influenced by wind
       ultraschall.snowSnowflakes[i][1]=ultraschall.snowSnowflakes[i][1]+(ultraschall.snowSnowflakes[i][4]+ultraschall.snowWindtable[ultraschall.snowwindoffset]/4*ultraschall.snowSnowflakes[i][4])
@@ -1358,6 +1364,7 @@ function ultraschall.WinterlySnowflakes(toggle, falling_speed, number_snowflakes
 ]]  
   if type(falling_speed)~="number" then ultraschall.AddErrorMessage("WinterlySnowflakes", "falling_speed", "must be a number", -1) return -1 end
   if math.type(number_snowflakes)~="integer" then ultraschall.AddErrorMessage("WinterlySnowflakes", "number_snowflakes", "must be an integer", -2) return -1 end
+  if number_snowflakes<1 or number_snowflakes>5000 then ultraschall.AddErrorMessage("WinterlySnowflakes", "number_snowflakes", "must be between 1 and 5000", -3) return -1 end
   if ultraschall.snowheight==nil then ultraschall.SnowInit() end
   ultraschall.snowspeed=falling_speed           -- the falling speed of the snowflakes
   ultraschall.snowsnowfactor=number_snowflakes  -- the number of snowflakes
