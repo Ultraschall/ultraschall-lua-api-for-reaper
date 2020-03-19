@@ -27,8 +27,8 @@
 dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
 
 Tempfile=ultraschall.Api_Path.."/temp/temporary"
---ConversionToolMD2HTML="c:\\Program Files (x86)\\Pandoc\\pandoc.exe -f markdown -t html "..ultraschall.Api_Path.."/temp/temporary.md -o "..ultraschall.Api_Path.."/temp/temporary.html"
-ConversionToolMD2HTML="chcp 65001\n\r \"c:\\Program Files (x86)\\Pandoc\\pandoc.exe\" -f markdown_strict -t html "..ultraschall.Api_Path.."/temp/temporary.md -o "..ultraschall.Api_Path.."/temp/temporary.html"
+--ConversionToolMD2HTML="c:\\Program Files\\Pandoc\\pandoc.exe -f markdown -t html "..ultraschall.Api_Path.."/temp/temporary.md -o "..ultraschall.Api_Path.."/temp/temporary.html"
+ConversionToolMD2HTML="chcp 65001\n\r \"c:\\Program Files\\Pandoc\\pandoc.exe\" -f markdown_strict -t html "..ultraschall.Api_Path.."/temp/temporary.md -o "..ultraschall.Api_Path.."/temp/temporary.html"
 
 Infilename=ultraschall.Api_Path.."/ultraschall_functions_engine.lua"
 Infilename_render=ultraschall.Api_Path.."/Modules/ultraschall_functions_Render_Module.lua"

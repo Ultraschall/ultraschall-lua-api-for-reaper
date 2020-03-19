@@ -183,36 +183,36 @@
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
                 ### Datatypes used in this document
                 
-                boolean - accepts only true or false as values
-                optional boolean - a boolean, that can be given, but is not required
-                number - can be integer, double or a floating-point-number
-                optional number - a number, that can be given, but is not required
-                integer - only integer numbers allowed
-                reaper.array - a special array, that Reaper provides
-                string - a string of characters/text
-                optional string - a string, that can be given, but is not required
+                boolean - accepts only true or false as values  
+                optional boolean - a boolean, that can be given, but is not required  
+                number - can be integer, double or a floating-point-number  
+                optional number - a number, that can be given, but is not required  
+                integer - only integer numbers allowed  
+                reaper.array - a special array, that Reaper provides  
+                string - a string of characters/text  
+                optional string - a string, that can be given, but is not required  
 
-                AudioAccessor - Audio Accessor object for a track or a media-item
-                BR\_Envelope \(BR\) - an envelope-object, created from a track or take-envelope
-                HWND - a window
-                IReaperControlSurface - a ControlSurface, e.g. OSC-devices
-                joystick\_device - a joystick-device
-                KbdSectionInfo - Keyboard Section Info, 
-                -        0, Main
-                -        100, Main (alt recording)
-                -        32060, MIDI Editor
-                -        32061, MIDI Event List Editor
-                -        32062, MIDI Inline Editor
-                -        32063, Media Explorer
-                PCM\_source - the audiosource of a MediaItem
-                ReaProject - a project within Reaper; 0 for current open project\(-tab\); in [EnumProjects](#EnumProjects), it is an object, not a number!
-                RprMidiTake \(FNG\) - ReaperMidiTake as object
-                RprMidiNote \(FNG\) - RprMidiNote as object
-                MediaTrack - a Reaper-Track as object
-                MediaItem - a Reaper-MediaItem like audio,video, Midi, etc as object
-                MediaItem\_Take - a take within a MediaItem as object
-                TrackEnvelope - an envelope of a track as object
-                WDL\_FastString\(S&M\) - a different kind of a string, made into a Reaper-object
+                AudioAccessor - Audio Accessor object for a track or a media-item  
+                BR\_Envelope \(BR\) - an envelope-object, created from a track or take-envelope  
+                HWND - a window  
+                IReaperControlSurface - a ControlSurface, e.g. OSC-devices  
+                joystick\_device - a joystick-device  
+                KbdSectionInfo - Keyboard Section Info,   
+                -        0, Main  
+                -        100, Main (alt recording)  
+                -        32060, MIDI Editor  
+                -        32061, MIDI Event List Editor  
+                -        32062, MIDI Inline Editor  
+                -        32063, Media Explorer  
+                PCM\_source - the audiosource of a MediaItem  
+                ReaProject - a project within Reaper; 0 for current open project\(-tab\); in [EnumProjects](#EnumProjects), it is an object, not a number!  
+                RprMidiTake \(FNG\) - ReaperMidiTake as object  
+                RprMidiNote \(FNG\) - RprMidiNote as object  
+                MediaTrack - a Reaper-Track as object  
+                MediaItem - a Reaper-MediaItem like audio,video, Midi, etc as object  
+                MediaItem\_Take - a take within a MediaItem as object  
+                TrackEnvelope - an envelope of a track as object  
+                WDL\_FastString\(S&M\) - a different kind of a string, made into a Reaper-object  
                 
                 deviceHDC - get it using function [JS\_GDI_GetWindowDC](#JS_GDI_GetWindowDC)
         </description>

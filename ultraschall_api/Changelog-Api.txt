@@ -4,12 +4,13 @@
     
     
     For 4.01betas:
+	
+	RenderPresets: Presetnames with spaces are buggy in GetRenderPreset_Names and deleting-functions
+				   filename in GetRenderPreset_RenderTable has issues with spaces in the name, especially if - is in the name due pattern matching-foo
+				   
+				   solve them with removing the preset/filename using sub() NOT gsub()
     
     ToDo: ReaPack-Github-URl is buggy.
-    
-    StateInspector isn't installed via DevToolsInstallerscript
-    
-    IsTrackSoundboard - has inner variable "track" exposed
     
     FX-Names with Reaper's own API-functions have three different types on Mac, for Studiolink On Air.
     I need functions, who take care of that in the API.
@@ -236,10 +237,16 @@ TODO!! buggy function
    - MediaItems: MediaItems\_Outtakes_AddSelectedItems - adds selected items into the outtakes-vault; this allows you to store outtakes of recordings easily
    - MediaItems: MediaItems\_Outtakes_GetAllItems - gets all outtakes-items stored in the outtakes-vault
    - MediaItems: MediaItems\_Outtakes_InsertAllItems - inserts all outtakes-items stored in the outtakes-vault into a project
+   - ProjectManagement: IsTimeSelectionActive - returns, if there's a time-selection
    
 #### Changes from 4.00 to 4.1.001
+   - DeveloperTools: ultraschall_Add_Developertools_To_Reaper.lua - weren't installed using this action -> fixed
+   - Docs: Routing_001_Introduction - corrected typo
    - MediaItems: GetAllSelectedMediaItems - returns now an MediaItemStateChunkArray as well
    - MediaItems: IsValidMediaItemStateChunkArray - didn't always return true, when MediaItemStateChunkArrays were passed over it -> fixed
+   - Ultraschall: IsTrackSoundboard - had inner variable exposed -> fixed
+   - Ultraschall: IsTrackStudioLink - had inner variable exposed -> fixed
+   - Ultraschall: IsTrackStudioLinkOnAir - had inner variable exposed -> fixed
    
 ---
 

@@ -3397,7 +3397,7 @@
             In the past, I had numerous situations, where I wanted to influence my routing-settings programmatically. But every time I started, I stumbled and shuddered.
             Not because it is impossible with Reaper's own API, but because it's so complicated, irritating, confusing and so far away from the way the routing is managed with the 
             user-interface of Reaper, where you can see easily all individual sends/receives.  
-            This problem is applies to the whole management of HardwareOuts as well, which is also painful to program.  
+            This problem applies with the whole management of HardwareOuts as well, which is also painful to program.  
             So I desired some functions that keep programming the routing simple and down to it's basic components while retaining the flexibility of the full routing.  
             
             All these functions, HWOut as well as Routing(Send/Receive) are based on a simple concept, as seen in the user-interface of routing-settings:  
