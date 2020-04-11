@@ -24,6 +24,11 @@
   ################################################################################
   --]]
 
+dofile(reaper.GetResourcePath().."/UserPlugins/ultraschall_api.lua")
+ScriptIdentifier=ultraschall.GetScriptIdentifier()
+
+--reaper.MB(ScriptIdentifier,"",0)
+
 Snap=1
 timeout=0
 Debug=true
@@ -960,7 +965,14 @@ if Debug==true then
   gfx.x=1
   gfx.y=1
     gfx.update()
-  if A~=-1 then reaper.defer(main) end
+    --print(reaper.GetExtState(ScriptIdentifier.."-GuiEngine","Message"))
+  if reaper.GetExtState(ScriptIdentifier.."-GuiEngine","Message")=="Close\n" then
+    return
+  elseif A==-1 then 
+    return
+  else
+    reaper.defer(main) 
+  end
 end
 
 InitializeElements()
