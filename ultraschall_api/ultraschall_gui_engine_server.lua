@@ -51,7 +51,7 @@ Dockstate=0
 WinX=10
 WinY=20
 GUID=""
-count=4
+count=1
 BGR=0.15
 BGG=0.15
 BGB=0.15
@@ -679,7 +679,7 @@ if Debug==true then
   if A==45 then gui_elements[a]["fontsize"]=gui_elements[a]["fontsize"]-1 end -- -
   if A==42 then gui_elements[a]["fontsize"]=gui_elements[a]["fontsize"]+20 end -- +
   if A==95 then gui_elements[a]["fontsize"]=gui_elements[a]["fontsize"]-20 end -- -
-  if A==99 then temp,L=reaper.GetUserInputs("Name Of The Button", 1, "Name of the Button","") if temp==true then gui_elements[a]["caption"]=L end end
+  if A==99 then temp,L=reaper.GetUserInputs("New Caption Of The Button", 1, "Name of the Button","") if temp==true then gui_elements[a]["caption"]=L end end
   
   -- change the objectnr you want to edit
   if A==44 then a=a-1 if a<1 then a=1 end end
@@ -737,9 +737,9 @@ if Debug==true then
   
   
   -- Add Objects
-  if A==2 then AddButton() end
-  if A==3 then AddCheckbox() end
-  if A==9 and gfx.mouse_cap&4==4 then AddImage() end
+  if A==66 then AddButton() end
+  if A==67 then AddCheckbox() end
+  if A==73 then AddImage() end
   
   -- Change Window Properties
   if A==119 then 

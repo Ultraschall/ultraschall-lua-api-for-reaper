@@ -32464,6 +32464,8 @@
             If char is 0 or omitted, returns a character from the keyboard queue, or 0 if no character is available, or -1 if the graphics window is not open. If char is specified and nonzero, that character's status will be checked, and the function will return greater than 0 if it is pressed.
 
             Common values are standard ASCII, such as 'a', 'A', '=' and '1', but for many keys multi-byte values are used, including 'home', 'up', 'down', 'left', 'rght', 'f1'.. 'f12', 'pgup', 'pgdn', 'ins', and 'del'. 
+			
+			Shortcuts with scope "Global + textfields" will still run the associated action, scope of "Normal" or "Global" will not.
 
             Modified and special keys can also be returned, including:
 
@@ -32601,6 +32603,8 @@
         Initializes the graphics window with title name. Suggested width and height can be specified.
 
         Once the graphics window is open, [gfx_update()](#eel_gfx_update) should be called periodically. 
+		
+		To resizes/reposition the window, call gfx.init again and pass an empty string as name-parameter.
         </description>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -34971,6 +34975,8 @@
             Common values are standard ASCII, such as 'a', 'A', '=' and '1', but for many keys multi-byte values are used, 
             including 'home', 'up', 'down', 'left', 'right', 'f1'.. 'f12', 'pgup', 'pgdn', 'ins', and 'del'. 
             
+			Shortcuts with scope "Global + textfields" will still run the associated action, scope of "Normal" or "Global" will not.
+			
             Modified and special keys can also be returned, including:  
             
             - Ctrl/Cmd+A..Ctrl+Z as 1..26  
@@ -35168,6 +35174,8 @@
             Initializes the graphics window with title name. Suggested width and height can be specified.Once the graphics window is open, gfx.update() should be called periodically. 
             
             Only one graphics-window can be opened per script! Calling gfx.ini after a window has been opened has no effect.
+			
+			To resizes/reposition the window, call gfx.init again and pass an empty string as name-parameter.
         </description>
         <retvals>
             number retval - 1.0, if window is opened

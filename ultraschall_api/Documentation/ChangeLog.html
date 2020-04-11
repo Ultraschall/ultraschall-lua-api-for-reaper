@@ -40,7 +40,7 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.1.001 - "Yes - Hold On"</h3>
+<h3>4.1.001 - "The Beatles - I want you(she's so heavy)"</h3>
 <h4>readded from earlier development-builds</h4>
 <ul>
 <li>Developer: SetReaScriptConsole_FontStyle - sets the style of the font in the ReaConsole</li>
@@ -54,6 +54,10 @@ Ultraschall API Changelog
 </ul>
 <h4>New features in 4.1.001</h4>
 <ul>
+<li>Automation Items: AutomationItems_GetAll - returns all automation-items of the current project</li>
+<li>Automation Items: AutomationItem_Delete - deletes an automation-item, including the option of retaining the envelope-points</li>
+<li>Envelopes: GetAllTakeEnvelopes - returns all TakeEnvelopes in the current project</li>
+<li>Envelopes: GetAllTrackEnvelopes - returns all TrackEnvelopes in the current project</li>
 <li>MediaItems: MediaItems_Outtakes_AddSelectedItems - adds selected items into the outtakes-vault; this allows you to store outtakes of recordings easily</li>
 <li>MediaItems: MediaItems_Outtakes_GetAllItems - gets all outtakes-items stored in the outtakes-vault</li>
 <li>MediaItems: MediaItems_Outtakes_InsertAllItems - inserts all outtakes-items stored in the outtakes-vault into a project</li>
@@ -63,6 +67,7 @@ Ultraschall API Changelog
 <ul>
 <li>DeveloperTools: ultraschall<em>Add</em>Developertools<em>To</em>Reaper.lua - weren't installed using this action -&gt; fixed</li>
 <li>Docs: Routing<em>001</em>Introduction - corrected typo</li>
+<li>Docs: ShowMenu - falsely claimed, that y-coordinates on Mac are buggy because they are reversed -&gt; corrected</li>
 <li>MediaItems: GetAllSelectedMediaItems - returns now an MediaItemStateChunkArray as well</li>
 <li>MediaItems: IsValidMediaItemStateChunkArray - didn't always return true, when MediaItemStateChunkArrays were passed over it -&gt; fixed</li>
 <li>Ultraschall: IsTrackSoundboard - had inner variable exposed -&gt; fixed</li>

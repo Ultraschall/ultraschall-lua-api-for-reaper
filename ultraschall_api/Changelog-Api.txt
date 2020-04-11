@@ -3,12 +3,20 @@
     
     
     
-    For 4.01betas:
-	
-	RenderPresets: Presetnames with spaces are buggy in GetRenderPreset_Names and deleting-functions
-				   filename in GetRenderPreset_RenderTable has issues with spaces in the name, especially if - is in the name due pattern matching-foo
-				   
-				   solve them with removing the preset/filename using sub() NOT gsub()
+    For 4.01betas:  
+    GetProjectLength - doesn't return the correct projectlength, if reaper.GetProjectLength()<recposition, as items in the state of being recorded don't count into it.
+                       in that case: when rec==true, anytrackarmed==true and Playposition>GetProjectLength, return the Editcursorposition instead.
+                       optional parameter needed, which allows toggling the old GetProjectLength and the new one with the recording management, to keep old scripts working
+    GetProjectLength - should return the last envelope-point-position as well(how to do that for pooled items?)
+    
+    GetSetMediaItemTake_Reverse - sets a MediaItemTake reversed/normal -> not existing in normal Reaper-API
+    
+    OpenURL muss noch url umwandeln auf Ansi Codepage 1252 auf Windows?. Also mit Bat-Datei arbeiten.
+    
+    RenderPresets: Presetnames with spaces are buggy in GetRenderPreset_Names and deleting-functions
+                   filename in GetRenderPreset_RenderTable has issues with spaces in the name, especially if - is in the name due pattern matching-foo
+                   
+                   solve them with removing the preset/filename using sub() NOT gsub()
     
     ToDo: ReaPack-Github-URl is buggy.
     
@@ -20,9 +28,7 @@
     Na gfx.getdropfile ist ja cool. Aber Feature-Request: die x/y Koordinaten wenn losgelassen wurde(rstockm)
     
     GetAllMarkersBetween/GetAllRegionsBetween - if startposition/endposition==nil then start/endposition=0/GetProjectLength
-    
-    GetProjectLength - should return the last envelope-point-position as well(how to do that for pooled items?)
-    
+
     Add range before and after the position, so you can get markers, who aren't at the exact position
     Use GetAllMarkersBetween/GetAllRegionsBetween to get them.
        GetMarkerByScreenCoordinates 
@@ -221,7 +227,7 @@ TODO!! buggy function
 
 ## Ultraschall Framework - Changelog
 
-### 4.1.001 - "Yes - Hold On"
+### 4.1.001 - "The Beatles - I want you(she's so heavy)"
 
 #### readded from earlier development-builds
    - Developer: SetReaScriptConsole_FontStyle - sets the style of the font in the ReaConsole
@@ -234,6 +240,10 @@ TODO!! buggy function
    - Web Interface: WebInterface_GetInstalledInterfaces - returns all installed webinterfaces(webrc) of the current Reaper installation, custom and Reaper-defaults
 
 #### New features in 4.1.001   
+   - Automation Items: AutomationItems_GetAll - returns all automation-items of the current project
+   - Automation Items: AutomationItem_Delete - deletes an automation-item, including the option of retaining the envelope-points
+   - Envelopes: GetAllTakeEnvelopes - returns all TakeEnvelopes in the current project
+   - Envelopes: GetAllTrackEnvelopes - returns all TrackEnvelopes in the current project
    - MediaItems: MediaItems\_Outtakes_AddSelectedItems - adds selected items into the outtakes-vault; this allows you to store outtakes of recordings easily
    - MediaItems: MediaItems\_Outtakes_GetAllItems - gets all outtakes-items stored in the outtakes-vault
    - MediaItems: MediaItems\_Outtakes_InsertAllItems - inserts all outtakes-items stored in the outtakes-vault into a project
@@ -242,6 +252,7 @@ TODO!! buggy function
 #### Changes from 4.00 to 4.1.001
    - DeveloperTools: ultraschall_Add_Developertools_To_Reaper.lua - weren't installed using this action -> fixed
    - Docs: Routing_001_Introduction - corrected typo
+   - Docs: ShowMenu - falsely claimed, that y-coordinates on Mac are buggy because they are reversed -> corrected
    - MediaItems: GetAllSelectedMediaItems - returns now an MediaItemStateChunkArray as well
    - MediaItems: IsValidMediaItemStateChunkArray - didn't always return true, when MediaItemStateChunkArrays were passed over it -> fixed
    - Ultraschall: IsTrackSoundboard - had inner variable exposed -> fixed

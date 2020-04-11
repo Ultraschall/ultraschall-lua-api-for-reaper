@@ -752,7 +752,7 @@ function ultraschall.ShowMenu(Title,Entries,x,y)
     
     One last thing: the title does not count as entry!
     
-    Note for Mac-users: has a possible issue with the y coordinate, where it's position is actually "reversed", due a Reaper-bug.
+    Note for Mac-users: y-coordinates are "reversed", so y=0 is at the bottom
     Note for Linux: does not work on Linux yet.
     
     returns -1 in case of an error
