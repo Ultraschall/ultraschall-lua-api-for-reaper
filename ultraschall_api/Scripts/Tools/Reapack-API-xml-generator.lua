@@ -73,7 +73,7 @@ C3,C,C1,C2,C4,C5,C6,C7=ultraschall.GetApiVersion()
 versionnumber, version, date, beta, tagline = ultraschall.GetApiVersion()
 majorversion, subversion, bits, Os, portable = ultraschall.GetReaperAppVersion()
 
-if beta~="" then beta="-"..beta end
+--if beta~="" then beta="."..beta end
 
 
 SWS=reaper.CF_GetSWSVersion("")
@@ -86,9 +86,9 @@ if C2vers~="" then C2vers="_"..C2vers end
 
 -- set this to the online-repo of the Ultraschall-API
 --Url="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API4.00-beta2.71/"
-Url="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1-/"
+Url="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1."..beta.."/"
 --Url="file:///c:/Ultraschall-Api-Git-Repo/Ultraschall-Api-for-Reaper/" -- for reapindex-tests first
-Url2="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1-"..C2vers.."/"
+Url2="https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1."..beta.."/"
 
 -- set this to the repository-folder of the api on your system
 --Target_Dir="c:\\Ultraschall-Api-Git-Repo\\Ultraschall-Api-for-Reaper\\"

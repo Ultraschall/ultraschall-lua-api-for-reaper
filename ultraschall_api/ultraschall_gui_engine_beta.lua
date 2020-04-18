@@ -72,7 +72,7 @@ end
 --B:Close()
 --B:Close()
 
-P=0
+--P=0
 function main()
   P=P+1
   if P==100 then

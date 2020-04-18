@@ -4,6 +4,50 @@
     
     
     For 4.01betas:  
+        - CountNormalMarkers_NumGap - has inner variables exposed! Must be fixed!
+        
+        - GetTrackByTrackName - gets track(s) by trackname.
+
+- by Amagalma    
+     Function to get all selected actions from Action List in a table
+In case anyone may need it:
+
+(Requires JS_ReaScriptAPI)
+
+Code:
+-- (ensure in your script that Action List is open first)
+
+-- variation of Edgemeal's script
+function GetSelectedActionsFromActionList()
+  local hWnd_action = reaper.JS_Window_Find("Actions", true)
+  if not hWnd_action then return end
+  local hWnd_LV = reaper.JS_Window_FindChildByID(hWnd_action, 1323)
+  local combo = reaper.JS_Window_FindChildByID(hWnd_action, 1317)
+  local sectionName = reaper.JS_Window_GetTitle(combo,"") -- save item text to table
+  local sectionID =  reaper.JS_WindowMessage_Send( combo, "CB_GETCURSEL", 0, 0, 0, 0 )
+  if reaper.JS_ListView_GetItemText(hWnd_LV, 0, 3) == "" then
+    reaper.MB("Please, enable 'Show action IDs' in Actions list", "Right-click Action List window", 0)
+    return
+  end
+  -- get selected count & selected indexes
+  local sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(hWnd_LV)
+  if sel_count == 0 then
+    reaper.MB("Please select one or more actions.", "No actions are selected", 0)
+    return
+  end
+  local selected_actions = {}
+  local i = 0
+  for index in string.gmatch(sel_indexes, '[^,]+') do
+    i = i + 1
+    local desc = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 1):gsub(".+: ", "", 1)
+    local cmd = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 3)
+    selected_actions[i] = {cmd = cmd, name = desc:gsub("(.*)(%.%a+)$", "%1")}
+  end
+  return selected_actions, sectionID, sectionName
+end
+
+selected_actions = GetSelectedActionsFromActionList()
+
     GetProjectLength - doesn't return the correct projectlength, if reaper.GetProjectLength()<recposition, as items in the state of being recorded don't count into it.
                        in that case: when rec==true, anytrackarmed==true and Playposition>GetProjectLength, return the Editcursorposition instead.
                        optional parameter needed, which allows toggling the old GetProjectLength and the new one with the recording management, to keep old scripts working
