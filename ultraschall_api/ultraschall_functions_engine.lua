@@ -189,17 +189,17 @@ function ultraschall.GetApiVersion()
     Reaper=5.40
     Lua=5.3
   </requires>
-  <functioncall>number versionnumber, string version, string date, string beta, string tagline, string buildnumber = ultraschall.GetApiVersion()</functioncall>
+  <functioncall>number versionnumber, string majorversion, string date, string subversion, string tagline, string buildnumber = ultraschall.GetApiVersion()</functioncall>
   <description>
     returns the version, release-date and if it's a beta-version plus the currently installed hotfix
   </description>
   <retvals>
     number versionnumber - a number, that you can use for comparisons like, "if requestedversion>versionnumber then"
-    string version - the current Api-version
+    string majorversion - the current Api-major-version
     string date - the release date of this api-version
-    string beta - if it's a beta version, this is the beta-version-number
+    string subversion - a subversion-number of a major-version
     string tagline - the tagline of the current release
-    string hotfix_date - the release-date of the currently installed hotfix ($ResourceFolder/ultraschall_api/ultraschall_hotfixes.lua)
+    string hotfix_date - the release-date of the currently installed hotfix ($ResourceFolder/ultraschall_api/ultraschall_hotfixes.lua); XX_XXX_XXXX if no hotfix is installed currently
     string buildnumber - the build-number of the current release
   </retvals>
   <chapter_context>
@@ -211,7 +211,7 @@ function ultraschall.GetApiVersion()
 </US_DocBloc>
 --]]
   local retval, BuildNumber = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "API-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
-  return 410.100, "4.1","30th of April 2020", "001",  "\"The Beatles - I want you(she's so heavy)\"", ultraschall.hotfixdate, BuildNumber
+  return 410.001, "4.1","30th of April 2020", "001",  "\"The Beatles - I want you(she's so heavy)\"", ultraschall.hotfixdate, BuildNumber
 end
 
 --A,B,C,D,E,F,G,H,I=ultraschall.GetApiVersion()

@@ -294,9 +294,11 @@ TODO!! buggy function
    - ProjectManagement: IsTimeSelectionActive - returns, if there's a time-selection
    
 #### Changes from 4.00 to 4.1.001
+   - API: GetApiVersion - updated docs to reflect the current behavior
    - DeveloperTools: ultraschall_Add_Developertools_To_Reaper.lua - weren't installed using this action -> fixed
    - Docs: Routing_001_Introduction - corrected typo
    - Docs: ShowMenu - falsely claimed, that y-coordinates on Mac are buggy because they are reversed -> corrected
+   - Markers: CountNormalMarkers_NumGap - had inner variables exposed -> fixed
    - MediaItems: GetAllSelectedMediaItems - returns now an MediaItemStateChunkArray as well
    - MediaItems: IsValidMediaItemStateChunkArray - didn't always return true, when MediaItemStateChunkArrays were passed over it -> fixed
    - Ultraschall: IsTrackSoundboard - had inner variable exposed -> fixed

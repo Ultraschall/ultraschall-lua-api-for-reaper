@@ -2921,11 +2921,11 @@ function ultraschall.CountNormalMarkers_NumGap()
 </US_DocBloc>
 ]]
   local nix=""
-  a,nummarkers,b=reaper.CountProjectMarkers(0)
-  count=0
+  local a,nummarkers,b=reaper.CountProjectMarkers(0)
+  local count=0
   for b=1, nummarkers do
     for i=0, a do
-        retval, isrgn, pos, rgnend, name, markrgnindexnumber, color= reaper.EnumProjectMarkers3(0, i)
+        local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color= reaper.EnumProjectMarkers3(0, i)
         if markrgnindexnumber==b then 
             count=b 
             nix="hui" 
@@ -2938,6 +2938,7 @@ function ultraschall.CountNormalMarkers_NumGap()
 
   return count+1
 end  
+
 
 
 
