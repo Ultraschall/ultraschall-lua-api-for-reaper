@@ -45,7 +45,7 @@
 --
 -- If you have new functions to contribute, you can use this file as well. Keep in mind, that I will probably change them to work
 -- with the error-messaging-system as well as adding information for the API-documentation.
-ultraschall.hotfixdate="18_April_2020"
+ultraschall.hotfixdate="28_April_2020"
 
 --ultraschall.ShowLastErrorMessage()
 
@@ -407,3 +407,40 @@ function ultraschall.IsTrackStudioLinkOnAir(tracknumber)
 end
 
 
+function ultraschall.DeleteTracks_TrackString(trackstring)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>DeleteTracks_TrackString</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.975
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.DeleteTracks_TrackString(string trackstring)</functioncall>
+  <description>
+    deletes all tracks in trackstring
+    
+    Returns false in case of an error
+  </description>
+  <parameters>
+    string trackstring - a string with all tracknumbers, separated by commas
+  </parameters>
+  <retvals>
+    boolean retval - true, setting it was successful; false, setting it was unsuccessful
+  </retvals>
+  <chapter_context>
+    Track Management
+    Assistance functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManagement_Module.lua</source_document>
+  <tags>trackmanagement, delete, track, trackstring</tags>
+</US_DocBloc>
+]]
+  local valid, count, individual_tracknumbers = ultraschall.IsValidTrackString(trackstring)
+  if valid==false then ultraschall.AddErrorMessage("DeleteTracks_TrackString", "trackstring", "must be a valid trackstring", -1) return false end
+  for i=count, 1, -1 do
+    reaper.DeleteTrack(reaper.GetTrack(0,individual_tracknumbers[i]-1))
+  end
+  return true
+end
