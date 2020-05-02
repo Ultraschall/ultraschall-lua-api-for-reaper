@@ -45,7 +45,7 @@
 --
 -- If you have new functions to contribute, you can use this file as well. Keep in mind, that I will probably change them to work
 -- with the error-messaging-system as well as adding information for the API-documentation.
-ultraschall.hotfixdate="28_April_2020"
+ultraschall.hotfixdate="2_May_2020"
 
 --ultraschall.ShowLastErrorMessage()
 
@@ -443,4 +443,93 @@ function ultraschall.DeleteTracks_TrackString(trackstring)
     reaper.DeleteTrack(reaper.GetTrack(0,individual_tracknumbers[i]-1))
   end
   return true
+end
+
+function ultraschall.MB(caption, title, mbtype, button1_caption, button2_caption, button3_caption)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MB</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.977
+    JS=0.986
+    Lua=5.3
+  </requires>
+  <functioncall>integer retval = ultraschall.MB(string msg, optional string title, optional integer type, optional string button1_caption, optional string button2_caption, optional string button3_caption)</functioncall>
+  <description>
+    Shows Messagebox with user-clickable buttons. Works like reaper.MB() but unlike reaper.MB, this function accepts omitting some parameters for quicker use.
+    
+    Important: This works only on Windows, due some bug on Mac which I couldn't work out yet.
+    
+    You can change the text in the buttons with button1_caption, button2_caption and button3_caption.
+    
+    Returns -1 in case of an error
+  </description>
+  <parameters>
+    string msg - the message, that shall be shown in messagebox
+    optional string title - the title of the messagebox
+    optional integer type - which buttons shall be shown in the messagebox, in that order
+                            - 0, OK
+                            - 1, OK CANCEL
+                            - 2, ABORT RETRY IGNORE
+                            - 3, YES NO CANCEL
+                            - 4, YES NO
+                            - 5, RETRY CANCEL
+                            - nil, defaults to OK
+    optional string button1_caption - caption of the first button
+    optional string button2_caption - caption of the second button
+    optional string button3_caption - caption of the third button
+  </parameters>
+  <retvals>
+    integer - the button pressed by the user
+                           - -1, error while executing this function
+                           - 1, Button 1
+                           - 2, Button 2
+                           - 3, Button 3
+  </retvals>
+  <chapter_context>
+    User Interface
+    Dialogs
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_ReaperUserInterface_Module.lua</source_document>
+  <tags>user interface, user, interface, input, dialog, messagebox</tags>
+</US_DocBloc>
+--]]
+  if ultraschall.IsOS_Windows()==false then ultraschall.AddErrorMessage("MB", "", "works only on Windows, sorry", 0) return -1 end
+  if type(caption)~="string" then ultraschall.AddErrorMessage("MB", "caption", "must be a string", -1) return -1 end
+  if title~=nil and type(title)~="string" then ultraschall.AddErrorMessage("MB", "title", "must be a string or nil", -2) return -1 end
+  if mbtype~=nil and math.type(mbtype)~="integer" then ultraschall.AddErrorMessage("MB", "mbtype", "must be an integer or nil(defaults to 0)", -3) return -1 end
+  if mbtype<0 or mbtype>5 then ultraschall.AddErrorMessage("MB","mbtype", "Must be between 0 and 5!", -4) return -1 end
+  
+  if button1_caption~=nil and type(button1_caption)~="string" then ultraschall.AddErrorMessage("MB", "button1_caption", "must be a string or nil", -5) return -1 end
+  if button2_caption~=nil and type(button2_caption)~="string" then ultraschall.AddErrorMessage("MB", "button2_caption", "must be a string or nil", -6) return -1 end
+  if button3_caption~=nil and type(button3_caption)~="string" then ultraschall.AddErrorMessage("MB", "button3_caption", "must be a string or nil", -7) return -1 end
+  
+  if button1_caption==nil then button1_caption="" end
+  if button2_caption==nil then button2_caption="" end
+  if button3_caption==nil then button3_caption="" end
+  if mbtype==nil then mbtype=0 end
+  if title==nil then title="" end
+  local temptitle=reaper.genGuid("")  
+  ultraschall.Main_OnCommandByFilename(ultraschall.Api_Path.."/Scripts/SetMessageBox_Helper_Script.lua", temptitle, title, mbtype, button1_caption, button2_caption, button3_caption)
+
+  local answer=reaper.MB(caption, temptitle, mbtype)
+
+  if mbtype==0 and answer==1 then return 1
+  elseif mbtype==1 and answer==1 then return 1
+  elseif mbtype==1 and answer==2 then return 2
+  elseif mbtype==2 and answer==3 then return 1
+  elseif mbtype==2 and answer==4 then return 2
+  elseif mbtype==2 and answer==5 then return 3
+  elseif mbtype==3 and answer==6 then return 1
+  elseif mbtype==3 and answer==7 then return 2
+  elseif mbtype==3 and answer==2 then return 3
+  elseif mbtype==4 and answer==6 then return 1
+  elseif mbtype==4 and answer==7 then return 2
+  elseif mbtype==5 and answer==4 then return 1
+  elseif mbtype==5 and answer==2 then return 2
+  end
+
+  return answer
 end
