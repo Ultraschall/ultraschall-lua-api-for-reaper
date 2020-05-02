@@ -1532,7 +1532,7 @@ function ultraschall.DeleteTracks_TrackString(trackstring)
 ]]
   local valid, count, individual_tracknumbers = ultraschall.IsValidTrackString(trackstring)
   if valid==false then ultraschall.AddErrorMessage("DeleteTracks_TrackString", "trackstring", "must be a valid trackstring", -1) return false end
-  for i=1, count do
+  for i=count, 1, -1 do
     reaper.DeleteTrack(reaper.GetTrack(0,individual_tracknumbers[i]-1))
   end
   return true

@@ -292,15 +292,19 @@ TODO!! buggy function
    - MediaItems: MediaItems\_Outtakes_GetAllItems - gets all outtakes-items stored in the outtakes-vault
    - MediaItems: MediaItems\_Outtakes_InsertAllItems - inserts all outtakes-items stored in the outtakes-vault into a project
    - ProjectManagement: IsTimeSelectionActive - returns, if there's a time-selection
+   - Track Management: SetTrack_LastTouched - sets a track to be last-touched track
    
 #### Changes from 4.00 to 4.1.001
    - API: GetApiVersion - updated docs to reflect the current behavior
    - DeveloperTools: ultraschall_Add_Developertools_To_Reaper.lua - weren't installed using this action -> fixed
+   - DeveloperTools: Ultraschall State Inspector - extended number of saveslots to 20; didn't correctly store and load gmem-states from the stateslots -> fixed (thanks to lexaproductions)
    - Docs: Routing_001_Introduction - corrected typo
    - Docs: ShowMenu - falsely claimed, that y-coordinates on Mac are buggy because they are reversed -> corrected
-   - Markers: CountNormalMarkers_NumGap - had inner variables exposed -> fixed
+   - Markers: CountNormalMarkers_NumGap - had inner variables exposed -> fixed (thanks to fernsehmuell)
    - MediaItems: GetAllSelectedMediaItems - returns now an MediaItemStateChunkArray as well
    - MediaItems: IsValidMediaItemStateChunkArray - didn't always return true, when MediaItemStateChunkArrays were passed over it -> fixed
+   - Render: ApplyRenderTable_Project - accidentally reversed true and false in parameter OnlyMonoMedia -> fixed (thanks to aurelien)
+   - TrackManagement: DeleteTracks_TrackString - didn't correctly delete the right tracks, sometimes throwing Lua-error -> fixed (thanks to aurelien)
    - Ultraschall: IsTrackSoundboard - had inner variable exposed -> fixed
    - Ultraschall: IsTrackStudioLink - had inner variable exposed -> fixed
    - Ultraschall: IsTrackStudioLinkOnAir - had inner variable exposed -> fixed

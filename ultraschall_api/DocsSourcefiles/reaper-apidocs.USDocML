@@ -14888,7 +14888,9 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            Set exactly one track selected, deselect all others
+            Set exactly one track selected, deselect all others.
+			
+			This sets the track as Last-Touched-Track as well.
         </description>
         <parameters>
             track - the MediaTrack to be selected
@@ -15483,6 +15485,8 @@
         </requires>
         <description prog_lang="*">
             Set a MediaTrack selected/deselected. Will retain already existing selection, so you can set multiple tracks selected that way.
+			
+			Will not affect Last-Touched-Track.
         </description>
         <parameters>
             track - the MediaTrack, whose selection state you want to set

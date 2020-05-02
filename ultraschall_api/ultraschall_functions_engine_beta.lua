@@ -67,7 +67,7 @@ function ultraschall.GetProject_RenderOutputPath(projectfilename_with_path)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetProject_RenderOutputPath</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -169,7 +169,7 @@ function ultraschall.ResolveRenderPattern(renderpattern)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ResolveRenderPattern</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -418,7 +418,7 @@ function ultraschall.SetReaScriptConsole_FontStyle(style)
   <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
     <slug>SetReaScriptConsole_FontStyle</slug>
     <requires>
-      Ultraschall=4.00
+      Ultraschall=4.1
       Reaper=5.965
       Lua=5.3
     </requires>
@@ -511,7 +511,7 @@ function ultraschall.get_action_context_MediaItemDiff(exlude_mousecursorsize, x,
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>get_action_context_MediaItemDiff</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.975
     Lua=5.3
   </requires>
@@ -730,7 +730,7 @@ function ultraschall.GetTrackEnvelope_ClickState()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetTrackEnvelope_ClickState</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.981
     SWS=2.10.0.1
     Lua=5.3
@@ -833,7 +833,7 @@ function ultraschall.SetLiceCapExe(PathToLiceCapExecutable)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetLiceCapExe</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.975
     SWS=2.9.7
     Lua=5.3
@@ -875,7 +875,7 @@ function ultraschall.SetupLiceCap(output_filename, title, titlems, x, y, right, 
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SetupLiceCap</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.975
     SWS=2.9.7
     Lua=5.3
@@ -1054,7 +1054,7 @@ function ultraschall.SaveProjectAs(filename_with_path, fileformat, overwrite, cr
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>SaveProjectAs</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.965
     SWS=2.10.0.1
     JS=0.963
@@ -1214,7 +1214,7 @@ function ultraschall.ReadSubtitles_VTT(filename_with_path)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>ReadSubtitles_VTT</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.965
     Lua=5.3
   </requires>
@@ -1549,7 +1549,7 @@ function ultraschall.GetAllTrackEnvelopes(include_mastertrack)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllTrackEnvelopes</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.05
     Lua=5.3
   </requires>
@@ -1610,7 +1610,7 @@ function ultraschall.GetAllTakeEnvelopes()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetAllTakeEnvelopes</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.05
     Lua=5.3
   </requires>
@@ -1667,7 +1667,7 @@ function ultraschall.AutomationItems_GetAll()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AutomationItems_GetAll</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.05
     Lua=5.3
   </requires>
@@ -1736,7 +1736,7 @@ function ultraschall.AutomationItem_Delete(TrackEnvelope, automationitem_idx, pr
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>AutomationItem_Delete</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=6.05
     Lua=5.3
   </requires>
@@ -1796,5 +1796,44 @@ function ultraschall.AutomationItem_Delete(TrackEnvelope, automationitem_idx, pr
   return true
 end
 
+
+function ultraschall.SetTrack_LastTouched(tracknumber)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetTrack_LastTouched</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetTrack_LastTouched(integer track)</functioncall>
+  <description>
+    Sets a track to be last touched track.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, setting was successful; false, setting was not successful
+  </retvals>
+  <parameters>
+    integer track - the track, which you want to set as last touched track
+  </parameters>
+  <chapter_context>
+    Track Management
+	Set Track States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManagement_Module.lua</source_document>
+  <tags>track management, set, last touched track</tags>
+</US_DocBloc>
+--]]
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("SetTrack_LastTouched", "tracknumber", "must be an integer", -1) return false end
+  local track = reaper.GetTrack(0,tracknumber-1)
+  if track==nil then ultraschall.AddErrorMessage("SetTrack_LastTouched", "tracknumber", "no such track", -2) return false end
+  local trackstring = ultraschall.CreateTrackString_SelectedTracks()
+  reaper.SetOnlyTrackSelected(track)
+  local retval = ultraschall.SetTracksSelected(trackstring, true)
+  return true
+end
 
 ultraschall.ShowLastErrorMessage()

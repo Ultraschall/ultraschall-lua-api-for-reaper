@@ -68,6 +68,8 @@ end
 
 
 
+
+
 C3,C,C1,C2,C4,C5,C6,C7=ultraschall.GetApiVersion()
 
 versionnumber, version, date, beta, tagline = ultraschall.GetApiVersion()
@@ -101,6 +103,7 @@ for i=found_files, 1, -1 do
     if files_array[i]:match("EventManager_Startup.ini") then table.remove(files_array,i) found_files=found_files-1 end
 end
 
+
 L=ultraschall.MakeCopyOfFile_Binary(SourceDir.."/ultraschall_api.lua", Target_Dir.."/ultraschall_api.lua")
 L=ultraschall.MakeCopyOfFile_Binary(SourceDir.."/ultraschall_api_readme.txt", Target_Dir.."/ultraschall_api_readme.txt")
 
@@ -127,8 +130,8 @@ cd ]]..SourceDir..[[
 del ]]..Target_Dir..[[\ultraschall_api4.1]]..C2vers..[[.zip
 zip.exe -r ]]..Target_Dir..[[\ultraschall_api4.1]]..C2vers..[[.zip *.lua *.txt ultraschall_api
 
-del Reaper-Internals-readme.txt
-del Scripts\Tools\batter.bat
+del ultraschall_api\Reaper-Internals-readme.txt
+del ultraschall_api\Scripts\Tools\batter.bat
 pause
 ]]
 
@@ -461,10 +464,21 @@ A0="c:\\windows\\system32\\cmd.exe /Q /C xcopy "..SourceDir.."\\ultraschall_api 
 --reaper.CF_SetClipboard(A0)
 A,A1,A2,A3=reaper.ExecProcess(A0, 0)
   
+-- create directories, if not existing
+for i=1, found_dirs do
+  ALALALALALALA=reaper.RecursiveCreateDirectory(dirs_array[i], 0)
+  ToClip(FromClip().."\n"..ALALALALALALA..", "..dirs_array[i])
+end
+
 for i=1, found_files do
   tempfile=files_array[i]:match("(ultraschall_api/.*)")
 --  if tempfile==nil then tempfile=files_array[i]:match("UserPlugins(/.*)") end
   L=ultraschall.MakeCopyOfFile_Binary(files_array[i], Target_Dir..tempfile)
+  retval, errcode, functionname, parmname, errormessage = ultraschall.GetLastErrorMessage()
+  if errormessage~=nil then
+--    ToClip(FromClip().."\n"..errcode..", "..functionname..", "..parmname..", "..errormessage)
+    ultraschall.DeleteAllErrorMessages()
+  end
 end
 
 

@@ -2844,7 +2844,7 @@ function ultraschall.ApplyRenderTable_Project(RenderTable, apply_rendercfg_strin
   
   if RenderTable["EmbedStretchMarkers"]==true then ultraschall.SetRender_EmbedStretchMarkers(true) else ultraschall.SetRender_EmbedStretchMarkers(false) end
   if RenderTable["MultiChannelFiles"]==true then RenderTable["Source"]=RenderTable["Source"]+4 end
-  if RenderTable["OnlyMonoMedia"]==true then RenderTable["Source"]=RenderTable["Source"]+16 end
+  if RenderTable["OnlyMonoMedia"]==false then RenderTable["Source"]=RenderTable["Source"]+16 end
   reaper.GetSetProjectInfo(ReaProject, "RENDER_SETTINGS", RenderTable["Source"], true)
 
   reaper.GetSetProjectInfo(ReaProject, "RENDER_BOUNDSFLAG", RenderTable["Bounds"], true)
