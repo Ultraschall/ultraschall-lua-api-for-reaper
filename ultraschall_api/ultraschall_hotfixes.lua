@@ -533,3 +533,36 @@ function ultraschall.MB(caption, title, mbtype, button1_caption, button2_caption
 
   return answer
 end
+
+function ultraschall.IsValidMatchingPattern(patstring)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>IsValidMatchingPattern</slug>
+  <requires>
+    Ultraschall=4.00
+    Reaper=5.77
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.IsValidMatchingPattern(string patstring)</functioncall>
+  <description>
+    Returns, if patstring is a valid pattern-matching-string
+  </description>
+  <retvals>
+    boolean retval - true, patstring is a valid pattern-matching-string; false, patstring isn't a valid pattern-matching-string
+  </retvals>
+  <parameters>
+    string patstring - the string to check for, if it's a valid pattern-matching-string
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+    Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_HelperFunctions_Module.lua</source_document>
+  <tags>helper functions, pattern, string, check, valid, matching</tags>
+</US_DocBloc>
+]]
+  local Q="Jam."
+  local A=pcall(string.match, Q, patstring)
+  return A
+end
