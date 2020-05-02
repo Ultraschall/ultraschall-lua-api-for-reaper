@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43034.00" author="Meo Mespotine">
+      <version name="43044.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Changelog-Api.txt</source>
@@ -263,6 +263,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/SWS_Logo_2_10_0.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Documentation/gfx/SWS_Logo_2_10_0.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/SWS_Logo_2_8_8.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Documentation/gfx/SWS_Logo_2_8_8.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/ultraschall4.00.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Documentation/gfx/ultraschall4.00.png</source>
+	<source file="/ultraschall_api/Documentation/gfx/ultraschall4.1.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Documentation/gfx/ultraschall4.1.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/US-API-Logo.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Documentation/gfx/US-API-Logo.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/US-header.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Documentation/gfx/US-header.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/US-header.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Documentation/gfx/US-header.png</source>
@@ -270,6 +271,7 @@
 	<source file="/ultraschall_api/Documentation/gfx/us-Kopie.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Documentation/gfx/us-Kopie.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/us.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Documentation/gfx/us.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/US_40_beta.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Documentation/gfx/US_40_beta.pfi</source>
+	<source file="/ultraschall_api/Documentation/gfx/US_41_beta.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Documentation/gfx/US_41_beta.pfi</source>
 	<source file="/ultraschall_api/Documentation/gfx/US_Button.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Documentation/gfx/US_Button.png</source>
 	<source file="/ultraschall_api/Documentation/gfx/US_Button_Un.png" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Documentation/gfx/US_Button_Un.png</source>
 	<source file="/ultraschall_api/misc/docgfx/JS-Plugin-Big.pfi" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/misc/docgfx/JS-Plugin-Big.pfi</source>
@@ -5962,7 +5964,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1132 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43034 from 02.05.2020 07:22:57).}
+a 1132 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43044 from 02.05.2020 10:00:18).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6100,7 +6102,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1132 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43034 from 02.05.2020 07:22:57).}
+a 1132 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43044 from 02.05.2020 10:00:18).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
