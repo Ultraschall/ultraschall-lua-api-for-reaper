@@ -1283,6 +1283,65 @@ end
 
 --A,B,C,D,E=ultraschall.ReadSubtitles_VTT("c:\\test.vtt")
 
+function ultraschall.BatchConvertFiles(filelist, RenderTable, BWFStart, PadStart, PadEnd, FXChain)
+-- Todo:
+-- Check on Mac and Linux
+-- Check all parameters for correct typings
+-- Test FXChain-capability
+  local BatchConvertData=""
+  local ExeFile, filename, path
+  if FXChain==nil then FXChain="" end
+  if BWFStart==true then BWFStart="    USERCSTART 1\n" else BWFStart="" end
+  if PadStart~=nil  then PadStart="    PAD_START "..PadStart.."\n" else PadStart="" end
+  if PadEnd~=nil  then PadEnd="    PAD_END "..PadEnd.."\n" else PadEnd="" end
+  local i=1
+  while filelist[i]~=nil do
+    path, filename = ultraschall.GetPath(filelist[i])
+    BatchConvertData=BatchConvertData..filelist[i].."\t"..filename.."\n"
+    i=i+1
+  end
+  BatchConvertData=BatchConvertData..[[
+<CONFIG
+]]..FXChain..[[
+  <OUTFMT 
+    ]]      ..RenderTable["RenderString"]..[[
+    
+    SRATE ]]..RenderTable["SampleRate"]..[[
+    
+    NCH ]]..RenderTable["Channels"]..[[
+    
+    RSMODE ]]..RenderTable["RenderResample"]..[[
+    
+    DITHER ]]..RenderTable["Dither"]..[[
+    
+]]..BWFStart..[[
+]]..PadStart..[[
+]]..PadEnd..[[
+    OUTPATH ]]..RenderTable["RenderFile"]..[[
+    
+    OUTPATTERN ']]..RenderTable["RenderPattern"]..[['
+  >
+>
+]]
+
+  ultraschall.WriteValueToFile(ultraschall.API_TempPath.."/filelist.txt", BatchConvertData)
+  if ultraschall.IsOS_Windows()==true then
+    ExeFile=reaper.GetExePath().."\\reaper.exe"
+    AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "/", "\\").."\\filelist.txt", -1)
+    print3(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "/", "\\").."\\filelist.txt")
+
+  elseif ultraschall.IsOS_Mac()==true then
+    print2("Must be checked on Mac!!!!")
+    ExeFile=reaper.GetExePath().."\\reaper"
+    AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "\\\\", "/").."/filelist.txt", -1)
+  else
+    print2("Must be checked on Linux!!!!")
+    ExeFile=reaper.GetExePath().."\\reaper"
+    AAAA, AAAAAA=reaper.ExecProcess(ExeFile.." -batchconvert "..string.gsub(ultraschall.API_TempPath, "\\\\", "/").."/filelist.txt", -1)
+  end
+end
+
+
 -- These seem to work:
 
 function ultraschall.WebInterface_GetInstalledInterfaces()
