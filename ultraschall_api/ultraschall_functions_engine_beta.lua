@@ -1836,4 +1836,124 @@ function ultraschall.SetTrack_LastTouched(tracknumber)
   return true
 end
 
+function ultraschall.EscapeMagicCharacters_String(sourcestring)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EscapeMagicCharacters_String</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>string escaped_string = ultraschall.EscapeMagicCharacters_String(string sourcestring)</functioncall>
+  <description>
+    Escapes the magic characters(needed for pattern matching), so the string can be fed as is into string.match-functions.
+	That way, characters like . or - or * etc do not trigger pattern-matching behavior but are used as regular . or - or * etc.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string escaped_string - the string with all magic characters escaped
+  </retvals>
+  <parameters>
+	string sourcestring - the string, whose magic characters you want to escape for future use
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+	Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, escape, magic characters</tags>
+</US_DocBloc>
+--]]  
+   if type(sourcestring)~="string" then ultraschall.AddErrorMessage("EscapeMagicCharacters_String", "sourcestring", "must be a string", -1) return nil end
+   return (sourcestring:gsub('%%', '%%%%')
+            :gsub('^%^', '%%^')
+            :gsub('%$$', '%%$')
+            :gsub('%(', '%%(')
+            :gsub('%)', '%%)')
+            :gsub('%.', '%%.')
+            :gsub('%[', '%%[')
+            :gsub('%]', '%%]')
+            :gsub('%*', '%%*')
+            :gsub('%+', '%%+')
+            :gsub('%-', '%%-')
+            :gsub('%?', '%%?'))
+end
+
+function ultraschall.GetTrackByTrackName(trackname, case_sensitive, escaped_strict)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>GetTrackByTrackName</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>integer number_of_found_tracks, table found_tracks, table found_tracknames = ultraschall.GetTrackByTrackName(string trackname, boolean case_sensitive, integer escaped_strict)</functioncall>
+  <description>
+    returns all tracks with a certain name.
+	
+	You can set case-sensitivity, whether pattern-matchin is possible and whether the name shall be used strictly.
+	For instance, if you want to look for a track named exactly "JaM.-Enlightened" you set case_sensitive=false and escaped_strict=2. That way, tracks names "JaM.*Enlightened" will be ignored.
+	
+	returns -1 in case of an error
+  </description>
+  <retvals>
+    integer number_of_found_tracks - the number of found tracks
+	table found_tracks - the found tracks as table
+	table found_tracknames - the found tracknames
+  </retvals>
+  <parameters>
+    string trackname - the trackname to look for
+	boolean case_sensitive - true, take care of case-sensitivity; false, don't take case-sensitivity into account
+	integer escaped_strict - 0, use trackname as matching-pattern, will find all tracknames following the pattern(Ja.-m -> Jam, Jam123Police, JaABBAm)
+						   - 1, escape trackname off all magic characters, will find all tracknames with the escaped pattern in it (Ja.-m -> Ja.-m, Jam.-boree)
+						   - 2, strict, will only find tracks with the exact trackname-string in their name(Jam -> Jam)
+  </parameters>			
+  <chapter_context>
+    Track Management
+	Set Track States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManagement_Module.lua</source_document>
+  <tags>track management, set, last touched track</tags>
+</US_DocBloc>
+--]]
+  if type(trackname)~="string" then ultraschall.AddErrorMessage("GetTrackByTrackName", "trackname", "must be a string", -1) return -1 end
+  if type(case_sensitive)~="boolean" then ultraschall.AddErrorMessage("GetTrackByTrackName", "case_sensitive", "must be a boolean", -2) return -1 end
+  if math.type(escaped_strict)~="integer" then ultraschall.AddErrorMessage("GetTrackByTrackName", "escaped_strict", "must be an integer", -3) return -1 end
+  if escaped_strict<0 or escaped_strict>2 then ultraschall.AddErrorMessage("GetTrackByTrackName", "escaped_strict", "must be between 0 and 2", -4) return -1 end
+  local trackcount=0
+  local Tracks={}
+  local TrackNames={}
+  local retval, buf, found_track, track, trackname2
+  if case_sensitive==false then trackname=trackname:lower() end
+  if escaped_strict>0 then
+    trackname2=ultraschall.EscapeMagicCharacters_String(trackname)
+  else
+    ultraschall.IsValidMatchingPattern(trackname)
+    if ultraschall.IsValidMatchingPattern(trackname)==false then ultraschall.AddErrorMessage("GetTrackByTrackName", "trackname", "must be valid matching pattern", -5) return -1 end
+    trackname2=trackname
+  end
+
+  for i=0, reaper.CountTracks()-1 do
+    track=reaper.GetTrack(0,i)
+    retval, buf = reaper.GetTrackName(track)
+    found_track=buf:match(trackname2)
+
+    if found_track~=nil then
+      if escaped_strict==2 then
+        if buf==trackname then 
+          trackcount=trackcount+1 TrackNames[trackcount]=buf Tracks[trackcount]=track 
+        end
+      else
+        trackcount=trackcount+1 TrackNames[trackcount]=buf Tracks[trackcount]=track
+      end
+    end
+  end
+  return trackcount, Tracks, TrackNames
+end
+
 ultraschall.ShowLastErrorMessage()

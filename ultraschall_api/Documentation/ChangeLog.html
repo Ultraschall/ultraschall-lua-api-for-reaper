@@ -58,10 +58,12 @@ Ultraschall API Changelog
 <li>Automation Items: AutomationItem_Delete - deletes an automation-item, including the option of retaining the envelope-points</li>
 <li>Envelopes: GetAllTakeEnvelopes - returns all TakeEnvelopes in the current project</li>
 <li>Envelopes: GetAllTrackEnvelopes - returns all TrackEnvelopes in the current project</li>
+<li>Helperfunctions: EscapeMagicCharacters_String - escapes the magic-characters, used for pattern matching, from a string, so it can be used without triggering "magic"-pattern-matching-features</li>
 <li>MediaItems: MediaItems_Outtakes_AddSelectedItems - adds selected items into the outtakes-vault; this allows you to store outtakes of recordings easily</li>
 <li>MediaItems: MediaItems_Outtakes_GetAllItems - gets all outtakes-items stored in the outtakes-vault</li>
 <li>MediaItems: MediaItems_Outtakes_InsertAllItems - inserts all outtakes-items stored in the outtakes-vault into a project</li>
 <li>ProjectManagement: IsTimeSelectionActive - returns, if there's a time-selection</li>
+<li>Track Management: GetTrackByTrackName - search tracknames follwing a certain pattern or for a certain name</li>
 <li>Track Management: SetTrack_LastTouched - sets a track to be last-touched track</li>
 </ul>
 <h4>Changes from 4.00 to 4.1.001</h4>
@@ -71,6 +73,7 @@ Ultraschall API Changelog
 <li>DeveloperTools: Ultraschall State Inspector - extended number of saveslots to 20; didn't correctly store and load gmem-states from the stateslots -&gt; fixed (thanks to lexaproductions)</li>
 <li>Docs: Routing<em>001</em>Introduction - corrected typo</li>
 <li>Docs: ShowMenu - falsely claimed, that y-coordinates on Mac are buggy because they are reversed -&gt; corrected</li>
+<li>Helperfunctions: IsValidMatchingPattern - wasn't reporting unfinished captures all the time -&gt; improved</li>
 <li>Markers: CountNormalMarkers_NumGap - had inner variables exposed -&gt; fixed (thanks to fernsehmuell)</li>
 <li>MediaItems: GetAllSelectedMediaItems - returns now an MediaItemStateChunkArray as well</li>
 <li>MediaItems: IsValidMediaItemStateChunkArray - didn't always return true, when MediaItemStateChunkArrays were passed over it -&gt; fixed</li>

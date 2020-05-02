@@ -4,8 +4,6 @@
     
     
     For 4.01betas:  
-        - CountNormalMarkers_NumGap - has inner variables exposed! Must be fixed!
-        
         - GetTrackByTrackName - gets track(s) by trackname.
 
 - by Amagalma    
@@ -288,10 +286,12 @@ TODO!! buggy function
    - Automation Items: AutomationItem_Delete - deletes an automation-item, including the option of retaining the envelope-points
    - Envelopes: GetAllTakeEnvelopes - returns all TakeEnvelopes in the current project
    - Envelopes: GetAllTrackEnvelopes - returns all TrackEnvelopes in the current project
+   - Helperfunctions: EscapeMagicCharacters_String - escapes the magic-characters, used for pattern matching, from a string, so it can be used without triggering "magic"-pattern-matching-features
    - MediaItems: MediaItems\_Outtakes_AddSelectedItems - adds selected items into the outtakes-vault; this allows you to store outtakes of recordings easily
    - MediaItems: MediaItems\_Outtakes_GetAllItems - gets all outtakes-items stored in the outtakes-vault
    - MediaItems: MediaItems\_Outtakes_InsertAllItems - inserts all outtakes-items stored in the outtakes-vault into a project
    - ProjectManagement: IsTimeSelectionActive - returns, if there's a time-selection
+   - Track Management: GetTrackByTrackName - search tracknames follwing a certain pattern or for a certain name
    - Track Management: SetTrack_LastTouched - sets a track to be last-touched track
    
 #### Changes from 4.00 to 4.1.001
@@ -300,6 +300,7 @@ TODO!! buggy function
    - DeveloperTools: Ultraschall State Inspector - extended number of saveslots to 20; didn't correctly store and load gmem-states from the stateslots -> fixed (thanks to lexaproductions)
    - Docs: Routing_001_Introduction - corrected typo
    - Docs: ShowMenu - falsely claimed, that y-coordinates on Mac are buggy because they are reversed -> corrected
+   - Helperfunctions: IsValidMatchingPattern - wasn't reporting unfinished captures all the time -> improved
    - Markers: CountNormalMarkers_NumGap - had inner variables exposed -> fixed (thanks to fernsehmuell)
    - MediaItems: GetAllSelectedMediaItems - returns now an MediaItemStateChunkArray as well
    - MediaItems: IsValidMediaItemStateChunkArray - didn't always return true, when MediaItemStateChunkArrays were passed over it -> fixed

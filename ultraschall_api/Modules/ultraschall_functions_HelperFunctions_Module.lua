@@ -144,11 +144,6 @@ function ultraschall.CountCharacterInString(checkstring, character)
   return count, countarray
 end
 
-function ultraschall.malformedpatternhelper(patstring)
-  local A="Tudelu"
-  A:match(patstring)
-end
-
 function ultraschall.IsValidMatchingPattern(patstring)
 --[[
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
@@ -177,10 +172,10 @@ function ultraschall.IsValidMatchingPattern(patstring)
   <tags>helper functions, pattern, string, check, valid, matching</tags>
 </US_DocBloc>
 ]]
-  local A=pcall(ultraschall.malformedpatternhelper,patstring)
+  local Q="Jam."
+  local A=pcall(string.match, Q, patstring)
   return A
 end
-
 
 
 function ultraschall.CSV2IndividualLinesAsArray(csv_line,separator)
