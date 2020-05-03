@@ -4,7 +4,6 @@
     
     
     For 4.01betas:  
-        - GetTrackByTrackName - gets track(s) by trackname.
 
 - by Amagalma    
      Function to get all selected actions from Action List in a table
@@ -287,10 +286,11 @@ TODO!! buggy function
    - Envelopes: GetAllTakeEnvelopes - returns all TakeEnvelopes in the current project
    - Envelopes: GetAllTrackEnvelopes - returns all TrackEnvelopes in the current project
    - Helperfunctions: EscapeMagicCharacters_String - escapes the magic-characters, used for pattern matching, from a string, so it can be used without triggering "magic"-pattern-matching-features
+   - Marker Management: IsTimeSigmarkerAtPosition - returns, if at a position/measure is a time-signature marker(requested by tompad)
    - MediaItems: MediaItems\_Outtakes_AddSelectedItems - adds selected items into the outtakes-vault; this allows you to store outtakes of recordings easily
    - MediaItems: MediaItems\_Outtakes_GetAllItems - gets all outtakes-items stored in the outtakes-vault
    - MediaItems: MediaItems\_Outtakes_InsertAllItems - inserts all outtakes-items stored in the outtakes-vault into a project
-   - ProjectManagement: IsTimeSelectionActive - returns, if there's a time-selection
+   - ProjectManagement: IsTimeSelectionActive - returns, if there's a time-selection(requested by tompad)
    - Track Management: GetTrackByTrackName - search tracknames follwing a certain pattern or for a certain name
    - Track Management: SetTrack_LastTouched - sets a track to be last-touched track
    
@@ -300,6 +300,7 @@ TODO!! buggy function
    - DeveloperTools: Ultraschall State Inspector - extended number of saveslots to 20; didn't correctly store and load gmem-states from the stateslots -> fixed (thanks to lexaproductions)
    - Docs: Routing_001_Introduction - corrected typo
    - Docs: ShowMenu - falsely claimed, that y-coordinates on Mac are buggy because they are reversed -> corrected
+   - FX-Management: CountParmLearn_FXStateChunk - added error-message, when fxid==0, as the first fxid must be 1 or higher(thanks to TonE)
    - Helperfunctions: IsValidMatchingPattern - wasn't reporting unfinished captures all the time -> improved
    - Markers: CountNormalMarkers_NumGap - had inner variables exposed -> fixed (thanks to fernsehmuell)
    - MediaItems: GetAllSelectedMediaItems - returns now an MediaItemStateChunkArray as well
