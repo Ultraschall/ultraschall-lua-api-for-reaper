@@ -64,8 +64,6 @@ selected_actions = GetSelectedActionsFromActionList()
     FX-Names with Reaper's own API-functions have three different types on Mac, for Studiolink On Air.
     I need functions, who take care of that in the API.
     
-    IsTimeSigmarkersAtPosition - like IsMarkerAtPosition but for time-sig-markers(request by tompad)
-    
     Na gfx.getdropfile ist ja cool. Aber Feature-Request: die x/y Koordinaten wenn losgelassen wurde(rstockm)
     
     GetAllMarkersBetween/GetAllRegionsBetween - if startposition/endposition==nil then start/endposition=0/GetProjectLength
@@ -298,6 +296,7 @@ TODO!! buggy function
    - API: GetApiVersion - updated docs to reflect the current behavior
    - DeveloperTools: ultraschall_Add_Developertools_To_Reaper.lua - weren't installed using this action -> fixed
    - DeveloperTools: Ultraschall State Inspector - extended number of saveslots to 20; didn't correctly store and load gmem-states from the stateslots -> fixed (thanks to lexaproductions)
+   - Docs: Reaper-Internals - updated to Reaper 6.09, JS-extension 1.002
    - Docs: Routing_001_Introduction - corrected typo
    - Docs: ShowMenu - falsely claimed, that y-coordinates on Mac are buggy because they are reversed -> corrected
    - FX-Management: CountParmLearn_FXStateChunk - added error-message, when fxid==0, as the first fxid must be 1 or higher(thanks to TonE)
