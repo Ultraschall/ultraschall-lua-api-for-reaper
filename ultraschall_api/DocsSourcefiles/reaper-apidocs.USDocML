@@ -4,7 +4,7 @@
         <slug>1.Introduction</slug>
         <title>1 Introduction to ReaScript</title>
         <description markup_type="markdown" markup_version="1.0.1" indent="default">
-            ## ReaScript API as of Reaper 6.05
+            ## ReaScript API as of Reaper 6.10
             
             REAPER provides an API (advanced programming interface) for users and third parties to create extended functionality. API functions can be called from a compiled C/C++ dynamic library that is loaded by REAPER, or at run-time by user-created ReaScripts that can be written using REAPER's own editor.
 
@@ -8225,7 +8225,7 @@
         <functioncall prog_lang="lua">boolean retval, string valuestrNeedBig = reaper.GetSetProjectInfo_String(ReaProject project, string desc, string valuestrNeedBig, boolean is_set)</functioncall>
         <functioncall prog_lang="python">(Boolean retval, ReaProject project, String desc, String valuestrNeedBig, Boolean is_set) = RPR_GetSetProjectInfo_String(project, desc, valuestrNeedBig, is_set)</functioncall>
         <requires>
-            Reaper=6.05
+            Reaper=6.10
             Lua=5.3
         </requires>
         <description prog_lang="*" markup_type="markdown" markup_version="1.0.1" indent="default">
@@ -8235,6 +8235,9 @@
             RECORD\_PATH: recording directory -- may be blank or a relative path, to get the effective path see [GetProjectPathEx](#GetProjectPathEx)
             RENDER\_FILE: render directory
             RENDER\_PATTERN: render file name (may contain wildcards)
+			ID3 album name metadata: Uses common ID3-Tagcodes like TALB(album), TPE1(Artist), etc. Just refer to the official docs: [https://id3.org/id3v2.3.0#Declared_ID3v2_frames](https://id3.org/id3v2.3.0#Declared_ID3v2_frames).
+			To get album tag, use "ID3:TALB", to set album tag, use "ID3:TALB|my album name".
+			RENDER\_TARGETS : semicolon separated list of files that would be written if the project is rendered using the most recent render settings
             RENDER\_FORMAT: base64-encoded sink configuration (see project files, etc). Callers can also pass a simple 4-byte string (non-base64-encoded), to use default settings for that sink type.
             RENDER\_FORMAT2: base64-encoded secondary sink configuration. Callers can also pass a simple 4-byte string (non-base64-encoded), e.g. "evaw" or "l3pm", to use default settings for that sink type, or "" to disable secondary render.
             see [render-code-documentation](render-codes-decoded-base64-strings.txt) for how the unencoded RENDER_FORMAT-string is structured.

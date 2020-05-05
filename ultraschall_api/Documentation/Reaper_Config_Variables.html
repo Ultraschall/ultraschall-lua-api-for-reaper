@@ -4117,11 +4117,14 @@ It is an integer-bitfield</p>
 </blockquote>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </td></tr></table></divl><hr><a id="miscopts"></a>
-&nbsp;<a href="#miscopts"><b>miscopts</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>Enable ‘Preserve pitch when changing rate’ for new items-checkbox<br />
-It is an integer</p>
+&nbsp;<a href="#miscopts"><b>miscopts</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>Enable “Preserve pitch when changing rate for new items’-checkbox as set in Project Settings -&gt; Advanced, as well as”On import of media to project"-dropdownlist as set in Project Settings -&gt; Media It is an integer-bitfield</p>
 <blockquote>
-<p>0, checked<br />
-1, unchecked</p>
+<p>&amp;1=0, “Preserve pitch when changing rate” - checked &amp;1=1, “Preserve pitch when changing rate” - unchecked &amp;2 and &amp;4 “On import of media to project”-dropdownlist</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>0 0, Use global preference 1 0, Copy media to project path 0 1, Do not copy media to project path</p>
+</blockquote>
 </blockquote>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </td></tr></table></divl><hr><a id="midiccdensity"></a>
@@ -5624,11 +5627,10 @@ It is an integer</p>
 <a href="#saveundostatesproj">saveundostatesproj</a>, <a href="#rfprojfirst">rfprojfirst</a></p>
 <p>Stored in reaper.ini under the same name in the section REAPER.</p>
 </td></tr></table></divl><hr><a id="projrenderaddtoproj"></a>
-&nbsp;<a href="#projrenderaddtoproj"><b>projrenderaddtoproj</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>The “add rendered items to new tracks in project”-checkbox, as set in the Render to File-dialog.<br />
-It’s an integer</p>
+&nbsp;<a href="#projrenderaddtoproj"><b>projrenderaddtoproj</b></a><br><br><table style="width:100%;"><tr><td><u>Description:</u></td></tr><tr><td style="vertical-align:top; padding-left:4%;"><p>The “add rendered items to new tracks in project”-checkbox and “Do not render files that are likely silent”-checkbox, as set in the Render to File-dialog.<br />
+It’s an integer-bitfield</p>
 <blockquote>
-<p>0, the box isn’t checked(no adding)<br />
-1, the box is checked(add the rendered files to the project)</p>
+<p>&amp;1=0, add rendered items to new tracks in project - unchecked &amp;1=1, add rendered items to new tracks in project - checked &amp;2=0, do not render files that are likely silent - unchecked &amp;2=1, do not render files that are likely silent - checked</p>
 </blockquote>
 <p>Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.</p>
 </td></tr></table></divl><hr><a id="projrenderdither"></a>
@@ -5715,7 +5717,8 @@ It is an integer</p>
 3, Stems (selected tracks)<br />
 8, Region render matrix<br />
 32, Selected media items<br />
-256, “Embed stretch markers/transient guides”-checkbox; 0, unchecked; 1, checked</p>
+&amp;256, “Embed stretch markers/transient guides”-checkbox; 0, unchecked; 1, checked<br />
+&amp;512, “Embed Metadata”-checkbox; 0, unchecked; 1, checked &amp;1024, “Take Markers”-checkbox; 0, unchecked; 1, checked</p>
 </blockquote>
 <p>Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.</p>
 </td></tr></table></divl><hr><a id="projripedit"></a>

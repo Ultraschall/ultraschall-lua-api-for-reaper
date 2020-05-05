@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43055.00" author="Meo Mespotine">
+      <version name="43059.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Changelog-Api.txt</source>
@@ -461,6 +461,9 @@
 
 4.1.001 - “The Beatles - I want you(she’s so heavy)”
 
+Kudos to Lokasenna and to Xenakios. Hope you both return at some point
+to the Reaper-community.
+
 readded from earlier development-builds
 
 -   Developer: SetReaScriptConsole_FontStyle - sets the style of the
@@ -518,7 +521,7 @@ Changes from 4.00 to 4.1.001
 -   DeveloperTools: Ultraschall State Inspector - extended number of
     saveslots to 20; didn’t correctly store and load gmem-states from
     the stateslots -> fixed (thanks to lexaproductions)
--   Docs: Reaper-Internals - updated to Reaper 6.09, JS-extension 1.002
+-   Docs: Reaper-Internals - updated to Reaper 6.10, JS-extension 1.002
 -   Docs: Routing_001_Introduction - corrected typo
 -   Docs: ShowMenu - falsely claimed, that y-coordinates on Mac are
     buggy because they are reversed -> corrected
@@ -5974,7 +5977,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1133 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43055 from 04.05.2020 02:47:55).}
+a 1133 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43059 from 05.05.2020 07:22:59).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
@@ -6112,7 +6115,7 @@ Ultraschall API}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b\ab\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
-a 1133 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43055 from 04.05.2020 02:47:55).}
+a 1133 Lua-functions library for Reaper(Ultraschall-API pre-release-version: Build 43059 from 05.05.2020 07:22:59).}
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3
 }
 \par \pard\plain \s0\nowidctlpar{\*\hyphen2\hyphlead2\hyphtrail2\hyphmax0}\cf0\kerning1\hich\af9\langfe2052\dbch\af7\afs24\lang1081\loch\f0\fs24\lang1031{\b0\ab0\rtlch \ltrch\loch\loch\f3

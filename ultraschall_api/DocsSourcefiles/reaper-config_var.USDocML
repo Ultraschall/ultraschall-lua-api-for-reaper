@@ -5699,12 +5699,17 @@
       <slug>miscopts</slug>  
       <title>miscopts</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          Enable 'Preserve pitch when changing rate' for new items-checkbox  
-          It is an integer  
+          Enable "Preserve pitch when changing rate for new items'-checkbox as set in Project Settings -> Advanced, as well as 
+		  "On import of media to project"-dropdownlist as set in Project Settings -> Media
+          It is an integer-bitfield
           
-           >0, checked  
-           >1, unchecked  
-            
+           >&1=0, "Preserve pitch when changing rate" - checked
+           >&1=1, "Preserve pitch when changing rate" - unchecked 
+		   >&2 and &4 "On import of media to project"-dropdownlist
+		    
+			>> 0 0, Use global preference
+			>> 1 0, Copy media to project path
+			>> 0 1, Do not copy media to project path
                     
           Stored in reaper.ini under the same name in the section REAPER.  
             
@@ -8329,11 +8334,14 @@
       <slug>projrenderaddtoproj</slug>  
       <title>projrenderaddtoproj</title>  
       <description markup_type="markdown" markup_version="1.0.1" indent="default">  
-          The "add rendered items to new tracks in project"-checkbox, as set in the Render to File-dialog.  
-          It's an integer  
+          The "add rendered items to new tracks in project"-checkbox and "Do not render files that are likely silent"-checkbox, as set in the Render to File-dialog.  
+          It's an integer-bitfield
           
-           >0, the box isn't checked(no adding)  
-           >1, the box is checked(add the rendered files to the project)  
+           >&1=0, add rendered items to new tracks in project - unchecked
+		   >&1=1, add rendered items to new tracks in project - checked
+		   >&2=0, do not render files that are likely silent - unchecked
+		   >&2=1, do not render files that are likely silent - checked
+		   
            
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  
@@ -8516,7 +8524,10 @@
            >3, Stems (selected tracks)  
            >8, Region render matrix  
            >32, Selected media items  
-           >256, "Embed stretch markers/transient guides"-checkbox; 0, unchecked; 1, checked  
+           >&256, "Embed stretch markers/transient guides"-checkbox; 0, unchecked; 1, checked  
+		   >&512, "Embed Metadata"-checkbox; 0, unchecked; 1, checked
+		   >&1024, "Take Markers"-checkbox; 0, unchecked; 1, checked
+		   
            
           Stored in reaper.ini under the same name in the section REAPER, when Save as default project settings has been clicked.  
       </description>  

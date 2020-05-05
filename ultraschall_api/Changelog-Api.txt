@@ -268,6 +268,8 @@ TODO!! buggy function
 
 ### 4.1.001 - "The Beatles - I want you(she's so heavy)"
 
+Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Reaper-community.
+
 #### readded from earlier development-builds
    - Developer: SetReaScriptConsole_FontStyle - sets the style of the font in the ReaConsole
    - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
@@ -296,7 +298,7 @@ TODO!! buggy function
    - API: GetApiVersion - updated docs to reflect the current behavior
    - DeveloperTools: ultraschall_Add_Developertools_To_Reaper.lua - weren't installed using this action -> fixed
    - DeveloperTools: Ultraschall State Inspector - extended number of saveslots to 20; didn't correctly store and load gmem-states from the stateslots -> fixed (thanks to lexaproductions)
-   - Docs: Reaper-Internals - updated to Reaper 6.09, JS-extension 1.002
+   - Docs: Reaper-Internals - updated to Reaper 6.10, JS-extension 1.002
    - Docs: Routing_001_Introduction - corrected typo
    - Docs: ShowMenu - falsely claimed, that y-coordinates on Mac are buggy because they are reversed -> corrected
    - FX-Management: CountParmLearn_FXStateChunk - added error-message, when fxid==0, as the first fxid must be 1 or higher(thanks to TonE)
