@@ -8181,13 +8181,13 @@
         <functioncall prog_lang="lua">number value = reaper.GetSetProjectInfo(ReaProject project, string desc, number value, boolean is_set)</functioncall>
         <functioncall prog_lang="python">Float RPR_GetSetProjectInfo(ReaProject project, String desc, Float value, Boolean is_set)</functioncall>
         <requires>
-            Reaper=6.01
+            Reaper=6.10
             Lua=5.3
         </requires>
         <description prog_lang="*">
             Get or set project information.
 
-            RENDER_SETTINGS : &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items, &amp;64=selected media items via master
+            RENDER_SETTINGS : &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items, &amp;64=selected media items via master, &amp;256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), &amp;1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master)
             RENDER_BOUNDSFLAG : 0=custom time bounds, 1=entire project, 2=time selection, 3=all project regions, 4=selected media items, 5=selected project regions
             RENDER_CHANNELS : number of channels in rendered file
             RENDER_SRATE : sample rate of rendered file (or 0 for project sample rate)
@@ -8201,13 +8201,13 @@
             PROJECT_SRATE_USE : set to 1 if project samplerate is used
         </description>
         <retvals>
-            number value -
+            number value - the new/current value set with this attribute
         </retvals>
         <parameters>
-            ReaProject project -
-            string desc - 
-            number value - 
-            boolean is_set -
+            ReaProject project -the project, whos project settings you want to get/set; 0, for the current project
+            string desc - the attribute you want to get/set, like RENDER_CHANNELS, PROJECT_SRATE, RENDER_SETTINGS, etc
+            number value - if is_set==true, this is the new value to set; if is_set==false, set this to 0
+            boolean is_set - true, set a new value; false, get the current value
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>
@@ -8235,15 +8235,39 @@
             RECORD\_PATH: recording directory -- may be blank or a relative path, to get the effective path see [GetProjectPathEx](#GetProjectPathEx)
             RENDER\_FILE: render directory
             RENDER\_PATTERN: render file name (may contain wildcards)
-			ID3 album name metadata: Uses common ID3-Tagcodes like TALB(album), TPE1(Artist), etc. Just refer to the official docs: [https://id3.org/id3v2.3.0#Declared_ID3v2_frames](https://id3.org/id3v2.3.0#Declared_ID3v2_frames).
-			To get album tag, use "ID3:TALB", to set album tag, use "ID3:TALB|my album name".
-			RENDER\_TARGETS : semicolon separated list of files that would be written if the project is rendered using the most recent render settings
+			RENDER\_TARGETS: semicolon separated list of files that would be written if the project is rendered using the most recent render settings
             RENDER\_FORMAT: base64-encoded sink configuration (see project files, etc). Callers can also pass a simple 4-byte string (non-base64-encoded), to use default settings for that sink type.
             RENDER\_FORMAT2: base64-encoded secondary sink configuration. Callers can also pass a simple 4-byte string (non-base64-encoded), e.g. "evaw" or "l3pm", to use default settings for that sink type, or "" to disable secondary render.
             see [render-code-documentation](render-codes-decoded-base64-strings.txt) for how the unencoded RENDER_FORMAT-string is structured.
-            
+
             To just use the 4-byte-string, you can use: 
             "evaw" for wave, "ffia" for aiff, " osi" for audio-cd, " pdd" for ddp, "calf" for flac, "l3pm" for mp3, "vggo" for ogg, "SggO" for Opus, "PMFF" for FFMpeg-video, "FVAX" for MP4Video/Audio on Mac, " FIG" for Gif, " FCL" for LCF, "kpvw" for wavepack            
+            
+            RENDER_METADATA: get or set the metadata saved with the project (not metadata embedded in project media). Example, ID3 album name metadata: Uses common ID3-tagcodes like TALB(album), TPE1(Artist), etc. 
+			To get album tag, use "ID3:TALB", to set album tag, use "ID3:TALB|my album name".
+			Supported tags-codes are: TIT2(Title), TPE1(Artist), TPE2(Albumartist), TALB(Album), TRCK(Track), TCON(Genre), TYER(Year), TDRC(Recording time: YYYY-MM-DD), TKEY(Key), TBPM(Tempo), TSRC(International Standard Recording Code), COMM(Comment), COMM_LANG(Comment language), APIC_TYPE(Image type), APIC_DESC(Image description), APIC_FILE(Image file)
+			APIC_TYPE can have be of the following:
+            0: Other
+            1: 32x32 pixel file icon (PNG only)
+            2: Other file icon
+            3: Cover (front)
+            4: Cover (back)
+            5: Leaflet page
+            6: Media
+            7: Lead artist/Lead Performer/Solo
+            8: Artist/Performer
+            9: Conductor
+            10: Band/Orchestra
+            11: Composer
+            12: Lyricist/Text writer
+            13: Recording location
+            14: During recording
+            15: During performance
+            16: Movie/video screen capture
+            17: A bright colored fish
+            18: Illustration
+            19: Band/Artist logotype
+            20: Publisher/Studiotype
         </description>
         <retvals>
             boolean retval - true, value can be set/get; false, value can't be set/get
