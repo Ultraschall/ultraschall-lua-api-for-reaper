@@ -266,7 +266,7 @@ TODO!! buggy function
 
 ## Ultraschall Framework - Changelog
 
-### 4.1.001 - "The Beatles - I want you(she's so heavy)"
+### 4.1.001 - "Radiohead - Spectre"
 
 Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Reaper-community.
 
@@ -278,9 +278,9 @@ Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Re
    - RenderManagement: GetProject_RenderOutputPath - gets the render-output-path
    - RenderManagement: ResolveRenderPattern - resolves the render-pattern into its actual filename
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
-   - Web Interface: WebInterface_GetInstalledInterfaces - returns all installed webinterfaces(webrc) of the current Reaper installation, custom and Reaper-defaults
 
 #### New features in 4.1.001   
+   - Actions: ActionsList\_GetSelectedActions - gets the selected actions from the opened Action List(prototype code provided by Edgemeal. Thank you!)
    - Automation Items: AutomationItems_GetAll - returns all automation-items of the current project
    - Automation Items: AutomationItem_Delete - deletes an automation-item, including the option of retaining the envelope-points
    - Envelopes: GetAllTakeEnvelopes - returns all TakeEnvelopes in the current project
@@ -291,8 +291,11 @@ Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Re
    - MediaItems: MediaItems\_Outtakes_GetAllItems - gets all outtakes-items stored in the outtakes-vault
    - MediaItems: MediaItems\_Outtakes_InsertAllItems - inserts all outtakes-items stored in the outtakes-vault into a project
    - ProjectManagement: IsTimeSelectionActive - returns, if there's a time-selection(requested by tompad)
+   - Track Management: CollapseTrackHeight - collapses the height of a track to the minimum height, as defined by the theme
    - Track Management: GetTrackByTrackName - search tracknames follwing a certain pattern or for a certain name
-   - Track Management: SetTrack_LastTouched - sets a track to be last-touched track
+   - Track Management: SetTrack\_LastTouched - sets a track to be last-touched track
+   - Track Management: SetTrack\_Trackheight\_Force - sets the trackheight of a track and allows setting heights beyond the limitations set by the theme
+   - Web Interface: WebInterface_GetInstalledInterfaces - returns all installed webinterfaces(webrc) of the current Reaper installation, custom and Reaper-defaults
    
 #### Changes from 4.00 to 4.1.001
    - API: GetApiVersion - updated docs to reflect the current behavior

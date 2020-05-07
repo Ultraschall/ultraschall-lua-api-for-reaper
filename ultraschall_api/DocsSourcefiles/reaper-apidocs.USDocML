@@ -8188,6 +8188,7 @@
             Get or set project information.
 
             RENDER_SETTINGS : &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items, &amp;64=selected media items via master, &amp;256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), &amp;1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master)
+            OGG, OPUS and FLAC support embedding of tempoinformation via metadata, settable using [GetSetProjectInfo_String](#GetSetProjectInfo_String).
             RENDER_BOUNDSFLAG : 0=custom time bounds, 1=entire project, 2=time selection, 3=all project regions, 4=selected media items, 5=selected project regions
             RENDER_CHANNELS : number of channels in rendered file
             RENDER_SRATE : sample rate of rendered file (or 0 for project sample rate)
@@ -14866,7 +14867,7 @@
             I_MIDIHWOUT : int * : track midi hardware output index, &lt;0=disabled, low 5 bits are which channels (0=all, 1-16), next 5 bits are output device index (0-31)
             I_PERFFLAGS : int * : track performance flags, &1=no media buffering, &2=no anticipative FX
             I_CUSTOMCOLOR : int * : custom color, OS dependent color|0x100000 (i.e. ColorToNative(r,g,b)|0x100000). If you do not |0x100000, then it will not be used, but will store the color.
-            I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels
+            I_HEIGHTOVERRIDE : int * : custom height override for TCP window, 0 for none, otherwise size in pixels(use [TrackList_AdjustWindows](#TrackList_AdjustWindows) to update TCP after this.
             B_HEIGHTLOCK : bool * : track height lock (must set I_HEIGHTOVERRIDE before locking)
             D_VOL : double * : trim volume of track, 0=-inf, 0.5=-6dB, 1=+0dB, 2=+6dB, etc
             D_PAN : double * : trim pan of track, -1..1
@@ -19697,10 +19698,10 @@
             Lua=5.3
         </requires>
         <description prog_lang="*">
-            
+            Updates the TCP and optionally the MCP. Helpful, when setting a new trackheight using I_HEIGHTOVERRIDE in [SetMediaTrackInfo_Value](#SetMediaTrackInfo_Value).
         </description>
         <parameters>
-            isMinor - 
+            isMinor - false, updates only TCP; true, updates TCP and MCP
         </parameters>
         <target_document>Reaper_Api_Documentation</target_document>
         <source_document>reaper-apidocs.USDocML</source_document>

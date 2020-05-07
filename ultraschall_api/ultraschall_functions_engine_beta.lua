@@ -1,7 +1,7 @@
 --[[
 ################################################################################
 # 
-# Copyright (c) 2014-2019 Ultraschall (http://ultraschall.fm)
+# Copyright (c) 2014-2020 Ultraschall (http://ultraschall.fm)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -2057,5 +2057,186 @@ function ultraschall.IsTimeSigmarkerAtPosition(position, position_mode)
   end
   return false
 end
+
+function ultraschall.CollapseTrackHeight(tracknumber)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>CollapseTrackHeight</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.CollapseTrackHeight(integer track)</functioncall>
+  <description>
+    Collapses the height of a track to the minimum height as set by the theme
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, collapsing was successful; false, collapsing was not successful
+  </retvals>
+  <parameters>
+    integer track - the track, which you want to collapse in height
+  </parameters>
+  <chapter_context>
+    Track Management
+	Set Track States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManagement_Module.lua</source_document>
+  <tags>track management, set, collapse, trackheight</tags>
+</US_DocBloc>
+--]]
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("CollapseTrackHeight", "tracknumber", "must be an integer", -1) return false end
+  if tracknumber<0 then ultraschall.AddErrorMessage("CollapseTrackHeight", "tracknumber", "must be bigger 0 for master track for 1 and higher for regular tracks", -2) return false end
+  local track
+  if tracknumber==0 then track=reaper.GetMasterTrack(0) else
+    track=reaper.GetTrack(0,tracknumber-1)
+  end
+  if track==nil then ultraschall.AddErrorMessage("CollapseTrackHeight", "tracknumber", "no such track", -5) return false end
+  local lockstate = reaper.GetMediaTrackInfo_Value(track, "B_HEIGHTLOCK", 0) -- get current lockstate
+  reaper.SetMediaTrackInfo_Value(track, "B_HEIGHTLOCK", 0) -- unlock track
+  reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", 1) -- set new height
+  reaper.TrackList_AdjustWindows(false) -- update TCP
+  reaper.SetMediaTrackInfo_Value(track, "B_HEIGHTLOCK", lockstate) -- restore lockstate of track
+  return true
+end
+
+--A=ultraschall.CollapseTrack(1)
+
+function ultraschall.SetTrack_Trackheight_Force(tracknumber, trackheight)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>SetTrack_Trackheight_Force</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval = ultraschall.SetTrack_Trackheight_Force(integer track, integer trackheight)</functioncall>
+  <description>
+    Sets the trackheight of a track. Forces trackheight beyond limits set by the theme.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, collapsing was successful; false, collapsing was not successful
+  </retvals>
+  <parameters>
+    integer track - the track, which you want to set the height of
+	integer trackheigt - the trackheight in pixels, 0 and higher
+  </parameters>
+  <chapter_context>
+    Track Management
+	Set Track States
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_TrackManagement_Module.lua</source_document>
+  <tags>track management, set, trackheight, force</tags>
+</US_DocBloc>
+--]]
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("SetTrack_Trackheight_Force", "tracknumber", "must be an integer", -1) return false end
+  if tracknumber<0 then ultraschall.AddErrorMessage("SetTrack_Trackheight_Force", "tracknumber", "must be bigger 0 for master track for 1 and higher for regular tracks", -2) return false end
+  if math.type(trackheight)~="integer" then ultraschall.AddErrorMessage("SetTrack_Trackheight_Force", "trackheight", "must be an integer", -3) return false end
+  if trackheight<0 then ultraschall.AddErrorMessage("SetTrack_Trackheight_Force", "trackheight", "must be bigger or equal 0", -4) return false end
+  local track
+  if tracknumber==0 then track=reaper.GetMasterTrack(0) else
+    track=reaper.GetTrack(0,tracknumber-1)
+  end
+  if track==nil then ultraschall.AddErrorMessage("SetTrack_Trackheight_Force", "tracknumber", "no such track", -5) return false end
+  local lockstate = reaper.GetMediaTrackInfo_Value(track, "B_HEIGHTLOCK", 0) -- get current lockstate
+  reaper.SetMediaTrackInfo_Value(track, "B_HEIGHTLOCK", 1) -- unlock track
+  reaper.SetMediaTrackInfo_Value(track, "I_HEIGHTOVERRIDE", trackheight) -- set new height
+  reaper.TrackList_AdjustWindows(false) -- update TCP
+  reaper.SetMediaTrackInfo_Value(track, "B_HEIGHTLOCK", lockstate) -- restore lockstate of track
+  return true
+end
+
+--A=ultraschall.SetTrack_Trackheight_Force(1, 2147483586)
+
+function ultraschall.ActionsList_GetSelectedActions()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ActionsList_GetSelectedActions</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+	SWS=2.10.0.1
+	JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>integer num_found_actions, integer sectionID, string sectionName, table selected_actions, table CmdIDs, table ToggleStates = ultraschall.ActionsList_GetSelectedActions()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+	returns the selected entries from the actionlist, when opened.
+	
+	The order of the tables of found actions, ActionCommandIDs and ToggleStates is the same in all of the three tables.
+	They also reflect the order of userselection in the ActionList itself from top to bottom of the ActionList.
+	
+	returns -1 in case of an error
+  </description>
+  <retvals>
+	integer num_found_actions - the number of selected actions; -1, if not opened
+	integer sectionID - the id of the section, from which the selected actions are from
+	string sectionName - the name of the selected section
+	table selected_actions - the texts of the found actions as a handy table
+	table CmdIDs - the ActionCommandIDs of the found actions as a handy table; all of them are strings, even the numbers, but can be converted using Reaper's own function reaper.NamedCommandLookup
+	table ToggleStates - the current toggle-states of the selected actions; 1, on; 0, off; -1, no such toggle state available
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Documentation</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, get, action, actionlist, sections, selected, toggle states, commandids, actioncommandid</tags>
+</US_DocBloc>
+--]]
+  local hWnd_action = ultraschall.GetActionsHWND()
+  if hWnd_action==nil then ultraschall.AddErrorMessage("ActionsList_GetSelectedActions", "", "Action-List-Dialog not opened", -1) return -1 end
+  local hWnd_LV = reaper.JS_Window_FindChildByID(hWnd_action, 1323)
+  local combo = reaper.JS_Window_FindChildByID(hWnd_action, 1317)
+  local sectionName = reaper.JS_Window_GetTitle(combo,"") -- save item text to table
+  local sectionID =  reaper.JS_WindowMessage_Send( combo, "CB_GETCURSEL", 0, 0, 0, 0 )
+
+  -- get selected count & selected indexes
+  local sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(hWnd_LV)
+
+  -- get the selected action-texts
+  local selected_actions = {}
+  local i = 0
+  for index in string.gmatch(sel_indexes, '[^,]+') do
+    i = i + 1
+    local desc = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 1)--:gsub(".+: ", "", 1)
+    selected_actions[i] = desc
+  end
+  
+  -- find the cmd-ids
+  local temptable={}
+  for a=1, i do
+    temptable[selected_actions[a]]=selected_actions[a]
+  end
+  
+  -- get command-ids of the found texts
+  for aaa=0, 66000 do
+    local Retval, Name = reaper.CF_EnumerateActions(sectionID, aaa, "")
+    if temptable[Name]~=nil then    
+      temptable[Name]=Retval
+    end
+    if Retval==0 then break end    
+  end
+
+  -- get ActionCommandIDs and toggle-states of the found actions
+  local CmdIDs={}
+  local ToggleStates={}
+  for a=1, i do
+    CmdIDs[a]=reaper.ReverseNamedCommandLookup(temptable[selected_actions[a]])
+    if CmdIDs[a]==nil then CmdIDs[a]=tostring(temptable[selected_actions[a]]) end
+    ToggleStates[a]=reaper.GetToggleCommandStateEx(sectionID, temptable[selected_actions[a]])
+  end
+
+  return i, sectionID, sectionName, selected_actions, CmdIDs, ToggleStates
+end
+
+--A,B,C,D,E,F,G = ultraschall.ActionsList_GetSelectedActions()
 
 ultraschall.ShowLastErrorMessage()

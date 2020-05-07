@@ -40,7 +40,7 @@ Ultraschall API Changelog
     </div>
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
-<h3>4.1.001 - "The Beatles - I want you(she's so heavy)"</h3>
+<h3>4.1.001 - "Radiohead - Spectre"</h3>
 <p>Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Reaper-community.</p>
 <h4>readded from earlier development-builds</h4>
 <ul>
@@ -51,10 +51,10 @@ Ultraschall API Changelog
 <li>RenderManagement: GetProject_RenderOutputPath - gets the render-output-path</li>
 <li>RenderManagement: ResolveRenderPattern - resolves the render-pattern into its actual filename</li>
 <li>Subtitles: ReadSubtitles_VTT - imports a webvtt-subtitlefile</li>
-<li>Web Interface: WebInterface_GetInstalledInterfaces - returns all installed webinterfaces(webrc) of the current Reaper installation, custom and Reaper-defaults</li>
 </ul>
 <h4>New features in 4.1.001</h4>
 <ul>
+<li>Actions: ActionsList_GetSelectedActions - gets the selected actions from the opened Action List(prototype code provided by Edgemeal. Thank you!)</li>
 <li>Automation Items: AutomationItems_GetAll - returns all automation-items of the current project</li>
 <li>Automation Items: AutomationItem_Delete - deletes an automation-item, including the option of retaining the envelope-points</li>
 <li>Envelopes: GetAllTakeEnvelopes - returns all TakeEnvelopes in the current project</li>
@@ -65,8 +65,11 @@ Ultraschall API Changelog
 <li>MediaItems: MediaItems_Outtakes_GetAllItems - gets all outtakes-items stored in the outtakes-vault</li>
 <li>MediaItems: MediaItems_Outtakes_InsertAllItems - inserts all outtakes-items stored in the outtakes-vault into a project</li>
 <li>ProjectManagement: IsTimeSelectionActive - returns, if there's a time-selection(requested by tompad)</li>
+<li>Track Management: CollapseTrackHeight - collapses the height of a track to the minimum height, as defined by the theme</li>
 <li>Track Management: GetTrackByTrackName - search tracknames follwing a certain pattern or for a certain name</li>
 <li>Track Management: SetTrack_LastTouched - sets a track to be last-touched track</li>
+<li>Track Management: SetTrack_Trackheight_Force - sets the trackheight of a track and allows setting heights beyond the limitations set by the theme</li>
+<li>Web Interface: WebInterface_GetInstalledInterfaces - returns all installed webinterfaces(webrc) of the current Reaper installation, custom and Reaper-defaults</li>
 </ul>
 <h4>Changes from 4.00 to 4.1.001</h4>
 <ul>
