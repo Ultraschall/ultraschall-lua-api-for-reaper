@@ -5,46 +5,6 @@
     
     For 4.01betas:  
 
-- by Amagalma    
-     Function to get all selected actions from Action List in a table
-In case anyone may need it:
-
-(Requires JS_ReaScriptAPI)
-
-Code:
--- (ensure in your script that Action List is open first)
-
--- variation of Edgemeal's script
-function GetSelectedActionsFromActionList()
-  local hWnd_action = reaper.JS_Window_Find("Actions", true)
-  if not hWnd_action then return end
-  local hWnd_LV = reaper.JS_Window_FindChildByID(hWnd_action, 1323)
-  local combo = reaper.JS_Window_FindChildByID(hWnd_action, 1317)
-  local sectionName = reaper.JS_Window_GetTitle(combo,"") -- save item text to table
-  local sectionID =  reaper.JS_WindowMessage_Send( combo, "CB_GETCURSEL", 0, 0, 0, 0 )
-  if reaper.JS_ListView_GetItemText(hWnd_LV, 0, 3) == "" then
-    reaper.MB("Please, enable 'Show action IDs' in Actions list", "Right-click Action List window", 0)
-    return
-  end
-  -- get selected count & selected indexes
-  local sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(hWnd_LV)
-  if sel_count == 0 then
-    reaper.MB("Please select one or more actions.", "No actions are selected", 0)
-    return
-  end
-  local selected_actions = {}
-  local i = 0
-  for index in string.gmatch(sel_indexes, '[^,]+') do
-    i = i + 1
-    local desc = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 1):gsub(".+: ", "", 1)
-    local cmd = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 3)
-    selected_actions[i] = {cmd = cmd, name = desc:gsub("(.*)(%.%a+)$", "%1")}
-  end
-  return selected_actions, sectionID, sectionName
-end
-
-selected_actions = GetSelectedActionsFromActionList()
-
     GetProjectLength - doesn't return the correct projectlength, if reaper.GetProjectLength()<recposition, as items in the state of being recorded don't count into it.
                        in that case: when rec==true, anytrackarmed==true and Playposition>GetProjectLength, return the Editcursorposition instead.
                        optional parameter needed, which allows toggling the old GetProjectLength and the new one with the recording management, to keep old scripts working
@@ -63,8 +23,6 @@ selected_actions = GetSelectedActionsFromActionList()
     
     FX-Names with Reaper's own API-functions have three different types on Mac, for Studiolink On Air.
     I need functions, who take care of that in the API.
-    
-    Na gfx.getdropfile ist ja cool. Aber Feature-Request: die x/y Koordinaten wenn losgelassen wurde(rstockm)
     
     GetAllMarkersBetween/GetAllRegionsBetween - if startposition/endposition==nil then start/endposition=0/GetProjectLength
 
@@ -231,6 +189,7 @@ selected_actions = GetSelectedActionsFromActionList()
 
       TODO!!  - functions to setup the LICECAP-settings, before running it; a function to run LiceCap
             set filename with .gif or .lcf to set the default filetype used!
+			Include LiceCap into Ultraschall-API, so you can use this version.
       TODO!!  - functions for native-colorstuff like, gradients, hue
             as well as the same functions for a colorarray, which has a number of colors inside of it, that can be contrasted, gradiented, etc
             they shall support gfx.init-color-values as output(boolean gfx.init-colorvalues (0 to 1)
@@ -285,6 +244,7 @@ Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Re
    - Automation Items: AutomationItem_Delete - deletes an automation-item, including the option of retaining the envelope-points
    - Envelopes: GetAllTakeEnvelopes - returns all TakeEnvelopes in the current project
    - Envelopes: GetAllTrackEnvelopes - returns all TrackEnvelopes in the current project
+   - GFX-Management: GFX_GetDropFile - gets the last dropped files from the gfx-window, including the drop-coordinates(requested by rstockm)
    - Helperfunctions: EscapeMagicCharacters_String - escapes the magic-characters, used for pattern matching, from a string, so it can be used without triggering "magic"-pattern-matching-features
    - Marker Management: IsTimeSigmarkerAtPosition - returns, if at a position/measure is a time-signature marker(requested by tompad)
    - MediaItems: MediaItems\_Outtakes_AddSelectedItems - adds selected items into the outtakes-vault; this allows you to store outtakes of recordings easily
@@ -302,6 +262,7 @@ Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Re
    - DeveloperTools: ultraschall_Add_Developertools_To_Reaper.lua - weren't installed using this action -> fixed
    - DeveloperTools: Ultraschall State Inspector - extended number of saveslots to 20; didn't correctly store and load gmem-states from the stateslots -> fixed (thanks to lexaproductions)
    - Docs: Reaper-Internals - updated to Reaper 6.10, JS-extension 1.002
+   - Docs: Render-Presets - updated to Reaper 6.10
    - Docs: Routing_001_Introduction - corrected typo
    - Docs: ShowMenu - falsely claimed, that y-coordinates on Mac are buggy because they are reversed -> corrected
    - FX-Management: CountParmLearn_FXStateChunk - added error-message, when fxid==0, as the first fxid must be 1 or higher(thanks to TonE)
@@ -309,7 +270,14 @@ Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Re
    - Markers: CountNormalMarkers_NumGap - had inner variables exposed -> fixed (thanks to fernsehmuell)
    - MediaItems: GetAllSelectedMediaItems - returns now an MediaItemStateChunkArray as well
    - MediaItems: IsValidMediaItemStateChunkArray - didn't always return true, when MediaItemStateChunkArrays were passed over it -> fixed
-   - Render: ApplyRenderTable_Project - accidentally reversed true and false in parameter OnlyMonoMedia -> fixed (thanks to aurelien)
+   - Project Management: GetProject\_AddMediaToProjectAfterRender - added "do not likely silently files"-setting
+   - Project Management: GetProject\_RenderStems - added Embed take markers-setting
+   - Project Management: SetProject\_AddMediaToProjectAfterRender - added "do not likely silently files"-setting
+   - Project Management: SetProject\_RenderStems - added Embed take markers-setting
+   - Render: ApplyRenderTable\_Project - supports new Embed Take-markers and no silent render-features; improved Embed stretch-markers support; accidentally reversed true and false in parameter OnlyMonoMedia -> fixed (thanks to aurelien)
+   - Render: GetRenderTable\_Project - supports new Embed Take-markers and no silent render-features; improved Embed stretch-markers support
+   - Render: GetRenderTable\_ProjectFile - supports new Embed Take-markers and no silent render-features; improved Embed stretch-markers support
+   - Render: IsValidRenderTable - supports new Embed Take-markers and no silent render-features; improved Embed stretch-markers support
    - TrackManagement: DeleteTracks_TrackString - didn't correctly delete the right tracks, sometimes throwing Lua-error -> fixed (thanks to aurelien)
    - Ultraschall: IsTrackSoundboard - had inner variable exposed -> fixed
    - Ultraschall: IsTrackStudioLink - had inner variable exposed -> fixed

@@ -2898,7 +2898,7 @@ function ultraschall.CountNormalMarkers_NumGap()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountNormalMarkers_NumGap</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.52
     Lua=5.3
   </requires>

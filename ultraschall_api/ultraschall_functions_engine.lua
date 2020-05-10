@@ -114,7 +114,7 @@ function ultraschall.CountProjectTabs()
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, projectfiles, count, projecttab</tags>
 </US_DocBloc>
@@ -155,7 +155,7 @@ function ultraschall.GetProject_Tabs()
     Project-Management
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, projectfiles, count, projecttab, project, filename</tags>
 </US_DocBloc>
@@ -185,7 +185,7 @@ function ultraschall.GetApiVersion()
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>GetApiVersion</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.40
     Lua=5.3
   </requires>
@@ -205,7 +205,7 @@ function ultraschall.GetApiVersion()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>version,versionmanagement</tags>
 </US_DocBloc>
@@ -275,7 +275,7 @@ function ultraschall.SuppressErrorMessages(flag)
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, suppress, unsuppress, message</tags>
 </US_DocBloc>
@@ -321,7 +321,7 @@ function ultraschall.AddErrorMessage(functionname, parametername, errormessage, 
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, add, message</tags>
 </US_DocBloc>
@@ -380,7 +380,7 @@ end
   <chapter_context>
     API-Variables
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>api, variable, starttime</tags>
 </US_DocBloc>
@@ -401,7 +401,7 @@ end
   <chapter_context>
     API-Variables
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>api, variable, temppath</tags>
 </US_DocBloc>
@@ -422,7 +422,7 @@ end
   <chapter_context>
     API-Variables
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>api, variable, euro, currency, symbol</tags>
 </US_DocBloc>
@@ -446,7 +446,7 @@ end
     Developer
     Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>help,api,test, developer</tags>
 </US_DocBloc>
@@ -490,7 +490,7 @@ function ultraschall.ToggleIDE_Errormessages(togglevalue)
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, toggle, message, ide</tags>
 </US_DocBloc>
@@ -538,7 +538,7 @@ function ultraschall.ReadErrorMessage(errornumber)
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, get, message</tags>
 </US_DocBloc>
@@ -587,7 +587,7 @@ function ultraschall.DeleteErrorMessage(errornumber)
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, delete, message</tags>
 </US_DocBloc>
@@ -632,7 +632,7 @@ function ultraschall.GetLastErrorMessage()
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, get, message</tags>
 </US_DocBloc>
@@ -673,7 +673,7 @@ function ultraschall.DeleteLastErrorMessage()
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, delete, message</tags>
 </US_DocBloc>
@@ -707,7 +707,7 @@ function ultraschall.DeleteAllErrorMessages()
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, delete, message</tags>
 </US_DocBloc>
@@ -754,7 +754,7 @@ function ultraschall.GetLastErrorMessage2(count,setread)
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, get, message</tags>
 </US_DocBloc>
@@ -807,7 +807,7 @@ function ultraschall.CountErrorMessages()
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, count, message</tags>
 </US_DocBloc>
@@ -832,7 +832,7 @@ function ultraschall.ShowLastErrorMessage()
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, show, message</tags>
 </US_DocBloc>
@@ -872,7 +872,7 @@ end
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, show, message</tags>
 </US_DocBloc>
@@ -903,7 +903,7 @@ end
   <chapter_context>
     API-Variables
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>api, variable, separator</tags>
 </US_DocBloc>
@@ -925,7 +925,7 @@ end
   <chapter_context>
     API-Variables
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>api, variable, path, folder</tags>
 </US_DocBloc>
@@ -946,7 +946,7 @@ end
   <chapter_context>
     API-Variables
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>api, variable, install, path, folder</tags>
 </US_DocBloc>
@@ -1039,7 +1039,7 @@ function ultraschall.GetLastErrorMessage_Funcname(functionname)
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, get, last error message, function</tags>
 </US_DocBloc>
@@ -1089,7 +1089,7 @@ function ultraschall.CountErrorMessage_Funcname(functionname)
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, count, error messages, function</tags>
 </US_DocBloc>
@@ -1134,7 +1134,7 @@ function ultraschall.GetErrorMessage_Funcname(functionname, index)
     Developer
     Error Handling
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>developer, error, get, index, error message, function</tags>
 </US_DocBloc>
@@ -1182,7 +1182,7 @@ function ultraschall.ShowErrorMessagesInReascriptConsole(setting)
       Developer
       Error Handling
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
+    <target_document>US_Api_Functions</target_document>
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>developer, error, show, message, reascript, console</tags>
   </US_DocBloc>
@@ -1357,7 +1357,7 @@ function ultraschall.WinterlySnowflakes(toggle, falling_speed, number_snowflakes
   <chapter_context>
     Miscellaneous
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>user interface, miscellaneous, winterly snowflakes</tags>
 </US_DocBloc>
@@ -1415,7 +1415,7 @@ function PingMe(message, outputtarget)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, debug, display message, traceback, linenumber, ping</tags>
 </US_DocBloc>
@@ -1470,7 +1470,7 @@ function print2(...)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, print, messagebox</tags>
 </US_DocBloc>
@@ -1508,7 +1508,7 @@ function print_alt(...)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, print, console</tags>
 </US_DocBloc>
@@ -1547,7 +1547,7 @@ function print(...)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, print, console</tags>
 </US_DocBloc>
@@ -1593,7 +1593,7 @@ function toboolean(value)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, string, convert, boolean</tags>
 </US_DocBloc>
@@ -1634,7 +1634,7 @@ function print3(...)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, print, clipboard</tags>
 </US_DocBloc>
@@ -1674,7 +1674,7 @@ function print_update(...)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunctions, print, clear, update, console</tags>
 </US_DocBloc>
@@ -1710,7 +1710,7 @@ function ultraschall.CheckActionCommandIDFormat(aid)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>command, commandid, actioncommandid, check, validity</tags>
 </US_DocBloc>
@@ -1749,7 +1749,7 @@ function ultraschall.RunCommand(actioncommand_id)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>command,commandid,actioncommandid,action,run</tags>
 </US_DocBloc>
@@ -1795,7 +1795,7 @@ function ultraschall.ConvertStringToBits(message)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, convert, string, to bits</tags>
 </US_DocBloc>
@@ -1842,7 +1842,7 @@ function ultraschall.ConvertBitsToString(bitarray)
     API-Helper functions
     Data Manipulation
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helper functions, convert, to string, bits</tags>
 </US_DocBloc>
@@ -1899,7 +1899,7 @@ function ultraschall.deprecated(functionname)
     <chapter_context>
       API-Helper functions
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
+    <target_document>US_Api_Functions</target_document>
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>helperfunctions, deprecated, show, status</tags>
   </US_DocBloc>
@@ -1946,7 +1946,7 @@ function ultraschall.FloatCompare(a,b,precision)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunction, compare, precision, float</tags>
 </US_DocBloc>
@@ -1977,7 +1977,7 @@ function ToClip(toclipstring)
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunction, set, string, to clipboard</tags>
 </US_DocBloc>
@@ -2005,7 +2005,7 @@ function FromClip()
   <chapter_context>
     API-Helper functions
   </chapter_context>
-  <target_document>US_Api_Documentation</target_document>
+  <target_document>US_Api_Functions</target_document>
   <source_document>ultraschall_functions_engine.lua</source_document>
   <tags>helperfunction, get, string, from clipboard</tags>
 </US_DocBloc>

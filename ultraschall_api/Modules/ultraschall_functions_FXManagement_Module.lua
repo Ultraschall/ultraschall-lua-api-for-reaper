@@ -2129,7 +2129,7 @@ function ultraschall.CountParmLearn_FXStateChunk(FXStateChunk, fxid)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>CountParmLearn_FXStateChunk</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.979
     Lua=5.3
   </requires>

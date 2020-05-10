@@ -8187,7 +8187,7 @@
         <description prog_lang="*">
             Get or set project information.
 
-            RENDER_SETTINGS : &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items, &amp;64=selected media items via master, &amp;256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), &amp;1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master)
+            RENDER_SETTINGS : &amp;(1|2)=0:master mix, &amp;1=stems+master mix, &amp;2=stems only, &amp;4=multichannel tracks to multichannel files, &amp;8=use render matrix, &amp;16=tracks with only mono media to mono files, &amp;32=selected media items, &amp;64=selected media items via master, &amp; 128=Selected tracks via master, &amp;256=Stretch markers/transient guide-checkbox(Only with WAV/AIFF and Source=Selected media items/Selected media items via master), &amp;1024=Take markers-checkbox(Only with WAV and Source=Selected media items/Selected media items via master)
             OGG, OPUS and FLAC support embedding of tempoinformation via metadata, settable using [GetSetProjectInfo_String](#GetSetProjectInfo_String).
             RENDER_BOUNDSFLAG : 0=custom time bounds, 1=entire project, 2=time selection, 3=all project regions, 4=selected media items, 5=selected project regions
             RENDER_CHANNELS : number of channels in rendered file
@@ -8196,7 +8196,7 @@
             RENDER_ENDPOS : render end time when RENDER_BOUNDSFLAG=0
             RENDER_TAILFLAG : apply render tail setting when rendering: &amp;1=custom time bounds, &amp;2=entire project, &amp;4=time selection, &amp;8=all project regions, &amp;16=selected media items, &amp;32=selected project regions
             RENDER_TAILMS : tail length in ms to render (only used if RENDER_BOUNDSFLAG and RENDER_TAILFLAG are set)
-            RENDER_ADDTOPROJ : 1=add rendered files to project
+            RENDER_ADDTOPROJ : &amp;1=add rendered files to project, &amp;2=Do not render files that are likely silent
             RENDER_DITHER : &amp;1=dither, &amp;2=noise shaping, &amp;4=dither stems, &amp;8=noise shaping on stems
             PROJECT_SRATE : samplerate (ignored unless PROJECT_SRATE_USE set)
             PROJECT_SRATE_USE : set to 1 if project samplerate is used

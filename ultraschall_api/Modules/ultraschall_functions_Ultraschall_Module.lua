@@ -90,7 +90,7 @@ function ultraschall.IsTrackSoundboard(tracknumber)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsTrackSoundboard</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.95
     Lua=5.3
   </requires>
@@ -138,7 +138,7 @@ function ultraschall.IsTrackStudioLink(tracknumber)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsTrackStudioLink</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.95
     Lua=5.3
   </requires>
@@ -187,7 +187,7 @@ function ultraschall.IsTrackStudioLinkOnAir(tracknumber)
 <US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
   <slug>IsTrackStudioLinkOnAir</slug>
   <requires>
-    Ultraschall=4.00
+    Ultraschall=4.1
     Reaper=5.95
     Lua=5.3
   </requires>
@@ -1266,7 +1266,7 @@ function ultraschall.Soundboard_PlayFadeIn(playerindex)
       Ultraschall Specific
       Soundboard
     </chapter_context>
-    <target_document>US_Api_Documentation</target_document>
+    <target_document>US_Api_Functions</target_document>
     <source_document>ultraschall_functions_engine.lua</source_document>
     <tags>ultraschall, soundboard, play, fadein</tags>
   </US_DocBloc>
