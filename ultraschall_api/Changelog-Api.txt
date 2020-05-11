@@ -247,6 +247,8 @@ Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Re
    - Envelopes: GetAllTakeEnvelopes - returns all TakeEnvelopes in the current project
    - Envelopes: GetAllTrackEnvelopes - returns all TrackEnvelopes in the current project
    - GFX-Management: GFX_GetDropFile - gets the last dropped files from the gfx-window, including the drop-coordinates(requested by rstockm)
+   - Helperfunctions: Benchmark\_GetStartTime - returns the last starttime of the currently running benchmark-measure(requested by rstockm)
+   - Helperfunctions: Benchmark\_MeasureTime - starts/resets a benchmark-measure(requested by rstockm)
    - Helperfunctions: EscapeMagicCharacters_String - escapes the magic-characters, used for pattern matching, from a string, so it can be used without triggering "magic"-pattern-matching-features
    - Marker Management: IsTimeSigmarkerAtPosition - returns, if at a position/measure is a time-signature marker(requested by tompad)
    - MediaItems: MediaItems\_Outtakes_AddSelectedItems - adds selected items into the outtakes-vault; this allows you to store outtakes of recordings easily
