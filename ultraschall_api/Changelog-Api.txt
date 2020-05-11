@@ -220,17 +220,8 @@
 
 TODO!! buggy function
         the line "reaper.JS_WindowMessage_Send(Textfield, "WM_SETFONT", styles[style] ,0,0,0)" seems to be the problem due WM_SETFONT
-   
-</TODO>
-
-## Ultraschall Framework - Changelog
-
-### 4.1.001 - "Radiohead - Spectre"
-
-Note: Reaper 6.10 has a bug, which prevents simltaneously from setting Add to Project and Do not render files likely silent-checkboxes of the Render to File-dialog. Fixed for later versions.
-
-Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Reaper-community.
-
+		
+		
 #### readded from earlier development-builds
    - Developer: SetReaScriptConsole_FontStyle - sets the style of the font in the ReaConsole
    - LiceCap: SetLiceCapExe - sets the LiceCap-executable, which shall be used by Reaper
@@ -239,6 +230,16 @@ Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Re
    - RenderManagement: GetProject_RenderOutputPath - gets the render-output-path
    - RenderManagement: ResolveRenderPattern - resolves the render-pattern into its actual filename
    - Subtitles: ReadSubtitles\_VTT - imports a webvtt-subtitlefile
+   
+</TODO>
+
+## Ultraschall Framework - Changelog
+
+### 4.1.001 - "Radiohead - Spectre"
+
+Note: Reaper 6.10 has a bug, which prevents simultaneously from setting Add to Project and Do not render files likely silent-checkboxes of the Render to File-dialog. Fixed for later versions.
+
+Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Reaper-community.
 
 #### New features in 4.1.001   
    - Actions: ActionsList\_GetSelectedActions - gets the selected actions from the opened Action List(prototype code provided by Edgemeal. Thank you!)

@@ -2013,6 +2013,135 @@ function FromClip()
   return ultraschall.GetStringFromClipboard_SWS()
 end
 
+function ultraschall.EscapeMagicCharacters_String(sourcestring)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>EscapeMagicCharacters_String</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+    Lua=5.3
+  </requires>
+  <functioncall>string escaped_string = ultraschall.EscapeMagicCharacters_String(string sourcestring)</functioncall>
+  <description>
+    Escapes the magic characters(needed for pattern matching), so the string can be fed as is into string.match-functions.
+	That way, characters like . or - or * etc do not trigger pattern-matching behavior but are used as regular . or - or * etc.
+    
+    returns nil in case of an error
+  </description>
+  <retvals>
+    string escaped_string - the string with all magic characters escaped
+  </retvals>
+  <parameters>
+	string sourcestring - the string, whose magic characters you want to escape for future use
+  </parameters>
+  <chapter_context>
+    API-Helper functions
+	Data Manipulation
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, escape, magic characters</tags>
+</US_DocBloc>
+--]]  
+   if type(sourcestring)~="string" then ultraschall.AddErrorMessage("EscapeMagicCharacters_String", "sourcestring", "must be a string", -1) return nil end
+   return (sourcestring:gsub('%%', '%%%%')
+            :gsub('^%^', '%%^')
+            :gsub('%$$', '%%$')
+            :gsub('%(', '%%(')
+            :gsub('%)', '%%)')
+            :gsub('%.', '%%.')
+            :gsub('%[', '%%[')
+            :gsub('%]', '%%]')
+            :gsub('%*', '%%*')
+            :gsub('%+', '%%+')
+            :gsub('%-', '%%-')
+            :gsub('%?', '%%?'))
+end
+
+function ultraschall.ActionsList_GetSelectedActions()
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>ActionsList_GetSelectedActions</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.05
+	SWS=2.10.0.1
+	JS=0.963
+    Lua=5.3
+  </requires>
+  <functioncall>integer num_found_actions, integer sectionID, string sectionName, table selected_actions, table CmdIDs, table ToggleStates = ultraschall.ActionsList_GetSelectedActions()</functioncall>
+  <description markup_type="markdown" markup_version="1.0.1" indent="default">
+	returns the selected entries from the actionlist, when opened.
+	
+	The order of the tables of found actions, ActionCommandIDs and ToggleStates is the same in all of the three tables.
+	They also reflect the order of userselection in the ActionList itself from top to bottom of the ActionList.
+	
+	returns -1 in case of an error
+  </description>
+  <retvals>
+	integer num_found_actions - the number of selected actions; -1, if not opened
+	integer sectionID - the id of the section, from which the selected actions are from
+	string sectionName - the name of the selected section
+	table selected_actions - the texts of the found actions as a handy table
+	table CmdIDs - the ActionCommandIDs of the found actions as a handy table; all of them are strings, even the numbers, but can be converted using Reaper's own function reaper.NamedCommandLookup
+	table ToggleStates - the current toggle-states of the selected actions; 1, on; 0, off; -1, no such toggle state available
+  </retvals>
+  <chapter_context>
+    API-Helper functions
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>ultraschall_functions_engine.lua</source_document>
+  <tags>helper functions, get, action, actionlist, sections, selected, toggle states, commandids, actioncommandid</tags>
+</US_DocBloc>
+--]]
+  local hWnd_action = ultraschall.GetActionsHWND()
+  if hWnd_action==nil then ultraschall.AddErrorMessage("ActionsList_GetSelectedActions", "", "Action-List-Dialog not opened", -1) return -1 end
+  local hWnd_LV = reaper.JS_Window_FindChildByID(hWnd_action, 1323)
+  local combo = reaper.JS_Window_FindChildByID(hWnd_action, 1317)
+  local sectionName = reaper.JS_Window_GetTitle(combo,"") -- save item text to table
+  local sectionID =  reaper.JS_WindowMessage_Send( combo, "CB_GETCURSEL", 0, 0, 0, 0 )
+
+  -- get selected count & selected indexes
+  local sel_count, sel_indexes = reaper.JS_ListView_ListAllSelItems(hWnd_LV)
+
+  -- get the selected action-texts
+  local selected_actions = {}
+  local i = 0
+  for index in string.gmatch(sel_indexes, '[^,]+') do
+    i = i + 1
+    local desc = reaper.JS_ListView_GetItemText(hWnd_LV, tonumber(index), 1)--:gsub(".+: ", "", 1)
+    selected_actions[i] = desc
+  end
+  
+  -- find the cmd-ids
+  local temptable={}
+  for a=1, i do
+    temptable[selected_actions[a]]=selected_actions[a]
+  end
+  
+  -- get command-ids of the found texts
+  for aaa=0, 66000 do
+    local Retval, Name = reaper.CF_EnumerateActions(sectionID, aaa, "")
+    if temptable[Name]~=nil then    
+      temptable[Name]=Retval
+    end
+    if Retval==0 then break end    
+  end
+
+  -- get ActionCommandIDs and toggle-states of the found actions
+  local CmdIDs={}
+  local ToggleStates={}
+  for a=1, i do
+    CmdIDs[a]=reaper.ReverseNamedCommandLookup(temptable[selected_actions[a]])
+    if CmdIDs[a]==nil then CmdIDs[a]=tostring(temptable[selected_actions[a]]) end
+    ToggleStates[a]=reaper.GetToggleCommandStateEx(sectionID, temptable[selected_actions[a]])
+  end
+
+  return i, sectionID, sectionName, selected_actions, CmdIDs, ToggleStates
+end
+
+--A,B,C,D,E,F,G = ultraschall.ActionsList_GetSelectedActions()
 
 
 

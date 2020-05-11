@@ -5255,3 +5255,159 @@ function ultraschall.GetAllSelectedMediaItemsBetween(startposition, endposition,
   return A,B,C
 end
 
+function ultraschall.MediaItems_Outtakes_AddSelectedItems(TargetProject)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MediaItems_Outtakes_AddSelectedItems</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer number_of_items = ultraschall.MediaItems_Outtakes_AddSelectedItems(ReaProject TargetProject)</functioncall>
+  <description>
+    Adds selected MediaItems to the outtakes-vault of a given project.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer number_of_items - the number of items, added to the outtakes-vault
+  </retvals>
+  <parameters>
+    ReaProject TargetProject - the project, into whose outtakes-vault the selected items shall be added to; 0 or nil, for the current project
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    Outtakes Vault
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+  <tags>mediaitem, add, selected, items, outtakes, vault</tags>
+</US_DocBloc>
+]]  
+  if TargetProject~=0 and TargetProject~=nil and ultraschall.type(TargetProject)~="ReaProject" then ultraschall.AddErrorMessage("MediaItems_Outtakes_AddSelectedItems", "TargetProject", "The target-project must be a valid ReaProject or 0/nil for current project", -1) return -1 end
+  if TargetProject==nil then TargetProject=0 end
+  local count, MediaItemArray, MediaItemStateChunkArray = ultraschall.GetAllSelectedMediaItems()
+  local temp, Value = reaper.GetProjExtState(TargetProject, "Ultraschall_Outtakes", "Count")
+  if math.tointeger(Value)==nil then Value=0 else Value=math.tointeger(Value) end
+  for i=1, count do
+    Value=Value+1
+    reaper.SetProjExtState(TargetProject, "Ultraschall_Outtakes", "Outtake_"..Value, MediaItemStateChunkArray[i])
+  end
+  reaper.SetProjExtState(TargetProject, "Ultraschall_Outtakes", "Count", Value)
+  return Value
+end
+
+--A=ultraschall.MediaItems_Outtakes_AddSelectedItems(0)
+
+function ultraschall.MediaItems_Outtakes_GetAllItems(TargetProject, EachItemsAfterAnother)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MediaItems_Outtakes_GetAllItems</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>integer number_of_items, array MediaItemStateChunkArray = ultraschall.MediaItems_Outtakes_GetAllItems(ReaProject TargetProject, optional boolean EachItemsAfterAnother)</functioncall>
+  <description>
+    Returns all MediaItems stored in the outtakes-vault of a given project.
+    
+    returns -1 in case of an error
+  </description>
+  <retvals>
+    integer number_of_items - the number of items, added to the outtakes-vault
+    array MediaItemStateChunkArray - all the MediaItemStateChunks of the stored MediaItems in the outtakes vault
+  </retvals>
+  <parameters>
+    ReaProject TargetProject - the project, into whose outtakes-vault the selected items shall be added to; 0 or nil, for the current project
+    optional boolean EachItemsAfterAnother - position the MediaItems one after the next, so if you import them, they would be stored one after another
+                                           - true, position the startposition of the MediaItems one after another
+                                           - false, keep old startpositions
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    Outtakes Vault
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+  <tags>mediaitem, get, all, items, outtakes, vault</tags>
+</US_DocBloc>
+]]  
+  if TargetProject~=0 and TargetProject~=nil and ultraschall.type(TargetProject)~="ReaProject" then ultraschall.AddErrorMessage("MediaItems_Outtakes_GetAllItems", "TargetProject", "The target-project must be a valid ReaProject or 0/nil for current project", -1) return -1 end
+  if TargetProject==nil then TargetProject=0 end
+  local temp, Value = reaper.GetProjExtState(TargetProject, "Ultraschall_Outtakes", "Count")
+  if math.tointeger(Value)==nil then Value=0 else Value=math.tointeger(Value) end
+  local temp
+  local MediaItemStateChunkArray={}
+  local TempPosition=0
+  local Length=0
+  for i=1, Value do
+    temp, MediaItemStateChunkArray[i]=reaper.GetProjExtState(TargetProject, "Ultraschall_Outtakes", "Outtake_"..i)
+    if EachItemsAfterAnother==true then
+      Length   = ultraschall.GetItemLength(nil, MediaItemStateChunkArray[i])
+      MediaItemStateChunkArray[i] = ultraschall.SetItemPosition(nil, TempPosition, MediaItemStateChunkArray[i])
+      TempPosition=TempPosition+Length
+    end
+  end
+  return Value, MediaItemStateChunkArray
+end
+
+--B,C=ultraschall.MediaItems_Outtakes_GetAllItems(TargetProject, false)
+
+
+function ultraschall.MediaItems_Outtakes_InsertAllItems(TargetProject, tracknumber, Startposition)
+--[[
+<US_DocBloc version="1.0" spok_lang="en" prog_lang="*">
+  <slug>MediaItems_Outtakes_InsertAllItems</slug>
+  <requires>
+    Ultraschall=4.1
+    Reaper=6.02
+    Lua=5.3
+  </requires>
+  <functioncall>boolean retval, integer number_of_items, array MediaItemArray = ultraschall.MediaItems_Outtakes_InsertAllItems(ReaProject TargetProject, integer tracknumber, number Startposition)</functioncall>
+  <description>
+    Inserts all MediaItems from the outtakes-vault into a certain track, with one item after the other, back to back.
+    
+    returns false in case of an error
+  </description>
+  <retvals>
+    boolean retval - true, adding was successful; false, adding was unsuccessful
+    integer number_of_items - the number of added items
+    array MediaItemArray - all the inserted MediaItems
+  </retvals>
+  <parameters>
+    ReaProject TargetProject - the project, into whose outtakes-vault the selected items shall be added to; 0 or nil, for the current project
+    integer tracknumber - the tracknumber, into which to insert all items from the outtakes-vault
+    number Startposition - the position, at which to insert the first MediaItem; nil, startposition=0
+  </parameters>
+  <chapter_context>
+    MediaItem Management
+    Outtakes Vault
+  </chapter_context>
+  <target_document>US_Api_Functions</target_document>
+  <source_document>Modules/ultraschall_functions_MediaItem_Module.lua</source_document>
+  <tags>mediaitem, insert, all, items, outtakes, vault</tags>
+</US_DocBloc>
+]]  
+  if TargetProject~=0 and TargetProject~=nil and ultraschall.type(TargetProject)~="ReaProject" then ultraschall.AddErrorMessage("MediaItems_Outtakes_InsertAllItems", "TargetProject", "The target-project must be a valid ReaProject or 0/nil for current project", -1) return false end
+  if TargetProject==nil then TargetProject=0 end
+    
+  if math.type(tracknumber)~="integer" then ultraschall.AddErrorMessage("MediaItems_Outtakes_InsertAllItems", "tracknumber", "must be an integer", -2) return false end
+  if tracknumber<0 or reaper.CountTracks(0)<tracknumber then ultraschall.AddErrorMessage("MediaItems_Outtakes_InsertAllItems", "tracknumber", "no such track", -3) return false end
+
+  if Startposition~=nil and type(Startposition)~="number" then ultraschall.AddErrorMessage("MediaItems_Outtakes_InsertAllItems", "Startposition", "must be a number or nil for default-startposition 0", -4) return false end
+  if Startposition==nil then Startposition=0 end
+  
+  local Count, MediaItemStateChunk = ultraschall.MediaItems_Outtakes_GetAllItems(TargetProject, true)
+  local MediaItems={}
+  local Position=Startposition
+  local retval, startposition, endposition
+  for i=1, Count do
+    retval, MediaItems[i], startposition, endposition = ultraschall.InsertMediaItem_MediaItemStateChunk(Position, MediaItemStateChunk[i], reaper.GetTrack(0,tracknumber-1))
+    Position=endposition
+  end  
+  return true, Count, MediaItems
+end
+
+
