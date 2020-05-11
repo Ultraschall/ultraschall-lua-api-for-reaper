@@ -98,6 +98,13 @@ Target_Dir="C:\\Users\\Meo\\Documents\\GitHub\\ultraschall-lua-api-for-reaper\\"
 
 found_dirs, dirs_array, found_files, files_array = ultraschall.GetAllRecursiveFilesAndSubdirectories(SourceDir.."/ultraschall_api")
 
+-- create folders, if not existing
+for i=1, found_dirs do
+  dirs=dirs_array[i]:match("UserPlugins/(.*)")
+  print(Target_Dir..dirs)
+  reaper.RecursiveCreateDirectory(Target_Dir.."/"..dirs,0)
+end
+
 --remove unneeded files:
 for i=found_files, 1, -1 do
     if files_array[i]:match("EventManager_Startup.ini") then table.remove(files_array,i) found_files=found_files-1 end
