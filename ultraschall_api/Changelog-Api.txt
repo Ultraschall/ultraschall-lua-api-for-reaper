@@ -227,6 +227,8 @@ TODO!! buggy function
 
 ### 4.1.001 - "Radiohead - Spectre"
 
+Note: Reaper 6.10 has a bug, which prevents simltaneously from setting Add to Project and Do not render files likely silent-checkboxes of the Render to File-dialog. Fixed for later versions.
+
 Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Reaper-community.
 
 #### readded from earlier development-builds
@@ -274,10 +276,14 @@ Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Re
    - Project Management: GetProject\_RenderStems - added Embed take markers-setting
    - Project Management: SetProject\_AddMediaToProjectAfterRender - added "do not likely silently files"-setting
    - Project Management: SetProject\_RenderStems - added Embed take markers-setting
+   - Render: AddRenderPreset - supports new Embed Take-markers; added missing information to docs
    - Render: ApplyRenderTable\_Project - supports new Embed Take-markers and no silent render-features; improved Embed stretch-markers support; accidentally reversed true and false in parameter OnlyMonoMedia -> fixed (thanks to aurelien)
+   - Render: CreateNewRenderTable - supports new Embed Take-markers and no silent render-features
+   - Render: GetRenderPreset\_RenderTable - supports new Embed Take-markers
    - Render: GetRenderTable\_Project - supports new Embed Take-markers and no silent render-features; improved Embed stretch-markers support
    - Render: GetRenderTable\_ProjectFile - supports new Embed Take-markers and no silent render-features; improved Embed stretch-markers support
    - Render: IsValidRenderTable - supports new Embed Take-markers and no silent render-features; improved Embed stretch-markers support
+   - Render: SetRenderPreset - supports new Embed Take-markers; added missing information to docs
    - TrackManagement: DeleteTracks_TrackString - didn't correctly delete the right tracks, sometimes throwing Lua-error -> fixed (thanks to aurelien)
    - Ultraschall: IsTrackSoundboard - had inner variable exposed -> fixed
    - Ultraschall: IsTrackStudioLink - had inner variable exposed -> fixed

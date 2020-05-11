@@ -41,6 +41,7 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.1.001 - "Radiohead - Spectre"</h3>
+<p>Note: Reaper 6.10 has a bug, which prevents simltaneously from setting Add to Project and Do not render files likely silent-checkboxes of the Render to File-dialog. Fixed for later versions.</p>
 <p>Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Reaper-community.</p>
 <h4>readded from earlier development-builds</h4>
 <ul>
@@ -90,10 +91,14 @@ Ultraschall API Changelog
 <li>Project Management: GetProject_RenderStems - added Embed take markers-setting</li>
 <li>Project Management: SetProject_AddMediaToProjectAfterRender - added "do not likely silently files"-setting</li>
 <li>Project Management: SetProject_RenderStems - added Embed take markers-setting</li>
+<li>Render: AddRenderPreset - supports new Embed Take-markers; added missing information to docs</li>
 <li>Render: ApplyRenderTable_Project - supports new Embed Take-markers and no silent render-features; improved Embed stretch-markers support; accidentally reversed true and false in parameter OnlyMonoMedia -&gt; fixed (thanks to aurelien)</li>
+<li>Render: CreateNewRenderTable - supports new Embed Take-markers and no silent render-features</li>
+<li>Render: GetRenderPreset_RenderTable - supports new Embed Take-markers</li>
 <li>Render: GetRenderTable_Project - supports new Embed Take-markers and no silent render-features; improved Embed stretch-markers support</li>
 <li>Render: GetRenderTable_ProjectFile - supports new Embed Take-markers and no silent render-features; improved Embed stretch-markers support</li>
 <li>Render: IsValidRenderTable - supports new Embed Take-markers and no silent render-features; improved Embed stretch-markers support</li>
+<li>Render: SetRenderPreset - supports new Embed Take-markers; added missing information to docs</li>
 <li>TrackManagement: DeleteTracks_TrackString - didn't correctly delete the right tracks, sometimes throwing Lua-error -&gt; fixed (thanks to aurelien)</li>
 <li>Ultraschall: IsTrackSoundboard - had inner variable exposed -&gt; fixed</li>
 <li>Ultraschall: IsTrackStudioLink - had inner variable exposed -&gt; fixed</li>
