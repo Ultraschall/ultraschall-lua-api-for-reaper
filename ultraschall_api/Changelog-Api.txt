@@ -4,6 +4,83 @@
     
     
     For 4.01.002:  
+	
+	How to get selection in category-list of Preferences?
+	Edgemeal's way:
+	
+	"Not sure if this helps, but this seems to work at least getting the index of the selected item in the preferences treeview...
+
+EDIT: Updated to select a node, combine previous code into one script.
+
+Code:
+-- REAPER Preferences TreeView
+-- Tested: Win10 x64, REAPER v6.10 x64, JS_API v1.002.
+
+function GetAllNodes(hwnd)
+  local nodes = {}
+  local hNode = reaper.JS_WindowMessage_Send(hwnd, TVM_GETNEXTITEM, TVGN_ROOT, 0,0,0) -- first root node  
+  while(hNode > 0) do
+    nodes[#nodes+1] = hNode
+    local hChild = reaper.JS_WindowMessage_Send(hwnd, TVM_GETNEXTITEM, TVGN_CHILD, 0,hNode,0) -- child node
+    while(hChild > 0) do
+      nodes[#nodes+1] = hChild
+      hChild = reaper.JS_WindowMessage_Send(hwnd, TVM_GETNEXTITEM, TVGN_NEXT, 0,hChild,0) -- next child 
+    end
+    hNode = reaper.JS_WindowMessage_Send(hwnd, TVM_GETNEXTITEM, TVGN_NEXT, 0,hNode,0) -- next root 
+  end 
+  return nodes
+end
+
+function CollapseExpandAllNodes(hwnd, tve)
+  local hNode = reaper.JS_WindowMessage_Send(hwnd, TVM_GETNEXTITEM, TVGN_ROOT, 0,0,0) -- first root node
+  while(hNode > 0) do
+    reaper.JS_WindowMessage_Send(hwnd, TVM_EXPAND, tve,0, hNode,0) -- collapse/expand node
+    hNode = reaper.JS_WindowMessage_Send(hwnd, TVM_GETNEXTITEM, TVGN_NEXT, 0,hNode,0) -- next root node
+  end 
+end
+
+function SelectItem(hwnd, hNode)
+  reaper.JS_WindowMessage_Send(hwnd, TVM_SELECTITEM, TVGN_CARET,0, hNode,0)
+end
+ 
+function Main()
+  local pref_hwnd = reaper.JS_Window_FindTop("REAPER Preferences", true)
+  local tv_hwnd = reaper.JS_Window_FindChildByID(pref_hwnd, 0x456) 
+  if not tv_hwnd then return end
+
+  -- Collapse Nodes example,
+  CollapseExpandAllNodes(tv_hwnd, TVE_COLLAPSE)
+  -- Expand Nodes example,
+  --CollapseExpandAllNodes(tv_hwnd, TVE_EXPAND)
+   
+  local all_nodes = GetAllNodes(tv_hwnd) -- store handle of each node in a table
+  local sel_item = reaper.JS_WindowMessage_Send(tv_hwnd, TVM_GETNEXTITEM, TVGN_CARET, 0,0,0)  -- get handle of selected node
+
+  -- get selected item as index #
+  for i = 1, #all_nodes do
+    if all_nodes[i] == sel_item then
+     reaper.ShowConsoleMsg('Selected index = '..i-1 ..'\n')
+     break
+    end
+  end
+
+  -- example, select [Audio > MIDI devices] node
+  SelectItem(tv_hwnd, all_nodes[9])
+end
+
+TVM_EXPAND = "0x1102"
+TVM_GETNEXTITEM = "0x110A"
+TVM_SELECTITEM  = "0x110B"
+TVGN_ROOT = 0x0
+TVGN_NEXT = 0x1
+TVGN_CHILD = 0x4
+TVGN_CARET = 0x9
+TVE_COLLAPSE = 0x1
+TVE_EXPAND = 0x2
+
+Main()
+Have fun!"
+	
       TODO!! Toggle/Set-Mute-state-functions, add autoarm mute-track-parameter
                 Needs first functions for activating Envelopes, but they don't exist, until they are displayed.
                 I might have to add non-activated envelopes by adding env-statechunks into TrackStateChunks.
@@ -230,14 +307,14 @@ Has now 1129 functions, with 18 new ones
   - **Automation Items**  
   You can get all automation-items as well as deleting the ones you want to delete.  
   That's right, you can now safely delete one programmatically!
-  
+
   - **Rendering functions**  
   Support now the new rendering options of Reaper 6.10: embedding Take markers as well as Do not render files that are likely silent.  
   Note: Reaper 6.10 has a bug, which prevents simultaneously from setting Add to Project and Do not render files   likely silent-checkboxes of the Render to File-dialog. Fixed in later versions of Reaper.
 
   - **SetTrack\_LastTouched**  
   Allows you to set a track as last touched, which wasn't possible before.
-  
+
   - **SetTrack\_Trackheight\_Force**  
   Sets the trackheight of a track to any height you like, including heights not allowed by the theme.  
   That way, you can set the trackheight to e.g. 1px, allowing you better organisation of your arrangeview's tracks.
@@ -261,6 +338,7 @@ Has now 1129 functions, with 18 new ones
 Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Reaper-community.
 
 #### New features in 4.1.001   
+
    - Actions: ActionsList\_GetSelectedActions - gets the selected actions from the opened Action List(prototype code provided by Edgemeal. Thank you!)
    - Automation Items: AutomationItems_GetAll - returns all automation-items of the current project
    - Automation Items: AutomationItem_Delete - deletes an automation-item, including the option of retaining the envelope-points
@@ -280,8 +358,9 @@ Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Re
    - Track Management: SetTrack\_LastTouched - sets a track to be last-touched track
    - Track Management: SetTrack\_Trackheight\_Force - sets the trackheight of a track and allows setting heights beyond the limitations set by the theme
    - Web Interface: WebInterface_GetInstalledInterfaces - returns all installed webinterfaces(webrc) of the current Reaper installation, custom and Reaper-defaults
-   
+
 #### Changes from 4.00 to 4.1.001
+
    - API: GetApiVersion - updated docs to reflect the current behavior
    - DeveloperTools: ultraschall\_Add\_Developertools\_To\_Reaper.lua - weren't installed using this action -> fixed
    - DeveloperTools: Ultraschall State Inspector - extended number of saveslots to 20; didn't correctly store and load gmem-states from the stateslots -> fixed (thanks to lexaproductions)
