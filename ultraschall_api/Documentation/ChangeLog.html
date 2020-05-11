@@ -41,7 +41,32 @@ Ultraschall API Changelog
     <div style="position:absolute; top:17%; padding-left:5%; width:90%;">
 <h2>Ultraschall Framework - Changelog</h2>
 <h3>4.1.001 - "Radiohead - Spectre"</h3>
-<p>Note: Reaper 6.10 has a bug, which prevents simultaneously from setting Add to Project and Do not render files likely silent-checkboxes of the Render to File-dialog. Fixed for later versions.</p>
+<p>Has now 1129 functions, with 18 new ones</p>
+<p><strong>new in this release:</strong></p>
+<ul>
+<li><p><strong>Automation Items</strong><br />
+You can get all automation-items as well as deleting the ones you want to delete.<br />
+That's right, you can now safely delete one programmatically!</p></li>
+<li><p><strong>Rendering functions</strong><br />
+Support now the new rendering options of Reaper 6.10: embedding Take markers as well as Do not render files that are likely silent.<br />
+Note: Reaper 6.10 has a bug, which prevents simultaneously from setting Add to Project and Do not render files likely silent-checkboxes of the Render to File-dialog. Fixed in later versions of Reaper.</p></li>
+<li><p><strong>SetTrack_LastTouched</strong><br />
+Allows you to set a track as last touched, which wasn't possible before.</p></li>
+<li><p><strong>SetTrack_Trackheight_Force</strong><br />
+Sets the trackheight of a track to any height you like, including heights not allowed by the theme.<br />
+That way, you can set the trackheight to e.g. 1px, allowing you better organisation of your arrangeview's tracks.</p></li>
+<li><p><strong>CollapseTrackHeight</strong><br />
+Speaking of trackheight, this function collapses tracks to the minimum height allowed by the currently selected theme.</p></li>
+<li><p><strong>GFX_GetDropFile</strong><br />
+Call it frequently when having opened your gfx-window, and it will return drag'n'dropped files as well as the dropping-position within the gfx.init-window. No need to fiddle it out by yourself.</p></li>
+<li><p><strong>ActionsList_GetSelectedActions</strong><br />
+Returns all selected entries from the opened actionlist, including Action Command Ids, texts, etc.<br />
+Kudos to Edgemeal, who wrote the initial version of it.</p></li>
+<li><p><strong>IsTimeSigmarkerAtPosition</strong><br />
+Already implemented for markers and regions, I added it for time-signature-markers as well.<br />
+Returns, if a time-signature-maker is at a certain position.</p></li>
+<li><p><strong>and more plus bugfixes</strong></p></li>
+</ul>
 <p>Kudos to Lokasenna and to Xenakios. Hope you both return at some point to the Reaper-community.</p>
 <h4>New features in 4.1.001</h4>
 <ul>

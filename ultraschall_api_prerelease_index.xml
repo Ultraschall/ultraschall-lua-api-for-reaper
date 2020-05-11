@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43081.00" author="Meo Mespotine">
+      <version name="43087.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Changelog-Api.txt</source>
@@ -462,9 +462,53 @@
 
 4.1.001 - “Radiohead - Spectre”
 
-Note: Reaper 6.10 has a bug, which prevents simultaneously from setting
-Add to Project and Do not render files likely silent-checkboxes of the
-Render to File-dialog. Fixed for later versions.
+Has now 1129 functions, with 18 new ones
+
+new in this release:
+
+-   Automation Items
+    You can get all automation-items as well as deleting the ones you
+    want to delete.
+    That’s right, you can now safely delete one programmatically!
+
+-   Rendering functions
+    Support now the new rendering options of Reaper 6.10: embedding Take
+    markers as well as Do not render files that are likely silent.
+    Note: Reaper 6.10 has a bug, which prevents simultaneously from
+    setting Add to Project and Do not render files likely
+    silent-checkboxes of the Render to File-dialog. Fixed in later
+    versions of Reaper.
+
+-   SetTrack_LastTouched
+    Allows you to set a track as last touched, which wasn’t possible
+    before.
+
+-   SetTrack_Trackheight_Force
+    Sets the trackheight of a track to any height you like, including
+    heights not allowed by the theme.
+    That way, you can set the trackheight to e.g. 1px, allowing you
+    better organisation of your arrangeview’s tracks.
+
+-   CollapseTrackHeight
+    Speaking of trackheight, this function collapses tracks to the
+    minimum height allowed by the currently selected theme.
+
+-   GFX_GetDropFile
+    Call it frequently when having opened your gfx-window, and it will
+    return drag’n’dropped files as well as the dropping-position within
+    the gfx.init-window. No need to fiddle it out by yourself.
+
+-   ActionsList_GetSelectedActions
+    Returns all selected entries from the opened actionlist, including
+    Action Command Ids, texts, etc.
+    Kudos to Edgemeal, who wrote the initial version of it.
+
+-   IsTimeSigmarkerAtPosition
+    Already implemented for markers and regions, I added it for
+    time-signature-markers as well.
+    Returns, if a time-signature-maker is at a certain position.
+
+-   and more plus bugfixes
 
 Kudos to Lokasenna and to Xenakios. Hope you both return at some point
 to the Reaper-community.
