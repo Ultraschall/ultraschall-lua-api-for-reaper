@@ -2,7 +2,7 @@
 <index version="1" name="Ultraschall-API">
   <category name="Ultraschall-API-category">
     <reapack name="Ultraschall API package" type="extension">
-      <version name="43087.00" author="Meo Mespotine">
+      <version name="43090.00" author="Meo Mespotine">
 	<source file="ultraschall_api.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001//ultraschall_api.lua</source>
 	<source file="ultraschall_api_readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001//ultraschall_api_readme.txt</source>
 	<source file="/ultraschall_api/Changelog-Api.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/Changelog-Api.txt</source>
@@ -30,7 +30,7 @@
 	<source file="/ultraschall_api/ultraschall_video_engine.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/ultraschall_video_engine.lua</source>
 	<source file="/ultraschall_api/ultraschall_video_engine_beta.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/ultraschall_video_engine_beta.lua</source>
 	<source file="/ultraschall_api/3rd_party_modules/scythe.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/3rd_party_modules/scythe.lua</source>
-	<source file="/ultraschall_api/3rd_party_modules/Scythe_Set v3 library path.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/3rd_party_modules/Scythe_Set v3 library path.lua</source>
+	<source file="/ultraschall_api/3rd_party_modules/Scythe_Set_v3_library_path.lua" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/3rd_party_modules/Scythe_Set_v3_library_path.lua</source>
 	<source file="/ultraschall_api/DocsSourcefiles/reaper-apidocs.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/DocsSourcefiles/reaper-apidocs.USDocML</source>
 	<source file="/ultraschall_api/DocsSourcefiles/reaper-config_var.USDocML" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/DocsSourcefiles/reaper-config_var.USDocML</source>
 	<source file="/ultraschall_api/DocsSourcefiles/Reaper-Internals-readme.txt" type="extension">https://raw.githubusercontent.com/Ultraschall/ultraschall-lua-api-for-reaper/Ultraschall-API-4.1.001/ultraschall_api/DocsSourcefiles/Reaper-Internals-readme.txt</source>
