@@ -101,7 +101,7 @@ found_dirs, dirs_array, found_files, files_array = ultraschall.GetAllRecursiveFi
 -- create folders, if not existing
 for i=1, found_dirs do
   dirs=dirs_array[i]:match("UserPlugins/(.*)")
-  print(Target_Dir..dirs)
+  --print(Target_Dir..dirs)
   reaper.RecursiveCreateDirectory(Target_Dir.."/"..dirs,0)
 end
 
