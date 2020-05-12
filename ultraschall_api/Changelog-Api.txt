@@ -5,6 +5,8 @@
     
     For 4.01.002:  
 	
+	PingMe - second parameter is not documented as optional!!!
+	
 	How to get selection in category-list of Preferences?
 	Edgemeal's way:
 	
