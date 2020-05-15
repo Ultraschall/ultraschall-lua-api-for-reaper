@@ -309,7 +309,11 @@ TODO!! buggy function
    
 #### Changes from 4.1.001 to 4.1.002
    - GUI: Scythe - loads its libraries from UserPlugins\ultraschall_api\3rd_party_modules\Scythe\ now, so it shouldn't get in conflict with user's own installation of a Scythe-instance
-   
+   - Marker Management: CountNormalMarkers - optimized speed
+   - Marker Management: EnumerateNormalMarkers - optimized speed
+   - Marker Management: SetNormalMarker - optimized speed
+   - Marker Management: DeleteNormalMarker - optimized speed
+   - Marker Management: IsMarkerNormal - optimized speed
 ---
 
 ### 4.1.001 - "Radiohead - Spectre"

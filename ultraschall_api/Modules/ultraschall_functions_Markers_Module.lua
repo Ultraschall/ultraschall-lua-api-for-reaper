@@ -30,6 +30,8 @@
 ---        Markers Module         ---
 -------------------------------------
 
+ultraschall.planned_marker_color=ultraschall.ConvertColor(100,255,0)
+
 if type(ultraschall)~="table" then 
   -- update buildnumber and add ultraschall as a table, when programming within this file
   local retval, string = reaper.BR_Win32_GetPrivateProfileString("Ultraschall-Api-Build", "Functions-Build", "", reaper.GetResourcePath().."/UserPlugins/ultraschall_api/IniFiles/ultraschall_api.ini")
@@ -528,7 +530,7 @@ function ultraschall.CountNormalMarkers()
   for i=0, a-1 do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
     if name==nil then name="" end
-    if name:sub(1,10)=="_Shownote:" or name:sub(1,5)=="_Edit" or color == ultraschall.ConvertColor(100,255,0) then 
+    if name:sub(1,10)=="_Shownote:" or name:sub(1,5)=="_Edit" or color == ultraschall.planned_marker_color then 
         -- if marker is shownote, chapter, edit or planned chapter
     elseif isrgn==false then count=count+1 -- elseif marker is no region, count up
     end
@@ -685,7 +687,7 @@ function ultraschall.EnumerateNormalMarkers(number)
     if isrgn==false then
       if name:sub(1,10)~="_Shownote:" and 
 		 name:sub(1,5)~="_Edit" and 
-		 color~=ultraschall.ConvertColor(100,255,0) 
+		 color~=ultraschall.planned_marker_color 
 		 then 
 			count=count+1 
 	  end
@@ -998,7 +1000,7 @@ function ultraschall.SetNormalMarker(number, position, shown_number, markertitle
   for i=0, c-1 do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0,i)
     if isrgn==false then
-      if name:sub(1,10)~="_Shownote:" and name:sub(1,5)~="_Edit" and color~=ultraschall.ConvertColor(100,255,0) then count=count+1 end
+      if name:sub(1,10)~="_Shownote:" and name:sub(1,5)~="_Edit" and color~=ultraschall.planned_marker_color then count=count+1 end
     end
     if number>=0 and wentfine==0 and count==number then
         if tonumber(position)==-1 or position==nil then position=pos end
@@ -1219,7 +1221,7 @@ function ultraschall.DeleteNormalMarker(number)
   for i=1, c-1 do
     local retval, isrgn, pos, rgnend, name, markrgnindexnumber = reaper.EnumProjectMarkers(i)
     if isrgn==false then
-      if name:sub(1,10)~="_Shownote:" and name:sub(1,5)~="_Edit" and color~=ultraschall.ConvertColor(100,255,0) then count=count+1 end
+      if name:sub(1,10)~="_Shownote:" and name:sub(1,5)~="_Edit" and color~=ultraschall.planned_marker_color then count=count+1 end
     end
     if number>=0 and wentfine==0 and count==number then
         retnumber=i
@@ -2183,7 +2185,7 @@ function ultraschall.IsMarkerNormal(markerid)
   local retval, isrgn, pos, rgnend, name, markrgnindexnumber, color = reaper.EnumProjectMarkers3(0, markerid)
   if retval>0 then
     if isrgn==false then
-      if name:sub(1,10)~="_Shownote:" and name:sub(1,5)~="_Edit" and color~=ultraschall.ConvertColor(100,255,0) then return true
+      if name:sub(1,10)~="_Shownote:" and name:sub(1,5)~="_Edit" and color~=ultraschall.planned_marker_color then return true
       else return false
       end
     end
